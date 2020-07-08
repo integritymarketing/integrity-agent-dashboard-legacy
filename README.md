@@ -42,7 +42,7 @@ This project is built on a few fundamental libraries & frameworks and assumes a 
 
 ### Contributions
 
-- To contribute a feature or bugfix, create a branch from the default branch (master) using the format:
+- To contribute a feature or bugfix, create a branch from the default branch (`develop`) using the format:
 
   `feature/title-of-feature`<br />
   `bugfix/title-of-fix`
