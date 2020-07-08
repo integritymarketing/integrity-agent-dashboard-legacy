@@ -39,5 +39,13 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+        // CSS.supports used as proxy for modern browser support.
+        // Add any web platform features that are hard site dependencies.
+        // https://caniuse.com/#feat=css-supports-api
+        if (!window.CSS || !window.CSS.supports) {
+            window.location.replace('/unsupported.html');
+        }
+    </script>
   </body>
 </html>
