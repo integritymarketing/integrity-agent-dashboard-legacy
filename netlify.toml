@@ -11,9 +11,9 @@ package = "@netlify/plugin-lighthouse"
     seo = 0.5
     pwa = 0
 
-[[plugins]]
-  package = "@sentry/netlify-build-plugin"
+# [[plugins]]
+#   package = "@sentry/netlify-build-plugin"
 
-  [plugins.inputs]
-    sentryOrg = ""
-    sentryProject = ""
+#   [plugins.inputs]
+#     sentryOrg = ""
+#     sentryProject = ""
