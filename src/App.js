@@ -88,7 +88,7 @@ const App = () => {
           <Switch>
             <Route exact path="/login">
               Login Landing <br/>
-              <LoginButton className="btn btn--outline">Login</LoginButton>
+              <LoginButton className="btn">Login</LoginButton>
             </Route>
             <AuthenticatedRoute exact path="/">
               Home

@@ -51,12 +51,12 @@ code {
         background-color 0.2s ease,
         box-shadow 0.2s ease; // TODO: determine global transition default
 
-    &:hover {
+    &:hover:not(.btn--disabled):not([disabled]) {
         background-color: var(--brand-bg-hover-color);
         border-color: var(--brand-bg-hover-color);
     }
 
-    &:active {
+    &:active:not(.btn--disabled):not([disabled]) {
         box-shadow: var(--shadow-default);
     }
 
@@ -66,7 +66,10 @@ code {
 
     &[disabled],
     &--disabled {
-        // TODO: implement disabled style
+        color: var(--disabled-color);
+        background-color: var(--disabled-contrast-color);
+        border-color: var(--disabled-contrast-color);
+        cursor: default;
     }
 }
 
@@ -75,18 +78,20 @@ code {
     color: var(--brand-text-color);
     background-color: var(--main-bg-color);
 
-    &:hover {
+    &:hover:not(.btn--disabled):not([disabled]) {
         background-color: var(--main-bg-color);
         color: var(--brand-text-hover-color);
     }
 
-    &:active {
+    &:active:not(.btn--disabled):not([disabled]) {
         border-color: var(--main-text-color);
         color: var(--main-text-color);
     }
 
     &[disabled],
-    &--disabled {
-        // TODO: implement disabled style
+    &.btn--disabled {
+        background-color: var(--main-bg-color);
+        border-color: var(--disabled-color);
+        color: var(--disabled-color);
     }
 }
