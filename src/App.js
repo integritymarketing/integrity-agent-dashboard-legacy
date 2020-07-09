@@ -52,12 +52,8 @@ const App = () => {
 
   const fakeAuth = {
     isAuthenticated,
-    authenticate(cb) {
-      setAuthenticated(true);
-    },
-    signout() {
-      setAuthenticated(false);
-    }
+    authenticate: () => setAuthenticated(true),
+    signout: () => setAuthenticated(false),
   };
 
   return (
