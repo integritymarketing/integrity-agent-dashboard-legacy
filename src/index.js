@@ -6,13 +6,11 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
-if (
-  process.env.REACT_APP_SENTRY_ENV &&
-  process.env.REACT_APP_SENTRY_ENV !== "disabled"
-) {
+// DSN only defined in production apps.  see netlify.toml
+if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.REACT_APP_SENTRY_ENV,
+    environment: process.env.REACT_APP_BUILD_ENV || "develop",
   });
 }
 

@@ -22,13 +22,8 @@
     sentryOrg = "integrity-marketing-org"
     sentryProject = "ae-agent-portal"
 
+# Note, sentry is enabled for develop, qa, stage, prod
+# since all sites have the context of 'production' for each release
+# error scoping is controlled with the REACT_APP_BUILD_ENV variable
 [context.production]
-  environment = { REACT_APP_SENTRY_ENV = "production", REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442" }
-
-[context.deploy-preview]
-  # disable netlify sentry logging for deploy-preview apps
-  environment = { REACT_APP_SENTRY_ENV = "disabled" }
-
-[context.branch]
-  # disable netlify sentry logging for branch deployed apps
-  environment = { REACT_APP_SENTRY_ENV = "disabled" }
+  environment = { REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442" }
