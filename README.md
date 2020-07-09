@@ -1,68 +1,91 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Integrity Agent Portal
 
-## Available Scripts
+An agent portal implemented using React and [Create React App](https://create-react-app.dev/).
 
-In the project directory, you can run:
+[https://ae-agent-portal-prod.netlify.app](https://ae-agent-portal-prod.netlify.app)
 
-### `yarn start`
+## Contents
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [Development](#Development)
+  - [Environment Setup](#environment-setup)
+  - [Key Libraries & Frameworks](#key-libraries--frameworks)
+  - [Coding Standards](#coding-standards)
+  - [Contributions](#contributions)
+- [Project Structure](#project-structure)
+- [Automated Testing](#automated-testing)
+- [Environments](#environments)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Development
 
-### `yarn test`
+### Environment Setup
 
-Launches the test runner in the interactive watch mode.<br />
+1. Add a `.env` file to project root
+   (see `.env.sample` and/or request a working `.env` from another developer)
+2. `yarn install`
+3. `yarn start`
+
+### Key Libraries & Frameworks
+
+This project is built on a few fundamental libraries & frameworks and assumes a working knowledge of the following:
+
+- [React & JSX](https://reactjs.org/): Componentization & view layer framework.
+- [Redux](https://redux.js.org/): Redux is a predictable state container for JavaScript apps. It's used as the central data store.
+- [Mirage](https://miragejs.com/): Mirage JS is an API mocking library used for local development. Familiarity is recommended if working directly with any APIs.
+
+### Coding Standards
+
+- The project has been built using the [Prettier](https://prettier.io/) code formatting engine. Please install and use when contributing.
+
+- Implement React functional components only. Avoid the ES6 `Class` syntax.
+
+- Include proper test coverage with pull requests.
+
+### Contributions
+
+- To contribute a feature or bugfix, create a branch from the default branch (`develop`) using the format:
+
+  `feature/title-of-feature`<br />
+  `bugfix/title-of-fix`
+
+  When all tests are passing and code is ready for review, submit a pull request with a brief description + reference to the item you are working on from the backlog (eg, `this closes #12`)
+
+## Project Structure
+
+TBD
+
+## Automated Testing
+
+`yarn test`
+
+Launches the test runner in the interactive watch mode.
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+TBD -- info regarding different types of tests (eg unit, integration, e2e)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Environments
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+All builds are automatically created via Netlify's out of the box CI/CD build process to the four environments below:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Development
 
-### `yarn eject`
+[https://ae-agent-portal-develop.netlify.app/](https://ae-agent-portal-develop.netlify.app/)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Automatically built + published from the `develop` branch.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Deploy preview apps are also automatically generated with each new pull request created. (eg. https://deploy-preview-x--ae-agent-portal-develop.netlify.app/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### QA
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+[https://ae-agent-portal-qa.netlify.app/](https://ae-agent-portal-qa.netlify.app/)
 
-## Learn More
+Automatically built + published from the `develop` branch.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Stage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+TBD (production branch deploy or separate netlify site?)
 
-### Code Splitting
+### Production
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+[https://ae-agent-portal-prod.netlify.app/](https://ae-agent-portal-prod.netlify.app/)
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Automatically built from the `master` branch. All builds must be manually published.
