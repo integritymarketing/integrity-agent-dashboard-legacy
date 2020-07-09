@@ -14,6 +14,7 @@ An agent portal implemented using React and [Create React App](https://create-re
 - [Project Structure](#project-structure)
 - [Automated Testing](#automated-testing)
 - [Environments](#environments)
+- [Error Logging](#error-logging)
 
 ## Development
 
@@ -82,10 +83,16 @@ Automatically built + published from the `develop` branch.
 
 ### Stage
 
-TBD (production branch deploy or separate netlify site?)
+[https://ae-agent-portal-stage.netlify.app/](https://ae-agent-portal-stage.netlify.app/)
+
+Automatically built + published from the `master` branch.
 
 ### Production
 
 [https://ae-agent-portal-prod.netlify.app/](https://ae-agent-portal-prod.netlify.app/)
 
 Automatically built from the `master` branch. All builds must be manually published.
+
+## Error logging
+
+[https://sentry.io/organizations/integrity-marketing-org/issues/?project=5316442](Sentry) used to track errors, and is also integrated into the netlify build process.
