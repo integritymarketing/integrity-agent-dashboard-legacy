@@ -44,7 +44,9 @@ const LoginButton = (props) => {
     history.replace(from);
   };
 
-  return <button onClick={login} {...props}></button>
+  return (
+    <button onClick={login} {...props}></button>
+  );
 }
 
 const App = () => {
@@ -65,19 +67,19 @@ const App = () => {
               {isAuthenticated ? (
                 <ul>
                   <li>
-                    <Link to="/">Home</Link>
+                    <Link to="/" className="link">Home</Link>
                   </li>
                   <li>
-                    <Link to="/training">Training</Link>
+                    <Link to="/training" className="link">Training</Link>
                   </li>
                   <li>
-                    <button type="button" onClick={() => fakeAuth.signout()}>Sign Out</button>
+                    <button type="button" onClick={() => fakeAuth.signout()} className="link">Sign Out</button>
                   </li>
                 </ul>
               ) : (
                 <ul>
                   <li>
-                    <Link to="/login">Login</Link>
+                    <Link to="/login" className="link">Login</Link>
                   </li>
                 </ul>
               )}
@@ -86,7 +88,7 @@ const App = () => {
           <Switch>
             <Route exact path="/login">
               Login Landing <br/>
-              <LoginButton>Login</LoginButton>
+              <LoginButton className="btn btn--outline">Login</LoginButton>
             </Route>
             <AuthenticatedRoute exact path="/">
               Home
