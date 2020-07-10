@@ -22,6 +22,10 @@
     sentryOrg = "integrity-marketing-org"
     sentryProject = "ae-agent-portal"
 
+# Custom browserstack integration
+[[plugins]]
+  package = "/tests/conf/netlify-browserstack-plugin"
+
 # Note, sentry is enabled for develop, qa, stage, prod
 # since all sites have the context of 'production' for each release
 # error scoping is controlled with the REACT_APP_BUILD_ENV variable
