@@ -13,10 +13,18 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
+  "devDependencies": {
+    "chromedriver": "^83.0.1",
+    "geckodriver": "^1.19.1",
+    "nightwatch": "^1.3.6",
+    "selenium-server": "^3.141.59"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "e2e:local": "nightwatch -c tests/conf/nightwatch-local.conf.js",
+    "e2e:browserstack": "nightwatch -c tests/conf/browserstack.conf.js -e chrome,firefox",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
