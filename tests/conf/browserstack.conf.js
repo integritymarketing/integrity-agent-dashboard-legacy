@@ -1,4 +1,19 @@
-require("dotenv").config();
+const fs = require('fs');
+const dotenvFiles = [
+  ".env.local",
+  ".env"
+];
+
+dotenvFiles.forEach(dotenvFile => {
+  if (fs.existsSync(dotenvFile)) {
+    require('dotenv-expand')(
+      require('dotenv').config({
+        path: dotenvFile,
+      })
+    );
+  }
+});
+
 
 nightwatch_config = {
   src_folders: ["tests/e2e"],
