@@ -6,11 +6,11 @@ import {
   Redirect,
 } from "react-router-dom";
 import "./App.scss";
-import DashboardPage from "./pages/DashboardPage";
-import TrainingPage from "./pages/TrainingPage";
-import LoginPage from "./pages/LoginPage";
-import NotFoundPage from "./pages/NotFound";
-import AuthContext from "./contexts/auth";
+import DashboardPage from "pages/DashboardPage";
+import TrainingPage from "pages/TrainingPage";
+import LoginPage from "pages/LoginPage";
+import NotFoundPage from "pages/NotFound";
+import AuthContext from "contexts/auth";
 
 const AuthenticatedRoute = ({ children, ...rest }) => {
   const auth = useContext(AuthContext);

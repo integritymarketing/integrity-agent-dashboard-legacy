@@ -1,7 +1,7 @@
 import React from "react";
-import Container from "../components/ui/container";
-import Card from "../components/ui/card";
-import GlobalNav from "../partials/global-nav";
+import Container from "components/ui/container";
+import Card from "components/ui/card";
+import GlobalNav from "partials/global-nav";
 
 export default () => {
   return (
