@@ -1,0 +1,4 @@
+1594403257214	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "/var/folders/3v/p2jq3d6d0w34p6p7cdws245cgfr_6w/T/rust_mozprofilegO16Ik"
+*** You are running in headless mode.
+1594403258618	Marionette	INFO	Listening on port 56686
+1594403261421	Marionette	INFO	Stopped listening on port 56686

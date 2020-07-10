@@ -1,0 +1,22 @@
+.global-nav {
+  display: flex;
+  width: 100%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    padding: 2.5rem;
+  }
+
+  &__title {
+    margin-right: auto;
+  }
+
+  &__links > ul {
+    display: flex;
+
+    > li + li {
+      margin-left: 2.5rem;
+    }
+  }
+}
