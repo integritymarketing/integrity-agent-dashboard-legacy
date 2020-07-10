@@ -1,7 +1,6 @@
 module.exports = {
   onSuccess: () => {
-    console.log("Hello world from onPreBuild event!");
-    console.log(config.build.publish);
+    console.log("Hello world from onSuccess event!");
     console.log(process.env.DEPLOY_URL);
   },
 };
