@@ -34,7 +34,7 @@ const AuthenticatedRoute = ({ children, ...rest }) => {
 };
 
 const App = () => {
-  const [isAuthenticated, setAuthenticated] = useState(true);
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   const fakeAuth = {
     isAuthenticated,
