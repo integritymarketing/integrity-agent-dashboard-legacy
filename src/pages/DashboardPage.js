@@ -9,9 +9,11 @@ export default () => {
       <div className="bg-brand text-invert">
         <GlobalNav />
         <Container className="scaling-header">
-          <div className="hdg hdg--2">Welcome back, Rachel.</div>
+          <div className="hdg hdg--2 hdg--scale-from-3">
+            Welcome back, Rachel.
+          </div>
           {/* TODO: hook up agent name from SSO payload */}
-          <div className="hdg hdg--3">
+          <div className="hdg hdg--3 hdg--scale-from-body">
             Login to your enrollment center below.
           </div>
         </Container>
