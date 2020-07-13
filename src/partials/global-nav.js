@@ -8,18 +8,17 @@ export default () => {
 
   return (
     <header className="global-nav">
-      <h1 className="global-nav__title">Agent Portal</h1>
+      <h1 className="global-nav__title">
+        <Link to="/" className="link link--invert">
+          Agent Portal
+        </Link>
+      </h1>
       <nav className="global-nav__links">
         {auth.isAuthenticated ? (
           <ul>
             <li>
-              <Link to="/" className="link link--invert">
-                Home
-              </Link>
-            </li>
-            <li>
               <Link to="/training" className="link link--invert">
-                Training
+                Resources
               </Link>
             </li>
             <li>

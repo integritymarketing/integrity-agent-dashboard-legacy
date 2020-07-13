@@ -12,6 +12,11 @@
   --shadow-default: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
   --card-bg: #ffffff;
   --card-shadow: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.2);
+  --card-shadow-active: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.3);
   --brand-gradient-start: #236c9e;
   --brand-gradient-end: #0079cc;
+  --window-side-padding: clamp(1.5rem, calc(3.2vw + 0.75rem), 2.5rem);
+  --scaling-header-padding: clamp(72px, calc(9.6vw + 36px), 120px);
+  --scaling-space-1: clamp(24px, calc(3.2vw + 12px), 40px);
+  --scaling-space-2: clamp(40px, calc(5.333vw + 20px), 80px);
 }

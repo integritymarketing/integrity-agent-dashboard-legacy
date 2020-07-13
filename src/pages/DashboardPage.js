@@ -8,7 +8,7 @@ export default () => {
     <React.Fragment>
       <div className="bg-brand text-invert">
         <GlobalNav />
-        <Container>
+        <Container className="scaling-header">
           <div className="hdg hdg--2">Welcome back, Rachel.</div>
           {/* TODO: hook up agent name from SSO payload */}
           <div className="hdg hdg--3">
@@ -16,9 +16,9 @@ export default () => {
           </div>
         </Container>
       </div>
-      <Container>
+      <Container className="mt-scale-2">
         <div className="hdg hdg--3">Enrollment Centers</div>
-        <div className="card-grid">
+        <div className="card-grid mt-scale-1">
           <Card title="Medicare Center">
             <div className="card__title">
               <div className="hdg hdg--3">Medicare Center</div>
