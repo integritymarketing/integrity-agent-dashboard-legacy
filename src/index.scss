@@ -204,7 +204,7 @@ ol {
 }
 
 .scaling-header {
-  padding-top: calc(var(--scaling-header-padding) - var(--window-side-padding));
+  padding-top: get-clamp-val(48, 80);
   padding-bottom: var(--scaling-header-padding);
 }
 
