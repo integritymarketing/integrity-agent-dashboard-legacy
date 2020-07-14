@@ -164,10 +164,6 @@ ol {
   border-radius: 0.5rem;
   box-shadow: var(--card-shadow);
   transition: box-shadow 0.2s ease; // TODO: determine global transition default
-
-  &:hover {
-    box-shadow: var(--card-shadow-active);
-  }
 }
 
 .card__actions {
