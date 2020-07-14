@@ -208,9 +208,17 @@ ol {
   padding-bottom: var(--scaling-header-padding);
 }
 
-.mt-scale-1 {
-  margin-top: var(--scaling-space-1);
-}
-.mt-scale-2 {
-  margin-top: var(--scaling-space-2);
+$spacings: (
+  "mt": "margin-top",
+  "mb": "margin-bottom",
+  "pt": "padding-top",
+  "pb": "padding-bottom",
+);
+
+@each $abbr, $prop in $spacings {
+  @for $i from 1 through 2 {
+    .#{$abbr}-scale-#{$i} {
+      #{$prop}: var(--scaling-space-#{$i});
+    }
+  }
 }
