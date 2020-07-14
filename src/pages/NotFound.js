@@ -8,7 +8,7 @@ export default () => {
       <div className="bg-brand text-invert">
         <GlobalNav />
       </div>
-      <Container>
+      <Container className="mt-scale-2">
         <div className="hdg hdg--3">Page Not Found</div>
       </Container>
     </React.Fragment>
