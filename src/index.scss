@@ -1,3 +1,4 @@
+@import "mixins";
 @import "theme";
 
 body {
@@ -121,9 +122,9 @@ ol {
 
 .bg-brand {
   background: linear-gradient(
-    45deg,
-    var(--brand-gradient-start) 0%,
-    var(--brand-gradient-end) 100%
+    to top right,
+    var(--brand-gradient-start),
+    var(--brand-gradient-end)
   );
 }
 
@@ -135,14 +136,13 @@ ol {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: var(--window-side-padding);
+  padding-right: var(--window-side-padding);
 }
 
 .card-grid {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(auto-fill, minmax(256px, 1fr));
   grid-gap: 2.5rem;
 
   @media (min-width: 408px) {
@@ -151,6 +151,7 @@ ol {
 
   > * {
     max-width: 22.5rem;
+    min-height: 256px;
   }
 }
 
@@ -162,6 +163,11 @@ ol {
   color: var(--main-text-color);
   border-radius: 0.5rem;
   box-shadow: var(--card-shadow);
+  transition: box-shadow 0.2s ease; // TODO: determine global transition default
+
+  &:hover {
+    box-shadow: var(--card-shadow-active);
+  }
 }
 
 .card__actions {
@@ -181,10 +187,30 @@ ol {
   font-size: 2rem;
   line-height: (48 / 32);
   font-weight: 300;
+
+  &.hdg--scale-from-3 {
+    @include clamp-font-size(20, 32);
+  }
 }
 
 .hdg--3 {
   font-size: 1.25rem;
   line-height: (24 / 20);
   font-weight: 400;
+
+  &.hdg--scale-from-body {
+    @include clamp-font-size(16, 20);
+  }
+}
+
+.scaling-header {
+  padding-top: get-clamp-val(48, 80);
+  padding-bottom: var(--scaling-header-padding);
+}
+
+.mt-scale-1 {
+  margin-top: var(--scaling-space-1);
+}
+.mt-scale-2 {
+  margin-top: var(--scaling-space-2);
 }

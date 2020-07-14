@@ -1,3 +1,5 @@
+@use "mixins" as *;
+
 :root {
   --page-bg-color: #e3e6ec;
   --main-text-color: #333333;
@@ -12,6 +14,11 @@
   --shadow-default: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
   --card-bg: #ffffff;
   --card-shadow: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.2);
+  --card-shadow-active: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.3);
   --brand-gradient-start: #236c9e;
   --brand-gradient-end: #0079cc;
+  --window-side-padding: #{get-clamp-val(24, 40)};
+  --scaling-header-padding: #{get-clamp-val(72, 120)};
+  --scaling-space-1: #{get-clamp-val(24, 40)};
+  --scaling-space-2: #{get-clamp-val(40, 80)};
 }
