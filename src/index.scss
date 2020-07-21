@@ -120,12 +120,8 @@ ol {
   }
 }
 
-.bg-brand {
-  background: linear-gradient(
-    to top right,
-    var(--brand-gradient-start),
-    var(--brand-gradient-end)
-  );
+.bg-high-contrast {
+  background: var(--main-bg-color);
 }
 
 .text-invert {

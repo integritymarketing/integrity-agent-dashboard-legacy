@@ -5,7 +5,7 @@ import GlobalNav from "partials/global-nav";
 export default () => {
   return (
     <React.Fragment>
-      <div className="bg-brand text-invert">
+      <div className="bg-high-contrast">
         <GlobalNav />
       </div>
       <Container className="mt-scale-2">

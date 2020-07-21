@@ -6,7 +6,7 @@ import GlobalNav from "partials/global-nav";
 export default () => {
   return (
     <React.Fragment>
-      <div className="bg-brand text-invert">
+      <div className="bg-high-contrast">
         <GlobalNav />
         <Container className="scaling-header">
           <div className="hdg hdg--2 hdg--scale-from-3">
@@ -14,7 +14,7 @@ export default () => {
           </div>
           {/* TODO: hook up agent name from SSO payload */}
           <div className="hdg hdg--3 hdg--scale-from-body">
-            Login to your enrollment center below.
+            Get quick access to your tools below.
           </div>
         </Container>
       </div>
