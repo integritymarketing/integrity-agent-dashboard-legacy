@@ -14,7 +14,7 @@ export default () => {
         </Link>
       </h1>
       <nav className="global-nav__links">
-        {auth.isAuthenticated ? (
+        {auth.isAuthenticated() ? (
           <ul>
             <li>
               <Link to="/training" className="link link--invert">
@@ -24,7 +24,7 @@ export default () => {
             <li>
               <button
                 type="button"
-                onClick={() => auth.signout()}
+                onClick={() => auth.logout()}
                 className="link link--invert"
               >
                 Sign Out

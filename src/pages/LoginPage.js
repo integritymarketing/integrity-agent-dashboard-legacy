@@ -1,18 +1,13 @@
 import React, { useContext } from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import AuthContext from "contexts/auth";
 
 const LoginButton = (props) => {
-  const history = useHistory();
-  const location = useLocation();
   const auth = useContext(AuthContext);
 
   const login = () => {
-    const { from } = location.state || { from: { pathname: "/" } };
-    auth.authenticate();
-    history.replace(from);
+    auth.signinRedirect();
   };
 
   return <button onClick={login} {...props}></button>;

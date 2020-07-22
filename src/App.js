@@ -1,52 +1,30 @@
-import React, { useState, useContext } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import DashboardPage from "pages/DashboardPage";
 import TrainingPage from "pages/TrainingPage";
 import LoginPage from "pages/LoginPage";
 import NotFoundPage from "pages/NotFound";
 import AuthContext from "contexts/auth";
-
-const AuthenticatedRoute = ({ children, ...rest }) => {
-  const auth = useContext(AuthContext);
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        auth.isAuthenticated ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-};
+import Logout from "components/auth/logout";
+import LogoutCallback from "components/auth/logoutCallback";
+import AuthCallback from "components/auth/authCallback";
+import AuthService from "services/auth";
+import AuthenticatedRoute from "components/auth/authenticatedRoute";
 
 const App = () => {
-  const [isAuthenticated, setAuthenticated] = useState(false);
-
-  const fakeAuth = {
-    isAuthenticated,
-    authenticate: () => setAuthenticated(true),
-    signout: () => setAuthenticated(false),
-  };
-
   return (
-    <AuthContext.Provider value={fakeAuth}>
+    <AuthContext.Provider value={new AuthService()}>
       <Router>
         <div className="App">
           <Switch>
+            <Route exact={true} path="/signin-oidc" component={AuthCallback} />
+            <Route exact={true} path="/logout" component={Logout} />
+            <Route
+              exact={true}
+              path="/signout-oidc"
+              component={LogoutCallback}
+            />
             <Route exact path="/login">
               <LoginPage />
             </Route>
