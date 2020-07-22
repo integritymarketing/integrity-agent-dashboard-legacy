@@ -32,15 +32,3 @@
 # error scoping is controlled with the REACT_APP_BUILD_ENV variable
 [context.production.environment]
   REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
-
-# temporarily adding for testing
-# remove later w/ long-term config
-[context.branch-deploy.environment]
-  REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
-  REACT_APP_AUTH_AUTHORITY="https://ae-identityservice-container.azurewebsites.net"
-  REACT_APP_AUTH_CLIENT_ID="AEPortal"
-  REACT_APP_AUTH_LOGOFF_REDIRECT_URI="https://ae-agent-portal-develop.netlify.app/signout-oidc"
-  REACT_APP_AUTH_REDIRECT_URI="https://ae-agent-portal-develop.netlify.app/signin-oidc"
-  REACT_APP_AUTH_LOGOFF_URL="https://ae-identityservice-container.azurewebsites.net/Account/Logout"
-  REACT_APP_AUTH_SCOPES="openid profile email name"
-  REACT_APP_AUTH_RESPONSE_TYPE="code"
