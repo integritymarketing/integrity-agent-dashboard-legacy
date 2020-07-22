@@ -3,6 +3,7 @@ import Container from "components/ui/container";
 import Card from "components/ui/card";
 import LineItem from "components/ui/line-item";
 import GlobalNav from "partials/global-nav";
+import GlobalFooter from "partials/global-footer";
 import ArticleIcon from "components/icons/article";
 import UpdateIcon from "components/icons/update";
 
@@ -80,6 +81,7 @@ export default () => {
           </div>
         </section>
       </Container>
+      <GlobalFooter />
     </React.Fragment>
   );
 };

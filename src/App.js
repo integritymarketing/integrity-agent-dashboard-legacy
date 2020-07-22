@@ -45,7 +45,7 @@ const App = () => {
   return (
     <AuthContext.Provider value={fakeAuth}>
       <Router>
-        <div className="App pb-scale-1">
+        <div className="App">
           <Switch>
             <Route exact path="/login">
               <LoginPage />
