@@ -1,0 +1,68 @@
+@import "../../mixins";
+
+.global-nav {
+  display: flex;
+  width: 100%;
+  padding: calc(var(--window-side-padding) - 1rem) var(--window-side-padding);
+  align-items: center;
+  box-sizing: border-box;
+
+  &__title {
+    margin-right: auto;
+
+    a {
+      display: flex;
+      padding: 1rem; // increase hit area
+      margin-left: -1rem;
+    }
+  }
+
+  &__links > ul {
+    line-height: (24 / 16);
+  }
+}
+
+.dropdown-menu {
+  position: relative;
+
+  &__trigger > svg {
+    margin-left: 0.5rem;
+  }
+
+  &--closed:not(:focus-within) .dropdown-menu__items {
+    @include visually-hidden();
+  }
+
+  &--open,
+  &--closed:focus-within {
+    .dropdown-menu__trigger {
+      position: relative;
+      z-index: 2;
+      color: var(--invert-text-color);
+      &:hover {
+        color: var(--invert-text-color);
+        text-decoration: underline;
+      }
+    }
+    .dropdown-menu__items {
+      box-sizing: border-box;
+      position: absolute;
+      z-index: 1;
+      top: -1rem;
+      left: -1rem;
+      width: calc(100% + 2rem);
+      padding: 3.5rem 1rem 1rem;
+      background-color: var(--invert-bg-color);
+      color: var(--invert-text-color);
+      border-radius: 0.25rem;
+
+      > li {
+        padding: 0.5rem 0;
+      }
+
+      > li + li {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}

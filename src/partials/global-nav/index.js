@@ -1,10 +1,61 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "contexts/auth";
-import "./global-nav.scss";
+import Media from "react-media";
+import LargeFormatMenu from "./large-format";
+import "./index.scss";
 
 export default () => {
   const auth = useContext(AuthContext);
+  const [navOpen, setNavOpen] = useState(false);
+
+  const menuProps = Object.assign(
+    {
+      navOpen,
+      setNavOpen,
+    },
+    auth.isAuthenticated
+      ? {
+          primary: [
+            {
+              component: Link,
+              props: { to: "/help", className: "link" },
+              label: "Need Help?",
+            },
+            {
+              component: Link,
+              props: { to: "/training", className: "link" },
+              label: "Resources",
+            },
+          ],
+          secondary: [
+            {
+              component: Link,
+              props: { to: "/account", className: "link link--invert" },
+              label: "Edit Account",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => auth.signout(),
+                className: "link link--invert",
+              },
+              label: "Logout",
+            },
+          ],
+        }
+      : {
+          primary: [
+            {
+              component: Link,
+              props: { to: "/login", className: "link" },
+              label: "Login",
+            },
+          ],
+          secondary: [],
+        }
+  );
 
   return (
     <header className="global-nav">
@@ -27,37 +78,22 @@ export default () => {
         </Link>
       </h1>
       <nav className="global-nav__links">
-        {auth.isAuthenticated ? (
-          <ul>
-            <li>
-              <Link to="/help" className="link">
-                Need Help?
-              </Link>
-            </li>
-            <li>
-              <Link to="/training" className="link">
-                Resources
-              </Link>
-            </li>
-            <li>
-              <button
-                type="button"
-                onClick={() => auth.signout()}
-                className="link"
-              >
-                Sign Out
-              </button>
-            </li>
-          </ul>
-        ) : (
-          <ul>
-            <li>
-              <Link to="/login" className="link">
-                Login
-              </Link>
-            </li>
-          </ul>
-        )}
+        {/*
+          Causes console error in dev env only due to this issue
+          https://github.com/ReactTraining/react-media/issues/139
+        */}
+        <Media
+          queries={{
+            small: "(max-width: 767px)",
+          }}
+        >
+          {(matches) => (
+            <React.Fragment>
+              {matches.small && <div>Menu</div>}
+              {!matches.small && <LargeFormatMenu {...menuProps} />}
+            </React.Fragment>
+          )}
+        </Media>
       </nav>
     </header>
   );
