@@ -9,7 +9,7 @@ export const IDENTITY_CONFIG = {
   scope: process.env.REACT_APP_AUTH_SCOPES,
 };
 
-export default class AuthService {
+class AuthService {
   constructor() {
     this.UserManager = new UserManager({
       ...IDENTITY_CONFIG,
@@ -103,3 +103,5 @@ export default class AuthService {
     this.UserManager.clearStaleState();
   };
 }
+
+export default new AuthService();

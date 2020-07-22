@@ -14,7 +14,7 @@ import AuthenticatedRoute from "components/auth/authenticatedRoute";
 
 const App = () => {
   return (
-    <AuthContext.Provider value={new AuthService()}>
+    <AuthContext.Provider value={AuthService}>
       <Router>
         <div className="App">
           <Switch>
