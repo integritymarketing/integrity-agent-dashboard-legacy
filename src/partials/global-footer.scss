@@ -3,6 +3,7 @@
 
   &__content {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     background: var(--invert-bg-color);
     color: var(--invert-text-color);

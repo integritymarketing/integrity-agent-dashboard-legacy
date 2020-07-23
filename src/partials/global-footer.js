@@ -4,7 +4,7 @@ import "./global-footer.scss";
 
 export default () => {
   return (
-    <footer className="global-footer pt-scale-1">
+    <footer className="global-footer pt-scale-3">
       <div className="global-footer__content">
         <nav className="global-footer__links">
           <ul className="divided-hlist">

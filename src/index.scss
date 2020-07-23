@@ -1,6 +1,10 @@
 @import "mixins";
 @import "theme";
 
+* {
+  box-sizing: border-box;
+}
+
 [data-js-focus-visible] :focus:not([data-focus-visible-added]) {
   outline: none;
 }
@@ -137,7 +141,6 @@ ol {
 
 .container {
   width: 100%;
-  box-sizing: border-box;
   max-width: 1280px;
   align-self: center;
   padding-left: var(--window-side-padding);
@@ -161,10 +164,9 @@ ol {
 }
 
 .card {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: var(--scaling-space-0);
+  padding: var(--scaling-space-1);
   background-color: var(--card-bg);
   color: var(--main-text-color);
   border-radius: 0.25rem;
@@ -188,7 +190,14 @@ ol {
   }
 
   > * + * {
-    margin-left: 2rem;
+    margin: 0 0 0 2rem;
+  }
+
+  @media (max-width: 399px) {
+    flex-direction: column;
+    > * + * {
+      margin: 1rem 0 0;
+    }
   }
 }
 
@@ -234,20 +243,19 @@ $spacings: (
 );
 
 @each $abbr, $prop in $spacings {
-  @for $i from 0 through 3 {
+  @for $i from 0 through 4 {
     .#{$abbr}-scale-#{$i} {
       #{$prop}: var(--scaling-space-#{$i});
+    }
+    .#{$abbr}-#{$i} {
+      #{$prop}: var(--fixed-space-#{$i});
     }
   }
 }
 
 .divided-vlist {
   > li {
-    padding-bottom: 0.5rem;
     border-bottom: 1px solid;
-  }
-  > li + li {
-    margin-top: 0.5rem;
   }
 }
 
@@ -266,8 +274,9 @@ $spacings: (
   text-decoration: none;
   display: flex;
   width: 100%;
-  align-items: center;
-  padding: 1rem 0;
+  align-items: flex-start;
+  padding: 1.5rem 0.5rem;
+  line-height: 1.5;
 
   &__icon {
     width: 1.5rem;
@@ -283,6 +292,10 @@ $spacings: (
     margin-left: auto;
     flex-shrink: 0;
     padding-left: 1rem;
+  }
+
+  &:hover {
+    background-color: var(--page-bg-hover);
   }
 }
 

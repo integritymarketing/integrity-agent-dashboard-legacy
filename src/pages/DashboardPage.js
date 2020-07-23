@@ -13,19 +13,17 @@ export default () => {
       <div className="bg-high-contrast">
         <GlobalNav />
         <Container className="scaling-header">
-          <div className="hdg hdg--2 hdg--scale-from-3">
-            Welcome back, Rachel.
-          </div>
+          <div className="hdg hdg--2">Welcome back, Rachel.</div>
           {/* TODO: hook up agent name from SSO payload */}
-          <div className="hdg hdg--3 hdg--scale-from-body">
+          <div className="hdg hdg--3 mt-1">
             Get quick access to your tools below.
           </div>
         </Container>
       </div>
-      <Container className="mt-scale-2">
+      <Container className="mt-scale-3">
         <section>
           <div className="hdg hdg--3">Your Enrollment and Quoting Tools</div>
-          <div className="card-grid mt-scale-1">
+          <div className="card-grid mt-scale-2">
             <Card>
               <div className="card__title">[FPO Product Name]</div>
               <div className="card__body">
@@ -58,9 +56,9 @@ export default () => {
             </Card>
           </div>
         </section>
-        <section className="mt-scale-3">
+        <section className="mt-scale-4">
           <div className="hdg hdg--3">Latest News &amp; Updates</div>
-          <ul className="divided-vlist mt-scale-0">
+          <ul className="divided-vlist mt-2">
             <li>
               <LineItem href="#external" icon={<ArticleIcon />}>
                 What Can You Do To Save Your Medicare From Destruction By Social
@@ -74,7 +72,7 @@ export default () => {
               </LineItem>
             </li>
           </ul>
-          <div className="mt-scale-1">
+          <div className="mt-scale-2">
             <button type="button" className="btn">
               View All
             </button>

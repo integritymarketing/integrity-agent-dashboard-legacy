@@ -5,7 +5,6 @@
   width: 100%;
   padding: calc(var(--window-side-padding) - 1rem) var(--window-side-padding);
   align-items: center;
-  box-sizing: border-box;
 
   &__title {
     margin-right: auto;
@@ -45,7 +44,6 @@
       }
     }
     .dropdown-menu__items {
-      box-sizing: border-box;
       position: absolute;
       z-index: 1;
       top: -1rem;

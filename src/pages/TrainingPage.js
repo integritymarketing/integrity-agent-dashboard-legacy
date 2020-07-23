@@ -9,7 +9,7 @@ export default () => {
       <div className="bg-high-contrast">
         <GlobalNav />
       </div>
-      <Container className="mt-scale-2">
+      <Container className="mt-scale-3">
         <div className="hdg hdg--3">Training</div>
       </Container>
       <GlobalFooter />

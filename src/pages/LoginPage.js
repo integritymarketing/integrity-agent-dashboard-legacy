@@ -24,8 +24,8 @@ export default () => {
       <div className="bg-high-contrast">
         <GlobalNav />
       </div>
-      <Container className="mt-scale-2">
-        <div className="hdg hdg--3 mb-scale-1">Agent Login</div>
+      <Container className="mt-scale-3">
+        <div className="hdg hdg--3 mb-scale-2">Agent Login</div>
         <LoginButton className="btn">Login</LoginButton>
       </Container>
     </React.Fragment>
