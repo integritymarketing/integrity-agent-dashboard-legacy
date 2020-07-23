@@ -20,6 +20,11 @@ body {
   color: var(--main-text-color);
 }
 
+body.disable-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
 // reset some common elements
 h1,
 h2,
@@ -52,6 +57,7 @@ ol {
   font-size: inherit;
   line-height: inherit;
   font-family: inherit;
+  font-weight: inherit;
   cursor: pointer;
 
   &:hover {
@@ -310,6 +316,18 @@ $spacings: (
 
 .icon-fill--current {
   fill: currentColor;
+}
+
+.icon-btn {
+  border: 0;
+  background: none;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 // Small Form Factor Utils

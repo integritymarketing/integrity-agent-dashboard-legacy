@@ -20,7 +20,9 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
       {primary.map((link, idx) => {
         return (
           <li key={idx}>
-            <link.component {...link.props}>{link.label}</link.component>
+            <link.component className="link" {...link.props}>
+              {link.label}
+            </link.component>
           </li>
         );
       })}
@@ -41,7 +43,9 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             {secondary.map((link, idx) => {
               return (
                 <li key={idx}>
-                  <link.component {...link.props}>{link.label}</link.component>
+                  <link.component className="link link--invert" {...link.props}>
+                    {link.label}
+                  </link.component>
                 </li>
               );
             })}

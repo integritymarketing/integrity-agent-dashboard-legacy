@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Media from "react-media";
 import LargeFormatMenu from "./large-format";
+import SmallFormatMenu from "./small-format";
 import "./index.scss";
 
 export default () => {
@@ -19,19 +20,19 @@ export default () => {
           primary: [
             {
               component: Link,
-              props: { to: "/help", className: "link" },
+              props: { to: "/help" },
               label: "Need Help?",
             },
             {
               component: Link,
-              props: { to: "/training", className: "link" },
+              props: { to: "/training" },
               label: "Resources",
             },
           ],
           secondary: [
             {
               component: Link,
-              props: { to: "/account", className: "link link--invert" },
+              props: { to: "/account" },
               label: "Edit Account",
             },
             {
@@ -39,7 +40,6 @@ export default () => {
               props: {
                 type: "button",
                 onClick: () => auth.signout(),
-                className: "link link--invert",
               },
               label: "Logout",
             },
@@ -49,7 +49,7 @@ export default () => {
           primary: [
             {
               component: Link,
-              props: { to: "/login", className: "link" },
+              props: { to: "/login" },
               label: "Login",
             },
           ],
@@ -89,7 +89,7 @@ export default () => {
         >
           {(matches) => (
             <React.Fragment>
-              {matches.small && <div>Menu</div>}
+              {matches.small && <SmallFormatMenu {...menuProps} />}
               {!matches.small && <LargeFormatMenu {...menuProps} />}
             </React.Fragment>
           )}
