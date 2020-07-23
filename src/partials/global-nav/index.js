@@ -15,7 +15,7 @@ export default () => {
       navOpen,
       setNavOpen,
     },
-    auth.isAuthenticated
+    auth.isAuthenticated()
       ? {
           primary: [
             {
@@ -39,7 +39,7 @@ export default () => {
               component: "button",
               props: {
                 type: "button",
-                onClick: () => auth.signout(),
+                onClick: () => auth.logout(),
               },
               label: "Logout",
             },
