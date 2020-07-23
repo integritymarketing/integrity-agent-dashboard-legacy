@@ -46,13 +46,7 @@ export default () => {
           ],
         }
       : {
-          primary: [
-            {
-              component: Link,
-              props: { to: "/login" },
-              label: "Login",
-            },
-          ],
+          primary: [],
           secondary: [],
         }
   );
@@ -77,24 +71,26 @@ export default () => {
           </svg>
         </Link>
       </h1>
-      <nav className="global-nav__links">
-        {/*
+      {auth.isAuthenticated() && (
+        <nav className="global-nav__links">
+          {/*
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-        <Media
-          queries={{
-            small: "(max-width: 767px)",
-          }}
-        >
-          {(matches) => (
-            <React.Fragment>
-              {matches.small && <SmallFormatMenu {...menuProps} />}
-              {!matches.small && <LargeFormatMenu {...menuProps} />}
-            </React.Fragment>
-          )}
-        </Media>
-      </nav>
+          <Media
+            queries={{
+              small: "(max-width: 767px)",
+            }}
+          >
+            {(matches) => (
+              <React.Fragment>
+                {matches.small && <SmallFormatMenu {...menuProps} />}
+                {!matches.small && <LargeFormatMenu {...menuProps} />}
+              </React.Fragment>
+            )}
+          </Media>
+        </nav>
+      )}
     </header>
   );
 };
