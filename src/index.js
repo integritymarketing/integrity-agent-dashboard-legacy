@@ -4,6 +4,7 @@ import "./index.scss";
 import * as Sentry from "@sentry/react";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import "focus-visible";
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml

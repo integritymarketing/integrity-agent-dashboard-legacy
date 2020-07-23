@@ -1,6 +1,14 @@
 @import "mixins";
 @import "theme";
 
+* {
+  box-sizing: border-box;
+}
+
+[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
+  outline: none;
+}
+
 body {
   margin: 0;
   font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
@@ -10,6 +18,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--page-bg-color);
   color: var(--main-text-color);
+}
+
+body.disable-scroll {
+  overflow: hidden;
+  height: 100%;
 }
 
 // reset some common elements
@@ -44,6 +57,7 @@ ol {
   font-size: inherit;
   line-height: inherit;
   font-family: inherit;
+  font-weight: inherit;
   cursor: pointer;
 
   &:hover {
@@ -68,13 +82,12 @@ ol {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
-  text-transform: uppercase;
-  padding: 0.5em 1em;
+  padding: calc(0.5em - 2px) 1.5em;
   margin: 0;
-  border-radius: 0.25em;
+  border-radius: 0.125em;
   cursor: pointer;
-  outline: none;
   transition: background-color 0.2s ease, box-shadow 0.2s ease; // TODO: determine global transition default
+  min-width: (140 / 16) * 1rem;
 
   &:hover:not(.btn--disabled):not([disabled]) {
     background-color: var(--brand-bg-hover-color);
@@ -85,16 +98,17 @@ ol {
     box-shadow: var(--shadow-default);
   }
 
-  &:focus-visible {
-    outline: unset; // TODO: determine global focus states
-  }
-
   &[disabled],
   &--disabled {
     color: var(--disabled-color);
     background-color: var(--disabled-contrast-color);
     border-color: var(--disabled-contrast-color);
     cursor: default;
+  }
+
+  &:focus {
+    outline: 2px solid var(--brand-bg-color);
+    outline-offset: 0.25rem;
   }
 }
 
@@ -120,12 +134,8 @@ ol {
   }
 }
 
-.bg-brand {
-  background: linear-gradient(
-    to top right,
-    var(--brand-gradient-start),
-    var(--brand-gradient-end)
-  );
+.bg-high-contrast {
+  background: var(--main-bg-color);
 }
 
 .text-invert {
@@ -133,45 +143,72 @@ ol {
 }
 
 .container {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  max-width: 1280px;
+  align-self: center;
   padding-left: var(--window-side-padding);
   padding-right: var(--window-side-padding);
 }
 
 .card-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 2.5rem;
-
-  @media (min-width: 408px) {
-    grid-template-columns: repeat(auto-fill, 360px);
+  > * {
+    width: 100%;
+    min-height: 256px;
+  }
+  @media (max-width: 539px) {
+    > * + * {
+      margin-top: 2.5rem;
+    }
   }
 
-  > * {
-    max-width: 22.5rem;
-    min-height: 256px;
+  @media (min-width: 540px) {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+
+    > * {
+      min-height: 256px;
+    }
   }
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: var(--scaling-space-1);
   background-color: var(--card-bg);
   color: var(--main-text-color);
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   box-shadow: var(--card-shadow);
   transition: box-shadow 0.2s ease; // TODO: determine global transition default
+}
 
-  &:hover {
-    box-shadow: var(--card-shadow-active);
-  }
+.card__title {
+  font-size: 1.25rem;
+  line-height: (24 / 20);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
 .card__actions {
+  display: flex;
   margin-top: auto;
+
+  > * {
+    flex: 1 0 0%;
+  }
+
+  > * + * {
+    margin: 0 0 0 2rem;
+  }
+
+  @media (max-width: 399px) {
+    flex-direction: column;
+    > * + * {
+      margin: 1rem 0 0;
+    }
+  }
 }
 
 .hdg {
@@ -204,13 +241,102 @@ ol {
 }
 
 .scaling-header {
-  padding-top: get-clamp-val(48, 80);
+  padding-top: get-clamp-val(16, 80);
   padding-bottom: var(--scaling-header-padding);
 }
 
-.mt-scale-1 {
-  margin-top: var(--scaling-space-1);
+$spacings: (
+  "mt": "margin-top",
+  "mb": "margin-bottom",
+  "pt": "padding-top",
+  "pb": "padding-bottom",
+);
+
+@each $abbr, $prop in $spacings {
+  @for $i from 0 through 4 {
+    .#{$abbr}-scale-#{$i} {
+      #{$prop}: var(--scaling-space-#{$i});
+    }
+  }
 }
-.mt-scale-2 {
-  margin-top: var(--scaling-space-2);
+
+@each $abbr, $prop in $spacings {
+  @for $i from 0 through 5 {
+    .#{$abbr}-#{$i} {
+      #{$prop}: var(--fixed-space-#{$i});
+    }
+  }
+}
+
+.divided-vlist {
+  > li {
+    border-bottom: 1px solid;
+  }
+}
+
+.divided-hlist {
+  display: flex;
+
+  > li + li {
+    margin-left: 1.5rem;
+    border-left: 1px solid var(--page-bg-color);
+    padding-left: 1.5rem;
+  }
+}
+
+.line-item {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  padding: 1.5rem 0.5rem;
+  line-height: 1.5;
+
+  &__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  &__next {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding-left: 1rem;
+  }
+
+  &:hover {
+    background-color: var(--page-bg-hover);
+  }
+}
+
+.visually-hidden {
+  @include visually-hidden();
+}
+
+.icon-fill--current {
+  fill: currentColor;
+}
+
+.icon-btn {
+  border: 0;
+  background: none;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+// Small Form Factor Utils
+@media (max-width: 767px) {
+  .sf-text-center {
+    text-align: center;
+  }
 }
