@@ -27,7 +27,8 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
         className="icon-btn global-nav__mobile-trigger"
         onClick={() => setNavOpen(true)}
       >
-        <HamburgerIcon />
+        <span className="visually-hidden">Open Navigation Menu</span>
+        <HamburgerIcon aria-hidden="true" />
       </button>
 
       <nav className={`modal-nav ${navOpen ? "" : "visually-hidden"}`}>
@@ -37,7 +38,8 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             className="icon-btn modal-nav__exit-trigger"
             onClick={() => setNavOpen(false)}
           >
-            <ExitIcon />
+            <span className="visually-hidden">Open Navigation Menu</span>
+            <ExitIcon aria-hidden="true" />
           </button>
         </div>
         <div className="modal-nav__links modal-nav__links--primary">
