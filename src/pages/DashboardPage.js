@@ -23,7 +23,7 @@ export default () => {
       <Container className="mt-scale-3">
         <section>
           <div className="hdg hdg--3">Your Enrollment and Quoting Tools</div>
-          <div className="card-grid mt-scale-2">
+          <div className="card-grid mt-4">
             <Card>
               <div className="card__title">[FPO Product Name]</div>
               <div className="card__body">
@@ -72,7 +72,7 @@ export default () => {
               </LineItem>
             </li>
           </ul>
-          <div className="mt-scale-2">
+          <div className="mt-4 sf-text-center">
             <button type="button" className="btn">
               View All
             </button>

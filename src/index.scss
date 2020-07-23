@@ -231,7 +231,7 @@ ol {
 }
 
 .scaling-header {
-  padding-top: get-clamp-val(48, 80);
+  padding-top: get-clamp-val(16, 80);
   padding-bottom: var(--scaling-header-padding);
 }
 
@@ -247,6 +247,11 @@ $spacings: (
     .#{$abbr}-scale-#{$i} {
       #{$prop}: var(--scaling-space-#{$i});
     }
+  }
+}
+
+@each $abbr, $prop in $spacings {
+  @for $i from 0 through 5 {
     .#{$abbr}-#{$i} {
       #{$prop}: var(--fixed-space-#{$i});
     }
@@ -305,4 +310,11 @@ $spacings: (
 
 .icon-fill--current {
   fill: currentColor;
+}
+
+// Small Form Factor Utils
+@media (max-width: 767px) {
+  .sf-text-center {
+    text-align: center;
+  }
 }

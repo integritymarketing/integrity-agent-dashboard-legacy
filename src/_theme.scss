@@ -18,16 +18,17 @@
   --brand-gradient-start: #236c9e;
   --brand-gradient-end: #0079cc;
   --page-bg-hover: #dee1e8;
-  --window-side-padding: #{get-clamp-val(24, 40)};
-  --scaling-header-padding: #{get-clamp-val(72, 120)};
+  --window-side-padding: #{get-clamp-val(16, 40)};
+  --scaling-header-padding: #{get-clamp-val(80, 144)};
   --scaling-space-0: 0;
   --scaling-space-1: #{get-clamp-val(16, 24)};
   --scaling-space-2: #{get-clamp-val(24, 40)};
   --scaling-space-3: #{get-clamp-val(40, 80)};
-  --scaling-space-4: #{get-clamp-val(72, 120)};
+  --scaling-space-4: #{get-clamp-val(80, 120)};
   --fixed-space-0: 0;
   --fixed-space-1: 0.5rem;
   --fixed-space-2: 1rem;
   --fixed-space-3: 1.5rem;
   --fixed-space-4: 2.5rem;
+  --fixed-space-5: 5rem;
 }
