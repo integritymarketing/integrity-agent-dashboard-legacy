@@ -24,15 +24,43 @@ export default () => {
           <form action="" className="form">
             <fieldset className="form__fields">
               <Textfield
+                id="register-fname"
+                label="First Name"
+                placeholder="Enter your first name"
+              />
+              <Textfield
+                id="register-lname"
+                label="Last Name"
+                placeholder="Enter your last name"
+              />
+              <Textfield
                 id="register-npn"
                 label="NPN Number"
                 placeholder="Enter your NPN Number"
               />
               <Textfield
+                id="register-email"
+                type="email"
+                label="Email Address"
+                placeholder="Enter your email address"
+              />
+              <Textfield
+                id="register-email-verify"
+                type="email"
+                label="Re-enter Email Address"
+                placeholder="Re-enter your email address"
+              />
+              <Textfield
                 id="register-password"
                 type="password"
-                label="Password"
-                placeholder="Enter your password"
+                label="Create Password"
+                placeholder="Create a new password"
+              />
+              <Textfield
+                id="register-password-verify"
+                type="password"
+                label="Re-enter Password"
+                placeholder="Re-enter your new password"
               />
               <div className="form__submit">
                 <button className="btn" type="submit">
