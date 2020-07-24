@@ -6,15 +6,20 @@ import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import ArticleIcon from "components/icons/article";
 import UpdateIcon from "components/icons/update";
+import useUserProfile from "hooks/useUserProfile";
 
 export default () => {
+  const userProfile = useUserProfile();
+
   return (
     <React.Fragment>
       <div className="bg-high-contrast">
         <GlobalNav />
         <Container className="scaling-header">
-          <div className="hdg hdg--2">Welcome back, Rachel.</div>
-          {/* TODO: hook up agent name from SSO payload */}
+          <div className="hdg hdg--2">
+            Welcome back, {userProfile.firstName}.
+          </div>
+
           <div className="hdg hdg--3 mt-1">
             Get quick access to your tools below.
           </div>
