@@ -4,8 +4,13 @@
   --page-bg-color: #e8eaef;
   --main-text-color: #333333;
   --main-bg-color: #ffffff;
+  --admin-bg-color: #e8eaef linear-gradient(to bottom, #f5f6f8 0%, #e8eaef 100%);
   --invert-text-color: #ffffff;
   --invert-bg-color: #333333;
+  --muted-text-color: #a4aec1;
+  --muted-light-text-color: #e8eaef;
+  --error-state-color: #d86a66;
+  --success-state-color: #94d199;
   --brand-text-color: #236c9e;
   --brand-text-hover-color: #0079cc;
   --brand-bg-color: #236c9e;
@@ -18,6 +23,8 @@
   --brand-gradient-start: #236c9e;
   --brand-gradient-end: #0079cc;
   --page-bg-hover: #dee1e8;
+  --form-border-default: #e3e6ec;
+  --form-border-active: #236c9e;
   --window-side-padding: #{get-clamp-val(16, 40)};
   --scaling-header-padding: #{get-clamp-val(80, 144)};
   --scaling-space-0: 0;

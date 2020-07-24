@@ -1,22 +1,29 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.scss";
 import DashboardPage from "pages/DashboardPage";
 import TrainingPage from "pages/TrainingPage";
-import LoginPage from "pages/LoginPage";
+import LandingPage from "pages/LandingPage";
+import RegisterPage from "pages/RegisterPage"; // TODO: exclude this from main build
+import LoginPage from "pages/LoginPage"; // TODO: exclude this from main build
 import NotFoundPage from "pages/NotFound";
 import AuthContext from "contexts/auth";
 import Logout from "components/auth/logout";
 import LogoutCallback from "components/auth/logoutCallback";
 import AuthCallback from "components/auth/authCallback";
-import AuthService from "services/auth";
-import AuthenticatedRoute from "components/auth/authenticatedRoute";
+import authService from "services/auth";
+import {
+  AuthenticatedRoute,
+  UnauthenticatedRoute,
+} from "components/auth/routes";
+
+// TODO: connect to env variable
+const EMULATE_REGISTRATION = true;
 
 const App = () => {
   return (
-    <AuthContext.Provider value={AuthService}>
+    <AuthContext.Provider value={authService}>
       <Router>
-        <div className="App">
+        <div className="content-frame">
           <Switch>
             <Route exact={true} path="/signin-oidc" component={AuthCallback} />
             <Route exact={true} path="/logout" component={Logout} />
@@ -25,15 +32,25 @@ const App = () => {
               path="/signout-oidc"
               component={LogoutCallback}
             />
-            <Route exact path="/login">
-              <LoginPage />
-            </Route>
-            <AuthenticatedRoute exact path="/">
+            <UnauthenticatedRoute exact path="/">
+              <LandingPage />
+            </UnauthenticatedRoute>
+            <AuthenticatedRoute exact path="/dashboard">
               <DashboardPage />
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/training">
               <TrainingPage />
             </AuthenticatedRoute>
+            {EMULATE_REGISTRATION && (
+              <React.Fragment>
+                <Route exact path="/login">
+                  <LoginPage />
+                </Route>
+                <Route exact path="/register">
+                  <RegisterPage />
+                </Route>
+              </React.Fragment>
+            )}
             <Route path="*">
               <NotFoundPage />
             </Route>

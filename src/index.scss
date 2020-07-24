@@ -1,5 +1,6 @@
-@import "mixins";
-@import "theme";
+@import "scss/mixins";
+@import "scss/theme";
+@import "scss/forms";
 
 * {
   box-sizing: border-box;
@@ -47,6 +48,12 @@ ol {
   list-style: none;
 }
 
+.content-frame {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .link {
   color: var(--brand-text-color);
   border: 0;
@@ -70,7 +77,14 @@ ol {
 
     &:hover {
       color: var(--invert-text-color);
-      text-decoration: underline;
+    }
+  }
+
+  &--inherit {
+    color: inherit;
+
+    &:hover {
+      color: inherit;
     }
   }
 }
@@ -138,8 +152,20 @@ ol {
   background: var(--main-bg-color);
 }
 
+.bg-admin {
+  background: var(--admin-bg-color);
+}
+
 .text-invert {
   color: var(--invert-text-color);
+}
+
+.text-muted {
+  color: var(--muted-text-color);
+}
+
+.text-muted-light {
+  color: var(--muted-light-text-color);
 }
 
 .container {
@@ -148,6 +174,10 @@ ol {
   align-self: center;
   padding-left: var(--window-side-padding);
   padding-right: var(--window-side-padding);
+
+  &--size-small {
+    max-width: 600px;
+  }
 }
 
 .card-grid {
@@ -182,6 +212,10 @@ ol {
   border-radius: 0.25rem;
   box-shadow: var(--card-shadow);
   transition: box-shadow 0.2s ease; // TODO: determine global transition default
+
+  &--page {
+    padding: 5rem #{get-clamp-val(40, 80)};
+  }
 }
 
 .card__title {
@@ -279,7 +313,7 @@ $spacings: (
 
   > li + li {
     margin-left: 1.5rem;
-    border-left: 1px solid var(--page-bg-color);
+    border-left: 1px solid;
     padding-left: 1.5rem;
   }
 }
