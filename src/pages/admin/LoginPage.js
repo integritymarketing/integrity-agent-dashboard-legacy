@@ -28,7 +28,7 @@ export default () => {
                 placeholder="Enter your password"
                 auxLink={
                   <span className="text-muted">
-                    <Link to="/register" className="link link--inherit">
+                    <Link to="/forgot-password" className="link link--inherit">
                       Forgot Password?
                     </Link>
                   </span>

@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DashboardPage from "pages/DashboardPage";
 import TrainingPage from "pages/TrainingPage";
 import LandingPage from "pages/LandingPage";
-import RegisterPage from "pages/RegisterPage"; // TODO: exclude this from main build
-import LoginPage from "pages/LoginPage"; // TODO: exclude this from main build
+import RegisterPage from "pages/admin/RegisterPage"; // TODO: exclude this from main build
+import LoginPage from "pages/admin/LoginPage"; // TODO: exclude this from main build
+import ForgotPasswordPage from "pages/admin/ForgotPasswordPage"; // TODO: exclude this from main build
 import NotFoundPage from "pages/NotFound";
 import AuthContext from "contexts/auth";
 import Logout from "components/auth/logout";
@@ -48,6 +49,9 @@ const App = () => {
                 </Route>
                 <Route exact path="/register">
                   <RegisterPage />
+                </Route>
+                <Route exact path="/forgot-password">
+                  <ForgotPasswordPage />
                 </Route>
               </React.Fragment>
             )}
