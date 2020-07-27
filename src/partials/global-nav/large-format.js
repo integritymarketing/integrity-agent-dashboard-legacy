@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import ArrowDownIcon from "components/icons/arrow-down";
+import useUserProfile from "hooks/useUserProfile";
 
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
+  const userProfile = useUserProfile();
+
   useEffect(() => {
     const closeDropDown = (event) => {
       if (event.target.closest(".dropdown-menu")) {
@@ -36,7 +39,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             className={`link dropdown-menu__trigger`}
             onClick={() => setNavOpen(!navOpen)}
           >
-            <span>Rachel Swanson</span>
+            <span>{userProfile.fullName}</span>
             <ArrowDownIcon />
           </button>
           <ul className="dropdown-menu__items">
