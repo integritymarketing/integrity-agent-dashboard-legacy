@@ -1,96 +1,22 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import DashboardPage from "pages/DashboardPage";
-import TrainingPage from "pages/TrainingPage";
-import LandingPage from "pages/LandingPage";
-import RegisterPage from "pages/admin/RegisterPage"; // TODO: exclude this from main build
-import LoginPage from "pages/admin/LoginPage"; // TODO: exclude this from main build
-import ForgotPasswordPage from "pages/admin/ForgotPasswordPage"; // TODO: exclude this from main build
-import ResetSentPage from "pages/admin/ResetSentPage"; // TODO: exclude this from main build
-import NewPasswordPage from "pages/admin/NewPasswordPage"; // TODO: exclude this from main build
-import PasswordUpdatedPage from "pages/admin/PasswordUpdatedPage"; // TODO: exclude this from main build
-import RegistrationConfirmedPage from "pages/admin/RegistrationConfirmedPage"; // TODO: exclude this from main build
-import RegistrationCompletedPage from "pages/admin/RegistrationCompletedPage"; // TODO: exclude this from main build
-import NewEmailPage from "pages/admin/NewEmailPage"; // TODO: exclude this from main build
-import EmailUpdatedPage from "pages/admin/EmailUpdatedPage"; // TODO: exclude this from main build
-import LinkExpiredPage from "pages/admin/LinkExpiredPage"; // TODO: exclude this from main build
-import NotFoundPage from "pages/NotFound";
+import React, { Suspense } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import AuthContext from "contexts/auth";
-import Logout from "components/auth/logout";
-import LogoutCallback from "components/auth/logoutCallback";
-import AuthCallback from "components/auth/authCallback";
 import authService from "services/auth";
-import {
-  AuthenticatedRoute,
-  UnauthenticatedRoute,
-} from "components/auth/routes";
 
-// TODO: connect to env variable
-const EMULATE_REGISTRATION = true;
+const AppRoutes = React.lazy(() =>
+  process.env.REACT_APP_BUILD_TARGET === "server"
+    ? import(/* webpackChunkName: 'server-routes' */ "routes/server")
+    : import(/* webpackChunkName: 'app-routes' */ "routes/app")
+);
 
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>
       <Router>
         <div className="content-frame">
-          <Switch>
-            <Route exact={true} path="/signin-oidc" component={AuthCallback} />
-            <Route exact={true} path="/logout" component={Logout} />
-            <Route
-              exact={true}
-              path="/signout-oidc"
-              component={LogoutCallback}
-            />
-            <UnauthenticatedRoute exact path="/">
-              <LandingPage />
-            </UnauthenticatedRoute>
-            <AuthenticatedRoute exact path="/dashboard">
-              <DashboardPage />
-            </AuthenticatedRoute>
-            <AuthenticatedRoute path="/training">
-              <TrainingPage />
-            </AuthenticatedRoute>
-            {EMULATE_REGISTRATION && (
-              <React.Fragment>
-                <Route exact path="/login">
-                  <LoginPage />
-                </Route>
-                <Route exact path="/register">
-                  <RegisterPage />
-                </Route>
-                <Route exact path="/forgot-password">
-                  <ForgotPasswordPage />
-                </Route>
-                <Route exact path="/reset-sent">
-                  <ResetSentPage />
-                </Route>
-                <Route exact path="/new-password">
-                  <NewPasswordPage />
-                </Route>
-                <Route exact path="/password-updated">
-                  <PasswordUpdatedPage />
-                </Route>
-                <Route exact path="/update-email">
-                  <NewEmailPage />
-                </Route>
-                <Route exact path="/email-updated">
-                  <EmailUpdatedPage />
-                </Route>
-                <Route exact path="/link-expired">
-                  <LinkExpiredPage />
-                </Route>
-                <Route exact path="/registration-confirmed">
-                  <RegistrationConfirmedPage />
-                </Route>
-                <Route exact path="/registration-complete">
-                  <RegistrationCompletedPage />
-                </Route>
-              </React.Fragment>
-            )}
-            <Route path="*">
-              <NotFoundPage />
-            </Route>
-          </Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            <AppRoutes />
+          </Suspense>
         </div>
       </Router>
     </AuthContext.Provider>
