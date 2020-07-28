@@ -1,12 +1,13 @@
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 
-export const IDENTITY_CONFIG = {
+const IDENTITY_CONFIG = {
   authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
   client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
   redirect_uri: process.env.REACT_APP_AUTH_REDIRECT_URI,
   post_logout_redirect_uri: process.env.REACT_APP_AUTH_LOGOFF_REDIRECT_URI,
   response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
   scope: process.env.REACT_APP_AUTH_SCOPES,
+  silent_redirect_uri: process.env.REACT_APP_AUTH_SILENT_REDIRECT_URI,
 };
 
 class AuthService {
@@ -37,7 +38,7 @@ class AuthService {
 
   signinRedirectCallback = () => {
     this.UserManager.signinRedirectCallback().then(() => {
-      "";
+      console.log("Signin redirect callback CALLED");
     });
   };
 
@@ -82,7 +83,7 @@ class AuthService {
   signinSilent = () => {
     this.UserManager.signinSilent()
       .then((user) => {
-        console.log("signed in", user);
+        console.log("signinSilent Success!", user);
       })
       .catch((err) => {
         console.log(err);
