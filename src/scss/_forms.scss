@@ -1,0 +1,95 @@
+.form {
+  &__fields {
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    > * + * {
+      margin-top: 0.5rem;
+    }
+    > * + .form__submit,
+    > .form__submit + * {
+      margin-top: 1.5rem;
+    }
+  }
+}
+.label {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.textfield {
+  &__header {
+    display: flex;
+    margin-bottom: 0.5rem;
+
+    > .label {
+      margin-right: auto;
+    }
+  }
+
+  &__input {
+    border: 2px solid var(--form-border-default);
+    background: var(--main-bg-color);
+    border-radius: 0.25rem;
+    display: flex;
+
+    &:focus-within {
+      border-color: var(--form-border-active);
+    }
+
+    > input {
+      border: 0;
+      background: none;
+      font-size: 1rem;
+      min-width: 0;
+      flex: 1 0 0;
+      padding: 0.5rem;
+      height: 38px;
+      line-height: 38px;
+
+      &:focus {
+        outline: none; // focus style defined on parent
+      }
+    }
+  }
+
+  &__input-actions {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.375rem;
+
+    > * + * {
+      margin-left: 0.5rem;
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__error {
+    visibility: hidden;
+    font-size: 1rem;
+    line-height: 1.5;
+    min-height: 1.5rem;
+    color: var(--error-state-color);
+  }
+
+  &--error {
+    > .textfield__input {
+      border-color: var(--error-state-color);
+    }
+    > .textfield__error {
+      visibility: visible;
+    }
+  }
+
+  &--success {
+    > .textfield__input {
+      border-color: var(--success-state-color);
+    }
+  }
+}

@@ -1,5 +1,6 @@
-@import "mixins";
-@import "theme";
+@import "scss/mixins";
+@import "scss/theme";
+@import "scss/forms";
 
 * {
   box-sizing: border-box;
@@ -47,6 +48,12 @@ ol {
   list-style: none;
 }
 
+.content-frame {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .link {
   color: var(--brand-text-color);
   border: 0;
@@ -70,15 +77,24 @@ ol {
 
     &:hover {
       color: var(--invert-text-color);
-      text-decoration: underline;
+    }
+  }
+
+  &--inherit {
+    color: inherit;
+
+    &:hover {
+      color: inherit;
     }
   }
 }
 
 .btn {
+  display: inline-block;
   color: var(--invert-text-color);
   background: var(--brand-bg-color);
   border: 2px solid var(--brand-bg-color);
+  font-family: inherit;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
@@ -88,6 +104,7 @@ ol {
   cursor: pointer;
   transition: background-color 0.2s ease, box-shadow 0.2s ease; // TODO: determine global transition default
   min-width: (140 / 16) * 1rem;
+  text-decoration: none;
 
   &:hover:not(.btn--disabled):not([disabled]) {
     background-color: var(--brand-bg-hover-color);
@@ -138,8 +155,20 @@ ol {
   background: var(--main-bg-color);
 }
 
+.bg-admin {
+  background: var(--admin-bg-color);
+}
+
 .text-invert {
   color: var(--invert-text-color);
+}
+
+.text-muted {
+  color: var(--muted-text-color);
+}
+
+.text-muted-light {
+  color: var(--muted-light-text-color);
 }
 
 .container {
@@ -148,6 +177,10 @@ ol {
   align-self: center;
   padding-left: var(--window-side-padding);
   padding-right: var(--window-side-padding);
+
+  &--size-small {
+    max-width: 600px;
+  }
 }
 
 .card-grid {
@@ -176,12 +209,43 @@ ol {
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: var(--scaling-space-1);
   background-color: var(--card-bg);
   color: var(--main-text-color);
   border-radius: 0.25rem;
   box-shadow: var(--card-shadow);
   transition: box-shadow 0.2s ease; // TODO: determine global transition default
+
+  &--page {
+    min-height: clamp(100px, 75vw, 560px);
+    padding: #{get-clamp-val(24, 40)} #{get-clamp-val(40, 80)};
+    position: relative;
+  }
+
+  &--page__link {
+    position: absolute;
+    top: 2rem;
+    left: #{get-clamp-val(40, 80)};
+    line-height: 1.5;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5rem;
+      left: -1.5rem;
+    }
+  }
+
+  &--page__header {
+    padding-bottom: #{get-clamp-val(16, 40)};
+    margin-bottom: auto;
+  }
+
+  &--page__footer {
+    padding-top: #{get-clamp-val(16, 40)};
+    margin-top: auto;
+  }
 }
 
 .card__title {
@@ -279,7 +343,7 @@ $spacings: (
 
   > li + li {
     margin-left: 1.5rem;
-    border-left: 1px solid var(--page-bg-color);
+    border-left: 1px solid;
     padding-left: 1.5rem;
   }
 }
@@ -332,6 +396,24 @@ $spacings: (
   justify-content: center;
   padding: 0;
   margin: 0;
+}
+
+.icon-flip {
+  transform: rotate(180deg);
+}
+
+.icon-small {
+  width: 1rem;
+  height: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-body {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 // Small Form Factor Utils

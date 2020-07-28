@@ -3,7 +3,11 @@
     #{$smallest / 16}rem + #{$largest - $smallest} * ((100vw - 375px) / #{768 -
           375})
   );
-  @return clamp(#{$smallest / 16}rem, #{$calc}, #{$largest / 16}rem);
+  @return clamp(
+    #{min($smallest, $largest) / 16}rem,
+    #{$calc},
+    #{max($largest, $smallest) / 16}rem
+  );
 }
 
 @mixin clamp-font-size($smallest, $largest) {

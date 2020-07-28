@@ -19,7 +19,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
   }, [navOpen, setNavOpen]);
 
   return (
-    <ul className="divided-hlist">
+    <ul className="divided-hlist text-muted-light">
       {primary.map((link, idx) => {
         return (
           <li key={idx}>

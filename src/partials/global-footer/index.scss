@@ -39,4 +39,11 @@
       margin-right: auto;
     }
   }
+
+  &--simple {
+    .global-footer__content {
+      background: none;
+      color: inherit;
+    }
+  }
 }

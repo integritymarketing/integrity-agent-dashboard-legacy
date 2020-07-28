@@ -1,0 +1,14 @@
+@import "../../scss/mixins";
+
+.simple-header {
+  display: flex;
+  justify-content: center;
+  padding: var(--window-side-padding);
+  padding-top: #{get-clamp-val(24, 64)};
+  padding-bottom: #{get-clamp-val(44, 24)};
+
+  a {
+    display: flex;
+    padding: 1rem; // increase hit area
+  }
+}
