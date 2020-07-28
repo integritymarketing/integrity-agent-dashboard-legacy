@@ -8,14 +8,16 @@ const Textfield = ({
   label,
   placeholder,
   type = "text",
-  inputProps = {},
   className = "",
   auxLink = null,
-  ...props
+  inputClassName = "",
+  wrapperProps = {},
+  error = null,
+  ...inputProps
 }) => {
   const [passwordsVisible, setPasswordsVisible] = useState(false);
   const inputEl = useRef(null);
-  const hasError = false;
+  const hasError = error;
   const hasSuccess = false;
   const classes = [
     "textfield",
@@ -27,7 +29,7 @@ const Textfield = ({
     .join(" ");
   const displayType = type === "password" && passwordsVisible ? "text" : type;
   return (
-    <div className={classes} {...props}>
+    <div className={classes} {...wrapperProps}>
       <div className="textfield__header">
         <label htmlFor={id} className="label">
           {label}
@@ -40,6 +42,7 @@ const Textfield = ({
           type={displayType}
           ref={inputEl}
           placeholder={placeholder}
+          className={inputClassName}
           {...inputProps}
         />
         <div className="textfield__input-actions">
@@ -60,7 +63,7 @@ const Textfield = ({
           {hasSuccess && <SuccessIcon />}
         </div>
       </div>
-      <div className="textfield__error mt-1">Error Message</div>
+      <div className="textfield__error mt-1">{error}</div>
     </div>
   );
 };

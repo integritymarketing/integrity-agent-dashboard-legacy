@@ -36,9 +36,11 @@ class AuthService {
   }
 
   signinRedirectCallback = () => {
-    this.UserManager.signinRedirectCallback().then(() => {
-      "";
-    });
+    this.UserManager.signinRedirectCallback()
+      .then(() => {
+        "";
+      })
+      .catch((e) => console.error(e));
   };
 
   getUser = async () => {
