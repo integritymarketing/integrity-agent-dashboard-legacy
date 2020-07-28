@@ -18,11 +18,13 @@ class AuthService {
 
     Log.logger = console;
     Log.level = Log.DEBUG;
+
     this.UserManager.events.addUserLoaded((user) => {
       if (window.location.href.indexOf("signin-oidc") !== -1) {
         this.navigateToScreen();
       }
     });
+
     this.UserManager.events.addSilentRenewError((e) => {
       console.log("silent renew error", e.message);
     });
@@ -44,8 +46,14 @@ class AuthService {
     if (!user) {
       return await this.UserManager.signinRedirectCallback();
     }
+    this.addFullNameToUserProfile(user);
     return user;
   };
+
+  addFullNameToUserProfile(user) {
+    user.profile.fullName =
+      user.profile.firstName + " " + user.profile.lastName;
+  }
 
   parseJwt = (token) => {
     const base64Url = token.split(".")[1];
@@ -80,6 +88,7 @@ class AuthService {
         console.log(err);
       });
   };
+
   signinSilentCallback = () => {
     this.UserManager.signinSilentCallback();
   };
