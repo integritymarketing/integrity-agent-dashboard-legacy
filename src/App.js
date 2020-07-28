@@ -5,8 +5,12 @@ import authService from "services/auth";
 
 const AppRoutes = React.lazy(() =>
   process.env.REACT_APP_BUILD_TARGET === "server"
-    ? import(/* webpackChunkName: 'server-routes' */ "routes/server")
-    : import(/* webpackChunkName: 'app-routes' */ "routes/app")
+    ? import(
+        /* webpackChunkName: 'server-routes', webpackMode: "eager" */ "routes/server"
+      )
+    : import(
+        /* webpackChunkName: 'app-routes', webpackMode: "eager" */ "routes/app"
+      )
 );
 
 const App = () => {
