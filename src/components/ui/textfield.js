@@ -13,6 +13,8 @@ const Textfield = ({
   inputClassName = "",
   wrapperProps = {},
   error = null,
+  focusBanner = null,
+  focusBannerVisible = true,
   ...inputProps
 }) => {
   const [passwordsVisible, setPasswordsVisible] = useState(false);
@@ -36,7 +38,11 @@ const Textfield = ({
         </label>
         {auxLink}
       </div>
-      <div className="textfield__input">
+      <div
+        className={`textfield__input ${
+          focusBannerVisible ? "textfield__input--show-banner" : ""
+        }`}
+      >
         <input
           id={id}
           type={displayType}
@@ -45,6 +51,9 @@ const Textfield = ({
           className={inputClassName}
           {...inputProps}
         />
+        {focusBanner && (
+          <div className="textfield__focus-banner">{focusBanner}</div>
+        )}
         <div className="textfield__input-actions">
           {type === "password" && (
             <button

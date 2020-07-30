@@ -50,7 +50,11 @@ export default () => {
               handleChange,
               handleBlur,
             }) => (
-              <form action="/reset-sent" className="form">
+              <form
+                action="/reset-sent"
+                className="form"
+                onSubmit={handleSubmit}
+              >
                 <fieldset className="form__fields">
                   <Textfield
                     id="forgot-password-npn"

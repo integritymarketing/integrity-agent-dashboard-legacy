@@ -1,4 +1,4 @@
-const defaultRequiredError = (label) => `${label} in required`;
+const defaultRequiredError = (label) => `${label} is required`;
 
 class ValidationService {
   validateNPN = (npn, label = "NPN") => {
@@ -28,6 +28,24 @@ class ValidationService {
       return `${label} must include at least one lowercase letter`;
     } else if (!/[0-9]/.test(password)) {
       return `${label} must include at least one number`;
+    }
+
+    return null;
+  };
+
+  validateFieldMatch = (field, fieldRepeat, label = "Passwords") => {
+    if (field !== fieldRepeat) {
+      return `${label} must match`;
+    }
+
+    return null;
+  };
+
+  validateEmail = (email, label = "Email Address") => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!re.test(String(email).toLowerCase())) {
+      return `${label} must be a valid address`;
     }
 
     return null;
