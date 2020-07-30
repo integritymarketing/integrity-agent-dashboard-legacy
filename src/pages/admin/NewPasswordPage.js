@@ -19,23 +19,21 @@ export default () => {
             initialValues={{ password: "", passwordRepeat: "" }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
-              const errors = {};
-
-              const passwordError = validationService.validatePasswordCreation(
-                values.password
+              return validationService.validateMultiple(
+                [
+                  {
+                    name: "password",
+                    validator: validationService.validatePasswordCreation,
+                  },
+                  {
+                    name: "passwordRepeat",
+                    validator: validationService.validateFieldMatch(
+                      values.password
+                    ),
+                  },
+                ],
+                values
               );
-              if (passwordError) {
-                errors.password = passwordError;
-              }
-
-              const repeatError = validationService.validateFieldMatch(
-                values.password
-              )(values.passwordRepeat);
-              if (repeatError) {
-                errors.passwordRepeat = repeatError;
-              }
-
-              return errors;
             }}
             onSubmit={(values, { setSubmitting, submitForm }) => {
               setSubmitting(false);

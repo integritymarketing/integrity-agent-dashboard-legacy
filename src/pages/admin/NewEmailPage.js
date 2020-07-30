@@ -19,21 +19,22 @@ export default () => {
             initialValues={{ email: "", emailRepeat: "" }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
-              const errors = {};
-
-              const emailError = validationService.validateEmail(values.email);
-              if (emailError) {
-                errors.email = emailError;
-              }
-
-              const repeatError = validationService.validateFieldMatch(
-                values.email
-              )(values.emailRepeat, "Email Addresses");
-              if (repeatError) {
-                errors.emailRepeat = repeatError;
-              }
-
-              return errors;
+              return validationService.validateMultiple(
+                [
+                  {
+                    name: "email",
+                    validator: validationService.validateEmail,
+                  },
+                  {
+                    name: "emailRepeat",
+                    validator: validationService.validateFieldMatch(
+                      values.email
+                    ),
+                    args: ["Email Addresses"],
+                  },
+                ],
+                values
+              );
             }}
             onSubmit={(values, { setSubmitting, submitForm }) => {
               setSubmitting(false);

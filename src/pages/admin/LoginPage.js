@@ -20,14 +20,19 @@ export default () => {
             initialValues={{ npn: "", password: "" }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
-              const errors = {};
-
-              errors.npn = validationService.validateNPN(values.npn);
-              errors.password = validationService.validatePasswordAccess(
-                values.password
+              return validationService.validateMultiple(
+                [
+                  {
+                    name: "npn",
+                    validator: validationService.validateNPN,
+                  },
+                  {
+                    name: "password",
+                    validator: validationService.validatePasswordAccess,
+                  },
+                ],
+                values
               );
-
-              return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
               console.log(values);
