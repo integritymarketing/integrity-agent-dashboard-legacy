@@ -34,9 +34,12 @@
     background: var(--main-bg-color);
     border-radius: 0.25rem;
     display: flex;
+    box-sizing: border-box;
+    position: relative;
 
     &:focus-within {
       border-color: var(--form-border-active);
+      z-index: 1;
     }
 
     > input {
@@ -91,5 +94,35 @@
     > .textfield__input {
       border-color: var(--success-state-color);
     }
+  }
+
+  &__focus-banner {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  &__input--show-banner > input:focus + &__focus-banner {
+    opacity: 1;
+  }
+}
+
+.form-tip {
+  background-color: var(--invert-bg-color);
+  color: var(--invert-text-color);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 2;
+}
+
+.list-basic {
+  > li:before {
+    content: "\2022";
+    margin-right: 0.25em;
   }
 }
