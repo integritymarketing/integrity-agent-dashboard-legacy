@@ -17,7 +17,7 @@ export default () => {
 
           <Formik
             initialValues={{ email: "", emailRepeat: "" }}
-            validateOnMount={true}
+            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               const errors = {};
 
@@ -27,10 +27,8 @@ export default () => {
               }
 
               const repeatError = validationService.validateFieldMatch(
-                values.email,
-                values.emailRepeat,
-                "Email Addresses"
-              );
+                values.email
+              )(values.emailRepeat, "Email Addresses");
               if (repeatError) {
                 errors.emailRepeat = repeatError;
               }
@@ -52,7 +50,12 @@ export default () => {
               <form
                 action="/email-updated"
                 className="form"
-                onSubmit={handleSubmit}
+                onSubmit={(e) => {
+                  // get around e.preventDefault to submit form natively
+                  if (Object.keys(errors).length) {
+                    handleSubmit(e);
+                  }
+                }}
               >
                 <fieldset className="form__fields">
                   <Textfield

@@ -1,40 +1,39 @@
-const defaultRequiredError = (label) => `${label} is required`;
-
 class ValidationService {
-  validateNPN = (npn, label = "NPN") => {
-    if (!npn) {
-      return defaultRequiredError(label);
+  validateRequired = (field, label = "Field") => {
+    if (!field) {
+      return `${label} is required`;
     }
 
     return null;
+  };
+
+  validateNPN = (npn, label = "NPN") => {
+    return this.validateRequired(npn, label);
   };
 
   validatePasswordAccess = (password, label = "Password") => {
-    if (!password) {
-      return defaultRequiredError(label);
-    }
-
-    return null;
+    return this.validateRequired(password, label);
   };
 
   validatePasswordCreation = (password, label = "Password") => {
-    if (!password) {
-      return defaultRequiredError(label);
-    } else if (password.length < 8) {
-      return `${label} must be at least 8 characters long`;
-    } else if (!/[A-Z]/.test(password)) {
-      return `${label} must include at least one uppercase letter`;
-    } else if (!/[a-z]/.test(password)) {
-      return `${label} must include at least one lowercase letter`;
-    } else if (!/[0-9]/.test(password)) {
-      return `${label} must include at least one number`;
-    }
-
-    return null;
+    return this.composeValidator([
+      this.validateRequired,
+      () => {
+        if (password.length < 8) {
+          return `${label} must be at least 8 characters long`;
+        } else if (!/[A-Z]/.test(password)) {
+          return `${label} must include at least one uppercase letter`;
+        } else if (!/[a-z]/.test(password)) {
+          return `${label} must include at least one lowercase letter`;
+        } else if (!/[0-9]/.test(password)) {
+          return `${label} must include at least one number`;
+        }
+      },
+    ])(password, label);
   };
 
-  validateFieldMatch = (field, fieldRepeat, label = "Passwords") => {
-    if (field !== fieldRepeat) {
+  validateFieldMatch = (matchingField) => (field, label = "Passwords") => {
+    if (field !== matchingField) {
       return `${label} must match`;
     }
 
@@ -49,6 +48,26 @@ class ValidationService {
     }
 
     return null;
+  };
+
+  composeValidator = (validators) => {
+    return (...validatorArgs) =>
+      validators.reduce((result, validator) => {
+        if (result) return result;
+        return validator(...validatorArgs);
+      }, null);
+  };
+
+  validateMultiple = (validations, values, errorsObj = {}) => {
+    return validations.reduce((currErrs, { validator, name, args = [] }) => {
+      const result = validator(values[name], ...args);
+      if (result === null) {
+        return currErrs;
+      }
+      return Object.assign({}, currErrs, {
+        [name]: result,
+      });
+    }, errorsObj);
   };
 
   getPageErrors = () => {

@@ -42,7 +42,16 @@ export default () => {
               handleChange,
               handleBlur,
             }) => (
-              <form action="" className="form" onSubmit={handleSubmit}>
+              <form
+                action=""
+                className="form"
+                onSubmit={(e) => {
+                  // get around e.preventDefault to submit form natively
+                  if (Object.keys(errors).length) {
+                    handleSubmit(e);
+                  }
+                }}
+              >
                 <fieldset className="form__fields">
                   <Textfield
                     id="login-npn"

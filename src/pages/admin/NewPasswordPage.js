@@ -17,7 +17,7 @@ export default () => {
 
           <Formik
             initialValues={{ password: "", passwordRepeat: "" }}
-            validateOnMount={true}
+            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               const errors = {};
 
@@ -29,9 +29,8 @@ export default () => {
               }
 
               const repeatError = validationService.validateFieldMatch(
-                values.password,
-                values.passwordRepeat
-              );
+                values.password
+              )(values.passwordRepeat);
               if (repeatError) {
                 errors.passwordRepeat = repeatError;
               }
