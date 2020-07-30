@@ -32,7 +32,11 @@ export default () => (
     <AuthenticatedRoute path="/training">
       <TrainingPage />
     </AuthenticatedRoute>
-    {EMULATE_REGISTRATION && <RegistrationRoutes />}
+    {EMULATE_REGISTRATION && (
+      <React.Suspense fallback={null}>
+        <RegistrationRoutes />
+      </React.Suspense>
+    )}
     <Route path="*">
       <NotFoundPage />
     </Route>
