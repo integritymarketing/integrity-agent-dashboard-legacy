@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Formik } from "formik";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
+import validationService from "services/validation";
 
 export default () => {
   return (
@@ -14,38 +16,99 @@ export default () => {
         <PageCard>
           <h1 className="hdg hdg--2 mb-3">Login to your account</h1>
 
-          <form action="" className="form">
-            <fieldset className="form__fields">
-              <Textfield
-                id="login-npn"
-                label="NPN Number"
-                placeholder="Enter your NPN Number"
-              />
-              <Textfield
-                id="login-password"
-                type="password"
-                label="Password"
-                placeholder="Enter your password"
-                auxLink={
-                  <span className="text-muted">
-                    <Link to="/forgot-password" className="link link--inherit">
-                      Forgot Password?
+          <Formik
+            initialValues={{ npn: "", password: "" }}
+            initialErrors={{ global: validationService.getPageErrors() }}
+            validate={(values) => {
+              return validationService.validateMultiple(
+                [
+                  {
+                    name: "npn",
+                    validator: validationService.validateNPN,
+                  },
+                  {
+                    name: "password",
+                    validator: validationService.validatePasswordAccess,
+                  },
+                ],
+                values
+              );
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
+              setSubmitting(false);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+            }) => (
+              <form
+                action=""
+                className="form"
+                onSubmit={(e) => {
+                  // get around e.preventDefault to submit form natively
+                  if (Object.keys(errors).length) {
+                    handleSubmit(e);
+                  }
+                }}
+              >
+                <fieldset className="form__fields">
+                  <Textfield
+                    id="login-npn"
+                    label="NPN Number"
+                    placeholder="Enter your NPN Number"
+                    name="npn"
+                    value={values.npn}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={
+                      (touched.npn && errors.npn) ||
+                      (errors.global &&
+                        " ") /* Simulates empty error, full error is shown for password field */
+                    }
+                  />
+                  <Textfield
+                    id="login-password"
+                    type="password"
+                    label="Password"
+                    placeholder="Enter your password"
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={
+                      (touched.password && errors.password) || errors.global
+                    }
+                    auxLink={
+                      <span className="text-muted">
+                        <Link
+                          to="/forgot-password"
+                          className="link link--inherit"
+                        >
+                          Forgot Password?
+                        </Link>
+                      </span>
+                    }
+                  />
+                  <div className="form__submit">
+                    <button className="btn" type="submit">
+                      Login
+                    </button>
+                  </div>
+                  <div>
+                    <Link to="/register" className="link">
+                      Setting up a new account?
                     </Link>
-                  </span>
-                }
-              />
-              <div className="form__submit">
-                <button className="btn" type="submit">
-                  Login
-                </button>
-              </div>
-              <div>
-                <Link to="/register" className="link">
-                  Setting up a new account?
-                </Link>
-              </div>
-            </fieldset>
-          </form>
+                  </div>
+                </fieldset>
+              </form>
+            )}
+          </Formik>
         </PageCard>
       </Container>
       <GlobalFooter className="global-footer--simple" />

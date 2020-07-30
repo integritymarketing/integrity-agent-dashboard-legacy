@@ -8,40 +8,51 @@ const Textfield = ({
   label,
   placeholder,
   type = "text",
-  inputProps = {},
   className = "",
   auxLink = null,
-  ...props
+  inputClassName = "",
+  wrapperProps = {},
+  error = null,
+  success: hasSuccess = false,
+  focusBanner = null,
+  focusBannerVisible = true,
+  ...inputProps
 }) => {
   const [passwordsVisible, setPasswordsVisible] = useState(false);
   const inputEl = useRef(null);
-  const hasError = false;
-  const hasSuccess = false;
   const classes = [
     "textfield",
     className,
-    hasError ? "textfield--error" : "",
+    !!error ? "textfield--error" : "",
     hasSuccess ? "textfield--success" : "",
   ]
     .filter((x) => x.trim() !== "")
     .join(" ");
   const displayType = type === "password" && passwordsVisible ? "text" : type;
   return (
-    <div className={classes} {...props}>
+    <div className={classes} {...wrapperProps}>
       <div className="textfield__header">
         <label htmlFor={id} className="label">
           {label}
         </label>
         {auxLink}
       </div>
-      <div className="textfield__input">
+      <div
+        className={`textfield__input ${
+          focusBannerVisible ? "textfield__input--show-banner" : ""
+        }`}
+      >
         <input
           id={id}
           type={displayType}
           ref={inputEl}
           placeholder={placeholder}
+          className={inputClassName}
           {...inputProps}
         />
+        {focusBanner && (
+          <div className="textfield__focus-banner">{focusBanner}</div>
+        )}
         <div className="textfield__input-actions">
           {type === "password" && (
             <button
@@ -56,11 +67,11 @@ const Textfield = ({
               <PasswordRevealIcon />
             </button>
           )}
-          {hasError && <ErrorIcon />}
+          {error && <ErrorIcon />}
           {hasSuccess && <SuccessIcon />}
         </div>
       </div>
-      <div className="textfield__error mt-1">Error Message</div>
+      <div className="textfield__error mt-1">{error}</div>
     </div>
   );
 };

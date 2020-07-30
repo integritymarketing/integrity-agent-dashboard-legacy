@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Formik } from "formik";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
+import validationService from "services/validation";
 
 export default () => {
   return (
@@ -25,20 +27,54 @@ export default () => {
             it we will send you a reset link.
           </p>
 
-          <form action="/reset-sent" className="form">
-            <fieldset className="form__fields">
-              <Textfield
-                id="forgot-password-npn"
-                label="NPN Number"
-                placeholder="Enter your NPN Number"
-              />
-              <div className="form__submit">
-                <button className="btn" type="submit">
-                  Submit
-                </button>
-              </div>
-            </fieldset>
-          </form>
+          <Formik
+            initialValues={{ npn: "" }}
+            initialErrors={{ global: validationService.getPageErrors() }}
+            validate={(values) => {
+              const errors = {};
+
+              errors.npn = validationService.validateNPN(values.npn);
+
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
+              setSubmitting(false);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+            }) => (
+              <form
+                action="/reset-sent"
+                className="form"
+                onSubmit={handleSubmit}
+              >
+                <fieldset className="form__fields">
+                  <Textfield
+                    id="forgot-password-npn"
+                    label="NPN Number"
+                    placeholder="Enter your NPN Number"
+                    name="npn"
+                    value={values.npn}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={(touched.npn && errors.npn) || errors.global}
+                  />
+                  <div className="form__submit">
+                    <button className="btn" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </fieldset>
+              </form>
+            )}
+          </Formik>
         </PageCard>
       </Container>
       <GlobalFooter className="global-footer--simple" />
