@@ -73,6 +73,9 @@ export default () => {
                     error={
                       (touched.password && errors.password) || errors.global
                     }
+                    success={
+                      touched.password && !errors.password && !errors.global
+                    }
                     focusBanner={
                       <div className="form-tip">
                         <p>Your password must: </p>
@@ -85,7 +88,7 @@ export default () => {
                         </ul>
                       </div>
                     }
-                    focusBannerVisible={!touched.password || !!errors.password}
+                    focusBannerVisible={!!errors.password}
                   />
                   <Textfield
                     id="new-password-repeat"
@@ -99,6 +102,11 @@ export default () => {
                     error={
                       (touched.passwordRepeat && errors.passwordRepeat) ||
                       errors.global
+                    }
+                    success={
+                      touched.passwordRepeat &&
+                      !errors.passwordRepeat &&
+                      !errors.global
                     }
                   />
                   <div className="form__submit">

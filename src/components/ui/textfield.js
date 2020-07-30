@@ -13,18 +13,17 @@ const Textfield = ({
   inputClassName = "",
   wrapperProps = {},
   error = null,
+  success: hasSuccess = false,
   focusBanner = null,
   focusBannerVisible = true,
   ...inputProps
 }) => {
   const [passwordsVisible, setPasswordsVisible] = useState(false);
   const inputEl = useRef(null);
-  const hasError = error;
-  const hasSuccess = false;
   const classes = [
     "textfield",
     className,
-    hasError ? "textfield--error" : "",
+    !!error ? "textfield--error" : "",
     hasSuccess ? "textfield--success" : "",
   ]
     .filter((x) => x.trim() !== "")
@@ -68,7 +67,7 @@ const Textfield = ({
               <PasswordRevealIcon />
             </button>
           )}
-          {hasError && <ErrorIcon />}
+          {error && <ErrorIcon />}
           {hasSuccess && <SuccessIcon />}
         </div>
       </div>
