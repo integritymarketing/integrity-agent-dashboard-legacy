@@ -50,36 +50,49 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             <span>{userProfile.fullName}</span>
           </div>
           <ul>
-            {primary.map((link, idx) => {
-              return (
-                <li className="mt-3" key={idx}>
-                  <link.component className="link link--invert" {...link.props}>
-                    {link.label}
-                  </link.component>
-                </li>
-              );
-            })}
-            {secondary.map((link, idx) => {
-              return (
-                <li className="mt-3" key={idx}>
-                  <link.component className="link link--invert" {...link.props}>
-                    {link.label}
-                  </link.component>
-                </li>
-              );
-            })}
+            {primary
+              .filter((link) => link.format !== "large")
+              .map((link, idx) => {
+                return (
+                  <li className="mt-3" key={idx}>
+                    <link.component
+                      className="link link--invert"
+                      {...link.props}
+                    >
+                      {link.label}
+                    </link.component>
+                  </li>
+                );
+              })}
+            {secondary
+              .filter((link) => link.format !== "large")
+              .map((link, idx) => {
+                return (
+                  <li className="mt-3" key={idx}>
+                    <link.component
+                      className="link link--invert"
+                      {...link.props}
+                    >
+                      {link.label}
+                    </link.component>
+                  </li>
+                );
+              })}
           </ul>
         </div>
         <div className="modal-nav__links modal-nav__links--secondary pt-4">
           <div className="modal-nav__hdg">Need Help?</div>
           <ul>
             <li className="mt-3">
-              <a href="#tel-link" className="link link--invert">
+              <a href="tel:+1-651-555-1234" className="link link--invert">
                 Call Support
               </a>
             </li>
             <li className="mt-3">
-              <a href="#mailto-link" className="link link--invert">
+              <a
+                href="mailto:support@medicarecenter.com"
+                className="link link--invert"
+              >
                 Email Support
               </a>
             </li>

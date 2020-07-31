@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowDownIcon from "components/icons/arrow-down";
 import useUserProfile from "hooks/useUserProfile";
 
@@ -20,15 +20,17 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
 
   return (
     <ul className="divided-hlist text-muted-light">
-      {primary.map((link, idx) => {
-        return (
-          <li key={idx}>
-            <link.component className="link" {...link.props}>
-              {link.label}
-            </link.component>
-          </li>
-        );
-      })}
+      {primary
+        .filter((link) => link.format !== "small")
+        .map((link, idx) => {
+          return (
+            <li key={idx}>
+              <link.component className="link" {...link.props}>
+                {link.label}
+              </link.component>
+            </li>
+          );
+        })}
       <li>
         <div
           className={`dropdown-menu dropdown-menu--${
@@ -43,15 +45,20 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             <ArrowDownIcon />
           </button>
           <ul className="dropdown-menu__items">
-            {secondary.map((link, idx) => {
-              return (
-                <li key={idx}>
-                  <link.component className="link link--invert" {...link.props}>
-                    {link.label}
-                  </link.component>
-                </li>
-              );
-            })}
+            {secondary
+              .filter((link) => link.format !== "small")
+              .map((link, idx) => {
+                return (
+                  <li key={idx}>
+                    <link.component
+                      className="link link--invert"
+                      {...link.props}
+                    >
+                      {link.label}
+                    </link.component>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </li>
