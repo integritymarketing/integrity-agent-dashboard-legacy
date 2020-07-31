@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ArrowDownIcon from "components/icons/arrow-down";
 import useUserProfile from "hooks/useUserProfile";
 

@@ -6,6 +6,7 @@ import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import Logo from "partials/logo";
 import Modal from "components/ui/modal";
+import ContactInfo from "partials/contact-info";
 import "./index.scss";
 
 const HelpButtonWithModal = ({ ...props }) => {
@@ -18,23 +19,7 @@ const HelpButtonWithModal = ({ ...props }) => {
         {...props}
       ></button>
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <div className="hdg hdg--2 mb-1">Contact Support</div>
-        <p className="mb-4">
-          Call or email one of our support representatives to help resolve your
-          issue.
-        </p>
-        <div className="hdg hdg--3 mb-1">Phone Number</div>
-        <p className="mb-4">
-          <a href="tel:+1-651-555-1234" className="link">
-            651-555-1234
-          </a>
-        </p>
-        <div className="hdg hdg--3 mb-1">Email</div>
-        <p className="mb-4">
-          <a href="mailto:support@medicarecenter.com" className="link">
-            support@medicarecenter.com
-          </a>
-        </p>
+        <ContactInfo />
       </Modal>
     </React.Fragment>
   );

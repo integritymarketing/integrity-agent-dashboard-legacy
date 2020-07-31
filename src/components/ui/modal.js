@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ExitIcon from "components/icons/exit";
 import PageCard from "components/ui/page-card";
+import Container from "components/ui/container";
 
 export default ({ open = false, onClose, children, ...props }) => {
   // close window on ESC
@@ -31,7 +32,7 @@ export default ({ open = false, onClose, children, ...props }) => {
         }
       }}
     >
-      <div className="modal__inner">
+      <Container size="small">
         <PageCard
           className="modal__card"
           header={
@@ -47,7 +48,7 @@ export default ({ open = false, onClose, children, ...props }) => {
         >
           <div className="modal__content">{children}</div>
         </PageCard>
-      </div>
+      </Container>
     </div>
   );
 };
