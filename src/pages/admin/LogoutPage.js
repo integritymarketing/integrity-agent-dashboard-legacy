@@ -1,6 +1,7 @@
 import React from "react";
+import BaseConfirmationPage from "pages/admin/BaseConfirmationPage";
 
-async function logMeOut() {
+async function handleLogout() {
   var query = window.location.search;
   var logoutIdQuery =
     query && query.toLowerCase().indexOf("?logoutid=") === 0 && query;
@@ -13,16 +14,6 @@ async function logMeOut() {
   );
 
   const data = await response.json();
-
-  if (data.signOutIFrameUrl) {
-    var iframe = document.createElement("iframe");
-    iframe.width = 0;
-    iframe.height = 0;
-    iframe.class = "signout";
-    iframe.src = data.signOutIFrameUrl;
-    document.getElementById("logout_iframe").appendChild(iframe);
-  }
-
   if (data.postLogoutRedirectUri) {
     window.location = data.postLogoutRedirectUri;
   } else {
@@ -31,7 +22,12 @@ async function logMeOut() {
 }
 
 export default () => {
-  logMeOut();
+  handleLogout();
 
-  return <div id="logout_iframe"></div>;
+  return (
+    <BaseConfirmationPage
+      title="logging out.."
+      body={`logging out, please wait...`}
+    />
+  );
 };

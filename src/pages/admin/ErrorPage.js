@@ -11,7 +11,7 @@ const fetchError = () => {
   })
     .then((response) => {
       console.log(response.json());
-      //   return response.text();
+      // return response.text();
     })
     .catch((err) => {
       console.error(err);
