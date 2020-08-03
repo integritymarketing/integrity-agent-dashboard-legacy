@@ -5,7 +5,25 @@ import Media from "react-media";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import Logo from "partials/logo";
+import Modal from "components/ui/modal";
+import ContactInfo from "partials/contact-info";
 import "./index.scss";
+
+const HelpButtonWithModal = ({ ...props }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  return (
+    <React.Fragment>
+      <button
+        type="button"
+        onClick={() => setModalOpen(true)}
+        {...props}
+      ></button>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <ContactInfo />
+      </Modal>
+    </React.Fragment>
+  );
+};
 
 export default () => {
   const auth = useContext(AuthContext);
@@ -20,9 +38,9 @@ export default () => {
       ? {
           primary: [
             {
-              component: Link,
-              props: { to: "/help" },
+              component: HelpButtonWithModal,
               label: "Need Help?",
+              format: "large",
             },
             {
               component: Link,
