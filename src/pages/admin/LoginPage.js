@@ -45,8 +45,27 @@ export default () => {
                 values
               );
             }}
-            onSubmit={({ setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
+              setSubmitting(true);
+              values.returnUrl = getQueryVariable("ReturnUrl");
+              const response = await fetch(
+                process.env.REACT_APP_AUTH_API_LOGIN_URL,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  credentials: "include",
+                  body: JSON.stringify(values),
+                }
+              );
+
+              // await server repsonse + redirect to identity server callback
+              const data = await response.json();
               setSubmitting(false);
+              if (data && data.isOk) {
+                window.location = data.redirectUrl;
+              }
             }}
           >
             {({
@@ -57,35 +76,7 @@ export default () => {
               handleChange,
               handleBlur,
             }) => (
-              <form
-                action=""
-                className="form"
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  if (Object.keys(errors).length) {
-                    handleSubmit(e);
-                  } else {
-                    values.returnUrl = getQueryVariable("ReturnUrl");
-                    const response = await fetch(
-                      process.env.REACT_APP_AUTH_API_LOGIN_URL,
-                      {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        credentials: "include",
-                        body: JSON.stringify(values),
-                      }
-                    );
-
-                    // await server repsonse + redirect to identity server callback
-                    const data = await response.json();
-                    if (data && data.isOk) {
-                      window.location = data.redirectUrl;
-                    }
-                  }
-                }}
-              >
+              <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
                     id="login-username"

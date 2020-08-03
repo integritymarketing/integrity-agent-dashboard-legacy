@@ -13,10 +13,6 @@ import {
   UnauthenticatedRoute,
 } from "components/auth/routes";
 
-const RegistrationRoutes = React.lazy(() =>
-  import(/* webpackChunkName: 'server-routes' */ "./server")
-);
-
 export default () => (
   <Switch>
     <Route
@@ -37,11 +33,6 @@ export default () => (
     <AuthenticatedRoute path="/training">
       <TrainingPage />
     </AuthenticatedRoute>
-    {process.env.REACT_APP_BUILD_TARGET === "auth" && (
-      <React.Suspense fallback={null}>
-        <RegistrationRoutes />
-      </React.Suspense>
-    )}
     <Route path="*">
       <NotFoundPage />
     </Route>
