@@ -4,7 +4,6 @@ import DashboardPage from "pages/DashboardPage";
 import TrainingPage from "pages/TrainingPage";
 import LandingPage from "pages/LandingPage";
 import NotFoundPage from "pages/NotFound";
-// import Logout from "components/auth/logout";
 import LogoutCallback from "components/auth/logoutCallback";
 import AuthSilentCallback from "components/auth/authSilentCallback";
 import AuthCallback from "components/auth/authCallback";
@@ -21,8 +20,6 @@ export default () => (
       component={AuthSilentCallback}
     />
     <Route exact={true} path="/signin-oidc" component={AuthCallback} />
-    {/* <Route exact={true} path="/logout" component={Logout} /> */}
-    {/* Maybe instead of a logout page, simply run the oidc logout call method? */}
     <Route exact={true} path="/signout-oidc" component={LogoutCallback} />
     <UnauthenticatedRoute exact path="/">
       <LandingPage />

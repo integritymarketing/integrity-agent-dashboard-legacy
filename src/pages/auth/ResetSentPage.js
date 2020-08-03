@@ -1,5 +1,5 @@
 import React from "react";
-import BaseConfirmationPage from "pages/admin/BaseConfirmationPage";
+import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import ResendButtonWithModal from "partials/resend-email";
 
 export default () => {
@@ -7,7 +7,7 @@ export default () => {
     <BaseConfirmationPage
       footer={<ResendButtonWithModal />}
       title="Thank you"
-      body="Please follow the link sent to your email to complete the registration process."
+      body="If there is an account associated with the email address entered we will send a link to reset your account password."
     />
   );
 };

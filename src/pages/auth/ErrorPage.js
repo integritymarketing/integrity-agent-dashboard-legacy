@@ -1,5 +1,5 @@
 import React from "react";
-import BaseConfirmationPage from "pages/admin/BaseConfirmationPage";
+import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
 const fetchError = () => {
   const query = window.location.search;

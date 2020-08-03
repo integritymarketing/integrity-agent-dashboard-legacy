@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
-import ServerApp from "./ServerApp";
+import AuthApp from "./AuthApp";
 import * as serviceWorker from "./serviceWorker";
 import "focus-visible";
-import routes from "routes/server";
+import routes from "routes/authApp";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ServerApp {...{ routes }} />
+    <AuthApp {...{ routes }} />
   </React.StrictMode>,
   document.getElementById("root")
 );
