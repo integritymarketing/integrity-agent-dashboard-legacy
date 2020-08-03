@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import BaseConfirmationPage from "pages/admin/BaseConfirmationPage";
 
 export default () => {
+  // TODO: re-send email and redirect user
   return (
     <BaseConfirmationPage
       footer={
