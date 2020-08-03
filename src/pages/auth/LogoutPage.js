@@ -1,6 +1,3 @@
-import React from "react";
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
-
 async function handleLogout() {
   var query = window.location.search;
   var logoutIdQuery =
