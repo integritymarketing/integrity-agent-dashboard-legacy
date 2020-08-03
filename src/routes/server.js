@@ -11,6 +11,8 @@ import RegistrationCompletedPage from "pages/admin/RegistrationCompletedPage";
 import NewEmailPage from "pages/admin/NewEmailPage";
 import EmailUpdatedPage from "pages/admin/EmailUpdatedPage";
 import LinkExpiredPage from "pages/admin/LinkExpiredPage";
+import ErrorPage from "pages/admin/ErrorPage";
+import LogoutPage from "pages/admin/LogoutPage";
 
 export default () => (
   <Switch>
@@ -40,6 +42,12 @@ export default () => (
     </Route>
     <Route exact path="/link-expired">
       <LinkExpiredPage />
+    </Route>
+    <Route exact path="/error">
+      <ErrorPage />
+    </Route>
+    <Route exact path="/logout">
+      <LogoutPage />
     </Route>
     <Route exact path="/registration-confirmed">
       <RegistrationConfirmedPage />

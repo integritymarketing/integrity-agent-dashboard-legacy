@@ -8,6 +8,17 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 
+const getQueryVariable = (variable) => {
+  const query = window.location.search.substring(1);
+  const vars = query.split("&");
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split("=");
+    if (decodeURIComponent(pair[0]) === variable) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+};
+
 export default () => {
   return (
     <div className="content-frame bg-admin text-muted">
@@ -17,13 +28,13 @@ export default () => {
           <h1 className="hdg hdg--2 mb-3">Login to your account</h1>
 
           <Formik
-            initialValues={{ npn: "", password: "" }}
+            initialValues={{ username: "", password: "" }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
                   {
-                    name: "npn",
+                    name: "username",
                     validator: validationService.validateNPN,
                   },
                   {
@@ -34,8 +45,7 @@ export default () => {
                 values
               );
             }}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
+            onSubmit={({ setSubmitting }) => {
               setSubmitting(false);
             }}
           >
@@ -50,24 +60,43 @@ export default () => {
               <form
                 action=""
                 className="form"
-                onSubmit={(e) => {
-                  // get around e.preventDefault to submit form natively
+                onSubmit={async (e) => {
+                  e.preventDefault();
                   if (Object.keys(errors).length) {
                     handleSubmit(e);
+                  } else {
+                    values.returnUrl = getQueryVariable("ReturnUrl");
+                    const response = await fetch(
+                      process.env.REACT_APP_AUTH_API_LOGIN_URL,
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        credentials: "include",
+                        body: JSON.stringify(values),
+                      }
+                    );
+
+                    // await server repsonse + redirect to identity server callback
+                    const data = await response.json();
+                    if (data && data.isOk) {
+                      window.location = data.redirectUrl;
+                    }
                   }
                 }}
               >
                 <fieldset className="form__fields">
                   <Textfield
-                    id="login-npn"
+                    id="login-username"
                     label="NPN Number"
                     placeholder="Enter your NPN Number"
-                    name="npn"
-                    value={values.npn}
+                    name="username"
+                    value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.npn && errors.npn) ||
+                      (touched.username && errors.username) ||
                       (errors.global &&
                         " ") /* Simulates empty error, full error is shown for password field */
                     }
