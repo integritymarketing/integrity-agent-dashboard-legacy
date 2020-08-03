@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import * as Sentry from "@sentry/react";
 import "./index.scss";
 import AuthApp from "./AuthApp";
 import * as serviceWorker from "./serviceWorker";
