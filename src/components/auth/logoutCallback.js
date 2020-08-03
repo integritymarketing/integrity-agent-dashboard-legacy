@@ -5,7 +5,7 @@ export default () => (
   <AuthContext.Consumer>
     {({ signoutRedirectCallback }) => {
       signoutRedirectCallback();
-      return <span>loading</span>;
+      return "<span>loading</span>";
     }}
   </AuthContext.Consumer>
 );
