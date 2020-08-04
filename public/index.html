@@ -64,28 +64,6 @@
         window.location.replace("/unsupported.html");
       }
     </script>
-    <script>
-      window.REACT_APP_SERVER_CONFIG = {
-        forms: {
-          csrf: "csrf token for submitting page form",
-          errors: [
-            {
-              type: "invalid-login",
-              message: "Sorry, that login info didn't work",
-            },
-          ],
-        },
-        paths: {
-          login: "/login",
-          register: "/register",
-          forgotPassword: "/forgot-password",
-          // etc.
-        },
-        appInstance: {
-          host: "http://localhost:3000",
-        },
-      };
-    </script>
     <!-- Google Tag Manager -->
     <script>
       (function (w, d, s, l, i) {
