@@ -1,28 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
-const fetchError = () => {
+const fetchError = async () => {
   const query = window.location.search;
   const errorIdQuery =
     query && query.toLowerCase().indexOf("?errorid=") === 0 && query;
 
-  fetch(`${process.env.REACT_APP_AUTH_API_ERROR_URL}` + errorIdQuery, {
-    credentials: "include",
-  })
-    .then((response) => {
-      console.log(response.json());
-      // return response.text();
-    })
-    .catch((err) => {
-      console.error(err);
-      return "";
-    });
+  let response = await fetch(
+    process.env.REACT_APP_AUTH_AUTHORITY_URL + "/error" + errorIdQuery
+  );
+  return response.text();
 };
 
 export default () => {
-  fetchError();
-
+  useEffect(() => {
+    fetchError().then((error) => {
+      throw Error(error);
+    }, []);
+  });
   return (
-    <BaseConfirmationPage title="We’re sorry" body={`An error occurred`} />
+    <BaseConfirmationPage
+      title="We’re sorry"
+      body="An internal server error occurred.  We are looking into the problem, please try again later."
+      button=""
+    />
   );
 };

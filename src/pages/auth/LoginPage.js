@@ -49,7 +49,7 @@ export default () => {
               setSubmitting(true);
               values.returnUrl = getQueryVariable("ReturnUrl");
               const response = await fetch(
-                process.env.REACT_APP_AUTH_API_LOGIN_URL,
+                process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/login",
                 {
                   method: "POST",
                   headers: {
@@ -64,7 +64,10 @@ export default () => {
               const data = await response.json();
               setSubmitting(false);
               if (data && data.isOk) {
+                console.log(data.redirectUrl);
                 window.location = data.redirectUrl;
+              } else {
+                // handle validation error
               }
             }}
           >

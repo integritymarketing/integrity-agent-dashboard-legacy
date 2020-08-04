@@ -4,7 +4,9 @@ async function handleLogout() {
     query && query.toLowerCase().indexOf("?logoutid=") === 0 && query;
 
   const response = await fetch(
-    process.env.REACT_APP_AUTH_API_LOGOUT_URL + logoutIdQuery,
+    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+      "/api/account/logout" +
+      logoutIdQuery,
     {
       credentials: "include",
     }
@@ -15,7 +17,7 @@ async function handleLogout() {
   if (data.postLogoutRedirectUri) {
     window.location = data.postLogoutRedirectUri;
   } else {
-    console.error("no logout redirect URL present!");
+    console.error("no logout redirect URL present.");
   }
 }
 
