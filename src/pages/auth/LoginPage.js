@@ -8,15 +8,9 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 
-const getQueryVariable = (variable) => {
-  const query = window.location.search.substring(1);
-  const vars = query.split("&");
-  for (let i = 0; i < vars.length; i++) {
-    let pair = vars[i].split("=");
-    if (decodeURIComponent(pair[0]) === variable) {
-      return decodeURIComponent(pair[1]);
-    }
-  }
+const getQueryVariable = (queryVariable) => {
+  let searchParams = new URLSearchParams(window.location.search);
+  return searchParams.get(queryVariable);
 };
 
 export default () => {
@@ -64,7 +58,6 @@ export default () => {
               const data = await response.json();
               setSubmitting(false);
               if (data && data.isOk) {
-                console.log(data.redirectUrl);
                 window.location = data.redirectUrl;
               } else {
                 // handle validation error

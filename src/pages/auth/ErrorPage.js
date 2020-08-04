@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
 const fetchError = async () => {
-  const query = window.location.search;
-  const errorIdQuery =
-    query && query.toLowerCase().indexOf("?errorid=") === 0 && query;
-
+  let searchParams = new URLSearchParams(window.location.search);
   let response = await fetch(
-    process.env.REACT_APP_AUTH_AUTHORITY_URL + "/error" + errorIdQuery
+    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+      "/error?errorId=" +
+      searchParams.get("errorId")
   );
   return response.text();
 };

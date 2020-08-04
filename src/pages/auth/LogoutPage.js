@@ -1,28 +1,24 @@
-async function handleLogout() {
-  var query = window.location.search;
-  var logoutIdQuery =
-    query && query.toLowerCase().indexOf("?logoutid=") === 0 && query;
+import { useEffect } from "react";
 
-  const response = await fetch(
+async function handleLogout() {
+  let searchParams = new URLSearchParams(window.location.search);
+  let response = await fetch(
     process.env.REACT_APP_AUTH_AUTHORITY_URL +
-      "/api/account/logout" +
-      logoutIdQuery,
-    {
-      credentials: "include",
-    }
+      "/api/account/logout?logoutid=" +
+      searchParams.get("logoutId")
   );
 
   const data = await response.json();
-
   if (data.postLogoutRedirectUri) {
     window.location = data.postLogoutRedirectUri;
   } else {
-    console.error("no logout redirect URL present.");
+    throw Error("no logout redirect URL present in logout routine.");
   }
 }
 
 export default () => {
-  handleLogout();
-
+  useEffect(() => {
+    handleLogout();
+  }, []);
   return "";
 };
