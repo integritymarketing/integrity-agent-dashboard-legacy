@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import BaseConfirmationPage from "pages/admin/BaseConfirmationPage";
+import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
 export default () => {
   // TODO: re-send email and redirect user

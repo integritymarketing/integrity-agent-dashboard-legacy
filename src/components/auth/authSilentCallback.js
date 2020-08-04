@@ -5,7 +5,7 @@ export default () => (
   <AuthContext.Consumer>
     {({ signinSilentCallback }) => {
       signinSilentCallback();
-      return <span>loading</span>;
+      return "";
     }}
   </AuthContext.Consumer>
 );
