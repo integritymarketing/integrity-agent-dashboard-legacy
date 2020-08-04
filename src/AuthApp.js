@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "routes/server";
+import AuthAppRoutes from "routes/authApp";
 
-const App = () => {
+const AuthApp = () => {
   return (
     <Router>
       <div className="content-frame">
-        <AppRoutes />
+        <AuthAppRoutes />
       </div>
     </Router>
   );
 };
 
-export default App;
+export default AuthApp;

@@ -1,16 +1,18 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import RegisterPage from "pages/admin/RegisterPage";
-import LoginPage from "pages/admin/LoginPage";
-import ForgotPasswordPage from "pages/admin/ForgotPasswordPage";
-import ResetSentPage from "pages/admin/ResetSentPage";
-import NewPasswordPage from "pages/admin/NewPasswordPage";
-import PasswordUpdatedPage from "pages/admin/PasswordUpdatedPage";
-import RegistrationConfirmedPage from "pages/admin/RegistrationConfirmedPage";
-import RegistrationCompletedPage from "pages/admin/RegistrationCompletedPage";
-import NewEmailPage from "pages/admin/NewEmailPage";
-import EmailUpdatedPage from "pages/admin/EmailUpdatedPage";
-import LinkExpiredPage from "pages/admin/LinkExpiredPage";
+import RegisterPage from "pages/auth/RegisterPage";
+import LoginPage from "pages/auth/LoginPage";
+import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
+import ResetSentPage from "pages/auth/ResetSentPage";
+import NewPasswordPage from "pages/auth/NewPasswordPage";
+import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
+import RegistrationConfirmedPage from "pages/auth/RegistrationConfirmedPage";
+import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
+import NewEmailPage from "pages/auth/NewEmailPage";
+import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
+import LinkExpiredPage from "pages/auth/LinkExpiredPage";
+import ErrorPage from "pages/auth/ErrorPage";
+import LogoutPage from "pages/auth/LogoutPage";
 
 export default () => (
   <Switch>
@@ -40,6 +42,12 @@ export default () => (
     </Route>
     <Route exact path="/link-expired">
       <LinkExpiredPage />
+    </Route>
+    <Route exact path="/error">
+      <ErrorPage />
+    </Route>
+    <Route exact path="/logout">
+      <LogoutPage />
     </Route>
     <Route exact path="/registration-confirmed">
       <RegistrationConfirmedPage />
