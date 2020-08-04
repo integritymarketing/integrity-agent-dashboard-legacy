@@ -2,7 +2,9 @@
 
 An agent portal implemented using React and [Create React App](https://create-react-app.dev/).
 
-[https://ae-agent-portal-prod.netlify.app](https://ae-agent-portal-prod.netlify.app)
+[Main Portal App](https://ae-agent-portal-prod.netlify.app)
+
+[Auth App](https://ae-auth-prod.netlify.app)
 
 ## Contents
 
@@ -110,4 +112,4 @@ Automatically built from the `master` branch. All builds must be manually publis
 
 ## Error logging
 
-[https://sentry.io/organizations/integrity-marketing-org/issues/?project=5316442](Sentry) used to track errors, and is also integrated into the netlify build process.
+[Sentry](https://sentry.io/organizations/integrity-marketing-org/issues/?project=5316442) used to track errors, and is also integrated into the netlify build process.
