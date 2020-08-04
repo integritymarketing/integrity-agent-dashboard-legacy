@@ -65,9 +65,14 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 
 ## Environments
 
-All builds are automatically created via Netlify's out of the box CI/CD build process to the four environments below:
+All builds are automatically created via Netlify's out of the box CI/CD build process to the four environments below.
+There are two build targets. App + Auth
 
-### Development
+### Build Target: App
+
+Typical App target builds are triggered using the `REACT_APP_BUILD_TARGET=app` env variable.
+
+#### Development
 
 [https://ae-agent-portal-develop.netlify.app/](https://ae-agent-portal-develop.netlify.app/)
 
@@ -75,21 +80,31 @@ Automatically built + published from the `develop` branch.
 
 Deploy preview apps are also automatically generated with each new pull request created. (eg. https://deploy-preview-x--ae-agent-portal-develop.netlify.app/)
 
-### QA
+#### QA
 
 [https://ae-agent-portal-qa.netlify.app/](https://ae-agent-portal-qa.netlify.app/)
 
 Automatically built + published from the `develop` branch.
 
-### Stage
+#### Stage
 
 [https://ae-agent-portal-stage.netlify.app/](https://ae-agent-portal-stage.netlify.app/)
 
 Automatically built + published from the `master` branch.
 
-### Production
+#### Production
 
 [https://ae-agent-portal-prod.netlify.app/](https://ae-agent-portal-prod.netlify.app/)
+
+Automatically built from the `master` branch. All builds must be manually published.
+
+### Build Target: Auth
+
+Auth target builds are triggered using the `REACT_APP_BUILD_TARGET=auth` env variable.
+
+#### Production
+
+[https://ae-auth-prod.netlify.app/](https://ae-auth-prod.netlify.app/)
 
 Automatically built from the `master` branch. All builds must be manually published.
 
