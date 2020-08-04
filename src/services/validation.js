@@ -27,6 +27,8 @@ class ValidationService {
           return `${label} must include at least one lowercase letter`;
         } else if (!/[0-9]/.test(password)) {
           return `${label} must include at least one number`;
+        } else {
+          return null;
         }
       },
     ])(password, label);
