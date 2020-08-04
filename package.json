@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "rescripts start",
-    "start:auth": "cross-env REACT_APP_BUILD_TARGET=auth PORT=3001 rescripts start",
+    "start:auth": "cross-env REACT_APP_BUILD_TARGET=auth PORT=3001 BROWSER=none rescripts start",
     "build": "rescripts build",
     "test": "rescripts test",
     "e2e:local": "nightwatch -c tests/conf/nightwatch-local.conf.js",
