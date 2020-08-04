@@ -67,7 +67,8 @@ ol {
   font-weight: inherit;
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &--body {
     color: var(--brand-text-hover-color);
     text-decoration: underline;
   }
@@ -102,7 +103,8 @@ ol {
   margin: 0;
   border-radius: 0.125em;
   cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease; // TODO: determine global transition default
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease; // TODO: determine global transition default
   min-width: (140 / 16) * 1rem;
   text-decoration: none;
 
@@ -151,12 +153,35 @@ ol {
   }
 }
 
+.btn--invert {
+  color: var(--brand-text-color);
+  background-color: var(--main-bg-color);
+  border-color: var(--main-bg-color);
+
+  &:hover:not(.btn--disabled):not([disabled]) {
+    background-color: var(--disabled-color);
+    border-color: var(--disabled-color);
+    color: var(--brand-text-color);
+  }
+
+  &[disabled],
+  &.btn--disabled {
+    background-color: var(--main-bg-color);
+    border-color: var(--disabled-color);
+    color: var(--disabled-color);
+  }
+}
+
 .bg-high-contrast {
   background: var(--main-bg-color);
 }
 
 .bg-admin {
   background: var(--admin-bg-color);
+}
+
+.bg-brand-gradient {
+  background: var(--brand-bg-gradient);
 }
 
 .text-invert {
@@ -450,6 +475,11 @@ $spacings: (
 .text-body {
   font-size: 1rem;
   line-height: 1.5;
+
+  &--large {
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
 }
 
 // Small Form Factor Utils

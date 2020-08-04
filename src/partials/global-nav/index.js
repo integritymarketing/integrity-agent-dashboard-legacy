@@ -25,7 +25,7 @@ const HelpButtonWithModal = ({ ...props }) => {
   );
 };
 
-export default () => {
+export default ({ color = "default", menuHidden = false }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -34,7 +34,7 @@ export default () => {
       navOpen,
       setNavOpen,
     },
-    auth.isAuthenticated()
+    auth.isAuthenticated() && !menuHidden
       ? {
           primary: [
             {
@@ -74,10 +74,10 @@ export default () => {
     <header className="global-nav">
       <h1 className="global-nav__title">
         <Link to="/">
-          <Logo />
+          <Logo {...{ color }} />
         </Link>
       </h1>
-      {auth.isAuthenticated() && (
+      {auth.isAuthenticated() && !menuHidden && (
         <nav className="global-nav__links">
           {/*
           Causes console error in dev env only due to this issue
