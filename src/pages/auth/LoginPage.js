@@ -28,7 +28,7 @@ export default () => {
               return validationService.validateMultiple(
                 [
                   {
-                    name: "username",
+                    name: "username", // aka NPN
                     validator: validationService.validateNPN,
                   },
                   {

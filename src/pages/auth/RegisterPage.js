@@ -27,15 +27,15 @@ export default () => {
             initialValues={{
               firstName: "",
               lastName: "",
-              npn: "",
+              npn: "", // aka NPN
               email: "",
               emailRepeat: "",
               password: "",
-              passwordRepeat: "",
+              confirmPassword: "",
             }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
-              return validationService.validateMultiple(
+              let res = validationService.validateMultiple(
                 [
                   {
                     name: "firstName",
@@ -67,7 +67,7 @@ export default () => {
                     validator: validationService.validatePasswordCreation,
                   },
                   {
-                    name: "passwordRepeat",
+                    name: "confirmPassword",
                     validator: validationService.validateFieldMatch(
                       values.password
                     ),
@@ -75,9 +75,30 @@ export default () => {
                 ],
                 values
               );
+              console.log(res);
+              return res;
             }}
-            onSubmit={(values, { setSubmitting, submitForm }) => {
+            onSubmit={async (values, { setSubmitting }) => {
+              setSubmitting(true);
+              const response = await fetch(
+                process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                  "/api/account/register",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  credentials: "include",
+                  body: JSON.stringify(values),
+                }
+              );
+
+              const data = await response.json();
               setSubmitting(false);
+              if (data && data.isOk) {
+              } else {
+                // handle validation error
+              }
             }}
           >
             {({
@@ -88,16 +109,7 @@ export default () => {
               handleChange,
               handleBlur,
             }) => (
-              <form
-                action=""
-                className="form"
-                onSubmit={(e) => {
-                  // get around e.preventDefault to submit form natively
-                  if (Object.keys(errors).length) {
-                    handleSubmit(e);
-                  }
-                }}
-              >
+              <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
                     id="register-fname"
@@ -192,17 +204,17 @@ export default () => {
                     type="password"
                     label="Re-enter Password"
                     placeholder="Re-enter your new password"
-                    name="passwordRepeat"
-                    value={values.passwordRepeat}
+                    name="confirmPassword"
+                    value={values.confirmPassword}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.passwordRepeat && errors.passwordRepeat) ||
+                      (touched.confirmPassword && errors.confirmPassword) ||
                       errors.global
                     }
                     success={
-                      touched.passwordRepeat &&
-                      !errors.passwordRepeat &&
+                      touched.confirmPassword &&
+                      !errors.confirmPassword &&
                       !errors.global
                     }
                   />

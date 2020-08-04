@@ -8,6 +8,7 @@ class ValidationService {
   };
 
   validateNPN = (npn, label = "NPN") => {
+    let valid = this.validateRequired(npn, label);
     return this.validateRequired(npn, label);
   };
 
@@ -27,6 +28,8 @@ class ValidationService {
           return `${label} must include at least one lowercase letter`;
         } else if (!/[0-9]/.test(password)) {
           return `${label} must include at least one number`;
+        } else {
+          return null;
         }
       },
     ])(password, label);
@@ -53,7 +56,10 @@ class ValidationService {
   composeValidator = (validators) => {
     return (...validatorArgs) =>
       validators.reduce((result, validator) => {
-        if (result) return result;
+        if (result) {
+          console.log(result);
+          return result;
+        }
         return validator(...validatorArgs);
       }, null);
   };

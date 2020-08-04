@@ -28,18 +28,37 @@ export default () => {
           </p>
 
           <Formik
-            initialValues={{ npn: "" }}
+            initialValues={{ username: "" }} // aka npn
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               const errors = {};
-
-              errors.npn = validationService.validateNPN(values.npn);
-
+              let usernameErr = validationService.validateNPN(values.username);
+              if (usernameErr) {
+                errors.username = usernameErr;
+              }
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
+            onSubmit={async (values, { setSubmitting }) => {
+              setSubmitting(true);
+              const response = await fetch(
+                process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                  "/api/account/forgotpassword",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  credentials: "include",
+                  body: JSON.stringify(values),
+                }
+              );
+
+              const data = await response.json();
               setSubmitting(false);
+              if (data && data.isOk) {
+              } else {
+                // handle validation error
+              }
             }}
           >
             {({
@@ -50,21 +69,19 @@ export default () => {
               handleChange,
               handleBlur,
             }) => (
-              <form
-                action="/reset-sent"
-                className="form"
-                onSubmit={handleSubmit}
-              >
+              <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
-                    id="forgot-password-npn"
-                    label="NPN Number"
-                    placeholder="Enter your NPN Number"
-                    name="npn"
-                    value={values.npn}
+                    id="forgot-password-username"
+                    label="NPN NumberNPN Number"
+                    placeholder="Enter your username Number"
+                    name="username"
+                    value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.npn && errors.npn) || errors.global}
+                    error={
+                      (touched.username && errors.username) || errors.global
+                    }
                   />
                   <div className="form__submit">
                     <button className="btn" type="submit">
