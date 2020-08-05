@@ -4,11 +4,13 @@ async function handleLogout() {
   let searchParams = new URLSearchParams(window.location.search);
   let response = await fetch(
     process.env.REACT_APP_AUTH_AUTHORITY_URL +
-      "/api/account/logout?logoutid=" +
-      searchParams.get("logoutId")
+      "/api/account/logout?logoutId=" +
+      searchParams.get("logoutId"),
+    { credentials: "include" }
   );
 
   const data = await response.json();
+
   if (data.postLogoutRedirectUri) {
     window.location = data.postLogoutRedirectUri;
   } else {
