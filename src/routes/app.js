@@ -4,6 +4,7 @@ import DashboardPage from "pages/DashboardPage";
 import TrainingPage from "pages/TrainingPage";
 import LandingPage from "pages/LandingPage";
 import NotFoundPage from "pages/NotFound";
+import TermsPage from "pages/TermsPage";
 import LogoutCallback from "components/auth/logoutCallback";
 import AuthSilentCallback from "components/auth/authSilentCallback";
 import AuthCallback from "components/auth/authCallback";
@@ -29,6 +30,9 @@ export default () => (
     </AuthenticatedRoute>
     <AuthenticatedRoute path="/training">
       <TrainingPage />
+    </AuthenticatedRoute>
+    <AuthenticatedRoute path="/terms">
+      <TermsPage />
     </AuthenticatedRoute>
     <Route path="*">
       <NotFoundPage />
