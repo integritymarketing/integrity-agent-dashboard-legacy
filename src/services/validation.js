@@ -8,7 +8,6 @@ class ValidationService {
   };
 
   validateNPN = (npn, label = "NPN") => {
-    let valid = this.validateRequired(npn, label);
     return this.validateRequired(npn, label);
   };
 
