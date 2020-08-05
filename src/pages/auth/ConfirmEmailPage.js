@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
-async function handleComfirmEmail() {
-  const history = useHistory();
+async function handleComfirmEmail(history) {
   const searchParams = new URLSearchParams(window.location.search);
   const body = {
     npn: searchParams.get("npn"),
@@ -22,16 +21,20 @@ async function handleComfirmEmail() {
   );
 
   if (response.status >= 200 && response.status < 300) {
-    history.push("/registration-complete");
+    window.location("/registration-complete");
+    // history.push("registration-complete");
   } else {
+    console.log("bad request");
     // const data = await response.json();
-    // handle 400 if password reset limit is reached?
+    // handle 400 and show error?
   }
 }
 
+// how to useHistory w/ handleConfirmEmail inside useEffect
 export default () => {
   useEffect(() => {
     handleComfirmEmail();
   }, []);
+
   return "";
 };
