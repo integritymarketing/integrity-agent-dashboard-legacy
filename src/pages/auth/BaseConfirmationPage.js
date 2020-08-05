@@ -5,6 +5,9 @@ import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 
+// TODO: This should hit the portal's redirect to the auth login so the OIDC
+// values are set correctly
+// set a portal url env var and window.location to it.
 const defaultButton = () => (
   <Link to="/login" className="btn">
     Back to Login

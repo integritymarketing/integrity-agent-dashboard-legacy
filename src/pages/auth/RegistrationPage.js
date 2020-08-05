@@ -93,8 +93,10 @@ export default () => {
 
               const data = await response.json();
               setSubmitting(false);
-              if (data && data.isOk) {
+              if (data) {
+                console.log(data);
               } else {
+                console.log("validation error");
                 // handle validation error
               }
             }}

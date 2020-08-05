@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Container from "components/ui/container";
@@ -10,6 +11,8 @@ import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
 
 export default () => {
+  const history = useHistory();
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -53,11 +56,11 @@ export default () => {
                 }
               );
 
-              const data = await response.json();
               setSubmitting(false);
-              if (data && data.isOk) {
+              if (response.status >= 200 && response.status < 300) {
+                history.push("/password-reset-sent");
               } else {
-                // handle validation error
+                // handle 400 if password reset limit is reached?
               }
             }}
           >

@@ -1,12 +1,13 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import RegisterPage from "pages/auth/RegisterPage";
+import RegisterPage from "pages/auth/RegistrationPage";
 import LoginPage from "pages/auth/LoginPage";
 import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
-import ResetSentPage from "pages/auth/ResetSentPage";
+import ForgotPasswordResetSentPage from "pages/auth/ForgotPasswordResetSentPage";
 import NewPasswordPage from "pages/auth/NewPasswordPage";
 import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
 import ConfirmEmailPage from "pages/auth/ConfirmEmailPage";
+import RegistrationCheckEmailPage from "pages/auth/RegistrationCheckEmailPage";
 import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
@@ -25,8 +26,8 @@ export default () => (
     <Route exact path="/forgot-password">
       <ForgotPasswordPage />
     </Route>
-    <Route exact path="/reset-sent">
-      <ResetSentPage />
+    <Route exact path="/password-reset-sent">
+      <ForgotPasswordResetSentPage />
     </Route>
     <Route exact path="/new-password">
       <NewPasswordPage />
@@ -51,6 +52,9 @@ export default () => (
     </Route>
     <Route exact path="/confirm-email">
       <ConfirmEmailPage />
+    </Route>
+    <Route exact path="/registration-check-email">
+      <RegistrationCheckEmailPage />
     </Route>
     <Route exact path="/registration-complete">
       <RegistrationCompletedPage />

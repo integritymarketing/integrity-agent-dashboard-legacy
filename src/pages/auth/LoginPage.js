@@ -57,6 +57,7 @@ export default () => {
               // await server repsonse + redirect to identity server callback
               const data = await response.json();
               setSubmitting(false);
+
               if (data && data.isOk) {
                 window.location = data.redirectUrl;
               } else {
