@@ -22,13 +22,13 @@ export default () => {
           <h1 className="hdg hdg--2 mb-3">Login to your account</h1>
 
           <Formik
-            initialValues={{ username: "", password: "" }}
+            initialValues={{ npn: "", password: "" }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
                   {
-                    name: "username",
+                    name: "npn",
                     validator: validationService.validateNPN,
                   },
                   {
@@ -75,15 +75,15 @@ export default () => {
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
-                    id="login-username"
+                    id="login-npn"
                     label="NPN Number"
                     placeholder="Enter your NPN Number"
-                    name="username"
-                    value={values.username}
+                    name="npn"
+                    value={values.npn}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.username && errors.username) ||
+                      (touched.npn && errors.npn) ||
                       (errors.global &&
                         " ") /* Simulates empty error, full error is shown for password field */
                     }

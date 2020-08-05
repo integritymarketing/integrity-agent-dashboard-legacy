@@ -6,7 +6,7 @@ import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
 import ResetSentPage from "pages/auth/ResetSentPage";
 import NewPasswordPage from "pages/auth/NewPasswordPage";
 import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
-import RegistrationConfirmedPage from "pages/auth/RegistrationConfirmedPage";
+import ConfirmEmailPage from "pages/auth/ConfirmEmailPage";
 import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
@@ -49,8 +49,8 @@ export default () => (
     <Route exact path="/logout">
       <LogoutPage />
     </Route>
-    <Route exact path="/registration-confirmed">
-      <RegistrationConfirmedPage />
+    <Route exact path="/confirm-email">
+      <ConfirmEmailPage />
     </Route>
     <Route exact path="/registration-complete">
       <RegistrationCompletedPage />
