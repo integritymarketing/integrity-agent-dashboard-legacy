@@ -55,10 +55,7 @@ class ValidationService {
   composeValidator = (validators) => {
     return (...validatorArgs) =>
       validators.reduce((result, validator) => {
-        if (result) {
-          console.log(result);
-          return result;
-        }
+        if (result) return result;
         return validator(...validatorArgs);
       }, null);
   };

@@ -28,13 +28,13 @@ export default () => {
           </p>
 
           <Formik
-            initialValues={{ username: "" }} // aka npn
+            initialValues={{ npn: "" }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               const errors = {};
-              let usernameErr = validationService.validateNPN(values.username);
-              if (usernameErr) {
-                errors.username = usernameErr;
+              let npnErr = validationService.validateNPN(values.npn);
+              if (npnErr) {
+                errors.npn = npnErr;
               }
               return errors;
             }}
@@ -72,16 +72,14 @@ export default () => {
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
-                    id="forgot-password-username"
-                    label="NPN NumberNPN Number"
-                    placeholder="Enter your username Number"
-                    name="username"
-                    value={values.username}
+                    id="forgot-password-npn"
+                    label="NPN Number"
+                    placeholder="Enter your npn Number"
+                    name="npn"
+                    value={values.npn}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={
-                      (touched.username && errors.username) || errors.global
-                    }
+                    error={(touched.npn && errors.npn) || errors.global}
                   />
                   <div className="form__submit">
                     <button className="btn" type="submit">

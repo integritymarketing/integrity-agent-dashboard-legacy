@@ -27,7 +27,7 @@ export default () => {
             initialValues={{
               firstName: "",
               lastName: "",
-              npn: "", // aka NPN
+              npn: "",
               email: "",
               emailRepeat: "",
               password: "",
@@ -35,7 +35,7 @@ export default () => {
             }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
-              let res = validationService.validateMultiple(
+              return validationService.validateMultiple(
                 [
                   {
                     name: "firstName",
@@ -75,8 +75,6 @@ export default () => {
                 ],
                 values
               );
-              console.log(res);
-              return res;
             }}
             onSubmit={async (values, { setSubmitting }) => {
               setSubmitting(true);
