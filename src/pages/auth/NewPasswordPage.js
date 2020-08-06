@@ -7,6 +7,15 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 
+const getParamsForBody = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  return {
+    npn: searchParams.get("npn"),
+    token: searchParams.get("token"),
+    email: searchParams.get("email"),
+  };
+};
+
 export default () => {
   return (
     <div className="content-frame bg-admin text-muted">
@@ -16,7 +25,7 @@ export default () => {
           <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
 
           <Formik
-            initialValues={{ password: "", passwordRepeat: "" }}
+            initialValues={{ password: "", confirmPassword: "" }}
             initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               return validationService.validateMultiple(
@@ -26,7 +35,7 @@ export default () => {
                     validator: validationService.validatePasswordCreation,
                   },
                   {
-                    name: "passwordRepeat",
+                    name: "confirmPassword",
                     validator: validationService.validateFieldMatch(
                       values.password
                     ),
@@ -35,8 +44,31 @@ export default () => {
                 values
               );
             }}
-            onSubmit={(values, { setSubmitting, submitForm }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
+              setSubmitting(true);
+
+              let body = { ...values, ...getParamsForBody() };
+              const response = await fetch(
+                process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                  "/api/account/resetpassword",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  credentials: "include",
+                  body: JSON.stringify(body),
+                }
+              );
+
+              const data = await response.json();
               setSubmitting(false);
+
+              if (response.status >= 200 && response.status < 300) {
+                history.push("password-updated");
+              } else {
+                setErrors(data);
+              }
             }}
           >
             {({
@@ -47,16 +79,7 @@ export default () => {
               handleChange,
               handleBlur,
             }) => (
-              <form
-                action="/password-updated"
-                className="form"
-                onSubmit={(e) => {
-                  // get around e.preventDefault to submit form natively
-                  if (Object.keys(errors).length) {
-                    handleSubmit(e);
-                  }
-                }}
-              >
+              <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
                     id="new-password"
@@ -92,17 +115,17 @@ export default () => {
                     type="password"
                     label="Re-enter New Password"
                     placeholder="Re-enter your new password"
-                    name="passwordRepeat"
-                    value={values.passwordRepeat}
+                    name="confirmPassword"
+                    value={values.confirmPassword}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.passwordRepeat && errors.passwordRepeat) ||
+                      (touched.confirmPassword && errors.confirmPassword) ||
                       errors.global
                     }
                     success={
-                      touched.passwordRepeat &&
-                      !errors.passwordRepeat &&
+                      touched.confirmPassword &&
+                      !errors.confirmPassword &&
                       !errors.global
                     }
                   />

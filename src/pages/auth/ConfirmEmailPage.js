@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 async function handleComfirmEmail() {
   const searchParams = new URLSearchParams(window.location.search);
   const body = {
-    NPN: searchParams.get("npn"),
+    npn: searchParams.get("npn"),
     token: searchParams.get("token"),
   };
   return await fetch(
