@@ -41,7 +41,7 @@ export default () => {
               }
               return errors;
             }}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL +
@@ -60,7 +60,8 @@ export default () => {
               if (response.status >= 200 && response.status < 300) {
                 history.push("/password-reset-sent");
               } else {
-                // handle 400 if password reset limit is reached?
+                const data = await response.json();
+                setErrors(data);
               }
             }}
           >
