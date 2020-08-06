@@ -13,7 +13,7 @@ import RegistrationCheckEmailPage from "pages/auth/RegistrationCheckEmailPage";
 import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
 
 import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
-import ForgotPasswordResetSentPage from "pages/auth/ForgotPasswordResetSentPage";
+import ForgotPasswordSentPage from "pages/auth/ForgotPasswordSentPage";
 import NewPasswordPage from "pages/auth/NewPasswordPage";
 import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
 
@@ -50,14 +50,15 @@ export default () => (
       <ForgotPasswordPage />
     </Route>
     <Route exact path="/password-reset-sent">
-      <ForgotPasswordResetSentPage />
+      <ForgotPasswordSentPage />
     </Route>
-    <Route exact path="/new-password">
+    <Route exact path="/reset-password">
       <NewPasswordPage />
     </Route>
     <Route exact path="/password-updated">
       <PasswordUpdatedPage />
     </Route>
+
     <Route exact path="/update-email">
       <NewEmailPage />
     </Route>
