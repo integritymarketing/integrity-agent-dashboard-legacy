@@ -6,11 +6,12 @@ import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
+import useFlashMessage from "hooks/useFlashMessage";
 
 export default () => {
   const userProfile = useUserProfile();
   const { firstName, lastName, npn, email } = userProfile;
-  console.log(userProfile);
+  const { show: showMessage } = useFlashMessage();
 
   return (
     <React.Fragment>
@@ -53,7 +54,9 @@ export default () => {
                 );
               }}
               onSubmit={async (values, { setSubmitting }) => {
-                setSubmitting(true);
+                showMessage("Your account info has been updated.");
+                console.log(values);
+                setSubmitting(false);
                 // TODO: hook up form submit
               }}
             >
@@ -150,6 +153,7 @@ export default () => {
               onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
                 // TODO: hook up form submit
+                showMessage("Your password has been updated.");
               }}
             >
               {({
