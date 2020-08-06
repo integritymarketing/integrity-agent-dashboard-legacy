@@ -6,7 +6,6 @@ import PasswordRevealIcon from "components/icons/password-reveal";
 const Textfield = ({
   id,
   label,
-  placeholder,
   type = "text",
   className = "",
   auxLink = null,
@@ -16,6 +15,7 @@ const Textfield = ({
   success: hasSuccess = false,
   focusBanner = null,
   focusBannerVisible = true,
+  readOnly,
   ...inputProps
 }) => {
   const [passwordsVisible, setPasswordsVisible] = useState(false);
@@ -23,6 +23,7 @@ const Textfield = ({
   const classes = [
     "textfield",
     className,
+    !!readOnly ? "textfield--readonly" : "",
     !!error ? "textfield--error" : "",
     hasSuccess ? "textfield--success" : "",
   ]
@@ -43,10 +44,9 @@ const Textfield = ({
         }`}
       >
         <input
-          id={id}
+          {...{ readOnly, id }}
           type={displayType}
           ref={inputEl}
-          placeholder={placeholder}
           className={inputClassName}
           {...inputProps}
         />
