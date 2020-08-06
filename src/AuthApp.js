@@ -1,18 +1,25 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import RegisterPage from "pages/auth/RegisterPage";
-import LoginPage from "pages/auth/LoginPage";
+
+// the following routes are configured in IdentityServer
+// and are redirected to for each common auth situation
+import ServerLoginPage from "pages/auth/ServerLoginPage";
+import ServerLogoutPage from "pages/auth/ServerLogoutPage";
+import ServerErrorPage from "pages/auth/ServerErrorPage";
+
+import RegistrationPage from "pages/auth/RegistrationPage";
+import ConfirmEmailPage from "pages/auth/ConfirmEmailPage";
+import RegistrationCheckEmailPage from "pages/auth/RegistrationCheckEmailPage";
+import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
+
 import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
-import ResetSentPage from "pages/auth/ResetSentPage";
+import ForgotPasswordSentPage from "pages/auth/ForgotPasswordSentPage";
 import NewPasswordPage from "pages/auth/NewPasswordPage";
 import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
-import ConfirmEmailPage from "pages/auth/ConfirmEmailPage";
-import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
+
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 import LinkExpiredPage from "pages/auth/LinkExpiredPage";
-import ErrorPage from "pages/auth/ErrorPage";
-import LogoutPage from "pages/auth/LogoutPage";
 
 const AuthApp = () => {
   return (
@@ -20,43 +27,50 @@ const AuthApp = () => {
       <div className="content-frame">
         <Switch>
           <Route exact path="/login">
-            <LoginPage />
-          </Route>
-          <Route exact path="/register">
-            <RegisterPage />
-          </Route>
-          <Route exact path="/forgot-password">
-            <ForgotPasswordPage />
-          </Route>
-          <Route exact path="/reset-sent">
-            <ResetSentPage />
-          </Route>
-          <Route exact path="/new-password">
-            <NewPasswordPage />
-          </Route>
-          <Route exact path="/password-updated">
-            <PasswordUpdatedPage />
-          </Route>
-          <Route exact path="/update-email">
-            <NewEmailPage />
-          </Route>
-          <Route exact path="/email-updated">
-            <EmailUpdatedPage />
-          </Route>
-          <Route exact path="/link-expired">
-            <LinkExpiredPage />
-          </Route>
-          <Route exact path="/error">
-            <ErrorPage />
+            <ServerLoginPage />
           </Route>
           <Route exact path="/logout">
-            <LogoutPage />
+            <ServerLogoutPage />
+          </Route>
+          <Route exact path="/error">
+            <ServerErrorPage />
+          </Route>
+
+          <Route exact path="/register">
+            <RegistrationPage />
+          </Route>
+          <Route exact path="/registration-check-email">
+            <RegistrationCheckEmailPage />
           </Route>
           <Route exact path="/confirm-email">
             <ConfirmEmailPage />
           </Route>
           <Route exact path="/registration-complete">
             <RegistrationCompletedPage />
+          </Route>
+
+          <Route exact path="/forgot-password">
+            <ForgotPasswordPage />
+          </Route>
+          <Route exact path="/password-reset-sent">
+            <ForgotPasswordSentPage />
+          </Route>
+          <Route exact path="/reset-password">
+            <NewPasswordPage />
+          </Route>
+          <Route exact path="/password-updated">
+            <PasswordUpdatedPage />
+          </Route>
+
+          <Route exact path="/update-email">
+            <NewEmailPage />
+          </Route>
+          <Route exact path="/email-updated">
+            <EmailUpdatedPage />
+          </Route>
+
+          <Route exact path="/link-expired">
+            <LinkExpiredPage />
           </Route>
         </Switch>
       </div>

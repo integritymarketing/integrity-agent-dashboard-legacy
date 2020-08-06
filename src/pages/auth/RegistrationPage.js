@@ -98,7 +98,7 @@ export default () => {
               setSubmitting(false);
 
               if (response.status >= 200 && response.status < 300) {
-                history.push("registration-check-email");
+                history.push(`registration-check-email?npn=${values.npn}`);
               } else {
                 setErrors(data);
               }

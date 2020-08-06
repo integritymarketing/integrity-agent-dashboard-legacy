@@ -2,11 +2,33 @@ import React, { useState } from "react";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 
-export default ({ ...props }) => {
+export default ({ resendFn, npn }) => {
   const [emailSent, setEmailSent] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // TODO: call API to resend email
+  if (emailError) {
+    return (
+      <React.Fragment>
+        <div className="text-center text-body">
+          Sorry, there was a problem resending the email.
+          <br />
+          If the problem persists,{" "}
+          <button
+            type="button"
+            className="link"
+            onClick={() => setModalOpen(true)}
+          >
+            please contact support
+          </button>
+          .
+        </div>
+        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+          <ContactInfo />
+        </Modal>
+      </React.Fragment>
+    );
+  }
   if (!emailSent) {
     return (
       <div className="text-center text-body">
@@ -14,7 +36,14 @@ export default ({ ...props }) => {
         <button
           type="button"
           className="link"
-          onClick={() => setEmailSent(true)}
+          onClick={async () => {
+            let response = await resendFn(npn);
+            if (response.status >= 200 && response.status < 300) {
+              setEmailSent(true);
+            } else {
+              setEmailError(true);
+            }
+          }}
         >
           Resend now
         </button>
