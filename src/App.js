@@ -5,6 +5,7 @@ import authService from "services/auth";
 import DashboardPage from "pages/DashboardPage";
 import TrainingPage from "pages/TrainingPage";
 import LandingPage from "pages/LandingPage";
+import AccountPage from "pages/AccountPage";
 import NotFoundPage from "pages/NotFound";
 import LogoutCallback from "components/auth/logoutCallback";
 import AuthSilentCallback from "components/auth/authSilentCallback";
@@ -36,6 +37,9 @@ const App = () => {
             </UnauthenticatedRoute>
             <AuthenticatedRoute exact path="/dashboard">
               <DashboardPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute exact path="/account">
+              <AccountPage />
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/training">
               <TrainingPage />
