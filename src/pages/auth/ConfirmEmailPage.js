@@ -51,7 +51,6 @@ export default () => {
         <BaseConfirmationPage
           title="We're sorry, but something went wrong"
           body={error}
-          button=""
         />
       ) : (
         ""
