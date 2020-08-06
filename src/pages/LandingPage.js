@@ -22,7 +22,7 @@ export default () => {
 
     // if there is an issue w/ automatic redirect, render backup fragment
     // with button to allow user to manually start flow
-    setInterval(function () {
+    setTimeout(function () {
       setError(true);
     }, 3000);
   }, [auth]);
