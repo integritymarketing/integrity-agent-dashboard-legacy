@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
@@ -10,6 +11,8 @@ import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
 
 export default () => {
+  const history = useHistory();
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />

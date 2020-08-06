@@ -6,6 +6,7 @@ import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
+import { useHistory } from "react-router-dom";
 
 const getParamsForBody = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -17,6 +18,8 @@ const getParamsForBody = () => {
 };
 
 export default () => {
+  const history = useHistory();
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />

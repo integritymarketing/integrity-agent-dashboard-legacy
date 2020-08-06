@@ -10,9 +10,9 @@ export default () => {
     <BaseConfirmationPage
       footer={
         <div className="text-center text-body">
-          <a className="link" onClick={redirectAndRestartLoginFlow}>
+          <button className="link" onClick={redirectAndRestartLoginFlow}>
             Want to try a different email address?
-          </a>
+          </button>
         </div>
       }
       title="We’re sorry"
