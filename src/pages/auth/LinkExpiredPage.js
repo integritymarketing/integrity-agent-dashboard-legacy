@@ -1,16 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
+const redirectAndRestartLoginFlow = () => {
+  window.location = process.env.REACT_APP_PORTAL_HOST_URL;
+};
+
 export default () => {
-  // TODO: re-send email and redirect user
   return (
     <BaseConfirmationPage
       footer={
         <div className="text-center text-body">
-          <Link to="/register" className="link">
+          <a className="link" onClick={redirectAndRestartLoginFlow}>
             Want to try a different email address?
-          </Link>
+          </a>
         </div>
       }
       title="We’re sorry"

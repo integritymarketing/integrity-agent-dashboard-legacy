@@ -76,7 +76,7 @@ export default () => {
                 values
               );
             }}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL +
@@ -93,11 +93,11 @@ export default () => {
 
               const data = await response.json();
               setSubmitting(false);
-              if (data) {
-                console.log(data);
+
+              if (response.status >= 200 && response.status < 300) {
+                history.push("registration-check-email");
               } else {
-                console.log("validation error");
-                // handle validation error
+                setErrors(data);
               }
             }}
           >
