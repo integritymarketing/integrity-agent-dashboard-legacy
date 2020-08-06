@@ -39,7 +39,7 @@ export default () => {
                 values
               );
             }}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               values.returnUrl = getQueryVariable("ReturnUrl");
               const response = await fetch(
@@ -61,7 +61,7 @@ export default () => {
               if (data && data.isOk) {
                 window.location = data.redirectUrl;
               } else {
-                // handle validation error
+                setErrors(data);
               }
             }}
           >
