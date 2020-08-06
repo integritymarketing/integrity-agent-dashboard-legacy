@@ -1,14 +1,15 @@
-import { useEffect } from "react";
-// import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
-async function handleComfirmEmail(history) {
+async function handleComfirmEmail() {
   const searchParams = new URLSearchParams(window.location.search);
   const body = {
     npn: searchParams.get("npn"),
     token: searchParams.get("token"),
   };
 
-  const response = await fetch(
+  return await fetch(
     process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/confirmemail",
     {
       method: "POST",
@@ -19,22 +20,42 @@ async function handleComfirmEmail(history) {
       body: JSON.stringify(body),
     }
   );
-
-  if (response.status >= 200 && response.status < 300) {
-    window.location("/registration-complete");
-    // history.push("registration-complete");
-  } else {
-    console.log("bad request");
-    // const data = await response.json();
-    // handle 400 and show error?
-  }
 }
 
-// how to useHistory w/ handleConfirmEmail inside useEffect
 export default () => {
-  useEffect(() => {
-    handleComfirmEmail();
-  }, []);
+  const history = useHistory();
+  const [error, setError] = useState(false);
 
-  return "";
+  useEffect(() => {
+    async function confirmEmail() {
+      let response = await handleComfirmEmail();
+      if (response.status >= 200 && response.status < 300) {
+        history.push("registration-complete");
+      } else {
+        let errorObj = await response.json();
+        if (errorObj.npn) {
+          setError(errorObj.npn);
+        } else {
+          setError("Please try again or contact support.");
+        }
+        throw Error(errorObj);
+      }
+    }
+
+    confirmEmail();
+  }, [history]);
+
+  return (
+    <React.Fragment>
+      {error ? (
+        <BaseConfirmationPage
+          title="We're sorry, but something went wrong"
+          body={error}
+          button=""
+        />
+      ) : (
+        ""
+      )}
+    </React.Fragment>
+  );
 };
