@@ -44,6 +44,12 @@ ol {
   list-style: none;
 }
 
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
 .content-frame {
   display: flex;
   flex-direction: column;

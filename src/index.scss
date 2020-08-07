@@ -13,7 +13,6 @@
   text-decoration: none;
   font-size: inherit;
   line-height: inherit;
-  font-family: inherit;
   font-weight: inherit;
   cursor: pointer;
 
@@ -45,7 +44,6 @@
   color: var(--invert-text-color);
   background: var(--brand-bg-color);
   border: 2px solid var(--brand-bg-color);
-  font-family: inherit;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
@@ -280,6 +278,7 @@
   padding: 0;
   margin: 0;
   color: inherit;
+  cursor: pointer;
 }
 
 .icon-flip {
@@ -323,5 +322,27 @@
       top: -1rem;
       right: #{get-clamp-val(-24, -56)};
     }
+  }
+}
+
+.flash-message {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  width: 100%;
+  background-color: var(--success-state-color);
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem 1rem;
+  align-items: center;
+
+  &__content {
+    margin-right: 1rem;
+  }
+
+  &__actions {
+    margin-left: auto;
   }
 }
