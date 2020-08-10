@@ -11,10 +11,6 @@
   padding: 0;
   display: inline;
   text-decoration: none;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: inherit;
-  cursor: pointer;
 
   &:hover,
   &--body {
@@ -186,29 +182,46 @@
 }
 
 .card__title {
+  display: flex;
   font-size: 1.25rem;
   line-height: (24 / 20);
   font-weight: 700;
   margin-bottom: 1.5rem;
 }
 
+.card__icon {
+  margin: 0.25rem 1rem 0 0;
+}
+
 .card__actions {
   display: flex;
   margin-top: auto;
 
-  > * {
-    flex: 1 0 0%;
-  }
-
-  > * + * {
-    margin: 0 0 0 2rem;
-  }
-
-  @media (max-width: 399px) {
-    flex-direction: column;
-    > * + * {
-      margin: 1rem 0 0;
+  &--multi {
+    > * {
+      flex: 1 0 0%;
     }
+
+    > * + * {
+      margin: 0 0 0 2rem;
+    }
+
+    @media (max-width: 399px) {
+      flex-direction: column;
+      > * + * {
+        margin: 1rem 0 0;
+      }
+    }
+  }
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+
+  &__right {
+    padding-left: 1rem;
+    margin-left: auto;
   }
 }
 

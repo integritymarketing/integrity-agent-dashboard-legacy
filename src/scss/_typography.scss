@@ -51,21 +51,29 @@
   text-align: center;
 }
 
+.text-bold {
+  font-weight: bold;
+}
+
 .text-body,
 .wysiwyg p {
   font-size: 1rem;
   line-height: 1.5;
+}
 
-  &--large {
-    font-size: 1.25rem;
-    line-height: 1.2;
-  }
+.text-body--large {
+  font-size: 1.25rem;
+  line-height: 1.2;
 }
 
 // Small Form Factor Utils
 @media (max-width: 767px) {
   .sf-text-center {
     text-align: center;
+  }
+
+  .sf-hide {
+    display: none !important;
   }
 }
 

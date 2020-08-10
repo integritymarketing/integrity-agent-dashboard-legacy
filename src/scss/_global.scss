@@ -50,6 +50,15 @@ textarea {
   font-family: inherit;
 }
 
+button {
+  background: none;
+  border: 0;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
+
 .content-frame {
   display: flex;
   flex-direction: column;
@@ -87,8 +96,12 @@ textarea {
 $spacings: (
   "mt": "margin-top",
   "mb": "margin-bottom",
+  "mr": "margin-right",
+  "ml": "margin-left",
   "pt": "padding-top",
   "pb": "padding-bottom",
+  "pr": "padding-right",
+  "pl": "padding-left",
 );
 
 @each $abbr, $prop in $spacings {
@@ -105,4 +118,8 @@ $spacings: (
       #{$prop}: var(--fixed-space-#{$i});
     }
   }
+}
+
+.border-bottom {
+  border-bottom: 1px solid;
 }

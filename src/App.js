@@ -8,7 +8,7 @@ import {
 import AuthContext from "contexts/auth";
 import authService from "services/auth";
 import DashboardPage from "pages/DashboardPage";
-import TrainingPage from "pages/TrainingPage";
+import ResourcesPage from "pages/ResourcesPage";
 import LandingPage from "pages/LandingPage";
 import AccountPage from "pages/AccountPage";
 import NotFoundPage from "pages/NotFound";
@@ -67,8 +67,8 @@ const App = () => {
               <AuthenticatedRoute exact path="/account">
                 <AccountPage />
               </AuthenticatedRoute>
-              <AuthenticatedRoute path="/training">
-                <TrainingPage />
+              <AuthenticatedRoute path="/resources">
+                <ResourcesPage />
               </AuthenticatedRoute>
               <AuthenticatedRoute path="/terms">
                 <TermsPage />

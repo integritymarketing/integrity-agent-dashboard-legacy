@@ -1,7 +1,13 @@
 import React from "react";
 import ArrowRightIcon from "components/icons/arrow-right";
 
-export default ({ icon = null, children = null, className = "", ...props }) => {
+export default ({
+  icon = null,
+  actionIcon = <ArrowRightIcon />,
+  children = null,
+  className = "",
+  ...props
+}) => {
   return (
     <a
       rel="nofollow noreferrer"
@@ -15,7 +21,7 @@ export default ({ icon = null, children = null, className = "", ...props }) => {
       )}
       <span className="line-item__body">{children}</span>
       <span className="line-item__next" aria-hidden="true">
-        <ArrowRightIcon />
+        {actionIcon}
       </span>
     </a>
   );
