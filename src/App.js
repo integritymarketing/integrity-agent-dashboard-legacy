@@ -1,5 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from "react-router-dom";
 import AuthContext from "contexts/auth";
 import authService from "services/auth";
 import DashboardPage from "pages/DashboardPage";
@@ -7,6 +12,8 @@ import ResourcesPage from "pages/ResourcesPage";
 import LandingPage from "pages/LandingPage";
 import AccountPage from "pages/AccountPage";
 import NotFoundPage from "pages/NotFound";
+import TermsPage from "pages/TermsPage";
+import PrivacyPage from "pages/PrivacyPage";
 import LogoutCallback from "components/auth/logoutCallback";
 import AuthSilentCallback from "components/auth/authSilentCallback";
 import AuthCallback from "components/auth/authCallback";
@@ -17,10 +24,21 @@ import {
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>
       <Router>
+        <ScrollToTop />
         <FlashProvider>
           <FlashMessage />
           <div className="content-frame">
@@ -51,6 +69,12 @@ const App = () => {
               </AuthenticatedRoute>
               <AuthenticatedRoute path="/resources">
                 <ResourcesPage />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/terms">
+                <TermsPage />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/privacy">
+                <PrivacyPage />
               </AuthenticatedRoute>
               <Route path="*">
                 <NotFoundPage />

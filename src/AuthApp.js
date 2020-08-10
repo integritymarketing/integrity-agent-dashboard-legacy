@@ -1,5 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from "react-router-dom";
 import RegisterPage from "pages/auth/RegisterPage";
 import LoginPage from "pages/auth/LoginPage";
 import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
@@ -14,9 +19,20 @@ import LinkExpiredPage from "pages/auth/LinkExpiredPage";
 import ErrorPage from "pages/auth/ErrorPage";
 import LogoutPage from "pages/auth/LogoutPage";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const AuthApp = () => {
   return (
     <Router>
+      <ScrollToTop />
       <div className="content-frame">
         <Switch>
           <Route exact path="/login">
