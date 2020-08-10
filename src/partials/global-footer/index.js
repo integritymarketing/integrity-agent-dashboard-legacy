@@ -9,7 +9,7 @@ export default ({ className = "", ...props }) => {
           <ul className="divided-hlist">
             <li>
               <a
-                href={`${process.env.REACT_APP_URL || ""}/terms`}
+                href={`${process.env.REACT_APP_PORTAL_URL || ""}/terms`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link link--inherit"
@@ -19,7 +19,7 @@ export default ({ className = "", ...props }) => {
             </li>
             <li>
               <a
-                href={`${process.env.REACT_APP_URL || ""}/privacy`}
+                href={`${process.env.REACT_APP_PORTAL_URL || ""}/privacy`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link link--inherit"
