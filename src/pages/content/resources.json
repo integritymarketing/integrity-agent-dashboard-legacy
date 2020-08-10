@@ -1,0 +1,41 @@
+{
+  "featured": [
+    "Tips for Working Remotely",
+    "Tips for Managing Stress",
+    "Tips for Managing Remote Workers"
+  ],
+  "categories": [
+    {
+      "id": "remote-work",
+      "name": "Working in a Remote World",
+      "icon": "computer"
+    },
+    { "id": "sales-tips", "name": "Sales Tips and Tricks", "icon": "lightbulb" }
+  ],
+  "resources": [
+    {
+      "name": "Tips for Working Remotely",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
+      "categories": ["remote-work"],
+      "url": "https://google.com"
+    },
+    {
+      "name": "Tips for Managing Remote Workers",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
+      "categories": ["remote-work"],
+      "url": "https://google.com"
+    },
+    {
+      "name": "Tips for Managing Stress",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
+      "categories": ["remote-work"],
+      "url": "https://google.com"
+    },
+    {
+      "name": "Using a Positive Tone",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
+      "categories": ["sales-tips"],
+      "url": "https://google.com"
+    }
+  ]
+}

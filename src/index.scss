@@ -51,6 +51,7 @@
     box-shadow 0.2s ease; // TODO: determine global transition default
   min-width: (140 / 16) * 1rem;
   text-decoration: none;
+  text-align: center;
 
   &:hover:not(.btn--disabled):not([disabled]) {
     background-color: var(--brand-bg-hover-color);
