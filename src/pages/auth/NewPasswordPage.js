@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
@@ -17,8 +17,40 @@ const getParamsForBody = () => {
   };
 };
 
+const checkIfValidToken = async () => {
+  let body = getParamsForBody();
+  const response = await fetch(
+    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+      "/api/account/validateresetpasswordtoken",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(body),
+    }
+  );
+
+  if (response.status >= 200 && response.status < 300) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export default () => {
   const history = useHistory();
+
+  useEffect(() => {
+    const validateTokenOrRedirect = async () => {
+      let isValidToken = await checkIfValidToken();
+      if (!isValidToken) {
+        history.push(`link-expired?npn=${getParamsForBody().npn}`);
+      }
+    };
+    validateTokenOrRedirect();
+  }, [history]);
 
   return (
     <div className="content-frame bg-admin text-muted">
