@@ -6,7 +6,7 @@ import GlobalFooter from "partials/global-footer";
 
 const defaultButton = () => {
   const redirectAndRestartLoginFlow = () => {
-    window.location = process.env.REACT_APP_PORTAL_HOST_URL;
+    window.location = process.env.REACT_APP_PORTAL_URL;
   };
 
   return (
