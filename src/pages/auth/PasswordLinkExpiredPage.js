@@ -1,5 +1,6 @@
 import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
+import { useHistory } from "react-router-dom";
 
 const getParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -12,23 +13,32 @@ const redirectAndRestartLoginFlow = () => {
   window.location = process.env.REACT_APP_PORTAL_URL;
 };
 
-const handleResendComfirmEmail = async () => {
-  const body = getParams();
-  return await fetch(
-    process.env.REACT_APP_AUTH_AUTHORITY_URL +
-      "/api/account/resendconfirmemail",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(body),
-    }
-  );
-};
-
 export default () => {
+  const history = useHistory();
+
+  const handleResendForgotPasswordEmail = async () => {
+    const body = getParams();
+
+    const response = await fetch(
+      process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/forgotpassword",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(body),
+      }
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      history.push(`password-reset-sent?npn=${body.npn}`);
+    } else {
+      const data = await response.json();
+      setErrors(data);
+    }
+  };
+
   return (
     <BaseConfirmationPage
       footer={
@@ -44,7 +54,7 @@ export default () => {
         <button
           type="button"
           className="btn"
-          onClick={handleResendComfirmEmail}
+          onClick={handleResendForgotPasswordEmail}
         >
           Resend Email
         </button>

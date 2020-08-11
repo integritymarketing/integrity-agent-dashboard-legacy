@@ -7,6 +7,7 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 import { useHistory } from "react-router-dom";
+import useLoading from "hooks/useLoading";
 
 const getParamsForBody = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -41,6 +42,7 @@ const checkIfValidToken = async () => {
 
 export default () => {
   const history = useHistory();
+  const loading = useLoading();
 
   useEffect(() => {
     const validateTokenOrRedirect = async () => {
@@ -81,6 +83,7 @@ export default () => {
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
+              loading.begin();
 
               let body = { ...values, ...getParamsForBody() };
               const response = await fetch(
@@ -96,12 +99,13 @@ export default () => {
                 }
               );
 
-              const data = await response.json();
               setSubmitting(false);
+              loading.end();
 
               if (response.status >= 200 && response.status < 300) {
                 history.push("password-updated");
               } else {
+                const data = await response.json();
                 setErrors(data);
               }
             }}

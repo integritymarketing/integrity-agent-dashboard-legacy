@@ -64,7 +64,7 @@ export default () => {
               loading.end();
 
               if (response.status >= 200 && response.status < 300) {
-                history.push("/password-reset-sent");
+                history.push(`password-reset-sent?npn=${values.npn}`);
               } else {
                 const data = await response.json();
                 setErrors(data);
