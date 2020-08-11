@@ -8,6 +8,7 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
+import { useHistory } from "react-router-dom";
 
 const getQueryVariable = (queryVariable) => {
   let searchParams = new URLSearchParams(window.location.search);
@@ -16,6 +17,7 @@ const getQueryVariable = (queryVariable) => {
 
 export default () => {
   const loading = useLoading();
+  const history = useHistory();
 
   return (
     <div className="content-frame bg-admin text-muted">
@@ -58,6 +60,19 @@ export default () => {
                   body: JSON.stringify(values),
                 }
               );
+
+              // a 500 server error occurs when invalid OIDC query string params
+              // are present (eg missing ReturnUrl).
+              // catch 500 and send to final error page.
+              if (response.status >= 500) {
+                history.push(
+                  `sorry?message=${encodeURIComponent(
+                    "Something went wrong with your login request.  Please try again."
+                  )}`
+                );
+                loading.end();
+                return;
+              }
 
               const data = await response.json();
               setSubmitting(false);
