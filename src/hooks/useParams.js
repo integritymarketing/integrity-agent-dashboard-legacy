@@ -3,7 +3,7 @@ export default () => {
 
   return {
     get: (param) => {
-      return searchParams.get(param) || undefined;
+      return searchParams.get(param);
     },
   };
 };
