@@ -6,7 +6,8 @@ export default () => {
 
   return {
     ...messageState,
-    show: (message) => setMessageState({ message, isVisible: true }),
+    show: (message, opts = {}) =>
+      setMessageState({ message, isVisible: true, ...opts }),
     dismiss: () => setMessageState({ ...messageState, isVisible: false }),
   };
 };

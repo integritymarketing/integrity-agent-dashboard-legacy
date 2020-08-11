@@ -21,59 +21,65 @@ import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 import LinkExpiredPage from "pages/auth/LinkExpiredPage";
 
+import { FlashProvider } from "contexts/flash";
+import FlashMessage from "partials/flash-message";
+
 const AuthApp = () => {
   return (
     <Router>
-      <div className="content-frame">
-        <Switch>
-          <Route exact path="/login">
-            <ServerLoginPage />
-          </Route>
-          <Route exact path="/logout">
-            <ServerLogoutPage />
-          </Route>
-          <Route exact path="/error">
-            <ServerErrorPage />
-          </Route>
+      <FlashProvider>
+        <FlashMessage />
+        <div className="content-frame">
+          <Switch>
+            <Route exact path="/login">
+              <ServerLoginPage />
+            </Route>
+            <Route exact path="/logout">
+              <ServerLogoutPage />
+            </Route>
+            <Route exact path="/error">
+              <ServerErrorPage />
+            </Route>
 
-          <Route exact path="/register">
-            <RegistrationPage />
-          </Route>
-          <Route exact path="/registration-check-email">
-            <RegistrationCheckEmailPage />
-          </Route>
-          <Route exact path="/confirm-email">
-            <ConfirmEmailPage />
-          </Route>
-          <Route exact path="/registration-complete">
-            <RegistrationCompletedPage />
-          </Route>
+            <Route exact path="/register">
+              <RegistrationPage />
+            </Route>
+            <Route exact path="/registration-check-email">
+              <RegistrationCheckEmailPage />
+            </Route>
+            <Route exact path="/confirm-email">
+              <ConfirmEmailPage />
+            </Route>
+            <Route exact path="/registration-complete">
+              <RegistrationCompletedPage />
+            </Route>
 
-          <Route exact path="/forgot-password">
-            <ForgotPasswordPage />
-          </Route>
-          <Route exact path="/password-reset-sent">
-            <ForgotPasswordSentPage />
-          </Route>
-          <Route exact path="/reset-password">
-            <NewPasswordPage />
-          </Route>
-          <Route exact path="/password-updated">
-            <PasswordUpdatedPage />
-          </Route>
+            <Route exact path="/forgot-password">
+              <ForgotPasswordPage />
+            </Route>
+            <Route exact path="/password-reset-sent">
+              <ForgotPasswordSentPage />
+            </Route>
+            <Route exact path="/reset-password">
+              <NewPasswordPage />
+            </Route>
+            <Route exact path="/password-updated">
+              <PasswordUpdatedPage />
+            </Route>
 
-          <Route exact path="/update-email">
-            <NewEmailPage />
-          </Route>
-          <Route exact path="/email-updated">
-            <EmailUpdatedPage />
-          </Route>
+            <Route exact path="/update-email">
+              <NewEmailPage />
+            </Route>
+            <Route exact path="/email-updated">
+              <EmailUpdatedPage />
+            </Route>
 
-          <Route exact path="/link-expired">
-            <LinkExpiredPage />
-          </Route>
-        </Switch>
-      </div>
+            <Route exact path="/link-expired">
+              <LinkExpiredPage />
+            </Route>
+          </Switch>
+        </div>
+      </FlashProvider>
     </Router>
   );
 };

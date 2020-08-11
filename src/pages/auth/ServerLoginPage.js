@@ -7,6 +7,7 @@ import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
+import useLoading from "hooks/useLoading";
 
 const getQueryVariable = (queryVariable) => {
   let searchParams = new URLSearchParams(window.location.search);
@@ -14,6 +15,10 @@ const getQueryVariable = (queryVariable) => {
 };
 
 export default () => {
+  const loading = useLoading();
+  React.useEffect(() => {
+    loading.begin();
+  });
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -39,29 +44,45 @@ export default () => {
                 values
               );
             }}
-            onSubmit={async (values, { setErrors, setSubmitting }) => {
+            onSubmit={async (
+              values,
+              { setErrors, setSubmitting, submitting }
+            ) => {
               setSubmitting(true);
-              values.returnUrl = getQueryVariable("ReturnUrl");
-              const response = await fetch(
-                process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/login",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  credentials: "include",
-                  body: JSON.stringify(values),
+              loading.begin();
+
+              try {
+                const response = await fetch(
+                  process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                    "/api/account/login",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                      returnUrl: getQueryVariable("ReturnUrl"),
+                      ...values,
+                    }),
+                  }
+                );
+
+                // await server repsonse + redirect to identity server callback
+                const data = await response.json();
+
+                loading.end();
+                setSubmitting(false);
+
+                if (data && data.isOk) {
+                  window.location = data.redirectUrl;
+                } else {
+                  setErrors(data);
                 }
-              );
-
-              // await server repsonse + redirect to identity server callback
-              const data = await response.json();
-              setSubmitting(false);
-
-              if (data && data.isOk) {
-                window.location = data.redirectUrl;
-              } else {
-                setErrors(data);
+              } catch (e) {
+                loading.end();
+                setSubmitting(false);
+                setErrors(e);
               }
             }}
           >
@@ -72,6 +93,7 @@ export default () => {
               handleSubmit,
               handleChange,
               handleBlur,
+              isSubmitting,
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
