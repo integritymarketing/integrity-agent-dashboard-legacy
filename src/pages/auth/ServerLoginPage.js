@@ -46,6 +46,11 @@ export default () => {
               values,
               { setErrors, setSubmitting, submitting }
             ) => {
+              const errorsOnFailure = {
+                npn: " ",
+                password:
+                  "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
+              };
               setSubmitting(true);
               loading.begin();
 
@@ -75,12 +80,12 @@ export default () => {
                 if (data && data.isOk) {
                   window.location = data.redirectUrl;
                 } else {
-                  setErrors(data);
+                  setErrors(errorsOnFailure);
                 }
               } catch (e) {
                 loading.end();
                 setSubmitting(false);
-                setErrors(e);
+                setErrors(errorsOnFailure);
               }
             }}
           >
@@ -102,11 +107,7 @@ export default () => {
                     value={values.npn}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={
-                      (touched.npn && errors.npn) ||
-                      (errors.global &&
-                        " ") /* Simulates empty error, full error is shown for password field */
-                    }
+                    error={(touched.npn && errors.npn) || errors.global}
                   />
                   <Textfield
                     id="login-password"
