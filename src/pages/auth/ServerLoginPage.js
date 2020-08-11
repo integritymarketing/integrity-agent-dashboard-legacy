@@ -9,15 +9,12 @@ import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
-
-const getQueryVariable = (queryVariable) => {
-  let searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get(queryVariable);
-};
+import useParams from "hooks/useParams";
 
 export default () => {
   const loading = useLoading();
   const history = useHistory();
+  const params = useParams();
 
   return (
     <div className="content-frame bg-admin text-muted">
@@ -47,7 +44,7 @@ export default () => {
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               loading.begin();
-              values.returnUrl = getQueryVariable("ReturnUrl");
+              values.returnUrl = params.get("ReturnUrl");
 
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/login",

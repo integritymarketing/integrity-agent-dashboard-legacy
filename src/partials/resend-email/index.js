@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
+import useParams from "hooks/useParams";
 
-export default ({ resendFn, npn }) => {
+export default ({ resendFn }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const params = useParams();
 
   if (emailError) {
     return (
@@ -37,7 +39,7 @@ export default ({ resendFn, npn }) => {
           type="button"
           className="link"
           onClick={async () => {
-            let response = await resendFn(npn);
+            let response = await resendFn(params.get("npn"));
             if (response.status >= 200 && response.status < 300) {
               setEmailSent(true);
             } else {

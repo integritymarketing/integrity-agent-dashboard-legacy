@@ -8,51 +8,48 @@ import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
-
-const getParamsForBody = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  return {
-    npn: searchParams.get("npn"),
-    token: searchParams.get("token"),
-    email: searchParams.get("email"),
-  };
-};
-
-const checkIfValidToken = async () => {
-  let body = getParamsForBody();
-  const response = await fetch(
-    process.env.REACT_APP_AUTH_AUTHORITY_URL +
-      "/api/account/validateresetpasswordtoken",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(body),
-    }
-  );
-
-  if (response.status >= 200 && response.status < 300) {
-    return true;
-  } else {
-    return false;
-  }
-};
+import useParams from "hooks/useParams";
 
 export default () => {
   const history = useHistory();
   const loading = useLoading();
+  const params = useParams();
 
   useEffect(() => {
+    const checkIfValidToken = async () => {
+      const response = await fetch(
+        process.env.REACT_APP_AUTH_AUTHORITY_URL +
+          "/api/account/validateresetpasswordtoken",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            npn: params.get("npn"),
+            token: params.get("token"),
+            email: params.get("email"),
+          }),
+        }
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        return true;
+      } else {
+        return false;
+      }
+    };
     const validateTokenOrRedirect = async () => {
       let isValidToken = await checkIfValidToken();
       if (!isValidToken) {
-        history.push(`password-link-expired?npn=${getParamsForBody().npn}`);
+        history.push(`password-link-expired?npn=${params.get("npn")}`);
       }
     };
+
     validateTokenOrRedirect();
-  }, [history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="content-frame bg-admin text-muted">
@@ -85,7 +82,6 @@ export default () => {
               setSubmitting(true);
               loading.begin();
 
-              let body = { ...values, ...getParamsForBody() };
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL +
                   "/api/account/resetpassword",
@@ -95,7 +91,12 @@ export default () => {
                     "Content-Type": "application/json",
                   },
                   credentials: "include",
-                  body: JSON.stringify(body),
+                  body: JSON.stringify({
+                    ...values,
+                    npn: params.get("npn"),
+                    token: params.get("token"),
+                    email: params.get("email"),
+                  }),
                 }
               );
 

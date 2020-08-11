@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import useParams from "hooks/useParams";
 
-const getParams = () => {
-  const searchParams = new URLSearchParams(window.location.search);
+const bodyFor = (params) => {
   return {
-    npn: searchParams.get("npn"),
-    token: searchParams.get("token"),
+    npn: params.get("npn"),
+    token: params.get("token"),
   };
 };
 
-const handleComfirmEmail = async () => {
-  const body = getParams();
+const handleComfirmEmail = async (body) => {
   return await fetch(
     process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/confirmemail",
     {
@@ -26,20 +25,22 @@ const handleComfirmEmail = async () => {
 
 export default () => {
   const history = useHistory();
+  const params = useParams();
 
   useEffect(() => {
     const confirmEmail = async () => {
-      let response = await handleComfirmEmail();
+      let body = bodyFor(params);
+      let response = await handleComfirmEmail(body);
 
       if (response.status >= 200 && response.status < 300) {
         history.push("registration-complete");
       } else {
-        history.push(`confirm-link-expired?npn=${getParams().npn}`);
+        history.push(`confirm-link-expired?npn=${body.npn}`);
       }
     };
 
     confirmEmail();
-  }, [history]);
+  }, [history, params]);
 
   return "";
 };

@@ -1,23 +1,18 @@
 import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
-
-const getParams = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  return {
-    npn: searchParams.get("npn"),
-  };
-};
-
-const redirectAndRestartLoginFlow = () => {
-  window.location = process.env.REACT_APP_PORTAL_URL;
-};
+import useParams from "hooks/useParams";
 
 export default () => {
   const history = useHistory();
+  const params = useParams();
+
+  const redirectAndRestartLoginFlow = () => {
+    window.location = process.env.REACT_APP_PORTAL_URL;
+  };
 
   const handleResendForgotPasswordEmail = async () => {
-    const body = getParams();
+    const npn = params.get("npn");
 
     const response = await fetch(
       process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/forgotpassword",
@@ -27,12 +22,12 @@ export default () => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify(body),
+        body: JSON.stringify({ npn: npn }),
       }
     );
 
     if (response.status >= 200 && response.status < 300) {
-      history.push(`password-reset-sent?npn=${body.npn}`);
+      history.push(`password-reset-sent?npn=${npn}`);
     } else {
       history.push(
         `sorry?message=${encodeURIComponent(
