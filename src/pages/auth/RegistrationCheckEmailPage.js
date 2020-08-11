@@ -31,7 +31,7 @@ export default () => {
       footer={
         <ResendButtonWithModal
           resendFn={resendComfirmEmail}
-          upn={getParams().upn}
+          npn={getParams().npn}
         />
       }
       title="Thank you"
