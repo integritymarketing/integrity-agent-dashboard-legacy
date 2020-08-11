@@ -42,50 +42,35 @@ export default () => {
                 values
               );
             }}
-            onSubmit={async (
-              values,
-              { setErrors, setSubmitting, submitting }
-            ) => {
-              const errorsOnFailure = {
-                npn: " ",
-                password:
-                  "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
-              };
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               loading.begin();
+              values.returnUrl = getQueryVariable("ReturnUrl");
 
-              try {
-                const response = await fetch(
-                  process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                    "/api/account/login",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({
-                      returnUrl: getQueryVariable("ReturnUrl"),
-                      ...values,
-                    }),
-                  }
-                );
-
-                // await server repsonse + redirect to identity server callback
-                const data = await response.json();
-
-                loading.end();
-                setSubmitting(false);
-
-                if (data && data.isOk) {
-                  window.location = data.redirectUrl;
-                } else {
-                  setErrors(errorsOnFailure);
+              const response = await fetch(
+                process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/login",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  credentials: "include",
+                  body: JSON.stringify(values),
                 }
-              } catch (e) {
-                loading.end();
-                setSubmitting(false);
-                setErrors(errorsOnFailure);
+              );
+
+              const data = await response.json();
+              setSubmitting(false);
+              loading.end();
+
+              if (data && data.isOk) {
+                window.location = data.redirectUrl;
+              } else {
+                setErrors({
+                  npn: " ",
+                  password:
+                    "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
+                });
               }
             }}
           >
