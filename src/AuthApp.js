@@ -13,18 +13,19 @@ import ServerLogoutPage from "pages/auth/ServerLogoutPage";
 import ServerErrorPage from "pages/auth/ServerErrorPage";
 
 import RegistrationPage from "pages/auth/RegistrationPage";
-import ConfirmEmailPage from "pages/auth/ConfirmEmailPage";
+import RegistrationConfirmEmailPage from "pages/auth/RegistrationConfirmEmailPage";
+import RegistrationConfirmLinkExpiredPage from "pages/auth/RegistrationConfirmLinkExpiredPage";
 import RegistrationCheckEmailPage from "pages/auth/RegistrationCheckEmailPage";
 import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
 
 import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
 import ForgotPasswordSentPage from "pages/auth/ForgotPasswordSentPage";
-import NewPasswordPage from "pages/auth/NewPasswordPage";
+import PasswordResetPage from "pages/auth/PasswordResetPage";
+import PasswordLinkExpiredPage from "pages/auth/PasswordLinkExpiredPage";
 import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
 
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
-import LinkExpiredPage from "pages/auth/LinkExpiredPage";
 
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
@@ -64,7 +65,10 @@ const AuthApp = () => {
               <RegistrationCheckEmailPage />
             </Route>
             <Route exact path="/confirm-email">
-              <ConfirmEmailPage />
+              <RegistrationConfirmEmailPage />
+            </Route>
+            <Route exact path="/confirm-link-expired">
+              <RegistrationConfirmLinkExpiredPage />
             </Route>
             <Route exact path="/registration-complete">
               <RegistrationCompletedPage />
@@ -77,7 +81,10 @@ const AuthApp = () => {
               <ForgotPasswordSentPage />
             </Route>
             <Route exact path="/reset-password">
-              <NewPasswordPage />
+              <PasswordResetPage />
+            </Route>
+            <Route exact path="/password-link-expired">
+              <PasswordLinkExpiredPage />
             </Route>
             <Route exact path="/password-updated">
               <PasswordUpdatedPage />
@@ -88,10 +95,6 @@ const AuthApp = () => {
             </Route>
             <Route exact path="/email-updated">
               <EmailUpdatedPage />
-            </Route>
-
-            <Route exact path="/link-expired">
-              <LinkExpiredPage />
             </Route>
           </Switch>
         </div>

@@ -34,7 +34,7 @@ export default () => {
       if (response.status >= 200 && response.status < 300) {
         history.push("registration-complete");
       } else {
-        history.push(`link-expired?npn=${getParams().npn}`);
+        history.push(`confirm-link-expired?npn=${getParams().npn}`);
       }
     };
 

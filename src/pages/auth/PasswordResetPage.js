@@ -46,7 +46,7 @@ export default () => {
     const validateTokenOrRedirect = async () => {
       let isValidToken = await checkIfValidToken();
       if (!isValidToken) {
-        history.push(`link-expired?npn=${getParamsForBody().npn}`);
+        history.push(`password-link-expired?npn=${getParamsForBody().npn}`);
       }
     };
     validateTokenOrRedirect();
