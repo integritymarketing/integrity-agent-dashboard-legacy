@@ -81,6 +81,7 @@ export default () => {
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
+
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL +
                   "/api/account/register",
@@ -94,12 +95,12 @@ export default () => {
                 }
               );
 
-              const data = await response.json();
               setSubmitting(false);
 
               if (response.status >= 200 && response.status < 300) {
                 history.push(`registration-check-email?npn=${values.npn}`);
               } else {
+                const data = await response.json();
                 setErrors(data);
               }
             }}
@@ -197,6 +198,9 @@ export default () => {
                             Include at least one uppercase and lowercase letter
                           </li>
                           <li>Include at least one number</li>
+                          <li>
+                            Include at least one non-alphanumeric character
+                          </li>
                         </ul>
                       </div>
                     }

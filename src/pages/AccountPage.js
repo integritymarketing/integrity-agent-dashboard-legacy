@@ -201,6 +201,9 @@ export default () => {
                               letter
                             </li>
                             <li>Include at least one number</li>
+                            <li>
+                              Include at least one non-alphanumeric character
+                            </li>
                           </ul>
                         </div>
                       }

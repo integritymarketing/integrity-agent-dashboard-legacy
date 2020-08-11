@@ -42,6 +42,7 @@ export default () => {
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               values.returnUrl = getQueryVariable("ReturnUrl");
+
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/login",
                 {
@@ -54,14 +55,17 @@ export default () => {
                 }
               );
 
-              // await server repsonse + redirect to identity server callback
               const data = await response.json();
               setSubmitting(false);
 
               if (data && data.isOk) {
                 window.location = data.redirectUrl;
               } else {
-                setErrors(data);
+                setErrors({
+                  npn: " ",
+                  password:
+                    "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
+                });
               }
             }}
           >
@@ -83,11 +87,7 @@ export default () => {
                     value={values.npn}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={
-                      (touched.npn && errors.npn) ||
-                      (errors.global &&
-                        " ") /* Simulates empty error, full error is shown for password field */
-                    }
+                    error={(touched.npn && errors.npn) || errors.global}
                   />
                   <Textfield
                     id="login-password"

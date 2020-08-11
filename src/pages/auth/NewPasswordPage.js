@@ -140,6 +140,9 @@ export default () => {
                             Include at least one uppercase and lowercase letter
                           </li>
                           <li>Include at least one number</li>
+                          <li>
+                            Include at least one non-alphanumeric character
+                          </li>
                         </ul>
                       </div>
                     }
