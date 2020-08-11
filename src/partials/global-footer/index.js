@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./index.scss";
 
 export default ({ className = "", ...props }) => {
@@ -9,14 +8,24 @@ export default ({ className = "", ...props }) => {
         <nav className="global-footer__links">
           <ul className="divided-hlist">
             <li>
-              <Link to="/terms" className="link link--inherit">
+              <a
+                href={`${process.env.REACT_APP_PORTAL_URL || ""}/terms`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link link--inherit"
+              >
                 Terms of Use
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="/privacy" className="link link--inherit">
+              <a
+                href={`${process.env.REACT_APP_PORTAL_URL || ""}/privacy`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link link--inherit"
+              >
                 Privacy Policy
-              </Link>
+              </a>
             </li>
           </ul>
         </nav>

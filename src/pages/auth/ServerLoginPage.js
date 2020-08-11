@@ -7,6 +7,7 @@ import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
+import useLoading from "hooks/useLoading";
 
 const getQueryVariable = (queryVariable) => {
   let searchParams = new URLSearchParams(window.location.search);
@@ -14,6 +15,8 @@ const getQueryVariable = (queryVariable) => {
 };
 
 export default () => {
+  const loading = useLoading();
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -41,6 +44,7 @@ export default () => {
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
+              loading.begin();
               values.returnUrl = getQueryVariable("ReturnUrl");
 
               const response = await fetch(
@@ -57,6 +61,7 @@ export default () => {
 
               const data = await response.json();
               setSubmitting(false);
+              loading.end();
 
               if (data && data.isOk) {
                 window.location = data.redirectUrl;

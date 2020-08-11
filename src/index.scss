@@ -1,64 +1,8 @@
 @import "scss/mixins";
 @import "scss/theme";
+@import "scss/global";
 @import "scss/forms";
-
-* {
-  box-sizing: border-box;
-}
-
-[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
-  outline: none;
-}
-
-body {
-  margin: 0;
-  font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--page-bg-color);
-  color: var(--main-text-color);
-}
-
-body.disable-scroll {
-  overflow: hidden;
-  height: 100%;
-}
-
-// reset some common elements
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-ul,
-ol {
-  margin: 0;
-  padding: 0;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-button,
-input,
-textarea {
-  font-family: inherit;
-}
-
-.content-frame {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+@import "scss/typography";
 
 .link {
   color: var(--brand-text-color);
@@ -67,10 +11,6 @@ textarea {
   padding: 0;
   display: inline;
   text-decoration: none;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: inherit;
-  cursor: pointer;
 
   &:hover,
   &--body {
@@ -111,6 +51,7 @@ textarea {
     box-shadow 0.2s ease; // TODO: determine global transition default
   min-width: (140 / 16) * 1rem;
   text-decoration: none;
+  text-align: center;
 
   &:hover:not(.btn--disabled):not([disabled]) {
     background-color: var(--brand-bg-hover-color);
@@ -173,42 +114,6 @@ textarea {
     background-color: var(--main-bg-color);
     border-color: var(--disabled-color);
     color: var(--disabled-color);
-  }
-}
-
-.bg-high-contrast {
-  background: var(--main-bg-color);
-}
-
-.bg-admin {
-  background: var(--admin-bg-color);
-}
-
-.bg-brand-gradient {
-  background: var(--brand-bg-gradient);
-}
-
-.text-invert {
-  color: var(--invert-text-color);
-}
-
-.text-muted {
-  color: var(--muted-text-color);
-}
-
-.text-muted-light {
-  color: var(--muted-light-text-color);
-}
-
-.container {
-  width: 100%;
-  max-width: 1280px;
-  align-self: center;
-  padding-left: var(--window-side-padding);
-  padding-right: var(--window-side-padding);
-
-  &--size-small {
-    max-width: 600px;
   }
 }
 
@@ -278,87 +183,52 @@ textarea {
 }
 
 .card__title {
+  display: flex;
   font-size: 1.25rem;
   line-height: (24 / 20);
   font-weight: 700;
   margin-bottom: 1.5rem;
 }
 
+.card__icon {
+  margin: 0.25rem 1rem 0 0;
+}
+
 .card__actions {
   display: flex;
   margin-top: auto;
 
-  > * {
-    flex: 1 0 0%;
-  }
+  &--multi {
+    > * {
+      flex: 1 0 0%;
+    }
 
-  > * + * {
-    margin: 0 0 0 2rem;
-  }
-
-  @media (max-width: 399px) {
-    flex-direction: column;
     > * + * {
-      margin: 1rem 0 0;
+      margin: 0 0 0 2rem;
+    }
+
+    @media (max-width: 399px) {
+      flex-direction: column;
+      > * + * {
+        margin: 1rem 0 0;
+      }
     }
   }
 }
 
-.hdg {
-}
+.toolbar {
+  display: flex;
+  align-items: center;
 
-.hdg--1 {
-  font-size: 3rem;
-  line-height: (72 / 48);
-  font-weight: 700;
-}
-
-.hdg--2 {
-  font-size: 2rem;
-  line-height: (48 / 32);
-  font-weight: 300;
-
-  &.hdg--scale-from-3 {
-    @include clamp-font-size(20, 32);
-  }
-}
-
-.hdg--3 {
-  font-size: 1.25rem;
-  line-height: (24 / 20);
-  font-weight: 400;
-
-  &.hdg--scale-from-body {
-    @include clamp-font-size(16, 20);
+  &__right {
+    padding-left: 1rem;
+    margin-left: auto;
   }
 }
 
 .scaling-header {
   padding-top: get-clamp-val(16, 80);
   padding-bottom: var(--scaling-header-padding);
-}
-
-$spacings: (
-  "mt": "margin-top",
-  "mb": "margin-bottom",
-  "pt": "padding-top",
-  "pb": "padding-bottom",
-);
-
-@each $abbr, $prop in $spacings {
-  @for $i from 0 through 4 {
-    .#{$abbr}-scale-#{$i} {
-      #{$prop}: var(--scaling-space-#{$i});
-    }
-  }
-}
-
-@each $abbr, $prop in $spacings {
-  @for $i from 0 through 5 {
-    .#{$abbr}-#{$i} {
-      #{$prop}: var(--fixed-space-#{$i});
-    }
-  }
 }
 
 .divided-vlist {
@@ -407,10 +277,6 @@ $spacings: (
   }
 }
 
-.visually-hidden {
-  @include visually-hidden();
-}
-
 .icon-fill--current {
   fill: currentColor;
 }
@@ -436,6 +302,20 @@ $spacings: (
 .icon-small {
   width: 1rem;
   height: 1rem;
+}
+
+@keyframes iconspin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.icon-spin {
+  transform-origin: center center;
+  animation: 1.25s iconspin ease infinite;
 }
 
 .modal {
@@ -485,6 +365,13 @@ $spacings: (
   line-height: 1.5;
   padding: 0.5rem 1rem;
   align-items: center;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  &[aria-hidden="hidden"] {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+  }
 
   &__content {
     margin-right: 1rem;
@@ -493,25 +380,17 @@ $spacings: (
   &__actions {
     margin-left: auto;
   }
-}
 
-.text-center {
-  text-align: center;
-}
-
-.text-body {
-  font-size: 1rem;
-  line-height: 1.5;
-
-  &--large {
-    font-size: 1.25rem;
-    line-height: 1.2;
+  &--neutral {
+    background-color: var(--invert-bg-color);
+    color: var(--invert-text-color);
   }
-}
 
-// Small Form Factor Utils
-@media (max-width: 767px) {
-  .sf-text-center {
-    text-align: center;
+  &--success {
+    background-color: var(--success-state-color);
+  }
+
+  &--error {
+    background-color: var(--error-state-color);
   }
 }
