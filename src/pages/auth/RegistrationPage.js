@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
@@ -8,8 +9,12 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
+import useLoading from "hooks/useLoading";
 
 export default () => {
+  const history = useHistory();
+  const loading = useLoading();
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -76,8 +81,10 @@ export default () => {
                 values
               );
             }}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
+              loading.begin();
+
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL +
                   "/api/account/register",
@@ -91,11 +98,14 @@ export default () => {
                 }
               );
 
-              const data = await response.json();
               setSubmitting(false);
-              if (data && data.isOk) {
+              loading.end();
+
+              if (response.status >= 200 && response.status < 300) {
+                history.push(`registration-check-email?npn=${values.npn}`);
               } else {
-                // handle validation error
+                const data = await response.json();
+                setErrors(data);
               }
             }}
           >
@@ -192,6 +202,9 @@ export default () => {
                             Include at least one uppercase and lowercase letter
                           </li>
                           <li>Include at least one number</li>
+                          <li>
+                            Include at least one non-alphanumeric character
+                          </li>
                         </ul>
                       </div>
                     }

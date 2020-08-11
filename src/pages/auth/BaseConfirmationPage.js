@@ -1,15 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 
-const defaultButton = () => (
-  <Link to="/login" className="btn">
-    Back to Login
-  </Link>
-);
+const defaultButton = () => {
+  const redirectAndRestartLoginFlow = () => {
+    window.location = process.env.REACT_APP_PORTAL_URL;
+  };
+
+  return (
+    <button className="btn" onClick={redirectAndRestartLoginFlow}>
+      Back to Login
+    </button>
+  );
+};
 
 export default ({ footer, title, body = null, button = defaultButton() }) => {
   return (

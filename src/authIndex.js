@@ -5,11 +5,10 @@ import "./index.scss";
 import AuthApp from "./AuthApp";
 import * as serviceWorker from "./serviceWorker";
 import "focus-visible";
-import routes from "routes/authApp";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthApp {...{ routes }} />
+    <AuthApp />
   </React.StrictMode>,
   document.getElementById("root")
 );

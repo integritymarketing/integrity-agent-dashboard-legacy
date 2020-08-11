@@ -7,13 +7,15 @@ import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
-
-const getQueryVariable = (queryVariable) => {
-  let searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get(queryVariable);
-};
+import useLoading from "hooks/useLoading";
+import { useHistory } from "react-router-dom";
+import useParams from "hooks/useParams";
 
 export default () => {
+  const loading = useLoading();
+  const history = useHistory();
+  const params = useParams();
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -39,9 +41,11 @@ export default () => {
                 values
               );
             }}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
-              values.returnUrl = getQueryVariable("ReturnUrl");
+              loading.begin();
+              values.returnUrl = params.get("ReturnUrl");
+
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/login",
                 {
@@ -54,13 +58,31 @@ export default () => {
                 }
               );
 
-              // await server repsonse + redirect to identity server callback
+              // a 500 server error occurs when invalid OIDC query string params
+              // are present (eg missing ReturnUrl).
+              // catch 500 and send to final error page.
+              if (response.status >= 500) {
+                history.push(
+                  `sorry?message=${encodeURIComponent(
+                    "Something went wrong with your login request.  Please try again."
+                  )}`
+                );
+                loading.end();
+                return;
+              }
+
               const data = await response.json();
               setSubmitting(false);
+              loading.end();
+
               if (data && data.isOk) {
                 window.location = data.redirectUrl;
               } else {
-                // handle validation error
+                setErrors({
+                  npn: " ",
+                  password:
+                    "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
+                });
               }
             }}
           >
@@ -82,11 +104,7 @@ export default () => {
                     value={values.npn}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={
-                      (touched.npn && errors.npn) ||
-                      (errors.global &&
-                        " ") /* Simulates empty error, full error is shown for password field */
-                    }
+                    error={(touched.npn && errors.npn) || errors.global}
                   />
                   <Textfield
                     id="login-password"
