@@ -9,9 +9,11 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
+import useLoading from "hooks/useLoading";
 
 export default () => {
   const history = useHistory();
+  const loading = useLoading();
 
   return (
     <div className="content-frame bg-admin text-muted">
@@ -43,6 +45,8 @@ export default () => {
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
+              loading.begin();
+
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL +
                   "/api/account/forgotpassword",
@@ -57,6 +61,8 @@ export default () => {
               );
 
               setSubmitting(false);
+              loading.end();
+
               if (response.status >= 200 && response.status < 300) {
                 history.push("/password-reset-sent");
               } else {

@@ -30,10 +30,10 @@ export default () => {
   useEffect(() => {
     const confirmEmail = async () => {
       let response = await handleComfirmEmail();
+
       if (response.status >= 200 && response.status < 300) {
         history.push("registration-complete");
       } else {
-        // TODO log issue in sentry?
         history.push(`link-expired?npn=${getParams().npn}`);
       }
     };
