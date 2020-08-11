@@ -7,6 +7,23 @@ import GlobalFooter from "partials/global-footer";
 import ExpandableContent from "components/ui/expandable-content";
 import ComputerIcon from "components/icons/computer";
 import DownloadIcon from "components/icons/download";
+import LightbulbIcon from "components/icons/lightbulb";
+import DocumentIcon from "components/icons/document";
+import ToolsIcon from "components/icons/tools";
+import resourceData from "pages/content/resources.json";
+
+const iconDict = {
+  computer: ComputerIcon,
+  lightbulb: LightbulbIcon,
+  document: DocumentIcon,
+  tools: ToolsIcon,
+  default: ComputerIcon,
+};
+
+const resourceDict = resourceData.resources.reduce((dict, resource) => {
+  dict[resource.name] = resource;
+  return dict;
+}, {});
 
 export default () => {
   return (
@@ -27,51 +44,29 @@ export default () => {
         <section>
           <div className="hdg hdg--3">Recommended Reads</div>
           <div className="card-grid mt-4">
-            <Card>
-              <div className="card__title">
-                <ComputerIcon className="card__icon" />
-                <span>Tips for Working Remotely</span>
-              </div>
-              <div className="card__body">
-                <p className="text-body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor,
-                </p>
-              </div>
-              <div className="card__actions">
-                <button className="btn">Download</button>
-              </div>
-            </Card>
-            <Card>
-              <div className="card__title">
-                <ComputerIcon className="card__icon" />
-                <span>Tips for Managing Remote Workers</span>
-              </div>
-              <div className="card__body">
-                <p className="text-body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor,
-                </p>
-              </div>
-              <div className="card__actions">
-                <button className="btn">Download</button>
-              </div>
-            </Card>
-            <Card>
-              <div className="card__title">
-                <ComputerIcon className="card__icon" />
-                <span>Tips for Managing Stress</span>
-              </div>
-              <div className="card__body">
-                <p className="text-body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor,
-                </p>
-              </div>
-              <div className="card__actions">
-                <button className="btn">Download</button>
-              </div>
-            </Card>
+            {resourceData.featured
+              .map((resourceName) => resourceDict[resourceName])
+              .map((resource) => (
+                <Card key={resource.name}>
+                  <div className="card__title">
+                    <ComputerIcon className="card__icon" />
+                    <span>{resource.name}</span>
+                  </div>
+                  <div className="card__body">
+                    <p className="text-body">{resource.description}</p>
+                  </div>
+                  <div className="card__actions">
+                    <a
+                      href={resource.url}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="btn"
+                    >
+                      Download
+                    </a>
+                  </div>
+                </Card>
+              ))}
           </div>
         </section>
         <section className="mt-scale-4">
@@ -86,65 +81,41 @@ export default () => {
                 </div>
               </div>
             )}
-            sections={[
-              {
-                title: "Working in a Remote World",
-                numItems: 2,
+            sections={resourceData.categories.map((category) => {
+              const resources = resourceData.resources.filter((resource) =>
+                resource.categories.includes(category.id)
+              );
+              const CategoryIcon =
+                iconDict[category.icon] || iconDict["default"];
+              return {
+                title: category.name,
+                numItems: resources.length,
                 renderItems: () => (
                   <ul className="divided-vlist mt-2 mb-5">
-                    <li>
-                      <LineItem
-                        href="#external"
-                        icon={<ComputerIcon />}
-                        actionIcon={<DownloadIcon />}
-                      >
-                        <div className="text-body text-bold mb-1">
-                          Tips for Working Remotely
-                        </div>
-                        <div className="text-body">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor,
-                        </div>
-                      </LineItem>
-                    </li>
-                    <LineItem
-                      href="#external"
-                      icon={<ComputerIcon />}
-                      actionIcon={<DownloadIcon />}
-                    >
-                      <div className="text-body text-bold mb-1">
-                        Tips for Working Remotely
-                      </div>
-                      <div className="text-body">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor,
-                      </div>
-                    </LineItem>
+                    {resources.map((resource) => {
+                      return (
+                        <li key={resource.name}>
+                          <LineItem
+                            href={resource.url}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            icon={<CategoryIcon />}
+                            actionIcon={<DownloadIcon />}
+                          >
+                            <div className="text-body text-bold mb-1">
+                              {resource.name}
+                            </div>
+                            <div className="text-body">
+                              {resource.description}
+                            </div>
+                          </LineItem>
+                        </li>
+                      );
+                    })}
                   </ul>
                 ),
-              },
-              {
-                title: "Sales Tips and Tricks",
-                numItems: 1,
-                renderItems: () => (
-                  <ul className="divided-vlist mt-2 mb-5">
-                    <LineItem
-                      href="#external"
-                      icon={<ComputerIcon />}
-                      actionIcon={<DownloadIcon />}
-                    >
-                      <div className="text-body text-bold mb-1">
-                        Tips for Working Remotely
-                      </div>
-                      <div className="text-body">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor,
-                      </div>
-                    </LineItem>
-                  </ul>
-                ),
-              },
-            ]}
+              };
+            })}
           />
         </section>
       </Container>
