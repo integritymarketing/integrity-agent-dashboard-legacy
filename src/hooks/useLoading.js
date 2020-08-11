@@ -8,9 +8,7 @@ export default () => {
   const { show, dismiss } = useFlashMessage();
 
   return {
-    begin: (opts = {}) => {
-      const { delay = 1000 } = opts;
-      console.log("begin loading");
+    begin: ({ delay = 1000 } = {}) => {
       timeout = setTimeout(() => {
         show(
           <div className="toolbar">
@@ -23,12 +21,11 @@ export default () => {
       }, delay);
     },
     end: () => {
-      dismiss();
       if (timeout !== null) {
         clearTimeout(timeout);
         timeout = null;
       }
-      console.log("end loading");
+      dismiss();
     },
   };
 };

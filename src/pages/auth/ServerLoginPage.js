@@ -78,11 +78,9 @@ export default () => {
                   setErrors(data);
                 }
               } catch (e) {
-                setTimeout(() => {
-                  loading.end();
-                  setSubmitting(false);
-                  setErrors(e);
-                }, 4000);
+                loading.end();
+                setSubmitting(false);
+                setErrors(e);
               }
             }}
           >
@@ -93,7 +91,6 @@ export default () => {
               handleSubmit,
               handleChange,
               handleBlur,
-              isSubmitting,
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
