@@ -14,7 +14,7 @@ const fetchError = async () => {
 export default () => {
   useEffect(() => {
     fetchError().then((error) => {
-      throw Error(error);
+      throw new Error(error);
     }, []);
   });
   return (

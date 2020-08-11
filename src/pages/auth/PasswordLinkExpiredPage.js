@@ -34,8 +34,11 @@ export default () => {
     if (response.status >= 200 && response.status < 300) {
       history.push(`password-reset-sent?npn=${body.npn}`);
     } else {
-      const data = await response.json();
-      setErrors(data);
+      history.push(
+        `sorry?message=${encodeURIComponent(
+          "We could not send a password reset at this time."
+        )}`
+      );
     }
   };
 
