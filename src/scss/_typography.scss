@@ -1,0 +1,87 @@
+.text-invert {
+  color: var(--invert-text-color);
+}
+
+.text-muted {
+  color: var(--muted-text-color);
+}
+
+.text-muted-light {
+  color: var(--muted-light-text-color);
+}
+
+.hdg,
+.wysiwyg h2,
+.wysiwyg h3,
+.wysiwyg h4,
+.wysiwyg h5,
+.wysiwyg h6 {
+}
+
+.hdg--1,
+.wysiwyg h1 {
+  font-size: 3rem;
+  line-height: (72 / 48);
+  font-weight: 700;
+}
+
+.hdg--2,
+.wysiwyg h2 {
+  font-size: 2rem;
+  line-height: (48 / 32);
+  font-weight: 300;
+
+  &.hdg--scale-from-3 {
+    @include clamp-font-size(20, 32);
+  }
+}
+
+.hdg--3,
+.wysiwyg h3 {
+  font-size: 1.25rem;
+  line-height: (24 / 20);
+  font-weight: 400;
+
+  &.hdg--scale-from-body {
+    @include clamp-font-size(16, 20);
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-body,
+.wysiwyg p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.text-body--large {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+// Small Form Factor Utils
+@media (max-width: 767px) {
+  .sf-text-center {
+    text-align: center;
+  }
+
+  .sf-hide {
+    display: none !important;
+  }
+}
+
+.wysiwyg {
+  > * + * {
+    margin-top: var(--fixed-space-3);
+  }
+  > * + h3 {
+    margin-top: var(--fixed-space-4);
+  }
+}

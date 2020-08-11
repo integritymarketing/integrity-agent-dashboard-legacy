@@ -44,7 +44,7 @@ export default ({ color = "default", menuHidden = false }) => {
             },
             {
               component: Link,
-              props: { to: "/training" },
+              props: { to: "/resources" },
               label: "Resources",
             },
           ],

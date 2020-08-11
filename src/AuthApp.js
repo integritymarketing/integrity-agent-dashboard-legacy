@@ -1,5 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from "react-router-dom";
 
 // the following routes are configured in IdentityServer
 // and are redirected to for each common auth situation
@@ -24,9 +29,20 @@ import LinkExpiredPage from "pages/auth/LinkExpiredPage";
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const AuthApp = () => {
   return (
     <Router>
+      <ScrollToTop />
       <FlashProvider>
         <FlashMessage />
         <div className="content-frame">

@@ -32,9 +32,9 @@ export default () => {
             <Card>
               <div className="card__title">[FPO Product Name]</div>
               <div className="card__body">
-                <p>Powered by Connecture</p>
+                <p className="text-body">Powered by Connecture</p>
               </div>
-              <div className="card__actions">
+              <div className="card__actions card__actions--multi">
                 <button className="btn">Login</button>
                 <button className="btn btn--outline">User Guide</button>
               </div>
@@ -42,9 +42,9 @@ export default () => {
             <Card>
               <div className="card__title">Enrollment Guide</div>
               <div className="card__body">
-                <p>Powered by SunfireMatrix</p>
+                <p className="text-body">Powered by SunfireMatrix</p>
               </div>
-              <div className="card__actions">
+              <div className="card__actions card__actions--multi">
                 <button className="btn">Login</button>
                 <button className="btn btn--outline">User Guide</button>
               </div>
@@ -52,9 +52,9 @@ export default () => {
             <Card>
               <div className="card__title">Product Name</div>
               <div className="card__body">
-                <p>Powered by CSG</p>
+                <p className="text-body">Powered by CSG</p>
               </div>
-              <div className="card__actions">
+              <div className="card__actions card__actions--multi">
                 <button className="btn">Login</button>
                 <button className="btn btn--outline">User Guide</button>
               </div>
