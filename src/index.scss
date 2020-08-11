@@ -304,6 +304,20 @@
   height: 1rem;
 }
 
+@keyframes iconspin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.icon-spin {
+  transform-origin: center center;
+  animation: 1.25s iconspin ease infinite;
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -351,6 +365,13 @@
   line-height: 1.5;
   padding: 0.5rem 1rem;
   align-items: center;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  &[aria-hidden="hidden"] {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+  }
 
   &__content {
     margin-right: 1rem;

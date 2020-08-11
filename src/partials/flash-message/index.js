@@ -14,10 +14,11 @@ export default () => {
   const { pathname } = useLocation();
   useEffect(dismiss, [pathname]);
 
-  if (!isVisible) return null;
-
   return (
-    <div className={`flash-message flash-message--${type}`}>
+    <div
+      className={`flash-message flash-message--${type}`}
+      aria-hidden={isVisible ? null : "hidden"}
+    >
       <span className="flash-message__content">{message}</span>
       {dismissable && (
         <span className="flash-message__actions">

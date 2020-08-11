@@ -16,9 +16,7 @@ const getQueryVariable = (queryVariable) => {
 
 export default () => {
   const loading = useLoading();
-  React.useEffect(() => {
-    loading.begin();
-  });
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -80,9 +78,11 @@ export default () => {
                   setErrors(data);
                 }
               } catch (e) {
-                loading.end();
-                setSubmitting(false);
-                setErrors(e);
+                setTimeout(() => {
+                  loading.end();
+                  setSubmitting(false);
+                  setErrors(e);
+                }, 4000);
               }
             }}
           >
