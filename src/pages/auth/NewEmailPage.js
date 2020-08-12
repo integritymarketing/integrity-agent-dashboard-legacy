@@ -17,7 +17,6 @@ export default () => {
 
           <Formik
             initialValues={{ email: "", emailRepeat: "" }}
-            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [

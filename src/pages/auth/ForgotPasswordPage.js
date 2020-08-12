@@ -34,7 +34,6 @@ export default () => {
 
           <Formik
             initialValues={{ npn: "" }}
-            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               const errors = {};
               let npnErr = validationService.validateNPN(values.npn);

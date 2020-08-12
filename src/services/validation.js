@@ -73,12 +73,6 @@ class ValidationService {
       });
     }, errorsObj);
   };
-
-  getPageErrors = () => {
-    // TODO: get errors passed in from page load
-    // return "Sorry, that login info didn't work";
-    return null;
-  };
 }
 
 export default new ValidationService();

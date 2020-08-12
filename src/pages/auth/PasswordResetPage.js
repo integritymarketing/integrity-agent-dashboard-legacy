@@ -60,7 +60,6 @@ export default () => {
 
           <Formik
             initialValues={{ password: "", confirmPassword: "" }}
-            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [

@@ -25,7 +25,6 @@ export default () => {
 
           <Formik
             initialValues={{ npn: "", password: "" }}
-            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
