@@ -9,9 +9,9 @@ import AccountPage from "pages/AccountPage";
 import NotFoundPage from "pages/NotFound";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
-import LogoutCallback from "components/auth/logoutCallback";
-import AuthSilentCallback from "components/auth/authSilentCallback";
-import AuthCallback from "components/auth/authCallback";
+import AuthLogoutCallback from "components/functional/auth-logout-callback";
+import AuthSilentCallback from "components/functional/auth-silent-callback";
+import AuthCallback from "components/functional/auth-callback";
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
@@ -42,7 +42,7 @@ const App = () => {
               <Route
                 exact={true}
                 path="/signout-oidc"
-                component={LogoutCallback}
+                component={AuthLogoutCallback}
               />
               <UnauthenticatedRoute exact path="/">
                 <LandingPage />
