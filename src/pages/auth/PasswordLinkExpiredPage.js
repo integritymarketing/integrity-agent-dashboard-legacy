@@ -2,14 +2,11 @@ import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
+import AuthService from "services/auth";
 
 export default () => {
   const history = useHistory();
   const params = useParams();
-
-  const redirectAndRestartLoginFlow = () => {
-    window.location = process.env.REACT_APP_PORTAL_URL;
-  };
 
   const handleResendForgotPasswordEmail = async () => {
     const npn = params.get("npn");
@@ -41,7 +38,10 @@ export default () => {
     <BaseConfirmationPage
       footer={
         <div className="text-center text-body">
-          <button className="link" onClick={redirectAndRestartLoginFlow}>
+          <button
+            className="link"
+            onClick={AuthService.redirectAndRestartLoginFlow}
+          >
             Want to try a different email address?
           </button>
         </div>

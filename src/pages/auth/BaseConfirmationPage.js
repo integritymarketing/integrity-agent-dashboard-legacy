@@ -3,14 +3,11 @@ import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
+import AuthService from "services/auth";
 
 const defaultButton = () => {
-  const redirectAndRestartLoginFlow = () => {
-    window.location = process.env.REACT_APP_PORTAL_URL;
-  };
-
   return (
-    <button className="btn" onClick={redirectAndRestartLoginFlow}>
+    <button className="btn" onClick={AuthService.redirectAndRestartLoginFlow}>
       Back to Login
     </button>
   );

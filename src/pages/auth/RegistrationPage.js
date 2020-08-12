@@ -21,7 +21,7 @@ export default () => {
       <Container size="small">
         <PageCard
           link={
-            <BackLink component={Link} to="/login">
+            <BackLink component={Link} to="/">
               Back to Login
             </BackLink>
           }
