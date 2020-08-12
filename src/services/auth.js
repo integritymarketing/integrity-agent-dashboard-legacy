@@ -112,6 +112,11 @@ class AuthService {
     });
     this.UserManager.clearStaleState();
   };
+
+  redirectAndRestartLoginFlow = () => {
+    window.location = process.env.REACT_APP_PORTAL_URL;
+    return;
+  };
 }
 
 export default new AuthService();
