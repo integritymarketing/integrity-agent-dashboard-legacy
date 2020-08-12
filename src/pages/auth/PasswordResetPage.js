@@ -59,18 +59,18 @@ export default () => {
           <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
 
           <Formik
-            initialValues={{ password: "", confirmPassword: "" }}
+            initialValues={{ Password: "", ConfirmPassword: "" }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
                   {
-                    name: "password",
+                    name: "Password",
                     validator: validationService.validatePasswordCreation,
                   },
                   {
-                    name: "confirmPassword",
+                    name: "ConfirmPassword",
                     validator: validationService.validateFieldMatch(
-                      values.password
+                      values.Password
                     ),
                   },
                 ],
@@ -92,9 +92,9 @@ export default () => {
                   credentials: "include",
                   body: JSON.stringify({
                     ...values,
-                    npn: params.get("npn"),
-                    token: params.get("token"),
-                    email: params.get("email"),
+                    NPN: params.get("npn"),
+                    Token: params.get("token"),
+                    Email: params.get("email"),
                   }),
                 }
               );
@@ -105,8 +105,8 @@ export default () => {
               if (response.status >= 200 && response.status < 300) {
                 history.push("password-updated");
               } else {
-                const data = await response.json();
-                setErrors(data);
+                const errorsArr = await response.json();
+                setErrors(validationService.formikErrorsFor(errorsArr));
               }
             }}
           >
@@ -125,15 +125,15 @@ export default () => {
                     type="password"
                     label="New Password"
                     placeholder="Enter your new password"
-                    name="password"
-                    value={values.password}
+                    name="Password"
+                    value={values.Password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.password && errors.password) || errors.global
+                      (touched.Password && errors.Password) || errors.global
                     }
                     success={
-                      touched.password && !errors.password && !errors.global
+                      touched.Password && !errors.Password && !errors.global
                     }
                     focusBanner={
                       <div className="form-tip">
@@ -157,17 +157,17 @@ export default () => {
                     type="password"
                     label="Re-enter New Password"
                     placeholder="Re-enter your new password"
-                    name="confirmPassword"
-                    value={values.confirmPassword}
+                    name="ConfirmPassword"
+                    value={values.ConfirmPassword}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.confirmPassword && errors.confirmPassword) ||
+                      (touched.ConfirmPassword && errors.ConfirmPassword) ||
                       errors.global
                     }
                     success={
-                      touched.confirmPassword &&
-                      !errors.confirmPassword &&
+                      touched.ConfirmPassword &&
+                      !errors.ConfirmPassword &&
                       !errors.global
                     }
                   />
