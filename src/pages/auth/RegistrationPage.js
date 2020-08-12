@@ -127,7 +127,7 @@ export default () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.FirstName && errors.FirstName) || errors.global
+                      (touched.FirstName && errors.FirstName) || errors.Global
                     }
                   />
                   <Textfield
@@ -139,7 +139,7 @@ export default () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.LastName && errors.LastName) || errors.global
+                      (touched.LastName && errors.LastName) || errors.Global
                     }
                   />
                   <Textfield
@@ -150,7 +150,7 @@ export default () => {
                     value={values.NPN}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.NPN && errors.NPN) || errors.global}
+                    error={(touched.NPN && errors.NPN) || errors.Global}
                   />
                   <Textfield
                     id="register-email"
@@ -161,7 +161,7 @@ export default () => {
                     value={values.Email}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.Email && errors.Email) || errors.global}
+                    error={(touched.Email && errors.Email) || errors.Global}
                   />
                   <Textfield
                     id="register-email-verify"
@@ -174,7 +174,7 @@ export default () => {
                     onBlur={handleBlur}
                     error={
                       (touched.EmailRepeat && errors.EmailRepeat) ||
-                      errors.global
+                      errors.Global
                     }
                   />
                   <Textfield
@@ -187,10 +187,10 @@ export default () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.Password && errors.Password) || errors.global
+                      (touched.Password && errors.Password) || errors.Global
                     }
                     success={
-                      touched.Password && !errors.Password && !errors.global
+                      touched.Password && !errors.Password && !errors.Global
                     }
                     focusBanner={
                       <div className="form-tip">
@@ -220,12 +220,12 @@ export default () => {
                     onBlur={handleBlur}
                     error={
                       (touched.ConfirmPassword && errors.ConfirmPassword) ||
-                      errors.global
+                      errors.Global
                     }
                     success={
                       touched.ConfirmPassword &&
                       !errors.ConfirmPassword &&
-                      !errors.global
+                      !errors.Global
                     }
                   />
                   <div className="form__submit">

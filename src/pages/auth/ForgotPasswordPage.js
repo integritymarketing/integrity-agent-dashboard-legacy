@@ -88,7 +88,7 @@ export default () => {
                     value={values.NPN}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.NPN && errors.NPN) || errors.global}
+                    error={(touched.NPN && errors.NPN) || errors.Global}
                   />
                   <div className="form__submit">
                     <button className="btn" type="submit">

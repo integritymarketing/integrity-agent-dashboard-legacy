@@ -130,10 +130,10 @@ export default () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.Password && errors.Password) || errors.global
+                      (touched.Password && errors.Password) || errors.Global
                     }
                     success={
-                      touched.Password && !errors.Password && !errors.global
+                      touched.Password && !errors.Password && !errors.Global
                     }
                     focusBanner={
                       <div className="form-tip">
@@ -163,12 +163,12 @@ export default () => {
                     onBlur={handleBlur}
                     error={
                       (touched.ConfirmPassword && errors.ConfirmPassword) ||
-                      errors.global
+                      errors.Global
                     }
                     success={
                       touched.ConfirmPassword &&
                       !errors.ConfirmPassword &&
-                      !errors.global
+                      !errors.Global
                     }
                   />
                   <div className="form__submit">
