@@ -9,16 +9,16 @@ import AccountPage from "pages/AccountPage";
 import NotFoundPage from "pages/NotFound";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
-import LogoutCallback from "components/auth/logoutCallback";
-import AuthSilentCallback from "components/auth/authSilentCallback";
-import AuthCallback from "components/auth/authCallback";
+import AuthSigninCallback from "components/functional/auth-signin-callback";
+import AuthSignoutCallback from "components/functional/auth-signout-callback";
+import AuthSilentCallback from "components/functional/auth-silent-callback";
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
-} from "components/auth/routes";
+} from "components/functional/auth-routes";
+import ScrollToTop from "components/functional/scroll-to-top";
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
-import ScrollToTop from "components/functional/scroll-to-top";
 
 const App = () => {
   return (
@@ -37,12 +37,12 @@ const App = () => {
               <Route
                 exact={true}
                 path="/signin-oidc"
-                component={AuthCallback}
+                component={AuthSigninCallback}
               />
               <Route
                 exact={true}
                 path="/signout-oidc"
-                component={LogoutCallback}
+                component={AuthSignoutCallback}
               />
               <UnauthenticatedRoute exact path="/">
                 <LandingPage />
