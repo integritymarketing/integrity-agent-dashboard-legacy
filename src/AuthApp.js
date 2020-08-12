@@ -26,7 +26,7 @@ import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
-import ScrollToTop from "components/ui/scroll-to-top";
+import ScrollToTop from "components/functional/scroll-to-top";
 
 const AuthApp = () => {
   return (
