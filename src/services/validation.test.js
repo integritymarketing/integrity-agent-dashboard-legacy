@@ -133,10 +133,9 @@ describe("validatePasswordCreation", () => {
     expect(actual).toMatch("at least one number");
   });
 
-  // TODO: fix test after merge
-  xit("must have a non-alpha digit", () => {
+  it("must have a non-alpha digit", () => {
     const actual = validationService.validatePasswordCreation("Pass1234");
-    expect(actual).toMatch("at least one non-alphanumeric digit");
+    expect(actual).toMatch("at least one non-alphanumeric character");
   });
 
   it("defaults to the label 'Password'", () => {
