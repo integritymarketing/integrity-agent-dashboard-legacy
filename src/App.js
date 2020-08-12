@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AuthContext from "contexts/auth";
-import authService from "services/auth";
+import AuthService from "services/auth";
 import DashboardPage from "pages/DashboardPage";
 import ResourcesPage from "pages/ResourcesPage";
 import LandingPage from "pages/LandingPage";
@@ -22,7 +22,7 @@ import ScrollToTop from "components/functional/scroll-to-top";
 
 const App = () => {
   return (
-    <AuthContext.Provider value={authService}>
+    <AuthContext.Provider value={AuthService}>
       <Router>
         <ScrollToTop />
         <FlashProvider>
