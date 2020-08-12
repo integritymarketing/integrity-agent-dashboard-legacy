@@ -103,8 +103,15 @@ export default () => {
               if (response.status >= 200 && response.status < 300) {
                 history.push(`registration-check-email?npn=${values.npn}`);
               } else {
-                const data = await response.json();
-                setErrors(data);
+                const errorArr = await response.json();
+                const formikErrors = {};
+
+                errorArr.forEach((el) => {
+                  if (el.hasOwnProperty("Key")) {
+                    formikErrors[el["Key"]] = el["Value"];
+                  }
+                });
+                setErrors(formikErrors);
               }
             }}
           >
