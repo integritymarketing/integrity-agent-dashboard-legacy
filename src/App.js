@@ -1,10 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useLocation,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import authService from "services/auth";
 import DashboardPage from "pages/DashboardPage";
@@ -23,16 +18,7 @@ import {
 } from "components/auth/routes";
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
-
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-};
+import ScrollToTop from "components/ui/scroll-to-top";
 
 const App = () => {
   return (
