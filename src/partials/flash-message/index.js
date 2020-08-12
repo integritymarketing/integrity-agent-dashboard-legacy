@@ -4,21 +4,30 @@ import useFlashMessage from "hooks/useFlashMessage";
 import ExitIcon from "components/icons/exit";
 
 export default () => {
-  const { message, isVisible, dismiss } = useFlashMessage();
+  const {
+    message,
+    dismissable = true,
+    type = "neutral",
+    isVisible,
+    dismiss,
+  } = useFlashMessage();
   const { pathname } = useLocation();
   useEffect(dismiss, [pathname]);
 
-  if (!isVisible) return null;
-
   return (
-    <div className="flash-message">
+    <div
+      className={`flash-message flash-message--${type}`}
+      aria-hidden={isVisible ? null : "hidden"}
+    >
       <span className="flash-message__content">{message}</span>
-      <span className="flash-message__actions">
-        <button className="icon-btn" onClick={dismiss}>
-          <span className="visually-hidden">Close message</span>
-          <ExitIcon aria-hidden="true" />
-        </button>
-      </span>
+      {dismissable && (
+        <span className="flash-message__actions">
+          <button className="icon-btn" onClick={dismiss}>
+            <span className="visually-hidden">Close message</span>
+            <ExitIcon aria-hidden="true" />
+          </button>
+        </span>
+      )}
     </div>
   );
 };

@@ -54,8 +54,9 @@ export default () => {
                 );
               }}
               onSubmit={async (values, { setSubmitting }) => {
-                showMessage("Your account info has been updated.");
-                console.log(values);
+                showMessage("Your account info has been updated.", {
+                  type: "success",
+                });
                 setSubmitting(false);
                 // TODO: hook up form submit
               }}
@@ -201,6 +202,9 @@ export default () => {
                               letter
                             </li>
                             <li>Include at least one number</li>
+                            <li>
+                              Include at least one non-alphanumeric character
+                            </li>
                           </ul>
                         </div>
                       }

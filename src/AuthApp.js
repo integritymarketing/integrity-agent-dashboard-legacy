@@ -5,19 +5,32 @@ import {
   Switch,
   useLocation,
 } from "react-router-dom";
-import RegisterPage from "pages/auth/RegisterPage";
-import LoginPage from "pages/auth/LoginPage";
-import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
-import ResetSentPage from "pages/auth/ResetSentPage";
-import NewPasswordPage from "pages/auth/NewPasswordPage";
-import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
-import ConfirmEmailPage from "pages/auth/ConfirmEmailPage";
+
+// the following routes are configured in IdentityServer
+// and are redirected to for each common auth situation
+import ServerLoginPage from "pages/auth/ServerLoginPage";
+import ServerLogoutPage from "pages/auth/ServerLogoutPage";
+import ServerErrorPage from "pages/auth/ServerErrorPage";
+
+import RegistrationPage from "pages/auth/RegistrationPage";
+import RegistrationConfirmEmailPage from "pages/auth/RegistrationConfirmEmailPage";
+import RegistrationConfirmLinkExpiredPage from "pages/auth/RegistrationConfirmLinkExpiredPage";
+import RegistrationCheckEmailPage from "pages/auth/RegistrationCheckEmailPage";
 import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
+
+import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
+import ForgotPasswordSentPage from "pages/auth/ForgotPasswordSentPage";
+import PasswordResetPage from "pages/auth/PasswordResetPage";
+import PasswordLinkExpiredPage from "pages/auth/PasswordLinkExpiredPage";
+import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
+
+import FinalErrorPage from "pages/auth/FinalErrorPage";
+
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
-import LinkExpiredPage from "pages/auth/LinkExpiredPage";
-import ErrorPage from "pages/auth/ErrorPage";
-import LogoutPage from "pages/auth/LogoutPage";
+
+import { FlashProvider } from "contexts/flash";
+import FlashMessage from "partials/flash-message";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -33,49 +46,72 @@ const AuthApp = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="content-frame">
-        <Switch>
-          <Route exact path="/login">
-            <LoginPage />
-          </Route>
-          <Route exact path="/register">
-            <RegisterPage />
-          </Route>
-          <Route exact path="/forgot-password">
-            <ForgotPasswordPage />
-          </Route>
-          <Route exact path="/reset-sent">
-            <ResetSentPage />
-          </Route>
-          <Route exact path="/new-password">
-            <NewPasswordPage />
-          </Route>
-          <Route exact path="/password-updated">
-            <PasswordUpdatedPage />
-          </Route>
-          <Route exact path="/update-email">
-            <NewEmailPage />
-          </Route>
-          <Route exact path="/email-updated">
-            <EmailUpdatedPage />
-          </Route>
-          <Route exact path="/link-expired">
-            <LinkExpiredPage />
-          </Route>
-          <Route exact path="/error">
-            <ErrorPage />
-          </Route>
-          <Route exact path="/logout">
-            <LogoutPage />
-          </Route>
-          <Route exact path="/confirm-email">
-            <ConfirmEmailPage />
-          </Route>
-          <Route exact path="/registration-complete">
-            <RegistrationCompletedPage />
-          </Route>
-        </Switch>
-      </div>
+      <FlashProvider>
+        <FlashMessage />
+        <div className="content-frame">
+          <Switch>
+            <Route exact path="/login">
+              <ServerLoginPage />
+            </Route>
+            <Route exact path="/logout">
+              <ServerLogoutPage />
+            </Route>
+            <Route exact path="/error">
+              <ServerErrorPage />
+            </Route>
+
+            <Route exact path="/register">
+              <RegistrationPage />
+            </Route>
+            <Route exact path="/registration-check-email">
+              <RegistrationCheckEmailPage />
+            </Route>
+            <Route exact path="/confirm-email">
+              <RegistrationConfirmEmailPage />
+            </Route>
+            <Route exact path="/confirm-link-expired">
+              <RegistrationConfirmLinkExpiredPage />
+            </Route>
+            <Route exact path="/registration-complete">
+              <RegistrationCompletedPage />
+            </Route>
+
+            <Route exact path="/forgot-password">
+              <ForgotPasswordPage />
+            </Route>
+            <Route exact path="/password-reset-sent">
+              <ForgotPasswordSentPage />
+            </Route>
+            <Route exact path="/reset-password">
+              <PasswordResetPage />
+            </Route>
+            <Route exact path="/password-link-expired">
+              <PasswordLinkExpiredPage />
+            </Route>
+            <Route exact path="/password-updated">
+              <PasswordUpdatedPage />
+            </Route>
+
+            <Route exact path="/sorry">
+              <FinalErrorPage />
+            </Route>
+            <Route exact path="/update-email">
+              <NewEmailPage />
+            </Route>
+            <Route exact path="/email-updated">
+              <EmailUpdatedPage />
+            </Route>
+
+            <Route
+              path="*"
+              component={() => {
+                window.location.href = process.env.REACT_APP_PORTAL_URL;
+                return null;
+              }}
+            />
+          </Switch>
+        </div>
+      </FlashProvider>
     </Router>
   );
 };

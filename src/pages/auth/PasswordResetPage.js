@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
@@ -6,8 +6,51 @@ import GlobalNav from "partials/simple-header";
 import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
+import { useHistory } from "react-router-dom";
+import useLoading from "hooks/useLoading";
+import useParams from "hooks/useParams";
 
 export default () => {
+  const history = useHistory();
+  const loading = useLoading();
+  const params = useParams();
+
+  useEffect(() => {
+    const checkIfValidToken = async () => {
+      const response = await fetch(
+        process.env.REACT_APP_AUTH_AUTHORITY_URL +
+          "/api/account/validateresetpasswordtoken",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            npn: params.get("npn"),
+            token: params.get("token"),
+            email: params.get("email"),
+          }),
+        }
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    const validateTokenOrRedirect = async () => {
+      let isValidToken = await checkIfValidToken();
+      if (!isValidToken) {
+        history.push(`password-link-expired?npn=${params.get("npn")}`);
+      }
+    };
+
+    validateTokenOrRedirect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -16,8 +59,7 @@ export default () => {
           <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
 
           <Formik
-            initialValues={{ password: "", passwordRepeat: "" }}
-            initialErrors={{ global: validationService.getPageErrors() }}
+            initialValues={{ password: "", confirmPassword: "" }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
@@ -26,7 +68,7 @@ export default () => {
                     validator: validationService.validatePasswordCreation,
                   },
                   {
-                    name: "passwordRepeat",
+                    name: "confirmPassword",
                     validator: validationService.validateFieldMatch(
                       values.password
                     ),
@@ -35,8 +77,37 @@ export default () => {
                 values
               );
             }}
-            onSubmit={(values, { setSubmitting, submitForm }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
+              setSubmitting(true);
+              loading.begin();
+
+              const response = await fetch(
+                process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                  "/api/account/resetpassword",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  credentials: "include",
+                  body: JSON.stringify({
+                    ...values,
+                    npn: params.get("npn"),
+                    token: params.get("token"),
+                    email: params.get("email"),
+                  }),
+                }
+              );
+
               setSubmitting(false);
+              loading.end();
+
+              if (response.status >= 200 && response.status < 300) {
+                history.push("password-updated");
+              } else {
+                const data = await response.json();
+                setErrors(data);
+              }
             }}
           >
             {({
@@ -47,16 +118,7 @@ export default () => {
               handleChange,
               handleBlur,
             }) => (
-              <form
-                action="/password-updated"
-                className="form"
-                onSubmit={(e) => {
-                  // get around e.preventDefault to submit form natively
-                  if (Object.keys(errors).length) {
-                    handleSubmit(e);
-                  }
-                }}
-              >
+              <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
                     id="new-password"
@@ -82,6 +144,9 @@ export default () => {
                             Include at least one uppercase and lowercase letter
                           </li>
                           <li>Include at least one number</li>
+                          <li>
+                            Include at least one non-alphanumeric character
+                          </li>
                         </ul>
                       </div>
                     }
@@ -92,17 +157,17 @@ export default () => {
                     type="password"
                     label="Re-enter New Password"
                     placeholder="Re-enter your new password"
-                    name="passwordRepeat"
-                    value={values.passwordRepeat}
+                    name="confirmPassword"
+                    value={values.confirmPassword}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.passwordRepeat && errors.passwordRepeat) ||
+                      (touched.confirmPassword && errors.confirmPassword) ||
                       errors.global
                     }
                     success={
-                      touched.passwordRepeat &&
-                      !errors.passwordRepeat &&
+                      touched.confirmPassword &&
+                      !errors.confirmPassword &&
                       !errors.global
                     }
                   />

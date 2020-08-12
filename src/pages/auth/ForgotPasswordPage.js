@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Container from "components/ui/container";
@@ -8,8 +9,12 @@ import GlobalFooter from "partials/global-footer";
 import Textfield from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
+import useLoading from "hooks/useLoading";
 
 export default () => {
+  const history = useHistory();
+  const loading = useLoading();
+
   return (
     <div className="content-frame bg-admin text-muted">
       <GlobalNav />
@@ -29,7 +34,6 @@ export default () => {
 
           <Formik
             initialValues={{ npn: "" }}
-            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               const errors = {};
               let npnErr = validationService.validateNPN(values.npn);
@@ -38,8 +42,10 @@ export default () => {
               }
               return errors;
             }}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
+              loading.begin();
+
               const response = await fetch(
                 process.env.REACT_APP_AUTH_AUTHORITY_URL +
                   "/api/account/forgotpassword",
@@ -53,11 +59,14 @@ export default () => {
                 }
               );
 
-              const data = await response.json();
               setSubmitting(false);
-              if (data && data.isOk) {
+              loading.end();
+
+              if (response.status >= 200 && response.status < 300) {
+                history.push(`password-reset-sent?npn=${values.npn}`);
               } else {
-                // handle validation error
+                const data = await response.json();
+                setErrors(data);
               }
             }}
           >
