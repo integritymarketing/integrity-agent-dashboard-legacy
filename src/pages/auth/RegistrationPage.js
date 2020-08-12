@@ -38,7 +38,6 @@ export default () => {
               password: "",
               confirmPassword: "",
             }}
-            initialErrors={{ global: validationService.getPageErrors() }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
