@@ -73,6 +73,16 @@ class ValidationService {
       });
     }, errorsObj);
   };
+
+  formikErrorsFor = (errorsArr) => {
+    let formikErrors = {};
+    errorsArr.forEach((el) => {
+      if (el.hasOwnProperty("Key")) {
+        formikErrors[el["Key"]] = el["Value"];
+      }
+    });
+    return formikErrors;
+  };
 }
 
 export default new ValidationService();

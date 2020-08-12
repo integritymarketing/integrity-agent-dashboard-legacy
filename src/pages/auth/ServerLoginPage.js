@@ -24,16 +24,16 @@ export default () => {
           <h1 className="hdg hdg--2 mb-3">Login to your account</h1>
 
           <Formik
-            initialValues={{ npn: "", password: "" }}
+            initialValues={{ NPN: "", Password: "" }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
                   {
-                    name: "npn",
+                    name: "NPN",
                     validator: validationService.validateNPN,
                   },
                   {
-                    name: "password",
+                    name: "Password",
                     validator: validationService.validatePasswordAccess,
                   },
                 ],
@@ -78,8 +78,8 @@ export default () => {
                 window.location = data.redirectUrl;
               } else {
                 setErrors({
-                  npn: " ",
-                  password:
+                  NPN: " ",
+                  Password:
                     "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
                 });
               }
@@ -99,23 +99,23 @@ export default () => {
                     id="login-npn"
                     label="NPN Number"
                     placeholder="Enter your NPN Number"
-                    name="npn"
-                    value={values.npn}
+                    name="NPN"
+                    value={values.NPN}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.npn && errors.npn) || errors.global}
+                    error={(touched.NPN && errors.NPN) || errors.Global}
                   />
                   <Textfield
                     id="login-password"
                     type="password"
                     label="Password"
-                    placeholder="Enter your password"
-                    name="password"
-                    value={values.password}
+                    placeholder="Enter your Password"
+                    name="Password"
+                    value={values.Password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.password && errors.password) || errors.global
+                      (touched.Password && errors.Password) || errors.Global
                     }
                     auxLink={
                       <span className="text-muted">

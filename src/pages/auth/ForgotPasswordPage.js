@@ -33,12 +33,12 @@ export default () => {
           </p>
 
           <Formik
-            initialValues={{ npn: "" }}
+            initialValues={{ NPN: "" }}
             validate={(values) => {
               const errors = {};
-              let npnErr = validationService.validateNPN(values.npn);
+              let npnErr = validationService.validateNPN(values.NPN);
               if (npnErr) {
-                errors.npn = npnErr;
+                errors.NPN = npnErr;
               }
               return errors;
             }}
@@ -63,10 +63,10 @@ export default () => {
               loading.end();
 
               if (response.status >= 200 && response.status < 300) {
-                history.push(`password-reset-sent?npn=${values.npn}`);
+                history.push(`password-reset-sent?npn=${values.NPN}`);
               } else {
-                const data = await response.json();
-                setErrors(data);
+                const errorsArr = await response.json();
+                setErrors(validationService.formikErrorsFor(errorsArr));
               }
             }}
           >
@@ -83,12 +83,12 @@ export default () => {
                   <Textfield
                     id="forgot-password-npn"
                     label="NPN Number"
-                    placeholder="Enter your npn Number"
-                    name="npn"
-                    value={values.npn}
+                    placeholder="Enter your NPN Number"
+                    name="NPN"
+                    value={values.NPN}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.npn && errors.npn) || errors.global}
+                    error={(touched.NPN && errors.NPN) || errors.Global}
                   />
                   <div className="form__submit">
                     <button className="btn" type="submit">

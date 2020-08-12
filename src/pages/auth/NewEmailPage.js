@@ -67,7 +67,7 @@ export default () => {
                     value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.email && errors.email) || errors.global}
+                    error={(touched.email && errors.email) || errors.Global}
                   />
                   <Textfield
                     id="new-email-repeat"
@@ -80,7 +80,7 @@ export default () => {
                     onBlur={handleBlur}
                     error={
                       (touched.emailRepeat && errors.emailRepeat) ||
-                      errors.global
+                      errors.Global
                     }
                   />
                   <div className="form__submit">
