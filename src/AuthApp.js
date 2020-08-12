@@ -101,6 +101,14 @@ const AuthApp = () => {
             <Route exact path="/email-updated">
               <EmailUpdatedPage />
             </Route>
+
+            <Route
+              path="*"
+              component={() => {
+                window.location.href = process.env.REACT_APP_PORTAL_URL;
+                return null;
+              }}
+            />
           </Switch>
         </div>
       </FlashProvider>
