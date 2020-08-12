@@ -93,6 +93,7 @@ const AuthApp = () => {
               path="*"
               component={() => {
                 AuthService.redirectAndRestartLoginFlow();
+                return null;
               }}
             />
           </Switch>

@@ -101,7 +101,7 @@ export default () => {
               loading.end();
 
               if (response.status >= 200 && response.status < 300) {
-                history.push(`registration-check-Email?NPN=${values.NPN}`);
+                history.push(`registration-check-email?npn=${values.NPN}`);
               } else {
                 const errorsArr = await response.json();
                 setErrors(validationService.formikErrorsFor(errorsArr));
