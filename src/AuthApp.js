@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
-// the following routes are configured in IdentityServer
+// the following routes (beginning w/ Server*) are configured in IdentityServer
 // and are redirected to for each common auth situation
 import ServerLoginPage from "pages/auth/ServerLoginPage";
 import ServerLogoutPage from "pages/auth/ServerLogoutPage";
@@ -31,6 +31,8 @@ import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
+
+import AuthService from "services/auth";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -105,8 +107,7 @@ const AuthApp = () => {
             <Route
               path="*"
               component={() => {
-                window.location.href = process.env.REACT_APP_PORTAL_URL;
-                return null;
+                AuthService.redirectAndRestartLoginFlow();
               }}
             />
           </Switch>
