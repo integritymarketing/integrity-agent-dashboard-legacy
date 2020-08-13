@@ -1,6 +1,9 @@
 import React, { createContext, useState } from "react";
 
-const FlashContext = createContext();
+const FlashContext = createContext({
+  message: "",
+  isVisible: false,
+});
 
 export const FlashProvider = (props) => {
   const flashState = useState({
