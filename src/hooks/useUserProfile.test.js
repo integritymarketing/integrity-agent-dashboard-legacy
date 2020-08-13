@@ -27,7 +27,6 @@ describe("useUserProfile", () => {
         <TestEl />
       </AuthContext.Provider>
     );
-    await waitFor(() => expect(auth.getUser).toHaveBeenCalledTimes(1));
-    expect(container.textContent).toBe("test user");
+    await waitFor(() => expect(container.textContent).toBe("test user"));
   });
 });
