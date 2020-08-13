@@ -2,8 +2,6 @@ import React from "react";
 import useParams from "hooks/useParams";
 import { render } from "@testing-library/react";
 
-// jest.mock('URLSearchParams', );
-
 describe("useParams", () => {
   const TEST_URL_PARAMS = "?known=propval&bool=";
   it("returns null for unknown props", () => {
