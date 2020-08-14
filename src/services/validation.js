@@ -54,7 +54,7 @@ class ValidationService {
     return null;
   };
 
-  composeValidator = (validators) => {
+  composeValidator = (validators = []) => {
     return (...validatorArgs) =>
       validators.reduce((result, validator) => {
         if (result) return result;
