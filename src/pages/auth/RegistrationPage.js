@@ -21,7 +21,7 @@ export default () => {
       <Container size="small">
         <PageCard
           link={
-            <BackLink component={Link} to="/login">
+            <BackLink component={Link} to="/">
               Back to Login
             </BackLink>
           }
@@ -30,50 +30,50 @@ export default () => {
 
           <Formik
             initialValues={{
-              firstName: "",
-              lastName: "",
-              npn: "",
-              email: "",
-              emailRepeat: "",
-              password: "",
-              confirmPassword: "",
+              FirstName: "",
+              LastName: "",
+              NPN: "",
+              Email: "",
+              EmailRepeat: "",
+              Password: "",
+              ConfirmPassword: "",
             }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
                   {
-                    name: "firstName",
+                    name: "FirstName",
                     validator: validationService.validateRequired,
                     args: ["First Name"],
                   },
                   {
-                    name: "lastName",
+                    name: "LastName",
                     validator: validationService.validateRequired,
                     args: ["Last Name"],
                   },
                   {
-                    name: "npn",
+                    name: "NPN",
                     validator: validationService.validateNPN,
                   },
                   {
-                    name: "email",
+                    name: "Email",
                     validator: validationService.validateEmail,
                   },
                   {
-                    name: "emailRepeat",
+                    name: "EmailRepeat",
                     validator: validationService.validateFieldMatch(
-                      values.email
+                      values.Email
                     ),
                     args: ["Email Addresses"],
                   },
                   {
-                    name: "password",
+                    name: "Password",
                     validator: validationService.validatePasswordCreation,
                   },
                   {
-                    name: "confirmPassword",
+                    name: "ConfirmPassword",
                     validator: validationService.validateFieldMatch(
-                      values.password
+                      values.Password
                     ),
                   },
                 ],
@@ -101,10 +101,10 @@ export default () => {
               loading.end();
 
               if (response.status >= 200 && response.status < 300) {
-                history.push(`registration-check-email?npn=${values.npn}`);
+                history.push(`registration-check-email?npn=${values.NPN}`);
               } else {
-                const data = await response.json();
-                setErrors(data);
+                const errorsArr = await response.json();
+                setErrors(validationService.formikErrorsFor(errorsArr));
               }
             }}
           >
@@ -122,79 +122,79 @@ export default () => {
                     id="register-fname"
                     label="First Name"
                     placeholder="Enter your first name"
-                    name="firstName"
-                    value={values.firstName}
+                    name="FirstName"
+                    value={values.FirstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.firstName && errors.firstName) || errors.global
+                      (touched.FirstName && errors.FirstName) || errors.Global
                     }
                   />
                   <Textfield
                     id="register-lname"
                     label="Last Name"
                     placeholder="Enter your last name"
-                    name="lastName"
-                    value={values.lastName}
+                    name="LastName"
+                    value={values.LastName}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.lastName && errors.lastName) || errors.global
+                      (touched.LastName && errors.LastName) || errors.Global
                     }
                   />
                   <Textfield
                     id="register-npn"
                     label="NPN Number"
                     placeholder="Enter your NPN Number"
-                    name="npn"
-                    value={values.npn}
+                    name="NPN"
+                    value={values.NPN}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.npn && errors.npn) || errors.global}
+                    error={(touched.NPN && errors.NPN) || errors.Global}
                   />
                   <Textfield
                     id="register-email"
                     type="email"
                     label="Email Address"
                     placeholder="Enter your email address"
-                    name="email"
-                    value={values.email}
+                    name="Email"
+                    value={values.Email}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={(touched.email && errors.email) || errors.global}
+                    error={(touched.Email && errors.Email) || errors.Global}
                   />
                   <Textfield
                     id="register-email-verify"
                     type="email"
                     label="Re-enter Email Address"
-                    placeholder="Re-enter your email address"
-                    name="emailRepeat"
-                    value={values.emailRepeat}
+                    placeholder="Re-enter your Email address"
+                    name="EmailRepeat"
+                    value={values.EmailRepeat}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.emailRepeat && errors.emailRepeat) ||
-                      errors.global
+                      (touched.EmailRepeat && errors.EmailRepeat) ||
+                      errors.Global
                     }
                   />
                   <Textfield
                     id="register-password"
                     type="password"
                     label="Create Password"
-                    placeholder="Create a new password"
-                    name="password"
-                    value={values.password}
+                    placeholder="Create a new Password"
+                    name="Password"
+                    value={values.Password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.password && errors.password) || errors.global
+                      (touched.Password && errors.Password) || errors.Global
                     }
                     success={
-                      touched.password && !errors.password && !errors.global
+                      touched.Password && !errors.Password && !errors.Global
                     }
                     focusBanner={
                       <div className="form-tip">
-                        <p>Your password must: </p>
+                        <p>Your Password must: </p>
                         <ul className="list-basic">
                           <li>Be at least 8 characters long</li>
                           <li>
@@ -207,25 +207,25 @@ export default () => {
                         </ul>
                       </div>
                     }
-                    focusBannerVisible={!!errors.password}
+                    focusBannerVisible={!!errors.Password}
                   />
                   <Textfield
                     id="register-password-verify"
                     type="password"
                     label="Re-enter Password"
                     placeholder="Re-enter your new password"
-                    name="confirmPassword"
-                    value={values.confirmPassword}
+                    name="ConfirmPassword"
+                    value={values.ConfirmPassword}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={
-                      (touched.confirmPassword && errors.confirmPassword) ||
-                      errors.global
+                      (touched.ConfirmPassword && errors.ConfirmPassword) ||
+                      errors.Global
                     }
                     success={
-                      touched.confirmPassword &&
-                      !errors.confirmPassword &&
-                      !errors.global
+                      touched.ConfirmPassword &&
+                      !errors.ConfirmPassword &&
+                      !errors.Global
                     }
                   />
                   <div className="form__submit">
