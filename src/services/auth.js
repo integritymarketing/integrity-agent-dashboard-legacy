@@ -80,14 +80,17 @@ class AuthService {
     return !!oidcStorage && !!oidcStorage.id_token;
   };
 
-  signinSilent = () => {
-    this.UserManager.signinSilent()
-      .then((user) => {
-        console.log("signinSilent Success!", user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  signinSilent = async () => {
+    let user;
+    try {
+      user = await this.UserManager.signinSilent();
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+
+    console.log("signinSilent Success!", user);
+    return user;
   };
 
   signinSilentCallback = () => {

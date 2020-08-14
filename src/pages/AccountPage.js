@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav";
@@ -15,6 +16,7 @@ export default () => {
   const { firstName, lastName, npn, email } = userProfile;
   const { show: showMessage } = useFlashMessage();
   const loading = useLoading();
+  const history = useHistory();
 
   return (
     <React.Fragment>
@@ -58,7 +60,7 @@ export default () => {
               }}
               onSubmit={async (values, { setErrors, setSubmitting }) => {
                 setSubmitting(true);
-                loading.begin();
+                loading.begin(0);
 
                 let user = await AuthService.getUser();
                 const response = await fetch(
@@ -75,17 +77,24 @@ export default () => {
                   }
                 );
 
-                setSubmitting(false);
-                loading.end();
-
                 if (response.status >= 200 && response.status < 300) {
-                  // TODO fetch new access token
+                  // fetch a new access token w/ updated meta
+                  await AuthService.signinSilent();
+
+                  // hack for now to force reload of sibling compent context
+                  history.push("/dashboard");
+                  history.push("/account");
+
+                  setSubmitting(false);
+                  loading.end();
+
                   showMessage("Your account info has been updated.", {
                     type: "success",
                   });
                 } else {
+                  loading.end();
                   if (response.status === 401) {
-                    // TODO handle expired token
+                    // TODO handle expired token?
                   } else {
                     const errorsArr = await response.json();
                     setErrors(
