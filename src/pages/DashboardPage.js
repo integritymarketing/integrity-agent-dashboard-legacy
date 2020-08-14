@@ -11,14 +11,6 @@ import useUserProfile from "hooks/useUserProfile";
 export default () => {
   const userProfile = useUserProfile();
 
-  const SunfireLoginButton = (props) => {
-    const login = () => {
-      window.location = process.env.REACT_APP_SUNFIRE_SSO_URL;
-    };
-
-    return <button onClick={login} {...props}></button>;
-  };
-
   return (
     <React.Fragment>
       <div className="bg-high-contrast">
@@ -53,7 +45,9 @@ export default () => {
                 <p className="text-body">Powered by SunfireMatrix</p>
               </div>
               <div className="card__actions card__actions--multi">
-                <SunfireLoginButton className="btn">Login</SunfireLoginButton>
+                <a href={process.env.REACT_APP_SUNFIRE_SSO_URL} className="btn">
+                  Login
+                </a>
                 <button className="btn btn--outline">User Guide</button>
               </div>
             </Card>
