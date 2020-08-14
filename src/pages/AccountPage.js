@@ -7,11 +7,14 @@ import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 import useFlashMessage from "hooks/useFlashMessage";
+import useLoading from "hooks/useLoading";
+import AuthService from "services/auth";
 
 export default () => {
   const userProfile = useUserProfile();
   const { firstName, lastName, npn, email } = userProfile;
   const { show: showMessage } = useFlashMessage();
+  const loading = useLoading();
 
   return (
     <React.Fragment>
@@ -53,12 +56,45 @@ export default () => {
                   values
                 );
               }}
-              onSubmit={async (values, { setSubmitting }) => {
-                showMessage("Your account info has been updated.", {
-                  type: "success",
-                });
+              onSubmit={async (values, { setErrors, setSubmitting }) => {
+                setSubmitting(true);
+                loading.begin();
+
+                let user = await AuthService.getUser();
+                const response = await fetch(
+                  process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                    "/api/account/update",
+                  {
+                    method: "PUT",
+                    headers: {
+                      Authorization: "Bearer " + user.access_token,
+                      "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(values),
+                  }
+                );
+
                 setSubmitting(false);
-                // TODO: hook up form submit
+                loading.end();
+
+                if (response.status >= 200 && response.status < 300) {
+                  // TODO fetch new access token
+                  showMessage("Your account info has been updated.", {
+                    type: "success",
+                  });
+                } else {
+                  if (response.status === 401) {
+                    // TODO handle expired token
+                  } else {
+                    const errorsArr = await response.json();
+                    setErrors(
+                      validationService.formikErrorsFor(
+                        validationService.standardizeValidationKeys(errorsArr)
+                      )
+                    );
+                  }
+                }
               }}
             >
               {({
