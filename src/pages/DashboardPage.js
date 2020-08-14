@@ -45,7 +45,9 @@ export default () => {
                 <p className="text-body">Powered by SunfireMatrix</p>
               </div>
               <div className="card__actions card__actions--multi">
-                <button className="btn">Login</button>
+                <a href={process.env.REACT_APP_SUNFIRE_SSO_URL} className="btn">
+                  Login
+                </a>
                 <button className="btn btn--outline">User Guide</button>
               </div>
             </Card>
