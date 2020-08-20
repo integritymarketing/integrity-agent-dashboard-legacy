@@ -3,11 +3,11 @@ import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 const IDENTITY_CONFIG = {
   authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
   client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
-  redirect_uri: process.env.REACT_APP_AUTH_REDIRECT_URI,
-  post_logout_redirect_uri: process.env.REACT_APP_AUTH_LOGOFF_REDIRECT_URI,
   response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
   scope: process.env.REACT_APP_AUTH_SCOPES,
-  silent_redirect_uri: process.env.REACT_APP_AUTH_SILENT_REDIRECT_URI,
+  redirect_uri: process.env.REACT_APP_PORTAL_URL + "/signin-oidc",
+  post_logout_redirect_uri: process.env.REACT_APP_PORTAL_URL + "/signout-oidc",
+  silent_redirect_uri: process.env.REACT_APP_PORTAL_URL + "/signin-oidc-silent",
 };
 
 class AuthService {

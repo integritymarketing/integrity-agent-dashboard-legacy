@@ -3,18 +3,28 @@
   to = "/index.html"
   status = 200
 
+# Set non-sensitive auth env variables
+# that live across all envs for simplicity here
+# all URIs and env specif configs live in the netlify enviornment UI configs
+[build.environment]
+  REACT_APP_AUTH_CLIENT_ID="AEPortal"
+  REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full"
+  REACT_APP_AUTH_RESPONSE_TYPE="code"
+
+# Sentry
 [[plugins]]
   package = "@sentry/netlify-build-plugin"
   [plugins.inputs]
     sentryOrg = "integrity-marketing-org"
     sentryProject = "ae-agent-portal"
 
+# Sentry is enabled for develop, qa, stage, prod
+# Since all sites have the context of 'production' for each release
+# error scoping is controlled with the REACT_APP_BUILD_ENV variable
+# (to remove sentry errors from branch or preview deployments)
+[context.production.environment]
+  REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
+
 # Custom browserstack integration
 # [[plugins]]
 #  package = "/tests/conf/netlify-browserstack-plugin"
-
-# Note, sentry is enabled for develop, qa, stage, prod
-# since all sites have the context of 'production' for each release
-# error scoping is controlled with the REACT_APP_BUILD_ENV variable
-[context.production.environment]
-  REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
