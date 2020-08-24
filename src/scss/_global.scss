@@ -77,6 +77,18 @@ button {
   background: var(--brand-bg-gradient);
 }
 
+.bg-photo {
+  background: var(--invert-bg-color) url(../images/bg-default-1920.jpg) center
+    center no-repeat;
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    ),
+    url(../images/bg-default-1920.jpg);
+  background-size: cover;
+}
+
 .container {
   width: 100%;
   max-width: 1280px;

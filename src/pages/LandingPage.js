@@ -18,7 +18,7 @@ export default () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    auth.signinRedirect();
+    // auth.signinRedirect();
 
     // if there is an issue w/ automatic redirect, render backup fragment
     // with button to allow user to manually start flow
@@ -29,11 +29,15 @@ export default () => {
 
   return (
     <React.Fragment>
-      <div className="bg-high-contrast">
+      <div className="bg-photo text-invert">
         <GlobalNav />
+        <Container className="scaling-header">
+          <div className="hdg hdg--2">Agent Login</div>
+
+          <div className="hdg hdg--3 mt-1">Login to view your account.</div>
+        </Container>
       </div>
       <Container className="mt-scale-3">
-        <div className="hdg hdg--3 mb-scale-2">Agent Login</div>
         {!error && <p className="text-body">Attempting automatic login...</p>}
         {error && <LoginButton className="btn">Login</LoginButton>}
       </Container>
