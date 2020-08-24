@@ -20,9 +20,10 @@ class AuthService {
     Log.logger = console;
     Log.level = Log.DEBUG;
 
-    this.UserManager.events.addUserLoaded((user) => {
+    this.UserManager.events.addUserLoaded(async (user) => {
+      await this.setUserProfile();
       if (window.location.href.indexOf("signin-oidc") !== -1) {
-        this.navigateToScreen();
+        window.location.replace("/"); // redirect after userLoaded in oidc callback
       }
     });
 
@@ -34,12 +35,16 @@ class AuthService {
       console.log("token expired");
       this.signinSilent();
     });
+
+    this.userProfile = {};
+    (async () => {
+      await this.setUserProfile();
+    })();
   }
 
-  signinRedirectCallback = () => {
-    this.UserManager.signinRedirectCallback().then(() => {
-      console.log("Signin redirect callback CALLED");
-    });
+  setUserProfile = async () => {
+    let user = await this.getUser();
+    this.userProfile = user.profile;
   };
 
   getUser = async () => {
@@ -56,6 +61,12 @@ class AuthService {
       user.profile.firstName + " " + user.profile.lastName;
   }
 
+  signinRedirectCallback = () => {
+    this.UserManager.signinRedirectCallback().then(() => {
+      console.log("Signin redirect callback CALLED");
+    });
+  };
+
   parseJwt = (token) => {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace("-", "+").replace("_", "/");
@@ -65,10 +76,6 @@ class AuthService {
   signinRedirect = () => {
     localStorage.setItem("redirectUri", window.location.pathname);
     this.UserManager.signinRedirect({});
-  };
-
-  navigateToScreen = () => {
-    window.location.replace("/");
   };
 
   isAuthenticated = () => {

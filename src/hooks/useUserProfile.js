@@ -12,10 +12,8 @@ export default () => {
   });
 
   useEffect(() => {
-    auth.getUser().then((user) => {
-      setuserProfile(user.profile);
-    });
-  }, [auth]);
+    setuserProfile(auth.userProfile);
+  }, [auth.userProfile]);
 
   return userProfile;
 };

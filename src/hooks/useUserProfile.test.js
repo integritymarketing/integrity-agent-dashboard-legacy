@@ -10,17 +10,13 @@ describe("useUserProfile", () => {
       return user.fullName;
     };
     const auth = {
-      getUser: jest.fn(() => {
-        return Promise.resolve({
-          profile: {
-            fullName: "test user",
-            firstName: "test",
-            lastName: "user",
-            npn: "",
-            email: "",
-          },
-        });
-      }),
+      userProfile: {
+        fullName: "test user",
+        firstName: "test",
+        lastName: "user",
+        npn: "",
+        email: "",
+      },
     };
     const { container } = render(
       <AuthContext.Provider value={auth}>
