@@ -18,7 +18,7 @@ export default () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // auth.signinRedirect();
+    auth.signinRedirect();
 
     // if there is an issue w/ automatic redirect, render backup fragment
     // with button to allow user to manually start flow
