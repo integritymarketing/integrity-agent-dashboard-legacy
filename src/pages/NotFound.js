@@ -30,7 +30,7 @@ export default () => {
   const history = useHistory();
   return (
     <div className="content-frame bg-neutral-gradient text-invert">
-      <GlobalNav color="invert" menuHidden={true} className="mb-auto" />
+      <GlobalNav menuHidden={true} className="mb-auto" />
       <Container>
         <div className="hdg hdg--2">404</div>
         <div className="hdg hdg--2 mb-4">Page not found.</div>

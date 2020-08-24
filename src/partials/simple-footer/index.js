@@ -3,9 +3,9 @@ import "./index.scss";
 
 export default ({ className = "", ...props }) => {
   return (
-    <footer className={`global-footer pt-5 ${className}`} {...props}>
-      <div className="global-footer__content sf-text-center">
-        <nav className="global-footer__links">
+    <footer className={`simple-footer pt-5 ${className}`} {...props}>
+      <div className="simple-footer__content sf-text-center">
+        <nav className="simple-footer__links">
           <ul className="divided-hlist">
             <li>
               <a
@@ -29,7 +29,7 @@ export default ({ className = "", ...props }) => {
             </li>
           </ul>
         </nav>
-        <small className="global-footer__legal">
+        <small className="simple-footer__legal">
           <span>Copyright © 2020</span> <span>Integrity Marketing Group.</span>{" "}
           <span>All rights reserved.</span>
         </small>

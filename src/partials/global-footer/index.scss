@@ -1,0 +1,32 @@
+.global-footer {
+  margin-top: auto;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid var(--border-light);
+    background: var(--main-bg-color);
+    padding: 3.5rem var(--window-side-padding) 4rem;
+  }
+
+  &__legal {
+    font-size: inherit;
+    line-height: 1.5;
+
+    > span {
+      white-space: nowrap;
+    }
+  }
+
+  //   @media (max-width: 767px) {
+  //     &__content {
+  //       flex-direction: column;
+  //       align-items: center;
+  //     }
+
+  //     &__legal {
+  //       margin-top: 1rem;
+  //     }
+  //   }
+}

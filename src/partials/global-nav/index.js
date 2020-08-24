@@ -25,12 +25,7 @@ const HelpButtonWithModal = ({ ...props }) => {
   );
 };
 
-export default ({
-  color = "default",
-  menuHidden = false,
-  className = "",
-  ...props
-}) => {
+export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -79,7 +74,7 @@ export default ({
     <header className={`global-nav ${className}`} {...props}>
       <h1 className="global-nav__title">
         <Link to="/">
-          <Logo {...{ color }} />
+          <Logo />
         </Link>
       </h1>
       {auth.isAuthenticated() && !menuHidden && (

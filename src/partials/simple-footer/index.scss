@@ -1,12 +1,10 @@
-.global-footer {
+.simple-footer {
   margin-top: auto;
 
   &__content {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    background: var(--invert-bg-color);
-    color: var(--invert-text-color);
     padding: 2.25rem var(--window-side-padding);
 
     > * {
@@ -37,13 +35,6 @@
   @media (min-width: 768px) {
     &__links {
       margin-right: auto;
-    }
-  }
-
-  &--simple {
-    .global-footer__content {
-      background: none;
-      color: inherit;
     }
   }
 }
