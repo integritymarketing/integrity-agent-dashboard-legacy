@@ -73,8 +73,8 @@ button {
   background: var(--admin-bg-color);
 }
 
-.bg-brand-gradient {
-  background: var(--brand-bg-gradient);
+.bg-neutral-gradient {
+  background: var(--neutral-bg-gradient);
 }
 
 .bg-photo {
@@ -95,6 +95,8 @@ button {
   align-self: center;
   padding-left: var(--window-side-padding);
   padding-right: var(--window-side-padding);
+  margin-left: auto;
+  margin-right: auto;
 
   &--size-small {
     max-width: 600px;
@@ -130,6 +132,10 @@ $spacings: (
       #{$prop}: var(--fixed-space-#{$i});
     }
   }
+}
+
+.mb-auto {
+  margin-bottom: auto;
 }
 
 .border-bottom {

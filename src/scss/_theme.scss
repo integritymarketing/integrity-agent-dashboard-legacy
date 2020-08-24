@@ -5,8 +5,9 @@
   --main-text-color: #333333;
   --main-bg-color: #ffffff;
   --admin-bg-color: #e8eaef linear-gradient(to bottom, #f5f6f8 0%, #e8eaef 100%);
-  --brand-bg-gradient: #0079cc
-    linear-gradient(to bottom, #0079cc 0%, #236c9e 100%);
+  --neutral-bg-gradient: #ffffff
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+  --neutral-text-color: #434a51;
   --invert-text-color: #ffffff;
   --invert-bg-color: #333333;
   --muted-text-color: #a4aec1;
