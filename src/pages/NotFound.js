@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
-import GlobalFooter from "partials/global-footer";
+import SimpleFooter from "partials/simple-footer";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 
@@ -46,7 +46,7 @@ export default () => {
         </div>
         <HelpModal />
       </Container>
-      <GlobalFooter className="global-footer--simple" />
+      <SimpleFooter className="global-footer--simple" />
     </div>
   );
 };

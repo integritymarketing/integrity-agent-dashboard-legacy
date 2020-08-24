@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
-import GlobalFooter from "partials/global-footer";
+import SimpleFooter from "partials/simple-footer";
 
 export default () => {
   return (
@@ -281,7 +281,7 @@ export default () => {
           </p>
         </div>
       </Container>
-      <GlobalFooter />
+      <SimpleFooter />
     </div>
   );
 };

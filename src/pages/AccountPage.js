@@ -2,7 +2,7 @@ import React from "react";
 import Container from "components/ui/container";
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav";
-import GlobalFooter from "partials/global-footer";
+import SimpleFooter from "partials/simple-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
@@ -236,7 +236,7 @@ export default () => {
           </section>
         </Container>
       )}
-      <GlobalFooter />
+      <SimpleFooter />
     </React.Fragment>
   );
 };

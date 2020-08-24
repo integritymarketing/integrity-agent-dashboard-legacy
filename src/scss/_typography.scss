@@ -40,7 +40,7 @@
 .wysiwyg h3 {
   font-size: 1.25rem;
   line-height: (24 / 20);
-  font-weight: 400;
+  font-weight: 700;
 
   &.hdg--scale-from-body {
     @include clamp-font-size(16, 20);
@@ -59,6 +59,7 @@
 .wysiwyg p {
   font-size: 1rem;
   line-height: 1.5;
+  letter-spacing: -0.25px;
 }
 
 .text-body--large {

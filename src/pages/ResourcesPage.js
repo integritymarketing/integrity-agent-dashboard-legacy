@@ -3,7 +3,7 @@ import Container from "components/ui/container";
 import Card from "components/ui/card";
 import LineItem from "components/ui/line-item";
 import GlobalNav from "partials/global-nav";
-import GlobalFooter from "partials/global-footer";
+import SimpleFooter from "partials/simple-footer";
 import ExpandableContent from "components/ui/expandable-content";
 import ComputerIcon from "components/icons/computer";
 import DownloadIcon from "components/icons/download";
@@ -119,7 +119,7 @@ export default () => {
           />
         </section>
       </Container>
-      <GlobalFooter />
+      <SimpleFooter />
     </React.Fragment>
   );
 };

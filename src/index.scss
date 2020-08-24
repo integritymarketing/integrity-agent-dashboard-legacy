@@ -49,7 +49,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease,
     box-shadow 0.2s ease; // TODO: determine global transition default
-  min-width: (160 / 16) * 1rem;
+  min-width: (140 / 16) * 1rem;
   text-decoration: none;
   text-align: center;
 
@@ -393,4 +393,31 @@
   &--error {
     background-color: var(--error-state-color);
   }
+}
+
+.mod-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-gap: 5rem 1rem;
+  justify-items: center;
+}
+
+.mod {
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-icon {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
 }

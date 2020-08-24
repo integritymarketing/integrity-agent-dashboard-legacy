@@ -50,7 +50,7 @@ export default ({
             {
               component: Link,
               props: { to: "/resources" },
-              label: "Resources",
+              label: "Learning Center",
             },
           ],
           secondary: [

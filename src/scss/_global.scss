@@ -124,13 +124,13 @@ $spacings: (
       #{$prop}: var(--scaling-space-#{$i});
     }
   }
-}
-
-@each $abbr, $prop in $spacings {
   @for $i from 0 through 5 {
     .#{$abbr}-#{$i} {
       #{$prop}: var(--fixed-space-#{$i});
     }
+  }
+  .#{$abbr}-auto {
+    #{$prop}: auto;
   }
 }
 

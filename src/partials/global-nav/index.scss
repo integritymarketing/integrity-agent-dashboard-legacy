@@ -38,14 +38,10 @@
 
   &--open,
   &--closed:focus-within {
+    color: var(--neutral-text-color);
     .dropdown-menu__trigger {
       position: relative;
       z-index: 2;
-      color: var(--invert-text-color);
-      &:hover {
-        color: var(--invert-text-color);
-        text-decoration: underline;
-      }
     }
     .dropdown-menu__items {
       position: absolute;
@@ -53,9 +49,8 @@
       top: -1rem;
       left: -1rem;
       width: calc(100% + 2rem);
-      padding: 3.5rem 1rem 1rem;
-      background-color: var(--invert-bg-color);
-      color: var(--invert-text-color);
+      padding: 3.5rem 1rem 0.5rem;
+      background-color: var(--main-bg-color);
       border-radius: 0.25rem;
 
       > li {
