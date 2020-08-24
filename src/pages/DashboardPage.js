@@ -6,11 +6,8 @@ import GlobalNav from "partials/global-nav";
 import SimpleFooter from "partials/simple-footer";
 import ArticleIcon from "components/icons/article";
 import UpdateIcon from "components/icons/update";
-import useUserProfile from "hooks/useUserProfile";
 
 export default () => {
-  const userProfile = useUserProfile();
-
   return (
     <React.Fragment>
       <div className="bg-photo text-invert">
