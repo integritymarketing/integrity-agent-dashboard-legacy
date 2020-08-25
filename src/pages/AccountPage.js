@@ -7,11 +7,14 @@ import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 import useFlashMessage from "hooks/useFlashMessage";
+import useLoading from "hooks/useLoading";
+import AuthService from "services/auth";
 
 export default () => {
   const userProfile = useUserProfile();
   const { firstName, lastName, npn, email } = userProfile;
   const { show: showMessage } = useFlashMessage();
+  const loading = useLoading();
 
   return (
     <React.Fragment>
@@ -53,12 +56,48 @@ export default () => {
                   values
                 );
               }}
-              onSubmit={async (values, { setSubmitting }) => {
-                showMessage("Your account info has been updated.", {
-                  type: "success",
-                });
-                setSubmitting(false);
-                // TODO: hook up form submit
+              onSubmit={async (values, { setErrors, setSubmitting }) => {
+                setSubmitting(true);
+                loading.begin(0);
+
+                let user = await AuthService.getUser();
+                const response = await fetch(
+                  process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                    "/api/account/update",
+                  {
+                    method: "PUT",
+                    headers: {
+                      Authorization: "Bearer " + user.access_token,
+                      "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(values),
+                  }
+                );
+
+                if (response.status >= 200 && response.status < 300) {
+                  // fetch a new access token w/ updated meta
+                  await AuthService.signinSilent();
+
+                  setSubmitting(false);
+                  loading.end();
+
+                  showMessage("Your account info has been updated.", {
+                    type: "success",
+                  });
+                } else {
+                  loading.end();
+                  if (response.status === 401) {
+                    // TODO handle expired token?
+                  } else {
+                    const errorsArr = await response.json();
+                    setErrors(
+                      validationService.formikErrorsFor(
+                        validationService.standardizeValidationKeys(errorsArr)
+                      )
+                    );
+                  }
+                }
               }}
             >
               {({
@@ -125,7 +164,7 @@ export default () => {
             <Formik
               initialValues={{
                 currentPassword: "",
-                password: "",
+                newPassword: "",
                 confirmPassword: "",
               }}
               validate={(values) => {
@@ -137,24 +176,59 @@ export default () => {
                       args: ["Current Password"],
                     },
                     {
-                      name: "password",
+                      name: "newPassword",
                       validator: validationService.validatePasswordCreation,
                       args: ["New Password"],
                     },
                     {
                       name: "confirmPassword",
                       validator: validationService.validateFieldMatch(
-                        values.password
+                        values.newPassword
                       ),
                     },
                   ],
                   values
                 );
               }}
-              onSubmit={async (values, { setSubmitting }) => {
+              onSubmit={async (values, { setErrors, setSubmitting }) => {
                 setSubmitting(true);
-                // TODO: hook up form submit
-                showMessage("Your password has been updated.");
+                loading.begin(0);
+
+                let user = await AuthService.getUser();
+                const response = await fetch(
+                  process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                    "/api/account/updatepassword",
+                  {
+                    method: "PUT",
+                    headers: {
+                      Authorization: "Bearer " + user.access_token,
+                      "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(values),
+                  }
+                );
+
+                if (response.status >= 200 && response.status < 300) {
+                  setSubmitting(false);
+                  loading.end();
+
+                  showMessage("Your password has been successfully updated.", {
+                    type: "success",
+                  });
+                } else {
+                  loading.end();
+                  if (response.status === 401) {
+                    // TODO handle expired token?
+                  } else {
+                    const errorsArr = await response.json();
+                    setErrors(
+                      validationService.formikErrorsFor(
+                        validationService.standardizeValidationKeys(errorsArr)
+                      )
+                    );
+                  }
+                }
               }}
             >
               {({
@@ -186,12 +260,12 @@ export default () => {
                       type="password"
                       label="Create New Password"
                       placeholder="Create a new password"
-                      name="password"
-                      value={values.password}
+                      name="newPassword"
+                      value={values.newPassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.password && errors.password}
-                      success={touched.password && !errors.password}
+                      error={touched.newPassword && errors.newPassword}
+                      success={touched.newPassword && !errors.newPassword}
                       focusBanner={
                         <div className="form-tip">
                           <p>Your password must: </p>

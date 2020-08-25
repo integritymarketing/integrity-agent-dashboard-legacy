@@ -74,6 +74,17 @@ class ValidationService {
     }, errorsObj);
   };
 
+  // set first character to lower case
+  // from .NET API returning CamelCase attrs
+  standardizeValidationKeys = (errorsArr) => {
+    errorsArr.forEach((el) => {
+      if (el.hasOwnProperty("Key")) {
+        el["Key"] = el["Key"].charAt(0).toLowerCase() + el["Key"].slice(1);
+      }
+    });
+    return errorsArr;
+  };
+
   formikErrorsFor = (errorsArr) => {
     let formikErrors = {};
     errorsArr.forEach((el) => {

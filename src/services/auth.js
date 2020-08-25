@@ -21,8 +21,12 @@ class AuthService {
     Log.level = Log.DEBUG;
 
     this.UserManager.events.addUserLoaded((user) => {
-      if (window.location.href.indexOf("signin-oidc") !== -1) {
-        this.navigateToScreen();
+      if (this.isAuthSuccessCallback()) {
+        // redirect after userLoaded in /signin-oidc callback
+        window.location.replace("/");
+      } else {
+        // update userProfile after silent renew
+        this.setUserProfile();
       }
     });
 
@@ -34,12 +38,17 @@ class AuthService {
       console.log("token expired");
       this.signinSilent();
     });
+
+    this.userProfile = {};
+    if (!this.isAnyAuthCallback()) {
+      this.setUserProfile();
+    }
   }
 
-  signinRedirectCallback = () => {
-    this.UserManager.signinRedirectCallback().then(() => {
-      console.log("Signin redirect callback CALLED");
-    });
+  setUserProfile = async () => {
+    let user = await this.getUser();
+    this.addFullNameToUserProfile(user);
+    this.userProfile = user.profile;
   };
 
   getUser = async () => {
@@ -47,14 +56,27 @@ class AuthService {
     if (!user) {
       return await this.UserManager.signinRedirectCallback();
     }
-    this.addFullNameToUserProfile(user);
     return user;
   };
+
+  isAnyAuthCallback() {
+    return window.location.href.indexOf("-oidc") !== -1;
+  }
+
+  isAuthSuccessCallback() {
+    return window.location.href.indexOf("signin-oidc") !== -1;
+  }
 
   addFullNameToUserProfile(user) {
     user.profile.fullName =
       user.profile.firstName + " " + user.profile.lastName;
   }
+
+  signinRedirectCallback = () => {
+    this.UserManager.signinRedirectCallback().then(() => {
+      console.log("Signin redirect callback CALLED");
+    });
+  };
 
   parseJwt = (token) => {
     const base64Url = token.split(".")[1];
@@ -67,10 +89,6 @@ class AuthService {
     this.UserManager.signinRedirect({});
   };
 
-  navigateToScreen = () => {
-    window.location.replace("/");
-  };
-
   isAuthenticated = () => {
     const oidcStorage = JSON.parse(
       sessionStorage.getItem(
@@ -80,14 +98,17 @@ class AuthService {
     return !!oidcStorage && !!oidcStorage.id_token;
   };
 
-  signinSilent = () => {
-    this.UserManager.signinSilent()
-      .then((user) => {
-        console.log("signinSilent Success!", user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  signinSilent = async () => {
+    let user;
+    try {
+      user = await this.UserManager.signinSilent();
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+
+    console.log("signinSilent Success!", user);
+    return user;
   };
 
   signinSilentCallback = () => {
