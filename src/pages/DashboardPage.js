@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
+import ContactInfo from "partials/contact-info";
+import Modal from "components/ui/modal";
+
+const SSOButtonWithModal = ({ ...props }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  return (
+    <React.Fragment>
+      <button
+        type="button"
+        onClick={() => setModalOpen(true)}
+        {...props}
+      ></button>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <div className="mb-3">
+          <div className="tool-icon">MA</div>
+        </div>
+        <p className="text-body mb-4">
+          Choose your <br />
+          <strong>Medicare Advantage/PDP</strong> experience:
+        </p>
+        <div className="pt-2 mb-3">
+          <button className="btn">Open Connecture</button>
+        </div>
+        <div className="mb-4">
+          <button className="btn">Open SunFireMatrix</button>
+        </div>
+      </Modal>
+    </React.Fragment>
+  );
+};
 
 export default () => {
   return (
@@ -25,7 +55,9 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button className="btn btn--invert">Open</button>
+                <SSOButtonWithModal className="btn btn--invert">
+                  Open
+                </SSOButtonWithModal>
               </div>
             </div>
 
