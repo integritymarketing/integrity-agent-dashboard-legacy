@@ -49,12 +49,31 @@
   }
 }
 
+.hdg--4,
+.wysiwyg h4 {
+  font-size: 1.25rem;
+  line-height: (24 / 20);
+  font-weight: 400;
+
+  &.hdg--scale-from-body {
+    @include clamp-font-size(16, 20);
+  }
+}
+
 .text-center {
   text-align: center;
 }
 
 .text-bold {
   font-weight: bold;
+}
+
+.text-main {
+  color: var(--main-text-color);
+}
+
+.text-brand {
+  color: var(--brand-text-color);
 }
 
 .text-body,
@@ -67,6 +86,26 @@
 .text-body--large {
   font-size: 1.25rem;
   line-height: 1.2;
+}
+
+.text-hr {
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  &::before,
+  &::after {
+    content: "";
+    display: inline-block;
+    height: 0;
+    border-top: 1px solid var(--border-light);
+    flex: 1 0 4rem;
+    margin: 0 2.5rem 0 0;
+  }
+
+  &::after {
+    margin: 0 0 0 2.5rem;
+  }
 }
 
 // Small Form Factor Utils

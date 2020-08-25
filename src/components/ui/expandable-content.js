@@ -28,17 +28,17 @@ export default ({ header, sections = [], ...props }) => {
           const collapsedClasses =
             idx === sections.length - 1
               ? ""
-              : "mb-scale-2 pb-scale-2 border-bottom";
+              : "mb-scale-2 pb-scale-2 border-bottom text-muted";
 
           return (
             <li
               key={item.title}
               className={itemVisible ? null : collapsedClasses}
             >
-              <div className="toolbar">
+              <div className="toolbar text-main">
                 <span className="hdg hdg--3">
                   <span className="mr-1">{item.title}</span>{" "}
-                  <span className="text-bold">{item.numItems}</span>
+                  <span className="text-bold text-brand">{item.numItems}</span>
                 </span>
                 <div className="toolbar__right">
                   <button

@@ -74,11 +74,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     <header className={`global-nav ${className}`} {...props}>
       <h1 className="global-nav__title">
         <Link to="/">
-          <Logo />
+          <Logo aria-hidden="true" />
+          <span className="visually-hidden">Medicare Center</span>
         </Link>
       </h1>
       {auth.isAuthenticated() && !menuHidden && (
         <nav className="global-nav__links">
+          <h2 className="visually-hidden">Main Navigation</h2>
           {/*
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139

@@ -2,6 +2,10 @@
   > li {
     border-bottom: 1px solid;
   }
+
+  &--light > li {
+    border-color: var(--border-light);
+  }
 }
 
 .divided-hlist {

@@ -29,6 +29,7 @@ export default ({ className = "", ...props }) => {
           <Logo />
         </Link>
         <nav className="global-footer__links mt-4">
+          <h2 className="visually-hidden">Additional Navigation</h2>
           <ul className="divided-hlist">
             <li>
               <HelpButtonWithModal className="link link--inherit">

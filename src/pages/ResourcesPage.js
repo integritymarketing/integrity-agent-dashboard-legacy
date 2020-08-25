@@ -1,9 +1,8 @@
 import React from "react";
 import Container from "components/ui/container";
-import Card from "components/ui/card";
 import LineItem from "components/ui/line-item";
 import GlobalNav from "partials/global-nav";
-import SimpleFooter from "partials/simple-footer";
+import GlobalFooter from "partials/global-footer";
 import ExpandableContent from "components/ui/expandable-content";
 import ComputerIcon from "components/icons/computer";
 import DownloadIcon from "components/icons/download";
@@ -28,52 +27,57 @@ const resourceDict = resourceData.resources.reduce((dict, resource) => {
 export default () => {
   return (
     <React.Fragment>
-      <div className="bg-high-contrast">
+      <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">
-          <div className="hdg hdg--2">
-            Resources to keep your sales game strong.
-          </div>
+          <h2 className="hdg hdg--1">Learning Center</h2>
 
-          <div className="hdg hdg--3 mt-1">
-            Check out your educational resources below.
+          <div className="text-body mt-1">
+            Explore resources designed to help you meet client needs and grow
+            your business.
           </div>
+        </Container>
+      </div>
+      <div className="bg-high-contrast">
+        <Container className="mt-scale-3 pb-scale-4">
+          <section>
+            <h3 className="hdg hdg--4 text-hr">Recommended Reads</h3>
+            <div className="mod-grid mt-4">
+              {resourceData.featured
+                .map((resourceName) => resourceDict[resourceName])
+                .map((resource) => (
+                  <div className="mod text-center" key={resource.name}>
+                    <div>
+                      <ComputerIcon width="40" height="40" />
+                    </div>
+                    <div className="mt-2">
+                      <h2 className="hdg hdg--3">{resource.name}</h2>
+                    </div>
+                    <div className="mt-1">
+                      <p className="text-body">{resource.description}</p>
+                    </div>
+                    <div className="pt-2 mt-auto">
+                      <a
+                        href={resource.url}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className="btn"
+                      >
+                        Download
+                      </a>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </section>
         </Container>
       </div>
       <Container className="mt-scale-3">
         <section>
-          <div className="hdg hdg--3">Recommended Reads</div>
-          <div className="card-grid mt-4">
-            {resourceData.featured
-              .map((resourceName) => resourceDict[resourceName])
-              .map((resource) => (
-                <Card key={resource.name}>
-                  <div className="card__title">
-                    <ComputerIcon className="card__icon" />
-                    <span>{resource.name}</span>
-                  </div>
-                  <div className="card__body">
-                    <p className="text-body">{resource.description}</p>
-                  </div>
-                  <div className="card__actions">
-                    <a
-                      href={resource.url}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="btn"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </Card>
-              ))}
-          </div>
-        </section>
-        <section className="mt-scale-4">
           <ExpandableContent
             header={({ isExpanded, toggleAll }) => (
               <div className="toolbar mb-4">
-                <div className="hdg hdg--3">All Resources</div>
+                <h3 className="hdg hdg--4">All Resources</h3>
                 <div className="toolbar__right text-body sf-hide">
                   <button className="link" onClick={toggleAll}>
                     {isExpanded ? "Collapse All" : "Expand All"}
@@ -91,7 +95,7 @@ export default () => {
                 title: category.name,
                 numItems: resources.length,
                 renderItems: () => (
-                  <ul className="divided-vlist mt-2 mb-5">
+                  <ul className="divided-vlist divided-vlist--light text-muted mt-2 mb-5">
                     {resources.map((resource) => {
                       return (
                         <li key={resource.name}>
@@ -99,6 +103,7 @@ export default () => {
                             href={resource.url}
                             rel="noopener noreferrer"
                             target="_blank"
+                            className="text-main"
                             icon={<CategoryIcon />}
                             actionIcon={<DownloadIcon />}
                           >
@@ -119,7 +124,7 @@ export default () => {
           />
         </section>
       </Container>
-      <SimpleFooter />
+      <GlobalFooter />
     </React.Fragment>
   );
 };

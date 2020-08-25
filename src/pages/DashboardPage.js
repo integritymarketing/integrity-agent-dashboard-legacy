@@ -3,7 +3,6 @@ import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
-import ContactInfo from "partials/contact-info";
 import Modal from "components/ui/modal";
 
 const SSOButtonWithModal = ({ ...props }) => {
@@ -40,7 +39,7 @@ export default () => {
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">
-          <div className="mod-row">
+          <div className="mod-grid">
             <div className="mod text-center">
               <div className="pb-1">
                 <div className="tool-icon">MA</div>
