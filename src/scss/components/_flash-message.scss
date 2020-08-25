@@ -1,0 +1,41 @@
+.flash-message {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  width: 100%;
+  background-color: var(--success-state-color);
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  &[aria-hidden="hidden"] {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+  }
+
+  &__content {
+    margin-right: 1rem;
+  }
+
+  &__actions {
+    margin-left: auto;
+  }
+
+  &--neutral {
+    background-color: var(--invert-bg-color);
+    color: var(--invert-text-color);
+  }
+
+  &--success {
+    background-color: var(--success-state-color);
+  }
+
+  &--error {
+    background-color: var(--error-state-color);
+  }
+}

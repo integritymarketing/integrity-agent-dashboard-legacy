@@ -30,7 +30,8 @@
 .wysiwyg h2 {
   font-size: 2rem;
   line-height: (48 / 32);
-  font-weight: 300;
+  font-weight: 400;
+  letter-spacing: -0.5px;
 
   &.hdg--scale-from-3 {
     @include clamp-font-size(20, 32);
