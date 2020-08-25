@@ -95,7 +95,7 @@ export default () => {
                 title: category.name,
                 numItems: resources.length,
                 renderItems: () => (
-                  <ul className="divided-vlist divided-vlist--light text-muted mt-2 mb-5">
+                  <ul className="divided-vlist divided-vlist--light mt-2 mb-5">
                     {resources.map((resource) => {
                       return (
                         <li key={resource.name}>
@@ -103,7 +103,6 @@ export default () => {
                             href={resource.url}
                             rel="noopener noreferrer"
                             target="_blank"
-                            className="text-main"
                             icon={<CategoryIcon />}
                             actionIcon={<DownloadIcon />}
                           >

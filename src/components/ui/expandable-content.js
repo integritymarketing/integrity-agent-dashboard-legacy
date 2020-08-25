@@ -28,7 +28,7 @@ export default ({ header, sections = [], ...props }) => {
           const collapsedClasses =
             idx === sections.length - 1
               ? ""
-              : "mb-scale-2 pb-scale-2 border-bottom text-muted";
+              : "mb-scale-2 pb-scale-2 border-bottom border-bottom--light";
 
           return (
             <li
