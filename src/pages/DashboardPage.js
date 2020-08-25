@@ -1,10 +1,8 @@
 import React from "react";
 import Container from "components/ui/container";
-import LineItem from "components/ui/line-item";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
-import ArticleIcon from "components/icons/article";
-import UpdateIcon from "components/icons/update";
+import ResourceLinkGrid from "partials/resource-link-grid";
 
 export default () => {
   return (
@@ -73,32 +71,14 @@ export default () => {
           </div>
         </Container>
       </div>
-      <Container className="mt-scale-3">
+      <Container className="mt-scale-3 mb-4">
         <section>
           <div className="hdg hdg--1">Learning Center</div>
-          <p className="text-body text-muted mt-1">
+          <p className="text-body text-muted mt-1 mb-4">
             Explore resources designed to help you meet client needs and grow
             your business.
           </p>
-          <ul className="divided-vlist mt-2">
-            <li>
-              <LineItem href="#external" icon={<ArticleIcon />}>
-                What Can You Do To Save Your Medicare From Destruction By Social
-                Media?
-              </LineItem>
-            </li>
-            <li>
-              <LineItem href="#external" icon={<UpdateIcon />}>
-                What Can You Do To Save Your Medicare From Destruction By Social
-                Media?
-              </LineItem>
-            </li>
-          </ul>
-          <div className="mt-4 sf-text-center">
-            <button type="button" className="btn">
-              View All
-            </button>
-          </div>
+          <ResourceLinkGrid />
         </section>
       </Container>
       <GlobalFooter />
