@@ -20,10 +20,13 @@ class AuthService {
     Log.logger = console;
     Log.level = Log.DEBUG;
 
-    this.UserManager.events.addUserLoaded(async (user) => {
-      await this.setUserProfile();
-      if (window.location.href.indexOf("signin-oidc") !== -1) {
-        window.location.replace("/"); // redirect after userLoaded in oidc callback
+    this.UserManager.events.addUserLoaded((user) => {
+      if (this.isAuthSuccessCallback()) {
+        // redirect after userLoaded in /signin-oidc callback
+        window.location.replace("/");
+      } else {
+        // update userProfile after silent renew
+        this.setUserProfile();
       }
     });
 
@@ -37,13 +40,14 @@ class AuthService {
     });
 
     this.userProfile = {};
-    (async () => {
-      await this.setUserProfile();
-    })();
+    if (!this.isAnyAuthCallback()) {
+      this.setUserProfile();
+    }
   }
 
   setUserProfile = async () => {
     let user = await this.getUser();
+    this.addFullNameToUserProfile(user);
     this.userProfile = user.profile;
   };
 
@@ -52,9 +56,16 @@ class AuthService {
     if (!user) {
       return await this.UserManager.signinRedirectCallback();
     }
-    this.addFullNameToUserProfile(user);
     return user;
   };
+
+  isAnyAuthCallback() {
+    return window.location.href.indexOf("-oidc") !== -1;
+  }
+
+  isAuthSuccessCallback() {
+    return window.location.href.indexOf("signin-oidc") !== -1;
+  }
 
   addFullNameToUserProfile(user) {
     user.profile.fullName =
