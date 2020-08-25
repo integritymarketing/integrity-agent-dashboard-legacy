@@ -22,7 +22,6 @@ class AuthService {
 
     this.UserManager.events.addUserLoaded((user) => {
       if (this.isAuthSuccessCallback()) {
-        // redirect after userLoaded in /signin-oidc callback
         window.location.replace("/");
       } else {
         // update userProfile after silent renew
@@ -31,7 +30,7 @@ class AuthService {
     });
 
     this.UserManager.events.addSilentRenewError((e) => {
-      console.log("silent renew error", e.message);
+      throw new Error(e.message);
     });
 
     this.UserManager.events.addAccessTokenExpired(() => {
@@ -40,7 +39,7 @@ class AuthService {
     });
 
     this.userProfile = {};
-    if (!this.isAnyAuthCallback()) {
+    if (this.isAuthenticated()) {
       this.setUserProfile();
     }
   }
@@ -58,10 +57,6 @@ class AuthService {
     }
     return user;
   };
-
-  isAnyAuthCallback() {
-    return window.location.href.indexOf("-oidc") !== -1;
-  }
 
   isAuthSuccessCallback() {
     return window.location.href.indexOf("signin-oidc") !== -1;
