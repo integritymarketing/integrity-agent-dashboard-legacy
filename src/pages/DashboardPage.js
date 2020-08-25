@@ -45,7 +45,7 @@ export default () => {
                 <div className="tool-icon">MA</div>
               </div>
               <div className="mt-2">
-                <h2 className="hdg hdg--3">Medicare Advantage/PDP</h2>
+                <h2 className="hdg hdg--4">Medicare Advantage/PDP</h2>
               </div>
               <div className="mt-1">
                 <p className="text-body">
@@ -65,7 +65,7 @@ export default () => {
                 <div className="tool-icon">MS</div>
               </div>
               <div className="mt-2">
-                <h2 className="hdg hdg--3">Medicare Supplement</h2>
+                <h2 className="hdg hdg--4">Medicare Supplement</h2>
               </div>
               <div className="mt-1">
                 <p className="text-body">
@@ -88,7 +88,7 @@ export default () => {
                 <div className="tool-icon">CM</div>
               </div>
               <div className="mt-2">
-                <h2 className="hdg hdg--3">Client Management</h2>
+                <h2 className="hdg hdg--4">Client Management</h2>
               </div>
               <div className="mt-1">
                 <p className="text-body">

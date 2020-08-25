@@ -41,7 +41,7 @@ export default () => {
       <div className="bg-high-contrast">
         <Container className="mt-scale-3 pb-scale-4">
           <section>
-            <h3 className="hdg hdg--4 text-hr">Recommended Reads</h3>
+            <h3 className="hdg hdg--3 text-hr">Recommended Reads</h3>
             <div className="mod-grid mt-4">
               {resourceData.featured
                 .map((resourceName) => resourceDict[resourceName])
@@ -51,7 +51,7 @@ export default () => {
                       <ComputerIcon width="40" height="40" />
                     </div>
                     <div className="mt-2">
-                      <h2 className="hdg hdg--3">{resource.name}</h2>
+                      <h2 className="hdg hdg--4">{resource.name}</h2>
                     </div>
                     <div className="mt-1">
                       <p className="text-body">{resource.description}</p>
@@ -77,7 +77,7 @@ export default () => {
           <ExpandableContent
             header={({ isExpanded, toggleAll }) => (
               <div className="toolbar mb-4">
-                <h3 className="hdg hdg--4">All Resources</h3>
+                <h3 className="hdg hdg--3">All Resources</h3>
                 <div className="toolbar__right text-body sf-hide">
                   <button className="link" onClick={toggleAll}>
                     {isExpanded ? "Collapse All" : "Expand All"}

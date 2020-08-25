@@ -34,7 +34,7 @@ export default () => {
         <Container className="scaling-header">
           <div className="hdg hdg--2">Agent Login</div>
 
-          <div className="hdg hdg--3 mt-1">Login to view your account.</div>
+          <div className="hdg hdg--4 mt-1">Login to view your account.</div>
         </Container>
       </div>
       <Container className="mt-scale-3">

@@ -44,7 +44,6 @@ export default ({ className = "", ...props }) => {
             <li>
               <a
                 href={`${process.env.REACT_APP_PORTAL_URL || ""}/terms`}
-                target="_blank"
                 rel="noopener noreferrer"
                 className="link link--inherit"
               >
@@ -54,7 +53,6 @@ export default ({ className = "", ...props }) => {
             <li>
               <a
                 href={`${process.env.REACT_APP_PORTAL_URL || ""}/privacy`}
-                target="_blank"
                 rel="noopener noreferrer"
                 className="link link--inherit"
               >

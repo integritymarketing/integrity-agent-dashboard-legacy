@@ -42,7 +42,7 @@
 .wysiwyg h3 {
   font-size: 1.25rem;
   line-height: (24 / 20);
-  font-weight: 700;
+  font-weight: 400;
 
   &.hdg--scale-from-body {
     @include clamp-font-size(16, 20);
@@ -53,7 +53,7 @@
 .wysiwyg h4 {
   font-size: 1.25rem;
   line-height: (24 / 20);
-  font-weight: 400;
+  font-weight: 700;
 
   &.hdg--scale-from-body {
     @include clamp-font-size(16, 20);

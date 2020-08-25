@@ -36,7 +36,7 @@ export default ({ header, sections = [], ...props }) => {
               className={itemVisible ? null : collapsedClasses}
             >
               <div className="toolbar text-main">
-                <span className="hdg hdg--3">
+                <span className="hdg hdg--4">
                   <span className="mr-1">{item.title}</span>{" "}
                   <span className="text-bold text-brand">{item.numItems}</span>
                 </span>

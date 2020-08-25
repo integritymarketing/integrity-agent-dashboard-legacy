@@ -24,7 +24,7 @@ export default () => {
       {userProfile.id && (
         <Container className="mt-scale-3">
           <section>
-            <h3 className="hdg hdg--4">Your account info</h3>
+            <h3 className="hdg hdg--3">Your account info</h3>
             <Formik
               initialValues={{
                 firstName,
@@ -121,7 +121,7 @@ export default () => {
             </Formik>
           </section>
           <section className="mt-5">
-            <h3 className="hdg hdg--4">Update your password</h3>
+            <h3 className="hdg hdg--3">Update your password</h3>
             <Formik
               initialValues={{
                 currentPassword: "",
