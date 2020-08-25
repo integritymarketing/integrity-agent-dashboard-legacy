@@ -55,6 +55,9 @@ class AuthService {
   getUser = async () => {
     const user = await this.UserManager.getUser();
     if (!user) {
+      Log.debug(
+        "AuthService: user undefined in getUser().  attempting signinRedirectCallback.."
+      );
       return await this.UserManager.signinRedirectCallback();
     }
     return user;
