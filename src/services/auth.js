@@ -17,8 +17,10 @@ class AuthService {
       userStore: new WebStorageStateStore({ store: window.sessionStorage }),
     });
 
-    Log.logger = console;
-    Log.level = Log.DEBUG;
+    if (process.env.REACT_APP_BUILD_ENV !== "production") {
+      Log.logger = console;
+      Log.level = Log.DEBUG;
+    }
 
     this.UserManager.events.addUserLoaded((user) => {
       if (this.isAuthSuccessCallback()) {
@@ -30,11 +32,11 @@ class AuthService {
     });
 
     this.UserManager.events.addSilentRenewError((e) => {
-      throw new Error(e.message);
+      throw new Error("AuthService: " + e.message);
     });
 
     this.UserManager.events.addAccessTokenExpired(() => {
-      console.log("token expired");
+      Log.debug("AuthService: access token expired, starting signinSilent()");
       this.signinSilent();
     });
 
@@ -69,7 +71,7 @@ class AuthService {
 
   signinRedirectCallback = () => {
     this.UserManager.signinRedirectCallback().then(() => {
-      console.log("Signin redirect callback CALLED");
+      Log.debug("AuthService: signin redirect complete");
     });
   };
 
@@ -98,11 +100,11 @@ class AuthService {
     try {
       user = await this.UserManager.signinSilent();
     } catch (err) {
-      console.log(err);
+      Log.error("AuthService Error: ", err);
       return;
     }
 
-    console.log("signinSilent Success!", user);
+    Log.debug("AuthService: signinSilent success!", user);
     return user;
   };
 
