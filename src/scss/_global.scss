@@ -117,6 +117,10 @@ button {
   margin-right: auto;
 
   &--size-small {
+    max-width: 440px;
+  }
+
+  &--size-medium {
     max-width: 600px;
   }
 }
