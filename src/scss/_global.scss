@@ -80,15 +80,31 @@ button {
 }
 
 .bg-photo {
-  background: var(--invert-bg-color) url(../images/bg-default-1920.jpg) center
-    center no-repeat;
-  background-image: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.6) 100%
-    ),
-    url(../images/bg-default-1920.jpg);
+  --bg-photo-gradient: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  background: var(--invert-bg-color) center center no-repeat;
+  background-image: var(--bg-photo-gradient),
+    url(../images/optimized/bg-default-800.jpg);
   background-size: cover;
+
+  // retina > 500px or standard > 1000px
+  @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 500px),
+    (min-resolution: 192dpi) and (min-width: 500px),
+    (min-width: 1000px) {
+    background-image: var(--bg-photo-gradient),
+      url(../images/optimized/bg-default-1440.jpg);
+  }
+
+  // retina > 900px or standard > 1600px
+  @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 900px),
+    (min-resolution: 192dpi) and (min-width: 900px),
+    (min-width: 1600px) {
+    background-image: var(--bg-photo-gradient),
+      url(../images/optimized/bg-default-1920.jpg);
+  }
 }
 
 .container {

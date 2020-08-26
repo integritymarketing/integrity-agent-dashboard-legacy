@@ -1,18 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ArrowRightLongIcon from "components/icons/arrow-right-long";
-import workingRemotelySrc from "images/working-remotely-373.jpg";
-import workingRemotelySrc2x from "images/working-remotely-746.jpg";
-import salesTipsSrc from "images/sales-tips-373.jpg";
-import salesTipsSrc2x from "images/sales-tips-746.jpg";
-import techGuidesSrc from "images/tech-guides-373.jpg";
-import techGuidesSrc2x from "images/tech-guides-746.jpg";
-import healthSolutionsSrc from "images/health-solutions-373.jpg";
-import healthSolutionsSrc2x from "images/health-solutions-746.jpg";
-import lifeSolutionsSrc from "images/life-solutions-373.jpg";
-import lifeSolutionsSrc2x from "images/life-solutions-746.jpg";
-import carrierGuidesSrc from "images/carrier-guides-373.jpg";
-import carrierGuidesSrc2x from "images/carrier-guides-746.jpg";
+import workingRemotelySrc from "images/optimized/working-remotely-373.jpg";
+import workingRemotelySrc2x from "images/optimized/working-remotely-746.jpg";
+import salesTipsSrc from "images/optimized/sales-tips-373.jpg";
+import salesTipsSrc2x from "images/optimized/sales-tips-746.jpg";
+import techGuidesSrc from "images/optimized/tech-guides-373.jpg";
+import techGuidesSrc2x from "images/optimized/tech-guides-746.jpg";
+import healthSolutionsSrc from "images/optimized/health-solutions-373.jpg";
+import healthSolutionsSrc2x from "images/optimized/health-solutions-746.jpg";
+import lifeSolutionsSrc from "images/optimized/life-solutions-373.jpg";
+import lifeSolutionsSrc2x from "images/optimized/life-solutions-746.jpg";
+import carrierGuidesSrc from "images/optimized/carrier-guides-373.jpg";
+import carrierGuidesSrc2x from "images/optimized/carrier-guides-746.jpg";
 
 export default () => {
   const topics = [
