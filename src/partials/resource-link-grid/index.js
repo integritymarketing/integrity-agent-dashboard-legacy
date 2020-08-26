@@ -17,34 +17,40 @@ import carrierGuidesSrc2x from "images/carrier-guides-746.jpg";
 export default () => {
   const topics = [
     {
+      id: "working-remotely",
       name: "Working Remotely",
       images: { 373: workingRemotelySrc, 746: workingRemotelySrc2x },
     },
     {
+      id: "sales-tips",
       name: "Sales Tips",
       images: { 373: salesTipsSrc, 746: salesTipsSrc2x },
     },
     {
+      id: "tech-guides",
       name: "Tech Guides",
       images: { 373: techGuidesSrc, 746: techGuidesSrc2x },
     },
     {
+      id: "health-solutions",
       name: "Health Solutions",
       images: { 373: healthSolutionsSrc, 746: healthSolutionsSrc2x },
     },
     {
+      id: "life-solutions",
       name: "Life Solutions",
       images: { 373: lifeSolutionsSrc, 746: lifeSolutionsSrc2x },
     },
     {
+      id: "carrier-guides",
       name: "Carrier Guides",
       images: { 373: carrierGuidesSrc, 746: carrierGuidesSrc2x },
     },
   ];
   return (
     <ul className="link-card-grid">
-      {topics.map(({ name, images }) => (
-        <li key={name} className="link-card">
+      {topics.map(({ id, name, images }) => (
+        <li key={id} className="link-card">
           <img
             src={images[373]}
             srcSet={Object.keys(images)
@@ -56,7 +62,13 @@ export default () => {
             aria-hidden="true"
           />
           {/* TODO: link up to resources sections */}
-          <Link to="/resources" className="link-card__link text-body text-bold">
+          <Link
+            to={{
+              pathname: "/resources",
+              hash: `#${id}`,
+            }}
+            className="link-card__link text-body text-bold"
+          >
             <span>{name}</span> <ArrowRightLongIcon />
           </Link>
         </li>

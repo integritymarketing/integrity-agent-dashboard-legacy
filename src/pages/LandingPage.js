@@ -3,14 +3,21 @@ import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import AuthContext from "contexts/auth";
 
-const LoginButton = (props) => {
+const LoginLink = (props) => {
   const auth = useContext(AuthContext);
 
   const login = () => {
     auth.signinRedirect();
   };
 
-  return <button onClick={login} {...props}></button>;
+  return (
+    <React.Fragment>
+      <div className="text-body text-body--large mb-3">
+        Unable to login automatically.
+      </div>
+      <button onClick={login} {...props}></button>
+    </React.Fragment>
+  );
 };
 
 export default () => {
@@ -39,7 +46,7 @@ export default () => {
       </div>
       <Container className="mt-scale-3">
         {!error && <p className="text-body">Attempting automatic login...</p>}
-        {error && <LoginButton className="btn">Login</LoginButton>}
+        {error && <LoginLink className="link">Go to Login portal</LoginLink>}
       </Container>
     </React.Fragment>
   );

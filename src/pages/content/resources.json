@@ -6,7 +6,7 @@
   ],
   "categories": [
     {
-      "id": "remote-work",
+      "id": "working-remotely",
       "name": "Working in a Remote World",
       "icon": "computer"
     },
@@ -16,19 +16,19 @@
     {
       "name": "Tips for Working Remotely",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
-      "categories": ["remote-work"],
+      "categories": ["working-remotely"],
       "url": "https://learningcenter.tawebhost.com/Enrollment+FAQ.pdf"
     },
     {
       "name": "Tips for Managing Remote Workers",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
-      "categories": ["remote-work"],
+      "categories": ["working-remotely"],
       "url": "https://learningcenter.tawebhost.com/Enrollment+FAQ.pdf"
     },
     {
       "name": "Tips for Managing Stress",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
-      "categories": ["remote-work"],
+      "categories": ["working-remotely"],
       "url": "https://learningcenter.tawebhost.com/Enrollment+FAQ.pdf"
     },
     {

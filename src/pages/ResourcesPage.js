@@ -92,6 +92,7 @@ export default () => {
               const CategoryIcon =
                 iconDict[category.icon] || iconDict["default"];
               return {
+                id: category.id,
                 title: category.name,
                 numItems: resources.length,
                 renderItems: () => (

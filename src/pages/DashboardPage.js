@@ -16,7 +16,7 @@ const SSOButtonWithModal = ({ ...props }) => {
       ></button>
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <div className="mb-3">
-          <div className="tool-icon">MA</div>
+          <div className="tool-icon">MA PDP</div>
         </div>
         <p className="text-body mb-4">
           Choose your <br />
@@ -26,7 +26,9 @@ const SSOButtonWithModal = ({ ...props }) => {
           <button className="btn">Open Connecture</button>
         </div>
         <div className="mb-4">
-          <button className="btn">Open SunFireMatrix</button>
+          <a href={process.env.REACT_APP_SUNFIRE_SSO_URL} className="btn">
+            Open SunFireMatrix
+          </a>
         </div>
       </Modal>
     </React.Fragment>
@@ -42,10 +44,7 @@ export default () => {
           <div className="mod-grid">
             <div className="mod text-center">
               <div className="pb-1">
-                <div className="tool-icon">MA</div>
-              </div>
-              <div className="mt-2">
-                <h2 className="hdg hdg--4">Medicare Advantage/PDP</h2>
+                <div className="tool-icon">MA PDP</div>
               </div>
               <div className="mt-1">
                 <p className="text-body">
@@ -55,40 +54,29 @@ export default () => {
               </div>
               <div className="pt-2 mt-auto">
                 <SSOButtonWithModal className="btn btn--invert">
-                  Open
+                  Medicare Advantage & PDP
                 </SSOButtonWithModal>
               </div>
             </div>
 
             <div className="mod text-center">
               <div className="pb-1">
-                <div className="tool-icon">MS</div>
-              </div>
-              <div className="mt-2">
-                <h2 className="hdg hdg--4">Medicare Supplement</h2>
+                <div className="tool-icon">MED SUPP</div>
               </div>
               <div className="mt-1">
                 <p className="text-body">
-                  Quote and compare Medicare Supplement plans by location,
-                  carrier, and more
+                  Quote and compare Med Supp plans by location, carrier, and
+                  more
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <a
-                  href={process.env.REACT_APP_SUNFIRE_SSO_URL}
-                  className="btn btn--invert"
-                >
-                  Open
-                </a>
+                <button className="btn btn--invert">Medicare Supplement</button>
               </div>
             </div>
 
             <div className="mod text-center">
               <div className="pb-1">
-                <div className="tool-icon">CM</div>
-              </div>
-              <div className="mt-2">
-                <h2 className="hdg hdg--4">Client Management</h2>
+                <div className="tool-icon">CRM</div>
               </div>
               <div className="mt-1">
                 <p className="text-body">
@@ -96,7 +84,7 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button className="btn btn--invert">Open</button>
+                <button className="btn btn--invert">Client Management</button>
               </div>
             </div>
           </div>
