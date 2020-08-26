@@ -12,7 +12,7 @@ export default ({ resendFn }) => {
   if (emailError) {
     return (
       <React.Fragment>
-        <div className="text-center text-body">
+        <div className="mt-2 text-body">
           Sorry, there was a problem resending the email.
           <br />
           If the problem persists,{" "}
@@ -33,7 +33,7 @@ export default ({ resendFn }) => {
   }
   if (!emailSent) {
     return (
-      <div className="text-center text-body">
+      <div className="mt-2 text-body">
         Didn’t receive an email?{" "}
         <button
           type="button"
@@ -54,7 +54,7 @@ export default ({ resendFn }) => {
   }
   return (
     <React.Fragment>
-      <div className="text-center text-body">
+      <div className="mt-2 text-body">
         We have resent the email. <br />
         If the problem persists,{" "}
         <button
