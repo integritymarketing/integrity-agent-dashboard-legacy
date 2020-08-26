@@ -26,6 +26,7 @@ const images = [
 ];
 
 (async () => {
+  // TODO: skip files that exist already
   await Promise.all(
     images.map(({ inPath, outPath, sizes }) => {
       return Promise.all(
