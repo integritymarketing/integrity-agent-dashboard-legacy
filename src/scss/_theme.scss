@@ -1,15 +1,16 @@
 @use "mixins" as *;
 
 :root {
-  --page-bg-color: #e8eaef;
+  --page-bg-color: #f9fafb;
   --main-text-color: #333333;
   --main-bg-color: #ffffff;
   --admin-bg-color: #e8eaef linear-gradient(to bottom, #f5f6f8 0%, #e8eaef 100%);
-  --brand-bg-gradient: #0079cc
-    linear-gradient(to bottom, #0079cc 0%, #236c9e 100%);
+  --neutral-bg-gradient: #ffffff
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+  --neutral-text-color: #434a51;
   --invert-text-color: #ffffff;
   --invert-bg-color: #333333;
-  --muted-text-color: #a4aec1;
+  --muted-text-color: #8f99a3;
   --muted-light-text-color: #e8eaef;
   --error-state-color: #d86a66;
   --success-state-color: #94d199;
@@ -27,6 +28,7 @@
   --page-bg-hover: #dee1e8;
   --form-border-default: #e3e6ec;
   --form-border-active: #236c9e;
+  --border-light: #c7ccd1;
   --window-side-padding: #{get-clamp-val(16, 40)};
   --scaling-header-padding: #{get-clamp-val(80, 144)};
   --scaling-space-0: 0;

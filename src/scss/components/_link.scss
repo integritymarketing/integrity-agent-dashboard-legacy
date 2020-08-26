@@ -1,0 +1,30 @@
+.link {
+  color: var(--brand-text-color);
+  border: 0;
+  background: none;
+  padding: 0;
+  display: inline;
+  text-decoration: none;
+
+  &:hover,
+  &--body {
+    color: var(--brand-text-hover-color);
+    text-decoration: underline;
+  }
+
+  &--invert {
+    color: var(--invert-text-color);
+
+    &:hover {
+      color: var(--invert-text-color);
+    }
+  }
+
+  &--inherit {
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+    }
+  }
+}

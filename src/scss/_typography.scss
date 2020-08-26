@@ -20,16 +20,18 @@
 
 .hdg--1,
 .wysiwyg h1 {
-  font-size: 3rem;
-  line-height: (72 / 48);
-  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: (48 / 40);
+  font-weight: 400;
+  letter-spacing: -1.25px;
 }
 
 .hdg--2,
 .wysiwyg h2 {
   font-size: 2rem;
   line-height: (48 / 32);
-  font-weight: 300;
+  font-weight: 400;
+  letter-spacing: -0.5px;
 
   &.hdg--scale-from-3 {
     @include clamp-font-size(20, 32);
@@ -47,6 +49,17 @@
   }
 }
 
+.hdg--4,
+.wysiwyg h4 {
+  font-size: 1.25rem;
+  line-height: (24 / 20);
+  font-weight: 700;
+
+  &.hdg--scale-from-body {
+    @include clamp-font-size(16, 20);
+  }
+}
+
 .text-center {
   text-align: center;
 }
@@ -55,15 +68,44 @@
   font-weight: bold;
 }
 
+.text-main {
+  color: var(--main-text-color);
+}
+
+.text-brand {
+  color: var(--brand-text-color);
+}
+
 .text-body,
 .wysiwyg p {
   font-size: 1rem;
   line-height: 1.5;
+  letter-spacing: -0.25px;
 }
 
 .text-body--large {
   font-size: 1.25rem;
   line-height: 1.2;
+}
+
+.text-hr {
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  &::before,
+  &::after {
+    content: "";
+    display: inline-block;
+    height: 0;
+    border-top: 1px solid var(--border-light);
+    flex: 1 0 4rem;
+    margin: 0 2.5rem 0 0;
+  }
+
+  &::after {
+    margin: 0 0 0 2.5rem;
+  }
 }
 
 // Small Form Factor Utils

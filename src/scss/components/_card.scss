@@ -1,0 +1,98 @@
+.card-grid {
+  > * {
+    width: 100%;
+    min-height: 256px;
+  }
+  @media (max-width: 539px) {
+    > * + * {
+      margin-top: 2.5rem;
+    }
+  }
+
+  @media (min-width: 540px) {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+
+    > * {
+      min-height: 256px;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--scaling-space-1);
+  background-color: var(--card-bg);
+  color: var(--main-text-color);
+  border-radius: 0.25rem;
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.2s ease; // TODO: determine global transition default
+
+  &--page {
+    min-height: clamp(100px, 75vw, 560px);
+    padding: #{get-clamp-val(24, 40)} #{get-clamp-val(40, 80)};
+    position: relative;
+  }
+
+  &--page__link {
+    position: absolute;
+    top: 2rem;
+    left: #{get-clamp-val(40, 80)};
+    line-height: 1.5;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5rem;
+      left: -1.5rem;
+    }
+  }
+
+  &--page__header {
+    padding-bottom: #{get-clamp-val(16, 40)};
+    margin-bottom: auto;
+  }
+
+  &--page__footer {
+    padding-top: #{get-clamp-val(16, 40)};
+    margin-top: auto;
+  }
+}
+
+.card__title {
+  display: flex;
+  font-size: 1.25rem;
+  line-height: (24 / 20);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.card__icon {
+  margin: 0.25rem 1rem 0 0;
+}
+
+.card__actions {
+  display: flex;
+  margin-top: auto;
+
+  &--multi {
+    > * {
+      flex: 1 0 0%;
+    }
+
+    > * + * {
+      margin: 0 0 0 2rem;
+    }
+
+    @media (max-width: 399px) {
+      flex-direction: column;
+      > * + * {
+        margin: 1rem 0 0;
+      }
+    }
+  }
+}

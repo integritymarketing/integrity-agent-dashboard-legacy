@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
-import GlobalFooter from "partials/global-footer";
+import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
@@ -144,7 +144,7 @@ export default () => {
           </Formik>
         </PageCard>
       </Container>
-      <GlobalFooter className="global-footer--simple" />
+      <SimpleFooter className="global-footer--simple" />
     </div>
   );
 };

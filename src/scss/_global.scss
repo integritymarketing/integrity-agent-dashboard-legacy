@@ -8,9 +8,9 @@
 
 body {
   margin: 0;
-  font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--page-bg-color);
@@ -46,8 +46,10 @@ ol {
 
 button,
 input,
-textarea {
+textarea,
+a {
   font-family: inherit;
+  color: inherit;
 }
 
 button {
@@ -73,8 +75,36 @@ button {
   background: var(--admin-bg-color);
 }
 
-.bg-brand-gradient {
-  background: var(--brand-bg-gradient);
+.bg-neutral-gradient {
+  background: var(--neutral-bg-gradient);
+}
+
+.bg-photo {
+  --bg-photo-gradient: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  background: var(--invert-bg-color) center center no-repeat;
+  background-image: var(--bg-photo-gradient),
+    url(../images/optimized/bg-default-800.jpg);
+  background-size: cover;
+
+  // retina > 500px or standard > 1000px
+  @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 500px),
+    (min-resolution: 192dpi) and (min-width: 500px),
+    (min-width: 1000px) {
+    background-image: var(--bg-photo-gradient),
+      url(../images/optimized/bg-default-1440.jpg);
+  }
+
+  // retina > 900px or standard > 1600px
+  @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 900px),
+    (min-resolution: 192dpi) and (min-width: 900px),
+    (min-width: 1600px) {
+    background-image: var(--bg-photo-gradient),
+      url(../images/optimized/bg-default-1920.jpg);
+  }
 }
 
 .container {
@@ -83,6 +113,8 @@ button {
   align-self: center;
   padding-left: var(--window-side-padding);
   padding-right: var(--window-side-padding);
+  margin-left: auto;
+  margin-right: auto;
 
   &--size-small {
     max-width: 600px;
@@ -110,16 +142,24 @@ $spacings: (
       #{$prop}: var(--scaling-space-#{$i});
     }
   }
-}
-
-@each $abbr, $prop in $spacings {
   @for $i from 0 through 5 {
     .#{$abbr}-#{$i} {
       #{$prop}: var(--fixed-space-#{$i});
     }
   }
+  .#{$abbr}-auto {
+    #{$prop}: auto;
+  }
+}
+
+.mb-auto {
+  margin-bottom: auto;
 }
 
 .border-bottom {
   border-bottom: 1px solid;
+}
+
+.border-bottom--light {
+  border-bottom-color: var(--border-light);
 }

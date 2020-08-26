@@ -18,16 +18,16 @@ export default () => {
 
   return (
     <React.Fragment>
-      <div className="bg-high-contrast">
+      <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">
-          <div className="hdg hdg--2">Update your account information</div>
+          <h2 className="hdg hdg--1">Update your account information</h2>
         </Container>
       </div>
       {userProfile.id && (
         <Container className="mt-scale-3">
           <section>
-            <div className="hdg hdg--3">Your account info</div>
+            <h3 className="hdg hdg--3">Your account info</h3>
             <Formik
               initialValues={{
                 firstName,
@@ -160,7 +160,7 @@ export default () => {
             </Formik>
           </section>
           <section className="mt-5">
-            <div className="hdg hdg--3">Update your password</div>
+            <h3 className="hdg hdg--3">Update your password</h3>
             <Formik
               initialValues={{
                 currentPassword: "",

@@ -1,21 +1,29 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import ExpandIcon from "components/icons/expand";
 import CollapseIcon from "components/icons/collapse";
 
+const identity = (x) => x;
+
 export default ({ header, sections = [], ...props }) => {
-  const [expandedItems, setExpandedItems] = useState([]);
+  const { hash = "#" } = useLocation();
+  const initialSection = hash.substr(1);
+
+  const [expandedItems, setExpandedItems] = useState(
+    [initialSection].filter(identity)
+  );
   const isExpanded = sections.length === expandedItems.length;
   const renderProps = {
     isExpanded,
     toggleAll: () =>
-      setExpandedItems(isExpanded ? [] : sections.map(({ title }) => title)),
+      setExpandedItems(isExpanded ? [] : sections.map(({ id }) => id)),
   };
 
   const toggleItem = (item, show) => {
     if (show) {
-      setExpandedItems([...expandedItems, item.title]);
+      setExpandedItems([...expandedItems, item.id]);
     } else {
-      setExpandedItems(expandedItems.filter((title) => title !== item.title));
+      setExpandedItems(expandedItems.filter((id) => id !== item.id));
     }
   };
   return (
@@ -23,22 +31,23 @@ export default ({ header, sections = [], ...props }) => {
       {header && header(renderProps)}
       <ul className="mt-2">
         {sections.map((item, idx) => {
-          const itemVisible = expandedItems.includes(item.title);
+          const itemVisible = expandedItems.includes(item.id);
           const Icon = itemVisible ? CollapseIcon : ExpandIcon;
           const collapsedClasses =
             idx === sections.length - 1
               ? ""
-              : "mb-scale-2 pb-scale-2 border-bottom";
+              : "mb-scale-2 pb-scale-2 border-bottom border-bottom--light";
 
           return (
             <li
-              key={item.title}
+              key={item.id}
+              id={item.id}
               className={itemVisible ? null : collapsedClasses}
             >
-              <div className="toolbar">
-                <span className="hdg hdg--3">
+              <div className="toolbar text-main">
+                <span className="hdg hdg--4">
                   <span className="mr-1">{item.title}</span>{" "}
-                  <span className="text-bold">{item.numItems}</span>
+                  <span className="text-bold text-brand">{item.numItems}</span>
                 </span>
                 <div className="toolbar__right">
                   <button

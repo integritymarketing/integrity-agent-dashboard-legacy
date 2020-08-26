@@ -25,7 +25,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
         .map((link, idx) => {
           return (
             <li key={idx}>
-              <link.component className="link" {...link.props}>
+              <link.component className="link link--invert" {...link.props}>
                 {link.label}
               </link.component>
             </li>
@@ -38,7 +38,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
           }`}
         >
           <button
-            className={`link dropdown-menu__trigger`}
+            className={`link link--inherit dropdown-menu__trigger`}
             onClick={() => setNavOpen(!navOpen)}
           >
             <span>{userProfile.fullName}</span>
@@ -51,7 +51,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
                 return (
                   <li key={idx}>
                     <link.component
-                      className="link link--invert"
+                      className="link link--inherit"
                       {...link.props}
                     >
                       {link.label}

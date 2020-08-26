@@ -2,7 +2,7 @@ import React from "react";
 import Container from "components/ui/container";
 import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
-import GlobalFooter from "partials/global-footer";
+import SimpleFooter from "partials/simple-footer";
 import AuthService from "services/auth";
 
 const defaultButton = () => {
@@ -27,7 +27,7 @@ export default ({ footer, title, body = null, button = defaultButton() }) => {
           </div>
         </PageCard>
       </Container>
-      <GlobalFooter className="global-footer--simple" />
+      <SimpleFooter className="global-footer--simple" />
     </div>
   );
 };

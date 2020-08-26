@@ -3,14 +3,21 @@ import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import AuthContext from "contexts/auth";
 
-const LoginButton = (props) => {
+const LoginLink = (props) => {
   const auth = useContext(AuthContext);
 
   const login = () => {
     auth.signinRedirect();
   };
 
-  return <button onClick={login} {...props}></button>;
+  return (
+    <React.Fragment>
+      <div className="text-body text-body--large mb-3">
+        Unable to login automatically.
+      </div>
+      <button onClick={login} {...props}></button>
+    </React.Fragment>
+  );
 };
 
 export default () => {
@@ -27,19 +34,20 @@ export default () => {
     }, 3000);
   }, [auth]);
 
-  if (error) {
-    return (
-      <React.Fragment>
-        <div className="bg-high-contrast">
-          <GlobalNav />
-        </div>
-        <Container className="mt-scale-3">
-          <div className="hdg hdg--3 mb-scale-2">Agent Login</div>
-          <LoginButton className="btn">Login</LoginButton>
+  return (
+    <React.Fragment>
+      <div className="bg-photo text-invert">
+        <GlobalNav />
+        <Container className="scaling-header">
+          <div className="hdg hdg--2">Agent Login</div>
+
+          <div className="hdg hdg--4 mt-1">Login to view your account.</div>
         </Container>
-      </React.Fragment>
-    );
-  } else {
-    return "";
-  }
+      </div>
+      <Container className="mt-scale-3">
+        {!error && <p className="text-body">Attempting automatic login...</p>}
+        {error && <LoginLink className="link">Go to Login portal</LoginLink>}
+      </Container>
+    </React.Fragment>
+  );
 };
