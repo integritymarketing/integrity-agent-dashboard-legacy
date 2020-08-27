@@ -2,13 +2,15 @@
 
 .simple-header {
   display: flex;
-  justify-content: center;
-  padding: var(--window-side-padding);
-  padding-top: #{get-clamp-val(24, 64)};
-  padding-bottom: #{get-clamp-val(44, 24)};
+  width: 100%;
+  padding: calc(var(--window-side-padding) - 1rem) var(--window-side-padding);
+  align-items: center;
 
-  a {
-    display: flex;
-    padding: 1rem; // increase hit area
+  &__title {
+    a {
+      display: flex;
+      padding: 1rem; // increase hit area
+      margin-left: -1rem;
+    }
   }
 }

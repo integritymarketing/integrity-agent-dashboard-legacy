@@ -36,7 +36,6 @@ const Textfield = ({
         <label htmlFor={id} className="label">
           {label}
         </label>
-        {auxLink}
       </div>
       <div
         className={`textfield__input ${
@@ -71,9 +70,14 @@ const Textfield = ({
           {hasSuccess && <SuccessIcon />}
         </div>
       </div>
-      <div className="textfield__error mt-1">{error}</div>
+      <div className="textfield__error">{error}</div>
+      {auxLink}
     </div>
   );
 };
+
+export const InvertedTextfield = ({ className = "", ...props }) => (
+  <Textfield className={`${className} textfield--invert`} {...props} />
+);
 
 export default Textfield;

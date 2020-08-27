@@ -17,12 +17,16 @@ export default () => {
   return (
     <div
       className={`flash-message flash-message--${type}`}
-      aria-hidden={isVisible ? null : "hidden"}
+      aria-hidden={isVisible ? "false" : "true"}
     >
       <span className="flash-message__content">{message}</span>
       {dismissable && (
         <span className="flash-message__actions">
-          <button className="icon-btn" onClick={dismiss}>
+          <button
+            className="icon-btn"
+            onClick={dismiss}
+            tabIndex={isVisible ? null : "-1"}
+          >
             <span className="visually-hidden">Close message</span>
             <ExitIcon aria-hidden="true" />
           </button>

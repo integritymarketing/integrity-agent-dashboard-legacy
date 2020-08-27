@@ -38,9 +38,9 @@ export default () => {
   return (
     <BaseConfirmationPage
       footer={
-        <div className="text-center text-body">
+        <div className="mt-2 text-body">
           <button
-            className="link"
+            className="link link--invert link--force-underline"
             onClick={AuthService.redirectAndRestartLoginFlow}
           >
             Want to try a different email address?
@@ -52,7 +52,7 @@ export default () => {
       button={
         <button
           type="button"
-          className="btn"
+          className="btn btn--invert"
           onClick={handleResendComfirmEmail}
         >
           Resend Email
