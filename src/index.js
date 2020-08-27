@@ -11,7 +11,7 @@ import "focus-visible";
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.REACT_APP_BUILD_ENV || "develop",
+    environment: process.env.REACT_APP_BUILD_ENV || "Development",
   });
 }
 

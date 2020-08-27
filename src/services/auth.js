@@ -17,7 +17,7 @@ class AuthService {
       userStore: new WebStorageStateStore({ store: window.sessionStorage }),
     });
 
-    if (process.env.REACT_APP_BUILD_ENV !== "production") {
+    if (process.env.REACT_APP_BUILD_ENV !== "Production") {
       Log.logger = console;
       Log.level = Log.DEBUG;
     }
