@@ -32,7 +32,7 @@ export default ({ open = false, onClose, children, ...props }) => {
         }
       }}
     >
-      <Container size="small">
+      <Container size="medium">
         <PageCard
           className="modal__card"
           header={

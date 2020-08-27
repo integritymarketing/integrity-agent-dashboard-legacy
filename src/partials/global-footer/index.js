@@ -26,7 +26,8 @@ export default ({ className = "", ...props }) => {
     <footer className={`global-footer text-muted pt-5 ${className}`} {...props}>
       <div className="global-footer__content sf-text-center">
         <Link to="/">
-          <Logo />
+          <span className="visually-hidden">Medicare Center</span>
+          <Logo aria-hidden="true" />
         </Link>
         <nav className="global-footer__links mt-4">
           <h2 className="visually-hidden">Additional Navigation</h2>

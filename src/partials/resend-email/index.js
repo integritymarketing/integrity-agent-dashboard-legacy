@@ -12,13 +12,13 @@ export default ({ resendFn }) => {
   if (emailError) {
     return (
       <React.Fragment>
-        <div className="text-center text-body">
+        <div className="mt-2 text-body">
           Sorry, there was a problem resending the email.
           <br />
           If the problem persists,{" "}
           <button
             type="button"
-            className="link"
+            className="link link--invert link--force-underline"
             onClick={() => setModalOpen(true)}
           >
             please contact support
@@ -33,11 +33,11 @@ export default ({ resendFn }) => {
   }
   if (!emailSent) {
     return (
-      <div className="text-center text-body">
+      <div className="mt-2 text-body">
         Didn’t receive an email?{" "}
         <button
           type="button"
-          className="link"
+          className="link link--invert link--force-underline"
           onClick={async () => {
             let response = await resendFn(params.get("npn"));
             if (response.status >= 200 && response.status < 300) {
@@ -54,12 +54,12 @@ export default ({ resendFn }) => {
   }
   return (
     <React.Fragment>
-      <div className="text-center text-body">
+      <div className="mt-2 text-body">
         We have resent the email. <br />
         If the problem persists,{" "}
         <button
           type="button"
-          className="link"
+          className="link link--invert link--force-underline"
           onClick={() => setModalOpen(true)}
         >
           please contact support

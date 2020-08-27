@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import Textfield from "components/ui/textfield";
+import { InvertedTextfield } from "components/ui/textfield";
 import validationService from "services/validation";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
@@ -52,137 +51,131 @@ export default () => {
   }, []);
 
   return (
-    <div className="content-frame bg-admin text-muted">
+    <div className="content-frame bg-photo text-invert">
       <GlobalNav />
       <Container size="small">
-        <PageCard>
-          <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
+        <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
 
-          <Formik
-            initialValues={{ Password: "", ConfirmPassword: "" }}
-            validate={(values) => {
-              return validationService.validateMultiple(
-                [
-                  {
-                    name: "Password",
-                    validator: validationService.validatePasswordCreation,
-                  },
-                  {
-                    name: "ConfirmPassword",
-                    validator: validationService.validateFieldMatch(
-                      values.Password
-                    ),
-                  },
-                ],
-                values
-              );
-            }}
-            onSubmit={async (values, { setErrors, setSubmitting }) => {
-              setSubmitting(true);
-              loading.begin();
-
-              const response = await fetch(
-                process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                  "/api/account/resetpassword",
+        <Formik
+          initialValues={{ Password: "", ConfirmPassword: "" }}
+          validate={(values) => {
+            return validationService.validateMultiple(
+              [
                 {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  credentials: "include",
-                  body: JSON.stringify({
-                    ...values,
-                    NPN: params.get("npn"),
-                    Token: params.get("token"),
-                    Email: params.get("email"),
-                  }),
-                }
-              );
+                  name: "Password",
+                  validator: validationService.validatePasswordCreation,
+                },
+                {
+                  name: "ConfirmPassword",
+                  validator: validationService.validateFieldMatch(
+                    values.Password
+                  ),
+                },
+              ],
+              values
+            );
+          }}
+          onSubmit={async (values, { setErrors, setSubmitting }) => {
+            setSubmitting(true);
+            loading.begin();
 
-              setSubmitting(false);
-              loading.end();
-
-              if (response.status >= 200 && response.status < 300) {
-                history.push("password-updated");
-              } else {
-                const errorsArr = await response.json();
-                setErrors(validationService.formikErrorsFor(errorsArr));
+            const response = await fetch(
+              process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                "/api/account/resetpassword",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                  ...values,
+                  NPN: params.get("npn"),
+                  Token: params.get("token"),
+                  Email: params.get("email"),
+                }),
               }
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleSubmit,
-              handleChange,
-              handleBlur,
-            }) => (
-              <form action="" className="form" onSubmit={handleSubmit}>
-                <fieldset className="form__fields">
-                  <Textfield
-                    id="new-password"
-                    type="password"
-                    label="New Password"
-                    placeholder="Enter your new password"
-                    name="Password"
-                    value={values.Password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={
-                      (touched.Password && errors.Password) || errors.Global
-                    }
-                    success={
-                      touched.Password && !errors.Password && !errors.Global
-                    }
-                    focusBanner={
-                      <div className="form-tip">
-                        <p>Your password must: </p>
-                        <ul className="list-basic">
-                          <li>Be at least 8 characters long</li>
-                          <li>
-                            Include at least one uppercase and lowercase letter
-                          </li>
-                          <li>Include at least one number</li>
-                          <li>
-                            Include at least one non-alphanumeric character
-                          </li>
-                        </ul>
-                      </div>
-                    }
-                    focusBannerVisible={!!errors.password}
-                  />
-                  <Textfield
-                    id="new-password-repeat"
-                    type="password"
-                    label="Re-enter New Password"
-                    placeholder="Re-enter your new password"
-                    name="ConfirmPassword"
-                    value={values.ConfirmPassword}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={
-                      (touched.ConfirmPassword && errors.ConfirmPassword) ||
-                      errors.Global
-                    }
-                    success={
-                      touched.ConfirmPassword &&
-                      !errors.ConfirmPassword &&
-                      !errors.Global
-                    }
-                  />
-                  <div className="form__submit">
-                    <button className="btn" type="submit">
-                      Submit
-                    </button>
-                  </div>
-                </fieldset>
-              </form>
-            )}
-          </Formik>
-        </PageCard>
+            );
+
+            setSubmitting(false);
+            loading.end();
+
+            if (response.status >= 200 && response.status < 300) {
+              history.push("password-updated");
+            } else {
+              const errorsArr = await response.json();
+              setErrors(validationService.formikErrorsFor(errorsArr));
+            }
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleSubmit,
+            handleChange,
+            handleBlur,
+          }) => (
+            <form action="" className="form" onSubmit={handleSubmit}>
+              <fieldset className="form__fields">
+                <InvertedTextfield
+                  id="new-password"
+                  type="password"
+                  label="New Password"
+                  placeholder="Enter your new password"
+                  name="Password"
+                  value={values.Password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={(touched.Password && errors.Password) || errors.Global}
+                  success={
+                    touched.Password && !errors.Password && !errors.Global
+                  }
+                  focusBanner={
+                    <div className="form-tip">
+                      <p>Your password must: </p>
+                      <ul className="list-basic">
+                        <li>Be at least 8 characters long</li>
+                        <li>
+                          Include at least one uppercase and lowercase letter
+                        </li>
+                        <li>Include at least one number</li>
+                        <li>Include at least one non-alphanumeric character</li>
+                      </ul>
+                    </div>
+                  }
+                  focusBannerVisible={!!errors.password}
+                />
+                <InvertedTextfield
+                  id="new-password-repeat"
+                  type="password"
+                  label="Re-enter New Password"
+                  placeholder="Re-enter your new password"
+                  name="ConfirmPassword"
+                  value={values.ConfirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={
+                    (touched.ConfirmPassword && errors.ConfirmPassword) ||
+                    errors.Global
+                  }
+                  success={
+                    touched.ConfirmPassword &&
+                    !errors.ConfirmPassword &&
+                    !errors.Global
+                  }
+                />
+                <div className="form__submit">
+                  <button className="btn btn--invert" type="submit">
+                    Submit
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+          )}
+        </Formik>
       </Container>
-      <SimpleFooter className="global-footer--simple" />
+      <SimpleFooter />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import "./index.scss";
 
 export default () => {
   return (
-    <header className="simple-header">
+    <header className="simple-header mb-auto">
       <h1 className="simple-header__title">
         <Link to="/">
           <Logo />

@@ -1,12 +1,12 @@
 import React from "react";
-import ArrowRight from "components/icons/arrow-right";
+import ArrowRightLong from "components/icons/arrow-right-long";
 
 const Card = ({ className = "", component, children, ...props }) => {
   const LinkComponent = component;
   return (
     <LinkComponent className={`link link--inherit ${className}`} {...props}>
-      <ArrowRight className="icon-flip icon-small" />
-      {children}
+      <ArrowRightLong className="icon-flip mr-1" />
+      <span className="text-bold">{children}</span>
     </LinkComponent>
   );
 };

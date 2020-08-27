@@ -1,13 +1,15 @@
 import React from "react";
 import Container from "components/ui/container";
-import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import AuthService from "services/auth";
 
 const defaultButton = () => {
   return (
-    <button className="btn" onClick={AuthService.redirectAndRestartLoginFlow}>
+    <button
+      className="btn btn--invert"
+      onClick={AuthService.redirectAndRestartLoginFlow}
+    >
       Back to Login
     </button>
   );
@@ -15,17 +17,14 @@ const defaultButton = () => {
 
 export default ({ footer, title, body = null, button = defaultButton() }) => {
   return (
-    <div className="content-frame bg-admin text-muted">
+    <div className="content-frame bg-photo text-invert">
       <GlobalNav />
       <Container size="small">
-        <PageCard footer={footer}>
-          <div className="text-center">
-            <h1 className="hdg hdg--2 mb-1">{title}</h1>
-            {body && <p className="text-body mb-4">{body}</p>}
+        <h1 className="hdg hdg--2 mb-1">{title}</h1>
+        {body && <p className="text-body mb-4">{body}</p>}
 
-            <div>{button}</div>
-          </div>
-        </PageCard>
+        <div>{button}</div>
+        {footer}
       </Container>
       <SimpleFooter className="global-footer--simple" />
     </div>
