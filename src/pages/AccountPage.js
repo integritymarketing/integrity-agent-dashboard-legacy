@@ -295,7 +295,9 @@ export default () => {
                       onBlur={handleBlur}
                       error={touched.confirmPassword && errors.confirmPassword}
                       success={
-                        touched.confirmPassword && !errors.confirmPassword
+                        touched.confirmPassword &&
+                        !errors.confirmPassword &&
+                        !errors.password
                       }
                     />
                     <div className="form__submit">

@@ -144,7 +144,7 @@ export default () => {
                       </ul>
                     </div>
                   }
-                  focusBannerVisible={!!errors.password}
+                  focusBannerVisible={!!errors.Password}
                 />
                 <InvertedTextfield
                   id="new-password-repeat"
@@ -162,7 +162,8 @@ export default () => {
                   success={
                     touched.ConfirmPassword &&
                     !errors.ConfirmPassword &&
-                    !errors.Global
+                    !errors.Global &&
+                    !errors.Password
                   }
                 />
                 <div className="form__submit">

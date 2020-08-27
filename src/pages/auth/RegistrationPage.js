@@ -211,7 +211,8 @@ export default () => {
                   success={
                     touched.ConfirmPassword &&
                     !errors.ConfirmPassword &&
-                    !errors.Global
+                    !errors.Global &&
+                    !errors.Password
                   }
                 />
                 <div className="form__submit">
