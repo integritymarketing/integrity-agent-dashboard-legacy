@@ -140,7 +140,7 @@ CNAME [https://ae-identity-stage.integritymarketinggroup.com](https://ae-identit
 
 Automatically built + published from the `release` branch.
 
-CNAME [https://aidentity-e-uat.integritymarketinggroup.com](https://aidentity-e-uat.integritymarketinggroup.com) -> [https://ae-auth-uat.netlify.app/](https://ae-auth-uat.netlify.app/)
+CNAME [https://ae-identity-uat.integritymarketinggroup.com](https://ae-identity-uat.integritymarketinggroup.com) -> [https://ae-auth-uat.netlify.app/](https://ae-auth-uat.netlify.app/)
 
 #### QA
 
@@ -152,7 +152,7 @@ CNAME [https://identity-ae-qa.integritymarketinggroup.com](https://identity-ae-q
 
 Automatically built + published from the `develop` branch.
 
-CNAME [https://aidentity-e-dev.integritymarketinggroup.com](https://aidentity-e-dev.integritymarketinggroup.com) -> [https://ae-auth-develop.netlify.app/](https://ae-auth-develop.netlify.app/)
+CNAME [https://ae-identity-dev.integritymarketinggroup.com](https://ae-identity-dev.integritymarketinggroup.com) -> [https://ae-auth-develop.netlify.app/](https://ae-auth-develop.netlify.app/)
 
 ### Certs
 
