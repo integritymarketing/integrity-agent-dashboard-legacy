@@ -56,12 +56,12 @@ const App = () => {
               <AuthenticatedRoute path="/resources">
                 <ResourcesPage />
               </AuthenticatedRoute>
-              <AuthenticatedRoute path="/terms">
+              <Route path="/terms">
                 <TermsPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/privacy">
+              </Route>
+              <Route path="/privacy">
                 <PrivacyPage />
-              </AuthenticatedRoute>
+              </Route>
               <Route path="*">
                 <NotFoundPage />
               </Route>
