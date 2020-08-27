@@ -113,3 +113,16 @@ Automatically built from the `master` branch. All builds must be manually publis
 ## Error logging
 
 [Sentry](https://sentry.io/organizations/integrity-marketing-org/issues/?project=5316442) used to track errors, and is also integrated into the netlify build process.
+
+## certs
+
+commands used to parse pfx file
+
+pem
+`openssl pkcs12 -in vfm.pfx -clcerts -nokeys | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > clientcert.cer`
+
+private key
+`openssl pkcs12 -in vfm.pfx -nocerts -nodes | sed -ne '/-BEGIN PRIVATE KEY-/,/-END PRIVATE KEY-/p' > clientcert.key`
+
+ca certs
+`openssl pkcs12 -in vfm.pfx -cacerts -out cacerts.cer`
