@@ -55,6 +55,8 @@ const Textfield = ({
           <div className="textfield__focus-banner">{focusBanner}</div>
         )}
         <div className="textfield__input-actions">
+          {error && <ErrorIcon />}
+          {hasSuccess && <SuccessIcon />}
           {type === "password" && (
             <button
               type="button"
@@ -68,8 +70,6 @@ const Textfield = ({
               <PasswordIcon className="textfield__icon" />
             </button>
           )}
-          {error && <ErrorIcon />}
-          {hasSuccess && <SuccessIcon />}
         </div>
       </div>
       <div className="textfield__error">{error}</div>
