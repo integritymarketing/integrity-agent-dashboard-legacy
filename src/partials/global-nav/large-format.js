@@ -42,7 +42,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             onClick={() => setNavOpen(!navOpen)}
           >
             <span>{userProfile.fullName}</span>
-            <ArrowDownIcon />
+            <ArrowDownIcon className={navOpen ? "icon-flip" : ""} />
           </button>
           <ul className="dropdown-menu__items">
             {secondary
