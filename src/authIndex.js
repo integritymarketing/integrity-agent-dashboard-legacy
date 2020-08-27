@@ -15,9 +15,9 @@ ReactDOM.render(
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
-if (process.env.REACT_APP_SENTRY_DSN) {
+if (process.env.REACT_APP_SENTRY_AUTH_DSN) {
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
+    dsn: process.env.REACT_APP_SENTRY_AUTH_DSN,
     environment: process.env.REACT_APP_BUILD_ENV || "Development",
   });
 }
