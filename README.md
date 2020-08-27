@@ -18,6 +18,9 @@ An agent portal implemented using React and [Create React App](https://create-re
 - [Releases](#releases)
 - [Error Logging](#error-logging)
 - [Environments](#environments)
+  - [Build Target: Portal App](##build-target-portal-app)
+  - [Build Target: Auth App](#build-target-auth-app)
+  - [Certs](#certs)
 
 ## Development
 
@@ -85,7 +88,7 @@ There are two build targets. App + Auth
 
 ### Build Target: Portal App
 
-The Portal App is the default build. I will be triggered by default with or with out the `REACT_APP_BUILD_TARGET=app` env variable. (see [Build Target: Auth](#build-target-auth))
+The Portal App is the default build. I will be triggered by default with or with out the `REACT_APP_BUILD_TARGET=app` env variable. (see [Build Target: Auth](#build-target-auth-app))
 
 #### Production
 
@@ -119,7 +122,7 @@ CNAME [https://ae-dev.integritymarketinggroup.com](https://ae-dev.integritymarke
 
 Deploy preview apps are also automatically generated with each new pull request created. (eg. https://deploy-preview-x--ae-agent-portal-develop.netlify.app/)
 
-### Build Target: Auth
+### Build Target: Auth App
 
 Auth target builds are triggered using the `REACT_APP_BUILD_TARGET=auth` env variable.
 
