@@ -124,6 +124,10 @@
       background-color: var(--disabled-contrast-color);
     }
   }
+
+  &__icon {
+    color: var(--muted-text-color);
+  }
 }
 
 .textfield--invert {
@@ -178,6 +182,9 @@
       /* Firefox 18- */
       color: #a6a3a1;
     }
+  }
+  .textfield__icon {
+    color: var(--invert-text-color);
   }
 }
 

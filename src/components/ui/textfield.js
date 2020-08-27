@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import ErrorIcon from "components/icons/error";
 import SuccessIcon from "components/icons/success";
 import PasswordRevealIcon from "components/icons/password-reveal";
+import PasswordHideIcon from "components/icons/password-hide";
 
 const Textfield = ({
   id,
@@ -29,6 +30,7 @@ const Textfield = ({
   ]
     .filter((x) => x.trim() !== "")
     .join(" ");
+  const PasswordIcon = passwordsVisible ? PasswordHideIcon : PasswordRevealIcon;
   const displayType = type === "password" && passwordsVisible ? "text" : type;
   return (
     <div className={classes} {...wrapperProps}>
@@ -63,7 +65,7 @@ const Textfield = ({
                 inputEl.current.select();
               }}
             >
-              <PasswordRevealIcon />
+              <PasswordIcon className="textfield__icon" />
             </button>
           )}
           {error && <ErrorIcon />}
