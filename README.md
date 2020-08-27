@@ -88,71 +88,13 @@ There are two build targets. App + Auth
 
 The Portal App is the default build. I will be triggered by default with or with out the `REACT_APP_BUILD_TARGET=app` env variable. (see [Build Target: Auth](#build-target-auth-app))
 
-#### Production
-
-CNAME [https://www.medicarecenter.com](https://identity.medicarecenter.com) -> [https://ae-agent-portal-prod.netlify.app/](https://ae-agent-portal-prod.netlify.app/)
-
-Automatically built from the `master` branch. All builds must be manually published.
-
-#### Stage
-
-Automatically built + published from the `master` branch.
-
-CNAME [https://ae-stage.integritymarketinggroup.com](https://ae-stage.integritymarketinggroup.com) -> [https://ae-agent-portal-stage.netlify.app/](https://ae-agent-portal-stage.netlify.app/)
-
-#### UAT
-
-Automatically built + published from the `release` branch.
-
-CNAME [https://ae-uat.integritymarketinggroup.com](https://ae-uat.integritymarketinggroup.com) -> [https://ae-agent-portal-uat.netlify.app/](https://ae-agent-portal-uat.netlify.app/)
-
-#### QA
-
-Automatically built + published from the `release` branch.
-
-CNAME [https://ae-qa.integritymarketinggroup.com](https://ae-qa.integritymarketinggroup.com) -> [https://ae-agent-portal-qa.netlify.app/](https://ae-agent-portal-qa.netlify.app/)
-
-#### Development
-
-Automatically built + published from the `develop` branch.
-
-CNAME [https://ae-dev.integritymarketinggroup.com](https://ae-dev.integritymarketinggroup.com) -> [https://ae-agent-portal-develop.netlify.app/](https://ae-agent-portal-develop.netlify.app/)
-
-Deploy preview apps are also automatically generated with each new pull request created. (eg. https://deploy-preview-x--ae-agent-portal-develop.netlify.app/)
+See [ADO Front-end Portal Environments Wiki](https://integritymarketing.visualstudio.com/AgentEnablement/_wiki/wikis/AgentEnablement.wiki/79/Environments?anchor=portal-app)
 
 ### Build Target: Auth App
 
 Auth target builds are triggered using the `REACT_APP_BUILD_TARGET=auth` env variable.
 
-#### Production
-
-CNAME [https://identity.medicarecenter.com](https://identity.medicarecenter.com) -> [https://ae-auth-prod.netlify.app/](https://ae-auth-prod.netlify.app/)
-
-Automatically built from the `master` branch. All builds must be manually published.
-
-#### Stage
-
-Automatically built + published from the `master` branch.
-
-CNAME [https://ae-identity-stage.integritymarketinggroup.com](https://ae-identity-stage.integritymarketinggroup.com) -> [https://ae-auth-stage.netlify.app/](https://ae-auth-stage.netlify.app/)
-
-#### UAT
-
-Automatically built + published from the `release` branch.
-
-CNAME [https://ae-identity-uat.integritymarketinggroup.com](https://ae-identity-uat.integritymarketinggroup.com) -> [https://ae-auth-uat.netlify.app/](https://ae-auth-uat.netlify.app/)
-
-#### QA
-
-Automatically built + published from the `release` branch.
-
-CNAME [https://identity-ae-qa.integritymarketinggroup.com](https://identity-ae-qa.integritymarketinggroup.com) -> [https://ae-auth-qa.netlify.app/](https://ae-auth-qa.netlify.app/)
-
-#### Development
-
-Automatically built + published from the `develop` branch.
-
-CNAME [https://ae-identity-dev.integritymarketinggroup.com](https://ae-identity-dev.integritymarketinggroup.com) -> [https://ae-auth-develop.netlify.app/](https://ae-auth-develop.netlify.app/)
+See [ADO Front-end Auth App Environments Wiki](https://integritymarketing.visualstudio.com/AgentEnablement/_wiki/wikis/AgentEnablement.wiki/79/Environments?anchor=authentication-app)
 
 ### Certs
 
