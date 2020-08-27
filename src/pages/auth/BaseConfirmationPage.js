@@ -1,6 +1,5 @@
 import React from "react";
 import Container from "components/ui/container";
-import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import AuthService from "services/auth";

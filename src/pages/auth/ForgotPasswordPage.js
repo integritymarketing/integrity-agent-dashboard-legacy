@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import PageCard from "components/ui/page-card";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import { InvertedTextfield } from "components/ui/textfield";
