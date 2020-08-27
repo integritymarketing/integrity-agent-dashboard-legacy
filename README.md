@@ -2,9 +2,7 @@
 
 An agent portal implemented using React and [Create React App](https://create-react-app.dev/).
 
-[Main Portal App](https://ae-agent-portal-prod.netlify.app)
-
-[Auth App](https://ae-auth-prod.netlify.app)
+[https://www.medicarecenter.com](https://www.medicarecenter.com)
 
 ## Contents
 
