@@ -50,6 +50,7 @@ textarea,
 a {
   font-family: inherit;
   color: inherit;
+  margin: 0;
 }
 
 button {
@@ -105,6 +106,10 @@ button {
     background-image: var(--bg-photo-gradient),
       url(../images/optimized/bg-default-1920.jpg);
   }
+}
+
+.bg-img-fixed {
+  background-attachment: fixed;
 }
 
 .container {

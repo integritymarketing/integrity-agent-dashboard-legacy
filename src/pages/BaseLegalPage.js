@@ -12,7 +12,7 @@ export default ({ children, title, ...props }) => {
           <h2 className="hdg hdg--2">{title}</h2>
         </Container>
       </div>
-      <Container className="mt-scale-3" size="small">
+      <Container className="mt-scale-3" size="medium">
         {children}
       </Container>
       <GlobalFooter />

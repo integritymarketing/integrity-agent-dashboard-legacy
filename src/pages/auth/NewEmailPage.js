@@ -8,7 +8,7 @@ import validationService from "services/validation";
 
 export default () => {
   return (
-    <div className="content-frame bg-photo text-invert">
+    <div className="content-frame bg-photo bg-img-fixed text-invert">
       <GlobalNav />
       <Container size="small">
         <h1 className="hdg hdg--2 mb-4">Update your email address</h1>

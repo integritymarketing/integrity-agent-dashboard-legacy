@@ -15,10 +15,10 @@ export default () => {
   const loading = useLoading();
 
   return (
-    <div className="content-frame bg-photo text-invert">
+    <div className="content-frame bg-photo bg-img-fixed text-invert">
       <GlobalNav />
       <Container size="small">
-        <BackLink component={Link} to="/">
+        <BackLink component={Link} to="/login">
           Back to Login
         </BackLink>
         <h1 className="hdg hdg--2 mb-3 mt-1">Register for an account</h1>
@@ -211,7 +211,8 @@ export default () => {
                   success={
                     touched.ConfirmPassword &&
                     !errors.ConfirmPassword &&
-                    !errors.Global
+                    !errors.Global &&
+                    !errors.Password
                   }
                 />
                 <div className="form__submit">

@@ -32,12 +32,11 @@
     margin-left: 0.5rem;
   }
 
-  &--closed:not(:focus-within) .dropdown-menu__items {
+  &--closed .dropdown-menu__items {
     @include visually-hidden();
   }
 
-  &--open,
-  &--closed:focus-within {
+  &--open {
     color: var(--neutral-text-color);
     .dropdown-menu__trigger {
       position: relative;
@@ -61,6 +60,9 @@
         margin-top: 0.5rem;
       }
     }
+    .dropdown-menu__icon {
+      transform: rotate(180deg);
+    }
   }
 }
 
@@ -71,6 +73,7 @@
   overflow-y: auto;
   top: 0;
   left: 0;
+  z-index: 999;
   width: 100%;
   height: 100%;
   background-color: var(--invert-bg-color);

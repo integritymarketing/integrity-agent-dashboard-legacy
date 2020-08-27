@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Logo from "partials/logo";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
+import Media from "react-media";
 
 const HelpButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,16 +33,32 @@ export default ({ className = "", ...props }) => {
         <nav className="global-footer__links mt-4">
           <h2 className="visually-hidden">Additional Navigation</h2>
           <ul className="divided-hlist">
-            <li>
-              <HelpButtonWithModal className="link link--inherit">
-                Need Help?
-              </HelpButtonWithModal>
-            </li>
-            <li>
-              <Link to="/resources" className="link link--inherit">
-                Learning Center
-              </Link>
-            </li>
+            {/*
+          Causes console error in dev env only due to this issue
+          https://github.com/ReactTraining/react-media/issues/139
+        */}
+            <Media
+              queries={{
+                small: "(max-width: 767px)",
+              }}
+            >
+              {(matches) =>
+                !matches.small ? (
+                  <React.Fragment>
+                    <li>
+                      <HelpButtonWithModal className="link link--inherit">
+                        Need Help?
+                      </HelpButtonWithModal>
+                    </li>
+                    <li>
+                      <Link to="/resources" className="link link--inherit">
+                        Learning Center
+                      </Link>
+                    </li>
+                  </React.Fragment>
+                ) : null
+              }
+            </Media>
             <li>
               <a
                 href={`${process.env.REACT_APP_PORTAL_URL || ""}/terms`}

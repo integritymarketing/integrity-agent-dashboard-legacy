@@ -17,7 +17,7 @@ const defaultButton = () => {
 
 export default ({ footer, title, body = null, button = defaultButton() }) => {
   return (
-    <div className="content-frame bg-photo text-invert">
+    <div className="content-frame bg-photo bg-img-fixed text-invert">
       <GlobalNav />
       <Container size="small">
         <h1 className="hdg hdg--2 mb-1">{title}</h1>
