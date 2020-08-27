@@ -18,7 +18,7 @@ export default () => {
     <div className="content-frame bg-photo bg-img-fixed text-invert">
       <GlobalNav />
       <Container size="small">
-        <BackLink component={Link} to="/">
+        <BackLink component={Link} to="/login">
           Back to Login
         </BackLink>
         <h1 className="hdg hdg--2 mb-1 mt-1">Forgot your password?</h1>
