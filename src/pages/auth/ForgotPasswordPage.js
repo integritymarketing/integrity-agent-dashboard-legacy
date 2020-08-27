@@ -15,7 +15,7 @@ export default () => {
   const loading = useLoading();
 
   return (
-    <div className="content-frame bg-photo text-invert">
+    <div className="content-frame bg-photo bg-img-fixed text-invert">
       <GlobalNav />
       <Container size="small">
         <BackLink component={Link} to="/">
