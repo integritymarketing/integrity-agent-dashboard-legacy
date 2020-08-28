@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
@@ -84,7 +85,9 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button className="btn btn--invert">Client Management</button>
+                <Link to="/clients" className="btn btn--invert">
+                  Client Management
+                </Link>
               </div>
             </div>
           </div>
