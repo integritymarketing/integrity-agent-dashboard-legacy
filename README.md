@@ -34,8 +34,6 @@ An agent portal implemented using React and [Create React App](https://create-re
 This project is built on a few fundamental libraries & frameworks and assumes a working knowledge of the following:
 
 - [React & JSX](https://reactjs.org/): Componentization & view layer framework.
-- [Redux](https://redux.js.org/): Redux is a predictable state container for JavaScript apps. It's used as the central data store.
-- [Mirage](https://miragejs.com/): Mirage JS is an API mocking library used for local development. Familiarity is recommended if working directly with any APIs.
 
 ### Coding Standards
 
