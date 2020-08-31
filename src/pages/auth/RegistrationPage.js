@@ -9,6 +9,10 @@ import { InvertedTextfield } from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
+import NumberIcon from "components/icons/number";
+import LockIcon from "components/icons/lock";
+import MailIcon from "components/icons/mail";
+import ProfileIcon from "components/icons/profile";
 
 export default () => {
   const history = useHistory();
@@ -114,6 +118,7 @@ export default () => {
                 <InvertedTextfield
                   id="register-fname"
                   label="First Name"
+                  icon={<ProfileIcon />}
                   placeholder="Enter your first name"
                   name="FirstName"
                   value={values.FirstName}
@@ -126,6 +131,7 @@ export default () => {
                 <InvertedTextfield
                   id="register-lname"
                   label="Last Name"
+                  icon={<ProfileIcon />}
                   placeholder="Enter your last name"
                   name="LastName"
                   value={values.LastName}
@@ -136,6 +142,7 @@ export default () => {
                 <InvertedTextfield
                   id="register-npn"
                   label="NPN Number"
+                  icon={<NumberIcon />}
                   placeholder="Enter your NPN Number"
                   name="NPN"
                   value={values.NPN}
@@ -147,6 +154,7 @@ export default () => {
                   id="register-email"
                   type="email"
                   label="Email Address"
+                  icon={<MailIcon />}
                   placeholder="Enter your email address"
                   name="Email"
                   value={values.Email}
@@ -158,6 +166,7 @@ export default () => {
                   id="register-email-verify"
                   type="email"
                   label="Re-enter Email Address"
+                  icon={<MailIcon />}
                   placeholder="Re-enter your Email address"
                   name="EmailRepeat"
                   value={values.EmailRepeat}
@@ -171,6 +180,7 @@ export default () => {
                   id="register-password"
                   type="password"
                   label="Create Password"
+                  icon={<LockIcon />}
                   placeholder="Create a new Password"
                   name="Password"
                   value={values.Password}
@@ -199,6 +209,7 @@ export default () => {
                   id="register-password-verify"
                   type="password"
                   label="Re-enter Password"
+                  icon={<LockIcon />}
                   placeholder="Re-enter your new password"
                   name="ConfirmPassword"
                   value={values.ConfirmPassword}

@@ -5,6 +5,7 @@ import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import { InvertedTextfield } from "components/ui/textfield";
 import validationService from "services/validation";
+import MailIcon from "components/icons/mail";
 
 export default () => {
   return (
@@ -58,6 +59,7 @@ export default () => {
                   id="new-email"
                   type="email"
                   label="Email Address"
+                  icon={<MailIcon />}
                   placeholder="Enter your email address"
                   name="email"
                   value={values.email}
@@ -69,6 +71,7 @@ export default () => {
                   id="new-email-repeat"
                   type="email"
                   label="Re-enter Email Address"
+                  icon={<MailIcon />}
                   placeholder="Re-enter your email address"
                   name="emailRepeat"
                   value={values.emailRepeat}

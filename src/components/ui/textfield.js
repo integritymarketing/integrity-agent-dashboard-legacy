@@ -7,6 +7,7 @@ import PasswordHideIcon from "components/icons/password-hide";
 const Textfield = ({
   id,
   label,
+  icon = null,
   type = "text",
   className = "",
   auxLink = null,
@@ -44,6 +45,15 @@ const Textfield = ({
           focusBannerVisible ? "textfield__input--show-banner" : ""
         }`}
       >
+        {icon && (
+          <label
+            htmlFor={id}
+            className="textfield__icon textfield__icon--main"
+            aria-hidden="true"
+          >
+            {icon}
+          </label>
+        )}
         <input
           {...{ readOnly, id }}
           type={displayType}
