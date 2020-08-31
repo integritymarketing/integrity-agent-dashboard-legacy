@@ -9,6 +9,7 @@ import { InvertedTextfield } from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
+import NumberIcon from "components/icons/number";
 
 export default () => {
   const history = useHistory();
@@ -78,6 +79,7 @@ export default () => {
                 <InvertedTextfield
                   id="forgot-password-npn"
                   label="NPN Number"
+                  icon={<NumberIcon />}
                   placeholder="Enter your NPN Number"
                   name="NPN"
                   value={values.NPN}

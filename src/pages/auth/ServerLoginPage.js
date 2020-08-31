@@ -9,6 +9,8 @@ import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
+import NumberIcon from "components/icons/number";
+import LockIcon from "components/icons/lock";
 
 export default () => {
   const loading = useLoading();
@@ -96,6 +98,7 @@ export default () => {
                 <InvertedTextfield
                   id="login-npn"
                   label="NPN Number"
+                  icon={<NumberIcon />}
                   placeholder="Enter your NPN Number"
                   name="NPN"
                   value={values.NPN}
@@ -107,6 +110,7 @@ export default () => {
                   id="login-password"
                   type="password"
                   label="Password"
+                  icon={<LockIcon />}
                   placeholder="Enter your Password"
                   name="Password"
                   value={values.Password}
