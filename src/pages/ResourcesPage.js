@@ -25,6 +25,13 @@ const resourceDict = resourceData.resources.reduce((dict, resource) => {
   return dict;
 }, {});
 
+// TODO: swap this with scalable solution after format is defined
+const analyticsKeys = [
+  "recommendedreads-workingremotely",
+  "recommendedreads-managingstress",
+  "recommendedreads-remoteworkers",
+];
+
 export default () => {
   return (
     <React.Fragment>
@@ -46,7 +53,7 @@ export default () => {
             <div className="mod-grid mt-4">
               {resourceData.featured
                 .map((resourceName) => resourceDict[resourceName])
-                .map((resource) => (
+                .map((resource, idx) => (
                   <div className="mod text-center" key={resource.name}>
                     <div>
                       <ComputerIcon width="40" height="40" />
@@ -62,7 +69,9 @@ export default () => {
                         href={resource.url}
                         rel="noopener noreferrer"
                         target="_blank"
-                        className="btn"
+                        className={`btn ${analytics.clickClass(
+                          analyticsKeys[idx]
+                        )}`}
                       >
                         Download
                       </a>
