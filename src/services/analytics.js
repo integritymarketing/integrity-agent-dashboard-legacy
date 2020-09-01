@@ -5,8 +5,7 @@ class AnalyticsService {
 
   fireEvent = (event, details = {}) => {
     if (window.dataLayer) {
-      // window.dataLayer.push({
-      console.log({
+      window.dataLayer.push({
         event,
         ...details,
       });
