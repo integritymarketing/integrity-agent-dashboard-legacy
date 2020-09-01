@@ -23,9 +23,13 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
       {primary
         .filter((link) => link.format !== "small")
         .map((link, idx) => {
+          const { className = "", ...props } = link.props || {};
           return (
             <li key={idx}>
-              <link.component className="link link--invert" {...link.props}>
+              <link.component
+                className={`link link--invert ${className}`}
+                {...props}
+              >
                 {link.label}
               </link.component>
             </li>
@@ -48,11 +52,12 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             {secondary
               .filter((link) => link.format !== "small")
               .map((link, idx) => {
+                const { className = "", ...props } = link.props || {};
                 return (
                   <li key={idx}>
                     <link.component
-                      className="link link--inherit"
-                      {...link.props}
+                      className={`link link--invert ${className}`}
+                      {...props}
                     >
                       {link.label}
                     </link.component>

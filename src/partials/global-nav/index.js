@@ -8,6 +8,7 @@ import Logo from "partials/logo";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import "./index.scss";
+import analyticsService from "services/analytics";
 
 const HelpButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,10 +42,14 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               component: HelpButtonWithModal,
               label: "Need Help?",
               format: "large",
+              props: { className: analyticsService.clickClass("help-header") },
             },
             {
               component: Link,
-              props: { to: "/resources" },
+              props: {
+                to: "/resources",
+                className: analyticsService.clickClass("learningcenter-header"),
+              },
               label: "Learning Center",
             },
           ],

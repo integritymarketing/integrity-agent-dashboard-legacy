@@ -10,6 +10,7 @@ import LightbulbIcon from "components/icons/lightbulb";
 import DocumentIcon from "components/icons/document";
 import ToolsIcon from "components/icons/tools";
 import resourceData from "pages/content/resources.json";
+import analytics from "services/analytics";
 
 const iconDict = {
   computer: ComputerIcon,
@@ -106,6 +107,12 @@ export default () => {
                             target="_blank"
                             icon={<CategoryIcon />}
                             actionIcon={<DownloadIcon />}
+                            onClick={() =>
+                              analytics.fireEvent("assetDownloaded", {
+                                assetCategory: category.analyticsKey,
+                                assetName: resource.name,
+                              })
+                            }
                           >
                             <div className="text-body text-bold mb-1">
                               {resource.name}
