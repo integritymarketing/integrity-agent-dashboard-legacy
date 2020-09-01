@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
 import NumberIcon from "components/icons/number";
 import LockIcon from "components/icons/lock";
+import analyticsService from "services/analytics";
 
 export default () => {
   const loading = useLoading();
@@ -99,7 +100,13 @@ export default () => {
                   name="NPN"
                   value={values.NPN}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "npn",
+                      formName: "login",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={touched.NPN && errors.NPN}
                 />
                 <InvertedTextfield
@@ -111,7 +118,13 @@ export default () => {
                   name="Password"
                   value={values.Password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "password",
+                      formName: "login",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={(touched.Password && errors.Password) || errors.Global}
                   auxLink={
                     <Link
@@ -123,14 +136,21 @@ export default () => {
                   }
                 />
                 <div className="form__submit">
-                  <button className="btn btn--invert" type="submit">
+                  <button
+                    className={`btn btn--invert ${analyticsService.clickClass(
+                      "main-login"
+                    )}`}
+                    type="submit"
+                  >
                     Login
                   </button>
                 </div>
                 <div>
                   <Link
                     to="/register"
-                    className="link link--invert link--force-underline"
+                    className={`link link--invert link--force-underline ${analyticsService.clickClass(
+                      "setup-newaccount"
+                    )}`}
                   >
                     Setting up a new account?
                   </Link>

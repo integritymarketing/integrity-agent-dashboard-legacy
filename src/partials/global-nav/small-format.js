@@ -53,11 +53,12 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             {primary
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
+                const { className = "", ...props } = link.props || {};
                 return (
                   <li className="mt-3" key={idx}>
                     <link.component
-                      className="link link--invert"
-                      {...link.props}
+                      className={`link link--invert ${className}`}
+                      {...props}
                     >
                       {link.label}
                     </link.component>
@@ -67,11 +68,12 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             {secondary
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
+                const { className = "", ...props } = link.props || {};
                 return (
                   <li className="mt-3" key={idx}>
                     <link.component
-                      className="link link--invert"
-                      {...link.props}
+                      className={`link link--invert ${className}`}
+                      {...props}
                     >
                       {link.label}
                     </link.component>

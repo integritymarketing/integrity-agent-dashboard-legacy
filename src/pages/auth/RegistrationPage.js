@@ -13,6 +13,7 @@ import NumberIcon from "components/icons/number";
 import LockIcon from "components/icons/lock";
 import MailIcon from "components/icons/mail";
 import ProfileIcon from "components/icons/profile";
+import analyticsService from "services/analytics";
 
 export default () => {
   const history = useHistory();
@@ -123,7 +124,13 @@ export default () => {
                   name="FirstName"
                   value={values.FirstName}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "firstName",
+                      formName: "registration",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={
                     (touched.FirstName && errors.FirstName) || errors.Global
                   }
@@ -136,7 +143,13 @@ export default () => {
                   name="LastName"
                   value={values.LastName}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "lastName",
+                      formName: "registration",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={(touched.LastName && errors.LastName) || errors.Global}
                 />
                 <InvertedTextfield
@@ -147,7 +160,13 @@ export default () => {
                   name="NPN"
                   value={values.NPN}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "npn",
+                      formName: "registration",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={(touched.NPN && errors.NPN) || errors.Global}
                 />
                 <InvertedTextfield
@@ -159,7 +178,13 @@ export default () => {
                   name="Email"
                   value={values.Email}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "emailAddress",
+                      formName: "registration",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={(touched.Email && errors.Email) || errors.Global}
                 />
                 <InvertedTextfield
@@ -171,7 +196,13 @@ export default () => {
                   name="EmailRepeat"
                   value={values.EmailRepeat}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "verifyEmailAddress",
+                      formName: "registration",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={
                     (touched.EmailRepeat && errors.EmailRepeat) || errors.Global
                   }
@@ -185,7 +216,13 @@ export default () => {
                   name="Password"
                   value={values.Password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "password",
+                      formName: "registration",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={(touched.Password && errors.Password) || errors.Global}
                   success={
                     touched.Password && !errors.Password && !errors.Global
@@ -214,7 +251,13 @@ export default () => {
                   name="ConfirmPassword"
                   value={values.ConfirmPassword}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "verifyPassword",
+                      formName: "registration",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={
                     (touched.ConfirmPassword && errors.ConfirmPassword) ||
                     errors.Global
@@ -227,7 +270,12 @@ export default () => {
                   }
                 />
                 <div className="form__submit">
-                  <button className="btn btn--invert" type="submit">
+                  <button
+                    className={`btn btn--invert ${analyticsService.clickClass(
+                      "registration-submit"
+                    )}`}
+                    type="submit"
+                  >
                     Submit
                   </button>
                 </div>

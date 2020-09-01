@@ -5,6 +5,7 @@ import Logo from "partials/logo";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import Media from "react-media";
+import analyticsService from "services/analytics";
 
 const HelpButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -46,12 +47,21 @@ export default ({ className = "", ...props }) => {
                 !matches.small ? (
                   <React.Fragment>
                     <li>
-                      <HelpButtonWithModal className="link link--inherit">
+                      <HelpButtonWithModal
+                        className={`link link--inherit ${analyticsService.clickClass(
+                          "help-footer"
+                        )}`}
+                      >
                         Need Help?
                       </HelpButtonWithModal>
                     </li>
                     <li>
-                      <Link to="/resources" className="link link--inherit">
+                      <Link
+                        to="/resources"
+                        className={`link link--inherit ${analyticsService.clickClass(
+                          "learningcenter-footer"
+                        )}`}
+                      >
                         Learning Center
                       </Link>
                     </li>
