@@ -78,11 +78,7 @@ export default () => {
             if (data && data.isOk) {
               window.location = data.redirectUrl;
             } else {
-              setErrors({
-                NPN: " ",
-                Password:
-                  "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
-              });
+              setErrors(validationService.formikErrorsFor(data));
             }
           }}
         >
@@ -111,7 +107,7 @@ export default () => {
                     });
                     return handleBlur(e);
                   }}
-                  error={(touched.NPN && errors.NPN) || errors.Global}
+                  error={touched.NPN && errors.NPN}
                 />
                 <InvertedTextfield
                   id="login-password"
