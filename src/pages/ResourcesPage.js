@@ -10,7 +10,7 @@ import LightbulbIcon from "components/icons/lightbulb";
 import DocumentIcon from "components/icons/document";
 import ToolsIcon from "components/icons/tools";
 import resourceData from "pages/content/resources.json";
-import analytics from "services/analytics";
+import analyticsService from "services/analytics";
 
 const iconDict = {
   computer: ComputerIcon,
@@ -69,7 +69,7 @@ export default () => {
                         href={resource.url}
                         rel="noopener noreferrer"
                         target="_blank"
-                        className={`btn ${analytics.clickClass(
+                        className={`btn ${analyticsService.clickClass(
                           analyticsKeys[idx]
                         )}`}
                       >
@@ -117,7 +117,7 @@ export default () => {
                             icon={<CategoryIcon />}
                             actionIcon={<DownloadIcon />}
                             onClick={() =>
-                              analytics.fireEvent("assetDownloaded", {
+                              analyticsService.fireEvent("assetDownloaded", {
                                 assetCategory: category.analyticsKey,
                                 assetName: resource.name,
                               })
