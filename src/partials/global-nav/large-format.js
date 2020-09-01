@@ -56,7 +56,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
                 return (
                   <li key={idx}>
                     <link.component
-                      className={`link link--invert ${className}`}
+                      className={`link link--inherit ${className}`}
                       {...props}
                     >
                       {link.label}
