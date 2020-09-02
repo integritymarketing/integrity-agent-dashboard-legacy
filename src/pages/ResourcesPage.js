@@ -25,12 +25,10 @@ const resourceDict = resourceData.resources.reduce((dict, resource) => {
   return dict;
 }, {});
 
-// TODO: swap this with scalable solution after format is defined
-const analyticsKeys = [
-  "recommendedreads-workingremotely",
-  "recommendedreads-managingstress",
-  "recommendedreads-remoteworkers",
-];
+const categoryDict = resourceData.categories.reduce((dict, category) => {
+  dict[category.id] = category;
+  return dict;
+}, {});
 
 export default () => {
   return (
@@ -69,9 +67,14 @@ export default () => {
                         href={resource.url}
                         rel="noopener noreferrer"
                         target="_blank"
-                        className={`btn ${analyticsService.clickClass(
-                          analyticsKeys[idx]
-                        )}`}
+                        className="btn"
+                        onClick={() =>
+                          analyticsService.fireEvent("assetDownloaded", {
+                            assetCategory:
+                              categoryDict[resource.categories[0]].analyticsKey,
+                            assetName: resource.name,
+                          })
+                        }
                       >
                         Download
                       </a>

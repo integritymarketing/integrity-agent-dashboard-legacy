@@ -19,11 +19,13 @@ import {
 import ScrollToTop from "components/functional/scroll-to-top";
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
+import TrackPageviews from "components/functional/track-pageviews";
 
 const App = () => {
   return (
     <AuthContext.Provider value={AuthService}>
       <Router>
+        <TrackPageviews />
         <ScrollToTop />
         <FlashProvider>
           <FlashMessage />
