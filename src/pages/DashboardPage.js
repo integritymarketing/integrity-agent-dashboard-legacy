@@ -24,13 +24,14 @@ const SSOButtonWithModal = ({ ...props }) => {
           <strong>Medicare Advantage/PDP</strong> experience:
         </p>
         <div className="pt-2 mb-3">
-          <button
+          <a
+            href={process.env.REACT_APP_SUNFIRE_CONNECTURE_URL}
             className={`btn ${analyticsService.clickClass(
               "connecture-button"
             )}`}
           >
             Open Connecture
-          </button>
+          </a>
         </div>
         <div className="mb-4">
           <a
