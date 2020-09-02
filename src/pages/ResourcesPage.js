@@ -20,15 +20,15 @@ const iconDict = {
   default: ComputerIcon,
 };
 
-const resourceDict = resourceData.resources.reduce((dict, resource) => {
-  dict[resource.name] = resource;
-  return dict;
-}, {});
+// TODO: find place for vanilla js utils
+const createDictBy = (list, prop) =>
+  list.reduce((dict, item) => {
+    dict[item[prop]] = item;
+    return dict;
+  }, {});
 
-const categoryDict = resourceData.categories.reduce((dict, category) => {
-  dict[category.id] = category;
-  return dict;
-}, {});
+const resourceDict = createDictBy(resourceData.resources, "name");
+const categoryDict = createDictBy(resourceData.categories, "id");
 
 export default () => {
   return (
