@@ -1,0 +1,14 @@
+.keyval-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    flex: 0 1 50%;
+    max-width: 50%;
+  }
+
+  &__item--full {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}

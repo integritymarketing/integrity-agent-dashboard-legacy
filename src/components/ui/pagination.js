@@ -1,5 +1,4 @@
 import React from "react";
-import ArrowRightIcon from "components/icons/arrow-right";
 
 const PaginationButton = ({ state = "active", ...props }) => (
   <button
@@ -41,13 +40,13 @@ export default ({
   return (
     <div className="pagination" {...props}>
       <PaginationButton
-        state={currentPage == 1 ? "inactive" : "active"}
+        state={currentPage === 1 ? "inactive" : "active"}
         onClick={handlePageChange(1)}
       >
         First
       </PaginationButton>
       <PaginationButton
-        state={currentPage == 1 ? "inactive" : "active"}
+        state={currentPage === 1 ? "inactive" : "active"}
         onClick={handlePageChange(currentPage - 1)}
       >
         Previous
@@ -65,13 +64,13 @@ export default ({
         ))}
       </ul>
       <PaginationButton
-        state={currentPage == totalPages ? "inactive" : "active"}
+        state={currentPage === totalPages ? "inactive" : "active"}
         onClick={handlePageChange(currentPage + 1)}
       >
         Next
       </PaginationButton>
       <PaginationButton
-        state={currentPage == totalPages ? "inactive" : "active"}
+        state={currentPage === totalPages ? "inactive" : "active"}
         onClick={handlePageChange(totalPages)}
       >
         Last
