@@ -11,7 +11,7 @@
   border-radius: (20/16) * 1em;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease,
-    box-shadow 0.2s ease; // TODO: determine global transition default
+    box-shadow 0.2s ease;
   min-width: (140 / 16) * 1rem;
   text-decoration: none;
   text-align: center;

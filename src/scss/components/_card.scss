@@ -30,7 +30,7 @@
   color: var(--main-text-color);
   border-radius: 0.25rem;
   box-shadow: var(--card-shadow);
-  transition: box-shadow 0.2s ease; // TODO: determine global transition default
+  transition: box-shadow 0.2s ease;
 
   &--page {
     min-height: clamp(100px, 75vw, 560px);

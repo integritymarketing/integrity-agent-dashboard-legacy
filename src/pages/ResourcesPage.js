@@ -20,17 +20,15 @@ const iconDict = {
   default: ComputerIcon,
 };
 
-const resourceDict = resourceData.resources.reduce((dict, resource) => {
-  dict[resource.name] = resource;
-  return dict;
-}, {});
+// TODO: find place for vanilla js utils
+const createDictBy = (list, prop) =>
+  list.reduce((dict, item) => {
+    dict[item[prop]] = item;
+    return dict;
+  }, {});
 
-// TODO: swap this with scalable solution after format is defined
-const analyticsKeys = [
-  "recommendedreads-workingremotely",
-  "recommendedreads-managingstress",
-  "recommendedreads-remoteworkers",
-];
+const resourceDict = createDictBy(resourceData.resources, "name");
+const categoryDict = createDictBy(resourceData.categories, "id");
 
 export default () => {
   return (
@@ -69,9 +67,14 @@ export default () => {
                         href={resource.url}
                         rel="noopener noreferrer"
                         target="_blank"
-                        className={`btn ${analyticsService.clickClass(
-                          analyticsKeys[idx]
-                        )}`}
+                        className="btn"
+                        onClick={() =>
+                          analyticsService.fireEvent("assetDownloaded", {
+                            assetCategory:
+                              categoryDict[resource.categories[0]].analyticsKey,
+                            assetName: resource.name,
+                          })
+                        }
                       >
                         Download
                       </a>
