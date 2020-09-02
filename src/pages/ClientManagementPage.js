@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import SelectMenu from "components/ui/select-menu";
+import Pagination from "components/ui/pagination";
 
 export default () => {
   const totalClients = 45;
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <React.Fragment>
       <div className="bg-photo text-invert">
@@ -36,6 +38,8 @@ export default () => {
             </SelectMenu>
           </div>
         </div>
+
+        <Pagination currentPage={currentPage} onPageChange={setCurrentPage} />
       </Container>
       <GlobalFooter />
     </React.Fragment>
