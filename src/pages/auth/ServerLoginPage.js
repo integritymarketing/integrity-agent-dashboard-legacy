@@ -9,6 +9,9 @@ import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
+import NumberIcon from "components/icons/number";
+import LockIcon from "components/icons/lock";
+import analyticsService from "services/analytics";
 
 export default () => {
   const loading = useLoading();
@@ -75,11 +78,7 @@ export default () => {
             if (data && data.isOk) {
               window.location = data.redirectUrl;
             } else {
-              setErrors({
-                NPN: " ",
-                Password:
-                  "Sorry, we could not log you in at this time.  Please check you credentials and try again.",
-              });
+              setErrors(validationService.formikErrorsFor(data));
             }
           }}
         >
@@ -96,22 +95,36 @@ export default () => {
                 <InvertedTextfield
                   id="login-npn"
                   label="NPN Number"
+                  icon={<NumberIcon />}
                   placeholder="Enter your NPN Number"
                   name="NPN"
                   value={values.NPN}
                   onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={(touched.NPN && errors.NPN) || errors.Global}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "npn",
+                      formName: "login",
+                    });
+                    return handleBlur(e);
+                  }}
+                  error={touched.NPN && errors.NPN}
                 />
                 <InvertedTextfield
                   id="login-password"
                   type="password"
                   label="Password"
+                  icon={<LockIcon />}
                   placeholder="Enter your Password"
                   name="Password"
                   value={values.Password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "password",
+                      formName: "login",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={(touched.Password && errors.Password) || errors.Global}
                   auxLink={
                     <Link
@@ -123,14 +136,21 @@ export default () => {
                   }
                 />
                 <div className="form__submit">
-                  <button className="btn btn--invert" type="submit">
+                  <button
+                    className={`btn btn--invert ${analyticsService.clickClass(
+                      "main-login"
+                    )}`}
+                    type="submit"
+                  >
                     Login
                   </button>
                 </div>
                 <div>
                   <Link
                     to="/register"
-                    className="link link--invert link--force-underline"
+                    className={`link link--invert link--force-underline ${analyticsService.clickClass(
+                      "setup-newaccount"
+                    )}`}
                   >
                     Setting up a new account?
                   </Link>

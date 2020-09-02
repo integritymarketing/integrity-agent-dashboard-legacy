@@ -7,10 +7,16 @@
   "categories": [
     {
       "id": "working-remotely",
+      "analyticsKey": "workingRemotely",
       "name": "Working in a Remote World",
       "icon": "computer"
     },
-    { "id": "sales-tips", "name": "Sales Tips and Tricks", "icon": "lightbulb" }
+    {
+      "id": "sales-tips",
+      "analyticsKey": "salesTips",
+      "name": "Sales Tips and Tricks",
+      "icon": "lightbulb"
+    }
   ],
   "resources": [
     {

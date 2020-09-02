@@ -10,6 +10,7 @@ import LightbulbIcon from "components/icons/lightbulb";
 import DocumentIcon from "components/icons/document";
 import ToolsIcon from "components/icons/tools";
 import resourceData from "pages/content/resources.json";
+import analyticsService from "services/analytics";
 
 const iconDict = {
   computer: ComputerIcon,
@@ -23,6 +24,13 @@ const resourceDict = resourceData.resources.reduce((dict, resource) => {
   dict[resource.name] = resource;
   return dict;
 }, {});
+
+// TODO: swap this with scalable solution after format is defined
+const analyticsKeys = [
+  "recommendedreads-workingremotely",
+  "recommendedreads-managingstress",
+  "recommendedreads-remoteworkers",
+];
 
 export default () => {
   return (
@@ -45,7 +53,7 @@ export default () => {
             <div className="mod-grid mt-4">
               {resourceData.featured
                 .map((resourceName) => resourceDict[resourceName])
-                .map((resource) => (
+                .map((resource, idx) => (
                   <div className="mod text-center" key={resource.name}>
                     <div>
                       <ComputerIcon width="40" height="40" />
@@ -61,7 +69,9 @@ export default () => {
                         href={resource.url}
                         rel="noopener noreferrer"
                         target="_blank"
-                        className="btn"
+                        className={`btn ${analyticsService.clickClass(
+                          analyticsKeys[idx]
+                        )}`}
                       >
                         Download
                       </a>
@@ -106,6 +116,12 @@ export default () => {
                             target="_blank"
                             icon={<CategoryIcon />}
                             actionIcon={<DownloadIcon />}
+                            onClick={() =>
+                              analyticsService.fireEvent("assetDownloaded", {
+                                assetCategory: category.analyticsKey,
+                                assetName: resource.name,
+                              })
+                            }
                           >
                             <div className="text-body text-bold mb-1">
                               {resource.name}

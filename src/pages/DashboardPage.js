@@ -5,6 +5,7 @@ import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import Modal from "components/ui/modal";
+import analyticsService from "services/analytics";
 
 const SSOButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,10 +25,19 @@ const SSOButtonWithModal = ({ ...props }) => {
           <strong>Medicare Advantage/PDP</strong> experience:
         </p>
         <div className="pt-2 mb-3">
-          <button className="btn">Open Connecture</button>
+          <button
+            className={`btn ${analyticsService.clickClass(
+              "connecture-button"
+            )}`}
+          >
+            Open Connecture
+          </button>
         </div>
         <div className="mb-4">
-          <a href={process.env.REACT_APP_SUNFIRE_SSO_URL} className="btn">
+          <a
+            href={process.env.REACT_APP_SUNFIRE_SSO_URL}
+            className={`btn ${analyticsService.clickClass("sunfire-button")}`}
+          >
             Open SunFireMatrix
           </a>
         </div>
@@ -54,7 +64,11 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <SSOButtonWithModal className="btn btn--invert">
+                <SSOButtonWithModal
+                  className={`btn btn--invert ${analyticsService.clickClass(
+                    "medicareadvantage-button"
+                  )}`}
+                >
                   Medicare Advantage & PDP
                 </SSOButtonWithModal>
               </div>
@@ -71,7 +85,13 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button className="btn btn--invert">Medicare Supplement</button>
+                <button
+                  className={`btn btn--invert ${analyticsService.clickClass(
+                    "medicaresupplement-button"
+                  )}`}
+                >
+                  Medicare Supplement
+                </button>
               </div>
             </div>
 
@@ -85,7 +105,12 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <Link to="/clients" className="btn btn--invert">
+                <Link
+                  to="/clients"
+                  className={`btn btn--invert ${analyticsService.clickClass(
+                    "crm-button"
+                  )}`}
+                >
                   Client Management
                 </Link>
               </div>

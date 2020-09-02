@@ -39,6 +39,7 @@
     display: flex;
     box-sizing: border-box;
     position: relative;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 
     &:focus-within {
       border-color: var(--form-border-active);
@@ -128,59 +129,36 @@
   &__icon {
     color: var(--muted-text-color);
   }
+
+  &__icon--main {
+    display: inline-flex;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__icon--main + input {
+    padding-left: 0;
+  }
 }
 
 .textfield--invert {
   .textfield__input {
     background: var(--textfield-invert-bg-color);
     color: var(--invert-text-color);
-
     border-color: rgba(255, 255, 255, 0);
-    border-radius: 0.25rem;
 
     &:focus-within {
       border-color: var(--invert-text-color);
-      z-index: 1;
-    }
-
-    > input {
-      border: 0;
-      background: none;
-      font-size: 1rem;
-      min-width: 0;
-      flex: 1 0 0;
-      padding: 0.5rem;
-      height: 38px;
-      line-height: 38px;
-
-      &:focus {
-        outline: none; // focus style defined on parent
-      }
-
-      &:read-only {
-        background-color: transparent;
-        color: var(--muted-text-color);
-      }
+      background-color: var(--textfield-invert-bg-color-active);
     }
 
     & > input::placeholder {
       color: #a6a3a1;
     }
-    &::-webkit-input-placeholder {
-      /* Chrome/Opera/Safari */
-      color: #a6a3a1;
-    }
-    &::-moz-placeholder {
-      /* Firefox 19+ */
-      color: #a6a3a1;
-    }
-    &:-ms-input-placeholder {
-      /* IE 10+ */
-      color: #a6a3a1;
-    }
-    &:-moz-placeholder {
-      /* Firefox 18- */
-      color: #a6a3a1;
+
+    &:focus-within > input::placeholder {
+      color: #ffffff;
     }
   }
   .textfield__icon {
@@ -202,4 +180,16 @@
     content: "\2022";
     margin-right: 0.25em;
   }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-transition-delay: 99999s; // hack to disable MOST of chrome's autofill styling
 }

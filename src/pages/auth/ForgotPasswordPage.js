@@ -9,6 +9,8 @@ import { InvertedTextfield } from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
+import NumberIcon from "components/icons/number";
+import analyticsService from "services/analytics";
 
 export default () => {
   const history = useHistory();
@@ -78,6 +80,7 @@ export default () => {
                 <InvertedTextfield
                   id="forgot-password-npn"
                   label="NPN Number"
+                  icon={<NumberIcon />}
                   placeholder="Enter your NPN Number"
                   name="NPN"
                   value={values.NPN}
@@ -86,7 +89,12 @@ export default () => {
                   error={(touched.NPN && errors.NPN) || errors.Global}
                 />
                 <div className="form__submit">
-                  <button className="btn btn--invert" type="submit">
+                  <button
+                    className={`btn btn--invert ${analyticsService.clickClass(
+                      "forgot-submit"
+                    )}`}
+                    type="submit"
+                  >
                     Submit
                   </button>
                 </div>

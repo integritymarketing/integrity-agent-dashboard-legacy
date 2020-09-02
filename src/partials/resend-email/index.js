@@ -3,7 +3,7 @@ import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import useParams from "hooks/useParams";
 
-export default ({ resendFn }) => {
+export default ({ resendFn, btnClass = "" }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -37,7 +37,7 @@ export default ({ resendFn }) => {
         Didn’t receive an email?{" "}
         <button
           type="button"
-          className="link link--invert link--force-underline"
+          className={`link link--invert link--force-underline ${btnClass}`}
           onClick={async () => {
             let response = await resendFn(params.get("npn"));
             if (response.status >= 200 && response.status < 300) {

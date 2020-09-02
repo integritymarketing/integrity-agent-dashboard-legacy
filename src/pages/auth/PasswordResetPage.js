@@ -8,6 +8,7 @@ import validationService from "services/validation";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import useParams from "hooks/useParams";
+import LockIcon from "components/icons/lock";
 
 export default () => {
   const history = useHistory();
@@ -122,6 +123,7 @@ export default () => {
                   id="new-password"
                   type="password"
                   label="New Password"
+                  icon={<LockIcon />}
                   placeholder="Enter your new password"
                   name="Password"
                   value={values.Password}
@@ -150,6 +152,7 @@ export default () => {
                   id="new-password-repeat"
                   type="password"
                   label="Re-enter New Password"
+                  icon={<LockIcon />}
                   placeholder="Re-enter your new password"
                   name="ConfirmPassword"
                   value={values.ConfirmPassword}
