@@ -23,11 +23,11 @@ const Textfield = ({
   const [passwordsVisible, setPasswordsVisible] = useState(false);
   const inputEl = useRef(null);
   const classes = [
-    "textfield",
+    "form-input form-input--textfield",
     className,
-    !!readOnly ? "textfield--readonly" : "",
-    !!error ? "textfield--error" : "",
-    hasSuccess ? "textfield--success" : "",
+    !!readOnly ? "form-input--readonly" : "",
+    !!error ? "form-input--error" : "",
+    hasSuccess ? "form-input--success" : "",
   ]
     .filter((x) => x.trim() !== "")
     .join(" ");
@@ -35,20 +35,20 @@ const Textfield = ({
   const displayType = type === "password" && passwordsVisible ? "text" : type;
   return (
     <div className={classes} {...wrapperProps}>
-      <div className="textfield__header">
+      <div className="form-input__header">
         <label htmlFor={id} className="label">
           {label}
         </label>
       </div>
       <div
-        className={`textfield__input ${
-          focusBannerVisible ? "textfield__input--show-banner" : ""
+        className={`form-input__input ${
+          focusBannerVisible ? "form-input__input--show-banner" : ""
         }`}
       >
         {icon && (
           <label
             htmlFor={id}
-            className="textfield__icon textfield__icon--main"
+            className="form-input__icon form-input__icon--main"
             aria-hidden="true"
           >
             {icon}
@@ -62,9 +62,9 @@ const Textfield = ({
           {...inputProps}
         />
         {focusBanner && (
-          <div className="textfield__focus-banner">{focusBanner}</div>
+          <div className="form-input__focus-banner">{focusBanner}</div>
         )}
-        <div className="textfield__input-actions">
+        <div className="form-input__input-actions">
           {error && <ErrorIcon />}
           {hasSuccess && <SuccessIcon />}
           {type === "password" && (
@@ -77,19 +77,19 @@ const Textfield = ({
                 inputEl.current.select();
               }}
             >
-              <PasswordIcon className="textfield__icon" />
+              <PasswordIcon className="form-input__icon" />
             </button>
           )}
         </div>
       </div>
-      <div className="textfield__error">{error}</div>
+      <div className="form-input__error">{error}</div>
       {auxLink}
     </div>
   );
 };
 
 export const InvertedTextfield = ({ className = "", ...props }) => (
-  <Textfield className={`${className} textfield--invert`} {...props} />
+  <Textfield className={`${className} form-input--invert`} {...props} />
 );
 
 export default Textfield;
