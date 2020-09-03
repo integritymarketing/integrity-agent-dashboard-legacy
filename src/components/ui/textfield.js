@@ -4,6 +4,43 @@ import SuccessIcon from "components/icons/success";
 import PasswordRevealIcon from "components/icons/password-reveal";
 import PasswordHideIcon from "components/icons/password-hide";
 
+// https://react-day-picker.js.org/api/DayPickerInput
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import { DateUtils } from "react-day-picker";
+import "react-day-picker/lib/style.css";
+import dateFnsFormat from "date-fns/format";
+import dateFnsParse from "date-fns/parse";
+
+function parseDate(str, format, locale) {
+  const parsed = dateFnsParse(str, format, new Date(), { locale });
+  if (DateUtils.isDate(parsed)) {
+    return parsed;
+  }
+  return undefined;
+}
+
+function formatDate(date, format, locale) {
+  return dateFnsFormat(date, format, { locale });
+}
+
+const dayPickerConfig = {
+  classNames: {
+    container: "DayPickerInput form-input__date-wrap",
+    overlayWrapper: "DayPickerInput-OverlayWrapper",
+    overlay: "DayPickerInput-Overlay",
+  },
+  dayPickerProps: {
+    modifiersStyles: {
+      today: {
+        color: "var(--brand-text-color)",
+      },
+      selected: {
+        backgroundColor: "var(--brand-text-color)",
+      },
+    },
+  },
+};
+
 const Textfield = ({
   id,
   label,
@@ -17,9 +54,12 @@ const Textfield = ({
   success: hasSuccess = false,
   focusBanner = null,
   focusBannerVisible = true,
+  multiline = false,
   readOnly,
+  value,
   ...inputProps
 }) => {
+  let InputElement = multiline ? "textarea" : "input";
   const [passwordsVisible, setPasswordsVisible] = useState(false);
   const inputEl = useRef(null);
   const classes = [
@@ -32,7 +72,19 @@ const Textfield = ({
     .filter((x) => x.trim() !== "")
     .join(" ");
   const PasswordIcon = passwordsVisible ? PasswordHideIcon : PasswordRevealIcon;
-  const displayType = type === "password" && passwordsVisible ? "text" : type;
+  let displayType = type;
+  if ((type === "password" && passwordsVisible) || type === "date") {
+    displayType = "text";
+  }
+
+  const inputElementProps = {
+    readOnly,
+    id,
+    type: displayType,
+    ref: inputEl,
+    className: inputClassName,
+    ...inputProps,
+  };
   return (
     <div className={classes} {...wrapperProps}>
       <div className="form-input__header">
@@ -54,13 +106,18 @@ const Textfield = ({
             {icon}
           </label>
         )}
-        <input
-          {...{ readOnly, id }}
-          type={displayType}
-          ref={inputEl}
-          className={inputClassName}
-          {...inputProps}
-        />
+        {type === "date" ? (
+          <DayPickerInput
+            value={value}
+            formatDate={formatDate}
+            format={"MM/dd/yyyy"}
+            parseDate={parseDate}
+            {...dayPickerConfig}
+            inputProps={inputElementProps}
+          />
+        ) : (
+          <InputElement value={value} {...inputElementProps} />
+        )}
         {focusBanner && (
           <div className="form-input__focus-banner">{focusBanner}</div>
         )}

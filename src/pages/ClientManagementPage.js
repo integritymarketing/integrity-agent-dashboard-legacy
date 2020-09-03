@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Formik } from "formik";
+import dateFnsFormat from "date-fns/format";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
@@ -12,9 +14,38 @@ import StatusField, {
   STATUS_POSITIVE,
   STATUS_NEGATIVE,
 } from "components/ui/status-field";
+import Modal from "components/ui/modal";
+import validationService from "services/validation";
+import Textfield from "components/ui/textfield";
+import analyticsService from "services/analytics";
 
-const capitalize = (str) => {
-  return str[0].toUpperCase() + str.slice(1);
+const newClientObj = () => {
+  return {
+    leadsId: null,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    postalCode: "",
+    notes: "",
+    followUpDate: "",
+    leadStatusId: 4,
+    statusName: "Open",
+  };
+};
+
+const formatPhoneNumber = (phoneNumberString) => {
+  const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    return `${match[1]}-${match[2]}-${match[3]}`;
+  }
+  return null;
+};
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return dateFnsFormat(date, "MM/dd/yyyy");
 };
 
 export default () => {
@@ -24,6 +55,7 @@ export default () => {
   const { page = 1, sort = "firstName-asc" } = state;
   const [totalClients, setTotalClients] = useState(45);
   const [clientList, setClientList] = useState([]);
+  const [stagedClient, setStagedClient] = useState(null);
   const totalPages = Math.ceil(totalClients / PAGE_SIZE);
   const loading = useLoading();
 
@@ -43,40 +75,44 @@ export default () => {
       await new Promise((resolve) => setTimeout(() => resolve(), 1000)); // TODO: remove this delay
       const list = await Promise.resolve([
         {
-          firstName: "FirstName",
-          lastName: "LastName",
-          status: "closed",
-          statusReason: "lost",
-          followUpDate: "2020-01-01",
+          leadsId: 1,
+          firstName: "Test",
+          lastName: "Person",
+          statusName: "Closed: Lost",
+          followUpDate: "2020-01-01T00:00:00",
           email: "emailaddress@website.com",
-          phone: "651-555-1234",
+          phone: "6515551234",
+          notes: "Test notes",
         },
         {
+          leadsId: 2,
           firstName: "FirstName",
           lastName: "LastName",
-          status: "closed",
-          statusReason: "lost",
-          followUpDate: "2020-01-01",
+          statusName: "Closed: Lost",
+          followUpDate: "2020-01-01T00:00:00",
           email: "emailaddress@website.com",
-          phone: "651-555-1234",
+          phone: "6515551234",
+          notes: "",
         },
         {
+          leadsId: 3,
           firstName: "FirstName",
           lastName: "LastName",
-          status: "closed",
-          statusReason: "lost",
-          followUpDate: "2020-01-01",
+          statusName: "Closed: Lost",
+          followUpDate: "2020-01-01T00:00:00",
           email: "emailaddress@website.com",
-          phone: "651-555-1234",
+          phone: "6515551234",
+          notes: "",
         },
         {
+          leadsId: 4,
           firstName: "FirstName",
           lastName: "LastName",
-          status: "closed",
-          statusReason: "lost",
-          followUpDate: "2020-01-01",
+          statusName: "Closed: Lost",
+          followUpDate: "2020-01-01T00:00:00",
           email: "emailaddress@website.com",
-          phone: "651-555-1234",
+          phone: "6515551234",
+          notes: "",
         },
       ]); // TODO: replace with API call
       setClientList(list);
@@ -105,7 +141,14 @@ export default () => {
             <span> Clients</span>
           </span>
 
-          <button className="btn">Add New</button>
+          <button
+            className={`btn ${analyticsService.clickClass(
+              "addnewcontact-button"
+            )}`}
+            onClick={() => setStagedClient(newClientObj())}
+          >
+            Add New
+          </button>
 
           <div className="toolbar__right">
             <SelectMenu
@@ -129,7 +172,7 @@ export default () => {
 
         <div className="card-grid mb-5 pt-1">
           {clientList.map((client) => (
-            <Card>
+            <Card key={client.leadsId}>
               <div className="toolbar">
                 <div className="hdg hdg--4">
                   {client.firstName} {client.lastName}
@@ -137,7 +180,10 @@ export default () => {
                 <div className="toolbar__right text-brand">
                   <button
                     type="button"
-                    className="icon-btn icon-btn--bump-right"
+                    className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
+                      "edit-contactcard"
+                    )}`}
+                    onClick={() => setStagedClient(client)}
                   >
                     <span className="visually-hidden">
                       Edit {client.firstName} {client.lastName}
@@ -151,19 +197,18 @@ export default () => {
                   <div className="text-bold">Status</div>
                   <StatusField
                     status={
-                      client.status === "closed"
+                      client.statusName.includes("Closed")
                         ? STATUS_NEGATIVE
                         : STATUS_POSITIVE
                     }
                   >
-                    {capitalize(client.status)}:{" "}
-                    {capitalize(client.statusReason)}
+                    {client.statusName}
                   </StatusField>
                   <div></div>
                 </div>
                 <div className="keyval-list__item mt-3">
                   <div className="text-bold">Follow-Up</div>
-                  <div>{client.followUpDate}</div>
+                  <div>{formatDate(client.followUpDate)}</div>
                 </div>
                 <div className="keyval-list__item keyval-list__item--full mt-3">
                   <div className="text-bold">Email</div>
@@ -174,7 +219,9 @@ export default () => {
                 <div className="keyval-list__item keyval-list__item--full mt-3">
                   <div className="text-bold">Phone Number</div>
                   <div>
-                    <a href={`tel:+1-${client.phone}`}>{client.phone}</a>
+                    <a href={`tel:+1-${formatPhoneNumber(client.phone)}`}>
+                      {formatPhoneNumber(client.phone)}
+                    </a>
                   </div>
                 </div>
               </div>
@@ -189,6 +236,213 @@ export default () => {
             onPageChange={(page) => setCurrentPage(page, sort)}
           />
         )}
+
+        <Modal
+          open={stagedClient !== null}
+          onClose={() => setStagedClient(null)}
+        >
+          {stagedClient && (
+            <Formik
+              initialValues={{
+                FirstName: stagedClient.firstName,
+                LastName: stagedClient.lastName,
+                Status: stagedClient.statusName,
+                Email: stagedClient.email,
+                Phone: formatPhoneNumber(stagedClient.phone) || "",
+                FollowUpDate: stagedClient.followUpDate
+                  ? formatDate(stagedClient.followUpDate)
+                  : "",
+                Notes: stagedClient.notes,
+              }}
+              validate={(values) => {
+                return validationService.validateMultiple(
+                  [
+                    {
+                      name: "FirstName",
+                      validator: validationService.validateRequired,
+                      args: ["First Name"],
+                    },
+                    {
+                      name: "LastName",
+                      validator: validationService.validateRequired,
+                      args: ["Last Name"],
+                    },
+                  ],
+                  values
+                );
+              }}
+              onSubmit={async (values, { setErrors, setSubmitting }) => {
+                setSubmitting(true);
+                loading.begin();
+
+                // TODO: submit changes
+                const response = { status: 200 };
+
+                setSubmitting(false);
+                loading.end();
+
+                if (response.status >= 200 && response.status < 300) {
+                  setStagedClient(null);
+                } else {
+                  const errorsArr = await response.json();
+                  setErrors(validationService.formikErrorsFor(errorsArr));
+                }
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+              }) => (
+                <form action="" className="form" onSubmit={handleSubmit}>
+                  <legend className="hdg hdg--2 mb-1">
+                    {stagedClient.leadsId === null
+                      ? "Add Contact"
+                      : "Edit Contact"}
+                  </legend>
+                  <fieldset className="form__fields">
+                    <Textfield
+                      id="cm-edit-fname"
+                      label="First Name"
+                      placeholder="Enter first name"
+                      name="FirstName"
+                      value={values.FirstName}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        // analyticsService.fireEvent("leaveField", {
+                        //   field: "firstName",
+                        //   formName: "registration",
+                        // });
+                        return handleBlur(e);
+                      }}
+                      error={
+                        (touched.FirstName && errors.FirstName) || errors.Global
+                      }
+                    />
+                    <Textfield
+                      id="cm-edit-lname"
+                      label="Last Name"
+                      placeholder="Enter last name"
+                      name="LastName"
+                      value={values.LastName}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        // analyticsService.fireEvent("leaveField", {
+                        //   field: "lastName",
+                        //   formName: "registration",
+                        // });
+                        return handleBlur(e);
+                      }}
+                      error={
+                        (touched.LastName && errors.LastName) || errors.Global
+                      }
+                    />
+                    <SelectMenu
+                      id="cm-edit-status"
+                      label="Status"
+                      name="Status"
+                      value={values.Status}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        // analyticsService.fireEvent("leaveField", {
+                        //   field: "lastName",
+                        //   formName: "registration",
+                        // });
+                        return handleBlur(e);
+                      }}
+                      error={(touched.Status && errors.Status) || errors.Global}
+                    >
+                      <option value="Open">Open</option>
+                      <option value="Applied">Applied</option>
+                      <option value="Quoted">Quoted</option>
+                      <option value="Closed: Lost">Closed: Lost</option>
+                      <option value="Closed: Other">Closed: Other</option>
+                      <option value="Open">Open</option>
+                    </SelectMenu>
+                    <Textfield
+                      id="cm-edit-email"
+                      type="email"
+                      label="Email"
+                      placeholder="Enter email address"
+                      name="Email"
+                      value={values.Email}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        // analyticsService.fireEvent("leaveField", {
+                        //   field: "emailAddress",
+                        //   formName: "registration",
+                        // });
+                        return handleBlur(e);
+                      }}
+                      error={(touched.Email && errors.Email) || errors.Global}
+                    />
+                    <Textfield
+                      id="cm-edit-phone"
+                      label="Phone"
+                      placeholder="Enter phone number"
+                      name="Phone"
+                      value={values.Phone}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        // analyticsService.fireEvent("leaveField", {
+                        //   field: "emailAddress",
+                        //   formName: "registration",
+                        // });
+                        return handleBlur(e);
+                      }}
+                      error={(touched.Phone && errors.Phone) || errors.Global}
+                    />
+                    <Textfield
+                      id="cm-edit-followup"
+                      type="date"
+                      label="FollowUpDate"
+                      placeholder="YYYY-MM-DD"
+                      name="FollowUpDate"
+                      value={values.FollowUpDate}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        // analyticsService.fireEvent("leaveField", {
+                        //   field: "emailAddress",
+                        //   formName: "registration",
+                        // });
+                        return handleBlur(e);
+                      }}
+                      error={
+                        (touched.FollowUpDate && errors.FollowUpDate) ||
+                        errors.Global
+                      }
+                    />
+                    <Textfield
+                      id="cm-edit-notes"
+                      label="Notes"
+                      multiline={true}
+                      placeholder="Enter notes"
+                      name="Notes"
+                      value={values.Notes}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        // analyticsService.fireEvent("leaveField", {
+                        //   field: "emailAddress",
+                        //   formName: "registration",
+                        // });
+                        return handleBlur(e);
+                      }}
+                      error={(touched.Notes && errors.Notes) || errors.Global}
+                    />
+                    <div className="form__submit text-center">
+                      <button className="btn" type="submit">
+                        Save
+                      </button>
+                    </div>
+                  </fieldset>
+                </form>
+              )}
+            </Formik>
+          )}
+        </Modal>
       </Container>
       <GlobalFooter />
     </React.Fragment>

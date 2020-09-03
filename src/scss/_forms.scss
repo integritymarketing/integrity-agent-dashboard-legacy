@@ -46,8 +46,9 @@
       z-index: 1;
     }
 
-    > input,
-    > select {
+    input,
+    select,
+    textarea {
       border: 0;
       background: none;
       font-size: 1rem;
@@ -62,9 +63,25 @@
       }
     }
 
-    > input:read-only {
+    input:read-only {
       background-color: transparent;
       color: var(--muted-text-color);
+    }
+
+    textarea {
+      height: auto;
+      line-height: (24/16);
+      min-height: 10rem;
+      max-height: 25rem;
+      resize: vertical;
+    }
+  }
+
+  &__date-wrap {
+    flex: 1 0 auto;
+
+    > input {
+      width: 100%;
     }
   }
 
