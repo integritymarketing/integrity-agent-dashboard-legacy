@@ -8,6 +8,10 @@ import { useLocation, useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import Card from "components/ui/card";
 import EditIcon from "components/icons/edit";
+import StatusField, {
+  STATUS_POSITIVE,
+  STATUS_NEGATIVE,
+} from "components/ui/status-field";
 
 const capitalize = (str) => {
   return str[0].toUpperCase() + str.slice(1);
@@ -131,7 +135,10 @@ export default () => {
                   {client.firstName} {client.lastName}
                 </div>
                 <div className="toolbar__right text-brand">
-                  <button type="button" className="icon-btn">
+                  <button
+                    type="button"
+                    className="icon-btn icon-btn--bump-right"
+                  >
                     <span className="visually-hidden">
                       Edit {client.firstName} {client.lastName}
                     </span>
@@ -139,13 +146,20 @@ export default () => {
                   </button>
                 </div>
               </div>
-              <div className="keyval-list">
+              <div className="keyval-list text-body">
                 <div className="keyval-list__item mt-3">
                   <div className="text-bold">Status</div>
-                  <div>
+                  <StatusField
+                    status={
+                      client.status === "closed"
+                        ? STATUS_NEGATIVE
+                        : STATUS_POSITIVE
+                    }
+                  >
                     {capitalize(client.status)}:{" "}
                     {capitalize(client.statusReason)}
-                  </div>
+                  </StatusField>
+                  <div></div>
                 </div>
                 <div className="keyval-list__item mt-3">
                   <div className="text-bold">Follow-Up</div>
