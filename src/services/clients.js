@@ -52,18 +52,26 @@ const fauxFetch = async (url, options) => {
 };
 
 class ClientsService {
-  getList = async (page, sort, sortDir = "desc") => {
+  _clientAPIRequest = async (path, method = "GET", body) => {
     const user = await AuthService.getUser();
-    const response = await fauxFetch(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=9&CurrentPage=${page}&Sort=${sort}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
+    const opts = {
+      method,
+      headers: {
+        Authorization: "Bearer " + user.access_token,
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
+    if (body) {
+      opts.body = JSON.stringify(body);
+    }
+    const response = await fauxFetch(path, opts);
+    return response;
+  };
+
+  getList = async (page, sort, sortDir = "desc") => {
+    const response = await thes._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=9&CurrentPage=${page}&Sort=${sort}`
     );
     const list = await response.json();
 
@@ -86,56 +94,48 @@ class ClientsService {
   };
 
   getClient = async (id) => {
-    const user = await AuthService.getUser();
-    const response = await fauxFetch(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${id}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${id}`
     );
 
     return response;
   };
 
   createClient = async (data) => {
-    const user = await AuthService.getUser();
-    const response = await fauxFetch(
+    const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/Leads`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data),
-      }
+      "POST",
+      data
     );
 
     return response;
   };
 
   updateClient = async (id, data) => {
-    const user = await AuthService.getUser();
-    const response = await fauxFetch(
+    const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/Leads/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data),
-      }
+      "PUT",
+      data
     );
 
     return response;
+  };
+
+  deleteClient = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${id}`,
+      "DELETE"
+    );
+
+    return response;
+  };
+
+  getStatuses = async () => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/statuses`
+    );
+
+    return response.json();
   };
 }
 
