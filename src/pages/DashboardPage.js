@@ -60,7 +60,7 @@ const SSOButtonWithModal = ({ ...props }) => {
         <div className="mb-4">
           <button
             onClick={handleConnectureSSO}
-            className={`btn ${analyticsService.clickClass(
+            className={`btn btn--no-upper ${analyticsService.clickClass(
               "connecture-button"
             )}`}
           >
