@@ -81,3 +81,13 @@
     color: var(--disabled-color);
   }
 }
+
+.btn--destructive {
+  background-color: var(--error-state-color);
+  border-color: var(--error-state-color);
+
+  &:hover:not(.btn--disabled):not([disabled]) {
+    background-color: var(--error-confirm-state-color);
+    border-color: var(--error-confirm-state-color);
+  }
+}

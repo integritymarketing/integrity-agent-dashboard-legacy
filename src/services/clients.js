@@ -65,12 +65,13 @@ class ClientsService {
     if (body) {
       opts.body = JSON.stringify(body);
     }
-    const response = await fauxFetch(path, opts);
+    console.log("Bearer " + user.access_token);
+    const response = await fetch(path, opts);
     return response;
   };
 
-  getList = async (page, sort, sortDir = "desc") => {
-    const response = await thes._clientAPIRequest(
+  getList = async (page, sort) => {
+    const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=9&CurrentPage=${page}&Sort=${sort}`
     );
     const list = await response.json();

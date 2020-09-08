@@ -38,7 +38,7 @@ export default () => {
   const PAGE_SIZE = 9;
   const { state = {} } = useLocation();
   const history = useHistory();
-  const { page = 1, sort = "firstName-asc" } = state;
+  const { page = 1, sort = "firstName:asc" } = state;
   const [totalClients, setTotalClients] = useState(45);
   const [clientList, setClientList] = useState([]);
   const [stagedClient, setStagedClient] = useState(null);
@@ -58,8 +58,8 @@ export default () => {
   // load data set for current parameters
   useEffect(() => {
     const refreshClientList = async () => {
-      const [sortField, sortDir] = sort.split("-");
-      const list = await clientsService.getList(page, sortField, sortDir);
+      const list = await clientsService.getList(page, sort);
+      console.log(list);
 
       setClientList(list);
       setTotalClients(45);
@@ -104,14 +104,14 @@ export default () => {
               value={sort}
               onChange={(event) => setCurrentPage(1, event.currentTarget.value)}
             >
-              <option value="firstName-asc">First Name Asc</option>
-              <option value="firstName-desc">First Name Desc</option>
-              <option value="lastName-asc">Last Name Asc</option>
-              <option value="lastName-desc">Last Name Desc</option>
-              <option value="status-asc">Status Asc</option>
-              <option value="status-desc">Status Desc</option>
-              <option value="followUpDate-asc">Follow Up Date Asc</option>
-              <option value="followUpDate-desc">Follow Up Date Desc</option>
+              <option value="firstName:asc">First Name Asc</option>
+              <option value="firstName:desc">First Name Desc</option>
+              <option value="lastName:asc">Last Name Asc</option>
+              <option value="lastName:desc">Last Name Desc</option>
+              <option value="statusName:asc">Status Asc</option>
+              <option value="statusName:desc">Status Desc</option>
+              <option value="followUpDate:asc">Follow Up Date Asc</option>
+              <option value="followUpDate:desc">Follow Up Date Desc</option>
             </SelectMenu>
           </div>
         </div>
@@ -175,12 +175,17 @@ export default () => {
           ))}
         </div>
 
-        {clientList.length > 0 && (
+        {clientList.length > 0 ? (
           <Pagination
             currentPage={page}
             totalPages={totalPages}
             onPageChange={(page) => setCurrentPage(page, sort)}
           />
+        ) : (
+          <div className="pt-3 pb-5 text-center">
+            <div className="hdg hdg--3 mb-2">No results</div>
+            <p className="text-body">Click the button above to add a client.</p>
+          </div>
         )}
 
         <Modal
@@ -198,6 +203,7 @@ export default () => {
                 followUpDate: stagedClient.followUpDate
                   ? formatDate(stagedClient.followUpDate)
                   : "",
+                postalCode: stagedClient.postalCode || "",
                 notes: stagedClient.notes,
               }}
               validate={(values) => {
@@ -266,10 +272,9 @@ export default () => {
                       value={values.firstName}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        // analyticsService.fireEvent("leaveField", {
-                        //   field: "firstName",
-                        //   formName: "registration",
-                        // });
+                        analyticsService.fireEvent("contactCard", {
+                          field: "firstName",
+                        });
                         return handleBlur(e);
                       }}
                       error={
@@ -284,10 +289,9 @@ export default () => {
                       value={values.lastName}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        // analyticsService.fireEvent("leaveField", {
-                        //   field: "lastName",
-                        //   formName: "registration",
-                        // });
+                        analyticsService.fireEvent("contactCard", {
+                          field: "lastName",
+                        });
                         return handleBlur(e);
                       }}
                       error={
@@ -301,10 +305,9 @@ export default () => {
                       value={values.status}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        // analyticsService.fireEvent("leaveField", {
-                        //   field: "lastName",
-                        //   formName: "registration",
-                        // });
+                        analyticsService.fireEvent("contactCard", {
+                          field: "status",
+                        });
                         return handleBlur(e);
                       }}
                       error={(touched.status && errors.status) || errors.Global}
@@ -325,10 +328,9 @@ export default () => {
                       value={values.email}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        // analyticsService.fireEvent("leaveField", {
-                        //   field: "emailAddress",
-                        //   formName: "registration",
-                        // });
+                        analyticsService.fireEvent("contactCard", {
+                          field: "emailAddress",
+                        });
                         return handleBlur(e);
                       }}
                       error={(touched.email && errors.email) || errors.Global}
@@ -341,13 +343,30 @@ export default () => {
                       value={values.phone}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        // analyticsService.fireEvent("leaveField", {
-                        //   field: "emailAddress",
-                        //   formName: "registration",
-                        // });
+                        analyticsService.fireEvent("contactCard", {
+                          field: "phoneNumber",
+                        });
                         return handleBlur(e);
                       }}
                       error={(touched.phone && errors.phone) || errors.Global}
+                    />
+                    <Textfield
+                      id="cm-edit-postalCode"
+                      label="ZIP Code"
+                      placeholder="Enter zip code"
+                      name="postalCode"
+                      value={values.postalCode}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        analyticsService.fireEvent("contactCard", {
+                          field: "postalCode",
+                        });
+                        return handleBlur(e);
+                      }}
+                      error={
+                        (touched.postalCode && errors.postalCode) ||
+                        errors.Global
+                      }
                     />
                     <Textfield
                       id="cm-edit-followup"
@@ -358,10 +377,9 @@ export default () => {
                       value={values.followUpDate}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        // analyticsService.fireEvent("leaveField", {
-                        //   field: "emailAddress",
-                        //   formName: "registration",
-                        // });
+                        analyticsService.fireEvent("contactCard", {
+                          field: "followUpDate",
+                        });
                         return handleBlur(e);
                       }}
                       error={
@@ -378,10 +396,9 @@ export default () => {
                       value={values.notes}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        // analyticsService.fireEvent("leaveField", {
-                        //   field: "emailAddress",
-                        //   formName: "registration",
-                        // });
+                        analyticsService.fireEvent("contactCard", {
+                          field: "notes",
+                        });
                         return handleBlur(e);
                       }}
                       error={(touched.notes && errors.notes) || errors.Global}
@@ -395,6 +412,31 @@ export default () => {
                 </form>
               )}
             </Formik>
+          )}
+          {stagedClient && stagedClient.leadsId !== null && (
+            <React.Fragment>
+              <hr class="modal__hr" />
+              <div className="text-center">
+                <button
+                  className={`btn btn--destructive ${analyticsService.clickClass(
+                    "deletecontact-contactcard"
+                  )}`}
+                  type="button"
+                  onClick={async () => {
+                    if (
+                      window.confirm(
+                        "Are you sure? You cannot undo this action."
+                      )
+                    ) {
+                      await clientsService.deleteClient(stagedClient.leadsId);
+                      setStagedClient(null);
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </React.Fragment>
           )}
         </Modal>
       </Container>
