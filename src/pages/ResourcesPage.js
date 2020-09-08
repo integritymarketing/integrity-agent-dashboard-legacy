@@ -40,7 +40,7 @@ export default () => {
 
           <div className="text-body mt-1">
             Explore resources designed to help you meet client needs and grow
-            your business.
+            your business
           </div>
         </Container>
       </div>

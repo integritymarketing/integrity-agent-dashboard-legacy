@@ -49,26 +49,47 @@ const SSOButtonWithModal = ({ ...props }) => {
         <div className="mb-3">
           <div className="tool-icon">MA PDP</div>
         </div>
-        <p className="text-body mb-4">
-          Choose your <br />
-          <strong>Medicare Advantage/PDP</strong> experience:
+        <p className="text-body pb-3 border-bottom mb-3">
+          Choose from two amazing enrollment tool options:
         </p>
-        <div className="pt-2 mb-3">
+        <div className="pt-1 pr-2 pl-2 mb-2">
+          <p className="text-body">
+            Access previous MedicareCENTER features and more!
+          </p>
+        </div>
+        <div className="mb-4">
           <button
             onClick={handleConnectureSSO}
             className={`btn ${analyticsService.clickClass(
               "connecture-button"
             )}`}
           >
-            Open Connecture
+            MedicareAPP
           </button>
         </div>
-        <div className="mb-4">
+        <div className="pt-2 pr-2 pl-2 mb-2">
+          <p className="text-body">
+            Access a new enrollment tool option that offers texting capabilities
+            and more!
+          </p>
+        </div>
+        <div className="mb-2">
           <a
             href={process.env.REACT_APP_SUNFIRE_SSO_URL}
-            className={`btn ${analyticsService.clickClass("sunfire-button")}`}
+            className={`btn btn--no-upper ${analyticsService.clickClass(
+              "sunfire-button"
+            )}`}
           >
-            Open SunFireMatrix
+            MedicareLINK
+          </a>
+        </div>
+        <div className="mb-4">
+          {/* TODO: add legacy url */}
+          <a
+            href="https://medicarecenter.com"
+            className="link link--force-underline"
+          >
+            Access Legacy MedicareCenter
           </a>
         </div>
       </Modal>
@@ -152,7 +173,7 @@ export default () => {
           <div className="hdg hdg--1">Learning Center</div>
           <p className="text-body text-muted mt-1 mb-4">
             Explore resources designed to help you meet client needs and grow
-            your business.
+            your business
           </p>
           <ResourceLinkGrid />
         </section>
