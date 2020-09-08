@@ -31,7 +31,7 @@ const formatPhoneNumber = (phoneNumberString) => {
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return dateFnsFormat(date, "MM/dd/yyyy");
+  return isNaN(date.getTime()) ? "" : dateFnsFormat(date, "MM/dd/yyyy");
 };
 
 export default () => {
