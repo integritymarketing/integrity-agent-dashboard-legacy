@@ -54,7 +54,11 @@ const SSOButtonWithModal = ({ ...props }) => {
           </a>
         </div>
         <div className="mb-4">
-          <a href="#" className="link link--force-underline">
+          {/* TODO: add legacy url */}
+          <a
+            href="https://medicarecenter.com"
+            className="link link--force-underline"
+          >
             Access Legacy MedicareCenter
           </a>
         </div>
