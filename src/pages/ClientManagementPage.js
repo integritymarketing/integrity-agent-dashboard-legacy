@@ -81,110 +81,122 @@ export default () => {
         </Container>
       </div>
       <Container className="mt-scale-3">
-        <div className="toolbar">
-          <span className="mr-3">
-            <span className="text-bold">{totalClients}</span>
-            <span> Clients</span>
-          </span>
-
-          <button
-            className={`btn ${analyticsService.clickClass(
-              "addnewcontact-button"
-            )}`}
-            onClick={() => setStagedClient(clientsService.newClientObj())}
-          >
-            Add New
-          </button>
-
-          <div className="toolbar__right">
-            <SelectMenu
-              name="sort"
-              id="cm-sort"
-              label="Sort by"
-              value={sort}
-              onChange={(event) => setCurrentPage(1, event.currentTarget.value)}
-            >
-              <option value="firstName:asc">First Name Asc</option>
-              <option value="firstName:desc">First Name Desc</option>
-              <option value="lastName:asc">Last Name Asc</option>
-              <option value="lastName:desc">Last Name Desc</option>
-              <option value="statusName:asc">Status Asc</option>
-              <option value="statusName:desc">Status Desc</option>
-              <option value="followUpDate:asc">Follow Up Date Asc</option>
-              <option value="followUpDate:desc">Follow Up Date Desc</option>
-            </SelectMenu>
-          </div>
-        </div>
-
-        <div className="card-grid mb-5 pt-1">
-          {clientList.map((client) => (
-            <Card key={client.leadsId}>
-              <div className="toolbar">
-                <div className="hdg hdg--4">
-                  {client.firstName} {client.lastName}
-                </div>
-                <div className="toolbar__right text-brand">
-                  <button
-                    type="button"
-                    className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
-                      "edit-contactcard"
-                    )}`}
-                    onClick={() => setStagedClient(client)}
-                  >
-                    <span className="visually-hidden">
-                      Edit {client.firstName} {client.lastName}
-                    </span>
-                    <EditIcon />
-                  </button>
-                </div>
-              </div>
-              <div className="keyval-list text-body">
-                <div className="keyval-list__item mt-3">
-                  <div className="text-bold">Status</div>
-                  <StatusField
-                    status={
-                      client.statusName.includes("Closed")
-                        ? STATUS_NEGATIVE
-                        : STATUS_POSITIVE
-                    }
-                  >
-                    {client.statusName}
-                  </StatusField>
-                  <div></div>
-                </div>
-                <div className="keyval-list__item mt-3">
-                  <div className="text-bold">Follow-Up</div>
-                  <div>{formatDate(client.followUpDate)}</div>
-                </div>
-                <div className="keyval-list__item keyval-list__item--full mt-3">
-                  <div className="text-bold">Email</div>
-                  <div>
-                    <a href={`mailto:${client.email}`}>{client.email}</a>
-                  </div>
-                </div>
-                <div className="keyval-list__item keyval-list__item--full mt-3">
-                  <div className="text-bold">Phone Number</div>
-                  <div>
-                    <a href={`tel:+1-${formatPhoneNumber(client.phone)}`}>
-                      {formatPhoneNumber(client.phone)}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
         {clientList.length > 0 ? (
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page, sort)}
-          />
+          <React.Fragment>
+            <div className="toolbar">
+              <span className="mr-3">
+                <span className="text-bold">{totalClients}</span>
+                <span> Clients</span>
+              </span>
+
+              <button
+                className={`btn ${analyticsService.clickClass(
+                  "addnewcontact-button"
+                )}`}
+                onClick={() => setStagedClient(clientsService.newClientObj())}
+              >
+                Add New
+              </button>
+
+              <div className="toolbar__right">
+                <SelectMenu
+                  name="sort"
+                  id="cm-sort"
+                  label="Sort by"
+                  value={sort}
+                  onChange={(event) =>
+                    setCurrentPage(1, event.currentTarget.value)
+                  }
+                >
+                  <option value="firstName:asc">First Name Asc</option>
+                  <option value="firstName:desc">First Name Desc</option>
+                  <option value="lastName:asc">Last Name Asc</option>
+                  <option value="lastName:desc">Last Name Desc</option>
+                  <option value="statusName:asc">Status Asc</option>
+                  <option value="statusName:desc">Status Desc</option>
+                  <option value="followUpDate:asc">Follow Up Date Asc</option>
+                  <option value="followUpDate:desc">Follow Up Date Desc</option>
+                </SelectMenu>
+              </div>
+            </div>
+
+            <div className="card-grid mb-5 pt-1">
+              {clientList.map((client) => (
+                <Card key={client.leadsId}>
+                  <div className="toolbar">
+                    <div className="hdg hdg--4">
+                      {client.firstName} {client.lastName}
+                    </div>
+                    <div className="toolbar__right text-brand">
+                      <button
+                        type="button"
+                        className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
+                          "edit-contactcard"
+                        )}`}
+                        onClick={() => setStagedClient(client)}
+                      >
+                        <span className="visually-hidden">
+                          Edit {client.firstName} {client.lastName}
+                        </span>
+                        <EditIcon />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="keyval-list text-body">
+                    <div className="keyval-list__item mt-3">
+                      <div className="text-bold">Status</div>
+                      <StatusField
+                        status={
+                          client.statusName.includes("Closed")
+                            ? STATUS_NEGATIVE
+                            : STATUS_POSITIVE
+                        }
+                      >
+                        {client.statusName}
+                      </StatusField>
+                      <div></div>
+                    </div>
+                    <div className="keyval-list__item mt-3">
+                      <div className="text-bold">Follow-Up</div>
+                      <div>{formatDate(client.followUpDate)}</div>
+                    </div>
+                    <div className="keyval-list__item keyval-list__item--full mt-3">
+                      <div className="text-bold">Email</div>
+                      <div>
+                        <a href={`mailto:${client.email}`}>{client.email}</a>
+                      </div>
+                    </div>
+                    <div className="keyval-list__item keyval-list__item--full mt-3">
+                      <div className="text-bold">Phone Number</div>
+                      <div>
+                        <a href={`tel:+1-${formatPhoneNumber(client.phone)}`}>
+                          {formatPhoneNumber(client.phone)}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={(page) => setCurrentPage(page, sort)}
+            />
+          </React.Fragment>
         ) : (
           <div className="pt-3 pb-5 text-center">
-            <div className="hdg hdg--3 mb-2">No results</div>
-            <p className="text-body">Click the button above to add a client.</p>
+            <div className="hdg hdg--2 mb-1">Let's get started</div>
+            <p className="text-bod mb-3">Add your first client to begin</p>
+            <button
+              className={`btn ${analyticsService.clickClass(
+                "addnewcontact-button"
+              )}`}
+              onClick={() => setStagedClient(clientsService.newClientObj())}
+            >
+              Add New
+            </button>
           </div>
         )}
 
