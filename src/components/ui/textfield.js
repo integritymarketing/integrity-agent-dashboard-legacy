@@ -57,6 +57,7 @@ const Textfield = ({
   multiline = false,
   readOnly,
   value,
+  onDateChange = null,
   ...inputProps
 }) => {
   let InputElement = multiline ? "textarea" : "input";
@@ -75,6 +76,12 @@ const Textfield = ({
   let displayType = type;
   if ((type === "password" && passwordsVisible) || type === "date") {
     displayType = "text";
+  }
+
+  if (type === "date" && onDateChange === null) {
+    throw new Error(
+      "Textfield[type=date] components require an onDateChange handler."
+    );
   }
 
   const inputElementProps = {
@@ -112,6 +119,9 @@ const Textfield = ({
             formatDate={formatDate}
             format={"MM/dd/yyyy"}
             parseDate={parseDate}
+            onDayChange={(selectedDay, modifiers, dayPickerInput) => {
+              onDateChange(selectedDay);
+            }}
             {...dayPickerConfig}
             inputProps={inputElementProps}
           />

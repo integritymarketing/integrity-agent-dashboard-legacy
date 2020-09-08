@@ -1,54 +1,14 @@
 import AuthService from "services/auth";
+import dateFnsParse from "date-fns/parse";
+import dateFnsFormat from "date-fns/format";
 
-// TODO: remove and replace with default fetch when API is
-const fauxFetch = async (url, options) => {
-  console.log("Faux Fetch Request", url, options);
-  await new Promise((resolve) => setTimeout(() => resolve(), 1000));
-  return {
-    status: 200,
-    json: async () => [
-      {
-        leadsId: 1,
-        firstName: "Test",
-        lastName: "Person",
-        statusName: "Closed: Lost",
-        followUpDate: "2020-01-01T00:00:00",
-        email: "emailaddress@website.com",
-        phone: "6515551234",
-        notes: "Test notes",
-      },
-      {
-        leadsId: 2,
-        firstName: "FirstName",
-        lastName: "LastName",
-        statusName: "Closed: Lost",
-        followUpDate: "2020-01-01T00:00:00",
-        email: "emailaddress@website.com",
-        phone: "6515551234",
-        notes: "",
-      },
-      {
-        leadsId: 3,
-        firstName: "FirstName",
-        lastName: "LastName",
-        statusName: "Closed: Lost",
-        followUpDate: "2020-01-01T00:00:00",
-        email: "emailaddress@website.com",
-        phone: "6515551234",
-        notes: "",
-      },
-      {
-        leadsId: 4,
-        firstName: "FirstName",
-        lastName: "LastName",
-        statusName: "Closed: Lost",
-        followUpDate: "2020-01-01T00:00:00",
-        email: "emailaddress@website.com",
-        phone: "6515551234",
-        notes: "",
-      },
-    ],
-  };
+const parseDate = (dateString) => {
+  return dateFnsParse(dateString, "MM/dd/yyyy", new Date());
+};
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return dateFnsFormat(date, "yyyy-MM-dd");
 };
 
 class ClientsService {
@@ -69,9 +29,9 @@ class ClientsService {
     return response;
   };
 
-  getList = async (page, sort) => {
+  getList = async (page, pageSize, sort) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=9&CurrentPage=${page}&Sort=${sort}`
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=${pageSize}&CurrentPage=${page}&Sort=${sort}`
     );
     const list = await response.json();
 
@@ -88,7 +48,7 @@ class ClientsService {
       postalCode: "",
       notes: "",
       followUpDate: "",
-      leadStatusId: 4,
+      leadStatusId: 0,
       statusName: "Open",
     };
   };
@@ -101,21 +61,35 @@ class ClientsService {
     return response;
   };
 
+  _getFormattedData = (
+    { phone, followUpDate, email, leadStatusId, ...data },
+    baseValues = {}
+  ) => {
+    return Object.assign({}, baseValues, data, {
+      email: email || null,
+      phone: phone ? parseInt(("" + phone).replace(/\D/g, ""), 10) : null,
+      followUpDate: followUpDate ? formatDate(parseDate(followUpDate)) : null,
+      leadStatusId: parseInt(leadStatusId, 10),
+    });
+  };
+
   createClient = async (data) => {
+    const reqData = this._getFormattedData(data);
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/Leads`,
       "POST",
-      data
+      reqData
     );
 
     return response;
   };
 
-  updateClient = async (id, data) => {
+  updateClient = async (oldValues, data) => {
+    const reqData = this._getFormattedData(data, oldValues);
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${id}`,
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${oldValues.leadsId}`,
       "PUT",
-      data
+      reqData
     );
 
     return response;
