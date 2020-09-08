@@ -60,7 +60,6 @@ class ClientsService {
         Authorization: "Bearer " + user.access_token,
         "Content-Type": "application/json",
       },
-      credentials: "include",
     };
     if (body) {
       opts.body = JSON.stringify(body);
