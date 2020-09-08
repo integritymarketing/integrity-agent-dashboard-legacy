@@ -11,13 +11,13 @@ export default ({ className = "", ...props }) => {
       <div className="hdg hdg--4 mb-1">Phone Number</div>
       <p className="text-body mb-4">
         <a href="tel:+1-651-555-1234" className="link">
-          651-555-1234
+          651-555-1234 {/* TODO: needs content */}
         </a>
       </p>
       <div className="hdg hdg--4 mb-1">Email</div>
       <p className="text-body mb-4">
-        <a href="mailto:support@medicarecenter.com" className="link">
-          support@medicarecenter.com
+        <a href="mailto:medicarecenter@integritymarketing.com" className="link">
+          medicarecenter@integritymarketing.com
         </a>
       </p>
     </React.Fragment>

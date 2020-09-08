@@ -53,7 +53,8 @@ export default () => {
                 },
                 {
                   name: "NPN",
-                  validator: validationService.validateNPN,
+                  validator: validationService.validateRequired,
+                  args: ["NPN Number"],
                 },
                 {
                   name: "Email",
@@ -192,7 +193,7 @@ export default () => {
                   type="email"
                   label="Re-enter Email Address"
                   icon={<MailIcon />}
-                  placeholder="Re-enter your Email address"
+                  placeholder="Re-enter your email address"
                   name="EmailRepeat"
                   value={values.EmailRepeat}
                   onChange={handleChange}
@@ -212,7 +213,7 @@ export default () => {
                   type="password"
                   label="Create Password"
                   icon={<LockIcon />}
-                  placeholder="Create a new Password"
+                  placeholder="Create a new password"
                   name="Password"
                   value={values.Password}
                   onChange={handleChange}
@@ -229,7 +230,7 @@ export default () => {
                   }
                   focusBanner={
                     <div className="form-tip">
-                      <p>Your Password must: </p>
+                      <p>Your password must: </p>
                       <ul className="list-basic">
                         <li>Be at least 8 characters long</li>
                         <li>
@@ -245,7 +246,7 @@ export default () => {
                 <InvertedTextfield
                   id="register-password-verify"
                   type="password"
-                  label="Re-enter Password"
+                  label="Re-enter password"
                   icon={<LockIcon />}
                   placeholder="Re-enter your new password"
                   name="ConfirmPassword"
