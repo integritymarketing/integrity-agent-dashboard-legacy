@@ -68,7 +68,6 @@ export default () => {
             className="link-card__img"
             aria-hidden="true"
           />
-          {/* TODO: link up to resources sections */}
           <Link
             to={{
               pathname: "/resources",

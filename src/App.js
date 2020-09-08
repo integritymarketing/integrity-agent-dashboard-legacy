@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Router from "components/functional/router";
+import { Route, Switch } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import AuthService from "services/auth";
 import DashboardPage from "pages/DashboardPage";
@@ -17,61 +18,54 @@ import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
 } from "components/functional/auth-routes";
-import ScrollToTop from "components/functional/scroll-to-top";
-import { FlashProvider } from "contexts/flash";
-import FlashMessage from "partials/flash-message";
 
 const App = () => {
   return (
     <AuthContext.Provider value={AuthService}>
       <Router>
-        <ScrollToTop />
-        <FlashProvider>
-          <FlashMessage />
-          <div className="content-frame">
-            <Switch>
-              <Route
-                exact={true}
-                path="/signin-oidc-silent"
-                component={AuthSilentCallback}
-              />
-              <Route
-                exact={true}
-                path="/signin-oidc"
-                component={AuthSigninCallback}
-              />
-              <Route
-                exact={true}
-                path="/signout-oidc"
-                component={AuthSignoutCallback}
-              />
-              <UnauthenticatedRoute exact path="/">
-                <LandingPage />
-              </UnauthenticatedRoute>
-              <AuthenticatedRoute exact path="/dashboard">
-                <DashboardPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute exact path="/account">
-                <AccountPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/resources">
-                <ResourcesPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/clients">
-                <ClientManagementPage />
-              </AuthenticatedRoute>
-              <Route path="/terms">
-                <TermsPage />
-              </Route>
-              <Route path="/privacy">
-                <PrivacyPage />
-              </Route>
-              <Route path="*">
-                <NotFoundPage />
-              </Route>
-            </Switch>
-          </div>
-        </FlashProvider>
+        <div className="content-frame">
+          <Switch>
+            <Route
+              exact={true}
+              path="/signin-oidc-silent"
+              component={AuthSilentCallback}
+            />
+            <Route
+              exact={true}
+              path="/signin-oidc"
+              component={AuthSigninCallback}
+            />
+            <Route
+              exact={true}
+              path="/signout-oidc"
+              component={AuthSignoutCallback}
+            />
+            <UnauthenticatedRoute exact path="/">
+              <LandingPage />
+            </UnauthenticatedRoute>
+            <AuthenticatedRoute exact path="/dashboard">
+              <DashboardPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute exact path="/account">
+              <AccountPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/resources">
+              <ResourcesPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/clients">
+              <ClientManagementPage />
+            </AuthenticatedRoute>
+            <Route path="/terms">
+              <TermsPage />
+            </Route>
+            <Route path="/privacy">
+              <PrivacyPage />
+            </Route>
+            <Route path="*">
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </div>
       </Router>
     </AuthContext.Provider>
   );
