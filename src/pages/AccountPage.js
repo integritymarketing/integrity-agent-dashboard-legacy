@@ -282,7 +282,7 @@ export default () => {
                           </ul>
                         </div>
                       }
-                      focusBannerVisible={!!errors.password}
+                      focusBannerVisible={!!errors.newPassword}
                     />
                     <Textfield
                       id="account-password-verify"
@@ -297,7 +297,7 @@ export default () => {
                       success={
                         touched.confirmPassword &&
                         !errors.confirmPassword &&
-                        !errors.password
+                        !errors.newPassword
                       }
                     />
                     <div className="form__submit">
