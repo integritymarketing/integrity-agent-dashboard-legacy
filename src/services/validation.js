@@ -45,13 +45,18 @@ class ValidationService {
   };
 
   validateEmail = (email, label = "Email Address") => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return this.composeValidator([
+      this.validateRequired,
+      () => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if (!re.test(String(email).toLowerCase())) {
-      return `${label} must be a valid address`;
-    }
+        if (!re.test(String(email).toLowerCase())) {
+          return `${label} must be a valid address`;
+        }
 
-    return null;
+        return null;
+      },
+    ])(email, label);
   };
 
   composeValidator = (validators = []) => {

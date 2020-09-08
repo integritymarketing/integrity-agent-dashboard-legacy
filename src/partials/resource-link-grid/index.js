@@ -21,36 +21,48 @@ export default () => {
       id: "working-remotely",
       analyticsKey: "workingremotely",
       name: "Working Remotely",
+      desc:
+        "Get personalized tips and advice for maximizing your day and your staff remotely.",
       images: { 373: workingRemotelySrc, 746: workingRemotelySrc2x },
     },
     {
       id: "sales-tips",
       analyticsKey: "salestips",
       name: "Sales Tips",
+      desc:
+        "Successful sales strategies can change a career. Collaborate with other Agents to increase sales.",
       images: { 373: salesTipsSrc, 746: salesTipsSrc2x },
     },
     {
       id: "tech-guides",
       analyticsKey: "techguides",
       name: "Tech Guides",
+      desc:
+        "You’ll be surprised how life-changing technology can be when used a certain way.",
       images: { 373: techGuidesSrc, 746: techGuidesSrc2x },
     },
     {
       id: "health-solutions",
       analyticsKey: "healthsolutions",
       name: "Health Solutions",
+      desc:
+        "Insights to help you outperform the competition for health products.",
       images: { 373: healthSolutionsSrc, 746: healthSolutionsSrc2x },
     },
     {
       id: "life-solutions",
       analyticsKey: "lifesolutions",
       name: "Life Solutions",
+      desc:
+        "Resources to assist in understanding how to follow up with life products after AEP.",
       images: { 373: lifeSolutionsSrc, 746: lifeSolutionsSrc2x },
     },
     {
       id: "carrier-guides",
       analyticsKey: "carrierguides",
       name: "Carrier Guides",
+      desc:
+        "Access condensed outlines for carriers by network and plans to make sense out of AEP.",
       images: { 373: carrierGuidesSrc, 746: carrierGuidesSrc2x },
     },
   ];

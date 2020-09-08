@@ -152,7 +152,7 @@ export default () => {
                       "setup-newaccount"
                     )}`}
                   >
-                    Setting up a new account?
+                    Set up a new account?
                   </Link>
                 </div>
               </fieldset>
