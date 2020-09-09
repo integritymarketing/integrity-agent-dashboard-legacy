@@ -59,7 +59,7 @@ export default () => {
   };
 
   const getCurrentPage = useMemo(() => {
-    const refreshClientList = async () => {
+    return async () => {
       try {
         const list = await clientsService.getList(page, PAGE_SIZE, sort);
         setClientList(list.result);
@@ -69,7 +69,6 @@ export default () => {
         setLoadError(true);
       }
     };
-    return refreshClientList;
   }, [sort, page, PAGE_SIZE]);
 
   // load status ids for updates
@@ -333,13 +332,19 @@ export default () => {
                   loading.begin();
 
                   let response = null;
-                  if (stagedClient.leadsId === null) {
-                    response = await clientsService.createClient(values);
-                  } else {
-                    response = await clientsService.updateClient(
-                      stagedClient,
-                      values
-                    );
+
+                  try {
+                    if (stagedClient.leadsId === null) {
+                      response = await clientsService.createClient(values);
+                    } else {
+                      response = await clientsService.updateClient(
+                        stagedClient,
+                        values
+                      );
+                    }
+                  } catch (e) {
+                    alert("Unable to update this contact. Please try again.");
+                    return;
                   }
 
                   setSubmitting(false);
@@ -551,9 +556,15 @@ export default () => {
                           "Are you sure? You cannot undo this action."
                         )
                       ) {
-                        await clientsService.deleteClient(stagedClient.leadsId);
-                        setStagedClient(null);
-                        setCurrentPage(1);
+                        try {
+                          await clientsService.deleteClient(
+                            stagedClient.leadsId
+                          );
+                          setStagedClient(null);
+                          setCurrentPage(1);
+                        } catch (e) {
+                          alert("Unable to delete contact. Please try again.");
+                        }
                       }
                     }}
                   >
