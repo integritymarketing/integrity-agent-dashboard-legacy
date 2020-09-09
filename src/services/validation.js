@@ -54,6 +54,16 @@ class ValidationService {
     return null;
   };
 
+  validatePhone = (phoneNumber, label = "Phone Number") => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+
+    if (phoneNumber && cleaned.length !== 10) {
+      return `${label} must be a valid phone number`;
+    }
+
+    return null;
+  };
+
   composeValidator = (validators = []) => {
     return (...validatorArgs) =>
       validators.reduce((result, validator) => {

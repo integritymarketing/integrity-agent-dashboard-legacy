@@ -284,6 +284,7 @@ export default () => {
                       {
                         name: "phone",
                         validator: validationService.composeValidator([
+                          validationService.validatePhone,
                           emailPhoneValidator,
                         ]),
                       },
