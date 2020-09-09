@@ -58,7 +58,10 @@ export default () => {
                 },
                 {
                   name: "Email",
-                  validator: validationService.validateEmail,
+                  validator: validationService.composeValidator([
+                    validationService.validateRequired,
+                    validationService.validateEmail,
+                  ]),
                 },
                 {
                   name: "EmailRepeat",

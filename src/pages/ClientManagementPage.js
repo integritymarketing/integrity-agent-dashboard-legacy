@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Formik } from "formik";
 import dateFnsFormat from "date-fns/format";
 import Container from "components/ui/container";
@@ -45,6 +45,7 @@ export default () => {
   const totalPages = Math.ceil(totalClients / PAGE_SIZE);
   const loading = useLoading();
   const [allStatuses, setAllStatuses] = useState(null);
+  const modalFormRef = useRef(null);
 
   // update router history for back/forward functionality
   const setCurrentPage = (page, sort) => {
@@ -256,7 +257,12 @@ export default () => {
                   notes: stagedClient.notes,
                 }}
                 validate={(values) => {
-                  return validationService.validateMultiple(
+                  const emailPhoneValidator = () => {
+                    if (values.email === "" && values.phone === "") {
+                      return "Email Address or Phone Number is required";
+                    }
+                  };
+                  const errors = validationService.validateMultiple(
                     [
                       {
                         name: "firstName",
@@ -268,15 +274,44 @@ export default () => {
                         validator: validationService.validateRequired,
                         args: ["Last Name"],
                       },
+                      {
+                        name: "email",
+                        validator: validationService.composeValidator([
+                          validationService.validateEmail,
+                          emailPhoneValidator,
+                        ]),
+                      },
+                      {
+                        name: "phone",
+                        validator: validationService.composeValidator([
+                          emailPhoneValidator,
+                        ]),
+                      },
                     ],
                     values
                   );
+
+                  if (Object.keys(errors).length) {
+                    // wait for validation error to show before scrolling
+                    setTimeout(() => {
+                      const firstError = modalFormRef.current.querySelector(
+                        ".form-input__error:not(:empty)"
+                      );
+                      if (firstError) {
+                        firstError.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
+                      }
+                    }, 100);
+                  }
+
+                  return errors;
                 }}
                 onSubmit={async (values, { setErrors, setSubmitting }) => {
                   setSubmitting(true);
                   loading.begin();
 
-                  // TODO: submit changes
                   let response = null;
                   if (stagedClient.leadsId === null) {
                     response = await clientsService.createClient(values);
@@ -308,7 +343,12 @@ export default () => {
                   handleBlur,
                   setFieldValue,
                 }) => (
-                  <form action="" className="form" onSubmit={handleSubmit}>
+                  <form
+                    action=""
+                    className="form"
+                    ref={modalFormRef}
+                    onSubmit={handleSubmit}
+                  >
                     <legend className="hdg hdg--2 mb-1">
                       {stagedClient.leadsId === null
                         ? "New Contact"
