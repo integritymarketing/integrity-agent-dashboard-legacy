@@ -91,3 +91,7 @@
     border-color: var(--error-confirm-state-color);
   }
 }
+
+.btn--no-upper {
+  text-transform: none;
+}

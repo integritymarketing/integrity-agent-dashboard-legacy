@@ -27,7 +27,7 @@ export default () => {
         />
       }
       title="Thank you"
-      body="If there is an account associated with the email address entered we will send a link to reset your account password."
+      body="If there is an account associated with NPN number entered you will receive an email with a link to reset your password"
     />
   );
 };

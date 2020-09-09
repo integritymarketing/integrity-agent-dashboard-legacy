@@ -25,8 +25,8 @@ export default () => {
         </BackLink>
         <h1 className="hdg hdg--2 mb-1 mt-1">Forgot your password?</h1>
         <p className="text-body mb-4">
-          Enter your email address below and if an account is associated with it
-          we will send you a reset link.
+          Enter your NPN number below and if an account is associated with it we
+          will send a reset link to your email.
         </p>
 
         <Formik
