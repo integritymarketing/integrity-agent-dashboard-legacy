@@ -311,14 +311,14 @@ export default () => {
                   <form action="" className="form" onSubmit={handleSubmit}>
                     <legend className="hdg hdg--2 mb-1">
                       {stagedClient.leadsId === null
-                        ? "Add Contact"
+                        ? "New Contact"
                         : "Edit Contact"}
                     </legend>
                     <fieldset className="form__fields">
                       <Textfield
                         id="cm-edit-fname"
                         label="First Name"
-                        placeholder="Enter first name"
+                        placeholder="Contact First Name"
                         name="firstName"
                         value={values.firstName}
                         onChange={handleChange}
@@ -336,7 +336,7 @@ export default () => {
                       <Textfield
                         id="cm-edit-lname"
                         label="Last Name"
-                        placeholder="Enter last name"
+                        placeholder="Contact Last Name"
                         name="lastName"
                         value={values.lastName}
                         onChange={handleChange}
@@ -348,6 +348,55 @@ export default () => {
                         }}
                         error={
                           (touched.lastName && errors.lastName) || errors.Global
+                        }
+                      />
+                      <Textfield
+                        id="cm-edit-email"
+                        type="email"
+                        label="Email"
+                        placeholder="Contact Email Address"
+                        name="email"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={(e) => {
+                          analyticsService.fireEvent("contactCard", {
+                            field: "emailAddress",
+                          });
+                          return handleBlur(e);
+                        }}
+                        error={(touched.email && errors.email) || errors.Global}
+                      />
+                      <Textfield
+                        id="cm-edit-phone"
+                        label="Phone Number"
+                        placeholder="Contact Phone Number"
+                        name="phone"
+                        value={values.phone}
+                        onChange={handleChange}
+                        onBlur={(e) => {
+                          analyticsService.fireEvent("contactCard", {
+                            field: "phoneNumber",
+                          });
+                          return handleBlur(e);
+                        }}
+                        error={(touched.phone && errors.phone) || errors.Global}
+                      />
+                      <Textfield
+                        id="cm-edit-postalCode"
+                        label="Zip Code"
+                        placeholder="Contact Zip Code"
+                        name="postalCode"
+                        value={values.postalCode}
+                        onChange={handleChange}
+                        onBlur={(e) => {
+                          analyticsService.fireEvent("contactCard", {
+                            field: "postalCode",
+                          });
+                          return handleBlur(e);
+                        }}
+                        error={
+                          (touched.postalCode && errors.postalCode) ||
+                          errors.Global
                         }
                       />
                       <SelectMenu
@@ -380,58 +429,9 @@ export default () => {
                         ) : null}
                       </SelectMenu>
                       <Textfield
-                        id="cm-edit-email"
-                        type="email"
-                        label="Email"
-                        placeholder="Enter email address"
-                        name="email"
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={(e) => {
-                          analyticsService.fireEvent("contactCard", {
-                            field: "emailAddress",
-                          });
-                          return handleBlur(e);
-                        }}
-                        error={(touched.email && errors.email) || errors.Global}
-                      />
-                      <Textfield
-                        id="cm-edit-phone"
-                        label="Phone"
-                        placeholder="Enter phone number"
-                        name="phone"
-                        value={values.phone}
-                        onChange={handleChange}
-                        onBlur={(e) => {
-                          analyticsService.fireEvent("contactCard", {
-                            field: "phoneNumber",
-                          });
-                          return handleBlur(e);
-                        }}
-                        error={(touched.phone && errors.phone) || errors.Global}
-                      />
-                      <Textfield
-                        id="cm-edit-postalCode"
-                        label="ZIP Code"
-                        placeholder="Enter zip code"
-                        name="postalCode"
-                        value={values.postalCode}
-                        onChange={handleChange}
-                        onBlur={(e) => {
-                          analyticsService.fireEvent("contactCard", {
-                            field: "postalCode",
-                          });
-                          return handleBlur(e);
-                        }}
-                        error={
-                          (touched.postalCode && errors.postalCode) ||
-                          errors.Global
-                        }
-                      />
-                      <Textfield
                         id="cm-edit-followup"
                         type="date"
-                        label="Follow-up Date"
+                        label="Follow Up"
                         placeholder="MM/DD/YYYY"
                         name="followUpDate"
                         value={values.followUpDate}
@@ -454,7 +454,7 @@ export default () => {
                         id="cm-edit-notes"
                         label="Notes"
                         multiline={true}
-                        placeholder="Enter notes"
+                        placeholder="Enter additional notes here"
                         name="notes"
                         value={values.notes}
                         onChange={handleChange}
