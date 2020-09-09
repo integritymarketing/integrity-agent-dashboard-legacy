@@ -24,15 +24,17 @@ class ClientsService {
     if (body) {
       opts.body = JSON.stringify(body);
     }
-    console.log("Bearer " + user.access_token);
-    const response = await fetch(path, opts);
-    return response;
+
+    return fetch(path, opts);
   };
 
   getList = async (page, pageSize, sort) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=${pageSize}&CurrentPage=${page}&Sort=${sort}`
     );
+    if (response.status >= 400) {
+      throw new Error("Leads request failed.");
+    }
     const list = await response.json();
 
     return list;

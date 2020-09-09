@@ -46,6 +46,7 @@ export default () => {
   const loading = useLoading();
   const [allStatuses, setAllStatuses] = useState(null);
   const modalFormRef = useRef(null);
+  const [hasLoadError, setLoadError] = useState(false);
 
   // update router history for back/forward functionality
   const setCurrentPage = (page, sort) => {
@@ -59,10 +60,14 @@ export default () => {
 
   const getCurrentPage = useMemo(() => {
     const refreshClientList = async () => {
-      const list = await clientsService.getList(page, PAGE_SIZE, sort);
-
-      setClientList(list.result);
-      setTotalClients(list.pageResult.total);
+      try {
+        const list = await clientsService.getList(page, PAGE_SIZE, sort);
+        setClientList(list.result);
+        setTotalClients(list.pageResult.total);
+        setLoadError(false);
+      } catch (e) {
+        setLoadError(true);
+      }
     };
     return refreshClientList;
   }, [sort, page, PAGE_SIZE]);
@@ -99,7 +104,21 @@ export default () => {
           <h2 className="hdg hdg--1">Client Management</h2>
         </Container>
       </div>
-      {!loading.isLoading && (
+      {hasLoadError && (
+        <Container className="mt-scale-3">
+          <div className="pt-3 pb-5 text-center">
+            <div className="hdg hdg--2 mb-1">Error</div>
+            <p className="text-bod mb-3">
+              We were unable to load you clients at this time. Please try again
+              later.
+            </p>
+            <button className="btn" onClick={getCurrentPage}>
+              Retry
+            </button>
+          </div>
+        </Container>
+      )}
+      {!loading.isLoading && !hasLoadError && (
         <Container className="mt-scale-3">
           {clientList.length > 0 ? (
             <React.Fragment>
