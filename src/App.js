@@ -7,6 +7,7 @@ import DashboardPage from "pages/DashboardPage";
 import ResourcesPage from "pages/ResourcesPage";
 import LandingPage from "pages/LandingPage";
 import AccountPage from "pages/AccountPage";
+import ClientManagementPage from "pages/ClientManagementPage";
 import NotFoundPage from "pages/NotFound";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
@@ -50,6 +51,9 @@ const App = () => {
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/resources">
               <ResourcesPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/clients">
+              <ClientManagementPage />
             </AuthenticatedRoute>
             <Route path="/terms">
               <TermsPage />

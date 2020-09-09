@@ -1,0 +1,32 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: (24/20);
+
+  &__pages {
+    display: inherit;
+    align-items: inherit;
+    padding: 0 1rem;
+  }
+
+  &__button {
+    color: var(--main-text-color);
+    padding: 0.75rem;
+    cursor: default;
+
+    &--active:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    &--current {
+      font-weight: bold;
+    }
+
+    &--inactive {
+      color: var(--muted-text-color);
+    }
+  }
+}

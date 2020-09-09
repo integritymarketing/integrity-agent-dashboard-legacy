@@ -186,9 +186,9 @@ describe("validateFieldMatch", () => {
 });
 
 describe("validateEmail", () => {
-  it("returns an error string for empty string input", () => {
+  it("returns no error string for empty string input", () => {
     const actual = validationService.validateEmail("");
-    expect(typeof actual).toBe("string");
+    expect(typeof actual).not.toBe("string");
   });
 
   it("returns an error string for non-valid email addresses", () => {
@@ -215,19 +215,22 @@ describe("validateEmail", () => {
   });
 
   it("defaults to the label 'Email Address'", () => {
-    const actual = validationService.validateEmail("");
+    const actual = validationService.validateEmail("bademail");
     expect(actual).toMatch("Email Address");
     expect(actual).not.toMatch("Field");
     expect(actual).not.toMatch("Password");
   });
 
   it("uses an optional label string", () => {
-    const npnActual = validationService.validateEmail("", "NPN");
+    const npnActual = validationService.validateEmail("bademail", "NPN");
     expect(npnActual).not.toMatch("Field");
     expect(npnActual).not.toMatch("Email Address");
     expect(npnActual).toMatch("NPN");
 
-    const passwordActual = validationService.validateEmail("", "Password");
+    const passwordActual = validationService.validateEmail(
+      "bademail",
+      "Password"
+    );
     expect(passwordActual).not.toMatch("Field");
     expect(passwordActual).not.toMatch("Email Address");
     expect(passwordActual).toMatch("Password");

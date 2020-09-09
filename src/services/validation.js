@@ -45,18 +45,23 @@ class ValidationService {
   };
 
   validateEmail = (email, label = "Email Address") => {
-    return this.composeValidator([
-      this.validateRequired,
-      () => {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        if (!re.test(String(email).toLowerCase())) {
-          return `${label} must be a valid address`;
-        }
+    if (email && !re.test(String(email).toLowerCase())) {
+      return `${label} must be a valid address`;
+    }
 
-        return null;
-      },
-    ])(email, label);
+    return null;
+  };
+
+  validatePhone = (phoneNumber, label = "Phone Number") => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+
+    if (phoneNumber && cleaned.length !== 10) {
+      return `${label} must be a valid phone number`;
+    }
+
+    return null;
   };
 
   composeValidator = (validators = []) => {

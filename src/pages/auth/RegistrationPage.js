@@ -58,7 +58,10 @@ export default () => {
                 },
                 {
                   name: "Email",
-                  validator: validationService.validateEmail,
+                  validator: validationService.composeValidator([
+                    validationService.validateRequired,
+                    validationService.validateEmail,
+                  ]),
                 },
                 {
                   name: "EmailRepeat",
@@ -246,7 +249,7 @@ export default () => {
                 <InvertedTextfield
                   id="register-password-verify"
                   type="password"
-                  label="Re-enter password"
+                  label="Re-enter Password"
                   icon={<LockIcon />}
                   placeholder="Re-enter your new password"
                   name="ConfirmPassword"

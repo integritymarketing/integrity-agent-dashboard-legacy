@@ -13,6 +13,10 @@
   padding: 0;
   color: inherit;
   cursor: pointer;
+
+  &--bump-right {
+    margin-right: -0.5rem;
+  }
 }
 
 .icon-flip {
