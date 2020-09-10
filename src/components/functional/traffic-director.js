@@ -7,9 +7,9 @@ export default () => {
   const auth = useContext(AuthContext);
 
   if (auth.isAuthenticated()) {
-    history.replace("dashboard");
+    history.replace("home");
   } else {
     history.replace("welcome");
   }
-  return "";
+  return null;
 };
