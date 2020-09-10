@@ -135,7 +135,7 @@ class AuthService {
   };
 
   redirectAndRestartLoginFlow = () => {
-    window.location = process.env.REACT_APP_PORTAL_URL;
+    window.location = process.env.REACT_APP_PORTAL_URL + "/signin";
     return;
   };
 }
