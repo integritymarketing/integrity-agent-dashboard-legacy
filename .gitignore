@@ -23,10 +23,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# nightwatch
-chromedriver.log
-geckodriver.log
-/tests_output
-
 # Local Netlify folder
 .netlify
