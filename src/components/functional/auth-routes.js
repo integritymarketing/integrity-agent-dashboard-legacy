@@ -14,7 +14,7 @@ export const UnauthenticatedRoute = ({ children, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: "/dashboard",
+              pathname: "/",
               state: { from: location },
             }}
           />

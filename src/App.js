@@ -1,16 +1,18 @@
 import React from "react";
 import Router from "components/functional/router";
 import { Route, Switch } from "react-router-dom";
+import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
 import AuthService from "services/auth";
-import DashboardPage from "pages/DashboardPage";
+import HomePage from "pages/HomePage";
 import ResourcesPage from "pages/ResourcesPage";
-import LandingPage from "pages/LandingPage";
 import AccountPage from "pages/AccountPage";
 import ClientManagementPage from "pages/ClientManagementPage";
 import NotFoundPage from "pages/NotFound";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
+import WelcomePage from "pages/WelcomePage";
+import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
 import AuthSignoutCallback from "components/functional/auth-signout-callback";
 import AuthSilentCallback from "components/functional/auth-silent-callback";
@@ -25,28 +27,19 @@ const App = () => {
       <Router>
         <div className="content-frame">
           <Switch>
-            <Route
-              exact={true}
-              path="/signin-oidc-silent"
-              component={AuthSilentCallback}
-            />
-            <Route
-              exact={true}
-              path="/signin-oidc"
-              component={AuthSigninCallback}
-            />
-            <Route
-              exact={true}
-              path="/signout-oidc"
-              component={AuthSignoutCallback}
-            />
-            <UnauthenticatedRoute exact path="/">
-              <LandingPage />
+            {/* root path directs traffic to unauthenticed
+              Welcome or authenticated Home page */}
+            <Route exact path="/">
+              <TrafficDirector />
+            </Route>
+            <UnauthenticatedRoute path="/welcome">
+              <WelcomePage />
             </UnauthenticatedRoute>
-            <AuthenticatedRoute exact path="/dashboard">
-              <DashboardPage />
+            <AuthenticatedRoute path="/home">
+              <HomePage />
             </AuthenticatedRoute>
-            <AuthenticatedRoute exact path="/account">
+
+            <AuthenticatedRoute path="/account">
               <AccountPage />
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/resources">
@@ -55,12 +48,21 @@ const App = () => {
             <AuthenticatedRoute path="/clients">
               <ClientManagementPage />
             </AuthenticatedRoute>
+
             <Route path="/terms">
               <TermsPage />
             </Route>
             <Route path="/privacy">
               <PrivacyPage />
             </Route>
+
+            {/* auth routes + callbacks */}
+            <Route path="/signin" component={AuthSigninRedirectPage} />
+            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
+            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
+            <Route path="/signin-oidc" component={AuthSigninCallback} />
+            <Route path="/signout-oidc" component={AuthSignoutCallback} />
+
             <Route path="*">
               <NotFoundPage />
             </Route>

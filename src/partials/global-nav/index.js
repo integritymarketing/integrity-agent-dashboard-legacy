@@ -78,7 +78,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   return (
     <header className={`global-nav ${className}`} {...props}>
       <h1 className="global-nav__title">
-        <Link to="/dashboard">
+        <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
           <Logo aria-hidden="true" />
           <span className="visually-hidden">Medicare Center</span>
         </Link>
