@@ -33,19 +33,15 @@ export default ({ open = false, onClose, children, ...props }) => {
       }}
     >
       <Container size="medium">
-        <PageCard
-          className="modal__card"
-          header={
-            onClose ? (
-              <div className="modal__header">
-                <button className="modal__exit icon-btn" onClick={onClose}>
-                  <ExitIcon aria-hidden="true" />
-                  <span className="visually-hidden">Close modal window</span>
-                </button>
-              </div>
-            ) : null
-          }
-        >
+        <PageCard className="modal__card">
+          {onClose && (
+            <div className="modal__header">
+              <button className="modal__exit icon-btn" onClick={onClose}>
+                <ExitIcon aria-hidden="true" />
+                <span className="visually-hidden">Close modal window</span>
+              </button>
+            </div>
+          )}
           <div className="modal__content">{children}</div>
         </PageCard>
       </Container>

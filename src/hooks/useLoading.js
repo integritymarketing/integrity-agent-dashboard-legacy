@@ -8,6 +8,9 @@ export default () => {
   const { show, dismiss } = useFlashMessage();
 
   return {
+    get isLoading() {
+      return timeout !== null;
+    },
     begin: ({ delay = 750 } = {}) => {
       timeout = setTimeout(() => {
         show(

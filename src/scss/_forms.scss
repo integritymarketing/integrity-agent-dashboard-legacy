@@ -22,7 +22,7 @@
   line-height: 1.5;
 }
 
-.textfield {
+.form-input {
   &__header {
     display: flex;
     margin-bottom: 0.5rem;
@@ -46,7 +46,9 @@
       z-index: 1;
     }
 
-    > input {
+    input,
+    select,
+    textarea {
       border: 0;
       background: none;
       font-size: 1rem;
@@ -59,11 +61,27 @@
       &:focus {
         outline: none; // focus style defined on parent
       }
+    }
 
-      &:read-only {
-        background-color: transparent;
-        color: var(--muted-text-color);
-      }
+    input:read-only {
+      background-color: transparent;
+      color: var(--muted-text-color);
+    }
+
+    textarea {
+      height: auto;
+      line-height: (24/16);
+      min-height: 10rem;
+      max-height: 25rem;
+      resize: vertical;
+    }
+  }
+
+  &__date-wrap {
+    flex: 1 0 auto;
+
+    > input {
+      width: 100%;
     }
   }
 
@@ -91,16 +109,16 @@
   }
 
   &--error {
-    > .textfield__input {
+    > .form-input__input {
       border-color: var(--error-state-color);
     }
-    > .textfield__error {
+    > .form-input__error {
       visibility: visible;
     }
   }
 
   &--success {
-    > .textfield__input {
+    > .form-input__input {
       border-color: var(--success-state-color);
     }
   }
@@ -120,7 +138,7 @@
   }
 
   &--readonly {
-    > .textfield__input {
+    > .form-input__input {
       border-color: var(--muted-text-color);
       background-color: var(--disabled-contrast-color);
     }
@@ -142,8 +160,8 @@
   }
 }
 
-.textfield--invert {
-  .textfield__input {
+.form-input--invert {
+  .form-input__input {
     background: var(--textfield-invert-bg-color);
     color: var(--invert-text-color);
     border-color: rgba(255, 255, 255, 0);
@@ -161,8 +179,29 @@
       color: #ffffff;
     }
   }
-  .textfield__icon {
+  .form-input__icon {
     color: var(--invert-text-color);
+  }
+}
+
+.form-input--select {
+  .form-input__input > select {
+    appearance: none;
+    text-indent: 1px;
+    text-overflow: "";
+    padding-top: 0;
+    padding-right: 3rem;
+
+    &::-ms-expand {
+      display: none;
+    }
+  }
+  .form-input__input-actions {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
   }
 }
 

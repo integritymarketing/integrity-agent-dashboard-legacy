@@ -7,6 +7,7 @@ import AuthService from "services/auth";
 import HomePage from "pages/HomePage";
 import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
+import ClientManagementPage from "pages/ClientManagementPage";
 import NotFoundPage from "pages/NotFound";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
@@ -26,13 +27,8 @@ const App = () => {
       <Router>
         <div className="content-frame">
           <Switch>
-            <Route path="/signin" component={AuthSigninRedirectPage} />
-            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
-            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
-            <Route path="/signin-oidc" component={AuthSigninCallback} />
-            <Route path="/signout-oidc" component={AuthSignoutCallback} />
-
-            {/* root path directs traffic to unauthenticed Welcome or authenticated Home page */}
+            {/* root path directs traffic to unauthenticed
+              Welcome or authenticated Home page */}
             <Route exact path="/">
               <TrafficDirector />
             </Route>
@@ -49,6 +45,9 @@ const App = () => {
             <AuthenticatedRoute path="/resources">
               <ResourcesPage />
             </AuthenticatedRoute>
+            <AuthenticatedRoute path="/clients">
+              <ClientManagementPage />
+            </AuthenticatedRoute>
 
             <Route path="/terms">
               <TermsPage />
@@ -56,6 +55,14 @@ const App = () => {
             <Route path="/privacy">
               <PrivacyPage />
             </Route>
+
+            {/* auth routes + callbacks */}
+            <Route path="/signin" component={AuthSigninRedirectPage} />
+            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
+            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
+            <Route path="/signin-oidc" component={AuthSigninCallback} />
+            <Route path="/signout-oidc" component={AuthSignoutCallback} />
+
             <Route path="*">
               <NotFoundPage />
             </Route>

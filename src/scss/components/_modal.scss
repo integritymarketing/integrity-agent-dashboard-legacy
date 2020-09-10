@@ -18,17 +18,25 @@
 
   &__card {
     min-height: 0;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
   &__header {
     text-align: right;
-    position: relative;
+    position: sticky;
+    top: 0;
     color: var(--muted-text-color);
 
     > * {
       position: absolute;
-      top: -1rem;
-      right: #{get-clamp-val(-24, -56)};
+      top: #{get-clamp-val(-24, -56)};
+      right: #{get-clamp-val(-32, -56)};
     }
+  }
+
+  &__hr {
+    margin: #{get-clamp-val(24, 40)} #{get-clamp-val(-40, -80)};
+    border: 1px solid var(--form-border-default);
   }
 }
