@@ -69,8 +69,8 @@ export default () => {
                         target="_blank"
                         className="btn"
                         onClick={() =>
-                          analyticsService.fireEvent("assetDownloaded", {
-                            assetCategory:
+                          analyticsService.fireEvent("resourceDownloaded", {
+                            featuredCategory:
                               categoryDict[resource.categories[0]].analyticsKey,
                             assetName: resource.name,
                           })
