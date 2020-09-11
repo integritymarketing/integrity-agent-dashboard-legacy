@@ -63,21 +63,7 @@ export default () => {
                 setSubmitting(true);
                 loading.begin(0);
 
-                let user = await AuthService.getUser();
-                const response = await fetch(
-                  process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                    "/api/account/update",
-                  {
-                    method: "PUT",
-                    headers: {
-                      Authorization: "Bearer " + user.access_token,
-                      "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify(values),
-                  }
-                );
-
+                let response = await AuthService.updateAccountMetadata(values);
                 if (response.status >= 200 && response.status < 300) {
                   // fetch a new access token w/ updated meta
                   await AuthService.signinSilent();
@@ -197,21 +183,7 @@ export default () => {
                 setSubmitting(true);
                 loading.begin(0);
 
-                let user = await AuthService.getUser();
-                const response = await fetch(
-                  process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                    "/api/account/updatepassword",
-                  {
-                    method: "PUT",
-                    headers: {
-                      Authorization: "Bearer " + user.access_token,
-                      "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify(values),
-                  }
-                );
-
+                let response = await AuthService.updateAccountPassword(values);
                 if (response.status >= 200 && response.status < 300) {
                   setSubmitting(false);
                   loading.end();
