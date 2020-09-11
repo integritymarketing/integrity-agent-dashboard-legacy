@@ -138,6 +138,38 @@ class AuthService {
     window.location = process.env.REACT_APP_PORTAL_URL + "/signin";
     return;
   };
+
+  updateAccountMetadata = async (values) => {
+    let user = await this.getUser();
+    return await fetch(
+      process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/update",
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + user.access_token,
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(values),
+      }
+    );
+  };
+
+  updateAccountPassword = async (values) => {
+    let user = await this.getUser();
+    return await fetch(
+      process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/updatepassword",
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + user.access_token,
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(values),
+      }
+    );
+  };
 }
 
 export default new AuthService();
