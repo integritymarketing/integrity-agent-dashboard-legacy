@@ -53,28 +53,13 @@ const SSOButtonWithModal = ({ ...props }) => {
         <p className="text-body pb-3 border-bottom mb-3">
           Choose from two amazing enrollment tool options:
         </p>
-        <div className="pt-1 pr-2 pl-2 mb-2">
-          <p className="text-body">
-            Access previous MedicareCENTER features and more!
-          </p>
-        </div>
-        <div className="mb-4">
-          <button
-            onClick={handleConnectureSSO}
-            className={`btn btn--no-upper ${analyticsService.clickClass(
-              "connecture-button"
-            )}`}
-          >
-            MedicareAPP
-          </button>
-        </div>
         <div className="pt-2 pr-2 pl-2 mb-2">
           <p className="text-body">
             Access a new enrollment tool option that offers texting capabilities
             and more!
           </p>
         </div>
-        <div className="mb-2">
+        <div className="mb-4">
           <a
             href={process.env.REACT_APP_SUNFIRE_SSO_URL}
             className={`btn btn--no-upper ${analyticsService.clickClass(
@@ -84,13 +69,28 @@ const SSOButtonWithModal = ({ ...props }) => {
             MedicareLINK
           </a>
         </div>
-        <div className="mb-4">
+        <div className="pt-1 pr-2 pl-2 mb-2">
+          <p className="text-body">
+            Access previous MedicareCENTER features and more!
+          </p>
+        </div>
+        <div className="mb-2">
+          <button
+            onClick={handleConnectureSSO}
+            className={`btn btn--no-upper ${analyticsService.clickClass(
+              "connecture-button"
+            )}`}
+          >
+            MedicareAPP
+          </button>
+        </div>
+        <div className="mb-4 text-body">
           {/* TODO: add legacy url */}
           <a
             href="https://medicarecenter.com"
             className="link link--force-underline"
           >
-            Access Legacy MedicareCenter
+            Access last year's version of MedicareCENTER
           </a>
         </div>
       </Modal>
