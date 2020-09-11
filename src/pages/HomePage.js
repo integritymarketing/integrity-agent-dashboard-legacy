@@ -6,36 +6,6 @@ import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import Modal from "components/ui/modal";
 import analyticsService from "services/analytics";
-import AuthService from "services/auth";
-
-const handleConnectureSSO = async () => {
-  let user = await AuthService.getUser();
-  const response = await fetch(
-    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/account/SamlLogin`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + user.access_token,
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: {},
-    }
-  );
-
-  if (response.status >= 200 && response.status < 300) {
-    window.location = process.env.REACT_APP_CONNECTURE_SSO_URL;
-    return;
-  } else {
-    if (response.status === 401) {
-      // TODO handle expired token?
-    } else {
-    }
-    const errorsArr = await response.json();
-    console.log("saml error", errorsArr);
-    console.log(response.status);
-  }
-};
 
 const SSOButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -75,14 +45,16 @@ const SSOButtonWithModal = ({ ...props }) => {
           </p>
         </div>
         <div className="mb-2">
-          <button
-            onClick={handleConnectureSSO}
+          <a
+            href={
+              process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
+            }
             className={`btn btn--no-upper ${analyticsService.clickClass(
               "connecture-button"
             )}`}
           >
             MedicareAPP
-          </button>
+          </a>
         </div>
         <div className="mb-4 text-body">
           {/* TODO: add legacy url */}
