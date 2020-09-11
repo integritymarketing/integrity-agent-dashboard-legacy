@@ -333,14 +333,11 @@ export default () => {
                     }, 100);
                   }
 
-                  console.log(errors);
-
                   return errors;
                 }}
                 onSubmit={async (values, { setErrors, setSubmitting }) => {
                   setSubmitting(true);
                   loading.begin();
-                  console.log("submitting");
 
                   let response = null;
 
