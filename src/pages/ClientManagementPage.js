@@ -34,8 +34,10 @@ const formatDate = (dateString) => {
   return isNaN(date.getTime()) ? "" : dateFnsFormat(date, "MM/dd/yyyy");
 };
 
+const EmptyField = () => <span className="text-muted">--</span>;
+
 export default () => {
-  const PAGE_SIZE = 5;
+  const PAGE_SIZE = 9;
   const { state = {} } = useLocation();
   const history = useHistory();
   const { page = 1, sort = "firstName:asc" } = state;
@@ -161,78 +163,93 @@ export default () => {
               </div>
 
               <div className="card-grid mb-5 pt-1">
-                {clientList.map((client) => (
-                  <Card key={client.leadsId}>
-                    <div className="toolbar">
-                      <div className="hdg hdg--4">
-                        {client.firstName} {client.lastName}
-                      </div>
-                      <div className="toolbar__right text-brand">
-                        <button
-                          type="button"
-                          className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
-                            "edit-contactcard"
-                          )}`}
-                          onClick={() => setStagedClient(client)}
+                {clientList.map((client) => {
+                  const { firstName = "", lastName = "" } = client;
+                  const namedClient = firstName !== "" || lastName !== "";
+                  const displayName = namedClient
+                    ? `${firstName} ${lastName}`.trim()
+                    : "Unnamed Contact";
+                  return (
+                    <Card key={client.leadsId}>
+                      <div className="toolbar">
+                        <div
+                          className={`hdg hdg--4 ${
+                            namedClient ? "" : "text-muted"
+                          }`}
                         >
-                          <span className="visually-hidden">
-                            Edit {client.firstName} {client.lastName}
-                          </span>
-                          <EditIcon />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="keyval-list text-body">
-                      <div className="keyval-list__item mt-3">
-                        <div className="text-bold">Status</div>
-                        <StatusField
-                          status={
-                            client.statusName.includes("Closed")
-                              ? STATUS_NEGATIVE
-                              : STATUS_POSITIVE
-                          }
-                        >
-                          {client.statusName}
-                        </StatusField>
-                        <div></div>
-                      </div>
-                      <div className="keyval-list__item mt-3">
-                        <div className="text-bold">Follow-Up</div>
-                        <div>
-                          {client.followUpDate
-                            ? formatDate(client.followUpDate)
-                            : "--"}
+                          {displayName}
+                        </div>
+                        <div className="toolbar__right text-brand">
+                          <button
+                            type="button"
+                            className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
+                              "edit-contactcard"
+                            )}`}
+                            onClick={() => setStagedClient(client)}
+                          >
+                            <span className="visually-hidden">
+                              Edit {displayName}
+                            </span>
+                            <EditIcon />
+                          </button>
                         </div>
                       </div>
-                      <div className="keyval-list__item keyval-list__item--full mt-3">
-                        <div className="text-bold">Email</div>
-                        <div>
-                          {client.email ? (
-                            <a href={`mailto:${client.email}`}>
-                              {client.email}
-                            </a>
-                          ) : (
-                            "--"
-                          )}
+                      <div className="keyval-list text-body">
+                        <div className="keyval-list__item mt-3">
+                          <div className="text-bold">Status</div>
+                          <StatusField
+                            status={
+                              client.statusName.includes("Closed")
+                                ? STATUS_NEGATIVE
+                                : STATUS_POSITIVE
+                            }
+                          >
+                            {client.statusName}
+                          </StatusField>
+                          <div></div>
+                        </div>
+                        <div className="keyval-list__item mt-3">
+                          <div className="text-bold">Follow-Up</div>
+                          <div>
+                            {client.followUpDate ? (
+                              formatDate(client.followUpDate)
+                            ) : (
+                              <EmptyField />
+                            )}
+                          </div>
+                        </div>
+                        <div className="keyval-list__item keyval-list__item--full mt-3">
+                          <div className="text-bold">Email</div>
+                          <div>
+                            {client.email ? (
+                              <a href={`mailto:${client.email}`}>
+                                {client.email}
+                              </a>
+                            ) : (
+                              <EmptyField />
+                            )}
+                          </div>
+                        </div>
+                        <div className="keyval-list__item keyval-list__item--full mt-3">
+                          <div className="text-bold">Phone Number</div>
+                          <div>
+                            {client.phone ? (
+                              <a
+                                href={`tel:+1-${formatPhoneNumber(
+                                  client.phone
+                                )}`}
+                              >
+                                {formatPhoneNumber(client.phone)}
+                              </a>
+                            ) : (
+                              <EmptyField />
+                            )}
+                          </div>
                         </div>
                       </div>
-                      <div className="keyval-list__item keyval-list__item--full mt-3">
-                        <div className="text-bold">Phone Number</div>
-                        <div>
-                          {client.phone ? (
-                            <a
-                              href={`tel:+1-${formatPhoneNumber(client.phone)}`}
-                            >
-                              {formatPhoneNumber(client.phone)}
-                            </a>
-                          ) : (
-                            "--"
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
               </div>
 
               <Pagination
@@ -279,19 +296,10 @@ export default () => {
                     if (values.email === "" && values.phone === "") {
                       return "Email Address or Phone Number is required";
                     }
+                    return null;
                   };
                   const errors = validationService.validateMultiple(
                     [
-                      {
-                        name: "firstName",
-                        validator: validationService.validateRequired,
-                        args: ["First Name"],
-                      },
-                      {
-                        name: "lastName",
-                        validator: validationService.validateRequired,
-                        args: ["Last Name"],
-                      },
                       {
                         name: "email",
                         validator: validationService.composeValidator([
@@ -325,11 +333,14 @@ export default () => {
                     }, 100);
                   }
 
+                  console.log(errors);
+
                   return errors;
                 }}
                 onSubmit={async (values, { setErrors, setSubmitting }) => {
                   setSubmitting(true);
                   loading.begin();
+                  console.log("submitting");
 
                   let response = null;
 
