@@ -85,7 +85,13 @@ export default () => {
                   name="NPN"
                   value={values.NPN}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={(e) => {
+                    analyticsService.fireEvent("leaveField", {
+                      field: "npn",
+                      formName: "forgot",
+                    });
+                    return handleBlur(e);
+                  }}
                   error={(touched.NPN && errors.NPN) || errors.Global}
                 />
                 <div className="form__submit">
