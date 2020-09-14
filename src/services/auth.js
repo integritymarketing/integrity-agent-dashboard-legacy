@@ -46,10 +46,26 @@ class AuthService {
     }
   }
 
+  _authAPIRequest = async (path, method = "GET", body = null) => {
+    const user = await this.getUser();
+    const opts = {
+      method,
+      headers: {
+        Authorization: `Bearer ${user.access_token}`,
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
+    if (body) {
+      opts.body = JSON.stringify(body);
+    }
+
+    return fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}${path}`, opts);
+  };
+
   setUserProfile = async () => {
-    let user = await this.getUser();
-    this.addFullNameToUserProfile(user);
-    this.userProfile = user.profile;
+    const user = await this.getUser();
+    this.userProfile = this.amendProfileWithComputedValues(user.profile);
   };
 
   getUser = async () => {
@@ -67,9 +83,13 @@ class AuthService {
     return window.location.href.indexOf("signin-oidc") !== -1;
   }
 
-  addFullNameToUserProfile(user) {
-    user.profile.fullName =
-      user.profile.firstName + " " + user.profile.lastName;
+  amendProfileWithComputedValues(profile) {
+    return {
+      ...profile,
+      get fullName() {
+        return `${profile.firstName} ${profile.lastName}`;
+      },
+    };
   }
 
   signinRedirectCallback = () => {
@@ -140,35 +160,11 @@ class AuthService {
   };
 
   updateAccountMetadata = async (values) => {
-    let user = await this.getUser();
-    return await fetch(
-      process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/update",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(values),
-      }
-    );
+    return this._authAPIRequest("/api/account/update", "PUT", values);
   };
 
   updateAccountPassword = async (values) => {
-    let user = await this.getUser();
-    return await fetch(
-      process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/updatepassword",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(values),
-      }
-    );
+    return this._authAPIRequest("/api/account/updatepassword", "PUT", values);
   };
 }
 
