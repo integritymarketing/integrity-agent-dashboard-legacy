@@ -7,7 +7,7 @@ import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import { InvertedTextfield } from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
-import validationService from "services/validation";
+import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import NumberIcon from "components/icons/number";
 import analyticsService from "services/analyticsService";

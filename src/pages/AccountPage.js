@@ -5,7 +5,7 @@ import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
-import validationService from "services/validation";
+import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import authService from "services/authService";

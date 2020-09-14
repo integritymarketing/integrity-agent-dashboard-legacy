@@ -1,5 +1,5 @@
 import React from "react";
-import validationService from "./validation";
+import validationService from "./validationService";
 
 describe("validateRequired", () => {
   it("returns null on non-empty string input", () => {

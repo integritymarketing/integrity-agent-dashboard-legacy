@@ -4,7 +4,7 @@ import Container from "components/ui/container";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import { InvertedTextfield } from "components/ui/textfield";
-import validationService from "services/validation";
+import validationService from "services/validationService";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import useParams from "hooks/useParams";
