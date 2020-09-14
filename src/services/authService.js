@@ -201,6 +201,10 @@ class authService {
     this._authAPIRequest(`/logout?logoutId=${logoutId}`);
 
   getServerError = async (errorId) => fetch(`/error?errorId=${errorId}`);
+
+  handleExpiredToken = async () => {
+    return this.signinRedirect();
+  };
 }
 
 export default new authService();

@@ -20,7 +20,6 @@ const iconDict = {
   default: ComputerIcon,
 };
 
-// TODO: find place for vanilla js utils
 const createDictBy = (list, prop) =>
   list.reduce((dict, item) => {
     dict[item[prop]] = item;
