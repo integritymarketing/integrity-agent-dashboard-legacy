@@ -18,7 +18,7 @@ import Modal from "components/ui/modal";
 import validationService from "services/validation";
 import Textfield from "components/ui/textfield";
 import analyticsService from "services/analyticsService";
-import clientsService from "services/clients";
+import clientsService from "services/clientsService";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
