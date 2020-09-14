@@ -14,6 +14,7 @@ import LockIcon from "components/icons/lock";
 import MailIcon from "components/icons/mail";
 import ProfileIcon from "components/icons/profile";
 import analyticsService from "services/analytics";
+import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
@@ -86,18 +87,7 @@ export default () => {
             setSubmitting(true);
             loading.begin();
 
-            const response = await fetch(
-              process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                "/api/account/register",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(values),
-              }
-            );
+            const response = await authService.registerUser(values);
 
             setSubmitting(false);
             loading.end();

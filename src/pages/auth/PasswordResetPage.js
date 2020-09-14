@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import useParams from "hooks/useParams";
 import LockIcon from "components/icons/lock";
+import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
@@ -17,28 +18,13 @@ export default () => {
 
   useEffect(() => {
     const checkIfValidToken = async () => {
-      const response = await fetch(
-        process.env.REACT_APP_AUTH_AUTHORITY_URL +
-          "/api/account/validateresetpasswordtoken",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            npn: params.get("npn"),
-            token: params.get("token"),
-            email: params.get("email"),
-          }),
-        }
-      );
+      const response = await authService.validatePasswordResetToken({
+        npn: params.get("npn"),
+        token: params.get("token"),
+        email: params.get("email"),
+      });
 
-      if (response.status >= 200 && response.status < 300) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.status >= 200 && response.status < 300;
     };
     const validateTokenOrRedirect = async () => {
       let isValidToken = await checkIfValidToken();
@@ -80,23 +66,12 @@ export default () => {
             setSubmitting(true);
             loading.begin();
 
-            const response = await fetch(
-              process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                "/api/account/resetpassword",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                  ...values,
-                  NPN: params.get("npn"),
-                  Token: params.get("token"),
-                  Email: params.get("email"),
-                }),
-              }
-            );
+            const response = await authService.resetPassword({
+              ...values,
+              NPN: params.get("npn"),
+              Token: params.get("token"),
+              Email: params.get("email"),
+            });
 
             setSubmitting(false);
             loading.end();

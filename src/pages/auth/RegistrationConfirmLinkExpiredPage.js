@@ -2,7 +2,7 @@ import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
-import AuthService from "services/auth";
+import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
@@ -11,18 +11,7 @@ export default () => {
   const handleResendComfirmEmail = async () => {
     const npn = params.get("npn");
 
-    const response = await fetch(
-      process.env.REACT_APP_AUTH_AUTHORITY_URL +
-        "/api/account/resendconfirmemail",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ npn: npn }),
-      }
-    );
+    const response = await authService.sendConfirmationEmail({ npn });
 
     if (response.status >= 200 && response.status < 300) {
       history.push(`registration-check-email?npn=${npn}`);
@@ -41,7 +30,7 @@ export default () => {
         <div className="mt-2 text-body">
           <button
             className="link link--invert link--force-underline"
-            onClick={AuthService.redirectAndRestartLoginFlow}
+            onClick={authService.redirectAndRestartLoginFlow}
           >
             Want to try a different email address?
           </button>

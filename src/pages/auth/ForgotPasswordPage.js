@@ -11,6 +11,7 @@ import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
 import NumberIcon from "components/icons/number";
 import analyticsService from "services/analytics";
+import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
@@ -43,18 +44,7 @@ export default () => {
             setSubmitting(true);
             loading.begin();
 
-            const response = await fetch(
-              process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                "/api/account/forgotpassword",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(values),
-              }
-            );
+            const response = await authService.requestPasswordReset(values);
 
             setSubmitting(false);
             loading.end();
