@@ -61,6 +61,10 @@ export default () => {
 
             if (response.status >= 200 && response.status < 300) {
               history.push(`password-reset-sent?npn=${values.NPN}`);
+              analyticsService.fireEvent("formSubmit", {
+                button: "forgotSubmit",
+                pagePath: window.location.href,
+              });
             } else {
               const errorsArr = await response.json();
               setErrors(validationService.formikErrorsFor(errorsArr));
@@ -95,12 +99,7 @@ export default () => {
                   error={(touched.NPN && errors.NPN) || errors.Global}
                 />
                 <div className="form__submit">
-                  <button
-                    className={`btn btn--invert ${analyticsService.clickClass(
-                      "forgot-submit"
-                    )}`}
-                    type="submit"
-                  >
+                  <button className="btn btn--invert" type="submit">
                     Submit
                   </button>
                 </div>
