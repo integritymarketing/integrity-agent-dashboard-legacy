@@ -15,10 +15,10 @@ import StatusField, {
   STATUS_NEGATIVE,
 } from "components/ui/status-field";
 import Modal from "components/ui/modal";
-import validationService from "services/validation";
+import validationService from "services/validationService";
 import Textfield from "components/ui/textfield";
-import analyticsService from "services/analytics";
-import clientsService from "services/clients";
+import analyticsService from "services/analyticsService";
+import clientsService from "services/clientsService";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");

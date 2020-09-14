@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
+import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
@@ -8,20 +9,10 @@ export default () => {
 
   useEffect(() => {
     const handleComfirmEmail = async () => {
-      return await fetch(
-        process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/confirmemail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            npn: params.get("npn"),
-            token: params.get("token"),
-          }),
-        }
-      );
+      return authService.confirmEmail({
+        npn: params.get("npn"),
+        token: params.get("token"),
+      });
     };
 
     const confirmEmail = async () => {

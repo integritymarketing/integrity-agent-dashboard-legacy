@@ -7,10 +7,11 @@ import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import { InvertedTextfield } from "components/ui/textfield";
 import BackLink from "components/ui/back-link";
-import validationService from "services/validation";
+import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import NumberIcon from "components/icons/number";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
+import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
@@ -43,24 +44,17 @@ export default () => {
             setSubmitting(true);
             loading.begin();
 
-            const response = await fetch(
-              process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                "/api/account/forgotpassword",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(values),
-              }
-            );
+            const response = await authService.requestPasswordReset(values);
 
             setSubmitting(false);
             loading.end();
 
             if (response.status >= 200 && response.status < 300) {
               history.push(`password-reset-sent?npn=${values.NPN}`);
+              analyticsService.fireEvent("formSubmit", {
+                button: "forgotSubmit",
+                pagePath: window.location.href,
+              });
             } else {
               const errorsArr = await response.json();
               setErrors(validationService.formikErrorsFor(errorsArr));
@@ -95,12 +89,7 @@ export default () => {
                   error={(touched.NPN && errors.NPN) || errors.Global}
                 />
                 <div className="form__submit">
-                  <button
-                    className={`btn btn--invert ${analyticsService.clickClass(
-                      "forgot-submit"
-                    )}`}
-                    type="submit"
-                  >
+                  <button className="btn btn--invert" type="submit">
                     Submit
                   </button>
                 </div>

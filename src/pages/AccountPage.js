@@ -5,10 +5,10 @@ import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
-import validationService from "services/validation";
+import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
-import AuthService from "services/auth";
+import authService from "services/authService";
 
 export default () => {
   const userProfile = useUserProfile();
@@ -63,10 +63,10 @@ export default () => {
                 setSubmitting(true);
                 loading.begin(0);
 
-                let response = await AuthService.updateAccountMetadata(values);
+                let response = await authService.updateAccountMetadata(values);
                 if (response.status >= 200 && response.status < 300) {
                   // fetch a new access token w/ updated meta
-                  await AuthService.signinSilent();
+                  await authService.signinSilent();
 
                   setSubmitting(false);
                   loading.end();
@@ -77,7 +77,7 @@ export default () => {
                 } else {
                   loading.end();
                   if (response.status === 401) {
-                    AuthService.handleExpiredToken();
+                    authService.handleExpiredToken();
                   } else {
                     const errorsArr = await response.json();
                     setErrors(
@@ -183,7 +183,7 @@ export default () => {
                 setSubmitting(true);
                 loading.begin(0);
 
-                let response = await AuthService.updateAccountPassword(values);
+                let response = await authService.updateAccountPassword(values);
                 if (response.status >= 200 && response.status < 300) {
                   setSubmitting(false);
                   loading.end();
@@ -194,7 +194,7 @@ export default () => {
                 } else {
                   loading.end();
                   if (response.status === 401) {
-                    AuthService.handleExpiredToken();
+                    authService.handleExpiredToken();
                   } else {
                     const errorsArr = await response.json();
                     setErrors(

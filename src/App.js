@@ -3,7 +3,7 @@ import Router from "components/functional/router";
 import { Route, Switch } from "react-router-dom";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
-import AuthService from "services/auth";
+import authService from "services/authService";
 import HomePage from "pages/HomePage";
 import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
@@ -23,7 +23,7 @@ import {
 
 const App = () => {
   return (
-    <AuthContext.Provider value={AuthService}>
+    <AuthContext.Provider value={authService}>
       <Router>
         <div className="content-frame">
           <Switch>

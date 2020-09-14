@@ -2,13 +2,13 @@ import React from "react";
 import Container from "components/ui/container";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import AuthService from "services/auth";
+import authService from "services/authService";
 
 const defaultButton = () => {
   return (
     <button
       className="btn btn--invert"
-      onClick={AuthService.redirectAndRestartLoginFlow}
+      onClick={authService.redirectAndRestartLoginFlow}
     >
       Back to Login
     </button>

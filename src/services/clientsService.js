@@ -1,4 +1,4 @@
-import AuthService from "services/auth";
+import authService from "services/authService";
 import dateFnsParse from "date-fns/parse";
 import dateFnsFormat from "date-fns/format";
 
@@ -13,7 +13,7 @@ const formatDate = (dateString) => {
 
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
-    const user = await AuthService.getUser();
+    const user = await authService.getUser();
     const opts = {
       method,
       headers: {

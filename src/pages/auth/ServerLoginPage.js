@@ -5,13 +5,14 @@ import Container from "components/ui/container";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import { InvertedTextfield } from "components/ui/textfield";
-import validationService from "services/validation";
+import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
 import NumberIcon from "components/icons/number";
 import LockIcon from "components/icons/lock";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
+import authService from "services/authService";
 
 export default () => {
   const loading = useLoading();
@@ -46,17 +47,7 @@ export default () => {
             loading.begin();
             values.returnUrl = params.get("ReturnUrl");
 
-            const response = await fetch(
-              process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/login",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(values),
-              }
-            );
+            const response = await authService.loginUser(values);
 
             // a 500 server error occurs when invalid OIDC query string params
             // are present (eg missing ReturnUrl).

@@ -5,7 +5,7 @@ import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import Modal from "components/ui/modal";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 
 const SSOButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);

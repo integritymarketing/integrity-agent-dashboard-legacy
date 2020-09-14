@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import useParams from "hooks/useParams";
+import authService from "services/authService";
 
 export default () => {
   const params = useParams();
 
   const fetchError = async () => {
-    let response = await fetch(
-      process.env.REACT_APP_AUTH_AUTHORITY_URL +
-        "/error?errorId=" +
-        params.get("errorId")
-    );
+    const response = await authService.getServerError(params.get("errorId"));
     return response.text();
   };
 

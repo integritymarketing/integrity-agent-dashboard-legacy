@@ -1,17 +1,12 @@
 import { useEffect } from "react";
 import useParams from "hooks/useParams";
+import authService from "services/authService";
 
 export default () => {
   useEffect(() => {
     const params = useParams();
     const handleLogout = async () => {
-      let response = await fetch(
-        process.env.REACT_APP_AUTH_AUTHORITY_URL +
-          "/api/account/logout?logoutId=" +
-          params.get("logoutId"),
-        { credentials: "include" }
-      );
-
+      const response = await authService.logoutUser(params.get("logoutId"));
       const data = await response.json();
 
       if (data.postLogoutRedirectUri) {

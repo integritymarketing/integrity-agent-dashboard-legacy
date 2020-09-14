@@ -10,7 +10,7 @@ const IDENTITY_CONFIG = {
   silent_redirect_uri: process.env.REACT_APP_PORTAL_URL + "/signin-oidc-silent",
 };
 
-class AuthService {
+class authService {
   constructor() {
     this.UserManager = new UserManager({
       ...IDENTITY_CONFIG,
@@ -32,11 +32,11 @@ class AuthService {
     });
 
     this.UserManager.events.addSilentRenewError((e) => {
-      throw new Error("AuthService: " + e.message);
+      throw new Error("authService: " + e.message);
     });
 
     this.UserManager.events.addAccessTokenExpired(() => {
-      Log.debug("AuthService: access token expired, starting signinSilent()");
+      Log.debug("authService: access token expired, starting signinSilent()");
       this.signinSilent();
     });
 
@@ -46,17 +46,45 @@ class AuthService {
     }
   }
 
+  _authAPIRequest = async (path, method = "GET", body = null) => {
+    let user = null;
+    try {
+      if (this.isAuthenticated()) {
+        user = await this.getUser();
+      }
+    } catch (error) {
+      user = null;
+    }
+    const opts = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
+    if (user) {
+      opts.headers.Authorization = `Bearer ${user.access_token}`;
+    }
+    if (body) {
+      opts.body = JSON.stringify(body);
+    }
+
+    return fetch(
+      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/account${path}`,
+      opts
+    );
+  };
+
   setUserProfile = async () => {
-    let user = await this.getUser();
-    this.addFullNameToUserProfile(user);
-    this.userProfile = user.profile;
+    const user = await this.getUser();
+    this.userProfile = this.amendProfileWithComputedValues(user.profile);
   };
 
   getUser = async () => {
     const user = await this.UserManager.getUser();
     if (!user) {
       Log.debug(
-        "AuthService: user undefined in getUser().  attempting signinRedirectCallback.."
+        "authService: user undefined in getUser().  attempting signinRedirectCallback.."
       );
       return await this.UserManager.signinRedirectCallback();
     }
@@ -67,14 +95,18 @@ class AuthService {
     return window.location.href.indexOf("signin-oidc") !== -1;
   }
 
-  addFullNameToUserProfile(user) {
-    user.profile.fullName =
-      user.profile.firstName + " " + user.profile.lastName;
+  amendProfileWithComputedValues(profile) {
+    return {
+      ...profile,
+      get fullName() {
+        return `${profile.firstName} ${profile.lastName}`;
+      },
+    };
   }
 
   signinRedirectCallback = () => {
     this.UserManager.signinRedirectCallback().then(() => {
-      Log.debug("AuthService: signin redirect complete");
+      Log.debug("authService: signin redirect complete");
     });
   };
 
@@ -103,11 +135,11 @@ class AuthService {
     try {
       user = await this.UserManager.signinSilent();
     } catch (err) {
-      Log.error("AuthService Error: ", err);
+      Log.error("authService Error: ", err);
       return;
     }
 
-    Log.debug("AuthService: signinSilent success!", user);
+    Log.debug("authService: signinSilent success!", user);
     return user;
   };
 
@@ -139,41 +171,40 @@ class AuthService {
     return;
   };
 
-  updateAccountMetadata = async (values) => {
-    let user = await this.getUser();
-    return await fetch(
-      process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/update",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(values),
-      }
-    );
-  };
+  updateAccountMetadata = async (values) =>
+    this._authAPIRequest("/update", "PUT", values);
 
-  updateAccountPassword = async (values) => {
-    let user = await this.getUser();
-    return await fetch(
-      process.env.REACT_APP_AUTH_AUTHORITY_URL + "/api/account/updatepassword",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + user.access_token,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(values),
-      }
-    );
-  };
+  updateAccountPassword = async (values) =>
+    this._authAPIRequest("/updatepassword", "PUT", values);
+
+  requestPasswordReset = async (values) =>
+    this._authAPIRequest("/forgotpassword", "POST", values);
+
+  resetPassword = async (values) =>
+    this._authAPIRequest("/resetpassword", "POST", values);
+
+  validatePasswordResetToken = async (values) =>
+    this._authAPIRequest("/validateresetpasswordtoken", "POST", values);
+
+  sendConfirmationEmail = async (values) =>
+    this._authAPIRequest("/resendconfirmemail", "POST", values);
+
+  confirmEmail = async (values) =>
+    this._authAPIRequest("/confirmemail", "POST", values);
+
+  registerUser = async (values) =>
+    this._authAPIRequest("/register", "POST", values);
+
+  loginUser = async (values) => this._authAPIRequest("/login", "POST", values);
+
+  logoutUser = async (logoutId) =>
+    this._authAPIRequest(`/logout?logoutId=${logoutId}`);
+
+  getServerError = async (errorId) => fetch(`/error?errorId=${errorId}`);
 
   handleExpiredToken = async () => {
-    this.signinRedirect();
+    return this.signinRedirect();
   };
 }
 
-export default new AuthService();
+export default new authService();

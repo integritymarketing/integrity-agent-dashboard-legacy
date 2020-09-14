@@ -25,7 +25,7 @@ import FinalErrorPage from "pages/auth/FinalErrorPage";
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 
-import AuthService from "services/auth";
+import authService from "services/authService";
 
 const AuthApp = () => {
   return (
@@ -87,7 +87,7 @@ const AuthApp = () => {
           <Route
             path="*"
             component={() => {
-              AuthService.redirectAndRestartLoginFlow();
+              authService.redirectAndRestartLoginFlow();
               return null;
             }}
           />
