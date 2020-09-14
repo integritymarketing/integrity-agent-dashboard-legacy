@@ -59,7 +59,7 @@ const SSOButtonWithModal = ({ ...props }) => {
         <div className="mb-4 text-body">
           {/* TODO: add legacy url */}
           <a
-            href="https://medicarecenter.com"
+            href="https://integrity-ppc.destinationrx.com/PlanCompare/2020/professional/type1/Compare/Home"
             className="link link--force-underline"
           >
             Access last year's version of MedicareCENTER
