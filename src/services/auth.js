@@ -170,6 +170,10 @@ class AuthService {
       }
     );
   };
+
+  handleExpiredToken = async () => {
+    this.signinRedirect();
+  };
 }
 
 export default new AuthService();
