@@ -10,7 +10,7 @@ import BackLink from "components/ui/back-link";
 import validationService from "services/validation";
 import useLoading from "hooks/useLoading";
 import NumberIcon from "components/icons/number";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
 export default () => {

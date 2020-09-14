@@ -1,7 +1,7 @@
 import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import ResendButtonWithModal from "partials/resend-email";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
 const resendComfirmEmail = async (npn) => {

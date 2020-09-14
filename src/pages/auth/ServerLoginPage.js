@@ -11,7 +11,7 @@ import { useHistory } from "react-router-dom";
 import useParams from "hooks/useParams";
 import NumberIcon from "components/icons/number";
 import LockIcon from "components/icons/lock";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
 export default () => {

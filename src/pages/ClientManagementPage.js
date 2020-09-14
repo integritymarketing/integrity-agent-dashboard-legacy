@@ -17,7 +17,7 @@ import StatusField, {
 import Modal from "components/ui/modal";
 import validationService from "services/validation";
 import Textfield from "components/ui/textfield";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 import clientsService from "services/clients";
 
 const formatPhoneNumber = (phoneNumberString) => {

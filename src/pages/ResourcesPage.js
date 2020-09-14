@@ -10,7 +10,7 @@ import LightbulbIcon from "components/icons/lightbulb";
 import DocumentIcon from "components/icons/document";
 import ToolsIcon from "components/icons/tools";
 import resourceData from "pages/content/resources.json";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 
 const iconDict = {
   computer: ComputerIcon,

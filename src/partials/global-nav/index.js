@@ -8,7 +8,7 @@ import Logo from "partials/logo";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import "./index.scss";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 
 const HelpButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);

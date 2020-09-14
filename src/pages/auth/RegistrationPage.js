@@ -13,7 +13,7 @@ import NumberIcon from "components/icons/number";
 import LockIcon from "components/icons/lock";
 import MailIcon from "components/icons/mail";
 import ProfileIcon from "components/icons/profile";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
 export default () => {

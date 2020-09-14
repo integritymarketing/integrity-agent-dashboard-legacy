@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import analyticsService from "services/analytics";
+import analyticsService from "services/analyticsService";
 
 export default () => {
   const { pathname } = useLocation();
