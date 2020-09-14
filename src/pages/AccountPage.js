@@ -77,7 +77,7 @@ export default () => {
                 } else {
                   loading.end();
                   if (response.status === 401) {
-                    AuthService.handleExpiredToken();
+                    authService.handleExpiredToken();
                   } else {
                     const errorsArr = await response.json();
                     setErrors(
@@ -194,7 +194,7 @@ export default () => {
                 } else {
                   loading.end();
                   if (response.status === 401) {
-                    AuthService.handleExpiredToken();
+                    authService.handleExpiredToken();
                   } else {
                     const errorsArr = await response.json();
                     setErrors(
