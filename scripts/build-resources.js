@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const exportedResorces = process.argv[2];
+const exportedResources = process.argv[2];
 const resourceFilePath = path.resolve(
   __dirname,
   "../src/pages/content/resources.json"
@@ -42,7 +42,7 @@ const ICONS = {
 };
 
 (async () => {
-  const rawResources = await fs.promises.readFile(exportedResorces, {
+  const rawResources = await fs.promises.readFile(exportedResources, {
     encoding: "utf-8",
   });
 
