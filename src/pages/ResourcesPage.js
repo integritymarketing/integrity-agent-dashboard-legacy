@@ -123,7 +123,7 @@ export default () => {
                             rel="noopener noreferrer"
                             target="_blank"
                             icon={<CategoryIcon />}
-                            actionIcon={<DownloadIcon />}
+                            actionIcon={resource.url ? <DownloadIcon /> : null}
                             onClick={() =>
                               analyticsService.fireEvent("assetDownloaded", {
                                 assetCategory: category.analyticsKey,
