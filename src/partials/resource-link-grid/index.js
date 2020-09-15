@@ -18,9 +18,9 @@ import analyticsService from "services/analyticsService";
 export default () => {
   const topics = [
     {
-      id: "working-remotely",
+      id: "working-remote",
       analyticsKey: "workingremotely",
-      name: "Working Remotely",
+      name: "Working Remote",
       desc:
         "Get personalized tips and advice for maximizing your day and your staff remotely.",
       images: { 373: workingRemotelySrc, 746: workingRemotelySrc2x },
