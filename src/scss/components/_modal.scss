@@ -8,7 +8,8 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   box-sizing: border-box;
-  padding: var(--window-side-padding) 0;
+  @include clamp-property("padding-top", 16, 40);
+  @include clamp-property("padding-bottom", 16, 40);
   justify-content: center;
   align-items: center;
 
@@ -30,13 +31,19 @@
 
     > * {
       position: absolute;
-      top: #{get-clamp-val(-24, -56)};
-      right: #{get-clamp-val(-32, -56)};
+      @include clamp-property("top", -24, -56);
+      @include clamp-property("right", -32, -56);
     }
   }
 
   &__hr {
-    margin: #{get-clamp-val(24, 40)} #{get-clamp-val(-40, -80)};
+    margin: 1.5rem -2.5rem;
     border: 1px solid var(--form-border-default);
+    @media (min-width: 480px) {
+      margin: 2rem -3.75rem;
+    }
+    @media (min-width: 768px) {
+      margin: 2.5rem -5rem;
+    }
   }
 }

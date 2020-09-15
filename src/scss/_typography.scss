@@ -32,10 +32,6 @@
   line-height: (48 / 32);
   font-weight: 400;
   letter-spacing: -0.5px;
-
-  &.hdg--scale-from-3 {
-    @include clamp-font-size(20, 32);
-  }
 }
 
 .hdg--3,
@@ -43,10 +39,6 @@
   font-size: 1.25rem;
   line-height: (24 / 20);
   font-weight: 400;
-
-  &.hdg--scale-from-body {
-    @include clamp-font-size(16, 20);
-  }
 }
 
 .hdg--4,
@@ -54,10 +46,6 @@
   font-size: 1.25rem;
   line-height: (24 / 20);
   font-weight: 700;
-
-  &.hdg--scale-from-body {
-    @include clamp-font-size(16, 20);
-  }
 }
 
 .text-center {
