@@ -1,9 +1,5 @@
-const sharp = require("sharp");
-const imagemin = require("imagemin");
-const imageminMozjpeg = require("imagemin-mozjpeg");
 const fs = require("fs");
 const path = require("path");
-
 const exportedResorces = process.argv[2];
 const resourceFilePath = path.resolve(
   __dirname,
