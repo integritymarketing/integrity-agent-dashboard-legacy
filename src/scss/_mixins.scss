@@ -1,4 +1,4 @@
-@function get-clamp-val($smallest, $largest) {
+@function _get-clamp-val($smallest, $largest) {
   $calc: calc(
     #{$smallest / 16}rem + #{$largest - $smallest} * ((100vw - 375px) / #{768 -
           375})
@@ -10,18 +10,22 @@
   );
 }
 
-@mixin clamp-font-size($smallest, $largest) {
-  $clamped: get-clamp-val($smallest, $largest);
+@mixin clamp-property($propertyname, $smallest, $largest) {
+  $clamped: _get-clamp-val($smallest, $largest);
   & {
-    font-size: #{$smallest / 16}rem;
+    #{$propertyname}: #{$smallest / 16}rem;
 
     @media (min-width: 768px) {
-      font-size: #{$largest / 16}rem;
+      #{$propertyname}: #{$largest / 16}rem;
     }
   }
-  @supports (font-size: #{$clamped}) {
-    font-size: #{$clamped};
+  @supports #{"(" + $propertyname + ": " + $clamped + ")"} {
+    #{$propertyname}: #{$clamped};
   }
+}
+
+@mixin clamp-font-size($smallest, $largest) {
+  @include clamp-property("font-size", $smallest, $largest);
 }
 
 @mixin visually-hidden {

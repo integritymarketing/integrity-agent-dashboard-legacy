@@ -1,3 +1,5 @@
+@import "../../scss/mixins";
+
 .global-footer {
   margin-top: auto;
 
@@ -7,7 +9,10 @@
     align-items: center;
     border-top: 1px solid var(--border-light);
     background: var(--main-bg-color);
-    padding: 3.5rem var(--window-side-padding) 4rem;
+    padding-top: 3.5rem;
+    padding-bottom: 4rem;
+    @include clamp-property("padding-left", 16, 40);
+    @include clamp-property("padding-right", 16, 40);
   }
 
   &__legal {
