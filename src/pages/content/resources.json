@@ -1,47 +1,233 @@
 {
   "featured": [
-    "Tips for Working Remotely",
-    "Tips for Managing Stress",
-    "Tips for Managing Remote Workers"
+    "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy",
+    "MedicareAPP Technical Guide",
+    "MedicareLINK Technical Guide"
   ],
   "categories": [
     {
-      "id": "working-remotely",
-      "analyticsKey": "workingRemotely",
-      "name": "Working in a Remote World",
-      "icon": "computer"
+      "id": "sales-tips",
+      "name": "Sales Tips",
+      "icon": "lightbulb",
+      "analyticsKey": "salesTips"
     },
     {
-      "id": "sales-tips",
-      "analyticsKey": "salesTips",
-      "name": "Sales Tips and Tricks",
-      "icon": "lightbulb"
+      "id": "tech-guides",
+      "name": "Tech Guides",
+      "icon": "tools",
+      "analyticsKey": "techGuides"
+    },
+    {
+      "id": "working-remote",
+      "name": "Working Remote",
+      "icon": "computer",
+      "analyticsKey": "workingRemote"
+    },
+    {
+      "id": "carrier-guides",
+      "name": "Carrier Guides",
+      "icon": "document",
+      "analyticsKey": "carrierGuides"
+    },
+    {
+      "id": "health-solutions",
+      "name": "Health Solutions",
+      "icon": "document",
+      "analyticsKey": "healthSolutions"
+    },
+    {
+      "id": "life-solutions",
+      "name": "Life Solutions",
+      "icon": "document",
+      "analyticsKey": "lifeSolutions"
     }
   ],
   "resources": [
     {
-      "name": "Tips for Working Remotely",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
-      "categories": ["working-remotely"],
-      "url": "https://learningcenter.tawebhost.com/Enrollment+FAQ.pdf"
-    },
-    {
-      "name": "Tips for Managing Remote Workers",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
-      "categories": ["working-remotely"],
-      "url": "https://learningcenter.tawebhost.com/Enrollment+FAQ.pdf"
-    },
-    {
-      "name": "Tips for Managing Stress",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
-      "categories": ["working-remotely"],
-      "url": "https://learningcenter.tawebhost.com/Enrollment+FAQ.pdf"
-    },
-    {
-      "name": "Using a Positive Tone",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor,",
+      "name": "Medicare Phone Guide: Turning 65 Med Supp Phone Guide",
+      "description": "Talking points for that first conversation with clients turning 65 deigned to help you become a long-term, trusted Medicare resource.",
       "categories": ["sales-tips"],
-      "url": "https://learningcenter.tawebhost.com/Enrollment+FAQ.pdf"
+      "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_BEST_PRACTICES/Medicare%20Scripts?preview=MedicareSales-Turning65_Script.pdf"
+    },
+    {
+      "name": "Tips for Telephonic Enrollment",
+      "description": "Tips and tools to help you continue to conduct business as usual, via the telephone.",
+      "categories": ["sales-tips"],
+      "url": "existing"
+    },
+    {
+      "name": "Tips for Using a Positive Tone",
+      "description": "Tips and specific examples for how to remain positive during telephonic enrollments.",
+      "categories": ["sales-tips"],
+      "url": "https://www.dropbox.com/search/work?path=%2FINTEGRITYWORKFLOW2020&preview=id%3AN8TxwLxuDdAAAAAAAAAgyQ&query=positive+tone&search_order_by=LAST_MODIFIED_TIME&search_session_id=33302341982088072511826910608090&search_token=ZSh3iFzGCT5PnPSM9vOLSLelerFWWhlLtYbJd%2FZPWiM%3D"
+    },
+    {
+      "name": "Phonetic Alphabet",
+      "description": "Quick reference sheet of the NATO phonetic alphabet to help reduce errors during telephone conversations.",
+      "categories": ["sales-tips"],
+      "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_BEST_PRACTICES?preview=INTMRKT-38033-Phonetic-Alphabet_v2.pdf"
+    },
+    {
+      "name": "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy",
+      "description": "Suggested phone talking points that cover typical topics and recommended discussion flow for following up on new policies.",
+      "categories": ["sales-tips"],
+      "url": "https://www.dropbox.com/s/9vbkm10rhspbagy/MedicareSales-30-Day-Callback-Script.pdf?dl=0"
+    },
+    {
+      "name": "Guide to Handling Objections Over the Phone",
+      "description": "A systematic approach to overcoming any objection you encounter.",
+      "categories": ["sales-tips"],
+      "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_BEST_PRACTICES/Life%20Scripts?preview=Guide+to+Handling+Objections+Over+the+Phone.pdf"
+    },
+    {
+      "name": "Tips for Marketing Medicare Coverage Over the Phone",
+      "description": "Tips and guidelines to help you help clients get the coverage they need by phone.",
+      "categories": ["sales-tips"],
+      "url": "update to include new CMS requirements: https://www.dropbox.com/s/os8bjrt4c7auac0/INTMRKT-38033-Tips-SellingPhone_MEDICARE_v2.pdf?dl=0"
+    },
+    {
+      "name": "Best Practice Guide: Direct Mail",
+      "description": "Best practices and practical tips to help you use direct mail to drive actions and results.",
+      "categories": ["sales-tips"],
+      "url": "https://medicarelive2020.com/wp-content/uploads/2020/07/INTEVNT-38492-BestPractice-DM_v4.pdf"
+    },
+    {
+      "name": "Best Practice Guide: Lead Gen",
+      "description": "Recommendations for how to manage your lead generation campaigns to help grow your business more efficiently.",
+      "categories": ["sales-tips"],
+      "url": "https://medicarelive2020.com/wp-content/uploads/2020/07/INTEVNT-38492-BestPractice-LeadGen_v4.pdf"
+    },
+    {
+      "name": "Best Practice Guide: Managing Client Relationships",
+      "description": "9 steps for managing client relationships for high client retention, improved cross-selling and more referrals.",
+      "categories": ["sales-tips"],
+      "url": "https://medicarelive2020.com/wp-content/uploads/2020/07/INTEVNT-38492-BestPractice-Retention_v2.pdf"
+    },
+    {
+      "name": "How To Create a Facebook Page",
+      "description": "A step-by-step guide for creating a Facebook business page for yourself or your agency.",
+      "categories": ["sales-tips"],
+      "url": "https://medicarelive2020.com/wp-content/uploads/2020/07/INTPART-38799-FB-HowTo-CreatePage_v3.pdf"
+    },
+    {
+      "name": "MedicareCENTER Training Guide",
+      "description": "Learn how to use the new MedicareCENTER to help you spend more time on what matters, and less time on busy work.",
+      "categories": ["tech-guides"],
+      "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_TECH_GUIDES/MedicareLink-Professional-User-Guide-2021.pdf"
+    },
+    {
+      "name": "MedicareAPP Technical Guide",
+      "description": "Get the information you need to help you make the most of the new MedicareAPP quoting and enrollment tool.",
+      "categories": ["tech-guides"],
+      "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_TECH_GUIDES/MedicareAP-Professional-User-Guide-2021.pdf"
+    },
+    {
+      "name": "MedicareLINK Technical Guide",
+      "description": "Read this guide to help you master using the new MedicareLINK quoting and enrollment tool.",
+      "categories": ["tech-guides"],
+      "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_TECH_GUIDES?preview=MedicareLink-Professional-User-Guide-2021.pdf"
+    },
+    {
+      "name": "Medicare Supplement Quoting FAQ",
+      "description": null,
+      "categories": ["tech-guides"],
+      "url": null
+    },
+    {
+      "name": "Medicare Enrollment Tools Carrier Comparison Chart",
+      "description": "Need help selecting between MedicareAPP and MedicareLINK? This handy carrier comparison chart will tell you which carriers are in each tool!",
+      "categories": ["tech-guides"],
+      "url": null
+    },
+    {
+      "name": "CSO's Medicare Supplement e-App Guide",
+      "description": "Guide for how to submit CSO business online using the CSO's e-App and common FAQs when writing CSO Medicare Supplement electronlically.",
+      "categories": ["working-remote"],
+      "url": "https://www.dropbox.com/s/wesqogff5qghuv8/CSO_EAppGuide.pdf?dl=0"
+    },
+    {
+      "name": "Humana Achieve FastApp Guide",
+      "description": "Quick guide for using Humana's FastApp for closing MedSupp sales.",
+      "categories": ["working-remote"],
+      "url": "https://www.dropbox.com/s/a8gbayxoenq4sa5/HumanaAchieve-FastApp-Flyer.pdf?dl=0"
+    },
+    {
+      "name": "Lumico Medicare Supplement e-Application Agent Reference Guide",
+      "description": "The complete guide for using Lumico's e-App for quoting and submitting Lumico business using their e-App.",
+      "categories": ["working-remote"],
+      "url": "https://www.dropbox.com/s/8rtuio7mr7bl31d/Lumico%20Med%20Supp%20e-App_Agent%20Reference%20Guide_FINAL.pdf?dl=0"
+    },
+    {
+      "name": "Aflac Accident Advantage Insurance Sell Sheet",
+      "description": "Quick overview of the benefits of Aflac's Accident Advantage Insurance",
+      "categories": ["carrier-guides"],
+      "url": "https://www.dropbox.com/s/wc9u3agbofvcfnd/Aflac%20Accident%20flyer_Integrity_FINAL.pdf?dl=0"
+    },
+    {
+      "name": "Ameritas PrimeStar Hyperlink FAQ",
+      "description": "3 most common questions about PrimeStar Hyperlink for Agents",
+      "categories": ["carrier-guides"],
+      "url": "https://www.dropbox.com/s/gm7649xs0g6ikpr/Enrollment%20FAQ.pdf?dl=0"
+    },
+    {
+      "name": "Humana Medicare Supplement Sales Agent Field Guide",
+      "description": "Complete guide to Humana's MedSupp features, eligibility requirements, enrollment guide, underwriting guidelines and more. Updated 06/20",
+      "categories": ["carrier-guides"],
+      "url": "https://www.dropbox.com/s/hz4fwun1j4p7b8d/Humana-Agent-Field-Guide-June-2020.pdf?dl=0"
+    },
+    {
+      "name": "Humana Achieve Medicare Supplement FAQs",
+      "description": "Answers to the most commone questions about Human's Chieve MedSupp plans including answers about rates, support and compensation",
+      "categories": ["carrier-guides"],
+      "url": "https://www.dropbox.com/s/f1wkhoa01b59e06/FAQ_HumanaAchieve.pdf?dl=0"
+    },
+    {
+      "name": "Humana Underwriting Reference Guide for Medicare Supplement",
+      "description": "Guidelines for underwriting Humana MedSupp plans",
+      "categories": ["carrier-guides"],
+      "url": "https://www.dropbox.com/s/zqxyszcy4i86m8h/Med%20Supp%20Underwriting%20Guide%2011.18.pdf?dl=0"
+    },
+    {
+      "name": "Getting Started with SureBridge",
+      "description": "Everything you need to know about getting started with SunBridge",
+      "categories": ["carrier-guides"],
+      "url": "https://www.dropbox.com/s/kufz3g76ovzi6q7/Producer%20Getting%20Started%20%281%29.pdf?dl=0"
+    },
+    {
+      "name": "CVS Accendo Med Supp Medicare Center Overview",
+      "description": "Short overview of client and agent benefits of CVS's Accendo Med Supp plan",
+      "categories": ["health-solutions"],
+      "url": "https://www.dropbox.com/s/goxopad0ag4sa75/INTLDGN-37713_Accendo-HealthCarePlans_v2b%20%281%29.pdf?dl=0"
+    },
+    {
+      "name": "Humana Achieve Medicare Supplement Medicare Center Overview",
+      "description": "Short overview of client and agent benefits of Humana Achieve's Medicare Suuplement plan",
+      "categories": ["health-solutions"],
+      "url": "https://www.dropbox.com/s/vjeamvfp6lt4tty/HumanaAchieve-MedicareSupplement-Product-Overview.pdf?dl=0"
+    },
+    {
+      "name": "GTL Hospital Indemnity and Short-Term Home Health Care Plans Medicare Center Overview",
+      "description": "Short overview of client and agent benefits of GTL's Hospital Indemnity and Short-Term Home Health Care plans",
+      "categories": ["health-solutions"],
+      "url": "https://www.dropbox.com/s/nofqnm44rkmobeb/INTLDGN-37713_GTL-HealthCarePlans_v1b.pdf?dl=0"
+    },
+    {
+      "name": "SureBridge Hospital Indemnity Medicare Center Overview",
+      "description": "Short overview of client and agent benefits of SureBridge Hospital Indemnity plan",
+      "categories": ["health-solutions"],
+      "url": "https://www.dropbox.com/s/xcgsgn0qo2mz04y/INTLDGN-37713_SureBridge-HealthCarePlans_v1a.pdf?dl=0"
+    },
+    {
+      "name": "Why Partner with Integrity for Final Expense?",
+      "description": "Presentation outlining the benefits of partnering with Integrity for Final Expense business",
+      "categories": ["life-solutions"],
+      "url": "https://www.dropbox.com/preview/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-39170-SimplifiedFEandGuaranteedIssueSpecifications/CREATIVE/_REVIEW/Integrity%20Final%20Expense%20Presentation.pptx?role=work#"
+    },
+    {
+      "name": "Simplified Issue Final Expense Product Info Sheet",
+      "description": "Detailed overview of Integrity's Simpified Issue Final Expense product.",
+      "categories": ["life-solutions"],
+      "url": "https://www.dropbox.com/preview/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-39170-SimplifiedFEandGuaranteedIssueSpecifications/CREATIVE/_REVIEW/INTPROD_39170_Simplified_Issue_Final_Expense_v5.pdf?role=work"
     }
   ]
 }
