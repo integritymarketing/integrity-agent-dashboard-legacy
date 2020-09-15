@@ -50,36 +50,42 @@ export default () => {
             <div className="mod-grid mt-4">
               {resourceData.featured
                 .map((resourceName) => resourceDict[resourceName])
-                .map((resource, idx) => (
-                  <div className="mod text-center" key={resource.name}>
-                    <div>
-                      <ComputerIcon width="40" height="40" />
+                .map((resource, idx) => {
+                  const category = categoryDict[resource.categories[0]];
+                  const CategoryIcon =
+                    iconDict[category.icon] || iconDict["default"];
+                  return (
+                    <div className="mod text-center" key={resource.name}>
+                      <div>
+                        <CategoryIcon width="40" height="40" />
+                      </div>
+                      <div className="mt-2">
+                        <h2 className="hdg hdg--4">{resource.name}</h2>
+                      </div>
+                      <div className="mt-1">
+                        <p className="text-body">{resource.description}</p>
+                      </div>
+                      <div className="pt-2 mt-auto">
+                        <a
+                          href={resource.url}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          className="btn"
+                          onClick={() =>
+                            analyticsService.fireEvent("resourceDownloaded", {
+                              featuredCategory:
+                                categoryDict[resource.categories[0]]
+                                  .analyticsKey,
+                              assetName: resource.name,
+                            })
+                          }
+                        >
+                          Download
+                        </a>
+                      </div>
                     </div>
-                    <div className="mt-2">
-                      <h2 className="hdg hdg--4">{resource.name}</h2>
-                    </div>
-                    <div className="mt-1">
-                      <p className="text-body">{resource.description}</p>
-                    </div>
-                    <div className="pt-2 mt-auto">
-                      <a
-                        href={resource.url}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        className="btn"
-                        onClick={() =>
-                          analyticsService.fireEvent("resourceDownloaded", {
-                            featuredCategory:
-                              categoryDict[resource.categories[0]].analyticsKey,
-                            assetName: resource.name,
-                          })
-                        }
-                      >
-                        Download
-                      </a>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
             </div>
           </section>
         </Container>
@@ -117,7 +123,7 @@ export default () => {
                             rel="noopener noreferrer"
                             target="_blank"
                             icon={<CategoryIcon />}
-                            actionIcon={<DownloadIcon />}
+                            actionIcon={resource.url ? <DownloadIcon /> : null}
                             onClick={() =>
                               analyticsService.fireEvent("assetDownloaded", {
                                 assetCategory: category.analyticsKey,
