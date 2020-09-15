@@ -81,11 +81,6 @@ const ICONS = {
     .filter((resource) => resource["Release Window"] === "Launch: Feature")
     .map((resource) => resource.Title);
 
-  // console.log(activeResources);
-  // console.log(resources);
-  // console.log(categories);
-  // console.log(featured);
-
   await fs.promises.writeFile(
     resourceFilePath,
     JSON.stringify(

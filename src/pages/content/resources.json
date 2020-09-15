@@ -1,8 +1,8 @@
 {
   "featured": [
-    "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy",
     "MedicareAPP Technical Guide",
-    "MedicareLINK Technical Guide"
+    "MedicareLINK Technical Guide",
+    "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy"
   ],
   "categories": [
     {
@@ -83,7 +83,7 @@
       "name": "Tips for Marketing Medicare Coverage Over the Phone",
       "description": "Tips and guidelines to help you help clients get the coverage they need by phone.",
       "categories": ["sales-tips"],
-      "url": "update to include new CMS requirements: https://www.dropbox.com/s/os8bjrt4c7auac0/INTMRKT-38033-Tips-SellingPhone_MEDICARE_v2.pdf?dl=0"
+      "url": "https://www.dropbox.com/preview/INTEGRITYWORKFLOW2020/INTMRKT-INTERNAL_MARKETING/INTMRKT-38033-READINESS/CREATIVE/_REVIEW/INTMRKT-38033-Tips_selling_phone_MEDICARE_v3.pdf?role=work"
     },
     {
       "name": "Best Practice Guide: Direct Mail",
@@ -111,19 +111,19 @@
     },
     {
       "name": "MedicareCENTER Training Guide",
-      "description": "Learn how to use the new MedicareCENTER to help you spend more time on what matters, and less time on busy work.",
+      "description": "Become an expert on our powerful new platform with all you need to increase production this AEP.",
       "categories": ["tech-guides"],
       "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_TECH_GUIDES/MedicareLink-Professional-User-Guide-2021.pdf"
     },
     {
       "name": "MedicareAPP Technical Guide",
-      "description": "Get the information you need to help you make the most of the new MedicareAPP quoting and enrollment tool.",
+      "description": "Maximize your sales and streamline your workflow this AEP with our new MedicareAPP quoting and enrollment tool.",
       "categories": ["tech-guides"],
       "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_TECH_GUIDES/MedicareAP-Professional-User-Guide-2021.pdf"
     },
     {
       "name": "MedicareLINK Technical Guide",
-      "description": "Read this guide to help you master using the new MedicareLINK quoting and enrollment tool.",
+      "description": "Take your sales and your workflow to the next level this AEP with our new MedicareLINK quoting and enrollment tool.",
       "categories": ["tech-guides"],
       "url": "https://www.dropbox.com/home/INTEGRITYWORKFLOW2020/INTPROD-PRODUCTS/INTPROD-38576-IntegrityAdBuilder/CREATIVE/_FINAL_OUTPUTS/_PARTNERS/_TECH_GUIDES?preview=MedicareLink-Professional-User-Guide-2021.pdf"
     },
