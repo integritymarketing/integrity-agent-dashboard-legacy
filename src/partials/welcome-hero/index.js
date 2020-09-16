@@ -29,19 +29,19 @@ const WelcomeHero = () => {
     <div className="welcomeHero content-frame bg-photo text-invert">
       <GlobalNav logoSize="large" className="globalNav--absolute" />
       <Container className="container--hero text-center">
-        <div className="welcomeHero__title mb-scale-2">
+        <h2 className="welcomeHero__title mb-scale-2">
           Welcome to MedicareCENTER
-        </div>
-        <div className="welcomeHero__content mb-scale-2">
+        </h2>
+        <p className="welcomeHero__content mb-scale-2">
           All the tools and resources you need to succeed are here. Get quotes,
           compare plans, submit applications, manage clients and more from your
           laptop, tablet or Smartphone.
-        </div>
+        </p>
 
-        <div className="welcomeHero__content mb-scale-2">
+        <p className="welcomeHero__content mb-scale-2">
           If this is your first visit to the new MedicareCENTER, you need to
           start by registering your account.
-        </div>
+        </p>
         <RegisterButton className="btn btn--invert">
           Register Now <IconArrowRightLong className="icon" />
         </RegisterButton>
