@@ -9,7 +9,7 @@ const WelcomePage = () => {
       <WelcomeHero />
       <WelcomeFeatures />
       <div className="bg-high-contrast">
-        <SimpleFooter className="simple-footer--welcomePage" />
+        <SimpleFooter className="simple-footer--no-padding" />
       </div>
     </React.Fragment>
   );
