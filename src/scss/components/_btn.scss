@@ -18,6 +18,22 @@
   text-transform: uppercase;
   letter-spacing: -0.25px;
 
+  /* 
+    TODO: Nick mentioned refactoring this into the base button styles
+    
+    -- currently used here: /src/partials/welcome-hero/index.scss
+
+    .btn {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+
+      .icon {
+        margin-left: 1rem;
+      }
+    }
+  */
+
   &:hover:not(.btn--disabled):not([disabled]) {
     background-color: var(--brand-bg-hover-color);
     border-color: var(--brand-bg-hover-color);

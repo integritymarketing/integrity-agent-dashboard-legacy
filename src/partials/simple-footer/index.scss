@@ -34,6 +34,10 @@
     }
   }
 
+  &--no-padding {
+    padding: 0px;
+  }
+
   @media (max-width: 767px) {
     &__content {
       flex-direction: column;
