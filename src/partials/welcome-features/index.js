@@ -44,10 +44,10 @@ const Section = ({ image, alt, title, copy, additionalClasses }) => {
     <section
       className={`mb-5 text-center welcome-features__feature ${moreClasses}`}
     >
-      <div className="welcome-features__feature__image">
+      <div className="welcome-features__feature-image">
         <img src={image} alt="" loading="lazy" />
       </div>
-      <div className="welcome-features__feature__content">
+      <div className="welcome-features__feature-content">
         <h4 className="hdg--2 text-thin mb-2">{title}</h4>
         <p className="text-left">{copy}</p>
       </div>
