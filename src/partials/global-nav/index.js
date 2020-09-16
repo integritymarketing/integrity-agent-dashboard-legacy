@@ -26,7 +26,12 @@ const HelpButtonWithModal = ({ ...props }) => {
   );
 };
 
-export default ({ menuHidden = false, className = "", ...props }) => {
+export default ({
+  menuHidden = false,
+  logoSize = "default",
+  className = "",
+  ...props
+}) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -79,7 +84,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     <header className={`global-nav ${className}`} {...props}>
       <h1 className="global-nav__title">
         <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
-          <Logo aria-hidden="true" />
+          <Logo aria-hidden="true" size={logoSize} />
           <span className="visually-hidden">Medicare Center</span>
         </Link>
       </h1>

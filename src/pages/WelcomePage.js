@@ -1,34 +1,18 @@
-import React, { useContext } from "react";
-import Container from "components/ui/container";
-import GlobalNav from "partials/global-nav";
-import AuthContext from "contexts/auth";
+import React from "react";
+import WelcomeHero from "partials/welcome-hero";
+import WelcomeFeatures from "partials/welcome-features";
+import SimpleFooter from "partials/simple-footer";
 
-const LoginLink = (props) => {
-  const auth = useContext(AuthContext);
-
-  const login = () => {
-    auth.signinRedirect();
-  };
-
+const WelcomePage = () => {
   return (
     <React.Fragment>
-      <button onClick={login} {...props}></button>
-    </React.Fragment>
-  );
-};
-
-export default () => {
-  return (
-    <React.Fragment>
-      <div className="bg-photo text-invert">
-        <GlobalNav />
-        <Container className="scaling-header">
-          <div className="hdg hdg--2">Welcome</div>
-        </Container>
+      <WelcomeHero />
+      <WelcomeFeatures />
+      <div className="bg-high-contrast">
+        <SimpleFooter className="simple-footer--welcomePage" />
       </div>
-      <Container className="mt-scale-3">
-        <LoginLink className="btn">Login</LoginLink>
-      </Container>
     </React.Fragment>
   );
 };
+
+export default WelcomePage;

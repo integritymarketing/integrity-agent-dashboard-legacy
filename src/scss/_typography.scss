@@ -60,8 +60,24 @@
   }
 }
 
+.text-left {
+  text-align: left;
+}
+
 .text-center {
   text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-thin {
+  font-weight: 300;
 }
 
 .text-bold {
