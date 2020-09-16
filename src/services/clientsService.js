@@ -69,7 +69,7 @@ class ClientsService {
   ) => {
     return Object.assign({}, baseValues, data, {
       email: email || null,
-      phone: phone ? parseInt(("" + phone).replace(/\D/g, ""), 10) : null,
+      phone: phone ? ("" + phone).replace(/\D/g, "") : null,
       followUpDate: followUpDate ? formatDate(parseDate(followUpDate)) : null,
       leadStatusId: parseInt(leadStatusId, 10),
     });

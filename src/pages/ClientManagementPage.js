@@ -321,6 +321,7 @@ export default () => {
                   if (Object.keys(errors).length) {
                     // wait for validation error to show before scrolling
                     setTimeout(() => {
+                      if (!modalFormRef.current) return;
                       const firstError = modalFormRef.current.querySelector(
                         ".form-input__error:not(:empty)"
                       );

@@ -5,10 +5,23 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding: 2.25rem var(--window-side-padding);
+    padding: 2.25rem 1rem;
 
     > * {
-      padding: calc(var(--window-side-padding) * 0.25) 0;
+      padding: 0.25rem 0;
+    }
+
+    @media (min-width: 480px) {
+      padding: 2.25rem 2rem;
+      > * {
+        padding: 0.5rem 0;
+      }
+    }
+    @media (min-width: 768px) {
+      padding: 2.25rem 2.5rem;
+      > * {
+        padding: 0.625rem 0;
+      }
     }
   }
 

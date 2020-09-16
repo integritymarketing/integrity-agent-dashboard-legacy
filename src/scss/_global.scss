@@ -117,8 +117,8 @@ button {
   width: 100%;
   max-width: 1280px;
   align-self: center;
-  padding-left: var(--window-side-padding);
-  padding-right: var(--window-side-padding);
+  @include clamp-property("padding-left", 16, 40);
+  @include clamp-property("padding-right", 16, 40);
   margin-left: auto;
   margin-right: auto;
 
@@ -147,11 +147,6 @@ $spacings: (
 );
 
 @each $abbr, $prop in $spacings {
-  @for $i from 0 through 4 {
-    .#{$abbr}-scale-#{$i} {
-      #{$prop}: var(--scaling-space-#{$i});
-    }
-  }
   @for $i from 0 through 5 {
     .#{$abbr}-#{$i} {
       #{$prop}: var(--fixed-space-#{$i});
@@ -159,6 +154,18 @@ $spacings: (
   }
   .#{$abbr}-auto {
     #{$prop}: auto;
+  }
+  .#{$abbr}-scale-1 {
+    @include clamp-property($prop, 16, 24);
+  }
+  .#{$abbr}-scale-2 {
+    @include clamp-property($prop, 24, 40);
+  }
+  .#{$abbr}-scale-3 {
+    @include clamp-property($prop, 40, 80);
+  }
+  .#{$abbr}-scale-4 {
+    @include clamp-property($prop, 80, 120);
   }
 }
 
