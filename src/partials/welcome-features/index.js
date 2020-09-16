@@ -45,7 +45,7 @@ const Section = ({ image, alt, title, copy, additionalClasses }) => {
       className={`mb-5 text-center welcome-features__feature ${moreClasses}`}
     >
       <div className="welcome-features__feature__image">
-        <img src={image} alt={alt || title} />
+        <img src={image} alt="" loading="lazy" />
       </div>
       <div className="welcome-features__feature__content">
         <h4 className="hdg--2 text-thin mb-2">{title}</h4>
