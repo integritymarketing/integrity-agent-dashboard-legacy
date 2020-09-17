@@ -87,7 +87,7 @@ button {
     rgba(0, 0, 0, 0.8) 0%,
     rgba(0, 0, 0, 0.6) 100%
   );
-  background: var(--invert-bg-color) center center no-repeat;
+  background: var(--invert-bg-color) center 25% no-repeat;
   background-image: var(--bg-photo-gradient),
     url(../images/optimized/bg-default-800.jpg);
   background-size: cover;
