@@ -27,7 +27,7 @@ const RegisterButton = (props) => {
 const WelcomeHero = () => {
   return (
     <div className="welcomeHero content-frame bg-photo text-invert">
-      <GlobalNav logoSize="large" className="globalNav--absolute" />
+      <GlobalNav className="globalNav--absolute" />
       <Container className="container--hero text-center">
         <div className="welcomeHero__title mb-scale-2">
           Welcome to MedicareCENTER
