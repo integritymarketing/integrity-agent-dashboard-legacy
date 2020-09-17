@@ -171,7 +171,7 @@ export default () => {
                     : "Unnamed Contact";
                   return (
                     <Card key={client.leadsId}>
-                      <div className="toolbar">
+                      <div className="toolbar pb-2 border-bottom border-bottom--light">
                         <div
                           className={`hdg hdg--4 ${
                             namedClient ? "" : "text-muted"
