@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "components/functional/router";
 import { Route, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
 import authService from "services/authService";
@@ -25,6 +26,9 @@ const App = () => {
   return (
     <AuthContext.Provider value={authService}>
       <Router>
+        <Helmet>
+          <title>Agent Portal</title>
+        </Helmet>
         <div className="content-frame">
           <Switch>
             {/* root path directs traffic to unauthenticed

@@ -30,6 +30,9 @@ import authService from "services/authService";
 const AuthApp = () => {
   return (
     <Router>
+      <Helmet>
+        <title>Agent Login</title>
+      </Helmet>
       <div className="content-frame">
         <Switch>
           <Route exact path="/login">
