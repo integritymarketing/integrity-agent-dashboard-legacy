@@ -52,7 +52,7 @@ export default ({
             {
               component: Link,
               props: {
-                to: "/resources",
+                to: "/learning-center",
                 className: analyticsService.clickClass("learningcenter-header"),
               },
               label: "Learning Center",
@@ -61,7 +61,7 @@ export default ({
           secondary: [
             {
               component: Link,
-              props: { to: "/account" },
+              props: { to: "/edit-account" },
               label: "Edit Account",
             },
             {
