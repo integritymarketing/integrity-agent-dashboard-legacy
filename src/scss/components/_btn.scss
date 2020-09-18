@@ -18,9 +18,9 @@
   text-transform: uppercase;
   letter-spacing: -0.25px;
 
-  /* 
+  /*
     TODO: Nick mentioned refactoring this into the base button styles
-    
+
     -- currently used here: /src/partials/welcome-hero/index.scss
 
     .btn {
@@ -95,6 +95,7 @@
     background-color: var(--main-bg-color);
     border-color: var(--disabled-color);
     color: var(--disabled-color);
+    cursor: not-allowed;
   }
 }
 
