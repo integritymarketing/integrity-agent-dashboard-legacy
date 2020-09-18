@@ -24,7 +24,7 @@ export default () => {
         <BackLink component={Link} to="/login">
           Back to Login
         </BackLink>
-        <h1 className="hdg hdg--2 mb-1 mt-1">Forgot your password?</h1>
+        <h1 className="hdg hdg--2 mb-1 mt-3">Forgot your password?</h1>
         <p className="text-body mb-4">
           Enter your NPN number below and if an account is associated with it we
           will send a reset link to your email.

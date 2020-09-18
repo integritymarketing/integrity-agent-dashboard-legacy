@@ -31,4 +31,9 @@
   &--force-underline {
     text-decoration: underline;
   }
+
+  &--icon {
+    display: inline-flex;
+    align-items: center;
+  }
 }
