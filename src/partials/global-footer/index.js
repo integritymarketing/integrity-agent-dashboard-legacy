@@ -57,7 +57,7 @@ export default ({ className = "", ...props }) => {
                     </li>
                     <li>
                       <Link
-                        to="/resources"
+                        to="/learning-center"
                         className={`link link--inherit ${analyticsService.clickClass(
                           "learningcenter-footer"
                         )}`}

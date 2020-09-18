@@ -47,7 +47,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             {
               component: Link,
               props: {
-                to: "/resources",
+                to: "/learning-center",
                 className: analyticsService.clickClass("learningcenter-header"),
               },
               label: "Learning Center",
@@ -56,7 +56,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           secondary: [
             {
               component: Link,
-              props: { to: "/account" },
+              props: { to: "/edit-account" },
               label: "Edit Account",
             },
             {

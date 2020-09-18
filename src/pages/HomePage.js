@@ -35,7 +35,7 @@ const SSOButtonWithModal = ({ ...props }) => {
             .
           </p>
         </div>
-        <div className="mb-4">
+        <div className="mb-4 text-body">
           <a
             href={
               process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
@@ -56,7 +56,7 @@ const SSOButtonWithModal = ({ ...props }) => {
             and more!
           </p>
         </div>
-        <div>
+        <div className="text-body">
           <a
             href={process.env.REACT_APP_SUNFIRE_SSO_URL}
             className={`btn btn--no-upper ${analyticsService.clickClass(
@@ -110,13 +110,17 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button
+                <a
+                  href={
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                    "/external/csglogin"
+                  }
                   className={`btn btn--invert ${analyticsService.clickClass(
                     "medicaresupplement-button"
                   )}`}
                 >
                   Medicare Supplement
-                </button>
+                </a>
               </div>
             </div>
 

@@ -82,7 +82,7 @@ export default () => {
           />
           <Link
             to={{
-              pathname: "/resources",
+              pathname: "/learning-center",
               hash: `#${id}`,
             }}
             className={`link-card__link text-body text-bold ${analyticsService.clickClass(

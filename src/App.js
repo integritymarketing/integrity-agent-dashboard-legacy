@@ -39,7 +39,7 @@ const App = () => {
               <HomePage />
             </AuthenticatedRoute>
 
-            <AuthenticatedRoute path="/account">
+            <AuthenticatedRoute path="/edit-account">
               <AccountPage />
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/resources">
