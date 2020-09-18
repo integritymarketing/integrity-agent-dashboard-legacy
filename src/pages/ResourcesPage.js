@@ -34,7 +34,7 @@ export default () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Learning Center</title>
+        <title>MedicareCENTER - Learning Center</title>
       </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />

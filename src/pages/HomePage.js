@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
@@ -73,6 +74,9 @@ const SSOButtonWithModal = ({ ...props }) => {
 export default () => {
   return (
     <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Dashboard</title>
+      </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">

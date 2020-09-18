@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { Helmet } from "react-helmet";
 import { Formik } from "formik";
 import dateFnsFormat from "date-fns/format";
 import Container from "components/ui/container";
@@ -99,6 +100,9 @@ export default () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Client Management</title>
+      </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">

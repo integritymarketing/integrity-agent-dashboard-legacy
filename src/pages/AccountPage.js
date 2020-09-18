@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Container from "components/ui/container";
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav";
@@ -18,6 +19,9 @@ export default () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Edit Account</title>
+      </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">

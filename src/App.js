@@ -27,7 +27,7 @@ const App = () => {
     <AuthContext.Provider value={authService}>
       <Router>
         <Helmet>
-          <title>Agent Portal</title>
+          <title>MedicareCENTER</title>
         </Helmet>
         <div className="content-frame">
           <Switch>
