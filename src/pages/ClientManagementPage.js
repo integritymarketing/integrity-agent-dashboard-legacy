@@ -190,7 +190,7 @@ export default () => {
                             <span className="visually-hidden">
                               Edit {displayName}
                             </span>
-                            <EditIcon style={{ "pointer-events": "none" }} />
+                            <EditIcon style={{ pointerEvents: "none" }} />
                           </button>
                         </div>
                       </div>
