@@ -6,6 +6,7 @@ import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import Modal from "components/ui/modal";
 import analyticsService from "services/analyticsService";
+import useUserProfile from "hooks/useUserProfile";
 
 const SSOButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -72,6 +73,8 @@ const SSOButtonWithModal = ({ ...props }) => {
 };
 
 export default () => {
+  const userProfile = useUserProfile();
+  console.log(userProfile);
   return (
     <React.Fragment>
       <div className="bg-photo text-invert">
@@ -111,10 +114,9 @@ export default () => {
               </div>
               <div className="pt-2 mt-auto">
                 <a
-                  href={
-                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                    "/external/csglogin"
-                  }
+                  href={encodeURI(
+                    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${userProfile.npn}/${userProfile.email}`
+                  )}
                   className={`btn btn--invert ${analyticsService.clickClass(
                     "medicaresupplement-button"
                   )}`}
