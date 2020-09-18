@@ -108,13 +108,17 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button
+                <a
+                  href={
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                    "/external/csglogin"
+                  }
                   className={`btn btn--invert ${analyticsService.clickClass(
                     "medicaresupplement-button"
                   )}`}
                 >
                   Medicare Supplement
-                </button>
+                </a>
               </div>
             </div>
 
