@@ -2,12 +2,12 @@ import React from "react";
 
 import "./index.scss";
 
-export default ({ color = "#fff", size = "default", ...props }) => {
+export default ({ color = "#fff", ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 293 41"
-      className={`logo logo--${size}`}
+      className="logo"
       {...props}
     >
       <path

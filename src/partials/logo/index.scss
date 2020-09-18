@@ -1,11 +1,7 @@
 .logo {
-  width: 172px;
+  width: 70vw;
+  max-width: 100%;
 
-  &--large {
-    width: 250px;
-
-    @media (min-width: 375px) {
-      width: 293px;
-    }
+  @media (min-width: 375px) {
   }
 }
