@@ -57,7 +57,6 @@ const SSOButtonWithModal = ({ ...props }) => {
           </a>
         </div>
         <div className="mb-4 text-body">
-          {/* TODO: add legacy url */}
           <a
             href="https://integrity-ppc.destinationrx.com/PlanCompare/2020/professional/type1/Compare/Home"
             className="link link--force-underline"
@@ -109,13 +108,17 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button
+                <a
+                  href={
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                    "/external/csglogin"
+                  }
                   className={`btn btn--invert ${analyticsService.clickClass(
                     "medicaresupplement-button"
                   )}`}
                 >
                   Medicare Supplement
-                </button>
+                </a>
               </div>
             </div>
 
