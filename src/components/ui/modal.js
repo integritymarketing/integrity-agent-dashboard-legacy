@@ -3,7 +3,13 @@ import ExitIcon from "components/icons/exit";
 import PageCard from "components/ui/page-card";
 import Container from "components/ui/container";
 
-export default ({ open = false, onClose, children, ...props }) => {
+export default ({
+  open = false,
+  wide = false,
+  onClose,
+  children,
+  ...props
+}) => {
   // close window on ESC
   useEffect(() => {
     const onKeydown = (event) => {
@@ -32,7 +38,7 @@ export default ({ open = false, onClose, children, ...props }) => {
         }
       }}
     >
-      <Container size="medium">
+      <Container size={wide ? "wide" : "medium"}>
         <PageCard className="modal__card">
           {onClose && (
             <div className="modal__header">

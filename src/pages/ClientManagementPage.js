@@ -175,7 +175,7 @@ export default () => {
                     : "Unnamed Contact";
                   return (
                     <Card key={client.leadsId}>
-                      <div className="toolbar">
+                      <div className="toolbar pb-2 border-bottom border-bottom--light">
                         <div
                           className={`hdg hdg--4 ${
                             namedClient ? "" : "text-muted"
@@ -194,7 +194,7 @@ export default () => {
                             <span className="visually-hidden">
                               Edit {displayName}
                             </span>
-                            <EditIcon />
+                            <EditIcon style={{ pointerEvents: "none" }} />
                           </button>
                         </div>
                       </div>
@@ -226,7 +226,10 @@ export default () => {
                           <div className="text-bold">Email</div>
                           <div>
                             {client.email ? (
-                              <a href={`mailto:${client.email}`}>
+                              <a
+                                className="link link--dark-underline"
+                                href={`mailto:${client.email}`}
+                              >
                                 {client.email}
                               </a>
                             ) : (
@@ -239,6 +242,7 @@ export default () => {
                           <div>
                             {client.phone ? (
                               <a
+                                className="link link--dark-underline"
                                 href={`tel:+1-${formatPhoneNumber(
                                   client.phone
                                 )}`}

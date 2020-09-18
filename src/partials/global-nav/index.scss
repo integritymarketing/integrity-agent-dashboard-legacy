@@ -8,12 +8,18 @@
 
   &__title {
     margin-right: auto;
+    flex-shrink: 1;
 
     a {
       display: flex;
       padding: 1rem; // increase hit area
       margin-left: -1rem;
+      max-width: calc(293px + 2rem);
     }
+  }
+
+  &__links {
+    flex-shrink: 0;
   }
 
   &__links > ul {

@@ -10,8 +10,8 @@ export default ({ className = "", ...props }) => {
       </p>
       <div className="hdg hdg--4 mb-1">Phone Number</div>
       <p className="text-body mb-4">
-        <a href="tel:+1-651-555-1234" className="link">
-          651-555-1234 {/* TODO: needs content */}
+        <a href="tel:+1-888-818-3760" className="link">
+          888-818-3760
         </a>
       </p>
       <div className="hdg hdg--4 mb-1">Email</div>

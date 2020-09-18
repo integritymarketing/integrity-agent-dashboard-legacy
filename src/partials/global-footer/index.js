@@ -57,7 +57,7 @@ export default ({ className = "", ...props }) => {
                     </li>
                     <li>
                       <Link
-                        to="/resources"
+                        to="/learning-center"
                         className={`link link--inherit ${analyticsService.clickClass(
                           "learningcenter-footer"
                         )}`}
@@ -90,7 +90,7 @@ export default ({ className = "", ...props }) => {
           </ul>
         </nav>
         <small className="global-footer__legal mt-4">
-          <span>Copyright © 2020</span> <span>Integrity Marketing Group.</span>{" "}
+          <span>© 2020</span> <span>Integrity Marketing Group.</span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>

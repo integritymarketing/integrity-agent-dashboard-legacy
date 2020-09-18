@@ -32,7 +32,7 @@ export default () => {
           <BackLink component={Link} to="/login">
             Back to Login
           </BackLink>
-          <h1 className="hdg hdg--2 mb-3 mt-1">Register for an account</h1>
+          <h1 className="hdg hdg--2 mb-3 mt-3">Register for an account</h1>
 
           <Formik
             initialValues={{

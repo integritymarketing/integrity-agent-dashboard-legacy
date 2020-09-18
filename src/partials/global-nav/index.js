@@ -26,12 +26,7 @@ const HelpButtonWithModal = ({ ...props }) => {
   );
 };
 
-export default ({
-  menuHidden = false,
-  logoSize = "default",
-  className = "",
-  ...props
-}) => {
+export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -52,7 +47,7 @@ export default ({
             {
               component: Link,
               props: {
-                to: "/resources",
+                to: "/learning-center",
                 className: analyticsService.clickClass("learningcenter-header"),
               },
               label: "Learning Center",
@@ -61,7 +56,7 @@ export default ({
           secondary: [
             {
               component: Link,
-              props: { to: "/account" },
+              props: { to: "/edit-account" },
               label: "Edit Account",
             },
             {
@@ -84,7 +79,7 @@ export default ({
     <header className={`global-nav ${className}`} {...props}>
       <h1 className="global-nav__title">
         <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
-          <Logo aria-hidden="true" size={logoSize} />
+          <Logo aria-hidden="true" />
           <span className="visually-hidden">Medicare Center</span>
         </Link>
       </h1>
