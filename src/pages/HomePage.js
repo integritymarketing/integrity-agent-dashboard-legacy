@@ -16,35 +16,26 @@ const SSOButtonWithModal = ({ ...props }) => {
         onClick={() => setModalOpen(true)}
         {...props}
       ></button>
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal wide open={modalOpen} onClose={() => setModalOpen(false)}>
         <div className="mb-3">
           <div className="tool-icon">MA PDP</div>
         </div>
-        <p className="text-body pb-3 border-bottom mb-3">
+        <p className="text-body text-body--large pb-3 border-bottom mb-3">
           Choose from two amazing enrollment tool options:
         </p>
-        <div className="pt-2 pr-2 pl-2 mb-2">
-          <p className="text-body">
-            Access a new enrollment tool option that offers texting capabilities
-            and more!
+        <div className="pt-2 mb-2">
+          <p className="text-body text-body--large">
+            Access previous MedicareCENTER features and more, or access{" "}
+            <a
+              href="https://integrity-ppc.destinationrx.com/PlanCompare/2020/professional/type1/Compare/Home"
+              className="link link--force-underline"
+            >
+              MedicareCENTER 2020
+            </a>
+            .
           </p>
         </div>
         <div className="mb-4">
-          <a
-            href={process.env.REACT_APP_SUNFIRE_SSO_URL}
-            className={`btn btn--no-upper ${analyticsService.clickClass(
-              "sunfire-button"
-            )}`}
-          >
-            MedicareLINK
-          </a>
-        </div>
-        <div className="pt-1 pr-2 pl-2 mb-2">
-          <p className="text-body">
-            Access previous MedicareCENTER features and more!
-          </p>
-        </div>
-        <div className="mb-2">
           <a
             href={
               process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
@@ -56,13 +47,23 @@ const SSOButtonWithModal = ({ ...props }) => {
             MedicareAPP
           </a>
         </div>
-        <div className="mb-4 text-body">
-          {/* TODO: add legacy url */}
+        <div className="mb-3">
+          <p className="text-body text-body--large">or</p>
+        </div>
+        <div className="pt-1 mb-2">
+          <p className="text-body text-body--large">
+            Access a new enrollment tool option that offers texting capabilities
+            and more!
+          </p>
+        </div>
+        <div>
           <a
-            href="https://integrity-ppc.destinationrx.com/PlanCompare/2020/professional/type1/Compare/Home"
-            className="link link--force-underline"
+            href={process.env.REACT_APP_SUNFIRE_SSO_URL}
+            className={`btn btn--no-upper ${analyticsService.clickClass(
+              "sunfire-button"
+            )}`}
           >
-            Access last year's version of MedicareCENTER
+            MedicareLINK
           </a>
         </div>
       </Modal>
