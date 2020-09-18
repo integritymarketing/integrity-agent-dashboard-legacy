@@ -222,7 +222,10 @@ export default () => {
                           <div className="text-bold">Email</div>
                           <div>
                             {client.email ? (
-                              <a href={`mailto:${client.email}`}>
+                              <a
+                                className="link link--dark-underline"
+                                href={`mailto:${client.email}`}
+                              >
                                 {client.email}
                               </a>
                             ) : (
@@ -235,6 +238,7 @@ export default () => {
                           <div>
                             {client.phone ? (
                               <a
+                                className="link link--dark-underline"
                                 href={`tel:+1-${formatPhoneNumber(
                                   client.phone
                                 )}`}

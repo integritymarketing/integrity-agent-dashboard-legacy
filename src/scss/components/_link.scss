@@ -32,6 +32,16 @@
     text-decoration: underline;
   }
 
+  /* don't want to tie these styles to force underline */
+  &--dark-underline {
+    text-decoration: underline;
+    color: var(--neutral-text-color);
+
+    &:hover {
+      color: black;
+    }
+  }
+
   &--icon {
     display: inline-flex;
     align-items: center;
