@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Container from "components/ui/container";
 import LineItem from "components/ui/line-item";
 import GlobalNav from "partials/global-nav";
@@ -32,6 +33,9 @@ const categoryDict = createDictBy(resourceData.categories, "id");
 export default () => {
   return (
     <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Learning Center</title>
+      </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">
