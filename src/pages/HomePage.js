@@ -119,7 +119,7 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <a
+                {/* <a
                   href={encodeURI(
                     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin`
                   )}
@@ -128,8 +128,8 @@ export default () => {
                   )}`}
                 >
                   Medicare Supplement
-                </a>
-                {/* <a
+                </a> */}
+                <a
                   href={encodeURI(
                     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${userProfile.npn}/${userProfile.email}`
                   )}
@@ -138,7 +138,7 @@ export default () => {
                   )}`}
                 >
                   Medicare Supplement
-                </a> */}
+                </a>
                 {/* <button
                   type="button"
                   disabled
