@@ -95,6 +95,7 @@
 
 .text-hr {
   display: flex;
+  justify-content: center;
   align-items: center;
   text-align: center;
 
@@ -110,6 +111,16 @@
 
   &::after {
     margin: 0 0 0 2.5rem;
+  }
+
+  &--dark:before,
+  &--dark:after {
+    border-top-color: currentColor;
+  }
+
+  &--short:before,
+  &--short:after {
+    max-width: 100px;
   }
 }
 
