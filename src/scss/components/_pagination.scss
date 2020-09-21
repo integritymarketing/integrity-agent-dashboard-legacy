@@ -29,4 +29,13 @@
       color: var(--muted-text-color);
     }
   }
+
+  &--mini {
+    justify-content: space-between;
+    font-size: 1rem;
+
+    .pagination__button {
+      flex-basis: 100px;
+    }
+  }
 }
