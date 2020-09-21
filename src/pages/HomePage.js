@@ -119,6 +119,16 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
+                <a
+                  href={encodeURI(
+                    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin`
+                  )}
+                  className={`btn btn--invert ${analyticsService.clickClass(
+                    "medicaresupplement-button"
+                  )}`}
+                >
+                  Medicare Supplement
+                </a>
                 {/* <a
                   href={encodeURI(
                     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${userProfile.npn}/${userProfile.email}`
@@ -129,7 +139,7 @@ export default () => {
                 >
                   Medicare Supplement
                 </a> */}
-                <button
+                {/* <button
                   type="button"
                   disabled
                   className={`btn btn--invert ${analyticsService.clickClass(
@@ -137,7 +147,7 @@ export default () => {
                   )}`}
                 >
                   Medicare Supplement
-                </button>
+                </button> */}
               </div>
             </div>
 
