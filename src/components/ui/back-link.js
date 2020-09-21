@@ -1,7 +1,7 @@
 import React from "react";
 import ArrowRightLong from "components/icons/arrow-right-long";
 
-const Card = ({ className = "", component, children, ...props }) => {
+export default ({ className = "", component, children, ...props }) => {
   const LinkComponent = component;
   return (
     <LinkComponent
@@ -13,5 +13,3 @@ const Card = ({ className = "", component, children, ...props }) => {
     </LinkComponent>
   );
 };
-
-export default Card;
