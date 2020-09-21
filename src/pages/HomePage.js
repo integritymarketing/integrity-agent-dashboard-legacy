@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
@@ -49,7 +50,9 @@ const SSOButtonWithModal = ({ ...props }) => {
           </a>
         </div>
         <div className="mb-3">
-          <p className="text-body text-body--large">or</p>
+          <p className="text-body text-body--large text-bold text-hr text-hr--dark text-hr--short">
+            OR
+          </p>
         </div>
         <div className="pt-1 mb-2">
           <p className="text-body text-body--large">
@@ -77,6 +80,9 @@ export default () => {
   console.log(userProfile);
   return (
     <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Dashboard</title>
+      </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">
@@ -113,7 +119,7 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <a
+                {/* <a
                   href={encodeURI(
                     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${userProfile.npn}/${userProfile.email}`
                   )}
@@ -122,7 +128,16 @@ export default () => {
                   )}`}
                 >
                   Medicare Supplement
-                </a>
+                </a> */}
+                <button
+                  type="button"
+                  disabled
+                  className={`btn btn--invert ${analyticsService.clickClass(
+                    "medicaresupplement-button"
+                  )}`}
+                >
+                  Medicare Supplement
+                </button>
               </div>
             </div>
 

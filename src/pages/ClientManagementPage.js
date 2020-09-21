@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { Helmet } from "react-helmet";
 import { Formik } from "formik";
 import dateFnsFormat from "date-fns/format";
 import Container from "components/ui/container";
@@ -99,6 +100,9 @@ export default () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Client Management</title>
+      </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">
@@ -123,7 +127,7 @@ export default () => {
         <Container className="mt-scale-3">
           {clientList.length > 0 ? (
             <React.Fragment>
-              <div className="toolbar">
+              <div className="toolbar toolbar--stack">
                 <span className="mr-3">
                   <span className="text-bold">{totalClients}</span>
                   <span> Clients</span>
@@ -138,7 +142,7 @@ export default () => {
                   Add New
                 </button>
 
-                <div className="toolbar__right">
+                <div className="toolbar__aux">
                   <SelectMenu
                     name="sort"
                     id="cm-sort"
@@ -179,7 +183,7 @@ export default () => {
                         >
                           {displayName}
                         </div>
-                        <div className="toolbar__right text-brand">
+                        <div className="toolbar__aux text-brand">
                           <button
                             type="button"
                             className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
@@ -190,7 +194,7 @@ export default () => {
                             <span className="visually-hidden">
                               Edit {displayName}
                             </span>
-                            <EditIcon style={{ "pointer-events": "none" }} />
+                            <EditIcon style={{ pointerEvents: "none" }} />
                           </button>
                         </div>
                       </div>

@@ -118,7 +118,7 @@ class authService {
 
   signinRedirect = () => {
     localStorage.setItem("redirectUri", window.location.pathname);
-    this.UserManager.signinRedirect({});
+    return this.UserManager.signinRedirect({});
   };
 
   isAuthenticated = () => {

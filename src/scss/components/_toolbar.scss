@@ -2,8 +2,21 @@
   display: flex;
   align-items: center;
 
-  &__right {
+  &__aux {
     padding-left: 1rem;
     margin-left: auto;
+  }
+
+  @media (max-width: 599px) {
+    &--stack {
+      flex-wrap: wrap;
+
+      > .toolbar__aux {
+        flex-basis: 100%;
+        margin-top: 1rem;
+        padding-left: 0;
+        margin-left: 0;
+      }
+    }
   }
 }

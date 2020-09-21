@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "components/functional/router";
 import { Route, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 // the following routes (beginning w/ Server*) are configured in IdentityServer
 // and are redirected to for each common auth situation
@@ -30,6 +31,9 @@ import authService from "services/authService";
 const AuthApp = () => {
   return (
     <Router>
+      <Helmet>
+        <title>MedicareCENTER</title>
+      </Helmet>
       <div className="content-frame">
         <Switch>
           <Route exact path="/login">

@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Container from "components/ui/container";
 import LineItem from "components/ui/line-item";
 import GlobalNav from "partials/global-nav";
@@ -32,6 +33,9 @@ const categoryDict = createDictBy(resourceData.categories, "id");
 export default () => {
   return (
     <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Learning Center</title>
+      </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
         <Container className="scaling-header">
@@ -96,7 +100,7 @@ export default () => {
             header={({ isExpanded, toggleAll }) => (
               <div className="toolbar mb-4">
                 <h3 className="hdg hdg--3">All Resources</h3>
-                <div className="toolbar__right text-body sf-hide">
+                <div className="toolbar__aux text-body sf-hide">
                   <button className="link" onClick={toggleAll}>
                     {isExpanded ? "Collapse All" : "Expand All"}
                   </button>
