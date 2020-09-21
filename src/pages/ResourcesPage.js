@@ -100,7 +100,7 @@ export default () => {
             header={({ isExpanded, toggleAll }) => (
               <div className="toolbar mb-4">
                 <h3 className="hdg hdg--3">All Resources</h3>
-                <div className="toolbar__right text-body sf-hide">
+                <div className="toolbar__aux text-body sf-hide">
                   <button className="link" onClick={toggleAll}>
                     {isExpanded ? "Collapse All" : "Expand All"}
                   </button>

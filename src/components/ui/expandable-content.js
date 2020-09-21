@@ -49,7 +49,7 @@ export default ({ header, sections = [], ...props }) => {
                   <span className="mr-1">{item.title}</span>{" "}
                   <span className="text-bold text-brand">{item.numItems}</span>
                 </span>
-                <div className="toolbar__right">
+                <div className="toolbar__aux">
                   <button
                     type="button"
                     className="icon-btn"
