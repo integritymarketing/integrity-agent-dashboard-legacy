@@ -49,7 +49,9 @@ const SSOButtonWithModal = ({ ...props }) => {
           </a>
         </div>
         <div className="mb-3">
-          <p className="text-body text-body--large">or</p>
+          <p className="text-body text-body--large text-bold text-hr text-hr--dark text-hr--short">
+            OR
+          </p>
         </div>
         <div className="pt-1 mb-2">
           <p className="text-body text-body--large">
