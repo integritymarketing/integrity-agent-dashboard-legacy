@@ -8,14 +8,14 @@ import { InvertedTextfield } from "components/ui/textfield";
 import validationService from "services/validationService";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
-import useParams from "hooks/useParams";
+import useQueryParams from "hooks/useQueryParams";
 import LockIcon from "components/icons/lock";
 import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
   const loading = useLoading();
-  const params = useParams();
+  const params = useQueryParams();
 
   useEffect(() => {
     const checkIfValidToken = async () => {
