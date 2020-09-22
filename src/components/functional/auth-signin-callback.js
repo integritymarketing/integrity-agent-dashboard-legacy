@@ -1,11 +1,12 @@
-import React from "react";
+import { useEffect, useContext } from "react";
 import AuthContext from "contexts/auth";
 
-export default () => (
-  <AuthContext.Consumer>
-    {({ signinRedirectCallback }) => {
-      signinRedirectCallback();
-      return "";
-    }}
-  </AuthContext.Consumer>
-);
+export default () => {
+  const auth = useContext(AuthContext);
+
+  useEffect(() => {
+    auth.signinRedirectCallback();
+  }, [auth]);
+
+  return "";
+};
