@@ -40,11 +40,6 @@ export default () => {
         <GlobalNav />
         <Container className="scaling-header">
           <h2 className="hdg hdg--1">Learning Center</h2>
-
-          <div className="text-body mt-1">
-            Explore resources designed to help you meet client needs and grow
-            your business
-          </div>
         </Container>
       </div>
       <div className="bg-high-contrast">
