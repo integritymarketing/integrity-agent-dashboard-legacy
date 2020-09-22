@@ -322,6 +322,11 @@ export default () => {
                           emailPhoneValidator,
                         ]),
                       },
+                      {
+                        name: "followUpDate",
+                        validator: validationService.validateDate,
+                        args: ["Follow Up date"],
+                      },
                     ],
                     values
                   );
