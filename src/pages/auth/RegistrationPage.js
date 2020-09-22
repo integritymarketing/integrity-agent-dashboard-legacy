@@ -42,6 +42,7 @@ export default () => {
               FirstName: "",
               LastName: "",
               NPN: "",
+              Phone: "",
               Email: "",
               EmailRepeat: "",
               Password: "",
@@ -64,6 +65,10 @@ export default () => {
                     name: "NPN",
                     validator: validationService.validateRequired,
                     args: ["NPN Number"],
+                  },
+                  {
+                    name: "Phone",
+                    validator: validationService.validatePhone,
                   },
                   {
                     name: "Email",
@@ -174,6 +179,24 @@ export default () => {
                       return handleBlur(e);
                     }}
                     error={(touched.NPN && errors.NPN) || errors.Global}
+                  />
+                  <InvertedTextfield
+                    id="register-phone"
+                    label="Phone Number"
+                    type="tel"
+                    icon={<NumberIcon />}
+                    placeholder="Enter your Phone Number"
+                    name="Phone"
+                    value={values.Phone}
+                    onChange={handleChange}
+                    onBlur={(e) => {
+                      analyticsService.fireEvent("leaveField", {
+                        field: "phoneNumber",
+                        formName: "registration",
+                      });
+                      return handleBlur(e);
+                    }}
+                    error={(touched.Phone && errors.Phone) || errors.Global}
                   />
                   <InvertedTextfield
                     id="register-email"

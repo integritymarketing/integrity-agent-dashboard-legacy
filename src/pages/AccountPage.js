@@ -11,9 +11,18 @@ import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import authService from "services/authService";
 
+const formatPhoneNumber = (phoneNumberString) => {
+  const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    return `${match[1]}-${match[2]}-${match[3]}`;
+  }
+  return null;
+};
+
 export default () => {
   const userProfile = useUserProfile();
-  const { firstName, lastName, npn, email } = userProfile;
+  const { firstName, lastName, npn, email, phone } = userProfile;
   const { show: showMessage } = useFlashMessage();
   const loading = useLoading();
 
@@ -36,6 +45,7 @@ export default () => {
               initialValues={{
                 firstName,
                 lastName,
+                phone: phone ? formatPhoneNumber(phone) : "",
                 npn,
                 email,
               }}
@@ -51,6 +61,10 @@ export default () => {
                       name: "lastName",
                       validator: validationService.validateRequired,
                       args: ["Last Name"],
+                    },
+                    {
+                      name: "phone",
+                      validator: validationService.validatePhone,
                     },
                     {
                       name: "email",
@@ -130,6 +144,17 @@ export default () => {
                       name="npn"
                       value={values.npn}
                       readOnly
+                    />
+                    <Textfield
+                      id="account-phone"
+                      label="Phone Number"
+                      type="tel"
+                      placeholder="Enter your Phone Number"
+                      name="phone"
+                      value={values.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={(touched.phone && errors.phone) || errors.Global}
                     />
                     <Textfield
                       id="account-email"
