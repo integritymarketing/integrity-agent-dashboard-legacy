@@ -10,7 +10,7 @@ export default ({
 }) => {
   return (
     <a
-      rel="nofollow noreferrer"
+      rel="noopener noreferrer"
       className={`line-item ${className}`}
       {...props}
     >

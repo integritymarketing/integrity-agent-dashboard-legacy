@@ -30,6 +30,8 @@ const SSOButtonWithModal = ({ ...props }) => {
             Access previous MedicareCENTER features and more, or access{" "}
             <a
               href="https://integrity-ppc.destinationrx.com/PlanCompare/2020/professional/type1/Compare/Home"
+              target="_blank"
+              rel="noopener noreferrer"
               className="link link--force-underline"
             >
               MedicareCENTER 2020
@@ -42,6 +44,8 @@ const SSOButtonWithModal = ({ ...props }) => {
             href={
               process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
             }
+            target="_blank"
+            rel="noopener noreferrer"
             className={`btn btn--no-upper ${analyticsService.clickClass(
               "connecture-button"
             )}`}
@@ -63,6 +67,8 @@ const SSOButtonWithModal = ({ ...props }) => {
         <div className="text-body">
           <a
             href={process.env.REACT_APP_SUNFIRE_SSO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className={`btn btn--no-upper ${analyticsService.clickClass(
               "sunfire-button"
             )}`}
@@ -132,6 +138,8 @@ export default () => {
                   href={encodeURI(
                     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${userProfile.npn}/${userProfile.email}`
                   )}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`btn btn--invert ${analyticsService.clickClass(
                     "medicaresupplement-button"
                   )}`}
