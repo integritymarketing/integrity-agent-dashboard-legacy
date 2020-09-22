@@ -5,7 +5,7 @@ import GlobalNav from "partials/global-nav";
 import SimpleFooter from "partials/simple-footer";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
-import useParams from "hooks/useParams";
+import useQueryParams from "hooks/useQueryParams";
 
 const useHelpLinkWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -37,7 +37,7 @@ const getMessageForCode = (code) => {
 
 export default () => {
   const [HelpLink, HelpModal] = useHelpLinkWithModal();
-  const params = useParams();
+  const params = useQueryParams();
   const errorMessage = getMessageForCode(params.get("code"));
 
   return (

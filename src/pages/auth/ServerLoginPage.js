@@ -9,7 +9,7 @@ import { InvertedTextfield } from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
-import useParams from "hooks/useParams";
+import useQueryParams from "hooks/useQueryParams";
 import NumberIcon from "components/icons/number";
 import LockIcon from "components/icons/lock";
 import analyticsService from "services/analyticsService";
@@ -18,7 +18,7 @@ import authService from "services/authService";
 export default () => {
   const loading = useLoading();
   const history = useHistory();
-  const params = useParams();
+  const params = useQueryParams();
 
   return (
     <React.Fragment>

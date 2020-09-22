@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
-import useParams from "hooks/useParams";
+import useQueryParams from "hooks/useQueryParams";
 
 export default ({ resendFn, btnClass = "" }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const params = useParams();
+  const params = useQueryParams();
 
   if (emailError) {
     return (

@@ -1,12 +1,12 @@
 import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
-import useParams from "hooks/useParams";
+import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
 
 export default () => {
   const history = useHistory();
-  const params = useParams();
+  const params = useQueryParams();
 
   const handleResendForgotPasswordEmail = async () => {
     const npn = params.get("npn");

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import useParams from "hooks/useParams";
+import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
 
 export default () => {
   useEffect(() => {
-    const params = useParams();
+    const params = useQueryParams();
     const handleLogout = async () => {
       const response = await authService.logoutUser(params.get("logoutId"));
       const data = await response.json();

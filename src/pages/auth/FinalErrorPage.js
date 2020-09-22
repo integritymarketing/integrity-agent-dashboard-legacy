@@ -1,9 +1,9 @@
 import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
-import useParams from "hooks/useParams";
+import useQueryParams from "hooks/useQueryParams";
 
 export default () => {
-  const params = useParams();
+  const params = useQueryParams();
 
   let body = params.get("message") || "Something went wrong, please try again.";
 
