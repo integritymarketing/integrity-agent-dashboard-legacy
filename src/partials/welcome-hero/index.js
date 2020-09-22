@@ -40,9 +40,8 @@ const WelcomeHero = () => {
           Welcome to MedicareCENTER
         </h2>
         <p className="welcomeHero__content mb-scale-2">
-          All the tools and resources you need to succeed are here. Get quotes,
-          compare plans, submit applications, manage clients and more from your
-          laptop, tablet or Smartphone.
+          A powerful new platform with all you need to increase production this
+          upcoming AEP – enrollment tools, CRM, Learning Center and more!
         </p>
 
         <p className="welcomeHero__content mb-scale-2">
