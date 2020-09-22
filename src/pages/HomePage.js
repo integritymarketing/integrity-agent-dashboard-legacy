@@ -77,7 +77,6 @@ const SSOButtonWithModal = ({ ...props }) => {
 
 export default () => {
   const userProfile = useUserProfile();
-  console.log(userProfile);
   return (
     <React.Fragment>
       <Helmet>

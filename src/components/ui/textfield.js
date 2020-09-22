@@ -6,14 +6,15 @@ import PasswordHideIcon from "components/icons/password-hide";
 
 // https://react-day-picker.js.org/api/DayPickerInput
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import dateFnsFormat from "date-fns/format";
 import dateFnsParse from "date-fns/parse";
+import isDate from "date-fns/isDate";
 
 function parseDate(str, format, locale) {
+  if (str.length < 10) return undefined; // don't parse before full date
   const parsed = dateFnsParse(str, format, new Date(), { locale });
-  if (DateUtils.isDate(parsed)) {
+  if (isDate(parsed)) {
     return parsed;
   }
   return undefined;
@@ -120,7 +121,9 @@ const Textfield = ({
             format={"MM/dd/yyyy"}
             parseDate={parseDate}
             onDayChange={(selectedDay, modifiers, dayPickerInput) => {
-              onDateChange(selectedDay);
+              if (selectedDay) {
+                onDateChange(selectedDay);
+              }
             }}
             {...dayPickerConfig}
             inputProps={inputElementProps}

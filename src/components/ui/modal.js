@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import ExitIcon from "components/icons/exit";
 import PageCard from "components/ui/page-card";
 import Container from "components/ui/container";
@@ -10,6 +10,7 @@ export default ({
   children,
   ...props
 }) => {
+  const scrollRef = useRef(null);
   // close window on ESC
   useEffect(() => {
     const onKeydown = (event) => {
@@ -24,6 +25,9 @@ export default ({
   // disable scroll when open
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", open);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo(0, 0);
+    }
 
     return () => document.body.classList.remove("disable-scroll");
   }, [open]);
@@ -39,7 +43,7 @@ export default ({
       }}
     >
       <Container size={wide ? "wide" : "medium"}>
-        <PageCard className="modal__card">
+        <PageCard className="modal__card" scrollRef={scrollRef}>
           {onClose && (
             <div className="modal__header">
               <button className="modal__exit icon-btn" onClick={onClose}>

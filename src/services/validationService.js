@@ -1,3 +1,6 @@
+import dateFnsParse from "date-fns/parse";
+import isDate from "date-fns/isDate";
+
 class ValidationService {
   validateRequired = (field, label = "Field") => {
     if (!field) {
@@ -61,6 +64,14 @@ class ValidationService {
       return `${label} must be a valid phone number`;
     }
 
+    return null;
+  };
+
+  validateDate = (dateStr, label = "Date") => {
+    const parsed = dateFnsParse(dateStr, "MM/dd/yyyy", new Date());
+    if (dateStr && (dateStr.length < 10 || !isDate(parsed))) {
+      return `${label} must use the format MM/DD/YYYY`;
+    }
     return null;
   };
 

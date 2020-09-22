@@ -7,10 +7,11 @@ export default ({
   link = null,
   header = null,
   footer = null,
+  scrollRef = null,
   ...props
 }) => {
   return (
-    <Card className={`card--page ${className}`} {...props}>
+    <Card className={`card--page ${className}`} ref={scrollRef} {...props}>
       {link && <div className="card--page__link text-muted">{link}</div>}
       <div className="card--page__header">{header}</div>
       {children}
