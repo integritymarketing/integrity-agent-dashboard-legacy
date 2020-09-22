@@ -81,7 +81,15 @@ export default () => {
                 setSubmitting(true);
                 loading.begin(0);
 
-                let response = await authService.updateAccountMetadata(values);
+                const formattedValues = Object.assign({}, values, {
+                  phone: values.phone
+                    ? `${values.phone}`.replace(/\D/g, "")
+                    : "",
+                });
+
+                let response = await authService.updateAccountMetadata(
+                  formattedValues
+                );
                 if (response.status >= 200 && response.status < 300) {
                   // fetch a new access token w/ updated meta
                   await authService.signinSilent();

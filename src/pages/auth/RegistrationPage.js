@@ -102,7 +102,11 @@ export default () => {
               setSubmitting(true);
               loading.begin();
 
-              const response = await authService.registerUser(values);
+              const formattedValues = Object.assign({}, values, {
+                Phone: values.Phone ? `${values.Phone}`.replace(/\D/g, "") : "",
+              });
+
+              const response = await authService.registerUser(formattedValues);
 
               setSubmitting(false);
               loading.end();
