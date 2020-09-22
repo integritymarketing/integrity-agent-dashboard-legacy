@@ -82,14 +82,19 @@ button {
 }
 
 .bg-photo {
+  --bg-photo-default-src-800: url(../images/optimized/bg-default-800.jpg);
+  --bg-photo-default-src-1440: url(../images/optimized/bg-default-1440.jpg);
+  --bg-photo-default-src-1920: url(../images/optimized/bg-default-1920.jpg);
+  --bg-photo-default-vert-anchor: 25%;
   --bg-photo-gradient: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.8) 0%,
     rgba(0, 0, 0, 0.6) 100%
   );
-  background: var(--invert-bg-color) center 25% no-repeat;
+  background: var(--invert-bg-color) center
+    var(--bg-photo-vert-anchor, var(--bg-photo-default-vert-anchor)) no-repeat;
   background-image: var(--bg-photo-gradient),
-    url(../images/optimized/bg-default-800.jpg);
+    var(--bg-photo-src-800, var(--bg-photo-default-src-800));
   background-size: cover;
 
   // retina > 500px or standard > 1000px
@@ -97,7 +102,7 @@ button {
     (min-resolution: 192dpi) and (min-width: 500px),
     (min-width: 1000px) {
     background-image: var(--bg-photo-gradient),
-      url(../images/optimized/bg-default-1440.jpg);
+      var(--bg-photo-src-1440, var(--bg-photo-default-src-1440));
   }
 
   // retina > 900px or standard > 1600px
@@ -105,8 +110,15 @@ button {
     (min-resolution: 192dpi) and (min-width: 900px),
     (min-width: 1600px) {
     background-image: var(--bg-photo-gradient),
-      url(../images/optimized/bg-default-1920.jpg);
+      var(--bg-photo-src-1920, var(--bg-photo-default-src-1920));
   }
+}
+
+.bg-photo--alt {
+  --bg-photo-src-800: url(../images/optimized/bg-client-management-800.jpg);
+  --bg-photo-src-1440: url(../images/optimized/bg-client-management-1440.jpg);
+  --bg-photo-src-1920: url(../images/optimized/bg-client-management-1920.jpg);
+  --bg-photo-vert-anchor: 50%;
 }
 
 .bg-img-fixed {
