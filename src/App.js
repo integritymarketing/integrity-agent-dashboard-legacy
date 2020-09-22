@@ -10,6 +10,7 @@ import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
 import ClientManagementPage from "pages/ClientManagementPage";
 import NotFoundPage from "pages/NotFound";
+import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
 import WelcomePage from "pages/WelcomePage";
@@ -67,6 +68,9 @@ const App = () => {
             <Route path="/signin-oidc" component={AuthSigninCallback} />
             <Route path="/signout-oidc" component={AuthSignoutCallback} />
 
+            <Route path="/error">
+              <ErrorPage />
+            </Route>
             <Route path="*">
               <NotFoundPage />
             </Route>
