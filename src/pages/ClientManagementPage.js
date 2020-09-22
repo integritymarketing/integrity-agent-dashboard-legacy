@@ -518,6 +518,7 @@ export default () => {
                       <Textfield
                         id="cm-edit-followup"
                         type="date"
+                        autoComplete="off"
                         label="Follow Up"
                         placeholder="MM/DD/YYYY"
                         name="followUpDate"
