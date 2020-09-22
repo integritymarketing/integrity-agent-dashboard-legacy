@@ -11,6 +11,15 @@ const images = [
       path.resolve(__dirname, `../src/images/optimized/bg-default-${size}.jpg`),
     sizes: [800, 1440, 1920],
   },
+  {
+    inPath: path.resolve(__dirname, `../src/images/bg-client-management.jpg`),
+    outPath: (size) =>
+      path.resolve(
+        __dirname,
+        `../src/images/optimized/bg-client-management-${size}.jpg`
+      ),
+    sizes: [800, 1440, 1920],
+  },
   ...[
     "carrier-guides",
     "health-solutions",

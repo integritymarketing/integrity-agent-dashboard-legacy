@@ -103,7 +103,7 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Client Management</title>
       </Helmet>
-      <div className="bg-photo text-invert">
+      <div className="bg-photo bg-photo--alt text-invert">
         <GlobalNav />
         <Container className="scaling-header">
           <h2 className="hdg hdg--1">Client Management</h2>
