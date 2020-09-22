@@ -32,10 +32,10 @@ const RegisterButton = (props) => {
 };
 
 const WelcomeHero = () => {
-  const hideLogin = !!process.env.REACT_APP_HIDE_LOGIN;
+  const hideLogin = parseInt(process.env.REACT_APP_HIDE_LOGIN, 10);
 
   const getHeroCTA = () => {
-    if (hideLogin) {
+    if (hideLogin === 1) {
       return (
         <div className="hide-login">
           <a
