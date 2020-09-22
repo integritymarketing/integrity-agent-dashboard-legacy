@@ -1,11 +1,12 @@
-import React from "react";
+import { useEffect, useContext } from "react";
 import AuthContext from "contexts/auth";
 
-export default () => (
-  <AuthContext.Consumer>
-    {({ signinSilentCallback }) => {
-      signinSilentCallback();
-      return "";
-    }}
-  </AuthContext.Consumer>
-);
+export default () => {
+  const auth = useContext(AuthContext);
+
+  useEffect(() => {
+    auth.signinSilentCallback();
+  }, [auth]);
+
+  return "";
+};
