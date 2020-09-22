@@ -11,6 +11,7 @@ An agent portal implemented using React and [Create React App](https://create-re
   - [Key Libraries & Frameworks](#key-libraries--frameworks)
   - [Coding Standards](#coding-standards)
   - [Contributions](#contributions)
+  - [Known Issues](#known-issues)
 - [Project Structure](#project-structure)
 - [Automated Testing](#automated-testing)
 - [Releases](#releases)
@@ -51,6 +52,10 @@ This project is built on a few fundamental libraries & frameworks and assumes a 
   `bugfix/title-of-fix`
 
   When all tests are passing and code is ready for review, submit a pull request with a brief description + reference to the item you are working on from the backlog (eg, `this closes #12`)
+
+### Known Issues
+
+- `react-helmet` [#548](https://github.com/nfl/react-helmet/issues/548): There is a console error warning about UNSAFE_componentWillMount in strict mode.
 
 ## Project Structure
 
