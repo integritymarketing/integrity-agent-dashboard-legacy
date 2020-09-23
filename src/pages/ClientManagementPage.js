@@ -20,6 +20,31 @@ import validationService from "services/validationService";
 import Textfield from "components/ui/textfield";
 import analyticsService from "services/analyticsService";
 import clientsService from "services/clientsService";
+import NewIcon from "images/lead-status/Status-New.svg";
+import OpenIcon from "images/lead-status/Status-Open.svg";
+import QuotedIcon from "images/lead-status/Status-Quoted.svg";
+import SOASentIcon from "images/lead-status/Status-SOA-Sent.svg";
+import SOASignedIcon from "images/lead-status/Status-SOA-Signed.svg";
+import AppliedIcon from "images/lead-status/Status-Applied.svg";
+import EnrolledIcon from "images/lead-status/Status-Enrolled.svg";
+import ClosedLostIcon from "images/lead-status/Status-Closed-Lost.svg";
+import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Interested.svg";
+import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
+import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
+
+const LEAD_ICONS = {
+  1: NewIcon,
+  2: OpenIcon,
+  3: QuotedIcon,
+  4: SOASentIcon,
+  5: SOASignedIcon,
+  6: AppliedIcon,
+  7: EnrolledIcon,
+  8: ClosedLostIcon,
+  9: ClosedNotInterestedIcon,
+  10: ClosedIneligibleIcon,
+  11: ClosedOtherIcon,
+};
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -216,16 +241,17 @@ export default () => {
                       <div className="keyval-list text-body">
                         <div className="keyval-list__item mt-3">
                           <div className="text-bold">Status</div>
-                          <StatusField
-                            status={
-                              client.statusName.includes("Closed")
-                                ? STATUS_NEGATIVE
-                                : STATUS_POSITIVE
-                            }
-                          >
+                          <div className="icon-label">
+                            {LEAD_ICONS[client.leadStatusId] ? (
+                              <img
+                                src={LEAD_ICONS[client.leadStatusId]}
+                                alt=""
+                                height="20"
+                                className="mr-1"
+                              />
+                            ) : null}
                             {client.statusName}
-                          </StatusField>
-                          <div></div>
+                          </div>
                         </div>
                         <div className="keyval-list__item mt-3">
                           <div className="text-bold">Follow-Up</div>
