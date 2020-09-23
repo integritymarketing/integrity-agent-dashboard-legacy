@@ -536,7 +536,7 @@ export default () => {
                       <Textfield
                         id="cm-edit-product"
                         label="Product"
-                        placeholder="Enter primary product"
+                        placeholder="Enter Primary Product"
                         name="product"
                         maxLength="40"
                         value={values.product}
