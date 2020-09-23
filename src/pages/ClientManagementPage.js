@@ -329,15 +329,16 @@ export default () => {
             {stagedClient && (
               <Formik
                 initialValues={{
-                  firstName: stagedClient.firstName,
-                  lastName: stagedClient.lastName,
+                  firstName: stagedClient.firstName || "",
+                  lastName: stagedClient.lastName || "",
                   leadStatusId: stagedClient.leadStatusId,
-                  email: stagedClient.email,
+                  email: stagedClient.email || "",
                   phone: formatPhoneNumber(stagedClient.phone) || "",
                   followUpDate: stagedClient.followUpDate
                     ? formatDate(stagedClient.followUpDate)
                     : "",
                   postalCode: stagedClient.postalCode || "",
+                  product: stagedClient.product || "",
                   notes: stagedClient.notes,
                 }}
                 validate={(values) => {
@@ -530,6 +531,24 @@ export default () => {
                         error={
                           (touched.postalCode && errors.postalCode) ||
                           errors.Global
+                        }
+                      />
+                      <Textfield
+                        id="cm-edit-product"
+                        label="Product"
+                        placeholder="Enter primary product"
+                        name="product"
+                        maxLength="40"
+                        value={values.product}
+                        onChange={handleChange}
+                        onBlur={(e) => {
+                          analyticsService.fireEvent("contactCard", {
+                            field: "product",
+                          });
+                          return handleBlur(e);
+                        }}
+                        error={
+                          (touched.product && errors.product) || errors.Global
                         }
                       />
                       <SelectMenu

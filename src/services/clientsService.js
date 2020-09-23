@@ -50,6 +50,7 @@ class ClientsService {
       postalCode: "",
       notes: "",
       followUpDate: "",
+      product: "",
       leadStatusId: 1,
       statusName: "New",
     };
