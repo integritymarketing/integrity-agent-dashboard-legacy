@@ -1,27 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
-import AuthContext from "contexts/auth";
-import useFlashMessage from "hooks/useFlashMessage";
 import IconArrowRightLong from "components/icons/arrow-right-long";
-
+import LoginLink from "components/ui/login-link";
 import "./index.scss";
-
-const LoginLink = (props) => {
-  const auth = useContext(AuthContext);
-  const { show: showMessage } = useFlashMessage();
-
-  const login = async () => {
-    try {
-      await auth.signinRedirect();
-    } catch (e) {
-      console.error("sign in error", e);
-      showMessage("Unable to sign in at this time.", { type: "error" });
-    }
-  };
-
-  return <button type="button" onClick={login} {...props}></button>;
-};
 
 const RegisterButton = (props) => {
   return (

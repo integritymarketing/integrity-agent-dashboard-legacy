@@ -104,10 +104,28 @@ class authService {
     };
   }
 
+  handleSigninRedirectCallbackError = (error) => {
+    console.error("signinRedirectCallback Failed.");
+    console.error(error);
+    this.UserManager.clearStaleState();
+    localStorage.clear();
+    window.location.replace("/error?code=login_callback_error");
+    return false;
+  };
+
   signinRedirectCallback = () => {
-    this.UserManager.signinRedirectCallback().then(() => {
-      Log.debug("authService: signin redirect complete");
-    });
+    try {
+      this.UserManager.signinRedirectCallback()
+        .then((user) => {
+          Log.debug("authService: signin redirect complete");
+        })
+        .catch((error) => {
+          this.handleSigninRedirectCallbackError(error);
+        });
+    } catch (error) {
+      console.error("signinRedirectCallback Failed in try catch.");
+      this.handleSigninRedirectCallbackError(error);
+    }
   };
 
   parseJwt = (token) => {
