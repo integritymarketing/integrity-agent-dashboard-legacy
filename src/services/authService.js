@@ -112,7 +112,6 @@ class authService {
           Log.debug("authService: signin redirect complete");
         })
         .catch((error) => {
-          Log.error("authService: signinRedirectCallback failed in promise.");
           Sentry.captureException(error, () => {
             this.UserManager.clearStaleState();
             localStorage.clear();
@@ -120,7 +119,6 @@ class authService {
           });
         });
     } catch (error) {
-      Log.error("authService: signinRedirectCallback failed in try catch.");
       Sentry.captureException(error, () => {
         this.UserManager.clearStaleState();
         localStorage.clear();

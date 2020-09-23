@@ -7,8 +7,8 @@ export default () => {
   const history = useHistory();
 
   useEffect(() => {
-    let success = auth.signinRedirectCallback();
-    if (!success) {
+    let res = auth.signinRedirectCallback();
+    if (res === false) {
       history.replace("/error?code=login_callback_error");
     }
   }, [auth, history]);
