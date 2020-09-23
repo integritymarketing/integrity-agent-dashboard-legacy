@@ -49,7 +49,7 @@ const AuthApp = () => {
           <Route exact path="/register">
             <RegistrationPage />
           </Route>
-          <Route exact path="/registration-check-email">
+          <Route exact path="/registration-email-sent">
             <RegistrationCheckEmailPage />
           </Route>
           <Route exact path="/confirm-email">

@@ -23,7 +23,7 @@ export default ({ footer, title, body = null, button = defaultButton() }) => {
         <h1 className="hdg hdg--2 mb-1">{title}</h1>
         {body && <p className="text-body mb-4">{body}</p>}
 
-        <div>{button}</div>
+        {button && <div>{button}</div>}
         {footer}
       </Container>
       <SimpleFooter className="global-footer--simple" />
