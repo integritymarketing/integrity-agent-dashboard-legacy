@@ -10,6 +10,11 @@ import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import authService from "services/authService";
+import LockIcon from "components/icons/lock";
+import NumberIcon from "components/icons/number";
+import MailIcon from "components/icons/mail";
+import ProfileIcon from "components/icons/profile";
+import PhoneIcon from "components/icons/phone";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -128,6 +133,7 @@ export default () => {
                     <Textfield
                       id="account-fname"
                       label="First Name"
+                      icon={<ProfileIcon />}
                       placeholder={"Enter your first name"}
                       name="firstName"
                       value={values.firstName}
@@ -138,6 +144,7 @@ export default () => {
                     <Textfield
                       id="account-lname"
                       label="Last Name"
+                      icon={<ProfileIcon />}
                       placeholder="Enter your last name"
                       name="lastName"
                       value={values.lastName}
@@ -148,6 +155,7 @@ export default () => {
                     <Textfield
                       id="account-npn"
                       label="NPN Number"
+                      icon={<NumberIcon />}
                       placeholder="Enter your NPN Number"
                       name="npn"
                       value={values.npn}
@@ -156,6 +164,7 @@ export default () => {
                     <Textfield
                       id="account-phone"
                       label="Phone Number"
+                      icon={<PhoneIcon />}
                       type="tel"
                       placeholder="Enter your Phone Number"
                       name="phone"
@@ -168,6 +177,7 @@ export default () => {
                       id="account-email"
                       type="email"
                       label="Email Address"
+                      icon={<MailIcon />}
                       placeholder="Enter your email address"
                       name="email"
                       value={values.email}
@@ -257,6 +267,7 @@ export default () => {
                       id="account-password-current"
                       type="password"
                       label="Current Password"
+                      icon={<LockIcon />}
                       placeholder="Enter your current password"
                       name="currentPassword"
                       value={values.currentPassword}
@@ -271,6 +282,7 @@ export default () => {
                       id="account-password"
                       type="password"
                       label="Create New Password"
+                      icon={<LockIcon />}
                       placeholder="Create a new password"
                       name="newPassword"
                       value={values.newPassword}
@@ -300,6 +312,7 @@ export default () => {
                       id="account-password-verify"
                       type="password"
                       label="Re-enter New Password"
+                      icon={<LockIcon />}
                       placeholder="Re-enter your new password"
                       name="confirmPassword"
                       value={values.confirmPassword}
