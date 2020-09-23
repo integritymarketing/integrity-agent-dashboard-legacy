@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
@@ -6,6 +6,7 @@ import SimpleFooter from "partials/simple-footer";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import useQueryParams from "hooks/useQueryParams";
+import AuthContext from "contexts/auth";
 
 const useHelpLinkWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,12 +31,15 @@ const getMessageForCode = (code) => {
   switch (code) {
     case "third_party_notauthorized":
       return "We were unable to connect you to this service over SSO.";
+    case "login_callback_error":
+      return "But something went wrong during the login process.";
     default:
       return "But something went wrong";
   }
 };
 
 export default () => {
+  const auth = useContext(AuthContext);
   const [HelpLink, HelpModal] = useHelpLinkWithModal();
   const params = useQueryParams();
   const errorMessage = getMessageForCode(params.get("code"));
@@ -49,13 +53,20 @@ export default () => {
         <p className="text-body text-body--large mb-4">
           {errorMessage}
           <br />
-          Please <HelpLink>contact support</HelpLink> for further assistance.
+          Please try again or <HelpLink>contact support</HelpLink> for further
+          assistance.
         </p>
 
         <div>
-          <Link className="btn btn--invert" to="/home">
-            Go To Dashboard
-          </Link>
+          {auth.isAuthenticated() ? (
+            <Link className="btn btn--invert" to="/home">
+              Go To Dashboard
+            </Link>
+          ) : (
+            <Link className="btn btn--invert" to="/">
+              Home
+            </Link>
+          )}
         </div>
         <HelpModal />
       </Container>
