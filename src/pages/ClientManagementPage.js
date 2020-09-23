@@ -98,6 +98,21 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentPage]);
 
+  const scrollToErrors = () => {
+    setTimeout(() => {
+      if (!modalFormRef.current) return;
+      const firstError = modalFormRef.current.querySelector(
+        ".form-input__error:not(:empty)"
+      );
+      if (firstError) {
+        firstError.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }, 100);
+  };
+
   return (
     <React.Fragment>
       <Helmet>
@@ -333,18 +348,7 @@ export default () => {
 
                   if (Object.keys(errors).length) {
                     // wait for validation error to show before scrolling
-                    setTimeout(() => {
-                      if (!modalFormRef.current) return;
-                      const firstError = modalFormRef.current.querySelector(
-                        ".form-input__error:not(:empty)"
-                      );
-                      if (firstError) {
-                        firstError.scrollIntoView({
-                          behavior: "smooth",
-                          block: "center",
-                        });
-                      }
-                    }, 100);
+                    scrollToErrors();
                   }
 
                   return errors;
@@ -377,7 +381,18 @@ export default () => {
                     await getCurrentPage();
                   } else {
                     const errorsArr = await response.json();
-                    setErrors(validationService.formikErrorsFor(errorsArr));
+                    if (
+                      response.status === 400 &&
+                      errorsArr === "Duplicate Email Address"
+                    ) {
+                      setErrors({
+                        email:
+                          "A record already exists associated to that email address",
+                      });
+                    } else {
+                      setErrors(validationService.formikErrorsFor(errorsArr));
+                    }
+                    scrollToErrors();
                   }
                 }}
               >
