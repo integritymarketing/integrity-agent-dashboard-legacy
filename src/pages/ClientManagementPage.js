@@ -196,7 +196,7 @@ export default () => {
                     <Card key={client.leadsId}>
                       <div className="toolbar pb-2 border-bottom border-bottom--light">
                         <div
-                          className={`hdg hdg--4 ${
+                          className={`hdg hdg--4 text-truncate ${
                             namedClient ? "" : "text-muted"
                           }`}
                         >
