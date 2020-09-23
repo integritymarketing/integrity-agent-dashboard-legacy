@@ -124,6 +124,13 @@
   }
 }
 
+.text-truncate {
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
 // Small Form Factor Utils
 @media (max-width: 767px) {
   .sf-text-center {

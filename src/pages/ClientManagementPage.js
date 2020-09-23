@@ -16,6 +16,10 @@ import validationService from "services/validationService";
 import Textfield from "components/ui/textfield";
 import analyticsService from "services/analyticsService";
 import clientsService from "services/clientsService";
+import LocationIcon from "components/icons/location";
+import MailIcon from "components/icons/mail";
+import ProfileIcon from "components/icons/profile";
+import PhoneIcon from "components/icons/phone";
 import NewIcon from "images/lead-status/Status-New.svg";
 import OpenIcon from "images/lead-status/Status-Open.svg";
 import QuotedIcon from "images/lead-status/Status-Quoted.svg";
@@ -213,7 +217,7 @@ export default () => {
                     <Card key={client.leadsId}>
                       <div className="toolbar pb-2 border-bottom border-bottom--light">
                         <div
-                          className={`hdg hdg--4 ${
+                          className={`hdg hdg--4 text-truncate ${
                             namedClient ? "" : "text-muted"
                           }`}
                         >
@@ -442,6 +446,7 @@ export default () => {
                       <Textfield
                         id="cm-edit-fname"
                         label="First Name"
+                        icon={<ProfileIcon />}
                         placeholder="Contact First Name"
                         name="firstName"
                         value={values.firstName}
@@ -460,6 +465,7 @@ export default () => {
                       <Textfield
                         id="cm-edit-lname"
                         label="Last Name"
+                        icon={<ProfileIcon />}
                         placeholder="Contact Last Name"
                         name="lastName"
                         value={values.lastName}
@@ -478,6 +484,7 @@ export default () => {
                         id="cm-edit-email"
                         type="email"
                         label="Email"
+                        icon={<MailIcon />}
                         placeholder="Contact Email Address"
                         name="email"
                         value={values.email}
@@ -493,6 +500,7 @@ export default () => {
                       <Textfield
                         id="cm-edit-phone"
                         label="Phone Number"
+                        icon={<PhoneIcon />}
                         placeholder="Contact Phone Number"
                         name="phone"
                         value={values.phone}
@@ -508,6 +516,7 @@ export default () => {
                       <Textfield
                         id="cm-edit-postalCode"
                         label="Zip Code"
+                        icon={<LocationIcon />}
                         placeholder="Contact Zip Code"
                         name="postalCode"
                         value={values.postalCode}

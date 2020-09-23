@@ -14,6 +14,7 @@ import NumberIcon from "components/icons/number";
 import LockIcon from "components/icons/lock";
 import MailIcon from "components/icons/mail";
 import ProfileIcon from "components/icons/profile";
+import PhoneIcon from "components/icons/phone";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
@@ -188,7 +189,7 @@ export default () => {
                     id="register-phone"
                     label="Phone Number"
                     type="tel"
-                    icon={<NumberIcon />}
+                    icon={<PhoneIcon />}
                     placeholder="Enter your Phone Number"
                     name="Phone"
                     value={values.Phone}
