@@ -1,5 +1,5 @@
-import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 import * as Sentry from "@sentry/react";
+import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 
 const IDENTITY_CONFIG = {
   authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
@@ -105,16 +105,6 @@ class authService {
     };
   }
 
-  handleSigninRedirectCallbackError = (error) => {
-    Log.error("signinRedirectCallback Failed.");
-    Log.error(error);
-    Sentry.captureException(error, () => {
-      this.UserManager.clearStaleState();
-      localStorage.clear();
-      window.location.replace("/error?code=login_callback_error");
-    });
-  };
-
   signinRedirectCallback = () => {
     try {
       this.UserManager.signinRedirectCallback()
@@ -122,11 +112,20 @@ class authService {
           Log.debug("authService: signin redirect complete");
         })
         .catch((error) => {
-          this.handleSigninRedirectCallbackError(error);
+          Log.error("authService: signinRedirectCallback failed in promise.");
+          Sentry.captureException(error, () => {
+            this.UserManager.clearStaleState();
+            localStorage.clear();
+            return false;
+          });
         });
     } catch (error) {
-      Log.error("signinRedirectCallback Failed in try catch.");
-      this.handleSigninRedirectCallbackError(error);
+      Log.error("authService: signinRedirectCallback failed in try catch.");
+      Sentry.captureException(error, () => {
+        this.UserManager.clearStaleState();
+        localStorage.clear();
+        return false;
+      });
     }
   };
 
