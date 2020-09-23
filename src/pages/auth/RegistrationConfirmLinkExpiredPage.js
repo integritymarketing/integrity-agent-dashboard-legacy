@@ -14,7 +14,7 @@ export default () => {
     const response = await authService.sendConfirmationEmail({ npn });
 
     if (response.status >= 200 && response.status < 300) {
-      history.push(`registration-check-email?npn=${npn}`);
+      history.push(`registration-email-sent?npn=${npn}`);
     } else {
       history.push(
         `sorry?message=${encodeURIComponent(
