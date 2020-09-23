@@ -112,14 +112,14 @@ class authService {
           Log.debug("authService: signin redirect complete");
         })
         .catch((error) => {
-          Sentry.captureMessage(error.message, () => {
+          Sentry.captureException(error, () => {
             this.UserManager.clearStaleState();
             localStorage.clear();
             return false;
           });
         });
     } catch (error) {
-      Sentry.captureMessage(error.message, () => {
+      Sentry.captureException(error, () => {
         this.UserManager.clearStaleState();
         localStorage.clear();
         return false;
