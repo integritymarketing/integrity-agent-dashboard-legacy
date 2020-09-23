@@ -11,10 +11,6 @@ import { useLocation, useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import Card from "components/ui/card";
 import EditIcon from "components/icons/edit";
-import StatusField, {
-  STATUS_POSITIVE,
-  STATUS_NEGATIVE,
-} from "components/ui/status-field";
 import Modal from "components/ui/modal";
 import validationService from "services/validationService";
 import Textfield from "components/ui/textfield";
