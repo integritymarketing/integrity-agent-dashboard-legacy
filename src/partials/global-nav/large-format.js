@@ -7,7 +7,10 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
 
   useEffect(() => {
     const closeDropDown = (event) => {
-      if (event.target.closest(".dropdown-menu")) {
+      if (
+        event.target.closest(".dropdown-menu") ||
+        event.target.closest(".modal")
+      ) {
         return;
       }
       setNavOpen(false);

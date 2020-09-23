@@ -10,25 +10,28 @@ import ContactInfo from "partials/contact-info";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
 
-const HelpButtonWithModal = ({ ...props }) => {
+const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  return (
-    <React.Fragment>
+  return [
+    ({ ...props }) => (
       <button
         type="button"
         onClick={() => setModalOpen(true)}
         {...props}
       ></button>
+    ),
+    () => (
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <ContactInfo />
       </Modal>
-    </React.Fragment>
-  );
+    ),
+  ];
 };
 
 export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
+  const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
 
   const menuProps = Object.assign(
     {
@@ -39,10 +42,12 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       ? {
           primary: [
             {
-              component: HelpButtonWithModal,
-              label: "Need Help?",
-              format: "large",
-              props: { className: analyticsService.clickClass("help-header") },
+              component: Link,
+              props: {
+                to: "/home",
+                className: analyticsService.clickClass("home-header"),
+              },
+              label: "Home",
             },
             {
               component: Link,
@@ -58,6 +63,12 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               component: Link,
               props: { to: "/edit-account" },
               label: "Edit Account",
+            },
+            {
+              component: HelpButtonWithModal,
+              label: "Need Help?",
+              format: "large",
+              props: { className: analyticsService.clickClass("help-header") },
             },
             {
               component: "button",
@@ -104,6 +115,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           </Media>
         </nav>
       )}
+      <HelpButtonModal />
     </header>
   );
 };
