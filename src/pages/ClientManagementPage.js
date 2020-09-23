@@ -585,6 +585,7 @@ export default () => {
                           );
                           setStagedClient(null);
                           setCurrentPage(1);
+                          await getCurrentPage();
                         } catch (e) {
                           alert("Unable to delete contact. Please try again.");
                         }
