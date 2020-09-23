@@ -8,7 +8,7 @@
 # all URIs and env specif configs live in the netlify enviornment UI configs
 [build.environment]
   REACT_APP_AUTH_CLIENT_ID="AEPortal"
-  REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full"
+  REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full phone"
   REACT_APP_AUTH_RESPONSE_TYPE="code"
 
 # Sentry
