@@ -19,6 +19,7 @@ if (process.env.REACT_APP_SENTRY_AUTH_DSN) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_AUTH_DSN,
     environment: process.env.REACT_APP_BUILD_ENV || "Development",
+    version: process.env.REACT_APP_VERSION,
   });
 }
 
