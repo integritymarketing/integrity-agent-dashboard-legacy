@@ -73,10 +73,11 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 ## Releases
 
 1. To prepare a release, a PR from `develop` -> `release` (or `hotfix/name-of-fix` -> `release`) should be initiated.
-2. Merging the PR will create a release build in both the UAT and QA [environments](#environements).
-3. Once the build has passed QA, create a PR from `release` -> `master`.
-4. Merging this PR will create and publish a build on stage, as well as create an un-published build in the production site.
-5. Once the release build is merged to master, a github release should be created with the appropriate version tag (eg `1.0.2`).
+2. The new version number should be set for each release in the netlify.toml file under then `REACT_APP_VERSION` variable. This version variable is tied directly to the Sentry integration.
+3. Merging the PR will create a release build in both the UAT and QA [environments](#environements).
+4. Once the build has passed QA, create a PR from `release` -> `master`.
+5. Merging this PR will create and publish a build on stage, as well as create an un-published build in the production site.
+6. Once the release build is merged to master, a github release should be created with the appropriate version tag (eg `1.0.2`).
 
 ## Error logging
 
