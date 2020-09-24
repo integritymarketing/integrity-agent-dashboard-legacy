@@ -12,7 +12,7 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
     environment: process.env.REACT_APP_BUILD_ENV || "Development",
-    version: process.env.REACT_APP_VERSION,
+    release: "portal-app@" + process.env.REACT_APP_VERSION,
   });
 }
 
