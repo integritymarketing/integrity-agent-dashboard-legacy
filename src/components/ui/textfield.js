@@ -94,7 +94,7 @@ const Textfield = ({
     ...inputProps,
   };
   return (
-    <div className={classes} {...wrapperProps}>
+    <div id={`${id}-wrapper`} className={classes} {...wrapperProps}>
       <div className="form-input__header">
         <label htmlFor={id} className="label">
           {label}
