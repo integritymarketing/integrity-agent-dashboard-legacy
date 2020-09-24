@@ -68,7 +68,7 @@ export default () => {
   ];
   return (
     <ul className="link-card-grid">
-      {topics.map(({ id, analyticsKey, name, images }) => (
+      {topics.map(({ id, analyticsKey, name, images, desc }) => (
         <li key={id} className="link-card">
           <img
             src={images[373]}
@@ -89,8 +89,11 @@ export default () => {
               `${analyticsKey}-tile`
             )}`}
           >
-            <span>{name}</span> <ArrowRightLongIcon />
+            <span className="link-card__link-text">
+              <span>{name}</span> <ArrowRightLongIcon />
+            </span>
           </Link>
+          <p className="link-card__desc text-body">{desc}</p>
         </li>
       ))}
     </ul>

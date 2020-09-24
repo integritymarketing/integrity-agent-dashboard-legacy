@@ -86,7 +86,7 @@ export default () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Dashboard</title>
+        <title>MedicareCENTER - Home</title>
       </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
