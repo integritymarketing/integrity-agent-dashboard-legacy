@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
@@ -6,7 +6,6 @@ import SimpleFooter from "partials/simple-footer";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import useQueryParams from "hooks/useQueryParams";
-import AuthContext from "contexts/auth";
 
 const useHelpLinkWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -39,7 +38,6 @@ const getMessageForCode = (code) => {
 };
 
 export default () => {
-  const auth = useContext(AuthContext);
   const [HelpLink, HelpModal] = useHelpLinkWithModal();
   const params = useQueryParams();
   const errorMessage = getMessageForCode(params.get("code"));
@@ -58,15 +56,9 @@ export default () => {
         </p>
 
         <div>
-          {auth.isAuthenticated() ? (
-            <Link className="btn btn--invert" to="/home">
-              Go To Dashboard
-            </Link>
-          ) : (
-            <Link className="btn btn--invert" to="/">
-              Home
-            </Link>
-          )}
+          <Link className="btn btn--invert" to="/">
+            Back to MedicareCENTER
+          </Link>
         </div>
         <HelpModal />
       </Container>
