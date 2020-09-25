@@ -26,7 +26,7 @@ export default ({
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", open);
     if (scrollRef.current) {
-      scrollRef.current.scrollTo(0, 0);
+      scrollRef.current.scrollTop = 0;
     }
 
     return () => document.body.classList.remove("disable-scroll");
