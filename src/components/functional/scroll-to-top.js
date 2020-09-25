@@ -14,6 +14,7 @@ export default ({ rootEl = document.documentElement }) => {
     } else {
       rootEl.scrollTop = 0;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, formattedHash]);
 
   return null;
