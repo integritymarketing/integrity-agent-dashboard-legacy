@@ -14,20 +14,28 @@ jest.mock("react-router-dom", () => ({
 describe("useLoading", () => {
   it("scrolls to top on load", async () => {
     const scrollMock = jest.fn();
-    global.scrollTo = scrollMock;
-    render(<ScrollToTop />);
+    const rootEl = {};
+    Object.defineProperty(rootEl, "scrollTop", {
+      get: () => 0,
+      set: scrollMock,
+    });
+    render(<ScrollToTop rootEl={rootEl} />);
     expect(scrollMock).toHaveBeenCalledTimes(1);
-    expect(scrollMock).toHaveBeenCalledWith(0, 0);
+    expect(scrollMock).toHaveBeenCalledWith(0);
   });
 
   it("scrolls to top after pathname change", async () => {
     const scrollMock = jest.fn();
-    global.scrollTo = scrollMock;
-    const { rerender } = render(<ScrollToTop />);
+    const rootEl = {};
+    Object.defineProperty(rootEl, "scrollTop", {
+      get: () => 0,
+      set: scrollMock,
+    });
+    const { rerender } = render(<ScrollToTop rootEl={rootEl} />);
     useLocation.mockImplementationOnce(() => ({
       pathname: "localhost:3000/example/path2",
     }));
-    rerender(<ScrollToTop />);
+    rerender(<ScrollToTop rootEl={rootEl} />);
     await waitFor(() => expect(scrollMock).toHaveBeenCalledTimes(2));
   });
 });
