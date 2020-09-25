@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export default () => {
+export default ({ rootEl = document.documentElement }) => {
   const { pathname, hash = "#" } = useLocation();
   const formattedHash = hash.substr(1);
 
@@ -12,8 +12,9 @@ export default () => {
         el.scrollIntoView();
       }
     } else {
-      window.scrollTo(0, 0);
+      rootEl.scrollTop = 0;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, formattedHash]);
 
   return null;
