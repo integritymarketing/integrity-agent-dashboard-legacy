@@ -152,7 +152,7 @@ class authService {
     try {
       user = await this.UserManager.signinSilent();
     } catch (err) {
-      Log.error("authService Error: ", err);
+      this.logout();
       return;
     }
 
