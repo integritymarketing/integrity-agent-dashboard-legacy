@@ -31,6 +31,7 @@ import ClosedLostIcon from "images/lead-status/Status-Closed-Lost.svg";
 import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Interested.svg";
 import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
+import ExpandButton from "components/icons/expand";
 
 const LEAD_ICONS = {
   1: NewIcon,
@@ -167,27 +168,66 @@ export default () => {
         <Container className="mt-scale-3">
           {clientList.length > 0 ? (
             <React.Fragment>
-              <div className="toolbar toolbar--stack">
-                <span className="mr-3">
-                  <span className="text-bold">{totalClients}</span>
-                  <span> Clients</span>
+              <div className="hdg hdg--3 content-center mb-4">
+                <span>
+                  <span className="text-bold">{totalClients}</span> Clients
                 </span>
-
                 <button
-                  className={`btn ${analyticsService.clickClass(
+                  className={`icon-btn ml-1 ${analyticsService.clickClass(
                     "addnewcontact-button"
                   )}`}
                   onClick={() => setStagedClient(clientsService.newClientObj())}
                 >
-                  Add New
+                  <span className="visually-hidden">Add New</span>
+                  <ExpandButton aria-hidden="true" />
                 </button>
-
-                <div className="toolbar__aux">
+              </div>
+              <div
+                className="bar bar--repel"
+                style={{ "--bar-spacing-vert": 0 }}
+              >
+                <Textfield
+                  id="cm-search"
+                  type="search"
+                  label="Search Leads"
+                  icon={<ProfileIcon />}
+                  placeholder="Search by first or last name..."
+                  name="search"
+                  className="bar__item-large"
+                  onChange={(e) => console.log(e)}
+                />
+                <div
+                  className="bar bar--attract"
+                  style={{ "--bar-spacing-vert": 0 }}
+                >
                   <SelectMenu
                     name="sort"
                     id="cm-sort"
                     label="Sort by"
                     value={sort}
+                    className="bar__item-small"
+                    onChange={(event) =>
+                      setCurrentPage(1, event.currentTarget.value)
+                    }
+                  >
+                    <option value="firstName:asc">First Name Asc</option>
+                    <option value="firstName:desc">First Name Desc</option>
+                    <option value="lastName:asc">Last Name Asc</option>
+                    <option value="lastName:desc">Last Name Desc</option>
+                    <option value="leadStatusId:asc">Status Asc</option>
+                    <option value="leadStatusId:desc">Status Desc</option>
+                    <option value="followUpDate:asc">Follow Up Date Asc</option>
+                    <option value="followUpDate:desc">
+                      Follow Up Date Desc
+                    </option>
+                  </SelectMenu>
+
+                  <SelectMenu
+                    name="sort"
+                    id="cm-sort"
+                    label="Sort by"
+                    value={sort}
+                    className="bar__item-small"
                     onChange={(event) =>
                       setCurrentPage(1, event.currentTarget.value)
                     }
