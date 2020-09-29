@@ -75,6 +75,13 @@ class ValidationService {
     return null;
   };
 
+  validatePostalCode = (inputStr, label = "Zip Code") => {
+    if (inputStr && !/^[0-9]{5}$/.test(inputStr)) {
+      return `${label} must be 5 digits long`;
+    }
+    return null;
+  };
+
   composeValidator = (validators = []) => {
     return (...validatorArgs) =>
       validators.reduce((result, validator) => {
