@@ -365,6 +365,10 @@ export default () => {
                         ]),
                       },
                       {
+                        name: "postalCode",
+                        validator: validationService.validatePostalCode,
+                      },
+                      {
                         name: "followUpDate",
                         validator: validationService.validateDate,
                         args: ["Follow Up date"],
@@ -522,6 +526,7 @@ export default () => {
                         placeholder="Contact Zip Code"
                         name="postalCode"
                         value={values.postalCode}
+                        maxLength="5"
                         onChange={handleChange}
                         onBlur={(e) => {
                           analyticsService.fireEvent("contactCard", {
