@@ -265,7 +265,7 @@ export default () => {
                         </div>
                         <div className="keyval-list__item keyval-list__item--full mt-3">
                           <div className="text-bold">Email</div>
-                          <div>
+                          <div className="text-truncate">
                             {client.email ? (
                               <a
                                 className="link link--dark-underline"
@@ -437,6 +437,7 @@ export default () => {
                     className="form"
                     ref={modalFormRef}
                     onSubmit={handleSubmit}
+                    noValidate
                   >
                     <legend className="hdg hdg--2 mb-1">
                       {stagedClient.leadsId === null
