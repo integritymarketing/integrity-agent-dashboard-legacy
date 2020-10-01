@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import * as Sentry from "@sentry/react";
 import AuthContext from "contexts/auth";
 import useFlashMessage from "hooks/useFlashMessage";
 
@@ -10,7 +11,8 @@ export default (props) => {
     try {
       await auth.signinRedirect();
     } catch (e) {
-      console.error("sign in error", e);
+      Sentry.captureException(e);
+      console.error("sign in error: ", e);
       showMessage("Unable to sign in at this time.", { type: "error" });
     }
   };
