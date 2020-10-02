@@ -86,7 +86,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
           <div className="modal-nav__hdg">Need Help?</div>
           <ul>
             <li className="mt-3">
-              <a href="tel:+1-651-555-1234" className="link link--invert">
+              <a href="tel:+1-888-818-3760" className="link link--invert">
                 Call Support
               </a>
             </li>

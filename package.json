@@ -1,6 +1,6 @@
 {
   "name": "ae-agent-portal",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "dependencies": {
     "@sentry/react": "^5.19.0",
