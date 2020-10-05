@@ -34,6 +34,12 @@
       "name": "Health Solutions",
       "icon": "document",
       "analyticsKey": "healthSolutions"
+    },
+    {	
+      "id": "life-solutions",	
+      "name": "Life Solutions",	
+      "icon": "document",	
+      "analyticsKey": "lifeSolutions"	
     }
   ],
   "resources": [
@@ -155,7 +161,7 @@
       "name": "Aflac Accident Advantage Insurance Sell Sheet",
       "description": "Quick overview of the benefits of Aflac's Accident Advantage Insurance",
       "categories": ["carrier-guides"],
-      "url": "https://learningcenter.tawebhost.com/MecdicareCENTER-Aflac-Accident-Flyer.pdf"
+      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Aflac-Accident-Flyer.pdf"
     },
     {
       "name": "Ameritas PrimeStar Hyperlink FAQ",
@@ -210,6 +216,12 @@
       "description": "Short overview of client and agent benefits of SureBridge Hospital Indemnity plan",
       "categories": ["health-solutions"],
       "url": "https://learningcenter.tawebhost.com/MedicareCENTER-SureBridge-Guide.pdf"
+    },
+    {	
+      "name": "Tips for Marketing Life Insurance Over the Phone",	
+      "description": "Tips and guidelines to help you be successful conducting business as usual, via the telephone",	
+      "categories": ["life-solutions"],	
+      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Tips-Life-Insurance-Phone-Sales.pdf"	
     }
   ]
 }
