@@ -9,6 +9,8 @@ import techGuidesSrc from "images/optimized/tech-guides-373.jpg";
 import techGuidesSrc2x from "images/optimized/tech-guides-746.jpg";
 import healthSolutionsSrc from "images/optimized/health-solutions-373.jpg";
 import healthSolutionsSrc2x from "images/optimized/health-solutions-746.jpg";
+import lifeSolutionsSrc from "images/optimized/life-solutions-373.jpg";
+import lifeSolutionsSrc2x from "images/optimized/life-solutions-746.jpg";
 import carrierGuidesSrc from "images/optimized/carrier-guides-373.jpg";
 import carrierGuidesSrc2x from "images/optimized/carrier-guides-746.jpg";
 import analyticsService from "services/analyticsService";
@@ -54,6 +56,14 @@ export default () => {
       desc:
         "Insights to help you outperform the competition for health products.",
       images: { 373: healthSolutionsSrc, 746: healthSolutionsSrc2x },
+    },
+    {
+      id: "life-solutions",
+      analyticsKey: "lifesolutions",
+      name: "Life Solutions",
+      desc:
+        "Resources to assist in understanding how to follow up with life products after AEP.",
+      images: { 373: lifeSolutionsSrc, 746: lifeSolutionsSrc2x },
     },
   ];
   return (
