@@ -34,12 +34,6 @@
       "name": "Health Solutions",
       "icon": "document",
       "analyticsKey": "healthSolutions"
-    },
-    {
-      "id": "life-solutions",
-      "name": "Life Solutions",
-      "icon": "document",
-      "analyticsKey": "lifeSolutions"
     }
   ],
   "resources": [
@@ -216,12 +210,6 @@
       "description": "Short overview of client and agent benefits of SureBridge Hospital Indemnity plan",
       "categories": ["health-solutions"],
       "url": "https://learningcenter.tawebhost.com/MedicareCENTER-SureBridge-Guide.pdf"
-    },
-    {
-      "name": "Simplified Issue Final Expense Product Info Sheet",
-      "description": "Detailed overview of Integrity's Simpified Issue Final Expense product.",
-      "categories": ["life-solutions"],
-      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Final-Expense-Guide.pdf"
     }
   ]
 }
