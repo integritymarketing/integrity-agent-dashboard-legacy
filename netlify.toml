@@ -7,7 +7,7 @@
 # that live across all envs for simplicity here
 # all URIs and env specif configs live in the netlify enviornment UI configs
 [build.environment]
-  REACT_APP_VERSION="1.0.4"
+  REACT_APP_VERSION="1.0.5"
   REACT_APP_AUTH_CLIENT_ID="AEPortal"
   REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full phone"
   REACT_APP_AUTH_RESPONSE_TYPE="code"
