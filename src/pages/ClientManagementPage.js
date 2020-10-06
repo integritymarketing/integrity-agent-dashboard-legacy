@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
+import { debounce } from "debounce";
 import { Helmet } from "react-helmet";
 import { Formik } from "formik";
 import dateFnsFormat from "date-fns/format";
@@ -19,6 +26,7 @@ import clientsService from "services/clientsService";
 import LocationIcon from "components/icons/location";
 import MailIcon from "components/icons/mail";
 import ProfileIcon from "components/icons/profile";
+import SearchIcon from "components/icons/search";
 import PhoneIcon from "components/icons/phone";
 import NewIcon from "images/lead-status/Status-New.svg";
 import OpenIcon from "images/lead-status/Status-Open.svg";
@@ -67,7 +75,13 @@ export default () => {
   const PAGE_SIZE = 9;
   const { state = {} } = useLocation();
   const history = useHistory();
-  const { page = 1, sort = "firstName:asc" } = state;
+  const {
+    page = 1,
+    sort = "firstName:asc",
+    filter = "",
+    searchText = "",
+  } = state;
+  const [hasLoaded, setLoaded] = useState(false);
   const [totalClients, setTotalClients] = useState(0);
   const [clientList, setClientList] = useState([]);
   const [stagedClient, setStagedClient] = useState(null);
@@ -76,13 +90,24 @@ export default () => {
   const [allStatuses, setAllStatuses] = useState(null);
   const modalFormRef = useRef(null);
   const [hasLoadError, setLoadError] = useState(false);
+  const lastRequest = useRef();
+
+  const resultParams = {
+    page,
+    sort,
+    filter,
+    searchText,
+  };
 
   // update router history for back/forward functionality
-  const setCurrentPage = (page, sort) => {
+  const setCurrentPage = ({ page, sort, filter, searchText }) => {
+    console.log("update", searchText);
     history.push({
       state: {
         sort,
         page,
+        filter,
+        searchText,
       },
     });
   };
@@ -90,15 +115,35 @@ export default () => {
   const getCurrentPage = useMemo(() => {
     return async () => {
       try {
-        const list = await clientsService.getList(page, PAGE_SIZE, sort);
+        console.log("filter for update: ", filter);
+        console.log("searchText for update: ", searchText);
+        const getPromise = clientsService.getList(
+          page,
+          PAGE_SIZE,
+          sort,
+          filter,
+          searchText
+        );
+        lastRequest.current = getPromise;
+        const list = await lastRequest.current;
+        if (lastRequest.current !== getPromise) {
+          // throw out old requests
+          return;
+        }
         setClientList(list.result);
         setTotalClients(list.pageResult.total);
         setLoadError(false);
+        setLoaded(true);
       } catch (e) {
         setLoadError(true);
       }
     };
-  }, [sort, page, PAGE_SIZE]);
+  }, [sort, page, filter, PAGE_SIZE, searchText, lastRequest]);
+
+  const debouncedSetCurrentPage = useCallback(
+    debounce(setCurrentPage, 500),
+    []
+  );
 
   // load status ids for updates
   useEffect(() => {
@@ -164,9 +209,9 @@ export default () => {
           </div>
         </Container>
       )}
-      {!loading.isLoading && !hasLoadError && (
+      {hasLoaded && !hasLoadError && (
         <Container className="mt-scale-3">
-          {clientList.length > 0 ? (
+          {clientList.length > 0 || searchText ? (
             <React.Fragment>
               <div className="hdg hdg--3 content-center mb-4">
                 <span>
@@ -183,43 +228,61 @@ export default () => {
                 </button>
               </div>
               <div
-                className="bar bar--repel"
-                style={{ "--bar-spacing-vert": 0 }}
+                className="bar bar--repel bar--collapse-mobile"
+                style={{
+                  "--bar-spacing-vert": 0,
+                  "--bar-spacing-horiz": "2.5rem",
+                }}
               >
                 <Textfield
                   id="cm-search"
                   type="search"
                   label="Search Leads"
-                  icon={<ProfileIcon />}
+                  defaultValue={searchText}
+                  icon={<SearchIcon />}
                   placeholder="Search by first or last name..."
                   name="search"
                   className="bar__item-large"
-                  onChange={(e) => console.log(e)}
+                  onChange={(event) => {
+                    console.log("change");
+                    debouncedSetCurrentPage({
+                      ...resultParams,
+                      page: 1,
+                      searchText: event.currentTarget.value,
+                    });
+                  }}
                 />
                 <div
-                  className="bar bar--attract"
-                  style={{ "--bar-spacing-vert": 0 }}
+                  className="bar bar--attract bar--collapse-mobile"
+                  style={{
+                    "--bar-spacing-vert": 0,
+                    "--bar-spacing-horiz": "2.5rem",
+                  }}
                 >
                   <SelectMenu
-                    name="sort"
-                    id="cm-sort"
-                    label="Sort by"
-                    value={sort}
+                    name="filter"
+                    id="cm-filter"
+                    label="Showing"
+                    value={filter}
                     className="bar__item-small"
                     onChange={(event) =>
-                      setCurrentPage(1, event.currentTarget.value)
+                      setCurrentPage({
+                        ...resultParams,
+                        page: 1,
+                        filter: event.currentTarget.value,
+                      })
                     }
                   >
-                    <option value="firstName:asc">First Name Asc</option>
-                    <option value="firstName:desc">First Name Desc</option>
-                    <option value="lastName:asc">Last Name Asc</option>
-                    <option value="lastName:desc">Last Name Desc</option>
-                    <option value="leadStatusId:asc">Status Asc</option>
-                    <option value="leadStatusId:desc">Status Desc</option>
-                    <option value="followUpDate:asc">Follow Up Date Asc</option>
-                    <option value="followUpDate:desc">
-                      Follow Up Date Desc
-                    </option>
+                    <option value="">All Statuses</option>
+                    {allStatuses &&
+                      allStatuses.map((status) => (
+                        <option
+                          key={status.leadStatusId}
+                          value={status.leadStatusId}
+                        >
+                          {status.statusName}
+                        </option>
+                      ))}
                   </SelectMenu>
 
                   <SelectMenu
@@ -229,7 +292,11 @@ export default () => {
                     value={sort}
                     className="bar__item-small"
                     onChange={(event) =>
-                      setCurrentPage(1, event.currentTarget.value)
+                      setCurrentPage({
+                        ...resultParams,
+                        page: 1,
+                        sort: event.currentTarget.value,
+                      })
                     }
                   >
                     <option value="firstName:asc">First Name Asc</option>
@@ -246,106 +313,126 @@ export default () => {
                 </div>
               </div>
 
-              <div className="card-grid mb-5 pt-1">
-                {clientList.map((client) => {
-                  const { firstName = "", lastName = "" } = client;
-                  const namedClient = firstName !== "" || lastName !== "";
-                  const displayName = namedClient
-                    ? `${firstName} ${lastName}`.trim()
-                    : "Unnamed Contact";
-                  return (
-                    <Card key={client.leadsId}>
-                      <div className="toolbar pb-2 border-bottom border-bottom--light">
-                        <div
-                          className={`hdg hdg--4 text-truncate ${
-                            namedClient ? "" : "text-muted"
-                          }`}
-                        >
-                          {displayName}
-                        </div>
-                        <div className="toolbar__aux text-brand">
-                          <button
-                            type="button"
-                            className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
-                              "edit-contactcard"
-                            )}`}
-                            onClick={() => setStagedClient(client)}
-                          >
-                            <span className="visually-hidden">
-                              Edit {displayName}
-                            </span>
-                            <EditIcon style={{ pointerEvents: "none" }} />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="keyval-list text-body">
-                        <div className="keyval-list__item mt-3">
-                          <div className="text-bold">Status</div>
-                          <div className="icon-label">
-                            {LEAD_ICONS[client.leadStatusId] ? (
-                              <img
-                                src={LEAD_ICONS[client.leadStatusId]}
-                                alt=""
-                                height="20"
-                                className="mr-1"
-                              />
-                            ) : null}
-                            {client.statusName}
-                          </div>
-                        </div>
-                        <div className="keyval-list__item mt-3">
-                          <div className="text-bold">Follow-Up</div>
-                          <div>
-                            {client.followUpDate ? (
-                              formatDate(client.followUpDate)
-                            ) : (
-                              <EmptyField />
-                            )}
-                          </div>
-                        </div>
-                        <div className="keyval-list__item keyval-list__item--full mt-3">
-                          <div className="text-bold">Email</div>
-                          <div className="text-truncate">
-                            {client.email ? (
-                              <a
-                                className="link link--dark-underline"
-                                href={`mailto:${client.email}`}
-                              >
-                                {client.email}
-                              </a>
-                            ) : (
-                              <EmptyField />
-                            )}
-                          </div>
-                        </div>
-                        <div className="keyval-list__item keyval-list__item--full mt-3">
-                          <div className="text-bold">Phone Number</div>
-                          <div>
-                            {client.phone ? (
-                              <a
-                                className="link link--dark-underline"
-                                href={`tel:+1-${formatPhoneNumber(
-                                  client.phone
-                                )}`}
-                              >
-                                {formatPhoneNumber(client.phone)}
-                              </a>
-                            ) : (
-                              <EmptyField />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  );
-                })}
-              </div>
+              {clientList.length === 0 && (
+                <div className="pt-5 pb-4 text-center">
+                  <div className="hdg hdg--2 mb-1">No Results</div>
+                  <p className="text-body">
+                    Adjust your search criteria to see more results
+                  </p>
+                </div>
+              )}
 
-              <Pagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page, sort)}
-              />
+              {!loading.isLoading && (
+                <React.Fragment>
+                  <div className="card-grid mb-5 pt-1">
+                    {clientList.map((client) => {
+                      const { firstName = "", lastName = "" } = client;
+                      const namedClient = firstName !== "" || lastName !== "";
+                      const displayName = namedClient
+                        ? `${firstName} ${lastName}`.trim()
+                        : "Unnamed Contact";
+                      return (
+                        <Card key={client.leadsId}>
+                          <div className="bar bar--repel pb-2 border-bottom border-bottom--light">
+                            <div
+                              className={`hdg hdg--4 text-truncate ${
+                                namedClient ? "" : "text-muted"
+                              }`}
+                            >
+                              {displayName}
+                            </div>
+                            <div className="text-brand">
+                              <button
+                                type="button"
+                                className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
+                                  "edit-contactcard"
+                                )}`}
+                                onClick={() => setStagedClient(client)}
+                              >
+                                <span className="visually-hidden">
+                                  Edit {displayName}
+                                </span>
+                                <EditIcon style={{ pointerEvents: "none" }} />
+                              </button>
+                            </div>
+                          </div>
+                          <div className="keyval-list text-body">
+                            <div className="keyval-list__item mt-3">
+                              <div className="text-bold">Status</div>
+                              <div className="icon-label">
+                                {LEAD_ICONS[client.leadStatusId] ? (
+                                  <img
+                                    src={LEAD_ICONS[client.leadStatusId]}
+                                    alt=""
+                                    height="20"
+                                    className="mr-1"
+                                  />
+                                ) : null}
+                                {client.statusName}
+                              </div>
+                            </div>
+                            <div className="keyval-list__item mt-3">
+                              <div className="text-bold">Follow-Up</div>
+                              <div>
+                                {client.followUpDate ? (
+                                  formatDate(client.followUpDate)
+                                ) : (
+                                  <EmptyField />
+                                )}
+                              </div>
+                            </div>
+                            <div className="keyval-list__item keyval-list__item--full mt-3">
+                              <div className="text-bold">Email</div>
+                              <div className="text-truncate">
+                                {client.email ? (
+                                  <a
+                                    className="link link--dark-underline"
+                                    href={`mailto:${client.email}`}
+                                  >
+                                    {client.email}
+                                  </a>
+                                ) : (
+                                  <EmptyField />
+                                )}
+                              </div>
+                            </div>
+                            <div className="keyval-list__item keyval-list__item--full mt-3">
+                              <div className="text-bold">Phone Number</div>
+                              <div>
+                                {client.phone ? (
+                                  <a
+                                    className="link link--dark-underline"
+                                    href={`tel:+1-${formatPhoneNumber(
+                                      client.phone
+                                    )}`}
+                                  >
+                                    {formatPhoneNumber(client.phone)}
+                                  </a>
+                                ) : (
+                                  <EmptyField />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      );
+                    })}
+                  </div>
+
+                  {clientList.length > 0 && (
+                    <Pagination
+                      currentPage={page}
+                      totalPages={totalPages}
+                      onPageChange={(page) =>
+                        setCurrentPage({
+                          ...resultParams,
+                          page,
+                        })
+                      }
+                    />
+                  )}
+                </React.Fragment>
+              )}
             </React.Fragment>
           ) : (
             <div className="pt-3 pb-5 text-center">
@@ -695,7 +782,7 @@ export default () => {
                             stagedClient.leadsId
                           );
                           setStagedClient(null);
-                          setCurrentPage(1);
+                          setCurrentPage({ ...resultParams, page: 1 });
                           await getCurrentPage();
                         } catch (e) {
                           alert("Unable to delete contact. Please try again.");

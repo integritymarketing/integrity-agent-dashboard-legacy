@@ -24,7 +24,6 @@
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 1rem;
   background-color: var(--card-bg);
   color: var(--neutral-text-color);
@@ -43,7 +42,6 @@
     min-height: clamp(100px, 75vw, 560px);
     padding: 2.5rem;
     position: relative;
-    justify-content: flex-start;
 
     @media (min-width: 480px) {
       padding: 3.75rem;

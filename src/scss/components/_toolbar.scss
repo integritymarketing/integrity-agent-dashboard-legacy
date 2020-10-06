@@ -22,17 +22,16 @@
 }
 
 .bar {
-  --bar-spacing-horiz: var(--fixed-space-4);
-  --bar-spacing-vert: var(--fixed-space-3);
+  --bar-spacing-horiz: var(--fixed-space-2);
+  --bar-spacing-vert: var(--fixed-space-1);
   max-width: calc(100% + var(--bar-spacing-horiz));
   display: flex;
   align-items: center;
   margin-left: calc(-1 * var(--bar-spacing-horiz));
   margin-top: calc(-1 * var(--bar-spacing-vert));
-  flex-wrap: wrap;
 
   > * {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
   }
   > :not(.bar) {
     padding-left: var(--bar-spacing-horiz);
@@ -65,11 +64,15 @@
   flex: 0 1 450px;
 }
 
+.bar--collapse-mobile {
+  flex-wrap: wrap;
+}
+
 @media (max-width: 599px) {
-  .bar {
+  .bar--collapse-mobile {
     > * {
       margin-right: 0;
-      flex: 0 0 100%;
+      flex-basis: 100%;
     }
   }
 }

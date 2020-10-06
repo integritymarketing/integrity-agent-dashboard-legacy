@@ -28,9 +28,20 @@ class ClientsService {
     return fetch(path, opts);
   };
 
-  getList = async (page, pageSize, sort) => {
+  getList = async (page, pageSize, sort, filterId, searchText) => {
+    const params = {
+      PageSize: pageSize,
+      CurrentPage: page,
+      Sort: sort,
+      FilterId: filterId,
+      Search: searchText,
+    };
+    const queryStr = Object.keys(params)
+      .map((key) => (params[key] ? `${key}=${params[key]}` : null))
+      .filter((str) => str !== null)
+      .join("&");
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=${pageSize}&CurrentPage=${page}&Sort=${sort}`
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads?${queryStr}`
     );
     if (response.status >= 400) {
       throw new Error("Leads request failed.");
