@@ -34,13 +34,20 @@
   > * {
     flex: 0 0 auto;
   }
+  > :not(.bar) {
+    padding-left: var(--bar-spacing-horiz);
+    padding-top: var(--bar-spacing-vert);
+  }
+
+  > .bar {
+    margin-top: 0;
+    margin-left: 0;
+  }
 }
 
 .bar--repel {
   > * {
-    padding-left: var(--bar-spacing-horiz);
     margin-right: auto;
-    padding-top: var(--bar-spacing-vert);
   }
   > :last-child {
     margin-right: 0;
@@ -48,9 +55,6 @@
 }
 
 .bar--attract {
-  > * {
-    margin-left: var(--bar-spacing-horiz);
-  }
 }
 
 .bar__item-small {
