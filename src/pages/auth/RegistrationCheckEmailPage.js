@@ -23,7 +23,21 @@ export default () => {
           />
         }
         title="You're Almost Done!"
-        body="Your MedicareCENTER account registration is almost complete! Please check your email (including spam/junk folders) for your registration confirmation link. Clicking that link will complete the registration process and allow you to login."
+        body={
+          <React.Fragment>
+            <p className="mb-2">
+              Your MedicareCENTER account registration is almost complete!
+              Please check your email (including spam/junk folders) for your
+              registration confirmation link. Clicking that link will complete
+              the registration process and allow you to login.
+            </p>
+            <p>
+              Upon completing registration, some information may take 24hrs -
+              48hrs to update in the MA/PDP enrollment tools (MedicareAPP and
+              MedicareLINK).
+            </p>
+          </React.Fragment>
+        }
         button={null}
       />
     </React.Fragment>

@@ -305,7 +305,7 @@ export default () => {
                         </div>
                         <div className="keyval-list__item keyval-list__item--full mt-3">
                           <div className="text-bold">Email</div>
-                          <div>
+                          <div className="text-truncate">
                             {client.email ? (
                               <a
                                 className="link link--dark-underline"
@@ -405,6 +405,10 @@ export default () => {
                         ]),
                       },
                       {
+                        name: "postalCode",
+                        validator: validationService.validatePostalCode,
+                      },
+                      {
                         name: "followUpDate",
                         validator: validationService.validateDate,
                         args: ["Follow Up date"],
@@ -477,6 +481,7 @@ export default () => {
                     className="form"
                     ref={modalFormRef}
                     onSubmit={handleSubmit}
+                    noValidate
                   >
                     <legend className="hdg hdg--2 mb-1">
                       {stagedClient.leadsId === null
@@ -561,6 +566,7 @@ export default () => {
                         placeholder="Contact Zip Code"
                         name="postalCode"
                         value={values.postalCode}
+                        maxLength="5"
                         onChange={handleChange}
                         onBlur={(e) => {
                           analyticsService.fireEvent("contactCard", {

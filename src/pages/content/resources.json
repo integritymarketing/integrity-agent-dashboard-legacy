@@ -35,11 +35,11 @@
       "icon": "document",
       "analyticsKey": "healthSolutions"
     },
-    {
-      "id": "life-solutions",
-      "name": "Life Solutions",
-      "icon": "document",
-      "analyticsKey": "lifeSolutions"
+    {	
+      "id": "life-solutions",	
+      "name": "Life Solutions",	
+      "icon": "document",	
+      "analyticsKey": "lifeSolutions"	
     }
   ],
   "resources": [
@@ -96,12 +96,6 @@
       "description": "A systematic approach to overcoming any objection you encounter.",
       "categories": ["sales-tips"],
       "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Phone-Sales-Tips-Overcoming-Objections.pdf"
-    },
-    {
-      "name": "Tips for Marketing Medicare Coverage Over the Phone",
-      "description": "Tips and guidelines to help you help clients get the coverage they need by phone.",
-      "categories": ["sales-tips"],
-      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-CMS-Phone-Requirement-Guide.pdf"
     },
     {
       "name": "Best Practice Guide: Direct Mail",
@@ -167,7 +161,7 @@
       "name": "Aflac Accident Advantage Insurance Sell Sheet",
       "description": "Quick overview of the benefits of Aflac's Accident Advantage Insurance",
       "categories": ["carrier-guides"],
-      "url": "https://learningcenter.tawebhost.com/MecdicareCENTER-Aflac-Accident-Flyer.pdf"
+      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Aflac-Accident-Flyer.pdf"
     },
     {
       "name": "Ameritas PrimeStar Hyperlink FAQ",
@@ -223,11 +217,11 @@
       "categories": ["health-solutions"],
       "url": "https://learningcenter.tawebhost.com/MedicareCENTER-SureBridge-Guide.pdf"
     },
-    {
-      "name": "Simplified Issue Final Expense Product Info Sheet",
-      "description": "Detailed overview of Integrity's Simpified Issue Final Expense product.",
-      "categories": ["life-solutions"],
-      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Final-Expense-Guide.pdf"
+    {	
+      "name": "Tips for Marketing Life Insurance Over the Phone",	
+      "description": "Tips and guidelines to help you be successful conducting business as usual, via the telephone",	
+      "categories": ["life-solutions"],	
+      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Tips-Life-Insurance-Phone-Sales.pdf"	
     }
   ]
 }

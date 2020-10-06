@@ -105,25 +105,16 @@ class authService {
     };
   }
 
-  signinRedirectCallback = () => {
+  signinRedirectCallback = async () => {
     try {
-      this.UserManager.signinRedirectCallback()
-        .then((user) => {
-          Log.debug("authService: signin redirect complete");
-        })
-        .catch((error) => {
-          Sentry.captureException(error, () => {
-            this.UserManager.clearStaleState();
-            localStorage.clear();
-            return false;
-          });
-        });
+      await this.UserManager.signinRedirectCallback();
     } catch (error) {
-      Sentry.captureException(error, () => {
-        this.UserManager.clearStaleState();
-        localStorage.clear();
-        return false;
+      Sentry.captureException(error, {
+        level: "warning",
       });
+      this.UserManager.clearStaleState();
+      localStorage.clear();
+      throw new Error(error);
     }
   };
 
@@ -152,7 +143,7 @@ class authService {
     try {
       user = await this.UserManager.signinSilent();
     } catch (err) {
-      Log.error("authService Error: ", err);
+      this.logout();
       return;
     }
 
