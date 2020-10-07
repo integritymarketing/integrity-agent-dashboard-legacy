@@ -210,3 +210,8 @@ $spacings: (
 .border-bottom--light {
   border-bottom-color: var(--border-light);
 }
+
+.content-center {
+  display: flex;
+  align-items: center;
+}
