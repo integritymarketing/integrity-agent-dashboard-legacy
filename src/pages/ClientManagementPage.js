@@ -322,116 +322,112 @@ export default () => {
                 </div>
               )}
 
-              {!loading.isLoading && (
-                <React.Fragment>
-                  <div className="card-grid mb-5 pt-1">
-                    {clientList.map((client) => {
-                      const { firstName = "", lastName = "" } = client;
-                      const namedClient = firstName !== "" || lastName !== "";
-                      const displayName = namedClient
-                        ? `${firstName} ${lastName}`.trim()
-                        : "Unnamed Contact";
-                      return (
-                        <Card key={client.leadsId}>
-                          <div className="bar bar--repel pb-2 border-bottom border-bottom--light">
-                            <div
-                              className={`hdg hdg--4 text-truncate ${
-                                namedClient ? "" : "text-muted"
-                              }`}
-                            >
-                              {displayName}
-                            </div>
-                            <div className="text-brand">
-                              <button
-                                type="button"
-                                className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
-                                  "edit-contactcard"
-                                )}`}
-                                onClick={() => setStagedClient(client)}
+              <div className="card-grid mb-5 pt-1">
+                {clientList.map((client) => {
+                  const { firstName = "", lastName = "" } = client;
+                  const namedClient = firstName !== "" || lastName !== "";
+                  const displayName = namedClient
+                    ? `${firstName} ${lastName}`.trim()
+                    : "Unnamed Contact";
+                  return (
+                    <Card key={client.leadsId}>
+                      <div className="bar bar--repel pb-2 border-bottom border-bottom--light">
+                        <div
+                          className={`hdg hdg--4 text-truncate ${
+                            namedClient ? "" : "text-muted"
+                          }`}
+                        >
+                          {displayName}
+                        </div>
+                        <div className="text-brand">
+                          <button
+                            type="button"
+                            className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
+                              "edit-contactcard"
+                            )}`}
+                            onClick={() => setStagedClient(client)}
+                          >
+                            <span className="visually-hidden">
+                              Edit {displayName}
+                            </span>
+                            <EditIcon style={{ pointerEvents: "none" }} />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="keyval-list text-body">
+                        <div className="keyval-list__item mt-3">
+                          <div className="text-bold">Status</div>
+                          <div className="icon-label">
+                            {LEAD_ICONS[client.leadStatusId] ? (
+                              <img
+                                src={LEAD_ICONS[client.leadStatusId]}
+                                alt=""
+                                height="20"
+                                className="mr-1"
+                              />
+                            ) : null}
+                            {client.statusName}
+                          </div>
+                        </div>
+                        <div className="keyval-list__item mt-3">
+                          <div className="text-bold">Follow-Up</div>
+                          <div>
+                            {client.followUpDate ? (
+                              formatDate(client.followUpDate)
+                            ) : (
+                              <EmptyField />
+                            )}
+                          </div>
+                        </div>
+                        <div className="keyval-list__item keyval-list__item--full mt-3">
+                          <div className="text-bold">Email</div>
+                          <div className="text-truncate">
+                            {client.email ? (
+                              <a
+                                className="link link--dark-underline"
+                                href={`mailto:${client.email}`}
                               >
-                                <span className="visually-hidden">
-                                  Edit {displayName}
-                                </span>
-                                <EditIcon style={{ pointerEvents: "none" }} />
-                              </button>
-                            </div>
+                                {client.email}
+                              </a>
+                            ) : (
+                              <EmptyField />
+                            )}
                           </div>
-                          <div className="keyval-list text-body">
-                            <div className="keyval-list__item mt-3">
-                              <div className="text-bold">Status</div>
-                              <div className="icon-label">
-                                {LEAD_ICONS[client.leadStatusId] ? (
-                                  <img
-                                    src={LEAD_ICONS[client.leadStatusId]}
-                                    alt=""
-                                    height="20"
-                                    className="mr-1"
-                                  />
-                                ) : null}
-                                {client.statusName}
-                              </div>
-                            </div>
-                            <div className="keyval-list__item mt-3">
-                              <div className="text-bold">Follow-Up</div>
-                              <div>
-                                {client.followUpDate ? (
-                                  formatDate(client.followUpDate)
-                                ) : (
-                                  <EmptyField />
-                                )}
-                              </div>
-                            </div>
-                            <div className="keyval-list__item keyval-list__item--full mt-3">
-                              <div className="text-bold">Email</div>
-                              <div className="text-truncate">
-                                {client.email ? (
-                                  <a
-                                    className="link link--dark-underline"
-                                    href={`mailto:${client.email}`}
-                                  >
-                                    {client.email}
-                                  </a>
-                                ) : (
-                                  <EmptyField />
-                                )}
-                              </div>
-                            </div>
-                            <div className="keyval-list__item keyval-list__item--full mt-3">
-                              <div className="text-bold">Phone Number</div>
-                              <div>
-                                {client.phone ? (
-                                  <a
-                                    className="link link--dark-underline"
-                                    href={`tel:+1-${formatPhoneNumber(
-                                      client.phone
-                                    )}`}
-                                  >
-                                    {formatPhoneNumber(client.phone)}
-                                  </a>
-                                ) : (
-                                  <EmptyField />
-                                )}
-                              </div>
-                            </div>
+                        </div>
+                        <div className="keyval-list__item keyval-list__item--full mt-3">
+                          <div className="text-bold">Phone Number</div>
+                          <div>
+                            {client.phone ? (
+                              <a
+                                className="link link--dark-underline"
+                                href={`tel:+1-${formatPhoneNumber(
+                                  client.phone
+                                )}`}
+                              >
+                                {formatPhoneNumber(client.phone)}
+                              </a>
+                            ) : (
+                              <EmptyField />
+                            )}
                           </div>
-                        </Card>
-                      );
-                    })}
-                  </div>
+                        </div>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
 
-                  {clientList.length > 0 && (
-                    <Pagination
-                      currentPage={page}
-                      totalPages={totalPages}
-                      onPageChange={(page) =>
-                        setCurrentPage({
-                          ...resultParams,
-                          page,
-                        })
-                      }
-                    />
-                  )}
-                </React.Fragment>
+              {clientList.length > 0 && (
+                <Pagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={(page) =>
+                    setCurrentPage({
+                      ...resultParams,
+                      page,
+                    })
+                  }
+                />
               )}
             </React.Fragment>
           ) : (
