@@ -120,7 +120,7 @@ class ClientsService {
 
   getStatuses = async () => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/statuses`
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads/statuses`
     );
 
     return response.json();
