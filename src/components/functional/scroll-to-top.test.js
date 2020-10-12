@@ -11,43 +11,33 @@ jest.mock("react-router-dom", () => ({
   })),
 }));
 
+const scrollMock = jest.fn();
+const scrollIntoViewMock = jest.fn();
+
+const rootEl = {};
+Object.defineProperty(rootEl, "scrollTop", {
+  get: () => 0,
+  set: scrollMock,
+});
+
+const { rerender } = render(<ScrollToTop rootEl={rootEl} />);
+
 test("<ScrollToTop />, scrolls to top on load", async () => {
-  const scrollMock = jest.fn();
-  const rootEl = {};
-  Object.defineProperty(rootEl, "scrollTop", {
-    get: () => 0,
-    set: scrollMock,
-  });
-  render(<ScrollToTop rootEl={rootEl} />);
   expect(scrollMock).toHaveBeenCalledTimes(1);
   expect(scrollMock).toHaveBeenCalledWith(0);
 });
 
 test("<ScrollToTop />, scrolls to top after pathname change", async () => {
-  const scrollMock = jest.fn();
-  const rootEl = {};
-  Object.defineProperty(rootEl, "scrollTop", {
-    get: () => 0,
-    set: scrollMock,
-  });
-  const { rerender } = render(<ScrollToTop rootEl={rootEl} />);
+  scrollMock.mockReset();
   useLocation.mockImplementationOnce(() => ({
     pathname: "localhost:3000/example/path2",
   }));
   rerender(<ScrollToTop rootEl={rootEl} />);
-  await waitFor(() => expect(scrollMock).toHaveBeenCalledTimes(2));
+  await waitFor(() => expect(scrollMock).toHaveBeenCalledTimes(1));
 });
 
 test("<ScrollToTop />, scrolls to hash", () => {
-  const scrollMock = jest.fn();
-  const scrollIntoViewMock = jest.fn();
-
-  const rootEl = {};
-  Object.defineProperty(rootEl, "scrollTop", {
-    get: () => 0,
-    set: scrollMock,
-  });
-
+  scrollMock.mockReset();
   const hashSection = document.createElement("div");
   hashSection.setAttribute("id", "test-section");
   Object.defineProperty(hashSection, "scrollIntoView", {
@@ -55,12 +45,12 @@ test("<ScrollToTop />, scrolls to hash", () => {
   });
   document.body.appendChild(hashSection);
 
-  const { rerender } = render(<ScrollToTop rootEl={rootEl} />);
   useLocation.mockImplementationOnce(() => ({
     pathname: "localhost:3000/example/path3",
     hash: "#test-section",
   }));
   rerender(<ScrollToTop rootEl={rootEl} />);
 
+  expect(scrollMock).toHaveBeenCalledTimes(0);
   expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
 });
