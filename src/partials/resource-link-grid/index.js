@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import ArrowRightLongIcon from "components/icons/arrow-right-long";
+import Tile from "components/ui/tile";
 import workingRemotelySrc from "images/optimized/working-remotely-373.jpg";
 import workingRemotelySrc2x from "images/optimized/working-remotely-746.jpg";
 import salesTipsSrc from "images/optimized/sales-tips-373.jpg";
@@ -14,6 +13,7 @@ import lifeSolutionsSrc2x from "images/optimized/life-solutions-746.jpg";
 import carrierGuidesSrc from "images/optimized/carrier-guides-373.jpg";
 import carrierGuidesSrc2x from "images/optimized/carrier-guides-746.jpg";
 import analyticsService from "services/analyticsService";
+import { de } from "date-fns/locale";
 
 export default () => {
   const topics = [
@@ -69,32 +69,25 @@ export default () => {
   return (
     <ul className="link-card-grid">
       {topics.map(({ id, analyticsKey, name, images, desc }) => (
-        <li key={id} className="link-card">
-          <img
-            src={images[373]}
-            srcSet={Object.keys(images)
+        <Tile
+          component="li"
+          key={id}
+          imgProps={{
+            src: images[373],
+            srcSet: Object.keys(images)
               .map((size) => `${images[size]} ${size}w`)
-              .join(", ")}
-            width="373"
-            alt=""
-            className="link-card__img"
-            aria-hidden="true"
-          />
-          <Link
-            to={{
+              .join(", "),
+            width: "373",
+          }}
+          linkProps={{
+            to: {
               pathname: "/learning-center",
               hash: `#${id}`,
-            }}
-            className={`link-card__link text-body text-bold ${analyticsService.clickClass(
-              `${analyticsKey}-tile`
-            )}`}
-          >
-            <span className="link-card__link-text">
-              <span>{name}</span> <ArrowRightLongIcon />
-            </span>
-          </Link>
-          <p className="link-card__desc text-body">{desc}</p>
-        </li>
+            },
+          }}
+          name={name}
+          desc={desc}
+        ></Tile>
       ))}
     </ul>
   );
