@@ -16,8 +16,8 @@ export default ({ className = "", ...props }) => {
       </p>
       <div className="hdg hdg--4 mb-1">Email</div>
       <p className="text-body mb-4">
-        <a href="mailto:medicarecenter@integritymarketing.com" className="link">
-          medicarecenter@integritymarketing.com
+        <a href="mailto:support@medicarecenter.com" className="link">
+          support@medicarecenter.com
         </a>
       </p>
     </React.Fragment>

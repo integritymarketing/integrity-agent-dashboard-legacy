@@ -1,0 +1,27 @@
+.number-list {
+  counter-reset: numlist;
+  > * + * {
+    margin-top: 2rem;
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li:before {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1.5rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    flex: 0 0 auto;
+    content: counter(numlist);
+    counter-increment: numlist;
+  }
+}
