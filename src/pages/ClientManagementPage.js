@@ -101,7 +101,6 @@ export default () => {
 
   // update router history for back/forward functionality
   const setCurrentPage = ({ page, sort, filter, searchText }) => {
-    console.log("update", searchText);
     history.push({
       state: {
         sort,
@@ -115,8 +114,6 @@ export default () => {
   const getCurrentPage = useMemo(() => {
     return async () => {
       try {
-        console.log("filter for update: ", filter);
-        console.log("searchText for update: ", searchText);
         const getPromise = clientsService.getList(
           page,
           PAGE_SIZE,
@@ -244,7 +241,6 @@ export default () => {
                   name="search"
                   className="bar__item-large"
                   onChange={(event) => {
-                    console.log("change");
                     debouncedSetCurrentPage({
                       ...resultParams,
                       page: 1,
