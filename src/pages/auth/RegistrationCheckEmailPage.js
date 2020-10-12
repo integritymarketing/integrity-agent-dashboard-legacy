@@ -26,7 +26,7 @@ export default () => {
         }
         title={
           params.get("mode") !== "error"
-            ? "You're Almost Done!"
+            ? "Confirm your account"
             : "Something’s not right"
         }
         body={

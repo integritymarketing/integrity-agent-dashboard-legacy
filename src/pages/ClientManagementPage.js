@@ -77,7 +77,7 @@ export default () => {
   const history = useHistory();
   const {
     page = 1,
-    sort = "firstName:asc",
+    sort = "createDate:desc",
     filter = "",
     searchText = "",
   } = state;
@@ -299,6 +299,8 @@ export default () => {
                       })
                     }
                   >
+                    <option value="createDate:asc">Date Added Asc</option>
+                    <option value="createDate:desc">Date Added Desc</option>
                     <option value="firstName:asc">First Name Asc</option>
                     <option value="firstName:desc">First Name Desc</option>
                     <option value="lastName:asc">Last Name Asc</option>
@@ -331,9 +333,9 @@ export default () => {
                     : "Unnamed Contact";
                   return (
                     <Card key={client.leadsId}>
-                      <div className="bar bar--repel pb-2 border-bottom border-bottom--light">
+                      <div className="bar bar--repel">
                         <div
-                          className={`hdg hdg--4 text-truncate ${
+                          className={`pt-1 pb-1 hdg hdg--4 text-truncate ${
                             namedClient ? "" : "text-muted"
                           }`}
                         >
@@ -353,6 +355,9 @@ export default () => {
                             <EditIcon style={{ pointerEvents: "none" }} />
                           </button>
                         </div>
+                      </div>
+                      <div className="pb-1 text-body text-body--small">
+                        Date Added: {formatDate(client.createDate)}
                       </div>
                       <div className="keyval-list text-body">
                         <div className="keyval-list__item mt-3">
@@ -630,7 +635,7 @@ export default () => {
                         id="cm-edit-phone"
                         label="Phone Number"
                         icon={<PhoneIcon />}
-                        placeholder="Contact Phone Number"
+                        placeholder="XXX-XXX-XXXX"
                         name="phone"
                         value={values.phone}
                         onChange={handleChange}
