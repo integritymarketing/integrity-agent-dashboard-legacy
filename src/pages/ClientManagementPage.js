@@ -8,7 +8,6 @@ import React, {
 import { debounce } from "debounce";
 import { Helmet } from "react-helmet";
 import { Formik } from "formik";
-import dateFnsFormat from "date-fns/format";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
@@ -40,6 +39,7 @@ import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Intere
 import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
 import ExpandButton from "components/icons/expand";
+import { formatDate } from "utils/dates";
 
 const LEAD_ICONS = {
   1: NewIcon,
@@ -62,11 +62,6 @@ const formatPhoneNumber = (phoneNumberString) => {
     return `${match[1]}-${match[2]}-${match[3]}`;
   }
   return null;
-};
-
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return isNaN(date.getTime()) ? "" : dateFnsFormat(date, "MM/dd/yyyy");
 };
 
 const EmptyField = () => <span className="text-muted">--</span>;
