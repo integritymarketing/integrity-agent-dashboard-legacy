@@ -1,0 +1,6 @@
+{
+  "name": "netlify-prebuild-set-version-number",
+  "version": "1.0.0",
+  "description": "A prebuild plugin to set the version number dynamically from the main app package.json file.",
+  "main": "index.js"
+}
