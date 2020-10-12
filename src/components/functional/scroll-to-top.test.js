@@ -11,8 +11,8 @@ jest.mock("react-router-dom", () => ({
   })),
 }));
 
-describe("useLoading", () => {
-  it("scrolls to top on load", async () => {
+describe("<ScrollToTop />", () => {
+  it("<ScrollToTop />, scrolls to top on load", async () => {
     const scrollMock = jest.fn();
     const rootEl = {};
     Object.defineProperty(rootEl, "scrollTop", {
@@ -24,7 +24,7 @@ describe("useLoading", () => {
     expect(scrollMock).toHaveBeenCalledWith(0);
   });
 
-  it("scrolls to top after pathname change", async () => {
+  it("<ScrollToTop />, scrolls to top after pathname change", async () => {
     const scrollMock = jest.fn();
     const rootEl = {};
     Object.defineProperty(rootEl, "scrollTop", {
@@ -37,5 +37,32 @@ describe("useLoading", () => {
     }));
     rerender(<ScrollToTop rootEl={rootEl} />);
     await waitFor(() => expect(scrollMock).toHaveBeenCalledTimes(2));
+  });
+
+  it("<ScrollToTop />, scrolls to hash", () => {
+    const scrollMock = jest.fn();
+    const scrollIntoViewMock = jest.fn();
+
+    const rootEl = {};
+    Object.defineProperty(rootEl, "scrollTop", {
+      get: () => 0,
+      set: scrollMock,
+    });
+
+    const hashSection = document.createElement("div");
+    hashSection.setAttribute("id", "test-section");
+    Object.defineProperty(hashSection, "scrollIntoView", {
+      get: () => scrollIntoViewMock,
+    });
+    document.body.appendChild(hashSection);
+
+    const { rerender } = render(<ScrollToTop rootEl={rootEl} />);
+    useLocation.mockImplementationOnce(() => ({
+      pathname: "localhost:3000/example/path3",
+      hash: "#test-section",
+    }));
+    rerender(<ScrollToTop rootEl={rootEl} />);
+
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
   });
 });
