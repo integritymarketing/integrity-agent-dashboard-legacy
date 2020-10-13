@@ -13,7 +13,6 @@ import lifeSolutionsSrc2x from "images/optimized/life-solutions-746.jpg";
 import carrierGuidesSrc from "images/optimized/carrier-guides-373.jpg";
 import carrierGuidesSrc2x from "images/optimized/carrier-guides-746.jpg";
 import analyticsService from "services/analyticsService";
-import { de } from "date-fns/locale";
 
 export default () => {
   const topics = [
@@ -84,6 +83,7 @@ export default () => {
               pathname: "/learning-center",
               hash: `#${id}`,
             },
+            className: analyticsService.clickClass(`${analyticsKey}-tile`),
           }}
           name={name}
           desc={desc}
