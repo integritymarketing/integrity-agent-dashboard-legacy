@@ -104,4 +104,8 @@
     transform: translateY(0);
     transition: transform 0.25s ease 0.125s, opacity 0.25s ease 0.125s;
   }
+
+  &--focus &__link {
+    outline-offset: -10px;
+  }
 }
