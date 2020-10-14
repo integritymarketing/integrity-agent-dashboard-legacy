@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
+import { debounce } from "debounce";
 import { Helmet } from "react-helmet";
 import { Formik } from "formik";
-import dateFnsFormat from "date-fns/format";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
@@ -19,6 +25,7 @@ import clientsService from "services/clientsService";
 import LocationIcon from "components/icons/location";
 import MailIcon from "components/icons/mail";
 import ProfileIcon from "components/icons/profile";
+import SearchIcon from "components/icons/search";
 import PhoneIcon from "components/icons/phone";
 import NewIcon from "images/lead-status/Status-New.svg";
 import OpenIcon from "images/lead-status/Status-Open.svg";
@@ -31,6 +38,8 @@ import ClosedLostIcon from "images/lead-status/Status-Closed-Lost.svg";
 import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Interested.svg";
 import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
+import ExpandButton from "components/icons/expand";
+import { formatDate } from "utils/dates";
 
 const LEAD_ICONS = {
   1: NewIcon,
@@ -55,18 +64,19 @@ const formatPhoneNumber = (phoneNumberString) => {
   return null;
 };
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return isNaN(date.getTime()) ? "" : dateFnsFormat(date, "MM/dd/yyyy");
-};
-
 const EmptyField = () => <span className="text-muted">--</span>;
 
 export default () => {
   const PAGE_SIZE = 9;
   const { state = {} } = useLocation();
   const history = useHistory();
-  const { page = 1, sort = "firstName:asc" } = state;
+  const {
+    page = 1,
+    sort = "createDate:desc",
+    filter = "",
+    searchText = "",
+  } = state;
+  const [hasLoaded, setLoaded] = useState(false);
   const [totalClients, setTotalClients] = useState(0);
   const [clientList, setClientList] = useState([]);
   const [stagedClient, setStagedClient] = useState(null);
@@ -75,13 +85,23 @@ export default () => {
   const [allStatuses, setAllStatuses] = useState(null);
   const modalFormRef = useRef(null);
   const [hasLoadError, setLoadError] = useState(false);
+  const lastRequest = useRef();
+
+  const resultParams = {
+    page,
+    sort,
+    filter,
+    searchText,
+  };
 
   // update router history for back/forward functionality
-  const setCurrentPage = (page, sort) => {
+  const setCurrentPage = ({ page, sort, filter, searchText }) => {
     history.push({
       state: {
         sort,
         page,
+        filter,
+        searchText,
       },
     });
   };
@@ -89,15 +109,33 @@ export default () => {
   const getCurrentPage = useMemo(() => {
     return async () => {
       try {
-        const list = await clientsService.getList(page, PAGE_SIZE, sort);
+        const getPromise = clientsService.getList(
+          page,
+          PAGE_SIZE,
+          sort,
+          filter,
+          searchText
+        );
+        lastRequest.current = getPromise;
+        const list = await lastRequest.current;
+        if (lastRequest.current !== getPromise) {
+          // throw out old requests
+          return;
+        }
         setClientList(list.result);
         setTotalClients(list.pageResult.total);
         setLoadError(false);
+        setLoaded(true);
       } catch (e) {
         setLoadError(true);
       }
     };
-  }, [sort, page, PAGE_SIZE]);
+  }, [sort, page, filter, PAGE_SIZE, searchText, lastRequest]);
+
+  const debouncedSetCurrentPage = useCallback(
+    debounce(setCurrentPage, 500),
+    []
+  );
 
   // load status ids for updates
   useEffect(() => {
@@ -163,35 +201,97 @@ export default () => {
           </div>
         </Container>
       )}
-      {!loading.isLoading && !hasLoadError && (
+      {hasLoaded && !hasLoadError && (
         <Container className="mt-scale-3">
-          {clientList.length > 0 ? (
+          {clientList.length > 0 || searchText || filter ? (
             <React.Fragment>
-              <div className="toolbar toolbar--stack">
-                <span className="mr-3">
-                  <span className="text-bold">{totalClients}</span>
-                  <span> Clients</span>
+              <div className="hdg hdg--3 content-center mb-4">
+                <span>
+                  <span className="text-bold">{totalClients}</span> Clients
                 </span>
-
                 <button
-                  className={`btn ${analyticsService.clickClass(
+                  className={`icon-btn ml-1 ${analyticsService.clickClass(
                     "addnewcontact-button"
                   )}`}
                   onClick={() => setStagedClient(clientsService.newClientObj())}
                 >
-                  Add New
+                  <span className="visually-hidden">Add New</span>
+                  <ExpandButton aria-hidden="true" />
                 </button>
+              </div>
+              <div
+                className="bar bar--repel bar--collapse-mobile"
+                style={{
+                  "--bar-spacing-vert": 0,
+                  "--bar-spacing-horiz": "2.5rem",
+                }}
+              >
+                <Textfield
+                  id="cm-search"
+                  type="search"
+                  label="Search Leads"
+                  defaultValue={searchText}
+                  icon={<SearchIcon />}
+                  placeholder="Search by first or last name..."
+                  name="search"
+                  className="bar__item-large"
+                  onChange={(event) => {
+                    debouncedSetCurrentPage({
+                      ...resultParams,
+                      page: 1,
+                      searchText: event.currentTarget.value,
+                    });
+                  }}
+                />
+                <div
+                  className="bar bar--attract bar--collapse-mobile"
+                  style={{
+                    "--bar-spacing-vert": 0,
+                    "--bar-spacing-horiz": "2.5rem",
+                  }}
+                >
+                  <SelectMenu
+                    name="filter"
+                    id="cm-filter"
+                    label="Showing"
+                    value={filter}
+                    className="bar__item-small"
+                    onChange={(event) =>
+                      setCurrentPage({
+                        ...resultParams,
+                        page: 1,
+                        filter: event.currentTarget.value,
+                      })
+                    }
+                  >
+                    <option value="">All Statuses</option>
+                    {allStatuses &&
+                      allStatuses.map((status) => (
+                        <option
+                          key={status.leadStatusId}
+                          value={status.leadStatusId}
+                        >
+                          {status.statusName}
+                        </option>
+                      ))}
+                  </SelectMenu>
 
-                <div className="toolbar__aux">
                   <SelectMenu
                     name="sort"
                     id="cm-sort"
                     label="Sort by"
                     value={sort}
+                    className="bar__item-small"
                     onChange={(event) =>
-                      setCurrentPage(1, event.currentTarget.value)
+                      setCurrentPage({
+                        ...resultParams,
+                        page: 1,
+                        sort: event.currentTarget.value,
+                      })
                     }
                   >
+                    <option value="createDate:asc">Date Added Asc</option>
+                    <option value="createDate:desc">Date Added Desc</option>
                     <option value="firstName:asc">First Name Asc</option>
                     <option value="firstName:desc">First Name Desc</option>
                     <option value="lastName:asc">Last Name Asc</option>
@@ -206,6 +306,15 @@ export default () => {
                 </div>
               </div>
 
+              {clientList.length === 0 && (
+                <div className="pt-5 pb-4 text-center">
+                  <div className="hdg hdg--2 mb-1">No Results</div>
+                  <p className="text-body">
+                    Adjust your search criteria to see more results
+                  </p>
+                </div>
+              )}
+
               <div className="card-grid mb-5 pt-1">
                 {clientList.map((client) => {
                   const { firstName = "", lastName = "" } = client;
@@ -215,15 +324,15 @@ export default () => {
                     : "Unnamed Contact";
                   return (
                     <Card key={client.leadsId}>
-                      <div className="toolbar pb-2 border-bottom border-bottom--light">
+                      <div className="bar bar--repel">
                         <div
-                          className={`hdg hdg--4 text-truncate ${
+                          className={`pt-1 pb-1 hdg hdg--4 text-truncate ${
                             namedClient ? "" : "text-muted"
                           }`}
                         >
                           {displayName}
                         </div>
-                        <div className="toolbar__aux text-brand">
+                        <div className="text-brand">
                           <button
                             type="button"
                             className={`icon-btn icon-btn--bump-right ${analyticsService.clickClass(
@@ -237,6 +346,9 @@ export default () => {
                             <EditIcon style={{ pointerEvents: "none" }} />
                           </button>
                         </div>
+                      </div>
+                      <div className="pb-1 text-body text-body--small">
+                        Date Added: {formatDate(client.createDate)}
                       </div>
                       <div className="keyval-list text-body">
                         <div className="keyval-list__item mt-3">
@@ -301,11 +413,18 @@ export default () => {
                 })}
               </div>
 
-              <Pagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page, sort)}
-              />
+              {clientList.length > 0 && (
+                <Pagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={(page) =>
+                    setCurrentPage({
+                      ...resultParams,
+                      page,
+                    })
+                  }
+                />
+              )}
             </React.Fragment>
           ) : (
             <div className="pt-3 pb-5 text-center">
@@ -507,7 +626,7 @@ export default () => {
                         id="cm-edit-phone"
                         label="Phone Number"
                         icon={<PhoneIcon />}
-                        placeholder="Contact Phone Number"
+                        placeholder="XXX-XXX-XXXX"
                         name="phone"
                         value={values.phone}
                         onChange={handleChange}
@@ -655,7 +774,7 @@ export default () => {
                             stagedClient.leadsId
                           );
                           setStagedClient(null);
-                          setCurrentPage(1);
+                          setCurrentPage({ ...resultParams, page: 1 });
                           await getCurrentPage();
                         } catch (e) {
                           alert("Unable to delete contact. Please try again.");

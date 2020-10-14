@@ -2,6 +2,20 @@
   box-sizing: border-box;
 }
 
+@media (prefers-reduced-motion: reduce), (update: slow) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
+  }
+}
+
 [data-js-focus-visible] :focus:not([data-focus-visible-added]) {
   outline: none;
 }
@@ -195,4 +209,9 @@ $spacings: (
 
 .border-bottom--light {
   border-bottom-color: var(--border-light);
+}
+
+.content-center {
+  display: flex;
+  align-items: center;
 }

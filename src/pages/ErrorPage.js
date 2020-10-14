@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import SimpleFooter from "partials/simple-footer";
+import LoginLink from "components/ui/login-link";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import useQueryParams from "hooks/useQueryParams";
@@ -56,9 +57,13 @@ export default () => {
         </p>
 
         <div>
-          <Link className="btn btn--invert" to="/">
-            Back to MedicareCENTER
-          </Link>
+          {params.get("code") === "login_callback_error" ? (
+            <LoginLink className="btn btn--invert">Login</LoginLink>
+          ) : (
+            <Link className="btn btn--invert" to="/">
+              Back to MedicareCENTER
+            </Link>
+          )}
         </div>
         <HelpModal />
       </Container>

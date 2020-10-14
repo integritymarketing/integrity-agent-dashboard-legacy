@@ -1,15 +1,5 @@
 import authService from "services/authService";
-import dateFnsParse from "date-fns/parse";
-import dateFnsFormat from "date-fns/format";
-
-const parseDate = (dateString) => {
-  return dateFnsParse(dateString, "MM/dd/yyyy", new Date());
-};
-
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return dateFnsFormat(date, "yyyy-MM-dd");
-};
+import { parseDate, formatServerDate } from "utils/dates";
 
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
@@ -28,9 +18,20 @@ class ClientsService {
     return fetch(path, opts);
   };
 
-  getList = async (page, pageSize, sort) => {
+  getList = async (page, pageSize, sort, filterId, searchText) => {
+    const params = {
+      PageSize: pageSize,
+      CurrentPage: page,
+      Sort: sort,
+      FilterId: filterId,
+      Search: searchText,
+    };
+    const queryStr = Object.keys(params)
+      .map((key) => (params[key] ? `${key}=${params[key]}` : null))
+      .filter((str) => str !== null)
+      .join("&");
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads?PageSize=${pageSize}&CurrentPage=${page}&Sort=${sort}`
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads?${queryStr}`
     );
     if (response.status >= 400) {
       throw new Error("Leads request failed.");
@@ -71,7 +72,9 @@ class ClientsService {
     return Object.assign({}, baseValues, data, {
       email: email || null,
       phone: phone ? ("" + phone).replace(/\D/g, "") : null,
-      followUpDate: followUpDate ? formatDate(parseDate(followUpDate)) : null,
+      followUpDate: followUpDate
+        ? formatServerDate(parseDate(followUpDate))
+        : null,
       leadStatusId: parseInt(leadStatusId, 10),
     });
   };
@@ -109,7 +112,7 @@ class ClientsService {
 
   getStatuses = async () => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/statuses`
+      `${process.env.REACT_APP_LEADS_URL}/api/Leads/statuses`
     );
 
     return response.json();

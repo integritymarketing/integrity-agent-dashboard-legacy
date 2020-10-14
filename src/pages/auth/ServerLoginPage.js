@@ -74,7 +74,15 @@ export default () => {
               if (data && data.isOk) {
                 window.location = data.redirectUrl;
               } else {
-                setErrors(validationService.formikErrorsFor(data));
+                let errors = validationService.formikErrorsFor(data);
+
+                if (errors.Global === "account_unconfirmed") {
+                  history.push(
+                    `registration-email-sent?npn=${values.NPN}&mode=error`
+                  );
+                } else {
+                  setErrors(errors);
+                }
               }
             }}
           >

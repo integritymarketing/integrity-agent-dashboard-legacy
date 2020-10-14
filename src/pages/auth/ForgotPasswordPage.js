@@ -65,7 +65,15 @@ export default () => {
                 });
               } else {
                 const errorsArr = await response.json();
-                setErrors(validationService.formikErrorsFor(errorsArr));
+                let errors = validationService.formikErrorsFor(errorsArr);
+
+                if (errors.Global === "account_unconfirmed") {
+                  history.push(
+                    `registration-email-sent?npn=${values.NPN}&mode=error`
+                  );
+                } else {
+                  setErrors(errors);
+                }
               }
             }}
           >
