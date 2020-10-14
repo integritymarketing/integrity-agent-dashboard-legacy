@@ -47,7 +47,7 @@ export default () => {
                 <div>
                   <p className="mb-2">
                     Find the confirmation email from MedicareCENTER
-                    (service@integritymarketing.com)
+                    (accounts@medicarecenter.com)
                   </p>
                   <p className="text-body text-body--small">
                     Note: You may need to look in your spam/junk folder
