@@ -1,3 +1,14 @@
+# CSP notes:
+# GTM / GA related (blergh! removing GTM would probably allow the removal of all of this):  'unsafe-eval' 'unsafe-inline' *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com
+# AEPortal API calls + 'self' hosted assets (required): *.integritymarketinggroup.com *.medicarecenter.com
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self' 'unsafe-eval' 'unsafe-inline' *.integritymarketinggroup.com *.medicarecenter.com *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com; object-src 'none'; frame-ancestors 'none'; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com;"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
