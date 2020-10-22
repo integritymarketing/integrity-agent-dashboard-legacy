@@ -24,7 +24,11 @@ export default () => {
       } else {
         let errorsArr = await response.json();
         let errors = validationService.formikErrorsFor(errorsArr);
-        if (errors.NPN === "account_already_confirmed") {
+        if (
+          errors &&
+          errors.hasOwnProperty("NPN") &&
+          errors.NPN === "account_already_confirmed"
+        ) {
           history.push("registration-complete");
         } else {
           history.push(`confirm-link-expired?npn=${params.get("npn")}`);
