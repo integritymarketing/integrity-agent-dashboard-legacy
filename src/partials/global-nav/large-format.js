@@ -60,6 +60,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
                   <li key={idx}>
                     <link.component
                       className={`link link--inherit ${className}`}
+                      tabIndex={navOpen ? "0" : "-1"}
                       {...props}
                     >
                       {link.label}
