@@ -6,11 +6,12 @@ export default ({ rootEl = document.documentElement }) => {
   const formattedHash = hash.substr(1);
 
   useEffect(() => {
-    if (formattedHash) {
-      const el = document.getElementById(formattedHash);
-      if (el) {
-        el.scrollIntoView();
-      }
+    const scrollToHash = formattedHash
+      ? document.getElementById(formattedHash)
+      : false;
+
+    if (scrollToHash) {
+      scrollToHash.scrollIntoView();
     } else {
       rootEl.scrollTop = 0;
     }
