@@ -54,3 +54,23 @@ test("<ScrollToTop />, scrolls to hash", () => {
   expect(scrollMock).toHaveBeenCalledTimes(0);
   expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
 });
+
+test("<ScrollToTop />, scroll to top if hash id doesn't exist", () => {
+  scrollMock.mockReset();
+  scrollIntoViewMock.mockReset();
+  const hashSection = document.createElement("div");
+  hashSection.setAttribute("id", "test-section");
+  Object.defineProperty(hashSection, "scrollIntoView", {
+    get: () => scrollIntoViewMock,
+  });
+  document.body.appendChild(hashSection);
+
+  useLocation.mockImplementationOnce(() => ({
+    pathname: "localhost:3000/example/path4",
+    hash: "#non-existing-id",
+  }));
+  rerender(<ScrollToTop rootEl={rootEl} />);
+
+  expect(scrollMock).toHaveBeenCalledTimes(1);
+  expect(scrollIntoViewMock).toHaveBeenCalledTimes(0);
+});
