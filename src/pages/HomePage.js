@@ -7,6 +7,7 @@ import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import Modal from "components/ui/modal";
 import analyticsService from "services/analyticsService";
+import validationService from "services/validationService";
 import authService from "services/authService";
 import useLoading from "hooks/useLoading";
 
@@ -31,7 +32,8 @@ const handleCSGSSO = async (history, loading) => {
 
   if (response.status >= 200 && response.status < 300) {
     let res = await response.json();
-    window.open(res.redirect_url, "_blank");
+    let formattedRes = validationService.formikErrorsFor(res); // standardize the API response into a formatted object
+    window.open(formattedRes.redirect_url, "_blank");
     return;
   } else {
     history.replace("/error?code=third_party_notauthorized");
