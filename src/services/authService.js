@@ -41,6 +41,11 @@ class authService {
       this.signinSilent();
     });
 
+    this.UserManager.events.addUserSignedOut(() => {
+      Log.debug("authService: user signed out");
+      this.logout();
+    });
+
     this.userProfile = {};
     if (this.isAuthenticated()) {
       this.setUserProfile();

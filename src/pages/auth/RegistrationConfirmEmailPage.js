@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
+import validationService from "services/validationService";
 
 export default () => {
   const history = useHistory();
@@ -21,7 +22,17 @@ export default () => {
       if (response.status >= 200 && response.status < 300) {
         history.push("registration-complete");
       } else {
-        history.push(`confirm-link-expired?npn=${params.get("npn")}`);
+        let errorsArr = await response.json();
+        let errors = validationService.formikErrorsFor(errorsArr);
+        if (
+          errors &&
+          errors.hasOwnProperty("NPN") &&
+          errors.NPN === "account_already_confirmed"
+        ) {
+          history.push("registration-complete");
+        } else {
+          history.push(`confirm-link-expired?npn=${params.get("npn")}`);
+        }
       }
     };
 

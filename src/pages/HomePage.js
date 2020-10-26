@@ -1,13 +1,49 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import Modal from "components/ui/modal";
 import analyticsService from "services/analyticsService";
-import useUserProfile from "hooks/useUserProfile";
+import validationService from "services/validationService";
+import authService from "services/authService";
+import useLoading from "hooks/useLoading";
+
+const handleCSGSSO = async (history, loading) => {
+  loading.begin(0);
+
+  let user = await authService.getUser();
+
+  const response = await fetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + user.access_token,
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+  );
+
+  loading.end();
+
+  if (response.status >= 200 && response.status < 300) {
+    let res = await response.json();
+
+    // standardize the API response into a formatted object
+    // note that formikErrorsFor is a bit of a mis-nomer, this simply formats the
+    // [{"Key":"redirect_url","Value":"url"}] api response
+    // as { redirct_url: 'url' } for simplicity
+    let formattedRes = validationService.formikErrorsFor(res);
+    window.open(formattedRes.redirect_url, "_blank");
+    return;
+  } else {
+    history.replace("/error?code=third_party_notauthorized");
+  }
+};
 
 const SSOButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -82,7 +118,9 @@ const SSOButtonWithModal = ({ ...props }) => {
 };
 
 export default () => {
-  const userProfile = useUserProfile();
+  const history = useHistory();
+  const loading = useLoading();
+
   return (
     <React.Fragment>
       <Helmet>
@@ -124,37 +162,17 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                {/* <a
-                  href={encodeURI(
-                    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin`
-                  )}
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "medicaresupplement-button"
-                  )}`}
-                >
-                  Medicare Supplement
-                </a> */}
-                <a
-                  href={encodeURI(
-                    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${userProfile.npn}/${userProfile.email}`
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "medicaresupplement-button"
-                  )}`}
-                >
-                  Medicare Supplement
-                </a>
-                {/* <button
+                <button
                   type="button"
-                  disabled
+                  onClick={() => {
+                    handleCSGSSO(history, loading);
+                  }}
                   className={`btn btn--invert ${analyticsService.clickClass(
                     "medicaresupplement-button"
                   )}`}
                 >
                   Medicare Supplement
-                </button> */}
+                </button>
               </div>
             </div>
 

@@ -35,11 +35,11 @@
       "icon": "document",
       "analyticsKey": "healthSolutions"
     },
-    {	
-      "id": "life-solutions",	
-      "name": "Life Solutions",	
-      "icon": "document",	
-      "analyticsKey": "lifeSolutions"	
+    {
+      "id": "life-solutions",
+      "name": "Life Solutions",
+      "icon": "document",
+      "analyticsKey": "lifeSolutions"
     }
   ],
   "resources": [
@@ -217,11 +217,17 @@
       "categories": ["health-solutions"],
       "url": "https://learningcenter.tawebhost.com/MedicareCENTER-SureBridge-Guide.pdf"
     },
-    {	
-      "name": "Tips for Marketing Life Insurance Over the Phone",	
-      "description": "Tips and guidelines to help you be successful conducting business as usual, via the telephone",	
-      "categories": ["life-solutions"],	
-      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Tips-Life-Insurance-Phone-Sales.pdf"	
+    {
+      "name": "Tips for Marketing Life Insurance Over the Phone",
+      "description": "Tips and guidelines to help you be successful conducting business as usual, via the telephone",
+      "categories": ["life-solutions"],
+      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Tips-Life-Insurance-Phone-Sales.pdf"
+    },
+    {
+      "name": "Adding Final Expense to Your Portfolio",
+      "description": "If final expense isn't part of your portfolio, you could be missing out on a big opportunity",
+      "categories": ["life-solutions"],
+      "url": "https://learningcenter.tawebhost.com/MedicareCENTER-Adding-Final-Expense.pdf"
     }
   ]
 }
