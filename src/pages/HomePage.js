@@ -32,7 +32,12 @@ const handleCSGSSO = async (history, loading) => {
 
   if (response.status >= 200 && response.status < 300) {
     let res = await response.json();
-    let formattedRes = validationService.formikErrorsFor(res); // standardize the API response into a formatted object
+
+    // standardize the API response into a formatted object
+    // note that formikErrorsFor is a bit of a mis-nomer, this simply formats the
+    // [{"Key":"redirect_url","Value":"url"}] api response
+    // as { redirct_url: 'url' } for simplicity
+    let formattedRes = validationService.formikErrorsFor(res);
     window.open(formattedRes.redirect_url, "_blank");
     return;
   } else {
