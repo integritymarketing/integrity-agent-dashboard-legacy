@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import * as Sentry from "@sentry/react";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
 
@@ -12,11 +13,18 @@ export default () => {
       if (data.postLogoutRedirectUri) {
         window.location = data.postLogoutRedirectUri;
       } else {
-        throw new Error("no logout redirect URL present in logout routine.");
+        Sentry.captureException(
+          "Auth Logout: no logout redirect URL present in authService.logoutUser() API call. sending user to /signout-oidc",
+          {
+            level: "warning",
+          }
+        );
+        window.location = process.env.REACT_APP_PORTAL_URL + "/signout-oidc";
       }
     };
 
     handleLogout();
   }, []);
+
   return "";
 };

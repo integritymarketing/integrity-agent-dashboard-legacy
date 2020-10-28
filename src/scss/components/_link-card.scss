@@ -71,31 +71,41 @@
     transition: transform 0.25s ease, opacity 0.25s ease;
   }
 
-  &:hover {
+  &:hover,
+  &--focus {
     box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.2);
   }
 
-  &:hover > &__img {
+  &:hover > &__img,
+  &--focus > &__img {
     transform: scale(1.05);
     filter: blur(5px);
   }
 
-  &:hover > &__link {
+  &:hover > &__link,
+  &--focus > &__link {
     background-position: 0 100%;
   }
 
-  &:hover &__link-text {
+  &:hover &__link-text,
+  &--focus &__link-text {
     transform: translateY(calc(-100% + 1.75rem));
     transition: transform 0.25s ease;
   }
 
-  &:hover &__link-text > svg {
+  &:hover &__link-text > svg,
+  &--focus &__link-text > svg {
     transform: translateX(0.5rem);
   }
 
-  &:hover > &__desc {
+  &:hover > &__desc,
+  &--focus > &__desc {
     opacity: 1;
     transform: translateY(0);
     transition: transform 0.25s ease 0.125s, opacity 0.25s ease 0.125s;
+  }
+
+  &--focus &__link {
+    outline-offset: -10px;
   }
 }
