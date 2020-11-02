@@ -61,7 +61,7 @@ const ICONS = {
       name: resource.Title,
       description: resource["Preview/Short Description"],
       categories: [string_to_slug(resource.Section)],
-      url: resource["New File name path"]
+      filename: resource["New File name path"]
         ? resource["New File name path"].trim()
         : null,
     };
