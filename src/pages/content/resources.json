@@ -1,10 +1,16 @@
 {
   "featured": [
+    "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy",
     "MedicareAPP Technical Guide",
-    "MedicareLINK Technical Guide",
-    "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy"
+    "MedicareLINK Technical Guide"
   ],
   "categories": [
+    {
+      "id": "working-remote",
+      "name": "Working Remote",
+      "icon": "computer",
+      "analyticsKey": "workingRemote"
+    },
     {
       "id": "sales-tips",
       "name": "Sales Tips",
@@ -16,12 +22,6 @@
       "name": "Tech Guides",
       "icon": "tools",
       "analyticsKey": "techGuides"
-    },
-    {
-      "id": "working-remote",
-      "name": "Working Remote",
-      "icon": "computer",
-      "analyticsKey": "workingRemote"
     },
     {
       "id": "carrier-guides",
@@ -48,24 +48,6 @@
       "description": "Step-by-step guide for using GTL's e-App for quoting and submitting GTL business electronically.",
       "categories": ["working-remote"],
       "filename": "MedicareCENTER-GTL-Guide.pdf"
-    },
-    {
-      "name": "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy",
-      "description": "Suggested phone talking points that cover typical topics and recommended discussion flow for following up on new policies.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Sales-Tips-30-Day-Callback-Script.pdf"
-    },
-    {
-      "name": "MedicareAPP Technical Guide",
-      "description": "Maximize your sales and streamline your workflow this AEP with our new MedicareAPP quoting and enrollment tool.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareAPP-Professional-User-Guide.pdf"
-    },
-    {
-      "name": "MedicareLINK Technical Guide",
-      "description": "Take your sales and your workflow to the next level this AEP with our new MedicareLINK quoting and enrollment tool.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareLINK-Professional-User-Guide.pdf"
     },
     {
       "name": "Medicare Phone Guide: Turning 65 Med Supp Phone Guide",
@@ -218,16 +200,28 @@
       "filename": "MedicareCENTER-SureBridge-Guide.pdf"
     },
     {
-      "name": "Tips for Marketing Life Insurance Over the Phone",
+      "name": "Marketing Life Insurance Over the Phone",
       "description": "Tips and guidelines to help you be successful conducting business as usual, via the telephone",
       "categories": ["life-solutions"],
       "filename": "MedicareCENTER-Tips-Life-Insurance-Phone-Sales.pdf"
     },
     {
-      "name": "Adding Final Expense to Your Portfolio",
-      "description": "If final expense isn't part of your portfolio, you could be missing out on a big opportunity",
-      "categories": ["life-solutions"],
-      "filename": "MedicareCENTER-Adding-Final-Expense.pdf"
+      "name": "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy",
+      "description": "Suggested phone talking points that cover typical topics and recommended discussion flow for following up on new policies.",
+      "categories": ["sales-tips"],
+      "filename": "MedicareCENTER-Sales-Tips-30-Day-Callback-Script.pdf"
+    },
+    {
+      "name": "MedicareAPP Technical Guide",
+      "description": "Maximize your sales and streamline your workflow this AEP with our new MedicareAPP quoting and enrollment tool.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareAPP-Professional-User-Guide.pdf"
+    },
+    {
+      "name": "MedicareLINK Technical Guide",
+      "description": "Take your sales and your workflow to the next level this AEP with our new MedicareLINK quoting and enrollment tool.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareLINK-Professional-User-Guide.pdf"
     }
   ]
 }

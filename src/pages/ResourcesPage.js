@@ -30,9 +30,9 @@ const createDictBy = (list, prop) =>
 const resourceDict = createDictBy(resourceData.resources, "name");
 const categoryDict = createDictBy(resourceData.categories, "id");
 
-const getAssetFullUrl = (filename) => {
-  const assetsUrl = process.env.REACT_APP_ASSETS_URL;
-  return `${assetsUrl}/${filename}`;
+const getResourceUrl = (filename) => {
+  const resourcesBaseUrl = process.env.REACT_APP_RESOURCES_URL;
+  return `${resourcesBaseUrl}/${filename}`;
 };
 
 export default () => {
@@ -71,7 +71,7 @@ export default () => {
                       </div>
                       <div className="pt-2 mt-auto">
                         <a
-                          href={getAssetFullUrl(resource.filename)}
+                          href={getResourceUrl(resource.filename)}
                           rel="noopener noreferrer"
                           target="_blank"
                           className="btn"
@@ -123,7 +123,7 @@ export default () => {
                       return (
                         <li key={resource.name}>
                           <LineItem
-                            href={getAssetFullUrl(resource.filename)}
+                            href={getResourceUrl(resource.filename)}
                             rel="noopener noreferrer"
                             target="_blank"
                             icon={<CategoryIcon />}
