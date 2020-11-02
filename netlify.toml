@@ -14,13 +14,14 @@
   to = "/index.html"
   status = 200
 
-# Set non-sensitive auth env variables
+# Set non-sensitive env variables
 # that live across all envs for simplicity here
 # all URIs and env specif configs live in the netlify enviornment UI configs
 [build.environment]
   REACT_APP_AUTH_CLIENT_ID="AEPortal"
   REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full phone"
   REACT_APP_AUTH_RESPONSE_TYPE="code"
+  REACT_APP_RESOURCES_URL="https://learningcenter.tawebhost.com"
 
 # custom prebuild plugin to set version number ENV var from package.json
 [[plugins]]
