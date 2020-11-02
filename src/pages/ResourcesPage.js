@@ -30,6 +30,11 @@ const createDictBy = (list, prop) =>
 const resourceDict = createDictBy(resourceData.resources, "name");
 const categoryDict = createDictBy(resourceData.categories, "id");
 
+const getResourceUrl = (filename) => {
+  const resourcesBaseUrl = process.env.REACT_APP_RESOURCES_URL;
+  return `${resourcesBaseUrl}/${filename}`;
+};
+
 export default () => {
   return (
     <React.Fragment>
@@ -66,7 +71,7 @@ export default () => {
                       </div>
                       <div className="pt-2 mt-auto">
                         <a
-                          href={resource.url}
+                          href={getResourceUrl(resource.filename)}
                           rel="noopener noreferrer"
                           target="_blank"
                           className="btn"
@@ -118,11 +123,13 @@ export default () => {
                       return (
                         <li key={resource.name}>
                           <LineItem
-                            href={resource.url}
+                            href={getResourceUrl(resource.filename)}
                             rel="noopener noreferrer"
                             target="_blank"
                             icon={<CategoryIcon />}
-                            actionIcon={resource.url ? <DownloadIcon /> : null}
+                            actionIcon={
+                              resource.filename ? <DownloadIcon /> : null
+                            }
                             onClick={() =>
                               analyticsService.fireEvent("assetDownloaded", {
                                 assetCategory: category.analyticsKey,
