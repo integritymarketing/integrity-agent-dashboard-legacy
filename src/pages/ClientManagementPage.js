@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { debounce } from "debounce";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";

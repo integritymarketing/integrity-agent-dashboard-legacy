@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 import LineItem from "components/ui/line-item";
 import GlobalNav from "partials/global-nav";

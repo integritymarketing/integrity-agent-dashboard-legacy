@@ -1,7 +1,7 @@
 import React from "react";
 import Router from "components/functional/router";
 import { Route, Switch } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
 import authService from "services/authService";
@@ -26,57 +26,59 @@ import {
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>
-      <Router>
-        <Helmet>
-          <title>MedicareCENTER</title>
-        </Helmet>
-        <div className="content-frame">
-          <Switch>
-            {/* root path directs traffic to unauthenticed
-              Welcome or authenticated Home page */}
-            <Route exact path="/">
-              <TrafficDirector />
-            </Route>
-            <UnauthenticatedRoute path="/welcome">
-              <WelcomePage />
-            </UnauthenticatedRoute>
-            <AuthenticatedRoute path="/home">
-              <HomePage />
-            </AuthenticatedRoute>
+      <HelmetProvider>
+        <Router>
+          <Helmet>
+            <title>MedicareCENTER</title>
+          </Helmet>
+          <div className="content-frame">
+            <Switch>
+              {/* root path directs traffic to unauthenticed
+                Welcome or authenticated Home page */}
+              <Route exact path="/">
+                <TrafficDirector />
+              </Route>
+              <UnauthenticatedRoute path="/welcome">
+                <WelcomePage />
+              </UnauthenticatedRoute>
+              <AuthenticatedRoute path="/home">
+                <HomePage />
+              </AuthenticatedRoute>
 
-            <AuthenticatedRoute path="/edit-account">
-              <AccountPage />
-            </AuthenticatedRoute>
-            <AuthenticatedRoute path="/learning-center">
-              <ResourcesPage />
-            </AuthenticatedRoute>
-            <AuthenticatedRoute path="/clients">
-              <ClientManagementPage />
-            </AuthenticatedRoute>
+              <AuthenticatedRoute path="/edit-account">
+                <AccountPage />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/learning-center">
+                <ResourcesPage />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/clients">
+                <ClientManagementPage />
+              </AuthenticatedRoute>
 
-            <Route path="/terms">
-              <TermsPage />
-            </Route>
-            <Route path="/privacy">
-              <PrivacyPage />
-            </Route>
+              <Route path="/terms">
+                <TermsPage />
+              </Route>
+              <Route path="/privacy">
+                <PrivacyPage />
+              </Route>
 
-            {/* auth routes + callbacks */}
-            <Route path="/signin" component={AuthSigninRedirectPage} />
-            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
-            <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
-            <Route path="/signin-oidc" component={AuthSigninCallback} />
-            <Route path="/signout-oidc" component={AuthSignoutCallback} />
+              {/* auth routes + callbacks */}
+              <Route path="/signin" component={AuthSigninRedirectPage} />
+              <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
+              <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
+              <Route path="/signin-oidc" component={AuthSigninCallback} />
+              <Route path="/signout-oidc" component={AuthSignoutCallback} />
 
-            <Route path="/error">
-              <ErrorPage />
-            </Route>
-            <Route path="*">
-              <NotFoundPage />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+              <Route path="/error">
+                <ErrorPage />
+              </Route>
+              <Route path="*">
+                <NotFoundPage />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </HelmetProvider>
     </AuthContext.Provider>
   );
 };
