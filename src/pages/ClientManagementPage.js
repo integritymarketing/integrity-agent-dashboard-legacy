@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { debounce } from "debounce";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
@@ -20,6 +20,7 @@ import EditIcon from "components/icons/edit";
 import Modal from "components/ui/modal";
 import validationService from "services/validationService";
 import Textfield from "components/ui/textfield";
+import LeadSourceIndicator from "components/ui/lead-source-indicator";
 import analyticsService from "services/analyticsService";
 import clientsService from "services/clientsService";
 import LocationIcon from "components/icons/location";
@@ -317,7 +318,11 @@ export default () => {
 
               <div className="card-grid mb-5 pt-1">
                 {clientList.map((client) => {
-                  const { firstName = "", lastName = "" } = client;
+                  const {
+                    firstName = "",
+                    lastName = "",
+                    leadSource = "Manual",
+                  } = client;
                   const namedClient = firstName !== "" || lastName !== "";
                   const displayName = namedClient
                     ? `${firstName} ${lastName}`.trim()
@@ -325,12 +330,19 @@ export default () => {
                   return (
                     <Card key={client.leadsId}>
                       <div className="bar bar--repel">
-                        <div
-                          className={`pt-1 pb-1 hdg hdg--4 text-truncate ${
-                            namedClient ? "" : "text-muted"
-                          }`}
-                        >
-                          {displayName}
+                        <div className="content-center">
+                          {leadSource === "Auto" && (
+                            <LeadSourceIndicator
+                              leadStatusId={client.leadStatusId}
+                            />
+                          )}
+                          <div
+                            className={`pt-1 pb-1 hdg hdg--4 text-truncate ${
+                              namedClient ? "" : "text-muted"
+                            }`}
+                          >
+                            {displayName}
+                          </div>
                         </div>
                         <div className="text-brand">
                           <button

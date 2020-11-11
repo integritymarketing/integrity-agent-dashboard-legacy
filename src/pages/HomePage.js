@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Link, useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
