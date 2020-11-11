@@ -331,7 +331,7 @@ export default () => {
                     <Card key={client.leadsId}>
                       <div className="bar bar--repel">
                         <div className="card__contactHeader">
-                          {leadSource === "Auto" && (
+                          {leadSource === "Import" && (
                             <LeadSourceIndicator
                               leadStatusId={client.leadStatusId}
                             />
