@@ -8,10 +8,10 @@ const LeadSourceIndicator = ({ leadStatusId }) => {
         isStatusNew ? "lead-source-indicator-new" : ""
       }`}
     >
-      <span className="tooltip">
+      <div className="tooltip">
         <div className={`statusDot ${isStatusNew ? "statusDot-new" : ""}`} />
         Assigned Lead
-      </span>
+      </div>
     </div>
   );
 };
