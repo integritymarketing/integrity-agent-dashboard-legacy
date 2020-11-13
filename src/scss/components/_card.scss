@@ -73,6 +73,12 @@
   }
 }
 
+.card__contactHeader {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+}
+
 .card__title {
   display: flex;
   font-size: 1.25rem;

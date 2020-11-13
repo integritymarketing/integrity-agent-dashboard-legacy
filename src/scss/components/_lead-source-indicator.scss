@@ -1,0 +1,70 @@
+%dot-default {
+  height: 0.75rem;
+  width: 0.75rem;
+  min-width: 0.75rem;
+  border-radius: 100%;
+  padding: 0 !important;
+  margin-right: 0.5rem;
+  background-color: var(--lead-status-other);
+}
+
+%dot-new {
+  background-color: var(--lead-status-new);
+}
+
+.lead-source-indicator {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @extend %dot-default;
+
+  &-new {
+    @extend %dot-new;
+  }
+
+  .tooltip {
+    visibility: hidden;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--tooltip-background);
+    border: 1px solid var(--tooltip-border);
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    bottom: 175%;
+    left: -1.5rem;
+    white-space: nowrap;
+    transition: visibility 500ms;
+    user-select: none;
+    color: var(--neutral-text-color);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+
+    .statusDot {
+      @extend %dot-default;
+
+      &-new {
+        @extend %dot-new;
+      }
+    }
+  }
+  .tooltip:before {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    left: 28px;
+    height: 10px;
+    width: 10px;
+    background: var(--tooltip-background);
+    box-sizing: border-box;
+    transform: rotate(45deg) translate(-50%);
+    border-bottom: inherit;
+    border-right: inherit;
+  }
+
+  &:hover .tooltip {
+    visibility: visible;
+  }
+}

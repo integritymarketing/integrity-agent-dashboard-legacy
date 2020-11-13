@@ -15,7 +15,7 @@ class authService {
   constructor() {
     this.UserManager = new UserManager({
       ...IDENTITY_CONFIG,
-      userStore: new WebStorageStateStore({ store: window.sessionStorage }),
+      userStore: new WebStorageStateStore({ store: window.localStorage }),
     });
 
     if (process.env.REACT_APP_BUILD_ENV !== "Production") {
@@ -136,7 +136,7 @@ class authService {
 
   isAuthenticated = () => {
     const oidcStorage = JSON.parse(
-      sessionStorage.getItem(
+      localStorage.getItem(
         `oidc.user:${process.env.REACT_APP_AUTH_AUTHORITY_URL}:${process.env.REACT_APP_AUTH_CLIENT_ID}`
       )
     );
@@ -168,15 +168,14 @@ class authService {
     this.UserManager.signoutRedirect({
       id_token_hint: localStorage.getItem("id_token"),
     });
-    this.UserManager.clearStaleState();
   };
 
   signoutRedirectCallback = () => {
     this.UserManager.signoutRedirectCallback().then(() => {
+      this.UserManager.clearStaleState();
       localStorage.clear();
       window.location.replace("/");
     });
-    this.UserManager.clearStaleState();
   };
 
   redirectAndRestartLoginFlow = () => {
