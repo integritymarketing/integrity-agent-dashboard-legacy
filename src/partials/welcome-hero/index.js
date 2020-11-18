@@ -5,7 +5,7 @@ import IconArrowRightLong from "components/icons/arrow-right-long";
 import LoginLink from "components/ui/login-link";
 import "./index.scss";
 
-const RegisterButton = (props) => {
+const RegisterLink = (props) => {
   return (
     <a href={`${process.env.REACT_APP_AUTH_BASE_URL}/register`} {...props}>
       {props.children}
@@ -29,14 +29,14 @@ const WelcomeHero = () => (
         If this is your first visit to the new MedicareCENTER, you need to start
         by registering your account.
       </p>
-      <RegisterButton className="btn btn--invert">
-        Register Now <IconArrowRightLong className="icon" />
-      </RegisterButton>
+      <LoginLink className="btn btn--invert">
+        Login <IconArrowRightLong className="icon" />
+      </LoginLink>
       <p className="mt-scale-2">
-        Already registered a new account?&nbsp;
-        <LoginLink className="link link--invert link--force-underline">
-          Log-in
-        </LoginLink>
+        Don't have an account?&nbsp;
+        <RegisterLink className="link link--invert link--force-underline">
+          Register
+        </RegisterLink>
       </p>
     </Container>
   </div>
