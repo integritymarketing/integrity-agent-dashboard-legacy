@@ -30,7 +30,7 @@ const WelcomeHero = () => (
         by registering your account.
       </p>
       <LoginLink className="btn btn--invert">
-        Login <IconArrowRightLong className="icon" />
+        Log-in <IconArrowRightLong className="icon" />
       </LoginLink>
       <p className="mt-scale-2">
         Don't have an account?&nbsp;
