@@ -66,6 +66,8 @@
     display: inline-flex;
     flex-direction: row;
     align-items: center;
+    min-width: 200px;
+    justify-content: center;
 
     .icon {
       margin-left: 1rem;

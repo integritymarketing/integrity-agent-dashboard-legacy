@@ -63,19 +63,11 @@ const SSOButtonWithModal = ({ ...props }) => {
         </p>
         <div className="pt-2 mb-2">
           <p className="text-body text-body--large">
-            Access previous MedicareCENTER features and more, or access{" "}
-            <a
-              href="https://integrity-ppc.destinationrx.com/PlanCompare/2020/professional/type1/Compare/Home"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link link--force-underline"
-            >
-              MedicareCENTER 2020
-            </a>
-            .
+            Access MedicareCENTER with an enhanced interface offering texting,
+            document storage capabilities, and more!
           </p>
         </div>
-        <div className="mb-4 text-body">
+        <div className="mb-3 text-body">
           <a
             href={
               process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
@@ -88,6 +80,18 @@ const SSOButtonWithModal = ({ ...props }) => {
           >
             MedicareAPP
           </a>
+        </div>
+        <div className="mb-4">
+          <p>
+            <a
+              href="https://integrity-ppc.destinationrx.com/PlanCompare/2020/professional/type1/Compare/Home"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link link--force-underline"
+            >
+              Access MedicareCENTER 2020
+            </a>
+          </p>
         </div>
         <div className="mb-3">
           <p className="text-body text-body--large text-bold text-hr text-hr--dark text-hr--short">
