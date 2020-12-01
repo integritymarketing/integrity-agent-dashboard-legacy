@@ -1,17 +1,20 @@
-// Utility functions for date manipulation
-import dateFnsParse from "date-fns/parse";
-import dateFnsFormat from "date-fns/format";
+import { parse, parseISO, format } from "date-fns";
 
 export const parseDate = (dateString) => {
-  return dateFnsParse(dateString, "MM/dd/yyyy", new Date());
+  return parse(dateString, "MM/dd/yyyy", new Date());
 };
 
 export const formatServerDate = (dateString) => {
   const date = new Date(dateString);
-  return dateFnsFormat(date, "yyyy-MM-dd");
+  return format(date, "yyyy-MM-dd");
 };
 
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return isNaN(date.getTime()) ? "" : dateFnsFormat(date, "MM/dd/yyyy");
+  return isNaN(date.getTime()) ? "" : format(date, "MM/dd/yyyy");
+};
+
+export const formatToLocalDate = (dateString) => {
+  const localDate = parseISO(`${dateString}Z`);
+  return isNaN(localDate.getTime()) ? "" : format(localDate, "MM/dd/yyyy");
 };
