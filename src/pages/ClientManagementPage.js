@@ -40,7 +40,7 @@ import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Intere
 import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
 import ExpandButton from "components/icons/expand";
-import { formatDate } from "utils/dates";
+import { formatDate, formatToLocalDate } from "utils/dates";
 
 const LEAD_ICONS = {
   1: NewIcon,
@@ -360,7 +360,7 @@ export default () => {
                         </div>
                       </div>
                       <div className="pb-1 text-body text-body--small">
-                        Date Added: {formatDate(client.createDate)}
+                        Date Added: {formatToLocalDate(client.createDate)}
                       </div>
                       <div className="keyval-list text-body">
                         <div className="keyval-list__item mt-3">
