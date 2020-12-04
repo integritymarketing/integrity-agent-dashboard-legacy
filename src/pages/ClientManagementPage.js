@@ -184,7 +184,7 @@ export default () => {
       </Helmet>
       <div className="bg-photo bg-photo--alt text-invert">
         <GlobalNav />
-        <Container className="scaling-header">
+        <Container id="main-content" className="scaling-header">
           <h2 className="hdg hdg--1">Client Management</h2>
         </Container>
       </div>

@@ -16,7 +16,7 @@ const RegisterLink = (props) => {
 const WelcomeHero = () => (
   <div className="welcomeHero content-frame bg-photo text-invert">
     <GlobalNav className="globalNav--absolute" />
-    <Container className="container--hero text-center">
+    <Container id="main-content" className="container--hero text-center">
       <h2 className="welcomeHero__title mb-scale-2">
         Welcome to MedicareCENTER
       </h2>

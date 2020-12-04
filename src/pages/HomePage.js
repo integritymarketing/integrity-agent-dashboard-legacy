@@ -132,7 +132,7 @@ export default () => {
       </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
-        <Container className="scaling-header">
+        <Container id="main-content" className="scaling-header">
           <div className="mod-grid">
             <div className="mod text-center">
               <div className="pb-1">
