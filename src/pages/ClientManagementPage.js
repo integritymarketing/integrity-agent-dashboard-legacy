@@ -162,6 +162,13 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentPage]);
 
+  // on modal load, set focus
+  useEffect(() => {
+    if (stagedClient) {
+      document.getElementById("cm-edit-fname").focus();
+    }
+  }, [stagedClient]);
+
   const scrollToErrors = () => {
     setTimeout(() => {
       if (!modalFormRef.current) return;
