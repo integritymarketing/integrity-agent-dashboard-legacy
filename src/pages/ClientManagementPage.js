@@ -463,6 +463,7 @@ export default () => {
           <Modal
             open={stagedClient !== null}
             onClose={() => setStagedClient(null)}
+            labeledById="dialog_contact_label"
           >
             {stagedClient && (
               <Formik
@@ -581,7 +582,10 @@ export default () => {
                     onSubmit={handleSubmit}
                     noValidate
                   >
-                    <legend className="hdg hdg--2 mb-1">
+                    <legend
+                      className="hdg hdg--2 mb-1"
+                      id="dialog_contact_label"
+                    >
                       {stagedClient.leadsId === null
                         ? "New Contact"
                         : "Edit Contact"}
