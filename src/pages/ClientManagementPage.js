@@ -162,6 +162,13 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentPage]);
 
+  // on modal load, set focus
+  useEffect(() => {
+    if (stagedClient) {
+      document.getElementById("cm-edit-fname").focus();
+    }
+  }, [stagedClient]);
+
   const scrollToErrors = () => {
     setTimeout(() => {
       if (!modalFormRef.current) return;
@@ -184,7 +191,7 @@ export default () => {
       </Helmet>
       <div className="bg-photo bg-photo--alt text-invert">
         <GlobalNav />
-        <Container className="scaling-header">
+        <Container id="main-content" className="scaling-header">
           <h2 className="hdg hdg--1">Client Management</h2>
         </Container>
       </div>
@@ -456,6 +463,7 @@ export default () => {
           <Modal
             open={stagedClient !== null}
             onClose={() => setStagedClient(null)}
+            labeledById="dialog_contact_label"
           >
             {stagedClient && (
               <Formik
@@ -574,7 +582,10 @@ export default () => {
                     onSubmit={handleSubmit}
                     noValidate
                   >
-                    <legend className="hdg hdg--2 mb-1">
+                    <legend
+                      className="hdg hdg--2 mb-1"
+                      id="dialog_contact_label"
+                    >
                       {stagedClient.leadsId === null
                         ? "New Contact"
                         : "Edit Contact"}

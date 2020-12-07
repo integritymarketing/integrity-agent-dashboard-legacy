@@ -54,11 +54,22 @@ const SSOButtonWithModal = ({ ...props }) => {
         onClick={() => setModalOpen(true)}
         {...props}
       ></button>
-      <Modal wide open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal
+        wide
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        labeledById="dialog_sso_label"
+        descById="dialog_sso_desc"
+      >
         <div className="mb-3">
-          <div className="tool-icon">MA PDP</div>
+          <div className="tool-icon" id="dialog_sso_label">
+            MA PDP
+          </div>
         </div>
-        <p className="text-body text-body--large pb-3 border-bottom mb-3">
+        <p
+          className="text-body text-body--large pb-3 border-bottom mb-3"
+          id="dialog_sso_desc"
+        >
           Choose from two amazing enrollment tool options:
         </p>
         <div className="pt-2 mb-2">
@@ -132,7 +143,7 @@ export default () => {
       </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
-        <Container className="scaling-header">
+        <Container id="main-content" className="scaling-header">
           <div className="mod-grid">
             <div className="mod text-center">
               <div className="pb-1">

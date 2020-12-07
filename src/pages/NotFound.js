@@ -31,7 +31,7 @@ export default () => {
   return (
     <div className="content-frame bg-neutral-gradient text-invert">
       <GlobalNav menuHidden={true} className="mb-auto" />
-      <Container>
+      <Container id="main-content">
         <div className="hdg hdg--2">404</div>
         <div className="hdg hdg--2 mb-4">Page not found.</div>
         <p className="text-body text-body--large mb-4">

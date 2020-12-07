@@ -3,8 +3,10 @@ import React from "react";
 export default ({ className = "", ...props }) => {
   return (
     <React.Fragment>
-      <div className="hdg hdg--2 mb-1">Contact Support</div>
-      <p className="text-body mb-4">
+      <h2 id="dialog_help_label" className="hdg hdg--2 mb-1">
+        Contact Support
+      </h2>
+      <p id="dialog_help_desc" className="text-body mb-4">
         Call or email one of our support representatives to help resolve your
         issue.
       </p>
