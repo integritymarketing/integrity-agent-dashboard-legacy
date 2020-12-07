@@ -57,14 +57,14 @@ export default ({
                 state={currentPage === 1 ? "inactive" : "active"}
                 onClick={handlePageChange(1)}
               >
-                First <span class="visuallyhidden">page</span>
+                First <span className="visuallyhidden">page</span>
               </PaginationButton>
             )}
             <PaginationButton
               state={currentPage === 1 ? "inactive" : "active"}
               onClick={handlePageChange(currentPage - 1)}
             >
-              Previous <span class="visuallyhidden">page</span>
+              Previous <span className="visuallyhidden">page</span>
             </PaginationButton>
 
             {getVisibleRange(
@@ -77,7 +77,7 @@ export default ({
                 state={page === currentPage ? "current" : "active"}
                 onClick={handlePageChange(page)}
               >
-                <span class="visuallyhidden">page </span> {page}
+                <span className="visuallyhidden">page </span> {page}
               </PaginationButton>
             ))}
 
@@ -85,14 +85,14 @@ export default ({
               state={currentPage === totalPages ? "inactive" : "active"}
               onClick={handlePageChange(currentPage + 1)}
             >
-              Next <span class="visuallyhidden">page</span>
+              Next <span className="visuallyhidden">page</span>
             </PaginationButton>
             {matches.large && (
               <PaginationButton
                 state={currentPage === totalPages ? "inactive" : "active"}
                 onClick={handlePageChange(totalPages)}
               >
-                Last <span class="visuallyhidden">page</span>
+                Last <span className="visuallyhidden">page</span>
               </PaginationButton>
             )}
           </ul>
