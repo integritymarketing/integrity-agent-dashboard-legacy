@@ -8,6 +8,8 @@ export default ({
   wide = false,
   onClose,
   children,
+  labeledById,
+  descById,
   ...props
 }) => {
   const scrollRef = useRef(null);
@@ -43,11 +45,18 @@ export default ({
       }}
     >
       <Container size={wide ? "wide" : "medium"}>
-        <PageCard className="modal__card" scrollRef={scrollRef}>
+        <PageCard
+          className="modal__card"
+          scrollRef={scrollRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={labeledById}
+          aria-describedby={descById}
+        >
           {onClose && (
             <div className="modal__header">
               <button className="modal__exit icon-btn" onClick={onClose}>
-                <ExitIcon aria-hidden="true" />
+                <ExitIcon />
                 <span className="visually-hidden">Close modal window</span>
               </button>
             </div>

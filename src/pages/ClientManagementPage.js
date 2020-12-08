@@ -40,7 +40,7 @@ import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Intere
 import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
 import ExpandButton from "components/icons/expand";
-import { formatDate } from "utils/dates";
+import { formatDate, formatToLocalDate } from "utils/dates";
 
 const LEAD_ICONS = {
   1: NewIcon,
@@ -162,6 +162,13 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentPage]);
 
+  // on modal load, set focus
+  useEffect(() => {
+    if (stagedClient) {
+      document.getElementById("cm-edit-fname").focus();
+    }
+  }, [stagedClient]);
+
   const scrollToErrors = () => {
     setTimeout(() => {
       if (!modalFormRef.current) return;
@@ -184,7 +191,7 @@ export default () => {
       </Helmet>
       <div className="bg-photo bg-photo--alt text-invert">
         <GlobalNav />
-        <Container className="scaling-header">
+        <Container id="main-content" className="scaling-header">
           <h2 className="hdg hdg--1">Client Management</h2>
         </Container>
       </div>
@@ -360,7 +367,7 @@ export default () => {
                         </div>
                       </div>
                       <div className="pb-1 text-body text-body--small">
-                        Date Added: {formatDate(client.createDate)}
+                        Date Added: {formatToLocalDate(client.createDate)}
                       </div>
                       <div className="keyval-list text-body">
                         <div className="keyval-list__item mt-3">
@@ -456,6 +463,7 @@ export default () => {
           <Modal
             open={stagedClient !== null}
             onClose={() => setStagedClient(null)}
+            labeledById="dialog_contact_label"
           >
             {stagedClient && (
               <Formik
@@ -574,7 +582,10 @@ export default () => {
                     onSubmit={handleSubmit}
                     noValidate
                   >
-                    <legend className="hdg hdg--2 mb-1">
+                    <legend
+                      className="hdg hdg--2 mb-1"
+                      id="dialog_contact_label"
+                    >
                       {stagedClient.leadsId === null
                         ? "New Contact"
                         : "Edit Contact"}

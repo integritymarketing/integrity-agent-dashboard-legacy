@@ -21,7 +21,12 @@ const useHelpButtonWithModal = () => {
       ></button>
     ),
     () => (
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        labeledById="dialog_help_label"
+        descById="dialog_help_desc"
+      >
         <ContactInfo />
       </Modal>
     ),
@@ -88,6 +93,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   return (
     <header className={`global-nav ${className}`} {...props}>
+      <a href="#main-content" className="skip-link">
+        Jump to main content
+      </a>
       <h1 className="global-nav__title">
         <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
           <Logo aria-hidden="true" />

@@ -125,3 +125,31 @@
     padding: 2.5rem 2.5rem 3.25;
   }
 }
+
+.skip-link {
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+  display: inline-block;
+  list-style: none;
+  opacity: 1;
+  padding: 0.75rem 1rem;
+  pointer-events: none;
+  position: fixed;
+  text-decoration: underline;
+  top: -100px;
+  left: calc(50% - 125px);
+  transition: top 0.3s ease-in-out;
+  z-index: 99999;
+  text-transform: capitalize;
+  width: 250px;
+  text-align: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  &:hover,
+  &:focus {
+    color: var(--main-text-color);
+    opacity: 1;
+    top: 0;
+  }
+}

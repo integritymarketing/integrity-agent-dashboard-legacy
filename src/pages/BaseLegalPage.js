@@ -8,7 +8,7 @@ export default ({ children, title, ...props }) => {
     <div className="content-frame" {...props}>
       <div className="bg-photo text-invert">
         <GlobalNav />
-        <Container className="scaling-header">
+        <Container id="main-content" className="scaling-header">
           <h2 className="hdg hdg--2">{title}</h2>
         </Container>
       </div>
