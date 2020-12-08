@@ -16,7 +16,12 @@ const HelpButtonWithModal = ({ ...props }) => {
         onClick={() => setModalOpen(true)}
         {...props}
       ></button>
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        labeledById="dialog_help_label"
+        descById="dialog_help_desc"
+      >
         <ContactInfo />
       </Modal>
     </React.Fragment>

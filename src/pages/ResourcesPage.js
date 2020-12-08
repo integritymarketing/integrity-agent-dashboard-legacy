@@ -43,7 +43,7 @@ export default () => {
       </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
-        <Container className="scaling-header">
+        <Container id="main-content" className="scaling-header">
           <h2 className="hdg hdg--1">Learning Center</h2>
         </Container>
       </div>

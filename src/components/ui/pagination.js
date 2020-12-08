@@ -1,12 +1,16 @@
 import React from "react";
 import Media from "react-media";
 
-const PaginationButton = ({ state = "active", ...props }) => (
-  <button
-    type="button"
-    className={`pagination__button pagination__button--${state}`}
-    {...props}
-  ></button>
+const PaginationButton = ({ state = "active", children, ...props }) => (
+  <li className={`pagination__button pagination__button--${state}`} {...props}>
+    <button
+      type="button"
+      aria-disabled={state === "inactive" ? true : undefined}
+      aria-current={state === "current" ? "page" : undefined}
+    >
+      {children}
+    </button>
+  </li>
 );
 
 const noop = () => null;
@@ -42,55 +46,57 @@ export default ({
       }}
     >
       {(matches) => (
-        <div
+        <nav
+          aria-label="pagination"
           className={`pagination ${matches.large ? "" : "pagination--mini"}`}
           {...props}
         >
-          {matches.large && (
+          <ul className="pagination__pages">
+            {matches.large && (
+              <PaginationButton
+                state={currentPage === 1 ? "inactive" : "active"}
+                onClick={handlePageChange(1)}
+              >
+                First <span className="visuallyhidden">page</span>
+              </PaginationButton>
+            )}
             <PaginationButton
               state={currentPage === 1 ? "inactive" : "active"}
-              onClick={handlePageChange(1)}
+              onClick={handlePageChange(currentPage - 1)}
             >
-              First
+              Previous <span className="visuallyhidden">page</span>
             </PaginationButton>
-          )}
-          <PaginationButton
-            state={currentPage === 1 ? "inactive" : "active"}
-            onClick={handlePageChange(currentPage - 1)}
-          >
-            Previous
-          </PaginationButton>
-          <ul className="pagination__pages">
+
             {getVisibleRange(
               totalPages,
               currentPage,
               matches.large ? 5 : 3
             ).map((page) => (
-              <li key={page}>
-                <PaginationButton
-                  state={page === currentPage ? "current" : "active"}
-                  onClick={handlePageChange(page)}
-                >
-                  {page}
-                </PaginationButton>
-              </li>
+              <PaginationButton
+                key={page}
+                state={page === currentPage ? "current" : "active"}
+                onClick={handlePageChange(page)}
+              >
+                <span className="visuallyhidden">page </span> {page}
+              </PaginationButton>
             ))}
-          </ul>
-          <PaginationButton
-            state={currentPage === totalPages ? "inactive" : "active"}
-            onClick={handlePageChange(currentPage + 1)}
-          >
-            Next
-          </PaginationButton>
-          {matches.large && (
+
             <PaginationButton
               state={currentPage === totalPages ? "inactive" : "active"}
-              onClick={handlePageChange(totalPages)}
+              onClick={handlePageChange(currentPage + 1)}
             >
-              Last
+              Next <span className="visuallyhidden">page</span>
             </PaginationButton>
-          )}
-        </div>
+            {matches.large && (
+              <PaginationButton
+                state={currentPage === totalPages ? "inactive" : "active"}
+                onClick={handlePageChange(totalPages)}
+              >
+                Last <span className="visuallyhidden">page</span>
+              </PaginationButton>
+            )}
+          </ul>
+        </nav>
       )}
     </Media>
   );

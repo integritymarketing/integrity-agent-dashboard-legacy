@@ -161,7 +161,8 @@ button {
   }
 }
 
-.visually-hidden {
+.visually-hidden,
+.visuallyhidden {
   @include visually-hidden();
 }
 
