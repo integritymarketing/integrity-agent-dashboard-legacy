@@ -13,7 +13,7 @@ import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import SelectMenu from "components/ui/select-menu";
 import Pagination from "components/ui/pagination";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, Link } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import Card from "components/ui/card";
 import EditIcon from "components/icons/edit";
@@ -206,6 +206,7 @@ export default () => {
         <Container className="mt-scale-3">
           {clientList.length > 0 || searchText || filter ? (
             <React.Fragment>
+              <Link to="/client-import">Client Import</Link>
               <div className="hdg hdg--3 content-center mb-4">
                 <span>
                   <span className="text-bold">{totalClients}</span> Clients
