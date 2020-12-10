@@ -41,6 +41,7 @@ import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.sv
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
 import ExpandButton from "components/icons/expand";
 import { formatDate, formatToLocalDate } from "utils/dates";
+import { formatPhoneNumber } from "utils/phones";
 
 const LEAD_ICONS = {
   1: NewIcon,
@@ -54,15 +55,6 @@ const LEAD_ICONS = {
   9: ClosedNotInterestedIcon,
   10: ClosedIneligibleIcon,
   11: ClosedOtherIcon,
-};
-
-const formatPhoneNumber = (phoneNumberString) => {
-  const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
-  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-  if (match) {
-    return `${match[1]}-${match[2]}-${match[3]}`;
-  }
-  return null;
 };
 
 const EmptyField = () => <span className="text-muted">--</span>;
