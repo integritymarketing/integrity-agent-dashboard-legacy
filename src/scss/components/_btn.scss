@@ -7,7 +7,6 @@
   font-weight: 700;
   line-height: 1.5;
   padding: calc(0.5em - 2px) 1.25em;
-  margin: 0;
   border-radius: (20/16) * 1em;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease,
@@ -111,4 +110,10 @@
 
 .btn--no-upper {
   text-transform: none;
+}
+
+.btn--flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

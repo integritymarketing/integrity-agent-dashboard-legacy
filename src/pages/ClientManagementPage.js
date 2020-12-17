@@ -39,7 +39,6 @@ import ClosedLostIcon from "images/lead-status/Status-Closed-Lost.svg";
 import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Interested.svg";
 import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
-import ExpandButton from "components/icons/expand";
 import { formatDate, formatToLocalDate } from "utils/dates";
 import { formatPhoneNumber } from "utils/phones";
 
@@ -198,20 +197,27 @@ export default () => {
         <Container className="mt-scale-3">
           {clientList.length > 0 || searchText || filter ? (
             <React.Fragment>
-              <Link to="/client-import">Client Import</Link>
               <div className="hdg hdg--3 content-center mb-4">
                 <span>
                   <span className="text-bold">{totalClients}</span> Clients
                 </span>
                 <button
-                  className={`icon-btn ml-1 ${analyticsService.clickClass(
+                  className={`btn btn--outline ml-2 ${analyticsService.clickClass(
                     "addnewcontact-button"
                   )}`}
                   onClick={() => setStagedClient(clientsService.newClientObj())}
                 >
-                  <span className="visually-hidden">Add New</span>
-                  <ExpandButton aria-hidden="true" />
+                  Add New
                 </button>
+
+                <Link
+                  to="/client-import"
+                  className={`btn btn--outline ml-2 ${analyticsService.clickClass(
+                    "import-button"
+                  )}`}
+                >
+                  Import
+                </Link>
               </div>
               <div
                 className="bar bar--repel bar--collapse-mobile"
