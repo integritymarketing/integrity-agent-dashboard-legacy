@@ -6,8 +6,6 @@ const ErrorContainer = ({ errors }) => {
     return null;
   }
 
-  console.log("errors", errors);
-
   return (
     <div className="CSVImporter_errors pt-2 pb-2 mb-4 text-left">
       <div className="hdg hdg--2 mb-1">Attention</div>
