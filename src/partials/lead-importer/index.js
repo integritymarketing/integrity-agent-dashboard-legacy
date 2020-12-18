@@ -97,8 +97,8 @@ const LeadImporter = () => {
             history.push("clients");
           }}
         >
-          <ImporterField name="firstName" label="First Name" />
-          <ImporterField name="lastName" label="Last Name" />
+          <ImporterField name="firstName" label="First Name" optional />
+          <ImporterField name="lastName" label="Last Name" optional />
           <ImporterField name="email" label="Email" />
           <ImporterField name="phone" label="Phone" optional />
           <ImporterField name="postalCode" label="Postal Code" optional />
