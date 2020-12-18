@@ -1,8 +1,8 @@
 .CSVImporter_FileSelector {
-  border: 2px dashed rgb(229, 231, 235);
-  padding: 4em;
-  border-radius: 0.4em;
-  background: #fff;
+  border: 2px dashed var(--border-light);
+  padding: 4rem;
+  border-radius: 1rem;
+  background: var(--main-bg-color);
   text-align: center;
   color: var(--main-text-color);
   cursor: pointer;
@@ -10,7 +10,6 @@
 .CSVImporter_FileSelector[data-active="true"] {
   background: var(--page-bg-hover);
   border: 2px solid var(--page-bg-hover);
-  transition: background 0.1s ease-out;
 }
 
 .CSVImporter_TextButton {
@@ -21,8 +20,8 @@
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
-  padding: calc(0.5em - 2px) 1.25em;
-  border-radius: 1.25em;
+  padding: calc(0.5rem - 2px) 1.25rem;
+  border-radius: 1.25rem;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -43,13 +42,29 @@
   cursor: default;
 }
 
+.CSVImporter_ImporterFrame__footerSecondary {
+  .CSVImporter_TextButton {
+    color: var(--brand-text-color);
+    background-color: var(--main-bg-color);
+  }
+  .CSVImporter_TextButton:hover:not(:disabled) {
+    background-color: var(--main-bg-color);
+    color: var(--brand-text-hover-color);
+  }
+  .CSVImporter_TextButton:disabled {
+    background-color: var(--main-bg-color);
+    border-color: var(--disabled-color);
+    color: var(--disabled-color);
+  }
+}
+
 .CSVImporter_IconButton {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
-  width: 3em;
-  height: 3em;
+  width: 3rem;
+  height: 3rem;
   border: 0;
   padding: 0;
   border-radius: 50%;
@@ -58,15 +73,13 @@
   color: #000;
   cursor: pointer;
 }
-// .CSVImporter_IconButton:hover:not(:disabled) {
-//   background: rgba(128, 128, 128, 0.25);
-// }
+
 .CSVImporter_IconButton:disabled {
   cursor: default;
 }
 .CSVImporter_IconButton[data-small="true"] {
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
 }
 .CSVImporter_IconButton[data-focus-only="true"] {
   opacity: 0;
@@ -77,8 +90,8 @@
 }
 .CSVImporter_IconButton > span {
   display: block;
-  width: 1.75em;
-  height: 1.75em;
+  width: 1.75rem;
+  height: 1.75rem;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -102,25 +115,27 @@
   opacity: 0.25;
 }
 .CSVImporter_IconButton[data-small="true"] > span {
-  font-size: 0.75em;
+  font-size: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 .CSVImporter_ImporterFrame {
   border: 1px solid var(--border-light);
-  padding: 1.2em;
-  border-radius: 0.4em;
+  padding: 1rem;
+  border-radius: 0.5rem;
   background: #fff;
 }
 .CSVImporter_ImporterFrame__header {
   display: flex;
   align-items: center;
-  margin-top: -1em;
-  margin-bottom: 0.2em;
-  margin-left: -1em;
+  margin-top: -1rem;
+  margin-bottom: 0.2rem;
+  margin-left: -1rem;
 }
 .CSVImporter_ImporterFrame__headerTitle {
-  padding-bottom: 0.1em;
+  padding-bottom: 0.1rem;
   overflow: hidden;
-  font-size: 1.15em;
+  font-size: 1.15rem;
   color: var(--main-text-color);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -128,15 +143,15 @@
 .CSVImporter_ImporterFrame__headerCrumbSeparator {
   flex: none;
   display: flex;
-  margin-right: 0.5em;
-  margin-left: 0.5em;
-  font-size: 1.2em;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
   opacity: 0.5;
 }
 .CSVImporter_ImporterFrame__headerCrumbSeparator > span {
   display: block;
-  width: 1em;
-  height: 1em;
+  width: 1rem;
+  height: 1rem;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZvY3VzYWJsZT0iZmFsc2UiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEwIDZMOC41OSA3LjQxIDEzLjE3IDEybC00LjU4IDQuNTlMMTAgMThsNi02eiI+PC9wYXRoPjwvc3ZnPg==");
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -144,21 +159,21 @@
 }
 .CSVImporter_ImporterFrame__headerSubtitle {
   flex: none;
-  padding-bottom: 0.1em;
-  font-size: 1.15em;
+  padding-bottom: 0.1rem;
+  font-size: 1.15rem;
   color: var(--main-text-color);
 }
 .CSVImporter_ImporterFrame__footer {
   display: flex;
   align-items: center;
-  margin-top: 1.2em;
+  margin-top: 1.2rem;
 }
 .CSVImporter_ImporterFrame__footerFill {
   flex: 1 1 0;
 }
 .CSVImporter_ImporterFrame__footerError {
   flex: none;
-  margin-right: 1em;
+  margin-right: 1rem;
   line-height: 0.8;
   color: var(--error-confirm-state-color);
   word-break: break-word;
@@ -166,49 +181,35 @@
 .CSVImporter_ImporterFrame__footerSecondary {
   flex: none;
   display: flex;
-  margin-right: 1em;
+  margin-right: 1rem;
 }
-// .CSVImporter_FormatErrorMessage {
-//   display: flex;
-//   align-items: center;
-//   padding: 0.5em 1em;
-//   border-radius: 0.4em;
-//   background: #f0f0f0;
-//   color: var(--error-confirm-state-color);
-// }
-// .CSVImporter_FormatErrorMessage > span {
-//   flex: 1 1 0;
-//   margin-right: 1em;
-//   width: 0;
-//   word-break: break-word;
-// }
+
 .CSVImporter_FormatRawPreview__scroll {
-  margin-bottom: 1.2em;
-  height: 6em;
+  margin-bottom: 1.2rem;
+  height: 6rem;
   overflow: auto;
-  border-radius: 0.4em;
-  background: #404040;
+  border-radius: 0.4rem;
+  background: var(--neutral-text-color);
   color: #f0f0f0;
 }
 .CSVImporter_FormatRawPreview__pre {
   margin: 0;
-  padding: 0.5em 1em;
+  padding: 0.5rem 1rem;
   line-height: 1.25;
-  font-size: 1.15em;
+  font-size: 1.15rem;
 }
 .CSVImporter_FormatRawPreview__pre > aside {
   display: inline-block;
-  margin-left: 0.2em;
-  padding: 0 0.25em;
-  border-radius: 0.2em;
+  margin-left: 0.2rem;
+  padding: 0 0.25rem;
+  border-radius: 0.2rem;
   background: #fff;
-  font-size: 0.75em;
-  color: gray;
+  font-size: 0.75rem;
+  color: var(--muted-text-color);
   opacity: 0.75;
 }
 .CSVImporter_FormatDataRowPreview {
-  max-height: 12em;
-  min-height: 6em;
+  max-height: 12rem;
   border: 1px solid var(--border-light);
   overflow: scroll;
 }
@@ -220,12 +221,13 @@
 .CSVImporter_FormatDataRowPreview__table > thead > tr > th {
   font-style: italic;
   font-weight: normal;
-  color: gray;
+  color: var(--muted-text-color);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.5);
 }
 .CSVImporter_FormatDataRowPreview__table > thead > tr > th,
 .CSVImporter_FormatDataRowPreview__table > tbody > tr > td {
   border-right: 1px solid rgba(128, 128, 128, 0.5);
-  padding: 0.5em 0.5em;
+  padding: 0.5rem 1rem;
   line-height: 1;
   font-size: 1rem;
   white-space: nowrap;
@@ -234,47 +236,53 @@
 .CSVImporter_FormatDataRowPreview__table > tbody > tr > td:last-child {
   border-right: none;
 }
-.CSVImporter_FormatDataRowPreview__table > thead + tbody > tr:first-child > td,
-.CSVImporter_FormatDataRowPreview__table > tbody > tr + tr > td {
-  padding-top: 0;
-}
+
 .CSVImporter_FormatPreview__header {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
   margin-bottom: 1rem;
-  font-size: 1.15em;
-  color: gray;
+  font-size: 1rem;
+  color: var(--neutral-text-color);
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 .CSVImporter_FormatPreview__headerToggle {
   display: flex;
   align-items: center;
-  margin-top: -0.5em;
-  margin-bottom: -0.5em;
-  margin-left: 1.5em;
+
   color: var(--main-text-color);
   cursor: pointer;
+
+  @media (min-width: 600px) {
+    margin-left: 1.5rem;
+  }
 }
 .CSVImporter_FormatPreview__headerToggle > input[type="checkbox"] {
-  margin-right: 0.5em;
-  width: 1.2em;
-  height: 1.2em;
+  margin-right: 0.5rem;
+  width: 1.2rem;
+  height: 1.2rem;
   cursor: pointer;
 }
 .CSVImporter_FormatPreview__mainPendingBlock {
   display: flex;
   align-content: center;
   justify-content: center;
-  padding: 2em;
-  color: gray;
+  padding: 2rem;
+  color: var(--muted-text-color);
 }
 .CSVImporter_ColumnDragCard {
   position: relative;
   z-index: 0;
-  padding: 0.5em 0.75em;
-  border-radius: 0.4em;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.4rem;
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  cursor: default;
 }
 .CSVImporter_ColumnDragCard[data-draggable="true"] {
   cursor: grab;
@@ -284,7 +292,6 @@
   background: #f0f0f0;
   box-shadow: none;
   opacity: 0.5;
-  user-select: none;
 }
 .CSVImporter_ColumnDragCard[data-error="true"] {
   background: rgba(192, 0, 0, 0.25);
@@ -300,13 +307,13 @@
   color: #000;
 }
 .CSVImporter_ColumnDragCard__cardHeader {
-  margin-top: -0.25em;
-  margin-right: -0.5em;
-  margin-bottom: 0.25em;
-  margin-left: -0.5em;
-  height: 1.5em;
+  margin-top: -0.25rem;
+  margin-right: -0.5rem;
+  margin-bottom: 0.25rem;
+  margin-left: -0.5rem;
+  height: 1.5rem;
   font-weight: bold;
-  color: gray;
+  color: var(--muted-text-color);
 }
 .CSVImporter_ColumnDragCard__cardHeader > b {
   display: flex;
@@ -330,44 +337,41 @@
   color: #000;
 }
 .CSVImporter_ColumnDragCard__cardValue {
-  margin-top: 0.25em;
+  margin-top: 0.25rem;
   overflow: hidden;
-  line-height: 1.25em;
-  font-size: 0.75em;
+  line-height: 1.25rem;
+  font-size: 0.75rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .CSVImporter_ColumnDragCard__cardValue[data-header="true"] {
   text-align: center;
   font-style: italic;
-  color: gray;
+  color: var(--muted-text-color);
 }
 .CSVImporter_ColumnDragCard__cardValue + div {
   margin-top: 0;
 }
 .CSVImporter_ColumnDragObject {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 8em;
+  position: fixed;
+  min-width: 8rem;
   width: 0;
-  height: 0;
   pointer-events: none;
   cursor: grab;
+  z-index: 2;
 }
 .CSVImporter_ColumnDragObject__holder {
   position: absolute;
-  height: 100px;
-  top: 150px;
+  top: -40px;
   left: -50%;
   width: 100%;
-  opacity: 0.99;
+  opacity: 0.9;
   cursor: grab;
 }
 .CSVImporter_ColumnDragSourceArea {
   display: flex;
-  margin-top: 0.5em;
-  margin-bottom: 2em;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
 }
 .CSVImporter_ColumnDragSourceArea__control {
   flex: none;
@@ -379,7 +383,6 @@
   flex: 1 1 0;
   display: flex;
   padding-top: 2rem;
-  padding-left: 2rem;
 }
 .CSVImporter_ColumnDragSourceArea__pageIndicator {
   position: absolute;
@@ -391,13 +394,17 @@
 }
 .CSVImporter_ColumnDragSourceArea__pageFiller {
   flex: 1 1 0;
-  margin-right: 0.5em;
+  margin-right: 0.5rem;
 }
 .CSVImporter_ColumnDragSourceArea__box {
   position: relative;
   flex: 1 1 0;
-  margin-right: 0.5em;
+  margin: 0 0.25rem;
   width: 0;
+
+  @media (min-width: 768px) {
+    margin: 0 0.5rem;
+  }
 }
 .CSVImporter_ColumnDragSourceArea__boxAction {
   position: absolute;
@@ -414,18 +421,18 @@
   flex-basis: 25%;
   flex-grow: 0;
   flex-shrink: 1;
-  width: 0;
-  padding-top: 1em;
-  padding-right: 1em;
+  min-width: 80px;
+  padding-top: 1rem;
+  padding-right: 1rem;
 }
 .CSVImporter_ColumnDragTargetArea__boxLabel {
-  margin-bottom: 0.25em;
+  margin-bottom: 0.25rem;
   font-weight: 500;
   color: var(--main-text-color);
   word-break: break-word;
 }
 .CSVImporter_ColumnDragTargetArea__boxLabel > b {
-  margin-left: 0.25em;
+  margin-left: 0.25rem;
   color: var(--error-confirm-state-color);
 }
 .CSVImporter_ColumnDragTargetArea__boxValue {
@@ -450,20 +457,20 @@
   color: var(--muted-text-color);
 }
 .CSVImporter_ProgressDisplay {
-  padding: 2em;
+  padding: 2rem 0;
 }
 .CSVImporter_ProgressDisplay__status {
   text-align: center;
-  font-size: 1.15em;
+  font-size: 1.15rem;
   color: var(--main-text-color);
 }
 .CSVImporter_ProgressDisplay__status.-pending {
-  color: gray;
+  color: var(--muted-text-color);
 }
 .CSVImporter_ProgressDisplay__count {
   text-align: right;
-  font-size: 1em;
-  color: gray;
+  font-size: 1rem;
+  color: var(--muted-text-color);
 }
 .CSVImporter_ProgressDisplay__count > var {
   display: inline-block;
@@ -475,7 +482,7 @@
 .CSVImporter_ProgressDisplay__progressBar {
   position: relative;
   width: 100%;
-  height: 0.5em;
+  height: 0.5rem;
   background: #f0f0f0;
 }
 .CSVImporter_ProgressDisplay__progressBarIndicator {
@@ -484,12 +491,15 @@
   left: 0;
   width: 0;
   height: 100%;
-  background: var(--main-text-color);
+  background: var(--brand-bg-color);
   transition: width 0.2s ease-out;
 }
 .CSVImporter_Importer {
   box-sizing: border-box;
   line-height: 1.4;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .CSVImporter_Importer * {
   box-sizing: border-box;
