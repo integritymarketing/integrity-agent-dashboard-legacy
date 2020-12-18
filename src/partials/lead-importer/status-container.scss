@@ -1,0 +1,32 @@
+.CSVImporter_successes {
+  border: 2px solid var(--lead-status-new);
+  padding: 1rem 2rem;
+  background-color: white;
+  color: var(--neutral-text-color);
+  border-radius: 0.5rem;
+}
+
+.CSVImporter_successes--none {
+  border: 2px solid var(--neutral-text-color);
+}
+
+.CSVImporter_errors {
+  background-color: var(--error-confirm-state-color);
+  padding: 1rem 2rem;
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.CSVImporter_errors ul {
+  list-style-type: disc;
+  padding: 0 1rem;
+  margin: 1rem;
+}
+
+.CSVImporter_errors ul li {
+  margin: 0.5rem 0;
+
+  span {
+    font-weight: bold;
+  }
+}

@@ -5,7 +5,7 @@ import { Importer, ImporterField } from "react-csv-importer";
 import { useHistory } from "react-router-dom";
 import clientsService from "services/clientsService";
 import authService from "services/authService";
-import LeadImporterErrorContainer from "partials/lead-importer/error-container";
+import LeadImporterStatusContainer from "partials/lead-importer/status-container";
 import { formatPhoneNumber } from "utils/phones";
 
 import "./index.scss";
@@ -18,17 +18,21 @@ const prepareRowForImport = (row) => {
 const LeadImporter = () => {
   const history = useHistory();
   const [importErrors, setImportErrors] = useState([]);
+  const [importSuccesses, setImportSuccesses] = useState([]);
 
   return (
     <>
-      <LeadImporterErrorContainer errors={importErrors} />
+      <LeadImporterStatusContainer
+        errors={importErrors}
+        successes={importSuccesses}
+      />
 
       <div className="card">
         <h3 className="hdg hdg--3 mb-3">Import Leads By CSV File Upload</h3>
         <Importer
           chunkSize={10000} // optional, internal parsing chunk size in bytes
           assumeNoHeaders={false} // optional, keeps "data has headers" checkbox off by default
-          restartable={true} // optional, lets user choose to upload another file when import is complete
+          restartable={false} // optional, lets user choose to upload another file when import is complete
           onStart={() => {
             // optional, invoked when user has mapped columns and started import
             // not much available in this method.. metadata basics like filename available.
@@ -46,6 +50,10 @@ const LeadImporter = () => {
 
                 if (response.status >= 200 && response.status < 300) {
                   // maybe show progress success per row better?
+                  setImportSuccesses((prevState) => [
+                    ...prevState,
+                    { id: row.email },
+                  ]);
                 } else {
                   if (response.status === 401) {
                     authService.handleExpiredToken(); // then?
@@ -55,8 +63,8 @@ const LeadImporter = () => {
                     setImportErrors((importErrors) => [
                       ...importErrors,
                       {
-                        key: row.email,
-                        message: `Validation error when attempting to save ${row.email}: ${errorData}`,
+                        id: row.email,
+                        message: errorData,
                       },
                     ]);
                   }
@@ -71,8 +79,8 @@ const LeadImporter = () => {
                 setImportErrors((importErrors) => [
                   ...importErrors,
                   {
-                    key: row.email,
-                    message: `Critical error when attempting to save ${row.email}`,
+                    id: row.email,
+                    message: `Unknown error`,
                   },
                 ]);
 

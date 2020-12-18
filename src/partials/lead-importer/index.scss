@@ -76,6 +76,7 @@
 
 .CSVImporter_IconButton:disabled {
   cursor: default;
+  width: 1rem;
 }
 .CSVImporter_IconButton[data-small="true"] {
   width: 2rem;
@@ -113,6 +114,7 @@
 }
 .CSVImporter_IconButton:disabled > span {
   opacity: 0.25;
+  display: none;
 }
 .CSVImporter_IconButton[data-small="true"] > span {
   font-size: 0.5rem;
