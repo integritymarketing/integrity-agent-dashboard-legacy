@@ -54,7 +54,10 @@ const LeadImporter = () => {
                     const errorData = await response.json();
                     setImportErrors((importErrors) => [
                       ...importErrors,
-                      `Validation error when attempting to save ${row.email}: ${errorData}`,
+                      {
+                        key: row.email,
+                        message: `Validation error when attempting to save ${row.email}: ${errorData}`,
+                      },
                     ]);
                   }
 
@@ -67,7 +70,10 @@ const LeadImporter = () => {
               } catch (e) {
                 setImportErrors((importErrors) => [
                   ...importErrors,
-                  `Critical error when attempting to save ${row.email}`,
+                  {
+                    key: row.email,
+                    message: `Critical error when attempting to save ${row.email}`,
+                  },
                 ]);
 
                 return;

@@ -6,6 +6,8 @@ const ErrorContainer = ({ errors }) => {
     return null;
   }
 
+  console.log("errors", errors);
+
   return (
     <div className="CSVImporter_errors pt-2 pb-2 mb-4 text-left">
       <div className="hdg hdg--2 mb-1">Attention</div>
@@ -14,8 +16,8 @@ const ErrorContainer = ({ errors }) => {
         Please review the issues:
       </p>
       <ul>
-        {errors.map((error, i) => {
-          return <li>{error}</li>;
+        {errors.map((error) => {
+          return <li key={error.key}>{error.message}</li>;
         })}
       </ul>
     </div>
