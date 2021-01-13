@@ -449,6 +449,14 @@ export default () => {
               >
                 Add New
               </button>
+              <Link
+                to="/client-import"
+                className={`btn ml-2 ${analyticsService.clickClass(
+                  "import-button"
+                )}`}
+              >
+                Import
+              </Link>
             </div>
           )}
 
