@@ -3,7 +3,11 @@ import React from "react";
 export default ({ className = "", testId, ...props }) => {
   return (
     <React.Fragment>
-      <h2 id="dialog_help_label" className="hdg hdg--2 mb-1">
+      <h2
+        id="dialog_help_label"
+        className="hdg hdg--2 mb-1"
+        data-testid={`${testId}-title`}
+      >
         Contact Support
       </h2>
       <p
