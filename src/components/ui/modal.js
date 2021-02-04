@@ -10,6 +10,7 @@ export default ({
   children,
   labeledById,
   descById,
+  testId,
   ...props
 }) => {
   const scrollRef = useRef(null);
@@ -52,6 +53,7 @@ export default ({
           aria-modal="true"
           aria-labelledby={labeledById}
           aria-describedby={descById}
+          data-testid={testId}
         >
           {onClose && (
             <div className="modal__header">

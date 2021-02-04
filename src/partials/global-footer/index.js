@@ -9,6 +9,7 @@ import analyticsService from "services/analyticsService";
 
 const HelpButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const testId = "footer-support-modal";
   return (
     <React.Fragment>
       <button
@@ -21,8 +22,9 @@ const HelpButtonWithModal = ({ ...props }) => {
         onClose={() => setModalOpen(false)}
         labeledById="dialog_help_label"
         descById="dialog_help_desc"
+        testId={testId}
       >
-        <ContactInfo />
+        <ContactInfo testId={testId} />
       </Modal>
     </React.Fragment>
   );
