@@ -6,6 +6,7 @@ import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
+import usePortalUrl from "hooks/usePortalUrl";
 
 const HelpButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -31,6 +32,8 @@ const HelpButtonWithModal = ({ ...props }) => {
 };
 
 export default ({ className = "", ...props }) => {
+  const portalUrl = usePortalUrl();
+
   return (
     <footer className={`global-footer text-muted pt-5 ${className}`} {...props}>
       <div className="global-footer__content sf-text-center">
@@ -78,7 +81,7 @@ export default ({ className = "", ...props }) => {
             </Media>
             <li>
               <a
-                href={`${process.env.REACT_APP_PORTAL_URL || ""}/terms`}
+                href={`${portalUrl || ""}/terms`}
                 rel="noopener noreferrer"
                 className="link link--inherit"
               >
@@ -87,7 +90,7 @@ export default ({ className = "", ...props }) => {
             </li>
             <li>
               <a
-                href={`${process.env.REACT_APP_PORTAL_URL || ""}/privacy`}
+                href={`${portalUrl || ""}/privacy`}
                 rel="noopener noreferrer"
                 className="link link--inherit"
               >
