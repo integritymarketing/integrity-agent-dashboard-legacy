@@ -100,7 +100,8 @@ export default ({ className = "", ...props }) => {
           </ul>
         </nav>
         <small className="global-footer__legal mt-4">
-          <span>© 2020</span> <span>Integrity Marketing Group.</span>{" "}
+          <span>&copy; {new Date().getFullYear()}</span>{" "}
+          <span>Integrity Marketing Group.</span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>
