@@ -15,7 +15,9 @@
     "react-helmet-async": "^1.0.7",
     "react-media": "^1.10.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "tldts": "^5.7.2",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@rescripts/cli": "^0.0.14",
