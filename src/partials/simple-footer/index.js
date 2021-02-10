@@ -31,7 +31,8 @@ export default ({ className = "", ...props }) => {
           </ul>
         </nav>
         <small className="simple-footer__legal">
-          <span>© 2020</span> <span>Integrity Marketing Group.</span>{" "}
+          <span>&copy; {new Date().getFullYear()}</span>{" "}
+          <span>Integrity Marketing Group.</span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>

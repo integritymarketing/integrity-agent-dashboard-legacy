@@ -105,11 +105,16 @@
                 </li>
               </ul>
             </nav>
+
             <small class="global-footer__legal"
-              ><span>Copyright © 2020</span>
+              ><span>Copyright © <span id="copyright-year">2021</span></span>
               <span>Integrity Marketing Group.</span>
               <span>All rights reserved.</span></small
             >
+            <script>
+              var el = document.getElementById("copyright-year");
+              el.innerText = new Date().getFullYear();
+            </script>
           </div>
         </footer>
       </div>
