@@ -4,6 +4,7 @@ import usePortalUrl from "hooks/usePortalUrl";
 
 export default ({ className = "", ...props }) => {
   const portalUrl = usePortalUrl();
+  const isLifeCenter = portalUrl.includes("southwesternlegacy");
 
   return (
     <footer className={`simple-footer pt-5 ${className}`} {...props}>
@@ -32,7 +33,11 @@ export default ({ className = "", ...props }) => {
         </nav>
         <small className="simple-footer__legal">
           <span>&copy; {new Date().getFullYear()}</span>{" "}
-          <span>Integrity Marketing Group.</span>{" "}
+          <span>
+            {isLifeCenter
+              ? "Southwestern Legacy Insurance Group."
+              : "Integrity Marketing Group."}
+          </span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>
