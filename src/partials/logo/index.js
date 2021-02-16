@@ -1,8 +1,18 @@
 import React from "react";
+import AgentPortalLogo from "../../images/lifecenter/swl-logo-agent-white.png";
 
 import "./index.scss";
 
-export default ({ color = "#fff", ...props }) => {
+export default ({ color = "#fff", isLifeCenter = false, ...props }) => {
+  if (isLifeCenter) {
+    return (
+      <img
+        src={AgentPortalLogo}
+        alt="Southwestern Legacy Insurance Group - Agent Portal logo"
+      />
+    );
+  }
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
