@@ -1,7 +1,10 @@
 import React from "react";
 import "./index.scss";
+import usePortalUrl from "hooks/usePortalUrl";
 
 export default ({ className = "", ...props }) => {
+  const portalUrl = usePortalUrl();
+
   return (
     <footer className={`simple-footer pt-5 ${className}`} {...props}>
       <div className="simple-footer__content sf-text-center">
@@ -9,7 +12,7 @@ export default ({ className = "", ...props }) => {
           <ul className="divided-hlist">
             <li>
               <a
-                href={`${process.env.REACT_APP_PORTAL_URL || ""}/terms`}
+                href={`${portalUrl || ""}/terms`}
                 rel="noopener noreferrer"
                 className="link link--inherit"
               >
@@ -18,7 +21,7 @@ export default ({ className = "", ...props }) => {
             </li>
             <li>
               <a
-                href={`${process.env.REACT_APP_PORTAL_URL || ""}/privacy`}
+                href={`${portalUrl || ""}/privacy`}
                 rel="noopener noreferrer"
                 className="link link--inherit"
               >
@@ -28,7 +31,8 @@ export default ({ className = "", ...props }) => {
           </ul>
         </nav>
         <small className="simple-footer__legal">
-          <span>© 2020</span> <span>Integrity Marketing Group.</span>{" "}
+          <span>&copy; {new Date().getFullYear()}</span>{" "}
+          <span>Integrity Marketing Group.</span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>
