@@ -12,6 +12,8 @@ import analyticsService from "services/analyticsService";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const testId = "header-support-modal";
+
   return [
     ({ ...props }) => (
       <button
@@ -26,8 +28,9 @@ const useHelpButtonWithModal = () => {
         onClose={() => setModalOpen(false)}
         labeledById="dialog_help_label"
         descById="dialog_help_desc"
+        testId={testId}
       >
-        <ContactInfo />
+        <ContactInfo testId={testId} />
       </Modal>
     ),
   ];
