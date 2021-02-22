@@ -81,7 +81,7 @@ class authService {
     }
 
     return fetch(
-      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/account${path}`,
+      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1.0/account${path}`,
       opts
     );
   };
