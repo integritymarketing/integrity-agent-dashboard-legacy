@@ -2,6 +2,8 @@ import * as Sentry from "@sentry/react";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 import usePortalUrl from "hooks/usePortalUrl";
 
+const AUTH_API_VERSION = "v1.0";
+
 class authService {
   constructor() {
     this.UserManager = new UserManager({
@@ -81,7 +83,7 @@ class authService {
     }
 
     return fetch(
-      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1.0/account${path}`,
+      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/${AUTH_API_VERSION}/account${path}`,
       opts
     );
   };
