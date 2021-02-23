@@ -2,7 +2,6 @@ import React from "react";
 import "./status-container.scss";
 
 const SuccessContainer = ({ errors, successes }) => {
-  console.log("successes", successes);
   if (successes.length === 0 && errors.length === 0) {
     return null;
   }
