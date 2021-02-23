@@ -15,6 +15,7 @@ import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
 import WelcomePage from "pages/WelcomePage";
+import PortalUrl from "components/functional/portal-url";
 import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
 import AuthSignoutCallback from "components/functional/auth-signout-callback";
@@ -68,8 +69,14 @@ const App = () => {
 
               {/* auth routes + callbacks */}
               <Route path="/signin" component={AuthSigninRedirectPage} />
-              <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
-              <Route path="/signin-oidc-silent" component={AuthSilentCallback} />
+              <Route
+                path="/signin-oidc-silent"
+                component={AuthSilentCallback}
+              />
+              <Route
+                path="/signin-oidc-silent"
+                component={AuthSilentCallback}
+              />
               <Route path="/signin-oidc" component={AuthSigninCallback} />
               <Route path="/signout-oidc" component={AuthSignoutCallback} />
 
@@ -81,6 +88,7 @@ const App = () => {
               </Route>
             </Switch>
           </div>
+          <PortalUrl />
         </Router>
       </HelmetProvider>
     </AuthContext.Provider>

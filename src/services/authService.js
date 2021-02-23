@@ -1,20 +1,11 @@
 import * as Sentry from "@sentry/react";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
-
-const IDENTITY_CONFIG = {
-  authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
-  client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
-  response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
-  scope: process.env.REACT_APP_AUTH_SCOPES,
-  redirect_uri: process.env.REACT_APP_PORTAL_URL + "/signin-oidc",
-  post_logout_redirect_uri: process.env.REACT_APP_PORTAL_URL + "/signout-oidc",
-  silent_redirect_uri: process.env.REACT_APP_PORTAL_URL + "/signin-oidc-silent",
-};
+import usePortalUrl from "hooks/usePortalUrl";
 
 class authService {
   constructor() {
     this.UserManager = new UserManager({
-      ...IDENTITY_CONFIG,
+      ...this._getIdentityConfig(),
       userStore: new WebStorageStateStore({ store: window.localStorage }),
     });
 
@@ -51,6 +42,20 @@ class authService {
       this.setUserProfile();
     }
   }
+
+  _getIdentityConfig = () => {
+    let portal_url = usePortalUrl();
+
+    return {
+      authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
+      client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
+      response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
+      scope: process.env.REACT_APP_AUTH_SCOPES,
+      redirect_uri: portal_url + "/signin-oidc",
+      post_logout_redirect_uri: portal_url + "/signout-oidc",
+      silent_redirect_uri: portal_url + "/signin-oidc-silent",
+    };
+  };
 
   _authAPIRequest = async (path, method = "GET", body = null) => {
     let user = null;
@@ -179,7 +184,8 @@ class authService {
   };
 
   redirectAndRestartLoginFlow = () => {
-    window.location = process.env.REACT_APP_PORTAL_URL + "/signin";
+    let portal_url = usePortalUrl();
+    window.location = portal_url + "/signin";
     return;
   };
 
