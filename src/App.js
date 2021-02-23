@@ -25,8 +25,6 @@ import {
   UnauthenticatedRoute,
 } from "components/functional/auth-routes";
 
-console.log("portalURL", PortalUrl);
-
 const AuthUserGlobalMessages = () => {
   const auth = useContext(AuthContext);
   const { show: showMessage } = useFlashMessage();
