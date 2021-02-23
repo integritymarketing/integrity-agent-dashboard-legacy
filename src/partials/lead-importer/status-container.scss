@@ -1,8 +1,8 @@
 .CSVImporter_successes {
-  border: 2px solid var(--lead-status-new);
+  border: 2px solid var(--main-text-color);
   padding: 1rem 2rem;
   background-color: white;
-  color: var(--neutral-text-color);
+  color: var(--main-text-color);
   border-radius: 0.5rem;
 }
 
@@ -11,16 +11,31 @@
 }
 
 .CSVImporter_errors {
-  background-color: var(--error-confirm-state-color);
-  padding: 1rem 2rem;
-  color: white;
+  color: var(--error-confirm-state-color);
+  background-color: var(--error-confirm-state-background);
+  padding: 2rem 2rem;
+  border: 2px solid var(--error-confirm-state-color);
   border-radius: 0.5rem;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  }
 }
 
 .CSVImporter_errors ul {
   list-style-type: disc;
   padding: 0 1rem;
   margin: 1rem;
+  color: var(--main-text-color);
+  max-height: 250px;
+  overflow-y: scroll;
 }
 
 .CSVImporter_errors ul li {
