@@ -150,6 +150,18 @@ class authService {
     return !!oidcStorage && !!oidcStorage.id_token;
   };
 
+  getAuthenticatedUserProfile = () => {
+    if (!this.isAuthenticated()) {
+      return null;
+    }
+    const oidcStorage = JSON.parse(
+      localStorage.getItem(
+        `oidc.user:${process.env.REACT_APP_AUTH_AUTHORITY_URL}:${process.env.REACT_APP_AUTH_CLIENT_ID}`
+      )
+    );
+    return oidcStorage && oidcStorage.profile;
+  };
+
   signinSilent = async () => {
     let user;
     try {
