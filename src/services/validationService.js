@@ -61,7 +61,7 @@ class ValidationService {
     const cleaned = ("" + phoneNumber).replace(/\D/g, "");
 
     if (phoneNumber && cleaned.length !== 10) {
-      return `${label} must be a valid phone number`;
+      return `${label} must be a valid 10-digit phone number`;
     }
 
     return null;
