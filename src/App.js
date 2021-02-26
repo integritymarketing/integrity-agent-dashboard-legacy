@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Router from "components/functional/router";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
@@ -36,10 +36,10 @@ const AuthUserGlobalMessages = () => {
         showMessage(
           <div>
             <span>&#9888;</span> Sorry, we couldn’t find the phone number with
-            this account. Please <a href="/edit-account">update</a> your
+            this account. Please <Link to="/edit-account">update</Link> your
             information.
           </div>,
-          { type: "error" }
+          { type: "error1" }
         );
       }
     }
