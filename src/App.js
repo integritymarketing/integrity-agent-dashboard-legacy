@@ -32,14 +32,14 @@ const AuthUserGlobalMessages = () => {
   useEffect(() => {
     if (auth.isAuthenticated()) {
       const profile = auth.getAuthenticatedUserProfile();
-      if (profile && profile.phone) {
+      if (profile && !profile.phone) {
         showMessage(
           <div>
             <span>&#9888;</span> Sorry, we couldn’t find the phone number with
             this account. Please <Link to="/edit-account">update</Link> your
             information.
           </div>,
-          { type: "error1" }
+          { type: "notice" }
         );
       }
     }
