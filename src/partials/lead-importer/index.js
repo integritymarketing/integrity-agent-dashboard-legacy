@@ -41,51 +41,44 @@ const LeadImporter = () => {
           processChunk={async (rows) => {
             // required, receives a list of parsed objects based on defined fields and user column mapping;
             // may be called several times if file is large
-            for (let row of rows) {
-              prepareRowForImport(row);
+            rows.forEach((row) => prepareRowForImport(row));
 
-              try {
-                let response;
-                response = await clientsService.createClient(row);
+            try {
+              const response = await clientsService.createClients(rows);
 
-                if (response.status >= 200 && response.status < 300) {
-                  // maybe show progress success per row better?
+              if (response.status >= 200 && response.status < 300) {
+                // maybe show progress success per row better?
+                rows.forEach((row) => {
                   setImportSuccesses((prevState) => [
                     ...prevState,
                     { id: row.email },
                   ]);
+                });
+              } else {
+                if (response.status === 401) {
+                  authService.handleExpiredToken(); // then?
                 } else {
-                  if (response.status === 401) {
-                    authService.handleExpiredToken(); // then?
-                  } else {
-                    // status 400
-                    const errorData = await response.json();
-                    setImportErrors((importErrors) => [
-                      ...importErrors,
-                      {
-                        id: row.email,
-                        message: errorData,
-                      },
-                    ]);
-                  }
-
-                  // maybe update if conflict or error?
-                  // response = await clientsService.updateClient(
-                  //   stagedClient,
-                  //   values
-                  // );
+                  // status 400
+                  const errorData = await response.json();
+                  console.log({ errorData });
+                  setImportErrors((importErrors) => [
+                    ...importErrors,
+                    {
+                      id: 'bulk-creation',
+                      message: errorData,
+                    },
+                  ]);
                 }
-              } catch (e) {
-                setImportErrors((importErrors) => [
-                  ...importErrors,
-                  {
-                    id: row.email,
-                    message: `Unknown error`,
-                  },
-                ]);
-
-                return;
               }
+            } catch (e) {
+              console.log({ e });
+              setImportErrors((importErrors) => [
+                ...importErrors,
+                {
+                  id: "bulk-creation",
+                  message: `Unknown error`,
+                },
+              ]);
             }
           }}
           onComplete={() => {
