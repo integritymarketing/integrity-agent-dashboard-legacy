@@ -69,7 +69,10 @@ export default () => {
                     },
                     {
                       name: "phone",
-                      validator: validationService.validatePhone,
+                      validator: validationService.composeValidator([
+                        validationService.validateRequired,
+                        validationService.validatePhone,
+                      ]),
                     },
                     {
                       name: "email",
