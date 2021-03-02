@@ -1,6 +1,7 @@
 import clientsService from "./clientsService";
 import authService from "services/authService";
 import * as dates from "utils/dates";
+import { LEADS_API_VERSION } from "./clientsService";
 
 process.env.REACT_APP_LEADS_URL = "mockUrl";
 
@@ -29,7 +30,7 @@ it("clientsService.getList", async () => {
   clientsService.getList(1, 10);
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
-    "mockUrl/api/Leads?PageSize=10&CurrentPage=1"
+    `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=10&CurrentPage=1`
   );
 });
 
@@ -41,7 +42,7 @@ it("clientsService.getList, accepts sort param", async () => {
   clientsService.getList(1, 10, "ASC");
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
-    "mockUrl/api/Leads?PageSize=10&CurrentPage=1&Sort=ASC"
+    `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=10&CurrentPage=1&Sort=ASC`
   );
 });
 
@@ -53,7 +54,7 @@ it("clientsService.getList, accepts filterId param", async () => {
   clientsService.getList(1, 10, null, 1);
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
-    "mockUrl/api/Leads?PageSize=10&CurrentPage=1&FilterId=1"
+    `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=10&CurrentPage=1&FilterId=1`
   );
 });
 
@@ -65,7 +66,7 @@ it("clientsService.getList, accepts searchText param", async () => {
   clientsService.getList(1, 10, null, null, "John");
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
-    "mockUrl/api/Leads?PageSize=10&CurrentPage=1&Search=John"
+    `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=10&CurrentPage=1&Search=John`
   );
 });
 
@@ -85,7 +86,7 @@ it("clientsService.getList, throws error", async () => {
 
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
-    "mockUrl/api/Leads?PageSize=7&CurrentPage=2"
+    `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=7&CurrentPage=2`
   );
   expect(err.message).toMatch("Leads request failed.");
 });
@@ -103,7 +104,9 @@ it("clientsService.getClient", async () => {
   clientsService._clientAPIRequest = await asyncMock;
   clientsService.getClient(54321);
   expect(asyncMock).toHaveBeenCalled();
-  expect(asyncMock).toHaveBeenCalledWith("mockUrl/api/Leads/54321");
+  expect(asyncMock).toHaveBeenCalledWith(
+    `mockUrl/api/${LEADS_API_VERSION}/Leads/54321`
+  );
 });
 
 it("clientsService._getFormattedData, formats data", async () => {
@@ -157,7 +160,7 @@ it("clientsService.createClient", async () => {
   expect(mockGetFormattedData).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
-    "mockUrl/api/Leads",
+    `mockUrl/api/${LEADS_API_VERSION}/Leads`,
     "POST",
     mockFormattedData
   );
@@ -190,7 +193,7 @@ it("clientsService.updateClient", async () => {
   expect(mockGetFormattedData).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
-    "mockUrl/api/Leads/12345",
+    `mockUrl/api/${LEADS_API_VERSION}/Leads/12345`,
     "PUT",
     mockFormattedData
   );
@@ -201,7 +204,10 @@ it("clientsService.deleteClient", async () => {
   clientsService._clientAPIRequest = await asyncMock;
   clientsService.deleteClient(123);
   expect(asyncMock).toHaveBeenCalled();
-  expect(asyncMock).toHaveBeenCalledWith("mockUrl/api/Leads/123", "DELETE");
+  expect(asyncMock).toHaveBeenCalledWith(
+    `mockUrl/api/${LEADS_API_VERSION}/Leads/123`,
+    "DELETE"
+  );
 });
 
 it("clientsService.getStatuses", async () => {
@@ -211,5 +217,7 @@ it("clientsService.getStatuses", async () => {
   clientsService._clientAPIRequest = await asyncMock;
   clientsService.getStatuses();
   expect(asyncMock).toHaveBeenCalled();
-  expect(asyncMock).toHaveBeenCalledWith("mockUrl/api/Leads/statuses");
+  expect(asyncMock).toHaveBeenCalledWith(
+    `mockUrl/api/${LEADS_API_VERSION}/Leads/statuses`
+  );
 });

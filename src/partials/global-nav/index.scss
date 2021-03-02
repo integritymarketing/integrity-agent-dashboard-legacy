@@ -35,6 +35,10 @@
   }
   @media (min-width: 768px) {
     padding: 1.5rem 2.5rem;
+
+    &--hasNotification {
+      padding: 2.5rem 2.5rem;
+    }
   }
 }
 
@@ -151,5 +155,35 @@
     color: var(--main-text-color);
     opacity: 1;
     top: 0;
+  }
+}
+
+.site-notification {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--error-state-notification-color);
+  color: var(--invert-text-color);
+  padding: 0.5rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    padding: 0.25rem 1rem;
+  }
+
+  @media (min-width: 900px) {
+    font-size: 1rem;
+  }
+
+  &--notice {
+    background-color: var(--brand-bg-color);
+  }
+
+  &__icon {
+    margin-right: 1rem;
+    font-size: 24px;
   }
 }

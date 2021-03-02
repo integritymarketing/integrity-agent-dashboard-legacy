@@ -1,6 +1,8 @@
 import authService from "services/authService";
 import { parseDate, formatServerDate } from "utils/dates";
 
+export const LEADS_API_VERSION = "v1.0";
+
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
     const user = await authService.getUser();
@@ -31,7 +33,7 @@ class ClientsService {
       .filter((str) => str !== null)
       .join("&");
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads?${queryStr}`
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
     );
     if (response.status >= 400) {
       throw new Error("Leads request failed.");
@@ -59,7 +61,7 @@ class ClientsService {
 
   getClient = async (id) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${id}`
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
     );
 
     return response;
@@ -82,7 +84,18 @@ class ClientsService {
   createClient = async (data) => {
     const reqData = this._getFormattedData(data);
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads`,
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
+      "POST",
+      reqData
+    );
+
+    return response;
+  };
+
+  bulkCreateClients = async (clients) => {
+    const reqData = clients.map((client) => this._getFormattedData(client));
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkuploadleads`,
       "POST",
       reqData
     );
@@ -93,7 +106,7 @@ class ClientsService {
   updateClient = async (oldValues, data) => {
     const reqData = this._getFormattedData(data, oldValues);
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${oldValues.leadsId}`,
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${oldValues.leadsId}`,
       "PUT",
       reqData
     );
@@ -103,7 +116,7 @@ class ClientsService {
 
   deleteClient = async (id) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads/${id}`,
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
       "DELETE"
     );
 
@@ -112,7 +125,7 @@ class ClientsService {
 
   getStatuses = async () => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/Leads/statuses`
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/statuses`
     );
 
     return response.json();

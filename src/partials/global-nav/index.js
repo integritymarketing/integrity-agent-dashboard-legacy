@@ -36,6 +36,38 @@ const useHelpButtonWithModal = () => {
   ];
 };
 
+const SiteNotification = ({ showPhoneNotification }) => {
+  // WORKING ON SITE NOTIFICATION
+  // const sitewideNotificationMessage =
+  //   process.env.REACT_APP_SITEWIDE_NOTIFICATION;
+
+  // if (sitewideNotificationMessage) {
+  //   return (
+  //     <div className="site-notification" data-testid="site-notification">
+  //       <div className="site-notification__icon">&#9888;</div>
+  //       <div>{sitewideNotificationMessage}</div>
+  //     </div>
+  //   );
+  // }
+
+  if (showPhoneNotification) {
+    return (
+      <div
+        className="site-notification site-notification--notice"
+        data-testid="phone-number-notification"
+      >
+        <div className="site-notification__icon">&#9888;</div>
+        <div>
+          Phone number is required. Please{" "}
+          <Link to="/edit-account">update</Link> your account information.
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
@@ -94,39 +126,50 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         }
   );
 
+  const showPhoneNotification =
+    auth.isAuthenticated() && !auth.userProfile.phone;
+
   return (
-    <header className={`global-nav ${className}`} {...props}>
-      <a href="#main-content" className="skip-link">
-        Jump to main content
-      </a>
-      <h1 className="global-nav__title">
-        <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
-          <Logo aria-hidden="true" />
-          <span className="visually-hidden">Medicare Center</span>
-        </Link>
-      </h1>
-      {auth.isAuthenticated() && !menuHidden && (
-        <nav className="global-nav__links">
-          <h2 className="visually-hidden">Main Navigation</h2>
-          {/*
+    <>
+      <SiteNotification showPhoneNotification={showPhoneNotification} />
+      <header
+        className={`global-nav ${className} ${
+          showPhoneNotification ? "global-nav--hasNotification" : ""
+        }`}
+        {...props}
+      >
+        <a href="#main-content" className="skip-link">
+          Jump to main content
+        </a>
+        <h1 className="global-nav__title">
+          <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
+            <Logo aria-hidden="true" />
+            <span className="visually-hidden">Medicare Center</span>
+          </Link>
+        </h1>
+        {auth.isAuthenticated() && !menuHidden && (
+          <nav className="global-nav__links">
+            <h2 className="visually-hidden">Main Navigation</h2>
+            {/*
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-          <Media
-            queries={{
-              small: "(max-width: 767px)",
-            }}
-          >
-            {(matches) => (
-              <React.Fragment>
-                {matches.small && <SmallFormatMenu {...menuProps} />}
-                {!matches.small && <LargeFormatMenu {...menuProps} />}
-              </React.Fragment>
-            )}
-          </Media>
-        </nav>
-      )}
-      <HelpButtonModal />
-    </header>
+            <Media
+              queries={{
+                small: "(max-width: 767px)",
+              }}
+            >
+              {(matches) => (
+                <React.Fragment>
+                  {matches.small && <SmallFormatMenu {...menuProps} />}
+                  {!matches.small && <LargeFormatMenu {...menuProps} />}
+                </React.Fragment>
+              )}
+            </Media>
+          </nav>
+        )}
+        <HelpButtonModal />
+      </header>
+    </>
   );
 };
