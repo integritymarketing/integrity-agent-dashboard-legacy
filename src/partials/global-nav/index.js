@@ -94,9 +94,12 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         }
   );
 
+  const showPhoneNotification =
+    auth.isAuthenticated() && !auth.userProfile.phone;
+
   return (
     <>
-      {auth.isAuthenticated() && !auth.userProfile.phone && (
+      {showPhoneNotification && (
         <div
           className="phone-number-notification"
           data-testid="phone-number-notification"
@@ -108,7 +111,12 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           </div>
         </div>
       )}
-      <header className={`global-nav ${className}`} {...props}>
+      <header
+        className={`global-nav ${className} ${
+          showPhoneNotification ? "global-nav--hasNotification" : ""
+        }`}
+        {...props}
+      >
         <a href="#main-content" className="skip-link">
           Jump to main content
         </a>
