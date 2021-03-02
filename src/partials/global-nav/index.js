@@ -36,6 +36,38 @@ const useHelpButtonWithModal = () => {
   ];
 };
 
+const SiteNotification = ({ showPhoneNotification }) => {
+  // WORKING ON SITE NOTIFICATION
+  // const sitewideNotificationMessage =
+  //   process.env.REACT_APP_SITEWIDE_NOTIFICATION;
+
+  // if (sitewideNotificationMessage) {
+  //   return (
+  //     <div className="site-notification" data-testid="site-notification">
+  //       <div className="site-notification__icon">&#9888;</div>
+  //       <div>{sitewideNotificationMessage}</div>
+  //     </div>
+  //   );
+  // }
+
+  if (showPhoneNotification) {
+    return (
+      <div
+        className="site-notification site-notification--notice"
+        data-testid="phone-number-notification"
+      >
+        <div className="site-notification__icon">&#9888;</div>
+        <div>
+          Phone number is required. Please{" "}
+          <Link to="/edit-account">update</Link> your account information.
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
@@ -99,18 +131,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   return (
     <>
-      {showPhoneNotification && (
-        <div
-          className="phone-number-notification"
-          data-testid="phone-number-notification"
-        >
-          <div className="phone-number-notification__icon">&#9888;</div>{" "}
-          <div>
-            Sorry, we couldn’t find the phone number with this account. Please{" "}
-            <Link to="/edit-account">update</Link> your information.
-          </div>
-        </div>
-      )}
+      <SiteNotification showPhoneNotification={showPhoneNotification} />
       <header
         className={`global-nav ${className} ${
           showPhoneNotification ? "global-nav--hasNotification" : ""

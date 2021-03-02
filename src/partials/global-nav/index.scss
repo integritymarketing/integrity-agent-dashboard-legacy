@@ -158,12 +158,12 @@
   }
 }
 
-.phone-number-notification {
+.site-notification {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--notice-state-color);
+  background-color: var(--error-state-notification-color);
   color: var(--invert-text-color);
   padding: 0.5rem 1rem;
   text-align: left;
@@ -176,6 +176,10 @@
 
   @media (min-width: 900px) {
     font-size: 1rem;
+  }
+
+  &--notice {
+    background-color: var(--notice-state-color);
   }
 
   &__icon {
