@@ -23,7 +23,7 @@ export default () => {
       {dismissable && (
         <span className="flash-message__actions">
           <button
-            className={`icon-btn  icon-btn--${type}`}
+            className={"icon-btn"}
             onClick={dismiss}
             tabIndex={isVisible ? null : "-1"}
           >
