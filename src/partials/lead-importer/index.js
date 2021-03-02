@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { Importer, ImporterField } from "react-csv-importer";
 
@@ -16,12 +16,19 @@ const prepareRowForImport = (row) => {
 };
 
 const LeadImporter = () => {
+  const scrollToRef = useRef();
   const history = useHistory();
   const [importErrors, setImportErrors] = useState([]);
-  const [importSuccesses, setImportSuccesses] = useState([]);
+  const [importSuccesses, setImportSuccesses] = useState(0);
+
+  const handleImportError = (error) => {
+    const newErrors =
+      typeof error === "string" ? [{ Key: error, Value: "Error" }] : [...error];
+    setImportErrors((importErrors) => [...importErrors, ...newErrors]);
+  };
 
   return (
-    <>
+    <div ref={scrollToRef}>
       <LeadImporterStatusContainer
         errors={importErrors}
         successes={importSuccesses}
@@ -45,43 +52,27 @@ const LeadImporter = () => {
 
             try {
               const response = await clientsService.createClients(rows);
+              const data = await response.json();
 
               if (response.status >= 200 && response.status < 300) {
-                // maybe show progress success per row better?
-                rows.forEach((row) => {
-                  setImportSuccesses((prevState) => [
-                    ...prevState,
-                    { id: row.email },
-                  ]);
-                });
+                setImportSuccesses(
+                  (prevState) => prevState + data.successfulUploadCount
+                );
+                handleImportError(data.uploadErrorResponse);
               } else {
                 if (response.status === 401) {
                   authService.handleExpiredToken(); // then?
                 } else {
-                  // status 400
-                  const errorData = await response.json();
-                  console.log({ errorData });
-                  setImportErrors((importErrors) => [
-                    ...importErrors,
-                    {
-                      id: 'bulk-creation',
-                      message: errorData,
-                    },
-                  ]);
+                  handleImportError((data || {}).uploadErrorResponse || data);
                 }
               }
             } catch (e) {
               console.log({ e });
-              setImportErrors((importErrors) => [
-                ...importErrors,
-                {
-                  id: "bulk-creation",
-                  message: `Unknown error`,
-                },
-              ]);
+              handleImportError(`An internal error has occurred.`);
             }
           }}
-          onComplete={() => {
+          onComplete={async () => {
+            ((scrollToRef || {}).current || {}).scrollIntoView();
             // optional, invoked right after import is done (but user did not dismiss/reset the widget yet)
             // maybe show import issues in summary modal?
           }}
@@ -99,7 +90,7 @@ const LeadImporter = () => {
           <ImporterField name="notes" label="Notes" optional />
         </Importer>
       </div>
-    </>
+    </div>
   );
 };
 
