@@ -29,8 +29,6 @@ export default () => {
           <title>MedicareCENTER - Forgot Username</title>
         </Helmet>
         <BaseConfirmationPage
-          // footer={<button>Contact Support</button>}
-          // title="Thank you"
           body={`The email associated with your account is [${username}]`}
         />
       </React.Fragment>
@@ -112,11 +110,10 @@ export default () => {
                 const email = await response.text();
                 console.log("SUCCESS STATUS, NOW WHAT?!", email);
                 setUsername(email);
-                // history.push(`forgot-username-reveal?email=${data}`);
-                // analyticsService.fireEvent("formSubmit", {
-                //   button: "forgotUsernameSubmit",
-                //   pagePath: window.location.href,
-                // });
+                analyticsService.fireEvent("formSubmit", {
+                  button: "forgotUsernameSubmit",
+                  pagePath: window.location.href,
+                });
               } else {
                 const errorsArr = await response.json();
                 setApiErrors(errorsArr);
