@@ -206,6 +206,9 @@ class authService {
   validatePasswordResetToken = async (values) =>
     this._authAPIRequest("/validateresetpasswordtoken", "POST", values);
 
+  forgotUsername = async (values) =>
+    this._authAPIRequest("/forgotusername", "POST", values);
+
   sendConfirmationEmail = async (values) =>
     this._authAPIRequest("/resendconfirmemail", "POST", values);
 

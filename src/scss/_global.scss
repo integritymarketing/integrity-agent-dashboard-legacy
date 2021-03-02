@@ -216,3 +216,21 @@ $spacings: (
   display: flex;
   align-items: center;
 }
+
+.auth-error-box {
+  background-color: #cf4843;
+  color: white;
+  padding: 0.825rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.25rem;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+
+  span {
+    margin-right: 1rem;
+    font-size: 1.25rem;
+  }
+}
