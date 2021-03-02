@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
+import FeedbackRibbon from "partials/feedback-ribbon";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import Modal from "components/ui/modal";
 import analyticsService from "services/analyticsService";
@@ -202,6 +203,7 @@ export default () => {
           </div>
         </Container>
       </div>
+      <FeedbackRibbon />
       <Container className="mt-scale-3 mb-4">
         <section>
           <div className="hdg hdg--1">Learning Center</div>

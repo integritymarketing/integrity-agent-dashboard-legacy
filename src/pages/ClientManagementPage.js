@@ -13,7 +13,7 @@ import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
 import SelectMenu from "components/ui/select-menu";
 import Pagination from "components/ui/pagination";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, Link } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import Card from "components/ui/card";
 import EditIcon from "components/icons/edit";
@@ -39,8 +39,8 @@ import ClosedLostIcon from "images/lead-status/Status-Closed-Lost.svg";
 import ClosedNotInterestedIcon from "images/lead-status/Status-Closed-Not_Interested.svg";
 import ClosedIneligibleIcon from "images/lead-status/Status-Closed-Ineligible.svg";
 import ClosedOtherIcon from "images/lead-status/Status-Closed-Other.svg";
-import ExpandButton from "components/icons/expand";
 import { formatDate, formatToLocalDate } from "utils/dates";
+import { formatPhoneNumber } from "utils/phones";
 
 const LEAD_ICONS = {
   1: NewIcon,
@@ -54,15 +54,6 @@ const LEAD_ICONS = {
   9: ClosedNotInterestedIcon,
   10: ClosedIneligibleIcon,
   11: ClosedOtherIcon,
-};
-
-const formatPhoneNumber = (phoneNumberString) => {
-  const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
-  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-  if (match) {
-    return `${match[1]}-${match[2]}-${match[3]}`;
-  }
-  return null;
 };
 
 const EmptyField = () => <span className="text-muted">--</span>;
@@ -218,14 +209,22 @@ export default () => {
                   <span className="text-bold">{totalClients}</span> Clients
                 </span>
                 <button
-                  className={`icon-btn ml-1 ${analyticsService.clickClass(
+                  className={`btn btn--outline ml-2 ${analyticsService.clickClass(
                     "addnewcontact-button"
                   )}`}
                   onClick={() => setStagedClient(clientsService.newClientObj())}
                 >
-                  <span className="visually-hidden">Add New</span>
-                  <ExpandButton aria-hidden="true" />
+                  Add New
                 </button>
+
+                <Link
+                  to="/client-import"
+                  className={`btn btn--outline ml-2 ${analyticsService.clickClass(
+                    "import-button"
+                  )}`}
+                >
+                  Import
+                </Link>
               </div>
               <div
                 className="bar bar--repel bar--collapse-mobile"
@@ -457,6 +456,14 @@ export default () => {
               >
                 Add New
               </button>
+              <Link
+                to="/client-import"
+                className={`btn ml-2 ${analyticsService.clickClass(
+                  "import-button"
+                )}`}
+              >
+                Import
+              </Link>
             </div>
           )}
 
