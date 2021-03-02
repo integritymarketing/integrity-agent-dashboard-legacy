@@ -31,9 +31,10 @@ const ErrorContainer = ({ errors }) => {
         {errors
           .sort((a) => (a.Value === "Error" ? -1 : 1))
           .map((error, i) => {
+            const formattedKey = error.Key.replace("(, )", "");
             return (
-              <li key={`${error.Value}--${error.Key}--${i}`}>
-                <span>{error.Value}</span>: {`${error.Key}`}
+              <li key={`${error.Value}--${formattedKey}--${i}`}>
+                <span>{error.Value}</span>: {`${formattedKey}`}
               </li>
             );
           })}
