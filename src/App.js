@@ -9,6 +9,7 @@ import HomePage from "pages/HomePage";
 import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
 import ClientManagementPage from "pages/ClientManagementPage";
+import ClientImportPage from "pages/ClientImportPage";
 import NotFoundPage from "pages/NotFound";
 import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
@@ -54,6 +55,9 @@ const App = () => {
               </AuthenticatedRoute>
               <AuthenticatedRoute path="/clients">
                 <ClientManagementPage />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/client-import">
+                <ClientImportPage />
               </AuthenticatedRoute>
 
               <Route path="/terms">
