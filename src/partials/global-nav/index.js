@@ -95,38 +95,52 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   );
 
   return (
-    <header className={`global-nav ${className}`} {...props}>
-      <a href="#main-content" className="skip-link">
-        Jump to main content
-      </a>
-      <h1 className="global-nav__title">
-        <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
-          <Logo aria-hidden="true" />
-          <span className="visually-hidden">Medicare Center</span>
-        </Link>
-      </h1>
-      {auth.isAuthenticated() && !menuHidden && (
-        <nav className="global-nav__links">
-          <h2 className="visually-hidden">Main Navigation</h2>
-          {/*
+    <>
+      {auth.isAuthenticated() && !auth.userProfile.phone && (
+        <div
+          className="phone-number-notification"
+          data-testid="phone-number-notification"
+        >
+          <div className="phone-number-notification__icon">&#9888;</div>{" "}
+          <div>
+            Sorry, we couldn’t find the phone number with this account. Please{" "}
+            <Link to="/edit-account">update</Link> your information.
+          </div>
+        </div>
+      )}
+      <header className={`global-nav ${className}`} {...props}>
+        <a href="#main-content" className="skip-link">
+          Jump to main content
+        </a>
+        <h1 className="global-nav__title">
+          <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
+            <Logo aria-hidden="true" />
+            <span className="visually-hidden">Medicare Center</span>
+          </Link>
+        </h1>
+        {auth.isAuthenticated() && !menuHidden && (
+          <nav className="global-nav__links">
+            <h2 className="visually-hidden">Main Navigation</h2>
+            {/*
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-          <Media
-            queries={{
-              small: "(max-width: 767px)",
-            }}
-          >
-            {(matches) => (
-              <React.Fragment>
-                {matches.small && <SmallFormatMenu {...menuProps} />}
-                {!matches.small && <LargeFormatMenu {...menuProps} />}
-              </React.Fragment>
-            )}
-          </Media>
-        </nav>
-      )}
-      <HelpButtonModal />
-    </header>
+            <Media
+              queries={{
+                small: "(max-width: 767px)",
+              }}
+            >
+              {(matches) => (
+                <React.Fragment>
+                  {matches.small && <SmallFormatMenu {...menuProps} />}
+                  {!matches.small && <LargeFormatMenu {...menuProps} />}
+                </React.Fragment>
+              )}
+            </Media>
+          </nav>
+        )}
+        <HelpButtonModal />
+      </header>
+    </>
   );
 };

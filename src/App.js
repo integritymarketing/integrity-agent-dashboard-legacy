@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import Router from "components/functional/router";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
@@ -19,34 +19,10 @@ import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
 import AuthSignoutCallback from "components/functional/auth-signout-callback";
 import AuthSilentCallback from "components/functional/auth-silent-callback";
-import useFlashMessage from "hooks/useFlashMessage";
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
 } from "components/functional/auth-routes";
-
-const AuthUserGlobalMessages = () => {
-  const auth = useContext(AuthContext);
-  const { show: showMessage } = useFlashMessage();
-
-  useEffect(() => {
-    if (auth.isAuthenticated()) {
-      const profile = auth.getAuthenticatedUserProfile();
-      if (profile && !profile.phone) {
-        showMessage(
-          <div>
-            <span>&#9888;</span> Sorry, we couldn’t find the phone number with
-            this account. Please <Link to="/edit-account">update</Link> your
-            information.
-          </div>,
-          { type: "notice" }
-        );
-      }
-    }
-  }, [auth,showMessage]);
-
-  return null;
-};
 
 const App = () => {
   return (
@@ -56,7 +32,6 @@ const App = () => {
           <Helmet>
             <title>MedicareCENTER</title>
           </Helmet>
-          <AuthUserGlobalMessages />
           <div className="content-frame">
             <Switch>
               {/* root path directs traffic to unauthenticed
