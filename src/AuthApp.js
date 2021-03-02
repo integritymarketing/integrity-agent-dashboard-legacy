@@ -21,6 +21,8 @@ import PasswordResetPage from "pages/auth/PasswordResetPage";
 import PasswordLinkExpiredPage from "pages/auth/PasswordLinkExpiredPage";
 import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
 
+import ForgotUsernamePage from "pages/auth/ForgotUsernamePage";
+
 import FinalErrorPage from "pages/auth/FinalErrorPage";
 
 import NewEmailPage from "pages/auth/NewEmailPage";
@@ -77,6 +79,10 @@ const AuthApp = () => {
             </Route>
             <Route exact path="/password-updated">
               <PasswordUpdatedPage />
+            </Route>
+
+            <Route exact path="/forgot-username">
+              <ForgotUsernamePage />
             </Route>
 
             <Route exact path="/sorry">
