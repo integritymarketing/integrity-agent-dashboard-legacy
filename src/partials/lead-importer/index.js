@@ -51,7 +51,7 @@ const LeadImporter = () => {
             rows.forEach((row) => prepareRowForImport(row));
 
             try {
-              const response = await clientsService.createClients(rows);
+              const response = await clientsService.bulkCreateClients(rows);
               const data = await response.json();
 
               if (response.status >= 200 && response.status < 300) {
