@@ -204,7 +204,7 @@ export default () => {
         <Container className="mt-scale-3">
           {clientList.length > 0 || searchText || filter ? (
             <React.Fragment>
-              <div className="hdg hdg--3 content-center mb-4">
+              <div className="hdg hdg--3 content-center mb-4 hasImportActions">
                 <span>
                   <span className="text-bold">{totalClients}</span> Clients
                 </span>
