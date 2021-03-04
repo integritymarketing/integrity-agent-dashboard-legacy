@@ -7,6 +7,7 @@ import clientsService from "services/clientsService";
 import authService from "services/authService";
 import LeadImporterStatusContainer from "partials/lead-importer/status-container";
 import { formatPhoneNumber } from "utils/phones";
+import { getResourceUrl } from "pages/ResourcesPage";
 
 import "./index.scss";
 
@@ -27,6 +28,8 @@ const LeadImporter = () => {
     setImportErrors((importErrors) => [...importErrors, ...newErrors]);
   };
 
+  const templateUrl = getResourceUrl("MedicareCENTER-CRM-Import.csv");
+
   return (
     <div ref={scrollToRef}>
       <LeadImporterStatusContainer
@@ -35,7 +38,12 @@ const LeadImporter = () => {
       />
 
       <div className="card">
-        <h3 className="hdg hdg--3 mb-3">Import Leads By CSV File Upload</h3>
+        <h3 className="hdg hdg--3 mb-3">
+          Import Leads By CSV File Upload{" "}
+          <a href={templateUrl} download={templateUrl} className={`btn ml-2`}>
+            Download Template
+          </a>
+        </h3>
         <Importer
           chunkSize={10000} // optional, internal parsing chunk size in bytes
           assumeNoHeaders={false} // optional, keeps "data has headers" checkbox off by default
