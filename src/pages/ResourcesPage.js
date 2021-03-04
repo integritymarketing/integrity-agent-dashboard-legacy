@@ -30,7 +30,7 @@ const createDictBy = (list, prop) =>
 const resourceDict = createDictBy(resourceData.resources, "name");
 const categoryDict = createDictBy(resourceData.categories, "id");
 
-const getResourceUrl = (filename) => {
+export const getResourceUrl = (filename) => {
   const resourcesBaseUrl = process.env.REACT_APP_RESOURCES_URL;
   return `${resourcesBaseUrl}/${filename}`;
 };
