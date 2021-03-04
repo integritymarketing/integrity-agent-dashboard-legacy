@@ -35,7 +35,12 @@ const LeadImporter = () => {
       />
 
       <div className="card">
-        <h3 className="hdg hdg--3 mb-3">Import Leads By CSV File Upload</h3>
+        <h3 className="hdg hdg--3 mb-3">
+          Import Leads By CSV File Upload{" "}
+          <a href="http://s3filelinkgoeshere.com" className={`btn ml-2`}>
+            Download Template
+          </a>
+        </h3>
         <Importer
           chunkSize={10000} // optional, internal parsing chunk size in bytes
           assumeNoHeaders={false} // optional, keeps "data has headers" checkbox off by default

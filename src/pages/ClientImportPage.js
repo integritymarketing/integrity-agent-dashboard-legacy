@@ -28,6 +28,11 @@ export default () => {
           </Link>
         </div>
 
+        <p className="mt-2 mb-4">
+          Do you want any text here with some important instuctions blah, blah,
+          blah...?
+        </p>
+
         <LeadImporter />
       </Container>
       <GlobalFooter />
