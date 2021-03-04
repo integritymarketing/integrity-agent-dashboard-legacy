@@ -10,6 +10,7 @@ import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
 import ClientManagementPage from "pages/ClientManagementPage";
 import ClientImportPage from "pages/ClientImportPage";
+import ButtonPreviewPage from "pages/ButtonPreviewPage";
 import NotFoundPage from "pages/NotFound";
 import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
@@ -59,6 +60,10 @@ const App = () => {
               <AuthenticatedRoute path="/client-import">
                 <ClientImportPage />
               </AuthenticatedRoute>
+
+              <UnauthenticatedRoute path="/button">
+                <ButtonPreviewPage />
+              </UnauthenticatedRoute>
 
               <Route path="/terms">
                 <TermsPage />
