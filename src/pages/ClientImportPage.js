@@ -28,9 +28,23 @@ export default () => {
           </Link>
         </div>
 
+        <p className="mt-2 mb-2">
+          Import a list of contacts in .csv format. To create a .csv file in
+          Microsoft Excel, click on the File menu, then click Save As. In the
+          file format dropdown, choose Comma Separated Values (.csv). The
+          following fields are available for import (all are optional except
+          Email):
+        </p>
+        <ul className="list-disc">
+          <li>First Name</li>
+          <li>Last Name</li>
+          <li>Email</li>
+          <li>Phone</li>
+          <li>Postal Code</li>
+          <li>Notes</li>
+        </ul>
         <p className="mt-2 mb-4">
-          Do you want any text here with some important instuctions blah, blah,
-          blah...?
+          You may also download and use the template provided below.
         </p>
 
         <LeadImporter />
