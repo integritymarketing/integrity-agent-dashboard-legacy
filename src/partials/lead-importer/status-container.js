@@ -25,7 +25,10 @@ const ErrorContainer = ({ errors }) => {
   return (
     <div className="CSVImporter_errors pt-2 pb-2 mb-4 text-left">
       <p className="text-body mb-3 text-bold">
-        {`Import errors occurred, please review the issues:`}
+        The following contacts had issues and were not imported. Please review
+        the issues and manually add or edit the contacts. If you want to import
+        again, make changes to the contacts with issues in your CSV before
+        uploading the file.
       </p>
       <ul>
         {errors

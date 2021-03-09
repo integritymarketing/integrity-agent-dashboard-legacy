@@ -509,6 +509,18 @@
 }
 .CSVImporter_ProgressDisplay__status.-pending {
   color: var(--muted-text-color);
+  visibility: hidden;
+  position: relative;
+
+  &::before {
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    content: "Importing your contacts";
+  }
 }
 .CSVImporter_ProgressDisplay__count {
   text-align: right;
