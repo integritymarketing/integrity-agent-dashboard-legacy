@@ -97,7 +97,7 @@ export default () => {
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <InvertedTextfield
-                    id="login-npn"
+                    id="login-username"
                     label="NPN Number"
                     icon={<NumberIcon />}
                     placeholder="Enter your NPN Number"
