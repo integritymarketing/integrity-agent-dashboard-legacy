@@ -1,16 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Container from "components/ui/container";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import { InvertedTextfield } from "components/ui/textfield";
-import BackLink from "components/ui/back-link";
+import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-import NumberIcon from "components/icons/number";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
@@ -23,30 +20,29 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Forgot Password</title>
       </Helmet>
-      <div className="content-frame bg-photo bg-img-fixed text-invert">
+      <div className="content-frame v2">
         <GlobalNav />
         <Container size="small">
-          <BackLink
-            component={Link}
-            onClick={authService.redirectAndRestartLoginFlow}
-          >
-            Back to Login
-          </BackLink>
-          <h1 className="hdg hdg--2 mb-1 mt-3">Forgot your password?</h1>
-          <p className="text-body mb-4">
-            Enter your NPN number below and if an account is associated with it
-            we will send a reset link to your email.
+          <h1 className="text-xl mb-2">Reset your password</h1>
+          <p className="text text--secondary mb-4">
+            Enter your email to reset your password.
           </p>
 
           <Formik
-            initialValues={{ NPN: "" }}
+            initialValues={{ Username: "" }}
             validate={(values) => {
-              const errors = {};
-              let npnErr = validationService.validateNPN(values.NPN);
-              if (npnErr) {
-                errors.NPN = npnErr;
-              }
-              return errors;
+              return validationService.validateMultiple(
+                [
+                  {
+                    name: "Username",
+                    validator: validationService.composeValidator([
+                      validationService.validateRequired,
+                      validationService.validateEmail,
+                    ]),
+                  },
+                ],
+                values
+              );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
@@ -57,6 +53,7 @@ export default () => {
               setSubmitting(false);
               loading.end();
 
+              // TODO v2: Reconfigure from NPN to email once api changed?
               if (response.status >= 200 && response.status < 300) {
                 history.push(`password-reset-sent?npn=${values.NPN}`);
                 analyticsService.fireEvent("formSubmit", {
@@ -68,6 +65,7 @@ export default () => {
                 let errors = validationService.formikErrorsFor(errorsArr);
 
                 if (errors.Global === "account_unconfirmed") {
+                  // TODO v2: Reconfigure from NPN to email once api changed?
                   history.push(
                     `registration-email-sent?npn=${values.NPN}&mode=error`
                   );
@@ -87,25 +85,26 @@ export default () => {
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
-                  <InvertedTextfield
-                    id="forgot-password-npn"
-                    label="NPN Number"
-                    icon={<NumberIcon />}
-                    placeholder="Enter your NPN Number"
-                    name="NPN"
-                    value={values.NPN}
+                  <Textfield
+                    id="forgot-password-username"
+                    label="Email Address"
+                    placeholder=""
+                    name="Username"
+                    value={values.Username}
                     onChange={handleChange}
                     onBlur={(e) => {
                       analyticsService.fireEvent("leaveField", {
-                        field: "npn",
+                        field: "username",
                         formName: "forgot",
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.NPN && errors.NPN) || errors.Global}
+                    error={
+                      (touched.Username && errors.Username) || errors.Global
+                    }
                   />
                   <div className="form__submit">
-                    <button className="btn btn--invert" type="submit">
+                    <button className="btn-v2" type="submit">
                       Submit
                     </button>
                   </div>
