@@ -31,12 +31,12 @@ export default () => {
           <h1 className="hdg hdg--2 mb-4">Login to your account</h1>
 
           <Formik
-            initialValues={{ NPN: "", Password: "" }}
+            initialValues={{ Username: "", Password: "" }}
             validate={(values) => {
               return validationService.validateMultiple(
                 [
                   {
-                    name: "NPN",
+                    name: "Username",
                     validator: validationService.validateNPN,
                   },
                   {
@@ -78,7 +78,7 @@ export default () => {
 
                 if (errors.Global === "account_unconfirmed") {
                   history.push(
-                    `registration-email-sent?npn=${values.NPN}&mode=error`
+                    `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
                   setErrors(errors);
@@ -101,17 +101,17 @@ export default () => {
                     label="NPN Number"
                     icon={<NumberIcon />}
                     placeholder="Enter your NPN Number"
-                    name="NPN"
-                    value={values.NPN}
+                    name="Username"
+                    value={values.Username}
                     onChange={handleChange}
                     onBlur={(e) => {
                       analyticsService.fireEvent("leaveField", {
-                        field: "npn",
+                        field: "username",
                         formName: "login",
                       });
                       return handleBlur(e);
                     }}
-                    error={touched.NPN && errors.NPN}
+                    error={touched.Username && errors.Username}
                   />
                   <InvertedTextfield
                     id="login-password"
