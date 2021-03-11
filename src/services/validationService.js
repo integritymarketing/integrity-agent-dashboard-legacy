@@ -11,7 +11,15 @@ class ValidationService {
   };
 
   validateNPN = (npn, label = "NPN") => {
-    return this.validateRequired(npn, label);
+    if (npn && !/^[0-9A-Za-z!@.,;:'"?-]{2,}$/.test(npn)) {
+      return `${label} must be 2 characters or more`;
+    }
+
+    if (npn && !/^[0-9A-Za-z!@.,;:'"?-]{2,50}$/.test(npn)) {
+      return `${label} must be 50 characters or less`;
+    }
+
+    return null;
   };
 
   validatePasswordAccess = (password, label = "Password") => {

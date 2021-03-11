@@ -108,6 +108,7 @@ export default () => {
                 <fieldset className="form__fields">
                   <Textfield
                     id="login-username"
+                    className="mb-3"
                     label="Email Address"
                     placeholder="Enter your Email Address"
                     name="Username"
@@ -141,12 +142,14 @@ export default () => {
                       (touched.Password && errors.Password) || errors.Global
                     }
                     auxLink={
-                      <Link
-                        to="/forgot-password"
-                        className="text-sm link link--force-underline"
-                      >
-                        Forgot Password?
-                      </Link>
+                      <div className="mt-2">
+                        <Link
+                          to="/forgot-password"
+                          className="text-sm link link--force-underline"
+                        >
+                          Forgot Password?
+                        </Link>
+                      </div>
                     }
                   />
                   <div className="form__submit">

@@ -131,9 +131,6 @@ const Textfield = ({
         ) : (
           <InputElement value={value} {...inputElementProps} />
         )}
-        {focusBanner && (
-          <div className="form-input__focus-banner">{focusBanner}</div>
-        )}
         <div className="form-input__input-actions">
           {error && <ErrorIcon />}
           {hasSuccess && <SuccessIcon />}
@@ -153,7 +150,10 @@ const Textfield = ({
           </button>
         )}
       </div>
-      <div className="form-input__error">{error}</div>
+      {error && <div className="form-input__error">{error}</div>}
+      {focusBanner && error && (
+        <div className="form-input__focus-banner">{focusBanner}</div>
+      )}
       {auxLink}
     </div>
   );
