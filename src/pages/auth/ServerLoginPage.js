@@ -5,13 +5,12 @@ import { Formik } from "formik";
 import Container from "components/ui/container";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import { InvertedTextfield } from "components/ui/textfield";
+import InfoIcon from "components/icons/info";
+import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
-import NumberIcon from "components/icons/number";
-import LockIcon from "components/icons/lock";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
@@ -25,10 +24,18 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Login</title>
       </Helmet>
-      <div className="content-frame bg-photo bg-img-fixed text-invert">
+      <div className="content-frame v2">
         <GlobalNav />
         <Container size="small">
-          <h1 className="hdg hdg--2 mb-4">Login to your account</h1>
+          <h1 className="text-xl mb-2">Login to your account</h1>
+
+          <div className="auth-notification">
+            <InfoIcon style={{ display: "block" }} />
+            <p>
+              Please login to your account using your email, not your NPN.{" "}
+              <Link to="/forgot-username">Forgot your email?</Link>
+            </p>
+          </div>
 
           <Formik
             initialValues={{ Username: "", Password: "" }}
@@ -37,7 +44,10 @@ export default () => {
                 [
                   {
                     name: "Username",
-                    validator: validationService.validateNPN,
+                    validator: validationService.composeValidator([
+                      validationService.validateRequired,
+                      validationService.validateEmail,
+                    ]),
                   },
                   {
                     name: "Password",
@@ -96,11 +106,10 @@ export default () => {
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
-                  <InvertedTextfield
+                  <Textfield
                     id="login-username"
-                    label="NPN Number"
-                    icon={<NumberIcon />}
-                    placeholder="Enter your NPN Number"
+                    label="Email Address"
+                    placeholder="Enter your Email Address"
                     name="Username"
                     value={values.Username}
                     onChange={handleChange}
@@ -113,11 +122,10 @@ export default () => {
                     }}
                     error={touched.Username && errors.Username}
                   />
-                  <InvertedTextfield
+                  <Textfield
                     id="login-password"
                     type="password"
                     label="Password"
-                    icon={<LockIcon />}
                     placeholder="Enter your Password"
                     name="Password"
                     value={values.Password}
@@ -135,7 +143,7 @@ export default () => {
                     auxLink={
                       <Link
                         to="/forgot-password"
-                        className="link link--invert link--force-underline"
+                        className="text-sm link link--force-underline"
                       >
                         Forgot Password?
                       </Link>
@@ -143,7 +151,7 @@ export default () => {
                   />
                   <div className="form__submit">
                     <button
-                      className={`btn btn--invert ${analyticsService.clickClass(
+                      className={`btn-v2 mb-4 ${analyticsService.clickClass(
                         "main-login"
                       )}`}
                       type="submit"
@@ -151,16 +159,26 @@ export default () => {
                       Login
                     </button>
                   </div>
-                  <div>
+                  <p className="text-sm">
+                    {`Need to `}
                     <Link
                       to="/register"
-                      className={`link link--invert link--force-underline ${analyticsService.clickClass(
+                      className={`link link--secondary link--force-underline ${analyticsService.clickClass(
                         "setup-newaccount"
                       )}`}
                     >
-                      Set up a new account?
+                      register for an account
                     </Link>
-                  </div>
+                    {` or `}
+                    <Link
+                      to="/forgot-username"
+                      className={`link link--secondary link--force-underline ${analyticsService.clickClass(
+                        "forgot-email"
+                      )}`}
+                    >
+                      forgot your email?
+                    </Link>
+                  </p>
                 </fieldset>
               </form>
             )}

@@ -137,20 +137,21 @@ const Textfield = ({
         <div className="form-input__input-actions">
           {error && <ErrorIcon />}
           {hasSuccess && <SuccessIcon />}
-          {type === "password" && (
-            <button
-              type="button"
-              className="icon-btn"
-              onClick={() => {
-                setPasswordsVisible(!passwordsVisible);
-                inputEl.current.focus();
-                inputEl.current.select();
-              }}
-            >
-              <PasswordIcon className="form-input__icon" />
-            </button>
-          )}
         </div>
+        {type === "password" && (
+          <button
+            type="button"
+            className="icon-btn showPassword"
+            onClick={() => {
+              setPasswordsVisible(!passwordsVisible);
+              inputEl.current.focus();
+              inputEl.current.select();
+            }}
+          >
+            <PasswordIcon className="form-input__icon" />
+            {!passwordsVisible ? "Show" : "Hide"}
+          </button>
+        )}
       </div>
       <div className="form-input__error">{error}</div>
       {auxLink}
