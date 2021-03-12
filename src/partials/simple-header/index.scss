@@ -5,6 +5,8 @@
   width: 100%;
   padding: 0 1rem;
   align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
 
   &__title {
     a {
@@ -17,8 +19,10 @@
 
   @media (min-width: 480px) {
     padding: 0.5rem 2rem;
+    margin-top: 0;
   }
   @media (min-width: 768px) {
+    justify-content: flex-start;
     padding: 1rem 2.5rem;
   }
 }
