@@ -54,7 +54,7 @@ export default () => {
         <title>MedicareCENTER - Forgot Username</title>
       </Helmet>
       <div className="content-frame v2">
-        <GlobalNav />
+        <SimpleHeader />
         <Container size="small">
           <h1 className="hdg hdg--2 mb-1">Recover your email</h1>
           <p className="text text--secondary mb-4">
