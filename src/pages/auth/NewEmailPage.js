@@ -3,13 +3,12 @@ import { Formik } from "formik";
 import Container from "components/ui/container";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import { InvertedTextfield } from "components/ui/textfield";
+import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
-import MailIcon from "components/icons/mail";
 
 export default () => {
   return (
-    <div className="content-frame bg-photo bg-img-fixed text-invert">
+    <div className="content-frame v2">
       <GlobalNav />
       <Container size="small">
         <h1 className="hdg hdg--2 mb-4">Update your email address</h1>
@@ -58,11 +57,10 @@ export default () => {
               }}
             >
               <fieldset className="form__fields">
-                <InvertedTextfield
+                <Textfield
                   id="new-email"
                   type="email"
                   label="Email Address"
-                  icon={<MailIcon />}
                   placeholder="Enter your email address"
                   name="email"
                   value={values.email}
@@ -70,11 +68,10 @@ export default () => {
                   onBlur={handleBlur}
                   error={(touched.email && errors.email) || errors.Global}
                 />
-                <InvertedTextfield
+                <Textfield
                   id="new-email-repeat"
                   type="email"
                   label="Re-enter Email Address"
-                  icon={<MailIcon />}
                   placeholder="Re-enter your email address"
                   name="emailRepeat"
                   value={values.emailRepeat}
@@ -85,7 +82,7 @@ export default () => {
                   }
                 />
                 <div className="form__submit">
-                  <button className="btn btn--invert" type="submit">
+                  <button className="btn-v2" type="submit">
                     Submit
                   </button>
                 </div>

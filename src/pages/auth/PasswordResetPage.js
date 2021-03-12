@@ -4,12 +4,11 @@ import { Formik } from "formik";
 import Container from "components/ui/container";
 import GlobalNav from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import { InvertedTextfield } from "components/ui/textfield";
+import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import useQueryParams from "hooks/useQueryParams";
-import LockIcon from "components/icons/lock";
 import authService from "services/authService";
 
 export default () => {
@@ -43,7 +42,7 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Reset Password</title>
       </Helmet>
-      <div className="content-frame bg-photo bg-img-fixed text-invert">
+      <div className="content-frame v2">
         <GlobalNav />
         <Container size="small">
           <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
@@ -99,11 +98,10 @@ export default () => {
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
-                  <InvertedTextfield
+                  <Textfield
                     id="new-password"
                     type="password"
                     label="New Password"
-                    icon={<LockIcon />}
                     placeholder="Enter your new password"
                     name="Password"
                     value={values.Password}
@@ -132,11 +130,10 @@ export default () => {
                     }
                     focusBannerVisible={!!errors.Password}
                   />
-                  <InvertedTextfield
+                  <Textfield
                     id="new-password-repeat"
                     type="password"
                     label="Re-enter New Password"
-                    icon={<LockIcon />}
                     placeholder="Re-enter your new password"
                     name="ConfirmPassword"
                     value={values.ConfirmPassword}
@@ -154,7 +151,7 @@ export default () => {
                     }
                   />
                   <div className="form__submit">
-                    <button className="btn btn--invert" type="submit">
+                    <button className="btn-v2" type="submit">
                       Submit
                     </button>
                   </div>
