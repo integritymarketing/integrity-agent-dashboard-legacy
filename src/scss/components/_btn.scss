@@ -146,5 +146,6 @@
   &--disabled {
     background: var(--v2-disabled-button);
     color: var(--v2-disabled-button-text);
+    cursor: not-allowed;
   }
 }
