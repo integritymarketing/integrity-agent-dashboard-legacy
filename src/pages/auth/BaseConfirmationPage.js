@@ -17,10 +17,10 @@ const defaultButton = () => {
 
 export default ({ footer, title, body = null, button = defaultButton() }) => {
   return (
-    <div className="content-frame bg-photo bg-img-fixed text-invert">
+    <div className="content-frame v2">
       <GlobalNav />
       <Container size="small">
-        <h1 className="hdg hdg--2 mb-1">{title}</h1>
+        {title && <h1 className="hdg hdg--2 mb-1">{title}</h1>}
         {body && <p className="text-body mb-4">{body}</p>}
 
         {button && <div>{button}</div>}
