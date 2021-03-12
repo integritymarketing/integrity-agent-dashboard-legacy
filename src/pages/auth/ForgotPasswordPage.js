@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
@@ -21,7 +21,7 @@ export default () => {
         <title>MedicareCENTER - Forgot Password</title>
       </Helmet>
       <div className="content-frame v2">
-        <GlobalNav />
+        <SimpleHeader />
         <Container size="small">
           <h1 className="text-xl mb-2">Reset your password</h1>
           <p className="text text--secondary mb-4">

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
@@ -43,7 +43,7 @@ export default () => {
         <title>MedicareCENTER - Reset Password</title>
       </Helmet>
       <div className="content-frame v2">
-        <GlobalNav />
+        <SimpleHeader />
         <Container size="small">
           <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
 

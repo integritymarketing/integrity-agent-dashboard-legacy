@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
@@ -26,7 +26,7 @@ export default () => {
           <title>MedicareCENTER - Forgot Username</title>
         </Helmet>
         <div className="content-frame v2">
-          <GlobalNav />
+          <SimpleHeader />
           <Container size="small">
             <CheckIcon className="mb-2" />
             <div className="text mb-2">
@@ -56,7 +56,7 @@ export default () => {
       <div className="content-frame v2">
         <GlobalNav />
         <Container size="small">
-          <h1 className="hdg hdg--2 mb-1 mt-3">Recover your email</h1>
+          <h1 className="hdg hdg--2 mb-1">Recover your email</h1>
           <p className="text text--secondary mb-4">
             Enter your name and phone number associated with your account to
             recover your email address.

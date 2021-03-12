@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import InfoIcon from "components/icons/info";
 import Textfield from "components/ui/textfield";
@@ -25,7 +25,7 @@ export default () => {
         <title>MedicareCENTER - Login</title>
       </Helmet>
       <div className="content-frame v2">
-        <GlobalNav />
+        <SimpleHeader />
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
 

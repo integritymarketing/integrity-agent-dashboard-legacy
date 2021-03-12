@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import { Helmet } from "react-helmet-async";
 import MailIcon from "components/icons/v2-mail";
@@ -13,7 +13,7 @@ export default () => {
         <title>MedicareCENTER - Contact Support</title>
       </Helmet>
       <div className="content-frame v2">
-        <GlobalNav />
+        <SimpleHeader />
         <Container size="small">
           <h1 className="hdg hdg--2 mb-1">Contact Support</h1>
           <p className="text text--secondary mb-3">Supporting copy here.</p>

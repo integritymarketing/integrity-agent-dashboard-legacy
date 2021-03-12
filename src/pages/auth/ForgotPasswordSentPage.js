@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import authService from "services/authService";
 import analyticsService from "services/analyticsService";
@@ -20,7 +20,7 @@ export default () => {
         <title>MedicareCENTER - Password Reset Sent</title>
       </Helmet>
       <div className="content-frame v2">
-        <GlobalNav />
+        <SimpleHeader />
         <Container size="small">
           <CheckIcon className="mb-2" />
           <div className="hdg--3 mb-4">
