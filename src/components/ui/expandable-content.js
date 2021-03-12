@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import ExpandIcon from "components/icons/expand";
-import CollapseIcon from "components/icons/collapse";
+import ExpandIcon from "components/icons/v2-expand";
+import CollapseIcon from "components/icons/v2-collapse";
 
 const identity = (x) => x;
 
@@ -46,8 +46,8 @@ export default ({ header, sections = [], ...props }) => {
             >
               <div className="toolbar text-main">
                 <span className="hdg hdg--4">
-                  <span className="mr-1">{item.title}</span>{" "}
-                  <span className="text-bold text-brand">{item.numItems}</span>
+                  <span>{item.title}</span>{" "}
+                  <span className="text-secondary">({item.numItems})</span>
                 </span>
                 <div className="toolbar__aux">
                   <button
@@ -55,7 +55,7 @@ export default ({ header, sections = [], ...props }) => {
                     className="icon-btn"
                     onClick={() => toggleItem(item, !itemVisible)}
                   >
-                    <Icon />
+                    <Icon className="text-blue" />
                   </button>
                 </div>
               </div>

@@ -45,7 +45,7 @@
 .wysiwyg h4 {
   font-size: 1.25rem;
   line-height: (24 / 20);
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .text-left {
@@ -73,11 +73,23 @@
 }
 
 .text-main {
-  color: var(--main-text-color);
+  color: var(--v2-main-text-color);
+}
+
+.text-secondary {
+  color: var(--v2-main-gray);
 }
 
 .text-brand {
   color: var(--brand-text-color);
+}
+
+.text-white {
+  color: var(--v2-white);
+}
+
+.text-blue {
+  color: var(--v2-royal-blue);
 }
 
 .text-body,

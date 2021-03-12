@@ -1,6 +1,6 @@
 .v2 {
   background: var(--v2-page-bg-color);
-  color: var(--v2-main-gray);
+  color: var(--v2-main-text-color);
   font-family: "Lato", sans-serif;
 
   .simple-header {
@@ -11,6 +11,8 @@
   }
 
   .simple-footer {
+    color: var(--v2-main-gray);
+
     .link {
       color: var(--v2-main-gray);
     }
@@ -53,6 +55,11 @@
 
   .link {
     color: var(--v2-royal-blue);
+
+    &:hover {
+      color: var(--v2-royal-blue);
+      text-decoration: underline;
+    }
 
     &--secondary {
       color: var(--v2-main-gray);

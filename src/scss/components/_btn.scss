@@ -119,31 +119,32 @@
 }
 
 .btn-v2 {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 0.75rem 1rem;
   min-width: 6rem;
-  background: #0052ce;
+  background: var(--v2-royal-blue);
   border-radius: 2px;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1rem;
+  text-decoration: none;
   line-height: 1.1875rem;
-  color: #ffffff;
+  color: var(--v2-white);
   cursor: pointer;
 
   &:hover {
-    background: #2082f5;
+    background: var(--v2-secondary-blue-600);
   }
 
   &:active {
-    background: #00388d;
+    background: var(--v2-secondary-blue-900);
   }
 
   &[disabled],
   &--disabled {
-    background: #e4e4e4;
-    color: #aba7a7;
+    background: var(--v2-disabled-button);
+    color: var(--v2-disabled-button-text);
   }
 }

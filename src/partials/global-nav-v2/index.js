@@ -69,12 +69,18 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       ? {
           primary: [
             {
+              component: HelpButtonWithModal,
+              label: "Need Help?",
+              format: "large",
+              props: { className: analyticsService.clickClass("help-header") },
+            },
+            {
               component: Link,
               props: {
-                to: "/home",
-                className: analyticsService.clickClass("home-header"),
+                to: "/clients",
+                className: analyticsService.clickClass("contacts-header"),
               },
-              label: "Home",
+              label: "Contacts",
             },
             {
               component: Link,
@@ -90,12 +96,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               component: Link,
               props: { to: "/edit-account" },
               label: "Edit Account",
-            },
-            {
-              component: HelpButtonWithModal,
-              label: "Need Help?",
-              format: "large",
-              props: { className: analyticsService.clickClass("help-header") },
             },
             {
               component: "button",
@@ -120,22 +120,22 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     <>
       <SiteNotification showPhoneNotification={showPhoneNotification} />
       <header
-        className={`global-nav ${className} ${
-          showPhoneNotification ? "global-nav--hasNotification" : ""
+        className={`global-nav-v2 ${className} ${
+          showPhoneNotification ? "global-nav-v2--hasNotification" : ""
         }`}
         {...props}
       >
         <a href="#main-content" className="skip-link">
           Jump to main content
         </a>
-        <h1 className="global-nav__title">
+        <h1 className="global-nav-v2__title">
           <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
             <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>
           </Link>
         </h1>
         {auth.isAuthenticated() && !menuHidden && (
-          <nav className="global-nav__links">
+          <nav className="global-nav-v2__links">
             <h2 className="visually-hidden">Main Navigation</h2>
             {/*
           Causes console error in dev env only due to this issue
