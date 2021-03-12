@@ -1,15 +1,46 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./button.scss";
+import { Link } from "react-router-dom";
 
-export const Button = ({ type, label, ...props }) => {
+export const Button = ({ type, label, right, icon: Icon, iconOnly, href, linkTo, ...props }) => {
+  const buttonClasses = [
+    "button",
+    (href || linkTo) ? 'button-link' : `button--${type}`,
+    `icon-${right ? 'right' : 'left'}`,
+    iconOnly ? 'icon-only' : ''
+  ].join(" ")
+
+  const buttonLabel = (<>
+    { Icon ? <Icon /> : null}
+    { iconOnly
+      ? null
+      : <span className="label">
+        {label}
+      </span>
+    }
+  </>)
+
+  if (linkTo) {
+    return (<Link to={linkTo} className={buttonClasses}>
+      {buttonLabel}
+    </Link>)
+  }
+
+  if (href) {
+    return (
+      <a href={href} className={buttonClasses}>
+        {buttonLabel}
+      </a>
+    )
+  }
   return (
     <button
       type="button"
-      className={["button", `button--${type}`].join(" ")}
+      className={buttonClasses}
       {...props}
     >
-      {label}
+      {buttonLabel}
     </button>
   );
 };
@@ -31,10 +62,35 @@ Button.propTypes = {
    * Optional disabled state
    */
   disabled: PropTypes.bool,
+  /**
+   * Optional icon
+   */
+  icon: PropTypes.elementType,
+
+  /**
+   * Optional right icon orientation, By default left
+   */
+  right: PropTypes.bool,
+  /**
+   * Optional icon only button indicator
+   */
+  iconOnly: PropTypes.bool,
+  /**
+   * Optional href link
+   */
+  href: PropTypes.string,
+  /**
+   * Optional linkTo to point to router link
+   */
+  linkTo: PropTypes.string
 };
 
 Button.defaultProps = {
   type: "primary",
   onClick: undefined,
   disabled: false,
+  right: false,
+  iconOnly: false,
+  href: null,
+  linkTo: null
 };
