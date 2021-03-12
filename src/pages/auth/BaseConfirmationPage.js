@@ -7,7 +7,7 @@ import authService from "services/authService";
 const defaultButton = () => {
   return (
     <button
-      className="btn btn--invert"
+      className="btn-v2"
       onClick={authService.redirectAndRestartLoginFlow}
     >
       Back to Login
@@ -21,7 +21,7 @@ export default ({ footer, title, body = null, button = defaultButton() }) => {
       <GlobalNav />
       <Container size="small">
         {title && <h1 className="hdg hdg--2 mb-1">{title}</h1>}
-        {body && <p className="text-body mb-4">{body}</p>}
+        {body && <div className="text-body mb-4">{body}</div>}
 
         {button && <div>{button}</div>}
         {footer}
