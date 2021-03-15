@@ -37,7 +37,7 @@ export default () => {
                 [
                   {
                     name: "Username",
-                    validator: validationService.validateNPN,
+                    validator: validationService.validateUsername,
                   },
                   {
                     name: "Password",

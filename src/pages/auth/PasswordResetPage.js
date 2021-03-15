@@ -20,7 +20,7 @@ export default () => {
   useEffect(() => {
     const checkIfValidToken = async () => {
       const response = await authService.validatePasswordResetToken({
-        npn: params.get("npn"),
+        username: params.get("npn"),
         token: params.get("token"),
         email: params.get("email"),
       });
@@ -73,7 +73,7 @@ export default () => {
 
               const response = await authService.resetPassword({
                 ...values,
-                NPN: params.get("npn"),
+                Username: params.get("npn"),
                 Token: params.get("token"),
                 Email: params.get("email"),
               });

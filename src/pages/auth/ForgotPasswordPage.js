@@ -39,12 +39,12 @@ export default () => {
           </p>
 
           <Formik
-            initialValues={{ NPN: "" }}
+            initialValues={{ Username: "" }}
             validate={(values) => {
               const errors = {};
-              let npnErr = validationService.validateNPN(values.NPN);
-              if (npnErr) {
-                errors.NPN = npnErr;
+              let err = validationService.validateUsername(values.Username);
+              if (err) {
+                errors.Username = err;
               }
               return errors;
             }}
@@ -58,7 +58,7 @@ export default () => {
               loading.end();
 
               if (response.status >= 200 && response.status < 300) {
-                history.push(`password-reset-sent?npn=${values.NPN}`);
+                history.push(`password-reset-sent?npn=${values.Username}`);
                 analyticsService.fireEvent("formSubmit", {
                   button: "forgotSubmit",
                   pagePath: window.location.href,
@@ -69,7 +69,7 @@ export default () => {
 
                 if (errors.Global === "account_unconfirmed") {
                   history.push(
-                    `registration-email-sent?npn=${values.NPN}&mode=error`
+                    `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
                   setErrors(errors);
@@ -93,7 +93,7 @@ export default () => {
                     icon={<NumberIcon />}
                     placeholder="Enter your NPN Number"
                     name="NPN"
-                    value={values.NPN}
+                    value={values.Username}
                     onChange={handleChange}
                     onBlur={(e) => {
                       analyticsService.fireEvent("leaveField", {
@@ -102,7 +102,9 @@ export default () => {
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.NPN && errors.NPN) || errors.Global}
+                    error={
+                      (touched.Username && errors.Username) || errors.Global
+                    }
                   />
                   <div className="form__submit">
                     <button className="btn btn--invert" type="submit">

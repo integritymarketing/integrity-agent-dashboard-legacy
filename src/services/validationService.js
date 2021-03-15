@@ -10,7 +10,7 @@ class ValidationService {
     return null;
   };
 
-  validateNPN = (npn, label = "NPN") => {
+  validateUsername = (npn, label = "NPN") => {
     return this.validateRequired(npn, label);
   };
 
