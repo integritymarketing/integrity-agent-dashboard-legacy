@@ -40,33 +40,33 @@ describe("validateRequired", () => {
   });
 });
 
-describe("validateNPN", () => {
+describe("validateUsername", () => {
   it("validates as a required field", () => {
     const results = [
-      validationService.validateNPN("a"),
-      validationService.validateNPN("abc"),
-      validationService.validateNPN("Mr Rogers"),
-      validationService.validateNPN("123"),
-      validationService.validateNPN("!"),
-      validationService.validateNPN(" "),
-      validationService.validateNPN(
+      validationService.validateUsername("a"),
+      validationService.validateUsername("abc"),
+      validationService.validateUsername("Mr Rogers"),
+      validationService.validateUsername("123"),
+      validationService.validateUsername("!"),
+      validationService.validateUsername(" "),
+      validationService.validateUsername(
         "A long string with spaces and everything."
       ),
     ];
     expect(results.filter((res) => res !== null)).toEqual([]);
 
-    const actual = validationService.validateNPN("");
+    const actual = validationService.validateUsername("");
     expect(typeof actual).toBe("string");
   });
 
   it("defaults to the label 'NPN'", () => {
-    const actual = validationService.validateNPN("");
+    const actual = validationService.validateUsername("");
     expect(actual).toMatch("NPN");
     expect(actual).not.toMatch("Field");
   });
 
   it("uses an optional label string", () => {
-    const actual = validationService.validateNPN("", "Field");
+    const actual = validationService.validateUsername("", "Field");
     expect(actual).toMatch("Field");
     expect(actual).not.toMatch("NPN");
   });
