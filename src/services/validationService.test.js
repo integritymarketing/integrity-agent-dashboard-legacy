@@ -40,26 +40,26 @@ describe("validateRequired", () => {
   });
 });
 
-describe("validateNPN", () => {
+describe("validateUsername", () => {
   it("must be least 2 characters", () => {
-    const shortResult = validationService.validateNPN("a");
+    const shortResult = validationService.validateUsername("a");
     expect(shortResult).toMatch("NPN must be 2 characters or more");
   });
 
   it("must be no more than 50 characters", () => {
-    const longResult = validationService.validateNPN(
+    const longResult = validationService.validateUsername(
       "a451246sa5a451246sa5a451246sa5a451246sa5a451246sa5a451246sa5"
     );
     expect(longResult).toMatch("NPN must be 50 characters or less");
   });
 
   it("defaults to the label 'NPN'", () => {
-    const actual = validationService.validateNPN("b");
+    const actual = validationService.validateUsername("b");
     expect(actual).toMatch("NPN must be 2 characters or more");
   });
 
   it("uses an optional label string", () => {
-    const actual = validationService.validateNPN("c", "Custom label");
+    const actual = validationService.validateUsername("c", "Custom label");
     expect(actual).toMatch("Custom label must be 2 characters or more");
     expect(actual).not.toMatch("NPN must be 2 characters or more");
   });

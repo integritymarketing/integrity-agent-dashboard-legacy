@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import Modal from "components/ui/modal";
 import Container from "components/ui/container";
 import LineItem from "components/ui/line-item";
 import GlobalNavV2 from "partials/global-nav-v2";
@@ -33,6 +34,91 @@ const categoryDict = createDictBy(resourceData.categories, "id");
 export const getResourceUrl = (filename) => {
   const resourcesBaseUrl = process.env.REACT_APP_RESOURCES_URL;
   return `${resourcesBaseUrl}/${filename}`;
+};
+
+/*
+Here is video component added for future use (from LifeCENTER implementation)
+
+This could surely use some refactor to move this into separate component file, etc. Also it is very basic and may need design improvements in future.
+
+To add a video, update the resources file at: /src/pages/content/resources.json
+
+You can currently add YouTube or Vimeo, see examples below:
+
+    {
+      "name": "CSF Website to App Tutorial",
+      "description": "",
+      "categories": ["life-solutions"],
+      "videoUrl": "https://www.youtube.com/embed/sC-80Sb-oj4"
+    },
+    {
+      "name": "Lead Store Demo Video",
+      "description": "",
+      "categories": ["life-solutions"],
+      "videoUrl": "https://player.vimeo.com/video/518351235"
+    }
+
+*/
+
+const VideoModal = ({ modalOpen, handleCloseModal, videoUrl, ...props }) => {
+  const testId = "learning-center-video-modal";
+  return (
+    <React.Fragment>
+      <div {...props}></div>
+      {modalOpen && (
+        <Modal
+          open={true}
+          wide
+          onClose={() => handleCloseModal()}
+          labeledById="dialog_video_label"
+          descById="dialog_video_desc"
+          testId={testId}
+          isVideo={true}
+        >
+          <iframe
+            title="vimeo-player"
+            src={`${videoUrl}?autoplay=1`}
+            width="100%"
+            height="320"
+            frameBorder="0"
+            allow="autoplay"
+            allowFullScreen
+          />
+        </Modal>
+      )}
+    </React.Fragment>
+  );
+};
+
+const VideoLineItem = ({ resource }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleCloseModal = () => setModalOpen(false);
+
+  return (
+    <li key={resource.name}>
+      <LineItem
+        href={resource.videoUrl}
+        icon={<ComputerIcon />}
+        actionIcon={null}
+        onClick={(e) => {
+          e.preventDefault();
+          if (!modalOpen) {
+            setModalOpen(true);
+          }
+        }}
+      >
+        <VideoModal
+          className="text-body text-bold"
+          videoUrl={resource.videoUrl}
+          modalOpen={modalOpen}
+          handleCloseModal={handleCloseModal}
+        >
+          {resource.name}
+        </VideoModal>
+      </LineItem>
+    </li>
+  );
 };
 
 export default () => {

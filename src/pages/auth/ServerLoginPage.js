@@ -61,7 +61,6 @@ export default () => {
               setSubmitting(true);
               loading.begin();
               values.returnUrl = params.get("ReturnUrl");
-
               const response = await authService.loginUser(values);
 
               // a 500 server error occurs when invalid OIDC query string params

@@ -11,6 +11,10 @@ import useLoading from "hooks/useLoading";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
+// NOTE that there are instances of both username + npn in this file (they are the same thing)
+// this is to handle compatibility with identity server in the short term
+// before we fully transition to 'Username' for everything
+
 export default () => {
   const history = useHistory();
   const loading = useLoading();
@@ -55,7 +59,7 @@ export default () => {
 
               // TODO v2: Reconfigure from NPN to email once api changed?
               if (response.status >= 200 && response.status < 300) {
-                history.push(`password-reset-sent?npn=${values.NPN}`);
+                history.push(`password-reset-sent?npn=${values.Username}`);
                 analyticsService.fireEvent("formSubmit", {
                   button: "forgotSubmit",
                   pagePath: window.location.href,
@@ -67,7 +71,7 @@ export default () => {
                 if (errors.Global === "account_unconfirmed") {
                   // TODO v2: Reconfigure from NPN to email once api changed?
                   history.push(
-                    `registration-email-sent?npn=${values.NPN}&mode=error`
+                    `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
                   setErrors(errors);

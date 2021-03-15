@@ -11,6 +11,10 @@ import useLoading from "hooks/useLoading";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
 
+// NOTE that there are instances of both username + npn in this file (they are the same thing)
+// this is to handle compatibility with identity server in the short term
+// before we fully transition to 'Username' for everything
+
 export default () => {
   const history = useHistory();
   const loading = useLoading();
@@ -19,7 +23,7 @@ export default () => {
   useEffect(() => {
     const checkIfValidToken = async () => {
       const response = await authService.validatePasswordResetToken({
-        npn: params.get("npn"),
+        username: params.get("npn"),
         token: params.get("token"),
         email: params.get("email"),
       });
@@ -72,7 +76,7 @@ export default () => {
 
               const response = await authService.resetPassword({
                 ...values,
-                NPN: params.get("npn"),
+                Username: params.get("npn"),
                 Token: params.get("token"),
                 Email: params.get("email"),
               });

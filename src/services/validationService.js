@@ -10,12 +10,12 @@ class ValidationService {
     return null;
   };
 
-  validateNPN = (npn, label = "NPN") => {
-    if (npn && !/^[0-9A-Za-z!@.,;:'"?-]{2,}$/.test(npn)) {
+  validateUsername = (username, label = "NPN") => {
+    if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,}$/.test(username)) {
       return `${label} must be 2 characters or more`;
     }
 
-    if (npn && !/^[0-9A-Za-z!@.,;:'"?-]{2,50}$/.test(npn)) {
+    if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,50}$/.test(username)) {
       return `${label} must be 50 characters or less`;
     }
 
