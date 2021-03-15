@@ -92,7 +92,7 @@ export default () => {
                     label="NPN Number"
                     icon={<NumberIcon />}
                     placeholder="Enter your NPN Number"
-                    name="NPN"
+                    name="Username"
                     value={values.Username}
                     onChange={handleChange}
                     onBlur={(e) => {
