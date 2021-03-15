@@ -12,6 +12,10 @@ import useQueryParams from "hooks/useQueryParams";
 import LockIcon from "components/icons/lock";
 import authService from "services/authService";
 
+// NOTE that there are instances of both username + npn in this file (they are the same thing)
+// this is to handle compatibility with identity server in the short term
+// before we fully transition to 'Username' for everything
+
 export default () => {
   const history = useHistory();
   const loading = useLoading();
