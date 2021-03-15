@@ -11,6 +11,7 @@ export default ({
   labeledById,
   descById,
   testId,
+  isVideo,
   ...props
 }) => {
   const scrollRef = useRef(null);
@@ -37,7 +38,9 @@ export default ({
 
   return (
     <div
-      className={`modal ${open ? "modal--show" : "modal--hide"}`}
+      className={`modal ${open ? "modal--show" : "modal--hide"} ${
+        isVideo ? "modal--video" : ""
+      }`}
       {...props}
       onClick={(event) => {
         if (event.target.matches(".modal") && onClose) {
