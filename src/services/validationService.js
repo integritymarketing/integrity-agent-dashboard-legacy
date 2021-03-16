@@ -19,7 +19,8 @@ class ValidationService {
       return `${label} must be 50 characters or less`;
     }
 
-    return null;
+    // else
+    return this.validateRequired(username, label);
   };
 
   validatePasswordAccess = (password, label = "Password") => {

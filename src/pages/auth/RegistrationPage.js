@@ -112,26 +112,23 @@ export default () => {
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
-                  {hasNPN && (
-                    <Textfield
-                      id="register-npn"
-                      className="mb-4"
-                      label="NPN Number"
-                      placeholder="Enter your NPN Number"
-                      name="NPN"
-                      value={values.NPN}
-                      readOnly={hasNPN}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        analyticsService.fireEvent("leaveField", {
-                          field: "npn",
-                          formName: "registration",
-                        });
-                        return handleBlur(e);
-                      }}
-                      error={(touched.NPN && errors.NPN) || errors.Global}
-                    />
-                  )}
+                  <Textfield
+                    id="register-npn"
+                    className="mb-4"
+                    label="NPN Number"
+                    placeholder="Enter your NPN Number"
+                    name="NPN"
+                    value={values.NPN}
+                    onChange={handleChange}
+                    onBlur={(e) => {
+                      analyticsService.fireEvent("leaveField", {
+                        field: "npn",
+                        formName: "registration",
+                      });
+                      return handleBlur(e);
+                    }}
+                    error={(touched.NPN && errors.NPN) || errors.Global}
+                  />
 
                   <Textfield
                     id="register-fname"
