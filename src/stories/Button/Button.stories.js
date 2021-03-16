@@ -45,7 +45,7 @@ export const PrimaryWithIconRight = Template.bind({});
 PrimaryWithIconRight.args = {
   label: "Button",
   icon: ArrowDownIcon,
-  right: true
+  iconPosition: 'right'
 };
 
 export const SecondaryWithIcon = Template.bind({});
@@ -60,7 +60,7 @@ SecondaryWithIconRight.args = {
   label: "Button",
   type: 'secondary',
   icon: ArrowDownIcon,
-  right: true
+  iconPosition: 'right'
 };
 
 export const TertiaryWithIcon = Template.bind({});
@@ -75,7 +75,7 @@ TertiaryWithIconRight.args = {
   label: "Button",
   type: "tertiary",
   icon: ArrowDownIcon,
-  right: true
+  iconPosition: 'right'
 };
 
 export const IconOnly = Template.bind({});

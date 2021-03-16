@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import "./button.scss";
 import { Link } from "react-router-dom";
 
-export const Button = ({ type, label, right, icon: Icon, iconOnly, href, linkTo, ...props }) => {
+export const Button = ({ type, label, iconPosition, icon: Icon, iconOnly, href, linkTo, ...props }) => {
   const buttonClasses = [
     "button",
     (href || linkTo) ? 'button-link' : `button--${type}`,
-    `icon-${right ? 'right' : 'left'}`,
+    `icon-${iconPosition}`,
     iconOnly ? 'icon-only' : ''
   ].join(" ")
 
@@ -68,9 +68,9 @@ Button.propTypes = {
   icon: PropTypes.elementType,
 
   /**
-   * Optional right icon orientation, By default left
+   * Optional iconPosition is used for icon position orientation, By default left
    */
-  right: PropTypes.bool,
+  iconPosition: PropTypes.string,
   /**
    * Optional icon only button indicator
    */
@@ -89,7 +89,7 @@ Button.defaultProps = {
   type: "primary",
   onClick: undefined,
   disabled: false,
-  right: false,
+  iconPosition: 'left',
   iconOnly: false,
   href: null,
   linkTo: null
