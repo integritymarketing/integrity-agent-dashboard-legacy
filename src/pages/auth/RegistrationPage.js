@@ -44,7 +44,7 @@ export default () => {
                   {
                     name: "NPN",
                     validator: hasNPN
-                      ? validationService.validateNPN
+                      ? validationService.validateUsername
                       : () => null,
                     args: ["NPN Number"],
                   },
