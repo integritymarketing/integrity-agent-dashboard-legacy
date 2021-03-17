@@ -171,3 +171,16 @@ private key
 
 ca certs
 `openssl pkcs12 -in vfm.pfx -cacerts -out cacerts.cer`
+
+## Getting Started with Storybook
+
+Storybook is an open-source tool for developing UI components in isolation for React, Vue, Angular, and more. (https://storybook.js.org/).
+It is only used for building UI components and keeping react application(business logic) separate. React is all about creating multiple components it will be difficult to know every component we have in project and how it works. So, Storybook provides us with an instrument to have all components more structured and make it easy for other dev’s to easily understand about each component.
+
+## To run Storybook
+ - Components can be easily visualized when you run the storybook through this 
+ 
+ - npm run storybook (windows) or yarn storybook(mac/ubuntu) 
+
+ - this command will build all the stories that you've written and build useful ui for that so you can browse them easily and it
+   becomes extremely useful when you have a big code base.
