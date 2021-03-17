@@ -8,6 +8,7 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
 
+  // TODO v2: update from NPN to email
   const handleResendForgotPasswordEmail = async () => {
     const npn = params.get("npn");
 
@@ -29,7 +30,7 @@ export default () => {
       footer={
         <div className="mt-2 text-body">
           <button
-            className="link link--invert link--force-underline"
+            className="link link--force-underline"
             onClick={authService.redirectAndRestartLoginFlow}
           >
             Want to try a different email address?
@@ -41,7 +42,7 @@ export default () => {
       button={
         <button
           type="button"
-          className="btn btn--invert"
+          className="btn-v2"
           onClick={handleResendForgotPasswordEmail}
         >
           Resend Email
