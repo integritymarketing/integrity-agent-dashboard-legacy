@@ -28,4 +28,3 @@ yarn-error.log*
 
 # ignore vs-code configs
 /.vscode
-package-lock.json
