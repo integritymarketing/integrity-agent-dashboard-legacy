@@ -77,7 +77,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             {
               component: Link,
               props: {
-                to: "/clients",
+                to: "/contacts",
                 className: analyticsService.clickClass("contacts-header"),
               },
               label: "Contacts",

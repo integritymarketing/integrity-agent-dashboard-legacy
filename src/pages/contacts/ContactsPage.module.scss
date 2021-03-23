@@ -1,0 +1,43 @@
+.container {
+  margin-top: 1rem;
+}
+
+.header {
+  margin-top: 1rem;
+}
+
+.tableWrapper {
+  margin-top: 1.5rem;
+  background: var(--v2-white);
+  padding: 20px;
+  min-height: calc(100vh - 300px);
+
+  table {
+    border-spacing: 0;
+    border: 1px solid black;
+
+    tr {
+      :last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    th,
+    td {
+      margin: 0;
+      padding: 0.5rem;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+
+      :last-child {
+        border-right: 0;
+      }
+    }
+  }
+
+  .pagination {
+    padding: 0.5rem;
+  }
+}
