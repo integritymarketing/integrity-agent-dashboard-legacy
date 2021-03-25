@@ -8,13 +8,14 @@
 
 .tableWrapper {
   margin-top: 1.5rem;
-  background: var(--v2-white);
-  padding: 20px;
+  // padding: 20px;
   min-height: calc(100vh - 300px);
 
   table {
     border-spacing: 0;
-    border: 1px solid black;
+    width: 100%;    
+    background: var(--v2-white);
+   //  border: 1px solid black;
 
     tr {
       :last-child {
@@ -26,14 +27,33 @@
 
     th,
     td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
+      text-align: left;
+      margin: 0;            
+      //border-bottom: 1px solid black;
+      // border-right: 1px solid black;      
       :last-child {
         border-right: 0;
       }
+      border-bottom: 1px solid #C7CCD1; 
+      div {
+        padding: 30px 20px;
+      }     
+    }
+    td:nth-child(1) {
+      width: 15%;
+      font-weight: bold;
+    }
+    td:nth-child(2) {
+      width: 15%;
+    }      
+    td:nth-child(3) {
+      width: 45%;
+    }            
+    td:nth-child(4) {
+      width: 15%;
+    }
+    td:nth-child(5) {
+      width: 10%;
     }
   }
 

@@ -3,6 +3,8 @@ import { useTable, usePagination } from "react-table";
 
 import makeData from "./makeData";
 
+import styles from './ContactsPage.module.scss';
+
 function Table({ columns, data }) {
   // Use the state and functions returned from useTable to build your UI
   const {
@@ -34,28 +36,13 @@ function Table({ columns, data }) {
 
   // Render the UI for your table
   return (
-    <>
-      <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre>
+    <>     
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                <th {...column.getHeaderProps()}><div>{column.render("Header")}</div></th>
               ))}
             </tr>
           ))}
@@ -67,7 +54,7 @@ function Table({ columns, data }) {
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()}><div>{cell.render("Cell")}</div></td>
                   );
                 })}
               </tr>
@@ -79,7 +66,7 @@ function Table({ columns, data }) {
         Pagination can be built however you'd like. 
         This is just a very basic UI implementation:
       */}
-      <div className="pagination">
+      <div className={styles.pagination}>
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {"<<"}
         </button>{" "}
@@ -132,38 +119,25 @@ function ContactsTable() {
     () => [
       {
         Header: "Name",
-        columns: [
-          {
-            Header: "First Name",
-            accessor: "firstName",
-          },
-          {
-            Header: "Last Name",
-            accessor: "lastName",
-          },
-        ],
+        accessor: "firstName"
       },
       {
-        Header: "Info",
-        columns: [
-          {
-            Header: "Age",
-            accessor: "age",
-          },
-          {
-            Header: "Visits",
-            accessor: "visits",
-          },
-          {
-            Header: "Status",
-            accessor: "status",
-          },
-          {
-            Header: "Profile Progress",
-            accessor: "progress",
-          },
-        ],
+        Header: "Stage",
+        accessor: "stage"
       },
+      {
+        Header: "Reminder",
+        accessor: "reminder"
+      },
+      {
+        Header: "Primary Contact",
+        accessor: "phone"
+      },
+      {
+        Header: "",
+        accessor: "actions",
+        Cell: ({ row }) => (<a href="">View</a>)
+      }
     ],
     []
   );
