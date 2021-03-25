@@ -1,0 +1,59 @@
+.select {
+    height: 40px;
+    .container {
+        position: absolute;
+        top: 40px;
+        width: calc(100% - 30px);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 40px;
+        letter-spacing: 0.10000000149011612px;
+        text-align: left;
+        border: 1px solid #c7ccd1;
+        border-radius: 2px;
+        min-height: 40px;
+        color: #525761;
+        .inputbox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 15px;
+            padding-right: 15px;
+            height: 40px;
+            svg {
+                stroke: #525761; /* TODO: use variable later */
+            }
+            .option {
+                padding-left: 15px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                &:hover {
+                    background: #ebeff6;
+                }
+            }
+        }
+        &.opened {
+            border: 1px solid #525761;
+            .inputbox {
+                border-bottom: 1px solid #c7ccd1;
+            }
+        }
+        &.closed {
+            max-height: 40px;
+        }
+        .options {
+            overflow: auto;
+            .option {
+                padding-left: 15px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                &:hover {
+                    background: #ebeff6;
+                }
+            }
+        }
+    }
+}
