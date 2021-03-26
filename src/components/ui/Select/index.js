@@ -7,6 +7,7 @@ import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
+// Default Option renderer
 export const DefaultOption = ({ label, value, onClick, ...rest }) => {
   const handleOptionClick = (ev) => {
     onClick && onClick(ev, value);
@@ -71,9 +72,9 @@ export const Select = ({
     return {
       maxHeight: Math.max(
         Math.min(
-          windowHeight - top,
-          (selectableOptions.length + 1) * 40
-        ), Math.min(selectableOptions.length + 1, 3) * 40),
+        windowHeight - top,
+        (selectableOptions.length + 1) * 40
+      ), Math.min(selectableOptions.length + 1, 3) * 40),
     };
   }, [selectableOptions.length, isOpen]);
 
