@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
+import Footer from "components/ui/Footer";
 import GlobalNav from "partials/global-nav-v2";
 import ContactsTable from "./ContactsTable";
 import styles from "./ContactsPage.module.scss";
@@ -13,12 +14,13 @@ export default () => {
       </Helmet>
       <GlobalNav />
       <Container className={styles.container}>
-        <h2 className="hdg hdg--2 text-blue">Contacts</h2>
-        <div className={styles.header}>Header</div>
+        <p className={styles.header}>Contacts</p>
+        {/* <div className={styles.header}>Header</div> */}
         <div className={styles.tableWrapper}>
           <ContactsTable />
         </div>
       </Container>
+      <Footer/>
     </React.Fragment>
   );
 };
