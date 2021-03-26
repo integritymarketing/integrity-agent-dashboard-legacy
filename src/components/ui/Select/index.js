@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import ArrowDownIcon from "../../icons/arrow-down";
 import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
+import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
 // Default Option renderer
 export const DefaultOption = ({ label, value, onClick, ...rest }) => {
@@ -40,6 +41,8 @@ export const Select = ({
 
   const { height: windowHeight } = useWindowSize();
 
+  useOnClickOutside(ref, () => setIsOpen(false))
+
   useEffect(() => {
     setValue(value);
   }, [initialValue]);
@@ -67,10 +70,11 @@ export const Select = ({
   const heightStyle = useMemo(() => {
     const top = isOpen ? ref.current.getBoundingClientRect().top + 40 : 40;
     return {
-      maxHeight: Math.min(
+      maxHeight: Math.max(
+        Math.min(
         windowHeight - top,
         (selectableOptions.length + 1) * 40
-      ),
+      ), Math.min(selectableOptions.length + 1, 3) * 40),
     };
   }, [selectableOptions.length, isOpen]);
 
@@ -97,7 +101,7 @@ export const Select = ({
   return (
     <div ref={ref} style={style} className="select">
       <div
-        className={`container ${isOpen ? "opened" : "closed"}`}
+        className={`select-container ${isOpen ? "opened" : "closed"}`}
         style={heightStyle}
       >
         {inputBox}
