@@ -3,6 +3,8 @@ import { useTable, usePagination, useRowSelect } from "react-table";
 import clientsService from "services/clientsService";
 import { Select, DefaultOption } from "components/ui/Select";
 
+import ReminderIcon from "../../../src/stories/assets/reminder.svg";
+
 import makeData from "./makeData";
 
 import styles from "./ContactsPage.module.scss";
@@ -123,7 +125,7 @@ function Table({
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
+        <tbody {...getTableBodyProps()} className={styles["contact-table"]}>
           {page.map((row, i) => {
             prepareRow(row);
             return (
@@ -144,28 +146,40 @@ function Table({
       </table>
 
       <div className={styles.pagination}>
-        <span style={{ color: "#70777E", float: "left" }}>
+        <div>
           Showing {pageIndex * pageSize + 1}-{(pageIndex + 1) * pageSize} of{" "}
           {totalResults || 0}
-        </span>
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {"<<"}
-        </button>{" "}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {"<"}
-        </button>{" "}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {"Next >"}
-        </button>{" "}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          Last
-        </button>{" "}
-        <span>
-          Page{" "}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{" "}
-        </span>
+        </div>
+        <div className={styles.right}>
+          {/* <button onClick={() => gotoPage(0)}>
+            {"First"}
+          </button>{" "}
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            {"< Prev"}
+          </button>{" "} */}
+          {Array(Math.min(5, pageOptions.length))
+            .fill(null)
+            .map((_, index) => (
+              <button
+                onClick={() => gotoPage(index)}
+                className={pageIndex === index ? styles.active : undefined}
+              >
+                {index + 1}
+              </button>
+            ))}
+          <button
+            onClick={() => gotoPage(pageIndex + 1)}
+            disabled={!canNextPage}
+          >
+            {"Next >"}
+          </button>{" "}
+          <button
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+          >
+            Last
+          </button>{" "}
+        </div>
       </div>
     </>
   );
@@ -191,6 +205,8 @@ function ContactsTable() {
           list.result.map((res) => ({
             ...res,
             notes: "test note",
+            // reminders: "3/15",
+            reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
           }))
         );
         setPageCount(list.pageResult.totalPages);
@@ -221,11 +237,15 @@ function ContactsTable() {
       {
         Header: "Name",
         accessor: "firstName",
+        Cell: ({ value, row }) =>
+          `${row.original.firstName || ""} ${row.original.lastName || ""}`,
       },
       {
         Header: "Stage",
         accessor: "statusName",
         Cell: ({ value, row }) => {
+          console.log("value", value);
+          console.log("row", row);
           return (
             <Select
               Option={ColorOptionRender}
@@ -237,8 +257,23 @@ function ContactsTable() {
       },
       {
         Header: "Reminder",
-        accessor: "reminder",
+        accessor: "reminderNotes",
+        Cell: (props) => (
+          <div className={styles.reminder}>
+            <div className={styles.cal}>
+              <img src={ReminderIcon} alt="" height="20" className="mr-1" />
+              3/15
+            </div>
+            <div className={styles.reminderText}>
+              Call on Wednesday. Email quotes out.
+            </div>
+          </div>
+        ),
       },
+      // {
+      //   Header: "",
+      //   accessor: "reminderNotes",
+      // },
       {
         Header: "Primary Contact",
         accessor: "email",
@@ -246,7 +281,11 @@ function ContactsTable() {
       {
         Header: "",
         accessor: "actions",
-        Cell: ({ row }) => <a href="">View</a>,
+        Cell: ({ row }) => (
+          <a href="" className={styles.viewLink}>
+            View
+          </a>
+        ),
       },
     ],
     [statusOptions]
