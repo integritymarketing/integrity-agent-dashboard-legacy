@@ -43,7 +43,7 @@ export default () => {
             name="search"
             className="bar__item-small"
             onChange={(event) => {
-              debouncedSetSearchString(event.target.value || null)
+              debouncedSetSearchString(event.currentTarget.value || null)
             }}
           />
               <div className={styles.sortSelect}>

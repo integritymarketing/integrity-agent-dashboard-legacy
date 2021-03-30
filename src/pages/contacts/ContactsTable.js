@@ -201,7 +201,7 @@ function ContactsTable({ searchString, sort }) {
   const fetchData = useCallback(({ pageSize, pageIndex, searchString, sort }) => {
     setLoading(true);
     clientsService
-      .getList(pageIndex, pageSize,sort,searchString || null,)
+      .getList(pageIndex, pageSize,sort,null,searchString || null,)
       .then((list) => {
         // setData(list.result);
         setData(
