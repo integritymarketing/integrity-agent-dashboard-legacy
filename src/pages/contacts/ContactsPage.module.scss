@@ -1,0 +1,141 @@
+.container {
+  margin-top: 3.25rem;
+}
+
+.header {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 48px;
+  color: #002D72;
+}
+
+.tb-cell {
+  font-family: Lato;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.tb-headers {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 40px;
+  letter-spacing: 0.1px;
+  color: #525761;
+  padding: 20px;
+}
+
+.tableWrapper {
+  margin-top: 1.5rem;
+  min-height: calc(100vh - 300px);
+
+  table {
+    border-spacing: 0;
+    width: 100%;    
+    background: var(--v2-white);
+    margin-bottom: 24px;
+
+    tr {
+      :last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    th,
+    td {
+      text-align: left;
+      margin: 0;      
+      padding: 0;      
+      border-bottom: 1px solid #C7CCD1; 
+      & > div {
+        padding: 20px;
+      }     
+    }
+    
+    td:nth-child(1) {
+      width: 2.5%;
+      font-weight: bold;
+    }
+    td:nth-child(2) {
+      width: 20%;
+      font-weight: bold;
+      color: #002D72;
+    }
+    td:nth-child(3) {
+      width: 17.5%;
+    }      
+    td:nth-child(4) {
+      width: 50%;
+      .reminder {
+        display: flex;
+        align-items: center;
+      }
+      .reminderText {
+
+      }
+      .cal {
+        display: flex;
+        width: 80px;
+        height: 30px;
+        margin-right: 20px;
+        border: 1px solid gray;
+        padding: 2px 10px;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 5px;
+      }
+    }            
+    td:nth-child(5) {
+      width: 10%;
+    }
+    td:nth-child(6) {
+      width: 5%;
+    }
+  }
+
+  .pagination {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .info {
+      color: "#70777E";
+       float: left;
+    }
+
+    .right {
+      border: 1px solid #E8EAEF;
+      background: white;
+      display: flex;
+    }
+
+    button {
+      padding: 6px 10px;
+      border-right: 1px solid #E8EAEF;
+
+      &.active {
+        background: #EBEEF3;
+      }
+      &:disabled {
+        background: #dddddd;
+      }
+    }
+  }
+}
+
+.viewLink {
+  text-decoration: none;
+  color: #0052CE;
+}

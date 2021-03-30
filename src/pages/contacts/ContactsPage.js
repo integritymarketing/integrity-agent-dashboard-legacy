@@ -1,0 +1,26 @@
+import React from "react";
+import { Helmet } from "react-helmet-async";
+import Container from "components/ui/container";
+import Footer from "components/ui/Footer";
+import GlobalNav from "partials/global-nav-v2";
+import ContactsTable from "./ContactsTable";
+import styles from "./ContactsPage.module.scss";
+
+export default () => {
+  return (
+    <React.Fragment>
+      <Helmet>
+        <title>MedicareCENTER - Contacts</title>
+      </Helmet>
+      <GlobalNav />
+      <Container className={styles.container}>
+        <p className={styles.header}>Contacts</p>
+        {/* <div className={styles.header}>Header</div> */}
+        <div className={styles.tableWrapper}>
+          <ContactsTable />
+        </div>
+      </Container>
+      <Footer/>
+    </React.Fragment>
+  );
+};
