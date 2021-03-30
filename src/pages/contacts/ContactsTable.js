@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import clientsService from "services/clientsService";
 import { Select, DefaultOption } from "components/ui/Select";
+import { Link } from "react-router-dom";
 
 import ReminderIcon from "../../../src/stories/assets/reminder.svg";
 
@@ -54,6 +55,7 @@ function Table({
   pageCount: manualPageCount,
   loading,
   totalResults,
+  sort
 }) {
   const {
     getTableProps,
@@ -106,8 +108,8 @@ function Table({
   );
 
   useEffect(() => {
-    fetchData({ pageSize, pageIndex, searchString });
-  }, [fetchData, pageSize, pageIndex, searchString]);
+    fetchData({ pageSize, pageIndex, searchString, sort });
+  }, [fetchData, pageSize, pageIndex, searchString, sort]);
 
   // Render the UI for the table
   return (
@@ -190,16 +192,16 @@ const colorCodes = {
   New: "green",
 };
 
-function ContactsTable({ searchString }) {
+function ContactsTable({ searchString, sort }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
 
-  const fetchData = useCallback(({ pageSize, pageIndex, searchString }) => {
+  const fetchData = useCallback(({ pageSize, pageIndex, searchString, sort }) => {
     setLoading(true);
     clientsService
-      .getList(pageIndex, pageSize, null, null, searchString || null)
+      .getList(pageIndex, pageSize,sort,searchString || null,)
       .then((list) => {
         // setData(list.result);
         setData(
@@ -245,8 +247,6 @@ function ContactsTable({ searchString }) {
         Header: "Stage",
         accessor: "statusName",
         Cell: ({ value, row }) => {
-          console.log("value", value);
-          console.log("row", row);
           return (
             <Select
               Option={ColorOptionRender}
@@ -282,11 +282,7 @@ function ContactsTable({ searchString }) {
       {
         Header: "",
         accessor: "actions",
-        Cell: ({ row }) => (
-          <a href="" className={styles.viewLink}>
-            View
-          </a>
-        ),
+        Cell: ({ row }) => <Link to={`/contact/${row.original.leadsId}`}  className={styles.viewLink}>View</Link>,
       },
     ],
     [statusOptions]
@@ -301,6 +297,7 @@ function ContactsTable({ searchString }) {
       loading={loading}
       pageCount={pageCount}
       totalResults={totalResults}
+      sort={sort}
     />
   );
 }
