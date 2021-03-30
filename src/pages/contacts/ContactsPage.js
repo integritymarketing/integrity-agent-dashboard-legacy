@@ -8,9 +8,13 @@ import SearchIcon from "components/icons/search";
 import GlobalNav from "partials/global-nav-v2";
 import ContactsTable from "./ContactsTable";
 import styles from "./ContactsPage.module.scss";
+import {Select} from 'components/ui/Select';
+import {SORT_OPTIONS} from '../../constants';
 
 export default () => {
   const [searchString, setSearchString] = useState(null)
+  const [sort, setSort] = React.useState(null)
+
   const debouncedSetSearchString = useCallback(
     debounce(setSearchString, 500),
     []
@@ -42,10 +46,18 @@ export default () => {
               debouncedSetSearchString(event.target.value || null)
             }}
           />
+              <div className={styles.sortSelect}>
+        <Select 
+            placeholder={'Date Added Desc'}
+            options={SORT_OPTIONS}
+            onChange = {(value)=> setSort(value)}
+          />
+          </div>
         </div>
         {/* <div className={styles.header}>Header</div> */}
+    
         <div className={styles.tableWrapper}>
-          <ContactsTable searchString={searchString} />
+          <ContactsTable searchString={searchString} sort={sort} />
         </div>
       </Container>
       <Footer />
