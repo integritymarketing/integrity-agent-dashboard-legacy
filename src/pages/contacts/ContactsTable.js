@@ -49,6 +49,7 @@ const ColorOptionRender = ({ value, label, color, onClick }) => {
 function Table({
   columns,
   data,
+  searchString,
   fetchData,
   pageCount: manualPageCount,
   loading,
@@ -105,8 +106,8 @@ function Table({
   );
 
   useEffect(() => {
-    fetchData({ pageSize, pageIndex });
-  }, [fetchData, pageSize, pageIndex]);
+    fetchData({ pageSize, pageIndex, searchString });
+  }, [fetchData, pageSize, pageIndex, searchString]);
 
   // Render the UI for the table
   return (
@@ -189,16 +190,16 @@ const colorCodes = {
   New: "green",
 };
 
-function ContactsTable() {
+function ContactsTable({ searchString }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
 
-  const fetchData = useCallback(({ pageSize, pageIndex }) => {
+  const fetchData = useCallback(({ pageSize, pageIndex, searchString }) => {
     setLoading(true);
     clientsService
-      .getList(pageIndex, pageSize)
+      .getList(pageIndex, pageSize, null, null, searchString || null)
       .then((list) => {
         // setData(list.result);
         setData(
@@ -295,6 +296,7 @@ function ContactsTable() {
     <Table
       columns={columns}
       data={data}
+      searchString={searchString}
       fetchData={fetchData}
       loading={loading}
       pageCount={pageCount}
