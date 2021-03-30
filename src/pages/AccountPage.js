@@ -180,7 +180,7 @@ export default () => {
                         value={values.npn}
                         readOnly
                       />
-                      <NPNLink>Need to request an NPN?</NPNLink>
+                      {/* <NPNLink>Need to request an NPN?</NPNLink> */}
                       <Textfield
                         id="account-email"
                         type="email"
