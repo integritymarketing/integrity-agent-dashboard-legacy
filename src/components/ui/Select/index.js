@@ -41,7 +41,7 @@ export const Select = ({
 
   const { height: windowHeight } = useWindowSize();
 
-  useOnClickOutside(ref, () => setIsOpen(false))
+  useOnClickOutside(ref, () => setIsOpen(false));
 
   useEffect(() => {
     setValue(value);
@@ -71,10 +71,9 @@ export const Select = ({
     const top = isOpen ? ref.current.getBoundingClientRect().top + 40 : 40;
     return {
       maxHeight: Math.max(
-        Math.min(
-        windowHeight - top,
-        (selectableOptions.length + 1) * 40
-      ), Math.min(selectableOptions.length + 1, 3) * 40),
+        Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
+        Math.min(selectableOptions.length + 1, 3) * 40
+      ),
     };
   }, [selectableOptions.length, isOpen]);
 

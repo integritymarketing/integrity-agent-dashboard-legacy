@@ -5,8 +5,8 @@ import Footer from "components/ui/Footer";
 import GlobalNav from "partials/global-nav-v2";
 import styles from "./ContactsPage.module.scss";
 import Activity from "./activity/index";
-  export default () => {
-  const [sort, setSort] = React.useState(null)
+export default () => {
+ 
   return (
     <React.Fragment>
       <Helmet>
@@ -15,10 +15,9 @@ import Activity from "./activity/index";
       <GlobalNav />
       <Container className={styles.container}>
         <p className={styles.header}>Contacts</p>
-
-     <Activity />
+        <Activity />
       </Container>
-      <Footer/>
+      <Footer />
     </React.Fragment>
   );
 };

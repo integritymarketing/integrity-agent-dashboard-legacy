@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useTable, usePagination, useRowSelect } from "react-table";
+
 import clientsService from "services/clientsService";
-import { Select, DefaultOption } from "components/ui/Select";
+import { ColorOptionRender } from "./../../utils/shared-utils/sharedUtility";
 import { Link } from "react-router-dom";
-
 import ReminderIcon from "../../../src/stories/assets/reminder.svg";
-
-import makeData from "./makeData";
+import { Select } from "components/ui/Select";
 
 import styles from "./ContactsPage.module.scss";
 
@@ -27,26 +26,6 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-const ColorOptionRender = ({ value, label, color, onClick }) => {
-  const handleClick = (ev) => {
-    onClick && onClick(ev, value);
-  };
-  return (
-    <div className="option" onClick={handleClick}>
-      <span
-        style={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          backgroundColor: color,
-          marginRight: 5,
-        }}
-      />
-      <span>{label}</span>
-    </div>
-  );
-};
-
 function Table({
   columns,
   data,
@@ -55,7 +34,7 @@ function Table({
   pageCount: manualPageCount,
   loading,
   totalResults,
-  sort
+  sort,
 }) {
   const {
     getTableProps,
@@ -63,14 +42,10 @@ function Table({
     headerGroups,
     prepareRow,
     page,
-    canPreviousPage,
     canNextPage,
     pageOptions,
     pageCount,
     gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
     state: { pageIndex, pageSize },
   } = useTable(
     {
@@ -154,12 +129,6 @@ function Table({
           {totalResults || 0}
         </div>
         <div className={styles.right}>
-          {/* <button onClick={() => gotoPage(0)}>
-            {"First"}
-          </button>{" "}
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            {"< Prev"}
-          </button>{" "} */}
           {Array(Math.min(5, pageOptions.length))
             .fill(null)
             .map((_, index) => (
@@ -173,12 +142,14 @@ function Table({
           <button
             onClick={() => gotoPage(pageIndex + 1)}
             disabled={!canNextPage}
+            className={styles.text}
           >
-            {"Next >"}
+            Next &nbsp; {">"}
           </button>{" "}
           <button
             onClick={() => gotoPage(pageCount - 1)}
             disabled={!canNextPage}
+            className={styles.text}
           >
             Last
           </button>{" "}
@@ -198,28 +169,28 @@ function ContactsTable({ searchString, sort }) {
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
 
-  const fetchData = useCallback(({ pageSize, pageIndex, searchString, sort }) => {
-    setLoading(true);
-    clientsService
-      .getList(pageIndex, pageSize,sort,null,searchString || null,)
-      .then((list) => {
-        // setData(list.result);
-        setData(
-          list.result.map((res) => ({
-            ...res,
-            notes: "test note",
-            // reminders: "3/15",
-            reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
-          }))
-        );
-        setPageCount(list.pageResult.totalPages);
-        setTotalResults(list.pageResult.total);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, []);
+  const fetchData = useCallback(
+    ({ pageSize, pageIndex, searchString, sort }) => {
+      setLoading(true);
+      clientsService
+        .getList(pageIndex, pageSize, sort, null, searchString || null)
+        .then((list) => {
+          setData(
+            list.result.map((res) => ({
+              ...res,
+              reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
+            }))
+          );
+          setPageCount(list.pageResult.totalPages);
+          setTotalResults(list.pageResult.total);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    },
+    []
+  );
 
   const statusOptions = React.useMemo(() => {
     const options = {};
@@ -271,10 +242,6 @@ function ContactsTable({ searchString, sort }) {
           </div>
         ),
       },
-      // {
-      //   Header: "",
-      //   accessor: "reminderNotes",
-      // },
       {
         Header: "Primary Contact",
         accessor: "email",
@@ -282,7 +249,14 @@ function ContactsTable({ searchString, sort }) {
       {
         Header: "",
         accessor: "actions",
-        Cell: ({ row }) => <Link to={`/contact/${row.original.leadsId}`}  className={styles.viewLink}>View</Link>,
+        Cell: ({ row }) => (
+          <Link
+            to={`/contact/${row.original.leadsId}`}
+            className={styles.viewLink}
+          >
+            View
+          </Link>
+        ),
       },
     ],
     [statusOptions]
