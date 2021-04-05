@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useTable, usePagination, useRowSelect } from "react-table";
+
 import clientsService from "services/clientsService";
-import { Select, DefaultOption } from "components/ui/Select";
+import { ColorOptionRender } from "./../../utils/shared-utils/sharedUtility";
 import { Link } from "react-router-dom";
-
 import ReminderIcon from "../../../src/stories/assets/reminder.svg";
-
-import makeData from "./makeData";
+import { Select } from "components/ui/Select";
 
 import styles from "./ContactsPage.module.scss";
 
@@ -27,26 +26,6 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-const ColorOptionRender = ({ value, label, color, onClick }) => {
-  const handleClick = (ev) => {
-    onClick && onClick(ev, value);
-  };
-  return (
-    <div className="option" onClick={handleClick}>
-      <span
-        style={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          backgroundColor: color,
-          marginRight: 5,
-        }}
-      />
-      <span>{label}</span>
-    </div>
-  );
-};
-
 function Table({
   columns,
   data,
@@ -63,14 +42,10 @@ function Table({
     headerGroups,
     prepareRow,
     page,
-    canPreviousPage,
     canNextPage,
     pageOptions,
     pageCount,
     gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
     state: { pageIndex, pageSize },
   } = useTable(
     {
