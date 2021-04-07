@@ -2,7 +2,7 @@ import React from "react";
 
 import ArrowDownIcon  from '../../components/icons/arrow-down'
 
-import { Button } from "./Button";
+import { Button } from "../../components/ui/Button";
 
 export default {
   title: "Design System/Button",

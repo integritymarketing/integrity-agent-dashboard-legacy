@@ -20,6 +20,8 @@ import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
 import AuthSignoutCallback from "components/functional/auth-signout-callback";
 import AuthSilentCallback from "components/functional/auth-silent-callback";
+import ContactsPage from 'pages/contacts/ContactsPage';
+import ContactRecordInfo from 'pages/contacts/ContactRecordInfo';
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
@@ -55,6 +57,12 @@ const App = () => {
               </AuthenticatedRoute>
               <AuthenticatedRoute path="/clients">
                 <ClientManagementPage />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/contacts">
+                <ContactsPage />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/contact/:contactId">
+                <ContactRecordInfo />
               </AuthenticatedRoute>
               <AuthenticatedRoute path="/client-import">
                 <ClientImportPage />

@@ -1,0 +1,244 @@
+
+.activityCard{
+    background: #FFFFFF;
+    border-radius: 8px;
+    width: 798px;
+    margin:0 0 0 auto;
+  }
+
+  .activityCardHeader{
+    padding: 31px 39px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 85px;
+  }
+
+  .activityCardHeader h4{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 29px;
+    color: #002D72;
+    margin-bottom: 0;
+  }
+  
+  .activityCardHeader .notetext{
+    margin-bottom: 0;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    color: #0052CE;
+  }
+
+  .notetext label{
+    margin-left:10px;
+  }
+
+  .bg-color{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+  }
+
+  .iconTime label{
+    margin-left:15px;
+    margin-top: 5px;
+    display: inline-block;
+  }
+
+  .bg-color1{
+    background: #FAEF96;
+  }
+
+  .bg-color2{
+    background: #DBF19B;
+  }
+
+  .bg-color3{
+    background: #FBD5C0;
+  }
+
+  .iconTime {
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #70777E;
+    margin-bottom: 20px;
+  }
+
+  .activityCardbodyset h6{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #151E29;
+    margin-bottom: 8px;
+  }
+
+  .para-btn-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .para-btn-section p{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #525761;
+    width: 80%;
+  }
+
+  .para-btn-section p > a{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    color: #0052CE;
+  }
+
+  .para-btn-section .view-btn{
+    width: 80px;
+    height: 32px;
+    background: #F5F7FA;
+    border: 1px solid #C7CCD1;
+    border-radius: 4px;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #0052CE;
+    justify-content: center;
+  }
+
+  .activityCardbodyset{
+    padding: 10px 39px 0;
+  }
+
+  .edit-delete-row{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .edit-delete-btn{
+    display: none;
+  }
+
+  .activityCardbodyset:hover .edit-delete-btn{
+    display:block;
+  }
+
+  .bodylineseparation{
+    margin-bottom: 20px;
+    border: 1px solid #E8EAEF;
+  }
+
+  .edit-delete-btn a:first-child{
+    margin-right:32px;
+  }
+
+  .headerlineseparation{
+    border: 1px solid #C7CCD1;
+  }
+
+  .activityCardfooter p{
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #525761;
+    padding-bottom: 25px;
+  }
+
+  .customform .modal__card{
+    padding: 22.5px 22.5px 46px 35px;
+  }
+
+  .customform .modal__header > * {
+    right: -22px;
+    top: -20px;
+  }
+
+  .customform .modal__header{
+    position: inherit;
+  }
+
+  .customform .form__field{
+    border: 0;
+    padding: 0;
+  }
+
+  .customform #cm-ed-fname{
+    height: 47px;
+    width: 100%;
+    background: #FFFFFF;
+  }
+
+  .bgcolor-4{
+    width: 35px;
+    height: 35px;
+    background: #DBF19B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  .custom-modal-heading {
+    display:flex;
+    align-items: center;
+  }
+
+  .cancel-btn{
+    background: #F4F6FA;
+    border: 1px solid #C7CCD1;
+    border-radius: 4px;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #0052CE;
+    margin-right: 10px;
+  }
+  
+  .submit-btn{
+    background: #0052CE;
+    border: 1px solid #C7CCD1;
+    border-radius: 4px;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #fff;
+  }
+
+  .custom-form-btn button{
+    margin-top: 38px;
+    width: 118px;
+    height: 40px;
+  }
