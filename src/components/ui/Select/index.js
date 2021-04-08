@@ -34,6 +34,7 @@ export const Select = ({
   onChange,
   placeholder,
   style,
+  ...restProps
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(initialValue);
@@ -78,7 +79,7 @@ export const Select = ({
   }, [selectableOptions.length, isOpen]);
 
   const inputBox = (
-    <div className="inputbox" onClick={toggleOptionsMenu}>
+    <div className="inputbox" onClick={toggleOptionsMenu} {...restProps}>
       {value ? (
         <Option {...selectedOption} />
       ) : (
