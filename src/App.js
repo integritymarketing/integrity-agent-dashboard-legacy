@@ -26,10 +26,12 @@ import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
 } from "components/functional/auth-routes";
+import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>
+      <ToastContextProvider>
       <HelmetProvider>
         <Router>
           <Helmet>
@@ -99,6 +101,7 @@ const App = () => {
           <PortalUrl />
         </Router>
       </HelmetProvider>
+      </ToastContextProvider>
     </AuthContext.Provider>
   );
 };
