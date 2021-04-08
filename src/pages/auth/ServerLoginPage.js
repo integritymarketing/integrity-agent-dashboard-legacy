@@ -46,7 +46,7 @@ export default () => {
                     name: "Username",
                     validator: validationService.composeValidator([
                       validationService.validateRequired,
-                      validationService.validateEmail,
+                      // validationService.validateEmail,
                     ]),
                   },
                   {
@@ -108,8 +108,8 @@ export default () => {
                   <Textfield
                     id="login-username"
                     className="mb-3"
-                    label="Email Address"
-                    placeholder="Enter your Email Address"
+                    label="NPN Number"
+                    placeholder="Enter your NPN Number"
                     name="Username"
                     value={values.Username}
                     onChange={handleChange}
