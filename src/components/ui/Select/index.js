@@ -7,7 +7,6 @@ import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
-// Default Option renderer
 export const DefaultOption = ({ label, value, onClick, ...rest }) => {
   const handleOptionClick = (ev) => {
     onClick && onClick(ev, value);
@@ -34,7 +33,6 @@ export const Select = ({
   onChange,
   placeholder,
   style,
-  ...restProps
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(initialValue);
@@ -45,7 +43,7 @@ export const Select = ({
   useOnClickOutside(ref, () => setIsOpen(false));
 
   useEffect(() => {
-    setValue(value);
+    setValue(initialValue);
   }, [initialValue]);
 
   const handleOptionChange = (ev, value) => {
@@ -70,16 +68,20 @@ export const Select = ({
 
   const heightStyle = useMemo(() => {
     const top = isOpen ? ref.current.getBoundingClientRect().top + 40 : 40;
-    return {
+    return windowHeight
+    ? {
       maxHeight: Math.max(
         Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
         Math.min(selectableOptions.length + 1, 3) * 40
       ),
+    }
+    : {
+      maxHeight: 0
     };
-  }, [selectableOptions.length, isOpen]);
+  }, [selectableOptions.length, isOpen, windowHeight]);
 
   const inputBox = (
-    <div className="inputbox" onClick={toggleOptionsMenu} {...restProps}>
+    <div className="inputbox" onClick={toggleOptionsMenu}>
       {value ? (
         <Option {...selectedOption} />
       ) : (
@@ -123,6 +125,6 @@ Select.defaultProps = {
   placeholder: "- Select -",
   initialValue: null,
   options: [],
-  Option: DefaultOption, // Default option renderer
+  Option: DefaultOption,
   style: {},
 };
