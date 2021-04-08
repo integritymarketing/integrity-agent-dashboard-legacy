@@ -54,9 +54,11 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 cursor: pointer;
-                &:hover {
-                    background: #ebeff6;
-                }
+            }
+        }
+        .options {
+            .option:hover {
+                background: #ebeff6;
             }
         }
     }
