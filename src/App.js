@@ -20,18 +20,16 @@ import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
 import AuthSignoutCallback from "components/functional/auth-signout-callback";
 import AuthSilentCallback from "components/functional/auth-silent-callback";
-import ContactsPage from 'pages/contacts/ContactsPage';
-import ContactRecordInfo from 'pages/contacts/ContactRecordInfo';
+import ContactsPage from "pages/contacts/ContactsPage";
+import ContactRecordInfo from "pages/contacts/ContactRecordInfo";
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
 } from "components/functional/auth-routes";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>
-      <ToastContextProvider>
       <HelmetProvider>
         <Router>
           <Helmet>
@@ -101,7 +99,6 @@ const App = () => {
           <PortalUrl />
         </Router>
       </HelmetProvider>
-      </ToastContextProvider>
     </AuthContext.Provider>
   );
 };

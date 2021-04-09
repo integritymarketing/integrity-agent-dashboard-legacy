@@ -10,6 +10,7 @@ import ContactsTable from "./ContactsTable";
 import styles from "./ContactsPage.module.scss";
 import { Select } from "components/ui/Select";
 import { SORT_OPTIONS } from "../../constants";
+import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 export default () => {
   const [searchString, setSearchString] = useState(null);
@@ -26,6 +27,7 @@ export default () => {
       </Helmet>
       <GlobalNav />
       <Container className={styles.container}>
+        <ToastContextProvider>
         <p className={styles.header}>Contacts</p>
         <div
           className="bar bar--repel bar--collapse-mobile"
@@ -58,6 +60,7 @@ export default () => {
         <div className={styles.tableWrapper}>
           <ContactsTable searchString={searchString} sort={sort} />
         </div>
+        </ToastContextProvider>
       </Container>
       <Footer />
     </React.Fragment>

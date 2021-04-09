@@ -161,8 +161,12 @@ function Table({
 }
 
 const colorCodes = {
-  New: "green",
+  New: "#2082F5",
+  Quoted: "#EDB72C",
+  Lost: "#565656",
+  Enrolled: "#565656",
   Open: "Orange",
+  Applied: "#65C15D"
 };
 
 function ContactsTable({ searchString, sort }) {
@@ -207,13 +211,13 @@ function ContactsTable({ searchString, sort }) {
 
   useEffect(() => {    
     fetchData(tableState);
-  }, [tableState]);
+  }, [tableState,fetchData]);
 
   const statusOptions = React.useMemo(() => {
     return allStatuses.map(status => ( {
       value: status.statusName,
       label: status.statusName,
-      color: status.colorCode || colorCodes[status.statusName] || "gray",
+      color: status.colorCode || colorCodes[status.statusName] || "#EDB72C",
     }));
   }, [allStatuses]);
 
@@ -238,8 +242,8 @@ function ContactsTable({ searchString, sort }) {
             fetchData(tableState);
             addToast({
               type: 'success',
-              message: 'Updated the status successfully!',
-              time: 3000
+              message: 'Contact successfully updated.',
+              time: 3000000
             });
           } catch (e) {
             console.log(e);
@@ -253,6 +257,7 @@ function ContactsTable({ searchString, sort }) {
               initialValue={value}
               options={statusOptions}
               onChange={handleChangeStatus}
+              contactsPage={true}
             />
           );
         },
@@ -289,7 +294,7 @@ function ContactsTable({ searchString, sort }) {
         ),
       },
     ],
-    [statusOptions, tableState]
+    [statusOptions, tableState,addToast,allStatuses,fetchData]
   );
 
   return (
