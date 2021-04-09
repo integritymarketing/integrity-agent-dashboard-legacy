@@ -29,7 +29,7 @@ export default () => {
         <Container size="small">
           <h1 className="text-xl mb-2">Reset your password</h1>
           <p className="text text--secondary mb-4">
-            Enter your email to reset your password.
+            Enter your NPN to reset your password.
           </p>
 
           <Formik
@@ -41,7 +41,7 @@ export default () => {
                     name: "Username",
                     validator: validationService.composeValidator([
                       validationService.validateRequired,
-                      validationService.validateEmail,
+                      // validationService.validateEmail,
                     ]),
                   },
                 ],
@@ -91,7 +91,7 @@ export default () => {
                 <fieldset className="form__fields">
                   <Textfield
                     id="forgot-password-username"
-                    label="Email Address"
+                    label="NPN"
                     placeholder=""
                     name="Username"
                     value={values.Username}
