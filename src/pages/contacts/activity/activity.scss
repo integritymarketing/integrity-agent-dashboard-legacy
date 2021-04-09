@@ -1,244 +1,580 @@
+.rightSection {
+  width: calc(100% - 296px);
+  margin: 0 0 0 auto;
+}
+.activityCard {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
 
-.activityCard{
-    background: #FFFFFF;
-    border-radius: 8px;
-    width: 798px;
-    margin:0 0 0 auto;
-  }
+.activityCardHeader {
+  padding: 31px 39px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 85px;
+}
 
-  .activityCardHeader{
-    padding: 31px 39px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 85px;
-  }
+.activityCardHeader h4 {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 29px;
+  color: #002d72;
+  margin-bottom: 0;
+}
 
-  .activityCardHeader h4{
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 29px;
-    color: #002D72;
-    margin-bottom: 0;
-  }
-  
-  .activityCardHeader .notetext{
-    margin-bottom: 0;
-    font-family: "Lato", sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 17px;
-    color: #0052CE;
-  }
+.activityCardHeader .notetext {
+  margin-bottom: 0;
+  font-family: "Lato", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0052ce;
+}
 
-  .notetext label{
-    margin-left:10px;
-  }
+.notetext label {
+  margin-left: 10px;
+}
 
-  .bg-color{
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    float: left;
-  }
+.bg-color {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+}
 
-  .iconTime label{
-    margin-left:15px;
-    margin-top: 5px;
-    display: inline-block;
-  }
+.iconTime label {
+  margin-left: 15px;
+  margin-top: 5px;
+  display: inline-block;
+}
 
-  .bg-color1{
-    background: #FAEF96;
-  }
+.bg-color1 {
+  background: #faef96;
+}
 
-  .bg-color2{
-    background: #DBF19B;
-  }
+.bg-color2 {
+  background: #dbf19b;
+}
 
-  .bg-color3{
-    background: #FBD5C0;
-  }
+.bg-color3 {
+  background: #fbd5c0;
+}
 
-  .iconTime {
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-    color: #70777E;
-    margin-bottom: 20px;
-  }
+.iconTime {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #70777e;
+  margin-bottom: 20px;
+}
 
-  .activityCardbodyset h6{
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #151E29;
-    margin-bottom: 8px;
-  }
+.activityCardbodyset h6 {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 17px;
+  color: #151e29;
+  margin-bottom: 8px;
+}
 
-  .para-btn-section{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
+.para-btn-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
 
-  .para-btn-section p{
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #525761;
-    width: 80%;
-  }
+.para-btn-section p {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 17px;
+  color: #525761;
+  width: 80%;
+}
 
-  .para-btn-section p > a{
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    color: #0052CE;
-  }
+.para-btn-section p > a {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  color: #0052ce;
+}
 
-  .para-btn-section .view-btn{
-    width: 80px;
-    height: 32px;
-    background: #F5F7FA;
-    border: 1px solid #C7CCD1;
-    border-radius: 4px;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 14px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #0052CE;
-    justify-content: center;
-  }
+.para-btn-section .view-btn {
+  width: 80px;
+  height: 32px;
+  background: #f5f7fa;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #0052ce;
+  justify-content: center;
+}
 
-  .activityCardbodyset{
-    padding: 10px 39px 0;
-  }
+.activityCardbodyset {
+  padding: 10px 39px 0;
+}
 
-  .edit-delete-row{
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.edit-delete-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .edit-delete-btn{
-    display: none;
-  }
+.edit-delete-btn {
+  display: none;
+}
 
-  .activityCardbodyset:hover .edit-delete-btn{
-    display:block;
-  }
+.activityCardbodyset:hover .edit-delete-btn {
+  display: block;
+}
 
-  .bodylineseparation{
-    margin-bottom: 20px;
-    border: 1px solid #E8EAEF;
-  }
+.bodylineseparation {
+  margin-bottom: 20px;
+  border: 1px solid #e8eaef;
+}
 
-  .edit-delete-btn a:first-child{
-    margin-right:32px;
-  }
+.edit-delete-btn a:first-child {
+  margin-right: 32px;
+}
 
-  .headerlineseparation{
-    border: 1px solid #C7CCD1;
-  }
+.headerlineseparation {
+  border: 1px solid #c7ccd1;
+}
 
-  .activityCardfooter p{
-    text-align: center;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    text-align: center;
-    color: #525761;
-    padding-bottom: 25px;
-  }
+.activityCardfooter p {
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  text-align: center;
+  color: #525761;
+  padding-bottom: 25px;
+}
 
-  .customform .modal__card{
-    padding: 22.5px 22.5px 46px 35px;
-  }
+.customform .modal__card {
+  padding: 22.5px 22.5px 46px 35px;
+}
 
-  .customform .modal__header > * {
-    right: -22px;
-    top: -20px;
-  }
+.customform .modal__header > * {
+  right: -22px;
+  top: -20px;
+}
 
-  .customform .modal__header{
-    position: inherit;
-  }
+.customform .modal__header {
+  position: inherit;
+}
 
-  .customform .form__field{
-    border: 0;
-    padding: 0;
-  }
+.customform .form__field {
+  border: 0;
+  padding: 0;
+}
 
-  .customform #cm-ed-fname{
-    height: 47px;
-    width: 100%;
-    background: #FFFFFF;
-  }
+.customform #cm-ed-fname {
+  height: 47px;
+  width: 100%;
+  background: #ffffff;
+}
 
-  .bgcolor-4{
-    width: 35px;
-    height: 35px;
-    background: #DBF19B;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin-right: 15px;
-  }
+.bgcolor-4 {
+  width: 35px;
+  height: 35px;
+  background: #dbf19b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-right: 15px;
+}
 
-  .custom-modal-heading {
-    display:flex;
-    align-items: center;
-  }
+.custom-modal-heading {
+  display: flex;
+  align-items: center;
+}
 
-  .cancel-btn{
-    background: #F4F6FA;
-    border: 1px solid #C7CCD1;
-    border-radius: 4px;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 17px;
-    text-align: center;
-    color: #0052CE;
-    margin-right: 10px;
-  }
-  
-  .submit-btn{
-    background: #0052CE;
-    border: 1px solid #C7CCD1;
-    border-radius: 4px;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 17px;
-    text-align: center;
-    color: #fff;
-  }
+.cancel-btn {
+  background: #f4f6fa;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #0052ce;
+  margin-right: 10px;
+}
 
-  .custom-form-btn button{
-    margin-top: 38px;
-    width: 118px;
-    height: 40px;
-  }
+.submit-btn {
+  background: #0052ce;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+}
+
+.custom-form-btn button {
+  margin-top: 38px;
+  width: 118px;
+  height: 40px;
+}
+.leftcardmenu {
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 175px;
+  width: 241px;
+  float: left;
+}
+
+.clientnotes {
+  margin-top: 30px;
+}
+.leftcardmenu li {
+  padding: 13px 0 7px 22px;
+  border-bottom: 1px solid #e8eaef;
+  height: 55px;
+  display: flex;
+  align-items: center;
+}
+.leftcardmenu li span {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #70777e;
+  display: inline-flex;
+}
+
+.icon-spacing {
+  margin-right: 15px;
+  line-height: 2px;
+}
+.leftcardmenu li:last-child {
+  border: 0;
+}
+.leftcardmenu li.active span,
+.leftcardmenu li.active label > svg > path {
+  color: #0052ce !important;
+  fill: #0052ce !important;
+}
+.nameCard {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.nameCardSection1 {
+  padding: 31px 0 18px 35px;
+}
+.nameCardHeading h2 {
+  font-size: 40px;
+  line-height: 48px;
+  color: #002d72;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+.nameCardpara p {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #525761;
+}
+.nameCard hr {
+  margin-top: 0;
+  border-bottom: 1px solid #c7ccd1;
+  margin-bottom: 29px;
+}
+.nameCardSection2 {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 39px;
+  padding-bottom: 31px;
+}
+.personalInfo {
+  width: 33%;
+  height: 70px;
+  margin-bottom: 3px;
+}
+
+.personalInfo .italic-label {
+  font-size: 13px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.personalInfo label {
+  font-size: 13px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.personalInfoText {
+  font-size: 16px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.personalInfoEmailText {
+  font-size: 16px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  color: #0052ce;
+}
+.reminderCard {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+}
+.reminderCardSection1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 38px 26px 30px;
+}
+.reminderCardHeading h4 {
+  font-size: 24px;
+  line-height: 29px;
+  color: #002d72;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.reminderRightSide span {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0052ce;
+  margin-left: 10px;
+}
+.reminderRightSide a {
+  text-decoration: none;
+}
+.reminderCard hr {
+  margin-top: 0;
+  border-bottom: 1px solid #c7ccd1;
+  margin-bottom: 27px;
+}
+.reminderCardSection2 {
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  padding: 22px 20px 18px 21px;
+  margin: 27px 32px 20px 34px;
+}
+.reminderCardSection2row1 label {
+  font-size: 12px;
+  line-height: 14px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  margin-left: 16px;
+}
+.reminderCardSection2row1 {
+  margin-bottom: 30px;
+}
+.reminderCardSection2row2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.reminderCardSection2row2left .alertText {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #ca2323;
+}
+.reminderCardSection2row2left .normalText {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #70777e;
+}
+.complete-btn {
+  background: #0052ce;
+  border-radius: 4px;
+  border: 1px solid #0052ce;
+  width: 80px;
+  height: 32px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+}
+.ClientCardSection2 p {
+  font-size: 16px;
+  color: #525761;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  padding: 27px 88px 50px 31px;
+}
+.reminder-modal-heading legend {
+  font-size: 30px;
+  line-height: 36px;
+  color: #002d72;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+.custom-reminder-modal .modal__card {
+  padding: 38px 42px 35px 37px;
+}
+.reminder-modal-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 31px;
+}
+.reminder-modal-heading a {
+  text-decoration: none;
+  color: #0052ce;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  padding: 11.5px 14px 11.5px 15px;
+}
+.reminder-modal-heading a > span {
+  margin-left: 8px;
+}
+.custom-reminder-modal .reminderCardSection2 {
+  margin: 0 0 16px;
+  padding: 19px 20px 17px 18px;
+}
+.custom-reminder-modal .reminderCardSection2:last-child {
+  margin: 0;
+}
+.custom-reminder-modal .reminderCardSection2row2 {
+  align-items: center;
+}
+.custom-reminder-modal .reminderCardSection2row1 {
+  margin-bottom: 19px;
+}
+.reminder-cancel-btn {
+  width: 100px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: #0052ce;
+  margin-right: 12px;
+}
+.reminder-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 36px;
+}
+.reminder-save-btn {
+  width: 100px;
+  height: 40px;
+  background: #0052ce;
+  border: 1px solid #0052ce;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: #fff;
+  margin-right: 12px;
+}
+.reminder-modal-heading a:hover {
+  background-color: #f5f7fa;
+}
+.custom-reminder-modal .reminderCardSection2:hover {
+  background: #f9fafb;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.custom-reminder-modal .reminderCardSection2.active {
+  background: #f9fafb;
+}
+.custom-reminder-modal .inputText {
+  border: 0;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #70777e;
+  width: 280px;
+  height: auto;
+  resize: none;
+}
+.custom-reminder-modal textarea:focus {
+  outline: 0;
+}
+.cal {
+  display: flex;
+  width: 80px;
+  height: 30px;
+  margin-right: 20px;
+  border: 1px solid var(--v2-main-gray);
+  padding: 2px 10px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+}
+.reminderCardSection2 .DayPicker{
+  position: absolute;
+  z-index: 11;
+  background: #fff;
+    box-shadow: 0px 0px 10px 1px #afafaf;
+    border-radius: 5px;
+    top: 37px;
+}
+.datepickerparent{
+  position: relative;
+}
+.datepicker-row{
+  display: flex;
+  align-items: center;
+}
