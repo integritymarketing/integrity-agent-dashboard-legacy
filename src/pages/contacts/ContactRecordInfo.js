@@ -9,6 +9,7 @@ import OverviewIcon from "components/icons/home";
 import DetailsIcon from "components/icons/person";
 import PreferencesIcon from "components/icons/settings";
 import Activity from "./activity/index";
+import CLientNotes from './clientNotes';
 export default () => {
   return (
     <React.Fragment>
@@ -40,6 +41,7 @@ export default () => {
           </li>
         </ul>
         <Activity />
+        <CLientNotes />
       </Container>
       <Footer />
     </React.Fragment>
