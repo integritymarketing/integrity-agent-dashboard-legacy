@@ -28,7 +28,7 @@ export default function ClientNotes(props) {
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                         </div>
                         : <div className="client-notes-edit">
-                            <textarea placeholder="Write client notes here..." value={value} onChange={handleOnChange} rows="5" cols="105">
+                            <textarea placeholder="Write client notes here..." value={value} onChange={handleOnChange} rows="5" cols="120">
                                 {value}
                             </textarea>
                         </div>
