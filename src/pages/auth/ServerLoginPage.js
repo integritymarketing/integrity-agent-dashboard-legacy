@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import Container from "components/ui/container";
 import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import InfoIcon from "components/icons/info";
+// import InfoIcon from "components/icons/info";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
