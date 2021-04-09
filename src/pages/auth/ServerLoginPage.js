@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import Container from "components/ui/container";
 import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import InfoIcon from "components/icons/info";
+// import InfoIcon from "components/icons/info";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
@@ -29,13 +29,13 @@ export default () => {
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
 
-          <div className="auth-notification">
+          {/* <div className="auth-notification">
             <InfoIcon style={{ display: "block" }} />
             <p>
               Please login to your account using your email, not your NPN.{" "}
               <Link to="/forgot-username">Forgot your email?</Link>
             </p>
-          </div>
+          </div> */}
 
           <Formik
             initialValues={{ Username: "", Password: "" }}
@@ -46,7 +46,7 @@ export default () => {
                     name: "Username",
                     validator: validationService.composeValidator([
                       validationService.validateRequired,
-                      validationService.validateEmail,
+                      // validationService.validateEmail,
                     ]),
                   },
                   {
@@ -108,8 +108,8 @@ export default () => {
                   <Textfield
                     id="login-username"
                     className="mb-3"
-                    label="Email Address"
-                    placeholder="Enter your Email Address"
+                    label="NPN Number"
+                    placeholder="Enter your NPN Number"
                     name="Username"
                     value={values.Username}
                     onChange={handleChange}
