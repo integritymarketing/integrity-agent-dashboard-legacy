@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
-import Modal from "components/ui/modal";
+/* import Modal from "components/ui/modal";*/
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
@@ -11,7 +11,7 @@ import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import authService from "services/authService";
-import NPNRequest from "partials/npn-request";
+/* import NPNRequest from "partials/npn-request"; */
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -22,7 +22,7 @@ const formatPhoneNumber = (phoneNumberString) => {
   return null;
 };
 
-const useNPNLinkWithModal = () => {
+/* const useNPNLinkWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
   return [
     (props) => (
@@ -39,10 +39,10 @@ const useNPNLinkWithModal = () => {
       </Modal>
     ),
   ];
-};
+}; */
 
 export default () => {
-  const [NPNLink, NPNModal] = useNPNLinkWithModal();
+  /*   const [NPNLink, NPNModal] = useNPNLinkWithModal();*/
   const userProfile = useUserProfile();
   const { firstName, lastName, npn, email, phone } = userProfile;
   const { show: showMessage } = useFlashMessage();
@@ -369,7 +369,7 @@ export default () => {
                 )}
               </Formik>
             </section>
-            <NPNModal />
+            {/*  <NPNModal /> */}
           </Container>
         )}
       </div>
