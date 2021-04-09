@@ -5,6 +5,7 @@ import Footer from "components/ui/Footer";
 import GlobalNav from "partials/global-nav-v2";
 import styles from "./ContactsPage.module.scss";
 import Activity from "./activity/index";
+import CLientNotes from './clientNotes';
 export default () => {
  
   return (
@@ -16,6 +17,7 @@ export default () => {
       <Container className={styles.container}>
         <p className={styles.header}>Contacts</p>
         <Activity />
+        <CLientNotes />
       </Container>
       <Footer />
     </React.Fragment>
