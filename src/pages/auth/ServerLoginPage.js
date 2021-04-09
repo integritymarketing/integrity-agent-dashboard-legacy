@@ -29,13 +29,13 @@ export default () => {
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
 
-          <div className="auth-notification">
+          {/* <div className="auth-notification">
             <InfoIcon style={{ display: "block" }} />
             <p>
               Please login to your account using your email, not your NPN.{" "}
               <Link to="/forgot-username">Forgot your email?</Link>
             </p>
-          </div>
+          </div> */}
 
           <Formik
             initialValues={{ Username: "", Password: "" }}
