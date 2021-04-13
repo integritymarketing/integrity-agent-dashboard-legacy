@@ -3,9 +3,10 @@
 }
 
 .toasts-wrapper {
-    position: absolute;
-    top: -1rem;
-    right: 0px;
+    right: 30px;
+    position: fixed;
+    top: 140px;
+    z-index: 1;
 
     .toast {
         background: #fff;

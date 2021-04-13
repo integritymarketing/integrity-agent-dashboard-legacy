@@ -9,6 +9,7 @@ import { Select } from "components/ui/Select";
 import useToast from './../../hooks/useToast';
 
 import styles from "./ContactsPage.module.scss";
+import Spinner from './../../components/ui/Spinner/index';
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -88,8 +89,12 @@ function Table({
   }, [onChangeTableState, pageSize, pageIndex, searchString, sort]);
 
   // Render the UI for the table
+  
+  if (loading) {
+    return <Spinner />;
+  }
   return (
-    <>
+    <>      
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -227,7 +232,7 @@ function ContactsTable({ searchString, sort }) {
         Header: "Name",
         accessor: "firstName",
         Cell: ({ value, row }) =>
-          `${row.original.firstName || ""} ${row.original.lastName || ""}`,
+          `${row.original.firstName || ""} ${row.original.lastName || "Williams Mary"}`,
       },
       {
         Header: "Stage",
@@ -243,7 +248,7 @@ function ContactsTable({ searchString, sort }) {
             addToast({
               type: 'success',
               message: 'Contact successfully updated.',
-              time: 300
+              time: 3000
             });
           } catch (e) {
             console.log(e);

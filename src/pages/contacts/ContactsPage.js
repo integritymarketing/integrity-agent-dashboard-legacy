@@ -73,7 +73,7 @@ export default () => {
                 debouncedSetSearchString(event.currentTarget.value || null);
               }}
             />
-            <div>
+            <div className={styles['switch-view']}>
               {
                 layout === 'list'
                   ? <Button
