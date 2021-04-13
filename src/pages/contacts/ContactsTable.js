@@ -6,8 +6,10 @@ import { ColorOptionRender } from "./../../utils/shared-utils/sharedUtility";
 import { Link } from "react-router-dom";
 import ReminderIcon from "../../../src/stories/assets/reminder.svg";
 import { Select } from "components/ui/Select";
+import useToast from './../../hooks/useToast';
 
 import styles from "./ContactsPage.module.scss";
+import Spinner from './../../components/ui/Spinner/index';
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -30,7 +32,7 @@ function Table({
   columns,
   data,
   searchString,
-  fetchData,
+  onChangeTableState,
   pageCount: manualPageCount,
   loading,
   totalResults,
@@ -83,12 +85,16 @@ function Table({
   );
 
   useEffect(() => {
-    fetchData({ pageSize, pageIndex, searchString, sort });
-  }, [fetchData, pageSize, pageIndex, searchString, sort]);
+    onChangeTableState({ pageSize, pageIndex, searchString, sort });
+  }, [onChangeTableState, pageSize, pageIndex, searchString, sort]);
 
   // Render the UI for the table
+  
+  if (loading) {
+    return <Spinner />;
+  }
   return (
-    <>
+    <>      
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -160,7 +166,12 @@ function Table({
 }
 
 const colorCodes = {
-  New: "green",
+  New: "#2082F5",
+  Quoted: "#EDB72C",
+  Lost: "#565656",
+  Enrolled: "#565656",
+  Open: "Orange",
+  Applied: "#65C15D"
 };
 
 function ContactsTable({ searchString, sort }) {
@@ -168,43 +179,52 @@ function ContactsTable({ searchString, sort }) {
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
+  const [allStatuses, setAllStatuses] = useState([]);
+  const [tableState, setTableState] = useState({});
+  
+  const addToast = useToast();
 
-  const fetchData = useCallback(
-    ({ pageSize, pageIndex, searchString, sort }) => {
-      setLoading(true);
-      clientsService
-        .getList(pageIndex, pageSize, sort, null, searchString || null)
-        .then((list) => {
-          setData(
-            list.result.map((res) => ({
-              ...res,
-              reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
-            }))
-          );
-          setPageCount(list.pageResult.totalPages);
-          setTotalResults(list.pageResult.total);
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-    },
-    []
-  );
+    // load status ids for updates
+    useEffect(() => {
+      const doFetch = async () => {
+        const statuses = await clientsService.getStatuses();
+        setAllStatuses(statuses);
+      };
+  
+      doFetch();
+    }, []);
+
+  const fetchData = useCallback(({ pageSize, pageIndex, searchString, sort }) => {
+    setLoading(true);
+    clientsService
+      .getList(pageIndex, pageSize,sort,null,searchString || null,)
+      .then((list) => {
+        setData(
+          list.result.map((res) => ({
+            ...res,
+            reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
+          }))
+        );
+        setPageCount(list.pageResult.totalPages);
+        setTotalResults(list.pageResult.total);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {    
+    fetchData(tableState);
+  }, [tableState,fetchData]);
 
   const statusOptions = React.useMemo(() => {
-    const options = {};
-    data.forEach((d) => {
-      if (!options[d.statusName]) {
-        options[d.statusName] = {
-          value: d.statusName,
-          label: d.statusName,
-          color: colorCodes[d.statusName] || "gray",
-        };
-      }
-    });
-    return Object.values(options);
-  }, [data]);
+    return allStatuses.map(status => ( {
+      value: status.statusName,
+      label: status.statusName,
+      color: status.colorCode || colorCodes[status.statusName] || "#EDB72C",
+    }));
+  }, [allStatuses]);
 
   const columns = React.useMemo(
     () => [
@@ -212,17 +232,36 @@ function ContactsTable({ searchString, sort }) {
         Header: "Name",
         accessor: "firstName",
         Cell: ({ value, row }) =>
-          `${row.original.firstName || ""} ${row.original.lastName || ""}`,
+          `${row.original.firstName || ""} ${row.original.lastName || "Williams Mary"}`,
       },
       {
         Header: "Stage",
         accessor: "statusName",
         Cell: ({ value, row }) => {
+         const handleChangeStatus = async (val) => {
+          try {
+            await clientsService.updateClient(
+              row.original,
+              { ...row.original, leadStatusId: allStatuses.find(status => status.statusName === val )?.leadStatusId }
+            );
+            fetchData(tableState);
+            addToast({
+              type: 'success',
+              message: 'Contact successfully updated.',
+              time: 3000
+            });
+          } catch (e) {
+            console.log(e);
+          }
+         };
+
           return (
             <Select
               Option={ColorOptionRender}
               initialValue={value}
               options={statusOptions}
+              onChange={handleChangeStatus}
+              contactsPage={true}
             />
           );
         },
@@ -259,7 +298,7 @@ function ContactsTable({ searchString, sort }) {
         ),
       },
     ],
-    [statusOptions]
+    [statusOptions, tableState,addToast,allStatuses,fetchData]
   );
 
   return (
@@ -267,11 +306,11 @@ function ContactsTable({ searchString, sort }) {
       columns={columns}
       data={data}
       searchString={searchString}
-      fetchData={fetchData}
       loading={loading}
       pageCount={pageCount}
       totalResults={totalResults}
       sort={sort}
+      onChangeTableState={setTableState}
     />
   );
 }

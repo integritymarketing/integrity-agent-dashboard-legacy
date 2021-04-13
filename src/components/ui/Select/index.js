@@ -33,6 +33,7 @@ export const Select = ({
   onChange,
   placeholder,
   style,
+  contactsPage,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(initialValue);
@@ -101,7 +102,7 @@ export const Select = ({
   );
 
   return (
-    <div ref={ref} style={style} className="select">
+    <div ref={ref} style={style} className={`select ${contactsPage && 'contacts-dd'}`}>
       <div
         className={`select-container ${isOpen ? "opened" : "closed"}`}
         style={heightStyle}
