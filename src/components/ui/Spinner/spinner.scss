@@ -12,13 +12,13 @@
   position: relative;
   width: 80px;
   height: 80px;
-  transform: scale(1.5);
+  transform: scale(1.2);
 }
 .lds-default div {
   position: absolute;
   width: 5px;
   height: 5px;
-  background: #00c3e0;
+  background: #0052CE;
   border-radius: 50%;
   animation: lds-default 1.2s linear infinite;
 }
@@ -87,11 +87,11 @@
   20%,
   80%,
   100% {
-    background-color: #ace3ea;
+    background-color: #0052CE;
     transform: scale(1);
   }
   50% {
     transform: scale(1.5);
-    background-color: #05c3de;
+    background-color: #0052CE;
   }
 }
