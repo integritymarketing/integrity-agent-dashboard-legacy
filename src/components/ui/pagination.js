@@ -31,7 +31,9 @@ const getVisibleRange = (total, current, maxVisible = 5) => {
 
 export default ({
   totalPages = 5,
+  totalResults,
   currentPage = 1,
+  pageSize = 12,
   onPageChange = noop,
   ...props
 }) => {
@@ -39,6 +41,9 @@ export default ({
     if (page < 1 || page > totalPages || page === currentPage) return noop;
     return () => onPageChange(page);
   };
+
+  const showingFrom = currentPage === 1 ? currentPage : ((currentPage - 1) * pageSize) + 1;
+  const showingTo = currentPage === 1 ? pageSize : (currentPage * pageSize) > totalResults ? totalResults : currentPage * pageSize;
 
   return (
     <Media
@@ -49,7 +54,7 @@ export default ({
       {(matches) => (matches.large &&
         <div className="pagination-container">
           <div className="pagination-display-results">
-            {`Showing ${currentPage} 1-100 of ${totalPages * 25} contacts`}
+            {`Showing ${showingFrom} - ${showingTo} of ${totalResults} contacts`}
           </div>
           <nav
             aria-label="pagination"

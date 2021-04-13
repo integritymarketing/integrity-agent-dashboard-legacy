@@ -102,8 +102,8 @@ function ContactsCard({ searchString, sort }) {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [allStatuses, setAllStatuses] = useState([]);
-    const pageSize = 24;
-
+    
+    const pageSize = 12;
     const addToast = useToast();
 
     useEffect(() => {
@@ -150,11 +150,10 @@ function ContactsCard({ searchString, sort }) {
             addToast({
                 type: 'success',
                 message: 'Contact successfully updated.',
-                time: 3000000
+                time: 3000
             });
         } catch (e) {
             console.log(e);
-            alert("Unable to update the status. Please try again.");
         }
     }
     useEffect(() => {
@@ -199,6 +198,8 @@ function ContactsCard({ searchString, sort }) {
             <Pagination
                 currentPage={currentPage}
                 totalPages={pageCount}
+                totalResults={totalResults}
+                pageSize={pageSize}
                 onPageChange={(page) => setCurrentPage(page)}
             />
         )}
