@@ -1,7 +1,3 @@
-.container {
-	margin-top: 2.188rem;
-}
-
 .header {
 	font-family: Lato;
 	font-style: normal;
@@ -9,6 +5,9 @@
 	font-size: 40px;
 	line-height: 48px;
 	color: var(--v2-dark-blue);
+	padding: 35px 40px;
+	border-bottom: 1px solid #C7CCD1;
+	margin-bottom: 35px;
 }
 
 .tb-cell {
@@ -199,3 +198,15 @@
 	align-items: center;
 	color: #565656;
 }
+
+.switch-view {
+	margin-right: -28px;
+	& Button {
+		width: 40px;
+		height: 40px;
+		padding: 0px !important;
+		background: #FFFFFF;
+		border: 1px solid #C7CCD1;
+		border-radius: 4px !important;
+	}
+} 
