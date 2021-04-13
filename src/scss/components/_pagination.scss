@@ -1,41 +1,80 @@
-.pagination {
+.pagination-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  line-height: (24/20);
+  justify-content: space-between;
 
-  &__pages {
-    display: inherit;
-    align-items: inherit;
-    padding: 0 1rem;
+  .pagination-display-results {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    color: #646f7b;
   }
 
-  &__button {
-    color: var(--main-text-color);
-    padding: 0.75rem;
-    cursor: default;
-
-    &--active:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    &--current {
-      font-weight: bold;
-    }
-
-    &--inactive {
-      color: var(--muted-text-color);
-    }
-  }
-
-  &--mini {
+  .pagination {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.25rem;
+    line-height: (24/20);
 
-    .pagination__button {
-      flex-basis: 100px;
+    &__pages {
+      display: inherit;
+      align-items: inherit;
+      padding: 0 1rem;
+    }
+
+    &__button {
+      color: var(--main-text-color);
+      padding: 0.75rem;
+      cursor: default;
+      background: #ffffff;
+      box-sizing: border-box;
+      font-family: Lato;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+
+      border: 1px solid #dfe5ef;
+      &:not(:first-child) {
+        border-left-width: 0px;
+      }
+      &:first-child {
+        border-radius: 4px 0px 0px 4px;
+      }
+      &:last-child {
+        border-radius: 0px 4px 4px 0px;
+      }
+
+      &--active:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        border:1px solid blue;
+      }
+
+      &--current {
+        font-weight: bold;
+        background: #ebeef3;
+        border: 1px solid #c7ccd1;
+        box-sizing: border-box;
+      }
+
+      &--inactive {
+        color: var(--muted-text-color);
+      }
+    }
+
+    &--mini {
+      justify-content: center;
+      font-size: 1rem;
+
+      .pagination__button {
+        flex-basis: 100px;
+      }
     }
   }
 }

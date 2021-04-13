@@ -1,5 +1,6 @@
 import React from "react";
 import Media from "react-media";
+import Next from "components/icons/next"
 
 const PaginationButton = ({ state = "active", children, ...props }) => (
   <li className={`pagination__button pagination__button--${state}`} {...props}>
@@ -45,58 +46,48 @@ export default ({
         large: "(min-width: 768px)",
       }}
     >
-      {(matches) => (
-        <nav
-          aria-label="pagination"
-          className={`pagination ${matches.large ? "" : "pagination--mini"}`}
-          {...props}
-        >
-          <ul className="pagination__pages">
-            {matches.large && (
-              <PaginationButton
-                state={currentPage === 1 ? "inactive" : "active"}
-                onClick={handlePageChange(1)}
-              >
-                First <span className="visuallyhidden">page</span>
-              </PaginationButton>
-            )}
-            <PaginationButton
-              state={currentPage === 1 ? "inactive" : "active"}
-              onClick={handlePageChange(currentPage - 1)}
-            >
-              Previous <span className="visuallyhidden">page</span>
-            </PaginationButton>
+      {(matches) => (matches.large &&
+        <div className="pagination-container">
+          <div className="pagination-display-results">
+            {`Showing ${currentPage} 1-100 of ${totalPages * 25} contacts`}
+          </div>
+          <nav
+            aria-label="pagination"
+            className={`pagination ${matches.large ? "" : "pagination--mini"}`}
+            {...props}
+          >
+            <ul className="pagination__pages">
+              {getVisibleRange(
+                totalPages,
+                currentPage,
+                5
+              ).map((page) => (
+                <PaginationButton
+                  key={page}
+                  state={page === currentPage ? "current" : "active"}
+                  onClick={handlePageChange(page)}
+                >
+                  <span className="visuallyhidden">page </span> {page}
+                </PaginationButton>
+              ))}
 
-            {getVisibleRange(
-              totalPages,
-              currentPage,
-              matches.large ? 5 : 3
-            ).map((page) => (
-              <PaginationButton
-                key={page}
-                state={page === currentPage ? "current" : "active"}
-                onClick={handlePageChange(page)}
-              >
-                <span className="visuallyhidden">page </span> {page}
-              </PaginationButton>
-            ))}
-
-            <PaginationButton
-              state={currentPage === totalPages ? "inactive" : "active"}
-              onClick={handlePageChange(currentPage + 1)}
-            >
-              Next <span className="visuallyhidden">page</span>
-            </PaginationButton>
-            {matches.large && (
               <PaginationButton
                 state={currentPage === totalPages ? "inactive" : "active"}
-                onClick={handlePageChange(totalPages)}
+                onClick={handlePageChange(currentPage + 1)}
               >
-                Last <span className="visuallyhidden">page</span>
+                <span className="mr-1">Next</span> <Next /> <span className="visuallyhidden">page</span>
               </PaginationButton>
-            )}
-          </ul>
-        </nav>
+              {matches.large && (
+                <PaginationButton
+                  state={currentPage === totalPages ? "inactive" : "active"}
+                  onClick={handlePageChange(totalPages)}
+                >
+                  Last <span className="visuallyhidden">page</span>
+                </PaginationButton>
+              )}
+            </ul>
+          </nav>
+        </div>
       )}
     </Media>
   );
