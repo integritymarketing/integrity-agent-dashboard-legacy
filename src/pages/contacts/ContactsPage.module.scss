@@ -38,7 +38,7 @@
 		background: var(--v2-white);
 		margin-bottom: 24px;
 		tr {
-			 :last-child {
+			:last-child {
 				td {
 					border-bottom: 0;
 				}
@@ -50,7 +50,7 @@
 			margin: 0;
 			padding: 0;
 			border-bottom: 1px solid var(--v2-disabled-gray-border);
-			&>div {
+			& > div {
 				padding: 20px;
 			}
 		}
@@ -72,7 +72,8 @@
 				display: flex;
 				align-items: center;
 			}
-			.reminderText {}
+			.reminderText {
+			}
 			.cal {
 				display: flex;
 				width: 80px;
@@ -141,4 +142,60 @@
 	width: 250px;
 	float: right;
 	margin: 10px;
+}
+
+.cardHeader,
+.cardInfo {
+	display: flex;
+	align-items: center;
+}
+.cardInfo {
+	margin-top: 27px;
+	.cardInfoLabel {
+		margin-bottom: 12px;
+		font-size: 13px;
+		line-height: 16px;
+		display: flex;
+		align-items: center;
+		color: #646f7b;
+	}
+}
+.cardInfo > div:first-child {
+	width: 60%;
+}
+.cardInfo > div:last-child {
+	width: 40%;
+}
+
+.contactName {
+	flex: 1;
+	font-family: Lato;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px !important;
+	line-height: 24px;
+	text-transform: capitalize;
+	display: flex;
+	align-items: center;
+	color: #002d72;
+	flex: 1;
+}
+
+.primaryContactHeader {
+	margin-top: 28px;
+	width: 132px;
+	height: 20px;
+	font-size: 13px;
+	line-height: 16px;
+	display: flex;
+	align-items: center;
+	color: #646f7b;
+}
+
+.primaryContactInfo {
+	font-size: 16px;
+	line-height: 23px;
+	display: flex;
+	align-items: center;
+	color: #565656;
 }

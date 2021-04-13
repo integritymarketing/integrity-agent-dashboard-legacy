@@ -38,13 +38,13 @@ Disabled.args = {
 export const PrimaryWithIcon = Template.bind({});
 PrimaryWithIcon.args = {
   label: "Button",
-  icon: ArrowDownIcon,
+  icon: <ArrowDownIcon/>,
 };
 
 export const PrimaryWithIconRight = Template.bind({});
 PrimaryWithIconRight.args = {
   label: "Button",
-  icon: ArrowDownIcon,
+  icon: <ArrowDownIcon/>,
   iconPosition: 'right'
 };
 
@@ -52,14 +52,14 @@ export const SecondaryWithIcon = Template.bind({});
 SecondaryWithIcon.args = {
   label: "Button",
   type: 'secondary',
-  icon: ArrowDownIcon,
+  icon: <ArrowDownIcon/>,
 };
 
 export const SecondaryWithIconRight = Template.bind({});
 SecondaryWithIconRight.args = {
   label: "Button",
   type: 'secondary',
-  icon: ArrowDownIcon,
+  icon: <ArrowDownIcon/>,
   iconPosition: 'right'
 };
 
@@ -67,21 +67,21 @@ export const TertiaryWithIcon = Template.bind({});
 TertiaryWithIcon.args = {
   label: "Button",
   type: "tertiary",
-  icon: ArrowDownIcon,
+  icon: <ArrowDownIcon/>,
 };
 
 export const TertiaryWithIconRight = Template.bind({});
 TertiaryWithIconRight.args = {
   label: "Button",
   type: "tertiary",
-  icon: ArrowDownIcon,
+  icon: <ArrowDownIcon/>,
   iconPosition: 'right'
 };
 
 export const IconOnly = Template.bind({});
 IconOnly.args = {
   label: "Button",
-  icon: ArrowDownIcon,
+  icon: <ArrowDownIcon/>,
   iconOnly: true
 };
 

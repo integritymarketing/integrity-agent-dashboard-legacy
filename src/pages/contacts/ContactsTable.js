@@ -243,11 +243,10 @@ function ContactsTable({ searchString, sort }) {
             addToast({
               type: 'success',
               message: 'Contact successfully updated.',
-              time: 3000000
+              time: 300
             });
           } catch (e) {
             console.log(e);
-            alert("Unable to update the status. Please try again.");
           }
          };
 
