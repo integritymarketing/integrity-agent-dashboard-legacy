@@ -9,7 +9,7 @@ import AddReminder from "components/icons/addreminder";
 import ActivityModal from "./ActivityModal";
 import ReminderModal from "../reminder/ReminderModal";
 import { Select } from "components/ui/Select";
-import Datepicker from '../datepicker';
+import Datepicker from "../datepicker";
 
 export const SORT_OPTIONS = [
   { value: "one", label: "one" },
@@ -18,7 +18,6 @@ export const SORT_OPTIONS = [
 ];
 
 const PersonalInfo = () => {
-
   return (
     <div className="nameCard">
       <div className="nameCardSection1">
@@ -49,7 +48,7 @@ const PersonalInfo = () => {
             <Select
               placeholder={"Stage"}
               options={SORT_OPTIONS}
-              onChange={() =>{}}
+              onChange={() => {}}
             />
           </div>
         </div>
@@ -67,16 +66,13 @@ const PersonalInfo = () => {
 
 const Reminders = ({ setReminderModalStatus }) => {
   return (
-    <div className="reminderCard" >
+    <div className="reminderCard">
       <div className="reminderCardSection1">
         <div className="reminderCardHeading">
           <h4>Reminders</h4>
         </div>
         <div className="reminderRightSide">
-          <a
-            href="JavaScript:void(0);"
-            onClick={() => setReminderModalStatus(true)}
-          >
+          <a href="#/" onClick={() => setReminderModalStatus(true)}>
             <label>
               {" "}
               <AddReminder />
@@ -88,8 +84,7 @@ const Reminders = ({ setReminderModalStatus }) => {
       <hr />
       <div className="reminderCardSection2">
         <div className="datepicker-row reminderCardSection2row1">
-      
-       <Datepicker />
+          <Datepicker />
           <label>Last Updated 03/04/2021 1:24 PM EST</label>
         </div>
         <div className="reminderCardSection2row2">
@@ -106,7 +101,7 @@ const Reminders = ({ setReminderModalStatus }) => {
       </div>
       <div className="reminderCardSection2">
         <div className="reminderCardSection2row1">
-        <Datepicker />
+          <Datepicker />
           <label>Last Updated 03/04/2021 1:24 PM EST</label>
         </div>
         <div className="reminderCardSection2row2">
@@ -150,7 +145,7 @@ const Activities = ({ setActivityModalStatus }) => {
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-              <a href="#">View More</a>
+              <a href="#/">View More</a>
             </p>
             <button className="view-btn">View SOA</button>
           </div>
@@ -165,10 +160,10 @@ const Activities = ({ setActivityModalStatus }) => {
               <label>03/04/2021 1:24 PM EST</label>
             </p>
             <div className="edit-delete-btn">
-              <a href="#">
+              <a href="#/">
                 <DeleteNote />
               </a>
-              <a href="#">
+              <a href="#/">
                 <EditNote />
               </a>
             </div>
@@ -178,7 +173,7 @@ const Activities = ({ setActivityModalStatus }) => {
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-              <a href="#">View More</a>
+              <a href="#/">View More</a>
             </p>
             <button className="view-btn">View SOA</button>
           </div>
@@ -196,7 +191,7 @@ const Activities = ({ setActivityModalStatus }) => {
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-              <a href="#">View More</a>
+              <a href="#/">View More</a>
             </p>
             <button className="view-btn">View SOA</button>
           </div>

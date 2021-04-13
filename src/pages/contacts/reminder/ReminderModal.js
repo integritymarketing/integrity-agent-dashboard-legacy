@@ -1,14 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Modal from "components/ui/modal";
 import AddReminder from "components/icons/addreminder";
-import Datepicker from '../datepicker';
+import Datepicker from "../datepicker";
 
-export default ({
-  reminderModalStatus,
-  setReminderModalStatus,
-  ...props
-}) => {
-  const [reminders, addReminder]= useState([0])
+export default ({ reminderModalStatus, setReminderModalStatus, ...props }) => {
+  const [reminders, addReminder] = useState([0]);
   return (
     <div className="custom-reminder-modal customform">
       <Modal
@@ -23,32 +19,35 @@ export default ({
           >
             <label> Reminder</label>
           </legend>
-          <a href="JavaScript:void(0);"
-            onClick={() => addReminder([...reminders, reminders.length])}>
+          <a
+            href="#/"
+            onClick={() => addReminder([...reminders, reminders.length])}
+          >
             <label>
               <AddReminder />
             </label>{" "}
             <span>New</span>
           </a>
         </div>
-        {reminders && reminders.map((item, index) => {
-          return(
-            <div className="reminderCardSection2">
-            <div className="reminderCardSection2row1">
-            <Datepicker />
-            </div>
-            <div className="reminderCardSection2row2">
-              <div className="reminderCardSection2row2left">
-                <p className="normalText">Follow up with Humana.</p>
+        {reminders &&
+          reminders.map((item, index) => {
+            return (
+              <div className="reminderCardSection2">
+                <div className="reminderCardSection2row1">
+                  <Datepicker />
+                </div>
+                <div className="reminderCardSection2row2">
+                  <div className="reminderCardSection2row2left">
+                    <p className="normalText">Follow up with Humana.</p>
+                  </div>
+                  <div className="reminderCardSection2row2right">
+                    <button className="complete-btn">Complete</button>
+                  </div>
+                </div>
               </div>
-              <div className="reminderCardSection2row2right">
-                <button className="complete-btn">Complete</button>
-              </div>
-            </div>
-          </div>
-          )
-        })}
-     
+            );
+          })}
+
         {/* <div className="reminderCardSection2">
           <div className="reminderCardSection2row1">
           <Datepicker />
