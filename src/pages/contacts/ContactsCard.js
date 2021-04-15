@@ -76,7 +76,7 @@ const ClientCard = ({ client, statusOptions, onStageChange }) => {
               className={styles.cardInfoLabel}
               htmlFor={`stage-${client.leadsId}`}
             >
-              Statge
+              Stage
             </label>
             <Select
               id={`stage-${client.leadsId}`}
