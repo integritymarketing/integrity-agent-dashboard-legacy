@@ -248,7 +248,7 @@ function ContactsTable({ searchString, sort }) {
             addToast({
               type: 'success',
               message: 'Contact successfully updated.',
-              time: 3000
+              time: 30000
             });
           } catch (e) {
             console.log(e);

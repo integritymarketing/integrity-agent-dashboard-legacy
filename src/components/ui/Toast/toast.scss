@@ -4,8 +4,8 @@
 
 .toasts-wrapper {
     right: 30px;
-    position: fixed;
-    top: 140px;
+    position: absolute;
+    top: 35px;
     z-index: 1;
 
     .toast {

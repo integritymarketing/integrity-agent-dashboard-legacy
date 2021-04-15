@@ -1,6 +1,7 @@
 import React from "react";
 import Media from "react-media";
-import Next from "components/icons/next"
+import Next from "components/icons/next";
+import Previous from "components/icons/previous";
 
 const PaginationButton = ({ state = "active", children, ...props }) => (
   <li className={`pagination__button pagination__button--${state}`} {...props}>
@@ -62,34 +63,53 @@ export default ({
             {...props}
           >
             <ul className="pagination__pages">
-              {getVisibleRange(
-                totalPages,
-                currentPage,
-                5
-              ).map((page) => (
+              {currentPage !== 1 && (matches.large && (<div className="mr-1 first">
                 <PaginationButton
-                  key={page}
-                  state={page === currentPage ? "current" : "active"}
-                  onClick={handlePageChange(page)}
+                  state={currentPage === 1 ? "inactive" : "active"}
+                  onClick={handlePageChange(1)}
                 >
-                  <span className="visuallyhidden">page </span> {page}
+                  First <span className="visuallyhidden">page</span>
                 </PaginationButton>
-              ))}
-
-              <PaginationButton
-                state={currentPage === totalPages ? "inactive" : "active"}
-                onClick={handlePageChange(currentPage + 1)}
-              >
-                <span className="mr-1">Next</span> <Next /> <span className="visuallyhidden">page</span>
-              </PaginationButton>
-              {matches.large && (
+              </div>))}
+              <div className="pagination__middle">
+                {currentPage !== 1 && (matches.large && (
+                  <PaginationButton
+                    state={currentPage === 1 ? "inactive" : "active"}
+                    onClick={handlePageChange(currentPage - 1)}
+                  >
+                    <span className="mr-1"><Previous /></span>Prev <span className="visuallyhidden">page</span>
+                  </PaginationButton>
+                ))}
+                {getVisibleRange(
+                  totalPages,
+                  currentPage,
+                  5
+                ).map((page) => (
+                  <PaginationButton
+                    key={page}
+                    state={page === currentPage ? "current" : "active"}
+                    onClick={handlePageChange(page)}
+                  >
+                    <span className="visuallyhidden">page </span> {page}
+                  </PaginationButton>
+                ))}
+                {currentPage !== totalPages && (matches.large && (
+                  <PaginationButton
+                    state={currentPage === totalPages ? "inactive" : "active"}
+                    onClick={handlePageChange(currentPage + 1)}
+                  >
+                    <span className="mr-1">Next</span> <Next /> <span className="visuallyhidden">page</span>
+                  </PaginationButton>
+                ))}
+              </div>
+              {currentPage !== totalPages && (matches.large && (<div className="ml-1 last">
                 <PaginationButton
                   state={currentPage === totalPages ? "inactive" : "active"}
                   onClick={handlePageChange(totalPages)}
                 >
                   Last <span className="visuallyhidden">page</span>
                 </PaginationButton>
-              )}
+              </div>))}
             </ul>
           </nav>
         </div>
