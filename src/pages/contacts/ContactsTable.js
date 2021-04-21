@@ -4,7 +4,6 @@ import { useTable, usePagination, useRowSelect } from "react-table";
 import clientsService from "services/clientsService";
 import { Link } from "react-router-dom";
 import ReminderIcon from "../../../src/stories/assets/reminder.svg";
-import useToast from './../../hooks/useToast';
 import styles from "./ContactsPage.module.scss";
 import Spinner from './../../components/ui/Spinner/index';
 import StageSelect from "./contactRecordInfo/StageSelect";
@@ -170,8 +169,6 @@ function ContactsTable({ searchString, sort }) {
   const [pageCount, setPageCount] = useState(0);
   const [tableState, setTableState] = useState({});
   
-  const addToast = useToast();
-
   const fetchData = useCallback(({ pageSize, pageIndex, searchString, sort }) => {
     setLoading(true);
     clientsService
@@ -246,7 +243,7 @@ function ContactsTable({ searchString, sort }) {
         ),
       },
     ],
-    [tableState,addToast,fetchData]
+    []
   );
 
   return (
