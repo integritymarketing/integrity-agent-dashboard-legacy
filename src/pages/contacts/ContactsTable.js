@@ -10,6 +10,7 @@ import useToast from './../../hooks/useToast';
 
 import styles from "./ContactsPage.module.scss";
 import Spinner from './../../components/ui/Spinner/index';
+import StageSelect from "./contactRecordInfo/StageSelect";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -238,31 +239,9 @@ function ContactsTable({ searchString, sort }) {
         Header: "Stage",
         accessor: "statusName",
         Cell: ({ value, row }) => {
-         const handleChangeStatus = async (val) => {
-          try {
-            await clientsService.updateClient(
-              row.original,
-              { ...row.original, leadStatusId: allStatuses.find(status => status.statusName === val )?.leadStatusId }
-            );
-            fetchData(tableState);
-            addToast({
-              type: 'success',
-              message: 'Contact successfully updated.',
-              time: 3000
-            });
-          } catch (e) {
-            console.log(e);
-          }
-         };
-
+          
           return (
-            <Select
-              Option={ColorOptionRender}
-              initialValue={value}
-              options={statusOptions}
-              onChange={handleChangeStatus}
-              contactsPage={true}
-            />
+             <StageSelect value={value} original={row.original} />
           );
         },
       },

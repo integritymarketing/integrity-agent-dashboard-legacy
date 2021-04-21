@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 import Footer from "components/ui/Footer";
 import GlobalNav from "partials/global-nav-v2";
-import styles from "./ContactsPage.module.scss";
-import "./activity//activity.scss";
+import clientsService from "services/clientsService";
+import styles from "../ContactsPage.module.scss";
+import "./contactRecordInfo.scss";
 import OverviewIcon from "components/icons/home";
 import DetailsIcon from "components/icons/person";
 import PreferencesIcon from "components/icons/settings";
-import Activity from "./activity/index";
-import CLientNotes from './clientNotes';
+import Activities from "./activity";
+import Reminders from "./reminder";
+import PersonalInfo from "./PersonalInfo";
+import { useLocation } from "react-router-dom";
+
 export default () => {
+  const {pathname=''} = useLocation();
+  const[personalInfo, setPersonalInfo]= useState({})
+  const value = pathname.split("/");
+  const id = value.length > 0 ? value[2] : '';
+  useEffect(()=>{
+    clientsService
+    .getContactInfo(id)
+    .then((data) => {
+      console.log('getContactInfo success data', data);
+      setPersonalInfo(data)
+    })
+    .catch((error) => {
+       console.log('error from getContactInfo ***', error)
+    });
+  },[id])
+
   return (
     <React.Fragment>
       <Helmet>
@@ -22,7 +42,6 @@ export default () => {
         <ul className="leftcardmenu">
           <li className="active">
             <label className="icon-spacing">
-              {" "}
               <OverviewIcon />
             </label>
             <span>Overview</span>
@@ -40,8 +59,11 @@ export default () => {
             <span>Preferences</span>
           </li>
         </ul>
-        <Activity />
-        <CLientNotes />
+        <div className="rightSection">
+        <PersonalInfo personalInfo={personalInfo} />
+        <Reminders />
+        <Activities />
+        </div>
       </Container>
       <Footer />
     </React.Fragment>
