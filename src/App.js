@@ -1,6 +1,6 @@
 import React from "react";
 import Router from "components/functional/router";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
@@ -15,6 +15,7 @@ import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
 import WelcomePage from "pages/WelcomePage";
+import MaintenancePage from "pages/MaintenancePage";
 import PortalUrl from "components/functional/portal-url";
 import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
@@ -36,66 +37,81 @@ const App = () => {
             <title>MedicareCENTER</title>
           </Helmet>
           <div className="content-frame">
-            <Switch>
-              {/* root path directs traffic to unauthenticed
-                Welcome or authenticated Home page */}
-              <Route exact path="/">
-                <TrafficDirector />
-              </Route>
-              <UnauthenticatedRoute path="/welcome">
-                <WelcomePage />
-              </UnauthenticatedRoute>
-              <AuthenticatedRoute path="/home">
-                <HomePage />
-              </AuthenticatedRoute>
-
-              <AuthenticatedRoute path="/edit-account">
-                <AccountPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/learning-center">
-                <ResourcesPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/clients">
-                <ClientManagementPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/contacts">
-                <ContactsPage />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/contact/:contactId">
-                <ContactRecordInfo />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute path="/client-import">
-                <ClientImportPage />
-              </AuthenticatedRoute>
-
-              <Route path="/terms">
-                <TermsPage />
-              </Route>
-              <Route path="/privacy">
-                <PrivacyPage />
-              </Route>
-
-              {/* auth routes + callbacks */}
-              <Route path="/signin" component={AuthSigninRedirectPage} />
-              <Route
-                path="/signin-oidc-silent"
-                component={AuthSilentCallback}
-              />
-              <Route
-                path="/signin-oidc-silent"
-                component={AuthSilentCallback}
-              />
-              <Route path="/signin-oidc" component={AuthSigninCallback} />
-              <Route path="/signout-oidc" component={AuthSignoutCallback} />
-
-              <Route path="/error">
-                <ErrorPage />
+            {
+            process.env.REACT_APP_MAINTENANCE_MODE
+            ? <Switch>
+              <Route path="/maintenance">
+                <MaintenancePage />
               </Route>
               <Route path="*">
-                <NotFoundPage />
+                <Redirect to="/maintenance" />
               </Route>
             </Switch>
-          </div>
+            : <Switch>
+            {/* root path directs traffic to unauthenticed
+              Welcome or authenticated Home page */}
+            <Route exact path="/">
+              <TrafficDirector />
+            </Route>
+            <UnauthenticatedRoute path="/welcome">
+              <WelcomePage />
+            </UnauthenticatedRoute>
+            <AuthenticatedRoute path="/home">
+              <HomePage />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path="/edit-account">
+              <AccountPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/learning-center">
+              <ResourcesPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/clients">
+              <ClientManagementPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/contacts">
+              <ContactsPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/contact/:contactId">
+              <ContactRecordInfo />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/client-import">
+              <ClientImportPage />
+            </AuthenticatedRoute>
+
+            <Route path="/terms">
+              <TermsPage />
+            </Route>
+            <Route path="/privacy">
+              <PrivacyPage />
+            </Route>
+
+            {/* auth routes + callbacks */}
+            <Route path="/signin" component={AuthSigninRedirectPage} />
+            <Route
+              path="/signin-oidc-silent"
+              component={AuthSilentCallback}
+            />
+            <Route
+              path="/signin-oidc-silent"
+              component={AuthSilentCallback}
+            />
+            <Route path="/signin-oidc" component={AuthSigninCallback} />
+            <Route path="/signout-oidc" component={AuthSignoutCallback} />
+
+            <Route path="/maintenance">
+              <Redirect to="/" />
+            </Route>
+            <Route path="/error">
+              <ErrorPage />
+            </Route>
+            <Route path="*">
+              <NotFoundPage />
+            </Route>
+          </Switch>
+       
+            }
+            </div>
           <PortalUrl />
         </Router>
       </HelmetProvider>
