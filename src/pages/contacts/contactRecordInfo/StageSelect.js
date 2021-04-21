@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo } from "react";
-import styles from "../ContactsPage.module.scss";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
 import { Select } from "components/ui/Select";
 import clientsService from "services/clientsService";

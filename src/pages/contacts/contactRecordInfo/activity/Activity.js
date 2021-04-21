@@ -2,7 +2,7 @@ import React from "react";
 import BellIcon from "components/icons/bell-note";
 
 export default () => {
-   return (
+  return (
     <div className="activityCardbodyset">
       <p className="iconTime">
         <span className="bg-color bg-color1">
@@ -15,7 +15,7 @@ export default () => {
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-          <a href="#">View More</a>
+          <button>View More</button>
         </p>
         <button className="view-btn">View SOA</button>
       </div>
