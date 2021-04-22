@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "components/ui/modal";
 import AddReminder from "components/icons/addreminder";
-import Datepicker from "../datepicker";
+import Datepicker from "../../datepicker";
 
 export default ({ reminderModalStatus, setReminderModalStatus, ...props }) => {
   const [reminders, addReminder] = useState([0]);
@@ -19,15 +19,12 @@ export default ({ reminderModalStatus, setReminderModalStatus, ...props }) => {
           >
             <label> Reminder</label>
           </legend>
-          <a
-            href="#/"
-            onClick={() => addReminder([...reminders, reminders.length])}
-          >
+          <button onClick={() => addReminder([...reminders, reminders.length])}>
             <label>
               <AddReminder />
             </label>{" "}
             <span>New</span>
-          </a>
+          </button>
         </div>
         {reminders &&
           reminders.map((item, index) => {
@@ -47,41 +44,6 @@ export default ({ reminderModalStatus, setReminderModalStatus, ...props }) => {
               </div>
             );
           })}
-
-        {/* <div className="reminderCardSection2">
-          <div className="reminderCardSection2row1">
-          <Datepicker />
-          </div>
-          <div className="reminderCardSection2row2">
-            <div className="reminderCardSection2row2left">
-              <textarea
-                value=""
-                className="inputText"
-                rows="3"
-              ></textarea>
-            </div>
-            <div className="reminderCardSection2row2right">
-              <button className="complete-btn">Complete</button>
-            </div>
-          </div>
-        </div>
-        <div className="reminderCardSection2 active">
-          <div className="reminderCardSection2row1">
-        <Datepicker />
-          </div>
-          <div className="reminderCardSection2row2">
-          <div className="reminderCardSection2row2left">
-              <textarea
-                value=""
-                className="inputText"
-                rows="3"
-              ></textarea>
-            </div>
-            <div className="reminderCardSection2row2right">
-              <button className="complete-btn">Complete</button>
-            </div>
-          </div>
-        </div> */}
         <div className="reminder-modal-footer">
           <button className="reminder-cancel-btn">Cancel</button>
           <button className="reminder-save-btn">Save</button>

@@ -2,14 +2,11 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useTable, usePagination, useRowSelect } from "react-table";
 
 import clientsService from "services/clientsService";
-import { ColorOptionRender } from "./../../utils/shared-utils/sharedUtility";
 import { Link } from "react-router-dom";
 import ReminderIcon from "../../../src/stories/assets/reminder.svg";
-import { Select } from "components/ui/Select";
-import useToast from './../../hooks/useToast';
-
 import styles from "./ContactsPage.module.scss";
 import Spinner from './../../components/ui/Spinner/index';
+import StageSelect from "./contactRecordInfo/StageSelect";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -165,35 +162,13 @@ function Table({
   );
 }
 
-const colorCodes = {
-  New: "#2082F5",
-  Quoted: "#EDB72C",
-  Lost: "#565656",
-  Enrolled: "#565656",
-  Open: "Orange",
-  Applied: "#65C15D"
-};
-
 function ContactsTable({ searchString, sort }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
-  const [allStatuses, setAllStatuses] = useState([]);
   const [tableState, setTableState] = useState({});
   
-  const addToast = useToast();
-
-    // load status ids for updates
-    useEffect(() => {
-      const doFetch = async () => {
-        const statuses = await clientsService.getStatuses();
-        setAllStatuses(statuses);
-      };
-  
-      doFetch();
-    }, []);
-
   const fetchData = useCallback(({ pageSize, pageIndex, searchString, sort }) => {
     setLoading(true);
     clientsService
@@ -218,14 +193,6 @@ function ContactsTable({ searchString, sort }) {
     fetchData(tableState);
   }, [tableState,fetchData]);
 
-  const statusOptions = React.useMemo(() => {
-    return allStatuses.map(status => ( {
-      value: status.statusName,
-      label: status.statusName,
-      color: status.colorCode || colorCodes[status.statusName] || "#EDB72C",
-    }));
-  }, [allStatuses]);
-
   const columns = React.useMemo(
     () => [
       {
@@ -238,31 +205,9 @@ function ContactsTable({ searchString, sort }) {
         Header: "Stage",
         accessor: "statusName",
         Cell: ({ value, row }) => {
-         const handleChangeStatus = async (val) => {
-          try {
-            await clientsService.updateClient(
-              row.original,
-              { ...row.original, leadStatusId: allStatuses.find(status => status.statusName === val )?.leadStatusId }
-            );
-            fetchData(tableState);
-            addToast({
-              type: 'success',
-              message: 'Contact successfully updated.',
-              time: 3000
-            });
-          } catch (e) {
-            console.log(e);
-          }
-         };
-
+          
           return (
-            <Select
-              Option={ColorOptionRender}
-              initialValue={value}
-              options={statusOptions}
-              onChange={handleChangeStatus}
-              contactsPage={true}
-            />
+             <StageSelect value={value} original={row.original} />
           );
         },
       },
@@ -298,7 +243,7 @@ function ContactsTable({ searchString, sort }) {
         ),
       },
     ],
-    [statusOptions, tableState,addToast,allStatuses,fetchData]
+    []
   );
 
   return (
