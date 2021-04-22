@@ -3,6 +3,7 @@ import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
 import { Select } from "components/ui/Select";
 import clientsService from "services/clientsService";
 import useToast from '../../../hooks/useToast';
+import * as Sentry from "@sentry/react";
 
 const colorCodes = {
   New: "#2082F5",
@@ -49,7 +50,7 @@ export default ({value, original}) => {
         time: 3000,
       });
     } catch (e) {
-      console.log(e);
+      Sentry.captureException(e);
     }
   };
 

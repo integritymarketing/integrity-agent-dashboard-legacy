@@ -14,6 +14,7 @@ import Reminders from "./reminder";
 import PersonalInfo from "./PersonalInfo";
 import { useLocation } from "react-router-dom";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import * as Sentry from "@sentry/react";
 
 export default () => {
   const { pathname = "" } = useLocation();
@@ -24,11 +25,10 @@ export default () => {
     clientsService
       .getContactInfo(id)
       .then((data) => {
-        console.log("getContactInfo success data", data);
         setPersonalInfo(data);
       })
-      .catch((error) => {
-        console.log("error from getContactInfo ***", error);
+      .catch((e) => {
+        Sentry.captureException(e);
       });
   }, [id]);
 
