@@ -14,6 +14,7 @@ import Reminders from "./reminder";
 import PersonalInfo from "./PersonalInfo";
 import { useLocation } from "react-router-dom";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import ClientNotes from './clientNotes';
 import * as Sentry from "@sentry/react";
 
 export default () => {
@@ -65,6 +66,7 @@ export default () => {
             <PersonalInfo personalInfo={personalInfo} />
             <Reminders />
             <Activities />
+            <ClientNotes personalInfo={personalInfo} />
           </div>
         </ToastContextProvider>
       </Container>
