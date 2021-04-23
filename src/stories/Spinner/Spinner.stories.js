@@ -6,5 +6,5 @@ export default {
   component: Spinner,
 };
 
-const Template = (args) => <Spinner {...args} />;
+const Template = (args) => <div style={{ marginTop: 30 }}><Spinner {...args} /></div>;
 export const WithSpinnerLoaded = Template.bind({});
