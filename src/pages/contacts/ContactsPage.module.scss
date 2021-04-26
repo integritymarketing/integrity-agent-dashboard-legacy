@@ -6,7 +6,7 @@
 	line-height: 48px;
 	color: var(--v2-dark-blue);
 	padding: 35px 40px;
-	border-bottom: 1px solid #C7CCD1;
+	border-bottom: 1px solid #c7ccd1;
 	margin-bottom: 35px;
 }
 
@@ -137,6 +137,13 @@
 	color: var(--v2-royal-blue);
 }
 
+.contactPersonName {
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 .sortSelect {
 	width: 250px;
 	float: right;
@@ -180,6 +187,10 @@
 	flex: 1;
 }
 
+.contactName a:hover {
+	text-decoration: underline;
+}
+
 .primaryContactHeader {
 	margin-top: 28px;
 	width: 132px;
@@ -205,8 +216,8 @@
 		width: 40px;
 		height: 40px;
 		padding: 0px !important;
-		background: #FFFFFF;
-		border: 1px solid #C7CCD1;
+		background: #ffffff;
+		border: 1px solid #c7ccd1;
 		border-radius: 4px !important;
 	}
-} 
+}

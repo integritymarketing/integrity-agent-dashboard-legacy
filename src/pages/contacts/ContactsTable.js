@@ -5,8 +5,9 @@ import clientsService from "services/clientsService";
 import { Link } from "react-router-dom";
 import ReminderIcon from "../../../src/stories/assets/reminder.svg";
 import styles from "./ContactsPage.module.scss";
-import Spinner from './../../components/ui/Spinner/index';
+import Spinner from 'components/ui/Spinner/index';
 import StageSelect from "./contactRecordInfo/StageSelect";
+import Pagination from "components/ui/pagination";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -41,8 +42,6 @@ function Table({
     headerGroups,
     prepareRow,
     page,
-    canNextPage,
-    pageOptions,
     pageCount,
     gotoPage,
     state: { pageIndex, pageSize },
@@ -51,7 +50,7 @@ function Table({
       columns,
       data,
       manualPagination: true,
-      initialState: { pageIndex: 0, pageSize: 100 },
+      initialState: { pageIndex: 0, pageSize: 50 },
       pageCount: manualPageCount,
     },
     usePagination,
@@ -125,39 +124,13 @@ function Table({
           })}
         </tbody>
       </table>
-
-      <div className={styles.pagination}>
-        <div>
-          Showing {pageIndex * pageSize + 1}-{(pageIndex + 1) * pageSize} of{" "}
-          {totalResults || 0}
-        </div>
-        <div className={styles.right}>
-          {Array(Math.min(5, pageOptions.length))
-            .fill(null)
-            .map((_, index) => (
-              <button
-                onClick={() => gotoPage(index)}
-                className={pageIndex === index ? styles.active : undefined}
-              >
-                {index + 1}
-              </button>
-            ))}
-          <button
-            onClick={() => gotoPage(pageIndex + 1)}
-            disabled={!canNextPage}
-            className={styles.text}
-          >
-            Next &nbsp; {">"}
-          </button>{" "}
-          <button
-            onClick={() => gotoPage(pageCount - 1)}
-            disabled={!canNextPage}
-            className={styles.text}
-          >
-            Last
-          </button>{" "}
-        </div>
-      </div>
+      <Pagination
+        currentPage={pageIndex + 1}
+        totalPages={pageCount}
+        totalResults={totalResults}
+        pageSize={pageSize}
+        onPageChange={(pageIndex) => gotoPage(pageIndex - 1)}
+      />
     </>
   );
 }
@@ -198,9 +171,14 @@ function ContactsTable({ searchString, sort }) {
       {
         Header: "Name",
         accessor: "firstName",
-        Cell: ({ value, row }) =>
-          `${row.original.firstName || ""} ${row.original.lastName || "Williams Mary"}`,
-      },
+        Cell: ({ value, row }) => (
+          <Link
+            to={`/contact/${row.original.leadsId}`}
+            className={styles.contactPersonName}
+          >
+          {row.original.firstName || ""} {row.original.lastName || ""}
+          </Link>
+          )},
       {
         Header: "Stage",
         accessor: "statusName",
@@ -257,7 +235,7 @@ function ContactsTable({ searchString, sort }) {
       sort={sort}
       onChangeTableState={setTableState}
     />
-  );
+);
 }
 
 export default ContactsTable;

@@ -1,8 +1,7 @@
 import authService from "services/authService";
 import { parseDate, formatServerDate } from "utils/dates";
 
-export const LEADS_API_VERSION = "v1.0";
-export const LEADS_API_VERSION_TWO = "v2.0"
+export const LEADS_API_VERSION = "v2.0"
 
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
@@ -134,7 +133,7 @@ class ClientsService {
 
   getContactInfo = async (id) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION_TWO}/Leads/${id}`
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
     );
 
     return response.json();

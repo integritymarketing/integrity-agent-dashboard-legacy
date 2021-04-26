@@ -30,8 +30,8 @@ export function ToastContextProvider({ children }) {
       <div className="toast-provider">
         {children}
         <div className="toasts-wrapper">
-          {toasts.map(toast => (
-            <div className={`toast ${toast.type}`} key={toast}>
+          {toasts.map((toast, idx) => (
+            <div className={`toast ${toast.type}`} key={idx}>
               <div className="toast-indicator"><Check /></div>
               <div className="toast-message">{toast.message}</div>
               <button onClick={() => removeToast(toast)}>&times;</button>

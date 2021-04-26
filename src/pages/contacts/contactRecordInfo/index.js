@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import * as Sentry from "@sentry/react";
+
 import Container from "components/ui/container";
 import Footer from "components/ui/Footer";
 import GlobalNav from "partials/global-nav-v2";
@@ -15,23 +17,28 @@ import PersonalInfo from "./PersonalInfo";
 import { useLocation } from "react-router-dom";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import ClientNotes from './clientNotes';
-import * as Sentry from "@sentry/react";
+import WithLoader from 'components/ui/WithLoader';
 
 export default () => {
   const { pathname = "" } = useLocation();
   const [personalInfo, setPersonalInfo] = useState({});
+  const [loading, setLoading] = useState(false);
   const value = pathname.split("/");
   const id = value.length > 0 ? value[2] : "";
   useEffect(() => {
+    setLoading(true);
     clientsService
       .getContactInfo(id)
       .then((data) => {
+        setLoading(false);
         setPersonalInfo(data);
       })
       .catch((e) => {
         Sentry.captureException(e);
+        setLoading(false);
       });
   }, [id]);
+
 
   return (
     <React.Fragment>
@@ -63,10 +70,12 @@ export default () => {
             </li>
           </ul>
           <div className="rightSection">
-            <PersonalInfo personalInfo={personalInfo} />
-            <Reminders />
-            <Activities />
-            <ClientNotes personalInfo={personalInfo} />
+            <WithLoader isLoading={loading}>
+              <PersonalInfo personalInfo={personalInfo} />
+              <Reminders />
+              <Activities />
+              <ClientNotes personalInfo={personalInfo} />
+            </WithLoader>
           </div>
         </ToastContextProvider>
       </Container>

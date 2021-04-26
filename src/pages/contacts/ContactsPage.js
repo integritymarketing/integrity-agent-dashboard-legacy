@@ -17,6 +17,7 @@ import { Select } from "components/ui/Select";
 import { SORT_OPTIONS } from "../../constants";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { Button } from 'components/ui/Button';
+import { StageStatusProvider } from "contexts/stageStatus";
 
 const listViewLayoutPath = '/contacts/list'
 const cardViewLayoutPath = '/contacts/card'
@@ -47,6 +48,7 @@ export default () => {
 
   return (
     <React.Fragment>
+      <StageStatusProvider>
       <Helmet>
         <title>MedicareCENTER - Contacts</title>
       </Helmet>
@@ -77,14 +79,14 @@ export default () => {
               {
                 layout === 'list'
                   ? <Button
-                    icon={<TableView />}
+                    icon={<CardView />}
                     iconOnly
                     label="Button"
                     type="secondary"
                     onClick={switchLayout}
                   />
                   : <Button
-                    icon={<CardView />}
+                    icon={<TableView />}
                     iconOnly
                     label="Button"
                     type="secondary"
@@ -117,6 +119,7 @@ export default () => {
         </ToastContextProvider>
       </Container>
       <Footer />
+      </StageStatusProvider>
     </React.Fragment>
   );
 };

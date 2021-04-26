@@ -2,26 +2,15 @@ import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import clientsService from "services/clientsService";
-import { ColorOptionRender } from "./../../utils/shared-utils/sharedUtility";
-import { Select } from "components/ui/Select";
 import ReminderIcon from "components/icons/search";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
 import Pagination from "components/ui/pagination";
 import Card from "components/ui/card";
-import useToast from "./../../hooks/useToast";
+import Spinner from 'components/ui/Spinner/index';
+import StageSelect from "./contactRecordInfo/StageSelect";
 
 import styles from "./ContactsPage.module.scss";
-import Spinner from './../../components/ui/Spinner/index';
-
-const colorCodes = {
-  New: "#2082F5",
-  Quoted: "#EDB72C",
-  Lost: "#565656",
-  Enrolled: "#565656",
-  Open: "Orange",
-  Applied: "#65C15D",
-};
 
 const useClientCardInfo = (client) => {
   const { firstName, lastName, phone, email, statusName } = client;
@@ -41,7 +30,7 @@ const useClientCardInfo = (client) => {
   };
 };
 
-const ClientCard = ({ client, statusOptions, onStageChange }) => {
+const ClientCard = ({ client }) => {
   const {
     displayName,
     primaryContact,
@@ -49,19 +38,17 @@ const ClientCard = ({ client, statusOptions, onStageChange }) => {
     nextReminder,
   } = useClientCardInfo(client);
 
-  const handleChangeStatus = (val) => {
-    onStageChange && onStageChange(client, val);
-  };
   return (
     <Card>
       <div>
         <div className={styles.cardHeader}>
           <div
-            className={`pt-1 pb-1 hdg hdg--4 text-truncate ${
-              styles.contactName
-            } ${displayName !== "Unnamed Contact" ? "" : "text-muted"}`}
+            className={`pt-1 pb-1 hdg hdg--4 text-truncate ${styles.contactName
+              } ${displayName !== "Unnamed Contact" ? "" : "text-muted"}`}
           >
-            {displayName}
+            <Link to={`/contact/${client.leadsId}`} className={styles.viewLink}>
+              {displayName}
+            </Link>
           </div>
           <div>
             <Link to={`/contact/${client.leadsId}`} className={styles.viewLink}>
@@ -78,12 +65,10 @@ const ClientCard = ({ client, statusOptions, onStageChange }) => {
             >
               Stage
             </label>
-            <Select
-              id={`stage-${client.leadsId}`}
-              Option={ColorOptionRender}
-              initialValue={stage}
-              options={statusOptions}
-              onChange={handleChangeStatus}
+            <StageSelect 
+            id={`stage-${client.leadsId}`} 
+            value={stage} 
+            original={client} 
             />
           </div>
           <div className={styles.reminder}>
@@ -116,19 +101,7 @@ function ContactsCard({ searchString, sort }) {
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [allStatuses, setAllStatuses] = useState([]);
-
   const pageSize = 12;
-  const addToast = useToast();
-
-  useEffect(() => {
-    const doFetch = async () => {
-      const statuses = await clientsService.getStatuses();
-      setAllStatuses(statuses);
-    };
-
-    doFetch();
-  }, []);
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex, searchString, sort }) => {
@@ -153,28 +126,6 @@ function ContactsCard({ searchString, sort }) {
     []
   );
 
-  const handleChangeStage = async (client, val) => {
-    try {
-      await clientsService.updateClient(client, {
-        ...client,
-        leadStatusId: allStatuses.find((status) => status.statusName === val)
-          ?.leadStatusId,
-      });
-      fetchData({
-        pageSize,
-        pageIndex: currentPage,
-        searchString,
-        sort,
-      });
-      addToast({
-        type: "success",
-        message: "Contact successfully updated.",
-        time: 3000,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
   useEffect(() => {
     fetchData({
       pageSize,
@@ -182,20 +133,12 @@ function ContactsCard({ searchString, sort }) {
       searchString,
       sort,
     });
-  }, [currentPage, fetchData,searchString,sort]);
-
-  const statusOptions = React.useMemo(() => {
-    return allStatuses.map((status) => ({
-      value: status.statusName,
-      label: status.statusName,
-      color: status.colorCode || colorCodes[status.statusName] || "#EDB72C",
-    }));
-  }, [allStatuses]);
+  }, [currentPage, fetchData, searchString, sort]);
 
   if (loading) {
     return <Spinner />;
   }
-  
+
   return (
     <Container className="mt-scale-3" style={{ paddingLeft: 0 }}>
       {data.length === 0 && (
@@ -211,9 +154,7 @@ function ContactsCard({ searchString, sort }) {
           return (
             <ClientCard
               key={client.leadsId}
-              client={client}
-              statusOptions={statusOptions}
-              onStageChange={handleChangeStage}
+              client={client}             
             />
           );
         })}
