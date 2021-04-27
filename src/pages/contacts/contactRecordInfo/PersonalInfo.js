@@ -1,5 +1,5 @@
 import React from "react";
-import StageSelect from "./StageSelect";
+import ShowStage from "./ShowStage";
 
 export default ({ personalInfo }) => {
   const {
@@ -53,8 +53,8 @@ export default ({ personalInfo }) => {
         </div>
         <div className="personalInfo">
           <label>Stage</label>
-          <div className="">
-            <StageSelect value={statusName} original={personalInfo} />
+          <div>
+            <ShowStage value={statusName} original={personalInfo} />
           </div>
         </div>
         <div className="personalInfo">

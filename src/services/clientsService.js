@@ -138,6 +138,37 @@ class ClientsService {
 
     return response.json();
   };
+
+  createReminder = async (data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders`,
+      "POST",
+      data
+    );
+
+    return response.json();
+  };
+
+  updateReminder= async (data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${data.leadId}`,
+      "PUT",
+      data
+    );
+
+    return response.json();
+  };
+
+
+
+deleteReminder= async (id) => {
+  const response = await this._clientAPIRequest(
+    `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${id}`,
+    "DELETE",
+  );
+
+  return response
+};
 }
 
 export default new ClientsService();

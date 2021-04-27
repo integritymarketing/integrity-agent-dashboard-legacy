@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
 
@@ -22,24 +22,31 @@ import WithLoader from 'components/ui/WithLoader';
 export default () => {
   const { pathname = "" } = useLocation();
   const [personalInfo, setPersonalInfo] = useState({});
+  const [reminders, setReminders] = useState([]);
   const [loading, setLoading] = useState(false);
   const value = pathname.split("/");
   const id = value.length > 0 ? value[2] : "";
-  useEffect(() => {
+
+
+  const getContactRecordInfo = useCallback(() => {
     setLoading(true);
     clientsService
-      .getContactInfo(id)
-      .then((data) => {
-        setLoading(false);
-        setPersonalInfo(data);
-      })
-      .catch((e) => {
-        Sentry.captureException(e);
-        setLoading(false);
-      });
-  }, [id]);
+    .getContactInfo(id)
+    .then((data) => {
+      setLoading(false);
+      setPersonalInfo(data);
+      setReminders(data.reminders)
+    })
+    .catch((e) => {
+      setLoading(false);
+      Sentry.captureException(e);
+    });
+  },[id]);
 
-
+  useEffect(() => {
+    getContactRecordInfo();
+},[getContactRecordInfo]);
+  
   return (
     <React.Fragment>
       <Helmet>
@@ -71,8 +78,8 @@ export default () => {
           </ul>
           <div className="rightSection">
             <WithLoader isLoading={loading}>
-              <PersonalInfo personalInfo={personalInfo} />
-              <Reminders />
+                   <PersonalInfo personalInfo={personalInfo} />
+            <Reminders getContactRecordInfo={getContactRecordInfo} leadId={id} reminders={reminders} />
               <Activities />
               <ClientNotes personalInfo={personalInfo} />
             </WithLoader>
