@@ -35,7 +35,7 @@ $loader-animation-duration: 1s !default;
   }
   @if ($align == middle) {
     top: 50%;
-    margin: -$size / 2 auto 0;
+    margin: 150px auto;
   }
   @include loader-rotate;
 }

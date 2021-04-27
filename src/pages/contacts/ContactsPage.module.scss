@@ -8,6 +8,11 @@
 	padding: 35px 40px;
 	border-bottom: 1px solid #c7ccd1;
 	margin-bottom: 35px;
+	@media (max-width: 480px) {
+		padding: 25px 0px 0px 0px;
+		font-size: 30px;
+		border-bottom: none;
+	}
 }
 
 .tb-cell {
@@ -66,7 +71,7 @@
 			width: 20%;
 		}
 		td:nth-child(4) {
-			width: 50%;
+			width: 40%;
 			.reminder {
 				display: flex;
 				align-items: center;
@@ -86,7 +91,7 @@
 			}
 		}
 		td:nth-child(5) {
-			width: 10%;
+			width: 20%;
 		}
 		td:nth-child(6) {
 			width: 5%;
@@ -130,6 +135,9 @@
 			}
 		}
 	}
+	@media (max-width: 480px) {
+		border-top: 1px solid #D8DEE4;
+	}
 }
 
 .viewLink {
@@ -148,15 +156,21 @@
 	width: 250px;
 	float: right;
 	margin: 10px;
+	@media (max-width: 480px) {
+		display: none;
+	}
 }
 
 .cardHeader,
 .cardInfo {
 	display: flex;
 	align-items: center;
+	@media (max-width: 480px) {
+		padding-bottom: 20px;
+	}
 }
 .cardInfo {
-	margin-top: 27px;
+	margin-top: 15px;
 	.cardInfoLabel {
 		margin-bottom: 12px;
 		font-size: 13px;
@@ -170,7 +184,9 @@
 	width: 60%;
 }
 .cardInfo > div:last-child {
-	width: 40%;
+	@media (min-width: 480px) {
+		width: 40%;
+	}
 }
 
 .contactName {
@@ -219,5 +235,82 @@
 		background: #ffffff;
 		border: 1px solid #c7ccd1;
 		border-radius: 4px !important;
+	}
+	@media (max-width: 480px) {
+		padding-left: 12px !important;
+		padding-top: 6px !important;
+	}
+} 
+
+.hideOnMobile {
+	display: none;
+	@media (min-width: 480px) {
+		display: block;
+	}
+}
+.mobileStage {
+	display: block;
+	span {
+		font-size: 12px;
+		text-transform: uppercase;		
+		padding: 7px;
+		border-radius: 4px;
+	}	
+	@media (min-width: 480px) {
+		display: none;
+	}
+}
+
+.divider {
+	border-bottom: 1px solid #C7CCD1;
+	margin: 0 -17px;
+	@media (min-width: 480px) {
+		display: none;
+	}
+}
+
+.reminderNotesMobile {
+	height: 50px;
+	@media (min-width: 480px) {
+		display: none;
+	}
+}
+
+.mobileActions {
+	display: flex;
+	@media (min-width: 480px) {
+		display: none;
+	}
+}
+
+
+.iconCircle {
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #F4F6FA;
+	margin-right: 15px;
+}
+.reminder {
+	:global {
+		.datepicker-row {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.short-reminder-note {
+			padding: 10px 0px 25px 0px;		}
+	}
+	@media (min-width: 480px) {
+		:global {
+			.short-reminder-note {
+				display: none;
+			}
+			.datepicker-row {
+				flex-direction: initial;
+			}
+		}
 	}
 }

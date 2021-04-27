@@ -1,23 +1,23 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Route, Switch, Redirect, useLocation, useHistory } from "react-router-dom";
-
-import { Helmet } from "react-helmet-async";
-import { debounce } from "debounce";
+import CardView from "components/icons/card-view";
+import SearchIcon from "components/icons/search";
+import TableView from "components/icons/table-view";
+import { Button } from 'components/ui/Button';
 import Container from "components/ui/container";
 import Footer from "components/ui/Footer";
+import { Select } from "components/ui/Select";
 import Textfield from "components/ui/textfield";
-import SearchIcon from "components/icons/search";
-import CardView from "components/icons/card-view";
-import TableView from "components/icons/table-view";
+import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import { StageStatusProvider } from "contexts/stageStatus";
+import { debounce } from "debounce";
 import GlobalNav from "partials/global-nav-v2";
-import ContactsTable from "./ContactsTable";
+import React, { useCallback, useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { SORT_OPTIONS } from "../../constants";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
-import { Select } from "components/ui/Select";
-import { SORT_OPTIONS } from "../../constants";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import { Button } from 'components/ui/Button';
-import { StageStatusProvider } from "contexts/stageStatus";
+import ContactsTable from "./ContactsTable";
+
 
 const listViewLayoutPath = '/contacts/list'
 const cardViewLayoutPath = '/contacts/card'
@@ -56,6 +56,7 @@ export default () => {
       <Container className={styles.container}>
         <ToastContextProvider>
           <p className={styles.header}>Contacts</p>
+          {/* <div className="contacts-nav-section"> */}
           <div
             className="bar bar--repel bar--collapse-mobile"
             style={{
@@ -94,6 +95,8 @@ export default () => {
                   />
               }
             </div>
+            <div className="nav-header-mobile"></div>
+            {/* </div> */}
             <div className={styles.sortSelect}>
               <Select
                 placeholder={"Date Added Desc"}

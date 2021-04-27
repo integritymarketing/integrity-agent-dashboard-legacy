@@ -3,11 +3,11 @@ import { useTable, usePagination, useRowSelect } from "react-table";
 
 import clientsService from "services/clientsService";
 import { Link } from "react-router-dom";
-import ReminderIcon from "../../../src/stories/assets/reminder.svg";
 import styles from "./ContactsPage.module.scss";
-import Spinner from 'components/ui/Spinner/index';
+import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import Pagination from "components/ui/pagination";
+import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -85,12 +85,12 @@ function Table({
   }, [onChangeTableState, pageSize, pageIndex, searchString, sort]);
 
   // Render the UI for the table
-  
+
   if (loading) {
     return <Spinner />;
   }
   return (
-    <>      
+    <>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -141,30 +141,33 @@ function ContactsTable({ searchString, sort }) {
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tableState, setTableState] = useState({});
-  
-  const fetchData = useCallback(({ pageSize, pageIndex, searchString, sort }) => {
-    setLoading(true);
-    clientsService
-      .getList(pageIndex, pageSize,sort,null,searchString || null,)
-      .then((list) => {
-        setData(
-          list.result.map((res) => ({
-            ...res,
-            reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
-          }))
-        );
-        setPageCount(list.pageResult.totalPages);
-        setTotalResults(list.pageResult.total);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, []);
 
-  useEffect(() => {    
+  const fetchData = useCallback(
+    ({ pageSize, pageIndex, searchString, sort }) => {
+      setLoading(true);
+      clientsService
+        .getList(pageIndex, pageSize, sort, null, searchString || null)
+        .then((list) => {
+          setData(
+            list.result.map((res) => ({
+              ...res,
+              reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
+            }))
+          );
+          setPageCount(list.pageResult.totalPages);
+          setTotalResults(list.pageResult.total);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    },
+    []
+  );
+
+  useEffect(() => {
     fetchData(tableState);
-  }, [tableState,fetchData]);
+  }, [tableState, fetchData]);
 
   const columns = React.useMemo(
     () => [
@@ -176,37 +179,39 @@ function ContactsTable({ searchString, sort }) {
             to={`/contact/${row.original.leadsId}`}
             className={styles.contactPersonName}
           >
-          {row.original.firstName || ""} {row.original.lastName || ""}
+            {[row.original.firstName || "", row.original.lastName || ""]
+              .join(" ")
+              .trim() || "Demo Test"}
           </Link>
-          )},
+        ),
+      },
       {
         Header: "Stage",
         accessor: "statusName",
         Cell: ({ value, row }) => {
-          
-          return (
-             <StageSelect value={value} original={row.original} />
-          );
+          return <StageSelect value={value} original={row.original} />;
         },
       },
       {
         Header: "Reminder",
-        accessor: "reminderNotes",
-        Cell: (props) => (
-          <div className={styles.reminder}>
-            <div className={styles.cal}>
-              <img src={ReminderIcon} alt="" height="20" className="mr-1" />
-              3/15
-            </div>
-            <div className={styles.reminderText}>
-              Call on Wednesday. Email quotes out.
-            </div>
-          </div>
+        accessor: "Reminders",
+        Cell: ({ value }) => (
+          <ShortReminder
+            reminder={
+              (value || [
+                {
+                  ReminderId: 12312,
+                  ReminderDate: "03/12/2021",
+                  ReminderNote: "Call on Wednesday. Email quotes out.",
+                },
+              ])[0]
+            }
+          />
         ),
       },
       {
         Header: "Primary Contact",
-        accessor: "email",
+        accessor: (row) => row[row.primaryContact] || "--",
       },
       {
         Header: "",
@@ -235,7 +240,7 @@ function ContactsTable({ searchString, sort }) {
       sort={sort}
       onChangeTableState={setTableState}
     />
-);
+  );
 }
 
 export default ContactsTable;

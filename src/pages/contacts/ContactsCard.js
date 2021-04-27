@@ -1,24 +1,32 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useContext,
+} from "react";
 import { Link } from "react-router-dom";
 
 import clientsService from "services/clientsService";
-import ReminderIcon from "components/icons/search";
 import Container from "components/ui/container";
-import Textfield from "components/ui/textfield";
 import Pagination from "components/ui/pagination";
 import Card from "components/ui/card";
-import Spinner from 'components/ui/Spinner/index';
+import PhoneIcon from "images/call-icon.svg";
+import NavIcon from "images/nav-icon.svg";
+import StageStatusContext from "contexts/stageStatus";
+import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 
 import styles from "./ContactsPage.module.scss";
+import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 
 const useClientCardInfo = (client) => {
   const { firstName, lastName, phone, email, statusName } = client;
   const displayName = useMemo(() => {
-    const namedClient = firstName !== "" || lastName !== "";
+    const namedClient = firstName || lastName;
     const displayName = namedClient
       ? `${firstName} ${lastName}`.trim()
-      : "Unnamed Contact";
+      : "Demo Test";
     return displayName;
   }, [firstName, lastName]);
 
@@ -30,45 +38,63 @@ const useClientCardInfo = (client) => {
   };
 };
 
+const ActionIcon = ({ icon }) => {
+  return (
+    <div className={styles.iconCircle}>
+      <img src={icon} alt="" />
+    </div>
+  );
+};
+
 const ClientCard = ({ client }) => {
-  const {
-    displayName,
-    primaryContact,
-    stage,
-    nextReminder,
-  } = useClientCardInfo(client);
+  const { statusOptions } = useContext(StageStatusContext);
+  const { displayName, primaryContact, stage, phone } = useClientCardInfo(
+    client
+  );
 
   return (
     <Card>
       <div>
         <div className={styles.cardHeader}>
           <div
-            className={`pt-1 pb-1 hdg hdg--4 text-truncate ${styles.contactName
-              } ${displayName !== "Unnamed Contact" ? "" : "text-muted"}`}
+            className={`pt-1 pb-1 hdg hdg--4 text-truncate ${
+              styles.contactName
+            } ${displayName !== "Demo Test" ? "" : "text-muted"}`}
           >
             <Link to={`/contact/${client.leadsId}`} className={styles.viewLink}>
               {displayName}
             </Link>
           </div>
-          <div>
+          <div className={styles.hideOnMobile}>
             <Link to={`/contact/${client.leadsId}`} className={styles.viewLink}>
               {" "}
               View{" "}
             </Link>
           </div>
+          <div className={styles.mobileStage}>
+            <span
+              style={{
+                background: statusOptions?.find((st) => st.value === stage)
+                  ?.color,
+              }}
+            >
+              {stage}
+            </span>
+          </div>
         </div>
+        <div className={styles.divider} />
         <div className={styles.cardInfo}>
-          <div>
+          <div className={styles.hideOnMobile}>
             <label
               className={styles.cardInfoLabel}
               htmlFor={`stage-${client.leadsId}`}
             >
               Stage
             </label>
-            <StageSelect 
-            id={`stage-${client.leadsId}`} 
-            value={stage} 
-            original={client} 
+            <StageSelect
+              id={`stage-${client.leadsId}`}
+              value={stage}
+              original={client}
             />
           </div>
           <div className={styles.reminder}>
@@ -76,20 +102,32 @@ const ClientCard = ({ client }) => {
               className={styles.cardInfoLabel}
               htmlFor={`reminder-${client.leadsId}`}
             >
-              Reminder
+              <span className={styles.hideOnMobile}>Reminder</span>
             </label>
-            <Textfield
-              id={`reminder-${client.leadsId}`}
-              defaultValue={nextReminder}
-              icon={<ReminderIcon />}
-              name="reminder"
-              className="bar__item-small"
-              readOnly
+            <ShortReminder
+              className={styles.shortReminder}
+              reminder={
+                [
+                  {
+                    ReminderId: 12312,
+                    ReminderDate: "03/12/2021",
+                    ReminderNote: "Call on Wednesday. Email quotes out.",
+                  },
+                ][0]
+              }
             />
           </div>
         </div>
-        <div className={styles.primaryContactHeader}>Primary Contact</div>
-        <div className={styles.primaryContactInfo}>{primaryContact}</div>
+        <div className={styles.hideOnMobile}>
+          <div className={styles.primaryContactHeader}>Primary Contact</div>
+          <div className={styles.primaryContactInfo}>{primaryContact}</div>
+        </div>
+        <div className={styles.mobileActions}>
+          <a href={`tel:${phone}`}>
+            <ActionIcon icon={PhoneIcon} />
+          </a>
+          <img src={NavIcon} alt="" />
+        </div>
       </div>
     </Card>
   );
@@ -151,12 +189,7 @@ function ContactsCard({ searchString, sort }) {
       )}
       <div className="card-grid mb-5 pt-1">
         {data.map((client, idx) => {
-          return (
-            <ClientCard
-              key={client.leadsId}
-              client={client}             
-            />
-          );
+          return <ClientCard key={client.leadsId} client={client} />;
         })}
       </div>
       {data.length > 0 && (
