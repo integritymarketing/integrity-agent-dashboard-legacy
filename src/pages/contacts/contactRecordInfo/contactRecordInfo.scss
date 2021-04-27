@@ -578,6 +578,63 @@
   display: flex;
   align-items: center;
 }
+.datetext{
+  font-size: 16px;
+}
+.reminderCardSection2row2left .inputText{
+  border:0;
+  width: 100%;
+resize: none;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.reminderCardSection2row2left .inputText:focus-visible{
+outline: none;
+border: 1px solid #dedede;
+}
+.wholereminderCardSection2row1of1{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wholereminderCardSection2row1of1 .reminderCardSection2row1 {
+  margin-bottom: 0;
+}
+.wholereminderCardSection2row1of1  {
+  margin-bottom: 30px;
+}
+.deletetextareatext{
+  color: #CA2323;
+  margin-right:20px;
+}
+.edittextareatext{
+  color: #0052CE;
+}
+.reminderCardSection2row1of1 button{
+  font-family: "Lato", sans-serif;
+  font-size: 13px;
+line-height: 24px;
+font-weight: 400;
+}
+.remindercardsectioncancelsavebtn{
+  display:flex;
+  align-items: center;
+}
+.reminderCardSection2row2left button{
+  color: #CA2323;
+  padding: 0;
+  font-family: "Lato", sans-serif;
+  font-size: 13px;
+line-height: 24px;
+font-weight: 400; 
+}
+.custom-datepicker-activeborder .cal{
+  border: 1px solid #CA2323;
+}
+.reminderCardSection2-activeborder{
+  border: 1px solid #3F495B;
+}
+
 .datepicker-input {
   position: absolute;
   left: 1px;
