@@ -8,6 +8,7 @@ import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
+import { getPrimaryContact } from "utils/primaryContact";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -50,7 +51,7 @@ function Table({
       columns,
       data,
       manualPagination: true,
-      initialState: { pageIndex: 1, pageSize: 50, },
+      initialState: { pageIndex: 1, pageSize: 50 },
       pageCount: manualPageCount + 1,
     },
     usePagination,
@@ -89,6 +90,7 @@ function Table({
   if (loading) {
     return <Spinner />;
   }
+  
   return (
     <>
       <table {...getTableProps()}>
@@ -144,7 +146,9 @@ function ContactsTable({ searchString, sort }) {
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex, searchString, sort }) => {
-      if (pageIndex === undefined) { return; }
+      if (pageIndex === undefined) {
+        return;
+      }
       setLoading(true);
       clientsService
         .getList(pageIndex, pageSize, sort, null, searchString || null)
@@ -212,7 +216,9 @@ function ContactsTable({ searchString, sort }) {
       },
       {
         Header: "Primary Contact",
-        accessor: (row) => row[row.primaryContact] || "--",
+        accessor: (row) => {
+          return getPrimaryContact(row);
+        },
       },
       {
         Header: "",

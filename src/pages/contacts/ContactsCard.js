@@ -16,12 +16,13 @@ import NavIcon from "images/nav-icon.svg";
 import StageStatusContext from "contexts/stageStatus";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
+import { getPrimaryContact } from "utils/primaryContact";
 
 import styles from "./ContactsPage.module.scss";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 
 const useClientCardInfo = (client) => {
-  const { firstName, lastName, phone, email, statusName } = client;
+  const { firstName, lastName, statusName } = client;
   const displayName = useMemo(() => {
     const namedClient = firstName || lastName;
     const displayName = namedClient
@@ -32,7 +33,6 @@ const useClientCardInfo = (client) => {
 
   return {
     displayName,
-    primaryContact: phone || email,
     stage: statusName,
     nextReminder: "mm/yy",
   };
@@ -48,9 +48,8 @@ const ActionIcon = ({ icon }) => {
 
 const ClientCard = ({ client }) => {
   const { statusOptions } = useContext(StageStatusContext);
-  const { displayName, primaryContact, stage, phone } = useClientCardInfo(
-    client
-  );
+  const { displayName, stage, phone } = useClientCardInfo(client);
+  const primaryContact = getPrimaryContact(client);
 
   return (
     <Card>
