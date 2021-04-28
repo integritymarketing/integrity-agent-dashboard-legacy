@@ -33,9 +33,9 @@ export default () => {
     clientsService
     .getContactInfo(id)
     .then((data) => {
-      setLoading(false);
       setPersonalInfo(data);
       setReminders(data.reminders)
+      setLoading(false);
     })
     .catch((e) => {
       setLoading(false);

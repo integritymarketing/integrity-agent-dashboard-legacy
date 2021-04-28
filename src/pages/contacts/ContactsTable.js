@@ -50,8 +50,8 @@ function Table({
       columns,
       data,
       manualPagination: true,
-      initialState: { pageIndex: 0, pageSize: 50 },
-      pageCount: manualPageCount,
+      initialState: { pageIndex: 1, pageSize: 50, },
+      pageCount: manualPageCount + 1,
     },
     usePagination,
     useRowSelect,
@@ -125,11 +125,11 @@ function Table({
         </tbody>
       </table>
       <Pagination
-        currentPage={pageIndex + 1}
-        totalPages={pageCount}
+        currentPage={pageIndex}
+        totalPages={pageCount - 1}
         totalResults={totalResults}
         pageSize={pageSize}
-        onPageChange={(pageIndex) => gotoPage(pageIndex - 1)}
+        onPageChange={(pageIndex) => gotoPage(pageIndex)}
       />
     </>
   );
@@ -144,6 +144,7 @@ function ContactsTable({ searchString, sort }) {
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex, searchString, sort }) => {
+      if (pageIndex === undefined) { return; }
       setLoading(true);
       clientsService
         .getList(pageIndex, pageSize, sort, null, searchString || null)
