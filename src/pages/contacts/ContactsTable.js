@@ -156,7 +156,6 @@ function ContactsTable({ searchString, sort }) {
           setData(
             list.result.map((res) => ({
               ...res,
-              reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
             }))
           );
           setPageCount(list.pageResult.totalPages);
@@ -179,16 +178,23 @@ function ContactsTable({ searchString, sort }) {
       {
         Header: "Name",
         accessor: "firstName",
-        Cell: ({ value, row }) => (
-          <Link
-            to={`/contact/${row.original.leadsId}`}
-            className={styles.contactPersonName}
-          >
-            {[row.original.firstName || "", row.original.lastName || ""]
-              .join(" ")
-              .trim() || "Demo Test"}
-          </Link>
-        ),
+        Cell: ({ value, row }) => {
+          const name = [row.original.firstName || "", row.original.lastName || ""]
+          .join(" ")
+          .trim();
+
+          if (!name) {
+            return "--"
+;         }
+          return (
+            <Link
+              to={`/contact/${row.original.leadsId}`}
+              className={styles.contactPersonName}
+            >
+              {name}
+            </Link>
+          )
+        },
       },
       {
         Header: "Stage",
@@ -199,17 +205,11 @@ function ContactsTable({ searchString, sort }) {
       },
       {
         Header: "Reminder",
-        accessor: "Reminders",
+        accessor: "reminders",
         Cell: ({ value }) => (
           <ShortReminder
             reminder={
-              (value || [
-                {
-                  ReminderId: 12312,
-                  ReminderDate: "03/12/2021",
-                  ReminderNote: "Call on Wednesday. Email quotes out.",
-                },
-              ])[0]
+              (value || [])[0]
             }
           />
         ),
