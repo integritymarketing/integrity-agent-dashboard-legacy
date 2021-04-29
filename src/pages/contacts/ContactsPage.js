@@ -103,7 +103,7 @@ export default () => {
                 <div className="nav-header-mobile"></div>
                 <div className={styles.sortSelect}>
                   <Select
-                    placeholder={"Date Added Desc"}
+                    placeholder={"Sort by Reminder Asc"}
                     options={SORT_OPTIONS}
                     onChange={(value) => setSort(value)}
                   />
