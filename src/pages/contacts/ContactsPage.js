@@ -3,13 +3,13 @@ import SearchIcon from "components/icons/search";
 import TableView from "components/icons/table-view";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
-import Footer from "components/ui/Footer";
 import { Select } from "components/ui/Select";
 import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { StageStatusProvider } from "contexts/stageStatus";
 import { debounce } from "debounce";
 import GlobalNav from "partials/global-nav-v2";
+import ContactFooter from "partials/global-footer";
 import React, { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
@@ -125,7 +125,7 @@ export default () => {
             </div>
           </ToastContextProvider>
         </Container>
-        <Footer />
+        <ContactFooter hideMeicareIcon={true} />
       </StageStatusProvider>
     </React.Fragment>
   );

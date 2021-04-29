@@ -11,11 +11,11 @@ export default ({ personalInfo }) => {
     modifyDate = "",
     createDate = "",
     statusName = "",
-    contactRecordType="",
-    postalCode=""
+    contactRecordType = "",
+    postalCode = "",
   } = personalInfo;
 
-  function formatDate(date) {
+  function getMMDDYYYY(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -36,7 +36,10 @@ export default ({ personalInfo }) => {
           <h2>{`${firstName} ${lastName}`}</h2>
         </div>
         <div className="nameCardpara">
-          <h2>{contactRecordType} | Last updated {modifyDate ? formatDate(modifyDate) : formatDate(createDate) }</h2>
+          <h2>
+            {contactRecordType} | Last updated{" "}
+            {modifyDate ? getMMDDYYYY(modifyDate) : getMMDDYYYY(createDate)}
+          </h2>
         </div>
       </div>
       <hr />
@@ -60,8 +63,9 @@ export default ({ personalInfo }) => {
         <div className="personalInfo">
           <label>Address</label>
           <div className="personalInfoText">
-          {address} <br />
-          {postalCode}</div>
+            {address} <br />
+            {postalCode}
+          </div>
         </div>
       </div>
     </div>
