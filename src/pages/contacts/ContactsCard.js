@@ -17,6 +17,7 @@ import StageStatusContext from "contexts/stageStatus";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import { getPrimaryContact } from "utils/primaryContact";
+import { formatPhoneNumber } from "utils/phones";
 
 import styles from "./ContactsPage.module.scss";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
@@ -124,7 +125,7 @@ const ClientCard = ({ client }) => {
         </div>
         <div className={styles.mobileActions}>
           {phone && (
-            <a href={`tel:${phone}`}>
+            <a href={`tel:${formatPhoneNumber(phone)}`}>
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}
@@ -183,7 +184,7 @@ function ContactsCard({ searchString, sort }) {
   }
 
   return (
-    <Container className="mt-scale-3" style={{ paddingLeft: 0 }}>
+    <Container className="mt-scale-1 pl-0 pr-0">
       {data.length === 0 && (
         <div className="pt-5 pb-4 text-center">
           <div className="hdg hdg--2 mb-1">No Results</div>
