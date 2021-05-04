@@ -18,6 +18,7 @@ import { useLocation } from "react-router-dom";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import ClientNotes from "./clientNotes";
 import WithLoader from "components/ui/WithLoader";
+import { StageStatusProvider } from "contexts/stageStatus";
 
 export default () => {
   const { pathname = "" } = useLocation();
@@ -46,50 +47,57 @@ export default () => {
     getContactRecordInfo();
   }, [getContactRecordInfo]);
 
+  useEffect(() => {
+    getContactRecordInfo();
+  }, [getContactRecordInfo]);
+
   return (
     <React.Fragment>
-      <Helmet>
-        <title>MedicareCENTER - Contacts</title>
-      </Helmet>
-      <GlobalNav />
-      <Container className={styles.container}>
-        <ToastContextProvider>
-          <p className={styles.header}>Contacts</p>
-          <ul className="leftcardmenu">
-            <li className="active">
-              <label className="icon-spacing">
-                <OverviewIcon />
-              </label>
-              <span>Overview</span>
-            </li>
-            <li>
-              <label className="icon-spacing">
-                <DetailsIcon />
-              </label>
-              <span>Details</span>
-            </li>
-            <li>
-              <label className="icon-spacing">
-                <PreferencesIcon />
-              </label>
-              <span>Preferences</span>
-            </li>
-          </ul>
-          <div className="rightSection">
-            <WithLoader isLoading={loading}>
-              <PersonalInfo personalInfo={personalInfo} />
-              <Reminders
-                getContactRecordInfo={getContactRecordInfo}
-                leadId={id}
-                reminders={reminders}
-              />
-              <Activities />
-              <ClientNotes personalInfo={personalInfo} />
-            </WithLoader>
-          </div>
-        </ToastContextProvider>
-      </Container>
-      <ContactFooter hideMeicareIcon={true} />
+      <StageStatusProvider>
+        <Helmet>
+          <title>MedicareCENTER - Contacts</title>
+        </Helmet>
+        <GlobalNav />
+        <PersonalInfo personalInfo={personalInfo} />
+        <Container className={styles.container}>
+          <ToastContextProvider>
+            {/* <p className={styles.header}>Contacts</p> */}
+
+            <ul className="leftcardmenu">
+              <li className="active">
+                <label className="icon-spacing">
+                  <OverviewIcon />
+                </label>
+                <span>Overview</span>
+              </li>
+              <li>
+                <label className="icon-spacing">
+                  <DetailsIcon />
+                </label>
+                <span>Details</span>
+              </li>
+              <li>
+                <label className="icon-spacing">
+                  <PreferencesIcon />
+                </label>
+                <span>Preferences</span>
+              </li>
+            </ul>
+            <div className="rightSection">
+              <WithLoader isLoading={loading}>
+                <Reminders
+                  getContactRecordInfo={getContactRecordInfo}
+                  leadId={id}
+                  reminders={reminders}
+                />
+                <Activities />
+                <ClientNotes personalInfo={personalInfo} />
+              </WithLoader>
+            </div>
+          </ToastContextProvider>
+        </Container>
+        <ContactFooter hideMeicareIcon={true} />
+      </StageStatusProvider>
     </React.Fragment>
   );
 };

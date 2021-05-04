@@ -6,17 +6,13 @@ import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 
 export default ({ reminder, leadId, getContactRecordInfo }) => {
-  const {
-    reminderNote = "",
-    reminderDate = new Date(),
-    isComplete = false,
-    reminderId,
-  } = reminder;
+  const { reminderNote = "", isComplete = false, reminderId } = reminder;
   const inputRef = useRef(null);
 
-  const [date, setDate] = useState(reminderDate);
+  const [date, setDate] = useState(null);
   const [updatedReminder, setReminderNote] = useState(reminderNote);
   const [isEdit, setEdit] = useState(false);
+  const [reminderHovered, setReminderHovered] = useState(false);
   const addToast = useToast();
 
   useEffect(() => {
@@ -63,10 +59,16 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
   };
 
   return (
-    <div className="reminderCardSection2 reminderCardSection2-activeborder">
+    <div
+      className={`reminderCardSection2 reminderCardSection2${
+        reminderHovered ? "-activeborder" : ""
+      }${isEdit ? " edittextarea-active" : ""}`}
+      onMouseEnter={() => setReminderHovered(true)}
+      onMouseLeave={() => setReminderHovered(false)}
+    >
       <div className="wholereminderCardSection2row1of1">
         <div className="custom-datepicker-active border datepicker-row reminderCardSection2row1">
-          <ShowDate date={new Date(date)} setDate={setDate} />
+          <ShowDate date={date} setDate={setDate} />
           <label>
             Last Updated{" "}
             {reminder.modifyDate
@@ -74,7 +76,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
               : format(new Date(reminder.createDate), "yyyy-MM-dd HH:MM a")}
           </label>
         </div>
-        {!isEdit && (
+        {!isEdit && reminderHovered && (
           <div className="datepicker-row reminderCardSection2row1of1">
             <button
               className="deletetextareatext"

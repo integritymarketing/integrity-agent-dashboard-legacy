@@ -291,7 +291,7 @@
   margin-bottom: 24px;
 }
 .nameCardSection1 {
-  padding: 31px 0 18px 35px;
+  padding: 31px 0 18px 0;
 }
 .nameCardHeading h2 {
   font-size: 40px;
@@ -316,15 +316,28 @@
 .nameCardSection2 {
   display: flex;
   flex-wrap: wrap;
-  padding-left: 39px;
+  padding-left: 0;
   padding-bottom: 31px;
 }
+.personalInfo:first-child {
+  width: 34%;
+}
 .personalInfo {
-  width: 33%;
+  width: 22%;
   height: 70px;
   margin-bottom: 3px;
 }
 
+.customSelectbox .select .select-container {
+  width: 149px;
+}
+.personalinfoname h2 {
+  font-size: 14px;
+  line-height: 22px;
+  color: #697887;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
 .personalInfo .italic-label {
   font-size: 13px;
   line-height: 22px;
@@ -563,36 +576,36 @@
   justify-content: space-between;
   border-radius: 5px;
 }
-.reminderCardSection2 .DayPicker{
+.reminderCardSection2 .DayPicker {
   position: absolute;
   z-index: 11;
   background: #fff;
-    box-shadow: 0px 0px 10px 1px #afafaf;
-    border-radius: 5px;
-    top: 37px;
+  box-shadow: 0px 0px 10px 1px #afafaf;
+  border-radius: 5px;
+  top: 37px;
 }
-.datepickerparent{
+.datepickerparent {
   position: relative;
 }
-.datepicker-row{
+.datepicker-row {
   display: flex;
   align-items: center;
 }
-.datetext{
+.datetext {
   font-size: 16px;
 }
-.reminderCardSection2row2left .inputText{
-  border:0;
+.reminderCardSection2row2left .inputText {
+  border: 0;
   width: 100%;
-resize: none;
-    padding: 10px;
-    margin-bottom: 20px;
+  resize: none;
+  padding: 10px;
+  margin-bottom: 20px;
 }
-.reminderCardSection2row2left .inputText:focus-visible{
-outline: none;
-border: 1px solid #dedede;
+.reminderCardSection2row2left .inputText:focus-visible {
+  outline: none;
+  border: 1px solid #dedede;
 }
-.wholereminderCardSection2row1of1{
+.wholereminderCardSection2row1of1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -600,41 +613,46 @@ border: 1px solid #dedede;
 .wholereminderCardSection2row1of1 .reminderCardSection2row1 {
   margin-bottom: 0;
 }
-.wholereminderCardSection2row1of1  {
+.wholereminderCardSection2row1of1 {
   margin-bottom: 30px;
 }
-.deletetextareatext{
-  color: #CA2323;
-  margin-right:20px;
+.deletetextareatext {
+  color: #ca2323;
+  margin-right: 20px;
 }
-.edittextareatext{
-  color: #0052CE;
+.edittextareatext {
+  color: #0052ce;
 }
-.reminderCardSection2row1of1 button{
+.reminderCardSection2row1of1 button {
   font-family: "Lato", sans-serif;
   font-size: 13px;
-line-height: 24px;
-font-weight: 400;
+  line-height: 24px;
+  font-weight: 400;
 }
-.remindercardsectioncancelsavebtn{
-  display:flex;
+.remindercardsectioncancelsavebtn {
+  display: flex;
   align-items: center;
 }
-.reminderCardSection2row2left button{
-  color: #CA2323;
+.reminderCardSection2row2left button {
+  color: #ca2323;
   padding: 0;
   font-family: "Lato", sans-serif;
   font-size: 13px;
-line-height: 24px;
-font-weight: 400; 
+  line-height: 24px;
+  font-weight: 400;
 }
-.custom-datepicker-activeborder .cal{
-  border: 1px solid #CA2323;
+.custom-datepicker-activeborder .cal {
+  border: 1px solid #ca2323;
 }
-.reminderCardSection2-activeborder{
-  border: 1px solid #3F495B;
+.reminderCardSection2-activeborder {
+  border: 1px solid #3f495b;
 }
-
+.edittextarea-active {
+  background: #f9fafb;
+}
+.leftmenuactive {
+  background: #f4f6fa;
+}
 .datepicker-input {
   position: absolute;
   left: 1px;
@@ -643,7 +661,7 @@ font-weight: 400;
   border: none;
   outline: none;
 }
-.datepicket-icon{
+.datepicket-icon {
   z-index: 0;
   pointer-events: none;
   cursor: pointer;
