@@ -2,7 +2,7 @@ import React from "react";
 import Container from "components/ui/container";
 import StageSelect from "./StageSelect";
 import { formatPhoneNumber } from "utils/phones";
-
+import { getMMDDYYYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
 export default ({ personalInfo }) => {
   const {
@@ -17,18 +17,6 @@ export default ({ personalInfo }) => {
     contactRecordType = "",
     postalCode = "",
   } = personalInfo;
-
-  function getMMDDYYYY(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [day, month, year].join("/");
-  }
 
   return (
     <div className="nameCard">
