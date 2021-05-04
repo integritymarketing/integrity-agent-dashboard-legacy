@@ -6,12 +6,7 @@ import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 
 export default ({ reminder, leadId, getContactRecordInfo }) => {
-  const {
-    reminderNote = "",
-    reminderDate = null,
-    isComplete = false,
-    reminderId,
-  } = reminder;
+  const { reminderNote = "", isComplete = false, reminderId } = reminder;
   const inputRef = useRef(null);
 
   const [date, setDate] = useState(null);
