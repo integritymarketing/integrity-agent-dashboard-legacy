@@ -17,7 +17,6 @@ import StageStatusContext from "contexts/stageStatus";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import { getPrimaryContact } from "utils/primaryContact";
-import { formatPhoneNumber } from "utils/phones";
 
 import styles from "./ContactsPage.module.scss";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
@@ -42,16 +41,14 @@ const useClientCardInfo = (client) => {
 const ActionIcon = ({ icon }) => {
   return (
     <div className={styles.iconCircle}>
-      <img src={icon} alt="" />
+      <img src={icon} alt="phone" />
     </div>
   );
 };
 
 const ClientCard = ({ client }) => {
   const { statusOptions } = useContext(StageStatusContext);
-  const { displayName, stage, phone, address, reminders } = useClientCardInfo(
-    client
-  );
+  const { displayName, stage, address, reminders } = useClientCardInfo(client);
   const primaryContact = getPrimaryContact(client);
 
   return (
@@ -124,14 +121,14 @@ const ClientCard = ({ client }) => {
           <div className={styles.primaryContactInfo}>{primaryContact}</div>
         </div>
         <div className={styles.mobileActions}>
-          {phone && (
-            <a href={`tel:${formatPhoneNumber(phone)}`}>
+          {client.phone && (
+            <a href={`tel:${client.phone}`}>
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}
           {address && (
             <a href={`https://maps.google.com/?q=${address}`}>
-              <img src={NavIcon} alt="" />
+              <img src={NavIcon} alt="map" />
             </a>
           )}
         </div>
