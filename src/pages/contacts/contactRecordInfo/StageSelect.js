@@ -3,8 +3,8 @@ import * as Sentry from "@sentry/react";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
 import { Select } from "components/ui/Select";
 import clientsService from "services/clientsService";
-import useToast from '../../../hooks/useToast';
-import StageStatusContext from 'contexts/stageStatus';
+import useToast from "../../../hooks/useToast";
+import StageStatusContext from "contexts/stageStatus";
 
 export default ({ value, original }) => {
   const { allStatuses, statusOptions } = useContext(StageStatusContext);
@@ -40,7 +40,12 @@ export default ({ value, original }) => {
       <Select
         Option={ColorOptionRender}
         initialValue={value}
-        options={statusOptions}
+        options={statusOptions.filter((opt) => {
+          if (original.contactRecordType === "Client") {
+            return opt.value !== "New";
+          }
+          return opt.value !== "Renewal";
+        })}
         onChange={handleChangeStatus}
         contactRecordPage={true}
       />

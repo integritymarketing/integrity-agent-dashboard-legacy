@@ -2,17 +2,15 @@ import React from "react";
 import Datepicker from "../../datepicker";
 
 export const ShortReminder = ({ reminder, className }) => {
-  if (!reminder) {
-    return null;
-  }
-
-  const { ReminderDate, ReminderNote } = reminder;
+  const { ReminderDate, ReminderNote } = reminder || {};
   return (
     <div className={`datepicker-row ${className}`}>
-      {ReminderDate && <Datepicker date={ReminderDate} />}
-      <label className="datepicker-row short-reminder-note">
-        {ReminderNote}
-      </label>
+      {<Datepicker date={ReminderDate} />}
+      {ReminderNote && (
+        <label className="datepicker-row short-reminder-note">
+          {ReminderNote}
+        </label>
+      )}
     </div>
   );
 };

@@ -16,25 +16,26 @@ import NavIcon from "images/nav-icon.svg";
 import StageStatusContext from "contexts/stageStatus";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
+import { getPrimaryContact } from "utils/primaryContact";
+import { formatPhoneNumber } from "utils/phones";
 
 import styles from "./ContactsPage.module.scss";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 
 const useClientCardInfo = (client) => {
-  const { firstName, lastName, phone, email, statusName } = client;
+  const { firstName, lastName, statusName } = client;
   const displayName = useMemo(() => {
     const namedClient = firstName || lastName;
-    const displayName = namedClient
-      ? `${firstName} ${lastName}`.trim()
-      : "Demo Test";
+    const displayName = namedClient ? `${firstName} ${lastName}`.trim() : "--";
     return displayName;
   }, [firstName, lastName]);
 
   return {
     displayName,
-    primaryContact: phone || email,
     stage: statusName,
     nextReminder: "mm/yy",
+    address: client.postalCode,
+    reminders: client.reminders,
   };
 };
 
@@ -48,9 +49,10 @@ const ActionIcon = ({ icon }) => {
 
 const ClientCard = ({ client }) => {
   const { statusOptions } = useContext(StageStatusContext);
-  const { displayName, primaryContact, stage, phone } = useClientCardInfo(
+  const { displayName, stage, phone, address, reminders } = useClientCardInfo(
     client
   );
+  const primaryContact = getPrimaryContact(client);
 
   return (
     <Card>
@@ -59,11 +61,18 @@ const ClientCard = ({ client }) => {
           <div
             className={`pt-1 pb-1 hdg hdg--4 text-truncate ${
               styles.contactName
-            } ${displayName !== "Demo Test" ? "" : "text-muted"}`}
+            } ${displayName !== "--" ? "" : "text-muted"}`}
           >
-            <Link to={`/contact/${client.leadsId}`} className={styles.viewLink}>
-              {displayName}
-            </Link>
+            {displayName === "--" ? (
+              "--"
+            ) : (
+              <Link
+                to={`/contact/${client.leadsId}`}
+                className={styles.viewLink}
+              >
+                {displayName}
+              </Link>
+            )}
           </div>
           <div className={styles.hideOnMobile}>
             <Link to={`/contact/${client.leadsId}`} className={styles.viewLink}>
@@ -106,15 +115,7 @@ const ClientCard = ({ client }) => {
             </label>
             <ShortReminder
               className={styles.shortReminder}
-              reminder={
-                [
-                  {
-                    ReminderId: 12312,
-                    ReminderDate: "03/12/2021",
-                    ReminderNote: "Call on Wednesday. Email quotes out.",
-                  },
-                ][0]
-              }
+              reminder={(reminders || [])[0]}
             />
           </div>
         </div>
@@ -123,10 +124,16 @@ const ClientCard = ({ client }) => {
           <div className={styles.primaryContactInfo}>{primaryContact}</div>
         </div>
         <div className={styles.mobileActions}>
-          <a href={`tel:${phone}`}>
-            <ActionIcon icon={PhoneIcon} />
-          </a>
-          <img src={NavIcon} alt="" />
+          {phone && (
+            <a href={`tel:${formatPhoneNumber(phone)}`}>
+              <ActionIcon icon={PhoneIcon} />
+            </a>
+          )}
+          {address && (
+            <a href={`https://maps.google.com/?q=${address}`}>
+              <img src={NavIcon} alt="" />
+            </a>
+          )}
         </div>
       </div>
     </Card>
@@ -150,7 +157,6 @@ function ContactsCard({ searchString, sort }) {
           setData(
             list.result.map((res) => ({
               ...res,
-              reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
             }))
           );
           setPageCount(list.pageResult.totalPages);
@@ -178,7 +184,7 @@ function ContactsCard({ searchString, sort }) {
   }
 
   return (
-    <Container className="mt-scale-3" style={{ paddingLeft: 0 }}>
+    <Container className="mt-scale-1 pl-0 pr-0">
       {data.length === 0 && (
         <div className="pt-5 pb-4 text-center">
           <div className="hdg hdg--2 mb-1">No Results</div>

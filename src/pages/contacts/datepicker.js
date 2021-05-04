@@ -23,7 +23,7 @@ function formatDate(date, format, locale) {
 export default ({ date }) => {
   return (
     <DayPickerInput
-      value={new Date(date)}
+      value={date ? new Date(date) : 'Add'}
       formatDate={formatDate}
       format={FORMAT}
       parseDate={parseDate}

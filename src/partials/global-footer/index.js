@@ -33,14 +33,16 @@ const HelpButtonWithModal = ({ ...props }) => {
 
 export default ({ className = "", ...props }) => {
   const portalUrl = usePortalUrl();
-
+  const hideMedicareTag = props && !props.hideMeicareIcon
   return (
     <footer className={`global-footer text-muted pt-5 ${className}`} {...props}>
       <div className="global-footer__content sf-text-center">
-        <Link to="/">
-          <span className="visually-hidden">Medicare Center</span>
-          <Logo aria-hidden="true" />
-        </Link>
+        {hideMedicareTag && (
+          <Link to="/">
+            <span className="visually-hidden">Medicare Center</span>
+            <Logo aria-hidden="true" />
+          </Link>
+        )}
         <nav className="global-footer__links mt-4">
           <h2 className="visually-hidden">Additional Navigation</h2>
           <ul className="divided-hlist">

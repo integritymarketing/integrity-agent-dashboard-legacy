@@ -8,6 +8,7 @@ import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
+import { getPrimaryContact } from "utils/primaryContact";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -50,8 +51,8 @@ function Table({
       columns,
       data,
       manualPagination: true,
-      initialState: { pageIndex: 0, pageSize: 50 },
-      pageCount: manualPageCount,
+      initialState: { pageIndex: 1, pageSize: 50 },
+      pageCount: manualPageCount + 1,
     },
     usePagination,
     useRowSelect,
@@ -89,6 +90,7 @@ function Table({
   if (loading) {
     return <Spinner />;
   }
+  
   return (
     <>
       <table {...getTableProps()}>
@@ -125,11 +127,11 @@ function Table({
         </tbody>
       </table>
       <Pagination
-        currentPage={pageIndex + 1}
-        totalPages={pageCount}
+        currentPage={pageIndex}
+        totalPages={pageCount - 1}
         totalResults={totalResults}
         pageSize={pageSize}
-        onPageChange={(pageIndex) => gotoPage(pageIndex - 1)}
+        onPageChange={(pageIndex) => gotoPage(pageIndex)}
       />
     </>
   );
@@ -144,6 +146,9 @@ function ContactsTable({ searchString, sort }) {
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex, searchString, sort }) => {
+      if (pageIndex === undefined) {
+        return;
+      }
       setLoading(true);
       clientsService
         .getList(pageIndex, pageSize, sort, null, searchString || null)
@@ -151,7 +156,6 @@ function ContactsTable({ searchString, sort }) {
           setData(
             list.result.map((res) => ({
               ...res,
-              reminderNotes: "3/15 Call on Wednesday. Email quotes out.",
             }))
           );
           setPageCount(list.pageResult.totalPages);
@@ -174,16 +178,23 @@ function ContactsTable({ searchString, sort }) {
       {
         Header: "Name",
         accessor: "firstName",
-        Cell: ({ value, row }) => (
-          <Link
-            to={`/contact/${row.original.leadsId}`}
-            className={styles.contactPersonName}
-          >
-            {[row.original.firstName || "", row.original.lastName || ""]
-              .join(" ")
-              .trim() || "Demo Test"}
-          </Link>
-        ),
+        Cell: ({ value, row }) => {
+          const name = [row.original.firstName || "", row.original.lastName || ""]
+          .join(" ")
+          .trim();
+
+          if (!name) {
+            return "--"
+;         }
+          return (
+            <Link
+              to={`/contact/${row.original.leadsId}`}
+              className={styles.contactPersonName}
+            >
+              {name}
+            </Link>
+          )
+        },
       },
       {
         Header: "Stage",
@@ -194,24 +205,20 @@ function ContactsTable({ searchString, sort }) {
       },
       {
         Header: "Reminder",
-        accessor: "Reminders",
+        accessor: "reminders",
         Cell: ({ value }) => (
           <ShortReminder
             reminder={
-              (value || [
-                {
-                  ReminderId: 12312,
-                  ReminderDate: "03/12/2021",
-                  ReminderNote: "Call on Wednesday. Email quotes out.",
-                },
-              ])[0]
+              (value || [])[0]
             }
           />
         ),
       },
       {
         Header: "Primary Contact",
-        accessor: (row) => row[row.primaryContact] || "--",
+        accessor: (row) => {
+          return getPrimaryContact(row);
+        },
       },
       {
         Header: "",

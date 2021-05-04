@@ -3,8 +3,8 @@ import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
 
 import Container from "components/ui/container";
-import Footer from "components/ui/Footer";
 import GlobalNav from "partials/global-nav-v2";
+import ContactFooter from "partials/global-footer";
 import clientsService from "services/clientsService";
 import styles from "../ContactsPage.module.scss";
 import "./contactRecordInfo.scss";
@@ -16,8 +16,9 @@ import Reminders from "./reminder";
 import PersonalInfo from "./PersonalInfo";
 import { useLocation } from "react-router-dom";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import ClientNotes from './clientNotes';
-import WithLoader from 'components/ui/WithLoader';
+import ClientNotes from "./clientNotes";
+import WithLoader from "components/ui/WithLoader";
+import { StageStatusProvider } from "contexts/stageStatus";
 
 export default () => {
   const { pathname = "" } = useLocation();
@@ -27,66 +28,76 @@ export default () => {
   const value = pathname.split("/");
   const id = value.length > 0 ? value[2] : "";
 
-
   const getContactRecordInfo = useCallback(() => {
     setLoading(true);
     clientsService
-    .getContactInfo(id)
-    .then((data) => {
-      setLoading(false);
-      setPersonalInfo(data);
-      setReminders(data.reminders)
-    })
-    .catch((e) => {
-      setLoading(false);
-      Sentry.captureException(e);
-    });
-  },[id]);
+      .getContactInfo(id)
+      .then((data) => {
+        setPersonalInfo(data);
+        setReminders(data.reminders);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        Sentry.captureException(e);
+      });
+  }, [id]);
 
   useEffect(() => {
     getContactRecordInfo();
-},[getContactRecordInfo]);
-  
+  }, [getContactRecordInfo]);
+
+  useEffect(() => {
+    getContactRecordInfo();
+  }, [getContactRecordInfo]);
+
   return (
     <React.Fragment>
-      <Helmet>
-        <title>MedicareCENTER - Contacts</title>
-      </Helmet>
-      <GlobalNav />
-      <Container className={styles.container}>
-        <ToastContextProvider>
-          <p className={styles.header}>Contacts</p>
-          <ul className="leftcardmenu">
-            <li className="active">
-              <label className="icon-spacing">
-                <OverviewIcon />
-              </label>
-              <span>Overview</span>
-            </li>
-            <li>
-              <label className="icon-spacing">
-                <DetailsIcon />
-              </label>
-              <span>Details</span>
-            </li>
-            <li>
-              <label className="icon-spacing">
-                <PreferencesIcon />
-              </label>
-              <span>Preferences</span>
-            </li>
-          </ul>
-          <div className="rightSection">
-            <WithLoader isLoading={loading}>
-                   <PersonalInfo personalInfo={personalInfo} />
-            <Reminders getContactRecordInfo={getContactRecordInfo} leadId={id} reminders={reminders} />
-              <Activities />
-              <ClientNotes personalInfo={personalInfo} />
-            </WithLoader>
-          </div>
-        </ToastContextProvider>
-      </Container>
-      <Footer />
+      <StageStatusProvider>
+        <Helmet>
+          <title>MedicareCENTER - Contacts</title>
+        </Helmet>
+        <GlobalNav />
+        <PersonalInfo personalInfo={personalInfo} />
+        <Container className={styles.container}>
+          <ToastContextProvider>
+            {/* <p className={styles.header}>Contacts</p> */}
+
+            <ul className="leftcardmenu">
+              <li className="active">
+                <label className="icon-spacing">
+                  <OverviewIcon />
+                </label>
+                <span>Overview</span>
+              </li>
+              <li>
+                <label className="icon-spacing">
+                  <DetailsIcon />
+                </label>
+                <span>Details</span>
+              </li>
+              <li>
+                <label className="icon-spacing">
+                  <PreferencesIcon />
+                </label>
+                <span>Preferences</span>
+              </li>
+            </ul>
+            <div className="rightSection">
+              <WithLoader isLoading={loading}>
+                <Reminders
+                  getContactRecordInfo={getContactRecordInfo}
+                  leadId={id}
+                  reminders={reminders}
+                />
+                <Activities />
+                <ClientNotes personalInfo={personalInfo} />
+              </WithLoader>
+            </div>
+          </ToastContextProvider>
+        </Container>
+        <ContactFooter hideMeicareIcon={true} />
+      </StageStatusProvider>
     </React.Fragment>
   );
 };
