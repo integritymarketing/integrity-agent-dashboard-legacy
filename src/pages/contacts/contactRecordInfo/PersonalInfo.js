@@ -2,7 +2,7 @@ import React from "react";
 import Container from "components/ui/container";
 import StageSelect from "./StageSelect";
 import { formatPhoneNumber } from "utils/phones";
-import { getMMDDYYYY } from "utils/dates";
+import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
 export default ({ personalInfo }) => {
   const {
@@ -28,7 +28,7 @@ export default ({ personalInfo }) => {
           <div className="personalinfoname nameCardpara">
             <h2>
               {contactRecordType || "Prospect"} | Last updated{" "}
-              {modifyDate ? getMMDDYYYY(modifyDate) : getMMDDYYYY(createDate)}
+              {modifyDate ? getMMDDYY(modifyDate) : getMMDDYY(createDate)}
             </h2>
           </div>
         </div>
