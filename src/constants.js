@@ -1,5 +1,5 @@
 export const SORT_OPTIONS = [
-    {value : 'followUpDate:asc', label: 'Sort by Reminder Asc'},
+    {value : 'followUpDate:asc', label: 'Reminder Asc'},
     {value : 'followUpDate:desc', label: 'Reminder Dsc'},
     {value : 'createDate:desc', label: 'Newest First'},
     {value : 'createDate:asc', label: 'Oldest First'},

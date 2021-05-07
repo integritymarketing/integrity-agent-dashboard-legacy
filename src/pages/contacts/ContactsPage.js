@@ -60,9 +60,8 @@ export default () => {
         <Container className={styles.container}>
           <ToastContextProvider>
             <p className={styles.header}>Contacts</p>
-            {/* <div className="contacts-nav-section"> */}
             <div
-              className="bar bar--repel bar--collapse-mobile"
+              className={`bar bar--repel bar--collapse-mobile`}
               style={{
                 "--bar-spacing-vert": 0,
                 "--bar-spacing-horiz": "2.5rem",
@@ -105,6 +104,7 @@ export default () => {
                   <Select
                     placeholder={"Sort by Reminder Asc"}
                     options={SORT_OPTIONS}
+                    prefix="Sort by "
                     onChange={(value) => setSort(value)}
                   />
                 </div>

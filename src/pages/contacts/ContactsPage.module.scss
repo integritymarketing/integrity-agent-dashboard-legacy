@@ -69,14 +69,18 @@
 		}
 		td:nth-child(3) {
 			width: 20%;
+			@media (max-width: 480px) {
+				width: 30%;
+			}
 		}
 		td:nth-child(4) {
 			width: 40%;
+			@media (max-width: 480px) {
+				width: 30%;
+			}
 			.reminder {
 				display: flex;
 				align-items: center;
-			}
-			.reminderText {
 			}
 			.cal {
 				display: flex;
@@ -153,7 +157,7 @@
 }
 
 .sortSelect {
-	width: 195px;
+	width: 198px;
 	float: right;
 	@media (max-width: 480px) {
 		display: none;
@@ -170,6 +174,7 @@
 }
 .cardInfo {
 	margin-top: 15px;
+	justify-content: space-between;
 	.cardInfoLabel {
 		margin-bottom: 12px;
 		font-size: 13px;
@@ -180,7 +185,7 @@
 	}
 }
 .cardInfo > div:first-child {
-	width: 60%;
+	min-width: 140px;
 }
 .cardInfo > div:last-child {
 	@media (min-width: 480px) {
@@ -312,4 +317,15 @@
 			}
 		}
 	}
+}
+
+.contactsSearchBar {
+	@media (max-width: 480px) {
+    .bar {
+      flex: 0;
+    }
+    #contacts-search-wrapper {
+      flex: 1;
+    }
+  }
 }

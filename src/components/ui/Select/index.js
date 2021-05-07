@@ -7,14 +7,14 @@ import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
-export const DefaultOption = ({ label, value, onClick, ...rest }) => {
+export const DefaultOption = ({ label, value, prefix = '', onClick, ...rest }) => {
   const handleOptionClick = (ev) => {
     onClick && onClick(ev, value);
   };
 
   return (
     <div {...rest} className="option" onClick={handleOptionClick}>
-      {label}
+      {prefix}{label}
     </div>
   );
 };
@@ -24,6 +24,7 @@ DefaultOption.propTypes = {
   value: PropTypes.any,
   onClick: PropTypes.func,
   style: PropTypes.object,
+  prefix: PropTypes.string
 };
 
 export const Select = ({
@@ -32,6 +33,7 @@ export const Select = ({
   Option,
   onChange,
   placeholder,
+  prefix = '',
   style,
   contactsPage,
 }) => {
@@ -84,7 +86,7 @@ export const Select = ({
   const inputBox = (
     <div className="inputbox" onClick={toggleOptionsMenu}>
       {value ? (
-        <Option {...selectedOption} />
+        <Option prefix={prefix} {...selectedOption} />
       ) : (
         <span className="placeholder">{placeholder}</span>
       )}
@@ -116,6 +118,7 @@ export const Select = ({
 
 Select.propTypes = {
   initialValue: PropTypes.string,
+  prefix: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   Option: PropTypes.elementType,
@@ -124,6 +127,7 @@ Select.propTypes = {
 
 Select.defaultProps = {
   placeholder: "- Select -",
+  prefix: "",
   initialValue: null,
   options: [],
   Option: DefaultOption,
