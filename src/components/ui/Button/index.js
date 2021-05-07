@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import "./button.scss";
 import { Link } from "react-router-dom";
 
-export const Button = ({ type, label, iconPosition, icon, iconOnly, href, linkTo, ...props }) => {
+export const Button = ({ type, label, iconPosition, icon, iconOnly, href, linkTo, className, ...props }) => {
   const buttonClasses = [
     "button",
     (href || linkTo) ? 'button-link' : `button--${type}`,
     `icon-${iconPosition}`,
-    iconOnly ? 'icon-only' : ''
+    iconOnly ? 'icon-only' : '',
+    className || ''
   ].join(" ")
 
   const buttonLabel = (<>

@@ -1,15 +1,3 @@
-import CardView from "components/icons/card-view";
-import SearchIcon from "components/icons/search";
-import TableView from "components/icons/table-view";
-import { Button } from "components/ui/Button";
-import Container from "components/ui/container";
-import { Select } from "components/ui/Select";
-import Textfield from "components/ui/textfield";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import { StageStatusProvider } from "contexts/stageStatus";
-import { debounce } from "debounce";
-import GlobalNav from "partials/global-nav-v2";
-import ContactFooter from "partials/global-footer";
 import React, { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
@@ -19,6 +7,21 @@ import {
   useHistory,
   useLocation,
 } from "react-router-dom";
+import Import from "components/icons/import";
+import Add from "components/icons/add";
+import CardView from "components/icons/card-view";
+import SearchIcon from "components/icons/search";
+import TableView from "components/icons/table-view";
+import Filter from "components/icons/filter";
+import { Button } from "components/ui/Button";
+import Container from "components/ui/container";
+import { Select } from "components/ui/Select";
+import Textfield from "components/ui/textfield";
+import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import { StageStatusProvider } from "contexts/stageStatus";
+import { debounce } from "debounce";
+import GlobalNav from "partials/global-nav-v2";
+import ContactFooter from "partials/global-footer";
 import { SORT_OPTIONS } from "../../constants";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
@@ -50,6 +53,10 @@ export default () => {
     setLayout((layout) => (layout === "list" ? "card" : "list"));
   };
 
+  const goToImportPage = () => {
+    history.push("/client-import");
+  };
+
   return (
     <React.Fragment>
       <StageStatusProvider>
@@ -59,7 +66,23 @@ export default () => {
         <GlobalNav />
         <Container className={styles.container}>
           <ToastContextProvider>
-            <p className={styles.header}>Contacts</p>
+            <div className={styles.header}>
+              <div className={styles.headerText}>Contacts</div>
+              <div className={styles.buttonGroup}>
+                <Button
+                  className="mr-2"
+                  icon={<Import />}
+                  label="Import"
+                  type="secondary"
+                  onClick={goToImportPage}
+                />
+                <Button
+                  icon={<Add />}
+                  label="Add New"
+                  type="primary"
+                />
+              </div>
+            </div>
             <div
               className={`bar bar--repel bar--collapse-mobile`}
               style={{
@@ -106,6 +129,14 @@ export default () => {
                     options={SORT_OPTIONS}
                     prefix="Sort by "
                     onChange={(value) => setSort(value)}
+                  />
+                </div>
+                <div className={styles["filter-view"]}>
+                  <Button
+                    icon={<Filter />}
+                    label="Filter"
+                    type="secondary"
+                    onClick={switchLayout}
                   />
                 </div>
               </div>
