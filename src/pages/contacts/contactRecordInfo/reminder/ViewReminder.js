@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import ShowDate from "./ShowDate";
-import format from "date-fns/format";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
+import { getForDistance } from "utils/dates";
 
 export default ({ reminder, leadId, getContactRecordInfo }) => {
   const { reminderNote = "", isComplete = false, reminderId } = reminder;
@@ -72,8 +72,8 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           <label>
             Last Updated{" "}
             {reminder.modifyDate
-              ? format(new Date(reminder.modifyDate), "yyyy-MM-dd HH:MM a")
-              : format(new Date(reminder.createDate), "yyyy-MM-dd HH:MM a")}
+              ? getForDistance(reminder.modifyDate)
+              : getForDistance(reminder.createDate)}
           </label>
         </div>
         {!isEdit && reminderHovered && (

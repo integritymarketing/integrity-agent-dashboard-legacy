@@ -5,18 +5,21 @@ import { formatPhoneNumber } from "utils/phones";
 import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
 export default ({ personalInfo }) => {
-  const {
+  let {
     firstName = "",
     lastName = "",
-    email = "",
-    phone = "",
-    address = "",
+    emails = [],
+    phones = [],
+    addresses = [],
     modifyDate = "",
     createDate = "",
     statusName = "",
     contactRecordType = "",
-    postalCode = "",
   } = personalInfo;
+
+  emails = emails.length > 0 ? emails[0].leadEmail : "Victor@gmail.com";
+  phones = phones.length > 0 ? phones[0].leadPhone : "2222222222";
+  addresses = addresses.length > 0 ? addresses[0] : null;
 
   return (
     <div className="nameCard">
@@ -44,19 +47,22 @@ export default ({ personalInfo }) => {
             <label>
               Email <span className="italic-label">(Primary)</span>
             </label>
-            <div className="personalInfoEmailText">{email}</div>
+            <div className="personalInfoEmailText">{emails}</div>
           </div>
           <div className="personalInfo">
             <label>Phone</label>
-            <div className="personalInfoText">{formatPhoneNumber(phone)}</div>
+            <div className="personalInfoText">{formatPhoneNumber(phones)}</div>
           </div>
 
           <div className="personalInfo">
             <label>Address</label>
-            <div className="personalInfoText">
-              {address} <br />
-              {postalCode}
-            </div>
+            {addresses && (
+              <div className="personalInfoText">
+                {addresses.address1 || ""}, {addresses.address2 || ""} <br />
+                {addresses.city || ""}, {addresses.stateCode || ""} &nbsp;
+                {addresses.postalCode || ""}
+              </div>
+            )}
           </div>
         </div>
       </Container>

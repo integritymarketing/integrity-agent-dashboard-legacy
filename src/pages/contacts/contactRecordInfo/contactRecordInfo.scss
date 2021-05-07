@@ -249,20 +249,23 @@
   border: 1px solid #c7ccd1;
   box-sizing: border-box;
   border-radius: 4px;
-  height: 175px;
+  height: auto;
   width: 241px;
   float: left;
+  padding: 13px 0;
 }
 
 .clientnotes {
   margin-top: 30px;
 }
 .leftcardmenu li {
-  padding: 13px 0 7px 22px;
-  border-bottom: 1px solid #e8eaef;
-  height: 55px;
+  padding: 13px;
+  // border-bottom: 1px solid #e8eaef;
+  height: 40px;
   display: flex;
   align-items: center;
+  margin: 0 12px 8px;
+  border-radius: 4px;
 }
 .leftcardmenu li span {
   font-family: "Lato", sans-serif;
@@ -282,8 +285,11 @@
 }
 .leftcardmenu li.active span,
 .leftcardmenu li.active label > svg > path {
-  color: #0052ce !important;
-  fill: #0052ce !important;
+  color: #002d72 !important;
+  fill: #002d72 !important;
+}
+.leftcardmenu li.active {
+  background: #f4f6fa;
 }
 .nameCard {
   background: #ffffff;
@@ -650,9 +656,7 @@
 .edittextarea-active {
   background: #f9fafb;
 }
-.leftmenuactive {
-  background: #f4f6fa;
-}
+
 .datepicker-input {
   position: absolute;
   left: 1px;
@@ -665,4 +669,238 @@
   z-index: 0;
   pointer-events: none;
   cursor: pointer;
+}
+
+.newnotepopupformfield input {
+  background: #ffffff;
+  width: 98%;
+  height: 47px;
+  border: 1px solid #d8dee4;
+  margin: 0 0 10px;
+  padding-left: 15px;
+  padding-top: 6px;
+  border-radius: 4px;
+}
+.newnotepopupformfield textarea {
+  background: #ffffff;
+  width: 98%;
+  height: 123px;
+  border: 1px solid #d8dee4;
+  border-radius: 4px;
+  margin: 0;
+  resize: none;
+  padding-left: 15px;
+  padding-top: 14px;
+}
+
+.newnotepopupformfieldbtn {
+  width: 98%;
+  display: flex;
+  justify-content: flex-end;
+}
+.newnotepopupformfieldbtn .cancel-btn:hover {
+  background: #f4f6fa !important;
+  border: 1px solid #c7ccd1 !important;
+}
+.newnotepopupformfieldbtn .submit-btn:hover {
+  background: #0052ce !important;
+  border: 1px solid #c7ccd1 !important;
+}
+.newnotepopupformfield textarea::placeholder,
+.newnotepopupformfield input::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #9da8b1;
+  opacity: 1; /* Firefox */
+}
+
+.newnotepopupformfield textarea:-ms-input-placeholder,
+.newnotepopupformfield input::placeholder {
+  /* Internet Explorer 10-11 */
+  color: #9da8b1;
+}
+
+.newnotepopupformfield textarea:-ms-input-placeholder,
+.newnotepopupformfield input::placeholder {
+  /* Microsoft Edge */
+  color: #9da8b1;
+}
+.newnotepopupformfieldbtn button {
+  text-transform: capitalize;
+}
+
+.contactdetailscard {
+  background: #ffffff;
+  border-radius: 8px;
+}
+.contactdetailscardheader {
+  padding: 31px 37px 22px 30px;
+  border-bottom: 1px solid #d8dee4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 43px;
+}
+.contactdetailscardheader h4 {
+  font-size: 24px;
+  line-height: 29px;
+  color: #002d72;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.contactdetailscardheader button {
+  font-size: 16px;
+  line-height: 24px;
+  color: #0052ce;
+  font-family: "Lato", sans-serif;
+}
+
+.contactdetailscardbody {
+  padding: 0 37px 35px 31px;
+}
+.contactdetailscardbody p {
+  color: #697887;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardbody .contactdetailscardbodycolvalue {
+  color: #1b1b1b;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardborder {
+  margin-top: 0;
+  margin-bottom: 30px;
+  border: 1px solid #dfe5ef;
+}
+.contactdetailscardbodyrow {
+  display: flex;
+}
+.contactdetailscardbodyrowspacing .contactdetailscardbodycol {
+  margin-right: 50px;
+}
+.deletecontactsection {
+  margin-top: 30px;
+
+  margin-left: 30px;
+}
+.deletecontactsection button {
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+  color: #ca2323;
+}
+.contactdetailscardbodycolinput input {
+  width: 227px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 2px;
+  padding: 8px;
+  color: #1b1b1b;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardbodycolinput input:focus {
+  outline: none;
+}
+.zero-margin-input {
+  margin-bottom: 0 !important;
+}
+.addaptbtn button {
+  font-size: 14px;
+  line-height: 14px;
+  color: #3f495b;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+  margin-top: 12px;
+  margin-bottom: 30px;
+}
+.custom-w-51 {
+  width: 51px !important;
+}
+.custom-w-83 {
+  width: 83px !important;
+}
+.contactdetailscardbodyinputrowspacing .contactdetailscardbodycol {
+  margin-right: 10px;
+}
+.contactdetailscardbodycolradio {
+  margin-top: 12px;
+  margin-bottom: 30px;
+}
+.contactdetailscardbodycolradio label {
+  font-size: 14px;
+  line-height: 22px;
+  color: #3f495b;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardbodycolradio input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d8dee4;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.custom-w-154 {
+  width: 154px !important;
+}
+.custom-w-108 {
+  width: 108px !important;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 2px;
+  padding: 8px;
+  color: #1b1b1b;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.custom-w-148 {
+  width: 148px !important;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 2px;
+  padding: 8px;
+  color: #1b1b1b;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.conatctdetailsbutton {
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+.cpcheckboxdesign input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d8dee4;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.cpcheckboxdesign label {
+  font-size: 14px;
+  line-height: 22px;
+  color: #3f495b;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+}
+.cpradiodesign {
+  margin-left: 24px;
+}
+.custom-inputmargin {
+  margin-bottom: 30px;
 }
