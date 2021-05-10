@@ -70,64 +70,58 @@ export default () => {
     }
   };
 
-  useEffect(() => {
-    setLoading(false);
-  }, [display]);
-
   return (
     <React.Fragment>
-      <StageStatusProvider>
-        <Helmet>
-          <title>MedicareCENTER - Contacts</title>
-        </Helmet>
-        <GlobalNav />
-        <PersonalInfo personalInfo={personalInfo} />
-        <Container className={styles.container}>
-          <ToastContextProvider>
-            {/* <p className={styles.header}>Contacts</p> */}
+      <WithLoader isLoading={loading}>
+        <StageStatusProvider>
+          <Helmet>
+            <title>MedicareCENTER - Contacts</title>
+          </Helmet>
+          <GlobalNav />
+          <PersonalInfo personalInfo={personalInfo} />
+          <Container className={styles.container}>
+            <ToastContextProvider>
 
-            <ul className="leftcardmenu">
-              <li
-                className={display === "OverView" && "active"}
-                onClick={() => {
-                  setLoading(true);
-                  setDisplay("OverView");
-                }}
-              >
-                <label className="icon-spacing">
-                  <OverviewIcon />
-                </label>
-                <span>Overview</span>
-              </li>
-              <li
-                className={
-                  (display === "Details" || display === "DetailsEdit") &&
-                  "active"
-                }
-                onClick={() => setDisplay("Details")}
-              >
-                <label className="icon-spacing">
-                  <DetailsIcon />
-                </label>
-                <span>Details</span>
-              </li>
-              <li
-                className={display === "Preferences" && "active"}
-                onClick={() => setDisplay("Preferences")}
-              >
-                <label className="icon-spacing">
-                  <PreferencesIcon />
-                </label>
-                <span>Preferences</span>
-              </li>
-            </ul>
-            <div className="rightSection">
-              <WithLoader isLoading={loading}>{handleRendering()}</WithLoader>
-            </div>
-          </ToastContextProvider>
-        </Container>
-        <ContactFooter hideMeicareIcon={true} />
-      </StageStatusProvider>
+              <ul className="leftcardmenu">
+                <li
+                  className={display === "OverView" && "active"}
+                  onClick={() => {
+                    setDisplay("OverView");
+                  }}
+                >
+                  <label className="icon-spacing">
+                    <OverviewIcon />
+                  </label>
+                  <span>Overview</span>
+                </li>
+                <li
+                  className={
+                    (display === "Details" || display === "DetailsEdit") &&
+                    "active"
+                  }
+                  onClick={() => setDisplay("Details")}
+                >
+                  <label className="icon-spacing">
+                    <DetailsIcon />
+                  </label>
+                  <span>Details</span>
+                </li>
+                <li
+                  className={display === "Preferences" && "active"}
+                  onClick={() => setDisplay("Preferences")}
+                >
+                  <label className="icon-spacing">
+                    <PreferencesIcon />
+                  </label>
+                  <span>Preferences</span>
+                </li>
+              </ul>
+              <div className="rightSection">{handleRendering()}</div>
+            </ToastContextProvider>
+          </Container>
+          <ContactFooter hideMeicareIcon={true} />
+        </StageStatusProvider>
+      </WithLoader>
     </React.Fragment>
   );
 };
