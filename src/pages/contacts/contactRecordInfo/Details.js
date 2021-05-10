@@ -11,7 +11,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     contactRecordType = "",
   } = personalInfo;
 
-  emails = emails.length > 0 ? emails[0].leadEmail : "Victor@gmail.com";
+  emails = emails.length > 0 ? emails[0].leadEmail : "N/A";
   phones = phones.length > 0 ? phones[0] : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 

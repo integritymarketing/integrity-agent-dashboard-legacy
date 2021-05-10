@@ -64,25 +64,23 @@ export default () => {
           <title>MedicareCENTER - Contacts</title>
         </Helmet>
         <GlobalNav />
-        <Container className={styles.container}>
-          <ToastContextProvider>
-            <div className={styles.header}>
-              <div className={styles.headerText}>Contacts</div>
-              <div className={styles.buttonGroup}>
-                <Button
-                  className="mr-2"
-                  icon={<Import />}
-                  label="Import"
-                  type="secondary"
-                  onClick={goToImportPage}
-                />
-                <Button
-                  icon={<Add />}
-                  label="Add New"
-                  type="primary"
-                />
-              </div>
+        <div className={styles.header}>
+          <Container>
+            <div className={styles.headerText}>Contacts</div>
+            <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
+              <Button
+                className="mr-2"
+                icon={<Import />}
+                label="Import"
+                type="secondary"
+                onClick={goToImportPage}
+              />
+              <Button icon={<Add />} label="Add New" type="primary" />
             </div>
+          </Container>
+        </div>
+        <Container>
+          <ToastContextProvider>
             <div
               className={`bar bar--repel bar--collapse-mobile`}
               style={{

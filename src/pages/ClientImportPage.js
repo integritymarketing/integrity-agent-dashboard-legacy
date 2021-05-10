@@ -23,7 +23,7 @@ export default () => {
 
       <Container className="mt-scale-3">
         <div className="hdg hdg--3 content-center mb-4">
-          <Link to="/clients" className={`btn btn--outline btn--flex`}>
+          <Link to="/contacts" className={`btn btn--outline btn--flex`}>
             <ArrowIcon className="icon-flip mr-1" /> Back to Client Management
           </Link>
         </div>
