@@ -3,22 +3,22 @@ import Datepicker from "../../datepicker";
 import ReminderModal from "./ReminderModal";
 
 export const ShortReminder = ({ leadId, reminder, className }) => {
-  const { ReminderDate, ReminderNote } = reminder || {};
+  const { reminderDate, reminderNote } = reminder || {};
   const [showAddModal, setShowAddModal] = React.useState(false);
   return (
     <div className={`datepicker-row ${className}`}>
       {
         <Datepicker
-          date={ReminderDate}
+          date={reminderDate}
           onAddNew={(e) => {
             e.stopPropagation();
             setShowAddModal(true);
           }}
         />
       }
-      {ReminderNote && (
+      {reminderNote && (
         <label className="datepicker-row short-reminder-note">
-          {ReminderNote}
+          {reminderNote}
         </label>
       )}
       {showAddModal && (
@@ -34,11 +34,11 @@ export const ShortReminder = ({ leadId, reminder, className }) => {
 };
 
 export default ({ reminder }) => {
-  const { ReminderDate } = reminder;
+  const { reminderDate } = reminder;
   return (
     <div className="reminderCardSection2">
       <div className="datepicker-row reminderCardSection2row1">
-        <Datepicker date={ReminderDate} />
+        <Datepicker date={reminderDate} />
         <label>Last Updated 03/04/2021 1:24 PM EST</label>
       </div>
       <div className="reminderCardSection2row2">
