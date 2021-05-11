@@ -72,16 +72,15 @@ export default () => {
 
   return (
     <React.Fragment>
-      <WithLoader isLoading={loading}>
-        <StageStatusProvider>
-          <Helmet>
-            <title>MedicareCENTER - Contacts</title>
-          </Helmet>
-          <GlobalNav />
-          <PersonalInfo personalInfo={personalInfo} />
-          <Container className={styles.container}>
-            <ToastContextProvider>
-
+      <ToastContextProvider>
+        <WithLoader isLoading={loading}>
+          <StageStatusProvider>
+            <Helmet>
+              <title>MedicareCENTER - Contacts</title>
+            </Helmet>
+            <GlobalNav />
+            <PersonalInfo personalInfo={personalInfo} />
+            <Container className={styles.container}>
               <ul className="leftcardmenu">
                 <li
                   className={display === "OverView" && "active"}
@@ -117,11 +116,11 @@ export default () => {
                 </li>
               </ul>
               <div className="rightSection">{handleRendering()}</div>
-            </ToastContextProvider>
-          </Container>
-          <ContactFooter hideMeicareIcon={true} />
-        </StageStatusProvider>
-      </WithLoader>
+            </Container>
+            <ContactFooter hideMeicareIcon={true} />
+          </StageStatusProvider>
+        </WithLoader>
+      </ToastContextProvider>
     </React.Fragment>
   );
 };

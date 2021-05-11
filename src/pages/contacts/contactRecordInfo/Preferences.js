@@ -11,7 +11,7 @@ export default () => {
           <div className="cpcheckboxdesign contactdetailscardbodycol">
             <div>
               <input type="checkbox" id="test" name="checkbox-group" />
-              <label for="test">Email</label>
+              <label for="email">Email</label>
             </div>
           </div>
         </div>
@@ -19,7 +19,7 @@ export default () => {
           <div className="cpradiodesign contactdetailscardbodycolradio contactdetailscardbodycol">
             <div>
               <input type="radio" id="test1" name="radio-group" />
-              <label for="test1">Primary Communication</label>
+              <label for="primaryEmail">Primary Communication</label>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@ export default () => {
           <div className="cpcheckboxdesign contactdetailscardbodycol">
             <div>
               <input type="checkbox" id="test" name="checkbox-group" />
-              <label for="test">Phone Calls</label>
+              <label for="phone">Phone Calls</label>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@ export default () => {
           <div className="cpradiodesign contactdetailscardbodycolradio contactdetailscardbodycol">
             <div>
               <input type="radio" id="test1" name="radio-group" />
-              <label for="test1">Primary Communication</label>
+              <label for="primaryPhone">Primary Communication</label>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@ export default () => {
           <div className="custom-inputmargin cpcheckboxdesign contactdetailscardbodycol">
             <div>
               <input type="checkbox" id="test" name="checkbox-group" />
-              <label for="test">Mail</label>
+              <label for="mail">Mail</label>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default () => {
           <div className="custom-inputmargin cpcheckboxdesign contactdetailscardbodycol">
             <div>
               <input type="checkbox" id="test" name="checkbox-group" />
-              <label for="test">Do Not Call / Lost Contact</label>
+              <label for="doNotDisturb">Do Not Call / Lost Contact</label>
             </div>
           </div>
         </div>

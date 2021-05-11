@@ -18,7 +18,7 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
               <label>
                 <AddReminder />
               </label>
-              <span>New Reminder</span>
+              <span> Add New</span>
             </button>
           </div>
         </div>

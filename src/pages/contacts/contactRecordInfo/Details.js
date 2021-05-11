@@ -1,6 +1,8 @@
 import React from "react";
 import { formatPhoneNumber } from "utils/phones";
 
+const notAvailable = "N/A";
+
 export default ({ setDisplay, personalInfo, ...rest }) => {
   let {
     firstName = "",
@@ -11,7 +13,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     contactRecordType = "",
   } = personalInfo;
 
-  emails = emails.length > 0 ? emails[0].leadEmail : "N/A";
+  emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
   phones = phones.length > 0 ? phones[0] : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 
@@ -40,8 +42,9 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="contactdetailscardbodycol">
               <p>Address</p>
               <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.address1 : ""},{" "}
-                {addresses ? addresses.address2 : ""}
+                {addresses
+                  ? addresses.address1 + " " + addresses.address2 + ","
+                  : notAvailable}
               </div>
             </div>
           </div>
@@ -49,19 +52,19 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="contactdetailscardbodycol">
               <p>City</p>
               <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.city : ""}
+                {addresses ? addresses.city : notAvailable}
               </div>
             </div>
             <div className="contactdetailscardbodycol">
               <p>State</p>
               <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.stateCode : ""}
+                {addresses ? addresses.stateCode : notAvailable}
               </div>
             </div>
             <div className="contactdetailscardbodycol">
               <p>ZIP Code</p>
               <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.postalCode : ""}
+                {addresses ? addresses.postalCode : notAvailable}
               </div>
             </div>
           </div>
@@ -76,15 +79,13 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="contactdetailscardbodycol">
               <p>Phone</p>
               <div className="contactdetailscardbodycolvalue">
-                {phones
-                  ? formatPhoneNumber(phones.leadPhone)
-                  : "(222)-222-2222"}
+                {phones ? formatPhoneNumber(phones.leadPhone) : notAvailable}
               </div>
             </div>
             <div className="contactdetailscardbodycol">
               <p>Label</p>
               <div className="contactdetailscardbodycolvalue">
-                {phones ? phones.phoneLabel : "Mobile"}
+                {phones ? phones.phoneLabel : notAvailable}
               </div>
             </div>
           </div>
