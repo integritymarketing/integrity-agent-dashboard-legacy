@@ -12,6 +12,7 @@
 		padding: 25px 0px 0px 0px;
 		font-size: 30px;
 		border-bottom: none;
+		background: none;
 	}
 	.headerText {
 		font-size: 40px;
@@ -266,6 +267,7 @@
 	@media (max-width: 480px) {
 		padding-left: 12px !important;
 		padding-top: 6px !important;
+		display: none;
 	}
 } 
 
