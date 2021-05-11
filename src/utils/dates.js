@@ -1,4 +1,4 @@
-import { parse, parseISO, format, formatDistance } from "date-fns";
+import { parse, parseISO, format } from "date-fns";
 
 export const parseDate = (dateString) => {
   return parse(dateString, "MM/dd/yyyy", new Date());
