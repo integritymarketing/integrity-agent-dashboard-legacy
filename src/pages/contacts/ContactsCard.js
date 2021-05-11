@@ -114,6 +114,7 @@ const ClientCard = ({ client }) => {
               <span className={styles.hideOnMobile}>Reminder</span>
             </label>
             <ShortReminder
+              leadId={client.leadsId}
               className={styles.shortReminder}
               reminder={(reminders || [])[0]}
             />

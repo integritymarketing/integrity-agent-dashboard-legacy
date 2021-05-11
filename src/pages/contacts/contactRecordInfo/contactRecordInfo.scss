@@ -909,3 +909,13 @@
 .custom-inputmargin {
   margin-bottom: 30px;
 }
+button {
+  &:disabled {
+    span.add-new-button {
+      color: var(--color-grey-400);
+    }
+    svg path {
+      fill: var(--color-grey-400);
+    }
+  }
+}

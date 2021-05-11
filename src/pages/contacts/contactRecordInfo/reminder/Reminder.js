@@ -1,15 +1,33 @@
 import React from "react";
 import Datepicker from "../../datepicker";
+import ReminderModal from "./ReminderModal";
 
-export const ShortReminder = ({ reminder, className }) => {
+export const ShortReminder = ({ leadId, reminder, className }) => {
   const { ReminderDate, ReminderNote } = reminder || {};
+  const [showAddModal, setShowAddModal] = React.useState(false);
   return (
     <div className={`datepicker-row ${className}`}>
-      {<Datepicker date={ReminderDate} />}
+      {
+        <Datepicker
+          date={ReminderDate}
+          onAddNew={(e) => {
+            e.stopPropagation();
+            setShowAddModal(true);
+          }}
+        />
+      }
       {ReminderNote && (
         <label className="datepicker-row short-reminder-note">
           {ReminderNote}
         </label>
+      )}
+      {showAddModal && (
+        <ReminderModal
+          getContactRecordInfo={() => {}}
+          reminderModalStatus={showAddModal}
+          setReminderModalStatus={() => setShowAddModal(false)}
+          leadId={leadId}
+        />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AddReminder from "components/icons/addreminder";
-import ReminderModal from "./ReminderModal";
+import AddReminderView from "./AddReminder";
 import ViewReminder from "./ViewReminder";
 
 export default ({ getContactRecordInfo, leadId, reminders }) => {
@@ -14,17 +14,20 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
             <h4>Reminders</h4>
           </div>
           <div className="reminderRightSide">
-            <button onClick={() => setReminderModalStatus(true)}>
+            <button
+              disabled={reminderModalStatus}
+              onClick={() => setReminderModalStatus(true)}
+            >
               <label>
                 <AddReminder />
               </label>
-              <span> Add New</span>
+              <span className="add-new-button"> Add New</span>
             </button>
           </div>
         </div>
         <hr />
         {reminderModalStatus && (
-          <ReminderModal
+          <AddReminderView
             getContactRecordInfo={getContactRecordInfo}
             reminderModalStatus={reminderModalStatus}
             setReminderModalStatus={() => setReminderModalStatus(false)}
