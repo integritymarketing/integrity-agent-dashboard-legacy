@@ -19,7 +19,7 @@ export default ({
     const payload = {
       reminderNote,
       reminderDate,
-      leadId: leadId,
+      leadsId: leadId,
     };
     clientsService
       .createReminder(payload)
