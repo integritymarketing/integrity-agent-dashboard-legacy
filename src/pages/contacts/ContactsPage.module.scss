@@ -1,18 +1,26 @@
 .header {
-	font-family: Lato;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 40px;
-	line-height: 48px;
-	color: var(--v2-dark-blue);
+	& > div {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
 	padding: 35px 40px;
 	border-bottom: 1px solid #c7ccd1;
+	background: #ffff;
 	margin-bottom: 35px;
 	@media (max-width: 480px) {
 		padding: 25px 0px 0px 0px;
 		font-size: 30px;
 		border-bottom: none;
 	}
+	.headerText {
+		font-size: 40px;
+		line-height: 48px;
+		color: var(--v2-dark-blue);
+	}
+	.buttonGroup {
+		display: flex;
+}
 }
 
 .tb-cell {
@@ -246,12 +254,27 @@
 	}
 } 
 
+.filter-view {
+	& Button {
+		width: 40px;
+		height: 40px;
+		padding: 0px !important;
+		background: #ffffff;
+		border: 1px solid #c7ccd1;
+		border-radius: 4px !important;
+	}
+	@media (max-width: 480px) {
+		padding-left: 12px !important;
+		padding-top: 6px !important;
+	}
+} 
+
 .hideOnMobile {
-	display: none;
-	@media (min-width: 480px) {
-		display: block;
+	@media (max-width: 480px) {
+		display: none !important;
 	}
 }
+
 .mobileStage {
 	display: block;
 	span {

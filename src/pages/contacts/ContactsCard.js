@@ -17,12 +17,14 @@ import StageStatusContext from "contexts/stageStatus";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import { getPrimaryContact } from "utils/primaryContact";
+import { formatAddress } from "utils/address";
 
 import styles from "./ContactsPage.module.scss";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 
 const useClientCardInfo = (client) => {
   const { firstName, lastName, statusName } = client;
+  const primaryContact = getPrimaryContact(client);
   const displayName = useMemo(() => {
     const namedClient = firstName || lastName;
     const displayName = namedClient ? `${firstName} ${lastName}`.trim() : "--";
@@ -33,8 +35,8 @@ const useClientCardInfo = (client) => {
     displayName,
     stage: statusName,
     nextReminder: "mm/yy",
-    address: client.postalCode,
     reminders: client.reminders,
+    primaryContact
   };
 };
 
@@ -48,8 +50,7 @@ const ActionIcon = ({ icon }) => {
 
 const ClientCard = ({ client }) => {
   const { statusOptions } = useContext(StageStatusContext);
-  const { displayName, stage, address, reminders } = useClientCardInfo(client);
-  const primaryContact = getPrimaryContact(client);
+  const { displayName, stage, reminders, primaryContact } = useClientCardInfo(client);
 
   return (
     <Card>
@@ -121,13 +122,13 @@ const ClientCard = ({ client }) => {
           <div className={styles.primaryContactInfo}>{primaryContact}</div>
         </div>
         <div className={styles.mobileActions}>
-          {client.phone && (
-            <a href={`tel:${client.phone}`}>
+          {client.phones.length && (
+            <a href={`tel:${client.phones[0].leadPhone}`}>
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}
-          {address && (
-            <a href={`https://maps.google.com/?q=${address}`}>
+          {client.addresses.length && (
+            <a href={`https://maps.google.com/?q=${formatAddress(client.addresses[0])}`}>
               <img src={NavIcon} alt="map" />
             </a>
           )}

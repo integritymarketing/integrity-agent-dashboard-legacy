@@ -1,7 +1,9 @@
-import React, { useState, Fragment } from 'react'
-import { Button } from "../../../../components/ui/Button";
+import React, { useState, Fragment } from 'react';
+import * as Sentry from "@sentry/react";
+import { Button } from "components/ui/Button";
 import clientsService from "services/clientsService";
 import './client-notes.scss';
+import useToast from "../../../../hooks/useToast";
 
 export default function ClientNotes(props) {
     const [isEdit, setIsEdit] = useState(false);
@@ -10,15 +12,27 @@ export default function ClientNotes(props) {
     const handleOnChange = (e) => setValue(e.currentTarget.value)
     const handleOnEdit = () => setIsEdit(true);
     const handleOnCancel = () => setIsEdit(false);
-    const handleOnSave =async () => {
+    const handleOnSave = async () => {
         try {
             setIsSaving(() => true)
-            await clientsService.updateClient(props.personalInfo, { notes: value })
+            await clientsService.updateClient(props.personalInfo, { primaryContact: "phone", ...props.personalInfo, notes: value })
+            addToast({
+                type: "success",
+                message: "Client notes successfully Updated.",
+                time: 3000,
+              });
             setIsSaving(() => false)
+            setIsEdit(false);
         } catch(err) {
-            // Handle error
+            Sentry.captureException(err);
+            addToast({
+                type: "error",
+                message: err.message || "Failed to update",
+                time: 3000,
+              });
         }
     }
+    const addToast = useToast();
     return (
         <Fragment>
             <div className="client-notes-card">

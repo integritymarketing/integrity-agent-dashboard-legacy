@@ -23,6 +23,14 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
           </div>
         </div>
         <hr />
+        {reminderModalStatus && (
+          <ReminderModal
+            getContactRecordInfo={getContactRecordInfo}
+            reminderModalStatus={reminderModalStatus}
+            setReminderModalStatus={() => setReminderModalStatus(false)}
+            leadId={leadId}
+          />
+        )}
         {reminders &&
           reminders.length > 0 &&
           reminders.map((item, index) => {
@@ -36,12 +44,6 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
             );
           })}
       </div>
-      <ReminderModal
-        getContactRecordInfo={getContactRecordInfo}
-        reminderModalStatus={reminderModalStatus}
-        setReminderModalStatus={() => setReminderModalStatus(false)}
-        leadId={leadId}
-      />
     </>
   );
 };
