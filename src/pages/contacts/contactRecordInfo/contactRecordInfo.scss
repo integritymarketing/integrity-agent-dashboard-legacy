@@ -253,6 +253,9 @@
   width: 241px;
   float: left;
   padding: 13px 0;
+  li:hover {
+    cursor: pointer;
+  }
 }
 
 .clientnotes {
