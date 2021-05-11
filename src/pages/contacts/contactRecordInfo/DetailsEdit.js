@@ -1,6 +1,26 @@
 import React from "react";
 
-export default ({ setDisplay, ...rest }) => {
+export default ({ setDisplay, personalInfo, ...rest }) => {
+  let {
+    firstName = "",
+    lastName = "",
+    emails = [],
+    phones = [],
+    addresses = [],
+    contactRecordType = "",
+  } = personalInfo;
+
+  emails = emails.length > 0 ? emails[0].leadEmail : "";
+  phones = phones.length > 0 ? phones[0] : null;
+  addresses = addresses.length > 0 ? addresses[0] : null;
+
+  const city = addresses && addresses.city ? addresses.city : "";
+  const stateCode = addresses && addresses.stateCode ? addresses.stateCode : "";
+  const postalCode =
+    addresses && addresses.postalCode ? addresses.postalCode : "";
+  const phone = phones && phones.leadPhone ? phones.leadPhone : "";
+  const phoneLabel = phones && phones.phoneLabel ? phones.phoneLabel : "";
+
   return (
     <div className="contactdetailscard">
       <div className="contactdetailscardheader">
@@ -11,7 +31,7 @@ export default ({ setDisplay, ...rest }) => {
           <div className="contactdetailscardbodycol">
             <p>First Name</p>
             <div className="contactdetailscardbodycolinput">
-              <input type="text" value="Victoria" className="" />
+              <input type="text" value={firstName} className="" />
             </div>
           </div>
         </div>
@@ -19,7 +39,7 @@ export default ({ setDisplay, ...rest }) => {
           <div className="contactdetailscardbodycol">
             <p>Last Name</p>
             <div className="contactdetailscardbodycolinput">
-              <input type="text" value="Garcia" className="" />
+              <input type="text" value={lastName} className="" />
             </div>
           </div>
         </div>
@@ -43,11 +63,7 @@ export default ({ setDisplay, ...rest }) => {
           <div className="contactdetailscardbodycol">
             <p>City</p>
             <div className="contactdetailscardbodycolinput">
-              <input
-                type="text"
-                value="Brooklyn"
-                className="zero-margin-input"
-              />
+              <input type="text" value={city} className="zero-margin-input" />
             </div>
           </div>
           <div className="contactdetailscardbodycol">
@@ -55,7 +71,7 @@ export default ({ setDisplay, ...rest }) => {
             <div className="contactdetailscardbodycolinput">
               <input
                 type="text"
-                value="NY"
+                value={stateCode}
                 className="custom-w-51 zero-margin-input"
               />
             </div>
@@ -65,7 +81,7 @@ export default ({ setDisplay, ...rest }) => {
             <div className="contactdetailscardbodycolinput">
               <input
                 type="number"
-                value="11222"
+                value={postalCode}
                 className="custom-w-83 zero-margin-input"
               />
             </div>
@@ -89,7 +105,7 @@ export default ({ setDisplay, ...rest }) => {
             <div className="contactdetailscardbodycolinput">
               <input
                 type="email"
-                value="victoriagarcia@email.com"
+                value={emails}
                 className="zero-margin-input"
               />
             </div>
@@ -109,7 +125,7 @@ export default ({ setDisplay, ...rest }) => {
             <div className="contactdetailscardbodycolinput">
               <input
                 type="number"
-                value="8905671234"
+                value={phone}
                 className="custom-w-154 zero-margin-input"
               />
             </div>
@@ -117,8 +133,12 @@ export default ({ setDisplay, ...rest }) => {
           <div className="contactdetailscardbodycol">
             <p>Label</p>
             <div className="contactdetailscardbodycolinput">
-              <select className="custom-w-108 zero-margin-input">
-                <option></option>
+              <select
+                value={phoneLabel}
+                className="custom-w-108 zero-margin-input"
+              >
+                <option value="Phone">Phone</option>
+                <option value="Home">Home</option>
               </select>
             </div>
           </div>
@@ -139,8 +159,12 @@ export default ({ setDisplay, ...rest }) => {
           <div className="contactdetailscardbodycol">
             <p>Contact Record Type</p>
             <div className="contactdetailscardbodycolinput">
-              <select className="custom-w-148 zero-margin-input">
-                <option>Prospect</option>
+              <select
+                value={contactRecordType}
+                className="custom-w-148 zero-margin-input"
+              >
+                <option value="Prospect">Prospect</option>
+                <option value="Client">Client</option>
               </select>
             </div>
           </div>

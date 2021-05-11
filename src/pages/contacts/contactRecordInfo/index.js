@@ -76,14 +76,14 @@ export default () => {
 
   return (
     <React.Fragment>
-      <StageStatusProvider>
-        <Helmet>
-          <title>MedicareCENTER - Contacts</title>
-        </Helmet>
-        <GlobalNav />
-        <PersonalInfo personalInfo={personalInfo} />
-        <Container className={styles.container}>
-          <ToastContextProvider>
+      <ToastContextProvider>
+        <StageStatusProvider>
+          <Helmet>
+            <title>MedicareCENTER - Contacts</title>
+          </Helmet>
+          <GlobalNav />
+          <PersonalInfo personalInfo={personalInfo} />
+          <Container className={styles.container}>
             {/* <p className={styles.header}>Contacts</p> */}
 
             <ul className="leftcardmenu">
@@ -124,10 +124,10 @@ export default () => {
             <div className="rightSection">
               <WithLoader isLoading={loading}>{handleRendering()}</WithLoader>
             </div>
-          </ToastContextProvider>
-        </Container>
-        <ContactFooter hideMeicareIcon={true} />
-      </StageStatusProvider>
+          </Container>
+          <ContactFooter hideMeicareIcon={true} />
+        </StageStatusProvider>
+      </ToastContextProvider>
     </React.Fragment>
   );
 };

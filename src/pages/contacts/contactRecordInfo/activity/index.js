@@ -6,30 +6,27 @@ export default () => {
   const [activityModalStatus, setActivityModalStatus] = useState(false);
   return (
     <>
-       <div className="activityCard">
-      <div className="activityCardHeader">
-        <h4>Activity</h4>
-        <p className="notetext" onClick={() => setActivityModalStatus(true)}>
-          <span>
-            <AddNote />
-          </span>
-          <label>New Note</label>
-        </p>
+      <div className="activityCard">
+        <div className="activityCardHeader">
+          <h4>Activity</h4>
+          <p className="notetext" onClick={() => setActivityModalStatus(true)}>
+            <span>
+              <AddNote />
+            </span>
+            <label>Add New</label>
+          </p>
+        </div>
+        <hr className="headerlineseparation" />
+        <div className="activityCardbody">
+          {[1, 2, 3].map((item, index) => {
+            return <Activity key={index} />;
+          })}
+        </div>
+        <div className="activityCardfooter">
+          <p>Show 5 More</p>
+        </div>
       </div>
-      <hr className="headerlineseparation" />
-      <div className="activityCardbody">
-      {[1, 2, 3].map((item, index) => {
-        return(
-          <Activity key={index} />
-        )
-      })
-    }
-      </div>
-      <div className="activityCardfooter">
-        <p>Show 5 More</p>
-      </div>
-    </div>
-       <ActivityModal
+      <ActivityModal
         activityModalStatus={activityModalStatus}
         setActivityModalStatus={() => setActivityModalStatus(false)}
       />

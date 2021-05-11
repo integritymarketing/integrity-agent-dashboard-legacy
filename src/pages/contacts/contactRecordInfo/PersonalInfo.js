@@ -4,6 +4,9 @@ import StageSelect from "./StageSelect";
 import { formatPhoneNumber } from "utils/phones";
 import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
+
+const notAvailable = "N/A";
+
 export default ({ personalInfo }) => {
   let {
     firstName = "",
@@ -17,8 +20,8 @@ export default ({ personalInfo }) => {
     contactRecordType = "",
   } = personalInfo;
 
-  emails = emails.length > 0 ? emails[0].leadEmail : "Victor@gmail.com";
-  phones = phones.length > 0 ? phones[0].leadPhone : "2222222222";
+  emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
+  phones = phones.length > 0 ? phones[0].leadPhone : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 
   return (
@@ -30,7 +33,7 @@ export default ({ personalInfo }) => {
           </div>
           <div className="personalinfoname nameCardpara">
             <h2>
-              {contactRecordType || "Prospect"} | Last updated{" "}
+              {contactRecordType || "Prospect"} | Last updated &nbsp;
               {modifyDate ? getMMDDYY(modifyDate) : getMMDDYY(createDate)}
             </h2>
           </div>
@@ -51,18 +54,24 @@ export default ({ personalInfo }) => {
           </div>
           <div className="personalInfo">
             <label>Phone</label>
-            <div className="personalInfoText">{formatPhoneNumber(phones)}</div>
+            <div className="personalInfoText">
+              {phones ? formatPhoneNumber(phones) : notAvailable}
+            </div>
           </div>
 
           <div className="personalInfo">
             <label>Address</label>
-            {addresses && (
-              <div className="personalInfoText">
-                {addresses.address1 || ""}, {addresses.address2 || ""} <br />
-                {addresses.city || ""}, {addresses.stateCode || ""} &nbsp;
-                {addresses.postalCode || ""}
-              </div>
-            )}
+            <div className="personalInfoText">
+              {addresses ? (
+                <>
+                  {addresses.address1 || ""}, {addresses.address2 || ""} <br />
+                  {addresses.city || ""}, {addresses.stateCode || ""} &nbsp;
+                  {addresses.postalCode || ""}
+                </>
+              ) : (
+                notAvailable
+              )}
+            </div>
           </div>
         </div>
       </Container>
