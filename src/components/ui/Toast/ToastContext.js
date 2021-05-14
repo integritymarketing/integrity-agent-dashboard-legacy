@@ -1,7 +1,8 @@
 import React, { useCallback, useState, createContext } from "react";
 import PropTypes from "prop-types";
-import './toast.scss'
-import Check from '../../icons/check';
+import "./toast.scss";
+import Check from "../../icons/check";
+import ToastError from "../../icons/toast-error";
 
 const ToastContext = createContext();
 
@@ -9,21 +10,43 @@ export default ToastContext;
 
 export function ToastContextProvider({ children }) {
   const [toasts, setToasts] = useState([]);
-  const removeToast = (toast) => setToasts(toasts => toasts.filter(t => t !== toast))
+  const removeToast = (toast) =>
+    setToasts((toasts) => toasts.filter((t) => t !== toast));
   const addToast = useCallback(
-    function ({ message, time = 3000, type = 'success' }) {
+    function ({
+      message,
+      time = 3000,
+      type = "success",
+      onClickHandler,
+      link,
+    }) {
       const toast = {
         message,
         time,
-        type
-      }
+        type,
+        onClickHandler,
+        link,
+      };
       setToasts((toasts) => [...toasts, toast]);
       setTimeout(() => {
-        removeToast(toast)
-      }, time)
+        removeToast(toast);
+      }, time);
     },
     [setToasts]
   );
+
+  const getToastIcon = (toastType) => {
+    switch (toastType) {
+      case "success":
+        return <Check />;
+      case "error":
+        return <ToastError />;
+      case "action":
+        return <Check />;
+      default:
+        return <Check />;
+    }
+  };
 
   return (
     <ToastContext.Provider value={addToast} className="toast-provider">
@@ -32,8 +55,15 @@ export function ToastContextProvider({ children }) {
         <div className="toasts-wrapper">
           {toasts.map((toast, idx) => (
             <div className={`toast ${toast.type}`} key={idx}>
-              <div className="toast-indicator"><Check /></div>
-              <div className="toast-message">{toast.message}</div>
+              <div className="toast-indicator">{getToastIcon(toast.type)}</div>
+              <div className="toast-message">
+                <span>
+                  {toast.message}
+                  {toast.link && (
+                    <a href={() => false} onClick={toast.onClickHandler}>{toast.link}</a>
+                  )}
+                </span>
+              </div>
               <button onClick={() => removeToast(toast)}>&times;</button>
             </div>
           ))}
@@ -44,5 +74,5 @@ export function ToastContextProvider({ children }) {
 }
 
 ToastContext.Provider.propTypes = {
-  value: PropTypes.func.isRequired
+  value: PropTypes.func.isRequired,
 };

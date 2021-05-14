@@ -38,7 +38,7 @@ export default ({
   onPageChange = noop,
   ...props
 }) => {
-  if (totalPages === 1) return null;
+
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages || page === currentPage) return noop;
     return () => onPageChange(page);
@@ -62,6 +62,7 @@ export default ({
             <div className="pagination-display-results">
               {`Showing ${showingFrom} - ${showingTo} of ${totalResults} contacts`}
             </div>
+            {(totalPages > 1) ?
             <nav
               aria-label="pagination"
               className={`pagination ${
@@ -123,6 +124,7 @@ export default ({
                 )}
               </ul>
             </nav>
+            : null}
           </div>
         )
       }
