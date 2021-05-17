@@ -2,7 +2,7 @@ import React from "react";
 import Datepicker from "../../datepicker";
 import ReminderModal from "./ReminderModal";
 
-export const ShortReminder = ({ leadId, reminder, className }) => {
+export const ShortReminder = ({ leadId, reminder, className, onRefresh }) => {
   const { reminderDate, reminderNote } = reminder || {};
   const [showAddModal, setShowAddModal] = React.useState(false);
   return (
@@ -23,7 +23,8 @@ export const ShortReminder = ({ leadId, reminder, className }) => {
       )}
       {showAddModal && (
         <ReminderModal
-          getContactRecordInfo={() => {}}
+          reminder={reminder}
+          getContactRecordInfo={onRefresh}
           reminderModalStatus={showAddModal}
           setReminderModalStatus={() => setShowAddModal(false)}
           leadId={leadId}

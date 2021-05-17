@@ -53,7 +53,7 @@ export default ({
           <textarea
             value={reminderNote}
             placeholder="Please Enter Here.."
-            className="inputText"
+            className="normalText"
             rows="3"
             onChange={(e) => setReminderNote(e.target.value)}
           ></textarea>

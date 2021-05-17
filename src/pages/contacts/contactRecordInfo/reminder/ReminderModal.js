@@ -10,10 +10,16 @@ export default ({
   setReminderModalStatus,
   getContactRecordInfo,
   leadId,
+  reminder,
   ...props
 }) => {
-  const [reminderNote, setReminderNote] = useState("");
-  const [reminderDate, setReminderDate] = useState(new Date());
+  const [reminderNote, setReminderNote] = useState(
+    reminder ? reminder.reminderNote : ""
+  );
+  const [reminderDate, setReminderDate] = useState(
+    reminder ? reminder.reminderDate : new Date()
+  );
+  const [isEdit, setEdit] = useState(!!reminder);
   const addToast = useToast();
 
   const saveReminder = async () => {
@@ -40,6 +46,34 @@ export default ({
       });
   };
 
+  const updateReminder = (complete) => {
+    let payload = {
+      ...reminder,
+      reminderNote,
+      reminderDate,
+      leadId,
+    };
+    if (complete) {
+      payload.isComplete = true;
+    }
+    clientsService
+      .updateReminder(payload)
+      .then((data) => {
+        addToast({
+          type: "success",
+          message: "Reminder successfully Updated.",
+          time: 3000,
+        });
+        setEdit(false);
+        getContactRecordInfo();
+      })
+      .catch((e) => {
+        Sentry.captureException(e);
+      });
+  };
+
+  const isComplete = reminder && reminder.isComplete;
+
   return (
     <div className="custom-reminder-modal customform">
       <Modal
@@ -60,14 +94,26 @@ export default ({
             <ShowDate date={reminderDate} setDate={setReminderDate} />
           </div>
           <div className="reminderCardSection2row2">
-            <div className="reminderCardSection2row2left">
-              <textarea
-                value={reminderNote}
-                placeholder="Please Enter Here.."
-                className="inputText"
-                rows="3"
-                onChange={(e) => setReminderNote(e.target.value)}
-              ></textarea>
+            <div className="reminderCardSection2row2left full-width">
+              <div style={{ display: "flex" }}>
+                <textarea
+                  value={reminderNote}
+                  placeholder="Please Enter Here.."
+                  className="normalText"
+                  rows="3"
+                  onChange={(e) => setReminderNote(e.target.value)}
+                ></textarea>
+                {isEdit && !isComplete && (
+                  <button
+                    className="complete-btn"
+                    onClick={() => {
+                      updateReminder(true);
+                    }}
+                  >
+                    Complete
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
