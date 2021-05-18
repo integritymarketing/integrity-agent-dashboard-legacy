@@ -100,7 +100,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
                 ref={inputRef}
                 value={updatedReminder}
                 placeholder="Please Enter Here.."
-                className="inputText"
+                className="normalText"
                 rows="3"
                 onChange={(e) => setReminderNote(e.target.value)}
               ></textarea>

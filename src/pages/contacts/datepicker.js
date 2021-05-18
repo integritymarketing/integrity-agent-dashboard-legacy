@@ -31,14 +31,11 @@ export default ({ date, onAddNew }) => {
       component={(props) => {
         return (
           <span className="datepickerparent">
-            <div
-              className="cal"
-              {...(onAddNew && !date ? { onClick: onAddNew } : {})}
-            >
+            <div className="cal" {...(onAddNew ? { onClick: onAddNew } : {})}>
               <input
                 className="datepicker-input"
                 {...props}
-                disabled={onAddNew && !date}
+                disabled={!!onAddNew}
               />
               <img
                 src={ReminderIcon}
