@@ -48,6 +48,18 @@ const ActionIcon = ({ icon }) => {
   );
 };
 
+const getMapUrl = () => {
+  if (
+    navigator.platform.indexOf("iPhone") !== -1 ||
+    navigator.platform.indexOf("iPod") !== -1 ||
+    navigator.platform.indexOf("iPad") !== -1
+  ) {
+    return "maps://maps.google.com/maps";
+  } else {
+    return "https://maps.google.com/maps";
+  }
+};
+
 const ClientCard = ({ client, onRefresh }) => {
   const { statusOptions } = useContext(StageStatusContext);
   const { displayName, stage, reminders, primaryContact } = useClientCardInfo(
@@ -131,12 +143,8 @@ const ClientCard = ({ client, onRefresh }) => {
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}
-          {client.addresses.length > 0 && (
-            <a
-              href={`https://maps.google.com/?q=${formatAddress(
-                client.addresses[0]
-              )}`}
-            >
+          {client.addresses.length === 0 && (
+            <a href={`${getMapUrl()}?q=${formatAddress(client.addresses[0])}`}>
               <img src={NavIcon} alt="map" />
             </a>
           )}
@@ -210,7 +218,13 @@ function ContactsCard({ searchString, sort }) {
       )}
       <div className="card-grid mb-5 pt-1">
         {data.map((client, idx) => {
-          return <ClientCard key={client.leadsId} client={client} onRefresh={handleRefresh} />;
+          return (
+            <ClientCard
+              key={client.leadsId}
+              client={client}
+              onRefresh={handleRefresh}
+            />
+          );
         })}
       </div>
       {data.length > 0 && (
