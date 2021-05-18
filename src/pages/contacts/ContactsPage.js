@@ -7,6 +7,7 @@ import {
   useHistory,
   useLocation,
 } from "react-router-dom";
+import Media from "react-media";
 import Import from "components/icons/import";
 import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
@@ -36,12 +37,17 @@ export default () => {
   const [layout, setLayout] = useState();
   const location = useLocation();
   const history = useHistory();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setLayout(() =>
       location.pathname === cardViewLayoutPath ? "card" : "list"
     );
-  }, [location]);
+    if (isMobile && location.pathname !== cardViewLayoutPath) {
+      switchLayout();
+    }
+  }, [location, isMobile]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const debouncedSetSearchString = useCallback(
     debounce(setSearchString, 500),
     []
@@ -59,6 +65,12 @@ export default () => {
 
   return (
     <React.Fragment>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <StageStatusProvider>
         <Helmet>
           <title>MedicareCENTER - Contacts</title>
@@ -101,25 +113,27 @@ export default () => {
                 }}
               />
               <div className="bar">
-                <div className={styles["switch-view"]}>
-                  {layout === "list" ? (
-                    <Button
-                      icon={<CardView />}
-                      iconOnly
-                      label="Button"
-                      type="secondary"
-                      onClick={switchLayout}
-                    />
-                  ) : (
-                    <Button
-                      icon={<TableView />}
-                      iconOnly
-                      label="Button"
-                      type="secondary"
-                      onClick={switchLayout}
-                    />
-                  )}
-                </div>
+                {isMobile ? null : (
+                  <div className={styles["switch-view"]}>
+                    {layout === "list" ? (
+                      <Button
+                        icon={<CardView />}
+                        iconOnly
+                        label="Button"
+                        type="secondary"
+                        onClick={switchLayout}
+                      />
+                    ) : (
+                      <Button
+                        icon={<TableView />}
+                        iconOnly
+                        label="Button"
+                        type="secondary"
+                        onClick={switchLayout}
+                      />
+                    )}
+                  </div>
+                )}
                 <div className="nav-header-mobile"></div>
                 <div className={styles.sortSelect}>
                   <Select
