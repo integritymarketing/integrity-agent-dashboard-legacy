@@ -138,12 +138,12 @@ const ClientCard = ({ client, onRefresh }) => {
           <div className={styles.primaryContactInfo}>{primaryContact}</div>
         </div>
         <div className={styles.mobileActions}>
-          {client.phones.length > 0 && (
+          {client.phones.length !== 0 && (
             <a href={`tel:${client.phones[0].leadPhone}`}>
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}
-          {client.addresses.length === 0 && (
+          {client.addresses.length !== 0 && (
             <a href={`${getMapUrl()}?q=${formatAddress(client.addresses[0])}`}>
               <img src={NavIcon} alt="map" />
             </a>
