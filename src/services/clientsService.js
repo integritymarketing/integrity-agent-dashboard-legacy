@@ -110,8 +110,10 @@ class ClientsService {
       "PUT",
       reqData
     );
-
-    return response;
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
   };
 
   deleteClient = async (id) => {

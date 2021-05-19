@@ -27,9 +27,10 @@ export default function ClientNotes(props) {
             Sentry.captureException(err);
             addToast({
                 type: "error",
-                message: err.message || "Failed to update",
+                message: "Error, update unsuccessful.",
                 time: 3000,
               });
+            setIsSaving(() => false)  
         }
     }
     const addToast = useToast();

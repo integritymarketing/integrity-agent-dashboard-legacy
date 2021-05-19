@@ -90,7 +90,7 @@ function Table({
   if (loading) {
     return <Spinner />;
   }
-  
+
   return (
     <>
       <table {...getTableProps()}>
@@ -169,6 +169,10 @@ function ContactsTable({ searchString, sort }) {
     []
   );
 
+  const handleRefresh = useCallback(() => {
+    fetchData({ pageIndex: 1, ...(tableState || {}) });
+  }, [fetchData, tableState]);
+
   useEffect(() => {
     fetchData(tableState);
   }, [tableState, fetchData]);
@@ -179,13 +183,16 @@ function ContactsTable({ searchString, sort }) {
         Header: "Name",
         accessor: "firstName",
         Cell: ({ value, row }) => {
-          const name = [row.original.firstName || "", row.original.lastName || ""]
-          .join(" ")
-          .trim();
+          const name = [
+            row.original.firstName || "",
+            row.original.lastName || "",
+          ]
+            .join(" ")
+            .trim();
 
           if (!name) {
-            return "--"
-;         }
+            return "--";
+          }
           return (
             <Link
               to={`/contact/${row.original.leadsId}`}
@@ -193,7 +200,7 @@ function ContactsTable({ searchString, sort }) {
             >
               {name}
             </Link>
-          )
+          );
         },
       },
       {
@@ -206,13 +213,15 @@ function ContactsTable({ searchString, sort }) {
       {
         Header: "Reminder",
         accessor: "reminders",
-        Cell: ({ value }) => (
-          <ShortReminder
-            reminder={
-              (value || [])[0]
-            }
-          />
-        ),
+        Cell: ({ value, row }) => {
+          return (
+            <ShortReminder
+              reminder={(value || [])[0]}
+              leadId={row.original.leadsId}
+              onRefresh={handleRefresh}
+            />
+          );
+        },
       },
       {
         Header: "Primary Contact",
@@ -233,7 +242,7 @@ function ContactsTable({ searchString, sort }) {
         ),
       },
     ],
-    []
+    [handleRefresh]
   );
 
   return (

@@ -48,7 +48,19 @@ const ActionIcon = ({ icon }) => {
   );
 };
 
-const ClientCard = ({ client }) => {
+const getMapUrl = () => {
+  if (
+    navigator.platform.indexOf("iPhone") !== -1 ||
+    navigator.platform.indexOf("iPod") !== -1 ||
+    navigator.platform.indexOf("iPad") !== -1
+  ) {
+    return "maps://maps.google.com/maps";
+  } else {
+    return "https://maps.google.com/maps";
+  }
+};
+
+const ClientCard = ({ client, onRefresh }) => {
   const { statusOptions } = useContext(StageStatusContext);
   const { displayName, stage, reminders, primaryContact } = useClientCardInfo(
     client
@@ -117,6 +129,7 @@ const ClientCard = ({ client }) => {
               leadId={client.leadsId}
               className={styles.shortReminder}
               reminder={(reminders || [])[0]}
+              onRefresh={onRefresh}
             />
           </div>
         </div>
@@ -125,17 +138,13 @@ const ClientCard = ({ client }) => {
           <div className={styles.primaryContactInfo}>{primaryContact}</div>
         </div>
         <div className={styles.mobileActions}>
-          {client.phones.length > 0 && (
+          {client.phones.length !== 0 && (
             <a href={`tel:${client.phones[0].leadPhone}`}>
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}
-          {client.addresses.length > 0 && (
-            <a
-              href={`https://maps.google.com/?q=${formatAddress(
-                client.addresses[0]
-              )}`}
-            >
+          {client.addresses.length !== 0 && (
+            <a href={`${getMapUrl()}?q=${formatAddress(client.addresses[0])}`}>
               <img src={NavIcon} alt="map" />
             </a>
           )}
@@ -175,6 +184,15 @@ function ContactsCard({ searchString, sort }) {
     []
   );
 
+  const handleRefresh = () => {
+    fetchData({
+      pageSize,
+      pageIndex: currentPage,
+      searchString,
+      sort,
+    });
+  };
+
   useEffect(() => {
     fetchData({
       pageSize,
@@ -200,7 +218,13 @@ function ContactsCard({ searchString, sort }) {
       )}
       <div className="card-grid mb-5 pt-1">
         {data.map((client, idx) => {
-          return <ClientCard key={client.leadsId} client={client} />;
+          return (
+            <ClientCard
+              key={client.leadsId}
+              client={client}
+              onRefresh={handleRefresh}
+            />
+          );
         })}
       </div>
       {data.length > 0 && (

@@ -466,7 +466,7 @@
   border: 1px solid #0052ce;
   width: 80px;
   height: 32px;
-  color: #fff;
+  color: #fff !important;
   font-size: 12px;
   line-height: 14px;
   display: flex;
@@ -579,7 +579,7 @@
 .custom-reminder-modal .reminderCardSection2.active {
   background: #f9fafb;
 }
-.custom-reminder-modal .inputText {
+.custom-reminder-modal .normalText {
   border: 0;
   font-family: "Lato", sans-serif;
   font-weight: 400;
@@ -621,16 +621,20 @@
 .datetext {
   font-size: 14px;
 }
-.reminderCardSection2row2left .inputText {
+.full-width {
+  width: 100%;
+}
+.reminderCardSection2row2left .normalText {
   border: 0;
   width: 100%;
   resize: none;
   padding: 10px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
+  height: 42px;
 }
-.reminderCardSection2row2left .inputText:focus-visible {
+.reminderCardSection2row2left .normalText:focus-visible {
   outline: none;
-  border: 1px solid #dedede;
+  // border: 1px solid #dedede;
 }
 .wholereminderCardSection2row1of1 {
   display: flex;
