@@ -1,26 +1,44 @@
 import React from "react";
 import Datepicker from "../../datepicker";
+import ReminderModal from "./ReminderModal";
 
-export const ShortReminder = ({ reminder, className }) => {
-  const { ReminderDate, ReminderNote } = reminder || {};
+export const ShortReminder = ({ leadId, reminder, className }) => {
+  const { reminderDate, reminderNote } = reminder || {};
+  const [showAddModal, setShowAddModal] = React.useState(false);
   return (
     <div className={`datepicker-row ${className}`}>
-      {<Datepicker date={ReminderDate} />}
-      {ReminderNote && (
+      {
+        <Datepicker
+          date={reminderDate}
+          onAddNew={(e) => {
+            e.stopPropagation();
+            setShowAddModal(true);
+          }}
+        />
+      }
+      {reminderNote && (
         <label className="datepicker-row short-reminder-note">
-          {ReminderNote}
+          {reminderNote}
         </label>
+      )}
+      {showAddModal && (
+        <ReminderModal
+          getContactRecordInfo={() => {}}
+          reminderModalStatus={showAddModal}
+          setReminderModalStatus={() => setShowAddModal(false)}
+          leadId={leadId}
+        />
       )}
     </div>
   );
 };
 
 export default ({ reminder }) => {
-  const { ReminderDate } = reminder;
+  const { reminderDate } = reminder;
   return (
     <div className="reminderCardSection2">
       <div className="datepicker-row reminderCardSection2row1">
-        <Datepicker date={ReminderDate} />
+        <Datepicker date={reminderDate} />
         <label>Last Updated 03/04/2021 1:24 PM EST</label>
       </div>
       <div className="reminderCardSection2row2">

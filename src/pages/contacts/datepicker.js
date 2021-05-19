@@ -20,10 +20,10 @@ function formatDate(date, format, locale) {
   return dateFnsFormat(date, format, { locale });
 }
 
-export default ({ date }) => {
+export default ({ date, onAddNew }) => {
   return (
     <DayPickerInput
-      value={date ? new Date(date) : 'Add'}
+      value={date ? new Date(date) : "Add"}
       formatDate={formatDate}
       format={FORMAT}
       parseDate={parseDate}
@@ -31,8 +31,15 @@ export default ({ date }) => {
       component={(props) => {
         return (
           <span className="datepickerparent">
-            <div className="cal">
-              <input className="datepicker-input" {...props} />
+            <div
+              className="cal"
+              {...(onAddNew && !date ? { onClick: onAddNew } : {})}
+            >
+              <input
+                className="datepicker-input"
+                {...props}
+                disabled={onAddNew && !date}
+              />
               <img
                 src={ReminderIcon}
                 alt=""

@@ -1,7 +1,7 @@
 import authService from "services/authService";
 import { parseDate, formatServerDate } from "utils/dates";
 
-export const LEADS_API_VERSION = "v2.0"
+export const LEADS_API_VERSION = "v2.0";
 
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
@@ -149,7 +149,7 @@ class ClientsService {
     return response.json();
   };
 
-  updateReminder= async (data) => {
+  updateReminder = async (data) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${data.leadId}`,
       "PUT",
@@ -159,16 +159,43 @@ class ClientsService {
     return response.json();
   };
 
+  deleteReminder = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${id}`,
+      "DELETE"
+    );
 
+    return response;
+  };
 
-deleteReminder= async (id) => {
-  const response = await this._clientAPIRequest(
-    `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${id}`,
-    "DELETE",
-  );
+  createActivity = async (data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities`,
+      "POST",
+      data
+    );
 
-  return response
-};
+    return response.json();
+  };
+
+  updateActivity = async (data, id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
+      "PUT",
+      data
+    );
+
+    return response.json();
+  };
+
+  deleteActivity = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
+      "DELETE"
+    );
+
+    return response;
+  };
 }
 
 export default new ClientsService();

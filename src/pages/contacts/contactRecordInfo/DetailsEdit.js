@@ -87,14 +87,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             </div>
           </div>
         </div>
-        <div className="contactdetailscardbodyrow">
-          <div className="contactdetailscardbodycolradio contactdetailscardbodycol">
-            <div>
-              <input type="radio" id="test1" name="radio-group" />
-              <label for="test1">Primary Communication</label>
-            </div>
-          </div>
-        </div>
+
         <div className="addaptbtn">
           <button>+ Add a different mailing address </button>
         </div>

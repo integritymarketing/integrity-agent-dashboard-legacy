@@ -36,7 +36,7 @@ const useClientCardInfo = (client) => {
     stage: statusName,
     nextReminder: "mm/yy",
     reminders: client.reminders,
-    primaryContact
+    primaryContact,
   };
 };
 
@@ -50,7 +50,9 @@ const ActionIcon = ({ icon }) => {
 
 const ClientCard = ({ client }) => {
   const { statusOptions } = useContext(StageStatusContext);
-  const { displayName, stage, reminders, primaryContact } = useClientCardInfo(client);
+  const { displayName, stage, reminders, primaryContact } = useClientCardInfo(
+    client
+  );
 
   return (
     <Card>
@@ -112,6 +114,7 @@ const ClientCard = ({ client }) => {
               <span className={styles.hideOnMobile}>Reminder</span>
             </label>
             <ShortReminder
+              leadId={client.leadsId}
               className={styles.shortReminder}
               reminder={(reminders || [])[0]}
             />
@@ -122,13 +125,17 @@ const ClientCard = ({ client }) => {
           <div className={styles.primaryContactInfo}>{primaryContact}</div>
         </div>
         <div className={styles.mobileActions}>
-          {client.phones.length && (
+          {client.phones.length > 0 && (
             <a href={`tel:${client.phones[0].leadPhone}`}>
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}
-          {client.addresses.length && (
-            <a href={`https://maps.google.com/?q=${formatAddress(client.addresses[0])}`}>
+          {client.addresses.length > 0 && (
+            <a
+              href={`https://maps.google.com/?q=${formatAddress(
+                client.addresses[0]
+              )}`}
+            >
               <img src={NavIcon} alt="map" />
             </a>
           )}

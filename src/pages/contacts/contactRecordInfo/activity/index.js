@@ -1,9 +1,35 @@
 import React, { useState } from "react";
 import AddNote from "components/icons/add-note";
 import ActivityModal from "./ActivityModal";
-import Activity from "./Activity";
-export default () => {
+import SuccessIcon from "components/icons/success-note";
+import { getForDistance } from "utils/dates";
+import LimitedCharacters from "./limitedCharacters";
+import clientsService from "services/clientsService";
+import useToast from "../../../../hooks/useToast";
+
+export default ({ activities, leadId, getContactRecordInfo }) => {
   const [activityModalStatus, setActivityModalStatus] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [activityData, setActivityData] = useState({});
+  const [hovered, setHovered] = useState(null);
+  const addToast = useToast();
+  const [showSize, setShowSize] = useState(3);
+
+  const deleteActivity = async (activityId) => {
+    await clientsService.deleteActivity(activityId);
+    getContactRecordInfo();
+    addToast({
+      type: "success",
+      message: "Activity successfully deleted",
+      time: 3000,
+    });
+  };
+  const editActivity = (data) => {
+    setActivityData({ ...data });
+    setIsEdit(true);
+    setActivityModalStatus(true);
+  };
+
   return (
     <>
       <div className="activityCard">
@@ -18,17 +44,78 @@ export default () => {
         </div>
         <hr className="headerlineseparation" />
         <div className="activityCardbody">
-          {[1, 2, 3].map((item, index) => {
-            return <Activity key={index} />;
-          })}
+          {activities.length > 0 &&
+            activities.map((item, index) => {
+              if (index < showSize) {
+                return (
+                  <div
+                    key={index}
+                    className="activityCardbodyset"
+                    onMouseEnter={() => setHovered(item.activityId)}
+                    onMouseLeave={() => setHovered(null)}
+                  >
+                    <p className="iconTime">
+                      <span className="bg-color bg-color2">
+                        <SuccessIcon />
+                      </span>
+                      <label>
+                        {item.modifyDate
+                          ? getForDistance(item.modifyDate)
+                          : getForDistance(item.createDate)}
+                      </label>
+                    </p>
+                    <h6>{item.activitySubject}</h6>
+                    <div className="para-btn-section">
+                      <p>
+                        <LimitedCharacters
+                          characters={item.activityBody}
+                          size={150}
+                        />
+                      </p>
+                      {/* <button className="view-btn">View SOA</button> */}
+                      {hovered && hovered === item.activityId && (
+                        <div className="datepicker-row reminderCardSection2row1of1">
+                          <button
+                            className="deletetextareatext"
+                            onClick={() => deleteActivity(item.activityId)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="edittextareatext"
+                            onClick={() => editActivity(item)}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    <hr className="bodylineseparation" />
+                  </div>
+                );
+              } else return null;
+            })}
         </div>
         <div className="activityCardfooter">
-          <p>Show 5 More</p>
+          {showSize < activities.length ? (
+            <p
+              className="showmorebtn"
+              onClick={() => setShowSize(showSize + 5)}
+            >
+              Show 5 More
+            </p>
+          ) : (
+            <p></p>
+          )}
         </div>
       </div>
       <ActivityModal
+        isEdit={isEdit}
+        activityData={activityData}
         activityModalStatus={activityModalStatus}
         setActivityModalStatus={() => setActivityModalStatus(false)}
+        leadId={leadId}
+        getContactRecordInfo={getContactRecordInfo}
       />
     </>
   );

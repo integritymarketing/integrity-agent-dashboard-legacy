@@ -1,23 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import BellIcon from "components/icons/bell-note";
+import { getForDistance } from "utils/dates";
+import LimitedCharacters from "./limitedCharacters";
+import clientsService from "services/clientsService";
 
-export default () => {
+const charactersSize = 150;
+export default ({
+  activityBody,
+  activitySubject,
+  createDate,
+  modifyDate,
+  activityId,
+  editActivity,
+  ...props
+}) => {
   return (
-    <div className="activityCardbodyset">
+    <div
+      className="activityCardbodyset"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <p className="iconTime">
         <span className="bg-color bg-color1">
           <BellIcon />
         </span>
-        <label>03/04/2021 1:24 PM EST</label>
+        <label>
+          {modifyDate ? getForDistance(modifyDate) : getForDistance(createDate)}
+        </label>
       </p>
-      <h6>SOA Signed</h6>
+      <h6>{activitySubject}</h6>
       <div className="para-btn-section">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-          <button>View More</button>
-        </p>
-        <button className="view-btn">View SOA</button>
+        <p></p>
+        {/* <button className="view-btn">View SOA</button> */}
+        {hovered && (
+          <div className="datepicker-row reminderCardSection2row1of1">
+            <button
+              className="deletetextareatext"
+              onClick={() => deleteActivity()}
+            >
+              Delete
+            </button>
+            <button className="edittextareatext" onClick={() => editActivity}>
+              Edit
+            </button>
+          </div>
+        )}
       </div>
       <hr className="bodylineseparation" />
     </div>
