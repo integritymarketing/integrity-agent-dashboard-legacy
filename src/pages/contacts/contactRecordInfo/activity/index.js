@@ -72,17 +72,16 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                           size={150}
                         />
                       </p>
-                      {/* <button className="view-btn">View SOA</button> */}
                       {hovered && hovered === item.activityId && (
                         <div className="datepicker-row reminderCardSection2row1of1">
                           <button
-                            className="deletetextareatext"
+                            className="deleteTextAreaText"
                             onClick={() => deleteActivity(item.activityId)}
                           >
                             Delete
                           </button>
                           <button
-                            className="edittextareatext"
+                            className="ediTextAreaText"
                             onClick={() => editActivity(item)}
                           >
                             Edit

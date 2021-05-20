@@ -79,12 +79,12 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
         {!isEdit && reminderHovered && (
           <div className="datepicker-row reminderCardSection2row1of1">
             <button
-              className="deletetextareatext"
+              className="deleteTextAreaText"
               onClick={() => deleteReminder()}
             >
               Delete
             </button>
-            <button className="edittextareatext" onClick={() => setEdit(true)}>
+            <button className="ediTextAreaText" onClick={() => setEdit(true)}>
               Edit
             </button>
           </div>
