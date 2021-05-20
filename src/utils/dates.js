@@ -45,20 +45,22 @@ export const getForDistance = (date) => {
   const date2 = new Date();
   const diffTime = Math.abs(date2 - date1);
   const diffSeconds = Math.ceil(diffTime / 1000);
-  const diffMinutes = Math.ceil(diffTime / (1000 * 60));
-  const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const diffMinutes = parseInt(diffTime / (1000 * 60));
+  const diffHours = parseInt(diffTime / (1000 * 60 * 60));
+  const diffDays = parseInt(diffTime / (1000 * 60 * 60 * 24));
 
   if (diffSeconds < 1) {
     return "Just Now";
   } else if (diffMinutes < 1) {
-    return diffSeconds + "seconds ago";
+    return diffSeconds + " seconds ago";
   } else if (diffHours < 1) {
-    return diffSeconds + "minutes ago";
+    return diffMinutes + " minutes ago";
   } else if (diffDays < 1) {
-    return diffHours + "minutes ago";
+    return diffHours + " hours ago";
   } else if (diffDays < 2) {
-    return "Yesterday at " + format(date1, "h:mm");
+    return (
+      "Yesterday at " + format(date1, "h:mm b") + " " + timeZoneAbbreviated()
+    );
   } else if (diffDays > 2) {
     return format(date1, "MM/dd/yyyy h:mm b") + " " + timeZoneAbbreviated();
   }

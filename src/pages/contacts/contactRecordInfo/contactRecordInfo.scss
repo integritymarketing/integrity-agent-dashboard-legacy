@@ -102,12 +102,25 @@
   line-height: 17px;
   color: #525761;
   width: 80%;
+  min-height: 26px;
 }
-
-.para-btn-section p > a {
+.para-btn-section p > span {
+  width: 80%;
+  display: block;
+  word-break: break-all;
+}
+.showmorebtn {
+  cursor: pointer;
+  color: #3d4553;
+  font-size: 14px;
   font-family: "Lato", sans-serif;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
+}
+.para-btn-section p > span button {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 400;
   font-size: 12px;
   color: #0052ce;
 }
@@ -634,11 +647,11 @@
 .wholereminderCardSection2row1of1 {
   margin-bottom: 30px;
 }
-.deletetextareatext {
+.deleteTextAreaText {
   color: #ca2323;
   margin-right: 20px;
 }
-.edittextareatext {
+.ediTextAreaText {
   color: #0052ce;
 }
 .reminderCardSection2row1of1 button {

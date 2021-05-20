@@ -24,6 +24,7 @@ export default () => {
   const { pathname = "" } = useLocation();
   const [personalInfo, setPersonalInfo] = useState({});
   const [reminders, setReminders] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("OverView");
   const value = pathname.split("/");
@@ -36,6 +37,7 @@ export default () => {
       .then((data) => {
         setPersonalInfo(data);
         setReminders(data.reminders);
+        setActivities(data.activities);
         setLoading(false);
       })
       .catch((e) => {
@@ -55,6 +57,7 @@ export default () => {
       reminders,
       getContactRecordInfo: () => getContactRecordInfo(),
       setDisplay: (value) => setDisplay(value),
+      activities,
     };
     switch (display) {
       case "OverView":
