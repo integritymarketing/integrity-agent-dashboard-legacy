@@ -14,12 +14,13 @@ export default ({
   ...props
 }) => {
   const [reminderNote, setReminderNote] = useState(
-    reminder ? reminder.reminderNote : ""
+    (reminder && reminder.reminderNote) || ""
   );
   const [reminderDate, setReminderDate] = useState(
-    reminder ? reminder.reminderDate : new Date()
+    (reminder && reminder.reminderDate) || new Date()
   );
-  const [isEdit, setEdit] = useState(!!reminder);
+
+  const isEdit = reminder && reminder.reminderId;
   const addToast = useToast();
 
   const saveReminder = async () => {
@@ -64,7 +65,7 @@ export default ({
           message: "Reminder successfully Updated.",
           time: 3000,
         });
-        setEdit(false);
+        setReminderModalStatus();
         getContactRecordInfo();
       })
       .catch((e) => {
@@ -124,7 +125,16 @@ export default ({
           >
             Cancel
           </button>
-          <button className="reminder-save-btn" onClick={saveReminder}>
+          <button
+            className="reminder-save-btn"
+            onClick={() => {
+              if (isEdit) {
+                updateReminder();
+              } else {
+                saveReminder();
+              }
+            }}
+          >
             Save
           </button>
         </div>

@@ -36,16 +36,18 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
         )}
         {reminders &&
           reminders.length > 0 &&
-          reminders.map((item, index) => {
-            return (
-              <ViewReminder
-                reminder={item}
-                key={index}
-                leadId={leadId}
-                getContactRecordInfo={getContactRecordInfo}
-              />
-            );
-          })}
+          reminders
+            .filter((r) => !r.isComplete)
+            .map((item, index) => {
+              return (
+                <ViewReminder
+                  reminder={item}
+                  key={index}
+                  leadId={leadId}
+                  getContactRecordInfo={getContactRecordInfo}
+                />
+              );
+            })}
       </div>
     </>
   );

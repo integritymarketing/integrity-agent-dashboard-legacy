@@ -2,7 +2,8 @@ import React from "react";
 import Datepicker from "../../datepicker";
 import ReminderModal from "./ReminderModal";
 
-export const ShortReminder = ({ leadId, reminder, className, onRefresh }) => {
+export const ShortReminder = ({ leadId, reminders, className, onRefresh }) => {
+  const reminder = (reminders || []).find((rem) => !rem.isComplete) || {};
   const { reminderDate, reminderNote } = reminder || {};
   const [showAddModal, setShowAddModal] = React.useState(false);
   return (

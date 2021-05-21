@@ -216,7 +216,7 @@ function ContactsTable({ searchString, sort }) {
         Cell: ({ value, row }) => {
           return (
             <ShortReminder
-              reminder={(value || [])[0]}
+              reminders={value || []}
               leadId={row.original.leadsId}
               onRefresh={handleRefresh}
             />

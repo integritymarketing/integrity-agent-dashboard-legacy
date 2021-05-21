@@ -137,7 +137,10 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
               >
                 Cancel
               </button>
-              <button className="reminder-save-btn" onClick={updateReminder}>
+              <button
+                className="reminder-save-btn"
+                onClick={() => updateReminder()}
+              >
                 Save
               </button>
             </>

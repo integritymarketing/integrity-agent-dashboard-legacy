@@ -128,7 +128,7 @@ const ClientCard = ({ client, onRefresh }) => {
             <ShortReminder
               leadId={client.leadsId}
               className={styles.shortReminder}
-              reminder={(reminders || [])[0]}
+              reminders={reminders || []}
               onRefresh={onRefresh}
             />
           </div>
