@@ -37,7 +37,6 @@ export default ({
 
   const isPrimary =
     contactPreferences.find((x) => x.isPrimary).contactType || "Email";
-  console.log("primaryCommunicatioprimaryCommunicatio", isPrimary);
 
   const [state, setState] = useState({
     firstName: firstName,
@@ -77,7 +76,6 @@ export default ({
       addresses: addresses,
       contactRecordType: state.contactRecordType,
     };
-    console.log("updated data", payload);
     clientsService
       .updateLead(payload)
       .then((data) => {
