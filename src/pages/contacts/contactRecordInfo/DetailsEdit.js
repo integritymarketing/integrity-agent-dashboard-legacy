@@ -36,7 +36,9 @@ export default ({
     phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "";
 
   const isPrimary =
-    contactPreferences.find((x) => x.isPrimary).contactType || "Email";
+    contactPreferences.length > 0
+      ? contactPreferences.find((x) => x.isPrimary).contactType
+      : "Phone";
 
   const [state, setState] = useState({
     firstName: firstName,
@@ -76,19 +78,28 @@ export default ({
       addresses: addresses,
       contactRecordType: state.contactRecordType,
     };
-    clientsService
-      .updateLead(payload)
-      .then((data) => {
-        addToast({
-          type: "success",
-          message: "Lead successfully Updated.",
-          time: 3000,
-        });
-        getContactRecordInfo();
-      })
-      .catch((e) => {
-        Sentry.captureException(e);
+
+    if (state.email === "" && state.phone === "") {
+      addToast({
+        type: "error",
+        message: "Email or Phone must require, please try again",
+        time: 3000,
       });
+    } else {
+      clientsService
+        .updateLead(payload)
+        .then((data) => {
+          addToast({
+            type: "success",
+            message: "Lead successfully Updated.",
+            time: 3000,
+          });
+          getContactRecordInfo();
+        })
+        .catch((e) => {
+          Sentry.captureException(e);
+        });
+    }
   };
 
   useEffect(() => {
@@ -194,17 +205,21 @@ export default ({
           <hr className="contactdetailscardborder" />
           <div className="contactdetailscardbodyrow">
             <div className="contactdetailscardbodycol">
-              <p>Email Address (Primary)</p>
+              <p>Email Address</p>
               <div className="contactdetailscardbodycolinput">
                 <input
                   type="email"
                   value={state.email}
                   name="email"
-                  disabled={state.phone === ""}
                   onChange={handlChange}
                   className="zero-margin-input"
                 />
               </div>
+              {state.email === "" && state.phone === "" && (
+                <div style={{ color: "red" }}>
+                  Email or phone is must, please provide required felds
+                </div>
+              )}
             </div>
           </div>
           <div className="contactdetailscardbodyrow">
@@ -230,10 +245,14 @@ export default ({
                   type="number"
                   value={state.phone}
                   name="phone"
-                  disabled={state.email === ""}
                   onChange={handlChange}
                   className="custom-w-154 zero-margin-input"
                 />
+                {state.email === "" && state.phone === "" && (
+                  <div style={{ color: "red" }}>
+                    Email or phone is must, please provide required felds
+                  </div>
+                )}
               </div>
             </div>
             <div className="contactdetailscardbodycol">
@@ -292,7 +311,11 @@ export default ({
               Cancel
             </button>
             <button
-              className="submit-btn btn"
+              className={
+                state.email === "" && state.phone === ""
+                  ? "customdisabledbtn"
+                  : "submit-btn btn"
+              }
               disabled={state.email === "" && state.phone === ""}
               onClick={onUpdate}
             >

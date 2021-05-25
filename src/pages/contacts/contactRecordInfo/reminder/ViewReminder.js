@@ -68,7 +68,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
     >
       <div className="wholereminderCardSection2row1of1">
         <div className="custom-datepicker-active border datepicker-row reminderCardSection2row1">
-          <ShowDate date={date} setDate={setDate} />
+          <ShowDate date={date} setDate={setDate} isEdit={isEdit} />
           <label>
             Last Updated{" "}
             {reminder.modifyDate
