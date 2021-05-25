@@ -67,13 +67,16 @@ class ClientsService {
     return response;
   };
 
+  _getFormattedPhone = (phone) =>
+    phone ? ("" + phone).replace(/\D/g, "") : null;
+
   _getFormattedData = (
     { phone, followUpDate, email, leadStatusId, ...data },
     baseValues = {}
   ) => {
     return Object.assign({}, baseValues, data, {
       email: email || null,
-      phone: phone ? ("" + phone).replace(/\D/g, "") : null,
+      phone: this._getFormattedPhone(phone),
       followUpDate: followUpDate
         ? formatServerDate(parseDate(followUpDate))
         : null,
@@ -190,9 +193,9 @@ class ClientsService {
     return response.json();
   };
 
-  deleteActivity = async (id) => {
+  deleteClient = async (id) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
       "DELETE"
     );
 
@@ -209,6 +212,58 @@ class ClientsService {
       return response;
     }
     throw new Error("Update failed.");
+  };
+
+  addNewContact = async (contact) => {
+    const {
+      firstName,
+      lastName,
+      email,
+      phones,
+      address,
+      primaryCommunication,
+      contactRecordType,
+    } = contact;
+    const reqData = {
+      leadsId: 0,
+      firstName,
+      lastName,
+      leadStatusId: 0,
+      primaryCommunication,
+      contactRecordType,
+    };
+    if (email) {
+      reqData.emails = [
+        {
+          emailID: 0,
+          leadEmail: email,
+        },
+      ];
+    }
+    if (phones?.leadPhone) {
+      reqData.phones = [
+        {
+          phoneId: 0,
+          ...phones,
+          leadPhone: this._getFormattedPhone(phones.leadPhone),
+        },
+      ];
+    }
+    if (address?.address1) {
+      reqData.addresses = [
+        {
+          leadAddressId: 0,
+          ...address,
+        },
+      ];
+    }
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/`,
+      "POST",
+      reqData
+    );
+
+    return response;
   };
 }
 

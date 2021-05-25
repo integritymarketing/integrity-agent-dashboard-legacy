@@ -354,3 +354,47 @@
     }
   }
 }
+
+/* Start Add new contact */
+.add--new-contact {
+	background-color: #fff;
+	h4 {
+		color: #3D4553;
+		cursor: pointer;
+		font-size: 14px;
+	}
+	h3 {
+		font-size: 24px;
+		color: #002D72;
+	}
+	.contact-address {
+		width: 225px;
+	}
+	.contact-address--city{
+		width: 165px;
+	}
+	.contact-address--statecode{
+		width: 50px;
+	}
+	.contact-address--zip{
+		width: 85px;
+	}
+	.duplicate-lead {
+		display: flex;
+		padding: 15px;
+		width: 362px;
+		height: 63px;
+		background: #FFF8DE;
+		border-radius: 4px;
+		.duplicate-lead--text {
+			font-size: 14px;
+			justify-content: center;
+			align-items: center;
+		a {
+			color: var(--v2-secondary-blue-900);
+			cursor: pointer;
+		}
+	}
+	}
+}
+/* End Add new contact */

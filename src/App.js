@@ -22,6 +22,7 @@ import AuthSigninCallback from "components/functional/auth-signin-callback";
 import AuthSignoutCallback from "components/functional/auth-signout-callback";
 import AuthSilentCallback from "components/functional/auth-silent-callback";
 import ContactsPage from "pages/contacts/ContactsPage";
+import AddNewContactPage from "pages/contacts/AddNewContactPage";
 import ContactRecordInfo from "pages/contacts/contactRecordInfo";
 import {
   AuthenticatedRoute,
@@ -71,6 +72,9 @@ const App = () => {
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/contacts">
               <ContactsPage />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/contact/add-new">
+              <AddNewContactPage />
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/contact/:contactId">
               <ContactRecordInfo />

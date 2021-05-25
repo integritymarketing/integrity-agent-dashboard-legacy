@@ -63,6 +63,10 @@ export default () => {
     history.push("/client-import");
   };
 
+  const goToAddNewContactPage = () => {
+    history.push("/contact/add-new");
+  };
+
   return (
     <React.Fragment>
       <Media
@@ -87,7 +91,11 @@ export default () => {
                 type="secondary"
                 onClick={goToImportPage}
               />
-              <Button icon={<Add />} label="Add New" type="primary" />
+              <Button 
+              icon={<Add />} 
+              label="Add New" 
+              type="primary"
+              onClick={goToAddNewContactPage} />
             </div>
           </Container>
         </div>

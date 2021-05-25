@@ -1,9 +1,35 @@
 import dateFnsParse from "date-fns/parse";
 import isDate from "date-fns/isDate";
 
+function getProp( object, keys, defaultVal ){
+  keys = Array.isArray( keys )? keys : keys.split('.');
+  object = object[keys[0]];
+  if( object && keys.length>1 ){
+    return getProp( object, keys.slice(1), defaultVal );
+  }
+  return object === undefined? defaultVal : object;
+}
+
+function setProp( object, keys, val ){
+  keys = Array.isArray( keys )? keys : keys.split('.');
+  if( keys.length>1 ){
+    object[keys[0]] = object[keys[0]] || {};
+    return setProp( object[keys[0]], keys.slice(1), val );
+  }
+  object[keys[0]] = val;
+}
+ 
 class ValidationService {
   validateRequired = (field, label = "Field") => {
     if (!field) {
+      return `${label} is required`;
+    }
+
+    return null;
+  };
+
+  validateRequiredIf = (isRequired) => (field, label = "Field") => {
+    if (!field && isRequired) {
       return `${label} is required`;
     }
 
@@ -91,6 +117,20 @@ class ValidationService {
     return null;
   };
 
+  validateState = (inputStr, label = "State Code") => {
+    if (inputStr && !/^[A-Za-z]{2}$/.test(inputStr)) {
+      return `${label} must be 2 characters only`;
+    }
+    return null;
+  };
+
+  validateCity = (inputStr, label = "City") => {
+    if (inputStr && !/^[a-zA-Z ]{4,}$/.test(inputStr)) {
+      return `${label} must be a valid characters only`;
+    }
+    return null;
+  };
+
   composeValidator = (validators = []) => {
     return (...validatorArgs) =>
       validators.reduce((result, validator) => {
@@ -101,13 +141,13 @@ class ValidationService {
 
   validateMultiple = (validations, values, errorsObj = {}) => {
     return validations.reduce((currErrs, { validator, name, args = [] }) => {
-      const result = validator(values[name], ...args);
+      const result = validator(getProp(values,name), ...args);
       if (result === null) {
         return currErrs;
       }
-      return Object.assign({}, currErrs, {
-        [name]: result,
-      });
+      const errors = Object.assign({}, currErrs);
+      setProp(errors, name, result);
+      return errors;
     }, errorsObj);
   };
 
