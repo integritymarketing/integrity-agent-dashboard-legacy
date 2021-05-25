@@ -5,7 +5,7 @@ import ReminderIcon from "../../../../stories/assets/reminder.svg";
 import format from "date-fns/format";
 
 export default ({ date, setDate, placeholder }) => {
-  const [dateStatus, setDateStatus] = useState(false);
+  const [dateStatus, setDateStatus] = useState(false);  
 
   return (
     <span className="datepickerparent">
