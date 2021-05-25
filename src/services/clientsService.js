@@ -265,6 +265,35 @@ class ClientsService {
 
     return response;
   };
+
+  getContactPreferences = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  createContactPreferences = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences`,
+      "POST",
+      payload
+    );
+
+    return response;
+  };
+
+  updateContactPreferences = async (id, payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
+      "PUT",
+      payload
+    );
+
+    return response.json();
+  };
 }
 
 export default new ClientsService();

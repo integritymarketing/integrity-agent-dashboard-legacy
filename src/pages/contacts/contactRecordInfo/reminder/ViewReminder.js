@@ -9,7 +9,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
   const { reminderNote = "", isComplete = false, reminderId } = reminder;
   const inputRef = useRef(null);
 
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(reminder && reminder.reminderDate);
   const [updatedReminder, setReminderNote] = useState(reminderNote);
   const [isEdit, setEdit] = useState(false);
   const [reminderHovered, setReminderHovered] = useState(false);
