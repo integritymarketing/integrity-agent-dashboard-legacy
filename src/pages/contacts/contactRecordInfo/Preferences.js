@@ -111,8 +111,7 @@ export default (props) => {
 
   function isPrimary(type) {
     const pref = preference.find(({ contactType }) => contactType === type);
-
-    return pref && pref.isPrimary;
+    return !!(pref && pref.isPrimary);
   }
 
   return (
