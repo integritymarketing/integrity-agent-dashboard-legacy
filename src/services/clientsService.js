@@ -282,7 +282,10 @@ class ClientsService {
       payload
     );
 
-    return response;
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
   };
 
   updateContactPreferences = async (id, payload) => {
@@ -292,7 +295,11 @@ class ClientsService {
       payload
     );
 
-    return response.json();
+    if (response.ok) {
+      debugger;
+      return response.json();
+    }
+    throw new Error("Update failed.");
   };
 }
 
