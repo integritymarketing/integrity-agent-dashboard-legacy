@@ -193,6 +193,15 @@ class ClientsService {
     return response.json();
   };
 
+  deleteActivity = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
+      "DELETE"
+    );
+
+    return response;
+  };
+
   deleteClient = async (id) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
