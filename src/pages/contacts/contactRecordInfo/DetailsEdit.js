@@ -35,9 +35,13 @@ export default ({
   const phoneLabel =
     phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "";
 
-  const isPrimary =
+  const contactPreference =
     contactPreferences.length > 0
-      ? contactPreferences.find((x) => x.isPrimary).contactType
+      ? contactPreferences.find((x) => x.isPrimary)
+      : null;
+  const isPrimary =
+    contactPreference && contactPreference.contactType
+      ? contactPreference.contactType
       : "Phone";
 
   const [state, setState] = useState({
@@ -182,7 +186,7 @@ export default ({
                 <input
                   type="text"
                   value={state.stateCode}
-                  name="state"
+                  name="stateCode"
                   onChange={handlChange}
                   className="custom-w-51 zero-margin-input"
                 />
