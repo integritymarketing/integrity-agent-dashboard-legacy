@@ -305,7 +305,6 @@ class ClientsService {
     );
 
     if (response.ok) {
-      debugger;
       return response.json();
     }
     throw new Error("Update failed.");

@@ -1,8 +1,8 @@
 export const SORT_OPTIONS = [
-    {value : 'followUpDate:asc', label: 'Reminder Asc'},
+    {value : 'Reminders%3Aasc&Sort=Reminders.ReminderDate%3Aasc', label: 'Reminder: Upcoming'},
     {value : 'followUpDate:desc', label: 'Reminder Dsc'},
-    {value : 'createDate:desc', label: 'Newest First'},
-    {value : 'createDate:asc', label: 'Oldest First'},
-    {value : 'lastName:asc', label: 'Last Name Asc'},
-    {value : 'lastName:desc', label: 'Last Name Dsc'}
+    {value : 'createDate:desc', label: 'Date Added: New to Old'},
+    {value : 'createDate:asc', label: 'Date Added: Old to New'},
+    {value : 'lastName:asc', label: 'Last Name: A to Z'},
+    {value : 'lastName:desc', label: 'Last Name: Z to A'}
   ]

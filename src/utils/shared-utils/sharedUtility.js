@@ -1,12 +1,12 @@
 
 import React from 'react'
 
-export const ColorOptionRender = ({ value, label, color, onClick }) => {
+export const ColorOptionRender = ({ value, label, color, selected = false, onClick }) => {
   const handleClick = (ev) => {
     onClick && onClick(ev, value);
   };
   return (
-    <div className="option" onClick={handleClick}>
+    <div className={`option ${selected ? 'selected' : ''}`} onClick={handleClick}>
       <span
         style={{
           width: 10,
