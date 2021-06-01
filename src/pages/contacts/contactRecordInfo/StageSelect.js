@@ -40,6 +40,7 @@ export default ({ value, original }) => {
       <Select
         Option={ColorOptionRender}
         initialValue={value}
+        placeholder="Stage"
         options={statusOptions.filter((opt) => {
           if (original.contactRecordType === "Client") {
             return opt.value !== "New";

@@ -350,7 +350,9 @@
 }
 
 .customSelectbox .select .select-container {
-  width: 149px;
+  @media (min-width: 480px) {
+    width: 149px;
+	}
 }
 .personalinfoname h2 {
   font-size: 14px;

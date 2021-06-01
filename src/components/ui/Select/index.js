@@ -7,13 +7,13 @@ import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
-export const DefaultOption = ({ label, value, prefix = '', onClick, ...rest }) => {
+export const DefaultOption = ({ label, value, prefix = '', onClick, selected = false, ...rest }) => {
   const handleOptionClick = (ev) => {
     onClick && onClick(ev, value);
   };
 
   return (
-    <div {...rest} className="option" onClick={handleOptionClick}>
+    <div {...rest} className={`option ${selected ? 'selected' : ''}`} onClick={handleOptionClick}>
       {prefix}{label}
     </div>
   );
@@ -21,6 +21,7 @@ export const DefaultOption = ({ label, value, prefix = '', onClick, ...rest }) =
 
 DefaultOption.propTypes = {
   label: PropTypes.string,
+  selected: PropTypes.bool,
   value: PropTypes.any,
   onClick: PropTypes.func,
   style: PropTypes.object,
@@ -29,6 +30,7 @@ DefaultOption.propTypes = {
 
 export const Select = ({
   initialValue,
+  mobileLabel = null,
   options,
   Option,
   onChange,
@@ -63,8 +65,8 @@ export const Select = ({
 
   const [selectedOption, selectableOptions] = useMemo(() => {
     const selectedOptions = options.filter((option) => option?.value === value);
-    const selectableOptions = options.filter(
-      (option) => option?.value !== value
+    const selectableOptions = options.map(
+      (option) => ({ ...option, selected: option?.value === value })
     );
     return [selectedOptions[0], selectableOptions];
   }, [options, value]);
@@ -93,10 +95,20 @@ export const Select = ({
       <ArrowDownIcon />
     </div>
   );
-
+  const selectBox = (
+    <div className="selectbox" onClick={toggleOptionsMenu}>
+      {mobileLabel}
+    </div>
+  )
+  const selectHeader = (
+    <div className="select-header">
+      <div className="prefix">{placeholder}</div>
+      <button onClick={toggleOptionsMenu}>&times;</button>
+    </div>
+  )
   const optionsContainer = (
     <div className="options" style={{ maxHeight: heightStyle.maxHeight - 40 }}>
-      {" "}
+      {selectHeader}
       {selectableOptions.map((option, idx) => (
         <Option key={idx} {...option} onClick={handleOptionChange} />
       ))}
@@ -110,6 +122,7 @@ export const Select = ({
         style={heightStyle}
       >
         {inputBox}
+        {selectBox}
         {isOpen && optionsContainer}
       </div>
     </div>
@@ -123,6 +136,7 @@ Select.propTypes = {
   onChange: PropTypes.func,
   Option: PropTypes.elementType,
   style: PropTypes.object,
+  mobileLabel: PropTypes.node,
 };
 
 Select.defaultProps = {

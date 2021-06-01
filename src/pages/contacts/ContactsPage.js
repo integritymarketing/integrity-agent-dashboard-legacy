@@ -12,6 +12,7 @@ import Import from "components/icons/import";
 import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
 import SearchIcon from "components/icons/search";
+import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
 import Filter from "components/icons/filter";
 import { Button } from "components/ui/Button";
@@ -31,6 +32,14 @@ import ContactsTable from "./ContactsTable";
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
+const SortButton = () => {
+  return (
+    <>
+      <SortIcon />
+      <span>Sort</span>
+    </>
+  )
+}
 export default () => {
   const [searchString, setSearchString] = useState(null);
   const [sort, setSort] = React.useState(null);
@@ -145,7 +154,9 @@ export default () => {
                 <div className="nav-header-mobile"></div>
                 <div className={styles.sortSelect}>
                   <Select
-                    placeholder={"Sort by Reminder Asc"}
+                    mobileLabel={<SortButton />}
+                    placeholder={"Sort by"}
+                    initialValue="followUpDate:asc"
                     options={SORT_OPTIONS}
                     prefix="Sort by "
                     onChange={(value) => setSort(value)}
