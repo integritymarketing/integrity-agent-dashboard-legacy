@@ -8,12 +8,15 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
 
   return (
     <>
-      <div className="reminderCard">
+      <div className="reminderCard" data-gtm="contact-record-reminder-section">
         <div className="reminderCardSection1">
           <div className="reminderCardHeading">
             <h4>Reminders</h4>
           </div>
-          <div className="reminderRightSide">
+          <div
+            className="reminderRightSide"
+            data-gtm="contact-record-new-reminder-button"
+          >
             <button
               disabled={reminderModalStatus}
               onClick={() => setReminderModalStatus(true)}

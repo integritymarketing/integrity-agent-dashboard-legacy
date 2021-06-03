@@ -63,6 +63,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
       className={`reminderCardSection2 reminderCardSection2${
         reminderHovered ? "-activeborder" : ""
       }${isEdit ? " edittextarea-active" : ""}`}
+      data-gtm="contact-record-reminder-item"
       onMouseEnter={() => setReminderHovered(true)}
       onMouseLeave={() => setReminderHovered(false)}
     >
@@ -119,6 +120,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           {!isEdit && !isComplete && (
             <button
               className="complete-btn"
+              data-gtm="contact-record-reminder-complete-button"
               onClick={() => {
                 updateReminder(true);
               }}
