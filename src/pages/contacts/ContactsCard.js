@@ -6,7 +6,6 @@ import React, {
   useContext,
 } from "react";
 import { Link } from "react-router-dom";
-
 import clientsService from "services/clientsService";
 import Container from "components/ui/container";
 import Pagination from "components/ui/pagination";
@@ -18,9 +17,9 @@ import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import { getPrimaryContact } from "utils/primaryContact";
 import { formatAddress } from "utils/address";
-
-import styles from "./ContactsPage.module.scss";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
+import analyticsService from "services/analyticsService";
+import styles from "./ContactsPage.module.scss";
 
 const useClientCardInfo = (client) => {
   const { firstName, lastName, statusName } = client;
@@ -42,7 +41,7 @@ const useClientCardInfo = (client) => {
 
 const ActionIcon = ({ icon }) => {
   return (
-    <div className={styles.iconCircle}>
+    <div data-gtm="mobile-card-view-phone-button" className={styles.iconCircle}>
       <img src={icon} alt="phone" />
     </div>
   );
@@ -87,7 +86,11 @@ const ClientCard = ({ client, onRefresh }) => {
             )}
           </div>
           <div className={styles.hideOnMobile}>
-            <Link to={`/contact/${client.leadsId}`} className={styles.viewLink}>
+            <Link
+              to={`/contact/${client.leadsId}`}
+              data-gtm="card-view-view"
+              className={styles.viewLink}
+            >
               {" "}
               View{" "}
             </Link>
@@ -144,7 +147,10 @@ const ClientCard = ({ client, onRefresh }) => {
             </a>
           )}
           {client.addresses.length !== 0 && (
-            <a href={`${getMapUrl()}?q=${formatAddress(client.addresses[0])}`}>
+            <a
+              data-gtm="mobile-card-view-location-button"
+              href={`${getMapUrl()}?q=${formatAddress(client.addresses[0])}`}
+            >
               <img src={NavIcon} alt="map" />
             </a>
           )}
@@ -194,6 +200,14 @@ function ContactsCard({ searchString, sort }) {
   };
 
   useEffect(() => {
+    if(window.innerWidth <= 480) {
+      analyticsService.fireEvent("event-content-load", {
+        pagePath: "/mobile-card-view/",
+      });
+    } else {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/card-view/",
+    });}
     fetchData({
       pageSize,
       pageIndex: currentPage,

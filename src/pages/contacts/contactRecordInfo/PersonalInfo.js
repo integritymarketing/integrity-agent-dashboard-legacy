@@ -47,9 +47,7 @@ export default ({ personalInfo }) => {
             </div>
           </div>
           <div className="personalInfo">
-            <label>
-              Email <span className="italic-label">(Primary)</span>
-            </label>
+            <label>Email</label>
             <div className="personalInfoEmailText">{emails}</div>
           </div>
           <div className="personalInfo">

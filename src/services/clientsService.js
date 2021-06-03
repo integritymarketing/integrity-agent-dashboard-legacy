@@ -193,6 +193,15 @@ class ClientsService {
     return response.json();
   };
 
+  deleteActivity = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
+      "DELETE"
+    );
+
+    return response;
+  };
+
   deleteClient = async (id) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
@@ -282,7 +291,10 @@ class ClientsService {
       payload
     );
 
-    return response;
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
   };
 
   updateContactPreferences = async (id, payload) => {
@@ -292,7 +304,10 @@ class ClientsService {
       payload
     );
 
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error("Update failed.");
   };
 }
 

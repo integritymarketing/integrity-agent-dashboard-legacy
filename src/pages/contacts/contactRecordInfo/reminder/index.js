@@ -36,9 +36,8 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
         )}
         {reminders &&
           reminders.length > 0 &&
-          reminders
-            .filter((r) => !r.isComplete)
-            .map((item, index) => {
+          reminders.map((item, index) => {
+            if (!item.isComplete) {
               return (
                 <ViewReminder
                   reminder={item}
@@ -47,7 +46,8 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
                   getContactRecordInfo={getContactRecordInfo}
                 />
               );
-            })}
+            } else return null;
+          })}
       </div>
     </>
   );

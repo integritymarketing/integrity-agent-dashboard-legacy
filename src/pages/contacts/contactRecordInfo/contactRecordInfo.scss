@@ -350,7 +350,9 @@
 }
 
 .customSelectbox .select .select-container {
-  width: 149px;
+  @media (min-width: 480px) {
+    width: 149px;
+	}
 }
 .personalinfoname h2 {
   font-size: 14px;
@@ -937,4 +939,12 @@ button {
       fill: var(--color-grey-400);
     }
   }
+}
+
+.customdisabledbtn {
+  cursor: not-allowed;
+  color: var(--color-grey-400);
+  background-color: var(--color-grey-300);
+  border: 1px solid var(--color-grey-300);
+  border-radius: 4px;
 }

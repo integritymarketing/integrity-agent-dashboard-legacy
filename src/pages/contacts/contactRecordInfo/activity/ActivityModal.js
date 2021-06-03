@@ -79,6 +79,7 @@ export default ({
         Sentry.captureException(e);
       });
   };
+
   return (
     <div className="customform">
       <Modal
@@ -132,7 +133,12 @@ export default ({
               Cancel
             </button>
             <button
-              className="submit-btn btn"
+              className={
+                activityBody === "" || activitySubject === ""
+                  ? "customdisabledbtn"
+                  : "submit-btn btn"
+              }
+              disabled={activityBody === "" || activitySubject === ""}
               onClick={isEdit ? updateActivity : saveActivity}
             >
               Save

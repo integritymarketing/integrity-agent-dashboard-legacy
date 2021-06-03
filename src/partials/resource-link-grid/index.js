@@ -69,6 +69,7 @@ export default () => {
     <ul className="link-card-grid">
       {topics.map(({ id, analyticsKey, name, images, desc }) => (
         <Tile
+          data-gtm="hp-learning-center-item"
           component="li"
           key={id}
           imgProps={{

@@ -29,7 +29,7 @@ export default ({ header, sections = [], ...props }) => {
   return (
     <React.Fragment>
       {header && header(renderProps)}
-      <ul className="mt-2">
+      <ul className="mt-2" data-gtm="learning-center-section-wrapper">
         {sections.map((item, idx) => {
           const itemVisible = expandedItems.includes(item.id);
           const Icon = itemVisible ? CollapseIcon : ExpandIcon;
@@ -45,7 +45,10 @@ export default ({ header, sections = [], ...props }) => {
               className={itemVisible ? null : collapsedClasses}
             >
               <div className="toolbar text-main">
-                <span className="hdg hdg--4">
+                <span
+                  className="hdg hdg--4"
+                  data-gtm="learning-center-section-title"
+                >
                   <span>{item.title}</span>{" "}
                   <span className="text-secondary">({item.numItems})</span>
                 </span>

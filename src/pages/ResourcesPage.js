@@ -1,4 +1,4 @@
-import React from "react"; //{ useState }
+import React, { useEffect } from "react"; //{ useState }
 import { Helmet } from "react-helmet-async";
 // import Modal from "components/ui/modal";
 import Container from "components/ui/container";
@@ -126,6 +126,12 @@ You can currently add YouTube or Vimeo, see examples below:
 // };
 
 export default () => {
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/learning-center/",
+    });
+  }, []);
+
   return (
     <React.Fragment>
       <Helmet>
@@ -133,7 +139,10 @@ export default () => {
       </Helmet>
       <GlobalNavV2 />
       <div className="v2">
-        <div className="bg-white">
+        <div
+          className="bg-white"
+          data-gtm="learning-center-recommended-read-wrapper"
+        >
           <Container className="pt-scale-3 pb-scale-4">
             <h2 className="hdg hdg--1 mb-4">Learning Center</h2>
             <section>
@@ -146,7 +155,11 @@ export default () => {
                     const CategoryIcon =
                       iconDict[category.icon] || iconDict["default"];
                     return (
-                      <div className="mod" key={resource.name}>
+                      <div
+                        className="mod"
+                        data-gtm="learning-center-recommended-read-item"
+                        key={resource.name}
+                      >
                         <div>
                           <CategoryIcon width="26" height="26" />
                         </div>
@@ -158,7 +171,7 @@ export default () => {
                             {resource.description}
                           </p>
                         </div>
-                        <div className="pt-2 mt-auto">
+                        <div className="pt-2 mt-auto" data-gtm="learning-center-recommended-read-item-button">
                           <a
                             href={getResourceUrl(resource.filename)}
                             rel="noopener noreferrer"
@@ -183,7 +196,7 @@ export default () => {
             </section>
           </Container>
         </div>
-        <Container className="mt-scale-3">
+        <Container className="mt-scale-3" data-gtm="learning-center-all-resources-wrapper">
           <section>
             <ExpandableContent
               header={({ isExpanded, toggleAll }) => (
@@ -210,7 +223,7 @@ export default () => {
                     <ul className="divided-vlist divided-vlist--light mt-2 mb-5">
                       {resources.map((resource) => {
                         return (
-                          <li key={resource.name}>
+                          <li key={resource.name} data-gtm="learning-center-section-item">
                             <LineItem
                               href={getResourceUrl(resource.filename)}
                               rel="noopener noreferrer"

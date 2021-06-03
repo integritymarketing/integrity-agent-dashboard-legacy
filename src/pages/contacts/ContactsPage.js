@@ -12,6 +12,7 @@ import Import from "components/icons/import";
 import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
 import SearchIcon from "components/icons/search";
+import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
 import Filter from "components/icons/filter";
 import { Button } from "components/ui/Button";
@@ -27,9 +28,19 @@ import { SORT_OPTIONS } from "../../constants";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
 import ContactsTable from "./ContactsTable";
+import analyticsService from "services/analyticsService";
 
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
+
+const SortButton = () => {
+  return (
+    <>
+      <SortIcon />
+      <span>Sort</span>
+    </>
+  )
+}
 
 export default () => {
   const [searchString, setSearchString] = useState(null);
@@ -86,12 +97,14 @@ export default () => {
             <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
               <Button
                 className="mr-2"
+                data-gtm="contacts-import"
                 icon={<Import />}
                 label="Import"
                 type="secondary"
                 onClick={goToImportPage}
               />
               <Button 
+              data-gtm="contacts-add-new"
               icon={<Add />} 
               label="Add New" 
               type="primary"
@@ -119,12 +132,17 @@ export default () => {
                 onChange={(event) => {
                   debouncedSetSearchString(event.currentTarget.value || null);
                 }}
+                onBlur={() => {
+                  analyticsService.fireEvent("event-search");
+                  return null;;
+                }}
               />
               <div className="bar">
                 {isMobile ? null : (
                   <div className={styles["switch-view"]}>
                     {layout === "list" ? (
                       <Button
+                        data-gtm="contacts-slide-view"
                         icon={<CardView />}
                         iconOnly
                         label="Button"
@@ -133,6 +151,7 @@ export default () => {
                       />
                     ) : (
                       <Button
+                        data-gtm="contacts-slide-view"
                         icon={<TableView />}
                         iconOnly
                         label="Button"
@@ -145,7 +164,9 @@ export default () => {
                 <div className="nav-header-mobile"></div>
                 <div className={styles.sortSelect}>
                   <Select
-                    placeholder={"Sort by Reminder Asc"}
+                    mobileLabel={<SortButton />}
+                    placeholder={"Sort by"}
+                    initialValue="followUpDate:asc"
                     options={SORT_OPTIONS}
                     prefix="Sort by "
                     onChange={(value) => setSort(value)}
@@ -153,6 +174,7 @@ export default () => {
                 </div>
                 <div className={styles["filter-view"]}>
                   <Button
+                    data-gtm="contacts-filter"
                     icon={<Filter />}
                     label="Filter"
                     type="secondary"

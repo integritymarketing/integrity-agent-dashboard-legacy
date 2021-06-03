@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "components/ui/modal";
 import ShowDate from "./ShowDate";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
+import analyticsService from "services/analyticsService";
 
 export default ({
   reminderModalStatus,
@@ -19,6 +20,12 @@ export default ({
   const [reminderDate, setReminderDate] = useState(
     (reminder && reminder.reminderDate) || new Date()
   );
+
+  useEffect(() => {
+    analyticsService.fireEvent("event-modal-appear", {
+      modalName: 'Reminder',
+    });
+  }, []);
 
   const isEdit = reminder && reminder.reminderId;
   const addToast = useToast();
@@ -76,7 +83,7 @@ export default ({
   const isComplete = reminder && reminder.isComplete;
 
   return (
-    <div className="custom-reminder-modal customform">
+    <div data-gtm="reminder-modal" className="custom-reminder-modal customform">
       <Modal
         open={reminderModalStatus}
         onClose={setReminderModalStatus}
@@ -106,6 +113,7 @@ export default ({
                 ></textarea>
                 {isEdit && !isComplete && (
                   <button
+                    data-gtm="reminder-complete-button"
                     className="complete-btn"
                     onClick={() => {
                       updateReminder(true);
@@ -120,12 +128,14 @@ export default ({
         </div>
         <div className="reminder-modal-footer">
           <button
+            data-gtm="reminder-cancel-button"
             className="reminder-cancel-btn"
             onClick={() => setReminderModalStatus()}
           >
             Cancel
           </button>
           <button
+            data-gtm="reminder-save-button"
             className="reminder-save-btn"
             onClick={() => {
               if (isEdit) {

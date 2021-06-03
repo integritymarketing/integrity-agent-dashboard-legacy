@@ -9,6 +9,7 @@ import StageSelect from "./contactRecordInfo/StageSelect";
 import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
+import analyticsService from "services/analyticsService";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -71,7 +72,7 @@ function Table({
           // The cell can use the individual row's getToggleRowSelectedProps method
           // to the render a checkbox
           Cell: ({ row }) => (
-            <div>
+            <div data-gtm="single-row-selection">
               <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
             </div>
           ),
@@ -82,6 +83,9 @@ function Table({
   );
 
   useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/list-view/",
+    });
     onChangeTableState({ pageSize, pageIndex, searchString, sort });
   }, [onChangeTableState, pageSize, pageIndex, searchString, sort]);
 
@@ -93,7 +97,7 @@ function Table({
 
   return (
     <>
-      <table {...getTableProps()}>
+      <table data-gtm="contacts-list-wrapper" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -236,6 +240,7 @@ function ContactsTable({ searchString, sort }) {
           <Link
             to={`/contact/${row.original.leadsId}`}
             className={styles.viewLink}
+            data-gtm="contact-list-view"
           >
             View
           </Link>
