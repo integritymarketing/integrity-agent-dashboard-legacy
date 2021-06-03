@@ -20,7 +20,11 @@ export default ({
         </span>
       )}
       <span className="line-item__body">{children}</span>
-      <span className="line-item__next" aria-hidden="true">
+      <span
+        className="line-item__next"
+        aria-hidden="true"
+        data-gtm="learning-center-section-download-icon"
+      >
         {actionIcon}
       </span>
     </a>

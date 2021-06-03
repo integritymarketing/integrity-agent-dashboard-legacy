@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Datepicker from "../../datepicker";
 import ReminderModal from "./ReminderModal";
+import analyticsService from "services/analyticsService";
 
 export const ShortReminder = ({ leadId, reminders, className, onRefresh }) => {
   const reminder = (reminders || []).find((rem) => !rem.isComplete) || {};
   const { reminderDate, reminderNote } = reminder || {};
   const [showAddModal, setShowAddModal] = React.useState(false);
+  useEffect(() => {
+    analyticsService.fireEvent("event-date-edit");
+  }, []);
   return (
     <div className={`datepicker-row ${className}`}>
       {

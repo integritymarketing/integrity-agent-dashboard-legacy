@@ -120,7 +120,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     <>
       <SiteNotification showPhoneNotification={showPhoneNotification} />
       <header
-        className={`global-nav-v2 ${className} ${
+        className={`global-nav-v2 ${analyticsService.clickClass(
+          "nav-wrapper"
+        )} ${className} ${
           showPhoneNotification ? "global-nav-v2--hasNotification" : ""
         }`}
         {...props}
@@ -128,7 +130,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         <a href="#main-content" className="skip-link">
           Jump to main content
         </a>
-        <h1 className="global-nav-v2__title">
+        <h1 className={`global-nav-v2__title ${analyticsService.clickClass(
+          "nav-logo"
+        )}`}>
           <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
             <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>

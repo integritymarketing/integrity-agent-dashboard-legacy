@@ -5,12 +5,16 @@ import { Select } from "components/ui/Select";
 import clientsService from "services/clientsService";
 import useToast from "../../../hooks/useToast";
 import StageStatusContext from "contexts/stageStatus";
+import analyticsService from "services/analyticsService";
 
 export default ({ value, original }) => {
   const { allStatuses, statusOptions } = useContext(StageStatusContext);
   const addToast = useToast();
 
   const handleChangeStatus = async (val) => {
+    analyticsService.fireEvent("event-sort", {
+      clickedItemText: `Sort: ${val}`,
+    });
     try {
       const response = await clientsService.updateClient(original, {
         ...original,
