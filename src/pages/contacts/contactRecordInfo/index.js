@@ -19,6 +19,7 @@ import OverView from "./Overview";
 import DetailsEdit from "./DetailsEdit";
 import Preferences from "./Preferences";
 import Details from "./Details";
+import analyticsService from "services/analyticsService";
 
 export default () => {
   const { pathname = "" } = useLocation();
@@ -47,6 +48,9 @@ export default () => {
   }, [id]);
 
   useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/contact-record-note-edit/",
+    });
     getContactRecordInfo();
   }, [getContactRecordInfo]);
 
@@ -84,7 +88,7 @@ export default () => {
             <GlobalNav />
             <PersonalInfo personalInfo={personalInfo} />
             <Container className={styles.container}>
-              <ul className="leftcardmenu">
+              <ul className="leftcardmenu" data-gtm="contact-record-menu-item">
                 <li
                   className={display === "OverView" && "active"}
                   onClick={() => {

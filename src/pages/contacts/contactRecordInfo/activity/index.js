@@ -32,10 +32,14 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
 
   return (
     <>
-      <div className="activityCard">
+      <div className="activityCard" data-gtm="contact-record-activity-section">
         <div className="activityCardHeader">
           <h4>Activity</h4>
-          <p className="notetext" onClick={() => setActivityModalStatus(true)}>
+          <p
+            className="notetext"
+            data-gtm="contact-record-new-note-button"
+            onClick={() => setActivityModalStatus(true)}
+          >
             <span>
               <AddNote />
             </span>
@@ -51,6 +55,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                   <div
                     key={index}
                     className="activityCardbodyset"
+                    data-gtm="contact-record-activity-item"
                     onMouseEnter={() => setHovered(item.activityId)}
                     onMouseLeave={() => setHovered(null)}
                   >
@@ -95,7 +100,10 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
               } else return null;
             })}
         </div>
-        <div className="activityCardfooter">
+        <div
+          className="activityCardfooter"
+          data-gtm="contact-record-activity-show-5-more"
+        >
           {showSize < activities.length ? (
             <p
               className="showmorebtn"
