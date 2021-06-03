@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useTable, usePagination, useRowSelect } from "react-table";
+import { useTable, usePagination } from "react-table";
 
 import clientsService from "services/clientsService";
 import { Link } from "react-router-dom";
@@ -10,23 +10,6 @@ import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
 import analyticsService from "services/analyticsService";
-
-const IndeterminateCheckbox = React.forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return (
-      <>
-        <input type="checkbox" ref={resolvedRef} {...rest} />
-      </>
-    );
-  }
-);
 
 function Table({
   columns,
@@ -55,31 +38,7 @@ function Table({
       initialState: { pageIndex: 1, pageSize: 50 },
       pageCount: manualPageCount + 1,
     },
-    usePagination,
-    useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        // Let's make a column for selection
-        {
-          id: "selection",
-          // The header can use the table's getToggleAllRowsSelectedProps method
-          // to render a checkbox
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <div>
-              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-            </div>
-          ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
-          Cell: ({ row }) => (
-            <div data-gtm="single-row-selection">
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
-          ),
-        },
-        ...columns,
-      ]);
-    }
+    usePagination
   );
 
   useEffect(() => {
