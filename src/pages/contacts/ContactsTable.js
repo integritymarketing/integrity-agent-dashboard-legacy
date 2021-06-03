@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useTable, usePagination } from "react-table";
 
 import clientsService from "services/clientsService";
@@ -9,6 +9,8 @@ import StageSelect from "./contactRecordInfo/StageSelect";
 import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
+import DeleteLeadContext from "contexts/deleteLead";
+import useToast from "../../hooks/useToast";
 import analyticsService from "services/analyticsService";
 
 function Table({
@@ -106,6 +108,39 @@ function ContactsTable({ searchString, sort }) {
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tableState, setTableState] = useState({});
+  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
+    DeleteLeadContext
+  );
+  const addToast = useToast();
+
+  const deleteContact = useCallback(() => {
+    if (deleteLeadId !== null) {
+      const clearContext = () =>
+        setTimeout(() => {
+          setDeleteLeadId(null);
+          setLeadName(null);
+        }, 10000);
+      const deleteTimer = clearContext();
+      const unDODelete = () => {
+        clearTimeout(deleteTimer);
+        setDeleteLeadId(null);
+        setLeadName(null);
+      };
+
+      addToast({
+        type: "success",
+        message: leadName + " Deleted",
+        time: 10000,
+        link: "UNDO",
+        onClickHandler: unDODelete,
+        closeToastRequired: true,
+      });
+    }
+  }, [deleteLeadId, addToast, leadName, setDeleteLeadId, setLeadName]);
+
+  useEffect(() => {
+    deleteContact();
+  }, [deleteLeadId, deleteContact]);
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex, searchString, sort }) => {

@@ -39,8 +39,8 @@ const SortButton = () => {
       <SortIcon />
       <span>Sort</span>
     </>
-  )
-}
+  );
+};
 
 export default () => {
   const [searchString, setSearchString] = useState(null);
@@ -87,33 +87,34 @@ export default () => {
         }}
       />
       <StageStatusProvider>
-        <Helmet>
-          <title>MedicareCENTER - Contacts</title>
-        </Helmet>
-        <GlobalNav />
-        <div className={styles.header}>
+        <ToastContextProvider>
+          <Helmet>
+            <title>MedicareCENTER - Contacts</title>
+          </Helmet>
+          <GlobalNav />
+          <div className={styles.header}>
+            <Container>
+              <div className={styles.headerText}>Contacts</div>
+              <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
+                <Button
+                  className="mr-2"
+                  data-gtm="contacts-import"
+                  icon={<Import />}
+                  label="Import"
+                  type="secondary"
+                  onClick={goToImportPage}
+                />
+                <Button
+                  data-gtm="contacts-add-new"
+                  icon={<Add />}
+                  label="Add New"
+                  type="primary"
+                  onClick={goToAddNewContactPage}
+                />
+              </div>
+            </Container>
+          </div>
           <Container>
-            <div className={styles.headerText}>Contacts</div>
-            <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
-              <Button
-                className="mr-2"
-                data-gtm="contacts-import"
-                icon={<Import />}
-                label="Import"
-                type="secondary"
-                onClick={goToImportPage}
-              />
-              <Button 
-              data-gtm="contacts-add-new"
-              icon={<Add />} 
-              label="Add New" 
-              type="primary"
-              onClick={goToAddNewContactPage} />
-            </div>
-          </Container>
-        </div>
-        <Container>
-          <ToastContextProvider>
             <div
               className={`bar bar--repel bar--collapse-mobile`}
               style={{
@@ -134,7 +135,7 @@ export default () => {
                 }}
                 onBlur={() => {
                   analyticsService.fireEvent("event-search");
-                  return null;;
+                  return null;
                 }}
               />
               <div className="bar">
@@ -196,9 +197,9 @@ export default () => {
                 </Route>
               </Switch>
             </div>
-          </ToastContextProvider>
-        </Container>
-        <ContactFooter hideMeicareIcon={true} />
+          </Container>
+          <ContactFooter hideMeicareIcon={true} />
+        </ToastContextProvider>
       </StageStatusProvider>
     </React.Fragment>
   );

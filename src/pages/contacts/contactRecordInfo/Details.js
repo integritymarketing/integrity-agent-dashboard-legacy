@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { formatPhoneNumber } from "utils/phones";
+import DeleteLeadModal from "./DeleteLeadModal";
 
 const notAvailable = "N/A";
 
@@ -11,7 +12,10 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     phones = [],
     addresses = [],
     contactRecordType = "",
+    leadsId = null,
   } = personalInfo;
+
+  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
   emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
   phones = phones.length > 0 ? phones[0] : null;
@@ -42,9 +46,9 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="contactdetailscardbodycol">
               <p>Address</p>
               <div className="contactdetailscardbodycolvalue">
-                {addresses
-                  ? addresses.address1 + " " + addresses.address2 + ","
-                  : notAvailable}
+                {addresses ? addresses.address1 : notAvailable},
+                <br />
+                {addresses ? addresses.address2 : notAvailable}
               </div>
             </div>
           </div>
@@ -101,8 +105,16 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
         </div>
       </div>
       <div className="deletecontactsection">
-        <button>Delete Contact</button>
+        <button onClick={() => setDeleteModalStatus(true)}>
+          Delete Contact
+        </button>
       </div>
+      <DeleteLeadModal
+        leadsId={leadsId}
+        leadName={firstName + " " + lastName}
+        deleteModalStatus={deleteModalStatus}
+        setDeleteModalStatus={() => setDeleteModalStatus(false)}
+      />
     </>
   );
 };

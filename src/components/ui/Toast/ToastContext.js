@@ -19,6 +19,7 @@ export function ToastContextProvider({ children }) {
       type = "success",
       onClickHandler,
       link,
+      closeToastRequired = false,
     }) {
       const toast = {
         message,
@@ -26,6 +27,7 @@ export function ToastContextProvider({ children }) {
         type,
         onClickHandler,
         link,
+        closeToastRequired,
       };
       setToasts((toasts) => [...toasts, toast]);
       setTimeout(() => {
@@ -48,6 +50,13 @@ export function ToastContextProvider({ children }) {
     }
   };
 
+  const onLinkPress = (toast) => {
+    toast.onClickHandler();
+    if (toast.closeToastRequired) {
+      removeToast(toast);
+    }
+  };
+
   return (
     <ToastContext.Provider value={addToast} className="toast-provider">
       <div className="toast-provider">
@@ -60,7 +69,9 @@ export function ToastContextProvider({ children }) {
                 <span>
                   {toast.message}
                   {toast.link && (
-                    <a href={() => false} onClick={toast.onClickHandler}>{toast.link}</a>
+                    <a href={() => false} onClick={() => onLinkPress(toast)}>
+                      {toast.link}
+                    </a>
                   )}
                 </span>
               </div>

@@ -29,20 +29,17 @@ export default ({
     addressData && addressData.stateCode ? addressData.stateCode : "";
   const address1 =
     addressData && addressData.address1 ? addressData.address1 : "";
+  const address2 =
+    addressData && addressData.address2 ? addressData.address2 : "";
   const postalCode =
     addressData && addressData.postalCode ? addressData.postalCode : "";
   const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
   const phoneLabel =
     phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "";
 
-  const contactPreference =
-    contactPreferences.length > 0
-      ? contactPreferences.find((x) => x.isPrimary)
-      : null;
-  const isPrimary =
-    contactPreference && contactPreference.contactType
-      ? contactPreference.contactType
-      : "Phone";
+  const isPrimary = contactPreferences.primary
+    ? contactPreferences.primary
+    : "phone";
 
   const [state, setState] = useState({
     firstName: firstName,
@@ -53,9 +50,11 @@ export default ({
     city: city,
     stateCode: stateCode,
     postalCode: postalCode,
-    address: address1,
+    address1: address1,
+    address2: address2,
     contactRecordType: contactRecordType,
   });
+  const [address2Status, setAddress2Status] = useState(false);
   const [primaryCommunication, setPrimaryCommunication] = useState(isPrimary);
 
   const addToast = useToast();
@@ -65,13 +64,36 @@ export default ({
   };
 
   const onUpdate = () => {
-    emails[0].leadEmail = state.email;
-    phones[0].leadPhone = state.phone;
-    phones[0].phoneLabel = state.phoneLabel;
-    addresses[0].address1 = state.address;
-    addresses[0].stateCode = state.stateCode;
-    addresses[0].postalCode = state.postalCode;
-    addresses[0].city = state.city;
+    if (emails.length > 0) {
+      emails[0].leadEmail = state.email;
+    } else {
+      emails = [{ emailID: 0, leadEmail: state.email }];
+    }
+    if (phones.length > 0) {
+      phones[0].leadPhone = state.phone;
+      phones[0].phoneLabel = state.phoneLabel;
+    } else {
+      phones = [
+        { phoneId: 0, phoneLabel: state.phoneLabel, leadPhone: state.phone },
+      ];
+    }
+    if (addresses.length > 0) {
+      addresses[0].address1 = state.address1;
+      addresses[0].address2 = state.address2;
+      addresses[0].stateCode = state.stateCode;
+      addresses[0].postalCode = state.postalCode;
+      addresses[0].city = state.city;
+    } else {
+      addresses = [
+        {
+          address1: state.address1,
+          address2: state.address2,
+          stateCode: state.stateCode,
+          postalCode: state.postalCode,
+          city: state.city,
+        },
+      ];
+    }
 
     const payload = {
       ...personalInfo,
@@ -81,6 +103,7 @@ export default ({
       phones: phones,
       addresses: addresses,
       contactRecordType: state.contactRecordType,
+      primaryCommunication: primaryCommunication,
     };
 
     if (state.email === "" && state.phone === "") {
@@ -110,7 +133,7 @@ export default ({
     if (state.phone === "" && state.email !== "") {
       setPrimaryCommunication("email");
     } else if (state.phone !== "" && state.email === "") {
-      setPrimaryCommunication("Phone");
+      setPrimaryCommunication("phone");
     }
   }, [state.phone, state.email]);
 
@@ -156,18 +179,38 @@ export default ({
               <div className="contactdetailscardbodycolinput">
                 <input
                   type="text"
-                  value={state.address}
-                  name="address"
+                  value={state.address1}
+                  name="address1"
                   onChange={handlChange}
                   className="zero-margin-input"
                 />
               </div>
-              <div className="addaptbtn">
-                <button>+ Add Apt, Suite, Unit etc. </button>
-              </div>
+              {address2 === "" && !address2Status && (
+                <div className="addaptbtn">
+                  <button onClick={() => setAddress2Status(true)}>
+                    + Add Apt, Suite, Unit etc.{" "}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-          <div className="contactdetailscardbodyinputrowspacing  contactdetailscardbodyrow">
+          {(address2 !== "" || address2Status) && (
+            <div className="customMarginSpacing contactdetailscardbodyrow">
+              <div className="contactdetailscardbodycol">
+                <p>Apt, Suite, Unit</p>
+                <div className="contactdetailscardbodycolinput">
+                  <input
+                    type="text"
+                    value={state.address2}
+                    name="address2"
+                    onChange={handlChange}
+                    className="zero-margin-input"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="customMarginBottomSpacing contactdetailscardbodyinputrowspacing  contactdetailscardbodyrow">
             <div className="contactdetailscardbodycol">
               <p>City</p>
               <div className="contactdetailscardbodycolinput">
@@ -234,8 +277,8 @@ export default ({
                   id="test1"
                   name="radio-group"
                   disabled={state.email === ""}
-                  checked={primaryCommunication === "Email"}
-                  onChange={() => setPrimaryCommunication("Email")}
+                  checked={primaryCommunication === "email"}
+                  onChange={() => setPrimaryCommunication("email")}
                 />
                 <label for="test1">Primary Communication</label>
               </div>
@@ -282,8 +325,8 @@ export default ({
                   id="test1"
                   name="radio-group"
                   disabled={state.phone === ""}
-                  checked={primaryCommunication === "Phone"}
-                  onChange={() => setPrimaryCommunication("Phone")}
+                  checked={primaryCommunication === "phone"}
+                  onChange={() => setPrimaryCommunication("phone")}
                 />
                 <label for="test1">Primary Communication</label>
               </div>
