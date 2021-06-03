@@ -284,11 +284,11 @@ class ClientsService {
     return response.json();
   };
 
-  createContactPreferences = async (payload) => {
+  createContactPreferences = async (leadsId, payload) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences`,
       "POST",
-      payload
+      { leadsId, ...payload }
     );
 
     if (response.ok) {
