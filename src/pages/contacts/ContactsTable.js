@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useTable, usePagination, useRowSelect } from "react-table";
+import React, { useState, useCallback, useEffect, useContext } from "react";
+import { useTable, usePagination } from "react-table";
 
 import clientsService from "services/clientsService";
 import { Link } from "react-router-dom";
@@ -9,24 +9,9 @@ import StageSelect from "./contactRecordInfo/StageSelect";
 import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
+import DeleteLeadContext from "contexts/deleteLead";
+import useToast from "../../hooks/useToast";
 import analyticsService from "services/analyticsService";
-
-const IndeterminateCheckbox = React.forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return (
-      <>
-        <input type="checkbox" ref={resolvedRef} {...rest} />
-      </>
-    );
-  }
-);
 
 function Table({
   columns,
@@ -55,31 +40,7 @@ function Table({
       initialState: { pageIndex: 1, pageSize: 50 },
       pageCount: manualPageCount + 1,
     },
-    usePagination,
-    useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        // Let's make a column for selection
-        {
-          id: "selection",
-          // The header can use the table's getToggleAllRowsSelectedProps method
-          // to render a checkbox
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <div>
-              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-            </div>
-          ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
-          Cell: ({ row }) => (
-            <div data-gtm="single-row-selection">
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
-          ),
-        },
-        ...columns,
-      ]);
-    }
+    usePagination
   );
 
   useEffect(() => {
@@ -147,6 +108,39 @@ function ContactsTable({ searchString, sort }) {
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tableState, setTableState] = useState({});
+  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
+    DeleteLeadContext
+  );
+  const addToast = useToast();
+
+  const deleteContact = useCallback(() => {
+    if (deleteLeadId !== null) {
+      const clearContext = () =>
+        setTimeout(() => {
+          setDeleteLeadId(null);
+          setLeadName(null);
+        }, 10000);
+      const deleteTimer = clearContext();
+      const unDODelete = () => {
+        clearTimeout(deleteTimer);
+        setDeleteLeadId(null);
+        setLeadName(null);
+      };
+
+      addToast({
+        type: "success",
+        message: leadName + " Deleted",
+        time: 10000,
+        link: "UNDO",
+        onClickHandler: unDODelete,
+        closeToastRequired: true,
+      });
+    }
+  }, [deleteLeadId, addToast, leadName, setDeleteLeadId, setLeadName]);
+
+  useEffect(() => {
+    deleteContact();
+  }, [deleteLeadId, deleteContact]);
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex, searchString, sort }) => {

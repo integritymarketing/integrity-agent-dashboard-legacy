@@ -6,7 +6,7 @@ import Spinner from "./../../../components/ui/Spinner/index";
 export default (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [preference, setPreference] = useState([]);
+  const [preference, setPreference] = useState({});
   const addToast = useToast();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default (props) => {
       .then((resp) => {
         setIsLoading(false);
         if (resp) {
-          setPreference([resp]);
+          setPreference(resp);
         }
         setError(null);
       })
@@ -36,32 +36,32 @@ export default (props) => {
     return error;
   }
 
+  const savePreference = preference.contactPreferenceId
+    ? clientsService.updateContactPreferences
+    : clientsService.createContactPreferences;
+
   function handleChangeCheckbox(contactType, checked) {
-    const pref =
-      preference.find(({ contactType: type }) => contactType === type) || {};
-    clientsService
-      .updateContactPreferences(props.id, {
-        ...pref,
-        leadsId: props.id,
-        contactType: checked ? contactType : null,
-        isPrimary: false,
-      })
+    let req = {};
+    if (contactType === "dnd") {
+      req = {
+        ...preference,
+        email: false,
+        phone: false,
+        primary: "",
+        // text: false,
+        sms: false,
+        dnd: true,
+      };
+    } else {
+      req = {
+        ...preference,
+        dnd: false,
+        [contactType]: !!checked,
+      };
+    }
+    savePreference(props.id, req)
       .then((resp) => {
-        setPreference((prevPrefs) => {
-          if (contactType === "DND" && checked) {
-            return [resp];
-          }
-          const filteredPrefs = prevPrefs.filter(
-            (fil) =>
-              fil.contactType !== contactType && fil.contactType !== "DND"
-          );
-
-          if (checked) {
-            filteredPrefs.push(resp);
-          }
-
-          return filteredPrefs;
-        });
+        setPreference(resp);
       })
       .catch(() => {
         addToast({
@@ -73,28 +73,13 @@ export default (props) => {
   }
 
   function handleChangePrimary(contactType, checked) {
-    const pref =
-      preference.find(({ contactType: type }) => contactType === type) || {};
-    clientsService
-      .updateContactPreferences(props.id, {
-        ...pref,
-        leadsId: props.id,
-        contactType,
-        isPrimary: true,
-      })
+    savePreference(props.id, {
+      ...preference,
+      [contactType?.toLowerCase()]: true,
+      primary: contactType?.toLowerCase(),
+    })
       .then((resp) => {
-        setPreference((prevPrefs) => {
-          const filteredPrefs = prevPrefs
-            .filter(
-              (fil) =>
-                fil.contactType !== contactType && fil.contactType !== "DND"
-            )
-            .map((fil) => ({ ...fil, isPrimary: false }));
-
-          filteredPrefs.push(resp);
-
-          return filteredPrefs;
-        });
+        setPreference(resp);
       })
       .catch(() => {
         addToast({
@@ -106,12 +91,11 @@ export default (props) => {
   }
 
   function isEnabled(type) {
-    return !!preference.find(({ contactType }) => contactType === type);
+    return !!preference[type];
   }
 
   function isPrimary(type) {
-    const pref = preference.find(({ contactType }) => contactType === type);
-    return !!(pref && pref.isPrimary);
+    return preference.primary?.toLowerCase() === type?.toLowerCase();
   }
 
   return (
@@ -127,8 +111,8 @@ export default (props) => {
                 type="checkbox"
                 id="test"
                 name="checkbox-group"
-                checked={isEnabled("Email")}
-                onClick={(e) => handleChangeCheckbox("Email", e.target.checked)}
+                checked={isEnabled("email")}
+                onClick={(e) => handleChangeCheckbox("email", e.target.checked)}
               />
               <label for="email">Email</label>
             </div>
@@ -156,8 +140,8 @@ export default (props) => {
                 type="checkbox"
                 id="test"
                 name="checkbox-group"
-                checked={isEnabled("Phone")}
-                onClick={(e) => handleChangeCheckbox("Phone", e.target.checked)}
+                checked={isEnabled("phone")}
+                onClick={(e) => handleChangeCheckbox("phone", e.target.checked)}
               />
               <label for="phone">Phone Calls</label>
             </div>
@@ -185,8 +169,8 @@ export default (props) => {
                 type="checkbox"
                 id="test"
                 name="checkbox-group"
-                checked={isEnabled("Text")}
-                onClick={(e) => handleChangeCheckbox("Text", e.target.checked)}
+                checked={isEnabled("text")}
+                onClick={(e) => handleChangeCheckbox("text", e.target.checked)}
               />
               <label for="test">Text Messaging</label>
             </div>
@@ -200,10 +184,10 @@ export default (props) => {
                 type="checkbox"
                 id="test"
                 name="checkbox-group"
-                checked={isEnabled("Mail")}
-                onClick={(e) => handleChangeCheckbox("Mail", e.target.checked)}
+                checked={isEnabled("sms")}
+                onClick={(e) => handleChangeCheckbox("sms", e.target.checked)}
               />
-              <label for="mail">Mail</label>
+              <label for="mail">SMS</label>
             </div>
           </div>
         </div>
@@ -215,8 +199,8 @@ export default (props) => {
                 type="checkbox"
                 id="test"
                 name="checkbox-group"
-                checked={isEnabled("DND")}
-                onClick={(e) => handleChangeCheckbox("DND", e.target.checked)}
+                checked={isEnabled("dnd")}
+                onClick={(e) => handleChangeCheckbox("dnd", e.target.checked)}
               />
               <label for="doNotDisturb">Do Not Call / Lost Contact</label>
             </div>

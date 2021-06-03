@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
@@ -15,6 +15,7 @@ import clientService from "../../services/clientsService";
 import useToast from "../../hooks/useToast";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
+import analyticsService from "services/analyticsService";
 
 const CONTACT_RECORD_TYPE = [
   { value: "prospect", label: "Prospect" },
@@ -73,14 +74,18 @@ const NewContactForm = () => {
             {
               name: "phones.leadPhone",
               validator: validationService.composeValidator([
-                validationService.validateRequiredIf('phone' === values.primaryCommunication),
+                validationService.validateRequiredIf(
+                  "phone" === values.primaryCommunication
+                ),
                 validationService.validatePhone,
               ]),
             },
             {
               name: "email",
               validator: validationService.composeValidator([
-                validationService.validateRequiredIf('email' === values.primaryCommunication),
+                validationService.validateRequiredIf(
+                  "email" === values.primaryCommunication
+                ),
                 validationService.validateEmail,
               ]),
             },
@@ -110,8 +115,11 @@ const NewContactForm = () => {
         setSubmitting(true);
         let response = await clientService.addNewContact(values);
         if (response.ok) {
-            const resMessage = await response.json();
-            const leadId = resMessage.leadsId;
+          const resMessage = await response.json();
+          const leadId = resMessage.leadsId;
+          analyticsService.fireEvent("event-form-submit-invalid", {
+            formName: 'New Contact',
+          })
           addToast({
             message: "Contact added successfully",
           });
@@ -121,13 +129,16 @@ const NewContactForm = () => {
           }, 3000);
         } else if (response.status === 400) {
           const errMessage = await response.json();
-          const duplicateLeadId = (errMessage.split(":")[1] || "").trim()
+          const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
           setErrors({
             duplicateLeadId,
             firstName: "Duplicate Contact",
             lastName: "Duplicate Contact",
           });
-          document.getElementsByTagName('html')[0].scrollIntoView()
+          analyticsService.fireEvent("event-form-submit-invalid", {
+            formName: 'Duplicate Contact Error',
+          })
+          document.getElementsByTagName("html")[0].scrollIntoView();
         }
       }}
     >
@@ -302,7 +313,12 @@ const NewContactForm = () => {
               style={{ width: 146 }}
               options={CONTACT_RECORD_TYPE}
               initialValue="prospect"
-              onChange={(value) => setFieldValue("contactRecordType", value)}
+              onChange={(value) => {
+                analyticsService.fireEvent("event-content-load", {
+                  selection: `record type ${value}`,
+                });
+                setFieldValue("contactRecordType", value);
+              }}
             />
             {/* {errors.duplicateLeadId && (
               <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
@@ -323,11 +339,13 @@ const NewContactForm = () => {
             <div className="mt-5 pb-5" style={{ display: "flex" }}>
               <Button
                 className="mr-2"
+                data-gtm="new-contact-cancel-button"
                 label="Cancel"
                 type="secondary"
                 onClick={goToContactPage}
               />
               <Button
+                data-gtm="new-contact-create-button"
                 label="Create Contact"
                 type="primary"
                 disabled={!dirty || !isValid}
@@ -342,6 +360,12 @@ const NewContactForm = () => {
 };
 
 export default function AddNewContactPage() {
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/new-contact/",
+    });
+  }, []);
+
   return (
     <>
       <Helmet>
