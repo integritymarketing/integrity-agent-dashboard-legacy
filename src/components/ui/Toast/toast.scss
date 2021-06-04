@@ -3,9 +3,12 @@
 }
 
 .toasts-wrapper {
-  right: 30px;
-  position: absolute;
-  top: 35px;
+  @media (max-width: 480px) {
+    left: calc(100vw - 400px);
+  }
+  position: fixed;
+  top: 30px;
+  right: 80px;
   z-index: 1;
   .toast {
     background: #fff;
