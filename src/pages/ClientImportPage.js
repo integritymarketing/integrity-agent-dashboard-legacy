@@ -25,7 +25,7 @@ export default () => {
       <GlobalNav />
       <div>
         <Container>
-          <h2 className="hdg hdg--1 mt-5">Client Import</h2>
+          <h2 className={`hdg hdg--1 mt-5 ${styles['client-import']}`}>Client Import</h2>
           <Button
             className={`mr-2 mt-4 ${styles.backButton}`}
             label="Back to Contacts"
@@ -35,7 +35,7 @@ export default () => {
         </Container>
       </div>
 
-      <Container className="mt-scale-3">
+      <Container className={`mt-scale-3 ${styles.importDiv}`}>
         <p className="mt-2 mb-2">
           Import a list of contacts in .csv format. To create a .csv file in
           Microsoft Excel, click on the File menu, then click Save As. In the
