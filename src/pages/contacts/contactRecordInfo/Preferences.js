@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import clientsService from "services/clientsService";
 import useToast from "../../../hooks/useToast";
-import Spinner from "./../../../components/ui/Spinner/index";
+import Spinner from "components/ui/Spinner/index";
+import analyticsService from "services/analyticsService";
 
 export default (props) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,6 +17,9 @@ export default (props) => {
   const addToast = useToast();
 
   useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: '/agent-center/preference/',
+    });
     clientsService
       .getContactPreferences(props.id)
       .then((resp) => {
@@ -110,7 +114,10 @@ export default (props) => {
         <h4>Communication Preferences</h4>
       </div>
       <div className="contactdetailscardbody">
-        <div className="contactdetailscardbodyrow">
+        <div
+          className="contactdetailscardbodyrow"
+          data-gtm="agent-center-preference-item-wrapper"
+        >
           <div className="cpcheckboxdesign contactdetailscardbodycol">
             <div>
               <input
@@ -140,7 +147,10 @@ export default (props) => {
         </div>
         <hr className="contactdetailscardborder" />
         <div className="contactdetailscardbodyrow">
-          <div className="cpcheckboxdesign contactdetailscardbodycol">
+          <div
+            className="cpcheckboxdesign contactdetailscardbodycol"
+            data-gtm="agent-center-preference-item-wrapper"
+          >
             <div>
               <input
                 type="checkbox"
@@ -169,7 +179,10 @@ export default (props) => {
         </div>
         <hr className="contactdetailscardborder" />
         <div className="contactdetailscardbodyrow">
-          <div className="custom-inputmargin cpcheckboxdesign contactdetailscardbodycol">
+          <div
+            className="custom-inputmargin cpcheckboxdesign contactdetailscardbodycol"
+            data-gtm="agent-center-preference-item-wrapper"
+          >
             <div>
               <input
                 type="checkbox"
@@ -184,7 +197,10 @@ export default (props) => {
         </div>
         <hr className="contactdetailscardborder" />
         <div className="contactdetailscardbodyrow">
-          <div className="custom-inputmargin cpcheckboxdesign contactdetailscardbodycol">
+          <div
+            className="custom-inputmargin cpcheckboxdesign contactdetailscardbodycol"
+            data-gtm="agent-center-preference-item-wrapper"
+          >
             <div>
               <input
                 type="checkbox"
