@@ -6,7 +6,13 @@ import Spinner from "./../../../components/ui/Spinner/index";
 export default (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [preference, setPreference] = useState({});
+  const [preference, setPreference] = useState({
+    email: false,
+    phone: false,
+    primary: "",
+    sms: false,
+    dnd: false,
+  });
   const addToast = useToast();
 
   useEffect(() => {
@@ -91,7 +97,7 @@ export default (props) => {
   }
 
   function isEnabled(type) {
-    return !!preference[type];
+    return !!preference[type?.toLowerCase()];
   }
 
   function isPrimary(type) {
