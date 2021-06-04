@@ -268,6 +268,7 @@
   padding: 13px 0;
   li:hover {
     cursor: pointer;
+    background:#F4F6FA;
   }
 }
 
@@ -302,9 +303,10 @@
 .leftcardmenu li.active label > svg > path {
   color: #002d72 !important;
   fill: #002d72 !important;
+  font-weight: bold;
 }
 .leftcardmenu li.active {
-  background: #f4f6fa;
+  background: #F9FAFC;
 }
 .nameCard {
   background: #ffffff;

@@ -10,7 +10,7 @@ export default (props) => {
     email: false,
     phone: false,
     primary: "",
-    sms: false,
+    mail: false,
     dnd: false,
   });
   const addToast = useToast();
@@ -54,8 +54,8 @@ export default (props) => {
         email: false,
         phone: false,
         primary: "",
-        // text: false,
         sms: false,
+        mail: false,
         dnd: true,
       };
     } else {
@@ -175,10 +175,10 @@ export default (props) => {
                 type="checkbox"
                 id="test"
                 name="checkbox-group"
-                checked={isEnabled("text")}
-                onClick={(e) => handleChangeCheckbox("text", e.target.checked)}
+                checked={isEnabled("sms")}
+                onClick={(e) => handleChangeCheckbox("sms", e.target.checked)}
               />
-              <label for="test">Text Messaging</label>
+              <label for="sms">Text Messaging</label>
             </div>
           </div>
         </div>
@@ -190,10 +190,10 @@ export default (props) => {
                 type="checkbox"
                 id="test"
                 name="checkbox-group"
-                checked={isEnabled("sms")}
-                onClick={(e) => handleChangeCheckbox("sms", e.target.checked)}
+                checked={isEnabled("mail")}
+                onClick={(e) => handleChangeCheckbox("mail", e.target.checked)}
               />
-              <label for="mail">SMS</label>
+              <label for="mail">Mail</label>
             </div>
           </div>
         </div>
