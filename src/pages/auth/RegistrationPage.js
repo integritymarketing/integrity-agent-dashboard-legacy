@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -18,6 +18,11 @@ export default () => {
   const params = useQueryParams();
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: '/register/account-registration-form/',
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -95,9 +100,15 @@ export default () => {
               loading.end();
 
               if (response.status >= 200 && response.status < 300) {
+                analyticsService.fireEvent("event-form-submit", {
+                  formName: 'Register Account',
+                });
                 history.push(`registration-email-sent?npn=${values.NPN}`);
               } else {
                 const errorsArr = await response.json();
+                analyticsService.fireEvent("event-form-submit-invalid", {
+                  formName: 'Register Account',
+                });
                 setErrors(validationService.formikErrorsFor(errorsArr));
               }
             }}
