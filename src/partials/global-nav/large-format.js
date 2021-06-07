@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ArrowDownIcon from "components/icons/arrow-down";
 import useUserProfile from "hooks/useUserProfile";
+import analyticsService from "services/analyticsService";
 
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
@@ -20,6 +21,11 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
 
     return () => document.body.removeEventListener("click", closeDropDown);
   }, [navOpen, setNavOpen]);
+
+  const menuLinkClickHandler = (label) => () => {
+    analyticsService.fireEvent("event-click", { clickedItemText: `Nav Account: ${label}` });
+    return null;
+  }
 
   return (
     <ul className="divided-hlist text-muted-light">
@@ -59,6 +65,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
                 return (
                   <li key={idx}>
                     <link.component
+                      onClick={menuLinkClickHandler(link.label)}
                       className={`link link--inherit ${className}`}
                       tabIndex={navOpen ? "0" : "-1"}
                       {...props}

@@ -48,6 +48,7 @@ export default ({
         setReminderDate(new Date());
         setReminderModalStatus();
         getContactRecordInfo();
+        analyticsService.fireEvent("event-date-edit");
       })
       .catch((e) => {
         Sentry.captureException(e);
@@ -74,6 +75,7 @@ export default ({
         });
         setReminderModalStatus();
         getContactRecordInfo();
+        analyticsService.fireEvent("event-date-edit");
       })
       .catch((e) => {
         Sentry.captureException(e);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
@@ -18,6 +18,12 @@ import authService from "services/authService";
 export default () => {
   const history = useHistory();
   const loading = useLoading();
+
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: '/login/reset-password/',
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -64,6 +70,13 @@ export default () => {
                   button: "forgotSubmit",
                   pagePath: window.location.href,
                 });
+                analyticsService.fireEvent("formSubmit", {
+                  button: "forgotSubmit",
+                  pagePath: window.location.href,
+                });
+                analyticsService.fireEvent("event-form-submit", {
+                  formName: 'Reset password',
+                });
               } else {
                 const errorsArr = await response.json();
                 let errors = validationService.formikErrorsFor(errorsArr);
@@ -74,6 +87,9 @@ export default () => {
                     `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
+                  analyticsService.fireEvent("event-form-submit-invalid", {
+                    formName: 'Reset password',
+                  });
                   setErrors(errors);
                 }
               }
