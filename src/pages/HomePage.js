@@ -54,7 +54,7 @@ const SSOButtonWithModal = ({ ...props }) => {
         modalName: "Enrollment Option Modal",
       });
     }
-  }, []);
+  }, [modalOpen]);
   return (
     <React.Fragment>
       <button

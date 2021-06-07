@@ -33,9 +33,13 @@ const HelpButtonWithModal = ({ ...props }) => {
 
 export default ({ className = "", ...props }) => {
   const portalUrl = usePortalUrl();
-  const hideMedicareTag = props && !props.hideMeicareIcon
+  const hideMedicareTag = props && !props.hideMeicareIcon;
   return (
-    <footer className={`global-footer text-muted pt-5 ${className}`} {...props}>
+    <footer
+      className={`global-footer text-muted pt-5 ${className}`}
+      data-gtm="footer-wrapper"
+      {...props}
+    >
       <div className="global-footer__content sf-text-center">
         {hideMedicareTag && (
           <Link to="/">

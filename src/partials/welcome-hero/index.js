@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import IconArrowRightLong from "components/icons/arrow-right-long";
 import LoginLink from "components/ui/login-link";
 import "./index.scss";
+import analyticsService from "services/analyticsService";
 
 const RegisterLink = (props) => {
   return (
@@ -14,6 +15,11 @@ const RegisterLink = (props) => {
 };
 
 const WelcomeHero = () => (
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/portal-welcome-page/",
+    });
+  }, []);
   <div className="welcomeHero content-frame bg-photo text-invert">
     <GlobalNav className="globalNav--absolute" />
     <Container id="main-content" className="container--hero text-center">

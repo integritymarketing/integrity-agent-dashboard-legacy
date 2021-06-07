@@ -73,6 +73,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               props: {
                 to: "/home",
                 className: analyticsService.clickClass("home-header"),
+                "data-gtm": "nav-menu-item",
               },
               label: "Home",
             },
@@ -81,6 +82,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               props: {
                 to: "/learning-center",
                 className: analyticsService.clickClass("learningcenter-header"),
+                "data-gtm": "nav-menu-item",
               },
               label: "Learning Center",
             },
@@ -123,12 +125,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         className={`global-nav ${className} ${
           showPhoneNotification ? "global-nav--hasNotification" : ""
         }`}
+        data-gtm="nav-wrapper"
         {...props}
       >
         <a href="#main-content" className="skip-link">
           Jump to main content
         </a>
-        <h1 className="global-nav__title">
+        <h1 className="global-nav__title" data-gtm="nav-logo">
           <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
             <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>
