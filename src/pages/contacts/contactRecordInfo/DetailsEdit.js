@@ -1,15 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Formik, Form, Field } from "formik";
+import { Button } from "components/ui/Button";
+import Container from "components/ui/container";
+import Textfield from "components/ui/textfield";
+import { Select } from "components/ui/Select";
+import validationService from "services/validationService";
+import styles from "../ContactsPage.module.scss";
+import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
-import clientsService from "services/clientsService";
-import * as Sentry from "@sentry/react";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import { formatPhoneNumber } from "utils/phones";
 
-export default ({
-  setDisplay,
-  personalInfo,
-  getContactRecordInfo,
-  ...rest
-}) => {
+const CONTACT_RECORD_TYPE = [
+  { value: "prospect", label: "Prospect" },
+  { value: "client", label: "Client" },
+];
+
+const PHONE_LABELS = [
+  { value: "mobile", label: "Mobile" },
+  { value: "home", label: "Home" },
+];
+
+const EditContactForm = (props) => {
   let {
     firstName = "",
     lastName = "",
@@ -17,12 +29,19 @@ export default ({
     phones = [],
     addresses = [],
     contactPreferences = [],
-    contactRecordType = "",
-  } = personalInfo;
+    contactRecordType = "prospect",
+    leadsId,
+    leadStatusId,
+    notes,
+  } = props.personalInfo;
 
-  let email = emails.length > 0 ? emails[0].leadEmail : "";
+  let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
   let addressData = addresses.length > 0 ? addresses[0] : null;
+  const emailID = emails.length > 0 ? emails[0].emailID : 0;
+  const leadAddressId =
+    addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
+  const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
 
   const city = addressData && addressData.city ? addressData.city : "";
   const stateCode =
@@ -41,336 +60,323 @@ export default ({
     ? contactPreferences.primary
     : "phone";
 
-  const [state, setState] = useState({
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    phone: phone,
-    phoneLabel: phoneLabel,
-    city: city,
-    stateCode: stateCode,
-    postalCode: postalCode,
-    address1: address1,
-    address2: address2,
-    contactRecordType: contactRecordType,
-  });
-  const [address2Status, setAddress2Status] = useState(false);
-  const [primaryCommunication, setPrimaryCommunication] = useState(isPrimary);
+  const [showAddress2, setShowAddress2] = useState(
+    address2 !== "" ? true : false
+  );
 
   const addToast = useToast();
-
-  const handlChange = ({ target: { name, value } }) => {
-    setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const onUpdate = () => {
-    if (emails.length > 0) {
-      emails[0].leadEmail = state.email;
-    } else {
-      emails = [{ emailID: 0, leadEmail: state.email }];
-    }
-    if (phones.length > 0) {
-      phones[0].leadPhone = state.phone;
-      phones[0].phoneLabel = state.phoneLabel;
-    } else {
-      phones = [
-        { phoneId: 0, phoneLabel: state.phoneLabel, leadPhone: state.phone },
-      ];
-    }
-    if (addresses.length > 0) {
-      addresses[0].address1 = state.address1;
-      addresses[0].address2 = state.address2;
-      addresses[0].stateCode = state.stateCode;
-      addresses[0].postalCode = state.postalCode;
-      addresses[0].city = state.city;
-    } else {
-      addresses = [
-        {
-          address1: state.address1,
-          address2: state.address2,
-          stateCode: state.stateCode,
-          postalCode: state.postalCode,
-          city: state.city,
-        },
-      ];
-    }
-
-    const payload = {
-      ...personalInfo,
-      firstName: state.firstName,
-      lastName: state.lastName,
-      emails: emails,
-      phones: phones,
-      addresses: addresses,
-      contactRecordType: state.contactRecordType,
-      primaryCommunication: primaryCommunication,
-    };
-
-    if (state.email === "" && state.phone === "") {
-      addToast({
-        type: "error",
-        message: "Email or Phone must require, please try again",
-        time: 3000,
-      });
-    } else {
-      clientsService
-        .updateLead(payload)
-        .then((data) => {
-          addToast({
-            type: "success",
-            message: "Lead successfully Updated.",
-            time: 3000,
-          });
-          getContactRecordInfo();
-        })
-        .catch((e) => {
-          Sentry.captureException(e);
-        });
-    }
-  };
-
-  useEffect(() => {
-    if (state.phone === "" && state.email !== "") {
-      setPrimaryCommunication("email");
-    } else if (state.phone !== "" && state.email === "") {
-      setPrimaryCommunication("phone");
-    }
-  }, [state.phone, state.email]);
-
   return (
-    <div className="contactdetailscard">
-      <ToastContextProvider>
-        <div className="contactdetailscardheader">
-          <h4>Contact Details</h4>
-        </div>
-        <div className="contactdetailscardbody">
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>First Name</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="text"
-                  value={state.firstName}
-                  name="firstName"
-                  onChange={handlChange}
-                  className=""
-                />
-              </div>
-            </div>
-          </div>
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Last Name</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="text"
-                  value={state.lastName}
-                  name="lastName"
-                  onChange={handlChange}
-                  className=""
-                />
-              </div>
-            </div>
-          </div>
-          <hr className="contactdetailscardborder" />
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Address</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="text"
-                  value={state.address1}
-                  name="address1"
-                  onChange={handlChange}
-                  className="zero-margin-input"
-                />
-              </div>
-              {address2 === "" && !address2Status && (
-                <div className="addaptbtn">
-                  <button onClick={() => setAddress2Status(true)}>
-                    + Add Apt, Suite, Unit etc.{" "}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-          {(address2 !== "" || address2Status) && (
-            <div className="customMarginSpacing contactdetailscardbodyrow">
-              <div className="contactdetailscardbodycol">
-                <p>Apt, Suite, Unit</p>
-                <div className="contactdetailscardbodycolinput">
-                  <input
-                    type="text"
-                    value={state.address2}
-                    name="address2"
-                    onChange={handlChange}
-                    className="zero-margin-input"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-          <div className="customMarginBottomSpacing contactdetailscardbodyinputrowspacing  contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>City</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="text"
-                  value={state.city}
-                  name="city"
-                  onChange={handlChange}
-                  className="zero-margin-input"
-                />
-              </div>
-            </div>
-            <div className="contactdetailscardbodycol">
-              <p>State</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="text"
-                  value={state.stateCode}
-                  name="stateCode"
-                  onChange={handlChange}
-                  className="custom-w-51 zero-margin-input"
-                />
-              </div>
-            </div>
-            <div className="contactdetailscardbodycol">
-              <p>ZIP Code</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="number"
-                  value={state.postalCode}
-                  name="postalCode"
-                  onChange={handlChange}
-                  className="custom-w-83 zero-margin-input"
-                />
-              </div>
-            </div>
-          </div>
-
-          <hr className="contactdetailscardborder" />
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Email Address</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="email"
-                  value={state.email}
-                  name="email"
-                  onChange={handlChange}
-                  className="zero-margin-input"
-                />
-              </div>
-              {state.email === "" && state.phone === "" && (
-                <div style={{ color: "red" }}>
-                  Email or phone is must, please provide required felds
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycolradio contactdetailscardbodycol">
-              <div>
-                <input
-                  type="radio"
-                  id="test1"
-                  name="radio-group"
-                  disabled={state.email === ""}
-                  checked={primaryCommunication === "email"}
-                  onChange={() => setPrimaryCommunication("email")}
-                />
-                <label for="test1">Primary Communication</label>
-              </div>
-            </div>
-          </div>
-          <div className="contactdetailscardbodyrowspacing contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Phone</p>
-              <div className="contactdetailscardbodycolinput">
-                <input
-                  type="number"
-                  value={state.phone}
-                  name="phone"
-                  onChange={handlChange}
-                  className="custom-w-154 zero-margin-input"
-                />
-                {state.email === "" && state.phone === "" && (
-                  <div style={{ color: "red" }}>
-                    Email or phone is must, please provide required felds
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="contactdetailscardbodycol">
-              <p>Label</p>
-              <div className="contactdetailscardbodycolinput">
-                <select
-                  name="phoneLabel"
-                  onChange={handlChange}
-                  value={state.phoneLabel}
-                  className="custom-w-108 zero-margin-input"
-                >
-                  <option value="Phone">Phone</option>
-                  <option value="Home">Home</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycolradio contactdetailscardbodycol">
-              <div>
-                <input
-                  type="radio"
-                  id="test1"
-                  name="radio-group"
-                  disabled={state.phone === ""}
-                  checked={primaryCommunication === "phone"}
-                  onChange={() => setPrimaryCommunication("phone")}
-                />
-                <label for="test1">Primary Communication</label>
-              </div>
-            </div>
-          </div>
-
-          <hr className="contactdetailscardborder" />
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Contact Record Type</p>
-              <div className="contactdetailscardbodycolinput">
-                <select
-                  value={state.contactRecordType}
-                  name="contactRecordType"
-                  onChange={handlChange}
-                  className="custom-w-148 zero-margin-input"
-                >
-                  <option value="Prospect">Prospect</option>
-                  <option value="Client">Client</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="conatctdetailsbutton newnotepopupformfieldbtn form__submit custom-form-btn">
-            <button
-              className="cancel-btn btn"
-              onClick={() => setDisplay("Details")}
+    <Formik
+      initialValues={{
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phones: {
+          leadPhone: phone,
+          phoneLabel: phoneLabel,
+        },
+        address: {
+          address1: address1,
+          address2: address2,
+          city: city,
+          stateCode: stateCode,
+          postalCode: postalCode,
+        },
+        primaryCommunication: isPrimary,
+        contactRecordType: contactRecordType,
+        emailID,
+        leadAddressId,
+        phoneId,
+        leadStatusId,
+        leadsId,
+        notes,
+      }}
+      validate={(values) => {
+        return validationService.validateMultiple(
+          [
+            {
+              name: "firstName",
+              validator: validationService.validateUsername,
+              args: ["First Name"],
+            },
+            {
+              name: "lastName",
+              validator: validationService.validateUsername,
+              args: ["Last Name"],
+            },
+            {
+              name: "phones.leadPhone",
+              validator: validationService.composeValidator([
+                validationService.validateRequiredIf(
+                  "phone" === values.primaryCommunication
+                ),
+                validationService.validatePhone,
+              ]),
+            },
+            {
+              name: "email",
+              validator: validationService.composeValidator([
+                validationService.validateRequiredIf(
+                  "email" === values.primaryCommunication
+                ),
+                validationService.validateEmail,
+              ]),
+            },
+            {
+              name: "address.postalCode",
+              validator: validationService.composeValidator([
+                validationService.validatePostalCode,
+              ]),
+            },
+            {
+              name: "address.stateCode",
+              validator: validationService.composeValidator([
+                validationService.validateState,
+              ]),
+            },
+            {
+              name: "address.city",
+              validator: validationService.composeValidator([
+                validationService.validateCity,
+              ]),
+            },
+          ],
+          values
+        );
+      }}
+      onSubmit={async (values, { setErrors, setSubmitting }) => {
+        setSubmitting(true);
+        let response = await clientService.updateLead(values);
+        if (response.ok) {
+          addToast({
+            message: "Contact updated successfully",
+          });
+          setTimeout(() => {
+            props.getContactRecordInfo();
+            props.setDisplay("Details");
+            setSubmitting(false);
+          }, 2000);
+        } else if (response.status === 400) {
+          addToast({
+            type: "error",
+            message: "Error while updating contact",
+          });
+        }
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        isValid,
+        dirty,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        setFieldValue,
+      }) => (
+        <Form className="form mt-3">
+          <fieldset className="form__fields form__fields--constrained">
+            <Textfield
+              id="contact-fname"
+              label="First Name"
+              placeholder={"Enter your first name"}
+              name="firstName"
+              value={values.firstName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.firstName && errors.firstName}
+            />
+            <Textfield
+              id="contact-lname"
+              label="Last Name"
+              placeholder="Enter your last name"
+              name="lastName"
+              value={values.lastName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.lastName && errors.lastName}
+            />
+          </fieldset>
+          <div className="mt-3 mb-3 border-bottom border-bottom--light" />
+          <fieldset className="form__fields form__fields--constrained">
+            <Textfield
+              id="contact-address"
+              className={`${styles["contact-address"]}`}
+              label="Address"
+              placeholder={"Enter your address"}
+              name="address.address1"
+              value={values.address.address1}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.address?.address1 && errors.address?.address1}
+            />
+            {!showAddress2 && (
+              <h4 className="address--2" onClick={() => setShowAddress2(true)}>
+                + Add Apt, Suite, Unit etc.
+              </h4>
+            )}
+            {showAddress2 && (
+              <Textfield
+                id="contact-address2"
+                className={`${styles["contact-address"]}`}
+                label="Apt, Suite, Unit"
+                placeholder={"Enter Apt, Suite, Unit"}
+                name="address.address2"
+                value={values.address.address2}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            )}
+            <div
+              className="address__city__state__zip"
+              style={{ display: "flex" }}
             >
-              Cancel
-            </button>
-            <button
-              className={
-                state.email === "" && state.phone === ""
-                  ? "customdisabledbtn"
-                  : "submit-btn btn"
-              }
-              disabled={state.email === "" && state.phone === ""}
-              onClick={onUpdate}
-            >
-              Save
-            </button>
+              <Textfield
+                id="contact-address__city"
+                className={`${styles["contact-address--city"]} mr-1`}
+                label="City"
+                name="address.city"
+                value={values.address.city}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.address?.city && errors.address?.city}
+              />
+              <Textfield
+                id="contact-address__statecode"
+                className={`${styles["contact-address--statecode"]} mr-1`}
+                label="State"
+                name="address.stateCode"
+                value={values.address.stateCode}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.address?.stateCode && errors.address?.stateCode}
+              />
+              <Textfield
+                id="contact-address__zip"
+                className={`${styles["contact-address--zip"]}`}
+                label="ZIP Code"
+                name="address.postalCode"
+                value={values.address.postalCode}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={
+                  touched.address?.postalCode && errors.address?.postalCode
+                }
+              />
+            </div>
+          </fieldset>
+          <div className="mt-3 mb-3 border-bottom border-bottom--light" />
+          <fieldset className="form__fields form__fields--constrained">
+            <Textfield
+              id="contact-email"
+              type="email"
+              label="Email Address"
+              placeholder="Enter your email address"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email && errors.email}
+            />
+            <div>
+              <Field
+                className="mr-1"
+                type="radio"
+                id="primary--email"
+                name="primaryCommunication"
+                value="email"
+              />
+              <label htmlFor="primary--email">Primary Communication</label>
+            </div>
+            <div style={{ display: "flex" }}>
+              <Textfield
+                className="mr-2"
+                id="contact-phone"
+                label="Phone Number"
+                type="tel"
+                placeholder="(XXX) XXX-XXXX"
+                name="phones.leadPhone"
+                value={formatPhoneNumber(values.phones.leadPhone)}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.phones?.leadPhone && errors.phones?.leadPhone}
+              />
+              <div>
+                <label className="label" htmlFor="phone-label">
+                  Label
+                </label>
+                <Select
+                  options={PHONE_LABELS}
+                  style={{ width: "140px" }}
+                  initialValue="mobile"
+                  onChange={(value) =>
+                    setFieldValue("phones.phoneLabel", value)
+                  }
+                />
+              </div>
+            </div>
+            <div>
+              <Field
+                type="radio"
+                className="mr-1"
+                id="primary--phone"
+                name="primaryCommunication"
+                value="phone"
+              />
+              <label htmlFor="primary--phone">Primary Communication</label>
+            </div>
+          </fieldset>
+          <div className="mt-3 mb-3 border-bottom border-bottom--light" />
+          <div>
+            <label className="label" htmlFor="contact--record--type">
+              Contact Record Type
+            </label>
+            <Select
+              style={{ width: 146 }}
+              options={CONTACT_RECORD_TYPE}
+              initialValue="prospect"
+              onChange={(value) => setFieldValue("contactRecordType", value)}
+            />
+
+            <div className="mt-5 pb-5" style={{ display: "flex" }}>
+              <Button
+                className="mr-2"
+                data-gtm="new-contact-cancel-button"
+                label="Cancel"
+                type="secondary"
+                onClick={() => props.setDisplay("Details")}
+              />
+              <Button
+                data-gtm="new-contact-create-button"
+                label="Save"
+                type="primary"
+                disabled={!dirty}
+                onClick={handleSubmit}
+              />
+            </div>
           </div>
-        </div>
-      </ToastContextProvider>
-    </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
+
+export default function EditContactPage(props) {
+  return (
+    <>
+      <div className="v2">
+        <Container
+          id="main-content"
+          className={`br-8 add--new-contact ${styles["add--new-contact"]}`}
+        >
+          <ToastContextProvider>
+            <h3 className="hdg hdg--3 pt-3 pb-2">Contact Details</h3>
+            <div className="border-bottom border-bottom--light"></div>
+            <EditContactForm {...props} />
+          </ToastContextProvider>
+        </Container>
+      </div>
+    </>
+  );
+}

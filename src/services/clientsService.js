@@ -211,16 +211,58 @@ class ClientsService {
     return response;
   };
 
-  updateLead = async (data) => {
+  updateLead = async (contact) => {
+    const {
+      firstName,
+      lastName,
+      email,
+      phones,
+      address,
+      primaryCommunication,
+      contactRecordType,
+      leadsId,
+      leadStatusId,
+      emailID,
+      phoneId,
+      leadAddressId,
+      notes,
+    } = contact;
+    const reqData = {
+      leadsId,
+      firstName,
+      lastName,
+      leadStatusId,
+      primaryCommunication,
+      contactRecordType,
+      notes,
+    };
+    reqData.emails = [
+      {
+        emailID,
+        leadEmail: email,
+      },
+    ];
+    reqData.phones = [
+      {
+        phoneId,
+        ...phones,
+        leadPhone: this._getFormattedPhone(phones.leadPhone),
+      },
+    ];
+
+    reqData.addresses = [
+      {
+        leadAddressId,
+        ...address,
+      },
+    ];
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${data.leadsId}`,
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${reqData.leadsId}`,
       "PUT",
-      data
+      reqData
     );
-    if (response.ok) {
-      return response;
-    }
-    throw new Error("Update failed.");
+
+    return response;
   };
 
   addNewContact = async (contact) => {

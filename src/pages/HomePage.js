@@ -171,14 +171,16 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <SSOButtonWithModal
-                  data-gtm="hp-category-wrapper-item-button"
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "medicareadvantage-button"
-                  )}`}
-                >
-                  Medicare Advantage & PDP
-                </SSOButtonWithModal>
+                <div className="button-wrapper">
+                  <SSOButtonWithModal
+                    data-gtm="hp-category-wrapper-item-button"
+                    className={`btn--invert cta-button ${analyticsService.clickClass(
+                      "medicareadvantage-button"
+                    )}`}
+                  >
+                    Medicare Advantage & PDP
+                  </SSOButtonWithModal>
+                </div>
               </div>
             </div>
 
@@ -196,18 +198,20 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button
-                  data-gtm="hp-category-wrapper-item-button"
-                  type="button"
-                  onClick={() => {
-                    handleCSGSSO(history, loading);
-                  }}
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "medicaresupplement-button"
-                  )}`}
-                >
-                  Medicare Supplement
-                </button>
+                <div className="button-wrapper">
+                  <button
+                    data-gtm="hp-category-wrapper-item-button"
+                    type="button"
+                    onClick={() => {
+                      handleCSGSSO(history, loading);
+                    }}
+                    className={`btn--invert cta-button ${analyticsService.clickClass(
+                      "medicaresupplement-button"
+                    )}`}
+                  >
+                    Medicare Supplement
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -224,15 +228,17 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <Link
-                  data-gtm="hp-category-wrapper-item-button"
-                  to="/clients"
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "crm-button"
-                  )}`}
-                >
-                  Client Management
-                </Link>
+                <div className="button-wrapper">
+                  <Link
+                    data-gtm="hp-category-wrapper-item-button"
+                    to="/contacts"
+                    className={`btn--invert cta-button ${analyticsService.clickClass(
+                      "crm-button"
+                    )}`}
+                  >
+                    Client Management
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -244,8 +250,10 @@ export default () => {
         data-gtm="hp-learning-center-container"
       >
         <section>
-          <div className="hdg hdg--1">Learning Center</div>
-          <p className="text-body text-muted mt-1 mb-4">
+          <div className="custom-homepage-heading hdg hdg--1">
+            Learning Center
+          </div>
+          <p className="custom-homepage-headingtext text-body text-muted mt-1 mb-4">
             Explore resources designed to help you meet client needs and grow
             your business
           </p>

@@ -259,7 +259,6 @@
 }
 .leftcardmenu {
   background: #ffffff;
-  border: 1px solid #c7ccd1;
   box-sizing: border-box;
   border-radius: 4px;
   height: auto;
@@ -268,7 +267,7 @@
   padding: 13px 0;
   li:hover {
     cursor: pointer;
-    background:#F4F6FA;
+    background: #f4f6fa;
   }
 }
 
@@ -306,7 +305,7 @@
   font-weight: bold;
 }
 .leftcardmenu li.active {
-  background: #F9FAFC;
+  background: #f9fafc;
 }
 .nameCard {
   background: #ffffff;
@@ -354,7 +353,7 @@
 .customSelectbox .select .select-container {
   @media (min-width: 480px) {
     width: 149px;
-	}
+  }
 }
 .personalinfoname h2 {
   font-size: 14px;

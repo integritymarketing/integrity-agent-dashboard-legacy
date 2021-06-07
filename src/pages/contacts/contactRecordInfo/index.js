@@ -16,10 +16,10 @@ import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import WithLoader from "components/ui/WithLoader";
 import { StageStatusProvider } from "contexts/stageStatus";
 import OverView from "./Overview";
-import DetailsEdit from "./DetailsEdit";
 import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
+import EditContactPage from "./DetailsEdit";
 
 export default () => {
   const { pathname = "" } = useLocation();
@@ -71,7 +71,7 @@ export default () => {
       case "Preferences":
         return <Preferences {...props} />;
       case "DetailsEdit":
-        return <DetailsEdit {...props} />;
+        return <EditContactPage {...props} />;
       default:
         return <OverView {...props} />;
     }
