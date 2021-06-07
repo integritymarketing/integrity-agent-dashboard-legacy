@@ -14,38 +14,39 @@ const RegisterLink = (props) => {
   );
 };
 
-const WelcomeHero = () => (
+const WelcomeHero = () => {
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/portal-welcome-page/",
     });
   }, []);
-  <div className="welcomeHero content-frame bg-photo text-invert">
-    <GlobalNav className="globalNav--absolute" />
-    <Container id="main-content" className="container--hero text-center">
-      <h2 className="welcomeHero__title mb-scale-2">
-        Welcome to MedicareCENTER
-      </h2>
-      <p className="welcomeHero__content mb-scale-2">
-        A powerful new platform with all you need to increase production this
-        upcoming AEP – enrollment tools, CRM, Learning Center and more!
-      </p>
+return (
+    <div className="welcomeHero content-frame bg-photo text-invert">
+      <GlobalNav className="globalNav--absolute" />
+      <Container id="main-content" className="container--hero text-center">
+        <h2 className="welcomeHero__title mb-scale-2">
+          Welcome to MedicareCENTER
+        </h2>
+        <p className="welcomeHero__content mb-scale-2">
+          A powerful new platform with all you need to increase production this
+          upcoming AEP – enrollment tools, CRM, Learning Center and more!
+        </p>
 
-      <p className="welcomeHero__content mb-scale-2">
-        If this is your first visit to the new MedicareCENTER, you need to start
-        by registering your account.
-      </p>
-      <LoginLink className="btn btn--invert">
-        Log-in <IconArrowRightLong className="icon" />
-      </LoginLink>
-      <p className="mt-scale-2">
-        Don't have an account?&nbsp;
-        <RegisterLink className="link link--invert link--force-underline">
-          Register
-        </RegisterLink>
-      </p>
-    </Container>
-  </div>
-);
+        <p className="welcomeHero__content mb-scale-2">
+          If this is your first visit to the new MedicareCENTER, you need to
+          start by registering your account.
+        </p>
+        <LoginLink className="btn btn--invert">
+          Log-in <IconArrowRightLong className="icon" />
+        </LoginLink>
+        <p className="mt-scale-2">
+          Don't have an account?&nbsp;
+          <RegisterLink className="link link--invert link--force-underline">
+            Register
+          </RegisterLink>
+        </p>
+      </Container>
+    </div>
+});
 
 export default WelcomeHero;
