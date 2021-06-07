@@ -49,10 +49,12 @@ const handleCSGSSO = async (history, loading) => {
 const SSOButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
-    analyticsService.fireEvent("event-modal-appear", {
-      modalName: 'Enrollment Option Modal',
-    });
-  }, [])
+    if (modalOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Enrollment Option Modal",
+      });
+    }
+  }, [modalOpen]);
   return (
     <React.Fragment>
       <button
@@ -84,7 +86,10 @@ const SSOButtonWithModal = ({ ...props }) => {
             document storage capabilities, and more!
           </p>
         </div>
-        <div className="mb-4 text-body" data-gtm="enrollment-option-modal-medicareapp-button">
+        <div
+          className="mb-4 text-body"
+          data-gtm="enrollment-option-modal-medicareapp-button"
+        >
           <a
             href={
               process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
@@ -109,7 +114,10 @@ const SSOButtonWithModal = ({ ...props }) => {
             and more!
           </p>
         </div>
-        <div className="text-body" data-gtm="enrollment-option-modal-medicare-link">
+        <div
+          className="text-body"
+          data-gtm="enrollment-option-modal-medicare-link"
+        >
           <a
             href={process.env.REACT_APP_SUNFIRE_SSO_URL}
             target="_blank"
@@ -132,9 +140,9 @@ export default () => {
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
-      pagePath: '/portal-home-page/',
+      pagePath: "/portal-home-page/",
     });
-  }, [])
+  }, []);
 
   return (
     <React.Fragment>
@@ -149,7 +157,10 @@ export default () => {
           className="scaling-header"
         >
           <div className="mod-grid">
-            <div className="mod text-center" data-gtm="hp-category-wrapper-item">
+            <div
+              className="mod text-center"
+              data-gtm="hp-category-wrapper-item"
+            >
               <div className="pb-1">
                 <div className="tool-icon">MA PDP</div>
               </div>
@@ -171,7 +182,10 @@ export default () => {
               </div>
             </div>
 
-            <div className="mod text-center" data-gtm="hp-category-wrapper-item">
+            <div
+              className="mod text-center"
+              data-gtm="hp-category-wrapper-item"
+            >
               <div className="pb-1">
                 <div className="tool-icon">MED SUPP</div>
               </div>
@@ -197,7 +211,10 @@ export default () => {
               </div>
             </div>
 
-            <div className="mod text-center" data-gtm="hp-category-wrapper-item">
+            <div
+              className="mod text-center"
+              data-gtm="hp-category-wrapper-item"
+            >
               <div className="pb-1">
                 <div className="tool-icon">CRM</div>
               </div>
@@ -222,7 +239,10 @@ export default () => {
         </Container>
       </div>
       <FeedbackRibbon />
-      <Container className="mt-scale-3 mb-4" data-gtm="hp-learning-center-container">
+      <Container
+        className="mt-scale-3 mb-4"
+        data-gtm="hp-learning-center-container"
+      >
         <section>
           <div className="hdg hdg--1">Learning Center</div>
           <p className="text-body text-muted mt-1 mb-4">

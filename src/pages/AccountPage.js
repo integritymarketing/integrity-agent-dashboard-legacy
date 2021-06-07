@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 /* import Modal from "components/ui/modal";*/
@@ -12,6 +12,7 @@ import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import authService from "services/authService";
 /* import NPNRequest from "partials/npn-request"; */
+import analyticsService from "services/analyticsService";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -48,13 +49,19 @@ export default () => {
   const { show: showMessage } = useFlashMessage();
   const loading = useLoading();
 
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/update-account/",
+    });
+  }, []);
+
   return (
     <React.Fragment>
       <Helmet>
         <title>MedicareCENTER - Edit Account</title>
       </Helmet>
       <GlobalNav />
-      <div className="v2">
+      <div className="v2" data-gtm="account-update-form">
         <Container id="main-content" className="mt-5 mb-5">
           <h2 className="hdg hdg--3">Update your account</h2>
         </Container>
@@ -116,6 +123,9 @@ export default () => {
                     formattedValues
                   );
                   if (response.status >= 200 && response.status < 300) {
+                    analyticsService.fireEvent("event-form-submit", {
+                      formName: "update-account",
+                    });
                     // fetch a new access token w/ updated meta
                     await authService.signinSilent();
 
@@ -131,6 +141,9 @@ export default () => {
                       authService.handleExpiredToken();
                     } else {
                       const errorsArr = await response.json();
+                      analyticsService.fireEvent("event-form-submit-invalid", {
+                        formName: "update-account",
+                      });
                       setErrors(
                         validationService.formikErrorsFor(
                           validationService.standardizeValidationKeys(errorsArr)
@@ -206,6 +219,7 @@ export default () => {
                       <div className="form__submit">
                         <button
                           className="btn-v2"
+                          data-gtm="account-update-save-button"
                           type="submit"
                           disabled={!dirty || !isValid}
                         >
