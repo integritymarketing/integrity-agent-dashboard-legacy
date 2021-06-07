@@ -47,6 +47,6 @@ return (
         </p>
       </Container>
     </div>
-});
+)};
 
 export default WelcomeHero;
