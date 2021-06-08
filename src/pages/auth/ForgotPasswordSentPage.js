@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 import Container from "components/ui/container";
@@ -14,6 +14,12 @@ const resendForgotPassword = async (npn) => {
 };
 
 export default () => {
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/login/forgot-NPN/confirmation/",
+    });
+  }, []);
+
   return (
     <React.Fragment>
       <Helmet>
@@ -26,7 +32,10 @@ export default () => {
           <div className="hdg--3 mb-4">
             Check your email to complete password reset
           </div>
-          <div className="text text--secondary">
+          <div
+            className="text text--secondary"
+            data-gtm="reesend-forgot-password-email"
+          >
             <ResendButtonWithModal
               resendFn={resendForgotPassword}
               btnClass={analyticsService.clickClass("forgot-resendnow")}

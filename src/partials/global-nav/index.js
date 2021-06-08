@@ -15,10 +15,10 @@ const useHelpButtonWithModal = () => {
   const testId = "header-support-modal";
 
   return [
-    ({ ...props }) => (
+    ({ onClick, ...props }) => (
       <button
         type="button"
-        onClick={() => setModalOpen(true)}
+        onClick={(e) =>{ onClick && onClick(e); setModalOpen(true)}}
         {...props}
       ></button>
     ),

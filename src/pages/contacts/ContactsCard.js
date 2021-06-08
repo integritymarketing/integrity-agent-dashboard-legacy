@@ -66,7 +66,7 @@ const ClientCard = ({ client, onRefresh }) => {
   );
 
   return (
-    <Card>
+    <Card data-gtm="card-view-contact-card">
       <div>
         <div className={styles.cardHeader}>
           <div

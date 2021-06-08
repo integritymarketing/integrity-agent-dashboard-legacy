@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
@@ -18,6 +18,12 @@ export default () => {
   const loading = useLoading();
   const history = useHistory();
   const params = useQueryParams();
+
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: '/login/',
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -81,15 +87,24 @@ export default () => {
               loading.end();
 
               if (data && data.isOk) {
+                analyticsService.fireEvent("event-form-submit", {
+                  formName: 'Login',
+                });
                 window.location = data.redirectUrl;
               } else {
                 let errors = validationService.formikErrorsFor(data);
 
                 if (errors.Global === "account_unconfirmed") {
+                  analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
+                    formName: 'Login',
+                  });
                   history.push(
                     `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
+                  analyticsService.fireEvent("event-form-submit-invalid", {
+                    formName: 'Login',
+                  });
                   setErrors(errors);
                 }
               }
@@ -141,7 +156,7 @@ export default () => {
                       (touched.Password && errors.Password) || errors.Global
                     }
                     auxLink={
-                      <div className="mt-2">
+                      <div className="mt-2" data-gtm="login-forgot-password">
                         <Link
                           to="/forgot-password"
                           className="text-sm link link--force-underline"
