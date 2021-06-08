@@ -54,7 +54,7 @@ const EditContactForm = (props) => {
     addressData && addressData.postalCode ? addressData.postalCode : "";
   const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
   const phoneLabel =
-    phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "";
+    phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
 
   const isPrimary = contactPreferences.primary
     ? contactPreferences.primary
@@ -309,7 +309,7 @@ const EditContactForm = (props) => {
                 <Select
                   options={PHONE_LABELS}
                   style={{ width: "140px" }}
-                  initialValue="mobile"
+                  initialValue={values.phones.phoneLabel}
                   onChange={(value) =>
                     setFieldValue("phones.phoneLabel", value)
                   }
@@ -335,7 +335,7 @@ const EditContactForm = (props) => {
             <Select
               style={{ width: 146 }}
               options={CONTACT_RECORD_TYPE}
-              initialValue="prospect"
+              initialValue={values.contactRecordType}
               onChange={(value) => setFieldValue("contactRecordType", value)}
             />
 
