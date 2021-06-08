@@ -1,24 +1,24 @@
 import dateFnsParse from "date-fns/parse";
 import isDate from "date-fns/isDate";
 
-function getProp( object, keys, defaultVal ){
-  keys = Array.isArray( keys )? keys : keys.split('.');
+function getProp(object, keys, defaultVal) {
+  keys = Array.isArray(keys) ? keys : keys.split(".");
   object = object[keys[0]];
-  if( object && keys.length>1 ){
-    return getProp( object, keys.slice(1), defaultVal );
+  if (object && keys.length > 1) {
+    return getProp(object, keys.slice(1), defaultVal);
   }
-  return object === undefined? defaultVal : object;
+  return object === undefined ? defaultVal : object;
 }
 
-function setProp( object, keys, val ){
-  keys = Array.isArray( keys )? keys : keys.split('.');
-  if( keys.length>1 ){
+function setProp(object, keys, val) {
+  keys = Array.isArray(keys) ? keys : keys.split(".");
+  if (keys.length > 1) {
     object[keys[0]] = object[keys[0]] || {};
-    return setProp( object[keys[0]], keys.slice(1), val );
+    return setProp(object[keys[0]], keys.slice(1), val);
   }
   object[keys[0]] = val;
 }
- 
+
 class ValidationService {
   validateRequired = (field, label = "Field") => {
     if (!field) {
@@ -34,6 +34,19 @@ class ValidationService {
     }
 
     return null;
+  };
+
+  validateName = (username, label = "firstName") => {
+    if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,}$/.test(username)) {
+      return `${label} must be 2 characters or more accept only alpha numerics, no special characters such as ! @ . , ; : ' " ? -`;
+    }
+
+    if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,50}$/.test(username)) {
+      return `${label} must be 50 characters or less`;
+    }
+
+    // else
+    return this.validateRequired(username, label);
   };
 
   validateUsername = (username, label = "NPN") => {
@@ -141,7 +154,7 @@ class ValidationService {
 
   validateMultiple = (validations, values, errorsObj = {}) => {
     return validations.reduce((currErrs, { validator, name, args = [] }) => {
-      const result = validator(getProp(values,name), ...args);
+      const result = validator(getProp(values, name), ...args);
       if (result === null) {
         return currErrs;
       }

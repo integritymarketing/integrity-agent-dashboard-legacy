@@ -28,7 +28,7 @@ const EditContactForm = (props) => {
     emails = [],
     phones = [],
     addresses = [],
-    contactPreferences = [],
+    contactPreferences,
     contactRecordType = "prospect",
     leadsId,
     leadStatusId,
@@ -96,12 +96,12 @@ const EditContactForm = (props) => {
           [
             {
               name: "firstName",
-              validator: validationService.validateUsername,
+              validator: validationService.validateName,
               args: ["First Name"],
             },
             {
               name: "lastName",
-              validator: validationService.validateUsername,
+              validator: validationService.validateName,
               args: ["Last Name"],
             },
             {

@@ -13,6 +13,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     addresses = [],
     contactRecordType = "",
     leadsId = null,
+    contactPreferences,
   } = personalInfo;
 
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
@@ -20,6 +21,10 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
   phones = phones.length > 0 ? phones[0] : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
+
+  const isPrimary = contactPreferences.primary
+    ? contactPreferences.primary
+    : "phone";
 
   return (
     <>
@@ -75,20 +80,20 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
           <hr className="contactdetailscardborder" />
           <div className="contactdetailscardbodyrow">
             <div className="contactdetailscardbodycol">
-              <p>Email Address (Primary)</p>
+              <p>Email Address {isPrimary === "email" && "(Primary)"} </p>
               <div className="contactdetailscardbodycolvalue">{emails}</div>
             </div>
           </div>
           <div className="contactdetailscardbodyrowspacing contactdetailscardbodyrow">
             <div className="contactdetailscardbodycol">
-              <p>Phone</p>
+              <p>Phone {isPrimary === "phone" && "(Primary)"}</p>
               <div className="contactdetailscardbodycolvalue">
                 {phones ? formatPhoneNumber(phones.leadPhone) : notAvailable}
               </div>
             </div>
             <div className="contactdetailscardbodycol">
               <p>Label</p>
-              <div className="contactdetailscardbodycolvalue">
+              <div className="contactdetailscardbodycolvalue text-uppercase">
                 {phones ? phones.phoneLabel : notAvailable}
               </div>
             </div>
