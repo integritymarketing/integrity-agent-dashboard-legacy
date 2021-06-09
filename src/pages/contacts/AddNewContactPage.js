@@ -117,7 +117,7 @@ const NewContactForm = () => {
         if (response.ok) {
           const resMessage = await response.json();
           const leadId = resMessage.leadsId;
-          analyticsService.fireEvent("event-form-submit-invalid", {
+          analyticsService.fireEvent("event-form-submit", {
             formName: 'New Contact',
           })
           addToast({
