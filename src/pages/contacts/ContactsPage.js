@@ -173,7 +173,7 @@ export default () => {
                     onChange={(value) => setSort(value)}
                   />
                 </div>
-                <div className={styles["filter-view"]}>
+                {/* <div className={styles["filter-view"]}>
                   <Button
                     data-gtm="contacts-filter"
                     icon={<Filter />}
@@ -181,10 +181,10 @@ export default () => {
                     type="secondary"
                     onClick={switchLayout}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
-            <div className={styles.tableWrapper}>
+            <div className={styles.tableWrapper}>rer
               <Switch>
                 <Route exact path="/contacts">
                   <Redirect to="/contacts/list" />
