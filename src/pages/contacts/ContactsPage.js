@@ -14,7 +14,7 @@ import CardView from "components/icons/card-view";
 import SearchIcon from "components/icons/search";
 import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
-import Filter from "components/icons/filter";
+//import Filter from "components/icons/filter";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import { Select } from "components/ui/Select";
@@ -173,7 +173,7 @@ export default () => {
                     onChange={(value) => setSort(value)}
                   />
                 </div>
-                <div className={styles["filter-view"]}>
+                {/* <div className={styles["filter-view"]}>
                   <Button
                     data-gtm="contacts-filter"
                     icon={<Filter />}
@@ -181,10 +181,10 @@ export default () => {
                     type="secondary"
                     onClick={switchLayout}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
-            <div className={styles.tableWrapper}>
+            <div className={styles.tableWrapper}>rer
               <Switch>
                 <Route exact path="/contacts">
                   <Redirect to="/contacts/list" />
