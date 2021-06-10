@@ -14,7 +14,7 @@ import CardView from "components/icons/card-view";
 import SearchIcon from "components/icons/search";
 import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
-import Filter from "components/icons/filter";
+//import Filter from "components/icons/filter";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import { Select } from "components/ui/Select";
