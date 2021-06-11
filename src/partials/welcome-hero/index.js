@@ -28,15 +28,11 @@ const WelcomeHero = () => {
     setIsVisible(true);
   };
 
-  const handleLeave = () => {
-    setIsVisible(false);
-  };
-
   return (
     <div className="welcomeHero content-frame bg-photo text-invert">
       <GlobalNav className="globalNav--absolute" />
 
-      <Waypoint onEnter={handleEnter} onLeave={handleLeave} />
+      <Waypoint onEnter={handleEnter} />
 
       <Container id="main-content" className="container--hero text-center">
         <div
@@ -69,7 +65,7 @@ const WelcomeHero = () => {
         </div>
       </Container>
 
-      <Waypoint onEnter={handleEnter} onLeave={handleLeave} />
+      <Waypoint onEnter={handleEnter} />
     </div>
   );
 };
