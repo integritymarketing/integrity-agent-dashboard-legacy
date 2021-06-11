@@ -5,7 +5,7 @@ import Spinner from "components/ui/Spinner/index";
 import analyticsService from "services/analyticsService";
 
 export default (props) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [preference, setPreference] = useState({
     email: false,
@@ -18,7 +18,7 @@ export default (props) => {
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
-      pagePath: '/agent-center/preference/',
+      pagePath: "/agent-center/preference/",
     });
     clientsService
       .getContactPreferences(props.id)

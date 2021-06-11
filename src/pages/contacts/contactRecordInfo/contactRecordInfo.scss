@@ -163,7 +163,8 @@
 
 .bodylineseparation {
   margin-bottom: 20px;
-  border: 1px solid #e8eaef;
+  border: 0;
+  border-top: 2px solid #e8eaef;
 }
 
 .edit-delete-btn a:first-child {
@@ -171,7 +172,8 @@
 }
 
 .headerlineseparation {
-  border: 1px solid #c7ccd1;
+  border: 0;
+  border-bottom: 2px solid #c7ccd1;
 }
 
 .activityCardfooter p {
@@ -423,9 +425,11 @@
 .reminderRightSide a {
   text-decoration: none;
 }
-.reminderCard hr {
+.reminderCard hr,
+.client-notes-card hr {
   margin-top: 0;
-  border-bottom: 1px solid #c7ccd1;
+  border: 0;
+  border-bottom: 2px solid #c7ccd1;
   margin-bottom: 27px;
 }
 .reminderCardSection2 {
@@ -637,7 +641,6 @@
 }
 .reminderCardSection2row2left .normalText:focus-visible {
   outline: none;
-  // border: 1px solid #dedede;
 }
 .wholereminderCardSection2row1of1 {
   display: flex;
@@ -698,7 +701,7 @@
   cursor: pointer;
 }
 
-.newnotepopupformfield input {
+.new-note-popup-formfield input {
   background: #ffffff;
   width: 98%;
   height: 47px;
@@ -708,7 +711,7 @@
   padding-top: 6px;
   border-radius: 4px;
 }
-.newnotepopupformfield textarea {
+.new-note-popup-formfield textarea {
   background: #ffffff;
   width: 98%;
   height: 123px;
@@ -720,38 +723,50 @@
   padding-top: 14px;
 }
 
-.newnotepopupformfieldbtn {
+.new-note-popup-formfield-btn {
   width: 98%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
-.newnotepopupformfieldbtn .cancel-btn:hover {
+.new-note-popup-formfield-btn .cancel-btn:hover {
   background: #f4f6fa !important;
   border: 1px solid #c7ccd1 !important;
 }
-.newnotepopupformfieldbtn .submit-btn:hover {
+.delete-note-btn {
+  margin-top: 50px;
+}
+.delete-note-btn p {
+  font-size: 16px;
+  line-height: 24px;
+  color: #ca2323;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+}
+.new-note-popup-formfield-btn .submit-btn:hover {
   background: #0052ce !important;
   border: 1px solid #c7ccd1 !important;
 }
-.newnotepopupformfield textarea::placeholder,
-.newnotepopupformfield input::placeholder {
+
+.new-note-popup-formfield textarea::placeholder,
+.new-note-popup-formfield input::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #9da8b1;
   opacity: 1; /* Firefox */
 }
 
-.newnotepopupformfield textarea:-ms-input-placeholder,
-.newnotepopupformfield input::placeholder {
+.new-note-popup-formfield textarea:-ms-input-placeholder,
+.new-note-popup-formfield input::placeholder {
   /* Internet Explorer 10-11 */
   color: #9da8b1;
 }
 
-.newnotepopupformfield textarea:-ms-input-placeholder,
-.newnotepopupformfield input::placeholder {
+.new-note-popup-formfield textarea:-ms-input-placeholder,
+.new-note-popup-formfield input::placeholder {
   /* Microsoft Edge */
   color: #9da8b1;
 }
-.newnotepopupformfieldbtn button {
+.new-note-popup-formfield-btn button {
   text-transform: capitalize;
 }
 
@@ -1011,6 +1026,193 @@ button {
   margin: 1em 0 1em;
 }
 
-.text-uppercase {
-  text-transform: uppercase;
+.text-capitalize {
+  text-transform: capitalize;
+}
+.mobile-menu {
+  display: none;
+}
+.mobile-select-show {
+  display: none;
+}
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .desktop-select-show {
+    display: none;
+  }
+  .mobile-select-show {
+    display: block;
+  }
+  .desktop-menu {
+    display: none;
+  }
+  .mobile-menu {
+    display: none;
+    padding: 0;
+    position: absolute;
+    background: #002d72;
+    border-radius: 0;
+    height: 100%;
+    z-index: 11;
+  }
+  .mobile-edit {
+    display: block !important;
+    color: blue;
+    position: relative;
+    bottom: 60px;
+  }
+  .mobile-menu-parent {
+    position: relative;
+  }
+  .mobile-menu-active label > svg,
+  .mobile-menu-active span {
+    color: #fff !important;
+  }
+  .mobile-menu-active label > svg > path {
+    fill: #fff !important;
+  }
+  .mobile-menu li label > svg,
+  .mobile-menu li span {
+    color: #a8b4ca;
+  }
+  .mobile-menu li label > svg > path {
+    fill: #a8b4ca;
+  }
+  .mobile-menu-arrow {
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    padding: 0 !important;
+    z-index: 111;
+    display: block !important;
+    border: 0 !important;
+    height: auto !important;
+  }
+  .arrow-hide {
+    display: none !important;
+  }
+  .mobile-menu li {
+    margin: 0;
+    height: 70px;
+    border-bottom: 1px solid #2c4b79;
+    border-radius: 0;
+  }
+  .nameCard {
+    background: none;
+  }
+  .rightSection {
+    width: 100%;
+    margin: 0;
+    margin-top: 20px;
+  }
+  .leftcardmenu {
+    float: none;
+    width: 100%;
+  }
+  .nameCardSection1 {
+    padding: 0;
+  }
+  .container {
+    padding: 0;
+  }
+  .nameCardHeading {
+    height: 80px;
+    width: 100%;
+    background: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .nameCardHeading h2 {
+    font-size: 24px;
+    margin: 0;
+    margin-left: 20px;
+  }
+  .nameCardSection2 {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    background: #fff;
+    padding-left: 22px;
+    padding-bottom: 0;
+  }
+  .nameCardpara {
+    height: 40px;
+    padding-left: 22px;
+    border-bottom: 1px solid #dfe5ef;
+    background: #fff;
+    display: flex;
+    align-items: center;
+  }
+  .personalInfo {
+    width: 100% !important;
+    height: auto;
+    margin-bottom: 24px;
+  }
+  .personalInfo:first-child {
+    margin-top: 24px;
+  }
+  .personalInfo label {
+    font-size: 14px;
+    line-height: 30px;
+  }
+  .select {
+    height: 40px;
+    position: relative;
+    width: 40%;
+  }
+
+  .reminderCardSection1 {
+    padding: 0 20px;
+    height: 80px;
+    align-items: center;
+  }
+  .reminderCardSection2row2 {
+    justify-content: flex-start;
+  }
+  .reminderCardSection2 {
+    margin: 22px 20px;
+  }
+  .customform .container.container--size-medium {
+    padding: 15px;
+  }
+  .custom-modal-heading {
+    margin-bottom: 45px;
+  }
+  .cancel-btn {
+    display: none;
+  }
+  .new-note-popup-formfield-btn {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .xs-width-100 {
+    width: 100%;
+  }
+  .xs-width-100 button {
+    width: 100%;
+  }
+  .delete-note-btn {
+    margin-top: 20px;
+  }
+  .header-none {
+    display: none;
+  }
+}
+
+.errors-block {
+  width: 88%;
+  min-height: auto;
+  max-height: 134px;
+  border: 2px solid var(--error-state-color);
+  border-radius: 3px;
+}
+.errors-block .error-msg {
+  padding: 10px;
+  font-size: 0.75rem;
+  line-height: 2;
+  min-height: 1.5rem;
+  color: var(--error-state-color);
+}
+.mobile-edit {
+  display: none !important;
 }

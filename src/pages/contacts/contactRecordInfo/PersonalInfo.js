@@ -4,7 +4,11 @@ import StageSelect from "./StageSelect";
 import { formatPhoneNumber } from "utils/phones";
 import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
-
+import DetailsIcon from "components/icons/person";
+import PreferencesIcon from "components/icons/settings";
+import OverviewIcon from "components/icons/home";
+import ArrowdownIcon from "components/icons/menu-arrow-down";
+import ArrowupIcon from "components/icons/menu-arrow-up";
 const notAvailable = "N/A";
 
 export default ({ personalInfo }) => {
@@ -27,6 +31,36 @@ export default ({ personalInfo }) => {
   return (
     <div className="nameCard">
       <Container className={styles.container}>
+        <ul
+          className="mobile-menu leftcardmenu"
+          data-gtm="contact-record-menu-item"
+        >
+          <li className="mobile-menu-arrow">
+            <ArrowdownIcon />
+          </li>
+          <li className="arrow-hide mobile-menu-arrow">
+            <ArrowupIcon />
+          </li>
+          <li className="OverView mobile-menu-active">
+            <label className="icon-spacing">
+              <OverviewIcon />
+            </label>
+            <span>Overview</span>
+          </li>
+          <li className="Details DetailsEdit">
+            <label className="icon-spacing">
+              <DetailsIcon />
+            </label>
+            <span>Details</span>
+          </li>
+          <li className="Preferences">
+            <label className="icon-spacing">
+              <PreferencesIcon />
+            </label>
+            <span>Preferences</span>
+          </li>
+        </ul>
+
         <div className="nameCardSection1">
           <div className="nameCardHeading">
             <h2>{`${firstName} ${lastName}`}</h2>
@@ -40,7 +74,7 @@ export default ({ personalInfo }) => {
         </div>
         {/* <hr /> */}
         <div className="nameCardSection2">
-          <div className="customSelectbox personalInfo">
+          <div className="desktop-select-show customSelectbox personalInfo">
             <label>Stage</label>
             <div>
               <StageSelect value={statusName} original={personalInfo} />
@@ -69,6 +103,12 @@ export default ({ personalInfo }) => {
               ) : (
                 notAvailable
               )}
+            </div>
+          </div>
+          <div className="mobile-select-show customSelectbox personalInfo">
+            <label>Stage</label>
+            <div>
+              <StageSelect value={statusName} original={personalInfo} />
             </div>
           </div>
         </div>

@@ -240,7 +240,7 @@ const EditContactForm = (props) => {
                 value={values.address.city}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.address?.city && errors.address?.city}
+                error={errors.address?.city ? true : false}
               />
               <Textfield
                 id="contact-address__statecode"
@@ -250,7 +250,7 @@ const EditContactForm = (props) => {
                 value={values.address.stateCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.address?.stateCode && errors.address?.stateCode}
+                error={errors.address?.stateCode ? true : false}
               />
               <Textfield
                 id="contact-address__zip"
@@ -260,11 +260,22 @@ const EditContactForm = (props) => {
                 value={values.address.postalCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={
-                  touched.address?.postalCode && errors.address?.postalCode
-                }
+                error={errors.address?.postalCode ? true : false}
               />
             </div>
+            {(errors.address?.city ||
+              errors.address?.stateCode ||
+              errors.address?.postalCode) && (
+              <div className="errors-block">
+                <p className="error-msg">
+                  {errors.address?.city}
+                  <br />
+                  {errors.address?.stateCode}
+                  <br />
+                  {errors.address?.postalCode}
+                </p>
+              </div>
+            )}
           </fieldset>
           <div className="mt-3 mb-3 border-bottom border-bottom--light" />
           <fieldset className="form__fields form__fields--constrained">

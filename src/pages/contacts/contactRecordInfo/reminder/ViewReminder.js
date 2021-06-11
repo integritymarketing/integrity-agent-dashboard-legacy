@@ -77,6 +77,11 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
               : getForDistance(reminder.createDate)}
           </label>
         </div>
+        <div>
+          <button className="mobile-edit" onClick={() => setEdit(true)}>
+            Edit
+          </button>
+        </div>
         {!isEdit && reminderHovered && (
           <div className="datepicker-row reminderCardSection2row1of1">
             <button

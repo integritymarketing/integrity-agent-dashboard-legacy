@@ -184,7 +184,7 @@ export default () => {
                 </div> */}
               </div>
             </div>
-            <div className={styles.tableWrapper}>rer
+            <div className={styles.tableWrapper}>
               <Switch>
                 <Route exact path="/contacts">
                   <Redirect to="/contacts/list" />

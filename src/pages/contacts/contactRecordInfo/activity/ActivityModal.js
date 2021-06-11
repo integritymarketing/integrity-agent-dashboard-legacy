@@ -12,6 +12,7 @@ export default ({
   getContactRecordInfo,
   isEdit,
   activityData,
+  deleteActivity,
   ...props
 }) => {
   const [state, setState] = useState({
@@ -89,15 +90,15 @@ export default ({
       >
         <form action="" className="form" noValidate>
           <legend
-            className="custom-modal-heading hdg hdg--2 mb-1"
+            className="header-none custom-modal-heading hdg hdg--2 mb-1"
             id="dialog_contact_label"
           >
             <span className="bgcolor-4">
               <SuccessIcon />
             </span>
-            <label> New Note</label>
+            <label>{isEdit ? "Edit" : "New"} Note</label>
           </legend>
-          <div className="newnotepopupformfield form__field">
+          <div className="new-note-popup-formfield form__field">
             <input
               className="acm-ed-fname"
               type="text"
@@ -107,7 +108,7 @@ export default ({
               placeholder="Activity Title"
             />
           </div>
-          <div className="newnotepopupformfield form__field">
+          <div className="new-note-popup-formfield form__field">
             <textarea
               className="acm-ed-fname"
               type="text"
@@ -117,32 +118,40 @@ export default ({
               placeholder="Notes"
             ></textarea>
           </div>
-          <div className="newnotepopupformfieldbtn form__submit custom-form-btn">
-            <button
-              className="cancel-btn btn"
-              onClick={(e) => {
-                e.preventDefault();
-                setState({
-                  activityBody: "",
-                  activitySubject: "",
-                  activityTypeId: 0,
-                });
-                setActivityModalStatus();
-              }}
+          <div className="new-note-popup-formfield-btn form__submit custom-form-btn">
+            <div
+              className="delete-note-btn"
+              onClick={() => deleteActivity(activityData.activityId)}
             >
-              Cancel
-            </button>
-            <button
-              className={
-                activityBody === "" || activitySubject === ""
-                  ? "customdisabledbtn"
-                  : "submit-btn btn"
-              }
-              disabled={activityBody === "" || activitySubject === ""}
-              onClick={isEdit ? updateActivity : saveActivity}
-            >
-              Save
-            </button>
+              <p>Delete Note</p>
+            </div>
+            <div className="xs-width-100">
+              <button
+                className="cancel-btn btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setState({
+                    activityBody: "",
+                    activitySubject: "",
+                    activityTypeId: 0,
+                  });
+                  setActivityModalStatus();
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className={
+                  activityBody === "" || activitySubject === ""
+                    ? "customdisabledbtn"
+                    : "submit-btn btn"
+                }
+                disabled={activityBody === "" || activitySubject === ""}
+                onClick={isEdit ? updateActivity : saveActivity}
+              >
+                Save
+              </button>
+            </div>
           </div>
         </form>
       </Modal>

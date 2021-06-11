@@ -77,6 +77,9 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                           size={150}
                         />
                       </p>
+                      <div className="mobile-edit">
+                        <button onClick={() => editActivity(item)}>Edit</button>
+                      </div>
                       {hovered && hovered === item.activityId && (
                         <div className="datepicker-row reminderCardSection2row1of1">
                           <button
@@ -94,6 +97,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                         </div>
                       )}
                     </div>
+
                     <hr className="bodylineseparation" />
                   </div>
                 );
@@ -118,6 +122,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
       </div>
       <ActivityModal
         isEdit={isEdit}
+        deleteActivity={deleteActivity}
         activityData={activityData}
         activityModalStatus={activityModalStatus}
         setActivityModalStatus={() => setActivityModalStatus(false)}

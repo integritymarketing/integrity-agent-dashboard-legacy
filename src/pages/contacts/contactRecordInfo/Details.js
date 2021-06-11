@@ -93,7 +93,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             </div>
             <div className="contactdetailscardbodycol">
               <p>Label</p>
-              <div className="contactdetailscardbodycolvalue text-uppercase">
+              <div className="contactdetailscardbodycolvalue text-capitalize">
                 {phones ? phones.phoneLabel : notAvailable}
               </div>
             </div>
@@ -102,7 +102,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
           <div className="contactdetailscardbodyrow">
             <div className="contactdetailscardbodycol">
               <p>Contact Record Type</p>
-              <div className="contactdetailscardbodycolvalue">
+              <div className="contactdetailscardbodycolvalue text-capitalize">
                 {contactRecordType ? contactRecordType : "Prospect"}
               </div>
             </div>
