@@ -44,12 +44,14 @@ export default () => {
           Email):
         </p>
         <ul className="list-disc">
+          <li>Contact Record Type</li>
           <li>First Name</li>
           <li>Last Name</li>
           <li>Email</li>
           <li>Phone</li>
           <li>Postal Code</li>
-          <li>Notes</li>
+          <li>Stage</li>
+          <li>Client Notes</li>
         </ul>
         <p className="mt-2 mb-4">
           You may also download and use the template provided below.
