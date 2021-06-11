@@ -25,25 +25,35 @@ SuccessToast.args = {
   message: 'Success message 1',
   time: 3000
 };
+
 export const SuccessToastWithLink = Template.bind({});
 SuccessToastWithLink.args = {
   type: 'success',
   message: 'Success message 1',
   link: 'Click here',
   onClickHandler: action('Success toast link clicked'),
-  time: 3000
+  time: 30000
+};
+
+export const SuccessToastWithUndoLink = Template.bind({});
+SuccessToastWithUndoLink.args = {
+  type: 'success',
+  message: 'Success message',
+  link: 'Undo',
+  onClickHandler: action('Action messaging goes here and here'),
+  time: 45000
 };
 
 export const ErrorToast = Template.bind({});
 ErrorToast.args = {
   type: 'error',
   message: 'Error, update unsuccessful.',
-  time: 3000
+  time: 30000
 };
 
 export const ActionToast = Template.bind({});
 ActionToast.args = {
   type: 'action',
   message: 'Action message 1',
-  time: 3000
+  time: 30000
 };

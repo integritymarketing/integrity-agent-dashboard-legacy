@@ -20,6 +20,10 @@
     align-items: center;
     width: 372px;
     border-radius: 4px;
+    a {
+      color: #0052CE;
+      text-decoration: underline;
+    }
     &:hover {
       a {
         color: #002d72;
@@ -60,6 +64,12 @@
       line-height: 17px;
       display: flex;
       align-items: center;
+      .undo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+      }
     }
     button {
       color: #525761;

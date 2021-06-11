@@ -66,11 +66,15 @@ export function ToastContextProvider({ children }) {
             <div className={`toast ${toast.type}`} key={idx}>
               <div className="toast-indicator">{getToastIcon(toast.type)}</div>
               <div className="toast-message">
-                <span>
-                  {toast.message}
+                <span
+                  className={
+                    toast?.link?.toLowerCase() === "undo" ? "undo" : ""
+                  }
+                >
+                  <span>{toast.message}</span>
                   {toast.link && (
                     <a href={() => false} onClick={() => onLinkPress(toast)}>
-                      {toast.link}
+                      &nbsp;&nbsp;{toast.link}
                     </a>
                   )}
                 </span>
