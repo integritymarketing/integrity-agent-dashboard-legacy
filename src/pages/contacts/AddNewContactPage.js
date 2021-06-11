@@ -5,7 +5,7 @@ import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
-//import Warning from "components/icons/warning";
+import Warning from "components/icons/warning";
 import { Select } from "components/ui/Select";
 import validationService from "services/validationService";
 import GlobalNav from "partials/global-nav-v2";
@@ -13,6 +13,7 @@ import GlobalFooter from "partials/global-footer";
 import styles from "./ContactsPage.module.scss";
 import clientService from "../../services/clientsService";
 import useToast from "../../hooks/useToast";
+
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import analyticsService from "services/analyticsService";
@@ -27,17 +28,53 @@ const PHONE_LABELS = [
   { value: "home", label: "Home" },
 ];
 
+const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
+  if (Object.keys(errors).length) {
+    return {
+      ...errors,
+      isExactDuplicate: true
+     }
+  } else {
+    const response = await clientService.getDuplicateContact(values)
+    if (response.ok) {
+      const resMessage = await response.json();
+      if (resMessage.isExactDuplicate) {
+        return {
+          firstName: "Duplicate Contact",
+          lastName: "Duplicate Contact",
+          isExactDuplicate: true
+        }
+      } else {
+        setDuplicateLeadIds(resMessage.duplicateLeadIds || [])
+      }
+      return errors
+    } else {
+      // TODO: handle errors
+      return {
+        isExactDuplicate: true
+      }
+    }
+  }
+}
+
 const NewContactForm = () => {
   const [showAddress2, setShowAddress2] = useState(false);
+  const [duplicateLeadIds, setDuplicateLeadIds] = useState([])
+
   const history = useHistory();
-  const goToContactPage = () => {
-    history.push("/contacts");
-  };
-  const goToContactDetailPage = (duplicateLeadId) => {
-    history.push(`/contact/${duplicateLeadId}`);
+  
+  const getContactLink = (id) => `/contact/${id}`
+  const goToContactDetailPage = (id) => {
+    if (duplicateLeadIds.length) {
+      history.push(getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`));
+    }
+    history.push(getContactLink(id));
   };
   const addToast = useToast();
 
+  const goToContactPage = () => {
+    history.push("/contacts");
+  };
   return (
     <Formik
       initialValues={{
@@ -58,8 +95,8 @@ const NewContactForm = () => {
         primaryCommunication: "phone",
         contactRecordType: "prospect",
       }}
-      validate={(values) => {
-        return validationService.validateMultiple(
+      validate={async (values) => {
+        const errors = validationService.validateMultiple(
           [
             {
               name: "firstName",
@@ -110,6 +147,7 @@ const NewContactForm = () => {
           ],
           values
         );
+        return await isDuplicateContact(values, setDuplicateLeadIds, errors)
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
@@ -320,22 +358,24 @@ const NewContactForm = () => {
                 setFieldValue("contactRecordType", value);
               }}
             />
-            {/* {errors.duplicateLeadId && (
+            { duplicateLeadIds?.length > 0 && (
               <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
                 <div><Warning /></div>
                 <div className={`${styles["duplicate-lead--text"]} pl-1`}> 
                 You can create this contact, but the entry is a potential
                 duplicate to
-                <a
-                  href={() => false}
-                  onClick={() => goToContactDetailPage(errors.duplicateLeadId)}
-                >
-                  {` [duplicate contact link]`}
-                </a>
+              {duplicateLeadIds.map(duplicateLeadId => <a
+              key={duplicateLeadId}
+                href={getContactLink(duplicateLeadId)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {` [duplicate contact link]`}
+              </a>)}
                 .
                 </div>
               </div>
-            )} */}
+            )}
             <div className="mt-5 pb-5" style={{ display: "flex" }}>
               <Button
                 className="mr-2"

@@ -394,3 +394,18 @@
   }
 }
 /* End Add new contact */
+
+/*Start duplicate contact link */
+  .duplicate-contact-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background: #FFF8DE;
+    border-radius: 4px;
+    a {
+      color: var(--v2-secondary-blue-900);
+      cursor: pointer;
+    }
+  }
+/*End duplicate contact link */  

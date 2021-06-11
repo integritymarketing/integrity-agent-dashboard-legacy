@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
+import { useParams } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -10,8 +11,8 @@ import "./contactRecordInfo.scss";
 import OverviewIcon from "components/icons/home";
 import DetailsIcon from "components/icons/person";
 import PreferencesIcon from "components/icons/settings";
+import Warning from "components/icons/warning";
 import PersonalInfo from "./PersonalInfo";
-import { useLocation } from "react-router-dom";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import WithLoader from "components/ui/WithLoader";
 import { StageStatusProvider } from "contexts/stageStatus";
@@ -22,14 +23,12 @@ import analyticsService from "services/analyticsService";
 import EditContactPage from "./DetailsEdit";
 
 export default () => {
-  const { pathname = "" } = useLocation();
+  const { contactId: id, duplicateLeadId } = useParams();
   const [personalInfo, setPersonalInfo] = useState({});
   const [reminders, setReminders] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("OverView");
-  const value = pathname.split("/");
-  const id = value.length > 0 ? value[2] : "";
 
   const getContactRecordInfo = useCallback(() => {
     setLoading(true);
@@ -86,6 +85,21 @@ export default () => {
               <title>MedicareCENTER - Contacts</title>
             </Helmet>
             <GlobalNav />
+            {duplicateLeadId && (
+              <section className={styles["duplicate-contact-link"]}>
+                <Warning />
+                <span className="pl-1">
+                  The entry is a potential duplicate to&nbsp;&nbsp;  
+                  <a
+                    href={`/contact/${duplicateLeadId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    [duplicate contact link].
+                  </a>
+                </span>
+              </section>
+            )}
             <PersonalInfo personalInfo={personalInfo} />
             <Container className={styles.container}>
               <ul className="leftcardmenu" data-gtm="contact-record-menu-item">

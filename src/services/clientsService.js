@@ -265,6 +265,35 @@ class ClientsService {
     return response;
   };
 
+  getDuplicateContact = async (contact) => {
+    const { firstName, lastName, email, phones } = contact;
+    const reqData = {
+      firstName,
+      lastName,
+    };
+    if (email) {
+      reqData.emails = [
+        {
+          leadEmail: email,
+        },
+      ];
+    }
+    if (phones?.leadPhone) {
+      reqData.phones = [
+        {
+          ...phones,
+          leadPhone: this._getFormattedPhone(phones.leadPhone),
+        },
+      ];
+    }
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/GetDuplicateContact`,
+      "POST",
+      reqData
+    );
+    return response;
+  };
+
   addNewContact = async (contact) => {
     const {
       firstName,
