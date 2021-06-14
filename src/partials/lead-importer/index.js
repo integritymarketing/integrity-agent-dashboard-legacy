@@ -28,7 +28,7 @@ const LeadImporter = () => {
     setImportErrors((importErrors) => [...importErrors, ...newErrors]);
   };
 
-  const templateUrl = getResourceUrl("MedicareCENTER-CRM-Import.csv");
+  const templateUrl = getResourceUrl("MedicareCENTER-Client-Import.csv");
 
   return (
     <div ref={scrollToRef}>
@@ -86,14 +86,14 @@ const LeadImporter = () => {
           }}
           onClose={() => {
             // optional, invoked when import is done and user clicked "Finish"
-            history.push("clients");
+            history.push("contacts");
           }}
         >
           <ImporterField name="contactRecordType" label="Contact Record Type" optional />
           <ImporterField name="firstName" label="First Name" optional />
           <ImporterField name="lastName" label="Last Name" optional />
           <ImporterField name="email" label="Email" />
-          <ImporterField name="phone" label="Phone" optional />
+          <ImporterField name="phone" label="Phone" />
           <ImporterField name="postalCode" label="Postal Code" optional />
           <ImporterField name="stage" label="Stage" optional />
           <ImporterField name="notes" label="Notes" optional />
