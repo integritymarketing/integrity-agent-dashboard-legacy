@@ -1031,11 +1031,45 @@ button {
 }
 .mobile-menu {
   display: none;
+  transition: 0.5s ease;
 }
 .mobile-select-show {
   display: none;
 }
+
+.mobile-edit {
+  display: none;
+}
+.mobile-edit-section {
+  display: flex;
+  justify-content: space-between;
+}
 @media screen and (min-width: 320px) and (max-width: 767px) {
+  .desktop-menu-hide {
+    display: none;
+  }
+  .item-selected {
+    position: relative !important;
+    background: none !important;
+    transition: 0.5s ease;
+  }
+  .item-selected .mobile-menu-active {
+    background: #002d72 !important;
+    display: flex;
+    transition: 0.5s ease;
+  }
+  .mobile-menu li:hover {
+    background: #002d72 !important;
+  }
+  .form {
+    padding: 0 20px;
+  }
+  .item-selected li {
+    display: none;
+  }
+  .hover-btn-hide {
+    display: none;
+  }
   .desktop-select-show {
     display: none;
   }
@@ -1046,19 +1080,18 @@ button {
     display: none;
   }
   .mobile-menu {
-    display: none;
+    display: block;
     padding: 0;
     position: absolute;
     background: #002d72;
     border-radius: 0;
     height: 100%;
     z-index: 11;
+    transition: 0.5s ease;
   }
   .mobile-edit {
     display: block !important;
     color: blue;
-    position: relative;
-    bottom: 60px;
   }
   .mobile-menu-parent {
     position: relative;
@@ -1086,9 +1119,15 @@ button {
     display: block !important;
     border: 0 !important;
     height: auto !important;
+    transition: 0.5s ease;
   }
   .arrow-hide {
     display: none !important;
+    transition: 0.5s ease;
+  }
+  .ContactsPage_add--new-contact__uVbMb h3 {
+    padding-left: 20px;
+    padding-right: 20px;
   }
   .mobile-menu li {
     margin: 0;
@@ -1212,7 +1251,4 @@ button {
   line-height: 2;
   min-height: 1.5rem;
   color: var(--error-state-color);
-}
-.mobile-edit {
-  display: none !important;
 }

@@ -128,6 +128,16 @@ class ClientsService {
     return response;
   };
 
+  reActivateClients = async (data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/reactivate`,
+      "PUT",
+      data
+    );
+
+    return response;
+  };
+
   getStatuses = async () => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/statuses`

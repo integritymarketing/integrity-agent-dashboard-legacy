@@ -59,16 +59,21 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                     onMouseEnter={() => setHovered(item.activityId)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <p className="iconTime">
-                      <span className="bg-color bg-color2">
-                        <SuccessIcon />
-                      </span>
-                      <label>
-                        {item.modifyDate
-                          ? getForDistance(item.modifyDate)
-                          : getForDistance(item.createDate)}
-                      </label>
-                    </p>
+                    <div className="mobile-edit-section">
+                      <p className="iconTime">
+                        <span className="bg-color bg-color2">
+                          <SuccessIcon />
+                        </span>
+                        <label>
+                          {item.modifyDate
+                            ? getForDistance(item.modifyDate)
+                            : getForDistance(item.createDate)}
+                        </label>
+                      </p>
+                      <div className="mobile-edit">
+                        <button onClick={() => editActivity(item)}>Edit</button>
+                      </div>
+                    </div>
                     <h6>{item.activitySubject}</h6>
                     <div className="para-btn-section">
                       <p>
@@ -77,11 +82,9 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                           size={150}
                         />
                       </p>
-                      <div className="mobile-edit">
-                        <button onClick={() => editActivity(item)}>Edit</button>
-                      </div>
+
                       {hovered && hovered === item.activityId && (
-                        <div className="datepicker-row reminderCardSection2row1of1">
+                        <div className="hover-btn-hide datepicker-row reminderCardSection2row1of1">
                           <button
                             className="deleteTextAreaText"
                             onClick={() => deleteActivity(item.activityId)}

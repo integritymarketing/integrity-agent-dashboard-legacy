@@ -267,13 +267,15 @@ const EditContactForm = (props) => {
               errors.address?.stateCode ||
               errors.address?.postalCode) && (
               <div className="errors-block">
-                <p className="error-msg">
-                  {errors.address?.city}
-                  <br />
-                  {errors.address?.stateCode}
-                  <br />
-                  {errors.address?.postalCode}
-                </p>
+                {errors.address?.city && (
+                  <p className="error-msg">{errors.address?.city}</p>
+                )}
+                {errors.address?.stateCode && (
+                  <p className="error-msg">{errors.address?.stateCode}</p>
+                )}
+                {errors.address?.postalCode && (
+                  <p className="error-msg">{errors.address?.postalCode}</p>
+                )}
               </div>
             )}
           </fieldset>

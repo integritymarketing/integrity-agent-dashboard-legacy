@@ -1,35 +1,36 @@
 .client-notes-card {
-    background: #ffffff;
-    border-radius: 8px;
-    padding-bottom: 30px;
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        h4 {
-            font-size: 24px;
-            line-height: 29px;
-            color: #002d72;
-            margin-bottom: 0;
-            margin-left: 30px;
-        }
+  background: #ffffff;
+  border-radius: 8px;
+  padding-bottom: 30px;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    h4 {
+      font-size: 24px;
+      line-height: 29px;
+      color: #002d72;
+      margin-bottom: 0;
+      margin-left: 30px;
     }
-    .client-notes-card-body {
-        margin: 28px 30px;
-        p {
-            color: #525761;
-        }
-        textarea {
-            color: #8D8D8D;;;
-        }
+  }
+  .client-notes-card-body {
+    margin: 28px 30px;
+    p {
+      color: #525761;
     }
-    .button-group {
-        margin-top: 30px;
-        display: flex;
-        justify-content: flex-end;
-        margin-right: 39px;
-        .button {
-            margin-left: 19px;
-        }
+    textarea {
+      color: #8d8d8d;
     }
+  }
+  .button-group {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 39px;
+    .button {
+      margin-left: 19px;
+    }
+  }
 }

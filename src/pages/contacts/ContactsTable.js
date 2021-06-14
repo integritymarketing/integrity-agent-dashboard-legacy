@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useTable, usePagination } from "react-table";
-
+import { useHistory } from "react-router-dom";
 import clientsService from "services/clientsService";
 import { Link } from "react-router-dom";
 import styles from "./ContactsPage.module.scss";
@@ -112,19 +112,30 @@ function ContactsTable({ searchString, sort }) {
     DeleteLeadContext
   );
   const addToast = useToast();
+  const history = useHistory();
 
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
-      const clearContext = () =>
+      const clearTimer = () =>
         setTimeout(() => {
-          setDeleteLeadId(null);
-          setLeadName(null);
+          clearContext();
         }, 10000);
-      const deleteTimer = clearContext();
-      const unDODelete = () => {
-        clearTimeout(deleteTimer);
+      clearTimer();
+      const clearContext = () => {
         setDeleteLeadId(null);
         setLeadName(null);
+      };
+      const unDODelete = async () => {
+        let response = await clientsService.reActivateClients([deleteLeadId]);
+        if (response.ok) {
+          clearContext();
+          history.push(`/contact/${deleteLeadId}`);
+        } else if (response.status === 400) {
+          addToast({
+            type: "error",
+            message: "Error while reactivating contact",
+          });
+        }
       };
 
       addToast({
@@ -134,9 +145,10 @@ function ContactsTable({ searchString, sort }) {
         link: "UNDO",
         onClickHandler: unDODelete,
         closeToastRequired: true,
+        onCloseCallback: clearContext,
       });
     }
-  }, [deleteLeadId, addToast, leadName, setDeleteLeadId, setLeadName]);
+  }, [deleteLeadId, addToast, leadName, setDeleteLeadId, setLeadName, history]);
 
   useEffect(() => {
     deleteContact();

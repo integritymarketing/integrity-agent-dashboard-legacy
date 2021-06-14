@@ -83,7 +83,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           </button>
         </div>
         {!isEdit && reminderHovered && (
-          <div className="datepicker-row reminderCardSection2row1of1">
+          <div className="hover-btn-hide datepicker-row reminderCardSection2row1of1">
             <button
               className="deleteTextAreaText"
               onClick={() => deleteReminder()}

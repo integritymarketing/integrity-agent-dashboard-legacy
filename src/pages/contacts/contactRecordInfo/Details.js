@@ -51,8 +51,10 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="contactdetailscardbodycol">
               <p>Address</p>
               <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.address1 : notAvailable},
-                <br />
+                {addresses ? addresses.address1 : notAvailable}
+                {addresses && addresses.address1 && addresses.address2
+                  ? "," + <br />
+                  : ""}
                 {addresses ? addresses.address2 : notAvailable}
               </div>
             </div>

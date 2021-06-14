@@ -21,7 +21,8 @@ import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
 import EditContactPage from "./DetailsEdit";
-
+import ArrowdownIcon from "components/icons/menu-arrow-down";
+import ArrowupIcon from "components/icons/menu-arrow-up";
 export default () => {
   const { contactId: id, duplicateLeadId } = useParams();
   const [personalInfo, setPersonalInfo] = useState({});
@@ -29,6 +30,7 @@ export default () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("OverView");
+  const [menuToggle, setMenuToggle] = useState(false);
 
   const getContactRecordInfo = useCallback(() => {
     setLoading(true);
@@ -76,6 +78,15 @@ export default () => {
     }
   };
 
+  const handleDisplay = (page) => {
+    if (menuToggle) {
+      setDisplay(page);
+      setMenuToggle(false);
+    } else {
+      setMenuToggle(true);
+    }
+  };
+
   return (
     <React.Fragment>
       <ToastContextProvider>
@@ -89,7 +100,7 @@ export default () => {
               <section className={styles["duplicate-contact-link"]}>
                 <Warning />
                 <span className="pl-1">
-                  The entry is a potential duplicate to&nbsp;&nbsp;  
+                  The entry is a potential duplicate to&nbsp;&nbsp;
                   <a
                     href={`/contact/${duplicateLeadId}`}
                     target="_blank"
@@ -100,9 +111,76 @@ export default () => {
                 </span>
               </section>
             )}
+            <ul
+              className={`mobile-menu leftcardmenu ${
+                menuToggle ? "" : "item-selected"
+              }`}
+              data-gtm="contact-record-menu-item"
+            >
+              <li
+                className={`${
+                  menuToggle ? "" : "arrow-hide"
+                } mobile-menu-arrow`}
+                onClick={() => {
+                  setMenuToggle(false);
+                }}
+              >
+                <ArrowdownIcon />
+              </li>
+
+              <li
+                className={`${
+                  menuToggle ? "arrow-hide" : ""
+                } mobile-menu-arrow`}
+                onClick={() => {
+                  setMenuToggle(true);
+                }}
+              >
+                <ArrowupIcon />
+              </li>
+
+              <li
+                className={`OverView ${
+                  display === "OverView" ? "mobile-menu-active" : ""
+                }`}
+                onClick={() => handleDisplay("OverView")}
+              >
+                <label className="icon-spacing">
+                  <OverviewIcon />
+                </label>
+                <span>Overview</span>
+              </li>
+              <li
+                className={`Details DetailsEdit ${
+                  display === "Details" || display === "DetailsEdit"
+                    ? "mobile-menu-active"
+                    : ""
+                }`}
+                onClick={() => handleDisplay("Details")}
+              >
+                <label className="icon-spacing">
+                  <DetailsIcon />
+                </label>
+                <span>Details</span>
+              </li>
+              <li
+                className={`Preferences ${
+                  display === "Preferences" ? "mobile-menu-active" : ""
+                }`}
+                onClick={() => handleDisplay("Preferences")}
+              >
+                <label className="icon-spacing">
+                  <PreferencesIcon />
+                </label>
+                <span>Preferences</span>
+              </li>
+            </ul>
             <PersonalInfo personalInfo={personalInfo} />
             <Container className={styles.container}>
-              <ul className="leftcardmenu" data-gtm="contact-record-menu-item">
+              <ul
+                className="leftcardmenu desktop-menu-hide"
+                data-gtm="contact-record-menu-item"
+              >
                 <li
                   className={display === "OverView" && "active"}
                   onClick={() => {
