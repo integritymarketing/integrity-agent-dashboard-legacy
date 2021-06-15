@@ -30,6 +30,12 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
     setActivityModalStatus(true);
   };
 
+  const closeModal = () => {
+    setActivityData({});
+    setIsEdit(false);
+    setActivityModalStatus(false);
+  };
+
   return (
     <>
       <div className="activityCard" data-gtm="contact-record-activity-section">
@@ -128,7 +134,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
         deleteActivity={deleteActivity}
         activityData={activityData}
         activityModalStatus={activityModalStatus}
-        setActivityModalStatus={() => setActivityModalStatus(false)}
+        setModalClose={closeModal}
         leadId={leadId}
         getContactRecordInfo={getContactRecordInfo}
       />

@@ -384,7 +384,9 @@ export default function EditContactPage(props) {
           className={`br-8 add--new-contact ${styles["add--new-contact"]}`}
         >
           <ToastContextProvider>
-            <h3 className="hdg hdg--3 pt-3 pb-2">Contact Details</h3>
+            <h3 className="hdg hdg--3 pt-3 pb-2 contact-details-heading">
+              Contact Details
+            </h3>
             <div className="border-bottom border-bottom--light"></div>
             <EditContactForm {...props} />
           </ToastContextProvider>

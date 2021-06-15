@@ -80,10 +80,10 @@ export function ToastContextProvider({ children }) {
                     toast?.link?.toLowerCase() === "undo" ? "undo" : ""
                   }
                 >
-                  <span>{toast.message}</span>
+                  <span>{toast.message}&nbsp;&nbsp;</span>
                   {toast.link && (
                     <a href={() => false} onClick={() => onLinkPress(toast)}>
-                      &nbsp;&nbsp;{toast.link}
+                      {toast.link}
                     </a>
                   )}
                 </span>

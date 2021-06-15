@@ -7,7 +7,7 @@ import * as Sentry from "@sentry/react";
 
 export default ({
   activityModalStatus,
-  setActivityModalStatus,
+  setModalClose,
   leadId,
   getContactRecordInfo,
   isEdit,
@@ -15,6 +15,7 @@ export default ({
   deleteActivity,
   ...props
 }) => {
+  console.log("prors", isEdit, activityData);
   const [state, setState] = useState({
     activityBody: "",
     activitySubject: "",
@@ -29,6 +30,8 @@ export default ({
   useEffect(() => {
     if (isEdit) {
       setState((prevState) => ({ ...prevState, ...activityData }));
+    } else {
+      setState({ activityBody: "", activitySubject: "" });
     }
   }, [isEdit, activityData]);
 
@@ -49,7 +52,7 @@ export default ({
           time: 3000,
         });
         setState({ activityBody: "", activitySubject: "" });
-        setActivityModalStatus();
+        setModalClose();
         getContactRecordInfo();
       })
       .catch((e) => {
@@ -73,7 +76,7 @@ export default ({
           time: 3000,
         });
         setState({ activityBody: "", activitySubject: "" });
-        setActivityModalStatus();
+        setModalClose();
         getContactRecordInfo();
       })
       .catch((e) => {
@@ -85,12 +88,12 @@ export default ({
     <div className="customform">
       <Modal
         open={activityModalStatus}
-        onClose={setActivityModalStatus}
+        onClose={setModalClose}
         labeledById="dialog_contact_label"
       >
         <form action="" className="form" noValidate>
           <legend
-            className="header-none custom-modal-heading hdg hdg--2 mb-1"
+            className="custom-modal-heading hdg hdg--2 mb-1"
             id="dialog_contact_label"
           >
             <span className="bgcolor-4">
@@ -119,12 +122,14 @@ export default ({
             ></textarea>
           </div>
           <div className="new-note-popup-formfield-btn form__submit custom-form-btn">
-            <div
-              className="delete-note-btn"
-              onClick={() => deleteActivity(activityData.activityId)}
-            >
-              <p>Delete Note</p>
-            </div>
+            {isEdit && (
+              <div
+                className="delete-note-btn"
+                onClick={() => deleteActivity(activityData.activityId)}
+              >
+                <p>Delete Note</p>
+              </div>
+            )}
             <div className="xs-width-100">
               <button
                 className="cancel-btn btn"
@@ -135,7 +140,7 @@ export default ({
                     activitySubject: "",
                     activityTypeId: 0,
                   });
-                  setActivityModalStatus();
+                  setModalClose();
                 }}
               >
                 Cancel
