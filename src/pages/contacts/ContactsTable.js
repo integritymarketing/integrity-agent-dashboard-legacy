@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useTable, usePagination } from "react-table";
 import { useHistory } from "react-router-dom";
-import clientsService from "services/clientsService";
 import { Link } from "react-router-dom";
+import * as Sentry from "@sentry/react";
+import clientsService from "services/clientsService";
 import styles from "./ContactsPage.module.scss";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
@@ -10,7 +11,7 @@ import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
 import DeleteLeadContext from "contexts/deleteLead";
-import useToast from "../../hooks/useToast";
+import useToast from "hooks/useToast";
 import analyticsService from "services/analyticsService";
 
 function Table({
@@ -102,6 +103,22 @@ function Table({
   );
 }
 
+const getAndResetItemFromLocalStorage = (key, initialValue) => {
+  try {
+    // Get from local storage by key
+    const item = window.localStorage.getItem(key);
+    // Parse stored json or if none return initialValue
+    const val = item ? JSON.parse(item) : initialValue;
+    window.localStorage.removeItem(key);
+    return val;
+  } catch (error) {
+    // If error also return initialValue
+    Sentry.captureException(error);
+    window.localStorage.removeItem(key);
+    return initialValue;
+  }
+}
+
 function ContactsTable({ searchString, sort }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -113,7 +130,7 @@ function ContactsTable({ searchString, sort }) {
   );
   const addToast = useToast();
   const history = useHistory();
-
+  
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
       const clearTimer = () =>
@@ -160,8 +177,9 @@ function ContactsTable({ searchString, sort }) {
         return;
       }
       setLoading(true);
+      const duplicateIds = getAndResetItemFromLocalStorage('duplicateLeadIds')
       clientsService
-        .getList(pageIndex, pageSize, sort, null, searchString || null)
+        .getList(pageIndex, pageSize, sort, null, searchString || null, duplicateIds)
         .then((list) => {
           setData(
             list.result.map((res) => ({
@@ -181,7 +199,7 @@ function ContactsTable({ searchString, sort }) {
 
   const handleRefresh = useCallback(() => {
     fetchData({ pageIndex: 1, ...(tableState || {}) });
-  }, [fetchData, tableState]);
+  }, [tableState, fetchData]);
 
   useEffect(() => {
     fetchData(tableState);

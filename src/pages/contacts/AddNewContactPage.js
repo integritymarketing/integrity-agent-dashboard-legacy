@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -32,51 +32,54 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
     return {
       ...errors,
-      isExactDuplicate: true,
-    };
+      isExactDuplicate: true
+     }
   } else {
-    const response = await clientService.getDuplicateContact(values);
+    const response = await clientService.getDuplicateContact(values)
     if (response.ok) {
       const resMessage = await response.json();
       if (resMessage.isExactDuplicate) {
         return {
           firstName: "Duplicate Contact",
           lastName: "Duplicate Contact",
-          isExactDuplicate: true,
-        };
+          isExactDuplicate: true
+        }
       } else {
-        setDuplicateLeadIds(resMessage.duplicateLeadIds || []);
+        setDuplicateLeadIds(resMessage.duplicateLeadIds || [])
       }
-      return errors;
+      return errors
     } else {
       // TODO: handle errors
       return {
-        isExactDuplicate: true,
-      };
+        isExactDuplicate: true
+      }
     }
   }
-};
+}
 
 const NewContactForm = () => {
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-
   const history = useHistory();
-
-  const getContactLink = (id) => `/contact/${id}`;
+  const addToast = useToast();
+  
+  const getContactLink = (id) => `/contact/${id}`
   const goToContactDetailPage = (id) => {
     if (duplicateLeadIds.length) {
-      history.push(
-        getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
-      );
+      history.push(getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`));
     }
     history.push(getContactLink(id));
   };
-  const addToast = useToast();
-
   const goToContactPage = () => {
     history.push("/contacts");
   };
+  const handleMultileDuplicates = () => {
+    if (duplicateLeadIds.length) {
+      window.localStorage.setItem('duplicateLeadIds', JSON.stringify(duplicateLeadIds))
+    }
+    return true
+  };
+
   return (
     <Formik
       initialValues={{
@@ -102,12 +105,12 @@ const NewContactForm = () => {
           [
             {
               name: "firstName",
-              validator: validationService.validateName,
+              validator: validationService.validateRequired,
               args: ["First Name"],
             },
             {
               name: "lastName",
-              validator: validationService.validateName,
+              validator: validationService.validateRequired,
               args: ["Last Name"],
             },
             {
@@ -149,7 +152,7 @@ const NewContactForm = () => {
           ],
           values
         );
-        return await isDuplicateContact(values, setDuplicateLeadIds, errors);
+        return await isDuplicateContact(values, setDuplicateLeadIds, errors)
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
@@ -158,8 +161,8 @@ const NewContactForm = () => {
           const resMessage = await response.json();
           const leadId = resMessage.leadsId;
           analyticsService.fireEvent("event-form-submit", {
-            formName: "New Contact",
-          });
+            formName: 'New Contact',
+          })
           addToast({
             message: "Contact added successfully",
           });
@@ -176,8 +179,8 @@ const NewContactForm = () => {
             lastName: "Duplicate Contact",
           });
           analyticsService.fireEvent("event-form-submit-invalid", {
-            formName: "Duplicate Contact Error",
-          });
+            formName: 'Duplicate Contact Error',
+          })
           document.getElementsByTagName("html")[0].scrollIntoView();
         }
       }}
@@ -258,7 +261,7 @@ const NewContactForm = () => {
                 value={values.address.city}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={errors.address?.city ? true : false}
+                error={touched.address?.city && errors.address?.city}
               />
               <Textfield
                 id="contact-address__statecode"
@@ -268,7 +271,7 @@ const NewContactForm = () => {
                 value={values.address.stateCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={errors.address?.stateCode ? true : false}
+                error={touched.address?.stateCode && errors.address?.stateCode}
               />
               <Textfield
                 id="contact-address__zip"
@@ -278,24 +281,11 @@ const NewContactForm = () => {
                 value={values.address.postalCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={errors.address?.postalCode ? true : false}
+                error={
+                  touched.address?.postalCode && errors.address?.postalCode
+                }
               />
             </div>
-            {(errors.address?.city ||
-              errors.address?.stateCode ||
-              errors.address?.postalCode) && (
-              <div className="errors-block">
-                {errors.address?.city && (
-                  <p className="error-msg">{errors.address?.city}</p>
-                )}
-                {errors.address?.stateCode && (
-                  <p className="error-msg">{errors.address?.stateCode}</p>
-                )}
-                {errors.address?.postalCode && (
-                  <p className="error-msg">{errors.address?.postalCode}</p>
-                )}
-              </div>
-            )}
           </fieldset>
           <div className="mt-3 mb-3 border-bottom border-bottom--light" />
           <fieldset className="form__fields form__fields--constrained">
@@ -373,25 +363,26 @@ const NewContactForm = () => {
                 setFieldValue("contactRecordType", value);
               }}
             />
-            {duplicateLeadIds?.length > 0 && (
+            { duplicateLeadIds?.length > 0 && (
               <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
-                <div>
-                  <Warning />
-                </div>
-                <div className={`${styles["duplicate-lead--text"]} pl-1`}>
-                  You can create this contact, but the entry is a potential
-                  duplicate to
-                  {duplicateLeadIds.map((duplicateLeadId) => (
-                    <a
-                      key={duplicateLeadId}
-                      href={getContactLink(duplicateLeadId)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {` [duplicate contact link]`}
-                    </a>
-                  ))}
-                  .
+                <div><Warning /></div>
+                <div className={`${styles["duplicate-lead--text"]} pl-1`}> 
+                You can create this contact, but the entry is a potential
+                duplicate to {' '}
+              {duplicateLeadIds.length === 1
+               ?(<a
+                href={getContactLink(duplicateLeadIds[0])}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {`[this contact link]`}
+              </a>)
+              :<Link 
+              to='/contacts'
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={handleMultileDuplicates}> view duplicates
+              </Link>}
                 </div>
               </div>
             )}

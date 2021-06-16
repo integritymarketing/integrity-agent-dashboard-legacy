@@ -20,16 +20,24 @@ class ClientsService {
     return fetch(path, opts);
   };
 
-  getList = async (page, pageSize, sort, filterId, searchText) => {
+  getList = async (page, pageSize, sort, filterId, searchText, leadIds) => {
     const params = {
       PageSize: pageSize,
       CurrentPage: page,
       Sort: sort,
       FilterId: filterId,
       Search: searchText,
+      leadIds
     };
+    debugger
+
     const queryStr = Object.keys(params)
-      .map((key) => (params[key] ? `${key}=${params[key]}` : null))
+      .map((key) => {
+        if (key === 'leadIds' && leadIds) {
+          return (params[key] || []).map(leadId => `${key}=${leadId}`).join("&")
+        }
+        return (params[key] ? `${key}=${params[key]}` : null)
+     })
       .filter((str) => str !== null)
       .join("&");
     const response = await this._clientAPIRequest(
