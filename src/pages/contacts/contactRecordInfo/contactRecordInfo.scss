@@ -648,8 +648,7 @@
   width: 100%;
   resize: none;
   padding: 10px;
-  // margin-bottom: 20px;
-  height: 42px;
+  word-wrap: break-word;
 }
 .reminderCardSection2row2left .normalText:focus-visible {
   outline: none;
