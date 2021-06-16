@@ -620,12 +620,22 @@
   border-radius: 5px;
   top: 37px;
 }
+.reminderCardSection2 .text-length {
+  display: block;
+  margin-top: 10px;
+  color: red;
+  font-size: 12px;
+}
 .datepickerparent {
   position: relative;
 }
 .datepicker-row {
-  display: flex;
+  flex: 1;
   align-items: center;
+  overflow: hidden;
+  max-width: 400px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .datetext {
   font-size: 14px;

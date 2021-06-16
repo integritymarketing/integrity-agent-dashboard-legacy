@@ -46,7 +46,6 @@ const ICONS = {
     encoding: "utf-8",
   });
 
-  // console.log(rawResources);
 
   const ALLOWED_WINDOWS = ["Launch", "Launch: Feature"];
   const parsedResources = JSON.parse(rawResources);

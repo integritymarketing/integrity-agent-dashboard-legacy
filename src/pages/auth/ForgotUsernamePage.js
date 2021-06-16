@@ -103,7 +103,6 @@ export default () => {
               );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
-              console.log("onSubmit!!");
               setSubmitting(true);
               setApiErrors([]);
               loading.begin();
@@ -115,7 +114,6 @@ export default () => {
 
               if (response.status >= 200 && response.status < 300) {
                 const email = await response.text();
-                console.log("SUCCESS STATUS, NOW WHAT?!", email);
                 setUsername(email);
                 analyticsService.fireEvent("formSubmit", {
                   button: "forgotUsernameSubmit",

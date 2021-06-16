@@ -15,7 +15,6 @@ export default ({
   deleteActivity,
   ...props
 }) => {
-  console.log("prors", isEdit, activityData);
   const [state, setState] = useState({
     activityBody: "",
     activitySubject: "",

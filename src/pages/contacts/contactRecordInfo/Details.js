@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { formatPhoneNumber } from "utils/phones";
 import DeleteLeadModal from "./DeleteLeadModal";
 
-const notAvailable = "N/A";
+const notAvailable = "-";
 
 export default ({ setDisplay, personalInfo, ...rest }) => {
   let {
@@ -52,9 +52,11 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
               <p>Address</p>
               <div className="contactdetailscardbodycolvalue">
                 {addresses ? addresses.address1 : notAvailable}
-                {addresses && addresses.address1 && addresses.address2
-                  ? "," + <br />
-                  : ""}
+                {addresses && addresses.address1 && addresses.address2 ? (
+                  <>
+                    , <br />
+                  </>
+                ) : null}
                 {addresses ? addresses.address2 : notAvailable}
               </div>
             </div>

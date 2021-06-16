@@ -23,7 +23,7 @@ export default ({
 
   useEffect(() => {
     analyticsService.fireEvent("event-modal-appear", {
-      modalName: 'Reminder',
+      modalName: "Reminder",
     });
   }, []);
 
@@ -107,6 +107,7 @@ export default ({
             <div className="reminderCardSection2row2left full-width">
               <div style={{ display: "flex" }}>
                 <textarea
+                  maxLength={200}
                   value={reminderNote}
                   placeholder="Please Enter Here.."
                   className="normalText"
@@ -127,6 +128,9 @@ export default ({
               </div>
             </div>
           </div>
+          <span className="text-length">
+            {(reminderNote || "").length}/200 characters
+          </span>
         </div>
         <div className="reminder-modal-footer">
           <button

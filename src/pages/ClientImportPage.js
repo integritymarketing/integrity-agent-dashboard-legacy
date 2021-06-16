@@ -25,7 +25,9 @@ export default () => {
       <GlobalNav />
       <div>
         <Container>
-          <h2 className={`hdg hdg--1 mt-5 ${styles['client-import']}`}>Client Import</h2>
+          <h2 className={`hdg hdg--1 mt-5 ${styles["client-import"]}`}>
+            Client Import
+          </h2>
           <Button
             className={`mr-2 mt-4 ${styles.backButton}`}
             label="Back to Contacts"
@@ -41,7 +43,7 @@ export default () => {
           Microsoft Excel, click on the File menu, then click Save As. In the
           file format dropdown, choose Comma Separated Values (.csv). The
           following fields are available for import (all are optional except
-          Email):
+          Email and Phone):
         </p>
         <ul className="list-disc">
           <li>Contact Record Type</li>

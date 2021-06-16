@@ -25,7 +25,6 @@ export default ({ personalInfo }) => {
   phones = phones.length > 0 ? phones[0].leadPhone : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 
-  console.log("HHH", formatAddress(addresses));
 
   return (
     <div className="nameCard">
