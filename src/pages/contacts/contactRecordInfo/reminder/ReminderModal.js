@@ -109,7 +109,7 @@ export default ({
                 <textarea
                   maxLength={200}
                   value={reminderNote}
-                  placeholder="Please Enter Here.."
+                  placeholder="Add a reminder..."
                   className="normalText"
                   onChange={(e) => setReminderNote(e.target.value)}
                 ></textarea>
@@ -118,7 +118,11 @@ export default ({
           </div>
           <div className="complete-btn-section">
             {" "}
-            <span className="text-length">
+            <span
+              className={`text-length  ${
+                (reminderNote || "").length === 200 ? "text-error" : ""
+              }`}
+            >
               {(reminderNote || "").length}/200 characters
             </span>
             {isEdit && !isComplete && (

@@ -623,8 +623,11 @@
 .reminderCardSection2 .text-length {
   display: block;
   margin-top: 10px;
-  color: red;
+  color: var(--v2-main-gray);
   font-size: 12px;
+}
+.text-error {
+  color: red !important;
 }
 .datepickerparent {
   position: relative;
