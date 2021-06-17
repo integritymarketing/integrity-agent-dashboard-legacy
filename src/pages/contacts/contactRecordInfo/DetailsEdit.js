@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useHistory, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
+import Warning from "components/icons/warning";
 import { Select } from "components/ui/Select";
 import validationService from "services/validationService";
 import styles from "../ContactsPage.module.scss";
@@ -10,6 +12,7 @@ import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
+import analyticsService from "services/analyticsService";
 
 const CONTACT_RECORD_TYPE = [
   { value: "prospect", label: "Prospect" },
@@ -20,6 +23,46 @@ const PHONE_LABELS = [
   { value: "mobile", label: "Mobile" },
   { value: "home", label: "Home" },
 ];
+
+const isDuplicateContact = async (
+  values,
+  setDuplicateLeadIds,
+  errors = {},
+  leadsId
+) => {
+  if (Object.keys(errors).length) {
+    return {
+      ...errors,
+      isExactDuplicate: true,
+    };
+  } else {
+    const response = await clientService.getDuplicateContact(values);
+    if (response.ok) {
+      const resMessage = await response.json();
+      const duplicateLeadIds = resMessage.duplicateLeadIds.filter(
+        (id) => leadsId !== id
+      );
+
+      if (duplicateLeadIds.length > 0) {
+        if (resMessage.isExactDuplicate) {
+          return {
+            firstName: "Duplicate Contact",
+            lastName: "Duplicate Contact",
+            isExactDuplicate: true,
+          };
+        } else {
+          setDuplicateLeadIds(duplicateLeadIds || []);
+        }
+      }
+      return errors;
+    } else {
+      // TODO: handle errors
+      return {
+        isExactDuplicate: true,
+      };
+    }
+  }
+};
 
 const EditContactForm = (props) => {
   let {
@@ -63,8 +106,29 @@ const EditContactForm = (props) => {
   const [showAddress2, setShowAddress2] = useState(
     address2 !== "" ? true : false
   );
-
   const addToast = useToast();
+  const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+  const history = useHistory();
+
+  const getContactLink = (id) => `/contact/${id}`;
+  const goToContactDetailPage = (id) => {
+    if (duplicateLeadIds.length) {
+      return history.push(
+        getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
+      );
+    }
+    history.push(getContactLink(id));
+  };
+
+  const handleMultileDuplicates = () => {
+    if (duplicateLeadIds.length) {
+      window.localStorage.setItem(
+        "duplicateLeadIds",
+        JSON.stringify(duplicateLeadIds)
+      );
+    }
+    return true;
+  };
   return (
     <Formik
       initialValues={{
@@ -73,7 +137,7 @@ const EditContactForm = (props) => {
         email: email,
         phones: {
           leadPhone: phone,
-          phoneLabel: phoneLabel,
+          phoneLabel: phoneLabel.toLowerCase(),
         },
         address: {
           address1: address1,
@@ -83,7 +147,7 @@ const EditContactForm = (props) => {
           postalCode: postalCode,
         },
         primaryCommunication: isPrimary,
-        contactRecordType: contactRecordType,
+        contactRecordType: contactRecordType.toLowerCase(),
         emailID,
         leadAddressId,
         phoneId,
@@ -91,8 +155,8 @@ const EditContactForm = (props) => {
         leadsId,
         notes,
       }}
-      validate={(values) => {
-        return validationService.validateMultiple(
+      validate={async (values) => {
+        const errors = validationService.validateMultiple(
           [
             {
               name: "firstName",
@@ -143,6 +207,12 @@ const EditContactForm = (props) => {
           ],
           values
         );
+        return await isDuplicateContact(
+          values,
+          setDuplicateLeadIds,
+          errors,
+          leadsId
+        );
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
@@ -153,14 +223,22 @@ const EditContactForm = (props) => {
           });
           setTimeout(() => {
             props.getContactRecordInfo();
+            goToContactDetailPage(leadsId);
             props.setDisplay("Details");
             setSubmitting(false);
           }, 2000);
         } else if (response.status === 400) {
-          addToast({
-            type: "error",
-            message: "Error while updating contact",
+          const errMessage = await response.json();
+          const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
+          setErrors({
+            duplicateLeadId,
+            firstName: "Duplicate Contact",
+            lastName: "Duplicate Contact",
           });
+          analyticsService.fireEvent("event-form-submit-invalid", {
+            formName: "Duplicate Contact Error",
+          });
+          document.getElementsByTagName("html")[0].scrollIntoView();
         }
       }}
     >
@@ -351,6 +429,36 @@ const EditContactForm = (props) => {
               initialValue={values.contactRecordType}
               onChange={(value) => setFieldValue("contactRecordType", value)}
             />
+            {duplicateLeadIds?.length > 0 && (
+              <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
+                <div>
+                  <Warning />
+                </div>
+                <div className={`${styles["duplicate-lead--text"]} pl-1`}>
+                  You can create this contact, but the entry is a potential
+                  duplicate to{" "}
+                  {duplicateLeadIds.length === 1 ? (
+                    <a
+                      href={getContactLink(duplicateLeadIds[0])}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`this contact link`}
+                    </a>
+                  ) : (
+                    <Link
+                      to="/contacts"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleMultileDuplicates}
+                    >
+                      {" "}
+                      view duplicates
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div className="mt-5 pb-5" style={{ display: "flex" }}>
               <Button
@@ -364,7 +472,7 @@ const EditContactForm = (props) => {
                 data-gtm="new-contact-create-button"
                 label="Save"
                 type="primary"
-                disabled={!dirty}
+                disabled={!dirty || !isValid}
                 onClick={handleSubmit}
               />
             </div>

@@ -50,7 +50,7 @@ export default function ClientNotes(props) {
           </div>
           {!isEdit ? (
             <div
-              className="pull-right"
+              className="client-note-btn pull-right"
               data-gtm="contact-record-client-notes-edit-button"
             >
               <Button label="Edit" onClick={handleOnEdit} type="tertiary">
