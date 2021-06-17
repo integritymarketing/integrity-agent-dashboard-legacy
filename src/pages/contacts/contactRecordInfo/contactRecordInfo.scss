@@ -9,7 +9,7 @@
 }
 
 .activityCardHeader {
-  padding: 31px 39px;
+  padding: 30px 38px 26px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -649,6 +649,12 @@
   resize: none;
   padding: 10px;
   word-wrap: break-word;
+  height: 120px;
+}
+.complete-btn-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .reminderCardSection2row2left .normalText:focus-visible {
   outline: none;
@@ -1269,4 +1275,37 @@ button {
   line-height: 2;
   min-height: 1.5rem;
   color: var(--error-state-color);
+}
+
+.custom-datepicker .DayPicker-Caption,
+.custom-datepicker .DayPicker-Weekdays {
+  padding: 1em 1em 0;
+  background: #ebeff6;
+  margin: 0;
+}
+.custom-datepicker .DayPicker-Month {
+  margin: 0;
+  width: 100%;
+}
+.custom-datepicker {
+  width: 290px;
+}
+.custom-datepicker
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  color: #fff;
+  font-weight: 700;
+  background: #0052ce;
+}
+.custom-datepicker .DayPicker-Caption > div {
+  font-size: 14px;
+}
+.custom-datepicker .DayPicker-Weekday,
+.custom-datepicker .DayPicker-Day {
+  font-size: 12px;
+}
+.custom-datepicker .DayPicker-wrapper {
+  padding-bottom: 0.5em;
+}
+.custom-datepicker .DayPicker-Day {
+  padding: 0.8em;
 }
