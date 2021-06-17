@@ -193,8 +193,8 @@ export default () => {
               </div>
               <div className="mt-1">
                 <p className="text-body">
-                  Quote and compare Med Supp plans by location, carrier, and
-                  more
+                  Quote, compare, and research Med Supp plans and more by
+                  location, carrier, features, or product
                 </p>
               </div>
               <div className="pt-2 mt-auto">
