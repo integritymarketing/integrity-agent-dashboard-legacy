@@ -106,7 +106,7 @@ export default () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    [duplicate contact link].
+                    this contact link.
                   </a>
                 </span>
               </section>
