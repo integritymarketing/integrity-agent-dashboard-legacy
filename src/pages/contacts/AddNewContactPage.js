@@ -66,7 +66,7 @@ const NewContactForm = () => {
   const getContactLink = (id) => `/contact/${id}`
   const goToContactDetailPage = (id) => {
     if (duplicateLeadIds.length) {
-      history.push(getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`));
+      return history.push(getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`));
     }
     history.push(getContactLink(id));
   };
@@ -375,7 +375,7 @@ const NewContactForm = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {`[this contact link]`}
+                {`this contact link`}
               </a>)
               :<Link 
               to='/contacts'

@@ -29,7 +29,6 @@ class ClientsService {
       Search: searchText,
       leadIds
     };
-    debugger
 
     const queryStr = Object.keys(params)
       .map((key) => {

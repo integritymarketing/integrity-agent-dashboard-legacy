@@ -80,7 +80,10 @@ const App = () => {
                     <AuthenticatedRoute path="/contact/add-new">
                       <AddNewContactPage />
                     </AuthenticatedRoute>
-                    <AuthenticatedRoute path="/contact/:contactId">
+                    <AuthenticatedRoute exact path="/contact/:contactId/duplicate/:duplicateLeadId">
+                      <ContactRecordInfo />
+                    </AuthenticatedRoute>
+                    <AuthenticatedRoute exact path="/contact/:contactId">
                       <ContactRecordInfo />
                     </AuthenticatedRoute>
                     <AuthenticatedRoute path="/client-import">
