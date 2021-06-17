@@ -32,6 +32,7 @@ export default ({ date, setDate, placeholder, isEdit = true }) => {
       </div>
       {dateStatus && (
         <DayPicker
+          className="custom-datepicker"
           selectedDays={date}
           format={"MM/DD"}
           onDayClick={(date) => {

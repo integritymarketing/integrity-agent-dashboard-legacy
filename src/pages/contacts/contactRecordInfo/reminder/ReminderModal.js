@@ -109,28 +109,34 @@ export default ({
                 <textarea
                   maxLength={200}
                   value={reminderNote}
-                  placeholder="Please Enter Here.."
+                  placeholder="Add a reminder..."
                   className="normalText"
-                  rows="3"
                   onChange={(e) => setReminderNote(e.target.value)}
                 ></textarea>
-                {isEdit && !isComplete && (
-                  <button
-                    data-gtm="reminder-complete-button"
-                    className="complete-btn"
-                    onClick={() => {
-                      updateReminder(true);
-                    }}
-                  >
-                    Complete
-                  </button>
-                )}
               </div>
             </div>
           </div>
-          <span className="text-length">
-            {(reminderNote || "").length}/200 characters
-          </span>
+          <div className="complete-btn-section">
+            {" "}
+            <span
+              className={`text-length  ${
+                (reminderNote || "").length === 200 ? "text-error" : ""
+              }`}
+            >
+              {(reminderNote || "").length}/200 characters
+            </span>
+            {isEdit && !isComplete && (
+              <button
+                data-gtm="reminder-complete-button"
+                className="complete-btn"
+                onClick={() => {
+                  updateReminder(true);
+                }}
+              >
+                Complete
+              </button>
+            )}
+          </div>
         </div>
         <div className="reminder-modal-footer">
           <button

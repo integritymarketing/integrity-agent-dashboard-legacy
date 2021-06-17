@@ -5,8 +5,8 @@ import ClientNotes from "./clientNotes";
 
 export default ({
   personalInfo,
-  reminders,
-  activities,
+  reminders =[],
+  activities=[],
   getContactRecordInfo,
   id,
 }) => {

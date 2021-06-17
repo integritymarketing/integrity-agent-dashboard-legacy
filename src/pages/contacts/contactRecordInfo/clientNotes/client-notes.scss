@@ -6,13 +6,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 30px 38px 26px 30px;
     h4 {
       font-size: 24px;
       line-height: 29px;
       color: #002d72;
       margin-bottom: 0;
-      margin-left: 30px;
+      margin-left: 0;
     }
   }
   .client-notes-card-body {
@@ -33,4 +33,8 @@
       margin-left: 19px;
     }
   }
+}
+.client-note-btn button {
+  padding: 0 !important;
+  justify-content: flex-end !important;
 }
