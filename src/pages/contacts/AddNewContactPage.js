@@ -105,12 +105,12 @@ const NewContactForm = () => {
           [
             {
               name: "firstName",
-              validator: validationService.validateRequired,
+              validator: validationService.validateName,
               args: ["First Name"],
             },
             {
               name: "lastName",
-              validator: validationService.validateRequired,
+              validator: validationService.validateName,
               args: ["Last Name"],
             },
             {
