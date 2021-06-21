@@ -151,7 +151,7 @@
 
 .viewLink {
   text-decoration: none;
-  color: var(--v2-royal-blue);
+  color: var(--v2-dark-blue);
 }
 
 .contactPersonName {
@@ -243,6 +243,9 @@
     background: #ffffff;
     border: 1px solid #c7ccd1;
     border-radius: 4px !important;
+  }
+  & svg {
+    stroke: none !important;
   }
   @media (max-width: 480px) {
     padding-left: 12px !important;
