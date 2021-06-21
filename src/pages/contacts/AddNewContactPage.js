@@ -32,41 +32,43 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
     return {
       ...errors,
-      isExactDuplicate: true
-     }
+      isExactDuplicate: true,
+    };
   } else {
-    const response = await clientService.getDuplicateContact(values)
+    const response = await clientService.getDuplicateContact(values);
     if (response.ok) {
       const resMessage = await response.json();
       if (resMessage.isExactDuplicate) {
         return {
           firstName: "Duplicate Contact",
           lastName: "Duplicate Contact",
-          isExactDuplicate: true
-        }
+          isExactDuplicate: true,
+        };
       } else {
-        setDuplicateLeadIds(resMessage.duplicateLeadIds || [])
+        setDuplicateLeadIds(resMessage.duplicateLeadIds || []);
       }
-      return errors
+      return errors;
     } else {
       // TODO: handle errors
       return {
-        isExactDuplicate: true
-      }
+        isExactDuplicate: true,
+      };
     }
   }
-}
+};
 
 const NewContactForm = () => {
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
   const history = useHistory();
   const addToast = useToast();
-  
-  const getContactLink = (id) => `/contact/${id}`
+
+  const getContactLink = (id) => `/contact/${id}`;
   const goToContactDetailPage = (id) => {
     if (duplicateLeadIds.length) {
-      return history.push(getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`));
+      return history.push(
+        getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
+      );
     }
     history.push(getContactLink(id));
   };
@@ -75,9 +77,12 @@ const NewContactForm = () => {
   };
   const handleMultileDuplicates = () => {
     if (duplicateLeadIds.length) {
-      window.localStorage.setItem('duplicateLeadIds', JSON.stringify(duplicateLeadIds))
+      window.localStorage.setItem(
+        "duplicateLeadIds",
+        JSON.stringify(duplicateLeadIds)
+      );
     }
-    return true
+    return true;
   };
 
   return (
@@ -152,7 +157,7 @@ const NewContactForm = () => {
           ],
           values
         );
-        return await isDuplicateContact(values, setDuplicateLeadIds, errors)
+        return await isDuplicateContact(values, setDuplicateLeadIds, errors);
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
@@ -161,8 +166,8 @@ const NewContactForm = () => {
           const resMessage = await response.json();
           const leadId = resMessage.leadsId;
           analyticsService.fireEvent("event-form-submit", {
-            formName: 'New Contact',
-          })
+            formName: "New Contact",
+          });
           addToast({
             message: "Contact added successfully",
           });
@@ -179,8 +184,8 @@ const NewContactForm = () => {
             lastName: "Duplicate Contact",
           });
           analyticsService.fireEvent("event-form-submit-invalid", {
-            formName: 'Duplicate Contact Error',
-          })
+            formName: "Duplicate Contact Error",
+          });
           document.getElementsByTagName("html")[0].scrollIntoView();
         }
       }}
@@ -201,7 +206,7 @@ const NewContactForm = () => {
             <Textfield
               id="contact-fname"
               label="First Name"
-              placeholder={"Enter your first name"}
+              placeholder={"Enter first name"}
               name="firstName"
               value={values.firstName}
               onChange={handleChange}
@@ -211,7 +216,7 @@ const NewContactForm = () => {
             <Textfield
               id="contact-lname"
               label="Last Name"
-              placeholder="Enter your last name"
+              placeholder="Enter last name"
               name="lastName"
               value={values.lastName}
               onChange={handleChange}
@@ -225,7 +230,7 @@ const NewContactForm = () => {
               id="contact-address"
               className={`${styles["contact-address"]}`}
               label="Address"
-              placeholder={"Enter your address"}
+              placeholder={"Enter address"}
               name="address.address1"
               value={values.address.address1}
               onChange={handleChange}
@@ -293,7 +298,7 @@ const NewContactForm = () => {
               id="contact-email"
               type="email"
               label="Email Address"
-              placeholder="Enter your email address"
+              placeholder="Enter email address"
               name="email"
               value={values.email}
               onChange={handleChange}
@@ -363,26 +368,33 @@ const NewContactForm = () => {
                 setFieldValue("contactRecordType", value);
               }}
             />
-            { duplicateLeadIds?.length > 0 && (
+            {duplicateLeadIds?.length > 0 && (
               <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
-                <div><Warning /></div>
-                <div className={`${styles["duplicate-lead--text"]} pl-1`}> 
-                You can create this contact, but the entry is a potential
-                duplicate to {' '}
-              {duplicateLeadIds.length === 1
-               ?(<a
-                href={getContactLink(duplicateLeadIds[0])}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {`this contact link`}
-              </a>)
-              :<Link 
-              to='/contacts'
-              target="_blank" 
-              rel="noopener noreferrer"
-              onClick={handleMultileDuplicates}> view duplicates
-              </Link>}
+                <div>
+                  <Warning />
+                </div>
+                <div className={`${styles["duplicate-lead--text"]} pl-1`}>
+                  You can create this contact, but the entry is a potential
+                  duplicate to{" "}
+                  {duplicateLeadIds.length === 1 ? (
+                    <a
+                      href={getContactLink(duplicateLeadIds[0])}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`this contact link`}
+                    </a>
+                  ) : (
+                    <Link
+                      to="/contacts"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleMultileDuplicates}
+                    >
+                      {" "}
+                      view duplicates
+                    </Link>
+                  )}
                 </div>
               </div>
             )}
