@@ -46,7 +46,10 @@ export default ({ value, original }) => {
         initialValue={value}
         placeholder="Stage"
         options={statusOptions.filter((opt) => {
-          if (original.contactRecordType === "Client") {
+          if (
+            original.contactRecordType &&
+            original.contactRecordType.toLowerCase() === "client"
+          ) {
             return opt.value !== "New";
           }
           return opt.value !== "Renewal";

@@ -138,7 +138,7 @@ class ValidationService {
   };
 
   validateCity = (inputStr, label = "City") => {
-    if (inputStr && !/^[a-zA-Z ]{4,}$/.test(inputStr)) {
+    if (inputStr && !/^[0-9a-zA-Z#-.']{4,}$/.test(inputStr)) {
       return `${label} must be a valid characters only`;
     }
     return null;
