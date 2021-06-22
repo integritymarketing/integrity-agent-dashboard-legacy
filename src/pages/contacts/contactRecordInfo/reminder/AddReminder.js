@@ -54,6 +54,7 @@ export default ({
             value={reminderNote}
             placeholder="Please Enter Here.."
             className="normalText"
+            style={{height:'auto'}}
             rows="3"
             onChange={(e) => setReminderNote(e.target.value)}
           ></textarea>
