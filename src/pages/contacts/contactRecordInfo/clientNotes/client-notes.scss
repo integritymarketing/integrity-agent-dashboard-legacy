@@ -34,7 +34,19 @@
     }
   }
 }
+
 .client-note-btn button {
+  color: #0052ce;
+  width: 103px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  font-weight: 600;
+  font-family: "Lato", sans-serif;
   padding: 0 !important;
-  justify-content: flex-end !important;
+}
+.client-note-btn button:hover {
+  background: #f5f7fa;
 }

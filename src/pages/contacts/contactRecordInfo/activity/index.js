@@ -122,7 +122,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
               className="showmorebtn"
               onClick={() => setShowSize(showSize + 5)}
             >
-              Show 5 More
+              Show More
             </p>
           ) : (
             <p></p>

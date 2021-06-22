@@ -22,19 +22,39 @@
   font-weight: normal;
   font-size: 24px;
   line-height: 29px;
-  color: #002d72;
+  color: var(--v2-dark-blue);
   margin-bottom: 0;
 }
 
-.activityCardHeader .notetext {
+.activityCardHeader .notetext,
+.reminderRightSide button {
   margin-bottom: 0;
   font-family: "Lato", sans-serif;
   font-weight: bold;
   font-size: 14px;
   line-height: 17px;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
+  width: 103px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 }
 
+.activityCardHeader .notetext:hover,
+.reminderRightSide button:hover {
+  background: #f5f7fa;
+  color: var(--v2-old-blue) !important;
+}
+.submit-btn.btn:hover {
+  background: var(--v2-old-blue);
+  border: 1px solid var(--v2-old-blue);
+}
+.cancel-btn.btn:hover {
+  background: #e8ecf2 !important;
+  border: 1px solid #e8ecf2 !important;
+}
 .notetext label {
   margin-left: 10px;
 }
@@ -122,7 +142,7 @@
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
 }
 
 .para-btn-section .view-btn {
@@ -139,7 +159,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
   justify-content: center;
 }
 
@@ -238,12 +258,12 @@
   font-size: 14px;
   line-height: 17px;
   text-align: center;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
   margin-right: 10px;
 }
 
 .submit-btn {
-  background: #0052ce;
+  background: var(--v2-royal-blue);
   border: 1px solid #c7ccd1;
   border-radius: 4px;
   font-family: "Lato", sans-serif;
@@ -254,11 +274,40 @@
   text-align: center;
   color: #fff;
 }
-
+.contact-details-cancel {
+  font-family: "Lato", sans-serif !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 17px;
+  text-align: center;
+  text-transform: capitalize !important;
+  border-radius: 4px !important;
+  height: 40px !important;
+  color: var(--v2-royal-blue) !important;
+}
+.contact-details-submit {
+  font-family: "Lato", sans-serif !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+  text-transform: capitalize !important;
+  border-radius: 4px !important;
+  height: 40px !important;
+}
 .custom-form-btn button {
   margin-top: 38px;
   width: 118px;
   height: 40px;
+}
+.btn-disabled:hover {
+  background: #e4e4e4 !important;
+  border: 1px solid #e4e4e4 !important;
+  color: #aba7a7 !important;
+  cursor: not-allowed !important;
 }
 .leftcardmenu {
   background: #ffffff;
@@ -303,8 +352,8 @@
 }
 .leftcardmenu li.active span,
 .leftcardmenu li.active label > svg > path {
-  color: #002d72 !important;
-  fill: #002d72 !important;
+  color: var(--v2-dark-blue) !important;
+  fill: var(--v2-dark-blue) !important;
   font-weight: bold;
 }
 .leftcardmenu li.active {
@@ -321,7 +370,7 @@
 .nameCardHeading h2 {
   font-size: 40px;
   line-height: 48px;
-  color: #002d72;
+  color: var(--v2-dark-blue);
   font-family: "Lato", sans-serif;
   font-weight: 400;
   margin-bottom: 6px;
@@ -395,7 +444,7 @@
   color: #70777e;
   font-family: "Lato", sans-serif;
   font-weight: 400;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
   word-break: break-all;
 }
 .reminderCard {
@@ -413,7 +462,7 @@
 .reminderCardHeading h4 {
   font-size: 24px;
   line-height: 29px;
-  color: #002d72;
+  color: var(--v2-dark-blue);
   font-family: "Lato", sans-serif;
   font-weight: 400;
 }
@@ -422,7 +471,7 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
   margin-left: 10px;
 }
 .reminderRightSide a {
@@ -470,9 +519,9 @@
   color: #70777e;
 }
 .complete-btn {
-  background: #0052ce;
+  background: var(--v2-royal-blue);
   border-radius: 4px;
-  border: 1px solid #0052ce;
+  border: 1px solid var(--v2-royal-blue);
   width: 80px;
   height: 32px;
   color: #fff !important;
@@ -494,7 +543,7 @@
 .reminder-modal-heading legend {
   font-size: 30px;
   line-height: 36px;
-  color: #002d72;
+  color: var(--v2-dark-blue);
   font-family: "Lato", sans-serif;
   font-weight: 400;
   margin: 0;
@@ -510,7 +559,7 @@
 }
 .reminder-modal-heading a {
   text-decoration: none;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
   font-size: 14px;
   line-height: 17px;
   font-family: "Lato", sans-serif;
@@ -546,7 +595,7 @@
   line-height: 17px;
   font-family: "Lato", sans-serif;
   font-weight: 700;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
   margin-right: 12px;
 }
 .reminder-modal-footer {
@@ -558,8 +607,8 @@
 .reminder-save-btn {
   width: 100px;
   height: 40px;
-  background: #0052ce;
-  border: 1px solid #0052ce;
+  background: var(--v2-royal-blue);
+  border: 1px solid var(--v2-royal-blue);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -677,9 +726,11 @@
   color: #ca2323;
   margin-right: 20px;
 }
+
 .ediTextAreaText {
-  color: #0052ce;
+  color: var(--v2-royal-blue);
 }
+
 .reminderCardSection2row1of1 button {
   font-family: "Lato", sans-serif;
   font-size: 13px;
@@ -748,10 +799,6 @@
   display: flex;
   justify-content: space-between;
 }
-.new-note-popup-formfield-btn .cancel-btn:hover {
-  background: #f4f6fa !important;
-  border: 1px solid #c7ccd1 !important;
-}
 .delete-note-btn {
   margin-top: 50px;
 }
@@ -763,11 +810,6 @@
   font-weight: 400;
   cursor: pointer;
 }
-.new-note-popup-formfield-btn .submit-btn:hover {
-  background: #0052ce !important;
-  border: 1px solid #c7ccd1 !important;
-}
-
 .new-note-popup-formfield textarea::placeholder,
 .new-note-popup-formfield input::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -805,7 +847,7 @@
 .contactdetailscardheader h4 {
   font-size: 24px;
   line-height: 29px;
-  color: #002d72;
+  color: var(--v2-dark-blue);
   font-family: "Lato", sans-serif;
   font-weight: 400;
   margin-bottom: 0;
@@ -813,8 +855,25 @@
 .contactdetailscardheader button {
   font-size: 16px;
   line-height: 24px;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
   font-family: "Lato", sans-serif;
+  font-weight: 400;
+  width: 103px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.contactdetailscardheader button:hover {
+  background: #f5f7fa;
+}
+
+.deleteTextAreaText:hover,
+.ediTextAreaText:hover,
+.deletecontactsection button:hover {
+  text-decoration: underline;
 }
 
 .contactdetailscardbody {
@@ -849,7 +908,6 @@
 }
 .deletecontactsection {
   margin-top: 30px;
-
   margin-left: 30px;
 }
 .deletecontactsection button {
@@ -993,7 +1051,7 @@ button {
   text-align: center;
   font-weight: 400;
   font-family: "Lato", sans-serif;
-  color: #002d72;
+  color: var(--v2-dark-blue);
 }
 .customDeletepopup p {
   font-size: 16px;
@@ -1026,11 +1084,11 @@ button {
   line-height: 17px;
   font-weight: 700;
   font-family: "Lato", sans-serif;
-  color: #0052ce;
+  color: var(--v2-royal-blue);
 }
 .deletebtn {
-  background: #0052ce;
-  border: 1px solid#0052CE;
+  background: var(--v2-royal-blue);
+  border: 1px solidvar(--v2-royal-blue);
   border-radius: 4px;
   margin-right: 9px;
   font-size: 14px;
@@ -1081,12 +1139,12 @@ button {
     transition: 0.5s ease;
   }
   .item-selected .mobile-menu-active {
-    background: #002d72 !important;
+    background: var(--v2-dark-blue) !important;
     display: flex;
     transition: 0.5s ease;
   }
   .mobile-menu li:hover {
-    background: #002d72 !important;
+    background: var(--v2-dark-blue) !important;
   }
   .form {
     padding: 0 20px;
@@ -1110,7 +1168,7 @@ button {
     display: block;
     padding: 0;
     position: absolute;
-    background: #002d72;
+    background: var(--v2-dark-blue);
     border-radius: 0;
     height: 100%;
     z-index: 11;
@@ -1293,7 +1351,7 @@ button {
   .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   color: #fff;
   font-weight: 700;
-  background: #0052ce;
+  background: var(--v2-royal-blue);
 }
 .custom-datepicker .DayPicker-Caption > div {
   font-size: 14px;

@@ -10,7 +10,6 @@ import validationService from "services/validationService";
 import styles from "../ContactsPage.module.scss";
 import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import analyticsService from "services/analyticsService";
 
@@ -218,14 +217,14 @@ const EditContactForm = (props) => {
         setSubmitting(true);
         let response = await clientService.updateLead(values);
         if (response.ok) {
-          addToast({
-            message: "Contact updated successfully",
-          });
           setTimeout(() => {
             props.getContactRecordInfo();
             goToContactDetailPage(leadsId);
             props.setDisplay("Details");
             setSubmitting(false);
+            addToast({
+              message: "Contact updated successfully",
+            });
           }, 2000);
         } else if (response.status === 400) {
           const errMessage = await response.json();
@@ -258,7 +257,7 @@ const EditContactForm = (props) => {
             <Textfield
               id="contact-fname"
               label="First Name"
-              placeholder={"Enter your first name"}
+              placeholder={"Enter first name"}
               name="firstName"
               value={values.firstName}
               onChange={handleChange}
@@ -268,7 +267,7 @@ const EditContactForm = (props) => {
             <Textfield
               id="contact-lname"
               label="Last Name"
-              placeholder="Enter your last name"
+              placeholder="Enter last name"
               name="lastName"
               value={values.lastName}
               onChange={handleChange}
@@ -282,7 +281,7 @@ const EditContactForm = (props) => {
               id="contact-address"
               className={`${styles["contact-address"]}`}
               label="Address"
-              placeholder={"Enter your address"}
+              placeholder={"Enter address"}
               name="address.address1"
               value={values.address.address1}
               onChange={handleChange}
@@ -462,16 +461,17 @@ const EditContactForm = (props) => {
 
             <div className="mt-5 pb-5" style={{ display: "flex" }}>
               <Button
-                className="mr-2"
+                className="contact-details-cancel cancel-btn btn mr-2"
                 data-gtm="new-contact-cancel-button"
                 label="Cancel"
-                type="secondary"
                 onClick={() => props.setDisplay("Details")}
               />
               <Button
+                className={`contact-details-submit submit-btn btn ${
+                  !dirty || !isValid ? "btn-disabled" : ""
+                }`}
                 data-gtm="new-contact-create-button"
                 label="Save"
-                type="primary"
                 disabled={!dirty || !isValid}
                 onClick={handleSubmit}
               />
@@ -491,13 +491,11 @@ export default function EditContactPage(props) {
           id="main-content"
           className={`br-8 add--new-contact ${styles["add--new-contact"]}`}
         >
-          <ToastContextProvider>
-            <h3 className="hdg hdg--3 pt-3 pb-2 contact-details-heading">
-              Contact Details
-            </h3>
-            <div className="border-bottom border-bottom--light"></div>
-            <EditContactForm {...props} />
-          </ToastContextProvider>
+          <h3 className="hdg hdg--3 pt-3 pb-2 contact-details-heading">
+            Contact Details
+          </h3>
+          <div className="border-bottom border-bottom--light"></div>
+          <EditContactForm {...props} />
         </Container>
       </div>
     </>
