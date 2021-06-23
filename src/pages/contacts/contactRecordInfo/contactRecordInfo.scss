@@ -1,0 +1,1368 @@
+.rightSection {
+  width: calc(100% - 296px);
+  margin: 0 0 0 auto;
+}
+.activityCard {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.activityCardHeader {
+  padding: 30px 38px 26px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 85px;
+}
+
+.activityCardHeader h4 {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 29px;
+  color: var(--v2-dark-blue);
+  margin-bottom: 0;
+}
+
+.activityCardHeader .notetext,
+.reminderRightSide button {
+  margin-bottom: 0;
+  font-family: "Lato", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--v2-royal-blue);
+  width: 103px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.activityCardHeader .notetext:hover,
+.reminderRightSide button:hover {
+  background: #f5f7fa;
+  color: var(--v2-old-blue) !important;
+}
+.submit-btn.btn:hover {
+  background: var(--v2-old-blue);
+  border: 1px solid var(--v2-old-blue);
+}
+.cancel-btn.btn:hover {
+  background: #e8ecf2 !important;
+  border: 1px solid #e8ecf2 !important;
+}
+.notetext label {
+  margin-left: 10px;
+}
+
+.bg-color {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+}
+
+.iconTime label {
+  margin-left: 15px;
+  margin-top: 5px;
+  display: inline-block;
+}
+
+.bg-color1 {
+  background: #faef96;
+}
+
+.bg-color2 {
+  background: #dbf19b;
+}
+
+.bg-color3 {
+  background: #fbd5c0;
+}
+
+.iconTime {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #70777e;
+  margin-bottom: 20px;
+}
+
+.activityCardbodyset h6 {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 17px;
+  color: #151e29;
+  margin-bottom: 8px;
+}
+
+.para-btn-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.para-btn-section p {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 17px;
+  color: #525761;
+  width: 80%;
+  min-height: 26px;
+}
+.para-btn-section p > span {
+  width: 80%;
+  display: block;
+  word-break: break-all;
+}
+.showmorebtn {
+  cursor: pointer;
+  color: #3d4553;
+  font-size: 14px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+.para-btn-section p > span button {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--v2-royal-blue);
+}
+
+.para-btn-section .view-btn {
+  width: 80px;
+  height: 32px;
+  background: #f5f7fa;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--v2-royal-blue);
+  justify-content: center;
+}
+
+.activityCardbodyset {
+  padding: 10px 39px 0;
+}
+
+.edit-delete-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edit-delete-btn {
+  display: none;
+}
+
+.activityCardbodyset:hover .edit-delete-btn {
+  display: block;
+}
+
+.bodylineseparation {
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 2px solid #e8eaef;
+}
+
+.edit-delete-btn a:first-child {
+  margin-right: 32px;
+}
+
+.headerlineseparation {
+  border: 0;
+  border-bottom: 2px solid #c7ccd1;
+  margin-top: 0;
+}
+
+.activityCardfooter p {
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  text-align: center;
+  color: #525761;
+  padding-bottom: 25px;
+}
+
+.customform .modal__card {
+  padding: 22.5px 22.5px 46px 35px;
+}
+
+.customform .modal__header > * {
+  right: -22px;
+  top: -20px;
+}
+
+.customform .modal__header {
+  position: inherit;
+}
+
+.customform .form__field {
+  border: 0;
+  padding: 0;
+}
+
+.customform #cm-ed-fname {
+  height: 47px;
+  width: 100%;
+  background: #ffffff;
+}
+
+.bgcolor-4 {
+  width: 35px;
+  height: 35px;
+  background: #dbf19b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.custom-modal-heading {
+  display: flex;
+  align-items: center;
+}
+
+.cancel-btn {
+  background: #f4f6fa;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: var(--v2-royal-blue);
+  margin-right: 10px;
+}
+
+.submit-btn {
+  background: var(--v2-royal-blue);
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+}
+.contact-details-cancel {
+  font-family: "Lato", sans-serif !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 17px;
+  text-align: center;
+  text-transform: capitalize !important;
+  border-radius: 4px !important;
+  height: 40px !important;
+  color: var(--v2-royal-blue) !important;
+}
+.contact-details-submit {
+  font-family: "Lato", sans-serif !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+  text-transform: capitalize !important;
+  border-radius: 4px !important;
+  height: 40px !important;
+}
+.custom-form-btn button {
+  margin-top: 38px;
+  width: 118px;
+  height: 40px;
+}
+.btn-disabled:hover {
+  background: #e4e4e4 !important;
+  border: 1px solid #e4e4e4 !important;
+  color: #aba7a7 !important;
+  cursor: not-allowed !important;
+}
+.leftcardmenu {
+  background: #ffffff;
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: auto;
+  width: 241px;
+  float: left;
+  padding: 13px 0;
+  li:hover {
+    cursor: pointer;
+    background: #f4f6fa;
+  }
+}
+
+.clientnotes {
+  margin-top: 30px;
+}
+.leftcardmenu li {
+  padding: 13px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  margin: 0 12px 8px;
+  border-radius: 4px;
+}
+.leftcardmenu li span {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #70777e;
+  display: inline-flex;
+}
+
+.icon-spacing {
+  margin-right: 15px;
+  line-height: 2px;
+}
+.leftcardmenu li:last-child {
+  border: 0;
+}
+.leftcardmenu li.active span,
+.leftcardmenu li.active label > svg > path {
+  color: var(--v2-dark-blue) !important;
+  fill: var(--v2-dark-blue) !important;
+  font-weight: bold;
+}
+.leftcardmenu li.active {
+  background: #f9fafc;
+}
+.nameCard {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.nameCardSection1 {
+  padding: 31px 0 18px 0;
+}
+.nameCardHeading h2 {
+  font-size: 40px;
+  line-height: 48px;
+  color: var(--v2-dark-blue);
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+.nameCardpara p {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #525761;
+}
+.nameCard hr {
+  margin-top: 0;
+  border-bottom: 1px solid #c7ccd1;
+  margin-bottom: 29px;
+}
+.nameCardSection2 {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  padding-bottom: 31px;
+}
+.personalInfo:first-child {
+  width: 34%;
+}
+.personalInfo {
+  width: 22%;
+  height: 70px;
+  margin-bottom: 3px;
+}
+
+.customSelectbox .select .select-container {
+  @media (min-width: 480px) {
+    width: 149px;
+  }
+}
+.personalinfoname h2 {
+  font-size: 14px;
+  line-height: 22px;
+  color: #697887;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+.personalInfo .italic-label {
+  font-size: 13px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.personalInfo label {
+  font-size: 13px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.personalInfoText {
+  font-size: 16px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.personalInfoEmailText {
+  font-size: 16px;
+  line-height: 22px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  color: var(--v2-royal-blue);
+  word-break: break-all;
+}
+.reminderCard {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+}
+.reminderCardSection1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 38px 26px 30px;
+}
+.reminderCardHeading h4 {
+  font-size: 24px;
+  line-height: 29px;
+  color: var(--v2-dark-blue);
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.reminderRightSide span {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--v2-royal-blue);
+  margin-left: 10px;
+}
+.reminderRightSide a {
+  text-decoration: none;
+}
+.reminderCard hr,
+.client-notes-card hr {
+  margin-top: 0;
+  border: 0;
+  border-bottom: 2px solid #c7ccd1;
+  margin-bottom: 27px;
+}
+.reminderCardSection2 {
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  padding: 22px 20px 18px 21px;
+  margin: 27px 32px 20px 34px;
+}
+.reminderCardSection2row1 label {
+  font-size: 12px;
+  line-height: 14px;
+  color: #70777e;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.reminderCardSection2row1 {
+  margin-bottom: 30px;
+}
+.reminderCardSection2row2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.reminderCardSection2row2left .alertText {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #ca2323;
+}
+.reminderCardSection2row2left .normalText {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #70777e;
+}
+.complete-btn {
+  background: var(--v2-royal-blue);
+  border-radius: 4px;
+  border: 1px solid var(--v2-royal-blue);
+  width: 80px;
+  height: 32px;
+  color: #fff !important;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+}
+.ClientCardSection2 p {
+  font-size: 16px;
+  color: #525761;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  padding: 27px 88px 50px 31px;
+}
+.reminder-modal-heading legend {
+  font-size: 30px;
+  line-height: 36px;
+  color: var(--v2-dark-blue);
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+.custom-reminder-modal .modal__card {
+  padding: 38px 42px 35px 37px;
+}
+.reminder-modal-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 31px;
+}
+.reminder-modal-heading a {
+  text-decoration: none;
+  color: var(--v2-royal-blue);
+  font-size: 14px;
+  line-height: 17px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  padding: 11.5px 14px 11.5px 15px;
+}
+.reminder-modal-heading a > span {
+  margin-left: 8px;
+}
+.custom-reminder-modal .reminderCardSection2 {
+  margin: 0 0 16px;
+  padding: 19px 20px 17px 18px;
+}
+.custom-reminder-modal .reminderCardSection2:last-child {
+  margin: 0;
+}
+.custom-reminder-modal .reminderCardSection2row2 {
+  align-items: center;
+}
+.custom-reminder-modal .reminderCardSection2row1 {
+  margin-bottom: 19px;
+}
+.reminder-cancel-btn {
+  width: 100px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: var(--v2-royal-blue);
+  margin-right: 12px;
+}
+.reminder-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 36px;
+}
+.reminder-save-btn {
+  width: 100px;
+  height: 40px;
+  background: var(--v2-royal-blue);
+  border: 1px solid var(--v2-royal-blue);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: #fff;
+  margin-right: 12px;
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-grey-400);
+    background-color: var(--color-grey-300);
+    border: 1px solid var(--color-grey-300);
+  }
+}
+.reminder-modal-heading a:hover {
+  background-color: #f5f7fa;
+}
+.custom-reminder-modal .reminderCardSection2:hover {
+  background: #f9fafb;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.custom-reminder-modal .reminderCardSection2.active {
+  background: #f9fafb;
+}
+.custom-reminder-modal .normalText {
+  border: 0;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #70777e;
+  width: 280px;
+  height: auto;
+  resize: none;
+}
+.custom-reminder-modal textarea:focus {
+  outline: 0;
+}
+.cal {
+  display: flex;
+  width: 80px;
+  height: 30px;
+  margin-right: 20px;
+  border: 1px solid var(--v2-main-gray);
+  padding: 2px 10px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+}
+.reminderCardSection2 .DayPicker {
+  position: absolute;
+  z-index: 11;
+  background: #fff;
+  box-shadow: 0px 0px 10px 1px #afafaf;
+  border-radius: 5px;
+  top: 37px;
+}
+.reminderCardSection2 .text-length {
+  display: block;
+  margin-top: 10px;
+  color: var(--v2-main-gray);
+  font-size: 12px;
+}
+.text-error {
+  color: red !important;
+}
+.datepickerparent {
+  position: relative;
+}
+.datepicker-row {
+  flex: 1;
+  align-items: center;
+  overflow: hidden;
+  max-width: 400px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.datetext {
+  font-size: 14px;
+}
+.full-width {
+  width: 100%;
+}
+.reminderCardSection2row2left .normalText {
+  border: 0;
+  width: 100%;
+  resize: none;
+  padding: 10px;
+  word-wrap: break-word;
+  height: 120px;
+}
+.complete-btn-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.reminderCardSection2row2left .normalText:focus-visible {
+  outline: none;
+}
+.wholereminderCardSection2row1of1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wholereminderCardSection2row1of1 .reminderCardSection2row1 {
+  margin-bottom: 0;
+}
+.wholereminderCardSection2row1of1 {
+  margin-bottom: 30px;
+}
+.deleteTextAreaText {
+  color: #ca2323;
+  margin-right: 20px;
+}
+
+.ediTextAreaText {
+  color: var(--v2-royal-blue);
+}
+
+.reminderCardSection2row1of1 button {
+  font-family: "Lato", sans-serif;
+  font-size: 13px;
+  line-height: 24px;
+  font-weight: 400;
+}
+.remindercardsectioncancelsavebtn {
+  display: flex;
+  align-items: center;
+}
+.reminderCardSection2row2left button {
+  color: #ca2323;
+  font-family: "Lato", sans-serif;
+  font-size: 13px;
+  line-height: 24px;
+  font-weight: 400;
+}
+.custom-datepicker-activeborder .cal {
+  border: 1px solid #ca2323;
+}
+.reminderCardSection2-activeborder {
+  border: 1px solid #3f495b;
+}
+.edittextarea-active {
+  background: #f9fafb;
+}
+
+.datepicker-input {
+  position: absolute;
+  left: 1px;
+  width: 75px;
+  padding-left: 35px;
+  border: none;
+  outline: none;
+}
+.datepicket-icon {
+  z-index: 0;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.new-note-popup-formfield input {
+  background: #ffffff;
+  width: 98%;
+  height: 47px;
+  border: 1px solid #d8dee4;
+  margin: 0 0 10px;
+  padding-left: 15px;
+  padding-top: 6px;
+  border-radius: 4px;
+}
+.new-note-popup-formfield textarea {
+  background: #ffffff;
+  width: 98%;
+  height: 123px;
+  border: 1px solid #d8dee4;
+  border-radius: 4px;
+  margin: 0;
+  resize: none;
+  padding-left: 15px;
+  padding-top: 14px;
+}
+
+.new-note-popup-formfield-btn {
+  width: 98%;
+  display: flex;
+  justify-content: space-between;
+}
+.delete-note-btn {
+  margin-top: 50px;
+}
+.delete-note-btn p {
+  font-size: 16px;
+  line-height: 24px;
+  color: #ca2323;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+}
+.new-note-popup-formfield textarea::placeholder,
+.new-note-popup-formfield input::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #9da8b1;
+  opacity: 1; /* Firefox */
+}
+
+.new-note-popup-formfield textarea:-ms-input-placeholder,
+.new-note-popup-formfield input::placeholder {
+  /* Internet Explorer 10-11 */
+  color: #9da8b1;
+}
+
+.new-note-popup-formfield textarea:-ms-input-placeholder,
+.new-note-popup-formfield input::placeholder {
+  /* Microsoft Edge */
+  color: #9da8b1;
+}
+.new-note-popup-formfield-btn button {
+  text-transform: capitalize;
+}
+
+.contactdetailscard {
+  background: #ffffff;
+  border-radius: 8px;
+}
+.contactdetailscardheader {
+  padding: 31px 37px 22px 30px;
+  border-bottom: 1px solid #d8dee4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 43px;
+}
+.contactdetailscardheader h4 {
+  font-size: 24px;
+  line-height: 29px;
+  color: var(--v2-dark-blue);
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.contactdetailscardheader button {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--v2-royal-blue);
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  width: 103px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.contactdetailscardheader button:hover {
+  background: #f5f7fa;
+}
+
+.deleteTextAreaText:hover,
+.ediTextAreaText:hover,
+.deletecontactsection button:hover {
+  text-decoration: underline;
+}
+
+.contactdetailscardbody {
+  padding: 0 37px 35px 31px;
+}
+.contactdetailscardbody p {
+  color: #697887;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardbody .contactdetailscardbodycolvalue {
+  color: #1b1b1b;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardborder {
+  margin-top: 0;
+  margin-bottom: 30px;
+  border: 1px solid #dfe5ef;
+}
+.contactdetailscardbodyrow {
+  display: flex;
+}
+.contactdetailscardbodyrowspacing .contactdetailscardbodycol {
+  margin-right: 50px;
+}
+.deletecontactsection {
+  margin-top: 30px;
+  margin-left: 30px;
+}
+.deletecontactsection button {
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+  color: #ca2323;
+}
+.contactdetailscardbodycolinput input {
+  width: 227px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 2px;
+  padding: 8px;
+  color: #1b1b1b;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardbodycolinput input:focus {
+  outline: none;
+}
+.zero-margin-input {
+  margin-bottom: 0 !important;
+}
+.addaptbtn button {
+  font-size: 14px;
+  line-height: 14px;
+  color: #3f495b;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+  margin-top: 12px;
+  margin-bottom: 30px;
+}
+.custom-w-51 {
+  width: 51px !important;
+}
+.custom-w-83 {
+  width: 83px !important;
+}
+.contactdetailscardbodyinputrowspacing .contactdetailscardbodycol {
+  margin-right: 10px;
+}
+.contactdetailscardbodycolradio {
+  margin-top: 12px;
+  margin-bottom: 30px;
+}
+.contactdetailscardbodycolradio label {
+  font-size: 14px;
+  line-height: 22px;
+  color: #3f495b;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+}
+.contactdetailscardbodycolradio input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d8dee4;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.custom-w-154 {
+  width: 154px !important;
+}
+.custom-w-108 {
+  width: 108px !important;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 2px;
+  padding: 8px;
+  color: #1b1b1b;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.custom-w-148 {
+  width: 148px !important;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-radius: 2px;
+  padding: 8px;
+  color: #1b1b1b;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: "Lato", sans-serif;
+}
+.conatctdetailsbutton {
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+.cpcheckboxdesign input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d8dee4;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.cpcheckboxdesign label {
+  font-size: 14px;
+  line-height: 22px;
+  color: #3f495b;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+}
+.cpradiodesign {
+  margin-left: 24px;
+}
+.custom-inputmargin {
+  margin-bottom: 30px;
+}
+button {
+  &:disabled {
+    span.add-new-button {
+      color: var(--color-grey-400);
+    }
+    svg path {
+      fill: var(--color-grey-400);
+    }
+  }
+}
+
+.customdisabledbtn {
+  cursor: not-allowed;
+  color: var(--color-grey-400);
+  background-color: var(--color-grey-300);
+  border: 1px solid var(--color-grey-300);
+  border-radius: 4px;
+}
+.customDeletepopup {
+  padding: 28px 0 10px;
+}
+.customDeletepopup h3 {
+  font-size: 32px;
+  line-height: 68px;
+  text-align: center;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+  color: var(--v2-dark-blue);
+}
+.customDeletepopup p {
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #6c747b;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+  margin-bottom: 54px;
+}
+.customDeletepopupbtn {
+  display: flex;
+  justify-content: center;
+}
+
+.customDeletepopupbtn button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110px;
+  height: 40px;
+  text-transform: capitalize;
+}
+.cancelbtn {
+  background: #f4f6fa;
+  border: 1px solid #d8dee4;
+  border-radius: 4px;
+  margin-right: 9px;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  font-family: "Lato", sans-serif;
+  color: var(--v2-royal-blue);
+}
+.deletebtn {
+  background: var(--v2-royal-blue);
+  border: 1px solidvar(--v2-royal-blue);
+  border-radius: 4px;
+  margin-right: 9px;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  font-family: "Lato", sans-serif;
+  color: #fff;
+}
+.customMarginSpacing {
+  margin: 1em 0;
+}
+.customMarginBottomSpacing {
+  margin: 1em 0 1em;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+.mobile-menu {
+  display: none;
+  transition: 0.5s ease;
+}
+.mobile-select-show {
+  display: none;
+}
+
+.mobile-edit {
+  display: none;
+}
+.mobile-edit-section {
+  display: flex;
+  justify-content: space-between;
+}
+.custom-reminder-modal .card--page {
+  min-height: clamp(100px, 75vw, 480px);
+  max-height: initial;
+}
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .contact-details-heading {
+    padding: 31px 37px 22px 30px;
+  }
+  .desktop-menu-hide {
+    display: none;
+  }
+  .item-selected {
+    position: relative !important;
+    background: none !important;
+    transition: 0.5s ease;
+  }
+  .item-selected .mobile-menu-active {
+    background: var(--v2-dark-blue) !important;
+    display: flex;
+    transition: 0.5s ease;
+  }
+  .mobile-menu li:hover {
+    background: var(--v2-dark-blue) !important;
+  }
+  .form {
+    padding: 0 20px;
+  }
+  .item-selected li {
+    display: none;
+  }
+  .hover-btn-hide {
+    display: none;
+  }
+  .desktop-select-show {
+    display: none;
+  }
+  .mobile-select-show {
+    display: block;
+  }
+  .desktop-menu {
+    display: none;
+  }
+  .mobile-menu {
+    display: block;
+    padding: 0;
+    position: absolute;
+    background: var(--v2-dark-blue);
+    border-radius: 0;
+    height: 100%;
+    z-index: 11;
+    transition: 0.5s ease;
+  }
+  .mobile-edit {
+    display: block !important;
+    color: blue;
+  }
+  .mobile-menu-parent {
+    position: relative;
+  }
+  .mobile-menu-active label > svg,
+  .mobile-menu-active span {
+    color: #fff !important;
+  }
+  .mobile-menu-active label > svg > path {
+    fill: #fff !important;
+  }
+  .mobile-menu li label > svg,
+  .mobile-menu li span {
+    color: #a8b4ca;
+  }
+  .mobile-menu li label > svg > path {
+    fill: #a8b4ca;
+  }
+  .mobile-menu-arrow {
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    padding: 0 !important;
+    z-index: 111;
+    display: block !important;
+    border: 0 !important;
+    height: auto !important;
+    transition: 0.5s ease;
+  }
+  .arrow-hide {
+    display: none !important;
+    transition: 0.5s ease;
+  }
+  .ContactsPage_add--new-contact__uVbMb h3 {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .mobile-menu li {
+    margin: 0;
+    height: 70px;
+    border-bottom: 1px solid #2c4b79;
+    border-radius: 0;
+  }
+  .nameCard {
+    background: none;
+  }
+  .rightSection {
+    width: 100%;
+    margin: 0;
+    margin-top: 20px;
+  }
+  .leftcardmenu {
+    float: none;
+    width: 100%;
+  }
+  .nameCardSection1 {
+    padding: 0;
+  }
+  .nameCardHeading {
+    height: 80px;
+    width: 100%;
+    background: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .nameCardHeading h2 {
+    font-size: 24px;
+    margin: 0;
+    margin-left: 20px;
+  }
+  .nameCardSection2 {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    background: #fff;
+    padding-left: 22px;
+    padding-bottom: 0;
+  }
+  .nameCardpara {
+    height: 40px;
+    padding-left: 22px;
+    border-bottom: 1px solid #dfe5ef;
+    background: #fff;
+    display: flex;
+    align-items: center;
+  }
+  .personalInfo {
+    width: 100% !important;
+    height: auto;
+    margin-bottom: 24px;
+  }
+  .personalInfo:first-child {
+    margin-top: 24px;
+  }
+  .personalInfo label {
+    font-size: 14px;
+    line-height: 30px;
+  }
+  .select {
+    height: 40px;
+    position: relative;
+  }
+
+  .reminderCardSection1 {
+    padding: 0 20px;
+    height: 80px;
+    align-items: center;
+  }
+  .reminderCardSection2row2 {
+    justify-content: flex-start;
+  }
+  .reminderCardSection2 {
+    margin: 22px 20px;
+  }
+  .customform .container.container--size-medium {
+    padding: 15px;
+  }
+  .custom-modal-heading {
+    margin-bottom: 45px;
+  }
+  .cancel-btn {
+    display: none;
+  }
+  .new-note-popup-formfield-btn {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .xs-width-100 {
+    width: 100%;
+  }
+  .xs-width-100 button {
+    width: 100%;
+  }
+  .delete-note-btn {
+    margin-top: 20px;
+  }
+  .header-none {
+    display: none;
+  }
+}
+
+.errors-block {
+  width: 88%;
+  min-height: auto;
+  max-height: 134px;
+  border: 2px solid var(--error-state-color);
+  border-radius: 3px;
+}
+.errors-block .error-msg {
+  padding: 10px;
+  font-size: 0.75rem;
+  line-height: 2;
+  min-height: 1.5rem;
+  color: var(--error-state-color);
+}
+
+.custom-datepicker .DayPicker-Caption,
+.custom-datepicker .DayPicker-Weekdays {
+  padding: 1em 1em 0;
+  background: #ebeff6;
+  margin: 0;
+}
+.custom-datepicker .DayPicker-Month {
+  margin: 0;
+  width: 100%;
+}
+.custom-datepicker {
+  width: 290px;
+}
+.custom-datepicker
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  color: #fff;
+  font-weight: 700;
+  background: var(--v2-royal-blue);
+}
+.custom-datepicker .DayPicker-Caption > div {
+  font-size: 14px;
+}
+.custom-datepicker .DayPicker-Weekday,
+.custom-datepicker .DayPicker-Day {
+  font-size: 12px;
+}
+.custom-datepicker .DayPicker-wrapper {
+  padding-bottom: 0.5em;
+}
+.custom-datepicker .DayPicker-Day {
+  padding: 0.8em;
+}

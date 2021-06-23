@@ -8,6 +8,7 @@
     "debounce": "^1.2.0",
     "focus-visible": "^5.1.0",
     "formik": "^2.1.5",
+    "namor": "^2.0.2",
     "oidc-client": "^1.10.1",
     "react": "^16.13.1",
     "react-csv-importer": "^0.2.3",
@@ -17,14 +18,23 @@
     "react-media": "^1.10.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-table": "^7.6.3",
+    "react-waypoint": "^10.1.0",
     "tldts": "^5.7.2",
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@rescripts/cli": "^0.0.14",
+    "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-essentials": "^6.1.21",
+    "@storybook/addon-links": "^6.1.21",
+    "@storybook/node-logger": "^6.1.21",
+    "@storybook/preset-create-react-app": "^3.1.6",
+    "@storybook/react": "^6.1.21",
     "@testing-library/jest-dom": "^5.11.3",
     "@testing-library/react": "^10.4.8",
     "@testing-library/user-event": "^7.1.2",
+    "@whitespace/storybook-addon-html": "^4.2.0",
     "cross-env": "^7.0.2",
     "imagemin": "^7.0.1",
     "imagemin-mozjpeg": "^9.0.0",
@@ -38,7 +48,9 @@
     "build": "yarn test && rescripts build",
     "build:auth": "cross-env REACT_APP_BUILD_TARGET=auth rescripts build && mv build buildAuth",
     "test": "rescripts test --env=jest-environment-jsdom-sixteen",
-    "eject": "rescripts eject"
+    "eject": "rescripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"

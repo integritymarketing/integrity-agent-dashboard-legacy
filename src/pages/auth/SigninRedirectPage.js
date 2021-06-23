@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Container from "components/ui/container";
-import GlobalNav from "partials/global-nav";
+import SimpleHeader from "partials/simple-header";
+import SimpleFooter from "partials/simple-footer";
 import AuthContext from "contexts/auth";
 
 const LoginLink = (props) => {
@@ -36,18 +37,20 @@ export default () => {
 
   return (
     <React.Fragment>
-      <div className="bg-photo text-invert">
-        <GlobalNav />
-        <Container className="scaling-header">
-          <div className="hdg hdg--2">Agent Login</div>
+      <div className="content-frame v2">
+        <SimpleHeader />
+        <Container size="small">
+          <h1 className="hdg hdg--2 mb-2">Agent Login</h1>
 
-          <div className="hdg hdg--4 mt-1">Login to view your account.</div>
+          {!error && (
+            <p className="text-body mt-2">Attempting automatic login...</p>
+          )}
+          {error && (
+            <LoginLink className="btn-v2">Go to Login portal</LoginLink>
+          )}
         </Container>
+        <SimpleFooter />
       </div>
-      <Container className="mt-scale-3">
-        {!error && <p className="text-body">Attempting automatic login...</p>}
-        {error && <LoginLink className="link">Go to Login portal</LoginLink>}
-      </Container>
     </React.Fragment>
   );
 };

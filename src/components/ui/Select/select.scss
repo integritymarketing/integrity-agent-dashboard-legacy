@@ -1,0 +1,123 @@
+.select {
+    height: 40px;
+    position: relative;
+    .select-container {
+        top: 0px;
+        width: 100%;
+        font-family: Lato;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 40px;
+        letter-spacing: 0.10000000149011612px;
+        text-align: left;
+        border: 1px solid #c7ccd1;
+        border-radius: 2px;
+        min-height: 40px;
+        color: #525761;
+        background-color: white;
+        .selectbox {
+            display: none;
+            @media (max-width: 480px) {
+                display: flex;
+                height: 40px;
+                padding: 15px;
+                justify-content: center;
+                align-items: center;
+                font-size: 16px;
+                font-weight: 500;
+                span {
+                    margin-left: 8px;
+                    color: #3D4553;
+                }
+            }
+        }
+        .inputbox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 15px;
+            .placeholder {
+                padding-left: 15px;
+            }
+            height: 40px;
+            svg {
+                stroke: #525761; /* TODO: use variable later */
+            }
+            @media (max-width: 480px) {
+                display: none;
+            }
+        }
+        &.opened {
+            position: absolute;
+            z-index: 1;
+            border: 1px solid #525761;
+            .inputbox {
+                border-bottom: 1px solid #c7ccd1;
+            }
+            .selectbox {
+                display: none;
+            }
+            box-shadow: 0px 4px 15px 0px #00000040;
+            .select-header {
+                display: none;
+            }
+            @media (max-width: 480px) {
+                position: fixed;
+                border: none;
+                top: 0;
+                left: 0;
+                height: 100%;
+                max-height: 100% !important;
+                .inputbox {
+                    display: none;
+                }
+                .select-header {
+                    display: flex;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    padding-top: 50px;
+                    border-bottom: 1px solid #D8DEE4;
+                    padding-bottom: 18px;
+                    margin-bottom: 18px;
+                    font-size: 24px;
+                    font-weight: 600;
+                    justify-content:space-between;
+                }
+                .options {
+                    max-height: 100% !important;
+                    .option.selected {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        &.closed {
+            max-height: 40px;
+        }
+        .options {
+            overflow: auto;
+        }
+        .options,
+        .inputbox {
+            .option {
+                padding-left: 15px;
+                display: flex;
+                align-items: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+            }
+        }
+        .options {
+            .option:hover {
+                background: #ebeff6;
+            }
+        }
+    }
+}
+
+.contacts-dd {
+    min-width: 239px;
+}
