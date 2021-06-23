@@ -63,6 +63,9 @@ export default function ClientNotes(props) {
         <div className="client-notes-card-body">
           {!isEdit ? (
             <div className="client-notes">
+              {props.personalInfo.product && (
+                <p>Product: {props.personalInfo.product}</p>
+              )}
               <p>{value ? value : "Write client notes here..."}</p>
             </div>
           ) : (
@@ -70,7 +73,14 @@ export default function ClientNotes(props) {
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Write client notes here..."
-                value={value}
+                value={[
+                  props.personalInfo.product
+                    ? `Product: ${props.personalInfo.product}`
+                    : null,
+                  value,
+                ]
+                  .filter((v) => !!v)
+                  .join("\n")}
                 onChange={handleOnChange}
                 rows="5"
                 cols="120"

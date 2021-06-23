@@ -36,12 +36,12 @@ class ValidationService {
     return null;
   };
 
-  validateName = (username, label = "firstName") => {
-    if (username && !/^[\sa-zA-Z0-9]{2,}$/.test(username)) {
-      return `${label} must be 2 characters or more accept only alpha numerics, no special characters such as ! @ . , ; : ' " ? -`;
+  validateName = (username, label = "firstName") => {    
+    if (username && !/^[a-zA-Z][a-zA-Z '-]{2,}$/.test(username)) {
+      return `${label} must be 2 characters or more accept only alpha numerics, no special characters such as ! @ . , ; : " ? `;
     }
 
-    if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,50}$/.test(username)) {
+    if (username && username.length > 50) {
       return `${label} must be 50 characters or less`;
     }
 

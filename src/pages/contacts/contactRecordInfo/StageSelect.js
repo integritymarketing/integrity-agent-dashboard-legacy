@@ -43,7 +43,7 @@ export default ({ value, original }) => {
     <React.Fragment>
       <Select
         Option={ColorOptionRender}
-        initialValue={value}
+        initialValue={value || "New"}
         placeholder="Stage"
         options={statusOptions.filter((opt) => {
           if (
