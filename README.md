@@ -114,6 +114,39 @@ This project is built on a few fundamental libraries & frameworks and assumes a 
 
 - `react-helmet` [#548](https://github.com/nfl/react-helmet/issues/548): There is a console error warning about UNSAFE_componentWillMount in strict mode.
 
+#### Window dev environment issues
+
+Windows requires CRLF (carraige Return & Line Feed), where Linux requires LF(Line feed)
+
+```
+Error: resolve-url-loader: CSS error. source-map information is not available at url() declaration (found orphan CR, try removeCR option)
+```
+
+Temporary solution: if you ever came a cross such error then do this
+
+```
+Path: ae-agent-portal\node_modules\resolve-url-loader\index.js
+Step 1: locate folder called "resolve-url-loader" inside "node_modules".
+Step 2: open up the folder and look for "index.js". And open up that file.
+Step 3: Inside "index.js", look for "var option".
+example:var options = Object.assign(
+    {
+      sourceMap: loader.sourceMap,
+      engine   : 'postcss',
+      silent   : false,
+      absolute : false,
+      keepQuery: false,
+      removeCR : false,
+      root     : false,
+      debug    : false,
+      join     : joinFn.defaultJoin
+    },
+Step 4: Look for "removeCR" which is turned "false". Turn it to "true" and save the changes.
+Step 5: restart your app either by "yarn start" or "npm start". Error will be gone.
+```
+
+Note: do this every time whenever you came across such an error.
+
 ## Project Structure
 
 TBD
