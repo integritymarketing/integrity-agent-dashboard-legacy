@@ -41,21 +41,21 @@ export default () => {
       setPersonalInfo(data);
       setReminders(data.reminders);
       setActivities(data.activities);
-      const { firstName, lastName, contactPreferences, leadsId } = data;
-      let getPrimaryCommunication = contactPreferences?.primary ?? undefined;
-      if (getPrimaryCommunication === "phone") {
-        getPrimaryCommunication = "phones";
-      }
-      if (getPrimaryCommunication === "email") {
-        getPrimaryCommunication = "emails";
-      }
-      const getPrimaryInfo = data[getPrimaryCommunication];
+      const { firstName, lastName, leadsId, emails, phones } = data;
+      const email = emails?.[0]?.leadEmail ?? '';
+      const leadPhone = phones?.[0]?.leadPhone ?? '';
+      const leadPhoneLabel = phones?.[0]?.phoneLabel ?? '';
+      const phone = {leadPhone, leadPhoneLabel}
       const values = {
         firstName,
         lastName,
-        [getPrimaryCommunication]: getPrimaryInfo[0],
+        phones: phone,
+        email,
         leadId: leadsId,
       };
+      debugger
+      console.log(email);
+      console.log(values);
       const response = await clientsService.getDuplicateContact(values);
       if (response.ok) {
         const resMessage = await response.json();
