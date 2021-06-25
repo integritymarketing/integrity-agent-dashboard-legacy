@@ -11,6 +11,7 @@ import styles from "../ContactsPage.module.scss";
 import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
+import { STATES } from "utils/address";
 import analyticsService from "services/analyticsService";
 
 const CONTACT_RECORD_TYPE = [
@@ -192,12 +193,6 @@ const EditContactForm = (props) => {
               ]),
             },
             {
-              name: "address.stateCode",
-              validator: validationService.composeValidator([
-                validationService.validateState,
-              ]),
-            },
-            {
               name: "address.city",
               validator: validationService.composeValidator([
                 validationService.validateCity,
@@ -319,16 +314,22 @@ const EditContactForm = (props) => {
                 onBlur={handleBlur}
                 error={errors.address?.city ? true : false}
               />
-              <Textfield
-                id="contact-address__statecode"
-                className={`${styles["contact-address--statecode"]} mr-1`}
-                label="State"
-                name="address.stateCode"
-                value={values.address.stateCode}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.address?.stateCode ? true : false}
-              />
+              <div>
+                <label className="label" htmlFor="phone-label">
+                  State
+                </label>
+                <div className="state-select-input">
+                  <Select
+                    showValueAsLabel={true}
+                    className={`${styles["contact-address--statecode"]}`}
+                    options={STATES}
+                    initialValue={values.address.stateCode}
+                    onChange={(value) => {
+                      setFieldValue("address.stateCode", value);
+                    }}
+                  />
+                </div>
+              </div>
               <Textfield
                 id="contact-address__zip"
                 className={`${styles["contact-address--zip"]}`}
@@ -340,15 +341,10 @@ const EditContactForm = (props) => {
                 error={errors.address?.postalCode ? true : false}
               />
             </div>
-            {(errors.address?.city ||
-              errors.address?.stateCode ||
-              errors.address?.postalCode) && (
+            {(errors.address?.city || errors.address?.postalCode) && (
               <div className="errors-block">
                 {errors.address?.city && (
                   <p className="error-msg">{errors.address?.city}</p>
-                )}
-                {errors.address?.stateCode && (
-                  <p className="error-msg">{errors.address?.stateCode}</p>
                 )}
                 {errors.address?.postalCode && (
                   <p className="error-msg">{errors.address?.postalCode}</p>
