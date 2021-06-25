@@ -164,7 +164,7 @@ export default () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    view duplicates
+                    these contacts
                   </a>
                 </span>
               </section>
