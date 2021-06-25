@@ -53,9 +53,6 @@ export default () => {
         email,
         leadId: leadsId,
       };
-      debugger
-      console.log(email);
-      console.log(values);
       const response = await clientsService.getDuplicateContact(values);
       if (response.ok) {
         const resMessage = await response.json();
