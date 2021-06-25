@@ -283,10 +283,11 @@ class ClientsService {
   };
 
   getDuplicateContact = async (contact) => {
-    const { firstName, lastName, email, phones } = contact;
+    const { firstName, lastName, email, phones, leadId = [] } = contact;
     const reqData = {
       firstName,
       lastName,
+      leadId,
     };
     if (email) {
       reqData.emails = [
