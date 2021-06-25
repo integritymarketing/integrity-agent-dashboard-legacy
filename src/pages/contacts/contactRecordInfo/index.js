@@ -139,7 +139,7 @@ export default () => {
             </Helmet>
             <GlobalNav />
             {duplicateLeadIds.length === 1 && (
-              <section className={styles["duplicate-contact-link"]}>
+              <section className={`${styles["duplicate-contact-link"]} pl-1`}>
                 <Warning />
                 <span className="pl-1">
                   The entry is a potential duplicate to&nbsp;&nbsp;
@@ -154,7 +154,7 @@ export default () => {
               </section>
             )}
             {duplicateLeadIds.length > 1 && (
-              <section className={styles["duplicate-contact-link"]}>
+              <section className={`${styles["duplicate-contact-link"]} pl-1`}>
                 <Warning />
                 <span className="pl-1">
                   The entry is a potential duplicate to&nbsp;&nbsp;
