@@ -7,14 +7,27 @@ import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
-export const DefaultOption = ({ label, value, prefix = '', onClick, selected = false, ...rest }) => {
+export const DefaultOption = ({
+  label,
+  value,
+  prefix = "",
+  onClick,
+  selected = false,
+  showValueAsLabel,
+  ...rest
+}) => {
   const handleOptionClick = (ev) => {
     onClick && onClick(ev, value);
   };
 
   return (
-    <div {...rest} className={`option ${selected ? 'selected' : ''}`} onClick={handleOptionClick}>
-      {prefix}{label}
+    <div
+      {...rest}
+      className={`option ${selected ? "selected" : ""}`}
+      onClick={handleOptionClick}
+    >
+      {prefix}
+      {showValueAsLabel ? value : label}
     </div>
   );
 };
@@ -25,7 +38,7 @@ DefaultOption.propTypes = {
   value: PropTypes.any,
   onClick: PropTypes.func,
   style: PropTypes.object,
-  prefix: PropTypes.string
+  prefix: PropTypes.string,
 };
 
 export const Select = ({
@@ -35,9 +48,10 @@ export const Select = ({
   Option,
   onChange,
   placeholder,
-  prefix = '',
+  prefix = "",
   style,
   contactsPage,
+  showValueAsLabel = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(initialValue);
@@ -65,30 +79,35 @@ export const Select = ({
 
   const [selectedOption, selectableOptions] = useMemo(() => {
     const selectedOptions = options.filter((option) => option?.value === value);
-    const selectableOptions = options.map(
-      (option) => ({ ...option, selected: option?.value === value })
-    );
+    const selectableOptions = options.map((option) => ({
+      ...option,
+      selected: option?.value === value,
+    }));
     return [selectedOptions[0], selectableOptions];
   }, [options, value]);
 
   const heightStyle = useMemo(() => {
     const top = isOpen ? ref.current.getBoundingClientRect().top + 40 : 40;
     return windowHeight
-    ? {
-      maxHeight: Math.max(
-        Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
-        Math.min(selectableOptions.length + 1, 3) * 40
-      ),
-    }
-    : {
-      maxHeight: 0
-    };
+      ? {
+          maxHeight: Math.max(
+            Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
+            Math.min(selectableOptions.length + 1, 3) * 40
+          ),
+        }
+      : {
+          maxHeight: 0,
+        };
   }, [selectableOptions.length, isOpen, windowHeight]);
 
   const inputBox = (
     <div className="inputbox" onClick={toggleOptionsMenu}>
       {value ? (
-        <Option prefix={prefix} {...selectedOption} />
+        <Option
+          prefix={prefix}
+          {...selectedOption}
+          showValueAsLabel={showValueAsLabel}
+        />
       ) : (
         <span className="placeholder">{placeholder}</span>
       )}
@@ -99,13 +118,13 @@ export const Select = ({
     <div className="selectbox" onClick={toggleOptionsMenu}>
       {mobileLabel}
     </div>
-  )
+  );
   const selectHeader = (
     <div className="select-header">
       <div className="prefix">{placeholder}</div>
       <button onClick={toggleOptionsMenu}>&times;</button>
     </div>
-  )
+  );
   const optionsContainer = (
     <div className="options" style={{ maxHeight: heightStyle.maxHeight - 40 }}>
       {selectHeader}
@@ -116,7 +135,11 @@ export const Select = ({
   );
 
   return (
-    <div ref={ref} style={style} className={`select ${contactsPage && 'contacts-dd'}`}>
+    <div
+      ref={ref}
+      style={style}
+      className={`select ${contactsPage && "contacts-dd"}`}
+    >
       <div
         className={`select-container ${isOpen ? "opened" : "closed"}`}
         style={heightStyle}

@@ -4,7 +4,7 @@ import StageSelect from "./StageSelect";
 import { formatPhoneNumber } from "utils/phones";
 import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
-import { formatAddress } from "utils/address";
+import { formatAddress, getMapUrl } from "utils/address";
 
 const notAvailable = "N/A";
 
@@ -19,12 +19,17 @@ export default ({ personalInfo }) => {
     createDate = "",
     statusName = "",
     contactRecordType = "",
+    contactPreferences,
   } = personalInfo;
 
   emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
   phones = phones.length > 0 ? phones[0].leadPhone : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 
+  const isPrimary =
+    contactPreferences && contactPreferences.primary
+      ? contactPreferences.primary
+      : "";
 
   return (
     <div className="nameCard">
@@ -49,19 +54,46 @@ export default ({ personalInfo }) => {
             </div>
           </div>
           <div className="personalInfo">
-            <label>Email</label>
-            <div className="personalInfoEmailText">{emails}</div>
+            <label>Email {isPrimary === "email" && "(Primary)"}</label>
+
+            <div className="personalInfoEmailText">
+              <a className="info-link hover-line" href={`mailto:${emails}`}>
+                {emails}
+              </a>
+            </div>
           </div>
           <div className="personalInfo">
-            <label>Phone</label>
-            <div className="personalInfoText">
+            <label>Phone {isPrimary === "phone" && "(Primary)"}</label>
+            <div className="personalInfoText mobile-hide">
               {phones ? formatPhoneNumber(phones) : notAvailable}
+            </div>
+            <div className="personalInfoText desktop-hide">
+              {phones ? (
+                <a
+                  className="info-link"
+                  href={`tel:${formatPhoneNumber(phones)}`}
+                >
+                  {formatPhoneNumber(phones)}
+                </a>
+              ) : (
+                notAvailable
+              )}
             </div>
           </div>
 
           <div className="personalInfo">
             <label>Address</label>
-            <div className="personalInfoText">{formatAddress(addresses)}</div>
+            <div className="personalInfoText mobile-hide">
+              {formatAddress(addresses)}
+            </div>
+            <div className="personalInfoText desktop-hide">
+              <a
+                className="info-link"
+                href={`${getMapUrl()}?q=${formatAddress(addresses)}`}
+              >
+                {formatAddress(addresses)}
+              </a>
+            </div>
           </div>
           <div className="mobile-select-show customSelectbox personalInfo">
             <label>Stage</label>

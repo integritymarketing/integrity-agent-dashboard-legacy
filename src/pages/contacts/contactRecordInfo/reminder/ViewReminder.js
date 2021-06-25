@@ -68,7 +68,10 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
       onMouseLeave={() => setReminderHovered(false)}
     >
       <div className="wholereminderCardSection2row1of1">
-        <div className="custom-datepicker-active border datepicker-row reminderCardSection2row1" style={{display:"flex"}}>
+        <div
+          className="view-reminder-calendar custom-datepicker-active border datepicker-row reminderCardSection2row1"
+          style={{ display: "flex" }}
+        >
           <ShowDate date={date} setDate={setDate} isEdit={isEdit} />
           <label>
             Last Updated{" "}
@@ -83,7 +86,10 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           </button>
         </div>
         {!isEdit && reminderHovered && (
-          <div className="hover-btn-hide datepicker-row reminderCardSection2row1of1" style={{textAlign : "right"}}>
+          <div
+            className="hover-btn-hide datepicker-row reminderCardSection2row1of1"
+            style={{ textAlign: "right" }}
+          >
             <button
               className="deleteTextAreaText"
               onClick={() => deleteReminder()}
@@ -111,7 +117,9 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
                 onChange={(e) => setReminderNote(e.target.value)}
               ></textarea>
             ) : (
-              <p className="normalText" style={{height : "auto"}}>{reminder.reminderNote}</p>
+              <p className="normalText" style={{ height: "auto" }}>
+                {reminder.reminderNote}
+              </p>
             )}
           </div>
         </div>

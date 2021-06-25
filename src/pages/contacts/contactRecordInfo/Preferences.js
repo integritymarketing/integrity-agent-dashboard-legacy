@@ -127,7 +127,7 @@ export default (props) => {
                 checked={isEnabled("email")}
                 onClick={(e) => handleChangeCheckbox("email", e.target.checked)}
               />
-              <label for="email">Email</label>
+              <label for="email">Direct Email</label>
             </div>
           </div>
         </div>

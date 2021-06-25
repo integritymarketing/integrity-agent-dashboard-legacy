@@ -13,7 +13,7 @@ import GlobalFooter from "partials/global-footer";
 import styles from "./ContactsPage.module.scss";
 import clientService from "../../services/clientsService";
 import useToast from "../../hooks/useToast";
-
+import { STATES } from "utils/address";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import analyticsService from "services/analyticsService";
@@ -143,12 +143,6 @@ const NewContactForm = () => {
               ]),
             },
             {
-              name: "address.stateCode",
-              validator: validationService.composeValidator([
-                validationService.validateState,
-              ]),
-            },
-            {
               name: "address.city",
               validator: validationService.composeValidator([
                 validationService.validateCity,
@@ -266,18 +260,24 @@ const NewContactForm = () => {
                 value={values.address.city}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.address?.city && errors.address?.city}
+                error={errors.address?.city ? true : false}
               />
-              <Textfield
-                id="contact-address__statecode"
-                className={`${styles["contact-address--statecode"]} mr-1`}
-                label="State"
-                name="address.stateCode"
-                value={values.address.stateCode}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.address?.stateCode && errors.address?.stateCode}
-              />
+              <div>
+                <label className="label" htmlFor="phone-label">
+                  State
+                </label>
+                <div className="state-select-input">
+                  <Select
+                    showValueAsLabel={true}
+                    className={`${styles["contact-address--statecode"]}`}
+                    options={STATES}
+                    initialValue={values.address.stateCode}
+                    onChange={(value) => {
+                      setFieldValue("address.stateCode", value);
+                    }}
+                  />
+                </div>
+              </div>
               <Textfield
                 id="contact-address__zip"
                 className={`${styles["contact-address--zip"]}`}
@@ -286,11 +286,19 @@ const NewContactForm = () => {
                 value={values.address.postalCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={
-                  touched.address?.postalCode && errors.address?.postalCode
-                }
+                error={errors.address?.postalCode ? true : false}
               />
             </div>
+            {(errors.address?.city || errors.address?.postalCode) && (
+              <div className="errors-block">
+                {errors.address?.city && (
+                  <p className="error-msg">{errors.address?.city}</p>
+                )}
+                {errors.address?.postalCode && (
+                  <p className="error-msg">{errors.address?.postalCode}</p>
+                )}
+              </div>
+            )}
           </fieldset>
           <div className="mt-3 mb-3 border-bottom border-bottom--light" />
           <fieldset className="form__fields form__fields--constrained">

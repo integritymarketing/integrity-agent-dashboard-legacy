@@ -24,7 +24,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
 
   const isPrimary = contactPreferences.primary
     ? contactPreferences.primary
-    : "phone";
+    : "";
 
   return (
     <>
