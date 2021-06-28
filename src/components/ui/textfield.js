@@ -3,6 +3,7 @@ import ErrorIcon from "components/icons/error";
 import SuccessIcon from "components/icons/success";
 import PasswordRevealIcon from "components/icons/password-reveal";
 import PasswordHideIcon from "components/icons/password-hide";
+import DeleteIcon from "components/icons/cross";
 
 // https://react-day-picker.js.org/api/DayPickerInput
 import DayPickerInput from "react-day-picker/DayPickerInput";
@@ -59,6 +60,9 @@ const Textfield = ({
   readOnly,
   value,
   onDateChange = null,
+  isMobile = false,
+  onClear = null,
+  onReset = null,
   ...inputProps
 }) => {
   let InputElement = multiline ? "textarea" : "input";
@@ -134,6 +138,16 @@ const Textfield = ({
         <div className="form-input__input-actions">
           {error && <ErrorIcon />}
           {hasSuccess && <SuccessIcon />}
+          {type === "text" && isMobile && onClear && value && (
+            <button className="clear-btn" onClick={onClear}>
+              Clear
+            </button>
+          )}
+          {type === "text" && isMobile && onReset && (
+            <button style={{ marginTop: "4px" }} onClick={onReset}>
+              <DeleteIcon />
+            </button>
+          )}
         </div>
         {type === "password" && (
           <button

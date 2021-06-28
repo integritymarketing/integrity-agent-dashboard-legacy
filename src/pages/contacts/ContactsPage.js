@@ -44,6 +44,7 @@ const SortButton = () => {
 
 export default () => {
   const [searchString, setSearchString] = useState(null);
+  const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = React.useState(null);
   const [layout, setLayout] = useState();
   const location = useLocation();
@@ -60,9 +61,14 @@ export default () => {
   }, [location, isMobile]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const debouncedSetSearchString = useCallback(
-    debounce(setSearchString, 500),
+    debounce(setSearchStringNew, 500),
     []
   );
+
+  useEffect(() => {
+    debouncedSetSearchString(searchString);
+  }, [searchString, debouncedSetSearchString]);
+
   const switchLayout = () => {
     const switchToLayoutPath =
       layout === "list" ? cardViewLayoutPath : listViewLayoutPath;
@@ -116,7 +122,7 @@ export default () => {
           </div>
           <Container>
             <div
-              className={`bar bar--repel bar--collapse-mobile`}
+              className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
               style={{
                 "--bar-spacing-vert": 0,
                 "--bar-spacing-horiz": "2.5rem",
@@ -124,18 +130,28 @@ export default () => {
             >
               <Textfield
                 id="contacts-search"
-                type="search"
+                type={isMobile ? "text" : "search"}
                 defaultValue={searchString}
+                value={searchString}
                 icon={<SearchIcon />}
                 placeholder="Search "
                 name="search"
                 className="bar__item-small"
                 onChange={(event) => {
-                  debouncedSetSearchString(event.currentTarget.value || null);
+                  setSearchString(event.currentTarget.value || null);
                 }}
                 onBlur={() => {
                   analyticsService.fireEvent("event-search");
                   return null;
+                }}
+                isMobile={isMobile}
+                onClear={(e) => {
+                  setSearchString("");
+                  document.getElementById("contacts-search").focus();
+                }}
+                onReset={() => {
+                  setSearchString("");
+                  document.activeElement.blur();
                 }}
               />
               <div className="bar">
@@ -190,10 +206,10 @@ export default () => {
                   <Redirect to="/contacts/list" />
                 </Route>
                 <Route path="/contacts/list">
-                  <ContactsTable searchString={searchString} sort={sort} />
+                  <ContactsTable searchString={searchStringNew} sort={sort} />
                 </Route>
                 <Route path="/contacts/card">
-                  <ContactsCard searchString={searchString} sort={sort} />
+                  <ContactsCard searchString={searchStringNew} sort={sort} />
                 </Route>
               </Switch>
             </div>
