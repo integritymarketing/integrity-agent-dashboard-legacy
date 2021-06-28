@@ -51,8 +51,6 @@ function Table({
     onChangeTableState({ pageSize, pageIndex, searchString, sort });
   }, [onChangeTableState, pageSize, pageIndex, searchString, sort]);
 
-  // Render the UI for the table
-
   if (loading) {
     return <Spinner />;
   }
@@ -105,19 +103,16 @@ function Table({
 
 const getAndResetItemFromLocalStorage = (key, initialValue) => {
   try {
-    // Get from local storage by key
     const item = window.localStorage.getItem(key);
-    // Parse stored json or if none return initialValue
     const val = item ? JSON.parse(item) : initialValue;
     window.localStorage.removeItem(key);
     return val;
   } catch (error) {
-    // If error also return initialValue
     Sentry.captureException(error);
     window.localStorage.removeItem(key);
     return initialValue;
   }
-}
+};
 
 function ContactsTable({ searchString, sort }) {
   const [data, setData] = useState([]);
@@ -130,7 +125,7 @@ function ContactsTable({ searchString, sort }) {
   );
   const addToast = useToast();
   const history = useHistory();
-  
+
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
       const clearTimer = () =>
@@ -177,13 +172,25 @@ function ContactsTable({ searchString, sort }) {
         return;
       }
       setLoading(true);
-      const duplicateIds = getAndResetItemFromLocalStorage('duplicateLeadIds')
+      const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
       clientsService
-        .getList(pageIndex, pageSize, sort, null, searchString || null, duplicateIds)
+        .getList(
+          pageIndex,
+          pageSize,
+          sort,
+          null,
+          searchString || null,
+          duplicateIds
+        )
         .then((list) => {
           setData(
             list.result.map((res) => ({
               ...res,
+              contactRecordType:
+                res.contactRecordType === ("Client" || "client") &&
+                !res.statusName
+                  ? "Enrolled"
+                  : res.contactRecordType,
             }))
           );
           setPageCount(list.pageResult.totalPages);
