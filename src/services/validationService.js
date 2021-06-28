@@ -37,7 +37,7 @@ class ValidationService {
   };
 
   validateName = (username, label = "firstName") => {
-    if (username && !/^[A-Za-z0-9- ']{1,50}$/.test(username)) {
+    if (username && !/^[A-Za-z0-9- ']{2,50}$/.test(username)) {
       return `${label} must be 2 characters or more accept alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ? `;
     }
 
