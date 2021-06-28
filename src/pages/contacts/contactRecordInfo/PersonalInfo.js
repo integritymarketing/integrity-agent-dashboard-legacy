@@ -15,7 +15,6 @@ export default ({ personalInfo }) => {
     emails = [],
     phones = [],
     addresses = [],
-    modifyDate = "",
     createDate = "",
     statusName = "",
     contactRecordType = "",
@@ -45,7 +44,6 @@ export default ({ personalInfo }) => {
             </h2>
           </div>
         </div>
-        {/* <hr /> */}
         <div className="nameCardSection2">
           <div className="desktop-select-show customSelectbox personalInfo">
             <label>Stage</label>
