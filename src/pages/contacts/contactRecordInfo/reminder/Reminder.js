@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Datepicker from "../../datepicker";
 import ReminderModal from "./ReminderModal";
 import analyticsService from "services/analyticsService";
+import { getOverDue } from "utils/dates";
 
 export const ShortReminder = ({ leadId, reminders, className, onRefresh }) => {
   const reminder = (reminders || []).find((rem) => !rem.isComplete) || {};
@@ -15,17 +16,22 @@ export const ShortReminder = ({ leadId, reminders, className, onRefresh }) => {
       {
         <Datepicker
           date={reminderDate}
+          overDueStatus={getOverDue(reminderDate) ? true : false}
           onAddNew={(e) => {
             e.stopPropagation();
             setShowAddModal(true);
           }}
         />
       }
+      {getOverDue(reminderDate) && (
+        <label className="due-date-text">{getOverDue(reminderDate)} </label>
+      )}
       {reminderNote && (
         <label className="datepicker-row short-reminder-note">
           {reminderNote}
         </label>
       )}
+
       {showAddModal && (
         <ReminderModal
           reminder={reminder}

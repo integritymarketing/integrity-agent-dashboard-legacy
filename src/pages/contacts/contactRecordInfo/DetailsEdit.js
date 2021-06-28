@@ -375,7 +375,7 @@ const EditContactForm = (props) => {
               />
               <label htmlFor="primary--email">Primary Communication</label>
             </div>
-            <div style={{ display: "flex" }}>
+            <div className="mobile-primary-com" style={{ display: "flex" }}>
               <Textfield
                 className="mr-2"
                 id="contact-phone"
