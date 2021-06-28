@@ -1139,7 +1139,19 @@ button {
   min-height: clamp(100px, 75vw, 480px);
   max-height: initial;
 }
+.due-date-text {
+  color: #ca2323;
+  margin-left: 8px;
+}
+.due-date-input {
+  background: #fffafa;
+  border: 1px solid #ca2323;
+}
 @media screen and (min-width: 320px) and (max-width: 767px) {
+  .address__city__state__zip,
+  .mobile-primary-com {
+    flex-direction: column;
+  }
   .info-link {
     border-bottom: 1.5pt solid #6a7279;
   }

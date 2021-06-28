@@ -3,7 +3,7 @@ import ShowDate from "./ShowDate";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
-import { getForDistance } from "utils/dates";
+import { getForDistance, getOverDue } from "utils/dates";
 
 export default ({ reminder, leadId, getContactRecordInfo }) => {
   const { reminderNote = "", isComplete = false, reminderId } = reminder;
@@ -72,7 +72,12 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           className="view-reminder-calendar custom-datepicker-active border datepicker-row reminderCardSection2row1"
           style={{ display: "flex" }}
         >
-          <ShowDate date={date} setDate={setDate} isEdit={isEdit} />
+          <ShowDate
+            date={date}
+            overDueStatus={getOverDue(date) ? true : false}
+            setDate={setDate}
+            isEdit={isEdit}
+          />
           <label>
             Last Updated{" "}
             {reminder.modifyDate
@@ -80,6 +85,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
               : getForDistance(reminder.createDate)}
           </label>
         </div>
+
         <div>
           <button className="mobile-edit" onClick={() => setEdit(true)}>
             Edit
@@ -102,6 +108,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           </div>
         )}
       </div>
+      <div className="due-date-text">{getOverDue(date)} </div>
 
       <div className="">
         <div className="reminderCardSection2row2left">

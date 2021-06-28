@@ -20,7 +20,7 @@ function formatDate(date, format, locale) {
   return dateFnsFormat(date, format, { locale });
 }
 
-export default ({ date, onAddNew }) => {
+export default ({ date, onAddNew, overDueStatus = false }) => {
   return (
     <DayPickerInput
       value={date ? new Date(date) : "Add"}
@@ -31,7 +31,10 @@ export default ({ date, onAddNew }) => {
       component={(props) => {
         return (
           <span className="datepickerparent">
-            <div className="cal" {...(onAddNew ? { onClick: onAddNew } : {})}>
+            <div
+              className={`${overDueStatus ? "due-date-input" : ""} cal`}
+              {...(onAddNew ? { onClick: onAddNew } : {})}
+            >
               <input
                 className="datepicker-input"
                 {...props}
