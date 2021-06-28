@@ -27,16 +27,18 @@ class ClientsService {
       Sort: sort,
       FilterId: filterId,
       Search: searchText,
-      leadIds
+      leadIds,
     };
 
     const queryStr = Object.keys(params)
       .map((key) => {
-        if (key === 'leadIds' && leadIds) {
-          return (params[key] || []).map(leadId => `${key}=${leadId}`).join("&")
+        if (key === "leadIds" && leadIds) {
+          return (params[key] || [])
+            .map((leadId) => `${key}=${leadId}`)
+            .join("&");
         }
-        return (params[key] ? `${key}=${params[key]}` : null)
-     })
+        return params[key] ? `${key}=${params[key]}` : null;
+      })
       .filter((str) => str !== null)
       .join("&");
     const response = await this._clientAPIRequest(
@@ -283,10 +285,11 @@ class ClientsService {
   };
 
   getDuplicateContact = async (contact) => {
-    const { firstName, lastName, email, phones } = contact;
+    const { firstName, lastName, email, phones, leadId = 0 } = contact;
     const reqData = {
       firstName,
       lastName,
+      leadId,
     };
     if (email) {
       reqData.emails = [

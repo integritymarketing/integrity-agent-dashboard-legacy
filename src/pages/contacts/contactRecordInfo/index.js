@@ -24,7 +24,9 @@ import EditContactPage from "./DetailsEdit";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
 export default () => {
-  const { contactId: id, duplicateLeadId } = useParams();
+  const { contactId: id } = useParams();
+  const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+  const [duplicateLeadIdName, setDuplicateLeadIdName] = useState();
   const [personalInfo, setPersonalInfo] = useState({});
   const [reminders, setReminders] = useState([]);
   const [activities, setActivities] = useState([]);
@@ -32,20 +34,49 @@ export default () => {
   const [display, setDisplay] = useState("OverView");
   const [menuToggle, setMenuToggle] = useState(false);
 
-  const getContactRecordInfo = useCallback(() => {
+  const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
-    clientsService
-      .getContactInfo(id)
-      .then((data) => {
-        setPersonalInfo(data);
-        setReminders(data.reminders);
-        setActivities(data.activities);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setLoading(false);
-        Sentry.captureException(e);
-      });
+    try {
+      const data = await clientsService.getContactInfo(id);
+      setPersonalInfo(data);
+      setReminders(data.reminders);
+      setActivities(data.activities);
+      const { firstName, lastName, leadsId, emails, phones } = data;
+      const email = emails?.[0]?.leadEmail ?? '';
+      const leadPhone = phones?.[0]?.leadPhone ?? '';
+      const leadPhoneLabel = phones?.[0]?.phoneLabel ?? '';
+      const phone = {leadPhone, leadPhoneLabel}
+      const values = {
+        firstName,
+        lastName,
+        phones: phone,
+        email,
+        leadId: leadsId,
+      };
+      const response = await clientsService.getDuplicateContact(values);
+      if (response.ok) {
+        const resMessage = await response.json();
+        const duplicateLeadIds = resMessage.duplicateLeadIds;
+        if (duplicateLeadIds.length === 1) {
+          const getFullNameById = await clientsService.getContactInfo(
+            duplicateLeadIds[0]
+          );
+          const { firstName, lastName } = getFullNameById;
+          setDuplicateLeadIdName(`${firstName} ${lastName}`);
+          if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
+            setDuplicateLeadIds(duplicateLeadIds);
+          }
+        } else {
+          if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
+            setDuplicateLeadIds(duplicateLeadIds);
+          }
+        }
+      }
+    } catch (e) {
+      Sentry.captureException(e);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -87,26 +118,53 @@ export default () => {
     }
   };
 
+  const handleMultileDuplicates = () => {
+    if (duplicateLeadIds.length) {
+      window.localStorage.setItem(
+        "duplicateLeadIds",
+        JSON.stringify(duplicateLeadIds)
+      );
+    }
+    return true;
+  };
+
+  const isLoading = loading;
   return (
     <React.Fragment>
       <ToastContextProvider>
-        <WithLoader isLoading={loading}>
+        <WithLoader isLoading={isLoading}>
           <StageStatusProvider>
             <Helmet>
               <title>MedicareCENTER - Contacts</title>
             </Helmet>
             <GlobalNav />
-            {duplicateLeadId && (
-              <section className={styles["duplicate-contact-link"]}>
+            {duplicateLeadIds.length === 1 && (
+              <section className={`${styles["duplicate-contact-link"]} pl-1`}>
                 <Warning />
                 <span className="pl-1">
                   The entry is a potential duplicate to&nbsp;&nbsp;
                   <a
-                    href={`/contact/${duplicateLeadId}`}
+                    href={`/contact/${duplicateLeadIds}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    this contact link.
+                    {duplicateLeadIdName ?? "this contact link."}
+                  </a>
+                </span>
+              </section>
+            )}
+            {duplicateLeadIds.length > 1 && (
+              <section className={`${styles["duplicate-contact-link"]} pl-1`}>
+                <Warning />
+                <span className="pl-1">
+                  The entry is a potential duplicate to&nbsp;&nbsp;
+                  <a
+                    onClick={handleMultileDuplicates}
+                    href={`/contacts`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    these contacts
                   </a>
                 </span>
               </section>
