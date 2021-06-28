@@ -40,8 +40,8 @@ export default ({ personalInfo }) => {
           </div>
           <div className="personalinfoname nameCardpara">
             <h2>
-              {contactRecordType || "Prospect"} | Last updated &nbsp;
-              {modifyDate ? getMMDDYY(modifyDate) : getMMDDYY(createDate)}
+              {contactRecordType || "Prospect"} | Created Date &nbsp;
+              {getMMDDYY(createDate)}
             </h2>
           </div>
         </div>
