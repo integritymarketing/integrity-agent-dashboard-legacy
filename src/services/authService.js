@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/react";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 import usePortalUrl from "hooks/usePortalUrl";
 
-const AUTH_API_VERSION = "v1.0";
+const AUTH_API_VERSION = "v2.0";
 
 class authService {
   constructor() {

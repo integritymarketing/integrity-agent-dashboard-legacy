@@ -1,0 +1,43 @@
+import React from "react";
+import Container from "components/ui/container";
+import SimpleHeader from "partials/simple-header";
+import SimpleFooter from "partials/simple-footer";
+import { Helmet } from "react-helmet-async";
+import MailIcon from "components/icons/v2-mail";
+import PhoneIcon from "components/icons/v2-phone";
+
+export default () => {
+  return (
+    <>
+      <Helmet>
+        <title>MedicareCENTER - Contact Support</title>
+      </Helmet>
+      <div className="content-frame v2">
+        <SimpleHeader />
+        <Container size="small">
+          <h1 className="hdg hdg--2 mb-1">Contact Support</h1>
+          <p className="text text--secondary mb-3">Supporting copy here.</p>
+          <p className="mb-2 content-center ">
+            <MailIcon />
+            <a
+              href="mailto:support@medicarecenter.com"
+              className="ml-2 link link--force-underline"
+            >
+              support@medicarecenter.com
+            </a>
+          </p>
+          <p className="content-center ">
+            <PhoneIcon />
+            <a
+              href="tel:+18888183760"
+              className="ml-2 link link--force-underline"
+            >
+              888-818-3760
+            </a>
+          </p>
+        </Container>
+        <SimpleFooter className="global-footer--simple" />
+      </div>
+    </>
+  );
+};

@@ -8,6 +8,8 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
 
+  // TODO v2: Does this need to change from npn to email?
+
   useEffect(() => {
     const handleComfirmEmail = async () => {
       return authService.confirmEmail({

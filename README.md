@@ -34,7 +34,7 @@ An agent portal implemented using React and [Create React App](https://create-re
 2. `yarn install`
 3. `yarn start`
 
-The portal app should be running on http://localhost:3000/
+The portal app should now be running on http://localhost:3000/
 
 #### Auth App
 
@@ -114,6 +114,39 @@ This project is built on a few fundamental libraries & frameworks and assumes a 
 
 - `react-helmet` [#548](https://github.com/nfl/react-helmet/issues/548): There is a console error warning about UNSAFE_componentWillMount in strict mode.
 
+#### Window dev environment issues
+
+Windows requires CRLF (carraige Return & Line Feed), where Linux requires LF(Line feed)
+
+```
+Error: resolve-url-loader: CSS error. source-map information is not available at url() declaration (found orphan CR, try removeCR option)
+```
+
+Temporary solution: if you ever came a cross such error then do this
+
+```
+Path: ae-agent-portal\node_modules\resolve-url-loader\index.js
+Step 1: locate folder called "resolve-url-loader" inside "node_modules".
+Step 2: open up the folder and look for "index.js". And open up that file.
+Step 3: Inside "index.js", look for "var option".
+example:var options = Object.assign(
+    {
+      sourceMap: loader.sourceMap,
+      engine   : 'postcss',
+      silent   : false,
+      absolute : false,
+      keepQuery: false,
+      removeCR : false,
+      root     : false,
+      debug    : false,
+      join     : joinFn.defaultJoin
+    },
+Step 4: Look for "removeCR" which is turned "false". Turn it to "true" and save the changes.
+Step 5: restart your app either by "yarn start" or "npm start". Error will be gone.
+```
+
+Note: do this every time whenever you came across such an error.
+
 ## Project Structure
 
 TBD
@@ -171,3 +204,17 @@ private key
 
 ca certs
 `openssl pkcs12 -in vfm.pfx -cacerts -out cacerts.cer`
+
+## Getting Started with Storybook
+
+Storybook is an open-source tool for developing UI components in isolation for React, Vue, Angular, and more. (https://storybook.js.org/).
+It is only used for building UI components and keeping react application(business logic) separate. React is all about creating multiple components it will be difficult to know every component we have in project and how it works. So, Storybook provides us with an instrument to have all components more structured and make it easy for other dev’s to easily understand about each component.
+
+## To run Storybook
+
+- Components can be easily visualized when you run the storybook through this
+
+- npm run storybook (windows) or yarn storybook(mac/ubuntu)
+
+- this command will build all the stories that you've written and build useful ui for that so you can browse them easily and it
+  becomes extremely useful when you have a big code base.

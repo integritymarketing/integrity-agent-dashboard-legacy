@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import { InvertedTextfield } from "components/ui/textfield";
+// import InfoIcon from "components/icons/info";
+import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
-import NumberIcon from "components/icons/number";
-import LockIcon from "components/icons/lock";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
@@ -20,15 +19,29 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
 
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: '/login/',
+    });
+  }, []);
+
   return (
     <React.Fragment>
       <Helmet>
         <title>MedicareCENTER - Login</title>
       </Helmet>
-      <div className="content-frame bg-photo bg-img-fixed text-invert">
-        <GlobalNav />
+      <div className="content-frame v2">
+        <SimpleHeader />
         <Container size="small">
-          <h1 className="hdg hdg--2 mb-4">Login to your account</h1>
+          <h1 className="text-xl mb-2">Login to your account</h1>
+
+          {/* <div className="auth-notification">
+            <InfoIcon style={{ display: "block" }} />
+            <p>
+              Please login to your account using your email, not your NPN.{" "}
+              <Link to="/forgot-username">Forgot your email?</Link>
+            </p>
+          </div> */}
 
           <Formik
             initialValues={{ Username: "", Password: "" }}
@@ -37,7 +50,10 @@ export default () => {
                 [
                   {
                     name: "Username",
-                    validator: validationService.validateUsername,
+                    validator: validationService.composeValidator([
+                      validationService.validateRequired,
+                      // validationService.validateEmail,
+                    ]),
                   },
                   {
                     name: "Password",
@@ -51,7 +67,6 @@ export default () => {
               setSubmitting(true);
               loading.begin();
               values.returnUrl = params.get("ReturnUrl");
-
               const response = await authService.loginUser(values);
 
               // a 500 server error occurs when invalid OIDC query string params
@@ -72,15 +87,24 @@ export default () => {
               loading.end();
 
               if (data && data.isOk) {
+                analyticsService.fireEvent("event-form-submit", {
+                  formName: 'Login',
+                });
                 window.location = data.redirectUrl;
               } else {
                 let errors = validationService.formikErrorsFor(data);
 
                 if (errors.Global === "account_unconfirmed") {
+                  analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
+                    formName: 'Login',
+                  });
                   history.push(
                     `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
+                  analyticsService.fireEvent("event-form-submit-invalid", {
+                    formName: 'Login',
+                  });
                   setErrors(errors);
                 }
               }
@@ -96,10 +120,10 @@ export default () => {
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
-                  <InvertedTextfield
+                  <Textfield
                     id="login-username"
+                    className="mb-3"
                     label="NPN Number"
-                    icon={<NumberIcon />}
                     placeholder="Enter your NPN Number"
                     name="Username"
                     value={values.Username}
@@ -113,11 +137,10 @@ export default () => {
                     }}
                     error={touched.Username && errors.Username}
                   />
-                  <InvertedTextfield
+                  <Textfield
                     id="login-password"
                     type="password"
                     label="Password"
-                    icon={<LockIcon />}
                     placeholder="Enter your Password"
                     name="Password"
                     value={values.Password}
@@ -133,17 +156,19 @@ export default () => {
                       (touched.Password && errors.Password) || errors.Global
                     }
                     auxLink={
-                      <Link
-                        to="/forgot-password"
-                        className="link link--invert link--force-underline"
-                      >
-                        Forgot Password?
-                      </Link>
+                      <div className="mt-2" data-gtm="login-forgot-password">
+                        <Link
+                          to="/forgot-password"
+                          className="text-sm link link--force-underline"
+                        >
+                          Forgot Password?
+                        </Link>
+                      </div>
                     }
                   />
                   <div className="form__submit">
                     <button
-                      className={`btn btn--invert ${analyticsService.clickClass(
+                      className={`btn-v2 mb-4 ${analyticsService.clickClass(
                         "main-login"
                       )}`}
                       type="submit"
@@ -151,16 +176,26 @@ export default () => {
                       Login
                     </button>
                   </div>
-                  <div>
+                  <p className="text-sm">
+                    {`Need to `}
                     <Link
                       to="/register"
-                      className={`link link--invert link--force-underline ${analyticsService.clickClass(
+                      className={`link link--secondary link--force-underline ${analyticsService.clickClass(
                         "setup-newaccount"
                       )}`}
                     >
-                      Set up a new account?
+                      register for an account
                     </Link>
-                  </div>
+                    {` or `}
+                    <Link
+                      to="/forgot-username"
+                      className={`link link--secondary link--force-underline ${analyticsService.clickClass(
+                        "forgot-email"
+                      )}`}
+                    >
+                      forgot your email?
+                    </Link>
+                  </p>
                 </fieldset>
               </form>
             )}

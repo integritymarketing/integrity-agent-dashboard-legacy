@@ -1,12 +1,11 @@
 import React from "react";
 import Container from "components/ui/container";
-import LockIcon from "components/icons/feedback";
 
 import "./index.scss";
 
 const FeedbackRibbon = () => {
   const hideRibbon = process.env.REACT_APP_HIDE_FEEDBACK_RIBBON;
-  const feedbackLink = "https://gkl.typeform.com/to/DfG2o3Cb";
+  const feedbackLink = "https://vimeo.com/568616110";
 
   if (hideRibbon) {
     return null;
@@ -14,18 +13,16 @@ const FeedbackRibbon = () => {
 
   const FeedbackLink = (props) => (
     <a href={feedbackLink} target="_blank" rel="noopener noreferrer" {...props}>
-      Sign up
+      View Now
     </a>
   );
 
   return (
     <div className="feedback-ribbon">
       <Container>
-        <LockIcon className="feedback-ribbon__icon" />
         <div className="feedback-ribbon__copy">
-          <span>We want your feedback!</span>
-          <FeedbackLink />
-          {" to help us make MedicareCENTER work better for you."}
+          <span>MedicareCENTER has new & improved CRM features!</span>
+          Watch step-by-step training videos here.
         </div>
         <div>
           <FeedbackLink className={`btn btn--invert`} />

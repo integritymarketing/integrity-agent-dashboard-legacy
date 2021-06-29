@@ -1,0 +1,45 @@
+$loader-color: #0052ce !default;
+$loader-size: 56px !default;
+$loader-height: 20px !default;
+$loader-border-size: 8px !default;
+$loader-gap: 12px !default;
+$loader-animation-duration: 1s !default;
+
+@mixin loader-rotate {
+  @keyframes loader-rotate {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@mixin loader(
+  $size: $loader-size,
+  $color: $loader-color,
+  $border-size: $loader-border-size,
+  $duration: $loader-animation-duration,
+  $align: null
+) {
+  width: $size;
+  height: $size;
+  border: $border-size solid #D8E2F1;
+  border-top-color: $color;
+  border-radius: 50%;
+  position: relative;
+  animation: loader-rotate $duration linear infinite;
+  @if ($align == center) {
+    margin: 0 auto;
+  }
+  @if ($align == middle) {
+    top: 50%;
+    margin: 150px auto;
+  }
+  @include loader-rotate;
+}
+
+.spinner {
+  @include loader($align: middle);
+}

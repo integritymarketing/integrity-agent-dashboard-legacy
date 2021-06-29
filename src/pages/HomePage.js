@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useHistory } from "react-router-dom";
 import Container from "components/ui/container";
@@ -48,6 +48,13 @@ const handleCSGSSO = async (history, loading) => {
 
 const SSOButtonWithModal = ({ ...props }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  useEffect(() => {
+    if (modalOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Enrollment Option Modal",
+      });
+    }
+  }, [modalOpen]);
   return (
     <React.Fragment>
       <button
@@ -79,7 +86,10 @@ const SSOButtonWithModal = ({ ...props }) => {
             document storage capabilities, and more!
           </p>
         </div>
-        <div className="mb-4 text-body">
+        <div
+          className="mb-4 text-body"
+          data-gtm="enrollment-option-modal-medicareapp-button"
+        >
           <a
             href={
               process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
@@ -104,7 +114,10 @@ const SSOButtonWithModal = ({ ...props }) => {
             and more!
           </p>
         </div>
-        <div className="text-body">
+        <div
+          className="text-body"
+          data-gtm="enrollment-option-modal-medicare-link"
+        >
           <a
             href={process.env.REACT_APP_SUNFIRE_SSO_URL}
             target="_blank"
@@ -125,6 +138,12 @@ export default () => {
   const history = useHistory();
   const loading = useLoading();
 
+  useEffect(() => {
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/portal-home-page/",
+    });
+  }, []);
+
   return (
     <React.Fragment>
       <Helmet>
@@ -132,9 +151,16 @@ export default () => {
       </Helmet>
       <div className="bg-photo text-invert">
         <GlobalNav />
-        <Container id="main-content" className="scaling-header">
+        <Container
+          id="main-content"
+          data-gtm="hp-category-wrapper"
+          className="scaling-header"
+        >
           <div className="mod-grid">
-            <div className="mod text-center">
+            <div
+              className="mod text-center"
+              data-gtm="hp-category-wrapper-item"
+            >
               <div className="pb-1">
                 <div className="tool-icon">MA PDP</div>
               </div>
@@ -145,42 +171,54 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <SSOButtonWithModal
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "medicareadvantage-button"
-                  )}`}
-                >
-                  Medicare Advantage & PDP
-                </SSOButtonWithModal>
+                <div className="button-wrapper">
+                  <SSOButtonWithModal
+                    data-gtm="hp-category-wrapper-item-button"
+                    className={`btn--invert cta-button ${analyticsService.clickClass(
+                      "medicareadvantage-button"
+                    )}`}
+                  >
+                    Medicare Advantage & PDP
+                  </SSOButtonWithModal>
+                </div>
               </div>
             </div>
 
-            <div className="mod text-center">
+            <div
+              className="mod text-center"
+              data-gtm="hp-category-wrapper-item"
+            >
               <div className="pb-1">
                 <div className="tool-icon">MED SUPP</div>
               </div>
               <div className="mt-1">
                 <p className="text-body">
-                  Quote and compare Med Supp plans by location, carrier, and
-                  more
+                  Quote, compare, and research Med Supp plans and more by
+                  location, carrier, features, or product
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleCSGSSO(history, loading);
-                  }}
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "medicaresupplement-button"
-                  )}`}
-                >
-                  Medicare Supplement
-                </button>
+                <div className="button-wrapper">
+                  <button
+                    data-gtm="hp-category-wrapper-item-button"
+                    type="button"
+                    onClick={() => {
+                      handleCSGSSO(history, loading);
+                    }}
+                    className={`btn--invert cta-button ${analyticsService.clickClass(
+                      "medicaresupplement-button"
+                    )}`}
+                  >
+                    Medicare Supplement
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className="mod text-center">
+            <div
+              className="mod text-center"
+              data-gtm="hp-category-wrapper-item"
+            >
               <div className="pb-1">
                 <div className="tool-icon">CRM</div>
               </div>
@@ -190,24 +228,32 @@ export default () => {
                 </p>
               </div>
               <div className="pt-2 mt-auto">
-                <Link
-                  to="/clients"
-                  className={`btn btn--invert ${analyticsService.clickClass(
-                    "crm-button"
-                  )}`}
-                >
-                  Client Management
-                </Link>
+                <div className="button-wrapper">
+                  <Link
+                    data-gtm="hp-category-wrapper-item-button"
+                    to="/contacts"
+                    className={`btn--invert cta-button ${analyticsService.clickClass(
+                      "crm-button"
+                    )}`}
+                  >
+                    Client Management
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </Container>
       </div>
       <FeedbackRibbon />
-      <Container className="mt-scale-3 mb-4">
+      <Container
+        className="mt-scale-3 mb-4"
+        data-gtm="hp-learning-center-container"
+      >
         <section>
-          <div className="hdg hdg--1">Learning Center</div>
-          <p className="text-body text-muted mt-1 mb-4">
+          <div className="custom-homepage-heading hdg hdg--1">
+            Learning Center
+          </div>
+          <p className="custom-homepage-headingtext text-body text-muted mt-1 mb-4">
             Explore resources designed to help you meet client needs and grow
             your business
           </p>

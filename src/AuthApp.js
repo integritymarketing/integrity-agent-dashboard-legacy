@@ -28,6 +28,8 @@ import FinalErrorPage from "pages/auth/FinalErrorPage";
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 
+import ContactSupport from "pages/auth/ContactSupport";
+
 import authService from "services/authService";
 
 const AuthApp = () => {
@@ -93,6 +95,10 @@ const AuthApp = () => {
             </Route>
             <Route exact path="/email-updated">
               <EmailUpdatedPage />
+            </Route>
+
+            <Route exact path="/contact-support">
+              <ContactSupport />
             </Route>
 
             <Route

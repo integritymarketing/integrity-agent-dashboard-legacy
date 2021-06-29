@@ -1,0 +1,86 @@
+.toast-provider {
+  position: relative;
+}
+
+.toasts-wrapper {
+  @media (max-width: 480px) {
+    left: calc(100vw - 400px);
+  }
+  position: fixed;
+  top: 105px;
+  right: 80px;
+  z-index: 1;
+  .toast {
+    background: #fff;
+    border: 1px solid #c7ccd1;
+    box-shadow: 0px 2px 12px 0px #1e4459 25%;
+    min-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 372px;
+    border-radius: 4px;
+    a {
+      color: #0052CE;
+      text-decoration: underline;
+    }
+    &:hover {
+      a {
+        color: #002d72;
+        cursor: pointer;
+      }
+    }
+    .toast-indicator {
+      border-radius: 4px 0 0 4px;
+      height: 100%;
+      width: 60px;
+      min-height: 60px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        stroke: white;
+        stroke-width: 2px;
+      }
+    }
+    &.success > .toast-indicator {
+      background-color: #7fd7b2;
+    }
+    &.error > .toast-indicator {
+      background-color: #ec8080;
+    }
+    &.action > .toast-indicator {
+      background-color: #4f99f0;
+    }
+    .toast-message {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      color: #525761;
+      font-family: Lato;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+      display: flex;
+      align-items: center;
+      .undo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+      }
+    }
+    button {
+      color: #525761;
+      margin-right: 33px;
+      border: none;
+      background-color: transparent;
+      font-size: 2em;
+      &:hover {
+        color: #151e29;
+      }
+    }
+    margin-bottom: 0.5rem;
+  }
+}

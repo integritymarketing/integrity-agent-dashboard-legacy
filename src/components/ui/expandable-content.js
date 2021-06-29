@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import ExpandIcon from "components/icons/expand";
-import CollapseIcon from "components/icons/collapse";
+import ExpandIcon from "components/icons/v2-expand";
+import CollapseIcon from "components/icons/v2-collapse";
 
 const identity = (x) => x;
 
@@ -29,7 +29,7 @@ export default ({ header, sections = [], ...props }) => {
   return (
     <React.Fragment>
       {header && header(renderProps)}
-      <ul className="mt-2">
+      <ul className="mt-2" data-gtm="learning-center-section-wrapper">
         {sections.map((item, idx) => {
           const itemVisible = expandedItems.includes(item.id);
           const Icon = itemVisible ? CollapseIcon : ExpandIcon;
@@ -45,9 +45,12 @@ export default ({ header, sections = [], ...props }) => {
               className={itemVisible ? null : collapsedClasses}
             >
               <div className="toolbar text-main">
-                <span className="hdg hdg--4">
-                  <span className="mr-1">{item.title}</span>{" "}
-                  <span className="text-bold text-brand">{item.numItems}</span>
+                <span
+                  className="hdg hdg--4"
+                  data-gtm="learning-center-section-title"
+                >
+                  <span>{item.title}</span>{" "}
+                  <span className="text-secondary">({item.numItems})</span>
                 </span>
                 <div className="toolbar__aux">
                   <button
@@ -55,7 +58,7 @@ export default ({ header, sections = [], ...props }) => {
                     className="icon-btn"
                     onClick={() => toggleItem(item, !itemVisible)}
                   >
-                    <Icon />
+                    <Icon className="text-blue" />
                   </button>
                 </div>
               </div>

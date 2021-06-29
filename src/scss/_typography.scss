@@ -36,7 +36,7 @@
 
 .hdg--3,
 .wysiwyg h3 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: (24 / 20);
   font-weight: 400;
 }
@@ -45,7 +45,7 @@
 .wysiwyg h4 {
   font-size: 1.25rem;
   line-height: (24 / 20);
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .text-left {
@@ -73,11 +73,23 @@
 }
 
 .text-main {
-  color: var(--main-text-color);
+  color: var(--v2-main-text-color);
+}
+
+.text-secondary {
+  color: var(--v2-main-gray);
 }
 
 .text-brand {
   color: var(--brand-text-color);
+}
+
+.text-white {
+  color: var(--v2-white);
+}
+
+.text-blue {
+  color: var(--v2-royal-blue);
 }
 
 .text-body,
@@ -155,4 +167,21 @@
   > * + h3 {
     margin-top: var(--fixed-space-4);
   }
+}
+
+
+/* Footer */
+.contact-footer {
+  height: 174px;
+  background: #041D42;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 29px;
+  color: #F5F7FA;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 118px;
 }

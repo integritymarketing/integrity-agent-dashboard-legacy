@@ -332,7 +332,7 @@ export default () => {
                   const namedClient = firstName !== "" || lastName !== "";
                   const displayName = namedClient
                     ? `${firstName} ${lastName}`.trim()
-                    : "Unnamed Contact";
+                    : "--";
                   return (
                     <Card key={client.leadsId}>
                       <div className="bar bar--repel">
