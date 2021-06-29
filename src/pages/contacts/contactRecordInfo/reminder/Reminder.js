@@ -4,7 +4,13 @@ import ReminderModal from "./ReminderModal";
 import analyticsService from "services/analyticsService";
 import { getOverDue } from "utils/dates";
 
-export const ShortReminder = ({ leadId, reminders, className, onRefresh }) => {
+export const ShortReminder = ({
+  leadId,
+  reminders,
+  className,
+  onRefresh,
+  isCardView = false,
+}) => {
   const reminder = (reminders || []).find((rem) => !rem.isComplete) || {};
   const { reminderDate, reminderNote } = reminder || {};
   const [showAddModal, setShowAddModal] = React.useState(false);
@@ -12,7 +18,7 @@ export const ShortReminder = ({ leadId, reminders, className, onRefresh }) => {
     analyticsService.fireEvent("event-date-edit");
   }, []);
   return (
-    <div className={`datepicker-row ${className}`}>
+    <div className={`reminder-content datepicker-row ${className}`}>
       {
         <Datepicker
           date={reminderDate}
@@ -23,15 +29,16 @@ export const ShortReminder = ({ leadId, reminders, className, onRefresh }) => {
           }}
         />
       }
-      {getOverDue(reminderDate) && (
-        <label className="due-date-text">{getOverDue(reminderDate)} </label>
-      )}
-      {reminderNote && (
-        <label className="datepicker-row short-reminder-note">
-          {reminderNote}
-        </label>
-      )}
-
+      <div className="reminder-inner-content">
+        {getOverDue(reminderDate) && (
+          <div className={`due-date-text ${isCardView ? "card-view" : ""}`}>
+            {getOverDue(reminderDate)}{" "}
+          </div>
+        )}
+        {reminderNote && (
+          <div className="short-reminder-note">{reminderNote}</div>
+        )}
+      </div>
       {showAddModal && (
         <ReminderModal
           reminder={reminder}

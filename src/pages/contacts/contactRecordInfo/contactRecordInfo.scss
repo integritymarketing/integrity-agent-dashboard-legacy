@@ -1128,7 +1128,8 @@ button {
 }
 
 .mobile-edit,
-.desktop-hide {
+.desktop-hide,
+.card-view {
   display: none;
 }
 .mobile-edit-section {
@@ -1160,6 +1161,11 @@ button {
   }
   .desktop-hide {
     display: block;
+  }
+
+  .card-view {
+    display: block;
+    margin-top: 10px;
   }
   .contact-details-heading {
     padding: 31px 37px 22px 30px;
@@ -1410,4 +1416,21 @@ button {
 }
 .hover-line:hover {
   border-bottom: 1.5pt solid #6a7279;
+}
+.reminder-content {
+  display: flex;
+}
+
+.reminder-inner-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.reminder-content .due-date-text {
+  margin-left: 0;
+}
+.reminder-content .short-reminder-note {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
