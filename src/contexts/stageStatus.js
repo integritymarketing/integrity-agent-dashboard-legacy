@@ -2,12 +2,30 @@ import React, { createContext, useState, useEffect, useMemo } from "react";
 import clientsService from "services/clientsService";
 
 const colorCodes = {
-  New: "#2082F5",
-  Quoted: "#EDB72C",
-  Lost: "#565656",
-  Enrolled: "#565656",
-  Open: "Orange",
-  Applied: "#65C15D"
+  blue: [
+    {
+      bg: "#DEEDFF",
+      color: "#0052CE",
+    },
+  ],
+  orange: [
+    {
+      bg: "#FFF2D1",
+      color: "#8C6A0E",
+    },
+  ],
+  green: [
+    {
+      bg: "#DBF5D9",
+      color: "#357A2F",
+    },
+  ],
+  grey: [
+    {
+      bg: "#EDEDED",
+      color: "#151E29",
+    },
+  ],
 };
 
 const StageStatusContext = createContext({
@@ -15,26 +33,43 @@ const StageStatusContext = createContext({
   isVisible: false,
 });
 
+const getStageColor = (status) => {
+  const statusColor =
+    status === "New" || status === "Renewal"
+      ? colorCodes.blue
+      : status === "Applied"
+      ? colorCodes.green
+      : status === "Lost" || status === "Enrolled"
+      ? colorCodes.grey
+      : colorCodes.orange;
+  return statusColor;
+};
+
 export const StageStatusProvider = (props) => {
-    const [allStatuses, setAllStatuses] = useState([]);
-    const statusOptions = useMemo(() => {
-        return allStatuses.map(status => ( {
-          value: status.statusName,
-          label: status.statusName,
-          color: status.colorCode || colorCodes[status.statusName] || "#EDB72C",
-        }));
-      }, [allStatuses]); 
+  const [allStatuses, setAllStatuses] = useState([]);
+  const statusOptions = useMemo(() => {
+    return allStatuses.map((status) => ({
+      value: status.statusName,
+      label: status.statusName,
+      color: status.colorCode || getStageColor(status.statusName),
+    }));
+  }, [allStatuses]);
 
-    useEffect(() => {
-        const doFetch = async () => {
-          const statuses = await clientsService.getStatuses();
-          setAllStatuses(statuses);
-        };
-    
-        doFetch();
-      }, []);
+  useEffect(() => {
+    const doFetch = async () => {
+      const statuses = await clientsService.getStatuses();
+      setAllStatuses(statuses);
+    };
 
-  return <StageStatusContext.Provider value={{allStatuses, statusOptions, colorCodes}} {...props} />;
+    doFetch();
+  }, []);
+
+  return (
+    <StageStatusContext.Provider
+      value={{ allStatuses, statusOptions, colorCodes }}
+      {...props}
+    />
+  );
 };
 
 export default StageStatusContext;

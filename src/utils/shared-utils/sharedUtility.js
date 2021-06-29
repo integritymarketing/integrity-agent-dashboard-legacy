@@ -12,7 +12,7 @@ export const ColorOptionRender = ({ value, label, color, selected = false, onCli
           width: 10,
           height: 10,
           borderRadius: 5,
-          backgroundColor: color,
+          backgroundColor: color[0].color,
           marginRight: 5,
         }}
       />

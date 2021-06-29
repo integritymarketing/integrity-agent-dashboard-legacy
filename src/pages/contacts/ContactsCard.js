@@ -99,7 +99,10 @@ const ClientCard = ({ client, onRefresh }) => {
             <span
               style={{
                 background: statusOptions?.find((st) => st.value === stage)
-                  ?.color,
+                  ?.color[0].bg,
+                color: statusOptions?.find((st) => st.value === stage)?.color[0]
+                  .color,
+                fontWeight: "bold",
               }}
             >
               {stage}
@@ -200,14 +203,15 @@ function ContactsCard({ searchString, sort }) {
   };
 
   useEffect(() => {
-    if(window.innerWidth <= 480) {
+    if (window.innerWidth <= 480) {
       analyticsService.fireEvent("event-content-load", {
         pagePath: "/mobile-card-view/",
       });
     } else {
-    analyticsService.fireEvent("event-content-load", {
-      pagePath: "/card-view/",
-    });}
+      analyticsService.fireEvent("event-content-load", {
+        pagePath: "/card-view/",
+      });
+    }
     fetchData({
       pageSize,
       pageIndex: currentPage,
