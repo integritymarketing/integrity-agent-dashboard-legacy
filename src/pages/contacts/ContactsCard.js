@@ -136,6 +136,7 @@ const ClientCard = ({ client, onRefresh }) => {
               className={styles.shortReminder}
               reminders={reminders || []}
               onRefresh={onRefresh}
+              isCardView={true}
             />
           </div>
         </div>

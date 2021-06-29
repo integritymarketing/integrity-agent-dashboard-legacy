@@ -193,9 +193,23 @@ const EditContactForm = (props) => {
               ]),
             },
             {
+              name: "address.address1",
+              validator: validationService.composeValidator([
+                validationService.validateAddress,
+              ]),
+              args: ["Address"],
+            },
+            {
+              name: "address.address2",
+              validator: validationService.composeValidator([
+                validationService.validateAddress,
+              ]),
+              args: ["Apt, Suite, Unit"],
+            },
+            {
               name: "address.city",
               validator: validationService.composeValidator([
-                validationService.validateCity,
+                validationService.validateAddress,
               ]),
             },
           ],
@@ -298,6 +312,7 @@ const EditContactForm = (props) => {
                 value={values.address.address2}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                error={touched.address?.address2 && errors.address?.address2}
               />
             )}
             <div

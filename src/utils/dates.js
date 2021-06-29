@@ -84,12 +84,15 @@ const timeZoneAbbreviated = () => {
 };
 
 export const getOverDue = (date) => {
-  if (new Date(date) > new Date()) {
-    let Difference_In_Time = Math.abs(new Date(date) - new Date());
+  if (new Date(date) < new Date()) {
+    let Difference_In_Time = Math.abs(new Date() - new Date(date));
     var Difference_In_Days = parseInt(Difference_In_Time / (1000 * 3600 * 24));
-    return `${Difference_In_Days.toString()} Day${
-      Difference_In_Days.toString() > 1 ? "s" : ""
-    } Overdue`;
+    if (Difference_In_Days > 0) {
+      return `${Difference_In_Days.toString()} Day${
+        Difference_In_Days.toString() > 1 ? "s" : ""
+      } Overdue`;
+    }
+    return false;
   }
-  return null;
+  return false;
 };

@@ -63,6 +63,10 @@
     .dropdown-menu__trigger {
       position: relative;
       z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-width: 7rem;
     }
     .dropdown-menu__items {
       position: absolute;
