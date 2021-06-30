@@ -1,15 +1,18 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
 import Container from "components/ui/container";
 import MailIcon from "components/icons/v2-mail";
 import PhoneIcon from "components/icons/v2-phone";
-import authService from "services/authService";
 
 export default () => {
   const { npnId } = useParams();
+  const history = useHistory();
+  const goToForgotPassword = () => {
+    history.push(`/forgot-password`);
+  };
   return (
     <>
       <Helmet>
@@ -45,7 +48,7 @@ export default () => {
           <p>
             <button
               className="link link--force-underline"
-              onClick={authService.requestPasswordReset}
+              onClick={goToForgotPassword}
             >
               Try again using a different NPN
             </button>
