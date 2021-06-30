@@ -59,7 +59,6 @@ export default () => {
               loading.begin();
 
               const response = await authService.requestPasswordReset(values);
-
               setSubmitting(false);
               loading.end();
 
@@ -91,6 +90,9 @@ export default () => {
                     formName: 'Reset password',
                   });
                   setErrors(errors);
+                  history.push(
+                    `contact-support-invalid-npn/${values.Username}`
+                  );
                 }
               }
             }}
