@@ -83,9 +83,9 @@ const AuthApp = () => {
               <PasswordUpdatedPage />
             </Route>
 
-            <Route exact path="/forgot-username">
+            {/* <Route exact path="/forgot-username">
               <ForgotUsernamePage />
-            </Route>
+            </Route>/ */}
 
             <Route exact path="/sorry">
               <FinalErrorPage />
