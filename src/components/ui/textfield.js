@@ -3,6 +3,7 @@ import ErrorIcon from "components/icons/error";
 import SuccessIcon from "components/icons/success";
 import PasswordRevealIcon from "components/icons/password-reveal";
 import PasswordHideIcon from "components/icons/password-hide";
+import DeleteIcon from "components/icons/cross";
 
 // https://react-day-picker.js.org/api/DayPickerInput
 import DayPickerInput from "react-day-picker/DayPickerInput";
@@ -59,6 +60,9 @@ const Textfield = ({
   readOnly,
   value,
   onDateChange = null,
+  isMobile = false,
+  onClear = null,
+  onReset = null,
   ...inputProps
 }) => {
   let InputElement = multiline ? "textarea" : "input";
@@ -131,28 +135,39 @@ const Textfield = ({
         ) : (
           <InputElement value={value} {...inputElementProps} />
         )}
-        {focusBanner && (
-          <div className="form-input__focus-banner">{focusBanner}</div>
-        )}
         <div className="form-input__input-actions">
           {error && <ErrorIcon />}
           {hasSuccess && <SuccessIcon />}
-          {type === "password" && (
-            <button
-              type="button"
-              className="icon-btn"
-              onClick={() => {
-                setPasswordsVisible(!passwordsVisible);
-                inputEl.current.focus();
-                inputEl.current.select();
-              }}
-            >
-              <PasswordIcon className="form-input__icon" />
+          {type === "text" && isMobile && onClear && value && (
+            <button className="clear-btn" onClick={onClear}>
+              Clear
+            </button>
+          )}
+          {type === "text" && isMobile && onReset && (
+            <button style={{ marginTop: "4px" }} onClick={onReset}>
+              <DeleteIcon />
             </button>
           )}
         </div>
+        {type === "password" && (
+          <button
+            type="button"
+            className="icon-btn showPassword"
+            onClick={() => {
+              setPasswordsVisible(!passwordsVisible);
+              inputEl.current.focus();
+              inputEl.current.select();
+            }}
+          >
+            <PasswordIcon className="form-input__icon" />
+            {!passwordsVisible ? "Show" : "Hide"}
+          </button>
+        )}
       </div>
-      <div className="form-input__error">{error}</div>
+      {error && <div className="form-input__error">{error}</div>}
+      {focusBanner && error && (
+        <div className="form-input__focus-banner">{focusBanner}</div>
+      )}
       {auxLink}
     </div>
   );

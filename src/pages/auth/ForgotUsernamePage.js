@@ -4,17 +4,14 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Container from "components/ui/container";
-import GlobalNav from "partials/simple-header";
+import SimpleHeader from "partials/simple-header";
 import SimpleFooter from "partials/simple-footer";
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
-import { InvertedTextfield } from "components/ui/textfield";
-import BackLink from "components/ui/back-link";
+import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-import ProfileIcon from "components/icons/profile";
-import PhoneIcon from "components/icons/phone";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
+import CheckIcon from "components/icons/v2-check";
 
 export default () => {
   const history = useHistory();
@@ -28,9 +25,25 @@ export default () => {
         <Helmet>
           <title>MedicareCENTER - Forgot Username</title>
         </Helmet>
-        <BaseConfirmationPage
-          body={`The email associated with your account is [${username}]`}
-        />
+        <div className="content-frame v2">
+          <SimpleHeader />
+          <Container size="small">
+            <CheckIcon className="mb-2" />
+            <div className="text mb-2">
+              {`The email associated with your account is [${username}]`}
+            </div>
+            <div className="text text--secondary">
+              Still need help?{" "}
+              <Link
+                className="link link--force-underline"
+                to="/contact-support"
+              >
+                Contact Support
+              </Link>
+            </div>
+          </Container>
+          <SimpleFooter />
+        </div>
       </React.Fragment>
     );
   }
@@ -40,19 +53,13 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Forgot Username</title>
       </Helmet>
-      <div className="content-frame bg-photo bg-img-fixed text-invert">
-        <GlobalNav />
+      <div className="content-frame v2">
+        <SimpleHeader />
         <Container size="small">
-          <BackLink
-            component={Link}
-            onClick={authService.redirectAndRestartLoginFlow}
-            to="/"
-          >
-            Back to Login
-          </BackLink>
-          <h1 className="hdg hdg--2 mb-1 mt-3">Recover your email</h1>
-          <p className="text-body mb-4">
-            Enter your name and phone number to recover your email address.{" "}
+          <h1 className="hdg hdg--2 mb-1">Recover your email</h1>
+          <p className="text text--secondary mb-4">
+            Enter your name and phone number associated with your account to
+            recover your email address.
           </p>
 
           {apiErrors.length > 0 && (
@@ -96,7 +103,6 @@ export default () => {
               );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
-              console.log("onSubmit!!");
               setSubmitting(true);
               setApiErrors([]);
               loading.begin();
@@ -108,7 +114,6 @@ export default () => {
 
               if (response.status >= 200 && response.status < 300) {
                 const email = await response.text();
-                console.log("SUCCESS STATUS, NOW WHAT?!", email);
                 setUsername(email);
                 analyticsService.fireEvent("formSubmit", {
                   button: "forgotUsernameSubmit",
@@ -139,10 +144,9 @@ export default () => {
             }) => (
               <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
-                  <InvertedTextfield
+                  <Textfield
                     id="forgotUsername-fname"
                     label="First Name"
-                    icon={<ProfileIcon />}
                     placeholder="Enter your first name"
                     name="FirstName"
                     value={values.FirstName}
@@ -158,10 +162,9 @@ export default () => {
                       (touched.FirstName && errors.FirstName) || errors.Global
                     }
                   />
-                  <InvertedTextfield
+                  <Textfield
                     id="forgotUsername-lname"
                     label="Last Name"
-                    icon={<ProfileIcon />}
                     placeholder="Enter your last name"
                     name="LastName"
                     value={values.LastName}
@@ -178,11 +181,10 @@ export default () => {
                     }
                   />
 
-                  <InvertedTextfield
+                  <Textfield
                     id="forgotUsername-phone"
                     label="Phone Number"
                     type="tel"
-                    icon={<PhoneIcon />}
                     placeholder="XXX-XXX-XXXX"
                     name="Phone"
                     value={values.Phone}
@@ -198,7 +200,7 @@ export default () => {
                   />
 
                   <div className="form__submit">
-                    <button className="btn btn--invert" type="submit">
+                    <button className="btn-v2" type="submit">
                       Submit
                     </button>
                   </div>

@@ -11,6 +11,7 @@ const resendComfirmEmail = async (npn) => {
 };
 
 export default () => {
+  // TODO v2: Does this need to change from npn to email?
   const params = useQueryParams();
   return (
     <React.Fragment>

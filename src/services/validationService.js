@@ -1,6 +1,24 @@
 import dateFnsParse from "date-fns/parse";
 import isDate from "date-fns/isDate";
 
+function getProp(object, keys, defaultVal) {
+  keys = Array.isArray(keys) ? keys : keys.split(".");
+  object = object[keys[0]];
+  if (object && keys.length > 1) {
+    return getProp(object, keys.slice(1), defaultVal);
+  }
+  return object === undefined ? defaultVal : object;
+}
+
+function setProp(object, keys, val) {
+  keys = Array.isArray(keys) ? keys : keys.split(".");
+  if (keys.length > 1) {
+    object[keys[0]] = object[keys[0]] || {};
+    return setProp(object[keys[0]], keys.slice(1), val);
+  }
+  object[keys[0]] = val;
+}
+
 class ValidationService {
   validateRequired = (field, label = "Field") => {
     if (!field) {
@@ -10,8 +28,38 @@ class ValidationService {
     return null;
   };
 
-  validateUsername = (npn, label = "NPN") => {
-    return this.validateRequired(npn, label);
+  validateRequiredIf = (isRequired) => (field, label = "Field") => {
+    if (!field && isRequired) {
+      return `${label} is required`;
+    }
+
+    return null;
+  };
+
+  validateName = (username, label = "firstName") => {
+    if (username && !/^[A-Za-z0-9- ']{2,50}$/.test(username)) {
+      return `${label} must be 2 characters or more accept alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ? `;
+    }
+
+    if (username && username.length > 50) {
+      return `${label} must be 50 characters or less`;
+    }
+
+    // else
+    return this.validateRequired(username, label);
+  };
+
+  validateUsername = (username, label = "NPN") => {
+    if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,}$/.test(username)) {
+      return `${label} must be 2 characters or more`;
+    }
+
+    if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,50}$/.test(username)) {
+      return `${label} must be 50 characters or less`;
+    }
+
+    // else
+    return this.validateRequired(username, label);
   };
 
   validatePasswordAccess = (password, label = "Password") => {
@@ -82,6 +130,20 @@ class ValidationService {
     return null;
   };
 
+  validateState = (inputStr, label = "State Code") => {
+    if (inputStr && !/^[A-Za-z]{2}$/.test(inputStr)) {
+      return `${label} must be 2 characters only`;
+    }
+    return null;
+  };
+
+  validateAddress = (inputStr, label = "Address") => {
+    if (inputStr && !/^[0-9a-zA-Z #'.-]{4,}$/.test(inputStr)) {
+      return `${label} must be 4 characters or more accept only alpha numerics and special characters such as # ' . -`;
+    }
+    return null;
+  };
+
   composeValidator = (validators = []) => {
     return (...validatorArgs) =>
       validators.reduce((result, validator) => {
@@ -92,13 +154,13 @@ class ValidationService {
 
   validateMultiple = (validations, values, errorsObj = {}) => {
     return validations.reduce((currErrs, { validator, name, args = [] }) => {
-      const result = validator(values[name], ...args);
+      const result = validator(getProp(values, name), ...args);
       if (result === null) {
         return currErrs;
       }
-      return Object.assign({}, currErrs, {
-        [name]: result,
-      });
+      const errors = Object.assign({}, currErrs);
+      setProp(errors, name, result);
+      return errors;
     }, errorsObj);
   };
 

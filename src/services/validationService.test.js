@@ -41,34 +41,27 @@ describe("validateRequired", () => {
 });
 
 describe("validateUsername", () => {
-  it("validates as a required field", () => {
-    const results = [
-      validationService.validateUsername("a"),
-      validationService.validateUsername("abc"),
-      validationService.validateUsername("Mr Rogers"),
-      validationService.validateUsername("123"),
-      validationService.validateUsername("!"),
-      validationService.validateUsername(" "),
-      validationService.validateUsername(
-        "A long string with spaces and everything."
-      ),
-    ];
-    expect(results.filter((res) => res !== null)).toEqual([]);
+  it("must be least 2 characters", () => {
+    const shortResult = validationService.validateUsername("a");
+    expect(shortResult).toMatch("NPN must be 2 characters or more");
+  });
 
-    const actual = validationService.validateUsername("");
-    expect(typeof actual).toBe("string");
+  it("must be no more than 50 characters", () => {
+    const longResult = validationService.validateUsername(
+      "a451246sa5a451246sa5a451246sa5a451246sa5a451246sa5a451246sa5"
+    );
+    expect(longResult).toMatch("NPN must be 50 characters or less");
   });
 
   it("defaults to the label 'NPN'", () => {
-    const actual = validationService.validateUsername("");
-    expect(actual).toMatch("NPN");
-    expect(actual).not.toMatch("Field");
+    const actual = validationService.validateUsername("b");
+    expect(actual).toMatch("NPN must be 2 characters or more");
   });
 
   it("uses an optional label string", () => {
-    const actual = validationService.validateUsername("", "Field");
-    expect(actual).toMatch("Field");
-    expect(actual).not.toMatch("NPN");
+    const actual = validationService.validateUsername("c", "Custom label");
+    expect(actual).toMatch("Custom label must be 2 characters or more");
+    expect(actual).not.toMatch("NPN must be 2 characters or more");
   });
 });
 

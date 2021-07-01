@@ -27,12 +27,29 @@
   }
 
   .container--hero {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    overflow: hidden;
+    padding-bottom: 80px;
+    padding-top: 80px;
+
+    &__content {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      opacity: 0;
+      top: 500px;
+      transition: all 1s ease-out;
+    }
+  }
+
+  .slidein {
+    opacity: 1;
+    top: 0;
   }
 
   .welcomeHero__content {

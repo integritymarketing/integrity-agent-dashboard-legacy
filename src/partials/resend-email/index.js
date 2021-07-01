@@ -1,33 +1,23 @@
 import React, { useState } from "react";
-import Modal from "components/ui/modal";
-import ContactInfo from "partials/contact-info";
+import { Link } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 
 export default ({ resendFn, btnClass = "" }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const params = useQueryParams();
 
   if (emailError) {
     return (
       <React.Fragment>
         <div className="mt-2 text-body">
-          Sorry, there was a problem resending the email.
-          <br />
-          If the problem persists,{" "}
-          <button
-            type="button"
-            className="link link--invert link--force-underline"
-            onClick={() => setModalOpen(true)}
-          >
+          Sorry, there was a problem resending the email. If the problem
+          persists,{" "}
+          <Link to="/contact-support" className="link link--force-underline">
             please contact support
-          </button>
+          </Link>
           .
         </div>
-        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-          <ContactInfo />
-        </Modal>
       </React.Fragment>
     );
   }
@@ -37,7 +27,7 @@ export default ({ resendFn, btnClass = "" }) => {
         Didn’t receive an email?{" "}
         <button
           type="button"
-          className={`link link--invert link--force-underline ${btnClass}`}
+          className={`link link--force-underline ${btnClass}`}
           onClick={async () => {
             let response = await resendFn(params.get("npn"));
             if (response.status >= 200 && response.status < 300) {
@@ -57,18 +47,11 @@ export default ({ resendFn, btnClass = "" }) => {
       <div className="mt-2 text-body">
         We have resent the email. <br />
         If the problem persists,{" "}
-        <button
-          type="button"
-          className="link link--invert link--force-underline"
-          onClick={() => setModalOpen(true)}
-        >
+        <Link to="/contact-support" className="link link--force-underline">
           please contact support
-        </button>
+        </Link>
         .
       </div>
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <ContactInfo />
-      </Modal>
     </React.Fragment>
   );
 };

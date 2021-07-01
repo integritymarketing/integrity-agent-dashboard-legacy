@@ -1,8 +1,10 @@
 .welcome-features {
   margin-top: -4rem;
+  z-index: 1;
 
   &__feature {
     display: grid;
+    overflow: hidden;
 
     grid-template-areas:
       "imageArea"
@@ -17,6 +19,12 @@
       font-size: 1.25rem;
       font-weight: 300;
       line-height: 1.25;
+    }
+
+    &-content {
+      opacity: 0;
+      position: relative;
+      left: 100%;
     }
 
     &--first {
@@ -38,6 +46,14 @@
         @media (min-width: 900px) {
           margin-bottom: 0;
         }
+      }
+    }
+
+    &--reverse {
+      .welcome-features__feature-content {
+        opacity: 0;
+        position: relative;
+        left: -100%;
       }
     }
 
@@ -106,5 +122,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    transition: all 1s ease-out;
+
+    &.slidein {
+      opacity: 1;
+      left: 0px;
+    }
   }
 }

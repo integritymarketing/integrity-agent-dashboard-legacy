@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Waypoint } from "react-waypoint";
 import Container from "components/ui/container";
 import ImageFeatureCMS from "images/welcome-features/feature-cms.png";
 import ImageFeatureSMS from "images/welcome-features/feature-sms.png";
@@ -37,6 +38,12 @@ const data = [
 ];
 
 const Section = ({ image, alt, title, copy, additionalClasses }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleEnter = () => {
+    setIsVisible(true);
+  };
+
   const moreClasses = additionalClasses
     .map((c) => `welcome-features__feature--${c}`)
     .join(" ");
@@ -44,11 +51,19 @@ const Section = ({ image, alt, title, copy, additionalClasses }) => {
     <section
       className={`mb-5 text-center welcome-features__feature ${moreClasses}`}
     >
+      <Waypoint onEnter={handleEnter} />
+
       <div className="welcome-features__feature-image">
         <img src={image} alt="" loading="lazy" />
       </div>
-      <div className="welcome-features__feature-content">
+
+      <div
+        className={`welcome-features__feature-content ${
+          isVisible ? "slidein" : ""
+        }`}
+      >
         <h3 className="hdg--2 text-thin mb-2">{title}</h3>
+
         <p className="text-left">{copy}</p>
       </div>
     </section>

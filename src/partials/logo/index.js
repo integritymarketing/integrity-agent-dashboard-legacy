@@ -1,5 +1,5 @@
 import React from "react";
-import AgentPortalLogo from "../../images/lifecenter/swl-logo-agent-white.png";
+import AgentPortalLogo from "../../images/lifecenter/swl-logo.png";
 
 import "./index.scss";
 
