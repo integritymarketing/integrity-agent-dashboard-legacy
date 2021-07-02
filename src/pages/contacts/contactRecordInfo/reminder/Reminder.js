@@ -32,7 +32,7 @@ export const ShortReminder = ({
       <div className="reminder-inner-content">
         {getOverDue(reminderDate) && (
           <div className={`due-date-text ${isCardView ? "card-view" : ""}`}>
-            {getOverDue(reminderDate)}{" "}
+            {getOverDue(reminderDate)}
           </div>
         )}
         {reminderNote && (

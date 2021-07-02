@@ -100,7 +100,7 @@
 .activityCardbodyset h6 {
   font-family: "Lato", sans-serif;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 700;
   font-size: 16px;
   line-height: 17px;
   color: #151e29;
@@ -1148,7 +1148,18 @@ button {
   background: #fffafa;
   border: 1px solid #ca2323;
 }
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .card-view {
+    display: block;
+    margin-top: 10px;
+  }
+}
 @media screen and (min-width: 320px) and (max-width: 767px) {
+  .err-length-message .form-input--error {
+    width: auto !important;
+  }
+
   .address__city__state__zip,
   .mobile-primary-com {
     flex-direction: column;
@@ -1163,10 +1174,6 @@ button {
     display: block;
   }
 
-  .card-view {
-    display: block;
-    margin-top: 10px;
-  }
   .contact-details-heading {
     padding: 31px 37px 22px 30px;
   }
@@ -1433,4 +1440,8 @@ button {
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.err-length-message .form-input--error {
+  width: 350px;
 }

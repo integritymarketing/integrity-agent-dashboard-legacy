@@ -138,7 +138,9 @@ export const Select = ({
     <div
       ref={ref}
       style={style}
-      className={`select ${contactsPage && "contacts-dd"}`}
+      className={`select ${contactsPage && "contacts-dd"} ${
+        !isOpen && showValueAsLabel ? "short-label" : ""
+      }`}
     >
       <div
         className={`select-container ${isOpen ? "opened" : "closed"}`}

@@ -233,7 +233,7 @@ const NewContactForm = () => {
             />
           </fieldset>
           <div className="mt-3 mb-3 border-bottom border-bottom--light" />
-          <fieldset className="form__fields form__fields--constrained">
+          <fieldset className="form__fields form__fields--constrained err-length-message">
             <Textfield
               id="contact-address"
               className={`${styles["contact-address"]}`}
@@ -283,8 +283,9 @@ const NewContactForm = () => {
                 </label>
                 <div className="state-select-input">
                   <Select
+                    placeholder="select"
                     showValueAsLabel={true}
-                    className={`${styles["contact-address--statecode"]}`}
+                    className={`${styles["contact-address--statecode"]} `}
                     options={STATES}
                     initialValue={values.address.stateCode}
                     onChange={(value) => {

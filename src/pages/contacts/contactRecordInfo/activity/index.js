@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddNote from "components/icons/add-note";
 import ActivityModal from "./ActivityModal";
 import SuccessIcon from "components/icons/success-note";
+import BellIcon from "components/icons/bell-note";
 import { getForDistance } from "utils/dates";
 import LimitedCharacters from "./limitedCharacters";
 import clientsService from "services/clientsService";
@@ -68,7 +69,10 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                     <div className="mobile-edit-section">
                       <p className="iconTime">
                         <span className="bg-color bg-color2">
-                          <SuccessIcon />
+                          {item.activityTypeName === "Triggered" && (
+                            <BellIcon />
+                          )}
+                          {item.activityTypeName === "Note" && <SuccessIcon />}
                         </span>
                         <label>
                           {item.modifyDate
@@ -89,22 +93,24 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                         />
                       </p>
 
-                      {hovered && hovered === item.activityId && (
-                        <div className="hover-btn-hide datepicker-row reminderCardSection2row1of1">
-                          <button
-                            className="deleteTextAreaText"
-                            onClick={() => deleteActivity(item.activityId)}
-                          >
-                            Delete
-                          </button>
-                          <button
-                            className="ediTextAreaText"
-                            onClick={() => editActivity(item)}
-                          >
-                            Edit
-                          </button>
-                        </div>
-                      )}
+                      {hovered &&
+                        hovered === item.activityId &&
+                        item.activityTypeName === "Note" && (
+                          <div className="hover-btn-hide datepicker-row reminderCardSection2row1of1">
+                            <button
+                              className="deleteTextAreaText"
+                              onClick={() => deleteActivity(item.activityId)}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              className="ediTextAreaText"
+                              onClick={() => editActivity(item)}
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        )}
                     </div>
 
                     <hr className="bodylineseparation" />

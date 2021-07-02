@@ -83,7 +83,8 @@ const timeZoneAbbreviated = () => {
   }
 };
 
-export const getOverDue = (date) => {
+export const getOverDue = (value) => {
+  let date = convertUTCDateToLocalDate(value);
   if (new Date(date) < new Date()) {
     let Difference_In_Time = Math.abs(new Date() - new Date(date));
     var Difference_In_Days = parseInt(Difference_In_Time / (1000 * 3600 * 24));
