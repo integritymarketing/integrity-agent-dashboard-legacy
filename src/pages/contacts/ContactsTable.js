@@ -13,6 +13,9 @@ import { getPrimaryContact } from "utils/primaryContact";
 import DeleteLeadContext from "contexts/deleteLead";
 import useToast from "hooks/useToast";
 import analyticsService from "services/analyticsService";
+import More from "components/icons/more";
+import ActionsDropdown from "components/ui/ActionsDropdown";
+import { MORE_ACTIONS } from "../../utils/moreActions";
 
 function Table({
   columns,
@@ -120,6 +123,8 @@ function ContactsTable({ searchString, sort }) {
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tableState, setTableState] = useState({});
+  const [showAddModal, setShowAddModal] = useState(null);
+  const [showAddNewModal, setShowAddNewModal] = useState(false);
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
     DeleteLeadContext
   );
@@ -212,6 +217,17 @@ function ContactsTable({ searchString, sort }) {
     fetchData(tableState);
   }, [tableState, fetchData]);
 
+  const handleDropdownActions = (value, leadId) => {
+    switch (value) {
+      case "addnewreminder":
+        setShowAddModal(leadId);
+        setShowAddNewModal(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const columns = React.useMemo(
     () => [
       {
@@ -254,6 +270,14 @@ function ContactsTable({ searchString, sort }) {
               reminders={value || []}
               leadId={row.original.leadsId}
               onRefresh={handleRefresh}
+              showAddModal={showAddModal === row.original.leadsId}
+              setShowAddModal={(value) => {
+                setShowAddModal(value ? row.original.leadsId : null);
+                if (!value) {
+                  setShowAddNewModal(false);
+                }
+              }}
+              showAddNewModal={showAddNewModal}
             />
           );
         },
@@ -267,18 +291,19 @@ function ContactsTable({ searchString, sort }) {
       {
         Header: "",
         accessor: "actions",
-        Cell: ({ row }) => (
-          <Link
-            to={`/contact/${row.original.leadsId}`}
-            className={styles.viewLink}
-            data-gtm="contact-list-view"
+        Cell: ({ value, row }) => (
+          <ActionsDropdown
+            className={styles["more-icon"]}
+            options={MORE_ACTIONS}
+            id={row.original.leadsId}
+            onClick={handleDropdownActions}
           >
-            View
-          </Link>
+            <More />
+          </ActionsDropdown>
         ),
       },
     ],
-    [handleRefresh]
+    [handleRefresh, showAddModal, showAddNewModal]
   );
 
   return (
