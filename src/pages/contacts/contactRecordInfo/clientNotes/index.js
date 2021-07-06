@@ -11,7 +11,10 @@ export default function ClientNotes(props) {
   const [value, setValue] = useState(props.personalInfo.notes);
   const handleOnChange = (e) => setValue(e.currentTarget.value);
   const handleOnEdit = () => setIsEdit(true);
-  const handleOnCancel = () => setIsEdit(false);
+  const handleOnCancel = () => {
+    setValue(props.personalInfo.notes);
+    setIsEdit(false);
+  }
   const handleOnSave = async () => {
     try {
       setIsSaving(() => true);
@@ -62,10 +65,7 @@ export default function ClientNotes(props) {
         <hr />
         <div className="client-notes-card-body">
           {!isEdit ? (
-            <div className="client-notes">
-              {props.personalInfo.product && (
-                <p>Product: {props.personalInfo.product}</p>
-              )}
+            <div className="client-notes">              
               <p>{value ? value : "Write client notes here..."}</p>
             </div>
           ) : (
@@ -73,14 +73,7 @@ export default function ClientNotes(props) {
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Write client notes here..."
-                value={[
-                  props.personalInfo.product
-                    ? `Product: ${props.personalInfo.product}`
-                    : null,
-                  value,
-                ]
-                  .filter((v) => !!v)
-                  .join("\n")}
+                value={value}
                 onChange={handleOnChange}
                 rows="5"
                 cols="120"
