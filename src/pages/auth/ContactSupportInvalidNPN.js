@@ -22,7 +22,7 @@ export default () => {
         <SimpleHeader />
         <Container size="small">
           <h1 className="hdg hdg--2 mb-3">Something's not right</h1>
-          <span className="npn-text">NPN{npnId}</span>
+          <span className="npn-text">{npnId}</span>
           <p className="text text--secondary mt-1 mb-3">
             The NPN above doesn’t match our registration records. Contact
             support for assistance.

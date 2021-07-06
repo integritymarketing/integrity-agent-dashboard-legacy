@@ -461,11 +461,13 @@
 
 .more-icon {
   &:hover {
+    background: #F4F6FA;
     svg > path {
       stroke: #0052ce;
     }
   }
   &[class*="opened"] {
+    background: #EBEFF6;
     svg > path {
       stroke: #002d72;
     }
