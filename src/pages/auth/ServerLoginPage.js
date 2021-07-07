@@ -21,7 +21,7 @@ export default () => {
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
-      pagePath: '/login/',
+      pagePath: "/login/",
     });
   }, []);
 
@@ -88,22 +88,25 @@ export default () => {
 
               if (data && data.isOk) {
                 analyticsService.fireEvent("event-form-submit", {
-                  formName: 'Login',
+                  formName: "Login",
                 });
                 window.location = data.redirectUrl;
               } else {
                 let errors = validationService.formikErrorsFor(data);
 
                 if (errors.Global === "account_unconfirmed") {
-                  analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
-                    formName: 'Login',
-                  });
+                  analyticsService.fireEvent(
+                    "event-form-submit-account-unconfirmed",
+                    {
+                      formName: "Login",
+                    }
+                  );
                   history.push(
                     `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
                   analyticsService.fireEvent("event-form-submit-invalid", {
-                    formName: 'Login',
+                    formName: "Login",
                   });
                   setErrors(errors);
                 }
@@ -184,9 +187,9 @@ export default () => {
                         "setup-newaccount"
                       )}`}
                     >
-                      register for an account
+                      register for an account?
                     </Link>
-                    {` or `}
+                    {/* {` or `}
                     <Link
                       to="/forgot-username"
                       className={`link link--secondary link--force-underline ${analyticsService.clickClass(
@@ -194,7 +197,7 @@ export default () => {
                       )}`}
                     >
                       forgot your email?
-                    </Link>
+                    </Link> */}
                   </p>
                 </fieldset>
               </form>
