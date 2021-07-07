@@ -5,6 +5,7 @@ import ResendButtonWithModal from "partials/resend-email";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
+import InfoIcon from "components/icons/info";
 
 const resendComfirmEmail = async (npn) => {
   return authService.sendConfirmationEmail({ npn });
@@ -38,6 +39,14 @@ export default () => {
                 steps below before logging in or changing your password:
               </p>
             )}
+
+            <div className="pt-1 pb-1 pr-1 pl-1 mb-2 confirm-notification">
+              <InfoIcon />
+              <p>
+                Please confirm your account within <strong> 72 hours </strong>{" "}
+                to complete registration.
+              </p>
+            </div>
             <ol className="number-list text-body pt-3">
               <li>
                 <div>
