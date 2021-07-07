@@ -152,3 +152,18 @@
     margin-top: 2rem;
   }
 }
+
+.confirm-notification {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background: #f1f8ff;
+  border-radius: 2px;
+  svg {
+    width: 2rem;
+    margin: 0.25rem 0.625rem 0 0;
+  }
+  p {
+    font-size: 14px;
+  }
+}
