@@ -8,10 +8,12 @@ import {
   useLocation,
 } from "react-router-dom";
 import Media from "react-media";
+import * as Sentry from "@sentry/react";
 import Import from "components/icons/import";
 import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
 import SearchIcon from "components/icons/search";
+import CloseIcon from "components/icons/close";
 import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
 //import Filter from "components/icons/filter";
@@ -42,6 +44,18 @@ const SortButton = () => {
   );
 };
 
+const geItemFromLocalStorage = (key, initialValue) => {
+  try {
+    const item = window.localStorage.getItem(key);
+    const val = item ? JSON.parse(item) : initialValue;
+    return val;
+  } catch (error) {
+    Sentry.captureException(error);
+    window.localStorage.removeItem(key);
+    return initialValue;
+  }
+};
+
 export default () => {
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
@@ -50,7 +64,10 @@ export default () => {
   const location = useLocation();
   const history = useHistory();
   const [isMobile, setIsMobile] = useState(false);
-
+  const [duplicateIds, setDuplicateLeadIds] = useState(
+    geItemFromLocalStorage("duplicateLeadIds")
+  );
+  const duplicateIdsLength = duplicateIds?.length;
   useEffect(() => {
     setLayout(() =>
       location.pathname === cardViewLayoutPath ? "card" : "list"
@@ -128,6 +145,7 @@ export default () => {
                 "--bar-spacing-horiz": "2.5rem",
               }}
             >
+              <div style={{ display: "flex", alignItems: "center"}}>
               <Textfield
                 id="contacts-search"
                 type={isMobile ? "text" : "search"}
@@ -154,6 +172,17 @@ export default () => {
                   document.activeElement.blur();
                 }}
               />
+              {duplicateIdsLength > 0 && (
+                <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                  <div>
+                  {duplicateIdsLength} duplicates found
+                  </div>
+                  <button onClick={() => setDuplicateLeadIds([])}>
+                   <CloseIcon />
+                  </button>
+                </div>
+              )}
+              </div>
               <div className="bar">
                 {isMobile ? null : (
                   <div className={styles["switch-view"]}>
@@ -206,7 +235,11 @@ export default () => {
                   <Redirect to="/contacts/list" />
                 </Route>
                 <Route path="/contacts/list">
-                  <ContactsTable searchString={searchStringNew} sort={sort} />
+                  <ContactsTable
+                    duplicateIdsLength={duplicateIdsLength}
+                    searchString={searchStringNew}
+                    sort={sort}
+                  />
                 </Route>
                 <Route path="/contacts/card">
                   <ContactsCard searchString={searchStringNew} sort={sort} />

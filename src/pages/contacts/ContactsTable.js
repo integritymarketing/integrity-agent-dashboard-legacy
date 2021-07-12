@@ -117,7 +117,7 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
   }
 };
 
-function ContactsTable({ searchString, sort }) {
+function ContactsTable({ searchString, sort, duplicateIdsLength }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
@@ -215,7 +215,7 @@ function ContactsTable({ searchString, sort }) {
 
   useEffect(() => {
     fetchData(tableState);
-  }, [tableState, fetchData]);
+  }, [tableState, fetchData, duplicateIdsLength]);
 
   const handleDropdownActions = (value, leadId) => {
     switch (value) {

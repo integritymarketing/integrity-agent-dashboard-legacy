@@ -473,3 +473,18 @@
     }
   }
 }
+
+.reset-partial-duplicates {
+  @media (max-width: 480px) {
+    display: none;
+  }
+  display:flex;
+  align-items: center;
+  min-height: 40px;
+  background: #EBEFF6;
+  border: 1px solid #DFE5EF;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-left: 32px;
+  margin-top: 8px;
+}
