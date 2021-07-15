@@ -116,24 +116,25 @@ button {
   );
   background: var(--invert-bg-color) center
     var(--bg-photo-vert-anchor, var(--bg-photo-default-vert-anchor)) no-repeat;
-  background-image: var(--bg-photo-gradient),
-    var(--bg-photo-src-800, var(--bg-photo-default-src-800));
+  background-image: var(--bg-photo-gradient), var(--bg-photo-src-800, var(--bg-photo-default-src-800));
   background-size: cover;
+
+  @media (min-width: 480px) {
+    background-image: var(--bg-photo-src-800, var(--bg-photo-default-src-800));
+  }
 
   // retina > 500px or standard > 1000px
   @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 500px),
     (min-resolution: 192dpi) and (min-width: 500px),
     (min-width: 1000px) {
-    background-image: var(--bg-photo-gradient),
-      var(--bg-photo-src-1440, var(--bg-photo-default-src-1440));
+    background-image: var(--bg-photo-src-1440, var(--bg-photo-default-src-1440));
   }
 
   // retina > 900px or standard > 1600px
   @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 900px),
     (min-resolution: 192dpi) and (min-width: 900px),
     (min-width: 1600px) {
-    background-image: var(--bg-photo-gradient),
-      var(--bg-photo-src-1920, var(--bg-photo-default-src-1920));
+    background-image: var(--bg-photo-src-1920, var(--bg-photo-default-src-1920));
   }
 }
 

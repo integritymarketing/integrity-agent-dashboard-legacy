@@ -82,7 +82,7 @@ const WelcomeFeatures = () => {
   ));
 
   return (
-    <Container className="welcome-features mt-scale-3 mb-scale-3">
+    <Container className="mt-30 welcome-features mt-scale-3 mb-scale-3">
       {sections}
     </Container>
   );
