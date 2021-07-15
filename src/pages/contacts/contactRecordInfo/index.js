@@ -24,7 +24,7 @@ import EditContactPage from "./DetailsEdit";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
 import ScopeOfAppointment from "./ScopeOfAppointment";
-import SOAicon from "components/icons/soa";
+// import SOAicon from "components/icons/soa";
 export default () => {
   const { contactId: id } = useParams();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
@@ -236,7 +236,9 @@ export default () => {
                 </label>
                 <span>Preferences</span>
               </li>
-              <li
+              {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
+
+              {/* <li
                 className={`ScopeOfAppointment ${
                   display === "ScopeOfAppointment" ? "mobile-menu-active" : ""
                 }`}
@@ -246,7 +248,7 @@ export default () => {
                   <SOAicon />
                 </label>
                 <span>Scope Of Appointment</span>
-              </li>
+              </li> */}
             </ul>
             <PersonalInfo personalInfo={personalInfo} />
             <Container className={styles.container}>
@@ -286,7 +288,9 @@ export default () => {
                   </label>
                   <span>Preferences </span>
                 </li>
-                <li
+                {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
+
+                {/* <li
                   className={display === "ScopeOfAppointment" && "active"}
                   onClick={() => setDisplay("ScopeOfAppointment")}
                 >
@@ -294,7 +298,7 @@ export default () => {
                     <SOAicon />
                   </label>
                   <span>Scope Of Appointment</span>
-                </li>
+                </li> */}
               </ul>
               <div className="rightSection">{handleRendering()}</div>
             </Container>
