@@ -226,15 +226,13 @@ const EditContactForm = (props) => {
         setSubmitting(true);
         let response = await clientService.updateLead(values);
         if (response.ok) {
-          setTimeout(() => {
-            props.getContactRecordInfo();
-            goToContactDetailPage(leadsId);
-            props.setDisplay("Details");
-            setSubmitting(false);
-            addToast({
-              message: "Contact updated successfully",
-            });
-          }, 2000);
+          props.getContactRecordInfo();
+          goToContactDetailPage(leadsId);
+          props.setDisplay("Details");
+          setSubmitting(false);
+          addToast({
+            message: "Contact updated successfully",
+          });
         } else if (response.status === 400) {
           const errMessage = await response.json();
           const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
@@ -271,8 +269,28 @@ const EditContactForm = (props) => {
               value={values.firstName}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.firstName && errors.firstName}
+              error={errors.firstName ? true : false}
             />
+            {values.firstName.length < 50 && errors.firstName && (
+              <>
+                <div className="custom-error-msg">
+                  First name must be 2 characters or more
+                </div>
+                <div className="custom-error-msg">
+                  Only alpha numerics and space, apostrophe('), hyphen(-) are
+                  allowed
+                </div>
+                <div className="custom-error-msg">
+                  Certain special characters such as ! @ . , ; : " ? are not
+                  allowed
+                </div>
+              </>
+            )}
+            {values.firstName.length > 50 && errors.firstName && (
+              <div className="custom-error-msg">
+                First name must be 50 characters or less
+              </div>
+            )}
             <Textfield
               id="contact-lname"
               label="Last Name"
@@ -281,8 +299,28 @@ const EditContactForm = (props) => {
               value={values.lastName}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.lastName && errors.lastName}
+              error={errors.lastName ? true : false}
             />
+            {values.lastName.length < 50 && errors.lastName && (
+              <>
+                <div className="custom-error-msg">
+                  Last name must be 2 characters or more
+                </div>
+                <div className="custom-error-msg">
+                  Only alpha numerics and space, apostrophe('), hyphen(-) are
+                  allowed
+                </div>
+                <div className="custom-error-msg">
+                  Certain special characters such as ! @ . , ; : " ? are not
+                  allowed
+                </div>
+              </>
+            )}
+            {values.lastName.length > 50 && errors.lastName && (
+              <div className="custom-error-msg">
+                Last name must be 50 characters or less
+              </div>
+            )}
           </fieldset>
           <div className="mt-3 mb-3 border-bottom border-bottom--light" />
           <fieldset className="form__fields form__fields--constrained err-length-message">
@@ -295,26 +333,51 @@ const EditContactForm = (props) => {
               value={values.address.address1}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.address?.address1 && errors.address?.address1}
+              error={errors.address?.address1 ? true : false}
             />
+            {errors.address?.address1 && (
+              <>
+                <div className="custom-error-msg">
+                  Address must be 4 characters or more
+                </div>
+                <div className="custom-error-msg">
+                  Only alpha numerics and certain special characters such as # '
+                  . - are allowed
+                </div>
+              </>
+            )}
             {!showAddress2 && (
               <h4 className="address--2" onClick={() => setShowAddress2(true)}>
                 + Add Apt, Suite, Unit etc.
               </h4>
             )}
             {showAddress2 && (
-              <Textfield
-                id="contact-address2"
-                className={`${styles["contact-address"]}`}
-                label="Apt, Suite, Unit"
-                placeholder={"Enter Apt, Suite, Unit"}
-                name="address.address2"
-                value={values.address.address2}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.address?.address2 && errors.address?.address2}
-              />
+              <>
+                <Textfield
+                  id="contact-address2"
+                  className={`${styles["contact-address"]}`}
+                  label="Apt, Suite, Unit"
+                  placeholder={"Enter Apt, Suite, Unit"}
+                  name="address.address2"
+                  value={values.address.address2}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.address?.address2 ? true : false}
+                />
+                {errors.address?.address2 && (
+                  <>
+                    <div className="custom-error-msg">
+                      Apt, Suite, Unit must be 4 characters or more
+                    </div>
+                    <div className="custom-error-msg">
+                      Only alpha numerical and certain special characters such
+                      as # ' . - are allowed
+                    </div>
+                  </>
+                )}
+              </>
             )}
+
             <div
               className="address__city__state__zip"
               style={{ display: "flex" }}
@@ -358,9 +421,17 @@ const EditContactForm = (props) => {
               />
             </div>
             {(errors.address?.city || errors.address?.postalCode) && (
-              <div className="errors-block">
+              <div className="custom-error-block errors-block">
                 {errors.address?.city && (
-                  <p className="error-msg">{errors.address?.city}</p>
+                  <div className="addresss-error-msg">
+                    <div className="custom-error-msg">
+                      City must be 4 characters or more
+                    </div>
+                    <div className="custom-error-msg">
+                      Only alpha numerical, and certain special characters such
+                      as # ' . - are allowed
+                    </div>
+                  </div>
                 )}
                 {errors.address?.postalCode && (
                   <p className="error-msg">{errors.address?.postalCode}</p>

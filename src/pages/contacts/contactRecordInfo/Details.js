@@ -22,7 +22,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   phones = phones.length > 0 ? phones[0] : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 
-  const isPrimary = contactPreferences.primary
+  const isPrimary = contactPreferences?.primary
     ? contactPreferences.primary
     : "";
 

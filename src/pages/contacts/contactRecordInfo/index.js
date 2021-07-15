@@ -23,6 +23,8 @@ import analyticsService from "services/analyticsService";
 import EditContactPage from "./DetailsEdit";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
+import ScopeOfAppointment from "./ScopeOfAppointment";
+import SOAicon from "components/icons/soa";
 export default () => {
   const { contactId: id } = useParams();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
@@ -42,10 +44,10 @@ export default () => {
       setReminders(data.reminders);
       setActivities(data.activities);
       const { firstName, lastName, leadsId, emails, phones } = data;
-      const email = emails?.[0]?.leadEmail ?? '';
-      const leadPhone = phones?.[0]?.leadPhone ?? '';
-      const leadPhoneLabel = phones?.[0]?.phoneLabel ?? '';
-      const phone = {leadPhone, leadPhoneLabel}
+      const email = emails?.[0]?.leadEmail ?? "";
+      const leadPhone = phones?.[0]?.leadPhone ?? "";
+      const leadPhoneLabel = phones?.[0]?.phoneLabel ?? "";
+      const phone = { leadPhone, leadPhoneLabel };
       const values = {
         firstName,
         lastName,
@@ -104,6 +106,8 @@ export default () => {
         return <Preferences {...props} />;
       case "DetailsEdit":
         return <EditContactPage {...props} />;
+      case "ScopeOfAppointment":
+        return <ScopeOfAppointment {...props} />;
       default:
         return <OverView {...props} />;
     }
@@ -232,6 +236,17 @@ export default () => {
                 </label>
                 <span>Preferences</span>
               </li>
+              <li
+                className={`ScopeOfAppointment ${
+                  display === "ScopeOfAppointment" ? "mobile-menu-active" : ""
+                }`}
+                onClick={() => handleDisplay("ScopeOfAppointment")}
+              >
+                <label className="icon-spacing">
+                  <SOAicon />
+                </label>
+                <span>Scope Of Appointment</span>
+              </li>
             </ul>
             <PersonalInfo personalInfo={personalInfo} />
             <Container className={styles.container}>
@@ -269,7 +284,16 @@ export default () => {
                   <label className="icon-spacing">
                     <PreferencesIcon />
                   </label>
-                  <span>Preferences</span>
+                  <span>Preferences </span>
+                </li>
+                <li
+                  className={display === "ScopeOfAppointment" && "active"}
+                  onClick={() => setDisplay("ScopeOfAppointment")}
+                >
+                  <label className="icon-spacing">
+                    <SOAicon />
+                  </label>
+                  <span>Scope Of Appointment</span>
                 </li>
               </ul>
               <div className="rightSection">{handleRendering()}</div>

@@ -90,6 +90,7 @@ const NewContactForm = () => {
       initialValues={{
         firstName: "",
         lastName: "",
+        middleName: "",
         email: "",
         phones: {
           leadPhone: "",
@@ -117,6 +118,10 @@ const NewContactForm = () => {
               name: "lastName",
               validator: validationService.validateName,
               args: ["Last Name"],
+            },
+            {
+              name: "middleName",
+              validator: validationService.validateName,
             },
             {
               name: "phones.leadPhone",
@@ -161,6 +166,7 @@ const NewContactForm = () => {
               validator: validationService.composeValidator([
                 validationService.validateAddress,
               ]),
+              args: ["City"],
             },
           ],
           values
@@ -219,8 +225,28 @@ const NewContactForm = () => {
               value={values.firstName}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.firstName && errors.firstName}
             />
+            {values.firstName.length < 50 && errors.firstName && (
+              <>
+                <div className="custom-error-msg">
+                  First name must be 2 characters or more{" "}
+                </div>
+                <div className="custom-error-msg">
+                  Only alpha numerics and space, apostrophe('), hyphen(-) are
+                  allowed
+                </div>
+                <div className="custom-error-msg">
+                  Certain special characters such as ! @ . , ; : " ? are not
+                  allowed
+                </div>
+              </>
+            )}
+            {values.firstName.length > 50 && errors.firstName && (
+              <div className="custom-error-msg">
+                First name must be 50 characters or less
+              </div>
+            )}
+
             <Textfield
               id="contact-lname"
               label="Last Name"
@@ -229,11 +255,30 @@ const NewContactForm = () => {
               value={values.lastName}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.lastName && errors.lastName}
             />
+            {values.lastName.length < 50 && errors.lastName && (
+              <>
+                <div className="custom-error-msg">
+                  Last name must be 2 characters or more
+                </div>
+                <div className="custom-error-msg">
+                  Only alpha numerics and space, apostrophe('), hyphen(-) are
+                  allowed
+                </div>
+                <div className="custom-error-msg">
+                  Certain special characters such as ! @ . , ; : " ? are not
+                  allowed
+                </div>
+              </>
+            )}
+            {values.lastName.length > 50 && errors.lastName && (
+              <div className="custom-error-msg">
+                Last name must be 50 characters or less
+              </div>
+            )}
           </fieldset>
           <div className="mt-3 mb-3 border-bottom border-bottom--light" />
-          <fieldset className="form__fields form__fields--constrained err-length-message">
+          <fieldset className="custom-form-fields form__fields form__fields--constrained err-length-message">
             <Textfield
               id="contact-address"
               className={`${styles["contact-address"]}`}
@@ -243,25 +288,47 @@ const NewContactForm = () => {
               value={values.address.address1}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.address?.address1 && errors.address?.address1}
             />
+            {errors.address?.address1 && (
+              <>
+                <div className="custom-error-msg">
+                  Address must be 4 characters or more
+                </div>
+                <div className="custom-error-msg">
+                  Only alpha numerics and certain special characters such as # '
+                  . - are allowed
+                </div>
+              </>
+            )}
             {!showAddress2 && (
               <h4 className="address--2" onClick={() => setShowAddress2(true)}>
                 + Add Apt, Suite, Unit etc.
               </h4>
             )}
             {showAddress2 && (
-              <Textfield
-                id="contact-address2"
-                className={`${styles["contact-address"]}`}
-                label="Apt, Suite, Unit"
-                placeholder={"Enter Apt, Suite, Unit"}
-                name="address.address2"
-                value={values.address.address2}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.address?.address2 && errors.address?.address2}
-              />
+              <>
+                <Textfield
+                  id="contact-address2"
+                  className={`${styles["contact-address"]}`}
+                  label="Apt, Suite, Unit"
+                  placeholder={"Enter Apt, Suite, Unit"}
+                  name="address.address2"
+                  value={values.address.address2}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.address?.address2 && (
+                  <>
+                    <div className="custom-error-msg">
+                      Apt, Suite, Unit must be 4 characters or more
+                    </div>
+                    <div className="custom-error-msg">
+                      Only alpha numerics and certain special characters such as
+                      # ' . - are allowed
+                    </div>
+                  </>
+                )}
+              </>
             )}
             <div
               className="address__city__state__zip"
@@ -288,9 +355,9 @@ const NewContactForm = () => {
                     className={`${styles["contact-address--statecode"]} `}
                     options={STATES}
                     initialValue={values.address.stateCode}
-                    onChange={(value) => {
-                      setFieldValue("address.stateCode", value);
-                    }}
+                    onChange={(value) =>
+                      setFieldValue("address.stateCode", value)
+                    }
                   />
                 </div>
               </div>
@@ -306,9 +373,17 @@ const NewContactForm = () => {
               />
             </div>
             {(errors.address?.city || errors.address?.postalCode) && (
-              <div className="errors-block">
+              <div className="custom-error-block errors-block">
                 {errors.address?.city && (
-                  <p className="error-msg">{errors.address?.city}</p>
+                  <div className="addresss-error-msg">
+                    <div className="custom-error-msg">
+                      City must be 4 characters or more
+                    </div>
+                    <div className="custom-error-msg">
+                      Only alpha numerics and certain special characters such as
+                      # ' . - are allowed
+                    </div>
+                  </div>
                 )}
                 {errors.address?.postalCode && (
                   <p className="error-msg">{errors.address?.postalCode}</p>

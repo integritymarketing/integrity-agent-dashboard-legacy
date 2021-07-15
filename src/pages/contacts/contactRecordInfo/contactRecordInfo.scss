@@ -879,6 +879,7 @@
 
 .contactdetailscardheader button:hover {
   background: #f5f7fa;
+  border: 1px solid #dfe5ef;
 }
 
 .deleteTextAreaText:hover,
@@ -1148,7 +1149,23 @@ button {
   background: #fffafa;
   border: 1px solid #ca2323;
 }
-
+.custom-error-msg {
+  color: #d86a66;
+  font-size: 0.75rem;
+  line-height: 1;
+  min-height: 1.5rem;
+  margin-top: 4px;
+}
+.custom-form-fields {
+  max-width: 27.5rem;
+}
+.addresss-error-msg .custom-error-msg {
+  padding: 10px;
+  padding-bottom: 0;
+}
+.custom-error-block {
+  width: 98% !important;
+}
 @media screen and (min-width: 320px) and (max-width: 480px) {
   .card-view {
     display: block;
@@ -1156,10 +1173,44 @@ button {
   }
 }
 @media screen and (min-width: 320px) and (max-width: 767px) {
-  .err-length-message .form-input--error {
-    width: auto !important;
+  .custom-error-msg {
+    margin-bottom: 10px;
+    min-height: auto !important;
   }
-
+  .contactdetailscardheader {
+    flex-direction: column;
+    align-items: flex-start;
+    border: 0;
+    padding: 0;
+    margin-bottom: 23px;
+  }
+  .contactdetailscardbody {
+    padding: 0 10px;
+  }
+  .scope-of-app-row-section2 {
+    flex-direction: column;
+  }
+  .complete-btn,
+  .view---btn {
+    width: 100% !important;
+    margin-top: 27px;
+    height: 40px !important;
+  }
+  .completed-text-row {
+    align-items: flex-start !important;
+  }
+  .contactdetailscardheader h4 {
+    font-size: 20px;
+    border-bottom: 1px solid #d8dee4;
+    width: 100%;
+    padding: 26px;
+  }
+  .scope-details-card-header .send-btn {
+    background: #ffffff;
+    border-radius: 4px;
+    width: 95% !important;
+    margin: 16px auto 0 auto;
+  }
   .address__city__state__zip,
   .mobile-primary-com {
     flex-direction: column;
@@ -1172,6 +1223,9 @@ button {
   }
   .desktop-hide {
     display: block;
+  }
+  .err-length-message .form-input__error {
+    width: auto !important;
   }
 
   .contact-details-heading {
@@ -1442,6 +1496,110 @@ button {
   text-overflow: ellipsis;
 }
 
-.err-length-message .form-input--error {
+.err-length-message .form-input__error {
   width: 350px;
+}
+
+.scope-details-card-header .send-btn svg {
+  margin-right: 8.5px;
+}
+.scope-details-card-header .send-btn {
+  width: 104px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.scope-details-card-header .send-btn span {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #3d4553;
+}
+
+.scope-of-app-row {
+  background: #ffffff;
+  border: 1px solid #dfe5ef;
+  border-radius: 4px;
+  padding: 15px 23px 16px;
+  margin-bottom: 16px;
+}
+.scope-of-app-row-section1 {
+  margin-bottom: 18px;
+}
+.scope-of-app-row-section1 p {
+  color: #151e29;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+}
+.scope-of-app-row-section1 p > span {
+  color: #6a7279;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 10px;
+}
+.scope-of-app-row-section2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.scope-of-app-row-section2 p {
+  color: #6a7279;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 0;
+}
+.completed-btn {
+  width: 82.69px;
+  height: 32px;
+  background: #0052ce;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 700;
+}
+.view---btn {
+  width: 82.69px;
+  height: 32px;
+  background: #f5f7fa;
+  border: 1px solid #dfe5ef;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0052ce;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 700;
+}
+.completed-text {
+  color: #357a2f !important;
+}
+.completed-text-row {
+  align-items: flex-end;
+}
+.completed-text-row ul {
+  list-style: inherit;
+  padding-left: 23px;
+}
+.completed-text-row ul li {
+  margin-bottom: 8px;
+}
+.show--more--btn {
+  color: #6a7279;
+
+  font-size: 14px;
+}
+.scope-of-app-row-show-more {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
