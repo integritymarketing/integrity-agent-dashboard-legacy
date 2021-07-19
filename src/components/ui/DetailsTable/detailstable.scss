@@ -1,0 +1,91 @@
+.details-table {
+    padding: 32px;
+
+    & > .row-group:nth-child(odd) {
+        background: #F8FAFC;
+        border-radius: 4px;
+    }
+    & > .row-group {
+        padding: 16px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        .bottom-actions {
+            margin-left: 20px;
+        }
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            align-items: flex-start;
+            padding: 0px 12px;
+            flex-wrap: wrap;
+            .side-actions {
+                margin-top: 12px;
+            }
+            .bottom-actions {
+                width: 100%;
+                display: flex;
+                margin-left: 0px;
+            }
+        }
+
+        & > .row {
+            flex: 3;
+            display: flex;
+            justify-content: space-between;
+            & > div {
+                flex: 1;
+            }
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        .side-actions {
+            flex: 1;
+            justify-content: space-around;
+            display: flex;
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                justify-content: flex-end;
+            }
+        }
+    }
+}
+
+.cell-data {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    color: #64748B;
+    line-height: 130%;
+
+    .header {
+        font-size: 16px;
+        font-weight: 600;
+        color: #313336;
+    }
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+        &:not(first-child){
+            margin-top: 10px;
+        }
+        & > * {
+            padding-top: 4px;
+        }
+    }
+}
+
+button {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    background-color: inherit;
+    border: none;;
+    padding: none;
+}
+.delete {
+    color: #CF3C28;
+}
+
+.edit {
+    color: #0052CE;;
+}

@@ -1,0 +1,55 @@
+import React from "react";
+import PropTypes from "prop-types";
+import "./detailscard.scss";
+import Plus from "components/icons/plus";
+import { Button } from "components/ui/Button";
+
+function DetailsCard({
+  headerTitle,
+  onAddClick,
+  buttonLabel = "Add",
+  items = [],
+}) {
+  const title = headerTitle.toLowerCase();
+  const itemsLength = items.length > 0 ? items.length : "";
+  const displayTitleWithCount =
+    itemsLength > 1
+      ? `${headerTitle} ${itemsLength}`
+      : `${headerTitle.slice(0, -1)} ${itemsLength}`;
+  return (
+    <div className="details-card">
+      <div className="header">
+        {headerTitle && (
+          <h4 className="headerTitle">
+            {displayTitleWithCount}
+          </h4>
+        )}
+        {onAddClick && (
+          <div className="actions">
+            <Button
+              icon={<Plus />}
+              iconPosition="left"
+              label={buttonLabel}
+              onClick={onAddClick}
+              type="tertiary"
+            />
+          </div>
+        )}
+      </div>
+      <div className="card-body">
+        {items.length === 0 && (
+          <div className="no-items">
+            <span>This contact has no {title},&nbsp;</span>
+            <a onClick={onAddClick}> Add a {`${title.slice(0, -1)}`}</a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+DetailsCard.propTypes = {
+  headerTitle: PropTypes.string.isRequired,
+};
+
+export default DetailsCard;
