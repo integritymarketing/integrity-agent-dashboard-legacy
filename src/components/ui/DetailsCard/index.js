@@ -40,7 +40,7 @@ function DetailsCard({
         {items.length === 0 && (
           <div className="no-items">
             <span>This contact has no {title},&nbsp;</span>
-            <a onClick={onAddClick}> Add a {`${title.slice(0, -1)}`}</a>
+            <button className="link" onClick={onAddClick}> Add a {`${title.slice(0, -1)}`}</button>
           </div>
         )}
       </div>
