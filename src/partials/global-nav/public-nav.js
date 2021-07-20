@@ -4,6 +4,16 @@ import Logo from "partials/logo";
 import MedicareCenterLogo from "../../images/medicare-center.png";
 import "./index.scss";
 import WelcomeHamburgerIcon from "../../../src/components/icons/welcome-hamburger";
+import LoginLink from "components/ui/login-link";
+import ExitIcon from "components/icons/exit";
+
+export const RegisterLink = (props) => {
+  return (
+    <a href={`${process.env.REACT_APP_AUTH_BASE_URL}/register`} {...props}>
+      {props.children}
+    </a>
+  );
+};
 
 export default () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -21,13 +31,13 @@ export default () => {
           </Link>
         </h1>
         <div className="link-wrapper">
-          <Link to="/register">
-            <span className="link">Register</span>
-          </Link>
-          <div className="seperator" />
-          <Link to="/login">
+          <LoginLink>
             <span className="link">Login</span>
-          </Link>
+          </LoginLink>
+          <div className="seperator" />
+          <RegisterLink>
+            <span className="link">Register</span>
+          </RegisterLink>
         </div>
       </div>
       <div className="mobile-menu-icon">
@@ -36,7 +46,11 @@ export default () => {
           onClick={() => setShowMobileMenu((prev) => !prev)}
         >
           <span className="visually-hidden">Open Navigation Menu</span>
-          <WelcomeHamburgerIcon aria-hidden="true" />
+          {showMobileMenu ? (
+            <ExitIcon aria-hidden="true" />
+          ) : (
+            <WelcomeHamburgerIcon aria-hidden="true" />
+          )}
         </button>
       </div>
       {showMobileMenu && (

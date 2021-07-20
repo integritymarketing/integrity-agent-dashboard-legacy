@@ -39,8 +39,8 @@
   }
 
   &--blue-bg {
-    background-color: --v2-dark-gray;
-    color: --v2-white;
+    background-color: var(--v2-dark-gray);
+    color: var(--v2-white);
   }
 
   @media (max-width: 767px) {

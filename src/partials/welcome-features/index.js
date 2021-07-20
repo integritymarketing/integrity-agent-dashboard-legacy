@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Waypoint } from "react-waypoint";
+import React from "react";
 import Container from "components/ui/container";
 import ImageFeatureCMS from "images/welcome-features/feature-cms.png";
 import ImageFeatureSMS from "images/welcome-features/feature-sms.png";
@@ -8,82 +7,72 @@ import ImageFeatureTools from "images/welcome-features/feature-tools.png";
 
 import "./index.scss";
 
-const data = [
-  {
-    image: ImageFeatureCMS,
-    title: "Client Management, Simplified",
-    copy: `No matter what quoting or enrollment tool you use, MedicareCENTER now 
-    lets you note where clients are in the application process or manage your follow-ups 24/7.`,
-    additionalClasses: ["first"],
-  },
-  {
-    image: ImageFeatureSMS,
-    title: "Text Your Clients",
-    copy: `Compliantly text clients from start to finish! Sales should always 
-    be this easy and straightforward. Text scope of appointments, text to review and sign — all with less stress about staying compliant.`,
-    additionalClasses: ["reverse", "force-narrow"],
-  },
-  {
-    image: ImageFeatureSSO,
-    title: "All-in-one Universal Login",
-    copy: `Say goodbye to separate logins. We bring all of your carriers to one place with scope of appointments, quoting, Rx drug lists, e-applications and more. One username, one password, one goal — keep it simple.`,
-    additionalClasses: [],
-  },
-  {
-    image: ImageFeatureTools,
-    title: "The Best Tools at Your Fingertips",
-    copy: `Why spend time searching the web for enrollment and quoting tools? MedicareCENTER brings MedicareAPP, MedicareLINK and Medicare Supplement quoting to your laptop, tablet or smartphone. Which makes it easy to access anytime, anywhere.`,
-    additionalClasses: ["reverse"],
-  },
-];
-
-const Section = ({ image, alt, title, copy, additionalClasses }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const handleEnter = () => {
-    setIsVisible(true);
-  };
-
-  const moreClasses = additionalClasses
-    .map((c) => `welcome-features__feature--${c}`)
-    .join(" ");
-  return (
-    <section
-      className={`mb-5 text-center welcome-features__feature ${moreClasses}`}
-    >
-      <Waypoint onEnter={handleEnter} />
-
-      <div className="welcome-features__feature-image">
-        <img src={image} alt="" loading="lazy" />
-      </div>
-
-      <div
-        className={`welcome-features__feature-content ${
-          isVisible ? "slidein" : ""
-        }`}
-      >
-        <h3 className="hdg--2 text-thin mb-2">{title}</h3>
-
-        <p className="text-left">{copy}</p>
-      </div>
-    </section>
-  );
-};
-
 const WelcomeFeatures = () => {
-  const sections = data.map((section, i) => (
-    <Section
-      key={section.title}
-      image={section.image}
-      title={section.title}
-      copy={section.copy}
-      additionalClasses={section.additionalClasses}
-    />
-  ));
+  const Section = ({ className = "", rightCol, leftCol }) => (
+    <div className={`section-flex ${className}`}>
+      <div className="column left-col">{leftCol}</div>
+      <div className="column right-col">{rightCol}</div>
+    </div>
+  );
+
+  const SectionText = ({ title, description }) => (
+    <div className={`welcome-features__feature-conten`}>
+      <h3 className="hdg--2 text-thin mb-2">{title}</h3>
+
+      <p className="text-left section-text">{description}</p>
+    </div>
+  );
+
+  const SectionImage = ({ imgSrc }) => (
+    <div className="welcome-features__feature-image">
+      <img src={imgSrc} alt="" loading="lazy" />
+    </div>
+  );
 
   return (
     <Container className="mt-30 welcome-features mt-scale-3 mb-scale-3">
-      {sections}
+      <Section
+        className="reverse"
+        leftCol={<SectionImage imgSrc={ImageFeatureCMS} />}
+        rightCol={
+          <SectionText
+            title="Client Management, Simplified"
+            description="No matter what quoting or enrollment tool you use, MedicareCENTER
+            now lets you note where clients are in the application process or
+            manage your follow-ups 24/7."
+          />
+        }
+      />
+      <Section
+        leftCol={
+          <SectionText
+            title="Text Your Clients"
+            description="Compliantly text clients from start to finish! Sales should always
+              be this easy and straightforward. Text scope of appointments, text
+              to review and sign — all with less stress about staying compliant."
+          />
+        }
+        rightCol={<SectionImage imgSrc={ImageFeatureSMS} />}
+      />
+      <Section
+        className="reverse"
+        leftCol={<SectionImage imgSrc={ImageFeatureSSO} />}
+        rightCol={
+          <SectionText
+            title="All-in-one Universal Login"
+            description="Say goodbye to separate logins. We bring all of your carriers to one place with scope of appointments, quoting, Rx drug lists, e-applications and more. One username, one password, one goal — keep it simple."
+          />
+        }
+      />
+      <Section
+        leftCol={
+          <SectionText
+            title="The Best Tools at Your Fingertips"
+            description="Why spend time searching the web for enrollment and quoting tools? MedicareCENTER brings MedicareAPP, MedicareLINK and Medicare Supplement quoting to your laptop, tablet or smartphone. Which makes it easy to access anytime, anywhere."
+          />
+        }
+        rightCol={<SectionImage imgSrc={ImageFeatureTools} />}
+      />
     </Container>
   );
 };

@@ -149,7 +149,7 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Home</title>
       </Helmet>
-      <div className="bg-photo text-invert">
+      <div className="bg-photo logged-in text-invert">
         <GlobalNav />
         <Container
           id="main-content"

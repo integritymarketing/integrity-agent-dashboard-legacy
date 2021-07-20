@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Waypoint } from "react-waypoint";
 import Container from "components/ui/container";
-import PublicNav from "partials/global-nav/public-nav";
+import PublicNav, { RegisterLink } from "partials/global-nav/public-nav";
 import IconArrowRightLong from "components/icons/arrow-right-long";
 import LoginLink from "components/ui/login-link";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
-
-const RegisterLink = (props) => {
-  return (
-    <a href={`${process.env.REACT_APP_AUTH_BASE_URL}/register`} {...props}>
-      {props.children}
-    </a>
-  );
-};
 
 const WelcomeHero = () => {
   const [isVisible, setIsVisible] = useState(false);
