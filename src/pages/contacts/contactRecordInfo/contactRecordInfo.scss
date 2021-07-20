@@ -621,9 +621,9 @@
   margin-right: 12px;
   &:disabled {
     cursor: not-allowed;
-    color: var(--color-grey-400);
-    background-color: var(--color-grey-300);
-    border: 1px solid var(--color-grey-300);
+    color: var(--v2-disabled-button-text);
+    background-color: var(--v2-disabled-button);
+    border: 1px solid var(--v2-disabled-button);
   }
 }
 .reminder-modal-heading a:hover {
@@ -1040,19 +1040,19 @@
 button {
   &:disabled {
     span.add-new-button {
-      color: var(--color-grey-400);
+      color: var(--v2-disabled-button-text);
     }
     svg path {
-      fill: var(--color-grey-400);
+      fill: var(--v2-disabled-button-text);
     }
   }
 }
 
 .customdisabledbtn {
   cursor: not-allowed;
-  color: var(--color-grey-400);
-  background-color: var(--color-grey-300);
-  border: 1px solid var(--color-grey-300);
+  color: var(--v2-disabled-button-text);
+  background-color: var(--v2-disabled-button);
+  border: 1px solid var(--v2-disabled-button);
   border-radius: 4px;
 }
 .customDeletepopup {
