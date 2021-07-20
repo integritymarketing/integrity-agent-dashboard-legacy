@@ -17,7 +17,7 @@ import { STATES } from "utils/address";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import analyticsService from "services/analyticsService";
-
+import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 const CONTACT_RECORD_TYPE = [
   { value: "prospect", label: "Prospect" },
   { value: "client", label: "Client" },
@@ -119,10 +119,7 @@ const NewContactForm = () => {
               validator: validationService.validateName,
               args: ["Last Name"],
             },
-            {
-              name: "middleName",
-              validator: validationService.validateName,
-            },
+
             {
               name: "phones.leadPhone",
               validator: validationService.composeValidator([
@@ -246,6 +243,18 @@ const NewContactForm = () => {
                 First name must be 50 characters or less
               </div>
             )}
+
+            <Textfield
+              id="contact-mname"
+              label="Middle Name"
+              placeholder="Enter middle name"
+              name="middleName"
+              onKeyPress={onlyAlphabets}
+              maxLength="1"
+              value={values.middleName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
 
             <Textfield
               id="contact-lname"

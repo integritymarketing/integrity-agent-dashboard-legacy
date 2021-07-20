@@ -233,6 +233,7 @@ class ClientsService {
   updateLead = async (contact) => {
     const {
       firstName,
+      middleName,
       lastName,
       email,
       phones,
@@ -249,6 +250,7 @@ class ClientsService {
     const reqData = {
       leadsId,
       firstName,
+      middleName,
       lastName,
       leadStatusId,
       primaryCommunication,
@@ -318,6 +320,7 @@ class ClientsService {
     const {
       firstName,
       lastName,
+      middleName,
       email,
       phones,
       address,
@@ -328,6 +331,7 @@ class ClientsService {
       leadsId: 0,
       firstName,
       lastName,
+      middleName,
       leadStatusId: 0,
       primaryCommunication,
       contactRecordType,

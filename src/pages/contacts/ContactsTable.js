@@ -236,6 +236,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
         Cell: ({ value, row }) => {
           const name = [
             row.original.firstName || "",
+            row.original.middleName || "",
             row.original.lastName || "",
           ]
             .join(" ")

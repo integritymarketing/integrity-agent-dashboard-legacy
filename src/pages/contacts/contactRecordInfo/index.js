@@ -20,7 +20,6 @@ import OverView from "./Overview";
 import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
-import EditContactPage from "./DetailsEdit";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
 import ScopeOfAppointment from "./ScopeOfAppointment";
@@ -35,6 +34,7 @@ export default () => {
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("OverView");
   const [menuToggle, setMenuToggle] = useState(false);
+  const [isEdit, setEdit] = useState(false);
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -63,8 +63,10 @@ export default () => {
           const getFullNameById = await clientsService.getContactInfo(
             duplicateLeadIds[0]
           );
-          const { firstName, lastName } = getFullNameById;
-          setDuplicateLeadIdName(`${firstName} ${lastName}`);
+          const { firstName, middleName, lastName } = getFullNameById;
+          setDuplicateLeadIdName(
+            `${firstName} ${middleName || ""} ${lastName}`
+          );
           if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
             setDuplicateLeadIds(duplicateLeadIds);
           }
@@ -96,6 +98,8 @@ export default () => {
       getContactRecordInfo: () => getContactRecordInfo(),
       setDisplay: (value) => setDisplay(value),
       activities,
+      setEdit: (value) => setEdit(value),
+      isEdit,
     };
     switch (display) {
       case "OverView":
@@ -104,8 +108,6 @@ export default () => {
         return <Details {...props} />;
       case "Preferences":
         return <Preferences {...props} />;
-      case "DetailsEdit":
-        return <EditContactPage {...props} />;
       case "ScopeOfAppointment":
         return <ScopeOfAppointment {...props} />;
       default:
@@ -250,47 +252,53 @@ export default () => {
                 <span>Scope Of Appointment</span>
               </li> */}
             </ul>
-            <PersonalInfo personalInfo={personalInfo} />
-            <Container className={styles.container}>
-              <ul
-                className="leftcardmenu desktop-menu-hide"
-                data-gtm="contact-record-menu-item"
-              >
-                <li
-                  className={display === "OverView" && "active"}
-                  onClick={() => {
-                    setDisplay("OverView");
-                  }}
+            <PersonalInfo
+              personalInfo={personalInfo}
+              setEdit={setEdit}
+              isEdit={isEdit}
+              setDisplay={setDisplay}
+            />
+            <div className="details-card-main">
+              <Container className={styles.container}>
+                <ul
+                  className="leftcardmenu desktop-menu-hide"
+                  data-gtm="contact-record-menu-item"
                 >
-                  <label className="icon-spacing">
-                    <OverviewIcon />
-                  </label>
-                  <span>Overview</span>
-                </li>
-                <li
-                  className={
-                    (display === "Details" || display === "DetailsEdit") &&
-                    "active"
-                  }
-                  onClick={() => setDisplay("Details")}
-                >
-                  <label className="icon-spacing">
-                    <DetailsIcon />
-                  </label>
-                  <span>Details</span>
-                </li>
-                <li
-                  className={display === "Preferences" && "active"}
-                  onClick={() => setDisplay("Preferences")}
-                >
-                  <label className="icon-spacing">
-                    <PreferencesIcon />
-                  </label>
-                  <span>Preferences </span>
-                </li>
-                {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
+                  <li
+                    className={display === "OverView" && "active"}
+                    onClick={() => {
+                      setDisplay("OverView");
+                    }}
+                  >
+                    <label className="icon-spacing">
+                      <OverviewIcon />
+                    </label>
+                    <span>Overview</span>
+                  </li>
+                  <li
+                    className={
+                      (display === "Details" || display === "DetailsEdit") &&
+                      "active"
+                    }
+                    onClick={() => setDisplay("Details")}
+                  >
+                    <label className="icon-spacing">
+                      <DetailsIcon />
+                    </label>
+                    <span>Details</span>
+                  </li>
+                  <li
+                    className={display === "Preferences" && "active"}
+                    onClick={() => setDisplay("Preferences")}
+                  >
+                    <label className="icon-spacing">
+                      <PreferencesIcon />
+                    </label>
+                    <span>Preferences </span>
+                  </li>
+                  {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
 
-                {/* <li
+                  {/* <li
                   className={display === "ScopeOfAppointment" && "active"}
                   onClick={() => setDisplay("ScopeOfAppointment")}
                 >
@@ -299,9 +307,10 @@ export default () => {
                   </label>
                   <span>Scope Of Appointment</span>
                 </li> */}
-              </ul>
-              <div className="rightSection">{handleRendering()}</div>
-            </Container>
+                </ul>
+                <div className="rightSection">{handleRendering()}</div>
+              </Container>
+            </div>
             <ContactFooter hideMeicareIcon={true} />
           </StageStatusProvider>
         </WithLoader>

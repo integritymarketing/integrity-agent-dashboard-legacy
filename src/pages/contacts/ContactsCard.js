@@ -25,13 +25,15 @@ import ActionsDropdown from "components/ui/ActionsDropdown";
 import { MORE_ACTIONS } from "../../utils/moreActions";
 
 const useClientCardInfo = (client) => {
-  const { firstName, lastName, statusName } = client;
+  const { firstName, middleName, lastName, statusName } = client;
   const primaryContact = getPrimaryContact(client);
   const displayName = useMemo(() => {
     const namedClient = firstName || lastName;
-    const displayName = namedClient ? `${firstName} ${lastName}`.trim() : "--";
+    const displayName = namedClient
+      ? `${firstName} ${middleName || ""} ${lastName}`.trim()
+      : "--";
     return displayName;
-  }, [firstName, lastName]);
+  }, [firstName, lastName, middleName]);
 
   return {
     displayName,

@@ -5,13 +5,15 @@ import { formatPhoneNumber } from "utils/phones";
 import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
+import Editicon from "components/icons/edit-details";
 
 const notAvailable = "N/A";
 
-export default ({ personalInfo }) => {
+export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
   let {
     firstName = "",
     lastName = "",
+    middleName = "",
     emails = [],
     phones = [],
     addresses = [],
@@ -30,12 +32,23 @@ export default ({ personalInfo }) => {
       ? contactPreferences.primary
       : "";
 
+  const goToEditPage = () => {
+    setDisplay("Details");
+    setEdit(true);
+  };
   return (
     <div className="nameCard">
       <Container className={styles.container}>
         <div className="nameCardSection1">
-          <div className="nameCardHeading">
-            <h2>{`${firstName} ${lastName}`}</h2>
+          <div className="mob-contact-edit-row nameCardHeading">
+            <h2>{`${firstName} ${middleName || ""} ${lastName}`}</h2>
+
+            {!isEdit && (
+              <button className="desktop-hide send-btn" onClick={goToEditPage}>
+                <Editicon />
+                <span className="edit-btn-text">Edit</span>
+              </button>
+            )}
           </div>
           <div className="personalinfoname nameCardpara">
             <h2>
@@ -45,13 +58,11 @@ export default ({ personalInfo }) => {
           </div>
         </div>
         <div className="nameCardSection2">
-          <div className="desktop-select-show customSelectbox personalInfo">
+          <div className=" customSelectbox personalInfo">
             <label>Stage</label>
-            <div>
-              <StageSelect value={statusName} original={personalInfo} />
-            </div>
+            <StageSelect value={statusName} original={personalInfo} />
           </div>
-          <div className="personalInfo">
+          <div className="desktop-select-show personalInfo">
             <label>Email {isPrimary === "email" && "(Primary)"}</label>
 
             <div className="personalInfoEmailText">
@@ -60,7 +71,7 @@ export default ({ personalInfo }) => {
               </a>
             </div>
           </div>
-          <div className="personalInfo">
+          <div className="desktop-select-show personalInfo">
             <label>Phone {isPrimary === "phone" && "(Primary)"}</label>
             <div className="personalInfoText mobile-hide">
               {phones ? formatPhoneNumber(phones) : notAvailable}
@@ -79,7 +90,7 @@ export default ({ personalInfo }) => {
             </div>
           </div>
 
-          <div className="personalInfo">
+          <div className=" desktop-select-show personalInfo">
             <label>Address</label>
             <div className="personalInfoText mobile-hide">
               {formatAddress(addresses)}
@@ -91,12 +102,6 @@ export default ({ personalInfo }) => {
               >
                 {formatAddress(addresses)}
               </a>
-            </div>
-          </div>
-          <div className="mobile-select-show customSelectbox personalInfo">
-            <label>Stage</label>
-            <div>
-              <StageSelect value={statusName} original={personalInfo} />
             </div>
           </div>
         </div>
