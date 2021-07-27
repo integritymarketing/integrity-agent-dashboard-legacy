@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "components/ui/container";
+import { Waypoint } from "react-waypoint";
 import ImageFeatureCMS from "images/welcome-features/feature-cms.png";
 import ImageFeatureSMS from "images/welcome-features/feature-sms.png";
 import ImageFeatureSSO from "images/welcome-features/feature-sso.png";
@@ -15,14 +16,28 @@ const WelcomeFeatures = () => {
     </div>
   );
 
-  const SectionText = ({ title, description }) => (
-    <div className={`welcome-features__feature-conten`}>
-      <h3 className="hdg--2 text-thin mb-2">{title}</h3>
+  const SectionText = ({ title, description }) => {
+    const [isVisible, setIsVisible] = useState(false);
 
-      <p className="text-left section-text">{description}</p>
-    </div>
-  );
+    const handleEnter = () => {
+      setIsVisible(true);
+    };
 
+    return (
+      <>
+        <Waypoint onEnter={handleEnter} />
+        <div
+          className={`welcome-features__feature-content ${
+            isVisible ? "slidein" : ""
+          }`}
+        >
+          <h3 className="hdg--2 text-thin mb-2">{title}</h3>
+
+          <p className="text-left section-text">{description}</p>
+        </div>
+      </>
+    );
+  };
   const SectionImage = ({ imgSrc }) => (
     <div className="welcome-features__feature-image">
       <img src={imgSrc} alt="" loading="lazy" />
