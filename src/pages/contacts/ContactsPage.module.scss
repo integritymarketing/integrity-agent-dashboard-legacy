@@ -460,6 +460,11 @@
 }
 
 .more-icon {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   &:hover {
     background: #F4F6FA;
     svg > path {
