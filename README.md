@@ -101,6 +101,8 @@ This project is built on a few fundamental libraries & frameworks and assumes a 
 
 - Include proper test coverage with pull requests.
 
+- Please also review the [coding conventions](https://github.com/integritymarketing/ae-consumer-platform#conventions) defined on the consumer site.
+
 ### Contributions
 
 - To contribute a feature or bugfix, create a branch from the default branch (`develop`) using the format:
