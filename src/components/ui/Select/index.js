@@ -52,8 +52,9 @@ export const Select = ({
   style,
   contactsPage,
   showValueAsLabel = false,
+  isDefaultOpen = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
   const ref = useRef();
 
@@ -63,7 +64,8 @@ export const Select = ({
 
   useEffect(() => {
     setValue(initialValue);
-  }, [initialValue]);
+    setIsOpen(isDefaultOpen);
+  }, [initialValue, isDefaultOpen]);
 
   const handleOptionChange = (ev, value) => {
     ev.preventDefault();
@@ -87,7 +89,7 @@ export const Select = ({
   }, [options, value]);
 
   const heightStyle = useMemo(() => {
-    const top = isOpen ? ref.current.getBoundingClientRect().top + 40 : 40;
+    const top = isOpen ? ref?.current?.getBoundingClientRect().top + 40 : 40;
     return windowHeight
       ? {
           maxHeight: Math.max(
@@ -162,6 +164,7 @@ Select.propTypes = {
   Option: PropTypes.elementType,
   style: PropTypes.object,
   mobileLabel: PropTypes.node,
+  // isDefaultOpen: PropTypes.bool,
 };
 
 Select.defaultProps = {
@@ -171,4 +174,5 @@ Select.defaultProps = {
   options: [],
   Option: DefaultOption,
   style: {},
+  isDefaultOpen: false,
 };

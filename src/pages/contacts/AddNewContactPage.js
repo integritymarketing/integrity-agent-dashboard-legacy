@@ -18,6 +18,8 @@ import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
+import * as Sentry from "@sentry/react";
+
 const CONTACT_RECORD_TYPE = [
   { value: "prospect", label: "Prospect" },
   { value: "client", label: "Client" },
@@ -60,6 +62,8 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
 const NewContactForm = () => {
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+  const [counties, setCounties] = useState([]);
+  const [countie, setCountie] = useState("");
   const history = useHistory();
   const addToast = useToast();
 
@@ -85,6 +89,42 @@ const NewContactForm = () => {
     return true;
   };
 
+  const getAllCounties = (zipcode) => {
+    if (zipcode.length === 5) {
+      clientService
+        .getCounties(zipcode)
+        .then((data) => {
+          if (data.length > 0 && data[0]?.zipcodes?.length > 0) {
+            let temp_counties = [];
+            let values = data[0]?.zipcodes[0];
+            let county = values?.county_name || "";
+            temp_counties.push(values.county_name);
+            if (values.alternate_counties?.length > 0) {
+              values.alternate_counties.map((item) => {
+                temp_counties.push(item.county_name);
+                return item;
+              });
+            }
+            let counties = temp_counties.map((name) => {
+              return { label: name, value: name };
+            });
+            setCounties([...counties]);
+            setCountie(county);
+          } else {
+            addToast({
+              message: "please enter valid zipcode",
+            });
+          }
+        })
+        .catch((e) => {
+          Sentry.captureException(e);
+        });
+    } else {
+      setCounties("");
+      setCounties([]);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -105,6 +145,7 @@ const NewContactForm = () => {
         },
         primaryCommunication: "phone",
         contactRecordType: "prospect",
+        countie: countie,
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(
@@ -251,7 +292,7 @@ const NewContactForm = () => {
               name="middleName"
               onKeyPress={onlyAlphabets}
               maxLength="1"
-              value={values.middleName}
+              value={values.middleName?.toUpperCase()}
               onChange={handleChange}
               onBlur={handleBlur}
             />
@@ -376,10 +417,36 @@ const NewContactForm = () => {
                 label="ZIP Code"
                 name="address.postalCode"
                 value={values.address.postalCode}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFieldValue("address.postalCode", e.target.value);
+                  getAllCounties(e.target.value);
+                }}
                 onBlur={handleBlur}
                 error={errors.address?.postalCode ? true : false}
               />
+              <div className="mob-res-mt-29 ml-10 custom-w-25 contact-details-col1">
+                <label
+                  className=" custom-label-state label"
+                  htmlFor="phone-label"
+                >
+                  County
+                </label>
+                <div className="record-select-input mob-res-mar-0">
+                  <Select
+                    placeholder="select"
+                    showValueAsLabel={true}
+                    className={`${styles["contact-address--statecode"]} `}
+                    options={counties}
+                    initialValue={
+                      values.countie || (counties.length === 1 ? countie : "")
+                    }
+                    isDefaultOpen={counties.length > 1 ? true : false}
+                    onChange={(value) => {
+                      setFieldValue("address.stateCode", value);
+                    }}
+                  />
+                </div>
+              </div>
             </div>
             {(errors.address?.city || errors.address?.postalCode) && (
               <div className="custom-error-block errors-block">

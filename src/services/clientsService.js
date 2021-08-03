@@ -250,7 +250,7 @@ class ClientsService {
     const reqData = {
       leadsId,
       firstName,
-      middleName,
+      middleName: middleName?.toUpperCase(),
       lastName,
       leadStatusId,
       primaryCommunication,
@@ -331,7 +331,7 @@ class ClientsService {
       leadsId: 0,
       firstName,
       lastName,
-      middleName,
+      middleName: middleName?.toUpperCase(),
       leadStatusId: 0,
       primaryCommunication,
       contactRecordType,
@@ -403,6 +403,21 @@ class ClientsService {
       return response.json();
     }
     throw new Error("Update failed.");
+  };
+
+  getCounties = async (zipcode) => {
+    const opts = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(
+      `https://us-zipcode.api.smartystreets.com/lookup?auth-id=9eaf8801-11aa-d0e7-291c-44a193b2921e&auth-token=lgz0BxKaSOXn3hUu0Ty3&zipcode=${zipcode}`,
+      opts
+    );
+    return response.json();
   };
 }
 

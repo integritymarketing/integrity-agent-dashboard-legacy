@@ -287,16 +287,56 @@
   color: var(--v2-royal-blue) !important;
 }
 .contact-details-submit {
-  font-family: "Lato", sans-serif !important;
-  font-style: normal;
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  line-height: 17px;
-  text-align: center;
-  color: #fff;
-  text-transform: capitalize !important;
+  margin: 0px 6px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  background: #0052ce;
+  min-width: 110px !important;
+  height: 40px;
   border-radius: 4px !important;
-  height: 40px !important;
+  text-transform: capitalize !important;
+}
+.contact-details-submit span {
+  font-family: Lato !important;
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  line-height: 150%;
+  text-align: center;
+  color: #f8fafc;
+  flex: none;
+  order: 0;
+  text-transform: capitalize !important;
+  flex-grow: 0;
+}
+.contact-details-submit:disabled {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  background: #e6ecf2;
+  border-radius: 4px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  margin: 0px 12px;
+}
+.contact-details-submit:disabled span {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  text-align: center;
+  color: #64748b;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 6px;
 }
 .custom-form-btn button {
   margin-top: 38px;
@@ -676,6 +716,12 @@
   height: 39px;
   width: 180px;
 }
+.record-select-input .select {
+  width: 197px !important;
+}
+.state-select-input .select-label {
+  width: 90px !important;
+}
 .state-select-input .select .select-container .inputbox {
   height: 39px;
 }
@@ -844,7 +890,6 @@
 
 .contactdetailscard {
   background: #ffffff;
-  border-radius: 8px;
 }
 .contactdetailscardheader {
   padding: 31px 37px 22px 30px;
@@ -888,7 +933,7 @@
 }
 
 .contactdetailscardbody {
-  padding: 32px 92px 32px 62px;
+  padding: 32px 32px 32px 62px;
 }
 .contactdetailscardbody p {
   color: #697887;
@@ -925,6 +970,7 @@
   font-weight: 400;
   font-family: "Lato", sans-serif;
   color: #ca2323;
+  padding: 0;
 }
 .contactdetailscardbodycolinput input {
   width: 227px;
@@ -1169,11 +1215,81 @@ button {
     margin-top: 10px;
   }
 }
-
+.custom-address-zip .form-input__input {
+  width: 90px !important;
+}
 @media screen and (min-width: 320px) and (max-width: 767px) {
+  .ml-65 {
+    margin-left: 0px;
+  }
+  .contact-details-row .res-middle-initial .form-input .form-input__input {
+    width: 98% !important;
+  }
+  .contact-details-row .res-add-2 .form-input .form-input__input {
+    width: 95% !important;
+  }
+  .contact-details-row .contact-details-col1 .primary-communication-label {
+    width: 200px;
+  }
+  .btn-responsive-display {
+    background-color: #fff;
+  }
+  .btn-responsive-display .contact-details-submit {
+    width: 125px !important;
+  }
+  .details-edit-form .btn-responsive-display {
+    display: flex !important;
+    justify-content: space-around;
+    padding: 30px 6px 10px 6px;
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.05);
+  }
+  .responsive-inline .custom-w-43 .select {
+    width: 140px !important;
+  }
+  .responsive-inline {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+  .responsive-display {
+    display: block !important;
+    margin-top: 27px;
+  }
+
+  .responsive-d-none {
+    display: none;
+  }
+  .edit-contact-details-cancel-btn {
+    min-width: 125px !important;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .contact-details-row .contact-details-col1 .custom-label-state {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    display: flex;
+    align-items: center;
+    color: #6c737b;
+  }
+  .select .select-container .selectbox {
+    display: flex;
+    height: 38px;
+  }
+  .custom-mob-w {
+    width: 145px;
+  }
+  .responsive-inline .custom-w-43 {
+    width: 48% !important;
+  }
   .mobile-phone-input {
-    width: 170px !important;
-    margin-bottom: 24px !important;
+    width: 148px !important;
+    margin-bottom: 10px !important;
   }
   .mob-email-row {
     flex-direction: column-reverse !important;
@@ -1192,15 +1308,33 @@ button {
   }
   .mobile-responsive-row {
     flex-wrap: wrap;
+    margin-bottom: 10px !important;
+  }
+  .responsive-w-50 {
+    width: 50% !important;
+    margin-top: 15px;
   }
   .contact-details-row.mobile-responsive-row .contact-details-col1 {
     width: 48% !important;
   }
+  .contact-details-row.mobile-responsive-row .state--label--space {
+    width: 48% !important;
+  }
+  .mob-res-mt-29 {
+    margin-top: 29px;
+  }
+  .custom-address-zip .form-input__input {
+    width: 144px !important;
+  }
+  .state-select-input .select {
+    height: 38px;
+  }
   .contact-details-row .contact-details-col1 {
-    margin-left: 6px;
+    margin-left: 6px !important;
+    margin-right: 0px;
   }
   .mobile-responsive-row .mob-res-margin {
-    margin-top: 40px;
+    margin-top: 28px;
   }
   .contact-details-row .contact-details-col1 .contact-details-label {
     font-size: 16px !important;
@@ -1211,6 +1345,9 @@ button {
     color: #151e29;
   }
   .contact-details-row .contact-details-col1 .form-input__header .label {
+    font-size: 16px !important;
+  }
+  .contact-details-row .contact-details-col1 .custom-label-state {
     font-size: 16px !important;
   }
   .contact-details-row .contact-details-col1 .form-input__input input {
@@ -1227,6 +1364,11 @@ button {
   }
   .mob-res-mar-0 .short-label {
     margin-left: 0px;
+  }
+
+  .mob-res-mar-0 .select {
+    margin-left: 0px;
+    width: 147px !important;
   }
   .mob-res-row1 .mob-res-margin {
     margin-top: 40px;
@@ -1738,7 +1880,9 @@ button {
   width: 100%;
   height: 40px;
 }
-
+.res-middle-initial .form-input .form-input__input {
+  width: 42% !important;
+}
 .contact-details-row
   .contact-details-col1
   .form-input
@@ -1754,7 +1898,27 @@ button {
 
   color: #64748b;
 }
-
+.btn-responsive-display {
+  display: none !important;
+}
+.select {
+  background: #fff;
+  border-radius: 0.25rem;
+  display: flex;
+  box-sizing: border-box;
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.select .selectbox {
+  border: 0;
+  background: none;
+  font-size: 1rem !important;
+  min-width: 0;
+  flex: 1 0;
+  padding: 0.5rem !important;
+  height: 38px !important;
+  line-height: 38px;
+}
 .contact-details-row
   .contact-details-col1
   .form-input
@@ -1788,12 +1952,39 @@ button {
   display: flex;
   align-items: center;
 }
+.contact-details-row .contact-details-col1 .primary-communication-label {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  color: #0052ce;
+}
+.contact-details-row .contact-details-col1 .primary-communication-edit-label {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  color: #64748b;
+  margin-top: 0.3rem;
+}
+.contact-details-row
+  .contact-details-col1
+  .primary-communication-edit-label
+  input {
+  margin-right: 5px;
+}
 .edit-contact-details-cancel-btn {
   font-family: Lato !important;
   font-style: normal;
-  font-weight: 600 !important;
-  font-size: 16px !important;
-  line-height: 150% !important;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
   text-align: center;
   color: #0052ce !important;
 }
@@ -1808,10 +1999,6 @@ button {
   background-color: #0052ce;
 }
 
-.custom-address-zip .form-input__input {
-  width: 125px !important;
-}
-
 .form-input--error .form-input__input {
   background: #fff2f2;
   border: 1px solid #cf3c28;
@@ -1822,6 +2009,12 @@ button {
   width: 255px;
   margin-top: 5px;
   margin-left: 12px;
+}
+.responsive-display {
+  display: none;
+}
+.details-edit-custom-error-msg-lname {
+  width: 195px;
 }
 .details-edit-custom-error-msg .error-msg-green {
   font-family: Lato;
@@ -1859,6 +2052,17 @@ button {
   width: 1em;
   margin-left: -1em;
 }
+.contact-details-row .contact-details-col1 .custom-label-state {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 130%;
+  display: flex;
+  align-items: center;
+  color: #6c737b;
+  margin-bottom: 0.5rem;
+}
 .hide-field-error .form-input__error {
   display: none;
 }
@@ -1870,4 +2074,69 @@ button {
 }
 .contact-details-row .custom-w-59 {
   width: 58.5% !important;
+}
+.contact-details-row .custom-w-53 {
+  width: 53%;
+}
+.contact-details-row .custom-w-22 {
+  width: 22%;
+}
+.contact-details-row .custom-w-12 {
+  width: 6%;
+}
+.contact-details-row .custom-w-10 {
+  width: 9%;
+  margin-left: 25px;
+}
+.contact-details-row .custom-w-20 {
+  width: 20%;
+}
+.contact-details-row .custom-w-31 {
+  width: 31%;
+}
+.responsive-inline {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 59%;
+}
+.responsive-inline .custom-w-43 {
+  width: 43%;
+}
+.responsive-inline .w-50 {
+  width: 43%;
+}
+.contact-details-row .custom-w-186 {
+  width: 186px;
+}
+.ml-65 {
+  margin-left: 67px;
+}
+.mobile-phone-input {
+  position: relative;
+  right: 3px;
+}
+.res-add-2 {
+  margin-right: 15px;
+}
+.duplicate-lead {
+  display: flex;
+  padding: 15px;
+  width: 362px;
+  height: 63px;
+  background: #fff8de;
+  border-radius: 4px;
+  .duplicate-lead--text {
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
+    a {
+      color: var(--v2-secondary-blue-900);
+      cursor: pointer;
+    }
+  }
+}
+
+.ml-10 {
+  margin-left: 10px;
 }

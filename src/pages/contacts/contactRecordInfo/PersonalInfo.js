@@ -41,7 +41,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
       <Container className={styles.container}>
         <div className="nameCardSection1">
           <div className="mob-contact-edit-row nameCardHeading">
-            <h2>{`${firstName} ${middleName || ""} ${lastName}`}</h2>
+            <h2>{`${firstName} ${middleName || ""}. ${lastName}`}</h2>
 
             {!isEdit && (
               <button className="desktop-hide send-btn" onClick={goToEditPage}>
