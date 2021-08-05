@@ -3,7 +3,15 @@ import "./actionDropdown.scss";
 
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
-export default function ActionsDropDown({ options, children, onClick, id, className }) {
+export default function ActionsDropDown({
+  options,
+  children,
+  onClick,
+  id,
+  className,
+  postalCode,
+  county,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef();
 
@@ -19,13 +27,13 @@ export default function ActionsDropDown({ options, children, onClick, id, classN
     ev && ev.preventDefault();
     setIsOpen((isOpen) => !isOpen);
   };
-  const openClass = isOpen ? "opened" : "closed"
+  const openClass = isOpen ? "opened" : "closed";
+
   return (
-    <div
-      ref={ref}
-      className={`action-dropdown ${openClass}`}
-    >
-      <div onClick={toggleDropdownMenu} className={`${openClass} ${className}`}>{children}</div>
+    <div ref={ref} className={`action-dropdown ${openClass}`}>
+      <div onClick={toggleDropdownMenu} className={`${openClass} ${className}`}>
+        {children}
+      </div>
       <div className="action-dropdown-menu">
         {options.map((option) => (
           <div
@@ -36,6 +44,14 @@ export default function ActionsDropDown({ options, children, onClick, id, classN
             {option.label}
           </div>
         ))}
+
+        {county &&
+          postalCode &&
+          options.map((option) => (
+            <div className="action-dropdown-menu-item" key={option.value2}>
+              <a href="/plans">{option.label2}</a>
+            </div>
+          ))}
       </div>
     </div>
   );
