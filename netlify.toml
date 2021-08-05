@@ -1,4 +1,5 @@
-# CSP notes:
+# CSP notes
+#
 # GTM / GA related (blergh! removing GTM would probably allow the removal of all of this):  'unsafe-eval' 'unsafe-inline' *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com
 # AEPortal API calls + 'self' hosted assets (required): *.integritymarketinggroup.com *.medicarecenter.com *.sentry.io
 [[headers]]
@@ -19,7 +20,7 @@
 # all URIs and env specif configs live in the netlify enviornment UI configs
 [build.environment]
   REACT_APP_AUTH_CLIENT_ID="AEPortal"
-  REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full phone roles"
+  REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full phone roles QuoteService_Full"
   REACT_APP_AUTH_RESPONSE_TYPE="code"
   REACT_APP_RESOURCES_URL="https://learningcenter.tawebhost.com"
 
