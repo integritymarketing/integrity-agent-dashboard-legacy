@@ -23,6 +23,7 @@ import analyticsService from "services/analyticsService";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
 import ScopeOfAppointment from "./ScopeOfAppointment";
+
 // import SOAicon from "components/icons/soa";
 export default () => {
   const { contactId: id } = useParams();

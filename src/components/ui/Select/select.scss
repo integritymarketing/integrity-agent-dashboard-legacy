@@ -98,6 +98,10 @@
     &.closed {
       max-height: 40px;
     }
+    &.disabled {
+      background: #F1F5F9 !important;
+      cursor: not-allowed;
+    }
     .options {
       overflow: auto;
     }

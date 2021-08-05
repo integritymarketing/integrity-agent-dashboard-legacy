@@ -30,7 +30,8 @@ import {
 } from "components/functional/auth-routes";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { ContactsProvider } from "contexts/contacts";
-
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>

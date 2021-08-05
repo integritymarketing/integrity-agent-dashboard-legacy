@@ -53,6 +53,7 @@ export const Select = ({
   contactsPage,
   showValueAsLabel = false,
   isDefaultOpen = false,
+  disabled
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -76,7 +77,7 @@ export const Select = ({
 
   const toggleOptionsMenu = (ev) => {
     ev && ev.preventDefault();
-    setIsOpen((isOption) => !isOption);
+    setIsOpen((isOption) => !isOption && !disabled);
   };
 
   const [selectedOption, selectableOptions] = useMemo(() => {
@@ -145,12 +146,12 @@ export const Select = ({
       }`}
     >
       <div
-        className={`select-container ${isOpen ? "opened" : "closed"}`}
+        className={`select-container ${isOpen ? "opened" : "closed"} ${disabled ? 'disabled' : '' }`}
         style={heightStyle}
       >
         {inputBox}
         {selectBox}
-        {isOpen && optionsContainer}
+        {isOpen && !disabled && optionsContainer}
       </div>
     </div>
   );
@@ -164,7 +165,8 @@ Select.propTypes = {
   Option: PropTypes.elementType,
   style: PropTypes.object,
   mobileLabel: PropTypes.node,
-  // isDefaultOpen: PropTypes.bool,
+  isDefaultOpen: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Select.defaultProps = {
@@ -175,4 +177,5 @@ Select.defaultProps = {
   Option: DefaultOption,
   style: {},
   isDefaultOpen: false,
+  disabled: false
 };

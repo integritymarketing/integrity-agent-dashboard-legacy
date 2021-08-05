@@ -10,19 +10,27 @@ function DetailsCard({
   buttonLabel = "Add",
   items = [],
 }) {
+
   const title = headerTitle.toLowerCase();
+  let titleToAdd = title;
+  if (titleToAdd === "pharamacies") {
+    titleToAdd = "pharmacy";
+  } else {
+    titleToAdd = titleToAdd.slice(0, -1);
+  }
   const itemsLength = items.length > 0 ? items.length : "";
   const displayTitleWithCount =
     itemsLength > 1
-      ? `${headerTitle} ${itemsLength}`
+      ? `${headerTitle} (${itemsLength})`
+      : headerTitle === "Pharamacies"
+      ? `Pharmacy ${itemsLength}`
       : `${headerTitle.slice(0, -1)} ${itemsLength}`;
+      
   return (
     <div className="details-card">
       <div className="header">
         {headerTitle && (
-          <h4 className="headerTitle">
-            {displayTitleWithCount}
-          </h4>
+          <h4 className="headerTitle">{displayTitleWithCount}</h4>
         )}
         {onAddClick && (
           <div className="actions">
@@ -40,7 +48,10 @@ function DetailsCard({
         {items.length === 0 && (
           <div className="no-items">
             <span>This contact has no {title},&nbsp;</span>
-            <button className="link" onClick={onAddClick}> Add a {`${title.slice(0, -1)}`}</button>
+            <button className="link" onClick={onAddClick}>
+              {" "}
+              Add a {`${titleToAdd}`}
+            </button>
           </div>
         )}
       </div>

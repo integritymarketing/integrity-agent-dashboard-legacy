@@ -1,0 +1,63 @@
+.add--prescription--modal {
+  font-family: Lato;
+  font-weight: 600;
+  font-size: 32px;
+  color: #002d72;
+}
+
+.form-element {
+  margin-bottom: 24px;
+  div[class$="control"] {
+    height: 40px;
+    border-radius: 2px;
+  }
+  input[disabled] {
+    background: #f1f5f9 !important;
+  }
+}
+
+.quantity-frequency-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & > *:first-child {
+    width: calc(30% - 24px);
+  }
+  & > *:last-child {
+    width: 70%;
+  }
+}
+
+.label--prescription {
+  font-family: Lato;
+  font-size: 14px;
+  color: #475569;
+}
+
+.label--frequency {
+  font-family: Lato;
+  font-size: 14px;
+  color: #475569;
+}
+
+.label--dosage {
+  font-family: Lato;
+  font-size: 14px;
+  color: #475569;
+}
+
+
+/* Start add pharmacy */
+.pharmacy-container {
+  display: flex;
+  .pharmacy--zip--code {
+    max-width: 81px;
+  }
+  .pharmacy--name {
+    max-width: 119px;
+  }
+  .pharmacy--address {
+    max-width: 196px;
+  }
+}
+/* End add pharmacy */

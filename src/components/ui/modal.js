@@ -6,6 +6,7 @@ import Container from "components/ui/container";
 export default ({
   open = false,
   wide = false,
+  size,
   onClose,
   children,
   labeledById,
@@ -48,7 +49,7 @@ export default ({
         }
       }}
     >
-      <Container size={wide ? "wide" : "medium"}>
+      <Container size={size || (wide ? "wide" : "medium")}>
         <PageCard
           className="modal__card"
           scrollRef={scrollRef}
