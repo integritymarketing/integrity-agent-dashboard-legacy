@@ -31,6 +31,7 @@ import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 import ContactSupport from "pages/auth/ContactSupport";
 import ContactSupportInvalidNPN from "pages/auth/ContactSupportInvalidNPN";
 
+import AuthClientId from "components/functional/auth-client-id";
 import authService from "services/authService";
 
 const AuthApp = () => {
@@ -115,6 +116,8 @@ const AuthApp = () => {
             />
           </Switch>
         </div>
+
+        <AuthClientId />
       </Router>
     </HelmetProvider>
   );

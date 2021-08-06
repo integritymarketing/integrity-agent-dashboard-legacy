@@ -8,6 +8,7 @@ import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
+import useClientId from "hooks/useClientId";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
 
@@ -73,12 +74,14 @@ export default () => {
             onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               loading.begin();
+              const clientId = useClientId();
 
               const response = await authService.resetPassword({
                 ...values,
                 Username: params.get("npn"),
                 Token: params.get("token"),
                 Email: params.get("email"),
+                ClientId: clientId,
               });
 
               setSubmitting(false);

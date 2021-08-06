@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import useClientId from "hooks/useClientId";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
 import validationService from "services/validationService";
@@ -7,6 +8,7 @@ import validationService from "services/validationService";
 export default () => {
   const history = useHistory();
   const params = useQueryParams();
+  const clientId = useClientId();
 
   // TODO v2: Does this need to change from npn to email?
 
@@ -15,6 +17,7 @@ export default () => {
       return authService.confirmEmail({
         npn: params.get("npn"),
         token: params.get("token"),
+        ClientId: clientId,
       });
     };
 

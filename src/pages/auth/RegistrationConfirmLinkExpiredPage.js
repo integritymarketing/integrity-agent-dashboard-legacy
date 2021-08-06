@@ -3,15 +3,20 @@ import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
+import useClientId from "hooks/useClientId";
 
 export default () => {
   const history = useHistory();
   const params = useQueryParams();
+  const clientId = useClientId();
 
   const handleResendComfirmEmail = async () => {
     const npn = params.get("npn");
 
-    const response = await authService.sendConfirmationEmail({ npn });
+    const response = await authService.sendConfirmationEmail({
+      npn,
+      ClientId: clientId,
+    });
 
     if (response.status >= 200 && response.status < 300) {
       history.push(`registration-email-sent?npn=${npn}`);

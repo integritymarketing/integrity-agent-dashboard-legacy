@@ -7,13 +7,14 @@ import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
 import InfoIcon from "components/icons/info";
 
-const resendComfirmEmail = async (npn) => {
-  return authService.sendConfirmationEmail({ npn });
+const resendComfirmEmail = async (params) => {
+  return authService.sendConfirmationEmail(params);
 };
 
 export default () => {
   // TODO v2: Does this need to change from npn to email?
   const params = useQueryParams();
+
   return (
     <React.Fragment>
       <Helmet>
