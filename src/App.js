@@ -8,7 +8,6 @@ import authService from "services/authService";
 import HomePage from "pages/HomePage";
 import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
-import ClientManagementPage from "pages/ClientManagementPage";
 import ClientImportPage from "pages/ClientImportPage";
 import NotFoundPage from "pages/NotFound";
 import ErrorPage from "pages/ErrorPage";
@@ -71,16 +70,16 @@ const App = () => {
                     <AuthenticatedRoute path="/learning-center">
                       <ResourcesPage />
                     </AuthenticatedRoute>
-                    <AuthenticatedRoute path="/clients">
-                      <ClientManagementPage />
-                    </AuthenticatedRoute>
                     <AuthenticatedRoute path="/contacts">
                       <ContactsPage />
                     </AuthenticatedRoute>
                     <AuthenticatedRoute path="/contact/add-new">
                       <AddNewContactPage />
                     </AuthenticatedRoute>
-                    <AuthenticatedRoute exact path="/contact/:contactId/duplicate/:duplicateLeadId">
+                    <AuthenticatedRoute
+                      exact
+                      path="/contact/:contactId/duplicate/:duplicateLeadId"
+                    >
                       <ContactRecordInfo />
                     </AuthenticatedRoute>
                     <AuthenticatedRoute exact path="/contact/:contactId">
@@ -116,6 +115,10 @@ const App = () => {
                     <Route path="/maintenance">
                       <Redirect to="/" />
                     </Route>
+                    <Route path="/clients">
+                      <Redirect to="/contacts" />
+                    </Route>
+
                     <Route path="/error">
                       <ErrorPage />
                     </Route>
