@@ -1,0 +1,15 @@
+.header {
+  background-color: var(--v2-white);
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .plans-available {
+    color: #313336;
+    padding-top: 36px;
+    padding-left: 20px;
+  }
+}
