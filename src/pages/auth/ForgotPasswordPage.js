@@ -8,6 +8,7 @@ import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
+import useClientId from "hooks/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
@@ -18,10 +19,11 @@ import authService from "services/authService";
 export default () => {
   const history = useHistory();
   const loading = useLoading();
+  const clientId = useClientId();
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
-      pagePath: '/login/reset-password/',
+      pagePath: "/login/reset-password/",
     });
   }, []);
 
@@ -58,6 +60,7 @@ export default () => {
               setSubmitting(true);
               loading.begin();
 
+              values["ClientId"] = clientId;
               const response = await authService.requestPasswordReset(values);
               setSubmitting(false);
               loading.end();
@@ -74,7 +77,7 @@ export default () => {
                   pagePath: window.location.href,
                 });
                 analyticsService.fireEvent("event-form-submit", {
-                  formName: 'Reset password',
+                  formName: "Reset password",
                 });
               } else {
                 const errorsArr = await response.json();
@@ -87,7 +90,7 @@ export default () => {
                   );
                 } else {
                   analyticsService.fireEvent("event-form-submit-invalid", {
-                    formName: 'Reset password',
+                    formName: "Reset password",
                   });
                   setErrors(errors);
                   history.push(
