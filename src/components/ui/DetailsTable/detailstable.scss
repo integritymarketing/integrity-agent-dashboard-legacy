@@ -1,6 +1,4 @@
 .details-table {
-    padding: 32px;
-
     & > .row-group:nth-child(odd) {
         background: #F8FAFC;
         border-radius: 4px;
@@ -58,7 +56,9 @@
     letter-spacing: 0em;
     color: #64748B;
     line-height: 130%;
-
+    &:not(:last-child) {
+     margin-right: 10px;
+    }
     .header {
         font-size: 16px;
         font-weight: 600;

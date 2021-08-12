@@ -21,8 +21,8 @@ function DetailsTable({ items, Row, onDelete, onEdit }) {
   return (
     <div className="details-table">
       {items.map((item, idx) => (
-        <div className="row-group">
-          <Row className="row" item={item} key={idx} />
+        <div className="row-group" key={idx}>
+          { Row && <Row className="row" item={item} /> }
           <Media
             queries={{
               large: "(min-width: 768px)",

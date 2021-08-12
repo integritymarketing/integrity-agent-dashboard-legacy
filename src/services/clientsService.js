@@ -2,6 +2,7 @@ import authService from "services/authService";
 import { parseDate, formatServerDate } from "utils/dates";
 
 export const LEADS_API_VERSION = "v2.0";
+export const QUOTES_API_VERSION = "v1.0";
 
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
@@ -419,6 +420,52 @@ class ClientsService {
     );
     return response.json();
   };
+
+  getLeadPharmacies = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+      "GET"
+    );
+
+    return response.json().then(res => res || [])
+  };
+  
+  getLeadProviders = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
+      "GET"
+    );
+
+    return response.json().then(res => res || [])
+  };
+  
+  getLeadPrescriptions = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+      "GET"
+    );
+    return response.json().then(res => res || [])
+  };
+  
+  createPrescription = async (leadId, reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+      "POST",
+      reqData
+    );
+
+    return response;
+  };
+  
+  deletePrescription = async (leadId, id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`,
+      "DELETE"
+    );
+
+    return response;
+  };
+
 }
 
 export default new ClientsService();
