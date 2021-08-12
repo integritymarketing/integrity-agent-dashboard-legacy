@@ -1,5 +1,5 @@
 import React from "react";
-import AuthClientId from "./auth-client-id";
+import AuthClientId from "./client-id";
 
 import {
   renderWithRouter,

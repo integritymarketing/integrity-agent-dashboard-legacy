@@ -1,5 +1,5 @@
 import React from "react";
-import useClientId from "hooks/useClientId";
+import useClientId from "hooks/auth/useClientId";
 import ILSLogo from "../../images/auth/ilc-black.svg";
 
 import "./index.scss";

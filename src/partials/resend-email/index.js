@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
-import useClientId from "hooks/useClientId";
+import useClientId from "hooks/auth/useClientId";
 
 export default ({ resendFn, btnClass = "" }) => {
   const [emailSent, setEmailSent] = useState(false);

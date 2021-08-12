@@ -1,4 +1,4 @@
-import useClientUrl from "hooks/useClientUrl";
+import useClientUrl from "hooks/auth/useClientUrl";
 
 describe("useClientUrl", () => {
   const OLD_ENV = process.env;

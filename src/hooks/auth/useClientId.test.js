@@ -1,4 +1,4 @@
-import useClientId from "hooks/useClientId";
+import useClientId from "hooks/auth/useClientId";
 
 describe("useClientId", () => {
   it("returns AEPortal when no cookie present", () => {

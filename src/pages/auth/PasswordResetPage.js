@@ -8,7 +8,7 @@ import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
-import useClientId from "hooks/useClientId";
+import useClientId from "hooks/auth/useClientId";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
 

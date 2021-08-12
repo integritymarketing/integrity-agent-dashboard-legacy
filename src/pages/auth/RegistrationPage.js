@@ -8,7 +8,7 @@ import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-import useClientId from "hooks/useClientId";
+import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";

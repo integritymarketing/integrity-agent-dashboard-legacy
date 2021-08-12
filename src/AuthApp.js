@@ -31,8 +31,8 @@ import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 import ContactSupport from "pages/auth/ContactSupport";
 import ContactSupportInvalidNPN from "pages/auth/ContactSupportInvalidNPN";
 
-import AuthClientId from "components/functional/auth-client-id";
-import AuthClientUrl from "components/functional/auth-client-url";
+import AuthClientId from "components/functional/auth/client-id";
+import AuthClientUrl from "components/functional/auth/client-url";
 import authService from "services/authService";
 
 const AuthApp = () => {

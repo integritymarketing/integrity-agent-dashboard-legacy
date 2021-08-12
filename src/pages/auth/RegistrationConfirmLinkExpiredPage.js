@@ -3,7 +3,7 @@ import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
-import useClientId from "hooks/useClientId";
+import useClientId from "hooks/auth/useClientId";
 
 export default () => {
   const history = useHistory();
