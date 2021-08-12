@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/react";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 import usePortalUrl from "hooks/usePortalUrl";
-import useClientId from "hooks/useClientId";
+import useClientUrl from "hooks/useClientUrl";
 
 const AUTH_API_VERSION = "v2.0";
 
@@ -187,15 +187,17 @@ class authService {
   };
 
   redirectAndRestartLoginFlow = () => {
-    let clientId = useClientId();
-    if (clientId === "ILSClient") {
-      // TODO set as prod endpoint
-      window.location = "https://ils-dev.integritymarketing.com/signin";
+    let portal_url = usePortalUrl();
+    let client_url = useClientUrl();
+
+    if (portal_url) {
+      window.location = portal_url + "/signin";
+      return;
+    } else if (client_url) {
+      window.location = client_url + "/signin";
       return;
     }
 
-    let portal_url = usePortalUrl();
-    window.location = portal_url + "/signin";
     return;
   };
 
