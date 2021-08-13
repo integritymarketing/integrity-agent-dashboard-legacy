@@ -15,6 +15,7 @@ import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
 import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
+import PlansPage from "pages/PlansPage";
 import PortalUrl from "components/functional/portal-url";
 import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
@@ -89,7 +90,9 @@ const App = () => {
                     <AuthenticatedRoute path="/client-import">
                       <ClientImportPage />
                     </AuthenticatedRoute>
-
+                    <AuthenticatedRoute path="/plans/:contactId">
+                      <PlansPage />
+                    </AuthenticatedRoute>
                     <Route path="/terms">
                       <TermsPage />
                     </Route>

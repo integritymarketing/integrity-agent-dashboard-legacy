@@ -14,7 +14,9 @@ export default function ContactRecordHeader({
   isMobile,
 }) {
   const history = useHistory();
-  const fullName = `${contact.firstName} ${contact.middleName} ${contact.lastName}`;
+  const fullName = `${contact.firstName} ${contact.middleName || ""} ${
+    contact.lastName
+  }`;
   const zip = contact.addresses[0].postalCode;
   return (
     <div className="contactRecordHeader">
@@ -69,7 +71,12 @@ export default function ContactRecordHeader({
         <Button
           icon={<EditDetails />}
           label="Edit Contact"
-          onClick={() => history.push(`/contact/${contact.leadsId}`)}
+          onClick={() =>
+            history.push(`/contact/${contact.leadsId}`, {
+              isEdit: true,
+              display: "Details",
+            })
+          }
           type="secondary"
           iconOnly={isMobile}
         />
