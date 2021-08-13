@@ -1,5 +1,9 @@
 .header {
   background-color: var(--v2-white);
+  box-shadow: var(--shadow-default);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .search-container {
@@ -7,9 +11,39 @@
   justify-content: space-between;
   align-items: center;
 
-  .plans-available {
-    color: #313336;
-    padding-top: 36px;
-    padding-left: 20px;
+  .filters {
+    width: 262px;
+    margin-top: 25px;
+    margin-right: 25px;
+    flex-grow: 1;
+  }
+
+  .results {
+    flex-grow: 3;
+    margin-top: 25px;
+
+    .sort {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+
+      .sort-select {
+        @media (min-width: 480px) {
+          width: 275px;
+        }
+      }
+
+      .plans-available {
+        color: #313336;
+
+        .plans-type {
+          font-weight: 700;
+        }
+      }
+    }
+
+    .plans {
+    }
   }
 }
