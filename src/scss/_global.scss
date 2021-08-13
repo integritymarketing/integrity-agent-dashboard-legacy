@@ -339,34 +339,34 @@ div[class$="MenuList"]::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
 
-// .option {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: flex-start;
-//   padding: 16px;
-//   cursor: pointer;
-//   border-radius: 4px;
-//   font-family: Lato;
-// }
+.option__typeahead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: Lato;
+}
 
-// .option > .header {
-//   font-family: Lato;
-//   font-size: 16px;
-//   color: #313336;
-// }
-// .option > .subHeader {
-//   color: #64788b;
-//   font-family: Lato;
-//   font-size: 12px;
-// }
+.option__typeahead > .header__typeahead {
+  font-family: Lato;
+  font-size: 16px;
+  color: #313336;
+}
+.option__typeahead > .subHeader__typeahead {
+  color: #64788b;
+  font-family: Lato;
+  font-size: 12px;
+}
 
-// .option:hover {
-//    background-color: #F1F5F9;
-//   .header {
-//       color: #0052CE;
-//    }
-// }
+.option__typeahead:hover {
+   background-color: #F1F5F9;
+  .header {
+      color: #0052CE;
+   }
+}
 
 .react--select-overide {
   font-family: Lato;
