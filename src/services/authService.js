@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/react";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 import usePortalUrl from "hooks/usePortalUrl";
-import useClientUrl from "hooks/auth/useClientUrl";
 
 const AUTH_API_VERSION = "v2.0";
 
@@ -188,16 +187,8 @@ class authService {
 
   redirectAndRestartLoginFlow = () => {
     let portal_url = usePortalUrl();
-    let client_url = useClientUrl();
 
-    if (portal_url) {
-      window.location = portal_url + "/signin";
-      return;
-    } else if (client_url) {
-      window.location = client_url + "/signin";
-      return;
-    }
-
+    window.location = portal_url + "/signin";
     return;
   };
 
