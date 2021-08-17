@@ -53,7 +53,7 @@ export const Select = ({
   contactsPage,
   showValueAsLabel = false,
   isDefaultOpen = false,
-  disabled
+  disabled,
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -81,13 +81,14 @@ export const Select = ({
   };
 
   const [selectedOption, selectableOptions] = useMemo(() => {
+    setIsOpen(isDefaultOpen);
     const selectedOptions = options.filter((option) => option?.value === value);
     const selectableOptions = options.map((option) => ({
       ...option,
       selected: option?.value === value,
     }));
     return [selectedOptions[0], selectableOptions];
-  }, [options, value]);
+  }, [options, value, isDefaultOpen]);
 
   const heightStyle = useMemo(() => {
     const top = isOpen ? ref?.current?.getBoundingClientRect().top + 40 : 40;
@@ -146,7 +147,9 @@ export const Select = ({
       }`}
     >
       <div
-        className={`select-container ${isOpen ? "opened" : "closed"} ${disabled ? 'disabled' : '' }`}
+        className={`select-container ${isOpen ? "opened" : "closed"} ${
+          disabled ? "disabled" : ""
+        }`}
         style={heightStyle}
       >
         {inputBox}
@@ -177,5 +180,5 @@ Select.defaultProps = {
   Option: DefaultOption,
   style: {},
   isDefaultOpen: false,
-  disabled: false
+  disabled: false,
 };

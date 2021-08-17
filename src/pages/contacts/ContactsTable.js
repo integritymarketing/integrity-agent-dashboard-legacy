@@ -298,9 +298,8 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
             options={MORE_ACTIONS}
             id={row.original.leadsId}
             onClick={handleDropdownActions}
-            /* swap hard coded values with API endpoints once set up */
-            postalCode={"12345"}
-            county={"county"}
+            postalCode={row?.original?.addresses[0]?.postalCode}
+            county={row?.original?.addresses[0]?.county}
           >
             <More />
           </ActionsDropdown>

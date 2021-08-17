@@ -406,17 +406,11 @@ class ClientsService {
   };
 
   getCounties = async (zipcode) => {
-    const opts = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const response = await fetch(
-      `https://us-zipcode.api.smartystreets.com/lookup?auth-id=9eaf8801-11aa-d0e7-291c-44a193b2921e&auth-token=lgz0BxKaSOXn3hUu0Ty3&zipcode=${zipcode}`,
-      opts
+    const response = await this._clientAPIRequest(
+      `https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
+      "GET"
     );
+
     return response.json();
   };
 }

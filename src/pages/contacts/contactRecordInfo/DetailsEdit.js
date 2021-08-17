@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -13,7 +13,7 @@ import { formatPhoneNumber } from "utils/phones";
 import { STATES } from "utils/address";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
-import * as Sentry from "@sentry/react";
+import CountyContext from "contexts/counties";
 
 const CONTACT_RECORD_TYPE = [
   { value: "prospect", label: "Prospect" },
@@ -79,6 +79,7 @@ export default (props) => {
     notes,
   } = props.personalInfo;
 
+  let { allCounties = [], doFetch } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
   let addressData = addresses.length > 0 ? addresses[0] : null;
@@ -94,6 +95,9 @@ export default (props) => {
     addressData && addressData.address1 ? addressData.address1 : "";
   const address2 =
     addressData && addressData.address2 ? addressData.address2 : "";
+  const county = addressData && addressData.county ? addressData.county : "";
+  const countyFips =
+    addressData && addressData.countyFips ? addressData.countyFips : "";
   const postalCode =
     addressData && addressData.postalCode ? addressData.postalCode : "";
   const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
@@ -106,8 +110,6 @@ export default (props) => {
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-  const [counties, setCounties] = useState([]);
-  const [countie, setCountie] = useState("");
   const history = useHistory();
 
   const getContactLink = (id) => `/contact/${id}`;
@@ -130,48 +132,9 @@ export default (props) => {
     return true;
   };
 
-  const getAllCounties = useCallback(
-    (zipcode) => {
-      if (zipcode.length === 5) {
-        clientService
-          .getCounties(zipcode)
-          .then((data) => {
-            if (data.length > 0 && data[0]?.zipcodes?.length > 0) {
-              let temp_counties = [];
-              let values = data[0]?.zipcodes[0];
-              let county = values?.county_name || "";
-              temp_counties.push(values.county_name);
-              if (values.alternate_counties?.length > 0) {
-                values.alternate_counties.map((item) => {
-                  temp_counties.push(item.county_name);
-                  return item;
-                });
-              }
-              let counties = temp_counties.map((name) => {
-                return { label: name, value: name };
-              });
-              setCounties([...counties]);
-              setCountie(county);
-            } else {
-              addToast({
-                message: "please enter valid zipcode",
-              });
-            }
-          })
-          .catch((e) => {
-            Sentry.captureException(e);
-          });
-      } else {
-        setCounties("");
-        setCounties([]);
-      }
-    },
-    [addToast]
-  );
-
   useEffect(() => {
-    getAllCounties(postalCode);
-  }, [getAllCounties, postalCode]);
+    doFetch(postalCode); // eslint-disable-next-line
+  }, []);
 
   return (
     <Formik
@@ -190,6 +153,8 @@ export default (props) => {
           city: city,
           stateCode: stateCode,
           postalCode: postalCode,
+          county: county || "",
+          countyFips: countyFips,
         },
         primaryCommunication: isPrimary,
         contactRecordType: contactRecordType,
@@ -199,7 +164,6 @@ export default (props) => {
         leadStatusId,
         leadsId,
         notes,
-        countie: countie,
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(
@@ -530,14 +494,6 @@ export default (props) => {
                       />
                       Primary Communication
                     </label>
-
-                    {/* <label
-                    for="contact-phone"
-                    className="primary-communication-edit-label"
-                  >
-                    <input type="radio" id="contact-phone" /> Primary
-                    Communication
-                  </label> */}
                   </div>
                   <div className="custom-w-43 custom-w-25 contact-details-col1">
                     <label
@@ -681,7 +637,8 @@ export default (props) => {
                     value={values.address.postalCode}
                     onChange={(e) => {
                       setFieldValue("address.postalCode", e.target.value);
-                      getAllCounties(e.target.value);
+                      setFieldValue("address.county", "");
+                      doFetch(e.target.value);
                     }}
                     onBlur={handleBlur}
                     error={errors.address?.postalCode ? true : false}
@@ -706,13 +663,23 @@ export default (props) => {
                       placeholder="select"
                       showValueAsLabel={true}
                       className={`${styles["contact-address--statecode"]} `}
-                      options={counties}
+                      options={allCounties}
                       initialValue={
-                        values.countie || (counties.length === 1 ? countie : "")
+                        allCounties.length === 1
+                          ? allCounties[0].value
+                          : values.address.county
                       }
-                      isDefaultOpen={counties.length > 1 ? true : false}
+                      isDefaultOpen={
+                        allCounties.length > 1 && values.address.county === ""
+                          ? true
+                          : false
+                      }
                       onChange={(value) => {
-                        setFieldValue("address.stateCode", value);
+                        setFieldValue("address.county", value);
+                        const fip = allCounties.filter(
+                          (item) => item.value === value
+                        )[0]?.key;
+                        setFieldValue("address.countyFips", fip);
                       }}
                     />
                   </div>

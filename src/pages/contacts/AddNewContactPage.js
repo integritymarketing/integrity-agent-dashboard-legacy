@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
@@ -18,7 +18,7 @@ import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
-import * as Sentry from "@sentry/react";
+import CountyContext from "contexts/counties";
 
 const CONTACT_RECORD_TYPE = [
   { value: "prospect", label: "Prospect" },
@@ -62,8 +62,8 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
 const NewContactForm = () => {
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-  const [counties, setCounties] = useState([]);
-  const [countie, setCountie] = useState("");
+  const { allCounties = [], doFetch } = useContext(CountyContext);
+
   const history = useHistory();
   const addToast = useToast();
 
@@ -89,41 +89,9 @@ const NewContactForm = () => {
     return true;
   };
 
-  const getAllCounties = (zipcode) => {
-    if (zipcode.length === 5) {
-      clientService
-        .getCounties(zipcode)
-        .then((data) => {
-          if (data.length > 0 && data[0]?.zipcodes?.length > 0) {
-            let temp_counties = [];
-            let values = data[0]?.zipcodes[0];
-            let county = values?.county_name || "";
-            temp_counties.push(values.county_name);
-            if (values.alternate_counties?.length > 0) {
-              values.alternate_counties.map((item) => {
-                temp_counties.push(item.county_name);
-                return item;
-              });
-            }
-            let counties = temp_counties.map((name) => {
-              return { label: name, value: name };
-            });
-            setCounties([...counties]);
-            setCountie(county);
-          } else {
-            addToast({
-              message: "please enter valid zipcode",
-            });
-          }
-        })
-        .catch((e) => {
-          Sentry.captureException(e);
-        });
-    } else {
-      setCounties("");
-      setCounties([]);
-    }
-  };
+  useEffect(() => {
+    doFetch(""); // eslint-disable-next-line
+  }, []);
 
   return (
     <Formik
@@ -142,10 +110,11 @@ const NewContactForm = () => {
           city: "",
           stateCode: "",
           postalCode: "",
+          county: "",
+          countyFips: "",
         },
         primaryCommunication: "phone",
         contactRecordType: "prospect",
-        countie: countie,
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(
@@ -419,7 +388,8 @@ const NewContactForm = () => {
                 value={values.address.postalCode}
                 onChange={(e) => {
                   setFieldValue("address.postalCode", e.target.value);
-                  getAllCounties(e.target.value);
+                  setFieldValue("address.county", "");
+                  doFetch(e.target.value);
                 }}
                 onBlur={handleBlur}
                 error={errors.address?.postalCode ? true : false}
@@ -436,13 +406,23 @@ const NewContactForm = () => {
                     placeholder="select"
                     showValueAsLabel={true}
                     className={`${styles["contact-address--statecode"]} `}
-                    options={counties}
+                    options={allCounties}
                     initialValue={
-                      values.countie || (counties.length === 1 ? countie : "")
+                      allCounties.length === 1
+                        ? allCounties[0].value
+                        : values.address.county
                     }
-                    isDefaultOpen={counties.length > 1 ? true : false}
+                    isDefaultOpen={
+                      allCounties.length > 1 && values.address.county === ""
+                        ? true
+                        : false
+                    }
                     onChange={(value) => {
-                      setFieldValue("address.stateCode", value);
+                      setFieldValue("address.county", value);
+                      const fip = allCounties.filter(
+                        (item) => item.value === value
+                      )[0]?.key;
+                      setFieldValue("address.countyFips", fip);
                     }}
                   />
                 </div>
