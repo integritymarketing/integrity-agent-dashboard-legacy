@@ -5,7 +5,8 @@ import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
-import Options from "../../../../utils/Options";
+import Options from "utils/Options";
+import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import "./modals.scss";
 
 const CustomOption = ({ innerRef, innerProps, data }) => {
@@ -92,13 +93,6 @@ const prescriptionOptions = [
     value: "Prescription 3",
     description: "Something on secondline",
   },
-];
-
-const FREQUENCY_OPTIONS = [
-  { value: "per month", label: "per month" },
-  { value: "per two months", label: "per two months" },
-  { value: "per three months", label: "per three months" },
-  { value: "per year", label: "per year" },
 ];
 
 export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
@@ -218,7 +212,6 @@ export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
                 <div className="form-element quantity-frequency-container">
                   <Textfield
                     id="quantity"
-                    type="number"
                     className="quantity"
                     label="Quantity"
                     value={quantity}
@@ -258,6 +251,7 @@ export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
               </>
             )}
           </div>
+          <hr />
           <div className="dialog--actions">
             <Button
               className="mr-1"

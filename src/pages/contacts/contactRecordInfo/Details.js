@@ -2,47 +2,47 @@ import React, { useState } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
-import AddProvider from "./modals/AddProvider";
 import AddPrescription from "./modals/AddPrescription";
+import EditPrescription from "./modals/EditPrescription";
 import AddPharmacy from "./modals/AddPharmacy";
 import useLeadInformation from "hooks/useLeadInformation";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
 
-
 export default (props) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
+  const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
+  const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
   const {
     pharmacies,
-    providers,
     prescriptions,
     isLoading,
     isSaving,
     addPharmacy,
     addPrescription,
-    addProvider,
+    editPrescription,
     deletePrescription,
+    deletePharmacy,
   } = useLeadInformation(props.id);
-  const onClose = () => setIsOpen(false);
-  const onCloseNewPrescription = () => setIsOpenPrescription(false);
-  const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
-  const onAddNewProvider = () => setIsOpen(true);
   const onAddNewPrescription = () => setIsOpenPrescription(true);
+  const onCloseNewPrescription = () => setIsOpenPrescription(false);
+  const onEditPrescription = (item) => { 
+    setIsOpenEditPrescription(true);
+    setPrescriptionToEdit(item)
+  }
+  const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
   const onAddNewPharmacy = () => setIsOpenPharmacy(true);
-
-
+  const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
 
   const PrescriptionRow = ({ item, className }) => {
-
     return (
       <div className={className}>
+        <CellData header={item.drugName} />
         <CellData
-          header={item.drugName}
           subText={`${item.daysOfSupply} capsule per day`}
+          subText={item.ndc}
         />
-        <CellData header={item.labelName} subText={item.ndc} />
       </div>
     );
   };
@@ -69,32 +69,32 @@ export default (props) => {
         {props.isEdit ? <EditForm {...props} /> : <ContactDetails {...props} />}
       </div>
       <div className="detailscard-container">
-        <AddProvider isOpen={isOpen} onClose={onClose} />
         <AddPrescription
           isOpen={isOpenPrescription}
           onClose={onCloseNewPrescription}
         />
-        <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} />
-        <DetailsCard
-          headerTitle="Providers"
-          onAddClick={onAddNewProvider}
-          items={providers}
-          isLoading={isLoading}
+        <EditPrescription
+          isOpen={isOpenEditPrescription}
+          onClose={onCloseEditPrescription}
+          item={prescriptionToEdit}
+          onSave={editPrescription}
         />
+        <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} />
         <DetailsCard
           headerTitle="Prescriptions"
           onAddClick={onAddNewPrescription}
           items={prescriptions}
           Row={PrescriptionRow}
           onDelete={deletePrescription}
-          onEdit={addPrescription}
+          onEdit={onEditPrescription}
           isLoading={isLoading}
         />
         <DetailsCard
-          headerTitle="Pharamacies"
+          headerTitle="Pharmacies"
           onAddClick={onAddNewPharmacy}
           items={pharmacies}
           Row={PharamaciesRow}
+          onDelete={deletePharmacy}
           isLoading={isLoading}
         />
       </div>

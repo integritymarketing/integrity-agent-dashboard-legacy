@@ -456,6 +456,19 @@ class ClientsService {
 
     return response;
   };
+
+  editPrescription = async (leadId, reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.ndc}`,
+      "PUT",
+      reqData
+    );
+
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error("Update failed.");
+  };
   
   deletePrescription = async (leadId, id) => {
     const response = await this._clientAPIRequest(
@@ -465,7 +478,25 @@ class ClientsService {
 
     return response;
   };
+  
+  deletePharmacy = async (leadId, id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`,
+      "DELETE"
+    );
 
+    return response;
+  };
+  
+  createPharmacy = async (leadId, reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+      "POST",
+      reqData
+    );
+
+    return response;
+  };
 }
 
 export default new ClientsService();

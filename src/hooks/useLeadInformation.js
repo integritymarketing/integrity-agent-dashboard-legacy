@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import * as Sentry from "@sentry/react";
 import clientService from "services/clientsService";
 import useToast from "hooks/useToast";
 
@@ -15,11 +16,10 @@ export default (leadId) => {
       try {
         await Promise.all([
           clientService.getLeadPrescriptions(leadId).then(setPrescriptions),
-          clientService.getLeadProviders(leadId).then(setProviders),
           clientService.getLeadPharmacies(leadId).then(setPharmacies),
         ]);
       } catch (err) {
-        // Handle error
+        Sentry.captureException(err);
       } finally {
         setIsLoading(false);
       }
@@ -27,29 +27,35 @@ export default (leadId) => {
     getData();
   }, [setPharmacies, setProviders, setPrescriptions, setIsLoading]);
 
-  const addPharmacy = async () => {};
   const addPrescription = async (item) => {
     try {
-      console.log('Add Prescription', item)
-      await clientService.createPrescription(leadId, item)
-      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions)
+      await clientService.createPrescription(leadId, item);
+      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
-        message: "Created successfully",
-        time: 10000,
+        message: "Prescription Added",
       });
     } catch (err) {
-
+      Sentry.captureException(err);
     }
   };
-  const addProvider = async () => {};
 
-  
+  const editPrescription = async (item) => {
+    try {
+      await clientService.editPrescription(leadId, item);
+      addToast({
+        message: "Prescription Edited",
+      });
+      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
+    } catch (err) {
+      Sentry.captureException(err);
+    }
+  };
+
   const deletePrescription = async (item) => {
     try {
-      // todo call deletePrescription api 
-      console.log('Delete Prescription', item)
-      await clientService.deletePrescription(leadId, item.dosageRecordID)
-      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions)
+      console.log("Delete Prescription", item);
+      await clientService.deletePrescription(leadId, item.dosageRecordID);
+      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
         type: "success",
         message: " Deleted",
@@ -58,9 +64,36 @@ export default (leadId) => {
         onClickHandler: () => addPrescription(item),
         closeToastRequired: true,
       });
+    } catch (err) {
+      Sentry.captureException(err);
+    }
+  };
 
-    } catch(err) {
-      // TODO: handle error
+  const addPharmacy = async (item) => {
+    try {
+      console.log("Add Prescription", item);
+      await clientService.createPharmacy(leadId, item);
+      await clientService.getLeadPharmacies(leadId).then(setPharmacies);
+      addToast({
+        message: "Pharmacy Added",
+        time: 10000,
+      });
+    } catch (err) {}
+  };
+
+  const deletePharmacy = async (item) => {
+    try {
+      await clientService.deletePharmacy(leadId, item.pharmacyRecordID);
+      await clientService.getLeadPharmacies(leadId).then(setPharmacies);
+      addToast({
+        message: "Pharmacy Deleted",
+        time: 10000,
+        link: "UNDO",
+        onClickHandler: () => addPharmacy(item),
+        closeToastRequired: true,
+      });
+    } catch (err) {
+      Sentry.captureException(err);
     }
   };
 
@@ -72,7 +105,8 @@ export default (leadId) => {
     isSaving,
     addPharmacy,
     addPrescription,
-    addProvider,
+    editPrescription,
     deletePrescription,
+    deletePharmacy,
   };
 };

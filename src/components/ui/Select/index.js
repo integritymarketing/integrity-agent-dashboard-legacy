@@ -49,6 +49,7 @@ export const Select = ({
   onChange,
   placeholder,
   prefix = "",
+  labelPrefix = "",
   style,
   contactsPage,
   showValueAsLabel = false,
@@ -132,7 +133,7 @@ export const Select = ({
     <div className="options" style={{ maxHeight: heightStyle.maxHeight - 40 }}>
       {selectHeader}
       {selectableOptions.map((option, idx) => (
-        <Option key={idx} {...option} onClick={handleOptionChange} />
+        <Option prefix={labelPrefix} key={idx} {...option} onClick={handleOptionChange} />
       ))}
     </div>
   );

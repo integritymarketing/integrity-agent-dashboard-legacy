@@ -18,7 +18,7 @@ function DetailsCard({
 }) {
   const title = headerTitle.toLowerCase();
   let titleToAdd = title;
-  if (titleToAdd === "pharamacies") {
+  if (titleToAdd === "Pharmacies") {
     titleToAdd = "pharmacy";
   } else {
     titleToAdd = titleToAdd.slice(0, -1);
@@ -27,9 +27,9 @@ function DetailsCard({
   const displayTitleWithCount =
     itemsLength > 1
       ? `${headerTitle} (${itemsLength})`
-      : headerTitle === "Pharamacies"
-        ? `Pharmacy (${itemsLength})`
-        : `${headerTitle.slice(0, -1)} ${itemsLength && `(${itemsLength})`}`;
+      : headerTitle === "Pharmacies"
+      ? `Pharmacy ${itemsLength && `(${itemsLength})`}`
+      : `${headerTitle.slice(0, -1)} ${itemsLength && `(${itemsLength})`}`;
 
   return (
     <div className="details-card">
@@ -61,7 +61,14 @@ function DetailsCard({
             </div>
           </WithLoader>
         )}
-        {items.length > 0 && <DetailsTable items={items} Row={Row} onDelete={onDelete} onEdit={onEdit} />}
+        {items.length > 0 && (
+          <DetailsTable
+            items={items}
+            Row={Row}
+            onDelete={onDelete}
+            onEdit={onEdit}
+          />
+        )}
       </div>
     </div>
   );
