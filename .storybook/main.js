@@ -5,5 +5,6 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/preset-create-react-app",
     "@whitespace/storybook-addon-html",
+    "storybook-addon-mock/register",
   ],
 };

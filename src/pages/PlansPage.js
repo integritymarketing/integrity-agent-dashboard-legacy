@@ -41,7 +41,7 @@ export default () => {
 
   const isLoading = loading;
   return (
-    <React.Fragment>
+    <div className={`${styles["plans-page"]}`}>
       <Media
         query={"(max-width: 500px)"}
         onChange={(isMobile) => {
@@ -98,6 +98,6 @@ export default () => {
           </div>
         </Container>
       </WithLoader>
-    </React.Fragment>
+    </div>
   );
 };
