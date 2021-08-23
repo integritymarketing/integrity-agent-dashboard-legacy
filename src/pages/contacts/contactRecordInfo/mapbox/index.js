@@ -31,7 +31,6 @@ export default ({ data = [] }) => {
     }
     map.current.on('load', function (e) {
         /* Add the data to your map as a layer */
-        debugger
         map.current.addLayer({
           "id": "locations",
           "type": "circle",

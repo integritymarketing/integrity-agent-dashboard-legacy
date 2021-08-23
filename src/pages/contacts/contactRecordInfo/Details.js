@@ -72,6 +72,7 @@ export default (props) => {
         <AddPrescription
           isOpen={isOpenPrescription}
           onClose={onCloseNewPrescription}
+          onSave={addPrescription}
         />
         <EditPrescription
           isOpen={isOpenEditPrescription}

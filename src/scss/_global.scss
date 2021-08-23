@@ -362,8 +362,10 @@ div[class$="MenuList"]::-webkit-scrollbar-thumb:hover {
 }
 
 .option__typeahead:hover {
-   background-color: #F1F5F9;
-  .header {
+   background-color: #F2F9FF;
+   border: 1px solid #0052CE;
+   border-radius: 4px;
+  .header__typeahead {
       color: #0052CE;
    }
 }

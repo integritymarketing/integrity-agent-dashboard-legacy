@@ -478,6 +478,14 @@ class ClientsService {
 
     return response;
   };
+
+  getDrugNames = async (drugName) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugName?drugName=${drugName}`,
+      "GET"
+    );
+    return response.json()
+  }
   
   deletePharmacy = async (leadId, id) => {
     const response = await this._clientAPIRequest(

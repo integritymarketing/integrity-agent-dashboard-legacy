@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useMemo } from "react";
 import Typeahead from "react-select/async";
 import { components } from "react-select";
 import { Select } from "components/ui/Select";
@@ -7,6 +7,8 @@ import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
 import Options from "utils/Options";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
+import DOSAGE_OPTIONS from "utils/dosageOptions";
+import clientService from "services/clientsService";
 import "./modals.scss";
 
 const CustomOption = ({ innerRef, innerProps, data }) => {
@@ -18,109 +20,80 @@ const CustomOption = ({ innerRef, innerProps, data }) => {
 };
 
 const Menu = (props) => {
-  console.log(props);
   const optionsLength = props?.options?.length ?? 0;
   return (
     <Fragment>
-      {optionsLength && (
+      {optionsLength ? (
         <div style={{ marginTop: 20, marginBottom: 14 }}>
-          <strong>{optionsLength} prescriptions</strong> found.
+          <strong>{optionsLength} prescriptions</strong> found
         </div>
+      ) : (
+        ""
       )}
       <components.Menu {...props}>{props.children}</components.Menu>
     </Fragment>
   );
 };
 
-const prescriptionOptions = [
-  {
-    label: "Prescription one",
-    value: "Prescription one",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription two",
-    value: "Prescription two",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription 3",
-    value: "Prescription 3",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription one",
-    value: "Prescription one",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription two",
-    value: "Prescription two",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription 3",
-    value: "Prescription 3",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription one",
-    value: "Prescription one",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription two",
-    value: "Prescription two",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription 3",
-    value: "Prescription 3",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription one",
-    value: "Prescription one",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription two",
-    value: "Prescription two",
-    description: "Something on secondline",
-  },
-  {
-    label: "Prescription 3",
-    value: "Prescription 3",
-    description: "Something on secondline",
-  },
-];
-
-export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [selectedDosage, setSelectedDosage] = useState(null);
-  const [dosageOptions, setDosageOptions] = useState([]);
-  const [quantity, setQuantity] = useState();
-  const [frequency, setfrequency] = useState(FREQUENCY_OPTIONS);
-  const fetchOptions = async (searchStr) => {
-    setSelectedValue(() => null);
-    console.log(searchStr);
-    // Hit api and return optons.
-    return prescriptionOptions;
+const transformPrescriptionOptions = (option) => {
+  const { drugName, drugType, drugID, referenceNDC } = option;
+  return {
+    label: drugName,
+    description: drugType,
+    value: drugID,
+    ndc: referenceNDC,
   };
+};
+
+export default function AddPrescription({
+  isOpen,
+  onClose: onCloseHandler,
+  onSave,
+}) {
+  const [drugName, setDrugName] = useState("");
+  const [searchString, setSearchString] = useState("");
+  const [dosage, setDosage] = useState();
+  const [quantity, setQuantity] = useState();
+  const [frequency, setfrequency] = useState();
+
+  const fetchOptions = async (searchStr) => {
+    setDrugName(() => null);
+    setSearchString(searchStr);
+    const drugNameOptions = await clientService.getDrugNames(searchStr);
+    return (drugNameOptions || []).map(transformPrescriptionOptions);
+  };
+
   const onClose = (ev) => {
-    setSelectedValue(null);
+    setDrugName("");
+    setSearchString("");
+    setDosage();
+    setQuantity();
+    setfrequency();
     onCloseHandler(ev);
   };
+
   const handleOnPrescriptionSelect = (selectedPrescription) => {
-    // Fetch data related to selectedPrescription.
-    setSelectedValue(selectedPrescription);
+    setDrugName(selectedPrescription);
+    setSearchString(null);
   };
 
-  const handleQuantity = (e) => setQuantity(e.currentTarget.value)
-  
-  const handleChange = () => {
-    setDosageOptions();
+  const handleQuantity = (e) => setQuantity(e.currentTarget.value);
+
+  const handleAddPrecscription = async () => {
+    await onSave({
+      drugID: drugName?.value,
+      dosageID: dosage,
+      quantity: quantity,
+      frequency: frequency,
+      daysOfSupply: 0,
+      ndc: drugName?.ndc,
+    });
+    onClose();
   };
+
+  const isFormValid = useMemo(() => {
+    return Boolean(drugName && quantity && frequency && dosage);
+  }, [drugName, quantity, frequency, dosage]);
 
   const colourStyles = {
     placeholder: (defaultStyles) => {
@@ -172,10 +145,8 @@ export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
                 styles={colourStyles}
                 className="react--select-overide"
                 menuPosition="fixed"
-                value={selectedValue}
-                isClearable={() => selectedValue(null)}
-                cacheOptions
-                defaultOptions={prescriptionOptions}
+                value={drugName}
+                isClearable
                 loadOptions={fetchOptions}
                 onChange={handleOnPrescriptionSelect}
                 components={{
@@ -186,38 +157,43 @@ export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
                 }}
                 placeholder={"Start typing prescription name"}
                 noOptionsMessage={() =>
-                  "Prescription not found, try a different search"
+                  searchString
+                    ? "Prescription not found, try a different search"
+                    : "Start typing prescription name"
                 }
-                menuIsOpen={!selectedValue}
+                menuIsOpen={!drugName}
               />
             </div>
-            {selectedValue && (
+            {drugName && (
               <>
-                <div className="form-element">
-                  <label
-                    className="label--dosage form-input__header"
-                    htmlFor="prescription-dosage"
-                  >
-                    Dosage
-                  </label>
-                  <Select
-                    id="prescription-dosage"
-                    initialValue={selectedDosage}
-                    options={dosageOptions}
-                    placeholder="Prescription dosage"
-                    disabled={dosageOptions.length === 0}
-                    onChange={(value) => setSelectedDosage(value)}
-                  />
-                </div>
-                <div className="form-element quantity-frequency-container">
-                  <Textfield
-                    id="quantity"
-                    className="quantity"
-                    label="Quantity"
-                    value={quantity}
-                    onChange={handleQuantity}
-                  />
-                  <div>
+                <div className="edit--prescription__wrapper">
+                  <div className="form-element edit--prescription--dosage">
+                    <label
+                      className="label--dosage form-input__header"
+                      htmlFor="prescription-dosage"
+                    >
+                      Dosage
+                    </label>
+                    <Select
+                      id="prescription-dosage"
+                      initialValue={dosage}
+                      options={DOSAGE_OPTIONS}
+                      labelPrefix={`${drugName?.label} tablet `}
+                      prefix={`${drugName?.label} tablet`}
+                      placeholder="Prescription dosage"
+                      onChange={setDosage}
+                    />
+                  </div>
+                  <div className="form-element edit--prescription--quantity">
+                    <Textfield
+                      id="quantity"
+                      className="quantity"
+                      label="Quantity"
+                      value={quantity}
+                      onChange={handleQuantity}
+                    />
+                  </div>
+                  <div className="form-element edit--prescription--frequency">
                     <label
                       className="label--frequency form-input__header"
                       htmlFor="prescription-frequency"
@@ -225,14 +201,15 @@ export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
                       Frequency
                     </label>
                     <Select
+                      initialValue={frequency}
                       id="prescription-frequency"
-                      options={frequency}
+                      options={FREQUENCY_OPTIONS}
                       placeholder="Select frequency"
-                      onChange={(value) => setSelectedDosage(value)}
+                      onChange={setfrequency}
                     />
                   </div>
                 </div>
-                <div className="form-element">
+                {/*<div className="form-element">
                   <label
                     className="label--packaging form-input__header"
                     htmlFor="prescription-packaging"
@@ -241,13 +218,13 @@ export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
                   </label>
                   <Select
                     id="prescription-packaging"
-                    initialValue={selectedDosage}
+                    initialValue={dosage}
                     options={dosageOptions}
                     placeholder="Prescription Packaging"
                     disabled={dosageOptions.length === 0}
-                    onChange={(value) => setSelectedDosage(value)}
+                    onChange={(value) => setDosage(value)}
                   />
-                </div>
+                </div> */}
               </>
             )}
           </div>
@@ -259,7 +236,11 @@ export default function AddPrescription({ isOpen, onClose: onCloseHandler }) {
               onClick={onClose}
               type="secondary"
             />
-            <Button label="Add Prescription" onClick={() => {}} />
+            <Button
+              label="Add Prescription"
+              onClick={handleAddPrecscription}
+              disabled={!isFormValid}
+            />
           </div>
         </div>
       </Modal>
