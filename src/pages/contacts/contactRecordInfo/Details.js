@@ -18,7 +18,6 @@ export default (props) => {
     pharmacies,
     prescriptions,
     isLoading,
-    isSaving,
     addPharmacy,
     addPrescription,
     editPrescription,

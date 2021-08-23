@@ -5,6 +5,7 @@ import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
+import CloseIcon from "components/icons/close";
 import Options from "utils/Options";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DOSAGE_OPTIONS from "utils/dosageOptions";
@@ -95,6 +96,11 @@ export default function AddPrescription({
     return Boolean(drugName && quantity && frequency && dosage);
   }, [drugName, quantity, frequency, dosage]);
 
+  const handleCloseDrugname = () => {
+    setDrugName("");
+    setSearchString("");
+  };
+
   const colourStyles = {
     placeholder: (defaultStyles) => {
       return {
@@ -118,6 +124,7 @@ export default function AddPrescription({
   return (
     <div>
       <Modal
+        size="lg"
         wide={true}
         open={isOpen}
         onClose={onClose}
@@ -133,41 +140,52 @@ export default function AddPrescription({
             </h2>
           </div>
           <div className="dialog--body">
-            <div className="form-element">
-              <label
-                className="label--prescription form-input__header"
-                htmlFor="prescription-name"
-              >
-                Prescription name
-              </label>
-              <Typeahead
-                id="prescription-name"
-                styles={colourStyles}
-                className="react--select-overide"
-                menuPosition="fixed"
-                value={drugName}
-                isClearable
-                loadOptions={fetchOptions}
-                onChange={handleOnPrescriptionSelect}
-                components={{
-                  Menu,
-                  Option: CustomOption,
-                  DropdownIndicator: () => null,
-                  IndicatorSeparator: () => null,
-                }}
-                placeholder={"Start typing prescription name"}
-                noOptionsMessage={() =>
-                  searchString
-                    ? "Prescription not found, try a different search"
-                    : "Start typing prescription name"
-                }
-                menuIsOpen={!drugName}
-              />
-            </div>
+            {drugName && (
+              <section className="mt-2 mb-2 display--drug--name">
+                <div className="icon-align" onClick={handleCloseDrugname}>
+                  <CloseIcon />
+                </div>
+                <div className="pl-2 drug--name">{drugName?.label}</div>
+                <div className="pl-2 drug--type">{drugName?.description}</div>
+              </section>
+            )}
+            {!drugName && (
+              <div className="form-element">
+                <label
+                  className="label--prescription form-input__header"
+                  htmlFor="prescription-name"
+                >
+                  Prescription name
+                </label>
+                <Typeahead
+                  id="prescription-name"
+                  styles={colourStyles}
+                  className="react--select-overide"
+                  menuPosition="fixed"
+                  value={drugName}
+                  isClearable
+                  loadOptions={fetchOptions}
+                  onChange={handleOnPrescriptionSelect}
+                  components={{
+                    Menu,
+                    Option: CustomOption,
+                    DropdownIndicator: () => null,
+                    IndicatorSeparator: () => null,
+                  }}
+                  placeholder={"Start typing prescription name"}
+                  noOptionsMessage={() =>
+                    searchString
+                      ? "Prescription not found, try a different search"
+                      : "Start typing prescription name"
+                  }
+                  menuIsOpen={!drugName}
+                />
+              </div>
+            )}
             {drugName && (
               <>
-                <div className="edit--prescription__wrapper">
-                  <div className="form-element edit--prescription--dosage">
+                <div className="prescription__wrapper">
+                  <div className="form-element prescription--dosage">
                     <label
                       className="label--dosage form-input__header"
                       htmlFor="prescription-dosage"
@@ -184,7 +202,7 @@ export default function AddPrescription({
                       onChange={setDosage}
                     />
                   </div>
-                  <div className="form-element edit--prescription--quantity">
+                  <div className="form-element prescription--quantity">
                     <Textfield
                       id="quantity"
                       className="quantity"
@@ -193,7 +211,7 @@ export default function AddPrescription({
                       onChange={handleQuantity}
                     />
                   </div>
-                  <div className="form-element edit--prescription--frequency">
+                  <div className="form-element prescription--frequency">
                     <label
                       className="label--frequency form-input__header"
                       htmlFor="prescription-frequency"
@@ -204,7 +222,7 @@ export default function AddPrescription({
                       initialValue={frequency}
                       id="prescription-frequency"
                       options={FREQUENCY_OPTIONS}
-                      placeholder="Select frequency"
+                      placeholder="Select"
                       onChange={setfrequency}
                     />
                   </div>

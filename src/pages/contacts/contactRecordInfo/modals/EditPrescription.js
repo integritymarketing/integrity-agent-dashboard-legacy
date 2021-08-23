@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useMemo } from "react";
 import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
@@ -31,8 +31,12 @@ export default function EditPrescription({
       quantity,
       frequency,
     });
-    onClose()
+    onClose();
   };
+
+  const isFormEdit = useMemo(() => {
+    return Boolean(quantity && frequency && dosage);
+  }, [quantity, frequency, dosage]);
 
   return (
     <div>
@@ -57,8 +61,8 @@ export default function EditPrescription({
               <div className="pt-2 pl-2 drug--name">{drugName}</div>
               <div className="pl-2 drug--type">{drugType}</div>
             </section>
-            <div className="edit--prescription__wrapper">
-              <div className="form-element edit--prescription--dosage">
+            <div className="prescription__wrapper">
+              <div className="form-element prescription--dosage">
                 <label
                   className="label--dosage form-input__header"
                   htmlFor="prescription-dosage"
@@ -75,7 +79,7 @@ export default function EditPrescription({
                   onChange={(value) => setDosage(value)}
                 />
               </div>
-              <div className="form-element edit--prescription--quantity">
+              <div className="form-element prescription--quantity">
                 <Textfield
                   id="quantity"
                   className="quantity"
@@ -84,7 +88,7 @@ export default function EditPrescription({
                   onChange={handleQuantity}
                 />
               </div>
-              <div className="form-element edit--prescription--frequency">
+              <div className="form-element prescription--frequency">
                 <label
                   className="label--frequency form-input__header"
                   htmlFor="prescription-frequency"
@@ -109,7 +113,11 @@ export default function EditPrescription({
               onClick={onClose}
               type="secondary"
             />
-            <Button label="Save Changes" onClick={handleSave} />
+            <Button
+              label="Save Changes"
+              onClick={handleSave}
+              disabled={!isFormEdit}
+            />
           </div>
         </div>
       </Modal>
