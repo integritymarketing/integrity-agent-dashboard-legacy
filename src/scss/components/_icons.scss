@@ -5,7 +5,7 @@
 .icon-btn {
   border: 0;
   background: none;
-  width: 2rem;
+  width: 3rem;
   height: 2rem;
   display: inline-flex;
   align-items: center;
@@ -62,4 +62,9 @@
   font-weight: 400;
   line-height: (16/14);
   letter-spacing: -0.25px;
+}
+
+.provider-close {
+  padding-top: 40px;
+  padding-left: 32px;
 }

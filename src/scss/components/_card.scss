@@ -112,3 +112,16 @@
     }
   }
 }
+
+.provider-modal {
+  width: 736px;
+  margin: 0 auto;
+  border-radius: initial;
+  min-height: 80vh !important;
+  @media (min-width: 768px) {
+    padding: 2.438rem 4.438rem 0 4.438rem;
+  }
+  @media (max-width: 768px) {
+    width:auto;
+  }
+}
