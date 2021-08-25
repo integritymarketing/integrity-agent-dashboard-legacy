@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useMemo } from "react";
+import React, { useState, Fragment, useMemo, useEffect } from "react";
 import Typeahead from "react-select/async";
 import { components } from "react-select";
 import { Select } from "components/ui/Select";
@@ -10,6 +10,7 @@ import Options from "utils/Options";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DOSAGE_OPTIONS from "utils/dosageOptions";
 import clientService from "services/clientsService";
+import analyticsService from "services/analyticsService";
 import "./modals.scss";
 
 const CustomOption = ({ innerRef, innerProps, data }) => {
@@ -51,6 +52,13 @@ export default function AddPrescription({
   onClose: onCloseHandler,
   onSave,
 }) {
+
+  useEffect(() => {
+    analyticsService.fireEvent("event-modal-appear", {
+      modalName: "Add Prescription",
+    });
+  }, []);
+
   const [drugName, setDrugName] = useState("");
   const [searchString, setSearchString] = useState("");
   const [dosage, setDosage] = useState();
@@ -122,7 +130,7 @@ export default function AddPrescription({
   };
 
   return (
-    <div>
+    <div className="prescription--modal">
       <Modal
         size="lg"
         wide={true}
@@ -253,11 +261,13 @@ export default function AddPrescription({
               label="Cancel"
               onClick={onClose}
               type="secondary"
+              data-gtm="button-save"
             />
             <Button
               label="Add Prescription"
               onClick={handleAddPrecscription}
               disabled={!isFormValid}
+              data-gtm="button-cancel"
             />
           </div>
         </div>

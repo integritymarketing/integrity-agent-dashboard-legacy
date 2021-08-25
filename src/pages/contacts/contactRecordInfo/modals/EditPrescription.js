@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
@@ -6,6 +6,7 @@ import Textfield from "components/ui/textfield";
 import "./modals.scss";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DOSAGE_OPTIONS from "utils/dosageOptions";
+import analyticsService from "services/analyticsService";
 
 export default function EditPrescription({
   isOpen,
@@ -13,6 +14,13 @@ export default function EditPrescription({
   item,
   onSave,
 }) {
+
+  useEffect(() => {
+    analyticsService.fireEvent("event-modal-appear", {
+      modalName: "Edit Prescription",
+    });
+  }, []);
+
   const { drugName, drugType } = item;
   const [dosage, setDosage] = useState();
   const [quantity, setQuantity] = useState();
@@ -39,7 +47,7 @@ export default function EditPrescription({
   }, [quantity, frequency, dosage]);
 
   return (
-    <div>
+    <div className="prescription--modal">
       <Modal
         size="lg"
         wide={true}
@@ -112,11 +120,13 @@ export default function EditPrescription({
               label="Cancel"
               onClick={onClose}
               type="secondary"
+              data-gtm="button-save"
             />
             <Button
               label="Save Changes"
               onClick={handleSave}
               disabled={!isFormEdit}
+              data-gtm="button-cancel"
             />
           </div>
         </div>
