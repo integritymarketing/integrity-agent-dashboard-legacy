@@ -26,11 +26,10 @@ function DetailsCard({
     titleToAdd = titleToAdd.slice(0, -1);
   }
   const itemsLength = items?.length > 0 ? items.length : "";
-  console.log("items", items);
   const displayTitleWithCount =
     itemsLength > 1
       ? `${headerTitle} (${itemsLength})`
-      : headerTitle === "Pharamacies"
+      : headerTitle === "Pharmacies"
       ? `Pharmacy ${itemsLength}`
       : `${headerTitle.slice(0, -1)} ${itemsLength}`;
 

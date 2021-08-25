@@ -106,7 +106,6 @@ class ClientsService {
   };
 
   bulkCreateClients = async (clients) => {
-    console.log("Process", process);
     const reqData = clients.map((client) => this._getFormattedData(client));
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkuploadleads`,
