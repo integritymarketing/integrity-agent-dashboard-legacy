@@ -13,21 +13,29 @@ import styles from "./PlansPage.module.scss";
 import SortIcon from "components/icons/sort";
 import { PLAN_SORT_OPTIONS } from "../constants";
 import EffectiveDateFilter from "components/ui/EffectiveDateFilter";
+import plansService from "services/plansService";
+import { getNextEffectiveDate } from "utils/dates";
 
+const EFFECTIVE_YEARS_SUPPORTED = [2022];
 export default () => {
   const { contactId: id } = useParams();
   const [contact, setContact] = useState();
-  const [plansAvailable] = useState(14); // TODO: Replace with real number of available once available
+  const [plansAvailableCount, setPlansAvailableCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [, /*sort*/ setSort] = useState("premium:desc");
-  const [, /*effectiveDate*/ setEffectiveDate] = useState();
-
+  const [sort, setSort] = useState("premium:asc");
+  const [effectiveDate, setEffectiveDate] = useState(
+    getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
+  );
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await clientsService.getContactInfo(id);
-      setContact(data);
+      const [contactData, plansData] = await Promise.all([
+        clientsService.getContactInfo(id),
+        plansService.getAllPlans(id),
+      ]);
+      setPlansAvailableCount(plansData.medicarePlans.length);
+      setContact(contactData);
     } catch (e) {
       Sentry.captureException(e);
     } finally {
@@ -35,9 +43,21 @@ export default () => {
     }
   }, [id]);
 
+  const filterPlans = useCallback(async () => {
+    const plansData = await plansService.filterPlans(id, {
+      sort: sort,
+      date: effectiveDate.toISOString(),
+    });
+    setPlansAvailableCount(plansData.medicarePlans.length);
+  }, [id, sort, effectiveDate]);
+
   useEffect(() => {
     getContactRecordInfo();
   }, [getContactRecordInfo]);
+
+  useEffect(() => {
+    filterPlans();
+  }, [filterPlans]);
 
   const isLoading = loading;
   return (
@@ -70,9 +90,13 @@ export default () => {
         <Container className={`${styles["search-container"]}`}>
           <div className={`${styles["filters"]}`}>
             <div className={`${styles["section"]}`}>
-              <EffectiveDateFilter
-                onChange={(date) => setEffectiveDate(date)}
-              />
+              {effectiveDate && (
+                <EffectiveDateFilter
+                  years={EFFECTIVE_YEARS_SUPPORTED}
+                  initialValue={effectiveDate}
+                  onChange={(date) => setEffectiveDate(date)}
+                />
+              )}
             </div>
           </div>
           <div className={`${styles["results"]}`}>
@@ -80,14 +104,14 @@ export default () => {
               <div className={`${styles["plans-available"]}`}>
                 <span className={`${styles["plans-type"]}`}>
                   {/* TODO specifiy type based on filters. i.e. "10 Mediacre Suppliment plans based on your filters" */}
-                  {plansAvailable} Medicare Suppliment plans
+                  {plansAvailableCount} Medicare Suppliment plans
                 </span>{" "}
                 based on your filters
               </div>
               <div className={`${styles["sort-select"]}`}>
                 <Select
                   mobileLabel={<SortIcon />}
-                  initialValue="premium:desc"
+                  initialValue="premium:asc"
                   onChange={(value) => setSort(value)}
                   options={PLAN_SORT_OPTIONS}
                   prefix="Sort by: "

@@ -2,6 +2,7 @@ import React from "react";
 import { action } from "@storybook/addon-actions";
 
 import EffectiveDateFilter from "components/ui/EffectiveDateFilter";
+import { getNextEffectiveDate } from "utils/dates";
 
 export default {
   title: "Design System/EffectiveDateFilter",
@@ -14,7 +15,13 @@ const Template = (args) => (
   </div>
 );
 
+var nextEffectiveDate = getNextEffectiveDate([2021, 2022]);
 export const EffectiveDateFilterCustom = Template.bind({});
 EffectiveDateFilterCustom.args = {
-  onChange: action("on change"),
+  years: [2021, 2022],
+  onChange: (value) => {
+    nextEffectiveDate = value;
+    action("on change")(nextEffectiveDate);
+  },
+  initialValue: nextEffectiveDate,
 };

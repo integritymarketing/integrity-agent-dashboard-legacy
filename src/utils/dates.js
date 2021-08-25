@@ -97,3 +97,18 @@ export const getOverDue = (value) => {
   }
   return false;
 };
+
+export const getNextEffectiveDate = (years) => {
+  const now = new Date();
+
+  for (const year of years) {
+    if (year === now.getFullYear()) {
+      now.setMonth(now.getMonth() + 1);
+      return now;
+    } else if (year > now.getFullYear()) {
+      now.setFullYear(year);
+      now.setMonth(0);
+      return now;
+    }
+  }
+};

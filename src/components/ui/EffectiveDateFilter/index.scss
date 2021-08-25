@@ -4,7 +4,7 @@
   font-size: 14px;
 
   .header {
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     font-weight: 600;
   }
 
@@ -12,26 +12,6 @@
     width: 100%;
     font-weight: normal;
     display: block;
-    line-height: 21px;
-    margin-bottom: 8px;
-
-    input {
-      margin-right: 12px;
-    }
-  }
-
-  .form-input--textfield {
-    width: 123px;
-    margin-left: 25px;
-    color: #2b323b;
-
-    input,
-    input::placeholder {
-      font-size: 14px;
-
-      &[disabled] {
-        color: #64748b;
-      }
-    }
+    color: var(--v2-dark-gray);
   }
 }
