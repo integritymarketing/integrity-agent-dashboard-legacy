@@ -3,26 +3,36 @@ import Media from "react-media";
 import "./detailstable.scss";
 
 function DetailsTable({ items, Row, onDelete, onEdit }) {
-  const editButton = item => onEdit ? (
-    <div className="bottom-actions">
-      <button className="edit" onClick={() => onEdit(item)}>
-        Edit
-      </button>
-    </div>
-  ) : null;
-  const deleteButton = item => onDelete ? (
-    <div className="side-actions">
-      <button className="delete" onClick={() => onDelete(item)}>
-        Delete
-      </button>
-    </div>
-  ) : null;
+  const editButton = (item) =>
+    onEdit ? (
+      <div className="bottom-actions">
+        <button
+          className="edit"
+          data-gtm="buton-edit"
+          onClick={() => onEdit(item)}
+        >
+          Edit
+        </button>
+      </div>
+    ) : null;
+  const deleteButton = (item) =>
+    onDelete ? (
+      <div className="side-actions">
+        <button
+          className="delete"
+          data-gtm="buton-delete"
+          onClick={() => onDelete(item)}
+        >
+          Delete
+        </button>
+      </div>
+    ) : null;
 
   return (
     <div className="details-table">
       {items.map((item, idx) => (
         <div className="row-group" key={idx}>
-          { Row && <Row className="row" item={item} /> }
+          {Row && <Row className="row" item={item} />}
           <Media
             queries={{
               large: "(min-width: 768px)",

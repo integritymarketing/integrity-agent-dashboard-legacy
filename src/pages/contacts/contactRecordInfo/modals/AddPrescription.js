@@ -54,10 +54,12 @@ export default function AddPrescription({
 }) {
 
   useEffect(() => {
-    analyticsService.fireEvent("event-modal-appear", {
-      modalName: "Add Prescription",
-    });
-  }, []);
+    if (isOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Add Prescription",
+      });
+    }
+  }, [isOpen]);
 
   const [drugName, setDrugName] = useState("");
   const [searchString, setSearchString] = useState("");

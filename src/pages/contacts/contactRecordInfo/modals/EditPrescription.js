@@ -14,12 +14,13 @@ export default function EditPrescription({
   item,
   onSave,
 }) {
-
   useEffect(() => {
-    analyticsService.fireEvent("event-modal-appear", {
-      modalName: "Edit Prescription",
-    });
-  }, []);
+    if (isOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Edit Prescription",
+      });
+    }
+  }, [isOpen]);
 
   const { drugName, drugType } = item;
   const [dosage, setDosage] = useState();
