@@ -505,6 +505,48 @@ class ClientsService {
 
     return response;
   };
+
+  getLeadProviders = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/ProviderSearchLookup`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  createLeadProvider = async (leadId, data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
+      "POST",
+      data
+    );
+
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error("Create Lead failed.");
+  };
+
+  deleteProvider = async (leadId, npi) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${npi}`,
+      "DELETE"
+    );
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Delete Lead failed.");
+  };
+
+  searchProviders = async (query) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Providers?${query}`,
+      "GET"
+    );
+
+    return response.json();
+  };
 }
 
 export default new ClientsService();

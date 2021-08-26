@@ -25,7 +25,7 @@ export default (leadId) => {
       }
     };
     getData();
-  }, [setPharmacies, setProviders, setPrescriptions, setIsLoading]);
+  }, [setPharmacies, setProviders, setPrescriptions, setIsLoading, leadId]);
 
   const addPrescription = async (item) => {
     try {
@@ -125,6 +125,7 @@ export default (leadId) => {
     prescriptions,
     isLoading,
     isSaving,
+    setIsSaving,
     addPharmacy,
     addPrescription,
     editPrescription,

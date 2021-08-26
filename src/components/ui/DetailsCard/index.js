@@ -15,6 +15,8 @@ function DetailsCard({
   onDelete,
   onEdit,
   isLoading = false,
+  itemRender = () => null,
+  provider,
 }) {
   const title = headerTitle.toLowerCase();
   let titleToAdd = title;
@@ -28,8 +30,8 @@ function DetailsCard({
     itemsLength > 1
       ? `${headerTitle} (${itemsLength})`
       : headerTitle === "Pharmacies"
-      ? `Pharmacy ${itemsLength && `(${itemsLength})`}`
-      : `${headerTitle.slice(0, -1)} ${itemsLength && `(${itemsLength})`}`;
+      ? `Pharmacy ${itemsLength}`
+      : `${headerTitle.slice(0, -1)} ${itemsLength}`;
 
   return (
     <div className="details-card">
@@ -61,7 +63,7 @@ function DetailsCard({
             </div>
           </WithLoader>
         )}
-        {items.length > 0 && (
+        {items.length > 0 && !provider && (
           <DetailsTable
             items={items}
             Row={Row}
@@ -69,6 +71,7 @@ function DetailsCard({
             onEdit={onEdit}
           />
         )}
+        {items.map(itemRender)}
       </div>
     </div>
   );
