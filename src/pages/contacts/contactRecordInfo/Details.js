@@ -15,7 +15,6 @@ import useToast from "./../../../hooks/useToast";
 import "./details.scss";
 
 export default (props) => {
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
@@ -25,7 +24,6 @@ export default (props) => {
     pharmacies,
     prescriptions,
     isLoading,
-    addPharmacy,
     addPrescription,
     editPrescription,
     deletePrescription,
@@ -33,10 +31,10 @@ export default (props) => {
   } = useLeadInformation(props.id);
   const onAddNewPrescription = () => setIsOpenPrescription(true);
   const onCloseNewPrescription = () => setIsOpenPrescription(false);
-  const onEditPrescription = (item) => { 
+  const onEditPrescription = (item) => {
     setIsOpenEditPrescription(true);
-    setPrescriptionToEdit(item)
-  }
+    setPrescriptionToEdit(item);
+  };
   const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
   const onAddNewPharmacy = () => setIsOpenPharmacy(true);
   const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
@@ -61,10 +59,7 @@ export default (props) => {
     ];
     await fetchProviders();
     try {
-      await clientsService.createLeadProvider(
-        props.id,
-        request
-      );
+      await clientsService.createLeadProvider(props.id, request);
       fetchProviders();
       addToast({
         type: "success",
@@ -127,10 +122,7 @@ export default (props) => {
     return (
       <div className={className}>
         <CellData header={item.drugName} />
-        <CellData
-          subText={`${item.daysOfSupply} capsule per day`}
-          subText={item.ndc}
-        />
+        <CellData subText={`${item.daysOfSupply} capsule per day`} />
       </div>
     );
   };
@@ -157,7 +149,7 @@ export default (props) => {
         {props.isEdit ? <EditForm {...props} /> : <ContactDetails {...props} />}
       </div>
       <div className="detailscard-container">
-      {isOpen && (
+        {isOpen && (
           <AddProvider
             isOpen={isOpen}
             onClose={onClose}
