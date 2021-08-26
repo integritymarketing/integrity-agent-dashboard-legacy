@@ -25,6 +25,7 @@ export default (props) => {
     prescriptions,
     isLoading,
     addPrescription,
+    addPharmacy,
     editPrescription,
     deletePrescription,
     deletePharmacy,
@@ -156,18 +157,25 @@ export default (props) => {
             personalInfo={props.personalInfo}
           />
         )}
+
         <AddPrescription
           isOpen={isOpenPrescription}
           onClose={onCloseNewPrescription}
           onSave={addPrescription}
         />
+
         <EditPrescription
           isOpen={isOpenEditPrescription}
           onClose={onCloseEditPrescription}
           item={prescriptionToEdit}
           onSave={editPrescription}
         />
-        <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} />
+        <AddPharmacy
+          isOpen={isOpenPharmacy}
+          onClose={onCloseNewPharmacy}
+          personalInfo={props.personalInfo}
+          onSave={addPharmacy}
+        />
         <DetailsCard
           headerTitle="Providers"
           onAddClick={onAddNewProvider}

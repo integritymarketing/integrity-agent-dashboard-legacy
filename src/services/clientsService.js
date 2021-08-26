@@ -258,26 +258,31 @@ class ClientsService {
       contactRecordType,
       notes,
     };
-    reqData.emails = [
-      {
-        emailID,
-        leadEmail: email,
-      },
-    ];
-    reqData.phones = [
-      {
-        phoneId,
-        ...phones,
-        leadPhone: this._getFormattedPhone(phones.leadPhone),
-      },
-    ];
-
-    reqData.addresses = [
-      {
-        leadAddressId,
-        ...address,
-      },
-    ];
+    if (email) {
+      reqData.emails = [
+        {
+          emailID: emailID,
+          leadEmail: email,
+        },
+      ];
+    }
+    if (phones?.leadPhone) {
+      reqData.phones = [
+        {
+          phoneId: phoneId,
+          ...phones,
+          leadPhone: this._getFormattedPhone(phones.leadPhone),
+        },
+      ];
+    }
+    if (address?.address1) {
+      reqData.addresses = [
+        {
+          leadAddressId: leadAddressId,
+          ...address,
+        },
+      ];
+    }
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${reqData.leadsId}`,
       "PUT",
@@ -407,17 +412,11 @@ class ClientsService {
   };
 
   getCounties = async (zipcode) => {
-    const opts = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const response = await fetch(
-      `https://us-zipcode.api.smartystreets.com/lookup?auth-id=9eaf8801-11aa-d0e7-291c-44a193b2921e&auth-token=lgz0BxKaSOXn3hUu0Ty3&zipcode=${zipcode}`,
-      opts
+    const response = await this._clientAPIRequest(
+      `https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
+      "GET"
     );
+
     return response.json();
   };
 
@@ -427,26 +426,26 @@ class ClientsService {
       "GET"
     );
 
-    return response.json().then(res => res || [])
+    return response.json().then((res) => res || []);
   };
-  
+
   getLeadProviders = async (leadId) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
       "GET"
     );
 
-    return response.json().then(res => res || [])
+    return response.json().then((res) => res || []);
   };
-  
+
   getLeadPrescriptions = async (leadId) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
       "GET"
     );
-    return response.json().then(res => res || [])
+    return response.json().then((res) => res || []);
   };
-  
+
   createPrescription = async (leadId, reqData) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
@@ -469,7 +468,7 @@ class ClientsService {
     }
     throw new Error("Update failed.");
   };
-  
+
   deletePrescription = async (leadId, id) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`,
@@ -484,9 +483,9 @@ class ClientsService {
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugName?drugName=${drugName}`,
       "GET"
     );
-    return response.json()
-  }
-  
+    return response.json();
+  };
+
   deletePharmacy = async (leadId, id) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`,
@@ -495,7 +494,7 @@ class ClientsService {
 
     return response;
   };
-  
+
   createPharmacy = async (leadId, reqData) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
@@ -545,6 +544,36 @@ class ClientsService {
       "GET"
     );
 
+    return response.json();
+  };
+
+  searchPharmacies = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
+      "POST",
+      payload
+    );
+
+    return response.json();
+  };
+
+  getLatlongByAddress = async (zipcode, address) => {
+    const opts = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(
+      `  https://api.mapbox.com/geocoding/v5/mapbox.places/${
+        address + zipcode
+      }.json?limit=1&access_token=${
+        process.env.REACT_APP_MAPBOX_GEOCODE_ACCESS_TOKEN
+      }
+        `,
+      opts
+    );
     return response.json();
   };
 }

@@ -9,13 +9,22 @@
 .search-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 
   .filters {
     width: 262px;
-    margin-top: 25px;
+    margin-top: 35px;
     margin-right: 25px;
     flex-grow: 1;
+
+    .section {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 4px;
+      padding-left: 14.5px;
+      padding-right: 14.5px;
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
   }
 
   .results {

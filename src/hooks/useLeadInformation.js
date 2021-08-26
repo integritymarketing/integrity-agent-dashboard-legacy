@@ -61,7 +61,6 @@ export default (leadId) => {
 
   const deletePrescription = async (item) => {
     try {
-      console.log("Delete Prescription", item);
       await clientService.deletePrescription(leadId, item.dosageRecordID);
       await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
@@ -83,7 +82,6 @@ export default (leadId) => {
 
   const addPharmacy = async (item) => {
     try {
-      console.log("Add Prescription", item);
       await clientService.createPharmacy(leadId, item);
       await clientService.getLeadPharmacies(leadId).then(setPharmacies);
       addToast({

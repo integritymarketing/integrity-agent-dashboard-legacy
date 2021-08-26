@@ -361,6 +361,19 @@
     cursor: pointer;
     background: #f4f6fa;
   }
+
+  li.plans-button:hover {
+    background: none;
+  }
+
+  .button {
+    width: 100%;
+    height: 32px;
+    border-radius: 4px;
+    span.label {
+      color: inherit;
+    }
+  }
 }
 
 .clientnotes {
@@ -1163,9 +1176,15 @@ button {
 .text-capitalize {
   text-transform: capitalize;
 }
+
 .mobile-menu {
   display: none;
   transition: 0.5s ease;
+  .button {
+    span.label {
+      color: inherit;
+    }
+  }
 }
 .mobile-select-show {
   display: none;
@@ -1537,8 +1556,9 @@ button {
     color: #a8b4ca;
   }
   .mobile-menu li label > svg > path {
-    fill: #a8b4ca;
+    fill: #61666e;
   }
+
   .mobile-menu-arrow {
     position: absolute;
     top: 25px;

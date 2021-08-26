@@ -187,7 +187,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
               ) : null}
             </div>
 
-            {!isLoading ? (
+            {isLoading ? (
               <div className="spinner-container">
                 <Spinner />
               </div>

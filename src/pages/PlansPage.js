@@ -12,6 +12,7 @@ import WithLoader from "components/ui/WithLoader";
 import styles from "./PlansPage.module.scss";
 import SortIcon from "components/icons/sort";
 import { PLAN_SORT_OPTIONS } from "../constants";
+import EffectiveDateFilter from "components/ui/EffectiveDateFilter";
 
 export default () => {
   const { contactId: id } = useParams();
@@ -20,6 +21,7 @@ export default () => {
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [, /*sort*/ setSort] = useState("premium:desc");
+  const [, /*effectiveDate*/ setEffectiveDate] = useState();
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -66,7 +68,13 @@ export default () => {
           </Container>
         </div>
         <Container className={`${styles["search-container"]}`}>
-          <div className={`${styles["filters"]}`}></div>
+          <div className={`${styles["filters"]}`}>
+            <div className={`${styles["section"]}`}>
+              <EffectiveDateFilter
+                onChange={(date) => setEffectiveDate(date)}
+              />
+            </div>
+          </div>
           <div className={`${styles["results"]}`}>
             <div className={`${styles["sort"]}`}>
               <div className={`${styles["plans-available"]}`}>
