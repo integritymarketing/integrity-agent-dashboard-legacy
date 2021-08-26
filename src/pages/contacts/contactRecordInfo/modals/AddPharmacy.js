@@ -3,14 +3,15 @@ import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Pagination from "components/ui/pagination";
 import ExitIcon from "components/icons/exit";
-import { Button } from "./../../../../stories/examples/Button";
+import { Button } from "stories/examples/Button";
 import "./pharmacy-modal.scss";
 import clientsService from "services/clientsService";
+import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
 import * as Sentry from "@sentry/react";
 
 export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
-  const [zipCode, setZipCode] = useState(personalInfo.addresses[0]?.postalCode);
+  const [zipCode, setZipCode] = useState(personalInfo?.addresses[0]?.postalCode);
   const [radius, setRadius] = useState(5);
 
   const [pharmacyName, setPharmacyName] = useState("");
@@ -25,6 +26,13 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [perPage] = useState(10);
   const totalPages = results ? Math.ceil(results.total / perPage) : 0;
 
+  useEffect(() => {
+    if (isOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Add Pharmacy",
+      });
+    }
+  }, [isOpen]);
   useEffect(() => {
     if (!zipCode || zipCode.length !== 5) {
       setIsLoading(false);
@@ -110,7 +118,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     <div>
       <Modal
         open={isOpen}
-        onClose={onClose}
+        onClose={closeModal}
         size="wide"
         labeledById="dialog_add_provider"
         providerModal={true}
@@ -134,6 +142,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   label="Cancel"
                   onClick={closeModal}
                   style={{ marginRight: 10 }}
+                  data-gtm="button-cancel"
                 />
               </div>
               <div className="pr-add">
@@ -142,6 +151,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   disabled={!selectedPharmacy}
                   label="Add Pharmacy"
                   onClick={handleAddPharmacy}
+                  data-gtm="button-save"
                 />
               </div>
             </div>
