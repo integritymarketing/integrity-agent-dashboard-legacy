@@ -1,44 +1,37 @@
-import React, { useState } from "react";
-import Textfield from "components/ui/textfield";
+import React, { useMemo } from "react";
+import { Select } from "components/ui/Select";
 import "./index.scss";
 import "scss/_forms.scss";
 
-export default function EffectiveDateFilter({ onChange, date }) {
-  var [isCustom, setIsCustom] = useState(false);
+export default function EffectiveDateFilter({ years, initialValue, onChange }) {
+  const options = useMemo(() => {
+    const options = [];
+    const now = new Date();
+    for (const year of years) {
+      var i = year === now.getFullYear() ? now.getMonth() + 1 : 0;
+      while (i < 12) {
+        var date = new Date(initialValue);
+        date.setMonth(i);
+        date.setFullYear(year);
+        options.push({
+          label: `${date.getFullYear()} ${date.toLocaleString("default", {
+            month: "long",
+          })}`,
+          value: date.toISOString(),
+        });
+        i++;
+      }
+    }
+    return options;
+  }, [years, initialValue]);
+
   return (
-    <div
-      class="effective-date-filter"
-      onChange={(e) => setIsCustom(e.target.value === "custom")}
-    >
-      <div class="header">Effective Date</div>
-      <label class="option" for="annual">
-        <input
-          type="radio"
-          id="annual"
-          name="type"
-          value="annual"
-          defaultChecked
-          onChange={() => onChange()}
-        />
-        Annual
-      </label>
-      <label class="option" for="custom">
-        <input
-          type="radio"
-          id="custom"
-          name="type"
-          value="custom"
-          onChange={() => onChange(date)}
-        />
-        Custom
-      </label>
-      <Textfield
-        value={isCustom ? date : null}
-        format="mm/dd/yyyy"
-        placeholder="mm/dd/yyyy"
-        type="date"
-        disabled={!isCustom}
-        onDateChange={(date) => onChange(date)}
+    <div className="effective-date-filter">
+      <div className="header">Effective Date</div>
+      <Select
+        initialValue={initialValue.toISOString()}
+        onChange={(value) => onChange(new Date(value))}
+        options={options}
       />
     </div>
   );
