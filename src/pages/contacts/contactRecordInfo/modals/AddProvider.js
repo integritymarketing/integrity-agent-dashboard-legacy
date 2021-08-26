@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useEffect } from "react";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Pagination from "components/ui/pagination";
 import ExitIcon from "components/icons/exit";
-import { Button } from "./../../../../stories/examples/Button";
-import "./provider-modal.scss";
+import { Button } from "stories/examples/Button";
 import clientsService from "services/clientsService";
+import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
+import "./provider-modal.scss";
 
 function encodeQueryData(data) {
   const ret = [];
@@ -31,6 +32,13 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
   const filteredResults = results?.providers || [];
   const totalPages = results ? Math.ceil(results.total / perPage) : 0;
 
+  useEffect(() => {
+    if (isOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Add Provider",
+      });
+    }
+  }, [isOpen]);
   useEffect(() => {
     if (!zipCode || zipCode.length !== 5 || !searchText) {
       setIsLoading(false);
@@ -87,6 +95,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
                   label="Cancel"
                   onClick={onClose}
                   style={{ marginRight: 10 }}
+                  data-gtm="button-save"
                 />
               </div>
               <div className="pr-add">
@@ -95,6 +104,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
                   disabled={!selectedProvider}
                   label="Add Provider"
                   onClick={onClose}
+                  data-gtm="button-cancel"
                 />
               </div>
             </div>
