@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Pagination from "components/ui/pagination";
