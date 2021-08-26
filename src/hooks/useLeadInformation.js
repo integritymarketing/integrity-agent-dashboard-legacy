@@ -9,8 +9,8 @@ export default (leadId) => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-
   const addToast = useToast();
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -36,6 +36,10 @@ export default (leadId) => {
       });
     } catch (err) {
       Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to add prescription",
+      });
     }
   };
 
@@ -43,11 +47,15 @@ export default (leadId) => {
     try {
       await clientService.editPrescription(leadId, item);
       addToast({
-        message: "Prescription Edited",
+        message: "Prescription updated successfully",
       });
       await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
     } catch (err) {
       Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to updated prescription",
+      });
     }
   };
 
@@ -66,6 +74,10 @@ export default (leadId) => {
       });
     } catch (err) {
       Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to delete prescription",
+      });
     }
   };
 
@@ -78,7 +90,13 @@ export default (leadId) => {
         message: "Pharmacy Added",
         time: 10000,
       });
-    } catch (err) {}
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to add pharmacy",
+      });
+    }
   };
 
   const deletePharmacy = async (item) => {
@@ -94,6 +112,10 @@ export default (leadId) => {
       });
     } catch (err) {
       Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to delete pharmacy",
+      });
     }
   };
 
