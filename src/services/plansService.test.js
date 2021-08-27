@@ -37,13 +37,3 @@ it("plansService filterPlans with filter", async () => {
     plansFilter
   );
 });
-
-it("plansService getAllPlans", async () => {
-  const mockResponse = new Response();
-  const json = jest.spyOn(mockResponse, "json");
-  json.mockReturnValue({ medicarePlans: [] });
-  plansService._clientAPIRequest.mockResolvedValue(mockResponse);
-  await plansService.getAllPlans(123);
-  expect(_clientAPIRequest).toHaveBeenCalledTimes(1);
-  expect(_clientAPIRequest).toHaveBeenCalledWith("Lead/123/Plan", "GET");
-});

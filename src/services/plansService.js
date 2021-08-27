@@ -3,11 +3,6 @@ import authService from "services/authService";
 export const QUOTES_API_VERSION = "v1.0";
 
 class PlansService {
-  getAllPlans = async (leadId) => {
-    const response = await this._clientAPIRequest(`Lead/${leadId}/Plan`, "GET");
-
-    return response.json();
-  };
   filterPlans = async (leadId, plansFilter) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/Plan/PlansByFilter`,

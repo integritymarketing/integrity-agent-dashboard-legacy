@@ -30,11 +30,7 @@ export default () => {
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
-      const [contactData, plansData] = await Promise.all([
-        clientsService.getContactInfo(id),
-        plansService.getAllPlans(id),
-      ]);
-      setPlansAvailableCount(plansData.medicarePlans.length);
+      const contactData = await clientsService.getContactInfo(id);
       setContact(contactData);
     } catch (e) {
       Sentry.captureException(e);
@@ -44,12 +40,17 @@ export default () => {
   }, [id]);
 
   const filterPlans = useCallback(async () => {
-    const plansData = await plansService.filterPlans(id, {
-      sort: sort,
-      date: effectiveDate.toISOString(),
-    });
-    setPlansAvailableCount(plansData.medicarePlans.length);
-  }, [id, sort, effectiveDate]);
+    if (contact) {
+      const plansData = await plansService.filterPlans(contact.leadsId, {
+        fips: contact.addresses[0].countyFips.toString(),
+        zip: contact.addresses[0].postalCode.toString(),
+        // year: effectiveDate.getFullYear(),
+        year: "2021", // TODO: remove hardcoded year and uncomment above, once API supports 2022
+        sort: sort,
+      });
+      setPlansAvailableCount(plansData.medicarePlans.length);
+    }
+  }, [contact, sort /*, effectiveDate*/]);
 
   useEffect(() => {
     getContactRecordInfo();
