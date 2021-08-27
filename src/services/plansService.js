@@ -26,7 +26,7 @@ class PlansService {
     }
 
     return fetch(
-      `${process.env.REACT_APP_QUOTES_URL}/api/${QUOTES_API_VERSION}/` + path,
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/` + path,
       opts
     );
   };
