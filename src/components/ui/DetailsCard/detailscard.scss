@@ -6,7 +6,7 @@
     margin-top: 26px;
     background: #FFFFFF;
     width: 100%;
-    .header {
+    & > .header {
         border-bottom: 1px solid #E3E8EB;
         height: 83px;
         display: flex;

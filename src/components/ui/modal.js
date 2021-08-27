@@ -13,6 +13,8 @@ export default ({
   descById,
   testId,
   isVideo,
+  providerModal,
+  footer,
   ...props
 }) => {
   const scrollRef = useRef(null);
@@ -58,10 +60,16 @@ export default ({
           aria-labelledby={labeledById}
           aria-describedby={descById}
           data-testid={testId}
+          providerModal={providerModal ? providerModal : false}
         >
           {onClose && (
             <div className="modal__header">
-              <button className="modal__exit icon-btn" onClick={onClose}>
+              <button
+                className={`modal__exit icon-btn ${
+                  providerModal && "provider-close"
+                }`}
+                onClick={onClose}
+              >
                 <ExitIcon />
                 <span className="visually-hidden">Close modal window</span>
               </button>
@@ -69,6 +77,7 @@ export default ({
           )}
           <div className="modal__content">{children}</div>
         </PageCard>
+        {footer && <div className="modal__footer">{footer}</div>}
       </Container>
     </div>
   );
