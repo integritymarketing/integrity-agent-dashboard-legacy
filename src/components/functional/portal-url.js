@@ -3,8 +3,7 @@ import Cookies from "universal-cookie";
 const { parse } = require("tldts");
 
 // The purpose of this component is to tell the common authentication form
-// which portal the auth request came from
-// at time of writing, we have two versions of the portal (lifecenter + medicarecenter)
+// which portal the auth request came from when in the same domain.
 
 export default () => {
   const cookies = new Cookies();

@@ -6,14 +6,18 @@ import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
 import InfoIcon from "components/icons/info";
+import useClientId from "hooks/auth/useClientId";
 
-const resendComfirmEmail = async (npn) => {
-  return authService.sendConfirmationEmail({ npn });
+const resendComfirmEmail = async (params) => {
+  return authService.sendConfirmationEmail(params);
 };
 
 export default () => {
+  const clientId = useClientId();
+
   // TODO v2: Does this need to change from npn to email?
   const params = useQueryParams();
+
   return (
     <React.Fragment>
       <Helmet>
@@ -55,20 +59,35 @@ export default () => {
               </li>
               <li>
                 <div>
-                  <p className="mb-2">
-                    Find the confirmation email from MedicareCENTER
-                    (accounts@medicarecenter.com)
-                  </p>
+                  {clientId === "ILSClient" ? (
+                    <p className="mb-2">
+                      Find the confirmation email from Integrity Lead Store
+                      (IntegrityLeadStore@integritymarketing.com)
+                    </p>
+                  ) : (
+                    <p className="mb-2">
+                      Find the confirmation email from MedicareCENTER
+                      (accounts@medicarecenter.com)
+                    </p>
+                  )}
+
                   <p className="text-body text-body--small">
                     Note: You may need to look in your spam/junk folder
                   </p>
                 </div>
               </li>
               <li>
-                <div>
-                  Click the confirm button in the email to return to
-                  MedicareCENTER for login
-                </div>
+                {clientId === "ILSClient" ? (
+                  <div>
+                    Click the confirm button in the email to return to Integrity
+                    Lead Store for login
+                  </div>
+                ) : (
+                  <div>
+                    Click the confirm button in the email to return to
+                    MedicareCENTER for login
+                  </div>
+                )}
               </li>
             </ol>
           </React.Fragment>

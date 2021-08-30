@@ -5,6 +5,7 @@ export default () => {
   return (
     process.env.REACT_APP_PORTAL_URL ||
     cookies.get("portal_url") ||
+    cookies.get("client_url") ||
     "https://www.medicarecenter.com" // last resort fallback if cookie is removed in auth app.
   );
 };
