@@ -35,6 +35,8 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     addressData && addressData.address2 ? addressData.address2 : "";
   const postalCode =
     addressData && addressData.postalCode ? addressData.postalCode : "";
+  const county =
+    addressData && addressData.county ? addressData.county : notAvailable;
 
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
@@ -155,7 +157,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             </div>
             <div className="custom-w-31 custom-w-25 contact-details-col1 mob-res-margin">
               <p className="contact-details-label">County</p>
-              <span className="contact-details-name">--</span>
+              <span className="contact-details-name">{county}</span>
             </div>
           </div>
         </div>

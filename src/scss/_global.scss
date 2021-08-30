@@ -178,7 +178,7 @@ button {
   }
 
   &--size-wide {
-    max-width: 680px;
+    max-width: 736px;
   }
 
   &--size-lg {
@@ -310,37 +310,36 @@ $spacings: (
 }
 
 .dialog--title {
-  color: #002D72;
+  color: #002d72;
 }
 
 div[class$="MenuList"] {
   margin-right: 20px;
 }
-  /* width */
-  div[class$="MenuList"]::-webkit-scrollbar {
-    width: 4px;
-    padding-right: 10px;
-    }
-    
-    /* Track */
-    div[class$="MenuList"]::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 0 transparent; 
-    border-radius: 0px;
-    }
-    
-    /* Handle */
-    div[class$="MenuList"]::-webkit-scrollbar-thumb {
-    background: #CBD5E1; 
-    border-radius: 4%;
-    }
-    
-    /* Handle on hover */
-    div[class$="MenuList"]::-webkit-scrollbar-thumb:hover {
-    background: #CBD5E1; 
-    }
+/* width */
+div[class$="MenuList"]::-webkit-scrollbar {
+  width: 4px;
+  padding-right: 10px;
+}
 
+/* Track */
+div[class$="MenuList"]::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0 transparent;
+  border-radius: 0px;
+}
 
-.option {
+/* Handle */
+div[class$="MenuList"]::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4%;
+}
+
+/* Handle on hover */
+div[class$="MenuList"]::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+.option__typeahead {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -351,20 +350,22 @@ div[class$="MenuList"] {
   font-family: Lato;
 }
 
-.option > .header {
+.option__typeahead > .header__typeahead {
   font-family: Lato;
   font-size: 16px;
   color: #313336;
 }
-.option > .subHeader {
+.option__typeahead > .subHeader__typeahead {
   color: #64788b;
   font-family: Lato;
   font-size: 12px;
 }
 
-.option:hover {
-   background-color: #F1F5F9;
-  .header {
+.option__typeahead:hover {
+   background-color: #F2F9FF;
+   border: 1px solid #0052CE;
+   border-radius: 4px;
+  .header__typeahead {
       color: #0052CE;
    }
 }
@@ -372,5 +373,5 @@ div[class$="MenuList"] {
 .react--select-overide {
   font-family: Lato;
   font-size: 16px;
-  color: #64748B;
+  color: #64748b;
 }

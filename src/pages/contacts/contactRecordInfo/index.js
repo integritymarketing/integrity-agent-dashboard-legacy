@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -23,13 +23,15 @@ import analyticsService from "services/analyticsService";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
 import ScopeOfAppointment from "./ScopeOfAppointment";
+import { Button } from "components/ui/Button";
 
 // import SOAicon from "components/icons/soa";
 export default () => {
   const { contactId: id } = useParams();
+  const { state = {} } = useLocation();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
   const [duplicateLeadIdName, setDuplicateLeadIdName] = useState();
-  const [personalInfo, setPersonalInfo] = useState({});
+  const [personalInfo, setPersonalInfo] = useState({ addresses: [] });
   const [reminders, setReminders] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -89,7 +91,9 @@ export default () => {
       pagePath: "/contact-record-note-edit/",
     });
     getContactRecordInfo();
-  }, [getContactRecordInfo]);
+    setEdit(state.isEdit);
+    setDisplay(state.display);
+  }, [getContactRecordInfo, state.isEdit, state.display]);
 
   const handleRendering = () => {
     let props = {
@@ -136,6 +140,24 @@ export default () => {
   };
 
   const isLoading = loading;
+
+  const handleViewPlans = (isMobile) => {
+    const county = personalInfo?.addresses[0]?.county;
+    const postalCode = personalInfo?.addresses[0]?.postalCode;
+    if (county && postalCode) {
+      if (isMobile)
+        return <Button label="View Available Plans" type="secondary" />;
+      return <Button label="View Available Plans" type="primary" />;
+    } else
+      return (
+        <Button
+          label="Add Zip Code to View Plans"
+          type="primary"
+          disabled={true}
+        />
+      );
+  };
+
   return (
     <React.Fragment>
       <ToastContextProvider>
@@ -239,6 +261,9 @@ export default () => {
                 </label>
                 <span>Preferences</span>
               </li>
+
+              <li className="plans-button">{handleViewPlans(true)}</li>
+
               {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
 
               {/* <li
@@ -297,6 +322,8 @@ export default () => {
                     </label>
                     <span>Preferences </span>
                   </li>
+                  <li className="plans-button">{handleViewPlans(false)}</li>
+
                   {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
 
                   {/* <li

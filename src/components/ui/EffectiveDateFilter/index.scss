@@ -1,0 +1,17 @@
+.effective-date-filter {
+  color: #2b323b;
+  font-family: Lato;
+  font-size: 14px;
+
+  .header {
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .option {
+    width: 100%;
+    font-weight: normal;
+    display: block;
+    color: var(--v2-dark-gray);
+  }
+}

@@ -1,0 +1,230 @@
+/*provider footer css */
+.dialog--actions-pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  .cancel-btn {
+    margin-right: 10px;
+  }
+
+  .provider-pagination {
+    background: var(--v2-white);
+    /* Neutral/Gray 200 */
+
+    border: 1px solid #e6ecf2;
+    border-radius: 5px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid #e6ecf2;
+      height: 100%;
+      width: 42px;
+      text-align: center;
+    }
+    div:last-child {
+      border-right: none;
+    }
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+
+    .pr-cancl {
+      & button {
+        margin-right: 10px;
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        box-sizing: border-box;
+        border-radius: 4px;
+        color: #0052ce;
+        font-family: Lato;
+      }
+    }
+
+    .pr-add {
+      & button {
+        background: #e6ecf2;
+        border-radius: 4px;
+        background: #0052ce;
+        border-radius: 4px;
+        color: #f8fafc;
+        font-family: Lato;
+      }
+
+      & :disabled {
+        cursor: not-allowed;
+        background: #e6ecf2;
+        color: #64748b;
+      }
+    }
+  }
+}
+/*provider footer css end*/
+
+/*provider Modal container css*/
+.provider-modal-container {
+  padding-bottom: 50px;
+
+  .spinner-container > .spinner {
+    margin: 50px auto;
+  }
+
+  .pr-header-container {
+    display: flex;
+
+    .zip-section {
+      width: 20%;
+
+      .zip-input {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .zip-error {
+        background: #fff2f2 !important;
+        border: 1px solid #cf3c28 !important;
+        color: #2b323b !important;
+        margin-bottom: 5px;
+      }
+    }
+
+    .pr-search-section {
+      width: 70%;
+      margin: 0px 16px;
+
+      .pr-search-input {
+        width: 100%;
+        padding: 10px;
+      }
+    }
+
+    .miles-section {
+      width: 20%;
+
+      .select-container {
+        font-family: Lato;
+        font-style: normal;
+        font-weight: normal;
+        color: #2b323b;
+      }
+    }
+  }
+
+  .pr-title {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 150%;
+    color: #515e6f;
+
+    & input,
+    select {
+      height: 42px;
+      left: 10px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+    }
+
+    & input:disabled {
+      background: #f1f5f9;
+    }
+  }
+
+  .validation-msg {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    color: #cf3c28;
+  }
+
+  .pr-search-result {
+    font-family: Lato;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 150%;
+    color: #475569;
+    padding: 20px 0px;
+  }
+
+  .provider-result-container {
+    :nth-child(1) {
+      padding-top: 0px !important;
+    }
+
+    .provider-result-content {
+      line-height: 130%;
+      padding: 16px 0px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      .pr-h1 {
+        font-family: Lato;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        color: #313336;
+        line-height: 28px;
+      }
+
+      .pr-h2 {
+        font-family: Lato;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        color: #64748b;
+      }
+
+      .provider-content-section {
+        padding: 6px 0px 0px 12px;
+      }
+
+      &.selected {
+        background-color: #f1f5f9;
+      }
+
+      &.selected > .provider-content-section > .pr-h1 {
+        color: #0052ce;
+      }
+    }
+
+    .pr-search-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: "100%";
+      height: 217px;
+      background: #f8fafc;
+      border-radius: 4px;
+    }
+
+    .deselect-pr {
+      color: var(--muted-text-color);
+    }
+  }
+}
+/*provider Modal container css end*/
+
+.modal__footer {
+  border-top: 1px solid #e6ecf2;
+  top: -80px;
+  background-color: white;
+  width: 112.2%;
+  display: flex;
+  align-items: center;
+  padding: 16px 3.438rem;
+}
+
+/*End of Add Provider*/
