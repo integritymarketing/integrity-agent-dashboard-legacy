@@ -9,8 +9,6 @@ export default function ActionsDropDown({
   onClick,
   id,
   className,
-  postalCode,
-  county,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef();
@@ -44,14 +42,6 @@ export default function ActionsDropDown({
             {option.label}
           </div>
         ))}
-
-        {county &&
-          postalCode &&
-          options.map((option) => (
-            <div className="action-dropdown-menu-item" key={option.value2}>
-              <a href="/plans">{option.label2}</a>
-            </div>
-          ))}
       </div>
     </div>
   );
