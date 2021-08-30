@@ -92,7 +92,8 @@ const SSOButtonWithModal = ({ ...props }) => {
         >
           <a
             href={
-              process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
+              process.env.REACT_APP_AUTH_AUTHORITY_URL +
+              "/external/SamlLogin/2021"
             }
             target="_blank"
             rel="noopener noreferrer"
