@@ -122,6 +122,13 @@
     padding: 2.438rem 4.438rem 0 4.438rem;
   }
   @media (max-width: 768px) {
-    width:auto;
+    width: auto;
+  }
+  @media (max-width: 480px) {
+    padding: 18px;
+    min-height: 100vh !important;
+    .select .select-container .inputbox {
+      display: flex;
+    }
   }
 }

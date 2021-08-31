@@ -53,7 +53,7 @@ export default (props) => {
   async function handleUndo(provider) {
     const request = [
       {
-        npi: provider.NPI,
+        npi: provider.NPI.toString(),
         addressId: provider.addresses[0]?.id,
         isPrimary: false,
       },
@@ -191,13 +191,13 @@ export default (props) => {
               >
                 <div className="provider-content">
                   <div className="pr-h1">{item.presentationName}</div>
-                  <div className="pr-h2">
+                  <div className="pr-h2 pr-title-mble">
                     {item.specialty}&nbsp;/&nbsp;{item.title}
                   </div>
                   <div className="pr-h2">{item.email}</div>
                 </div>
                 <div className="provider-content">
-                  <div className="pr-h1">{item.phone}</div>
+                  <div className="pr-h1 pr-phone-mble">{item.phone}</div>
                   <div className="pr-h2">
                     {item.addresses[0].streetLine1},&nbsp;
                   </div>

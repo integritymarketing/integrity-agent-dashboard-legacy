@@ -7,7 +7,9 @@ import { Button } from "components/ui/Button";
 import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
+import Media from "react-media";
 import "./provider-modal.scss";
+import * as Sentry from "@sentry/react";
 
 function encodeQueryData(data) {
   const ret = [];
@@ -22,6 +24,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
   const [zipCode, setZipCode] = useState(personalInfo.addresses[0]?.postalCode);
   const [searchText, setSearchText] = useState("");
   const [radius, setRadius] = useState(10);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -64,11 +67,18 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
       .catch((e) => {
         setIsLoading(false);
         setError(e);
+        Sentry.captureException(e);
       });
   }, [perPage, currentPage, searchText, zipCode, radius]);
 
   return (
     <div>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <Modal
         open={isOpen}
         onClose={onClose}
@@ -76,71 +86,168 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
         labeledById="dialog_add_provider"
         providerModal={true}
         footer={
-          <div className="dialog--actions-pr">
-            {zipCode && totalPages > 1 ? (
-              <Pagination
-                providerPagination
-                currentPage={currentPage}
-                totalPages={totalPages - 1}
-                totalResults={results?.total}
-                pageSize={perPage}
-                onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
-              />
-            ) : (
-              <div />
-            )}
-            <div className="buttons-wrapper">
-              <div className="pr-cancl">
-                <Button
-                  label="Cancel"
-                  onClick={onClose}
-                  style={{ marginRight: 10 }}
-                  data-gtm="button-save"
+          isMobile ? null : (
+            <div className="dialog--actions-pr">
+              {zipCode && totalPages > 1 ? (
+                <Pagination
+                  providerPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages - 1}
+                  totalResults={results?.total}
+                  pageSize={perPage}
+                  onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
                 />
-              </div>
-              <div className="pr-add">
-                {" "}
-                <Button
-                  disabled={!selectedProvider}
-                  label="Add Provider"
-                  onClick={onClose}
-                  data-gtm="button-cancel"
-                />
+              ) : (
+                <div />
+              )}
+              <div className="buttons-wrapper">
+                <div className="pr-cancl">
+                  <Button
+                    label="Cancel"
+                    onClick={onClose}
+                    style={{ marginRight: 10 }}
+                    data-gtm="button-save"
+                  />
+                </div>
+                <div className="pr-add">
+                  {" "}
+                  <Button
+                    disabled={!selectedProvider}
+                    label="Add Provider"
+                    onClick={onClose}
+                    data-gtm="button-cancel"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )
         }
       >
         <div className="dialog--container">
-          <div className="dialog--title">
-            <h2 id="dialog_help_label" className="hdg hdg--2 mb-1">
+          <div className="dialog--title add-pr-title">
+            <h2 id="dialog_help_label" className="hdg hdg--2 mb-1 mble-title">
               Add Provider
             </h2>
           </div>
           <div className="dialog--body provider-modal-container">
-            <div className="pr-header-container">
-              <div className="zip-section">
-                <label className="pr-title">
-                  ZIP Code
-                  <input
-                    type="text"
-                    placeholder="Zip"
-                    value={zipCode}
-                    maxLength="5"
-                    className={`${zipCode.length < 5 && "zip-error"} zip-input`}
-                    onChange={(e) => {
-                      setZipCode(e.target.value);
-                      setCurrentPage(1);
-                      if (!e.target.value || e.target.value.length < 5) {
-                        setSearchText("");
-                      }
-                    }}
-                  />
-                </label>
+            <div className="large-view">
+              <div className="pr-header-container">
+                <div className="zip-section">
+                  <label className="pr-title">
+                    ZIP Code
+                    <input
+                      type="text"
+                      placeholder="Zip"
+                      value={zipCode}
+                      maxLength="5"
+                      className={`${
+                        zipCode.length < 5 && "zip-error"
+                      } zip-input`}
+                      onChange={(e) => {
+                        setZipCode(e.target.value);
+                        setCurrentPage(1);
+                        if (!e.target.value || e.target.value.length < 5) {
+                          setSearchText("");
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="pr-search-section">
+                  <label className="pr-title">
+                    Provider Search
+                    <input
+                      className="pr-search-input"
+                      type="text"
+                      value={searchText}
+                      disabled={zipCode.length < 5}
+                      placeholder="Start typing a provider’s name"
+                      onChange={(e) => {
+                        setSearchText(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="miles-section">
+                  <label className="pr-title">
+                    Distance
+                    <Select
+                      placeholder="select"
+                      showValueAsLabel={true}
+                      providerModal={true}
+                      options={[
+                        { value: 10, label: "10 miles" },
+                        { value: 20, label: "20 miles" },
+                        { value: 30, label: "30 miles" },
+                      ]}
+                      initialValue={10}
+                      onChange={(value) => {
+                        setRadius(value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
+              {zipCode.length < 5 && (
+                <span className="validation-msg">Invalid ZIP Code</span>
+              )}
+            </div>
+
+            <div className="small-view">
+              <div className="pr-header-container">
+                <div className="zip-section">
+                  <label className="pr-title">
+                    ZIP Code
+                    <input
+                      type="text"
+                      placeholder="Zip"
+                      value={zipCode}
+                      maxLength="5"
+                      className={`${
+                        zipCode.length < 5 && "zip-error"
+                      } zip-input`}
+                      onChange={(e) => {
+                        setZipCode(e.target.value);
+                        setCurrentPage(1);
+                        if (!e.target.value || e.target.value.length < 5) {
+                          setSearchText("");
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="miles-section">
+                  <label className="pr-title">
+                    Distance
+                    <Select
+                      placeholder="select"
+                      showValueAsLabel={true}
+                      providerModal={true}
+                      options={[
+                        { value: 10, label: "10 miles" },
+                        { value: 20, label: "20 miles" },
+                        { value: 30, label: "30 miles" },
+                      ]}
+                      value={radius}
+                      initialValue={10}
+                      onChange={(value) => {
+                        setRadius(value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+              {zipCode.length < 5 && (
+                <span className="validation-msg">Invalid ZIP Code</span>
+              )}
+
               <div className="pr-search-section">
                 <label className="pr-title">
                   Provider Search
+                  <br />
                   <input
                     className="pr-search-input"
                     type="text"
@@ -154,29 +261,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
                   />
                 </label>
               </div>
-              <div className="miles-section">
-                <label className="pr-title">
-                  Distance
-                  <Select
-                    placeholder="select"
-                    showValueAsLabel={true}
-                    options={[
-                      { value: 10, label: "10 miles" },
-                      { value: 20, label: "20 miles" },
-                      { value: 30, label: "30 miles" },
-                    ]}
-                    initialValue={10}
-                    onChange={(value) => {
-                      setRadius(value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </label>
-              </div>
             </div>
-            {zipCode.length < 5 && (
-              <span className="validation-msg">Invalid ZIP Code</span>
-            )}
 
             <div className="pr-search-result">
               {results?.total ? (
@@ -193,10 +278,13 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
               </div>
             ) : (
               <div className="provider-result-container">
-                {error && <div>Error fetching</div>}
+                {error && (
+                  <div className="pr-search-box">Error fetching Providers</div>
+                )}
                 {zipCode &&
                   filteredResults.map((item) => (
                     <div
+                      key={item.NPI}
                       className={`provider-result-content ${
                         selectedProvider?.NPI === item.NPI ? "selected" : ""
                       }`}
@@ -255,6 +343,41 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
                       )}
                   </>
                 )}
+              </div>
+            )}
+            {isMobile && (
+              <div className="dialog--actions-pr">
+                {zipCode && totalPages > 1 ? (
+                  <Pagination
+                    providerPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages - 1}
+                    totalResults={results?.total}
+                    pageSize={perPage}
+                    onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
+                  />
+                ) : (
+                  <div />
+                )}
+                <div className="buttons-wrapper">
+                  <div className="pr-cancl">
+                    <Button
+                      label="Cancel"
+                      onClick={onClose}
+                      style={{ marginRight: 10 }}
+                      data-gtm="button-save"
+                    />
+                  </div>
+                  <div className="pr-add">
+                    {" "}
+                    <Button
+                      disabled={!selectedProvider}
+                      label="Add Provider"
+                      onClick={onClose}
+                      data-gtm="button-cancel"
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </div>

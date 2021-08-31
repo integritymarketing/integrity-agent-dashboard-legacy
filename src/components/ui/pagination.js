@@ -57,7 +57,7 @@ export default ({
       }}
     >
       {(matches) =>
-        matches.large && (
+        ((!matches.large && providerPagination) || matches.large) && (
           <div className="pagination-container">
             {!providerPagination && (
               <div className="pagination-display-results">
@@ -116,23 +116,27 @@ export default ({
                         }
                         onClick={handlePageChange(currentPage + 1)}
                       >
-                        {!providerPagination && <span className="mr-1">Next</span>} <Next />{" "}
-                        <span className="visuallyhidden">page</span>
+                        {!providerPagination && (
+                          <span className="mr-1">Next</span>
+                        )}{" "}
+                        <Next /> <span className="visuallyhidden">page</span>
                       </PaginationButton>
                     )}
                   </div>
-                  {currentPage !== totalPages && matches.large && !providerPagination && (
-                    <div className="ml-1 last">
-                      <PaginationButton
-                        state={
-                          currentPage === totalPages ? "inactive" : "active"
-                        }
-                        onClick={handlePageChange(totalPages)}
-                      >
-                        Last <span className="visuallyhidden">page</span>
-                      </PaginationButton>
-                    </div>
-                  )}
+                  {currentPage !== totalPages &&
+                    matches.large &&
+                    !providerPagination && (
+                      <div className="ml-1 last">
+                        <PaginationButton
+                          state={
+                            currentPage === totalPages ? "inactive" : "active"
+                          }
+                          onClick={handlePageChange(totalPages)}
+                        >
+                          Last <span className="visuallyhidden">page</span>
+                        </PaginationButton>
+                      </div>
+                    )}
                 </ul>
               </nav>
             ) : null}

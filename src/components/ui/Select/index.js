@@ -55,6 +55,7 @@ export const Select = ({
   showValueAsLabel = false,
   isDefaultOpen = false,
   disabled,
+  providerModal,
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -134,7 +135,12 @@ export const Select = ({
     <div className="options" style={{ maxHeight: heightStyle.maxHeight - 40 }}>
       {selectHeader}
       {selectableOptions.map((option, idx) => (
-        <Option prefix={labelPrefix} key={idx} {...option} onClick={handleOptionChange} />
+        <Option
+          prefix={labelPrefix}
+          key={idx}
+          {...option}
+          onClick={handleOptionChange}
+        />
       ))}
     </div>
   );
@@ -144,8 +150,8 @@ export const Select = ({
       ref={ref}
       style={style}
       className={`select ${contactsPage && "contacts-dd"} ${
-        !isOpen && showValueAsLabel ? "short-label" : ""
-      }`}
+        providerModal && "pr-select"
+      } ${!isOpen && showValueAsLabel ? "short-label" : ""}`}
     >
       <div
         className={`select-container ${isOpen ? "opened" : "closed"} ${
