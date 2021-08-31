@@ -14,7 +14,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [zipCode, setZipCode] = useState(
     personalInfo?.addresses[0]?.postalCode
   );
-  const [radius, setRadius] = useState(5);
+  const [radius, setRadius] = useState("5");
 
   const [pharmacyName, setPharmacyName] = useState("");
   const [pharmacyAddress, setPharmacyAddress] = useState("");
