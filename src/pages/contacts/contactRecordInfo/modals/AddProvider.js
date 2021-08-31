@@ -10,6 +10,7 @@ import Spinner from "components/ui/Spinner";
 import Media from "react-media";
 import "./provider-modal.scss";
 import * as Sentry from "@sentry/react";
+import useToast from "hooks/useToast";
 
 function encodeQueryData(data) {
   const ret = [];
@@ -20,7 +21,7 @@ function encodeQueryData(data) {
   return ret.join("&");
 }
 
-export default function AddProvider({ isOpen, onClose, personalInfo }) {
+export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
   const [zipCode, setZipCode] = useState(personalInfo.addresses[0]?.postalCode);
   const [searchText, setSearchText] = useState("");
   const [radius, setRadius] = useState(10);
@@ -34,6 +35,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
   const [selectedProvider, setSelectedProvider] = useState(null);
   const filteredResults = results?.providers || [];
   const totalPages = results ? Math.ceil(results.total / perPage) : 0;
+  const addToast = useToast();
 
   useEffect(() => {
     if (isOpen) {
@@ -70,6 +72,29 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
         Sentry.captureException(e);
       });
   }, [perPage, currentPage, searchText, zipCode, radius]);
+
+  const saveProvider = async (provider) => {
+    const request = [
+      {
+        npi: provider.NPI.toString(),
+        addressId: provider.addresses[0]?.id,
+        isPrimary: false,
+      },
+    ];
+    try {
+      await clientsService.createLeadProvider(leadId, request);
+      addToast({
+        message: provider.presentationName + " added to the list. ",
+      });
+      onClose({ refresh: true });
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Error, update unsuccessful.",
+      });
+    }
+  };
 
   return (
     <div>
@@ -114,7 +139,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo }) {
                   <Button
                     disabled={!selectedProvider}
                     label="Add Provider"
-                    onClick={onClose}
+                    onClick={() => saveProvider(selectedProvider)}
                     data-gtm="button-cancel"
                   />
                 </div>

@@ -47,7 +47,12 @@ export default (props) => {
     error: null,
   });
 
-  const onClose = () => setIsOpen(false);
+  const onClose = (opts) => {
+    setIsOpen(false);
+    if (opts && opts.refresh) {
+      fetchProviders();
+    }
+  };
   const addToast = useToast();
 
   async function handleUndo(provider) {
@@ -155,6 +160,7 @@ export default (props) => {
             isOpen={isOpen}
             onClose={onClose}
             personalInfo={props.personalInfo}
+            leadId={props.id}
           />
         )}
 
