@@ -10,6 +10,7 @@
         align-items: flex-start;
         .bottom-actions {
             margin-left: 20px;
+            align-self: center;
         }
         @media screen and (min-width: 320px) and (max-width: 480px) {
             align-items: flex-start;
@@ -26,7 +27,7 @@
         }
 
         & > .row {
-            flex: 3;
+            flex: 5;
             display: flex;
             justify-content: space-between;
             & > div {
@@ -38,8 +39,9 @@
             }
         }
         .side-actions {
+            align-self: center;
             flex: 1;
-            justify-content: space-around;
+            justify-content: flex-end;
             display: flex;
             @media screen and (min-width: 320px) and (max-width: 480px) {
                 justify-content: flex-end;
