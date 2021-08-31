@@ -11,19 +11,12 @@ import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
 import { STATES } from "utils/address";
+import PhoneLabels from "utils/phoneLabels";
+import ContactRecordTypes from "utils/phoneLabels";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 
-const CONTACT_RECORD_TYPE = [
-  { value: "prospect", label: "Prospect" },
-  { value: "client", label: "Client" },
-];
-
-const PHONE_LABELS = [
-  { value: "mobile", label: "Mobile" },
-  { value: "home", label: "Home" },
-];
 const isDuplicateContact = async (
   values,
   setDuplicateLeadIds,
@@ -426,7 +419,7 @@ export default (props) => {
                     </label>
                     <div className="record-select-input mob-res-mar-0">
                       <Select
-                        options={CONTACT_RECORD_TYPE}
+                        options={ContactRecordTypes}
                         initialValue={values.contactRecordType}
                         onChange={(value) =>
                           setFieldValue("contactRecordType", value)
@@ -516,7 +509,7 @@ export default (props) => {
                       </label>
                       <div className="record-select-input mob-res-mar-0">
                         <Select
-                          options={PHONE_LABELS}
+                          options={PhoneLabels}
                           initialValue={values.phones.phoneLabel}
                           onChange={(value) =>
                             setFieldValue("phones.phoneLabel", value)

@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useMemo, useEffect } from "react";
+import React, { useState, Fragment, useMemo, useEffect, useRef } from "react";
 import Typeahead from "react-select/async";
 import { components } from "react-select";
 import { Select } from "components/ui/Select";
@@ -52,7 +52,6 @@ export default function AddPrescription({
   onClose: onCloseHandler,
   onSave,
 }) {
-
   useEffect(() => {
     if (isOpen) {
       analyticsService.fireEvent("event-modal-appear", {
@@ -66,6 +65,12 @@ export default function AddPrescription({
   const [dosage, setDosage] = useState();
   const [quantity, setQuantity] = useState();
   const [frequency, setfrequency] = useState();
+
+  const selectElementRef = useRef(null)
+
+  useEffect(() => {
+    isOpen && selectElementRef.current.focus()
+  }, [selectElementRef, isOpen])
 
   const fetchOptions = async (searchStr) => {
     setDrugName(() => null);
@@ -168,6 +173,9 @@ export default function AddPrescription({
                   Prescription name
                 </label>
                 <Typeahead
+                  openMenuOnFocus
+                  autoFocus
+                  ref={selectElementRef}
                   id="prescription-name"
                   styles={colourStyles}
                   className="react--select-overide"
@@ -183,11 +191,15 @@ export default function AddPrescription({
                     IndicatorSeparator: () => null,
                   }}
                   placeholder={"Start typing prescription name"}
-                  noOptionsMessage={() =>
-                    searchString
-                      ? "Prescription not found, try a different search"
-                      : "Start typing prescription name"
-                  }
+                  noOptionsMessage={() => (
+                    <div className="no-search-data">
+                      <span>
+                        {searchString
+                          ? "Prescription not found, try a different search"
+                          : "Start typing prescription name"}
+                      </span>
+                    </div>
+                  )}
                   menuIsOpen={!drugName}
                 />
               </div>

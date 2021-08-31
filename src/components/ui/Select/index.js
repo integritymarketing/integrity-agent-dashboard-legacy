@@ -98,7 +98,7 @@ export const Select = ({
           maxHeight: Math.max(
             Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
             Math.min(selectableOptions.length + 1, 3) * 40
-          ),
+          ) + 2,
         }
       : {
           maxHeight: 0,

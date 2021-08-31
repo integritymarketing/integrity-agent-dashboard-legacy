@@ -1,3 +1,27 @@
+.no-search-data {
+  position: relative;
+  background-color: #F8FAFC;
+  display: flex;
+  flex: 1 1;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  min-height: 240px;
+  & > span {
+  font-size: 14px;
+  }
+  &::before {
+    content: '0 prescriptions found';
+    position: absolute;
+    left: 0;
+    top: -44px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #475569;
+
+  }
+}
 .prescription--modal .modal__card {
   padding: 0px;
 }
@@ -132,4 +156,14 @@
     width: 145px;
   }
 }
+
+.react--select-overide {
+  div[class$="menu"] {
+    box-shadow: none !important;
+  }
+  div[class$="MenuList"] {
+    min-height: 340px;
+  }
+}
+
 /* End prescription */

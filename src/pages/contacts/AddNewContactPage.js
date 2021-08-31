@@ -16,19 +16,11 @@ import useToast from "../../hooks/useToast";
 import { STATES } from "utils/address";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
+import PhoneLabels from "utils/phoneLabels";
+import ContactRecordTypes from "utils/phoneLabels";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
-
-const CONTACT_RECORD_TYPE = [
-  { value: "prospect", label: "Prospect" },
-  { value: "client", label: "Client" },
-];
-
-const PHONE_LABELS = [
-  { value: "mobile", label: "Mobile" },
-  { value: "home", label: "Home" },
-];
 
 const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
@@ -498,7 +490,7 @@ const NewContactForm = () => {
                     Label
                   </label>
                   <Select
-                    options={PHONE_LABELS}
+                    options={PhoneLabels}
                     style={{ width: "140px" }}
                     initialValue="mobile"
                     onChange={(value) =>
@@ -524,7 +516,7 @@ const NewContactForm = () => {
               </label>
               <Select
                 style={{ width: 146 }}
-                options={CONTACT_RECORD_TYPE}
+                options={ContactRecordTypes}
                 initialValue="prospect"
                 onChange={(value) => {
                   analyticsService.fireEvent("event-content-load", {
