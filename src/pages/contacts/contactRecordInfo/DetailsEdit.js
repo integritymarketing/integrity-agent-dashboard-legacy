@@ -139,7 +139,7 @@ export default (props) => {
         email: email,
         phones: {
           leadPhone: phone,
-          phoneLabel: phoneLabel.toLowerCase(),
+          phoneLabel: phoneLabel?.toLowerCase(),
         },
         address: {
           address1: address1,
@@ -151,7 +151,7 @@ export default (props) => {
           countyFips: countyFips,
         },
         primaryCommunication: isPrimary,
-        contactRecordType: contactRecordType.toLowerCase(),
+        contactRecordType: contactRecordType?.toLowerCase(),
         emailID,
         leadAddressId,
         phoneId,
