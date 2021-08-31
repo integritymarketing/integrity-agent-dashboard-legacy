@@ -271,7 +271,7 @@ export default () => {
                   data-gtm="contact-record-menu-item"
                 >
                   <li
-                    className={display === "OverView" && "active"}
+                    className={display === "OverView" ? "active" : ""}
                     onClick={() => {
                       setDisplay("OverView");
                     }}
@@ -283,8 +283,9 @@ export default () => {
                   </li>
                   <li
                     className={
-                      (display === "Details" || display === "DetailsEdit") &&
-                      "active"
+                      display === "Details" || display === "DetailsEdit"
+                        ? "active"
+                        : ""
                     }
                     onClick={() => setDisplay("Details")}
                   >
@@ -294,7 +295,7 @@ export default () => {
                     <span>Details</span>
                   </li>
                   <li
-                    className={display === "Preferences" && "active"}
+                    className={display === "Preferences" ? "active" : ""}
                     onClick={() => setDisplay("Preferences")}
                   >
                     <label className="icon-spacing">
