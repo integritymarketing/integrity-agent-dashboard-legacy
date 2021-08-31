@@ -12,16 +12,16 @@ export default (props) => {
       <path
         d="M19.5 6.5L6.5 19.5"
         stroke="#6A7279"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6.5 6.5L19.5 19.5"
         stroke="#6A7279"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
