@@ -177,11 +177,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     placeholder="Zip"
                     value={zipCode}
                     maxLength="5"
-                    className={`${
-                      zipCode?.length < 5 && "zip-error"
-                    } zip-input`}
+                    className={`${zipCode?.length < 5 && "zip-error"} zip-input`}
                     onChange={(e) => {
-                      setZipCode(e?.target?.value);
+                      setZipCode(e.currentTarget.value);
                       setCurrentPage(1);
                     }}
                   />
@@ -196,7 +194,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     disabled={zipCode?.length < 5}
                     placeholder="Enter name"
                     onChange={(e) => {
-                      setPharmacyName(e?.target?.value);
+                      setPharmacyName(e.currentTarget.value);
                       setCurrentPage(1);
                     }}
                   />
@@ -211,7 +209,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     disabled={zipCode?.length < 5}
                     placeholder="Enter address"
                     onChange={(e) => {
-                      setPharmacyAddress(e?.target?.value);
+                      setPharmacyAddress(e.currentTarget.value);
                       setCurrentPage(1);
                     }}
                   />
