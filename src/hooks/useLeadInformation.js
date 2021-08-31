@@ -65,7 +65,7 @@ export default (leadId) => {
       await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
         type: "success",
-        message: " Deleted",
+        message: "Prescription deleted",
         time: 10000,
         link: "UNDO",
         onClickHandler: () => addPrescription(item),
