@@ -11,7 +11,9 @@ import Spinner from "components/ui/Spinner";
 import * as Sentry from "@sentry/react";
 
 export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
-  const [zipCode, setZipCode] = useState(personalInfo?.addresses[0]?.postalCode);
+  const [zipCode, setZipCode] = useState(
+    personalInfo?.addresses[0]?.postalCode
+  );
   const [radius, setRadius] = useState(5);
 
   const [pharmacyName, setPharmacyName] = useState("");
@@ -34,8 +36,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     }
   }, [isOpen]);
   useEffect(() => {
-    if (!zipCode || zipCode.length !== 5) {
+    if (!zipCode || zipCode?.length !== 5) {
       setIsLoading(false);
+      setLatLng("");
       setError(null);
       setResults();
       return;
@@ -56,10 +59,10 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   }, [zipCode, pharmacyAddress]);
 
   useEffect(() => {
-    if (!zipCode || zipCode.length !== 5) {
+    if (!zipCode || zipCode?.length !== 5) {
       setIsLoading(false);
       setError(null);
-      setResults();
+      setResults([]);
       return;
     }
 
@@ -71,7 +74,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       zip: zipCode,
       pharmacyName: pharmacyName,
       planPharmacyType: "",
-      latLng: "",
+      // latLng: "",
       pharmacyIDType: 0,
     };
 
@@ -174,9 +177,11 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     placeholder="Zip"
                     value={zipCode}
                     maxLength="5"
-                    className={`${zipCode.length < 5 && "zip-error"} zip-input`}
+                    className={`${
+                      zipCode?.length < 5 && "zip-error"
+                    } zip-input`}
                     onChange={(e) => {
-                      setZipCode(e.target.value);
+                      setZipCode(e?.target?.value);
                       setCurrentPage(1);
                     }}
                   />
@@ -188,10 +193,10 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <input
                     type="text"
                     value={pharmacyName}
-                    disabled={zipCode.length < 5}
+                    disabled={zipCode?.length < 5}
                     placeholder="Enter name"
                     onChange={(e) => {
-                      setPharmacyName(e.target.value);
+                      setPharmacyName(e?.target?.value);
                       setCurrentPage(1);
                     }}
                   />
@@ -203,10 +208,10 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <input
                     type="text"
                     value={pharmacyAddress}
-                    disabled={zipCode.length < 5}
+                    disabled={zipCode?.length < 5}
                     placeholder="Enter address"
                     onChange={(e) => {
-                      setPharmacyAddress(e.target.value);
+                      setPharmacyAddress(e?.target?.value);
                       setCurrentPage(1);
                     }}
                   />
@@ -233,7 +238,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 </label>
               </div>
             </div>
-            {zipCode.length < 5 && (
+            {zipCode?.length < 5 && (
               <span className="validation-msg">Invalid ZIP Code</span>
             )}
 
@@ -257,7 +262,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   results?.map((item) => (
                     <div
                       className={`provider-result-content ${
-                        selectedPharmacy?.pharmacyID === item.pharmacyID
+                        selectedPharmacy?.pharmacyID === item?.pharmacyID
                           ? "selected"
                           : ""
                       }`}
@@ -266,13 +271,13 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       }}
                     >
                       <div className="provider-content-section">
-                        <div className="pr-h1">{item.name}</div>
+                        <div className="pr-h1">{item?.name}</div>
                         <div className="pr-h2">
-                          {item.address1} {item.address2}.{item.city}{" "}
-                          {item.state}
+                          {item?.address1} {item?.address2}.{item?.city}{" "}
+                          {item?.state}
                         </div>
                       </div>
-                      {selectedPharmacy?.pharmacyID === item.pharmacyID && (
+                      {selectedPharmacy?.pharmacyID === item?.pharmacyID && (
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
@@ -287,12 +292,12 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   ))}
                 {!isLoading && (
                   <>
-                    {!zipCode && (!zipCode || zipCode.length === 5) && (
+                    {!zipCode && (!zipCode || zipCode?.length === 5) && (
                       <div className="pr-search-box">
                         Enter ZIP code and search text before searching
                       </div>
                     )}
-                    {zipCode && zipCode.length < 5 && (
+                    {zipCode && zipCode?.length < 5 && (
                       <div className="pr-search-box">
                         Fix errors before searching
                       </div>
