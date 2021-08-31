@@ -9,7 +9,6 @@ import useLeadInformation from "hooks/useLeadInformation";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
 import AddProvider from "./modals/AddProvider";
-
 import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
 import "./details.scss";
@@ -134,9 +133,8 @@ export default (props) => {
   };
 
   const PharamaciesRow = ({ item, className }) => {
-    const address = `${item.address1} ${item.address2 ?? ""} ${item.city} ${
-      item.state
-    } ${item.zip}`;
+    const address = `${item.address1} ${item.address2 ?? ""}, ${item.city}, 
+    ${item.state}, ${item.zip}`;
     const phone = formatPhoneNumber(item.pharmacyPhone);
     return (
       <div className={className}>
