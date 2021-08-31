@@ -20,7 +20,7 @@ function DetailsCard({
 }) {
   const title = headerTitle.toLowerCase();
   let titleToAdd = title;
-  if (titleToAdd === "Pharmacies") {
+  if (titleToAdd === "pharmacies") {
     titleToAdd = "pharmacy";
   } else {
     titleToAdd = titleToAdd.slice(0, -1);
