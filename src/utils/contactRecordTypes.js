@@ -1,4 +1,4 @@
-const CONTACT_RECORD_TYPE = [
+export default [
     { value: "prospect", label: "Prospect" },
     { value: "client", label: "Client" },
   ];

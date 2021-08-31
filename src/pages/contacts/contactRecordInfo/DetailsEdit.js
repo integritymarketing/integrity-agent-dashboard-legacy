@@ -12,7 +12,7 @@ import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
 import { STATES } from "utils/address";
 import PhoneLabels from "utils/phoneLabels";
-import ContactRecordTypes from "utils/phoneLabels";
+import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";

@@ -17,7 +17,7 @@ import { STATES } from "utils/address";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import PhoneLabels from "utils/phoneLabels";
-import ContactRecordTypes from "utils/phoneLabels";
+import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
