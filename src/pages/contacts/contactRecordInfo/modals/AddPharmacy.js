@@ -292,7 +292,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <>
                     {!zipCode && (!zipCode || zipCode?.length === 5) && (
                       <div className="pr-search-box">
-                        Enter ZIP code and search text before searching
+                        Search for a provider
                       </div>
                     )}
                     {zipCode && zipCode?.length < 5 && (

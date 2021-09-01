@@ -137,6 +137,8 @@
         .pr-search-input {
           width: 100%;
           padding: 10px;
+          color: #2B323B;
+          font-size: 16px;
         }
       }
     }
@@ -158,6 +160,14 @@
       .zip-input {
         width: 100%;
         padding: 10px;
+        @media (max-width: 480px) {
+          font-family: Lato;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 20px;
+          line-height: 130%;
+          color: #2b323b;
+        }
       }
 
       .zip-error {
@@ -189,6 +199,9 @@
         font-style: normal;
         font-weight: normal;
         color: #2b323b;
+        @media (max-width: 480px) {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -277,9 +290,18 @@
 
       &.selected {
         background-color: #f1f5f9;
+        border: 1px solid #0052ce;
+        border-radius: 4px;
       }
 
       &.selected > .provider-content-section > .pr-h1 {
+        color: #0052ce;
+      }
+    }
+
+    .provider-result-content:hover {
+      background-color: #f1f5f9;
+      .provider-content-section > .pr-h1 {
         color: #0052ce;
       }
     }
@@ -292,6 +314,7 @@
       height: 217px;
       background: #f8fafc;
       border-radius: 4px;
+      font-size: 14px;
       @media (max-width: 480px) {
         text-align: center;
         height: 177px;
