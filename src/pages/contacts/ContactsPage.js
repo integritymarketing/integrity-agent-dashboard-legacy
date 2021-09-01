@@ -145,43 +145,40 @@ export default () => {
                 "--bar-spacing-horiz": "2.5rem",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center"}}>
-              <Textfield
-                id="contacts-search"
-                type={isMobile ? "text" : "search"}
-                defaultValue={searchString}
-                value={searchString}
-                icon={<SearchIcon />}
-                placeholder="Search "
-                name="search"
-                className="bar__item-small"
-                onChange={(event) => {
-                  setSearchString(event.currentTarget.value || null);
-                }}
-                onBlur={() => {
-                  analyticsService.fireEvent("event-search");
-                  return null;
-                }}
-                isMobile={isMobile}
-                onClear={(e) => {
-                  setSearchString("");
-                  document.getElementById("contacts-search").focus();
-                }}
-                onReset={() => {
-                  setSearchString("");
-                  document.activeElement.blur();
-                }}
-              />
-              {duplicateIdsLength > 0 && (
-                <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                  <div>
-                  {duplicateIdsLength} duplicates found
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Textfield
+                  id="contacts-search"
+                  type={isMobile ? "text" : "search"}
+                  defaultValue={searchString}
+                  icon={<SearchIcon />}
+                  placeholder="Search "
+                  name="search"
+                  className="bar__item-small"
+                  onChange={(event) => {
+                    setSearchString(event.currentTarget.value || null);
+                  }}
+                  onBlur={() => {
+                    analyticsService.fireEvent("event-search");
+                    return null;
+                  }}
+                  isMobile={isMobile}
+                  onClear={(e) => {
+                    setSearchString("");
+                    document.getElementById("contacts-search").focus();
+                  }}
+                  onReset={() => {
+                    setSearchString("");
+                    document.activeElement.blur();
+                  }}
+                />
+                {duplicateIdsLength > 0 && (
+                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                    <div>{duplicateIdsLength} duplicates found</div>
+                    <button onClick={() => setDuplicateLeadIds([])}>
+                      <CloseIcon />
+                    </button>
                   </div>
-                  <button onClick={() => setDuplicateLeadIds([])}>
-                   <CloseIcon />
-                  </button>
-                </div>
-              )}
+                )}
               </div>
               <div className="bar">
                 {isMobile ? null : (
@@ -247,7 +244,7 @@ export default () => {
               </Switch>
             </div>
           </Container>
-          <ContactFooter hideMeicareIcon={true} />
+          <ContactFooter hideMedicareIcon={true} />
         </ToastContextProvider>
       </StageStatusProvider>
     </React.Fragment>
