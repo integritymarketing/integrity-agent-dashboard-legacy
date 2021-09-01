@@ -5,6 +5,7 @@ const { parse } = require("tldts");
 
 // The purpose of this component is to inform the common authentication form
 // which client URL the auth originated from
+// client_url is primarily used when dealing w/ third party domains (and portal_url is not an option.)
 
 export default () => {
   const cookies = new Cookies();
@@ -20,6 +21,8 @@ export default () => {
     redirect_uri = urlSearchParams.get("redirect_uri");
   } else if (params.get("redirect_uri")) {
     redirect_uri = params.get("redirect_uri");
+  } else if (params.get("client_url")) {
+    redirect_uri = params.get("client_url");
   }
 
   let domain_parts = parse(redirect_uri);
