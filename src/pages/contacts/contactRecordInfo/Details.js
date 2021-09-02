@@ -11,6 +11,7 @@ import { formatPhoneNumber } from "utils/phones";
 import AddProvider from "./modals/AddProvider";
 import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
+import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import "./details.scss";
 
 export default (props) => {
@@ -119,15 +120,31 @@ export default (props) => {
       });
     }
   }, [props.id]);
+
   useEffect(() => {
     fetchProviders();
   }, [fetchProviders]);
 
+  const getFrequencyValue = (dayofSupply) => {
+    const frequencyOptions = FREQUENCY_OPTIONS.filter(
+      (option) => option.value === dayofSupply
+    );
+    const result = frequencyOptions[0].label;
+    return result;
+  };
+
   const PrescriptionRow = ({ item, className }) => {
+    const { labelName, daysOfSupply, drugType, selectedPackage } = item;
+    const selectPackageDetails = selectedPackage
+      ? `${selectedPackage.commonUserQuantity} X ${
+          selectedPackage.packageDisplayText
+        } ${getFrequencyValue(daysOfSupply)}`
+      : null;
+
     return (
       <div className={className}>
-        <CellData header={item.drugName} />
-        <CellData subText={`${item.daysOfSupply} capsule per day`} />
+        <CellData header={labelName} subText={drugType} />
+        <CellData subText={selectPackageDetails} />
       </div>
     );
   };
@@ -213,7 +230,7 @@ export default (props) => {
                 <div>
                   <span
                     role="button"
-                    className="pr-delete"
+                    className="button-delete-provider"
                     onClick={() => handleDeleteProvider(item)}
                   >
                     Delete

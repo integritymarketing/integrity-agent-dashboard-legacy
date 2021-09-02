@@ -131,7 +131,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     label="Cancel"
                     onClick={onClose}
                     style={{ marginRight: 10 }}
-                    data-gtm="button-save"
+                    data-gtm="button-cancel-provider"
                   />
                 </div>
                 <div className="pr-add">
@@ -140,7 +140,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     disabled={!selectedProvider}
                     label="Add Provider"
                     onClick={() => saveProvider(selectedProvider)}
-                    data-gtm="button-cancel"
+                    data-gtm="button-add-provider"
                   />
                 </div>
               </div>

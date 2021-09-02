@@ -2,13 +2,13 @@ import React from "react";
 import Media from "react-media";
 import "./detailstable.scss";
 
-function DetailsTable({ items, Row, onDelete, onEdit }) {
+function DetailsTable({ items, Row, onDelete, onEdit, headerTitle }) {
   const editButton = (item) =>
     onEdit ? (
       <div className="bottom-actions">
         <button
           className="edit"
-          data-gtm="buton-edit"
+          data-gtm={`buton-edit-${headerTitle}`}
           onClick={() => onEdit(item)}
         >
           Edit
@@ -20,7 +20,7 @@ function DetailsTable({ items, Row, onDelete, onEdit }) {
       <div className="side-actions">
         <button
           className="delete"
-          data-gtm="buton-delete"
+          data-gtm={`buton-delete-${headerTitle}`}
           onClick={() => onDelete(item)}
         >
           Delete

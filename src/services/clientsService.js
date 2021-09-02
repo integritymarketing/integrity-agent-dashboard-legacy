@@ -452,13 +452,15 @@ class ClientsService {
       "POST",
       reqData
     );
-
-    return response;
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
   };
 
   editPrescription = async (leadId, reqData) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.ndc}`,
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`,
       "PUT",
       reqData
     );
@@ -486,6 +488,15 @@ class ClientsService {
     return response.json();
   };
 
+  getDrugDetails = async (drugDetails) => {
+    const {ndc} = drugDetails;
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?ndc=${ndc}`,
+      "GET"
+    );
+    return response.json();
+  };
+
   deletePharmacy = async (leadId, id) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`,
@@ -501,8 +512,10 @@ class ClientsService {
       "POST",
       reqData
     );
-
-    return response;
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
   };
 
   getLeadProviders = async (leadId) => {

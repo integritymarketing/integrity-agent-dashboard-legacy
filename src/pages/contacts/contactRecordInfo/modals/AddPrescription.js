@@ -8,7 +8,6 @@ import Textfield from "components/ui/textfield";
 import CloseIcon from "components/icons/close";
 import Options from "utils/Options";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-import DOSAGE_OPTIONS from "utils/dosageOptions";
 import clientService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import "./modals.scss";
@@ -41,6 +40,7 @@ const transformPrescriptionOptions = (option) => {
   const { drugName, drugType, drugID, referenceNDC } = option;
   return {
     label: drugName,
+    drugName,
     description: drugType,
     value: drugID,
     ndc: referenceNDC,
@@ -52,6 +52,18 @@ export default function AddPrescription({
   onClose: onCloseHandler,
   onSave,
 }) {
+
+  const [drugName, setDrugName] = useState("");
+  const [searchString, setSearchString] = useState("");
+  const [dosageOptions, setDosageOptions] = useState([]);
+  const [dosage, setDosage] = useState();
+  const [quantity, setQuantity] = useState();
+  const [frequency, setFrequency] = useState();
+  const [packageOptions, setPackageOptions] = useState([]);
+  const [dosagePackage, setDosagePackage] = useState();
+
+  const selectElementRef = useRef(null);
+
   useEffect(() => {
     if (isOpen) {
       analyticsService.fireEvent("event-modal-appear", {
@@ -60,17 +72,41 @@ export default function AddPrescription({
     }
   }, [isOpen]);
 
-  const [drugName, setDrugName] = useState("");
-  const [searchString, setSearchString] = useState("");
-  const [dosage, setDosage] = useState();
-  const [quantity, setQuantity] = useState();
-  const [frequency, setfrequency] = useState();
-
-  const selectElementRef = useRef(null)
+  useEffect(() => {
+    isOpen && selectElementRef.current.focus();
+  }, [selectElementRef, isOpen]);
 
   useEffect(() => {
-    isOpen && selectElementRef.current.focus()
-  }, [selectElementRef, isOpen])
+    const getDosages = async () => {
+      const results = await clientService.getDrugDetails(drugName);
+      const dosageOptions = (results?.dosages || []).map((dosage) => ({
+        label: dosage.labelName,
+        value: dosage,
+      }));
+      setDosageOptions(dosageOptions);
+      if (dosageOptions.length === 1) {
+        setDosage(dosageOptions[0].value);
+      }
+    };
+    drugName && getDosages();
+  }, [drugName]);
+
+  useEffect(() => {
+    if (dosage) {
+      const { commonMetricQuantity, commonDaysOfSupply } = dosage;
+      const packageOptions = (dosage?.packages || []).map((_package) => ({
+        label: `${_package.commonUserQuantity} ${_package.packageDescription}`,
+        value: _package,
+      }));
+
+      setPackageOptions(packageOptions);
+      if (packageOptions.length === 1) {
+        setDosagePackage(packageOptions[0].value);
+      }
+      setQuantity(commonMetricQuantity);
+      setFrequency(commonDaysOfSupply);
+    }
+  }, [dosage]);
 
   const fetchOptions = async (searchStr) => {
     setDrugName(() => null);
@@ -84,7 +120,10 @@ export default function AddPrescription({
     setSearchString("");
     setDosage();
     setQuantity();
-    setfrequency();
+    setFrequency();
+    setDosageOptions([]);
+    setPackageOptions([]);
+    setDosagePackage();
     onCloseHandler(ev);
   };
 
@@ -92,24 +131,32 @@ export default function AddPrescription({
     setDrugName(selectedPrescription);
     setSearchString(null);
   };
-
+  
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
 
   const handleAddPrecscription = async () => {
     await onSave({
-      drugID: drugName?.value,
-      dosageID: dosage,
+      dosageRecordID: 0,
+      dosageID: dosage?.dosageID,
       quantity: quantity,
-      frequency: frequency,
       daysOfSupply: 0,
       ndc: drugName?.ndc,
+      metricQuantity: quantity,
+      userQuantity: frequency,
+      selectedPackage: dosagePackage,
     });
     onClose();
   };
 
   const isFormValid = useMemo(() => {
-    return Boolean(drugName && quantity && frequency && dosage);
-  }, [drugName, quantity, frequency, dosage]);
+    return Boolean(
+      drugName &&
+        quantity &&
+        frequency &&
+        dosage &&
+        (packageOptions.length > 0 ? dosagePackage : true)
+    );
+  }, [drugName, quantity, frequency, dosage, dosagePackage, packageOptions]);
 
   const handleCloseDrugname = () => {
     setDrugName("");
@@ -217,9 +264,7 @@ export default function AddPrescription({
                     <Select
                       id="prescription-dosage"
                       initialValue={dosage}
-                      options={DOSAGE_OPTIONS}
-                      labelPrefix={`${drugName?.label} tablet `}
-                      prefix={`${drugName?.label} tablet`}
+                      options={dosageOptions}
                       placeholder="Prescription dosage"
                       onChange={setDosage}
                     />
@@ -245,26 +290,27 @@ export default function AddPrescription({
                       id="prescription-frequency"
                       options={FREQUENCY_OPTIONS}
                       placeholder="Select"
-                      onChange={setfrequency}
+                      onChange={setFrequency}
                     />
                   </div>
                 </div>
-                {/*<div className="form-element">
-                  <label
-                    className="label--packaging form-input__header"
-                    htmlFor="prescription-packaging"
-                  >
-                    Packaging
-                  </label>
-                  <Select
-                    id="prescription-packaging"
-                    initialValue={dosage}
-                    options={dosageOptions}
-                    placeholder="Prescription Packaging"
-                    disabled={dosageOptions.length === 0}
-                    onChange={(value) => setDosage(value)}
-                  />
-                </div> */}
+                {packageOptions?.length > 0 && (
+                  <div className="form-element">
+                    <label
+                      className="label--packaging form-input__header"
+                      htmlFor="prescription-packaging"
+                    >
+                      Packaging
+                    </label>
+                    <Select
+                      id="prescription-packaging"
+                      initialValue={dosagePackage}
+                      options={packageOptions}
+                      placeholder="Prescription Packaging"
+                      onChange={setDosagePackage}
+                    />
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -275,13 +321,13 @@ export default function AddPrescription({
               label="Cancel"
               onClick={onClose}
               type="secondary"
-              data-gtm="button-save"
+              data-gtm="button-add-prescription"
             />
             <Button
               label="Add Prescription"
               onClick={handleAddPrecscription}
               disabled={!isFormValid}
-              data-gtm="button-cancel"
+              data-gtm="button-cancel-prescription"
             />
           </div>
         </div>

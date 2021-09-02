@@ -161,7 +161,7 @@
   div[class$="menu"] {
     box-shadow: none !important;
   }
-  div[class$="MenuList"] {
+  div[class$="-menu"] > div {
     min-height: 340px;
   }
 }

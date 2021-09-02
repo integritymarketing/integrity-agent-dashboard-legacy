@@ -145,7 +145,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   label="Cancel"
                   onClick={closeModal}
                   style={{ marginRight: 10 }}
-                  data-gtm="button-cancel"
+                  data-gtm="button-cancel-add-pharmacy"
                 />
               </div>
               <div className="pr-add">
@@ -154,7 +154,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   disabled={!selectedPharmacy}
                   label="Add Pharmacy"
                   onClick={handleAddPharmacy}
-                  data-gtm="button-save"
+                  data-gtm="button-add-pharmacy"
                 />
               </div>
             </div>

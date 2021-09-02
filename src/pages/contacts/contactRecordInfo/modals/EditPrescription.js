@@ -5,8 +5,8 @@ import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
 import "./modals.scss";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-import DOSAGE_OPTIONS from "utils/dosageOptions";
 import analyticsService from "services/analyticsService";
+import clientService from "services/clientsService";
 
 export default function EditPrescription({
   isOpen,
@@ -22,30 +22,101 @@ export default function EditPrescription({
     }
   }, [isOpen]);
 
-  const { drugName, drugType } = item;
+  const { drugName, drugType, labelName, metricQuantity, daysOfSupply } = item;
   const [dosage, setDosage] = useState();
-  const [quantity, setQuantity] = useState();
-  const [frequency, setfrequency] = useState();
+  const [dosageOptions, setDosageOptions] = useState([]);
+  const [quantity, setQuantity] = useState(metricQuantity);
+  const [frequency, setfrequency] = useState(daysOfSupply);
+  const [packageOptions, setPackageOptions] = useState([]);
+  const [dosagePackage, setDosagePackage] = useState();
+
+  useEffect(() => {
+    if (isOpen) {
+      setQuantity((q) => q || metricQuantity);
+      setfrequency((f) => f || daysOfSupply);
+    }
+  }, [metricQuantity, daysOfSupply, isOpen]);
+
+  useEffect(() => {
+    if (item && isOpen) {
+      const packageOptions = (item?.packages || []).map((_package) => ({
+        label: `${_package.commonUserQuantity} ${_package.packageDescription}`,
+        value: _package,
+      }));
+
+      setPackageOptions(packageOptions);
+
+      const selectedPackage = packageOptions
+        .filter(
+          (packageOption) =>
+            packageOption?.value?.packageId === item?.selectedPackage?.packageId
+        )
+        .map((opt) => opt.value)[0];
+      setDosagePackage(selectedPackage);
+    }
+  }, [item, isOpen]);
 
   const onClose = (ev) => {
     setDosage();
     setQuantity();
+    setDosageOptions();
+    setPackageOptions();
+    setDosagePackage();
     setfrequency();
     onCloseHandler(ev);
   };
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
   const handleSave = async () => {
     await onSave({
-      ...item,
-      quantity,
-      frequency,
+      dosageRecordID: item?.dosageRecordID,
+      labelName: dosage?.labelName,
+      metricQuantity: +quantity,
+      daysOfSupply: +frequency,
+      selectedPackage:
+        dosagePackage?.packageId !== item?.selectedPackage?.packageId
+          ? dosagePackage
+          : null,
     });
     onClose();
   };
 
-  const isFormEdit = useMemo(() => {
-    return Boolean(quantity && frequency && dosage);
-  }, [quantity, frequency, dosage]);
+  useEffect(() => {
+    const getDosages = async () => {
+      const results = await clientService.getDrugDetails(item);
+      const dosageOptions = (results?.dosages || []).map((dosage) => ({
+        label: dosage.labelName,
+        value: dosage,
+      }));
+      setDosageOptions(dosageOptions);
+      setDosage(
+        dosageOptions
+          .filter(
+            (dosageOption) => dosageOption?.value?.labelName === labelName
+          )
+          .map((opt) => opt.value)[0]
+      );
+    };
+    drugName && isOpen && getDosages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drugName, isOpen]);
+
+  const isFormValid = useMemo(() => {
+    return (
+      Boolean(
+        quantity &&
+          frequency &&
+          dosage &&
+          (packageOptions.length > 0 ? dosagePackage : true)
+      ) &&
+      Boolean(
+        +quantity !== metricQuantity ||
+          +frequency !== daysOfSupply ||
+          dosage?.labelName !== labelName ||
+          dosagePackage?.packageId !== item?.selectedPackage?.packageId
+      )
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantity, frequency, dosage, dosagePackage, packageOptions]);
 
   return (
     <div className="prescription--modal">
@@ -81,11 +152,8 @@ export default function EditPrescription({
                 <Select
                   id="prescription-dosage"
                   initialValue={dosage}
-                  options={DOSAGE_OPTIONS}
-                  labelPrefix={`${drugName} tablet `}
-                  prefix={`${drugName} tablet`}
-                  placeholder="Prescription dosage"
-                  onChange={(value) => setDosage(value)}
+                  options={dosageOptions}
+                  onChange={setDosage}
                 />
               </div>
               <div className="form-element prescription--quantity">
@@ -113,6 +181,23 @@ export default function EditPrescription({
                 />
               </div>
             </div>
+            {packageOptions?.length > 0 && (
+              <div className="form-element">
+                <label
+                  className="label--packaging form-input__header"
+                  htmlFor="prescription-packaging"
+                >
+                  Packaging
+                </label>
+                <Select
+                  id="prescription-packaging"
+                  initialValue={dosagePackage}
+                  options={packageOptions}
+                  placeholder="Prescription Packaging"
+                  onChange={setDosagePackage}
+                />
+              </div>
+            )}
           </div>
           <hr />
           <div className="dialog--actions">
@@ -121,13 +206,13 @@ export default function EditPrescription({
               label="Cancel"
               onClick={onClose}
               type="secondary"
-              data-gtm="button-save"
+              data-gtm="button-update-prescription"
             />
             <Button
               label="Save Changes"
               onClick={handleSave}
-              disabled={!isFormEdit}
-              data-gtm="button-cancel"
+              disabled={!isFormValid}
+              data-gtm="button-cancel-update-prescription"
             />
           </div>
         </div>

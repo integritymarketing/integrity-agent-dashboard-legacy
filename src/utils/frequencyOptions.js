@@ -1,7 +1,7 @@
 
  export default [
-    { value: "per month", label: "per month" },
-    { value: "per two months", label: "per two months" },
-    { value: "per three months", label: "per three months" },
-    { value: "per year", label: "per year" },
+    { value: 30, label: "per month" },
+    { value: 60, label: "per two months" },
+    { value: 90, label: "per three months" },
+    { value: 365, label: "per year" },
   ];

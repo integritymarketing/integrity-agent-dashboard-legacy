@@ -55,7 +55,7 @@ function DetailsCard({
         {items.length === 0 && (
           <WithLoader isLoading={isLoading}>
             <div className="no-items">
-              <span>This contact has no {title},&nbsp;</span>
+              <span>This contact has no {title}.&nbsp;</span>
               <button className="link" onClick={onAddClick}>
                 {" "}
                 Add a {`${titleToAdd}`}
@@ -69,6 +69,7 @@ function DetailsCard({
             Row={Row}
             onDelete={onDelete}
             onEdit={onEdit}
+            headerTitle={headerTitle}
           />
         )}
         {items.map(itemRender)}
