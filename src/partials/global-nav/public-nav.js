@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "partials/logo";
 import MedicareCenterLogo from "../../images/medicare-center.png";
 import "./index.scss";
 import WelcomeHamburgerIcon from "../../../src/components/icons/welcome-hamburger";
@@ -9,7 +8,10 @@ import ExitIcon from "components/icons/exit";
 
 export const RegisterLink = (props) => {
   return (
-    <a href={`${process.env.REACT_APP_AUTH_BASE_URL}/register`} {...props}>
+    <a
+      href={`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`}
+      {...props}
+    >
       {props.children}
     </a>
   );
@@ -24,9 +26,8 @@ export default () => {
           <Link to="/welcome">
             <img
               src={MedicareCenterLogo}
-              alt="Southwestern Legacy Insurance Group - Agent Portal logo"
+              alt="Medicare Center - Medicare Center logo"
             />
-            <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>
           </Link>
         </h1>
@@ -56,7 +57,7 @@ export default () => {
       {showMobileMenu && (
         <div className="mobile-menu">
           <div className="link-container">
-            <Link to="/register">
+            <Link to="/register?client_id=AEPortal">
               <span className="link-text">Login</span>
             </Link>
             <div className="seperator" />
