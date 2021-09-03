@@ -52,7 +52,6 @@ export default function AddPrescription({
   onClose: onCloseHandler,
   onSave,
 }) {
-
   const [drugName, setDrugName] = useState("");
   const [searchString, setSearchString] = useState("");
   const [dosageOptions, setDosageOptions] = useState([]);
@@ -131,7 +130,7 @@ export default function AddPrescription({
     setDrugName(selectedPrescription);
     setSearchString(null);
   };
-  
+
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
 
   const handleAddPrecscription = async () => {
@@ -217,7 +216,7 @@ export default function AddPrescription({
                   className="label--prescription form-input__header"
                   htmlFor="prescription-name"
                 >
-                  Prescription name
+                  Prescription Search
                 </label>
                 <Typeahead
                   openMenuOnFocus

@@ -4,6 +4,7 @@ import { Select } from "components/ui/Select";
 import Pagination from "components/ui/pagination";
 import ExitIcon from "components/icons/exit";
 import { Button } from "components/ui/Button";
+import Media from "react-media";
 import "./pharmacy-modal.scss";
 import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
@@ -26,7 +27,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [selectedPharmacy, setSelectedPharmacy] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
-  const totalPages = results ? Math.ceil(results.total / perPage) : 0;
+  const [totalCount, setTotalCount] = useState(0);
+  const totalPages = results ? Math.ceil(totalCount / perPage) : 0;
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -41,6 +44,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       setLatLng("");
       setError(null);
       setResults();
+      setTotalCount(0);
       return;
     }
     clientsService
@@ -63,18 +67,18 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       setIsLoading(false);
       setError(null);
       setResults([]);
+      setTotalCount(0);
       return;
     }
 
     let payload = {
-      take: 5,
-      skip: 0,
+      take: 10,
+      skip: 10 * (currentPage - 1),
       fields: "",
       radius: radius,
       zip: zipCode,
       pharmacyName: pharmacyName,
       planPharmacyType: "",
-      // latLng: "",
       pharmacyIDType: 0,
     };
 
@@ -85,8 +89,11 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
         setIsLoading(false);
         if (data?.pharmacyList?.length > 0) {
           setResults(data?.pharmacyList);
+          setError(null);
+          setTotalCount(data.totalCount);
         } else {
           setResults([]);
+          setTotalCount(0);
         }
       })
       .catch((e) => {
@@ -110,7 +117,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   };
 
   const closeModal = () => {
-    setRadius(5);
+    setRadius(10);
     setSelectedPharmacy({});
     setPharmacyAddress("");
     setPharmacyName("");
@@ -119,6 +126,12 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
 
   return (
     <div>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <Modal
         open={isOpen}
         onClose={closeModal}
@@ -126,60 +139,184 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
         labeledById="dialog_add_provider"
         providerModal={true}
         footer={
-          <div className="dialog--actions-pr">
-            {zipCode && totalPages > 1 ? (
-              <Pagination
-                providerPagination
-                currentPage={currentPage}
-                totalPages={totalPages - 1}
-                totalResults={results?.total}
-                pageSize={perPage}
-                onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
-              />
-            ) : (
-              <div />
-            )}
-            <div className="buttons-wrapper">
-              <div className="pr-cancl">
-                <Button
-                  label="Cancel"
-                  onClick={closeModal}
-                  style={{ marginRight: 10 }}
-                  data-gtm="button-cancel-add-pharmacy"
+          isMobile ? null : (
+            <div className="dialog--actions-pr">
+              {zipCode && totalPages > 1 ? (
+                <Pagination
+                  providerPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalResults={totalCount}
+                  pageSize={perPage}
+                  onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
                 />
-              </div>
-              <div className="pr-add">
-                {" "}
-                <Button
-                  disabled={!selectedPharmacy}
-                  label="Add Pharmacy"
-                  onClick={handleAddPharmacy}
-                  data-gtm="button-add-pharmacy"
-                />
+              ) : (
+                <div />
+              )}
+              <div className="buttons-wrapper">
+                <div className="pr-cancl">
+                  <Button
+                    label="Cancel"
+                    onClick={onClose}
+                    style={{ marginRight: 10 }}
+                    data-gtm="button-save"
+                  />
+                </div>
+                <div className="pr-add">
+                  {" "}
+                  <Button
+                    disabled={!selectedPharmacy}
+                    label="Add Pharmacy"
+                    onClick={handleAddPharmacy}
+                    data-gtm="button-cancel"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )
         }
       >
-        <div className="dialog--container pharmacy-modal-dailog">
-          <div className="dialog--title">
-            <h2 id="dialog_help_label" className="hdg hdg--2 mb-1">
+        <div className="dialog--container">
+          <div className="dialog--title add-pr-title">
+            <h2 id="dialog_help_label" className="hdg hdg--2 mb-1 mble-title">
               Add Pharmacy
             </h2>
           </div>
-          <div className="dialog--body pr-modal-container">
-            <div className="pr-header-container">
-              <div className="zip-section">
+          <div className="dialog--body pharmacy-modal-container">
+            <div className="large-view">
+              <div className="pr-header-container">
+                <div className="zip-section">
+                  <label className="pr-title">
+                    ZIP Code
+                    <input
+                      type="text"
+                      placeholder="Zip"
+                      value={zipCode}
+                      maxLength="5"
+                      className={`${
+                        zipCode?.length < 5 && "zip-error"
+                      } zip-input`}
+                      onChange={(e) => {
+                        setZipCode(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="pr-search-section">
+                  <label className="pr-title">
+                    Pharmacy Name
+                    <input
+                      type="text"
+                      value={pharmacyName}
+                      disabled={zipCode?.length < 5}
+                      placeholder="Enter name"
+                      onChange={(e) => {
+                        setPharmacyName(e?.currentTarget?.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="pr-address-section">
+                  <label className="pr-title">
+                    Pharmacy Address
+                    <input
+                      type="text"
+                      value={pharmacyAddress}
+                      disabled={zipCode?.length < 5}
+                      placeholder="Enter address"
+                      onChange={(e) => {
+                        setPharmacyAddress(e.currentTarget.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="miles-section">
+                  <label className="pr-title">
+                    Distance
+                    <Select
+                      placeholder="select"
+                      showValueAsLabel={true}
+                      options={[
+                        { value: 5, label: "5 miles" },
+                        { value: 10, label: "10 miles" },
+                        { value: 25, label: "25 miles" },
+                        { value: 50, label: "50 miles" },
+                      ]}
+                      initialValue={radius}
+                      onChange={(value) => {
+                        setRadius(value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+              {zipCode?.length < 5 && (
+                <span className="validation-msg">Invalid ZIP Code</span>
+              )}
+            </div>
+
+            <div className="small-view">
+              <div className="pr-header-container">
+                <div className="zip-section">
+                  <label className="pr-title">
+                    ZIP Code
+                    <input
+                      type="text"
+                      placeholder="Zip"
+                      value={zipCode}
+                      maxLength="5"
+                      className={`${
+                        zipCode?.length < 5 && "zip-error"
+                      } zip-input`}
+                      onChange={(e) => {
+                        setZipCode(e?.target?.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="miles-section">
+                  <label className="pr-title">
+                    Distance
+                    <Select
+                      placeholder="select"
+                      showValueAsLabel={true}
+                      providerModal={true}
+                      options={[
+                        { value: 10, label: "10 miles" },
+                        { value: 20, label: "20 miles" },
+                        { value: 30, label: "30 miles" },
+                      ]}
+                      value={radius}
+                      initialValue={10}
+                      onChange={(value) => {
+                        setRadius(value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+              {zipCode?.length < 5 && (
+                <span className="validation-msg">Invalid ZIP Code</span>
+              )}
+
+              <div className="pr-search-section">
                 <label className="pr-title">
-                  ZIP Code
+                  Pharmacy Name
+                  <br />
                   <input
+                    className="pr-search-input"
                     type="text"
-                    placeholder="Zip"
-                    value={zipCode}
-                    maxLength="5"
-                    className={`${zipCode?.length < 5 && "zip-error"} zip-input`}
+                    value={pharmacyName}
+                    disabled={zipCode?.length < 5}
+                    placeholder="Enter name"
                     onChange={(e) => {
-                      setZipCode(e.currentTarget.value);
+                      setPharmacyName(e?.target?.value);
                       setCurrentPage(1);
                     }}
                   />
@@ -187,64 +324,27 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
               </div>
               <div className="pr-search-section">
                 <label className="pr-title">
-                  Pharmacy Name
-                  <input
-                    type="text"
-                    value={pharmacyName}
-                    disabled={zipCode?.length < 5}
-                    placeholder="Enter name"
-                    onChange={(e) => {
-                      setPharmacyName(e.currentTarget.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </label>
-              </div>
-              <div className="pr-address-section">
-                <label className="pr-title">
                   Pharmacy Address
+                  <br />
                   <input
+                    className="pr-search-input"
                     type="text"
                     value={pharmacyAddress}
                     disabled={zipCode?.length < 5}
-                    placeholder="Enter address"
+                    placeholder="Enter Address"
                     onChange={(e) => {
-                      setPharmacyAddress(e.currentTarget.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </label>
-              </div>
-              <div className="miles-section">
-                <label className="pr-title">
-                  Distance
-                  <Select
-                    placeholder="select"
-                    showValueAsLabel={true}
-                    options={[
-                      { value: 5, label: "5 miles" },
-                      { value: 10, label: "10 miles" },
-                      { value: 25, label: "25 miles" },
-                      { value: 50, label: "50 miles" },
-                    ]}
-                    initialValue={radius}
-                    onChange={(value) => {
-                      setRadius(value);
+                      setPharmacyAddress(e?.target?.value);
                       setCurrentPage(1);
                     }}
                   />
                 </label>
               </div>
             </div>
-            {zipCode?.length < 5 && (
-              <span className="validation-msg">Invalid ZIP Code</span>
-            )}
 
             <div className="pr-search-result">
-              {results?.total ? (
+              {totalCount ? (
                 <>
-                  <b>{results?.total || 0} providers</b> found within {radius}{" "}
-                  miles
+                  <b>{totalCount || 0} providers</b> found within {radius} miles
                 </>
               ) : null}
             </div>
@@ -255,7 +355,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
               </div>
             ) : (
               <div className="provider-result-container">
-                {error && <div>Error fetching</div>}
+                {error && (
+                  <div className="pr-search-box">Error fetching Providers</div>
+                )}
                 {zipCode &&
                   results?.map((item) => (
                     <div
@@ -288,11 +390,12 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       )}
                     </div>
                   ))}
+
                 {!isLoading && (
                   <>
-                    {!zipCode && (!zipCode || zipCode?.length === 5) && (
+                    {(!zipCode || !zipCode?.length === 5) && (
                       <div className="pr-search-box">
-                        Search for a provider
+                        Enter ZIP code before searching
                       </div>
                     )}
                     {zipCode && zipCode?.length < 5 && (
@@ -300,13 +403,50 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                         Fix errors before searching
                       </div>
                     )}
-                    {results?.length === 0 && (
-                      <div className="pr-search-box">
-                        No phrmacies found under the current search criteria
-                      </div>
-                    )}
+                    {zipCode &&
+                      zipCode?.length === 5 &&
+                      results?.length === 0 && (
+                        <div className="pr-search-box">
+                          No Pharmacies found under the current search criteria
+                        </div>
+                      )}
                   </>
                 )}
+              </div>
+            )}
+            {isMobile && (
+              <div className="dialog--actions-pr">
+                {zipCode && totalPages > 1 ? (
+                  <Pagination
+                    providerPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    totalResults={totalCount}
+                    pageSize={perPage}
+                    onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
+                  />
+                ) : (
+                  <div />
+                )}
+                <div className="buttons-wrapper">
+                  <div className="pr-cancl">
+                    <Button
+                      label="Cancel"
+                      onClick={closeModal}
+                      style={{ marginRight: 10 }}
+                      data-gtm="button-save"
+                    />
+                  </div>
+                  <div className="pr-add">
+                    {" "}
+                    <Button
+                      disabled={!selectedPharmacy}
+                      label="Add Pharmacy"
+                      onClick={handleAddPharmacy}
+                      data-gtm="button-cancel"
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </div>

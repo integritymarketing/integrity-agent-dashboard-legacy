@@ -23,7 +23,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   const phoneData = phones.length > 0 ? phones[0] : null;
   const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
   const phoneLabel =
-    phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : notAvailable;
+    phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "Mobile";
 
   const addressData = addresses.length > 0 ? addresses[0] : null;
   const city = addressData && addressData.city ? addressData.city : "";

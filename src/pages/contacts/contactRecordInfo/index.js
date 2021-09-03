@@ -23,8 +23,8 @@ import analyticsService from "services/analyticsService";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
 import ScopeOfAppointment from "./ScopeOfAppointment";
+import SOAicon from "components/icons/soa";
 
-// import SOAicon from "components/icons/soa";
 export default () => {
   const { contactId: id } = useParams();
   const { state = {} } = useLocation();
@@ -91,7 +91,7 @@ export default () => {
     });
     getContactRecordInfo();
     setEdit(state.isEdit);
-    setDisplay(state.display);
+    setDisplay(state.display || "OverView");
   }, [getContactRecordInfo, state.isEdit, state.display]);
 
   const handleRendering = () => {
@@ -246,7 +246,7 @@ export default () => {
 
               {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
 
-              {/* <li
+              <li
                 className={`ScopeOfAppointment ${
                   display === "ScopeOfAppointment" ? "mobile-menu-active" : ""
                 }`}
@@ -256,7 +256,7 @@ export default () => {
                   <SOAicon />
                 </label>
                 <span>Scope Of Appointment</span>
-              </li> */}
+              </li>
             </ul>
             <PersonalInfo
               personalInfo={personalInfo}
@@ -306,15 +306,15 @@ export default () => {
 
                   {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
 
-                  {/* <li
-                  className={display === "ScopeOfAppointment" && "active"}
-                  onClick={() => setDisplay("ScopeOfAppointment")}
-                >
-                  <label className="icon-spacing">
-                    <SOAicon />
-                  </label>
-                  <span>Scope Of Appointment</span>
-                </li> */}
+                  <li
+                    className={display === "ScopeOfAppointment" && "active"}
+                    onClick={() => setDisplay("ScopeOfAppointment")}
+                  >
+                    <label className="icon-spacing">
+                      <SOAicon />
+                    </label>
+                    <span>Scope Of Appointment</span>
+                  </li>
                 </ul>
                 <div className="rightSection">{handleRendering()}</div>
               </Container>

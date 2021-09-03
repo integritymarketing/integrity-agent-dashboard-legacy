@@ -4,8 +4,19 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  @media (max-width: 480px) {
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .cancel-btn {
     margin-right: 10px;
+  }
+
+  .pagination-container .pagination__pages {
+    @media (max-width: 480px) {
+      padding: 0px;
+    }
   }
 
   .provider-pagination {
@@ -38,6 +49,13 @@
     font-weight: bold;
     font-size: 16px;
 
+    @media (max-width: 480px) {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
     .pr-cancl {
       & button {
         margin-right: 10px;
@@ -47,6 +65,12 @@
         border-radius: 4px;
         color: #0052ce;
         font-family: Lato;
+        @media (max-width: 480px) {
+          width: 159px;
+        }
+        @media (max-width: 320px) {
+          width: auto;
+        }
       }
     }
 
@@ -58,6 +82,12 @@
         border-radius: 4px;
         color: #f8fafc;
         font-family: Lato;
+        @media (max-width: 480px) {
+          width: 159px;
+        }
+        @media (max-width: 320px) {
+          width: auto;
+        }
       }
 
       & :disabled {
@@ -71,18 +101,59 @@
 /*provider footer css end*/
 
 /*provider Modal container css*/
-.pr-modal-container {
+
+.add-pr-title {
+  margin: 0px;
+
+  @media (max-width: 480px) {
+    .mble-title {
+      font-size: 32px;
+    }
+  }
+}
+.pharmacy-modal-container {
+  margin: 0px;
   padding-bottom: 50px;
+  @media (max-width: 480px) {
+    padding-bottom: 0px;
+  }
 
   .spinner-container > .spinner {
     margin: 50px auto;
   }
 
+  .large-view {
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+
+  .small-view {
+    display: none;
+    @media (max-width: 480px) {
+      display: initial;
+      .pr-search-section {
+        margin-top: 24px;
+        .pr-search-input {
+          width: 100%;
+          padding: 10px;
+        }
+      }
+    }
+  }
+
   .pr-header-container {
     display: flex;
 
+    @media (max-width: 480px) {
+      justify-content: space-between;
+    }
+
     .zip-section {
       width: 20%;
+      @media (max-width: 480px) {
+        width: 50%;
+      }
 
       .zip-input {
         width: 100%;
@@ -98,8 +169,8 @@
     }
 
     .pr-search-section {
-      width: 30%;
-      margin: 0px 10px;
+      width: 26%;
+      margin-left: 6px;
 
       .pr-search-input {
         width: 100%;
@@ -108,8 +179,7 @@
     }
 
     .pr-address-section {
-      width: 30%;
-      margin-right: 10px;
+      width: 26%;
 
       .pr-search-input {
         width: 100%;
@@ -118,7 +188,10 @@
     }
 
     .miles-section {
-      width: 30%;
+      width: 20%;
+      @media (max-width: 480px) {
+        width: auto;
+      }
 
       .select-container {
         font-family: Lato;
@@ -136,6 +209,15 @@
     font-size: 16px;
     line-height: 150%;
     color: #515e6f;
+
+    @media (max-width: 480px) {
+      font-size: 16px;
+      line-height: 130%;
+      color: #64748b;
+      & input {
+        margin-top: 4px;
+      }
+    }
 
     & input,
     select {
@@ -219,7 +301,11 @@
       height: 217px;
       background: #f8fafc;
       border-radius: 4px;
-      font-size: 14px;
+      @media (max-width: 480px) {
+        text-align: center;
+        height: 177px;
+        width: auto;
+      }
     }
 
     .deselect-pr {
@@ -237,13 +323,14 @@
   display: flex;
   align-items: center;
   padding: 16px 3.438rem;
-}
 
-.pharmacy-modal-dailog {
-  .dialog--title,
-  .dialog--body,
-  .dialog--actions {
-    margin: 0px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    width: auto;
+    padding: 16px 20px;
   }
 }
 

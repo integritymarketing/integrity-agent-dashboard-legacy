@@ -266,23 +266,22 @@ class ClientsService {
         },
       ];
     }
-    if (phones?.leadPhone) {
-      reqData.phones = [
-        {
-          phoneId: phoneId,
-          ...phones,
-          leadPhone: this._getFormattedPhone(phones.leadPhone),
-        },
-      ];
-    }
-    if (address?.address1) {
-      reqData.addresses = [
-        {
-          leadAddressId: leadAddressId,
-          ...address,
-        },
-      ];
-    }
+
+    reqData.phones = [
+      {
+        phoneId: phoneId,
+        ...phones,
+        leadPhone: this._getFormattedPhone(phones.leadPhone),
+      },
+    ];
+
+    reqData.addresses = [
+      {
+        leadAddressId: leadAddressId,
+        ...address,
+      },
+    ];
+
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${reqData.leadsId}`,
       "PUT",
