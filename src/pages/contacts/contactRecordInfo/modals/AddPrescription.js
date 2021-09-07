@@ -12,13 +12,9 @@ import clientService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import "./modals.scss";
 
-const CustomOption = ({ innerRef, innerProps, data }) => {
-  return (
-    <div ref={innerRef} {...innerProps}>
-      <Options header={data.label} subHeader={data.description} />
-    </div>
-  );
-};
+const formatOptionLabel = ({ label, description }) => (
+  <Options header={label} subHeader={description} />
+);
 
 const Menu = (props) => {
   const optionsLength = props?.options?.length ?? 0;
@@ -106,12 +102,12 @@ export default function AddPrescription({
       setFrequency(commonDaysOfSupply);
     }
   }, [dosage]);
-
   const fetchOptions = async (searchStr) => {
     setDrugName(() => null);
     setSearchString(searchStr);
     const drugNameOptions = await clientService.getDrugNames(searchStr);
-    return (drugNameOptions || []).map(transformPrescriptionOptions);
+    const options = (drugNameOptions || []).map(transformPrescriptionOptions);
+    return options;
   };
 
   const onClose = (ev) => {
@@ -180,6 +176,20 @@ export default function AddPrescription({
       boxShadow: "none",
       border: "1px solid #c7ccd1",
     }),
+    option: (provided, state) => {
+      const focusedStyles = state.isFocused
+        ? {
+            color: "#0052ce",
+            border: "1px solid #0052ce",
+            backgroundColor: "#f2f9ff",
+            borderRadius: 4,
+          }
+        : {};
+      return {
+        ...provided,
+        ...focusedStyles,
+      };
+    },
   };
 
   return (
@@ -228,11 +238,13 @@ export default function AddPrescription({
                   menuPosition="fixed"
                   value={drugName}
                   isClearable
+                  aria-relevant="additions text"
+                  aria-atomic="true"
                   loadOptions={fetchOptions}
                   onChange={handleOnPrescriptionSelect}
+                  formatOptionLabel={formatOptionLabel}
                   components={{
                     Menu,
-                    Option: CustomOption,
                     DropdownIndicator: () => null,
                     IndicatorSeparator: () => null,
                   }}
