@@ -322,7 +322,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
               {totalCount ? (
                 <>
                   <b>{totalCount || 0} Pharmacies</b> found within {radius}
-                  miles
+                  &nbsp;miles
                 </>
               ) : null}
             </div>

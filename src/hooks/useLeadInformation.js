@@ -28,8 +28,15 @@ export default (leadId) => {
   }, [setPharmacies, setProviders, setPrescriptions, setIsLoading, leadId]);
 
   const addPrescription = async (item) => {
+    //below itemObject has been cloned for the undo to work properly
+    const itemObject = {
+      ...item,
+      dosageRecordID: 0,
+      packages: null,
+      selectedPackage: null,
+    };
     try {
-      await clientService.createPrescription(leadId, item);
+      await clientService.createPrescription(leadId, itemObject);
       await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
         message: "Prescription Added",
