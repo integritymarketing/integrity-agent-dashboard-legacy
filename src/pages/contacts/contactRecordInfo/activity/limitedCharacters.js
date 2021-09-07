@@ -25,7 +25,11 @@ export default ({ characters, size }) => {
     if (!value) {
       return;
     }
-    return value.split(",").map((item) => <div>{item}</div>);
+    return value.split(",").map((item) => (
+      <li>
+        <span className="li-mr-left">{item}</span>
+      </li>
+    ));
   }
 
   return (
