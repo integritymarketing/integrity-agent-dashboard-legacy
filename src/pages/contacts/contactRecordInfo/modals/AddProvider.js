@@ -166,7 +166,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                       value={zipCode}
                       maxLength="5"
                       className={`${
-                        zipCode.length < 5 && "zip-error"
+                        zipCode && zipCode.length < 5 ? "zip-error" : ""
                       } zip-input`}
                       onChange={(e) => {
                         setZipCode(e.target.value);
@@ -185,7 +185,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                       className="pr-search-input"
                       type="text"
                       value={searchText}
-                      disabled={zipCode.length < 5}
+                      disabled={zipCode && zipCode.length < 5}
                       placeholder="Start typing a provider’s name"
                       onChange={(e) => {
                         setSearchText(e.target.value);
@@ -215,7 +215,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                   </label>
                 </div>
               </div>
-              {zipCode.length < 5 && (
+              {zipCode && zipCode.length < 5 && (
                 <span className="validation-msg">Invalid ZIP Code</span>
               )}
             </div>
@@ -228,10 +228,10 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     <input
                       type="text"
                       placeholder="Zip"
-                      value={zipCode}
+                      value={zipCode ? zipCode : ""}
                       maxLength="5"
                       className={`${
-                        zipCode.length < 5 && "zip-error"
+                        zipCode && zipCode.length < 5 ? "zip-error" : ""
                       } zip-input`}
                       onChange={(e) => {
                         setZipCode(e.target.value);
@@ -265,7 +265,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                   </label>
                 </div>
               </div>
-              {zipCode.length < 5 && (
+              {zipCode && zipCode.length < 5 && (
                 <span className="validation-msg">Invalid ZIP Code</span>
               )}
 
@@ -277,7 +277,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     className="pr-search-input"
                     type="text"
                     value={searchText}
-                    disabled={zipCode.length < 5}
+                    disabled={zipCode && zipCode.length < 5}
                     placeholder="Start typing a provider’s name"
                     onChange={(e) => {
                       setSearchText(e.target.value);
