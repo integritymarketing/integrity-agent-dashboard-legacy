@@ -321,15 +321,17 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                         <div className="pr-h1">{item.presentationName}</div>
                         <div className="pr-h2">{item.specialty}</div>
                         <div className="pr-h2">
-                          {[
-                            item.addresses[0].streetLine1,
-                            item.addresses[0].streetLine2,
-                            item.addresses[0].city,
-                            item.addresses[0].state,
-                            item.addresses[0].zipCode,
-                          ]
-                            .filter(Boolean)
-                            .join(",")}
+                          {item && item.addresses
+                            ? [
+                                item.addresses[0]?.streetLine1,
+                                item.addresses[0]?.streetLine2,
+                                item.addresses[0]?.city,
+                                item.addresses[0]?.state,
+                                item.addresses[0]?.zipCode,
+                              ]
+                                .filter(Boolean)
+                                .join(",")
+                            : null}
                         </div>
                       </div>
                       {selectedProvider?.NPI === item.NPI && (
