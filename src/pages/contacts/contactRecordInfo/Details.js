@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
-import AddPrescription from "./modals/AddPrescription";
-import EditPrescription from "./modals/EditPrescription";
+/* import AddPrescription from "./modals/AddPrescription";
+import EditPrescription from "./modals/EditPrescription"; */
 import AddPharmacy from "./modals/AddPharmacy";
 import useLeadInformation from "hooks/useLeadInformation";
 import CellData from "components/ui/DetailsTable/CellData";
@@ -11,34 +11,34 @@ import { formatPhoneNumber } from "utils/phones";
 import AddProvider from "./modals/AddProvider";
 import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
-import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-import DeleteLeadModal from "./DeleteLeadModal";
+/* import FREQUENCY_OPTIONS from "utils/frequencyOptions";
+ */import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 
 export default (props) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenPrescription, setIsOpenPrescription] = useState(false);
+/*   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
+  const [prescriptionToEdit, setPrescriptionToEdit] = useState([]); */
   const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
-  const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
   const {
     pharmacies,
-    prescriptions,
+ /*    prescriptions, */
     isLoading,
-    addPrescription,
     addPharmacy,
+/*     addPrescription,
     editPrescription,
-    deletePrescription,
+    deletePrescription, */
     deletePharmacy,
   } = useLeadInformation(props.id);
-  const onAddNewPrescription = () => setIsOpenPrescription(true);
+/*   const onAddNewPrescription = () => setIsOpenPrescription(true);
   const onCloseNewPrescription = () => setIsOpenPrescription(false);
   const onEditPrescription = (item) => {
     setIsOpenEditPrescription(true);
     setPrescriptionToEdit(item);
   };
-  const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
+  const onCloseEditPrescription = () => setIsOpenEditPrescription(false); */
   const onAddNewPharmacy = () => setIsOpenPharmacy(true);
   const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
   const onAddNewProvider = () => setIsOpen(true);
@@ -127,7 +127,7 @@ export default (props) => {
     fetchProviders();
   }, [fetchProviders]);
 
-  const getFrequencyValue = (dayofSupply) => {
+/*   const getFrequencyValue = (dayofSupply) => {
     const frequencyOptions = FREQUENCY_OPTIONS.filter(
       (option) => option.value === dayofSupply
     );
@@ -149,7 +149,7 @@ export default (props) => {
         <CellData subText={selectPackageDetails} />
       </div>
     );
-  };
+  }; */
 
   const PharamaciesRow = ({ item, className }) => {
     const address = `${item.address1} ${item.address2 ?? ""}, ${item.city}, 
@@ -181,7 +181,7 @@ export default (props) => {
           />
         )}
 
-        <AddPrescription
+{/*         <AddPrescription
           isOpen={isOpenPrescription}
           onClose={onCloseNewPrescription}
           onSave={addPrescription}
@@ -192,7 +192,7 @@ export default (props) => {
           onClose={onCloseEditPrescription}
           item={prescriptionToEdit}
           onSave={editPrescription}
-        />
+        /> */}
         <AddPharmacy
           isOpen={isOpenPharmacy}
           onClose={onCloseNewPharmacy}
@@ -207,6 +207,7 @@ export default (props) => {
           itemRender={(item, index) => {
             return (
               <div
+                key={index}
                 style={{
                   background: index % 2 ? "white" : "#F1F5F9",
                 }}
@@ -242,7 +243,7 @@ export default (props) => {
             );
           }}
         />
-        <DetailsCard
+  {/*       <DetailsCard
           headerTitle="Prescriptions"
           onAddClick={onAddNewPrescription}
           items={prescriptions}
@@ -250,7 +251,7 @@ export default (props) => {
           onDelete={deletePrescription}
           onEdit={onEditPrescription}
           isLoading={isLoading}
-        />
+        /> */}
         <DetailsCard
           headerTitle="Pharmacies"
           onAddClick={onAddNewPharmacy}
