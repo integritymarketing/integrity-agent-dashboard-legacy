@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 40px;
+  border-radius: 4px;
 
   @media (max-width: 480px) {
     display: inherit;
@@ -17,11 +18,11 @@
     @media (max-width: 480px) {
       .pr-title-mble {
         margin-bottom: 14px;
-      } 
+      }
       .pr-phone-mble {
         font-size: 14px !important;
         margin-bottom: 14px;
-        color: #64748B !important;
+        color: #64748b !important;
         font-weight: initial !important;
       }
       width: 90%;

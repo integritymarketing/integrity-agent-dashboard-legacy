@@ -9,22 +9,20 @@ import "./pharmacy-modal.scss";
 import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
-import * as Sentry from "@sentry/react";
 
 export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [zipCode, setZipCode] = useState(
     personalInfo?.addresses[0]?.postalCode
   );
-  const [radius, setRadius] = useState("5");
+  const [radius, setRadius] = useState(5);
 
   const [pharmacyName, setPharmacyName] = useState("");
   const [pharmacyAddress, setPharmacyAddress] = useState("");
-  const [latLng, setLatLng] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [results, setResults] = useState([]);
-  const [selectedPharmacy, setSelectedPharmacy] = useState({});
+  const [selectedPharmacy, setSelectedPharmacy] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
@@ -38,29 +36,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       });
     }
   }, [isOpen]);
-  useEffect(() => {
-    if (!zipCode || zipCode?.length !== 5) {
-      setIsLoading(false);
-      setLatLng("");
-      setError(null);
-      setResults();
-      setTotalCount(0);
-      return;
-    }
-    clientsService
-      .getLatlongByAddress(zipCode, pharmacyAddress)
-      .then((data) => {
-        if (data?.features[0]?.center) {
-          let latlan_value = data?.features[0]?.center.toString();
-          setLatLng(latlan_value);
-        } else {
-          setLatLng("");
-        }
-      })
-      .catch((e) => {
-        Sentry.captureException(e);
-      });
-  }, [zipCode, pharmacyAddress]);
 
   useEffect(() => {
     if (!zipCode || zipCode?.length !== 5) {
@@ -100,7 +75,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
         setIsLoading(false);
         setError(e);
       });
-  }, [perPage, currentPage, pharmacyName, zipCode, radius, latLng]);
+  }, [perPage, currentPage, pharmacyName, zipCode, radius]);
 
   const handleAddPharmacy = async () => {
     await onSave({
@@ -117,8 +92,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   };
 
   const closeModal = () => {
-    setRadius(10);
-    setSelectedPharmacy({});
+    setRadius(5);
+    setSelectedPharmacy(null);
     setPharmacyAddress("");
     setPharmacyName("");
     onClose();
@@ -157,7 +132,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 <div className="pr-cancl">
                   <Button
                     label="Cancel"
-                    onClick={onClose}
+                    onClick={closeModal}
                     style={{ marginRight: 10 }}
                     data-gtm="button-save"
                   />
@@ -208,6 +183,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Pharmacy Name
                     <input
                       type="text"
+                      className="pr-search-input"
                       value={pharmacyName}
                       disabled={zipCode?.length < 5}
                       placeholder="Enter name"
@@ -223,6 +199,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Pharmacy Address
                     <input
                       type="text"
+                      className="pr-search-input"
                       value={pharmacyAddress}
                       disabled={zipCode?.length < 5}
                       placeholder="Enter address"
@@ -238,7 +215,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Distance
                     <Select
                       placeholder="select"
-                      showValueAsLabel={true}
                       options={[
                         { value: 5, label: "5 miles" },
                         { value: 10, label: "10 miles" },
@@ -264,6 +240,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 <div className="zip-section">
                   <label className="pr-title">
                     ZIP Code
+                    <br />
                     <input
                       type="text"
                       placeholder="Zip"
@@ -284,15 +261,15 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Distance
                     <Select
                       placeholder="select"
-                      showValueAsLabel={true}
                       providerModal={true}
                       options={[
+                        { value: 5, label: "5 miles" },
                         { value: 10, label: "10 miles" },
                         { value: 20, label: "20 miles" },
                         { value: 30, label: "30 miles" },
                       ]}
                       value={radius}
-                      initialValue={10}
+                      initialValue={5}
                       onChange={(value) => {
                         setRadius(value);
                         setCurrentPage(1);
@@ -344,7 +321,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
             <div className="pr-search-result">
               {totalCount ? (
                 <>
-                  <b>{totalCount || 0} providers</b> found within {radius} miles
+                  <b>{totalCount || 0} Pharmacies</b> found within {radius}
+                  miles
                 </>
               ) : null}
             </div>

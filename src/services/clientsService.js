@@ -258,7 +258,8 @@ class ClientsService {
       contactRecordType,
       notes,
     };
-    if (email) {
+
+    if (email !== null || email !== undefined) {
       reqData.emails = [
         {
           emailID: emailID,
@@ -488,7 +489,7 @@ class ClientsService {
   };
 
   getDrugDetails = async (drugDetails) => {
-    const {ndc} = drugDetails;
+    const { ndc } = drugDetails;
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?ndc=${ndc}`,
       "GET"
@@ -564,27 +565,6 @@ class ClientsService {
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
       "POST",
       payload
-    );
-
-    return response.json();
-  };
-
-  getLatlongByAddress = async (zipcode, address) => {
-    const opts = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const response = await fetch(
-      `  https://api.mapbox.com/geocoding/v5/mapbox.places/${
-        address + zipcode
-      }.json?limit=1&access_token=${
-        process.env.REACT_APP_MAPBOX_GEOCODE_ACCESS_TOKEN
-      }
-        `,
-      opts
     );
 
     return response.json();
