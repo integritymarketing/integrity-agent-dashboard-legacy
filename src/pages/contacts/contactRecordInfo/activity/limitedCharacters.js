@@ -21,9 +21,16 @@ export default ({ characters, size }) => {
     limitedCharacters(size);
   }, [size, limitedCharacters]);
 
+  function formattedText(value) {
+    if (!value) {
+      return;
+    }
+    return value.split(",").map((item) => <div>{item}</div>);
+  }
+
   return (
     <span>
-      {viewText}
+      {formattedText(viewText)}
       {characters.length > size && (
         <>
           {viewMore ? (
