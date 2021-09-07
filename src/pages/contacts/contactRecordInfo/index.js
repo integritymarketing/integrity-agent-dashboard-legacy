@@ -22,8 +22,6 @@ import Details from "./Details";
 import analyticsService from "services/analyticsService";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
-import ScopeOfAppointment from "./ScopeOfAppointment";
-import SOAicon from "components/icons/soa";
 
 export default () => {
   const { contactId: id } = useParams();
@@ -112,8 +110,6 @@ export default () => {
         return <Details {...props} />;
       case "Preferences":
         return <Preferences {...props} />;
-      case "ScopeOfAppointment":
-        return <ScopeOfAppointment {...props} />;
       default:
         return <OverView {...props} />;
     }
@@ -243,20 +239,6 @@ export default () => {
                 </label>
                 <span>Preferences</span>
               </li>
-
-              {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
-
-              <li
-                className={`ScopeOfAppointment ${
-                  display === "ScopeOfAppointment" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("ScopeOfAppointment")}
-              >
-                <label className="icon-spacing">
-                  <SOAicon />
-                </label>
-                <span>Scope Of Appointment</span>
-              </li>
             </ul>
             <PersonalInfo
               personalInfo={personalInfo}
@@ -302,18 +284,6 @@ export default () => {
                       <PreferencesIcon />
                     </label>
                     <span>Preferences </span>
-                  </li>
-
-                  {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
-
-                  <li
-                    className={display === "ScopeOfAppointment" && "active"}
-                    onClick={() => setDisplay("ScopeOfAppointment")}
-                  >
-                    <label className="icon-spacing">
-                      <SOAicon />
-                    </label>
-                    <span>Scope Of Appointment</span>
                   </li>
                 </ul>
                 <div className="rightSection">{handleRendering()}</div>

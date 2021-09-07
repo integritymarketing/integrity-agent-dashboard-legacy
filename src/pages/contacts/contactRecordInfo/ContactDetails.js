@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { formatPhoneNumber } from "utils/phones";
-import DeleteLeadModal from "./DeleteLeadModal";
 import Editicon from "components/icons/edit-details";
 const notAvailable = "-";
 
@@ -12,14 +11,11 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     emails = [],
     phones = [],
     addresses = [],
-    leadsId = null,
     contactPreferences,
     contactRecordType = "prospect",
   } = personalInfo;
 
-  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
-
-  emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
+  emails = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
   const phoneData = phones.length > 0 ? phones[0] : null;
   const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
   const phoneLabel =
@@ -161,18 +157,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             </div>
           </div>
         </div>
-        <div className="deletecontactsection">
-          <button onClick={() => setDeleteModalStatus(true)}>
-            Delete Contact
-          </button>
-        </div>
       </div>
-      <DeleteLeadModal
-        leadsId={leadsId}
-        leadName={`${firstName} ${middleName || ""} ${lastName}`}
-        deleteModalStatus={deleteModalStatus}
-        setDeleteModalStatus={() => setDeleteModalStatus(false)}
-      />
     </>
   );
 };

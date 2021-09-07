@@ -12,9 +12,11 @@ import AddProvider from "./modals/AddProvider";
 import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
+import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 
 export default (props) => {
+  let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
@@ -256,6 +258,10 @@ export default (props) => {
           Row={PharamaciesRow}
           onDelete={deletePharmacy}
           isLoading={isLoading}
+        />
+        <DeleteLeadModal
+          leadsId={props?.id}
+          leadName={`${firstName} ${middleName || ""} ${lastName}`}
         />
       </div>
     </>

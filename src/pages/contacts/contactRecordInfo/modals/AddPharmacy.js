@@ -15,7 +15,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [zipCode, setZipCode] = useState(
     personalInfo?.addresses[0]?.postalCode
   );
-  const [radius, setRadius] = useState("5");
+  const [radius, setRadius] = useState(5);
 
   const [pharmacyName, setPharmacyName] = useState("");
   const [pharmacyAddress, setPharmacyAddress] = useState("");
@@ -24,7 +24,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [results, setResults] = useState([]);
-  const [selectedPharmacy, setSelectedPharmacy] = useState({});
+  const [selectedPharmacy, setSelectedPharmacy] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
@@ -117,8 +117,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   };
 
   const closeModal = () => {
-    setRadius(10);
-    setSelectedPharmacy({});
+    setRadius(5);
+    setSelectedPharmacy(null);
     setPharmacyAddress("");
     setPharmacyName("");
     onClose();
@@ -157,7 +157,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 <div className="pr-cancl">
                   <Button
                     label="Cancel"
-                    onClick={onClose}
+                    onClick={closeModal}
                     style={{ marginRight: 10 }}
                     data-gtm="button-save"
                   />
@@ -208,6 +208,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Pharmacy Name
                     <input
                       type="text"
+                      className="pr-search-input"
                       value={pharmacyName}
                       disabled={zipCode?.length < 5}
                       placeholder="Enter name"
@@ -223,6 +224,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Pharmacy Address
                     <input
                       type="text"
+                      className="pr-search-input"
                       value={pharmacyAddress}
                       disabled={zipCode?.length < 5}
                       placeholder="Enter address"
@@ -264,6 +266,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 <div className="zip-section">
                   <label className="pr-title">
                     ZIP Code
+                    <br />
                     <input
                       type="text"
                       placeholder="Zip"
@@ -287,12 +290,13 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       showValueAsLabel={true}
                       providerModal={true}
                       options={[
+                        { value: 5, label: "5 miles" },
                         { value: 10, label: "10 miles" },
                         { value: 20, label: "20 miles" },
                         { value: 30, label: "30 miles" },
                       ]}
                       value={radius}
-                      initialValue={10}
+                      initialValue={5}
                       onChange={(value) => {
                         setRadius(value);
                         setCurrentPage(1);

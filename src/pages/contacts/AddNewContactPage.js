@@ -501,6 +501,7 @@ const NewContactForm = () => {
               </div>
               <div>
                 <Field
+                  className="mr-1"
                   type="radio"
                   id="primary--phone"
                   name="primaryCommunication"

@@ -390,7 +390,6 @@ export default (props) => {
                       className="custom-w-px1"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.email && errors.email}
                     />
                   </div>
                 </div>
@@ -407,7 +406,6 @@ export default (props) => {
                       className="custom-w-px1"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.email && errors.email}
                     />
                   </div>
                   <div className="ml-65 responsive-w-50 custom-w-25 contact-details-col1">
@@ -427,20 +425,7 @@ export default (props) => {
                       />
                     </div>
                   </div>
-                  <div className="custom-w-25 contact-details-col1 visibility-hidden">
-                    <Textfield
-                      id="contact-dob"
-                      type="text"
-                      label="Date of Birth"
-                      placeholder="MM/DD/YYYY"
-                      name="dob"
-                      value=""
-                      className="custom-w-px1"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.email && errors.email}
-                    />
-                  </div>
+                  <div className="custom-w-25 contact-details-col1 visibility-hidden"></div>
                 </div>
                 <div className="mob-email-row contact-details-row mob-res-row1">
                   <div className="contact-details-col1 mob-res-w-100">
@@ -572,20 +557,7 @@ export default (props) => {
                       </>
                     )}
                   </div>
-                  <div className="custom-w-25 contact-details-col1 visibility-hidden">
-                    <Textfield
-                      id="contact-dob"
-                      type="text"
-                      label="Date of Birth"
-                      placeholder="MM/DD/YYYY"
-                      name="dob"
-                      value=""
-                      className="custom-w-px1"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.email && errors.email}
-                    />
-                  </div>
+                  <div className="custom-w-25 contact-details-col1 visibility-hidden"></div>
                 </div>
                 <div className="contact-details-row mobile-responsive-row">
                   <div className="mr-1 custom-w-186 contact-details-col1">
