@@ -199,7 +199,6 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     Distance
                     <Select
                       placeholder="select"
-                      showValueAsLabel={true}
                       providerModal={true}
                       options={[
                         { value: 10, label: "10 miles" },
@@ -248,7 +247,6 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     Distance
                     <Select
                       placeholder="select"
-                      showValueAsLabel={true}
                       providerModal={true}
                       options={[
                         { value: 10, label: "10 miles" },
