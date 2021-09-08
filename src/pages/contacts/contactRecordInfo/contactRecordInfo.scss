@@ -130,6 +130,9 @@
   word-break: break-all;
   line-height: 130%;
 }
+.li-mr-left {
+  margin-left: -11px;
+}
 .showmorebtn {
   cursor: pointer;
   color: #3d4553;
@@ -553,6 +556,9 @@
 }
 .reminderCardSection2row1 {
   margin-bottom: 30px;
+  @media (max-width: 768px) {
+    display: initial !important;
+  }
 }
 .reminderCardSection2row2 {
   display: flex;
