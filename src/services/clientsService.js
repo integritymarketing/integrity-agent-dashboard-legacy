@@ -258,8 +258,8 @@ class ClientsService {
       contactRecordType,
       notes,
     };
-
-    if (email !== null || email !== undefined) {
+    reqData.emails = [];
+    if (email !== null && email !== undefined) {
       reqData.emails = [
         {
           emailID: emailID,

@@ -12,27 +12,27 @@ import AddProvider from "./modals/AddProvider";
 import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
 /* import FREQUENCY_OPTIONS from "utils/frequencyOptions";
- */import DeleteLeadModal from "./DeleteLeadModal";
+ */ import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 
 export default (props) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
   const [isOpen, setIsOpen] = useState(false);
-/*   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
+  /*   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]); */
   const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
   const {
     pharmacies,
- /*    prescriptions, */
+    /*    prescriptions, */
     isLoading,
     addPharmacy,
-/*     addPrescription,
+    /*     addPrescription,
     editPrescription,
     deletePrescription, */
     deletePharmacy,
   } = useLeadInformation(props.id);
-/*   const onAddNewPrescription = () => setIsOpenPrescription(true);
+  /*   const onAddNewPrescription = () => setIsOpenPrescription(true);
   const onCloseNewPrescription = () => setIsOpenPrescription(false);
   const onEditPrescription = (item) => {
     setIsOpenEditPrescription(true);
@@ -127,7 +127,7 @@ export default (props) => {
     fetchProviders();
   }, [fetchProviders]);
 
-/*   const getFrequencyValue = (dayofSupply) => {
+  /*   const getFrequencyValue = (dayofSupply) => {
     const frequencyOptions = FREQUENCY_OPTIONS.filter(
       (option) => option.value === dayofSupply
     );
@@ -181,7 +181,7 @@ export default (props) => {
           />
         )}
 
-{/*         <AddPrescription
+        {/*         <AddPrescription
           isOpen={isOpenPrescription}
           onClose={onCloseNewPrescription}
           onSave={addPrescription}
@@ -193,12 +193,14 @@ export default (props) => {
           item={prescriptionToEdit}
           onSave={editPrescription}
         /> */}
-        <AddPharmacy
-          isOpen={isOpenPharmacy}
-          onClose={onCloseNewPharmacy}
-          personalInfo={props.personalInfo}
-          onSave={addPharmacy}
-        />
+        {isOpenPharmacy && (
+          <AddPharmacy
+            isOpen={isOpenPharmacy}
+            onClose={onCloseNewPharmacy}
+            personalInfo={props.personalInfo}
+            onSave={addPharmacy}
+          />
+        )}
         <DetailsCard
           headerTitle="Providers"
           onAddClick={onAddNewProvider}
@@ -243,7 +245,7 @@ export default (props) => {
             );
           }}
         />
-  {/*       <DetailsCard
+        {/*       <DetailsCard
           headerTitle="Prescriptions"
           onAddClick={onAddNewPrescription}
           items={prescriptions}

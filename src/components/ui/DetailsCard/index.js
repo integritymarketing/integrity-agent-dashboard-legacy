@@ -34,6 +34,8 @@ function DetailsCard({
       : `${headerTitle.slice(0, -1)} ${
           itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength
         }`;
+  const disableStatus =
+    headerTitle === "Pharmacies" && items.length === 3 ? true : false;
 
   return (
     <div className="details-card">
@@ -44,7 +46,8 @@ function DetailsCard({
         {onAddClick && (
           <div className="actions">
             <Button
-              icon={<Plus />}
+              icon={<Plus disabled={disableStatus} />}
+              disabled={disableStatus}
               iconPosition="left"
               label={buttonLabel}
               onClick={onAddClick}

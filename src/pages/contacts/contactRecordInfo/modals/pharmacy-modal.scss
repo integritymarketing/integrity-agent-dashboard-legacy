@@ -162,13 +162,6 @@
           width: auto;
         }
       }
-
-      .zip-error {
-        background: #fff2f2 !important;
-        border: 1px solid #cf3c28 !important;
-        color: #2b323b !important;
-        margin-bottom: 5px;
-      }
     }
 
     .pr-search-section {
@@ -205,6 +198,13 @@
         color: #2b323b;
       }
     }
+  }
+
+  .error {
+    background: #fff2f2 !important;
+    border: 1px solid #cf3c28 !important;
+    color: #2b323b !important;
+    margin-bottom: 5px;
   }
 
   .pr-title {

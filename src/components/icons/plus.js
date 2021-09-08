@@ -1,6 +1,7 @@
 import React from "react";
 
-export default (props) => {
+export default ({ disabled }) => {
+  const stroke = disabled ? "#94A3B8" : "#0052CE";
   return (
     <svg
       width="14"
@@ -11,14 +12,14 @@ export default (props) => {
     >
       <path
         d="M7 0.875V13.125"
-        stroke="#0052CE"
+        stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M0.875 7H13.125"
-        stroke="#0052CE"
+        stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -38,7 +38,12 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   }, [isOpen]);
 
   useEffect(() => {
-    if (!zipCode || zipCode?.length !== 5) {
+    if (
+      !zipCode ||
+      zipCode?.length !== 5 ||
+      !pharmacyName ||
+      pharmacyName.length < 3
+    ) {
       setIsLoading(false);
       setError(null);
       setResults([]);
@@ -47,8 +52,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     }
 
     let payload = {
-      take: 10,
-      skip: 10 * (currentPage - 1),
+      take: perPage,
+      skip: perPage * (currentPage - 1),
       fields: "",
       radius: radius,
       zip: zipCode,
@@ -88,14 +93,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       state: selectedPharmacy.state,
       pharmacyPhone: selectedPharmacy.pharmacyPhone,
     });
-    closeModal();
-  };
-
-  const closeModal = () => {
-    setRadius(5);
-    setSelectedPharmacy(null);
-    setPharmacyAddress("");
-    setPharmacyName("");
     onClose();
   };
 
@@ -109,7 +106,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       />
       <Modal
         open={isOpen}
-        onClose={closeModal}
+        onClose={onClose}
         size="wide"
         labeledById="dialog_add_provider"
         providerModal={true}
@@ -132,7 +129,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 <div className="pr-cancl">
                   <Button
                     label="Cancel"
-                    onClick={closeModal}
+                    onClick={onClose}
                     style={{ marginRight: 10 }}
                     data-gtm="button-save"
                   />
@@ -169,7 +166,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       value={zipCode}
                       maxLength="5"
                       className={`${
-                        zipCode?.length < 5 && "zip-error"
+                        zipCode?.length < 5 ? "error" : ""
                       } zip-input`}
                       onChange={(e) => {
                         setZipCode(e.target.value);
@@ -183,7 +180,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Pharmacy Name
                     <input
                       type="text"
-                      className="pr-search-input"
+                      className={`${
+                        pharmacyName?.length < 3 ? "error" : ""
+                      } pr-search-input`}
                       value={pharmacyName}
                       disabled={zipCode?.length < 5}
                       placeholder="Enter name"
@@ -247,7 +246,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       value={zipCode}
                       maxLength="5"
                       className={`${
-                        zipCode?.length < 5 && "zip-error"
+                        zipCode?.length < 5 ? "error" : ""
                       } zip-input`}
                       onChange={(e) => {
                         setZipCode(e?.target?.value);
@@ -287,7 +286,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   Pharmacy Name
                   <br />
                   <input
-                    className="pr-search-input"
+                    className={`${
+                      pharmacyName?.length < 3 ? "error" : ""
+                    } pr-search-input`}
                     type="text"
                     value={pharmacyName}
                     disabled={zipCode?.length < 5}
@@ -371,18 +372,21 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
 
                 {!isLoading && (
                   <>
-                    {(!zipCode || !zipCode?.length === 5) && (
+                    {zipCode?.length === 5 && pharmacyName?.length < 3 && (
                       <div className="pr-search-box">
-                        Enter ZIP code before searching
+                        Enter Pharmacy Name atleast 3 characters or more
                       </div>
                     )}
-                    {zipCode && zipCode?.length < 5 && (
+                    {(!zipCode || zipCode.length < 5) && (
                       <div className="pr-search-box">
                         Fix errors before searching
                       </div>
                     )}
-                    {zipCode &&
+                    {!error &&
+                      zipCode &&
                       zipCode?.length === 5 &&
+                      pharmacyName &&
+                      pharmacyName.length >= 3 &&
                       results?.length === 0 && (
                         <div className="pr-search-box">
                           No Pharmacies found under the current search criteria
@@ -410,7 +414,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <div className="pr-cancl">
                     <Button
                       label="Cancel"
-                      onClick={closeModal}
+                      onClick={onClose}
                       style={{ marginRight: 10 }}
                       data-gtm="button-save"
                     />
