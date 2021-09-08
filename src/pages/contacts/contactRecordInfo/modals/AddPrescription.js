@@ -1,6 +1,5 @@
-import React, { useState, Fragment, useMemo, useEffect, useRef } from "react";
-import Typeahead from "react-select/async";
-import { components } from "react-select";
+import React, { useState, useMemo, useEffect } from "react";
+import Media from "react-media";
 import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
@@ -15,22 +14,6 @@ import "./modals.scss";
 const formatOptionLabel = ({ label, description }) => (
   <Options header={label} subHeader={description} />
 );
-
-const Menu = (props) => {
-  const optionsLength = props?.options?.length ?? 0;
-  return (
-    <Fragment>
-      {optionsLength ? (
-        <div style={{ marginTop: 20, marginBottom: 14 }}>
-          <strong>{optionsLength} prescriptions</strong> found
-        </div>
-      ) : (
-        ""
-      )}
-      <components.Menu {...props}>{props.children}</components.Menu>
-    </Fragment>
-  );
-};
 
 const transformPrescriptionOptions = (option) => {
   const { drugName, drugType, drugID, referenceNDC } = option;
@@ -50,14 +33,14 @@ export default function AddPrescription({
 }) {
   const [drugName, setDrugName] = useState("");
   const [searchString, setSearchString] = useState("");
+  const [drugNameOptions, setDrugNameOptions] = useState([]);
   const [dosageOptions, setDosageOptions] = useState([]);
   const [dosage, setDosage] = useState();
   const [quantity, setQuantity] = useState();
   const [frequency, setFrequency] = useState();
   const [packageOptions, setPackageOptions] = useState([]);
   const [dosagePackage, setDosagePackage] = useState();
-
-  const selectElementRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -66,10 +49,6 @@ export default function AddPrescription({
       });
     }
   }, [isOpen]);
-
-  useEffect(() => {
-    isOpen && selectElementRef.current.focus();
-  }, [selectElementRef, isOpen]);
 
   useEffect(() => {
     const getDosages = async () => {
@@ -102,15 +81,21 @@ export default function AddPrescription({
       setFrequency(commonDaysOfSupply);
     }
   }, [dosage]);
-  const fetchOptions = async (searchStr) => {
+  const fetchOptions = async (event) => {
+    const searchStr = event.target.value;
     setDrugName(() => null);
     setSearchString(searchStr);
-    const drugNameOptions = await clientService.getDrugNames(searchStr);
-    const options = (drugNameOptions || []).map(transformPrescriptionOptions);
-    return options;
+    if (searchStr) {
+      const drugNameOptions = await clientService.getDrugNames(searchStr);
+      const options = (drugNameOptions || []).map(transformPrescriptionOptions);
+      setDrugNameOptions(options);
+    } else {
+      setDrugNameOptions([]);
+    }
   };
 
   const onClose = (ev) => {
+    setDrugNameOptions([]);
     setDrugName("");
     setSearchString("");
     setDosage();
@@ -120,11 +105,6 @@ export default function AddPrescription({
     setPackageOptions([]);
     setDosagePackage();
     onCloseHandler(ev);
-  };
-
-  const handleOnPrescriptionSelect = (selectedPrescription) => {
-    setDrugName(selectedPrescription);
-    setSearchString(null);
   };
 
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
@@ -154,51 +134,25 @@ export default function AddPrescription({
   }, [drugName, quantity, frequency, dosage, dosagePackage, packageOptions]);
 
   const handleCloseDrugname = () => {
+    setDrugNameOptions([]);
     setDrugName("");
     setSearchString("");
   };
 
-  const colourStyles = {
-    placeholder: (defaultStyles) => {
-      return {
-        ...defaultStyles,
-        color: "#64748B",
-        fontSize: "16px",
-        fontFamily: "Lato",
-      };
-    },
-    control: (defaultStyles) => ({
-      ...defaultStyles,
-      ":hover": {
-        color: "#f1f5f9",
-        border: "1px solid #c7ccd1",
-      },
-      boxShadow: "none",
-      border: "1px solid #c7ccd1",
-    }),
-    option: (provided, state) => {
-      const focusedStyles = state.isFocused
-        ? {
-            color: "#0052ce",
-            border: "1px solid #0052ce",
-            backgroundColor: "#f2f9ff",
-            borderRadius: 4,
-          }
-        : {};
-      return {
-        ...provided,
-        ...focusedStyles,
-      };
-    },
-  };
-
   return (
     <div className="prescription--modal">
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <Modal
         size="lg"
         wide={true}
         open={isOpen}
         onClose={onClose}
+        providerModal={isMobile}
         labeledById="dialog_add_prescription"
       >
         <div className="dialog--container">
@@ -228,38 +182,36 @@ export default function AddPrescription({
                 >
                   Prescription Search
                 </label>
-                <Typeahead
-                  openMenuOnFocus
-                  autoFocus
-                  ref={selectElementRef}
-                  id="prescription-name"
-                  styles={colourStyles}
-                  className="react--select-overide"
-                  menuPosition="fixed"
-                  value={drugName}
-                  isClearable
-                  aria-relevant="additions text"
-                  aria-atomic="true"
-                  loadOptions={fetchOptions}
-                  onChange={handleOnPrescriptionSelect}
-                  formatOptionLabel={formatOptionLabel}
-                  components={{
-                    Menu,
-                    DropdownIndicator: () => null,
-                    IndicatorSeparator: () => null,
-                  }}
-                  placeholder={"Start typing prescription name"}
-                  noOptionsMessage={() => (
-                    <div className="no-search-data">
-                      <span>
-                        {searchString
-                          ? "Prescription not found, try a different search"
-                          : "Start typing prescription name"}
-                      </span>
-                    </div>
-                  )}
-                  menuIsOpen={!drugName}
+                <input
+                  className="drugname-search-input"
+                  type="search"
+                  value={searchString}
+                  placeholder="Start typing drug name"
+                  onChange={fetchOptions}
                 />
+              </div>
+            )}
+            {!drugName && (
+              <div className="search-result-count">
+                <b>{drugNameOptions.length} prescriptions </b> found
+              </div>
+            )}
+            {!drugName && drugNameOptions.length === 0 && (
+              <div className="no-search-data">
+                <span>
+                  {searchString
+                    ? "Prescription not found, try a different search"
+                    : "Start typing prescription name"}
+                </span>
+              </div>
+            )}
+            {!drugName && drugNameOptions.length > 0 && (
+              <div className="search-options MenuList">
+                {drugNameOptions.map((option, index) => (
+                  <div key={index} onClick={() => setDrugName(option)}>
+                    {formatOptionLabel(option)}
+                  </div>
+                ))}
               </div>
             )}
             {drugName && (
@@ -275,38 +227,42 @@ export default function AddPrescription({
                     <Select
                       id="prescription-dosage"
                       initialValue={dosage}
+                      providerModal={true}
                       options={dosageOptions}
                       placeholder="Prescription dosage"
                       onChange={setDosage}
                     />
                   </div>
-                  <div className="form-element prescription--quantity">
-                    <Textfield
-                      id="quantity"
-                      className="quantity"
-                      label="Quantity"
-                      value={quantity}
-                      onChange={handleQuantity}
-                    />
-                  </div>
-                  <div className="form-element prescription--frequency">
-                    <label
-                      className="label--frequency form-input__header"
-                      htmlFor="prescription-frequency"
-                    >
-                      Frequency
-                    </label>
-                    <Select
-                      initialValue={frequency}
-                      id="prescription-frequency"
-                      options={FREQUENCY_OPTIONS}
-                      placeholder="Select"
-                      onChange={setFrequency}
-                    />
+                  <div className="quantity-frequency-wrapper">
+                    <div className="form-element prescription--quantity">
+                      <Textfield
+                        id="quantity"
+                        className="quantity"
+                        label="Quantity"
+                        value={quantity}
+                        onChange={handleQuantity}
+                      />
+                    </div>
+                    <div className="form-element prescription--frequency">
+                      <label
+                        className="label--frequency form-input__header"
+                        htmlFor="prescription-frequency"
+                      >
+                        Frequency
+                      </label>
+                      <Select
+                        providerModal={true}
+                        initialValue={frequency}
+                        id="prescription-frequency"
+                        options={FREQUENCY_OPTIONS}
+                        placeholder="Select"
+                        onChange={setFrequency}
+                      />
+                    </div>
                   </div>
                 </div>
                 {packageOptions?.length > 0 && (
-                  <div className="form-element">
+                  <div className="form-element prescription--packaging">
                     <label
                       className="label--packaging form-input__header"
                       htmlFor="prescription-packaging"
@@ -314,6 +270,7 @@ export default function AddPrescription({
                       Packaging
                     </label>
                     <Select
+                      providerModal={true}
                       id="prescription-packaging"
                       initialValue={dosagePackage}
                       options={packageOptions}
@@ -325,9 +282,10 @@ export default function AddPrescription({
               </>
             )}
           </div>
-          <hr />
+          {isMobile ? null : <hr />}
           <div className="dialog--actions">
             <Button
+              fullWidth={isMobile}
               className="mr-1"
               label="Cancel"
               onClick={onClose}
@@ -335,6 +293,7 @@ export default function AddPrescription({
               data-gtm="button-add-prescription"
             />
             <Button
+              fullWidth={isMobile}
               label="Add Prescription"
               onClick={handleAddPrecscription}
               disabled={!isFormValid}

@@ -1,12 +1,13 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import Media from "react-media";
 import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
-import "./modals.scss";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import analyticsService from "services/analyticsService";
 import clientService from "services/clientsService";
+import "./modals.scss";
 
 export default function EditPrescription({
   isOpen,
@@ -22,13 +23,15 @@ export default function EditPrescription({
     }
   }, [isOpen]);
 
-  const { drugName, drugType, labelName, metricQuantity, daysOfSupply } = item;
+  const { drugName, drugType, labelName, metricQuantity, daysOfSupply } =
+    item?.dosage ?? {};
   const [dosage, setDosage] = useState();
   const [dosageOptions, setDosageOptions] = useState([]);
   const [quantity, setQuantity] = useState(metricQuantity);
   const [frequency, setfrequency] = useState(daysOfSupply);
   const [packageOptions, setPackageOptions] = useState([]);
   const [dosagePackage, setDosagePackage] = useState();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -39,7 +42,7 @@ export default function EditPrescription({
 
   useEffect(() => {
     if (item && isOpen) {
-      const packageOptions = (item?.packages || []).map((_package) => ({
+      const packageOptions = (item?.dosage?.packages || []).map((_package) => ({
         label: `${_package.commonUserQuantity} ${_package.packageDescription}`,
         value: _package,
       }));
@@ -49,7 +52,8 @@ export default function EditPrescription({
       const selectedPackage = packageOptions
         .filter(
           (packageOption) =>
-            packageOption?.value?.packageId === item?.selectedPackage?.packageId
+            packageOption?.value?.packageId ===
+            item?.dosage?.selectedPackage?.packageId
         )
         .map((opt) => opt.value)[0];
       setDosagePackage(selectedPackage);
@@ -68,12 +72,12 @@ export default function EditPrescription({
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
   const handleSave = async () => {
     await onSave({
-      dosageRecordID: item?.dosageRecordID,
+      dosageRecordID: item?.dosage?.dosageRecordID,
       labelName: dosage?.labelName,
       metricQuantity: +quantity,
       daysOfSupply: +frequency,
       selectedPackage:
-        dosagePackage?.packageId !== item?.selectedPackage?.packageId
+        dosagePackage?.packageId !== item?.dosage?.selectedPackage?.packageId
           ? dosagePackage
           : null,
     });
@@ -82,7 +86,7 @@ export default function EditPrescription({
 
   useEffect(() => {
     const getDosages = async () => {
-      const results = await clientService.getDrugDetails(item);
+      const results = await clientService.getDrugDetails(item?.dosage);
       const dosageOptions = (results?.dosages || []).map((dosage) => ({
         label: dosage.labelName,
         value: dosage,
@@ -100,7 +104,8 @@ export default function EditPrescription({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drugName, isOpen]);
 
-  const isFormValid = useMemo(() => {
+  /* Commenting this function becuase we dont have comparission between old package  & new one */
+  /*   const isFormValid = useMemo(() => {
     return (
       Boolean(
         quantity &&
@@ -112,19 +117,26 @@ export default function EditPrescription({
         +quantity !== metricQuantity ||
           +frequency !== daysOfSupply ||
           dosage?.labelName !== labelName ||
-          dosagePackage?.packageId !== item?.selectedPackage?.packageId
+          dosagePackage?.packageID !== item?.dosage?.selectedPackage?.packageID
       )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quantity, frequency, dosage, dosagePackage, packageOptions]);
+  }, [quantity, frequency, dosage, dosagePackage, packageOptions]); */
 
   return (
     <div className="prescription--modal">
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <Modal
         size="lg"
         wide={true}
         open={isOpen}
         onClose={onClose}
+        providerModal={isMobile}
         labeledById="dialog_edit_prescription"
       >
         <div className="dialog--container">
@@ -150,35 +162,39 @@ export default function EditPrescription({
                   Dosage
                 </label>
                 <Select
+                  providerModal={true}
                   id="prescription-dosage"
                   initialValue={dosage}
                   options={dosageOptions}
                   onChange={setDosage}
                 />
               </div>
-              <div className="form-element prescription--quantity">
-                <Textfield
-                  id="quantity"
-                  className="quantity"
-                  label="Quantity"
-                  value={quantity}
-                  onChange={handleQuantity}
-                />
-              </div>
-              <div className="form-element prescription--frequency">
-                <label
-                  className="label--frequency form-input__header"
-                  htmlFor="prescription-frequency"
-                >
-                  Frequency
-                </label>
-                <Select
-                  initialValue={frequency}
-                  id="prescription-frequency"
-                  options={FREQUENCY_OPTIONS}
-                  placeholder="Select"
-                  onChange={(value) => setfrequency(value)}
-                />
+              <div className="quantity-frequency-wrapper">
+                <div className="form-element prescription--quantity">
+                  <Textfield
+                    id="quantity"
+                    className="quantity"
+                    label="Quantity"
+                    value={quantity}
+                    onChange={handleQuantity}
+                  />
+                </div>
+                <div className="form-element prescription--frequency">
+                  <label
+                    className="label--frequency form-input__header"
+                    htmlFor="prescription-frequency"
+                  >
+                    Frequency
+                  </label>
+                  <Select
+                    providerModal={true}
+                    initialValue={frequency}
+                    id="prescription-frequency"
+                    options={FREQUENCY_OPTIONS}
+                    placeholder="Select"
+                    onChange={(value) => setfrequency(value)}
+                  />
+                </div>
               </div>
             </div>
             {packageOptions?.length > 0 && (
@@ -190,6 +206,7 @@ export default function EditPrescription({
                   Packaging
                 </label>
                 <Select
+                  providerModal={true}
                   id="prescription-packaging"
                   initialValue={dosagePackage}
                   options={packageOptions}
@@ -199,7 +216,7 @@ export default function EditPrescription({
               </div>
             )}
           </div>
-          <hr />
+          {isMobile ? null : <hr />}
           <div className="dialog--actions">
             <Button
               className="mr-2"
@@ -211,7 +228,7 @@ export default function EditPrescription({
             <Button
               label="Save Changes"
               onClick={handleSave}
-              disabled={!isFormValid}
+              /*disabled={!isFormValid}*/
               data-gtm="button-cancel-update-prescription"
             />
           </div>

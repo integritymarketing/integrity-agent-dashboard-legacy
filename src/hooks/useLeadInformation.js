@@ -30,7 +30,7 @@ export default (leadId) => {
   const addPrescription = async (item) => {
     //below itemObject has been cloned for the undo to work properly
     const itemObject = {
-      ...item,
+      ...(item?.dosage ?? item),
       dosageRecordID: 0,
       packages: null,
       selectedPackage: null,
@@ -68,7 +68,7 @@ export default (leadId) => {
 
   const deletePrescription = async (item) => {
     try {
-      await clientService.deletePrescription(leadId, item.dosageRecordID);
+      await clientService.deletePrescription(leadId, item?.dosage?.dosageRecordID);
       await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
         type: "success",

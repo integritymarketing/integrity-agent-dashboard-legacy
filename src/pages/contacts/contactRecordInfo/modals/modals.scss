@@ -5,25 +5,11 @@
   flex: 1 1;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 30px;
   min-height: 240px;
   & > span {
   font-size: 14px;
   }
-  &::before {
-    content: '0 prescriptions found';
-    position: absolute;
-    left: 0;
-    top: -44px;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 24px;
-    color: #475569;
-
-  }
-}
-.prescription--modal .modal__card {
-  padding: 0px;
 }
 
 .modal__exit.icon-btn {
@@ -35,8 +21,16 @@
 .dialog--body,
 .dialog--actions {
   margin: 0px 80px 0px 80px;
+  @media (max-width: 480px) {
+    margin: 0px;
+  }
 }
-
+.prescription--modal .modal__card{
+  padding: 0px;
+  @media (max-width: 480px) {
+    padding: 18px;
+  }
+}
 .dialog--title {
   margin-top: 50px;
 }
@@ -112,7 +106,6 @@
 
 /* Start prescription */
 .display--drug--name {
-  width: 556px;
   height: 85px;
   background: #f2f9ff;
   border: 1px solid #0052ce;
@@ -140,30 +133,98 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   .prescription--dosage {
     flex: 1;
     margin-right: 15px;
-    max-width: 355px;
-  }
-  .prescription--quantity {
-    width: 56px;
-    margin-right: 15px;
-    .form-input__header {
-      margin-bottom: 4px;
+    @media (max-width: 480px) {
+      width: 100%;
+      margin-right: 0px;
+    }
+    @media (min-width: 480px) {
+      max-width: 325px;
     }
   }
-  .prescription--frequency {
-    width: 145px;
+  .quantity-frequency-wrapper {
+    display: flex;
+    @media (max-width: 480px) {
+      width: 100%;
+    }
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    .prescription--quantity {
+      width: 56px;
+      margin-right: 15px;
+      .form-input__header {
+        margin-bottom: 4px;
+      }
+    }
+    .prescription--frequency {
+      flex: 1;
+      min-width: 145px;
+      .select {
+        margin-left: 0px;
+      }
+      @media (min-width: 480px) {
+        max-width: 145px;
+      }
+    }
+  }
+}
+.prescription--packaging .select {
+  margin-left: 0px;
+}
+.drugname-search-input {
+  height: 44px;
+  width: 100%;
+  background: #FFFFFF;  
+  border: 1px solid #CBD5E1; 
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  line-height: 21px;
+  color: #64748B;
+
+}
+
+.search-options {
+  max-height: 350px;
+  overflow: auto;
+  cursor: pointer;
+  .option__typeahead {
+    font-size: 16px;
+    .header__typeahead {
+      font-size: 18px;
+    }
+    &:hover {
+      background: #F1F5F9;
+      border: 1px solid #0052ce;
+      box-sizing: border-box;
+      border-radius: 4px;
+      .header__typeahead {
+        color: #0052ce;
+      }
+    }
   }
 }
 
-.react--select-overide {
-  div[class$="menu"] {
-    box-shadow: none !important;
-  }
-  div[class$="-menu"] > div {
-    min-height: 340px;
-  }
+.search-result-count {
+  font-family: Lato;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 150%;
+  color: #475569;
 }
 
+.provider-close {
+  top: -33px !important;
+  right: -71px !important;
+  @media (max-width: 480px) {
+    top: -15px !important;
+    right: -15px !important;
+  }
+}
 /* End prescription */
