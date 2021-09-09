@@ -488,10 +488,9 @@ class ClientsService {
     return response.json();
   };
 
-  getDrugDetails = async (drugDetails) => {
-    const { ndc } = drugDetails;
+  getDrugDetails = async (drugID) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?ndc=${ndc}`,
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?ndc=${drugID}`,
       "GET"
     );
     return response.json();
