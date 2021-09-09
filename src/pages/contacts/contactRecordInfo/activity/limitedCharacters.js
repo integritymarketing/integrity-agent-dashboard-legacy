@@ -25,11 +25,13 @@ export default ({ characters, size }) => {
     if (!value) {
       return;
     }
-    return value.split(",").map((item) => (
-      <li>
-        <span className="li-mr-left">{item}</span>
-      </li>
-    ));
+    return (
+      <ul className="activities-block">
+        {value.split(",").map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    );
   }
 
   return (

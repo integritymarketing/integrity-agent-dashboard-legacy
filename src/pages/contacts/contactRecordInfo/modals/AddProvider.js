@@ -398,7 +398,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     <Button
                       disabled={!selectedProvider}
                       label="Add Provider"
-                      onClick={onClose}
+                      onClick={() => saveProvider(selectedProvider)}
                       data-gtm="button-cancel"
                     />
                   </div>
