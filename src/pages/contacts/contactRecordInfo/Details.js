@@ -149,8 +149,8 @@ export default (props) => {
           selectedPackage.packageDisplayText
         } ${getFrequencyValue(daysOfSupply)}`
       : dosageDetails
-      ? `${metricQuantity} X ${
-          dosageDetails.dosageFormName
+      ? `${metricQuantity} ${
+          dosageDetails.dosageFormName.toLowerCase()
         } ${getFrequencyValue(daysOfSupply)}`
       : "";
 

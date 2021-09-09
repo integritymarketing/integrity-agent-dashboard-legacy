@@ -41,6 +41,7 @@ export default function AddPrescription({
   const [packageOptions, setPackageOptions] = useState([]);
   const [dosagePackage, setDosagePackage] = useState();
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -52,14 +53,22 @@ export default function AddPrescription({
 
   useEffect(() => {
     const getDosages = async () => {
-      const results = await clientService.getDrugDetails(drugName);
-      const dosageOptions = (results?.dosages || []).map((dosage) => ({
-        label: dosage.labelName,
-        value: dosage,
-      }));
-      setDosageOptions(dosageOptions);
-      if (dosageOptions.length === 1) {
-        setDosage(dosageOptions[0].value);
+      setLoading(true);
+      try {
+        const drugID = drugName?.value;
+        const results = await clientService.getDrugDetails(drugID);
+        const dosageOptions = (results?.dosages || []).map((dosage) => ({
+          label: dosage.labelName,
+          value: dosage,
+        }));
+        setDosageOptions(dosageOptions);
+        if (dosageOptions.length === 1) {
+          setDosage(dosageOptions[0].value);
+        }
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 100);
       }
     };
     drugName && getDosages();
@@ -174,47 +183,47 @@ export default function AddPrescription({
                 <div className="pl-2 drug--type">{drugName?.description}</div>
               </section>
             )}
-            {!drugName && (
-              <div className="form-element">
-                <label
-                  className="label--prescription form-input__header"
-                  htmlFor="prescription-name"
-                >
-                  Prescription Search
-                </label>
-                <input
-                  className="drugname-search-input"
-                  type="search"
-                  value={searchString}
-                  placeholder="Start typing drug name"
-                  onChange={fetchOptions}
-                />
-              </div>
-            )}
-            {!drugName && (
-              <div className="search-result-count">
-                <b>{drugNameOptions.length} prescriptions </b> found
-              </div>
-            )}
-            {!drugName && drugNameOptions.length === 0 && (
-              <div className="no-search-data">
-                <span>
-                  {searchString
-                    ? "Prescription not found, try a different search"
-                    : "Start typing prescription name"}
-                </span>
-              </div>
-            )}
-            {!drugName && drugNameOptions.length > 0 && (
-              <div className="search-options MenuList">
-                {drugNameOptions.map((option, index) => (
-                  <div key={index} onClick={() => setDrugName(option)}>
-                    {formatOptionLabel(option)}
+            {!drugName && !isLoading && (
+              <>
+                <div className="form-element">
+                  <label
+                    className="label--prescription form-input__header"
+                    htmlFor="prescription-name"
+                  >
+                    Prescription Search
+                  </label>
+                  <input
+                    className="drugname-search-input"
+                    type="search"
+                    value={searchString}
+                    placeholder="Start typing drug name"
+                    onChange={fetchOptions}
+                  />
+                </div>
+                <div className="search-result-count">
+                  <b>{drugNameOptions.length} prescriptions </b> found
+                </div>
+                {drugNameOptions.length === 0 && (
+                  <div className="no-search-data">
+                    <span>
+                      {searchString
+                        ? "Prescription not found, try a different search"
+                        : "Start typing prescription name"}
+                    </span>
                   </div>
-                ))}
-              </div>
+                )}
+                {drugNameOptions.length > 0 && (
+                  <div className="search-options MenuList">
+                    {drugNameOptions.map((option, index) => (
+                      <div key={index} onClick={() => setDrugName(option)}>
+                        {formatOptionLabel(option)}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
-            {drugName && (
+            {drugName && !isLoading && (
               <>
                 <div className="prescription__wrapper">
                   <div className="form-element prescription--dosage">
@@ -229,7 +238,7 @@ export default function AddPrescription({
                       initialValue={dosage}
                       providerModal={true}
                       options={dosageOptions}
-                      placeholder="Prescription dosage"
+                      placeholder="Dosage"
                       onChange={setDosage}
                     />
                   </div>
@@ -255,7 +264,7 @@ export default function AddPrescription({
                         initialValue={frequency}
                         id="prescription-frequency"
                         options={FREQUENCY_OPTIONS}
-                        placeholder="Select"
+                        placeholder="Frequency"
                         onChange={setFrequency}
                       />
                     </div>
@@ -274,7 +283,7 @@ export default function AddPrescription({
                       id="prescription-packaging"
                       initialValue={dosagePackage}
                       options={packageOptions}
-                      placeholder="Prescription Packaging"
+                      placeholder="Packaging"
                       onChange={setDosagePackage}
                     />
                   </div>

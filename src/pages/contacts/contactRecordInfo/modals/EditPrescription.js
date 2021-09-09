@@ -86,7 +86,7 @@ export default function EditPrescription({
 
   useEffect(() => {
     const getDosages = async () => {
-      const results = await clientService.getDrugDetails(item?.dosage);
+      const results = await clientService.getDrugDetails(item?.dosage?.drugID);
       const dosageOptions = (results?.dosages || []).map((dosage) => ({
         label: dosage.labelName,
         value: dosage,
@@ -166,6 +166,7 @@ export default function EditPrescription({
                   id="prescription-dosage"
                   initialValue={dosage}
                   options={dosageOptions}
+                  placeholder="Dosage"
                   onChange={setDosage}
                 />
               </div>
@@ -191,7 +192,7 @@ export default function EditPrescription({
                     initialValue={frequency}
                     id="prescription-frequency"
                     options={FREQUENCY_OPTIONS}
-                    placeholder="Select"
+                    placeholder="Frequency"
                     onChange={(value) => setfrequency(value)}
                   />
                 </div>
@@ -210,7 +211,7 @@ export default function EditPrescription({
                   id="prescription-packaging"
                   initialValue={dosagePackage}
                   options={packageOptions}
-                  placeholder="Prescription Packaging"
+                  placeholder="Packaging"
                   onChange={setDosagePackage}
                 />
               </div>
