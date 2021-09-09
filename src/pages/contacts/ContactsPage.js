@@ -13,7 +13,7 @@ import Import from "components/icons/import";
 import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
 import SearchIcon from "components/icons/search";
-import CloseIcon from "components/icons/close";
+import RoundCloseIcon from "components/icons/round-close";
 import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
 //import Filter from "components/icons/filter";
@@ -173,9 +173,14 @@ export default () => {
                 />
                 {duplicateIdsLength > 0 && (
                   <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                    <div>{duplicateIdsLength} duplicates found</div>
-                    <button onClick={() => setDuplicateLeadIds([])}>
-                      <CloseIcon />
+                    <div className={styles["duplicate-found"]}>
+                      {duplicateIdsLength} duplicates found
+                    </div>
+                    <button
+                      onClick={() => setDuplicateLeadIds([])}
+                      className={styles["reset-close"]}
+                    >
+                      <RoundCloseIcon />
                     </button>
                   </div>
                 )}
