@@ -559,6 +559,16 @@ class ClientsService {
     return response.json();
   };
 
+  searchPharmacies = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
+      "POST",
+      payload
+    );
+
+    return response.json();
+  };
+
   sendSoaInformation = async (payload, leadsId) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/v1.0/lead/${leadsId}/Soa`,
