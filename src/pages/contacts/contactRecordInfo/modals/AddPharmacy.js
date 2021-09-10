@@ -53,6 +53,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       radius: radius,
       zip: zipCode,
       pharmacyName: pharmacyName,
+      pharmacyAddress: pharmacyAddress,
       planPharmacyType: "",
       pharmacyIDType: 0,
     };
@@ -75,7 +76,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
         setIsLoading(false);
         setError(e);
       });
-  }, [perPage, currentPage, pharmacyName, zipCode, radius]);
+  }, [perPage, currentPage, pharmacyName, pharmacyAddress, zipCode, radius]);
 
   const handleAddPharmacy = async () => {
     await onSave({
