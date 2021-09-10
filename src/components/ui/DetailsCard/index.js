@@ -30,12 +30,12 @@ function DetailsCard({
     itemsLength > 1
       ? `${headerTitle} (${itemsLength})`
       : headerTitle === "Pharmacies"
-      ? `Pharmacy ${itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength}`
+      ? `Pharmacy`
       : `${headerTitle.slice(0, -1)} ${
           itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength
         }`;
   const disableStatus =
-    headerTitle === "Pharmacies" && items.length === 3 ? true : false;
+    headerTitle === "Pharmacies" && items.length === 1 ? true : false;
 
   return (
     <div className="details-card">
