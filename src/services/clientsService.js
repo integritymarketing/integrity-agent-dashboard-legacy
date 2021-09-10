@@ -490,7 +490,7 @@ class ClientsService {
 
   getDrugDetails = async (drugID) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?ndc=${drugID}`,
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?id=${drugID}`,
       "GET"
     );
     return response.json();
@@ -559,14 +559,17 @@ class ClientsService {
     return response.json();
   };
 
-  searchPharmacies = async (payload) => {
+  sendSoaInformation = async (payload, leadsId) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
+      `${process.env.REACT_APP_LEADS_URL}/api/v1.0/lead/${leadsId}/Soa`,
       "POST",
       payload
     );
 
-    return response.json();
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Failed to send soa information.");
   };
 }
 
