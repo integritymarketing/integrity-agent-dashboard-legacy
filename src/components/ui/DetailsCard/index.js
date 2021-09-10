@@ -30,7 +30,7 @@ function DetailsCard({
     itemsLength > 1
       ? `${headerTitle} (${itemsLength})`
       : headerTitle === "Pharmacies"
-      ? `Pharmacy ${itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength}`
+      ? `Pharmacy`
       : `${headerTitle.slice(0, -1)} ${
           itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength
         }`;
