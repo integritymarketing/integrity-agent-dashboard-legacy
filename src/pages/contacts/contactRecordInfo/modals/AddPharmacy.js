@@ -38,12 +38,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   }, [isOpen]);
 
   useEffect(() => {
-    if (
-      !zipCode ||
-      zipCode?.length !== 5 ||
-      !pharmacyName ||
-      pharmacyName.length < 3
-    ) {
+    if (!zipCode || zipCode?.length !== 5) {
       setIsLoading(false);
       setError(null);
       setResults([]);
@@ -95,6 +90,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     });
     onClose();
   };
+
+  const zipCodeError = !zipCode || zipCode?.length < 5 ? true : false;
 
   return (
     <div>
@@ -165,9 +162,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       placeholder="Zip"
                       value={zipCode}
                       maxLength="5"
-                      className={`${
-                        zipCode?.length < 5 ? "error" : ""
-                      } zip-input`}
+                      className={`${zipCodeError ? "error" : ""} zip-input`}
                       onChange={(e) => {
                         setZipCode(e.target.value);
                         setCurrentPage(1);
@@ -180,11 +175,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     Pharmacy Name
                     <input
                       type="text"
-                      className={`${
-                        pharmacyName?.length < 3 ? "error" : ""
-                      } pr-search-input`}
+                      className={"pr-search-input"}
                       value={pharmacyName}
-                      disabled={zipCode?.length < 5}
+                      disabled={zipCodeError}
                       placeholder="Enter name"
                       onChange={(e) => {
                         setPharmacyName(e?.currentTarget?.value);
@@ -200,7 +193,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       type="text"
                       className="pr-search-input"
                       value={pharmacyAddress}
-                      disabled={zipCode?.length < 5}
+                      disabled={zipCodeError}
                       placeholder="Enter address"
                       onChange={(e) => {
                         setPharmacyAddress(e.currentTarget.value);
@@ -229,7 +222,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   </label>
                 </div>
               </div>
-              {zipCode?.length < 5 && (
+              {zipCodeError && (
                 <span className="validation-msg">Invalid ZIP Code</span>
               )}
             </div>
@@ -245,9 +238,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       placeholder="Zip"
                       value={zipCode}
                       maxLength="5"
-                      className={`${
-                        zipCode?.length < 5 ? "error" : ""
-                      } zip-input`}
+                      className={`${zipCodeError ? "error" : ""} zip-input`}
                       onChange={(e) => {
                         setZipCode(e?.target?.value);
                         setCurrentPage(1);
@@ -277,7 +268,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   </label>
                 </div>
               </div>
-              {zipCode?.length < 5 && (
+              {zipCodeError && (
                 <span className="validation-msg">Invalid ZIP Code</span>
               )}
 
@@ -286,12 +277,10 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   Pharmacy Name
                   <br />
                   <input
-                    className={`${
-                      pharmacyName?.length < 3 ? "error" : ""
-                    } pr-search-input`}
+                    className={"pr-search-input"}
                     type="text"
                     value={pharmacyName}
-                    disabled={zipCode?.length < 5}
+                    disabled={zipCodeError}
                     placeholder="Enter name"
                     onChange={(e) => {
                       setPharmacyName(e?.target?.value);
@@ -308,7 +297,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     className="pr-search-input"
                     type="text"
                     value={pharmacyAddress}
-                    disabled={zipCode?.length < 5}
+                    disabled={zipCodeError}
                     placeholder="Enter Address"
                     onChange={(e) => {
                       setPharmacyAddress(e?.target?.value);
@@ -372,12 +361,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
 
                 {!isLoading && (
                   <>
-                    {zipCode?.length === 5 && pharmacyName?.length < 3 && (
-                      <div className="pr-search-box">
-                        Enter Pharmacy Name atleast 3 characters or more
-                      </div>
-                    )}
-                    {(!zipCode || zipCode.length < 5) && (
+                    {zipCodeError && (
                       <div className="pr-search-box">
                         Fix errors before searching
                       </div>
@@ -385,8 +369,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                     {!error &&
                       zipCode &&
                       zipCode?.length === 5 &&
-                      pharmacyName &&
-                      pharmacyName.length >= 3 &&
                       results?.length === 0 && (
                         <div className="pr-search-box">
                           No Pharmacies found under the current search criteria
