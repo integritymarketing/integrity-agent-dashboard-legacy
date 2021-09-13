@@ -379,8 +379,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       <div className="provider-content-section">
                         <div className="pr-h1">{item?.name}</div>
                         <div className="pr-h2">
-                          {item?.address1} {item?.address2}.{item?.city}{" "}
-                          {item?.state}
+                          {item?.address1}
+                          {item.address2 ? " " + item.address2 : ""},{" "}
+                          {item?.city}, {item?.state}
                         </div>
                       </div>
                       {selectedPharmacy?.pharmacyID === item?.pharmacyID && (
