@@ -570,6 +570,25 @@ class ClientsService {
     return response.json();
   };
 
+  getLatlongByAddress = async (zipcode, address) => {
+    const opts = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
+        address + zipcode
+      }.json?limit=1&access_token=${process.env.REACT_APP_MAPBOX_GEO_TOKEN}
+        `,
+      opts
+    );
+
+    return response.json();
+  };
+
   sendSoaInformation = async (payload, leadsId) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/v1.0/lead/${leadsId}/Soa`,
