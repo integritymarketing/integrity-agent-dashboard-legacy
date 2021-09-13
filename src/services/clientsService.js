@@ -458,10 +458,10 @@ class ClientsService {
     throw new Error("Update failed.");
   };
 
-  editPrescription = async (leadId, reqData) => {
+  editPrescription = async (leadId, reqData, method = "PUT") => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`,
-      "PUT",
+      method,
       reqData
     );
 
@@ -470,6 +470,7 @@ class ClientsService {
     }
     throw new Error("Update failed.");
   };
+
 
   deletePrescription = async (leadId, id) => {
     const response = await this._clientAPIRequest(

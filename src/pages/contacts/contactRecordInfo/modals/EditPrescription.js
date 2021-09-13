@@ -32,6 +32,7 @@ export default function EditPrescription({
   const [packageOptions, setPackageOptions] = useState([]);
   const [dosagePackage, setDosagePackage] = useState();
   const [isMobile, setIsMobile] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -71,9 +72,13 @@ export default function EditPrescription({
   };
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
   const handleSave = async () => {
+    setIsSaving(true);
+    try {
     await onSave({
       dosageRecordID: item?.dosage?.dosageRecordID,
       labelName: dosage?.labelName,
+      isDosageLabelNameChanged: dosage?.labelName !==  labelName,
+      dosage,
       metricQuantity: +quantity,
       daysOfSupply: +frequency,
       selectedPackage:
@@ -82,6 +87,9 @@ export default function EditPrescription({
           : null,
     });
     onClose();
+  } finally {
+    setIsSaving(false);
+  }
   };
 
   useEffect(() => {
@@ -230,6 +238,7 @@ export default function EditPrescription({
               label="Save Changes"
               onClick={handleSave}
               /*disabled={!isFormValid}*/
+              disabled={isSaving}
               data-gtm="button-cancel-update-prescription"
             />
           </div>

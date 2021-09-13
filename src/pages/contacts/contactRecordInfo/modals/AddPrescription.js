@@ -42,6 +42,7 @@ export default function AddPrescription({
   const [dosagePackage, setDosagePackage] = useState();
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -119,17 +120,22 @@ export default function AddPrescription({
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
 
   const handleAddPrecscription = async () => {
-    await onSave({
-      dosageRecordID: 0,
-      dosageID: dosage?.dosageID,
-      quantity: quantity,
-      daysOfSupply: 0,
-      ndc: drugName?.ndc,
-      metricQuantity: quantity,
-      userQuantity: frequency,
-      selectedPackage: dosagePackage,
-    });
-    onClose();
+    setIsSaving(true);
+    try {
+      await onSave({
+        dosageRecordID: 0,
+        dosageID: dosage?.dosageID,
+        quantity: quantity,
+        daysOfSupply: 0,
+        ndc: dosage?.referenceNDC,
+        metricQuantity: quantity,
+        userQuantity: frequency,
+        selectedPackage: dosagePackage,
+      });
+      onClose();
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const isFormValid = useMemo(() => {
@@ -305,7 +311,7 @@ export default function AddPrescription({
               fullWidth={isMobile}
               label="Add Prescription"
               onClick={handleAddPrecscription}
-              disabled={!isFormValid}
+              disabled={!isFormValid || isSaving}
               data-gtm="button-cancel-prescription"
             />
           </div>
