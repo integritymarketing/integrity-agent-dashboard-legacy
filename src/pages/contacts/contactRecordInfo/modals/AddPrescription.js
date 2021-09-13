@@ -311,7 +311,7 @@ export default function AddPrescription({
               fullWidth={isMobile}
               label="Add Prescription"
               onClick={handleAddPrecscription}
-              disabled={!isFormValid}
+              disabled={!isFormValid || isSaving}
               data-gtm="button-cancel-prescription"
             />
           </div>
