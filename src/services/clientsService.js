@@ -471,7 +471,6 @@ class ClientsService {
     throw new Error("Update failed.");
   };
 
-
   deletePrescription = async (leadId, id) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`,
@@ -565,6 +564,23 @@ class ClientsService {
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
       "POST",
       payload
+    );
+
+    return response.json();
+  };
+
+  getLatlongByAddress = async (zipcode, address) => {
+    const opts = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${address} ${zipcode}.json?limit=1&types=address&access_token=${process.env.REACT_APP_MAPBOX_GEO_TOKEN}
+        `,
+      opts
     );
 
     return response.json();

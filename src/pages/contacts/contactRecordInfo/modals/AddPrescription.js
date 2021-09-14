@@ -126,10 +126,9 @@ export default function AddPrescription({
         dosageRecordID: 0,
         dosageID: dosage?.dosageID,
         quantity: quantity,
-        daysOfSupply: 0,
+        daysOfSupply: frequency,
         ndc: dosage?.referenceNDC,
         metricQuantity: quantity,
-        userQuantity: frequency,
         selectedPackage: dosagePackage,
       });
       onClose();
@@ -200,7 +199,7 @@ export default function AddPrescription({
                   </label>
                   <input
                     className="drugname-search-input"
-                    type="search"
+                    type="text"
                     value={searchString}
                     placeholder="Start typing drug name"
                     onChange={fetchOptions}

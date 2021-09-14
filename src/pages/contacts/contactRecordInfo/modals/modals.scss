@@ -1,6 +1,6 @@
 .no-search-data {
   position: relative;
-  background-color: #F8FAFC;
+  background-color: #f8fafc;
   display: flex;
   flex: 1 1;
   justify-content: center;
@@ -8,7 +8,7 @@
   margin-top: 30px;
   min-height: 240px;
   & > span {
-  font-size: 14px;
+    font-size: 14px;
   }
 }
 
@@ -25,7 +25,7 @@
     margin: 0px;
   }
 }
-.prescription--modal .modal__card{
+.prescription--modal .modal__card {
   padding: 0px;
   @media (max-width: 480px) {
     padding: 18px;
@@ -111,15 +111,15 @@
   border: 1px solid #0052ce;
   box-sizing: border-box;
   border-radius: 4px;
-  .icon-align{
+  .icon-align {
     display: flex;
     justify-content: flex-end;
     padding: 13px 13px 0 0;
     width: auto;
-    svg{
+    svg {
       cursor: pointer;
     }
-  } 
+  }
   .drug--name {
     font-size: 18px;
     color: #0052ce;
@@ -178,15 +178,15 @@
 .drugname-search-input {
   height: 44px;
   width: 100%;
-  background: #FFFFFF;  
-  border: 1px solid #CBD5E1; 
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
   outline: none;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 12px;
   font-size: 16px;
   line-height: 21px;
-  color: #64748B;
+  color: #64748b;
 }
 
 .search-options {
@@ -199,7 +199,7 @@
       font-size: 18px;
     }
     &:hover {
-      background: #F1F5F9;
+      background: #f1f5f9;
       border: 1px solid #0052ce;
       box-sizing: border-box;
       border-radius: 4px;

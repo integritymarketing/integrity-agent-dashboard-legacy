@@ -8,7 +8,6 @@ export default (leadId) => {
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
   const addToast = useToast();
 
   useEffect(() => {
@@ -50,9 +49,27 @@ export default (leadId) => {
     }
   };
 
-  const editPrescription = async (item) => {
+  const editPrescription = async ({
+    dosage = {},
+    isDosageLabelNameChanged = false,
+    ...rest
+  }) => {
     try {
-      await clientService.editPrescription(leadId, item);
+      const method = isDosageLabelNameChanged ? "POST" : "PUT";
+      const item = isDosageLabelNameChanged
+        ? {
+            ...rest,
+            ndc: dosage.referenceNDC,
+            metricQuantity: dosage.metricQuantity,
+            dosageID: dosage.dosageID,
+            quantity: dosage.commonMetricQuantity,
+            userQuantity: dosage.commonUserQuantity,
+            daysOfSupply: 0,
+            packages: null
+          }
+        : rest;
+
+      await clientService.editPrescription(leadId, item, method);
       addToast({
         message: "Prescription updated successfully",
       });
@@ -68,7 +85,10 @@ export default (leadId) => {
 
   const deletePrescription = async (item) => {
     try {
-      await clientService.deletePrescription(leadId, item?.dosage?.dosageRecordID);
+      await clientService.deletePrescription(
+        leadId,
+        item?.dosage?.dosageRecordID
+      );
       await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
         type: "success",
@@ -129,8 +149,6 @@ export default (leadId) => {
     providers,
     prescriptions,
     isLoading,
-    isSaving,
-    setIsSaving,
     addPharmacy,
     addPrescription,
     editPrescription,
