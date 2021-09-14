@@ -298,6 +298,7 @@ export default function AddPrescription({
           </div>
           {isMobile ? null : <hr />}
           <div className="dialog--actions">
+          <div className="prescription-cancel">
             <Button
               fullWidth={isMobile}
               className="mr-1"
@@ -306,6 +307,9 @@ export default function AddPrescription({
               type="secondary"
               data-gtm="button-add-prescription"
             />
+            </div>
+            <div className="prescription-add">
+            {" "}
             <Button
               fullWidth={isMobile}
               label="Add Prescription"
@@ -313,6 +317,7 @@ export default function AddPrescription({
               disabled={!isFormValid || isSaving}
               data-gtm="button-cancel-prescription"
             />
+            </div>
           </div>
         </div>
       </Modal>

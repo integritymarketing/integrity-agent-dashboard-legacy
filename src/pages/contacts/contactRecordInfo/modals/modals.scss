@@ -35,18 +35,64 @@
   margin-top: 50px;
 }
 
-.dialog--actions {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
 .dialog--body {
   min-height: 480px;
 }
 
 .dialog--actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: right;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 16px;
+  @media (max-width: 480px) {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .prescription-add {
+    & button {
+      background: #e6ecf2;
+      border-radius: 4px;
+      background: #0052ce;
+      border-radius: 4px;
+      color: #f8fafc;
+      @media (max-width: 480px) {
+        width: 180px;
+      }
+      @media (max-width: 320px) {
+        width: auto;
+      }
+    }
+  
+    & :disabled {
+      cursor: not-allowed;
+      background: #e6ecf2;
+      color: #64748b;
+    }
+  }
+  .prescription-cancel {
+    & button {
+      margin-right: 10px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      box-sizing: border-box;
+      border-radius: 4px;
+      color: #0052ce;
+      @media (max-width: 480px) {
+        width: 159px;
+      }
+      @media (max-width: 320px) {
+        width: auto;
+      }
+    }
+  }
+}
+
+.dialog--body {
+  min-height: 480px;
 }
 
 .add--prescription--modal {
