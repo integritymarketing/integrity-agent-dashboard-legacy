@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
 import { useParams, useLocation } from "react-router-dom";
@@ -16,12 +16,15 @@ import PersonalInfo from "./PersonalInfo";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import WithLoader from "components/ui/WithLoader";
 import { StageStatusProvider } from "contexts/stageStatus";
+import BackNavContext from "contexts/backNavProvider";
 import OverView from "./Overview";
 import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
+import { Button } from "components/ui/Button";
+import SOAicon from "components/icons/soa";
 
 export default () => {
   const { contactId: id } = useParams();
@@ -35,6 +38,12 @@ export default () => {
   const [display, setDisplay] = useState("OverView");
   const [menuToggle, setMenuToggle] = useState(false);
   const [isEdit, setEdit] = useState(false);
+  const { setCurrentPage } = useContext(BackNavContext);
+
+  useEffect(() => {
+    setCurrentPage("Contact Detail Page");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -135,6 +144,23 @@ export default () => {
   };
 
   const isLoading = loading;
+
+  const handleViewPlans = (isMobile) => {
+    const county = personalInfo?.addresses[0]?.county;
+    const postalCode = personalInfo?.addresses[0]?.postalCode;
+    if (county && postalCode) {
+      if (isMobile)
+        return <Button label="View Available Plans" type="secondary" />;
+      return <Button label="View Available Plans" type="primary" />;
+    } else
+      return (
+        <Button
+          label="Add Zip Code to View Plans"
+          type="primary"
+          disabled={true}
+        />
+      );
+  };
 
   return (
     <React.Fragment>
@@ -239,6 +265,22 @@ export default () => {
                 </label>
                 <span>Preferences</span>
               </li>
+
+              <li className="plans-button">{handleViewPlans(true)}</li>
+
+              {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
+
+              <li
+                className={`ScopeOfAppointment ${
+                  display === "ScopeOfAppointment" ? "mobile-menu-active" : ""
+                }`}
+                onClick={() => handleDisplay("ScopeOfAppointment")}
+              >
+                <label className="icon-spacing">
+                  <SOAicon />
+                </label>
+                <span>Scope Of Appointment</span>
+              </li>
             </ul>
             <PersonalInfo
               personalInfo={personalInfo}
@@ -284,6 +326,19 @@ export default () => {
                       <PreferencesIcon />
                     </label>
                     <span>Preferences </span>
+                  </li>
+                  <li className="plans-button">{handleViewPlans(false)}</li>
+
+                  {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
+
+                  <li
+                    className={display === "ScopeOfAppointment" && "active"}
+                    onClick={() => setDisplay("ScopeOfAppointment")}
+                  >
+                    <label className="icon-spacing">
+                      <SOAicon />
+                    </label>
+                    <span>Scope Of Appointment</span>
                   </li>
                 </ul>
                 <div className="rightSection">{handleRendering()}</div>

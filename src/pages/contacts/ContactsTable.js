@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useContext,
+  useMemo,
+} from "react";
 import { useTable, usePagination } from "react-table";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -11,11 +17,12 @@ import Pagination from "components/ui/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
 import DeleteLeadContext from "contexts/deleteLead";
+import ContactContext from "contexts/contacts";
 import useToast from "hooks/useToast";
 import analyticsService from "services/analyticsService";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
-import { MORE_ACTIONS } from "../../utils/moreActions";
+import { MORE_ACTIONS } from "utils/moreActions";
 
 function Table({
   columns,
@@ -128,6 +135,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
     DeleteLeadContext
   );
+  const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
   const history = useHistory();
 
@@ -217,18 +225,26 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
     fetchData(tableState);
   }, [tableState, fetchData, duplicateIdsLength]);
 
-  const handleDropdownActions = (value, leadId) => {
+  const navigateToSOANew = () => {
+    history.push("/new-soa");
+  };
+
+  const handleDropdownActions = (contact) => (value, leadId) => {
     switch (value) {
       case "addnewreminder":
         setShowAddModal(leadId);
         setShowAddNewModal(true);
+        break;
+      case "addnewsoa":
+        setNewSoaContactDetails(contact);
+        navigateToSOANew();
         break;
       default:
         break;
     }
   };
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
         Header: "Name",
@@ -297,7 +313,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
             className={styles["more-icon"]}
             options={MORE_ACTIONS}
             id={row.original.leadsId}
-            onClick={handleDropdownActions}
+            onClick={handleDropdownActions(row.original)}
             postalCode={row?.original?.addresses[0]?.postalCode}
             county={row?.original?.addresses[0]?.county}
           >
@@ -306,6 +322,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
         ),
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [handleRefresh, showAddModal, showAddNewModal]
   );
 

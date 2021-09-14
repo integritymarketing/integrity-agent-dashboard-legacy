@@ -5,4 +5,8 @@ export const MORE_ACTIONS = [
     label2: "View Available Plans",
     value2: "viewavailableplans",
   },
+  {
+    label: "Add New SOA",
+    value: "addnewsoa",
+  },
 ];

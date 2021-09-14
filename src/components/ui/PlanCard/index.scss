@@ -1,0 +1,247 @@
+.plan-card {
+  font-family: Lato;
+  font-style: normal;
+  border: 1px solid #cbd5e1;
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 16px 32px;
+  background: var(--v2-white);
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    .plan-name {
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 130%;
+      display: flex;
+      align-items: center;
+      color: #002d72;
+    }
+
+    .plan-logo {
+      margin-top: 6px;
+    }
+
+    &.mobile {
+      flex-direction: column;
+
+      .plan-logo {
+        order: 1;
+        margin-bottom: 8px;
+      }
+      .plan-name {
+        order: 2;
+      }
+    }
+  }
+
+  .sub-header {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 16px;
+
+    .carrier-name {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 130%;
+      color: #2b323b;
+      padding-right: 16px;
+      border-right: 1px solid #cbd5e1;
+    }
+
+    .rating-container {
+      padding-left: 16px;
+    }
+  }
+
+  .premiums {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 24px 16px 24px 32px;
+    background: #f2f9ff;
+    margin-bottom: 24px;
+
+    .monthly {
+      display: flex;
+      flex-direction: column;
+      min-width: 170px;
+      text-align: center;
+
+      .label {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 150%;
+        margin-bottom: 3px;
+        color: #515e6f;
+      }
+
+      .currency {
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 130%;
+      }
+    }
+
+    .costs-breakdown {
+      font-family: Lato;
+      font-style: normal;
+      width: 100%;
+      font-weight: normal;
+      border-left: 1px solid #cbd5e1;
+      padding-left: 24px;
+
+      .cost-row {
+        margin-bottom: 16px;
+        > div {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .label {
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 150%;
+            white-space: nowrap;
+          }
+          .filler {
+            border-bottom: dashed #94a3b8;
+            border-width: 2px;
+            width: 100%;
+            margin: 0 8px;
+          }
+          .currency {
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 130%;
+          }
+        }
+        .subtext {
+          margin-top: 3px;
+          font-style: italic;
+          font-size: 12px;
+          line-height: 130%;
+        }
+      }
+    }
+
+    &.mobile {
+      flex-direction: column;
+      padding: 24px 16px 24px 24px;
+
+      .monthly {
+        flex-direction: row;
+        cursor: pointer;
+
+        .label {
+          margin-top: 1rem;
+
+          svg {
+            vertical-align: middle;
+          }
+        }
+      }
+
+      .costs-breakdown {
+        border: none;
+        margin-top: 10px;
+        padding-left: 0;
+
+        &.collapsed {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.5s ease-out;
+        }
+
+        &:not(.collapsed) {
+          max-height: 30em;
+          overflow: hidden;
+          transition: max-height 0.5s ease-out;
+        }
+
+        .cost-row > div {
+          .currency,
+          .label {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .in-network {
+    .label {
+      font-family: Lato;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 150%;
+      color: #656565;
+      margin-bottom: 16px;
+    }
+    &.mobile {
+      .items .network-item {
+        margin-bottom: 16px;
+      }
+    }
+
+    .items {
+      display: flex;
+      max-width: 832px;
+      flex-wrap: wrap;
+
+      .network-item {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 150%;
+        color: #2b323b;
+        display: flex;
+        flex-direction: row;
+        margin-right: 19px;
+        margin-bottom: 24px;
+
+        .icon {
+          float: left;
+          margin-top: 4px;
+        }
+        .text {
+          width: 142px;
+          padding-left: 14px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+
+          .address {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    border-top: 1px solid #cbd5e1;
+    margin: 0 -30px;
+    display: flex;
+    font-weight: bold;
+    justify-content: flex-end;
+    padding-right: 32px;
+    padding-top: 16px;
+    padding-left: 16px;
+
+    .button {
+      margin-left: 16px;
+    }
+
+    &.mobile {
+      justify-content: center;
+      .button {
+        width: 50%;
+      }
+    }
+  }
+}

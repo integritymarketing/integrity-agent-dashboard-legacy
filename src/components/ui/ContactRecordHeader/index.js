@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./index.scss";
 import { Button } from "components/ui/Button";
@@ -12,6 +12,7 @@ export default function ContactRecordHeader({
   prescriptionsCount,
   pharmacyCount,
   isMobile,
+  onEditClick,
 }) {
   const history = useHistory();
   const fullName = `${contact.firstName} ${contact.middleName || ""} ${
@@ -33,50 +34,39 @@ export default function ContactRecordHeader({
       <div className="details">
         <h4 className="name">{fullName}</h4>
         <div className="info">
-          <Link
-            to={{
-              pathname: `/contact/${contact.leadsId}`,
-              state: { display: "Details" },
-            }}
-          >
-            ZIP Code: {zip}
-          </Link>
-          <Link
-            to={{
-              pathname: `/contact/${contact.leadsId}`,
-              state: { display: "Providers" },
-            }}
-          >
-            Providers ({providersCount})
-          </Link>
-          <Link
-            to={{
-              pathname: `/contact/${contact.leadsId}`,
-              state: { display: "Prescriptions" },
-            }}
-          >
-            Prescriptions ({prescriptionsCount})
-          </Link>
-          <Link
-            to={{
-              pathname: `/contact/${contact.leadsId}`,
-              state: { display: "Pharmacies" },
-            }}
-          >
-            {pharmacyCount > 1 ? "Pharmacies" : "Pharmacy"} ({pharmacyCount})
-          </Link>
+          <Button
+            className={"button-link"}
+            label={`ZIP Code: ${zip}`}
+            onClick={() => onEditClick("details")}
+            type="tertiary"
+          />
+          <Button
+            className={"button-link"}
+            label={`Providers (${providersCount})`}
+            onClick={() => onEditClick("providers")}
+            type="tertiary"
+          />
+          <Button
+            className={"button-link"}
+            label={`Prescriptions (${prescriptionsCount})`}
+            onClick={() => onEditClick("prescriptions")}
+            type="tertiary"
+          />
+          <Button
+            className={"button-link"}
+            label={`${
+              pharmacyCount > 1 ? "Pharmacies" : "Pharmacy"
+            } (${pharmacyCount})`}
+            onClick={() => onEditClick("pharmacies")}
+            type="tertiary"
+          />
         </div>
       </div>
       <div className="edit">
         <Button
           icon={<EditDetails />}
           label="Edit Contact"
-          onClick={() =>
-            history.push(`/contact/${contact.leadsId}`, {
-              isEdit: true,
-              display: "Details",
-            })
-          }
+          onClick={() => onEditClick("details")}
           type="secondary"
           iconOnly={isMobile}
         />
@@ -90,4 +80,6 @@ ContactRecordHeader.propTypes = {
   providersCount: PropTypes.number.isRequired,
   prescriptionsCount: PropTypes.number.isRequired,
   pharmacyCount: PropTypes.number.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  onEditClick: PropTypes.func.isRequired,
 };

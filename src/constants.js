@@ -15,3 +15,9 @@ export const PLAN_SORT_OPTIONS = [
   { label: "Highest Star Rating", value: "rating:desc" },
   { label: "Lowest Estimated Drug Cost", value: "drugs:asc" },
 ];
+
+export const PLAN_TYPE_ENUMS = {
+  1: "PDP",
+  2: "MA",
+  3: "MAPD",
+};

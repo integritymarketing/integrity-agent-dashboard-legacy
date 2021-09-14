@@ -1,0 +1,262 @@
+import React, { useContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import Media from "react-media";
+import * as Sentry from "@sentry/react";
+import { debounce } from "debounce";
+import useToast from "hooks/useToast";
+import NavBarWithBack from "partials/back-nav";
+import Container from "components/ui/container";
+import Card from "components/ui/card";
+import Radio from "components/ui/Radio";
+import { Button } from "components/ui/Button";
+import { Select } from "components/ui/Select";
+import BackNavContext from "contexts/backNavProvider";
+import ContactContext from "contexts/contacts";
+import { formatPhoneNumber } from "utils/phones";
+import AuthContext from "contexts/auth";
+import clientService from "services/clientsService";
+import "./index.scss";
+
+const EMAIL_MOBILE_LABELS = [
+  { value: "email", label: "Email" },
+  { value: "mobile", label: "Mobile" },
+];
+
+export default () => {
+  const history = useHistory();
+  const auth = useContext(AuthContext);
+  const { newSoaContactDetails } = useContext(ContactContext);
+  const addToast = useToast();
+  const [selectLabel, setSelectLabel] = useState("mobile");
+  const [selectOption, setSelectOption] = useState(null);
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [user, setUser] = useState({});
+  const [errors, setErrors] = useState("Email Required");
+
+  const { previousPage, setCurrentPage } = useContext(BackNavContext);
+  useEffect(() => {
+    setCurrentPage("Scope of Appointment Page");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const {
+    firstName,
+    lastName,
+    emails = [],
+    phones,
+    leadsId,
+  } = newSoaContactDetails;
+  const agentFirstName = user?.firstName;
+  const agentLastName = user?.lastName;
+  const agentEmail = user?.email;
+  const agentPhoneNumber = user?.phone;
+  const leadEmail = emails?.[0]?.leadEmail ?? "";
+  const leadPhone = phones?.[0]?.leadPhone ?? "";
+
+  useEffect(() => {
+    const getData = async () => {
+      const user = await auth.getUser();
+      setUser(user.profile);
+    };
+    getData();
+  }, [auth]);
+
+  const validateEmail = debounce((email) => {
+    if (!email) {
+      setErrors("Email Required");
+    } else if (
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+      )
+    ) {
+      setErrors(null);
+    } else {
+      setErrors("Invalid email address");
+    }
+  }, 1000);
+
+  const handleSetEmail = (email) => {
+    setEmail(email);
+    validateEmail(email);
+  };
+
+  const handleSend = async () => {
+    try {
+      let payload = {
+        leadFirstName: firstName,
+        leadLastName: lastName,
+        agentFirstName: agentFirstName,
+        agentLastName: agentLastName,
+        agentPhoneNumber: agentPhoneNumber,
+        agentEmail: agentEmail,
+      };
+      if (selectOption === "email") {
+        const data = {
+          ...payload,
+          messageDestination: leadEmail,
+          messageType: "email",
+        };
+        await clientService.sendSoaInformation(data, leadsId);
+      } else if (selectOption === "textMessage") {
+        const data = {
+          ...payload,
+          messageDestination: leadPhone,
+          messageType: "sms",
+        };
+        await clientService.sendSoaInformation(data, leadsId);
+      } else {
+        if (selectLabel === "email") {
+          const data = {
+            ...payload,
+            messageDestination: email,
+            messageType: "email",
+          };
+          await clientService.sendSoaInformation(data, leadsId);
+        } else {
+          const data = {
+            ...payload,
+            messageDestination: mobile,
+            messageType: "sms",
+          };
+          await clientService.sendSoaInformation(data, leadsId);
+        }
+      }
+      history.goBack();
+      addToast({
+        message: "Scope of Appointment sent",
+      });
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to send Scope of Appointment",
+      });
+    }
+  };
+
+  return (
+    <Media
+      queries={{
+        mobile: "(min-width: 320px) and (max-width: 480px)",
+      }}
+    >
+      {(matches) => (
+        <>
+          <NavBarWithBack title={`Back to ${previousPage}`} />
+          <Container className="new-sop-page provider-modal">
+            <Card className="new-scope-card">
+              <div>
+                <h3 className="scope-title">
+                  Send {firstName} {lastName} a new Scope of Appointment
+                </h3>
+                <section className="select-scope-wrapper">
+                  <div className="select-scope-heading pb-3">
+                    Please select where you would like to send the SOA:
+                  </div>
+                  <div className="select-scope-radios">
+                    <Radio
+                      id="email"
+                      htmlFor="email"
+                      className="pb-3"
+                      label={`Email (${leadEmail})`}
+                      name="new-soa"
+                      value="email"
+                      checked={selectOption === "email"}
+                      onChange={(event) => setSelectOption(event.target.value)}
+                    />
+                    <Radio
+                      id="textMessage"
+                      htmlFor="textMessage"
+                      className="pb-3"
+                      label={`Text Message ( ${formatPhoneNumber(leadPhone)} )`}
+                      name="new-soa"
+                      value="textMessage"
+                      checked={selectOption === "textMessage"}
+                      onChange={(event) => setSelectOption(event.target.value)}
+                    />
+                    <Radio
+                      id="newEmailOrMobile"
+                      htmlFor="newEmailOrMobile"
+                      className="pb-3"
+                      label="New email or mobile number"
+                      name="new-soa"
+                      value="newEmailOrMObile"
+                      checked={selectOption === "newEmailOrMObile"}
+                      onChange={(event) => setSelectOption(event.target.value)}
+                    />
+                  </div>
+                  {selectOption === "newEmailOrMObile" && (
+                    <div className="new-email-or-mobile">
+                      <Select
+                        className="mr-2"
+                        options={EMAIL_MOBILE_LABELS}
+                        style={{ width: "140px" }}
+                        initialValue="mobile"
+                        providerModal={true}
+                        onChange={setSelectLabel}
+                      />
+                      {selectLabel === "email" && (
+                        <div className="email-mobile-section">
+                          <input
+                            type="text"
+                            placeholder="Enter email"
+                            value={email}
+                            className={`${
+                              email?.length < 5 && "error-class"
+                            } text-input`}
+                            onChange={(e) => {
+                              handleSetEmail(e.currentTarget.value);
+                            }}
+                          />
+                          {errors && (
+                            <span className="validation-msg">{errors}</span>
+                          )}
+                        </div>
+                      )}
+                      {selectLabel === "mobile" && (
+                        <div className="email-mobile-section">
+                          <input
+                            type="text"
+                            placeholder="XXX-XXX-XXXX"
+                            value={formatPhoneNumber(mobile)}
+                            maxLength="10"
+                            className={`${
+                              mobile?.length < 10 ? "error-class" : ""
+                            } text-input`}
+                            onChange={(e) => {
+                              setMobile(e.currentTarget.value);
+                            }}
+                          />
+                          {mobile.length === 0 && (
+                            <span className="validation-msg">
+                              Mobile number required
+                            </span>
+                          )}
+                          {mobile.length < 10 && mobile.length !== 0 && (
+                            <span className="validation-msg">
+                              Invalid mobile number
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </section>
+              </div>
+              <div className="send-button">
+                <Button
+                  disabled={!selectOption}
+                  fullWidth={matches.mobile}
+                  label="Send"
+                  onClick={handleSend}
+                  data-gtm="button-send"
+                />
+              </div>
+            </Card>
+          </Container>
+        </>
+      )}
+    </Media>
+  );
+};

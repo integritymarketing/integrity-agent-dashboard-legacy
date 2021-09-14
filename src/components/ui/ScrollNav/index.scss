@@ -1,0 +1,33 @@
+.scroll-nav {
+  flex-grow: 1;
+  width: 262px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  .navigation {
+    li {
+      font-family: Lato;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 130%;
+      cursor: pointer;
+      color: #2b323b;
+      margin-bottom: 16px;
+
+      &.selected {
+        font-family: Lato;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 130%;
+        padding-left: 16px;
+        border-left-width: 4px;
+        border-left-color: #0052ce;
+        border-left: solid;
+        color: #0052ce;
+      }
+    }
+  }
+}

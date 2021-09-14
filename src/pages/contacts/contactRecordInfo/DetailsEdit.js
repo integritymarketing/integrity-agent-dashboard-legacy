@@ -225,7 +225,11 @@ export default (props) => {
         let response = await clientService.updateLead(values);
         if (response.ok) {
           props.getContactRecordInfo();
-          goToContactDetailPage(leadsId);
+          if (props.successNavigationRoute) {
+            history.push(props.successNavigationRoute);
+          } else {
+            goToContactDetailPage(leadsId);
+          }
           props.setEdit(false);
           setSubmitting(false);
           addToast({

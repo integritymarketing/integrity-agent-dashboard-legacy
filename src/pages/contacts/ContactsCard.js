@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useContext,
 } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import clientsService from "services/clientsService";
 import Container from "components/ui/container";
 import Pagination from "components/ui/pagination";
@@ -13,6 +13,7 @@ import Card from "components/ui/card";
 import PhoneIcon from "images/call-icon.svg";
 import NavIcon from "images/nav-icon.svg";
 import StageStatusContext from "contexts/stageStatus";
+import ContactContext from "contexts/contacts";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import { getPrimaryContact } from "utils/primaryContact";
@@ -66,6 +67,8 @@ const getMapUrl = () => {
 
 const ClientCard = ({ client, onRefresh }) => {
   const { statusOptions } = useContext(StageStatusContext);
+  const { setNewSoaContactDetails } = useContext(ContactContext);
+  const history = useHistory();
   const { displayName, stage, reminders, primaryContact } = useClientCardInfo(
     client
   );
@@ -73,11 +76,19 @@ const ClientCard = ({ client, onRefresh }) => {
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
 
-  const handleDropdownActions = (value, leadId) => {
+  const navigateToSOANew = () => {
+    history.push("/new-soa");
+  };
+
+  const handleDropdownActions = (contact) => (value, leadId) => {
     switch (value) {
       case "addnewreminder":
         setShowAddModal(leadId);
         setShowAddNewModal(true);
+        break;
+      case "addnewsoa":
+        setNewSoaContactDetails(contact);
+        navigateToSOANew();
         break;
       default:
         break;
@@ -109,7 +120,7 @@ const ClientCard = ({ client, onRefresh }) => {
               className={styles["more-icon"]}
               options={MORE_ACTIONS}
               id={client.leadsId}
-              onClick={handleDropdownActions}
+              onClick={handleDropdownActions(client)}
             >
               <More />
             </ActionsDropdown>
