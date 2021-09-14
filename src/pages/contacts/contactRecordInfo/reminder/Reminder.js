@@ -6,17 +6,22 @@ import { getOverDue } from "utils/dates";
 
 export const ShortReminder = ({
   leadId,
-  reminders,
+  reminders = [],
   className,
   onRefresh,
   isCardView = false,
+  showAddModal,
+  setShowAddModal,
+  showAddNewModal,
 }) => {
-  const reminder = (reminders || []).find((rem) => !rem.isComplete) || {};
-  const { reminderDate, reminderNote } = reminder || {};
-  const [showAddModal, setShowAddModal] = React.useState(false);
+  const reminder = !showAddNewModal
+    ? reminders.find((reminder) => !reminder.isComplete) || {}
+    : {};
+  const { reminderDate, reminderNote } = reminder;
   useEffect(() => {
     analyticsService.fireEvent("event-date-edit");
   }, []);
+
   return (
     <div className={`reminder-content datepicker-row ${className}`}>
       {

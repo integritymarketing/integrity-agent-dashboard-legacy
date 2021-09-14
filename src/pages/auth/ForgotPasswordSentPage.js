@@ -9,8 +9,8 @@ import analyticsService from "services/analyticsService";
 import CheckIcon from "components/icons/v2-check";
 import ResendButtonWithModal from "partials/resend-email";
 
-const resendForgotPassword = async (npn) => {
-  return authService.requestPasswordReset({ npn });
+const resendForgotPassword = async (params) => {
+  return authService.requestPasswordReset(params);
 };
 
 export default () => {

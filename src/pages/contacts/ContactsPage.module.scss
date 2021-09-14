@@ -402,19 +402,19 @@
 /* End Add new contact */
 
 /*Start duplicate contact link */
-  .duplicate-contact-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    background: #FFF8DE;
-    border-radius: 4px;
-    a {
-      color: var(--v2-secondary-blue-900);
-      cursor: pointer;
-    }
+.duplicate-contact-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background: #fff8de;
+  border-radius: 4px;
+  a {
+    color: var(--v2-secondary-blue-900);
+    cursor: pointer;
   }
-/*End duplicate contact link */  
+}
+/*End duplicate contact link */
 
 .contacts-search-input-wrapper {
   @media (max-width: 480px) {
@@ -437,17 +437,16 @@
         .form-input__input-actions {
           display: none;
         }
-        &:focus-within {            
+        &:focus-within {
           max-width: unset;
           width: 90vw;
-
           .form-input__input-actions {
             display: flex;
           }
         }
 
         .clear-btn {
-          color: #0052CE;
+          color: #0052ce;
           font-size: 14px;
           font-family: Lato;
           line-height: 17px;
@@ -457,5 +456,58 @@
         padding: 0;
       }
     }
+  }
+}
+
+.more-icon {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background: #f4f6fa;
+    svg > path {
+      stroke: #0052ce;
+    }
+  }
+  &[class*="opened"] {
+    background: #ebeff6;
+    svg > path {
+      stroke: #002d72;
+    }
+  }
+}
+
+.reset-partial-duplicates {
+  @media (max-width: 480px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    width: auto;
+    min-height: auto;
+  }
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  background: #ebeff6;
+  border: 1px solid #dfe5ef;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-left: 16px;
+  margin-top: 8px;
+  padding-left: 0px;
+  font-size: 16px;
+  line-height: 19px;
+  color: #3d4553;
+  justify-content: space-between;
+
+  .duplicate-found {
+    padding-left: 16px;
+  }
+
+  .reset-close {
+    display: flex;
+    margin: 0px 12px;
   }
 }

@@ -1,23 +1,22 @@
 import React from "react";
-import AgentPortalLogo from "../../images/lifecenter/swl-logo.png";
+import useClientId from "hooks/auth/useClientId";
+import ILSLogo from "../../images/auth/ilc-black.svg";
 
 import "./index.scss";
 
-export default ({ color = "#fff", isLifeCenter = false, ...props }) => {
-  if (isLifeCenter) {
+export default ({ color = "#fff", ...props }) => {
+  const clientId = useClientId();
+  if (clientId === "ILSClient") {
     return (
-      <img
-        src={AgentPortalLogo}
-        alt="Southwestern Legacy Insurance Group - Agent Portal logo"
-      />
+      <img className="ils-logo" src={ILSLogo} alt="Integrity Lead Store" />
     );
   }
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 293 41"
       className="logo"
+      viewBox="0 0 293 41"
       {...props}
     >
       <path

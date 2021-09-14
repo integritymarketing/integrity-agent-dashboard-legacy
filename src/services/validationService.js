@@ -37,7 +37,7 @@ class ValidationService {
   };
 
   validateName = (username, label = "firstName") => {
-    if (username && !/^[A-Za-z0-9- ']{2,50}$/.test(username)) {
+    if (username && !/^[A-Za-z0-9- ']{2,}$/.test(username)) {
       return `${label} must be 2 characters or more accept alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ? `;
     }
 
@@ -139,7 +139,7 @@ class ValidationService {
 
   validateAddress = (inputStr, label = "Address") => {
     if (inputStr && !/^[0-9a-zA-Z #'.-]{4,}$/.test(inputStr)) {
-      return `${label} must be 4 characters or more accept only alpha numerics and special characters such as # ' . -`;
+      return `${label} must be 4 characters or more, Only Alpha, Numerical, and certain special characters such as # ' . - are allowed`;
     }
     return null;
   };

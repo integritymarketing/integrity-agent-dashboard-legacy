@@ -49,11 +49,15 @@ export const Select = ({
   onChange,
   placeholder,
   prefix = "",
+  labelPrefix = "",
   style,
   contactsPage,
   showValueAsLabel = false,
+  isDefaultOpen = false,
+  disabled,
+  providerModal,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
   const ref = useRef();
 
@@ -63,7 +67,8 @@ export const Select = ({
 
   useEffect(() => {
     setValue(initialValue);
-  }, [initialValue]);
+    setIsOpen(isDefaultOpen);
+  }, [initialValue, isDefaultOpen]);
 
   const handleOptionChange = (ev, value) => {
     ev.preventDefault();
@@ -74,26 +79,27 @@ export const Select = ({
 
   const toggleOptionsMenu = (ev) => {
     ev && ev.preventDefault();
-    setIsOpen((isOption) => !isOption);
+    setIsOpen((isOption) => !isOption && !disabled);
   };
 
   const [selectedOption, selectableOptions] = useMemo(() => {
+    setIsOpen(isDefaultOpen);
     const selectedOptions = options.filter((option) => option?.value === value);
     const selectableOptions = options.map((option) => ({
       ...option,
       selected: option?.value === value,
     }));
     return [selectedOptions[0], selectableOptions];
-  }, [options, value]);
+  }, [options, value, isDefaultOpen]);
 
   const heightStyle = useMemo(() => {
-    const top = isOpen ? ref.current.getBoundingClientRect().top + 40 : 40;
+    const top = isOpen ? ref?.current?.getBoundingClientRect().top + 40 : 40;
     return windowHeight
       ? {
           maxHeight: Math.max(
             Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
             Math.min(selectableOptions.length + 1, 3) * 40
-          ),
+          ) + 2,
         }
       : {
           maxHeight: 0,
@@ -129,7 +135,12 @@ export const Select = ({
     <div className="options" style={{ maxHeight: heightStyle.maxHeight - 40 }}>
       {selectHeader}
       {selectableOptions.map((option, idx) => (
-        <Option key={idx} {...option} onClick={handleOptionChange} />
+        <Option
+          prefix={labelPrefix}
+          key={idx}
+          {...option}
+          onClick={handleOptionChange}
+        />
       ))}
     </div>
   );
@@ -138,15 +149,19 @@ export const Select = ({
     <div
       ref={ref}
       style={style}
-      className={`select ${contactsPage && "contacts-dd"}`}
+      className={`select ${contactsPage && "contacts-dd"} ${
+        providerModal && "pr-select"
+      } ${!isOpen && showValueAsLabel ? "short-label" : ""}`}
     >
       <div
-        className={`select-container ${isOpen ? "opened" : "closed"}`}
+        className={`select-container ${isOpen ? "opened" : "closed"} ${
+          disabled ? "disabled" : ""
+        }`}
         style={heightStyle}
       >
         {inputBox}
         {selectBox}
-        {isOpen && optionsContainer}
+        {isOpen && !disabled && optionsContainer}
       </div>
     </div>
   );
@@ -160,6 +175,8 @@ Select.propTypes = {
   Option: PropTypes.elementType,
   style: PropTypes.object,
   mobileLabel: PropTypes.node,
+  isDefaultOpen: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Select.defaultProps = {
@@ -169,4 +186,6 @@ Select.defaultProps = {
   options: [],
   Option: DefaultOption,
   style: {},
+  isDefaultOpen: false,
+  disabled: false,
 };

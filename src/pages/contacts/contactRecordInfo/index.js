@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -20,19 +20,21 @@ import OverView from "./Overview";
 import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
-import EditContactPage from "./DetailsEdit";
 import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
+
 export default () => {
   const { contactId: id } = useParams();
+  const { state = {} } = useLocation();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
   const [duplicateLeadIdName, setDuplicateLeadIdName] = useState();
-  const [personalInfo, setPersonalInfo] = useState({});
+  const [personalInfo, setPersonalInfo] = useState({ addresses: [] });
   const [reminders, setReminders] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState("OverView");
   const [menuToggle, setMenuToggle] = useState(false);
+  const [isEdit, setEdit] = useState(false);
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -42,10 +44,10 @@ export default () => {
       setReminders(data.reminders);
       setActivities(data.activities);
       const { firstName, lastName, leadsId, emails, phones } = data;
-      const email = emails?.[0]?.leadEmail ?? '';
-      const leadPhone = phones?.[0]?.leadPhone ?? '';
-      const leadPhoneLabel = phones?.[0]?.phoneLabel ?? '';
-      const phone = {leadPhone, leadPhoneLabel}
+      const email = emails?.[0]?.leadEmail ?? "";
+      const leadPhone = phones?.[0]?.leadPhone ?? "";
+      const leadPhoneLabel = phones?.[0]?.phoneLabel ?? "";
+      const phone = { leadPhone, leadPhoneLabel };
       const values = {
         firstName,
         lastName,
@@ -61,8 +63,10 @@ export default () => {
           const getFullNameById = await clientsService.getContactInfo(
             duplicateLeadIds[0]
           );
-          const { firstName, lastName } = getFullNameById;
-          setDuplicateLeadIdName(`${firstName} ${lastName}`);
+          const { firstName, middleName, lastName } = getFullNameById;
+          setDuplicateLeadIdName(
+            `${firstName} ${middleName || ""} ${lastName}`
+          );
           if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
             setDuplicateLeadIds(duplicateLeadIds);
           }
@@ -84,7 +88,9 @@ export default () => {
       pagePath: "/contact-record-note-edit/",
     });
     getContactRecordInfo();
-  }, [getContactRecordInfo]);
+    setEdit(state.isEdit);
+    setDisplay(state.display || "OverView");
+  }, [getContactRecordInfo, state.isEdit, state.display]);
 
   const handleRendering = () => {
     let props = {
@@ -94,6 +100,8 @@ export default () => {
       getContactRecordInfo: () => getContactRecordInfo(),
       setDisplay: (value) => setDisplay(value),
       activities,
+      setEdit: (value) => setEdit(value),
+      isEdit,
     };
     switch (display) {
       case "OverView":
@@ -102,8 +110,6 @@ export default () => {
         return <Details {...props} />;
       case "Preferences":
         return <Preferences {...props} />;
-      case "DetailsEdit":
-        return <EditContactPage {...props} />;
       default:
         return <OverView {...props} />;
     }
@@ -129,6 +135,7 @@ export default () => {
   };
 
   const isLoading = loading;
+
   return (
     <React.Fragment>
       <ToastContextProvider>
@@ -233,48 +240,56 @@ export default () => {
                 <span>Preferences</span>
               </li>
             </ul>
-            <PersonalInfo personalInfo={personalInfo} />
-            <Container className={styles.container}>
-              <ul
-                className="leftcardmenu desktop-menu-hide"
-                data-gtm="contact-record-menu-item"
-              >
-                <li
-                  className={display === "OverView" && "active"}
-                  onClick={() => {
-                    setDisplay("OverView");
-                  }}
+            <PersonalInfo
+              personalInfo={personalInfo}
+              setEdit={setEdit}
+              isEdit={isEdit}
+              setDisplay={setDisplay}
+            />
+            <div className="details-card-main">
+              <Container className={styles.container}>
+                <ul
+                  className="leftcardmenu desktop-menu-hide"
+                  data-gtm="contact-record-menu-item"
                 >
-                  <label className="icon-spacing">
-                    <OverviewIcon />
-                  </label>
-                  <span>Overview</span>
-                </li>
-                <li
-                  className={
-                    (display === "Details" || display === "DetailsEdit") &&
-                    "active"
-                  }
-                  onClick={() => setDisplay("Details")}
-                >
-                  <label className="icon-spacing">
-                    <DetailsIcon />
-                  </label>
-                  <span>Details</span>
-                </li>
-                <li
-                  className={display === "Preferences" && "active"}
-                  onClick={() => setDisplay("Preferences")}
-                >
-                  <label className="icon-spacing">
-                    <PreferencesIcon />
-                  </label>
-                  <span>Preferences</span>
-                </li>
-              </ul>
-              <div className="rightSection">{handleRendering()}</div>
-            </Container>
-            <ContactFooter hideMeicareIcon={true} />
+                  <li
+                    className={display === "OverView" ? "active" : ""}
+                    onClick={() => {
+                      setDisplay("OverView");
+                    }}
+                  >
+                    <label className="icon-spacing">
+                      <OverviewIcon />
+                    </label>
+                    <span>Overview</span>
+                  </li>
+                  <li
+                    className={
+                      display === "Details" || display === "DetailsEdit"
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() => setDisplay("Details")}
+                  >
+                    <label className="icon-spacing">
+                      <DetailsIcon />
+                    </label>
+                    <span>Details</span>
+                  </li>
+                  <li
+                    className={display === "Preferences" ? "active" : ""}
+                    onClick={() => setDisplay("Preferences")}
+                  >
+                    <label className="icon-spacing">
+                      <PreferencesIcon />
+                    </label>
+                    <span>Preferences </span>
+                  </li>
+                </ul>
+                <div className="rightSection">{handleRendering()}</div>
+              </Container>
+            </div>
+            <ContactFooter hideMedicareIcon={true} />
           </StageStatusProvider>
         </WithLoader>
       </ToastContextProvider>

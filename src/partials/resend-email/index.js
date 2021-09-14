@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
+import useClientId from "hooks/auth/useClientId";
 
 export default ({ resendFn, btnClass = "" }) => {
   const [emailSent, setEmailSent] = useState(false);
@@ -29,7 +30,12 @@ export default ({ resendFn, btnClass = "" }) => {
           type="button"
           className={`link link--force-underline ${btnClass}`}
           onClick={async () => {
-            let response = await resendFn(params.get("npn"));
+            const clientId = useClientId();
+
+            let response = await resendFn({
+              npn: params.get("npn"),
+              ClientId: clientId,
+            });
             if (response.status >= 200 && response.status < 300) {
               setEmailSent(true);
             } else {

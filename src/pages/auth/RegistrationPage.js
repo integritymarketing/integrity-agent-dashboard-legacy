@@ -8,6 +8,7 @@ import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
+import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
@@ -16,11 +17,13 @@ export default () => {
   const history = useHistory();
   const loading = useLoading();
   const params = useQueryParams();
+  const clientId = useClientId();
+
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
-      pagePath: '/register/account-registration-form/',
+      pagePath: "/register/account-registration-form/",
     });
   }, []);
 
@@ -93,6 +96,7 @@ export default () => {
               const formattedValues = Object.assign({}, values, {
                 Phone: values.Phone ? `${values.Phone}`.replace(/\D/g, "") : "",
               });
+              formattedValues["ClientId"] = clientId;
 
               const response = await authService.registerUser(formattedValues);
 
@@ -101,13 +105,13 @@ export default () => {
 
               if (response.status >= 200 && response.status < 300) {
                 analyticsService.fireEvent("event-form-submit", {
-                  formName: 'Register Account',
+                  formName: "Register Account",
                 });
                 history.push(`registration-email-sent?npn=${values.NPN}`);
               } else {
                 const errorsArr = await response.json();
                 analyticsService.fireEvent("event-form-submit-invalid", {
-                  formName: 'Register Account',
+                  formName: "Register Account",
                 });
                 setErrors(validationService.formikErrorsFor(errorsArr));
               }

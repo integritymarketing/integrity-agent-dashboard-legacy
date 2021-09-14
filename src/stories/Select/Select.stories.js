@@ -153,4 +153,38 @@ ShowValueAsLabel.args = {
   ],
 };
 
+export const OpenOptionsByDefalut = Template.bind({});
+OpenOptionsByDefalut.args = {
+  initialValue: "r-asc",
+  placeholder: "- Sort by -",
+  Option: DefaultOption,
+  isDefaultOpen: true,
+  options: [
+    {
+      label: "Reminder Asc",
+      value: "r-asc",
+    },
+    {
+      label: "Reminder Desc",
+      value: "r-desc",
+    },
+    {
+      label: "Newest First",
+      value: "newest",
+    },
+    {
+      label: "Olderst Firstc",
+      value: "oldest",
+    },
+    {
+      label: "Last Name Asc",
+      value: "lname-asc",
+    },
+    {
+      label: "Last Name Desc",
+      value: "lname-desc",
+    },
+  ],
+};
+
 // Add more Select stories here

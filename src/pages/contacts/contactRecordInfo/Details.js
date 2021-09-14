@@ -1,129 +1,283 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import EditForm from "./DetailsEdit";
+import ContactDetails from "./ContactDetails";
+import DetailsCard from "components/ui/DetailsCard";
+import AddPrescription from "./modals/AddPrescription";
+import EditPrescription from "./modals/EditPrescription";
+import AddPharmacy from "./modals/AddPharmacy";
+import useLeadInformation from "hooks/useLeadInformation";
+import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
+import AddProvider from "./modals/AddProvider";
+import clientsService from "services/clientsService";
+import useToast from "./../../../hooks/useToast";
+import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DeleteLeadModal from "./DeleteLeadModal";
+import "./details.scss";
 
-const notAvailable = "-";
+export default (props) => {
+  let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenPrescription, setIsOpenPrescription] = useState(false);
+  const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
+  const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
+  const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
+  const {
+    pharmacies,
+    prescriptions,
+    isLoading,
+    addPharmacy,
+    addPrescription,
+    editPrescription,
+    deletePrescription,
+    deletePharmacy,
+  } = useLeadInformation(props.id);
+  const onAddNewPrescription = () => setIsOpenPrescription(true);
+  const onCloseNewPrescription = () => setIsOpenPrescription(false);
+  const onEditPrescription = (item) => {
+    setIsOpenEditPrescription(true);
+    setPrescriptionToEdit(item);
+  };
+  const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
+  const onAddNewPharmacy = () => setIsOpenPharmacy(true);
+  const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
+  const onAddNewProvider = () => setIsOpen(true);
 
-export default ({ setDisplay, personalInfo, ...rest }) => {
-  let {
-    firstName = "",
-    lastName = "",
-    emails = [],
-    phones = [],
-    addresses = [],
-    contactRecordType = "",
-    leadsId = null,
-    contactPreferences,
-  } = personalInfo;
+  const [leadProviders, setLeadProviders] = useState({
+    items: {},
+    isLoading: true,
+    error: null,
+  });
 
-  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
+  const onClose = (opts) => {
+    setIsOpen(false);
+    if (opts && opts.refresh) {
+      fetchProviders();
+    }
+  };
+  const addToast = useToast();
 
-  emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
-  phones = phones.length > 0 ? phones[0] : null;
-  addresses = addresses.length > 0 ? addresses[0] : null;
+  async function handleUndo(provider) {
+    const request = [
+      {
+        npi: provider.NPI.toString(),
+        addressId: provider.addresses[0]?.id,
+        isPrimary: false,
+      },
+    ];
+    await fetchProviders();
+    try {
+      await clientsService.createLeadProvider(props.id, request);
+      fetchProviders();
+      addToast({
+        type: "success",
+        message: provider.presentationName + " added back to the list. ",
+        time: 10000,
+        onClickHandler: () => handleUndo(provider),
+      });
+    } catch (e) {
+      addToast({
+        type: "error",
+        message: "Error, update unsuccessful.",
+        time: 10000,
+      });
+    }
+  }
+  async function handleDeleteProvider(provider) {
+    try {
+      await clientsService.deleteProvider(
+        props.id,
+        provider.npi || provider.NPI
+      );
+      fetchProviders();
+      addToast({
+        type: "success",
+        message: provider.presentationName + " deleted from Providers. ",
+        time: 10000,
+        link: "Undo",
+        onClickHandler: () => handleUndo(provider),
+      });
+    } catch (e) {
+      addToast({
+        type: "error",
+        message: "Error, delete unsuccessful.",
+        time: 10000,
+      });
+    }
+  }
+  const fetchProviders = React.useCallback(async () => {
+    setLeadProviders((prev) => ({ ...prev, isLoading: false }));
+    try {
+      const items = await clientsService.getLeadProviders(props.id);
+      setLeadProviders({
+        items,
+        isLoading: false,
+        error: null,
+      });
+    } catch (error) {
+      setLeadProviders({
+        items: [],
+        isLoading: false,
+        error,
+      });
+    }
+  }, [props.id]);
 
-  const isPrimary = contactPreferences.primary
-    ? contactPreferences.primary
-    : "";
+  useEffect(() => {
+    fetchProviders();
+  }, [fetchProviders]);
+
+  const getFrequencyValue = (dayofSupply) => {
+    const frequencyOptions = FREQUENCY_OPTIONS.filter(
+      (option) => option.value === dayofSupply
+    );
+    const result = frequencyOptions[0].label;
+    return result;
+  };
+
+  const PrescriptionRow = ({ item, className }) => {
+    const { dosage, dosageDetails } = item;
+    const {
+      labelName,
+      daysOfSupply,
+      drugType,
+      selectedPackage,
+      metricQuantity,
+    } = dosage;
+    const selectPackageDetails = selectedPackage
+      ? `${selectedPackage.commonUserQuantity} X ${
+          selectedPackage.packageDisplayText
+        } ${getFrequencyValue(daysOfSupply)}`
+      : dosageDetails
+      ? `${metricQuantity} ${
+          dosageDetails.dosageFormName.toLowerCase()
+        } ${getFrequencyValue(daysOfSupply)}`
+      : "";
+
+    return (
+      <div className={className}>
+        <CellData header={labelName} subText={drugType} />
+        <CellData subText={selectPackageDetails} />
+      </div>
+    );
+  };
+
+  const PharamaciesRow = ({ item, className }) => {
+    const address = `${item.address1} ${item.address2 ?? ""}, ${item.city}, 
+    ${item.state}, ${item.zip}`;
+    const phone = formatPhoneNumber(item.pharmacyPhone);
+    return (
+      <div className={className}>
+        <CellData
+          header={item.name}
+          subText={address}
+          secondarySubText={phone}
+        />
+      </div>
+    );
+  };
 
   return (
     <>
       <div className="contactdetailscard">
-        <div className="contactdetailscardheader">
-          <h4>Contact Details</h4>
-          <button onClick={() => setDisplay("DetailsEdit")}>Edit</button>
-        </div>
-        <div className="contactdetailscardbody">
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>First Name</p>
-              <div className="contactdetailscardbodycolvalue">{firstName}</div>
-            </div>
-          </div>
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Last Name</p>
-              <div className="contactdetailscardbodycolvalue">{lastName}</div>
-            </div>
-          </div>
-          <hr className="contactdetailscardborder" />
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Address</p>
-              <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.address1 : notAvailable}
-                {addresses && addresses.address1 && addresses.address2 ? (
-                  <>
-                    , <br />
-                  </>
-                ) : null}
-                {addresses ? addresses.address2 : notAvailable}
-              </div>
-            </div>
-          </div>
-          <div className="contactdetailscardbodyrowspacing contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>City</p>
-              <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.city : notAvailable}
-              </div>
-            </div>
-            <div className="contactdetailscardbodycol">
-              <p>State</p>
-              <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.stateCode : notAvailable}
-              </div>
-            </div>
-            <div className="contactdetailscardbodycol">
-              <p>ZIP Code</p>
-              <div className="contactdetailscardbodycolvalue">
-                {addresses ? addresses.postalCode : notAvailable}
-              </div>
-            </div>
-          </div>
-          <hr className="contactdetailscardborder" />
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Email Address {isPrimary === "email" && "(Primary)"} </p>
-              <div className="contactdetailscardbodycolvalue">{emails}</div>
-            </div>
-          </div>
-          <div className="contactdetailscardbodyrowspacing contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Phone {isPrimary === "phone" && "(Primary)"}</p>
-              <div className="contactdetailscardbodycolvalue">
-                {phones ? formatPhoneNumber(phones.leadPhone) : notAvailable}
-              </div>
-            </div>
-            <div className="contactdetailscardbodycol">
-              <p>Label</p>
-              <div className="contactdetailscardbodycolvalue text-capitalize">
-                {phones ? phones.phoneLabel : notAvailable}
-              </div>
-            </div>
-          </div>
-          <hr className="contactdetailscardborder" />
-          <div className="contactdetailscardbodyrow">
-            <div className="contactdetailscardbodycol">
-              <p>Contact Record Type</p>
-              <div className="contactdetailscardbodycolvalue text-capitalize">
-                {contactRecordType ? contactRecordType : "Prospect"}
-              </div>
-            </div>
-          </div>
-        </div>
+        {props.isEdit ? <EditForm {...props} /> : <ContactDetails {...props} />}
       </div>
-      <div className="deletecontactsection">
-        <button onClick={() => setDeleteModalStatus(true)}>
-          Delete Contact
-        </button>
+      <div className="detailscard-container">
+        {isOpen && (
+          <AddProvider
+            isOpen={isOpen}
+            onClose={onClose}
+            personalInfo={props.personalInfo}
+            leadId={props.id}
+          />
+        )}
+
+        <AddPrescription
+          isOpen={isOpenPrescription}
+          onClose={onCloseNewPrescription}
+          onSave={addPrescription}
+        />
+
+        <EditPrescription
+          isOpen={isOpenEditPrescription}
+          onClose={onCloseEditPrescription}
+          item={prescriptionToEdit}
+          onSave={editPrescription}
+        /> 
+        {isOpenPharmacy && (
+          <AddPharmacy
+            isOpen={isOpenPharmacy}
+            onClose={onCloseNewPharmacy}
+            personalInfo={props.personalInfo}
+            onSave={addPharmacy}
+          />
+        )}
+        <DetailsCard
+          headerTitle="Providers"
+          onAddClick={onAddNewProvider}
+          items={leadProviders?.items?.providers || []}
+          provider={true}
+          itemRender={(item, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  background: index % 2 ? "white" : "#F1F5F9",
+                }}
+                className="provider-container"
+              >
+                <div className="provider-content">
+                  <div className="pr-h1">{item.presentationName}</div>
+                  <div className="pr-h2 pr-title-mble">
+                    {item.specialty}&nbsp;/&nbsp;{item.title}
+                  </div>
+                  <div className="pr-h2">{item.email}</div>
+                </div>
+                <div className="provider-content">
+                  <div className="pr-h1 pr-phone-mble">{item.phone}</div>
+                  <div className="pr-h2">
+                    {item.addresses[0].streetLine1},&nbsp;
+                  </div>
+                  <div className="pr-h2">
+                    {item.addresses[0].city},&nbsp;{item.addresses[0].state}
+                    ,&nbsp;{item.addresses[0].zipCode}
+                  </div>
+                </div>
+                <div>
+                  <span
+                    role="button"
+                    className="button-delete-provider"
+                    onClick={() => handleDeleteProvider(item)}
+                  >
+                    Delete
+                  </span>
+                </div>
+              </div>
+            );
+          }}
+        />
+        <DetailsCard
+          headerTitle="Prescriptions"
+          onAddClick={onAddNewPrescription}
+          items={prescriptions}
+          Row={PrescriptionRow}
+          onDelete={deletePrescription}
+          onEdit={onEditPrescription}
+          isLoading={isLoading}
+        />
+        <DetailsCard
+          headerTitle="Pharmacies"
+          onAddClick={onAddNewPharmacy}
+          items={pharmacies}
+          Row={PharamaciesRow}
+          onDelete={deletePharmacy}
+          isLoading={isLoading}
+        />
+        <DeleteLeadModal
+          leadsId={props?.id}
+          leadName={`${firstName} ${middleName || ""} ${lastName}`}
+        />
       </div>
-      <DeleteLeadModal
-        leadsId={leadsId}
-        leadName={firstName + " " + lastName}
-        deleteModalStatus={deleteModalStatus}
-        setDeleteModalStatus={() => setDeleteModalStatus(false)}
-      />
     </>
   );
 };

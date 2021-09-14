@@ -187,6 +187,7 @@ class authService {
 
   redirectAndRestartLoginFlow = () => {
     let portal_url = usePortalUrl();
+
     window.location = portal_url + "/signin";
     return;
   };

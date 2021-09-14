@@ -2,6 +2,7 @@ import authService from "services/authService";
 import { parseDate, formatServerDate } from "utils/dates";
 
 export const LEADS_API_VERSION = "v2.0";
+export const QUOTES_API_VERSION = "v1.0";
 
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
@@ -233,6 +234,7 @@ class ClientsService {
   updateLead = async (contact) => {
     const {
       firstName,
+      middleName,
       lastName,
       email,
       phones,
@@ -249,21 +251,26 @@ class ClientsService {
     const reqData = {
       leadsId,
       firstName,
+      middleName: middleName?.toUpperCase(),
       lastName,
       leadStatusId,
       primaryCommunication,
       contactRecordType,
       notes,
     };
-    reqData.emails = [
-      {
-        emailID,
-        leadEmail: email,
-      },
-    ];
+    reqData.emails = [];
+    if (email !== null && email !== undefined) {
+      reqData.emails = [
+        {
+          emailID: emailID,
+          leadEmail: email,
+        },
+      ];
+    }
+
     reqData.phones = [
       {
-        phoneId,
+        phoneId: phoneId,
         ...phones,
         leadPhone: this._getFormattedPhone(phones.leadPhone),
       },
@@ -271,10 +278,11 @@ class ClientsService {
 
     reqData.addresses = [
       {
-        leadAddressId,
+        leadAddressId: leadAddressId,
         ...address,
       },
     ];
+
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${reqData.leadsId}`,
       "PUT",
@@ -318,6 +326,7 @@ class ClientsService {
     const {
       firstName,
       lastName,
+      middleName,
       email,
       phones,
       address,
@@ -328,6 +337,7 @@ class ClientsService {
       leadsId: 0,
       firstName,
       lastName,
+      middleName: middleName?.toUpperCase(),
       leadStatusId: 0,
       primaryCommunication,
       contactRecordType,
@@ -399,6 +409,194 @@ class ClientsService {
       return response.json();
     }
     throw new Error("Update failed.");
+  };
+
+  getCounties = async (zipcode) => {
+    const response = await this._clientAPIRequest(
+      `https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  getLeadPharmacies = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+      "GET"
+    );
+
+    return response.json().then((res) => res || []);
+  };
+
+  getLeadProviders = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
+      "GET"
+    );
+
+    return response.json().then((res) => res || []);
+  };
+
+  getLeadPrescriptions = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+      "GET"
+    );
+    return response.json().then((res) => res || []);
+  };
+
+  createPrescription = async (leadId, reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+      "POST",
+      reqData
+    );
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
+  };
+
+  editPrescription = async (leadId, reqData, method = "PUT") => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`,
+      method,
+      reqData
+    );
+
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error("Update failed.");
+  };
+
+  deletePrescription = async (leadId, id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`,
+      "DELETE"
+    );
+
+    return response;
+  };
+
+  getDrugNames = async (drugName) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugName?drugName=${drugName}`,
+      "GET"
+    );
+    return response.json();
+  };
+
+  getDrugDetails = async (drugID) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?id=${drugID}`,
+      "GET"
+    );
+    return response.json();
+  };
+
+  deletePharmacy = async (leadId, id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`,
+      "DELETE"
+    );
+
+    return response;
+  };
+
+  createPharmacy = async (leadId, reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+      "POST",
+      reqData
+    );
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
+  };
+
+  getLeadProviders = async (leadId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/ProviderSearchLookup`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  createLeadProvider = async (leadId, data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
+      "POST",
+      data
+    );
+
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error("Create Lead failed.");
+  };
+
+  deleteProvider = async (leadId, npi) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${npi}`,
+      "DELETE"
+    );
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Delete Lead failed.");
+  };
+
+  searchProviders = async (query) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Providers?${query}`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  searchPharmacies = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
+      "POST",
+      payload
+    );
+
+    return response.json();
+  };
+
+  getLatlongByAddress = async (zipcode, address) => {
+    const opts = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${address} ${zipcode}.json?limit=1&types=address&access_token=${process.env.REACT_APP_MAPBOX_GEO_TOKEN}
+        `,
+      opts
+    );
+
+    return response.json();
+  };
+
+  sendSoaInformation = async (payload, leadsId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v1.0/lead/${leadsId}/Soa`,
+      "POST",
+      payload
+    );
+
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Failed to send soa information.");
   };
 }
 

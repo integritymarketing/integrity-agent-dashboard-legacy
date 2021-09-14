@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"; //{ useState }
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-// import Modal from "components/ui/modal";
 import Container from "components/ui/container";
 import LineItem from "components/ui/line-item";
+import VideoLineItem from "components/ui/video-line-item";
 import GlobalNavV2 from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import ExpandableContent from "components/ui/expandable-content";
@@ -35,95 +35,6 @@ export const getResourceUrl = (filename) => {
   const resourcesBaseUrl = process.env.REACT_APP_RESOURCES_URL;
   return `${resourcesBaseUrl}/${filename}`;
 };
-
-/*
-Here is video component added for future use (from LifeCENTER implementation)
-
-This could surely use some refactor to move this into separate component file, etc. Also it is very basic and may need design improvements in future.
-
-To add a video, update the resources file at: /src/pages/content/resources.json
-
-You can currently add YouTube or Vimeo, see examples below:
-
-    {
-      "name": "CSF Website to App Tutorial",
-      "description": "",
-      "categories": ["life-solutions"],
-      "videoUrl": "https://www.youtube.com/embed/sC-80Sb-oj4"
-    },
-    {
-      "name": "Lead Store Demo Video",
-      "description": "",
-      "categories": ["life-solutions"],
-      "videoUrl": "https://player.vimeo.com/video/518351235"
-    }
-
-*/
-
-// working VideoLineItem + VideoModal
-// ported over from LifeCenter
-// commented due to npm warnings in build
-
-// const VideoModal = ({ modalOpen, handleCloseModal, videoUrl, ...props }) => {
-//   const testId = "learning-center-video-modal";
-//   return (
-//     <React.Fragment>
-//       <div {...props}></div>
-//       {modalOpen && (
-//         <Modal
-//           open={true}
-//           wide
-//           onClose={() => handleCloseModal()}
-//           labeledById="dialog_video_label"
-//           descById="dialog_video_desc"
-//           testId={testId}
-//           isVideo={true}
-//         >
-//           <iframe
-//             title="vimeo-player"
-//             src={`${videoUrl}?autoplay=1`}
-//             width="100%"
-//             height="320"
-//             frameBorder="0"
-//             allow="autoplay"
-//             allowFullScreen
-//           />
-//         </Modal>
-//       )}
-//     </React.Fragment>
-//   );
-// };
-
-// const VideoLineItem = ({ resource }) => {
-//   const [modalOpen, setModalOpen] = useState(false);
-
-//   const handleCloseModal = () => setModalOpen(false);
-
-//   return (
-//     <li key={resource.name}>
-//       <LineItem
-//         href={resource.videoUrl}
-//         icon={<ComputerIcon />}
-//         actionIcon={null}
-//         onClick={(e) => {
-//           e.preventDefault();
-//           if (!modalOpen) {
-//             setModalOpen(true);
-//           }
-//         }}
-//       >
-//         <VideoModal
-//           className="text-body text-bold"
-//           videoUrl={resource.videoUrl}
-//           modalOpen={modalOpen}
-//           handleCloseModal={handleCloseModal}
-//         >
-//           {resource.name}
-//         </VideoModal>
-//       </LineItem>
-//     </li>
-//   );
-// };
 
 export default () => {
   useEffect(() => {
@@ -171,7 +82,10 @@ export default () => {
                             {resource.description}
                           </p>
                         </div>
-                        <div className="pt-2 mt-auto" data-gtm="learning-center-recommended-read-item-button">
+                        <div
+                          className="pt-2 mt-auto"
+                          data-gtm="learning-center-recommended-read-item-button"
+                        >
                           <a
                             href={getResourceUrl(resource.filename)}
                             rel="noopener noreferrer"
@@ -196,7 +110,10 @@ export default () => {
             </section>
           </Container>
         </div>
-        <Container className="mt-scale-3" data-gtm="learning-center-all-resources-wrapper">
+        <Container
+          className="mt-scale-3"
+          data-gtm="learning-center-all-resources-wrapper"
+        >
           <section>
             <ExpandableContent
               header={({ isExpanded, toggleAll }) => (
@@ -222,8 +139,20 @@ export default () => {
                   renderItems: () => (
                     <ul className="divided-vlist divided-vlist--light mt-2 mb-5">
                       {resources.map((resource) => {
+                        if (resource.videoUrl) {
+                          return (
+                            <VideoLineItem
+                              key={resource.name}
+                              resource={resource}
+                            />
+                          );
+                        }
+
                         return (
-                          <li key={resource.name} data-gtm="learning-center-section-item">
+                          <li
+                            key={resource.name}
+                            data-gtm="learning-center-section-item"
+                          >
                             <LineItem
                               href={getResourceUrl(resource.filename)}
                               rel="noopener noreferrer"

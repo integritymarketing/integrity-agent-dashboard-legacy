@@ -21,9 +21,22 @@ export default ({ characters, size }) => {
     limitedCharacters(size);
   }, [size, limitedCharacters]);
 
+  function formattedText(value) {
+    if (!value) {
+      return;
+    }
+    return (
+      <ul className="activities-block">
+        {value.split(",").map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    );
+  }
+
   return (
     <span>
-      {viewText}
+      {formattedText(viewText)}
       {characters.length > size && (
         <>
           {viewMore ? (
