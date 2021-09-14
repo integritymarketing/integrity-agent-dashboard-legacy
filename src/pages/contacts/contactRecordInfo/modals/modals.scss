@@ -208,12 +208,12 @@
     }
     .prescription--frequency {
       flex: 1;
-      min-width: 145px;
+      min-width: 155px;
       .select {
         margin-left: 0px;
       }
       @media (min-width: 480px) {
-        max-width: 145px;
+        max-width: 155px;
       }
     }
   }
