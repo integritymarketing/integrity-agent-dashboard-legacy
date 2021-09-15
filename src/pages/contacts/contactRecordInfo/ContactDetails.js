@@ -70,17 +70,17 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
                 {lastName || notAvailable}
               </span>
             </div>
-            {/* DOB fiels will go in the Next release */}
-            {/* <div className="responsive-display contact-details-col1">
+
+            <div className="responsive-display contact-details-col1">
               <p className="contact-details-label">Date Of Birth</p>
               <span className="mob-mb-24 contact-details-name">10/06/1994</span>
-            </div> */}
+            </div>
           </div>
           <div className=" custom-mob-address-row contact-details-row">
-            {/* <div className="responsive-d-none contact-details-col1">
+            <div className="responsive-d-none contact-details-col1">
               <p className="contact-details-label">Date Of Birth</p>
               <span className="mob-mb-24 contact-details-name"> -- </span>
-            </div> */}
+            </div>
             <div className="custom-w-59 custom-w-25 contact-details-col1">
               <p className="contact-details-label">Contact Record Type</p>
               <span className="contact-details-name text-capitalize">
