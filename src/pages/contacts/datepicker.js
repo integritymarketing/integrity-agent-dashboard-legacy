@@ -2,7 +2,7 @@ import React from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 import { DateUtils } from "react-day-picker";
-import ReminderIcon from "../../stories/assets/reminder.svg";
+import ReminderIcon from "components/icons/reminder";
 import dateFnsFormat from "date-fns/format";
 import dateFnsParse from "date-fns/parse";
 
@@ -40,12 +40,7 @@ export default ({ date, onAddNew, overDueStatus = false }) => {
                 {...props}
                 disabled={!!onAddNew}
               />
-              <img
-                src={ReminderIcon}
-                alt=""
-                height="20"
-                className="datepicket-icon mr-1"
-              />
+              <ReminderIcon />
             </div>
           </span>
         );

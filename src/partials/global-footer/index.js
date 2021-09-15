@@ -31,9 +31,9 @@ const HelpButtonWithModal = ({ ...props }) => {
   );
 };
 
-export default ({ className = "", ...props }) => {
+export default ({ className = "", hideMedicareIcon, ...props }) => {
   const portalUrl = usePortalUrl();
-  const hideMedicareTag = props && !props.hideMeicareIcon;
+  const hideMedicareTag = !hideMedicareIcon;
   return (
     <footer
       className={`global-footer text-muted pt-5 ${className}`}

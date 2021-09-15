@@ -120,20 +120,32 @@ button {
     var(--bg-photo-src-800, var(--bg-photo-default-src-800));
   background-size: cover;
 
+  @media (min-width: 480px) {
+    &.logged-in {
+      background-image: var(--bg-photo-gradient),
+        var(--bg-photo-src-800, var(--bg-photo-default-src-800));
+    }
+    background-image: var(--bg-photo-src-800, var(--bg-photo-default-src-800));
+  }
+
   // retina > 500px or standard > 1000px
   @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 500px),
     (min-resolution: 192dpi) and (min-width: 500px),
     (min-width: 1000px) {
-    background-image: var(--bg-photo-gradient),
-      var(--bg-photo-src-1440, var(--bg-photo-default-src-1440));
+    background-image: var(
+      --bg-photo-src-1440,
+      var(--bg-photo-default-src-1440)
+    );
   }
 
   // retina > 900px or standard > 1600px
   @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 900px),
     (min-resolution: 192dpi) and (min-width: 900px),
     (min-width: 1600px) {
-    background-image: var(--bg-photo-gradient),
-      var(--bg-photo-src-1920, var(--bg-photo-default-src-1920));
+    background-image: var(
+      --bg-photo-src-1920,
+      var(--bg-photo-default-src-1920)
+    );
   }
 }
 
@@ -166,7 +178,15 @@ button {
   }
 
   &--size-wide {
-    max-width: 680px;
+    max-width: 736px;
+  }
+
+  &--size-lg {
+    max-width: 800px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0;
   }
 }
 
@@ -287,4 +307,66 @@ $spacings: (
   color: #6a6a6a;
   font-family: "Lato", sans-serif;
   font-weight: 400;
+}
+
+.dialog--actions {
+  display: flex;
+}
+
+.dialog--title {
+  color: #002d72;
+}
+
+div[class$="MenuList"] {
+  margin-right: 20px;
+}
+/* width */
+div[class$="MenuList"]::-webkit-scrollbar {
+  width: 4px;
+  padding-right: 10px;
+}
+
+/* Track */
+div[class$="MenuList"]::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0 transparent;
+  border-radius: 0px;
+}
+
+/* Handle */
+div[class$="MenuList"]::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4%;
+}
+
+/* Handle on hover */
+div[class$="MenuList"]::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+.option__typeahead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: Lato;
+}
+
+.option__typeahead > .header__typeahead {
+  font-family: Lato;
+  font-size: 16px;
+  color: #313336;
+}
+.option__typeahead > .subHeader__typeahead {
+  color: #64788b;
+  font-family: Lato;
+  font-size: 12px;
+}
+
+.react--select-overide {
+  font-family: Lato;
+  font-size: 16px;
+  color: #64748b;
 }

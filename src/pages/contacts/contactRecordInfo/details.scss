@@ -1,0 +1,66 @@
+.provider-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  border-radius: 4px;
+
+  @media (max-width: 480px) {
+    display: inherit;
+    height: auto;
+    position: relative;
+    padding: 16px 12px;
+  }
+
+  .provider-content {
+    line-height: 130%;
+    width: 35%;
+    @media (max-width: 480px) {
+      .pr-title-mble {
+        margin-bottom: 14px;
+      }
+      .pr-phone-mble {
+        font-size: 14px !important;
+        margin-bottom: 14px;
+        color: #64748b !important;
+        font-weight: initial !important;
+      }
+      width: 90%;
+    }
+    @media (max-width: 325px) {
+      width: 80%;
+    }
+    .pr-h1 {
+      font-family: Lato;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      color: #313336;
+    }
+
+    .pr-h2 {
+      font-family: Lato;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      color: #64748b;
+    }
+  }
+
+  .button-delete-provider {
+    width: 5%;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    color: #cf3c28;
+    cursor: pointer;
+
+    @media (max-width: 480px) {
+      position: absolute;
+      top: 20px;
+      right: 12px;
+      width: auto;
+    }
+  }
+}

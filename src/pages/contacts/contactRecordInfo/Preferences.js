@@ -125,9 +125,11 @@ export default (props) => {
                 id="test"
                 name="checkbox-group"
                 checked={isEnabled("email")}
-                onClick={(e) => handleChangeCheckbox("email", e.target.checked)}
+                onChange={(e) =>
+                  handleChangeCheckbox("email", e.target.checked)
+                }
               />
-              <label for="email">Direct Email</label>
+              <label htmlFor="email">Direct Email</label>
             </div>
           </div>
         </div>
@@ -139,9 +141,9 @@ export default (props) => {
                 id="test1"
                 name="radio-group"
                 checked={isPrimary("Email")}
-                onClick={() => handleChangePrimary("Email", true)}
+                onChange={() => handleChangePrimary("Email", true)}
               />
-              <label for="primaryEmail">Primary Communication</label>
+              <label htmlFor="primaryEmail">Primary Communication</label>
             </div>
           </div>
         </div>
@@ -157,9 +159,11 @@ export default (props) => {
                 id="test"
                 name="checkbox-group"
                 checked={isEnabled("phone")}
-                onClick={(e) => handleChangeCheckbox("phone", e.target.checked)}
+                onChange={(e) =>
+                  handleChangeCheckbox("phone", e.target.checked)
+                }
               />
-              <label for="phone">Phone Calls</label>
+              <label htmlFor="phone">Phone Calls</label>
             </div>
           </div>
         </div>
@@ -171,9 +175,9 @@ export default (props) => {
                 id="test1"
                 name="radio-group-phone"
                 checked={isPrimary("Phone")}
-                onClick={(e) => handleChangePrimary("Phone", true)}
+                onChange={(e) => handleChangePrimary("Phone", true)}
               />
-              <label for="primaryPhone">Primary Communication</label>
+              <label htmlFor="primaryPhone">Primary Communication</label>
             </div>
           </div>
         </div>
@@ -189,9 +193,9 @@ export default (props) => {
                 id="test"
                 name="checkbox-group"
                 checked={isEnabled("sms")}
-                onClick={(e) => handleChangeCheckbox("sms", e.target.checked)}
+                onChange={(e) => handleChangeCheckbox("sms", e.target.checked)}
               />
-              <label for="sms">Text Messaging</label>
+              <label htmlFor="sms">Text Messaging</label>
             </div>
           </div>
         </div>
@@ -207,9 +211,9 @@ export default (props) => {
                 id="test"
                 name="checkbox-group"
                 checked={isEnabled("mail")}
-                onClick={(e) => handleChangeCheckbox("mail", e.target.checked)}
+                onChange={(e) => handleChangeCheckbox("mail", e.target.checked)}
               />
-              <label for="mail">Direct Mail</label>
+              <label htmlFor="mail">Direct Mail</label>
             </div>
           </div>
         </div>
@@ -222,9 +226,9 @@ export default (props) => {
                 id="test"
                 name="checkbox-group"
                 checked={isEnabled("dnd")}
-                onClick={(e) => handleChangeCheckbox("dnd", e.target.checked)}
+                onChange={(e) => handleChangeCheckbox("dnd", e.target.checked)}
               />
-              <label for="doNotDisturb">Do Not Call / Lost Contact</label>
+              <label htmlFor="doNotDisturb">Do Not Call / Lost Contact</label>
             </div>
           </div>
         </div>

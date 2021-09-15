@@ -28,3 +28,12 @@ export const ColorOptionRender = ({
     </div>
   );
 };
+
+// Key_validation - Restricting input field to accept only alphabets
+
+export const onlyAlphabets = (e) => {
+  const re = /^[a-zA-Z ]*$/;
+  if (!re.test(e.key)) {
+    e.preventDefault();
+  }
+};

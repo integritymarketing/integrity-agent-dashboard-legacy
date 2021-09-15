@@ -20,15 +20,20 @@ import { formatAddress } from "utils/address";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import analyticsService from "services/analyticsService";
 import styles from "./ContactsPage.module.scss";
+import More from "components/icons/more";
+import ActionsDropdown from "components/ui/ActionsDropdown";
+import { MORE_ACTIONS } from "../../utils/moreActions";
 
 const useClientCardInfo = (client) => {
-  const { firstName, lastName, statusName } = client;
+  const { firstName, middleName, lastName, statusName } = client;
   const primaryContact = getPrimaryContact(client);
   const displayName = useMemo(() => {
     const namedClient = firstName || lastName;
-    const displayName = namedClient ? `${firstName} ${lastName}`.trim() : "--";
+    const displayName = namedClient
+      ? `${firstName} ${middleName || ""} ${lastName}`.trim()
+      : "--";
     return displayName;
-  }, [firstName, lastName]);
+  }, [firstName, lastName, middleName]);
 
   return {
     displayName,
@@ -65,6 +70,20 @@ const ClientCard = ({ client, onRefresh }) => {
     client
   );
 
+  const [showAddModal, setShowAddModal] = useState(null);
+  const [showAddNewModal, setShowAddNewModal] = useState(false);
+
+  const handleDropdownActions = (value, leadId) => {
+    switch (value) {
+      case "addnewreminder":
+        setShowAddModal(leadId);
+        setShowAddNewModal(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Card data-gtm="card-view-contact-card">
       <div>
@@ -86,14 +105,14 @@ const ClientCard = ({ client, onRefresh }) => {
             )}
           </div>
           <div className={styles.hideOnMobile}>
-            <Link
-              to={`/contact/${client.leadsId}`}
-              data-gtm="card-view-view"
-              className={styles.viewLink}
+            <ActionsDropdown
+              className={styles["more-icon"]}
+              options={MORE_ACTIONS}
+              id={client.leadsId}
+              onClick={handleDropdownActions}
             >
-              {" "}
-              View{" "}
-            </Link>
+              <More />
+            </ActionsDropdown>
           </div>
           <div className={styles.mobileStage}>
             <span
@@ -137,6 +156,14 @@ const ClientCard = ({ client, onRefresh }) => {
               reminders={reminders || []}
               onRefresh={onRefresh}
               isCardView={true}
+              showAddModal={showAddModal === client.leadsId}
+              setShowAddModal={(value) => {
+                setShowAddModal(value ? client.leadsId : null);
+                if (!value) {
+                  setShowAddNewModal(false);
+                }
+              }}
+              showAddNewModal={showAddNewModal}
             />
           </div>
         </div>

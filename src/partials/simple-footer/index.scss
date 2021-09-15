@@ -38,6 +38,11 @@
     padding: 0px;
   }
 
+  &--blue-bg {
+    background-color: var(--v2-dark-gray);
+    color: var(--v2-white);
+  }
+
   @media (max-width: 767px) {
     &__content {
       flex-direction: column;

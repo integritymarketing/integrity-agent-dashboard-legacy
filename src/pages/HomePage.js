@@ -92,7 +92,8 @@ const SSOButtonWithModal = ({ ...props }) => {
         >
           <a
             href={
-              process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin"
+              process.env.REACT_APP_AUTH_AUTHORITY_URL +
+              "/external/SamlLogin/2021"
             }
             target="_blank"
             rel="noopener noreferrer"
@@ -149,7 +150,7 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Home</title>
       </Helmet>
-      <div className="bg-photo text-invert">
+      <div className="bg-photo logged-in text-invert">
         <GlobalNav />
         <Container
           id="main-content"
