@@ -4,6 +4,8 @@ import PlansPage from "pages/PlansPage";
 import { MemoryRouter, Route } from "react-router-dom";
 import "../../index.scss";
 import { HelmetProvider } from "react-helmet-async";
+import { CountyProvider } from "contexts/counties";
+import { DeleteLeadProvider } from "contexts/deleteLead";
 
 // spoof logged in user
 localStorage.setItem(
@@ -17,13 +19,17 @@ export default {
   decorators: [withMock],
 };
 const Template = () => (
-  <HelmetProvider>
-    <MemoryRouter initialEntries={["/plans/123"]}>
-      <Route path="/plans/:contactId">
-        <PlansPage />
-      </Route>
-    </MemoryRouter>
-  </HelmetProvider>
+  <DeleteLeadProvider>
+    <CountyProvider>
+      <HelmetProvider>
+        <MemoryRouter initialEntries={["/plans/123"]}>
+          <Route path="/plans/:contactId">
+            <PlansPage />
+          </Route>
+        </MemoryRouter>
+      </HelmetProvider>
+    </CountyProvider>
+  </DeleteLeadProvider>
 );
 
 export const PlansPageSuccess = Template.bind({});

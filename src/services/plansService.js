@@ -3,16 +3,16 @@ import authService from "services/authService";
 export const QUOTES_API_VERSION = "v1.0";
 
 class PlansService {
-  filterPlans = async (leadId, plansFilter) => {
+  getPlans = async (leadId, plansFilter) => {
     const response = await this._clientAPIRequest(
-      `Lead/${leadId}/Plan/PlansByFilter`,
-      "POST",
+      `Lead/${leadId}/Plan/Plans`,
+      "GET",
       plansFilter
     );
 
     return response.json();
   };
-  _clientAPIRequest = async (path, method = "GET", body) => {
+  _clientAPIRequest = async (path, method = "GET", query, body) => {
     const user = await authService.getUser();
     const opts = {
       method,
@@ -21,14 +21,17 @@ class PlansService {
         "Content-Type": "application/json",
       },
     };
+
+    const url = new URL(
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/` + path
+    );
+    url.search = new URLSearchParams(query).toString();
+
     if (body) {
       opts.body = JSON.stringify(body);
     }
 
-    return fetch(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/` + path,
-      opts
-    );
+    return fetch(url, opts);
   };
 }
 

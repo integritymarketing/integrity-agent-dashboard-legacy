@@ -1,0 +1,85 @@
+import React, { forwardRef, useEffect, useState } from "react";
+import { debounce } from "debounce";
+import "./index.scss";
+
+const SCROLL_BEHAVIOR = {
+  behavior: "smooth",
+};
+
+function getNavElements(
+  sections,
+  sectionRefs,
+  activeSectionID,
+  setActiveSectionID,
+  setIsScrolling
+) {
+  const rows = [];
+  for (const section of sections) {
+    const ref = sectionRefs[section.id];
+    rows.push(
+      <li
+        onClick={() => {
+          setIsScrolling(true);
+          setActiveSectionID(section.id);
+          ref.current.scrollIntoView(SCROLL_BEHAVIOR);
+          setTimeout(() => setIsScrolling(false), 500);
+        }}
+        className={activeSectionID === section.id ? "selected" : undefined}
+      >
+        {section.label}
+      </li>
+    );
+  }
+  return rows;
+}
+
+export default forwardRef(({ initialSectionID, sections }, refs) => {
+  const [activeSectionID, setActiveSectionID] = useState(initialSectionID);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const navElements = getNavElements(
+    sections,
+    refs,
+    activeSectionID,
+    setActiveSectionID,
+    setIsScrolling
+  );
+  useEffect(() => {
+    refs[initialSectionID].current.scrollIntoView(SCROLL_BEHAVIOR);
+  }, [initialSectionID, refs]);
+
+  useEffect(() => {
+    function onScroll() {
+      for (const id in refs) {
+        observer.observe(refs[id]?.current);
+      }
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isScrolling) {
+          let lastActive = activeSectionID;
+          for (const id in refs) {
+            if (entry.target === refs[id]?.current) {
+              lastActive = id;
+            }
+          }
+          setActiveSectionID(lastActive);
+        }
+      },
+      { threshold: 0.8 }
+    );
+    let debouncedOnScroll = debounce(onScroll, 100);
+    window.addEventListener("scroll", debouncedOnScroll);
+    return function cleanup() {
+      window.removeEventListener("scroll", debouncedOnScroll);
+      observer.disconnect();
+    };
+  }, [refs, isScrolling, activeSectionID]);
+
+  return (
+    <div className={"scroll-nav"}>
+      <div className={"navigation-container"}>
+        <ul className={"navigation"}>{navElements}</ul>
+      </div>
+    </div>
+  );
+});

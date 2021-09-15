@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Redirect,
@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
+import { debounce } from "debounce";
 import Import from "components/icons/import";
 import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
@@ -23,7 +24,7 @@ import { Select } from "components/ui/Select";
 import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { StageStatusProvider } from "contexts/stageStatus";
-import { debounce } from "debounce";
+import BackNavContext from "contexts/backNavProvider"; 
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
 import { SORT_OPTIONS } from "../../constants";
@@ -59,7 +60,7 @@ const geItemFromLocalStorage = (key, initialValue) => {
 export default () => {
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
-  const [sort, setSort] = React.useState(null);
+  const [sort, setSort] = useState(null);
   const [layout, setLayout] = useState();
   const location = useLocation();
   const history = useHistory();
@@ -67,7 +68,15 @@ export default () => {
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
+  const {setCurrentPage} = useContext(BackNavContext)
+
   const duplicateIdsLength = duplicateIds?.length;
+
+  useEffect(() => {
+    setCurrentPage('Contacts Page')
+    
+// eslint-disable-next-line react-hooks/exhaustive-deps 
+  } , []);
   useEffect(() => {
     setLayout(() =>
       location.pathname === cardViewLayoutPath ? "card" : "list"
