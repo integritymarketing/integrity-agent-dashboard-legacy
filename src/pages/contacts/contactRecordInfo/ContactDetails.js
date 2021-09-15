@@ -70,6 +70,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
                 {lastName || notAvailable}
               </span>
             </div>
+
             <div className="responsive-display contact-details-col1">
               <p className="contact-details-label">Date Of Birth</p>
               <span className="mob-mb-24 contact-details-name">10/06/1994</span>
