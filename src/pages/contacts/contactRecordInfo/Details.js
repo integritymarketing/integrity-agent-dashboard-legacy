@@ -42,6 +42,8 @@ export default (props) => {
   const onAddNewPharmacy = () => setIsOpenPharmacy(true);
   const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
   const onAddNewProvider = () => setIsOpen(true);
+  /* Need to remove this temporary condition in the Next release */
+  const hideProviderUntilNextRelease = true;
 
   const [leadProviders, setLeadProviders] = useState({
     items: {},
@@ -149,9 +151,9 @@ export default (props) => {
           selectedPackage.packageDisplayText
         } ${getFrequencyValue(daysOfSupply)}`
       : dosageDetails
-      ? `${metricQuantity} ${
-          dosageDetails.dosageFormName.toLowerCase()
-        } ${getFrequencyValue(daysOfSupply)}`
+      ? `${metricQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(
+          daysOfSupply
+        )}`
       : "";
 
     return (
@@ -203,7 +205,7 @@ export default (props) => {
           onClose={onCloseEditPrescription}
           item={prescriptionToEdit}
           onSave={editPrescription}
-        /> 
+        />
         {isOpenPharmacy && (
           <AddPharmacy
             isOpen={isOpenPharmacy}
@@ -212,50 +214,52 @@ export default (props) => {
             onSave={addPharmacy}
           />
         )}
-        <DetailsCard
-          headerTitle="Providers"
-          onAddClick={onAddNewProvider}
-          items={leadProviders?.items?.providers || []}
-          provider={true}
-          itemRender={(item, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  background: index % 2 ? "white" : "#F1F5F9",
-                }}
-                className="provider-container"
-              >
-                <div className="provider-content">
-                  <div className="pr-h1">{item.presentationName}</div>
-                  <div className="pr-h2 pr-title-mble">
-                    {item.specialty}&nbsp;/&nbsp;{item.title}
+        {!hideProviderUntilNextRelease && (
+          <DetailsCard
+            headerTitle="Providers"
+            onAddClick={onAddNewProvider}
+            items={leadProviders?.items?.providers || []}
+            provider={true}
+            itemRender={(item, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{
+                    background: index % 2 ? "white" : "#F1F5F9",
+                  }}
+                  className="provider-container"
+                >
+                  <div className="provider-content">
+                    <div className="pr-h1">{item.presentationName}</div>
+                    <div className="pr-h2 pr-title-mble">
+                      {item.specialty}&nbsp;/&nbsp;{item.title}
+                    </div>
+                    <div className="pr-h2">{item.email}</div>
                   </div>
-                  <div className="pr-h2">{item.email}</div>
-                </div>
-                <div className="provider-content">
-                  <div className="pr-h1 pr-phone-mble">{item.phone}</div>
-                  <div className="pr-h2">
-                    {item.addresses[0].streetLine1},&nbsp;
+                  <div className="provider-content">
+                    <div className="pr-h1 pr-phone-mble">{item.phone}</div>
+                    <div className="pr-h2">
+                      {item.addresses[0].streetLine1},&nbsp;
+                    </div>
+                    <div className="pr-h2">
+                      {item.addresses[0].city},&nbsp;{item.addresses[0].state}
+                      ,&nbsp;{item.addresses[0].zipCode}
+                    </div>
                   </div>
-                  <div className="pr-h2">
-                    {item.addresses[0].city},&nbsp;{item.addresses[0].state}
-                    ,&nbsp;{item.addresses[0].zipCode}
+                  <div>
+                    <span
+                      role="button"
+                      className="button-delete-provider"
+                      onClick={() => handleDeleteProvider(item)}
+                    >
+                      Delete
+                    </span>
                   </div>
                 </div>
-                <div>
-                  <span
-                    role="button"
-                    className="button-delete-provider"
-                    onClick={() => handleDeleteProvider(item)}
-                  >
-                    Delete
-                  </span>
-                </div>
-              </div>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        )}
         <DetailsCard
           headerTitle="Prescriptions"
           onAddClick={onAddNewPrescription}
