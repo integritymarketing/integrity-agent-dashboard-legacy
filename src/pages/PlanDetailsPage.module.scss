@@ -1,0 +1,51 @@
+.plan-details-page {
+  font-family: Lato;
+  font-weight: normal;
+  font-style: normal;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 96px;
+    background-color: var(--v2-white);
+    box-shadow: var(--shadow-default);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    .back {
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .body {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top: 51px;
+
+    .left {
+      width: 262px;
+      flex-grow: 1;
+      > div {
+        top: 120px;
+        position: sticky;
+      }
+
+      ul {
+        padding-left: 18px;
+        margin-top: 0;
+      }
+    }
+    .main {
+      flex-grow: 3;
+      div {
+        padding-top: 150px;
+        margin-bottom: 500px;
+      }
+    }
+  }
+}

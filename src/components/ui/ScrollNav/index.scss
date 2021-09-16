@@ -2,10 +2,18 @@
   flex-grow: 1;
   width: 262px;
   position: sticky;
-  top: 0;
+  top: 0px;
   z-index: 1;
 
   .navigation {
+    .nav-header {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 130%;
+      color: #2b323b;
+      margin-bottom: 16px;
+    }
+
     li {
       font-family: Lato;
       font-style: normal;
@@ -15,6 +23,7 @@
       cursor: pointer;
       color: #2b323b;
       margin-bottom: 16px;
+      margin-left: 18px;
 
       &.selected {
         font-family: Lato;
