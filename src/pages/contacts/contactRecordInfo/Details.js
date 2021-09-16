@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* useEffet should be imported when Provider is going to live */
+import React, { useState } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
@@ -125,9 +126,10 @@ export default (props) => {
     }
   }, [props.id]);
 
-  useEffect(() => {
-    fetchProviders();
-  }, [fetchProviders]);
+  /* It should be uncommented when Provider is going to live */
+  // useEffect(() => {
+  //   fetchProviders();
+  // }, [fetchProviders]);
 
   const getFrequencyValue = (dayofSupply) => {
     const frequencyOptions = FREQUENCY_OPTIONS.filter(
