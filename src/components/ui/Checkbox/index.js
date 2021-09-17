@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import "./radio.scss";
+import "./index.scss";
 
-function Radio({
+function Checkbox({
   htmlFor = "",
   id = "",
   name = "",
@@ -13,11 +13,11 @@ function Radio({
   onChange,
   checked = false,
 }) {
-  const theClassName = className ? `radio-label ${className}` : "radio-label";
+  const theClassName = className ? `checkbox-label ${className}` : "checkbox-label";
   return (
     <label htmlFor={htmlFor} className={theClassName}>
       <input
-        type="radio"
+        type="checkbox"
         className="mr-1"
         id={id}
         name={name}
@@ -30,12 +30,12 @@ function Radio({
   );
 }
 
-Radio.propTypes = {
-  htmlFor: PropTypes.string.isRequired,
+Checkbox.propTypes = {
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   type: PropTypes.string,
   value: PropTypes.string,
+  checked: PropTypes.bool,
 };
 
-export default Radio;
+export default Checkbox;
