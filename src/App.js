@@ -40,125 +40,122 @@ mapboxgl.accessToken =
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>
-       <ToastContextProvider>
-      <CountyProvider>
-        <DeleteLeadProvider>
-          <ContactsProvider>
-            <BackNavProvider>
-              <HelmetProvider>
-                <Router>
-                  <Helmet>
-                    <title>MedicareCENTER</title>
-                  </Helmet>
-                  <div className="content-frame">
-                    {process.env.REACT_APP_MAINTENANCE_MODE ? (
-                      <Switch>
-                        <Route path="/maintenance">
-                          <MaintenancePage />
-                        </Route>
-                        <Route path="*">
-                          <Redirect to="/maintenance" />
-                        </Route>
-                      </Switch>
-                    ) : (
-                      <Switch>
-                        {/* root path directs traffic to unauthenticed
+      <ToastContextProvider>
+        <CountyProvider>
+          <DeleteLeadProvider>
+            <ContactsProvider>
+              <BackNavProvider>
+                <HelmetProvider>
+                  <Router>
+                    <Helmet>
+                      <title>MedicareCENTER</title>
+                    </Helmet>
+                    <div className="content-frame">
+                      {process.env.REACT_APP_MAINTENANCE_MODE ? (
+                        <Switch>
+                          <Route path="/maintenance">
+                            <MaintenancePage />
+                          </Route>
+                          <Route path="*">
+                            <Redirect to="/maintenance" />
+                          </Route>
+                        </Switch>
+                      ) : (
+                        <Switch>
+                          {/* root path directs traffic to unauthenticed
               Welcome or authenticated Home page */}
-                        <Route exact path="/">
-                          <TrafficDirector />
-                        </Route>
-                        <UnauthenticatedRoute path="/welcome">
-                          <WelcomePage />
-                        </UnauthenticatedRoute>
-                        <AuthenticatedRoute path="/home">
-                          <HomePage />
-                        </AuthenticatedRoute>
+                          <Route exact path="/">
+                            <TrafficDirector />
+                          </Route>
+                          <UnauthenticatedRoute path="/welcome">
+                            <WelcomePage />
+                          </UnauthenticatedRoute>
+                          <AuthenticatedRoute path="/home">
+                            <HomePage />
+                          </AuthenticatedRoute>
 
-                      <AuthenticatedRoute path="/edit-account">
-                        <AccountPage />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute path="/learning-center">
-                        <ResourcesPage />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute path="/contacts">
-                        <ContactsPage />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute path="/contact/add-new">
-                        <AddNewContactPage />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute
-                        exact
-                        path="/contact/:contactId/duplicate/:duplicateLeadId"
-                      >
-                        <ContactRecordInfo />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute exact path="/contact/:contactId">
-                        <ContactRecordInfo />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute path="/new-soa">
-                          <NewScopeOfAppointment />
-                        </AuthenticatedRoute>
-                      <AuthenticatedRoute path="/client-import">
-                        <ClientImportPage />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute path="/plans/:contactId">
-                        <PlansPage />
-                      </AuthenticatedRoute>
-                      <AuthenticatedRoute path="/plans/:contactId">
-                        <PlansPage />
-                      </AuthenticatedRoute>
-                      <Route path="/terms">
-                        <TermsPage />
-                      </Route>
-                      <Route path="/privacy">
-                        <PrivacyPage />
-                      </Route>
+                          <AuthenticatedRoute path="/edit-account">
+                            <AccountPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/learning-center">
+                            <ResourcesPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/contacts">
+                            <ContactsPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/contact/add-new">
+                            <AddNewContactPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute
+                            exact
+                            path="/contact/:contactId/duplicate/:duplicateLeadId"
+                          >
+                            <ContactRecordInfo />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute exact path="/contact/:contactId">
+                            <ContactRecordInfo />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/new-soa">
+                            <NewScopeOfAppointment />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/client-import">
+                            <ClientImportPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/plans/:contactId">
+                            <PlansPage />
+                          </AuthenticatedRoute>
+                          <Route path="/terms">
+                            <TermsPage />
+                          </Route>
+                          <Route path="/privacy">
+                            <PrivacyPage />
+                          </Route>
 
-                        {/* auth routes + callbacks */}
-                        <Route
-                          path="/signin"
-                          component={AuthSigninRedirectPage}
-                        />
-                        <Route
-                          path="/signin-oidc-silent"
-                          component={AuthSilentCallback}
-                        />
-                        <Route
-                          path="/signin-oidc-silent"
-                          component={AuthSilentCallback}
-                        />
-                        <Route
-                          path="/signin-oidc"
-                          component={AuthSigninCallback}
-                        />
-                        <Route
-                          path="/signout-oidc"
-                          component={AuthSignoutCallback}
-                        />
+                          {/* auth routes + callbacks */}
+                          <Route
+                            path="/signin"
+                            component={AuthSigninRedirectPage}
+                          />
+                          <Route
+                            path="/signin-oidc-silent"
+                            component={AuthSilentCallback}
+                          />
+                          <Route
+                            path="/signin-oidc-silent"
+                            component={AuthSilentCallback}
+                          />
+                          <Route
+                            path="/signin-oidc"
+                            component={AuthSigninCallback}
+                          />
+                          <Route
+                            path="/signout-oidc"
+                            component={AuthSignoutCallback}
+                          />
 
-                        <Route path="/maintenance">
-                          <Redirect to="/" />
-                        </Route>
-                        <Route path="/clients">
-                          <Redirect to="/contacts" />
-                        </Route>
+                          <Route path="/maintenance">
+                            <Redirect to="/" />
+                          </Route>
+                          <Route path="/clients">
+                            <Redirect to="/contacts" />
+                          </Route>
 
-                        <Route path="/error">
-                          <ErrorPage />
-                        </Route>
-                        <Route path="*">
-                          <NotFoundPage />
-                        </Route>
-                      </Switch>
-                    )}
-                  </div>
-                  <PortalUrl />
-                </Router>
-              </HelmetProvider>
-            </BackNavProvider>
-          </ContactsProvider>
-        </DeleteLeadProvider>
-      </CountyProvider>
+                          <Route path="/error">
+                            <ErrorPage />
+                          </Route>
+                          <Route path="*">
+                            <NotFoundPage />
+                          </Route>
+                        </Switch>
+                      )}
+                    </div>
+                    <PortalUrl />
+                  </Router>
+                </HelmetProvider>
+              </BackNavProvider>
+            </ContactsProvider>
+          </DeleteLeadProvider>
+        </CountyProvider>
       </ToastContextProvider>
     </AuthContext.Provider>
   );
