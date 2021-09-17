@@ -270,16 +270,6 @@ export default () => {
                 </label>
                 <span>Scope Of Appointments</span>
               </li>
-
-              <li
-                className="plans-button"
-                onClick={() => {
-                  history.push(`/plans/${id}`);
-                }}
-              >
-                {handleViewPlans(true)}
-              </li>
-
               <li
                 className={`Preferences ${
                   display === "Preferences" ? "mobile-menu-active" : ""
@@ -290,6 +280,14 @@ export default () => {
                   <PreferencesIcon />
                 </label>
                 <span>Preferences</span>
+              </li>
+              <li
+                className="plans-button"
+                onClick={() => {
+                  history.push(`/plans/${id}`);
+                }}
+              >
+                {handleViewPlans(true)}
               </li>
             </ul>
             <PersonalInfo
