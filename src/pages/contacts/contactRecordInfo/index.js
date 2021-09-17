@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -25,6 +25,7 @@ import ArrowdownIcon from "components/icons/menu-arrow-down";
 import ArrowupIcon from "components/icons/menu-arrow-up";
 import { Button } from "components/ui/Button";
 import SOAicon from "components/icons/soa";
+import ScopeOfAppointment from "./soaList/ScopeOfAppointment";
 
 export default () => {
   const { contactId: id } = useParams();
@@ -39,6 +40,7 @@ export default () => {
   const [menuToggle, setMenuToggle] = useState(false);
   const [isEdit, setEdit] = useState(false);
   const { setCurrentPage } = useContext(BackNavContext);
+  const history = useHistory();
 
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
@@ -117,6 +119,8 @@ export default () => {
         return <OverView {...props} />;
       case "Details":
         return <Details {...props} />;
+      case "ScopeOfAppointment":
+        return <ScopeOfAppointment {...props} />;
       case "Preferences":
         return <Preferences {...props} />;
       default:
@@ -254,21 +258,6 @@ export default () => {
                 </label>
                 <span>Details</span>
               </li>
-              <li
-                className={`Preferences ${
-                  display === "Preferences" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("Preferences")}
-              >
-                <label className="icon-spacing">
-                  <PreferencesIcon />
-                </label>
-                <span>Preferences</span>
-              </li>
-
-              <li className="plans-button">{handleViewPlans(true)}</li>
-
-              {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
 
               <li
                 className={`ScopeOfAppointment ${
@@ -279,7 +268,28 @@ export default () => {
                 <label className="icon-spacing">
                   <SOAicon />
                 </label>
-                <span>Scope Of Appointment</span>
+                <span>Scope Of Appointments</span>
+              </li>
+
+              <li
+                className="plans-button"
+                onClick={() => {
+                  history.push(`/plans/${id}`);
+                }}
+              >
+                {handleViewPlans(true)}
+              </li>
+
+              <li
+                className={`Preferences ${
+                  display === "Preferences" ? "mobile-menu-active" : ""
+                }`}
+                onClick={() => handleDisplay("Preferences")}
+              >
+                <label className="icon-spacing">
+                  <PreferencesIcon />
+                </label>
+                <span>Preferences</span>
               </li>
             </ul>
             <PersonalInfo
@@ -319,6 +329,15 @@ export default () => {
                     <span>Details</span>
                   </li>
                   <li
+                    className={display === "ScopeOfAppointment" && "active"}
+                    onClick={() => setDisplay("ScopeOfAppointment")}
+                  >
+                    <label className="icon-spacing">
+                      <SOAicon />
+                    </label>
+                    <span>Scope Of Appointments</span>
+                  </li>
+                  <li
                     className={display === "Preferences" ? "active" : ""}
                     onClick={() => setDisplay("Preferences")}
                   >
@@ -327,18 +346,13 @@ export default () => {
                     </label>
                     <span>Preferences </span>
                   </li>
-                  <li className="plans-button">{handleViewPlans(false)}</li>
-
-                  {/* HODING SOA SECTION -- NEED TO WORK IN FUTURE */}
-
                   <li
-                    className={display === "ScopeOfAppointment" && "active"}
-                    onClick={() => setDisplay("ScopeOfAppointment")}
+                    className="plans-button"
+                    onClick={() => {
+                      history.push(`/plans/${id}`);
+                    }}
                   >
-                    <label className="icon-spacing">
-                      <SOAicon />
-                    </label>
-                    <span>Scope Of Appointment</span>
+                    {handleViewPlans(false)}
                   </li>
                 </ul>
                 <div className="rightSection">{handleRendering()}</div>

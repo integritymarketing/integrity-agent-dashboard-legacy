@@ -204,12 +204,14 @@ export default forwardRef((props) => {
           item={prescriptionToEdit}
           onSave={editPrescription}
         />
-        <AddPharmacy
-          isOpen={isOpenPharmacy}
-          onClose={onCloseNewPharmacy}
-          personalInfo={props.personalInfo}
-          onSave={addPharmacy}
-        />
+        {isOpenPharmacy && (
+          <AddPharmacy
+            isOpen={isOpenPharmacy}
+            onClose={onCloseNewPharmacy}
+            personalInfo={props.personalInfo}
+            onSave={addPharmacy}
+          />
+        )}
         <div ref={props.providersRef}>
           <DetailsCard
             headerTitle="Providers"

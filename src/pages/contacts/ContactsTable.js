@@ -22,7 +22,7 @@ import useToast from "hooks/useToast";
 import analyticsService from "services/analyticsService";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
-import { MORE_ACTIONS } from "utils/moreActions";
+import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
 
 function Table({
   columns,
@@ -229,6 +229,10 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
     history.push("/new-soa");
   };
 
+  const navigateToPlansPage = (leadId) => {
+    history.push(`/plans/${leadId}`);
+  };
+
   const handleDropdownActions = (contact) => (value, leadId) => {
     switch (value) {
       case "addnewreminder":
@@ -238,6 +242,9 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
       case "addnewsoa":
         setNewSoaContactDetails(contact);
         navigateToSOANew();
+        break;
+      case "viewavailableplans":
+        navigateToPlansPage(leadId);
         break;
       default:
         break;
@@ -308,18 +315,25 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
       {
         Header: "",
         accessor: "actions",
-        Cell: ({ value, row }) => (
-          <ActionsDropdown
-            className={styles["more-icon"]}
-            options={MORE_ACTIONS}
-            id={row.original.leadsId}
-            onClick={handleDropdownActions(row.original)}
-            postalCode={row?.original?.addresses[0]?.postalCode}
-            county={row?.original?.addresses[0]?.county}
-          >
-            <More />
-          </ActionsDropdown>
-        ),
+        Cell: ({ value, row }) => {
+          const options = MORE_ACTIONS.slice(0);
+          if (
+            row?.original?.addresses[0]?.postalCode &&
+            row?.original?.addresses[0]?.county
+          ) {
+            options.splice(1, 0, PLAN_ACTION);
+          }
+          return (
+            <ActionsDropdown
+              className={styles["more-icon"]}
+              options={options}
+              id={row.original.leadsId}
+              onClick={handleDropdownActions(row.original)}
+            >
+              <More />
+            </ActionsDropdown>
+          );
+        },
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps

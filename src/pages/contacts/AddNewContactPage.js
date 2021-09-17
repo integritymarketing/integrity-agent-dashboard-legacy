@@ -259,8 +259,8 @@ const NewContactForm = () => {
 
               <Textfield
                 id="contact-mname"
-                label="Middle Name"
-                placeholder="Enter middle name"
+                label="Middle Initial"
+                placeholder="Enter middle initial"
                 name="middleName"
                 onKeyPress={onlyAlphabets}
                 maxLength="1"

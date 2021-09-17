@@ -27,6 +27,7 @@ export default function ActionsDropDown({
     ev && ev.preventDefault();
     setIsOpen((isOpen) => !isOpen);
   };
+
   const openClass = isOpen ? "opened" : "closed";
 
   return (
