@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
@@ -21,7 +21,7 @@ const EMAIL_MOBILE_LABELS = [
   { value: "email", label: "Email" },
   { value: "mobile", label: "Mobile" },
 ];
-
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export default () => {
   const history = useHistory();
   const auth = useContext(AuthContext);
@@ -29,10 +29,10 @@ export default () => {
   const addToast = useToast();
   const [selectLabel, setSelectLabel] = useState("mobile");
   const [selectOption, setSelectOption] = useState(null);
-  const [mobile, setMobile] = useState("");
+  const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [user, setUser] = useState({});
-  const [errors, setErrors] = useState("Email Required");
+  const [errors, setErrors] = useState("");
 
   const { previousPage, setCurrentPage } = useContext(BackNavContext);
   useEffect(() => {
@@ -63,13 +63,7 @@ export default () => {
   }, [auth]);
 
   const validateEmail = debounce((email) => {
-    if (!email) {
-      setErrors("Email Required");
-    } else if (
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-      )
-    ) {
+    if (emailRegex.test(email)) {
       setErrors(null);
     } else {
       setErrors("Invalid email address");
@@ -80,6 +74,11 @@ export default () => {
     setEmail(email);
     validateEmail(email);
   };
+
+  const mobile = useMemo(
+    () => (formattedMobile ? ("" + formattedMobile).replace(/\D/g, "") : ""),
+    [formattedMobile]
+  );
 
   const handleSend = async () => {
     try {
@@ -134,6 +133,15 @@ export default () => {
       });
     }
   };
+
+  const idFormNotValid = useMemo(() => {
+    if (selectOption === "newEmailOrMObile") {
+      return selectLabel === "mobile"
+        ? Boolean(mobile.length !== 10)
+        : !emailRegex.test(email);
+    }
+    return !selectOption;
+  }, [selectOption, selectLabel, mobile, email]);
 
   return (
     <Media
@@ -202,9 +210,7 @@ export default () => {
                             type="text"
                             placeholder="Enter email"
                             value={email}
-                            className={`${
-                              email?.length < 5 && "error-class"
-                            } text-input`}
+                            className={`${errors && "error-class"} text-input`}
                             onChange={(e) => {
                               handleSetEmail(e.currentTarget.value);
                             }}
@@ -219,21 +225,22 @@ export default () => {
                           <input
                             type="text"
                             placeholder="XXX-XXX-XXXX"
-                            value={formatPhoneNumber(mobile)}
+                            value={formattedMobile}
                             maxLength="10"
                             className={`${
-                              mobile?.length < 10 ? "error-class" : ""
+                              mobile.length !== 10 && mobile.length !== 0
+                                ? "error-class"
+                                : ""
                             } text-input`}
                             onChange={(e) => {
-                              setMobile(e.currentTarget.value);
+                              setFormattedMobile(
+                                formatPhoneNumber(
+                                  e.currentTarget.value.replace(/\D/g, "")
+                                )
+                              );
                             }}
                           />
-                          {mobile.length === 0 && (
-                            <span className="validation-msg">
-                              Mobile number required
-                            </span>
-                          )}
-                          {mobile.length < 10 && mobile.length !== 0 && (
+                          {mobile.length !== 10 && mobile.length !== 0 && (
                             <span className="validation-msg">
                               Invalid mobile number
                             </span>
@@ -246,7 +253,7 @@ export default () => {
               </div>
               <div className="send-button">
                 <Button
-                  disabled={!selectOption}
+                  disabled={idFormNotValid}
                   fullWidth={matches.mobile}
                   label="Send"
                   onClick={handleSend}
