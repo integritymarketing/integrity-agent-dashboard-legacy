@@ -27,6 +27,7 @@ export default ({ setDisplay, ...rest }) => {
           Sentry.captureException(e);
         });
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rest?.id]);
 
   const history = useHistory();
