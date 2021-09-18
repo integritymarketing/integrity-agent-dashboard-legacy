@@ -95,7 +95,7 @@ const App = () => {
                           <AuthenticatedRoute exact path="/contact/:contactId">
                             <ContactRecordInfo />
                           </AuthenticatedRoute>
-                          <AuthenticatedRoute path="/new-soa">
+                          <AuthenticatedRoute path="/new-soa/:leadId">
                             <NewScopeOfAppointment />
                           </AuthenticatedRoute>
                           <AuthenticatedRoute path="/client-import">

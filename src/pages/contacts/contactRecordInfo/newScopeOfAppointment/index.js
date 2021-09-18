@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
@@ -22,12 +22,14 @@ const EMAIL_MOBILE_LABELS = [
   { value: "mobile", label: "Mobile" },
 ];
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export default () => {
   const history = useHistory();
+  const { leadId } = useParams();
   const auth = useContext(AuthContext);
-  const { newSoaContactDetails } = useContext(ContactContext);
+  const { newSoaContactDetails, setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
-  const [selectLabel, setSelectLabel] = useState("mobile");
+  const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
@@ -35,6 +37,24 @@ export default () => {
   const [errors, setErrors] = useState("");
 
   const { previousPage, setCurrentPage } = useContext(BackNavContext);
+
+  useEffect(() => {
+    const getContactInfo = async () => {
+      try {
+        const data = await clientService.getContactInfo(leadId);
+        setNewSoaContactDetails(data);
+      } catch (err) {
+        addToast({
+          type: "error",
+          message: "Failed to load lead information",
+        });
+      }
+    }
+    if (!newSoaContactDetails?.firstName && leadId) {
+      getContactInfo()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newSoaContactDetails, leadId])
   useEffect(() => {
     setCurrentPage("Scope of Appointment Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,7 +172,7 @@ export default () => {
       {(matches) => (
         <>
           <NavBarWithBack title={`Back to ${previousPage}`} />
-          <Container className="new-sop-page provider-modal">
+          <Container className="new-sop-page">
             <Card className="new-scope-card">
               <div>
                 <h3 className="scope-title">
@@ -203,6 +223,7 @@ export default () => {
                         initialValue="mobile"
                         providerModal={true}
                         onChange={setSelectLabel}
+                        showValueAlways={true}
                       />
                       {selectLabel === "email" && (
                         <div className="email-mobile-section">

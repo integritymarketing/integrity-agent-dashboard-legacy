@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import ContactContext from "contexts/contacts";
 import ScopeSendIcon from "components/icons/scope-send";
@@ -10,6 +10,10 @@ export default ({ setDisplay, ...rest }) => {
   const [soaList, setSoaList] = useState([]);
   const [showSize, setShowSize] = useState(5);
   const [hovered, setHovered] = useState(false);
+  const history = useHistory();
+  const { setNewSoaContactDetails } = useContext(ContactContext);
+
+  const contact = { ...rest?.personalInfo };
 
   useEffect(() => {
     (async () => {
@@ -30,18 +34,16 @@ export default ({ setDisplay, ...rest }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rest?.id]);
 
-  const history = useHistory();
-  const { setNewSoaContactDetails } = useContext(ContactContext);
-  const contact = { ...rest?.personalInfo };
-
   useEffect(() => {
     setNewSoaContactDetails(contact);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const navigateToSOANew = () => {
-    history.push("/new-soa");
-  };
+  const navigateToSOANew = useCallback(() => {
+    history.push(`/new-soa/${[rest?.id]}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rest?.id]);
+  
   return (
     <div className="contactdetailscard">
       <div className="scope-details-card-header contactdetailscardheader">

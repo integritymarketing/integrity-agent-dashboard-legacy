@@ -56,6 +56,7 @@ export const Select = ({
   isDefaultOpen = false,
   disabled,
   providerModal,
+  showValueAlways = false,
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -107,7 +108,7 @@ export const Select = ({
   }, [selectableOptions.length, isOpen, windowHeight]);
 
   const inputBox = (
-    <div className="inputbox" onClick={toggleOptionsMenu}>
+    <div className={`${showValueAlways ? 'show-always' : ''} inputbox`} onClick={toggleOptionsMenu}>
       {value ? (
         <Option
           prefix={prefix}

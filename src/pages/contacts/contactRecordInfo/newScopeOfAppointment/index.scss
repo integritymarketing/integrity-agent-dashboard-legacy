@@ -40,13 +40,14 @@
       & > div:first-child {
         margin-right: 16px;
       }
+     
       @media screen and (min-width: 320px) and (max-width: 480px) {
         flex-direction: column;
       }
       .email-mobile-section {
         width: 40%;
         @media screen and (min-width: 320px) and (max-width: 480px) {
-          margin-top: 4px;
+          margin-top: 10px;
           width: 100%;
         }
         .text-input {

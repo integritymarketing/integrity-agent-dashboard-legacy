@@ -225,8 +225,8 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
     fetchData(tableState);
   }, [tableState, fetchData, duplicateIdsLength]);
 
-  const navigateToSOANew = () => {
-    history.push("/new-soa");
+  const navigateToSOANew = (leadId) => {
+    history.push(`/new-soa/${leadId}`);
   };
 
   const navigateToPlansPage = (leadId) => {
@@ -241,7 +241,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
         break;
       case "addnewsoa":
         setNewSoaContactDetails(contact);
-        navigateToSOANew();
+        navigateToSOANew(leadId);
         break;
       case "viewavailableplans":
         navigateToPlansPage(leadId);

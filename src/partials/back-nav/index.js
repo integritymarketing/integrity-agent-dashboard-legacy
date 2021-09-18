@@ -9,7 +9,7 @@ export default ({title = ""}) => {
   return <div className="back-nav-header">
       <div className="nav-wrapper">
       <div onClick={history.goBack} className="back-button"><Back/></div>
-      <div className="back-title">{title}</div>
+      <div onClick={history.goBack} className="back-title">{title}</div>
       </div>
   </div>;
 };

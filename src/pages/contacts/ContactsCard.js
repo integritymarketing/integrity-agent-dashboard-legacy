@@ -76,8 +76,8 @@ const ClientCard = ({ client, onRefresh }) => {
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
 
-  const navigateToSOANew = () => {
-    history.push("/new-soa");
+  const navigateToSOANew = (leadId) => {
+    history.push(`/new-soa/${leadId}`);
   };
 
   const handleDropdownActions = (contact) => (value, leadId) => {
@@ -88,7 +88,7 @@ const ClientCard = ({ client, onRefresh }) => {
         break;
       case "addnewsoa":
         setNewSoaContactDetails(contact);
-        navigateToSOANew();
+        navigateToSOANew(leadId);
         break;
       default:
         break;
