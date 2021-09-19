@@ -604,8 +604,10 @@ class ClientsService {
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
       "GET"
     );
-
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error("Failed to Get soa list by lead Id.");
   };
   getSoaByLinkCode = async (leadsId, linkCode) => {
     const response = await this._clientAPIRequest(

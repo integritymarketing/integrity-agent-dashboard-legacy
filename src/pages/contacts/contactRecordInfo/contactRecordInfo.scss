@@ -120,7 +120,7 @@
   margin-bottom: 24px;
 }
 
-.para-btn-section p {
+.para-btn-section {
   font-family: "Lato", sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -130,7 +130,7 @@
   width: 80%;
   min-height: 26px;
 }
-.para-btn-section p > span {
+.para-btn-section > span {
   width: 100%;
   display: block;
   word-break: break-all;
@@ -147,7 +147,7 @@
   font-style: normal;
   font-weight: 400;
 }
-.para-btn-section p > span button {
+.para-btn-section span button {
   font-family: "Lato", sans-serif;
   font-style: normal;
   font-weight: 400;
