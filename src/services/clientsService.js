@@ -615,6 +615,15 @@ class ClientsService {
 
     return response.json();
   };
+  saveSOAInformation = async (leadsId, linkCode, payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
+      "POST",
+      payload
+    );
+
+    return response.json();
+  };
 }
 
 export default new ClientsService();

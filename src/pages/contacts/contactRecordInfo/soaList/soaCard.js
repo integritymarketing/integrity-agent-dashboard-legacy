@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { formatDate } from "utils/dates.js";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
+import { useHistory } from "react-router-dom";
 
 export default ({ linkCode, status, statusDate, soaSummary, ...rest }) => {
   const getStatus = () => {
@@ -39,6 +40,12 @@ export default ({ linkCode, status, statusDate, soaSummary, ...rest }) => {
       });
   };
 
+  const history = useHistory();
+
+  const navigateToConfirmSOA = useCallback(() => {
+    history.push(`/contact/${rest?.id}/soa-confirm/${linkCode}`);
+  }, [history, rest.id, linkCode]);
+
   return (
     <>
       <div className="scope-of-app-row">
@@ -62,7 +69,9 @@ export default ({ linkCode, status, statusDate, soaSummary, ...rest }) => {
           )}
 
           {status === "Signed" && (
-            <button className="complete-btn">Complete</button>
+            <button className="complete-btn" onClick={navigateToConfirmSOA}>
+              Complete
+            </button>
           )}
           {status === "Completed" && (
             <button className="view---btn">View</button>

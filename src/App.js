@@ -25,6 +25,7 @@ import AuthSilentCallback from "components/functional/auth-silent-callback";
 import ContactsPage from "pages/contacts/ContactsPage";
 import AddNewContactPage from "pages/contacts/AddNewContactPage";
 import ContactRecordInfo from "pages/contacts/contactRecordInfo";
+import ContactsSOAConfirmForm from "pages/contacts/soa/ContactsSOAConfirmForm";
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
@@ -96,6 +97,12 @@ const App = () => {
                           </AuthenticatedRoute>
                           <AuthenticatedRoute path="/new-soa/:leadId">
                             <NewScopeOfAppointment />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute
+                            exact
+                            path="/contact/:contactId/soa-confirm/:linkCode"
+                          >
+                            <ContactsSOAConfirmForm />
                           </AuthenticatedRoute>
                           <AuthenticatedRoute path="/client-import">
                             <ClientImportPage />
