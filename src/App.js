@@ -34,10 +34,8 @@ import { DeleteLeadProvider } from "contexts/deleteLead";
 import { CountyProvider } from "contexts/counties";
 import { ContactsProvider } from "contexts/contacts";
 import { BackNavProvider } from "contexts/backNavProvider";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import PlanDetailsPage from "pages/PlanDetailsPage";
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
+
 const App = () => {
   return (
     <AuthContext.Provider value={authService}>

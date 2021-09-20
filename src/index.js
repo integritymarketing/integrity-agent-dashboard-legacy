@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
-import 'mapbox-gl/dist/mapbox-gl.css';
 import * as Sentry from "@sentry/react";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
