@@ -18,12 +18,29 @@ import plansService from "services/plansService";
 import { getNextEffectiveDate } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import PlanResults from "components/ui/plan-results";
+
+function getPlansAvailableSection(plansAvailableCount) {
+  if (plansAvailableCount == null) {
+    return <div></div>;
+  } else {
+    return (
+      <div className={`${styles["plans-available"]}`}>
+        <span className={`${styles["plans-type"]}`}>
+          {/* TODO specifiy type based on filters. i.e. "10 Mediacre Suppliment plans based on your filters" */}
+          {plansAvailableCount} Medicare Suppliment plans
+        </span>{" "}
+        based on your filters
+      </div>
+    );
+  }
+}
 
 const EFFECTIVE_YEARS_SUPPORTED = [2022];
 export default () => {
   const { contactId: id } = useParams();
   const [contact, setContact] = useState();
-  const [plansAvailableCount, setPlansAvailableCount] = useState(0);
+  const [plansAvailableCount, setPlansAvailableCount] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [section, setSection] = useState("details");
@@ -32,11 +49,28 @@ export default () => {
   const [effectiveDate, setEffectiveDate] = useState(
     getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
   );
+  const [results, setResults] = useState([]);
+  const [providers, setProviders] = useState([]);
+  const [prescriptions, setPrescriptions] = useState([]);
+  const [pharmacies, setPharmacies] = useState([]);
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
-      const contactData = await clientsService.getContactInfo(id);
+      const [
+        contactData,
+        prescriptionData,
+        providerData,
+        pharmacyData,
+      ] = await Promise.all([
+        clientsService.getContactInfo(id),
+        clientsService.getLeadPrescriptions(id),
+        clientsService.getLeadProviders(id),
+        clientsService.getLeadPharmacies(id),
+      ]);
       setContact(contactData);
+      setProviders(providerData.providers);
+      setPrescriptions(prescriptionData);
+      setPharmacies(pharmacyData);
     } catch (e) {
       Sentry.captureException(e);
     } finally {
@@ -44,16 +78,25 @@ export default () => {
     }
   }, [id]);
 
-  const filterPlans = useCallback(async () => {
+  const getAllPlans = useCallback(async () => {
     if (contact) {
-      const plansData = await plansService.getPlans(contact.leadsId, {
-        fips: contact.addresses[0].countyFips.toString(),
-        zip: contact.addresses[0].postalCode.toString(),
-        year: effectiveDate.getFullYear(),
-        effectiveDate: effectiveDate.toISOString(),
-        sort: sort, // TODO: sort on the frontend
-      });
-      setPlansAvailableCount(plansData?.medicarePlans?.length);
+      try {
+        setResults([]);
+        const plansData = await plansService.getPlans(contact.leadsId, {
+          fips: contact.addresses[0].countyFips.toString(),
+          zip: contact.addresses[0].postalCode.toString(),
+          year: effectiveDate.getFullYear(),
+          ReturnAllMedicarePlans: true,
+          effectiveDate: `${effectiveDate.getFullYear()}-${
+            effectiveDate.getMonth() + 1
+          }-01`,
+          sort: sort, // TODO: sort on the frontend
+        });
+        setPlansAvailableCount(plansData?.medicarePlans?.length);
+        setResults(plansData?.medicarePlans);
+      } catch (e) {
+        Sentry.captureException(e);
+      }
     }
   }, [contact, effectiveDate, sort]);
 
@@ -62,8 +105,8 @@ export default () => {
   }, [getContactRecordInfo]);
 
   useEffect(() => {
-    filterPlans();
-  }, [filterPlans]);
+    getAllPlans();
+  }, [getAllPlans]);
 
   const isLoading = loading;
   return (
@@ -96,10 +139,9 @@ export default () => {
                     setSection(section);
                     setIsEdit(true);
                   }}
-                  /* TODO: Replace with real provider/prescription/pharmacy data once available */
-                  providersCount={5}
-                  prescriptionsCount={3}
-                  pharmacyCount={1}
+                  providersCount={providers.length}
+                  prescriptionsCount={prescriptions.length}
+                  pharmacyCount={pharmacies.length}
                 />
               </Container>
             </div>
@@ -119,13 +161,7 @@ export default () => {
               </div>
               <div className={`${styles["results"]}`}>
                 <div className={`${styles["sort"]}`}>
-                  <div className={`${styles["plans-available"]}`}>
-                    <span className={`${styles["plans-type"]}`}>
-                      {/* TODO specifiy type based on filters. i.e. "10 Mediacre Suppliment plans based on your filters" */}
-                      {plansAvailableCount || 0} Medicare Suppliment plans
-                    </span>{" "}
-                    based on your filters
-                  </div>
+                  {getPlansAvailableSection(plansAvailableCount)}
                   <div className={`${styles["sort-select"]}`}>
                     <Select
                       mobileLabel={<SortIcon />}
@@ -136,7 +172,13 @@ export default () => {
                     />
                   </div>
                 </div>
-                <div className={`${styles["plans"]}`}></div>
+                <div className={`${styles["plans"]}`}>
+                  <PlanResults
+                    plans={results}
+                    isMobile={isMobile}
+                    effectiveDate={effectiveDate}
+                  />
+                </div>
               </div>
             </Container>
           )}
