@@ -37,6 +37,14 @@
 
 .dropdown-menu {
 	position: relative;
+  &.dropdown-menu--open {
+    .dropdown-menu__trigger {
+      z-index: 4;
+    }
+    .dropdown-menu__items {
+      z-index: 3;
+    }
+  }
 	&__trigger>svg {
 		margin-left: 0.5rem;
 	}
