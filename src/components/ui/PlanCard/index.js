@@ -16,30 +16,34 @@ const LOGO_BASE_URL =
 
 function getProviders(entries, isMobile) {
   const items = [];
-  for (const entry of entries) {
-    items.push(
-      <PlanNetworkItem
-        name={entry.firstName + " " + entry.lastName}
-        address={entry.address.streetLine1}
-        inNetwork={entry.inNetwork}
-        isMobile={isMobile}
-      />
-    );
+  if (entries) {
+    for (const entry of entries) {
+      items.push(
+        <PlanNetworkItem
+          name={entry.firstName + " " + entry.lastName}
+          address={entry?.address?.streetLine1}
+          inNetwork={entry.inNetwork}
+          isMobile={isMobile}
+        />
+      );
+    }
   }
   return items;
 }
 
 function getPharmacies(entries, isMobile) {
   const items = [];
-  for (const entry of entries) {
-    items.push(
-      <PlanNetworkItem
-        name={entry.name}
-        address={entry.address1}
-        inNetwork={entry.isNetwork}
-        isMobile={isMobile}
-      />
-    );
+  if (entries) {
+    for (const entry of entries) {
+      items.push(
+        <PlanNetworkItem
+          name={entry.name}
+          address={entry.address1}
+          inNetwork={entry.isNetwork}
+          isMobile={isMobile}
+        />
+      );
+    }
   }
   return items;
 }
@@ -55,15 +59,15 @@ export default function PlanCard({
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
-        <div className={"plan-name"}>{planData.PlanName}</div>
+        <div className={"plan-name"}>{planData.planName}</div>
         <div className={"plan-logo"}>
-          <img src={LOGO_BASE_URL + planData.LogoURL} />
+          <img src={LOGO_BASE_URL + planData.logoURL} alt="logo" />
         </div>
       </div>
       <div className={"sub-header"}>
-        <div className={"carrier-name"}>{planData.CarrierName}</div>
+        <div className={"carrier-name"}>{planData.carrierName}</div>
         <div className={"rating-container"}>
-          <Rating value={planData.PlanRating} />
+          <Rating value={planData.planRating} />
         </div>
       </div>
       <div className={`premiums ${isMobile ? "mobile" : ""}`}>
@@ -75,7 +79,7 @@ export default function PlanCard({
         >
           {!isMobile && <div className={"label"}>Monthly Premium</div>}
           <div className={"currency"}>
-            {currencyFormatter.format(planData.MedicalPremium)}
+            {currencyFormatter.format(planData.annualPlanPremium / 12)}
           </div>
           {isMobile && (
             <div className={"label"}>

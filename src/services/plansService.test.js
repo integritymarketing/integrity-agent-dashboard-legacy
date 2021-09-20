@@ -17,7 +17,7 @@ it("plansService filterPlans with no filter", async () => {
     planType: 1,
   });
   expect(_clientAPIRequest).toHaveBeenCalledTimes(1);
-  expect(_clientAPIRequest).toHaveBeenCalledWith("Lead/123/Plan/Plans", "GET", {
+  expect(_clientAPIRequest).toHaveBeenCalledWith("Lead/123/Plan", "GET", {
     planType: 1,
     year: 2022,
   });

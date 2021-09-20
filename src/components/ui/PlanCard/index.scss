@@ -21,6 +21,11 @@
 
     .plan-logo {
       margin-top: 6px;
+
+      > img {
+        max-height: 56px;
+        max-width: 116px;
+      }
     }
 
     &.mobile {

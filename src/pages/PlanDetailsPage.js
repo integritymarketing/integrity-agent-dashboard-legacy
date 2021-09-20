@@ -12,7 +12,7 @@ import Container from "components/ui/container";
 
 const PlanDetailsPage = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading /*, setIsLoading*/] = useState(false);
   const [activeSection, setActiveSection] = useState("overview");
   const costsRef = useRef(null);
   const providerDetailsRef = useRef(null);
@@ -56,8 +56,9 @@ const PlanDetailsPage = () => {
                 <ScrollNav
                   initialSectionID="costs"
                   scrollToInitialSection={false}
-                  inactive={activeSection != "overview"}
+                  inactive={activeSection !== "overview"}
                   onChange={() => setActiveSection("overview")}
+                  isMobile={isMobile}
                   sections={[
                     {
                       header: "Overview",

@@ -18,6 +18,6 @@ export const PLAN_SORT_OPTIONS = [
 
 export const PLAN_TYPE_ENUMS = {
   1: "PDP",
-  2: "MA",
-  3: "MAPD",
+  2: "MAPD",
+  4: "MA",
 };

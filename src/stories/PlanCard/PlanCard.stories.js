@@ -23,14 +23,14 @@ const MobileTemplate = (args) => (
 export const PlanCardMedicareAdvantagePartD = Template.bind({});
 PlanCardMedicareAdvantagePartD.args = {
   planData: {
-    PlanName: "Medicare Prime and Complete",
-    LogoURL: "",
-    CarrierName: "HealthPartners",
-    MedicalPremium: 25.2,
-    MedicalDeductible: 0,
-    MaximumOutOfPocketCost: 50,
-    DrugDeductible: 20,
-    EstimatedAnnualDrugCostPartialYear: 250,
+    planName: "Medicare Prime and Complete",
+    logoURL: "",
+    carrierName: "HealthPartners",
+    medicalPremium: 25.2,
+    medicalDeductible: 0,
+    maximumOutOfPocketCost: 50,
+    drugDeductible: 20,
+    estimatedAnnualDrugCostPartialYear: 250,
     id: "planID",
     contractID: "string",
     planSubType: "string",
