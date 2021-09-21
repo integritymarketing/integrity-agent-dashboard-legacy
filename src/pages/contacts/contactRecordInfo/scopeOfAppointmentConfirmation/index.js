@@ -148,7 +148,7 @@ export default () => {
                 acceptedSOA,
                 submittedDateTime: new Date().toISOString(),
               },
-              ...agentSection,
+              agentSection: {...agentSection},
             },
             linkCode
           );
