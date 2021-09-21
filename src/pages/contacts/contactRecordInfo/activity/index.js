@@ -86,13 +86,10 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                     </div>
                     <h6>{item.activitySubject}</h6>
                     <div className="para-btn-section">
-                      {/* <p> */}
                       <LimitedCharacters
                         characters={item.activityBody}
                         size={150}
                       />
-                      {/* </p> */}
-
                       {hovered &&
                         hovered === item.activityId &&
                         item.activityTypeName === "Note" && (

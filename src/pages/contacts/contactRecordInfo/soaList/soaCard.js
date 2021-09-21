@@ -4,10 +4,6 @@ import { formatDate } from "utils/dates.js";
 export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
   const getStatus = () => {
     switch (status) {
-      case "EmailSent":
-        return "Sent";
-      case "SmsSent":
-        return "Sent";
       case "ClientSigned":
         return "Signed";
       default:
