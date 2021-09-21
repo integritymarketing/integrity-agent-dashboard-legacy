@@ -45,10 +45,11 @@ export default ({ setDisplay, ...rest }) => {
   }, [rest?.id]);
 
   return (
-    <div className="contactdetailscard">
+    <div data-gtm="section-scope-of-appointment" className="contactdetailscard">
       <div className="scope-details-card-header contactdetailscardheader">
         <h4>Scope of Appointments</h4>
         <button
+          data-gtm="button-send"
           className="send-btn"
           onClick={navigateToSOANew}
           onMouseEnter={() => setHovered(true)}
@@ -58,7 +59,10 @@ export default ({ setDisplay, ...rest }) => {
           <span>Send</span>
         </button>
       </div>
-      <div className="soa-list-body contactdetailscardbody">
+      <div
+        className="soa-list-body contactdetailscardbody"
+        data-gtm="section-item"
+      >
         {soaList &&
           soaList?.length > 0 &&
           soaList?.map((soa, index) => {

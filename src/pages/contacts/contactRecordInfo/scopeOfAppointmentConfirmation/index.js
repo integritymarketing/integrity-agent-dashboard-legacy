@@ -19,6 +19,7 @@ import Navigation from "partials/blue-nav-with-icon";
 import WhoIsAuthorizedRepresentative from "./WhoIsAuthorizedRepresentative";
 import MedicareOverviewCard from "./MedicareOverviewCard";
 import FormAlreadySubmitted from "./FormAlreadySubmitted";
+import analyticsService from "services/analyticsService";
 import { formValidator } from "./FormValidator";
 import "./index.scss";
 
@@ -148,11 +149,14 @@ export default () => {
                 acceptedSOA,
                 submittedDateTime: new Date().toISOString(),
               },
-              agentSection: {...agentSection},
+              agentSection: { ...agentSection },
             },
             linkCode
           );
           if (response.ok) {
+            analyticsService.fireEvent("event-form-submit-valid", {
+              formName: "Scope of Appointment Agent Complete",
+            });
             history.push(
               `/soa-confirmation-page/${agentSection?.firstName}/${agentSection?.lastName}`
             );
@@ -204,7 +208,7 @@ export default () => {
                       confidential and should be completed by each person with
                       Medicare or his/her authorized representative.
                     </section>
-                    <section className="section-2">
+                    <section data-gtm="section-products" className="section-2">
                       <span className="plan-types">
                         Please check all associated plan types:
                       </span>
@@ -286,306 +290,317 @@ export default () => {
                           (cardholder).
                         </span>
                       </div>
-
-                      <fieldset className="form__fields form__fields--constrained hide-input-err">
-                        <Textfield
-                          id="beneficiary-fname"
-                          label="First Name"
-                          name="firstName"
-                          value={values.firstName}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            (touched.firstName || submitCount > 0) &&
-                            errors.firstName
-                              ? true
-                              : false
-                          }
-                        />
-                        {(touched.firstName || submitCount > 0) &&
-                          errors.firstName && (
-                            <>
-                              <ul className="details-edit-custom-error-msg">
-                                <li className="error-msg-green">
-                                  First name must be 2 characters or more
-                                </li>
-                                <li className="error-msg-green">
-                                  Only alpha numerics and space, apostrophe('),
-                                  hyphen(-) are allowed
-                                </li>
-                                <li className="error-msg-red">
-                                  Certain special characters such as ! @ . , ; :
-                                  " ? are not allowed
-                                </li>
-                              </ul>
-                            </>
+                      <section
+                        data-gtm="section-beneficiary-info"
+                        className="beneficiary-form"
+                      >
+                        <fieldset className="form__fields form__fields--constrained hide-input-err">
+                          <Textfield
+                            id="beneficiary-fname"
+                            label="First Name"
+                            name="firstName"
+                            value={values.firstName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={
+                              (touched.firstName || submitCount > 0) &&
+                              errors.firstName
+                                ? true
+                                : false
+                            }
+                          />
+                          {(touched.firstName || submitCount > 0) &&
+                            errors.firstName && (
+                              <>
+                                <ul className="details-edit-custom-error-msg">
+                                  <li className="error-msg-green">
+                                    First name must be 2 characters or more
+                                  </li>
+                                  <li className="error-msg-green">
+                                    Only alpha numerics and space,
+                                    apostrophe('), hyphen(-) are allowed
+                                  </li>
+                                  <li className="error-msg-red">
+                                    Certain special characters such as ! @ . , ;
+                                    : " ? are not allowed
+                                  </li>
+                                </ul>
+                              </>
+                            )}
+                          {values.firstName.length > 50 && (
+                            <div className="custom-error-msg">
+                              First name must be 50 characters or less
+                            </div>
                           )}
-                        {values.firstName.length > 50 && (
-                          <div className="custom-error-msg">
-                            First name must be 50 characters or less
+                          <Textfield
+                            id="beneficiary-mname"
+                            label="Middle Name (optional)"
+                            name="middleName"
+                            onKeyPress={onlyAlphabets}
+                            maxLength="1"
+                            value={values.middleName?.toUpperCase()}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <Textfield
+                            id="beneficiary-lname"
+                            className="pb-2"
+                            label="Last Name"
+                            name="lastName"
+                            value={values.lastName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={
+                              (touched.lastName || submitCount > 0) &&
+                              errors.lastName
+                                ? true
+                                : false
+                            }
+                          />
+                          {(touched.lastName || submitCount > 0) &&
+                            errors.lastName && (
+                              <>
+                                <ul className="details-edit-custom-error-msg">
+                                  <li className="error-msg-green">
+                                    Last name must be 2 characters or more
+                                  </li>
+                                  <li className="error-msg-green">
+                                    Only alpha numerics and space,
+                                    apostrophe('), hyphen(-) are allowed
+                                  </li>
+                                  <li className="error-msg-red">
+                                    Certain special characters such as ! @ . , ;
+                                    : " ? are not allowed
+                                  </li>
+                                </ul>
+                              </>
+                            )}
+                          {values.lastName.length > 50 && (
+                            <div className="custom-error-msg">
+                              Last name must be 50 characters or less
+                            </div>
+                          )}
+                        </fieldset>
+                        <fieldset className="form__fields form__fields--constrained hide-input-err">
+                          <Textfield
+                            id="beneficiary-address"
+                            label="Address"
+                            name="address.address1"
+                            value={values.address.address1}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={
+                              (touched.address?.address1 || submitCount > 0) &&
+                              errors.address?.address1
+                                ? true
+                                : false
+                            }
+                          />
+                          {(touched.address?.address1 || submitCount > 0) &&
+                            errors.address?.address1 && (
+                              <>
+                                <ul className="details-edit-custom-error-msg">
+                                  <li className="error-msg-green">
+                                    Address must be 4 characters or more
+                                  </li>
+                                  <li className="error-msg-green">
+                                    Only alpha numerics and certain special
+                                    characters such as # ' . - are allowed
+                                  </li>
+                                </ul>
+                              </>
+                            )}
+                          <Textfield
+                            id="beneficiary-address2"
+                            label="Apt, Suite, Unit (optional)"
+                            name="address.address2"
+                            value={values.address.address2}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={
+                              (touched.address?.address2 || submitCount > 0) &&
+                              errors.address?.address2
+                                ? true
+                                : false
+                            }
+                          />
+                          {(touched.address?.address2 || submitCount > 0) &&
+                            errors.address?.address2 && (
+                              <>
+                                <ul className="details-edit-custom-error-msg">
+                                  <li className="error-msg-green">
+                                    Address must be 4 characters or more
+                                  </li>
+                                  <li className="error-msg-green">
+                                    Only alpha numerics and certain special
+                                    characters such as # ' . - are allowed
+                                  </li>
+                                </ul>
+                              </>
+                            )}
+                          <Textfield
+                            id="beneficiary-address__city"
+                            label="City"
+                            name="address.city"
+                            value={values.address.city}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={
+                              (touched.address?.city || submitCount > 0) &&
+                              errors.address?.city
+                                ? true
+                                : false
+                            }
+                          />
+                          {(touched.address?.city || submitCount > 0) &&
+                            errors.address?.city && (
+                              <>
+                                <ul className="details-edit-custom-error-msg">
+                                  <li className="error-msg-green">
+                                    City must be 4 characters or more
+                                  </li>
+                                  <li className="error-msg-green">
+                                    Only alpha numerics and certain special
+                                    characters such as # ' . - are allowed
+                                  </li>
+                                </ul>
+                              </>
+                            )}
+                          <div>
+                            <label className="label" htmlFor="state-label">
+                              State
+                            </label>
+                            <div className="state-select-input">
+                              <Select
+                                placeholder="Select state"
+                                showValueAsLabel={true}
+                                options={STATES}
+                                initialValue={values.address.stateCode}
+                                onChange={(value) => {
+                                  setTimeout(() =>
+                                    setFieldValue("address.stateCode", value)
+                                  );
+                                }}
+                                onBlur={() => {
+                                  setFieldTouched("address.stateCode", true);
+                                }}
+                                showValueAlways={true}
+                                error={
+                                  (touched.address?.stateCode ||
+                                    submitCount > 0) &&
+                                  errors.address?.stateCode
+                                    ? true
+                                    : false
+                                }
+                              />
+                            </div>
+                            {errors.address?.stateCode &&
+                              (touched.address?.stateCode ||
+                                submitCount > 0) && (
+                                <ul className="details-edit-custom-error-msg">
+                                  <li className="error-msg-red zip-code-error-msg">
+                                    State must be required
+                                  </li>
+                                </ul>
+                              )}
                           </div>
-                        )}
-                        <Textfield
-                          id="beneficiary-mname"
-                          label="Middle Name (optional)"
-                          name="middleName"
-                          onKeyPress={onlyAlphabets}
-                          maxLength="1"
-                          value={values.middleName?.toUpperCase()}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                        <Textfield
-                          id="beneficiary-lname"
-                          className="pb-2"
-                          label="Last Name"
-                          name="lastName"
-                          value={values.lastName}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            (touched.lastName || submitCount > 0) &&
-                            errors.lastName
-                              ? true
-                              : false
-                          }
-                        />
-                        {(touched.lastName || submitCount > 0) &&
-                          errors.lastName && (
-                            <>
+                          <Textfield
+                            id="beneficiary-address__zip"
+                            className={`contact-address--zip`}
+                            label="ZIP Code"
+                            name="address.postalCode"
+                            value={values.address.postalCode}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={
+                              (touched.address?.postalCode ||
+                                submitCount > 0) &&
+                              errors.address?.postalCode
+                                ? true
+                                : false
+                            }
+                          />
+                          {errors.address?.postalCode &&
+                            (touched.address?.postalCode ||
+                              submitCount > 0) && (
                               <ul className="details-edit-custom-error-msg">
-                                <li className="error-msg-green">
-                                  Last name must be 2 characters or more
-                                </li>
-                                <li className="error-msg-green">
-                                  Only alpha numerics and space, apostrophe('),
-                                  hyphen(-) are allowed
-                                </li>
-                                <li className="error-msg-red">
-                                  Certain special characters such as ! @ . , ; :
-                                  " ? are not allowed
-                                </li>
-                              </ul>
-                            </>
-                          )}
-                        {values.lastName.length > 50 && (
-                          <div className="custom-error-msg">
-                            Last name must be 50 characters or less
-                          </div>
-                        )}
-                      </fieldset>
-                      <fieldset className="form__fields form__fields--constrained hide-input-err">
-                        <Textfield
-                          id="beneficiary-address"
-                          label="Address"
-                          name="address.address1"
-                          value={values.address.address1}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            (touched.address?.address1 || submitCount > 0) &&
-                            errors.address?.address1
-                              ? true
-                              : false
-                          }
-                        />
-                        {(touched.address?.address1 || submitCount > 0) &&
-                          errors.address?.address1 && (
-                            <>
-                              <ul className="details-edit-custom-error-msg">
-                                <li className="error-msg-green">
-                                  Address must be 4 characters or more
-                                </li>
-                                <li className="error-msg-green">
-                                  Only alpha numerics and certain special
-                                  characters such as # ' . - are allowed
-                                </li>
-                              </ul>
-                            </>
-                          )}
-                        <Textfield
-                          id="beneficiary-address2"
-                          label="Apt, Suite, Unit (optional)"
-                          name="address.address2"
-                          value={values.address.address2}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            (touched.address?.address2 || submitCount > 0) &&
-                            errors.address?.address2
-                              ? true
-                              : false
-                          }
-                        />
-                        {(touched.address?.address2 || submitCount > 0) &&
-                          errors.address?.address2 && (
-                            <>
-                              <ul className="details-edit-custom-error-msg">
-                                <li className="error-msg-green">
-                                  Address must be 4 characters or more
-                                </li>
-                                <li className="error-msg-green">
-                                  Only alpha numerics and certain special
-                                  characters such as # ' . - are allowed
-                                </li>
-                              </ul>
-                            </>
-                          )}
-                        <Textfield
-                          id="beneficiary-address__city"
-                          label="City"
-                          name="address.city"
-                          value={values.address.city}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            (touched.address?.city || submitCount > 0) &&
-                            errors.address?.city
-                              ? true
-                              : false
-                          }
-                        />
-                        {(touched.address?.city || submitCount > 0) &&
-                          errors.address?.city && (
-                            <>
-                              <ul className="details-edit-custom-error-msg">
-                                <li className="error-msg-green">
-                                  City must be 4 characters or more
-                                </li>
-                                <li className="error-msg-green">
-                                  Only alpha numerics and certain special
-                                  characters such as # ' . - are allowed
-                                </li>
-                              </ul>
-                            </>
-                          )}
-                        <div>
-                          <label className="label" htmlFor="state-label">
-                            State
-                          </label>
-                          <div className="state-select-input">
-                            <Select
-                              placeholder="Select state"
-                              showValueAsLabel={true}
-                              options={STATES}
-                              initialValue={values.address.stateCode}
-                              onChange={(value) => {
-                                setTimeout(() =>
-                                  setFieldValue("address.stateCode", value)
-                                );
-                              }}
-                              onBlur={() => {
-                                setFieldTouched("address.stateCode", true);
-                              }}
-                              showValueAlways={true}
-                              error={
-                                (touched.address?.stateCode ||
-                                  submitCount > 0) &&
-                                errors.address?.stateCode
-                                  ? true
-                                  : false
-                              }
-                            />
-                          </div>
-                          {errors.address?.stateCode &&
-                            (touched.address?.stateCode || submitCount > 0) && (
-                              <ul className="details-edit-custom-error-msg">
-                                <li className="error-msg-red zip-code-error-msg">
-                                  State must be required
+                                <li className="error-msg-red ">
+                                  {errors.address?.postalCode}
                                 </li>
                               </ul>
                             )}
-                        </div>
-                        <Textfield
-                          id="beneficiary-address__zip"
-                          className={`contact-address--zip`}
-                          label="ZIP Code"
-                          name="address.postalCode"
-                          value={values.address.postalCode}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            (touched.address?.postalCode || submitCount > 0) &&
-                            errors.address?.postalCode
-                              ? true
-                              : false
-                          }
-                        />
-                        {errors.address?.postalCode &&
-                          (touched.address?.postalCode || submitCount > 0) && (
+                        </fieldset>
+                        <fieldset className="form__fields form__fields--constrained hide-input-err">
+                          <Textfield
+                            id="beneficiary-phone"
+                            className={`pt-2`}
+                            label="Phone Number (optional)"
+                            type="tel"
+                            placeholder="(XXX) XXX-XXXX"
+                            name="phone"
+                            value={formatPhoneNumber(values.phone)}
+                            maxLength="10"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={errors.phone ? true : false}
+                          />
+                          {errors.phone && (touched.phone || submitCount > 0) && (
                             <ul className="details-edit-custom-error-msg">
                               <li className="error-msg-red ">
-                                {errors.address?.postalCode}
+                                Phone Number must be a valid 10-digit phone
+                                number
                               </li>
                             </ul>
                           )}
-                      </fieldset>
-                      <fieldset className="form__fields form__fields--constrained hide-input-err">
-                        <Textfield
-                          id="beneficiary-phone"
-                          className={`pt-2`}
-                          label="Phone Number (optional)"
-                          type="tel"
-                          placeholder="(XXX) XXX-XXXX"
-                          name="phone"
-                          value={formatPhoneNumber(values.phone)}
-                          maxLength="10"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={errors.phone ? true : false}
-                        />
-                        {errors.phone && (touched.phone || submitCount > 0) && (
-                          <ul className="details-edit-custom-error-msg">
-                            <li className="error-msg-red ">
-                              Phone Number must be a valid 10-digit phone number
-                            </li>
-                          </ul>
-                        )}
-                      </fieldset>
-                      <div className="authorized-representative-wrapper">
-                        <span>
-                          Are you the authorized representative acting on behalf
-                          of the benificiary?
-                        </span>
-                        <a
-                          href={() => false}
-                          onClick={() => setOpenAuthorizedHelpModal(true)}
-                          className="help"
-                        >
-                          Who is an authorized representative?
-                        </a>
-                      </div>
-                      <div className="is-authorized-flag">
-                        <Checkbox
-                          label={"Yes"}
-                          name="hasAuthorizedRepresentative"
-                          checked={values.hasAuthorizedRepresentative}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      {!values.hasAuthorizedRepresentative && (
-                        <div className="understand-contents-of-soa">
+                        </fieldset>
+                        <div className="authorized-representative-wrapper">
+                          <span>
+                            Are you the authorized representative acting on
+                            behalf of the benificiary?
+                          </span>
+                          <a
+                            href={() => false}
+                            onClick={() => setOpenAuthorizedHelpModal(true)}
+                            className="help"
+                          >
+                            Who is an authorized representative?
+                          </a>
+                        </div>
+                        <div className="is-authorized-flag">
                           <Checkbox
-                            className="understand-contents-of-soa-checkbox"
-                            name="acceptedSOA"
-                            checked={values.acceptedSOA}
+                            label={"Yes"}
+                            name="hasAuthorizedRepresentative"
+                            checked={values.hasAuthorizedRepresentative}
                             onChange={handleChange}
                           />
-                          <div className="understand-contents-of-soa-content">
-                            By checking this box, I have read and understand the
-                            contents of the Scope of Appointment form, and that
-                            I confirm that the information I have provided is
-                            accurate. If submitted by an authorized individual
-                            (as described above), this submission certifies that
-                            1) this person is authorized under State law to
-                            complete the Scope of Appointment form, and 2)
-                            documentation of this authority is available upon
-                            request by Medicare.
-                          </div>
                         </div>
-                      )}
+                        {!values.hasAuthorizedRepresentative && (
+                          <div className="understand-contents-of-soa">
+                            <Checkbox
+                              className="understand-contents-of-soa-checkbox"
+                              name="acceptedSOA"
+                              checked={values.acceptedSOA}
+                              onChange={handleChange}
+                            />
+                            <div className="understand-contents-of-soa-content">
+                              By checking this box, I have read and understand
+                              the contents of the Scope of Appointment form, and
+                              that I confirm that the information I have
+                              provided is accurate. If submitted by an
+                              authorized individual (as described above), this
+                              submission certifies that 1) this person is
+                              authorized under State law to complete the Scope
+                              of Appointment form, and 2) documentation of this
+                              authority is available upon request by Medicare.
+                            </div>
+                          </div>
+                        )}
+                      </section>
                       {values.hasAuthorizedRepresentative && (
-                        <>
+                        <section
+                          data-gtm="section-agent-info"
+                          className="authorized-representative-form"
+                        >
                           <fieldset className="form__fields form__fields--constrained hide-input-err">
                             <Textfield
                               id="representative-fname"
@@ -963,10 +978,11 @@ export default () => {
                               </div>
                             </div>
                           </div>
-                        </>
+                        </section>
                       )}
                       <div className="submit-button">
                         <Button
+                          data-gtm="button-submit"
                           disabled={!dirty || !isValid}
                           fullWidth={true}
                           label="Submit"

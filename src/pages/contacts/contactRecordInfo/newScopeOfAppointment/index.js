@@ -14,6 +14,7 @@ import BackNavContext from "contexts/backNavProvider";
 import ContactContext from "contexts/contacts";
 import AuthContext from "contexts/auth";
 import clientService from "services/clientsService";
+import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import "./index.scss";
 
@@ -33,7 +34,6 @@ export const __formatPhoneNumber = (phoneNumberString) => {
   return originalInput;
 };
 
-
 const EMAIL_MOBILE_LABELS = [
   { value: "email", label: "Email" },
   { value: "mobile", label: "Mobile" },
@@ -45,7 +45,9 @@ export default () => {
   const { leadId } = useParams();
   const auth = useContext(AuthContext);
   const addToast = useToast();
-  const { newSoaContactDetails, setNewSoaContactDetails } = useContext(ContactContext);
+  const { newSoaContactDetails, setNewSoaContactDetails } = useContext(
+    ContactContext
+  );
   const { previousPage, setCurrentPage } = useContext(BackNavContext);
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);
@@ -65,12 +67,12 @@ export default () => {
           message: "Failed to load lead information",
         });
       }
-    }
+    };
     if (!newSoaContactDetails?.firstName && leadId) {
-      getContactInfo()
+      getContactInfo();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newSoaContactDetails, leadId])
+  }, [newSoaContactDetails, leadId]);
   useEffect(() => {
     setCurrentPage("Scope of Appointment Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,6 +162,9 @@ export default () => {
       history.goBack();
       addToast({
         message: "Scope of Appointment sent",
+      });
+      analyticsService.fireEvent("event-form-submit-valid", {
+        formName: "New Scope Appointment",
       });
     } catch (err) {
       Sentry.captureException(err);
