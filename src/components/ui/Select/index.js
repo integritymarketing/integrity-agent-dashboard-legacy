@@ -131,11 +131,11 @@ export const Select = ({
       <ArrowDownIcon />
     </div>
   );
-  const selectBox = (
+  const selectBox = mobileLabel ?  (
     <div className="selectbox" onClick={toggleOptionsMenu}>
       {mobileLabel}
     </div>
-  );
+  ) : null;
   const selectHeader = (
     <div className="select-header">
       <div className="prefix">{placeholder}</div>
