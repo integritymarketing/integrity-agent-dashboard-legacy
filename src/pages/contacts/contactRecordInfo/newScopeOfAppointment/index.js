@@ -12,10 +12,27 @@ import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 import BackNavContext from "contexts/backNavProvider";
 import ContactContext from "contexts/contacts";
-import { formatPhoneNumber } from "utils/phones";
 import AuthContext from "contexts/auth";
 import clientService from "services/clientsService";
+import { formatPhoneNumber } from "utils/phones";
 import "./index.scss";
+
+export const __formatPhoneNumber = (phoneNumberString) => {
+  const originalInput = phoneNumberString;
+  const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+
+  if (match) {
+    return `${match[1]} ${match[2]}-${match[3]}`;
+  }
+
+  if (cleaned === "") {
+    return null;
+  }
+
+  return originalInput;
+};
+
 
 const EMAIL_MOBILE_LABELS = [
   { value: "email", label: "Email" },
@@ -27,16 +44,15 @@ export default () => {
   const history = useHistory();
   const { leadId } = useParams();
   const auth = useContext(AuthContext);
-  const { newSoaContactDetails, setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
+  const { newSoaContactDetails, setNewSoaContactDetails } = useContext(ContactContext);
+  const { previousPage, setCurrentPage } = useContext(BackNavContext);
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [user, setUser] = useState({});
   const [errors, setErrors] = useState("");
-
-  const { previousPage, setCurrentPage } = useContext(BackNavContext);
 
   useEffect(() => {
     const getContactInfo = async () => {
@@ -162,7 +178,6 @@ export default () => {
     }
     return !selectOption;
   }, [selectOption, selectLabel, mobile, email]);
-
   return (
     <Media
       queries={{
@@ -197,7 +212,7 @@ export default () => {
                       id="textMessage"
                       htmlFor="textMessage"
                       className="pb-3"
-                      label={`Text Message ( ${formatPhoneNumber(leadPhone)} )`}
+                      label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
                       name="new-soa"
                       value="textMessage"
                       checked={selectOption === "textMessage"}
@@ -220,7 +235,7 @@ export default () => {
                         className="mr-2"
                         options={EMAIL_MOBILE_LABELS}
                         style={{ width: "140px" }}
-                        initialValue="mobile"
+                        initialValue="email"
                         providerModal={true}
                         onChange={setSelectLabel}
                         showValueAlways={true}

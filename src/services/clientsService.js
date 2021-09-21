@@ -21,6 +21,19 @@ class ClientsService {
     return fetch(path, opts);
   };
 
+  _clientPublicAPIRequest = async (path, method = "GET", body) => {
+    const opts = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    if (body) {
+      opts.body = JSON.stringify(body);
+    }
+    return fetch(path, opts);
+  };
+
   getList = async (page, pageSize, sort, filterId, searchText, leadIds) => {
     const params = {
       PageSize: pageSize,
@@ -607,6 +620,7 @@ class ClientsService {
 
     return response.json();
   };
+
   getSoaByLinkCode = async (leadsId, linkCode) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa/${linkCode}`,
@@ -614,6 +628,41 @@ class ClientsService {
     );
 
     return response.json();
+  };
+
+  saveSoaInformationForLead = async (payload, leadsId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v1.0/lead/${leadsId}/Soa/43545}`,
+      "POST",
+      payload
+    );
+
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Failed to send soa information.");
+  };
+
+  getSoaStatusByLinkCode = async (linkCode) => {
+    const response = await this._clientPublicAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  saveSoaInformationForLeadByLinkCode = async (payload, linkCode) => {
+    const response = await this._clientPublicAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
+      "POST",
+      payload
+    );
+
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Failed to send soa information.");
   };
 }
 
