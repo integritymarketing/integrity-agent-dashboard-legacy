@@ -40,7 +40,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
 
   return (
     <>
-      <div className="scope-details-card-header contactdetailscardheader">
+      <div className="contactdetailscardheader responsive-d-none">
         <h4>Contact Details</h4>
         {!rest.isEdit && (
           <button className="send-btn" onClick={() => rest.setEdit(true)}>

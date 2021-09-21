@@ -1448,9 +1448,16 @@ button {
   .custom-mob-email-row {
     flex-direction: column-reverse;
   }
-  .scope-details-card-header {
-    display: none;
+  .scope-details-card-header .send-btn {
+    background: #ffffff;
+    border: 1px solid #dfe5ef;
+    border-radius: 4px;
+    height: 40px;
   }
+  .soa-list-body {
+    padding: 0 10px 26px !important;
+  }
+
   .contactDetailsSection {
     padding: 0 !important;
   }
