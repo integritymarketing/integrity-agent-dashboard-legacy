@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { formatDate } from "utils/dates.js";
+import { useHistory } from "react-router-dom";
 
 export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
   const getStatus = () => {
@@ -11,6 +12,7 @@ export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
     }
   };
 
+  const history = useHistory();
   const getProducts = () => {
     const products = soa?.leadSection?.products ?? [];
     if (products && products?.length > 0) {
@@ -21,12 +23,16 @@ export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
 
   const soa_status = getStatus();
   const soa_products = getProducts();
+  const navigateToConfirmSOA = useCallback(() => {
+    history.push(`/contact/${rest?.id}/soa-confirm/${linkCode}`);
+  }, [history, rest.id, linkCode]);
+
   return (
     <>
       <div className="scope-of-app-row">
         <div className="scope-of-app-row-section1">
           <p className={soa_status === "Completed" ? "completed-text" : ""}>
-            {soa_status} <span>{formatDate(statusDate)}</span>
+            {getStatus()} <span>{formatDate(statusDate)}</span>
           </p>
         </div>
         <div
@@ -43,7 +49,9 @@ export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
           )}
 
           {soa_status === "Signed" && (
-            <button className="complete-btn">Complete</button>
+            <button className="complete-btn" onClick={navigateToConfirmSOA}>
+              Complete
+            </button>
           )}
           {soa_status === "Completed" && (
             <button className="view---btn">View</button>

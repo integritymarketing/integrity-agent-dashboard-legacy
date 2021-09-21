@@ -632,19 +632,6 @@ class ClientsService {
     return response.json();
   };
 
-  saveSoaInformationForLead = async (payload, leadsId) => {
-    const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/v1.0/lead/${leadsId}/Soa/43545}`,
-      "POST",
-      payload
-    );
-
-    if (response.ok) {
-      return response;
-    }
-    throw new Error("Failed to send soa information.");
-  };
-
   getSoaStatusByLinkCode = async (linkCode) => {
     const response = await this._clientPublicAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
@@ -665,6 +652,15 @@ class ClientsService {
       return response;
     }
     throw new Error("Failed to send soa information.");
+  };
+  saveSOAInformation = async ( linkCode, payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
+      "POST",
+      payload
+    );
+
+    return response.json();
   };
 }
 

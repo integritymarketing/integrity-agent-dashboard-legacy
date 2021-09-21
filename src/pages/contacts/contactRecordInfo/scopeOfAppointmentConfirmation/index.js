@@ -19,7 +19,7 @@ import Navigation from "partials/blue-nav-with-icon";
 import WhoIsAuthorizedRepresentative from "./WhoIsAuthorizedRepresentative";
 import MedicareOverviewCard from "./MedicareOverviewCard";
 import FormAlreadySubmitted from "./FormAlreadySubmitted";
-import {formValidator} from "./FormValidator";
+import { formValidator } from "./FormValidator";
 import "./index.scss";
 
 export default () => {
@@ -469,11 +469,13 @@ export default () => {
                               showValueAsLabel={true}
                               options={STATES}
                               initialValue={values.address.stateCode}
-                              onChange={(value) =>{
-                                setTimeout(() => setFieldValue("address.stateCode", value))
+                              onChange={(value) => {
+                                setTimeout(() =>
+                                  setFieldValue("address.stateCode", value)
+                                );
                               }}
                               onBlur={() => {
-                                setFieldTouched("address.stateCode", true)
+                                setFieldTouched("address.stateCode", true);
                               }}
                               showValueAlways={true}
                               error={
@@ -805,12 +807,13 @@ export default () => {
                                     values?.authorizedRepresentative?.address
                                       ?.stateCode
                                   }
-                                  
                                   onChange={(value) =>
-                                    setTimeout(() =>setFieldValue(
-                                      "authorizedRepresentative.address.stateCode",
-                                      value
-                                    ))
+                                    setTimeout(() =>
+                                      setFieldValue(
+                                        "authorizedRepresentative.address.stateCode",
+                                        value
+                                      )
+                                    )
                                   }
                                   onBlur={() =>
                                     setFieldTouched(
@@ -964,7 +967,8 @@ export default () => {
                       )}
                       <div className="submit-button">
                         <Button
-                        disabled={!dirty || !isValid}
+                          disabled={!dirty || !isValid}
+                          fullWidth={true}
                           label="Submit"
                           onClick={() => {
                             setFieldValue("products", products);
