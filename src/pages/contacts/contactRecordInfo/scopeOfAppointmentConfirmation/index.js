@@ -154,7 +154,7 @@ export default () => {
           );
           if (response.ok) {
             history.push(
-              `/soa-confirmation-page/${agentSection?.firstname}/${agentSection?.lastName}`
+              `/soa-confirmation-page/${agentSection?.firstName}/${agentSection?.lastName}`
             );
           }
         } catch (err) {
