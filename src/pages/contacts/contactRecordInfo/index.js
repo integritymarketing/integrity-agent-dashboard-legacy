@@ -327,7 +327,7 @@ export default () => {
                     <span>Details</span>
                   </li>
                   <li
-                    className={display === "ScopeOfAppointment" && "active"}
+                    className={display === "ScopeOfAppointment" ? "active" : ""}
                     onClick={() => setDisplay("ScopeOfAppointment")}
                   >
                     <label className="icon-spacing">
