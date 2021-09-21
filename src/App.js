@@ -17,6 +17,8 @@ import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
 import NewScopeOfAppointment from "pages/contacts/contactRecordInfo/newScopeOfAppointment";
+import SOAConfirmationPage from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage";
+import SOAConfirmationForm from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation";
 import PortalUrl from "components/functional/portal-url";
 import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
 import AuthSigninCallback from "components/functional/auth-signin-callback";
@@ -118,6 +120,12 @@ const App = () => {
                           </Route>
                           <Route path="/privacy">
                             <PrivacyPage />
+                          </Route>
+                          <Route path="/soa-confirmation-form/:linkCode">
+                            <SOAConfirmationForm />
+                          </Route>
+                          <Route path="/soa-confirmation-page/:firstName/:lastName">
+                            <SOAConfirmationPage />
                           </Route>
 
                           {/* auth routes + callbacks */}

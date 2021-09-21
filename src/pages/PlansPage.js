@@ -35,8 +35,9 @@ function getPlansAvailableSection(plansAvailableCount) {
     );
   }
 }
-
-const EFFECTIVE_YEARS_SUPPORTED = [2022];
+const EFFECTIVE_YEARS_SUPPORTED = [
+  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
+];
 export default () => {
   const { contactId: id } = useParams();
   const [contact, setContact] = useState();

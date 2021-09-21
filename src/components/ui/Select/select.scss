@@ -64,6 +64,12 @@
           display: flex;
         }
       }
+      &.has-error {
+        background: #fff2f2;
+        border: 1px solid #cf3c28;
+        box-sizing: border-box;
+        border-radius: 2px;
+      }
     }
     &.opened {
       position: absolute;

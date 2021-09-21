@@ -15,7 +15,7 @@ import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 
-export default forwardRef((props) => {
+export default forwardRef((props, ref) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);

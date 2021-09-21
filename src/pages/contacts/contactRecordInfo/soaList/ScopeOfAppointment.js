@@ -43,7 +43,7 @@ export default ({ setDisplay, ...rest }) => {
     history.push(`/new-soa/${[rest?.id]}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rest?.id]);
-  
+
   return (
     <div className="contactdetailscard">
       <div className="scope-details-card-header contactdetailscardheader">
@@ -58,7 +58,7 @@ export default ({ setDisplay, ...rest }) => {
           <span>Send</span>
         </button>
       </div>
-      <div className="contactdetailscardbody">
+      <div className="soa-list-body contactdetailscardbody">
         {soaList &&
           soaList?.length > 0 &&
           soaList?.map((soa, index) => {

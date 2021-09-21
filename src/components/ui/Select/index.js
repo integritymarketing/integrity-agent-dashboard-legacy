@@ -46,6 +46,7 @@ export const Select = ({
   mobileLabel = null,
   options,
   Option,
+  onBlur,
   onChange,
   placeholder,
   prefix = "",
@@ -57,6 +58,7 @@ export const Select = ({
   disabled,
   providerModal,
   showValueAlways = false,
+  error,
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -64,7 +66,12 @@ export const Select = ({
 
   const { height: windowHeight } = useWindowSize();
 
-  useOnClickOutside(ref, () => setIsOpen(false));
+  useOnClickOutside(ref, () => { 
+    setIsOpen(false);
+    if (isOpen) {
+      onBlur && onBlur();
+    }
+  });
 
   useEffect(() => {
     setValue(initialValue);
@@ -80,7 +87,10 @@ export const Select = ({
 
   const toggleOptionsMenu = (ev) => {
     ev && ev.preventDefault();
-    setIsOpen((isOption) => !isOption && !disabled);
+    setIsOpen((isOpen) => !isOpen && !disabled);
+    if (isOpen) {
+     onBlur && onBlur();
+    }
   };
 
   const [selectedOption, selectableOptions] = useMemo(() => {
@@ -108,7 +118,7 @@ export const Select = ({
   }, [selectableOptions.length, isOpen, windowHeight]);
 
   const inputBox = (
-    <div className={`${showValueAlways ? 'show-always' : ''} inputbox`} onClick={toggleOptionsMenu}>
+    <div className={`${error ? 'has-error' : ''} ${showValueAlways ? 'show-always' : ''} inputbox`} onClick={toggleOptionsMenu}>
       {value ? (
         <Option
           prefix={prefix}
@@ -173,11 +183,13 @@ Select.propTypes = {
   prefix: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   Option: PropTypes.elementType,
   style: PropTypes.object,
   mobileLabel: PropTypes.node,
   isDefaultOpen: PropTypes.bool,
   disabled: PropTypes.bool,
+  error: PropTypes.bool,
 };
 
 Select.defaultProps = {
@@ -189,4 +201,6 @@ Select.defaultProps = {
   style: {},
   isDefaultOpen: false,
   disabled: false,
+  onBlur: () => {},
+  error: false,
 };
