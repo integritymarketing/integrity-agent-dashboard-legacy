@@ -2,7 +2,15 @@ import React, { useCallback } from "react";
 import { formatDate } from "utils/dates.js";
 import { useHistory } from "react-router-dom";
 
-export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
+export default ({
+  linkCode,
+  status,
+  statusDate,
+  soaSummary,
+  soa,
+  soaDestination,
+  ...rest
+}) => {
   const getStatus = () => {
     switch (status) {
       case "ClientSigned":
@@ -40,21 +48,35 @@ export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
             soa_status === "Completed" ? "completed-text-row" : ""
           } scope-of-app-row-section2`}
         >
-          {soa_status === "Completed" ? (
+          {soa_status === "Completed" && (
             <ul>
               {soa_products && soa_products.map((item) => <li>{item}</li>)}
             </ul>
-          ) : (
-            <p>{soaSummary} </p>
+          )}
+          {soa_status === "Sent" && (
+            <p>The scope of appointment has been sent to [{soaDestination}] </p>
+          )}
+          {soa_status === "Signed" && (
+            <p>The scope of appointment is for ready for review.</p>
           )}
 
           {soa_status === "Signed" && (
-            <button data-gtm="button-complete" className="complete-btn" onClick={navigateToConfirmSOA}>
+            <button
+              data-gtm="button-complete"
+              className="complete-btn"
+              onClick={navigateToConfirmSOA}
+            >
               Complete
             </button>
           )}
           {soa_status === "Completed" && (
-            <button data-gtm="button-view" className="view---btn">View</button>
+            <button
+              data-gtm="button-view"
+              onClick={navigateToConfirmSOA}
+              className="view---btn"
+            >
+              View
+            </button>
           )}
         </div>
       </div>
