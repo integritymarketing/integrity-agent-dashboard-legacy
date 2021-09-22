@@ -28,6 +28,17 @@
       }
     }
 
+    .monthly-cost {
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 130%;
+
+      .label {
+        display: inline;
+        font-size: 16px;
+      }
+    }
+
     &.mobile {
       flex-direction: column;
 
@@ -248,5 +259,14 @@
         width: 50%;
       }
     }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &.plan-card-compact .footer {
+    border: none;
   }
 }

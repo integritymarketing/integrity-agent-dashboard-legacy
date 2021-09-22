@@ -31,18 +31,21 @@ function getProviders(entries, isMobile) {
   return items;
 }
 
-function getPharmacies(entries, isMobile) {
+function getPharmacies(entries, pharmacyMap, isMobile) {
   const items = [];
   if (entries) {
     for (const entry of entries) {
-      items.push(
-        <PlanNetworkItem
-          name={entry.name}
-          address={entry.address1}
-          inNetwork={entry.isNetwork}
-          isMobile={isMobile}
-        />
-      );
+      const pharmacy = pharmacyMap[entry.pharmacyID];
+      if (pharmacy) {
+        items.push(
+          <PlanNetworkItem
+            name={pharmacy.name}
+            address={pharmacy.address1}
+            inNetwork={entry.isNetwork}
+            isMobile={isMobile}
+          />
+        );
+      }
     }
   }
   return items;
@@ -50,6 +53,7 @@ function getPharmacies(entries, isMobile) {
 
 export default function PlanCard({
   planData,
+  pharmacyMap,
   effectiveDate,
   onEnrollClick,
   onDetailsClick,
@@ -97,7 +101,7 @@ export default function PlanCard({
         <div className={"label"}>In-Network</div>
         <div className={"items"}>
           {getProviders(planData.providers, isMobile)}
-          {getPharmacies(planData.pharmacyCosts, isMobile)}
+          {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
         </div>
       </div>
       <div className={`footer ${isMobile ? "mobile" : ""}`}>

@@ -9,7 +9,7 @@
   position: fixed;
   top: 105px;
   right: 80px;
-  z-index: 1;
+  z-index: 999;
   .toast {
     background: #fff;
     border: 1px solid #c7ccd1;
@@ -21,7 +21,7 @@
     width: 372px;
     border-radius: 4px;
     a {
-      color: #0052CE;
+      color: #0052ce;
       text-decoration: underline;
     }
     &:hover {

@@ -12,6 +12,28 @@ class PlansService {
 
     return response.json();
   };
+  getPlan = async (leadId, planId, contactData) => {
+    const response = await this._clientAPIRequest(
+      `Lead/${leadId}/Plan/${planId}`,
+      "GET",
+      {
+        zip: contactData.addresses[0].postalCode,
+        fips: contactData.addresses[0].countyFips,
+      }
+    );
+
+    return response.json();
+  };
+  enroll = async (leadId, planId, data) => {
+    const response = await this._clientAPIRequest(
+      `Lead/${leadId}/Enroll/${planId}`,
+      "POST",
+      {},
+      data
+    );
+
+    return response.json();
+  };
   _clientAPIRequest = async (path, method = "GET", query, body) => {
     const user = await authService.getUser();
     const opts = {
@@ -31,7 +53,7 @@ class PlansService {
       opts.body = JSON.stringify(body);
     }
 
-    return fetch(url, opts);
+    return fetch(url.toString(), opts);
   };
 }
 

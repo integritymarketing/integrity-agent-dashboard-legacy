@@ -1,4 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useHistory } from "react-router";
+import { useParams } from "react-router-dom";
+import * as Sentry from "@sentry/react";
+import useToast from "hooks/useToast";
 import styles from "./PlanDetailsPage.module.scss";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { Button } from "components/ui/Button";
@@ -6,24 +10,100 @@ import ArrowDown from "components/icons/arrow-down";
 import Media from "react-media";
 import WithLoader from "components/ui/WithLoader";
 import { Helmet } from "react-helmet-async";
-import ScrollNav from "components/ui/ScrollNav";
 import GlobalNav from "partials/global-nav-v2";
 import Container from "components/ui/container";
+import clientsService from "services/clientsService";
+import plansService from "services/plansService";
+import MapdContent from "partials/plan-details-content/mapd";
+import MaContent from "partials/plan-details-content/ma";
+import PdpContent from "partials/plan-details-content/pdp";
+import { PLAN_TYPE_ENUMS } from "../constants";
 
 const PlanDetailsPage = () => {
+  const history = useHistory();
+  const addToast = useToast();
+  const { contactId, planId } = useParams();
   const [isMobile, setIsMobile] = useState(false);
-  const [isLoading /*, setIsLoading*/] = useState(false);
-  const [activeSection, setActiveSection] = useState("overview");
-  const costsRef = useRef(null);
-  const providerDetailsRef = useRef(null);
-  const prescriptionDetailsRef = useRef(null);
-  const pharmacyDetailsRef = useRef(null);
-  const planBenefitsRef = useRef(null);
-  const outOfNetworkCoverageRef = useRef(null);
-  const pharmacyCoverageRef = useRef(null);
-  const oneMonthSupplyRef = useRef(null);
-  const threeMonthSupplyRef = useRef(null);
-  const planDocumentsRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pharmacies, setPharmacies] = useState();
+  const [contact, setContact] = useState();
+  const [plan, setPlan] = useState();
+
+  const getContactAndPlanData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const [contactData, pharmacies] = await Promise.all([
+        clientsService.getContactInfo(contactId),
+        clientsService.getLeadPharmacies(contactId),
+      ]);
+      const planData = await plansService.getPlan(
+        contactId,
+        planId,
+        contactData
+      );
+      setPharmacies(
+        pharmacies.reduce((dict, item) => {
+          dict[item["pharmacyID"]] = item;
+          return dict;
+        }, {})
+      );
+      if (!planData) {
+        addToast({
+          type: "error",
+          message: "There was an error loading the plan.",
+        });
+      }
+      setPlan(planData);
+      setContact(contactData);
+    } catch (e) {
+      Sentry.captureException(e);
+      addToast({
+        type: "error",
+        message: "There was an error loading the plan.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [contactId, planId, addToast]);
+
+  const enroll = useCallback(async () => {
+    try {
+      const enrolled = await plansService.enroll(contactId, planId, {
+        firstName: contact.firstName,
+        middleInitial:
+          contact.middleName.length > 1 ? contact.middleName[0] : "",
+        lastName: contact.lastName,
+        address1: contact.addresses[0].address1,
+        address2: contact.addresses[0].address2,
+        city: contact.addresses[0].city,
+        state: contact.addresses[0].state,
+        zip: contact.addresses[0].postalCode,
+        countyFIPS: contact.addresses[0].countyFips,
+        phoneNumber: contact.phones[0].leadPhone,
+        email: contact.emails[0].leadEmail,
+      });
+
+      if (enrolled && enrolled.url) {
+        addToast({
+          type: "success",
+          message: "Successfully Enrolled",
+        });
+        window.open(enrolled.url, "_blank").focus();
+      } else {
+        addToast({
+          type: "error",
+          message: "There was an error enrolling the contact.",
+        });
+      }
+    } catch (e) {
+      Sentry.captureException(e);
+    }
+  }, [contactId, planId, contact, addToast]);
+
+  useEffect(() => {
+    getContactAndPlanData();
+  }, [getContactAndPlanData]);
+
   return (
     <React.Fragment>
       <ToastContextProvider>
@@ -45,142 +125,39 @@ const PlanDetailsPage = () => {
                   <Button
                     icon={<ArrowDown />}
                     label="Back to Plans List"
-                    onClick={() => console.log("click")}
+                    onClick={() => history.push(`/plans/${contactId}`)}
                     type="tertiary"
                   />
                 </div>
               </Container>
             </div>
             <Container className={`${styles["body"]}`}>
-              <div className={`${styles["left"]}`}>
-                <ScrollNav
-                  initialSectionID="costs"
-                  scrollToInitialSection={false}
-                  inactive={activeSection !== "overview"}
-                  onChange={() => setActiveSection("overview")}
+              {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (
+                <MapdContent
+                  plan={plan}
+                  styles={styles}
                   isMobile={isMobile}
-                  sections={[
-                    {
-                      header: "Overview",
-                    },
-                    {
-                      id: "costs",
-                      label: "Costs",
-                    },
-                    {
-                      id: "providerDetails",
-                      label: "Provider Details",
-                    },
-                    {
-                      id: "prescriptionDetails",
-                      label: "Prescription Details",
-                    },
-                    {
-                      id: "pharmacyDetails",
-                      label: "Pharmacy Details",
-                    },
-                    {
-                      header: "Plan Details",
-                    },
-                    {
-                      id: "planBenefits",
-                      label: "Plan Benefits",
-                    },
-                    {
-                      id: "outOfNetworkCoverage",
-                      label: "Out of Network Coverage",
-                    },
-                    {
-                      id: "pharmacyCoverage",
-                      label: "Pharmacy Coverage",
-                    },
-                    {
-                      id: "oneMonthStandard",
-                      label: "One Month Supply (Retail) Standard Pharmacy",
-                    },
-                    {
-                      id: "threeMonthPreferred",
-                      label:
-                        "Three Month Supply (Mail-Order) Pharmacy with Preferred Cost Sharing",
-                    },
-                    {
-                      id: "planDocuments",
-                      label: "Plan Documents",
-                    },
-                  ]}
-                  ref={{
-                    costs: costsRef,
-                    providerDetails: providerDetailsRef,
-                    prescriptionDetails: prescriptionDetailsRef,
-                    pharmacyDetails: pharmacyDetailsRef,
-                    planBenefits: planBenefitsRef,
-                    outOfNetworkCoverage: outOfNetworkCoverageRef,
-                    pharmacyCoverage: pharmacyCoverageRef,
-                    oneMonthStandard: oneMonthSupplyRef,
-                    threeMonthPreferred: threeMonthSupplyRef,
-                    planDocuments: planDocumentsRef,
-                  }}
+                  onEnrollClick={enroll}
+                  pharmacies={pharmacies}
                 />
-              </div>
-              <div className={`${styles["main"]}`}>
-                <div ref={costsRef} className={`${styles["costs"]}`}>
-                  costs section
-                </div>
-                <div
-                  ref={providerDetailsRef}
-                  className={`${styles["provider-details"]}`}
-                >
-                  provider details section
-                </div>
-                <div
-                  ref={prescriptionDetailsRef}
-                  className={`${styles["prescription-details"]}`}
-                >
-                  prescription details section
-                </div>
-                <div
-                  ref={pharmacyDetailsRef}
-                  className={`${styles["pharmacy-details"]}`}
-                >
-                  pharmacy details
-                </div>
-                <div
-                  ref={planBenefitsRef}
-                  className={`${styles["plan-benefits"]}`}
-                >
-                  plan benefits
-                </div>
-                <div
-                  ref={outOfNetworkCoverageRef}
-                  className={`${styles["out-of-network"]}`}
-                >
-                  out of network
-                </div>
-                <div
-                  ref={pharmacyCoverageRef}
-                  className={`${styles["pharmacy-coverage"]}`}
-                >
-                  pharmacy coverage
-                </div>
-                <div
-                  ref={oneMonthSupplyRef}
-                  className={`${styles["one-month"]}`}
-                >
-                  one month
-                </div>
-                <div
-                  ref={threeMonthSupplyRef}
-                  className={`${styles["three-month"]}`}
-                >
-                  three month
-                </div>
-                <div
-                  ref={planDocumentsRef}
-                  className={`${styles["plan-documents"]}`}
-                >
-                  plan documents
-                </div>
-              </div>
+              )}
+              {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
+                <PdpContent
+                  plan={plan}
+                  styles={styles}
+                  isMobile={isMobile}
+                  onEnrollClick={enroll}
+                  pharmacies={pharmacies}
+                />
+              )}
+              {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
+                <MaContent
+                  plan={plan}
+                  styles={styles}
+                  isMobile={isMobile}
+                  onEnrollClick={enroll}
+                />
+              )}
             </Container>
           </WithLoader>
         </div>

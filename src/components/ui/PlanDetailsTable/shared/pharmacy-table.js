@@ -1,0 +1,83 @@
+import InNetworkCheck from "components/icons/in-network-check";
+import OutNetworkX from "components/icons/out-network-x";
+import React, { useMemo } from "react";
+import PlanDetailsTable from "..";
+
+function getInNetwork(pharmacyCost) {
+  if (pharmacyCost.inNetwork) {
+    if (pharmacyCost.isPreferred) {
+      return (
+        <>
+          <InNetworkCheck />
+          <span className={"in-network-label"}>In Network Preferred</span>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <InNetworkCheck />
+          <span className={"in-network-label"}>In Network</span>
+        </>
+      );
+    }
+  }
+  return (
+    <>
+      <OutNetworkX />
+      <span className={"in-network-label"}>Out of Network</span>
+    </>
+  );
+}
+
+export default ({ planData, pharmacies }) => {
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Pharmacy",
+        columns: [
+          {
+            hideHeader: true,
+            accessor: "name",
+          },
+          {
+            hideHeader: true,
+            accessor: "address",
+          },
+          {
+            hideHeader: true,
+            accessor: "inNetwork",
+          },
+        ],
+      },
+    ],
+    []
+  );
+  const data = [];
+
+  planData.pharmacyCosts.forEach((pharmacyCost) => {
+    const pharmacy = pharmacies[pharmacyCost.pharmacyID];
+    data.push({
+      name: <span className={"label"}>{pharmacy.name}</span>,
+      address: (
+        <span className={"subtext"}>
+          {pharmacy.address1 +
+            "\n" +
+            pharmacy.address2 +
+            "\n" +
+            pharmacy.city +
+            " " +
+            pharmacy.state +
+            " " +
+            pharmacy.zip}
+        </span>
+      ),
+      inNetwork: getInNetwork(pharmacyCost),
+    });
+  });
+
+  return (
+    <>
+      <PlanDetailsTable columns={columns} data={data} />
+    </>
+  );
+};

@@ -88,6 +88,8 @@ export default () => {
           zip: contact.addresses[0].postalCode.toString(),
           year: effectiveDate.getFullYear(),
           ReturnAllMedicarePlans: true,
+          ShowFormulary: true,
+          ShowPharmacy: true,
           effectiveDate: `${effectiveDate.getFullYear()}-${
             effectiveDate.getMonth() + 1
           }-01`,
@@ -178,6 +180,9 @@ export default () => {
                     plans={results}
                     isMobile={isMobile}
                     effectiveDate={effectiveDate}
+                    contact={contact}
+                    leadId={id}
+                    pharmacies={pharmacies}
                   />
                 </div>
               </div>

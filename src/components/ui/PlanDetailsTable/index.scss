@@ -1,0 +1,78 @@
+.plan-details-table {
+  width: 100%;
+  font-family: Lato;
+  font-style: normal;
+  border: 1px solid #cbd5e1;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  thead {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 130%;
+    color: var(--v2-white);
+    height: 92px;
+
+    th {
+      background: #002d72;
+      border-radius: 4px 4px 0px 0px;
+      text-align: left;
+      padding-left: 25px;
+    }
+  }
+
+  tbody {
+    tr {
+      height: 118px;
+    }
+
+    tr:nth-child(even) {
+      background: #f1f5f9;
+    }
+
+    td {
+      padding-left: 25px;
+      .label,
+      .value {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 150%;
+        color: #2b323b;
+        display: block;
+
+        .per {
+          font-weight: normal;
+        }
+      }
+
+      .link {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 150%;
+      }
+
+      .copay {
+        display: flex;
+        .label {
+          margin-right: 4px;
+        }
+        .supply {
+          line-height: 180%;
+        }
+      }
+
+      .subtext {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 130%;
+        color: #64748b;
+      }
+
+      .in-network-label {
+        line-height: 130%;
+        margin-left: 8px;
+      }
+    }
+  }
+}
