@@ -49,12 +49,12 @@ export default ({ linkCode, status, statusDate, soaSummary, soa, ...rest }) => {
           )}
 
           {soa_status === "Signed" && (
-            <button className="complete-btn" onClick={navigateToConfirmSOA}>
+            <button data-gtm="button-complete" className="complete-btn" onClick={navigateToConfirmSOA}>
               Complete
             </button>
           )}
           {soa_status === "Completed" && (
-            <button className="view---btn">View</button>
+            <button data-gtm="button-view" className="view---btn">View</button>
           )}
         </div>
       </div>

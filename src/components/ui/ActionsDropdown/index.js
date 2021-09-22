@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./actionDropdown.scss";
-
+import analyticsService from "services/analyticsService";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
 export default function ActionsDropDown({
@@ -20,6 +20,10 @@ export default function ActionsDropDown({
   const handleOptionClick = (ev, value) => {
     ev.preventDefault();
     onClick && onClick(value, id);
+    analyticsService.fireEvent("event-modal-appear", {
+      event: "option_selection",
+      optionSelection: [value]
+    })
     toggleDropdownMenu();
   };
 

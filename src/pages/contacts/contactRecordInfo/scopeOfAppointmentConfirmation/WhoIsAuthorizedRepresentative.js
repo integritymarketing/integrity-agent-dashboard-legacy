@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
+import analyticsService from "services/analyticsService";
 import "./index.scss";
 
 export default ({ isOpen, onClose }) => {
+
+  useEffect(() => {
+    if (isOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Authorized Representative",
+      });
+    }
+  }, [isOpen]);
+
   return (
     <div className="authorized-help-modal">
       <Modal
@@ -20,16 +30,16 @@ export default ({ isOpen, onClose }) => {
           time, except if Medicare has already acted based on your permission.
           For more details, please visit{" "}
           <a
-            class="blue-link"
+            className="blue-link"
             href="https://www.medicare.gov/"
             target="_blank"
-            rel="noopener noreferrer" 
+            rel="noopener noreferrer"
           >
             medicare.gov
           </a>
         </p>
         <div className="cancel-button">
-          <Button label="Close" onClick={onClose} />
+          <Button data-gtm="button-close" label="Close" onClick={onClose} />
         </div>
       </Modal>
     </div>
