@@ -4,6 +4,7 @@ import Back from "components/icons/back";
 import * as Sentry from "@sentry/react";
 import BackNavContext from "contexts/backNavProvider";
 import clientService from "services/clientsService";
+import dateFnsFormat from "date-fns/format";
 import ReminderIcon from "stories/assets/reminder.svg";
 import "./contactsSoa.scss";
 import Datepicker from "../datepicker";
@@ -36,7 +37,7 @@ const LabelValueItem = ({ label, value }) => {
   return (
     <div className="key-value-wrapper">
       <div className="label">{label}</div>
-      <div className="value">{value}</div>
+      <div className="value">{value || "--"}</div>
     </div>
   );
 };
@@ -54,7 +55,9 @@ const ContactsSOAConfirmForm = () => {
   const { contactId, linkCode } = useParams();
   const { previousPage } = useContext(BackNavContext);
   const [soaConfirmData, setSoaConfirmData] = useState(null);
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState({
+    appointmentDate: dateFnsFormat(new Date(), "MM/dd/yy"),
+  });
   const [isSubmited, setIsSubmited] = useState(false);
 
   useEffect(() => {
@@ -76,10 +79,8 @@ const ContactsSOAConfirmForm = () => {
     formValues.firstName &&
     formValues.lastName &&
     formValues.methodOfContact &&
-    formValues.soaSignedDuringAppointment &&
     formValues.explanationOfSOASignedDuringAppointment &&
-    formValues.acceptedSOA &&
-    formValues.appointmentDate;
+    formValues.acceptedSOA;
   const handleSubmit = async () => {
     const payload = {
       ...soaConfirmData,
@@ -233,6 +234,7 @@ const ContactsSOAConfirmForm = () => {
                   <Col>
                     <div className="soa-authorize-container">
                       <input
+                        disabled
                         type="radio"
                         checked={hasAuthorizedRepresentative}
                       />
@@ -240,6 +242,7 @@ const ContactsSOAConfirmForm = () => {
                     </div>
                     <div className="soa-authorize-container">
                       <input
+                        disabled
                         type="radio"
                         checked={!hasAuthorizedRepresentative}
                       />
@@ -252,7 +255,7 @@ const ContactsSOAConfirmForm = () => {
           </Row>
           <Row>
             <div className="soa-terms-conditions">
-              <input type="checkbox" checked={acceptedSOA} />
+              <input type="checkbox" disabled checked={acceptedSOA} />
             </div>
             <div>
               By checking this box, I have read and understand the contents of
@@ -310,7 +313,38 @@ const ContactsSOAConfirmForm = () => {
             <LabelValueItem
               label="Was the Scope of Appointment signed at the time of the appointment?"
               value={
-                <FormInput {...formProps} objKey="soaSignedDuringAppointment" />
+                <Col>
+                  <div className="soa-authorize-container">
+                    <input
+                      name="soaSignedDuringAppointment"
+                      type="radio"
+                      disabled={isSubmited}
+                      onChange={() =>
+                        formProps.onChangeFormValue(
+                          "soaSignedDuringAppointment",
+                          true
+                        )
+                      }
+                      checked={!!formValues.soaSignedDuringAppointment}
+                    />
+                    Yes
+                  </div>
+                  <div className="soa-authorize-container">
+                    <input
+                      name="soaSignedDuringAppointment"
+                      disabled={isSubmited}
+                      type="radio"
+                      onChange={() =>
+                        formProps.onChangeFormValue(
+                          "soaSignedDuringAppointment",
+                          false
+                        )
+                      }
+                      checked={!formValues.soaSignedDuringAppointment}
+                    />
+                    No
+                  </div>
+                </Col>
               }
             />
           </Row>
@@ -357,7 +391,7 @@ const ContactsSOAConfirmForm = () => {
                     />
                     <Datepicker
                       format="MM/dd/yy"
-                      date={formValues.appointmentDate || new Date()}
+                      date={formValues.appointmentDate}
                       onChangeDate={(date) => {
                         formProps.onChangeFormValue("appointmentDate", date);
                       }}
