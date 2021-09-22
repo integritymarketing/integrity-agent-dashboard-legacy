@@ -86,7 +86,7 @@ const ContactsSOAConfirmForm = () => {
       agentSection: formValues,
     };
     try {
-      await clientService.saveSOAInformation(contactId, linkCode, payload);
+      await clientService.saveSOAInformation(linkCode, payload);
     } catch (e) {
       Sentry.captureException(e);
     }
