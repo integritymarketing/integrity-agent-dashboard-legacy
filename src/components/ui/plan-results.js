@@ -38,7 +38,7 @@ const PlanResults = ({
     }
   } else {
     for (let i = 0; i < 10; i++) {
-      cards.push(<PlanCardLoader></PlanCardLoader>);
+      cards.push(<PlanCardLoader key={i}></PlanCardLoader>);
     }
   }
   return (
