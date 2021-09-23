@@ -205,7 +205,7 @@ const ContactsSOAConfirmForm = () => {
             <Col>
               <LabelValueItem
                 label="Beneficiary’s Middle Initial"
-                value={leadSection?.beneficiary?.initial}
+                value={leadSection?.beneficiary?.middleName}
               />
             </Col>
           </Row>
@@ -223,7 +223,7 @@ const ContactsSOAConfirmForm = () => {
             <Col>
               <LabelValueItem
                 label="Address (Line 1)"
-                value={leadSection?.beneficiary?.address}
+                value={leadSection?.beneficiary?.address1}
               />
             </Col>
           </Row>
