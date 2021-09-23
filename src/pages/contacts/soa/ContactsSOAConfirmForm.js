@@ -386,27 +386,30 @@ const ContactsSOAConfirmForm = () => {
               }
             />
           </Row>
-          <Row>
-            <LabelValueItem
-              label="Provide an explanatiation why the SOA was not documented prior to the meeting:"
-              value={
-                isSubmited ? (
-                  formValues.explanationOfSOASignedDuringAppointment
-                ) : (
-                  <textarea
-                    value={formValues.explanationOfSOASignedDuringAppointment}
-                    onChange={(e) =>
-                      formProps.onChangeFormValue(
-                        "explanationOfSOASignedDuringAppointment",
-                        e.target.value
-                      )
-                    }
-                  />
-                )
-              }
-            />
-            {}
-          </Row>
+          {formValues.soaSignedDuringAppointment && (
+            <Row>
+              <LabelValueItem
+                label="Provide an explanatiation why the SOA was not documented prior to the meeting:"
+                value={
+                  isSubmited ? (
+                    formValues.explanationOfSOASignedDuringAppointment
+                  ) : (
+                    <textarea
+                      value={formValues.explanationOfSOASignedDuringAppointment}
+                      className="soa-explanation"
+                      onChange={(e) =>
+                        formProps.onChangeFormValue(
+                          "explanationOfSOASignedDuringAppointment",
+                          e.target.value
+                        )
+                      }
+                    />
+                  )
+                }
+              />
+              {}
+            </Row>
+          )}
           <Row>
             <LabelValueItem
               label="Date Appointment Completed"
