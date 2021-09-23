@@ -387,7 +387,7 @@ export default () => {
                         <fieldset className="form__fields form__fields--constrained hide-input-err">
                           <Textfield
                             id="beneficiary-address"
-                            label="Address"
+                            label="Address Line1"
                             name="address.address1"
                             value={values.address.address1}
                             onChange={handleChange}
@@ -415,7 +415,7 @@ export default () => {
                             )}
                           <Textfield
                             id="beneficiary-address2"
-                            label="Apt, Suite, Unit (optional)"
+                            label="Address Line2"
                             name="address.address2"
                             value={values.address.address2}
                             onChange={handleChange}
