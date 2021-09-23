@@ -653,14 +653,16 @@ class ClientsService {
     }
     throw new Error("Failed to send soa information.");
   };
-  saveSOAInformation = async ( linkCode, payload) => {
+  saveSOAInformation = async (linkCode, payload) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
       "POST",
       payload
     );
 
-    return response.json();
+    if (response.ok) {
+      return response;
+    }
   };
 }
 

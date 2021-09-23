@@ -106,6 +106,7 @@ export default () => {
           const {
             firstName,
             lastName,
+            middleName,
             hasAuthorizedRepresentative,
             address,
             phone,
@@ -118,11 +119,12 @@ export default () => {
             ? {
                 authorizedRepresentative: {
                   firstName: authorizedRepresentative.firstName,
+                  middleName: authorizedRepresentative.middleName,
                   lastName: authorizedRepresentative.lastName,
                   address1: authorizedRepresentative.address.address1,
                   address2: authorizedRepresentative.address.address2,
                   city: authorizedRepresentative.city,
-                  state: authorizedRepresentative.state,
+                  state: authorizedRepresentative.stateCode,
                   zip: authorizedRepresentative.postalCode,
                   phone: authorizedRepresentative.phone,
                   relationshipToBeneficiary:
@@ -136,11 +138,12 @@ export default () => {
                 products: Object.keys(products),
                 beneficiary: {
                   firstName,
+                  middleName,
                   lastName,
                   address1: address.address1,
                   address2: address.address2,
                   city: address.city,
-                  state: address.state,
+                  state: address.stateCode,
                   zip: address.postalCode,
                   phone: phone,
                 },
@@ -149,7 +152,7 @@ export default () => {
                 acceptedSOA,
                 submittedDateTime: new Date().toISOString(),
               },
-              agentSection: {...agentSection},
+              agentSection: { ...agentSection },
             },
             linkCode
           );
@@ -297,7 +300,7 @@ export default () => {
                         <fieldset className="form__fields form__fields--constrained hide-input-err">
                           <Textfield
                             id="beneficiary-fname"
-                            label="First Name"
+                            label="Beneficiary's First Name"
                             name="firstName"
                             value={values.firstName}
                             onChange={handleChange}
@@ -334,7 +337,7 @@ export default () => {
                           )}
                           <Textfield
                             id="beneficiary-mname"
-                            label="Middle Name (optional)"
+                            label="Beneficiary's Middle Name (optional)"
                             name="middleName"
                             onKeyPress={onlyAlphabets}
                             maxLength="1"
@@ -345,7 +348,7 @@ export default () => {
                           <Textfield
                             id="beneficiary-lname"
                             className="pb-2"
-                            label="Last Name"
+                            label="Beneficiary's Last Name"
                             name="lastName"
                             value={values.lastName}
                             onChange={handleChange}

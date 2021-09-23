@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import ContactContext from "contexts/contacts";
+import BackNavContext from "contexts/backNavProvider";
 import ScopeSendIcon from "components/icons/scope-send";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
@@ -12,6 +13,7 @@ export default ({ setDisplay, ...rest }) => {
   const [hovered, setHovered] = useState(false);
   const history = useHistory();
   const { setNewSoaContactDetails } = useContext(ContactContext);
+  const { setCurrentPage } = useContext(BackNavContext);
 
   const contact = { ...rest?.personalInfo };
 
@@ -33,6 +35,11 @@ export default ({ setDisplay, ...rest }) => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rest?.id]);
+
+  useEffect(() => {
+    setCurrentPage("Contact Detail Page");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setNewSoaContactDetails(contact);

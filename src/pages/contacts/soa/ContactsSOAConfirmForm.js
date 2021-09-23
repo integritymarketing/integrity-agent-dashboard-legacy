@@ -61,18 +61,38 @@ const ContactsSOAConfirmForm = () => {
   const [isSubmited, setIsSubmited] = useState(false);
 
   useEffect(() => {
-    const getSoaByLinkCode = async () => {
-      await clientService
-        .getSoaByLinkCode(contactId, linkCode)
-        .then((data) => {
-          setSoaConfirmData(data);
-        })
-        .catch((e) => {
-          Sentry.captureException(e);
-        });
-    };
     getSoaByLinkCode();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactId, linkCode]);
+
+  const getSoaByLinkCode = async () => {
+    await clientService
+      .getSoaByLinkCode(contactId, linkCode)
+      .then((data) => {
+        setSoaConfirmData(data);
+        if (data?.status === "Completed") {
+          const agent_data = data?.agentSection;
+          setFormData(agent_data);
+        }
+      })
+      .catch((e) => {
+        Sentry.captureException(e);
+      });
+  };
+  const setFormData = (agent_data) => {
+    setFormValues({
+      acceptedSOA: agent_data.acceptedSOA,
+      appointmentDate: agent_data.appointmentDate,
+      explanationOfSOASignedDuringAppointment:
+        agent_data.explanationOfSOASignedDuringAppointment,
+      firstName: agent_data.firstName,
+      lastName: agent_data.lastName,
+      methodOfContact: agent_data.methodOfContact,
+      phoneNumber: agent_data.phoneNumber,
+      soaSignedDuringAppointment: agent_data.soaSignedDuringAppointment,
+    });
+    setIsSubmited(true);
+  };
 
   const isValid =
     formValues &&
@@ -82,28 +102,37 @@ const ContactsSOAConfirmForm = () => {
     formValues.explanationOfSOASignedDuringAppointment &&
     formValues.acceptedSOA;
   const handleSubmit = async () => {
+    formValues.submittedDateTime = new Date().toISOString();
     const payload = {
       ...soaConfirmData,
       agentSection: formValues,
     };
     try {
-      await clientService.saveSOAInformation(linkCode, payload);
+      const response = await clientService.saveSOAInformation(
+        linkCode,
+        payload
+      );
+      if (response.ok) {
+        getSoaByLinkCode();
+      }
     } catch (e) {
       Sentry.captureException(e);
     }
-    setIsSubmited(true);
   };
 
   if (!soaConfirmData) {
     return null;
   }
 
-  const {
-    leadSection,
-    hasAuthorizedRepresentative,
-    acceptedSOA,
-    submittedDateTime,
-  } = soaConfirmData;
+  const { leadSection, agentSection } = soaConfirmData;
+
+  const benificiarySubmittedDateTime = leadSection?.submittedDateTime
+    ? dateFnsFormat(new Date(leadSection?.submittedDateTime), "MM/dd/yy p")
+    : "";
+
+  const agentSubmittedDateTime = agentSection?.submittedDateTime
+    ? dateFnsFormat(new Date(agentSection?.submittedDateTime), "MM/dd/yy p")
+    : "";
 
   const formProps = {
     isSubmited,
@@ -113,17 +142,22 @@ const ContactsSOAConfirmForm = () => {
     },
   };
 
+  const goBack = (e) => {
+    e.preventDefault();
+    if (previousPage) {
+      history.push({
+        pathname: `/contact/${contactId}`,
+        state: { display: "ScopeOfAppointment" },
+      });
+    } else {
+      history.goBack();
+    }
+  };
+
   return (
     <div className="contacts-soa">
       <header className="global-nav-v2 gtm-nav-wrapper">
-        <a
-          className="page-title"
-          href="#eslint"
-          onClick={(e) => {
-            e.preventDefault();
-            history.goBack();
-          }}
-        >
+        <a className="page-title" href="#eslint" onClick={goBack}>
           <Back /> Back to {previousPage}
         </a>
       </header>
@@ -236,7 +270,7 @@ const ContactsSOAConfirmForm = () => {
                       <input
                         disabled
                         type="radio"
-                        checked={hasAuthorizedRepresentative}
+                        checked={leadSection?.hasAuthorizedRepresentative}
                       />
                       Yes
                     </div>
@@ -244,7 +278,7 @@ const ContactsSOAConfirmForm = () => {
                       <input
                         disabled
                         type="radio"
-                        checked={!hasAuthorizedRepresentative}
+                        checked={!leadSection?.hasAuthorizedRepresentative}
                       />
                       No
                     </div>
@@ -255,7 +289,11 @@ const ContactsSOAConfirmForm = () => {
           </Row>
           <Row>
             <div className="soa-terms-conditions">
-              <input type="checkbox" disabled checked={acceptedSOA} />
+              <input
+                type="checkbox"
+                disabled
+                checked={leadSection?.acceptedSOA}
+              />
             </div>
             <div>
               By checking this box, I have read and understand the contents of
@@ -271,7 +309,7 @@ const ContactsSOAConfirmForm = () => {
             <Col>
               <LabelValueItem
                 label="Beneficiary Submitted"
-                value={submittedDateTime}
+                value={benificiarySubmittedDateTime}
               />
             </Col>
           </Row>
@@ -418,6 +456,16 @@ const ContactsSOAConfirmForm = () => {
               Appointment form using this information.
             </div>
           </Row>
+          {isSubmited && (
+            <Row>
+              <Col>
+                <LabelValueItem
+                  label="Agent Submitted"
+                  value={agentSubmittedDateTime}
+                />
+              </Col>
+            </Row>
+          )}
           {!isSubmited && (
             <Row>
               <button
