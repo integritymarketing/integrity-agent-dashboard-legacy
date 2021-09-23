@@ -54,7 +54,7 @@ export default ({
             </ul>
           )}
           {soa_status === "Sent" && (
-            <p>The scope of appointment has been sent to [{soaDestination}] </p>
+            <p>The scope of appointment has been sent to {soaDestination} </p>
           )}
           {soa_status === "Signed" && (
             <p>The scope of appointment is for ready for review.</p>
