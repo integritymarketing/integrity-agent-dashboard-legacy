@@ -228,10 +228,14 @@
           text-overflow: ellipsis;
           overflow: hidden;
 
+          .name,
           .address {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+          }
+
+          .address {
             font-weight: 400;
           }
         }

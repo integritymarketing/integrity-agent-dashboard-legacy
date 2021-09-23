@@ -62,6 +62,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
         <Modal
           open={true}
           wide
+          cssClassName={"enrollment-modal"}
           onClose={() => handleCloseModal()}
           labeledById="enroll_label"
           descById="enroll_desc"

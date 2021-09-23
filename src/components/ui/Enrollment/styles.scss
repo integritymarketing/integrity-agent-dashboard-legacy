@@ -1,16 +1,22 @@
-.modal .modal__card.card {
-  padding-top: 10px;
-  padding-bottom: 45px;
-}
-
 .enrollment-modal {
+  &.modal .modal__card.card {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    .modal__exit.icon-btn {
+      right: auto;
+    }
+  }
+
   .dialog--title {
     margin-left: 0;
     margin-bottom: 31px;
+    margin-top: 39px;
   }
 
   .plan-card {
     margin-bottom: 24px;
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
   }
 
   .enrollment-label {
@@ -39,6 +45,7 @@
     margin-left: -5rem;
     margin-right: -5rem;
     padding-top: 10px;
+    padding-right: 35px;
 
     .button {
       margin-right: 16px;

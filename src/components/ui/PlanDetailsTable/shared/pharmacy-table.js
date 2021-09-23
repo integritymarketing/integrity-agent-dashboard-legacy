@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
 
 function getInNetwork(pharmacyCost) {
-  if (pharmacyCost.inNetwork) {
+  if (pharmacyCost.isNetwork) {
     if (pharmacyCost.isPreferred) {
       return (
         <>
