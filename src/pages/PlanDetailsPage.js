@@ -18,6 +18,7 @@ import MapdContent from "partials/plan-details-content/mapd";
 import MaContent from "partials/plan-details-content/ma";
 import PdpContent from "partials/plan-details-content/pdp";
 import { PLAN_TYPE_ENUMS } from "../constants";
+import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
 
 const PlanDetailsPage = () => {
   const history = useHistory();
@@ -28,6 +29,7 @@ const PlanDetailsPage = () => {
   const [pharmacies, setPharmacies] = useState();
   const [contact, setContact] = useState();
   const [plan, setPlan] = useState();
+  const [modalOpen, setModalOpen] = useState();
 
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
@@ -66,40 +68,6 @@ const PlanDetailsPage = () => {
     }
   }, [contactId, planId, addToast]);
 
-  const enroll = useCallback(async () => {
-    try {
-      const enrolled = await plansService.enroll(contactId, planId, {
-        firstName: contact.firstName,
-        middleInitial:
-          contact.middleName.length > 1 ? contact.middleName[0] : "",
-        lastName: contact.lastName,
-        address1: contact.addresses[0].address1,
-        address2: contact.addresses[0].address2,
-        city: contact.addresses[0].city,
-        state: contact.addresses[0].state,
-        zip: contact.addresses[0].postalCode,
-        countyFIPS: contact.addresses[0].countyFips,
-        phoneNumber: contact.phones[0].leadPhone,
-        email: contact.emails[0].leadEmail,
-      });
-
-      if (enrolled && enrolled.url) {
-        addToast({
-          type: "success",
-          message: "Successfully Enrolled",
-        });
-        window.open(enrolled.url, "_blank").focus();
-      } else {
-        addToast({
-          type: "error",
-          message: "There was an error enrolling the contact.",
-        });
-      }
-    } catch (e) {
-      Sentry.captureException(e);
-    }
-  }, [contactId, planId, contact, addToast]);
-
   useEffect(() => {
     getContactAndPlanData();
   }, [getContactAndPlanData]);
@@ -113,6 +81,12 @@ const PlanDetailsPage = () => {
             onChange={(isMobile) => {
               setIsMobile(isMobile);
             }}
+          />
+          <EnrollmentModal
+            modalOpen={modalOpen}
+            planData={plan}
+            contact={contact}
+            handleCloseModal={() => setModalOpen(false)}
           />
           <WithLoader isLoading={isLoading}>
             <Helmet>
@@ -137,7 +111,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
-                  onEnrollClick={enroll}
+                  onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                 />
               )}
@@ -146,7 +120,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
-                  onEnrollClick={enroll}
+                  onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                 />
               )}
@@ -155,7 +129,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
-                  onEnrollClick={enroll}
+                  onEnrollClick={() => setModalOpen(true)}
                 />
               )}
             </Container>

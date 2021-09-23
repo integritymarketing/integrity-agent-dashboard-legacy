@@ -30,15 +30,17 @@ const CompactPlanCard = ({
           <Rating value={planData.planRating} />
         </div>
       </div>
-      <div className={`footer ${isMobile ? "mobile" : ""}`}>
-        <Button
-          label="Share Plan"
-          icon={<ShareIcon />}
-          onClick={() => onShareClick(planData.id)}
-          type="secondary"
-        />
-        <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
-      </div>
+      {onEnrollClick && (
+        <div className={`footer ${isMobile ? "mobile" : ""}`}>
+          <Button
+            label="Share Plan"
+            icon={<ShareIcon />}
+            onClick={() => onShareClick(planData.id)}
+            type="secondary"
+          />
+          <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+        </div>
+      )}
     </div>
   );
 };

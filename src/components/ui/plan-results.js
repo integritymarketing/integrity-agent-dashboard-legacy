@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import PlanCard from "./PlanCard";
 import PlanCardLoader from "./PlanCard/loader";
-import plansService from "services/plansService";
-import useToast from "hooks/useToast";
-import * as Sentry from "@sentry/react";
+import EnrollmentModal from "./Enrollment/enrollment-modal";
 
 const PlanResults = ({
   plans,
@@ -15,7 +13,8 @@ const PlanResults = ({
   pharmacies,
 }) => {
   const history = useHistory();
-  const addToast = useToast();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [enrollingPlan, setEnrollingPlan] = useState();
   const cards = [];
   const pharmacyMap = pharmacies.reduce((dict, item) => {
     dict[item["pharmacyID"]] = item;
@@ -30,39 +29,9 @@ const PlanResults = ({
           isMobile={isMobile}
           pharmacyMap={pharmacyMap}
           onDetailsClick={() => history.push(`/${leadId}/plan/${plan.id}`)}
-          onEnrollClick={async () => {
-            try {
-              const enrolled = await plansService.enroll(leadId, plan.id, {
-                firstName: contact.firstName,
-                middleInitial:
-                  contact.middleName.length > 1 ? contact.middleName[0] : "",
-                lastName: contact.lastName,
-                address1: contact.addresses[0].address1,
-                address2: contact.addresses[0].address2,
-                city: contact.addresses[0].city,
-                state: contact.addresses[0].state,
-                zip: contact.addresses[0].postalCode,
-                countyFIPS: contact.addresses[0].countyFips,
-                phoneNumber: contact.phones[0].leadPhone,
-                email: contact.emails[0].leadEmail,
-                effectiveDate: effectiveDate.toISOString(),
-              });
-
-              if (enrolled && enrolled.url) {
-                addToast({
-                  type: "success",
-                  message: "Successfully Enrolled",
-                });
-                window.open(enrolled.url, "_blank").focus();
-              } else {
-                addToast({
-                  type: "error",
-                  message: "There was an error enrolling the contact.",
-                });
-              }
-            } catch (e) {
-              Sentry.captureException(e);
-            }
+          onEnrollClick={() => {
+            setEnrollingPlan(plan);
+            setModalOpen(true);
           }}
         />
       );
@@ -72,7 +41,17 @@ const PlanResults = ({
       cards.push(<PlanCardLoader></PlanCardLoader>);
     }
   }
-  return <>{cards}</>;
+  return (
+    <>
+      <EnrollmentModal
+        modalOpen={modalOpen}
+        planData={enrollingPlan}
+        contact={contact}
+        handleCloseModal={() => setModalOpen(false)}
+      />
+      {cards}
+    </>
+  );
 };
 
 export default PlanResults;
