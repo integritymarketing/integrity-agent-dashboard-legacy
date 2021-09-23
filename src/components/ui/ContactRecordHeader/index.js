@@ -7,10 +7,10 @@ import EditDetails from "components/icons/edit-details";
 import ArrowDown from "components/icons/arrow-down";
 
 export default function ContactRecordHeader({
-  contact,
-  providersCount,
-  prescriptionsCount,
-  pharmacyCount,
+  contact={},
+  providersCount=0,
+  prescriptionsCount=0,
+  pharmacyCount=0,
   isMobile,
   onEditClick,
 }) {

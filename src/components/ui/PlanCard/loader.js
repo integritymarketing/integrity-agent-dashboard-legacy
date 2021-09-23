@@ -10,7 +10,7 @@ const PlanCardLoader = (props) => (
       viewBox="0 0 871 488"
       backgroundColor="rgba(230, 236, 242, .59)"
       foregroundColor="rgba(225, 233, 241, .97)"
-      adnimate={true}
+      animate={true}
       {...props}
     >
       <rect x="0" y="0" rx="3" ry="3" width="615" height="31" />

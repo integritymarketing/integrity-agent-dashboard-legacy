@@ -129,7 +129,10 @@ export default () => {
           {isEdit && (
             <FocusedNav
               backText={"Back to plans page"}
-              onBackClick={() => setIsEdit(false)}
+              onBackClick={() => {
+                setIsEdit(false);
+                getContactRecordInfo();
+              }}
             />
           )}
           {contact && !isEdit && (
@@ -142,9 +145,9 @@ export default () => {
                     setSection(section);
                     setIsEdit(true);
                   }}
-                  providersCount={providers.length}
-                  prescriptionsCount={prescriptions.length}
-                  pharmacyCount={pharmacies.length}
+                  providersCount={providers?.length}
+                  prescriptionsCount={prescriptions?.length}
+                  pharmacyCount={pharmacies?.length}
                 />
               </Container>
             </div>
