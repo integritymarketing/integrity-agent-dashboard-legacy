@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav";
 import GlobalFooter from "partials/global-footer";
-import FeedbackRibbon from "partials/feedback-ribbon";
 import EnrollClientBanner from "partials/enroll-clients-banner";
 import ResourceLinkGrid from "partials/resource-link-grid";
-import Modal from "components/ui/modal";
 import analyticsService from "services/analyticsService";
 import validationService from "services/validationService";
 import authService from "services/authService";
@@ -192,7 +190,7 @@ export default () => {
       </div>
       <EnrollClientBanner />
       {/*       <FeedbackRibbon />
-       */}{" "}
+       */}
       <Container className="mb-4" data-gtm="hp-learning-center-container">
         <section>
           <div className="custom-homepage-heading hdg hdg--1">
