@@ -338,6 +338,7 @@ export default () => {
                           <Textfield
                             id="beneficiary-mname"
                             label="Beneficiary's Middle Initial (optional)"
+                            className="user-middle-name"
                             name="middleName"
                             onKeyPress={onlyAlphabets}
                             maxLength="1"
@@ -653,6 +654,7 @@ export default () => {
 
                             <Textfield
                               id="representative-mname"
+                              className="user-middle-name"
                               label="Authorized Representative’s  Middle Initial"
                               name="authorizedRepresentative.middleName"
                               onKeyPress={onlyAlphabets}
