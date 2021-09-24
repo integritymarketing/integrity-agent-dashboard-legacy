@@ -604,6 +604,9 @@ export default () => {
                           data-gtm="section-agent-info"
                           className="authorized-representative-form"
                         >
+                          <div className="authorized-representative-fill-form pt-2 pb-2">
+                          Please fill out the following details as the Authorized Representative:
+                          </div>
                           <fieldset className="form__fields form__fields--constrained hide-input-err">
                             <Textfield
                               id="representative-fname"
