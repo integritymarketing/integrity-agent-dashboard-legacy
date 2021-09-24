@@ -382,7 +382,7 @@ export default (props) => {
                       </div>
                     )}
                   </div>
-                  <div className="responsive-display contact-details-col1 mob-res-w-100">
+                  {/* <div className="responsive-display contact-details-col1 mob-res-w-100">
                     <Textfield
                       id="contact-dob"
                       type="text"
@@ -395,10 +395,10 @@ export default (props) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="mob-email-row contact-details-row mob-res-row1">
-                  <div className="custom-w-186 responsive-d-none contact-details-col1 mob-res-w-100">
+                  {/* <div className="custom-w-186 responsive-d-none contact-details-col1 mob-res-w-100">
                     <Textfield
                       id="contact-dob"
                       type="text"
@@ -411,8 +411,9 @@ export default (props) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                  </div>
-                  <div className="ml-65 responsive-w-50 custom-w-25 contact-details-col1">
+                  </div> */}
+                  {/* Need to add back ml-65 in the class name below when DOB is added back  */}
+                  <div className="responsive-w-50 custom-w-25 contact-details-col1">
                     <label
                       className=" custom-label-state label"
                       htmlFor="phone-label"
