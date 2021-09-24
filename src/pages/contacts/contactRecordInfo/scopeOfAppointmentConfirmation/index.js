@@ -337,7 +337,7 @@ export default () => {
                           )}
                           <Textfield
                             id="beneficiary-mname"
-                            label="Beneficiary's Middle Name (optional)"
+                            label="Beneficiary's Middle Initial (optional)"
                             name="middleName"
                             onKeyPress={onlyAlphabets}
                             maxLength="1"

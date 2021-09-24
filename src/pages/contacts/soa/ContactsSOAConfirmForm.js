@@ -205,7 +205,7 @@ const ContactsSOAConfirmForm = () => {
             <Col>
               <LabelValueItem
                 label="Beneficiary’s Middle Initial"
-                value={leadSection?.beneficiary?.middleName}
+                value={leadSection?.beneficiary?.middleName?.toUpperCase()}
               />
             </Col>
           </Row>
@@ -315,7 +315,8 @@ const ContactsSOAConfirmForm = () => {
           </Row>
         </div>
         <div className="heading with-top-margin">
-          Scope of Appointment Form (To be completed by Agent)
+          Scope of Appointment Form{" "}
+          {!isSubmited && `(To be completed by Agent)`}
         </div>
         <div className="section-1">
           Scope of Appointment form needs to be completed and submitted for all
@@ -389,7 +390,7 @@ const ContactsSOAConfirmForm = () => {
           {formValues.soaSignedDuringAppointment && (
             <Row>
               <LabelValueItem
-                label="Provide an explanatiation why the SOA was not documented prior to the meeting:"
+                label="Provide an explanation why the SOA was not documented prior to the meeting:"
                 value={
                   isSubmited ? (
                     formValues.explanationOfSOASignedDuringAppointment
