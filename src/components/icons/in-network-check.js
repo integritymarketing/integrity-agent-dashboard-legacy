@@ -12,9 +12,9 @@ const InNetworkCheck = (props) => {
       <path
         d="M15.8059 1.67578L5.85512 11.325L1.33203 6.93901"
         stroke="#36872F"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

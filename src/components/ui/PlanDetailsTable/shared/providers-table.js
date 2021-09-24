@@ -1,9 +1,18 @@
 import InNetworkCheck from "components/icons/in-network-check";
 import OutNetworkX from "components/icons/out-network-x";
+import UnknownNetworkCheck from "components/icons/unknown-network-check";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
 
-function getInNetwork(isCovered) {
+function getInNetwork(isCovered, isPlanNetworkAvailable) {
+  if (isPlanNetworkAvailable === false) {
+    return (
+      <>
+        <UnknownNetworkCheck />
+        <span className={"in-network-label"}>Unknown Network</span>
+      </>
+    );
+  }
   if (isCovered) {
     return (
       <>
@@ -71,7 +80,10 @@ export default ({ planData }) => {
             provider.address.zipCode}
         </span>
       ),
-      inNetwork: getInNetwork(provider.inNetwork),
+      inNetwork: getInNetwork(
+        provider.inNetwork,
+        planData.isPlanNetworkAvailable
+      ),
     });
   }
 

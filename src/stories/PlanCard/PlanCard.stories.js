@@ -29,7 +29,16 @@ const CompactTemplate = (args) => (
 
 export const PlanCardMedicareAdvantagePartD = Template.bind({});
 PlanCardMedicareAdvantagePartD.args = {
+  effectiveDate: new Date(),
+  isMobile: false,
+  pharmacyMap: {
+    string: {
+      name: "CVS",
+      address1: "123 Fake St",
+    },
+  },
   planData: {
+    isPlanNetworkAvailable: false,
     planName: "Medicare Prime and Complete",
     logoURL: "",
     carrierName: "HealthPartners",
@@ -41,13 +50,11 @@ PlanCardMedicareAdvantagePartD.args = {
     id: "planID",
     contractID: "string",
     planSubType: "string",
-    planType: 3,
+    planType: 2,
     PlanRating: 3.5,
     annualPlanPremium: 245,
     estimatedAnnualDrugCost: 0,
     estimatedAnnualMedicalCost: 0,
-    medicalDeductible: 0,
-    maximumOutOfPocketCost: 0,
     outOfNetworkMaximumOutOfPocketCost: 0,
     providers: [
       {
@@ -257,12 +264,18 @@ PlanCardMedicareAdvantagePartD.args = {
   },
   onDetailsClick: action("details"),
   onEnrollClick: action("enroll"),
-  effectiveDate: "January 2022",
-  isMobile: false,
 };
 
 export const PlanCardMedicareAdvantage = Template.bind({});
 PlanCardMedicareAdvantage.args = {
+  effectiveDate: new Date(),
+  isMobile: false,
+  pharmacyMap: {
+    string: {
+      name: "CVS",
+      address1: "123 Fake St",
+    },
+  },
   planData: {
     PlanName: "Medicare Prime and Complete",
     LogoURL: "",
@@ -493,12 +506,18 @@ PlanCardMedicareAdvantage.args = {
   },
   onDetailsClick: action("details"),
   onEnrollClick: action("enroll"),
-  effectiveDate: "January 2022",
-  isMobile: false,
 };
 
 export const PlanCardMedicarePrescriptionDrugPlan = Template.bind({});
 PlanCardMedicarePrescriptionDrugPlan.args = {
+  effectiveDate: new Date(),
+  isMobile: false,
+  pharmacyMap: {
+    string: {
+      name: "CVS",
+      address1: "123 Fake St",
+    },
+  },
   planData: {
     PlanName: "Medicare Prime and Complete",
     LogoURL: "",
@@ -729,13 +748,20 @@ PlanCardMedicarePrescriptionDrugPlan.args = {
   },
   onDetailsClick: action("details"),
   onEnrollClick: action("enroll"),
-  effectiveDate: "January 2022",
-  isMobile: false,
 };
 
 export const MobilePlanCardMedicareAdvantagePartD = MobileTemplate.bind({});
 MobilePlanCardMedicareAdvantagePartD.args = {
+  effectiveDate: new Date(),
+  isMobile: true,
+  pharmacyMap: {
+    string: {
+      name: "CVS",
+      address1: "123 Fake St",
+    },
+  },
   planData: {
+    isPlanNetworkAvailable: true,
     PlanName: "Medicare Prime and Complete",
     LogoURL: "",
     CarrierName: "HealthPartners",
@@ -965,12 +991,18 @@ MobilePlanCardMedicareAdvantagePartD.args = {
   },
   onDetailsClick: action("details"),
   onEnrollClick: action("enroll"),
-  effectiveDate: "January 2022",
-  isMobile: true,
 };
 
 export const CompactPlanCardMedicareAdvantage = CompactTemplate.bind({});
 CompactPlanCardMedicareAdvantage.args = {
+  effectiveDate: new Date(),
+  isMobile: false,
+  pharmacyMap: {
+    string: {
+      name: "CVS",
+      address1: "123 Fake St",
+    },
+  },
   planData: {
     planName: "Medicare Prime and Complete",
     logoURL: "",
@@ -988,8 +1020,6 @@ CompactPlanCardMedicareAdvantage.args = {
     annualPlanPremium: 245,
     estimatedAnnualDrugCost: 0,
     estimatedAnnualMedicalCost: 0,
-    medicalDeductible: 0,
-    maximumOutOfPocketCost: 0,
     outOfNetworkMaximumOutOfPocketCost: 0,
     providers: [
       {
@@ -1199,6 +1229,4 @@ CompactPlanCardMedicareAdvantage.args = {
   },
   onDetailsClick: action("details"),
   onEnrollClick: action("enroll"),
-  effectiveDate: "January 2022",
-  isMobile: false,
 };

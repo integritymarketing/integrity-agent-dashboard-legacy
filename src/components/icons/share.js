@@ -10,9 +10,9 @@ export default (props) => {
       id="i-send"
       fill="none"
       stroke="currentcolor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="3"
       preserveAspectRatio="xMidYMid meet"
     >
       <path d="M2 16 L30 2 16 30 12 20 Z M30 2 L12 20" />

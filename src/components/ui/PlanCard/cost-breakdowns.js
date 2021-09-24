@@ -11,6 +11,7 @@ export default ({ planData, effectiveDate }) => {
   const rows = [];
   const planTypeBreakdowns =
     planTypeValueMap[PLAN_TYPE_ENUMS[planData.planType]];
+  var key = 0;
   for (const i in planTypeBreakdowns) {
     const breakdown = planTypeBreakdowns[i];
     let subtext = breakdown.subtext || "";
@@ -27,7 +28,7 @@ export default ({ planData, effectiveDate }) => {
       value = breakdown.function(planData, effectiveDate);
     }
     rows.push(
-      <div className={"cost-row"}>
+      <div className={"cost-row"} key={key++}>
         <div>
           <div className={"label"}>{breakdown.label}</div>
           <div className={"filler"}></div>

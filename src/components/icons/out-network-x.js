@@ -12,16 +12,16 @@ const OutNetworkX = (props) => {
       <path
         d="M14 1.50012L2 13.5001"
         stroke="#CF3C28"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M 14 1.5 L 2 13.5"
         stroke="#CF3C28"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         transform="matrix(0, 1, -1, 0, 15.5, -0.5)"
       />
     </svg>

@@ -14,16 +14,19 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
-function getProviders(entries, isMobile) {
+function getProviders(entries, isMobile, isPlanNetworkAvailable) {
   const items = [];
   if (entries) {
+    var key = 0;
     for (const entry of entries) {
       items.push(
         <PlanNetworkItem
+          key={key++}
           name={entry.firstName + " " + entry.lastName}
           address={entry?.address?.streetLine1}
           inNetwork={entry.inNetwork}
           isMobile={isMobile}
+          isPlanNetworkAvailable={isPlanNetworkAvailable}
         />
       );
     }
@@ -34,11 +37,13 @@ function getProviders(entries, isMobile) {
 function getPharmacies(entries, pharmacyMap, isMobile) {
   const items = [];
   if (entries) {
+    var key = 0;
     for (const entry of entries) {
       const pharmacy = pharmacyMap[entry.pharmacyID];
       if (pharmacy) {
         items.push(
           <PlanNetworkItem
+            key={key++}
             name={pharmacy.name}
             address={pharmacy.address1}
             inNetwork={entry.isNetwork}
@@ -100,7 +105,11 @@ export default function PlanCard({
       <div className={`in-network ${isMobile ? "mobile" : ""}`}>
         <div className={"label"}>In-Network</div>
         <div className={"items"}>
-          {getProviders(planData.providers, isMobile)}
+          {getProviders(
+            planData.providers,
+            isMobile,
+            planData.isPlanNetworkAvailable
+          )}
           {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
         </div>
       </div>

@@ -21,9 +21,11 @@ const PlanResults = ({
     return dict;
   }, {});
   if (plans && plans.length) {
+    var key = 0;
     for (const plan of plans) {
       cards.push(
         <PlanCard
+          key={key++}
           planData={plan}
           effectiveDate={effectiveDate}
           isMobile={isMobile}

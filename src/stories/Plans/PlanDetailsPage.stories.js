@@ -31,6 +31,27 @@ PlanDetailsPageMAPD.parameters = {
   mockData: [
     {
       url:
+        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
+      method: "GET",
+      status: 200,
+      response: [
+        {
+          pharmacyRecordID: 8287886,
+          pharmacyID: "string",
+          isMailOrder: false,
+          name: "CVS Pharmacy #17306",
+          address1: "1300 University Ave W",
+          address2: "",
+          city: "Saint Paul",
+          zip: "55104",
+          state: "MN",
+          pharmacyPhone: "6516468002",
+          pharmacyIDType: 0,
+        },
+      ],
+    },
+    {
+      url:
         "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
       method: "GET",
       status: 200,
@@ -395,6 +416,27 @@ PlanDetailsPagePDP.parameters = {
   mockData: [
     {
       url:
+        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
+      method: "GET",
+      status: 200,
+      response: [
+        {
+          pharmacyRecordID: 8287886,
+          pharmacyID: "string",
+          isMailOrder: false,
+          name: "CVS Pharmacy #17306",
+          address1: "1300 University Ave W",
+          address2: "",
+          city: "Saint Paul",
+          zip: "55104",
+          state: "MN",
+          pharmacyPhone: "6516468002",
+          pharmacyIDType: 0,
+        },
+      ],
+    },
+    {
+      url:
         "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
       method: "GET",
       status: 200,
@@ -757,6 +799,27 @@ PlanDetailsPagePDP.parameters = {
 export const PlanDetailsPageMA = Template.bind({});
 PlanDetailsPageMA.parameters = {
   mockData: [
+    {
+      url:
+        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
+      method: "GET",
+      status: 200,
+      response: [
+        {
+          pharmacyRecordID: 8287886,
+          pharmacyID: "string",
+          isMailOrder: false,
+          name: "CVS Pharmacy #17306",
+          address1: "1300 University Ave W",
+          address2: "",
+          city: "Saint Paul",
+          zip: "55104",
+          state: "MN",
+          pharmacyPhone: "6516468002",
+          pharmacyIDType: 0,
+        },
+      ],
+    },
     {
       url:
         "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
