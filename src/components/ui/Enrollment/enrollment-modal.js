@@ -15,18 +15,18 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
   const enroll = useCallback(async () => {
     try {
       const enrolled = await plansService.enroll(contact.id, planData.id, {
-        firstName: contact.firstName,
+        firstName: contact?.firstName,
         middleInitial:
-          contact.middleName.length > 1 ? contact.middleName[0] : "",
-        lastName: contact.lastName,
-        address1: contact.addresses[0].address1,
-        address2: contact.addresses[0].address2,
-        city: contact.addresses[0].city,
-        state: contact.addresses[0].state,
-        zip: contact.addresses[0].postalCode,
-        countyFIPS: contact.addresses[0].countyFips,
-        phoneNumber: contact.phones[0].leadPhone,
-        email: contact.emails[0].leadEmail,
+          contact?.middleName?.length > 1 ? contact.middleName[0] : "",
+        lastName: contact?.lastName,
+        address1: contact?.addresses[0]?.address1,
+        address2: contact?.addresses[0]?.address2,
+        city: contact?.addresses[0]?.city,
+        state: contact?.addresses[0]?.state,
+        zip: contact?.addresses[0]?.postalCode,
+        countyFIPS: contact?.addresses[0]?.countyFips,
+        phoneNumber: contact?.phones[0]?.leadPhone,
+        email: contact?.emails[0]?.leadEmail,
         sendToBeneficiary: option === "send",
       });
 
@@ -78,11 +78,17 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
               How will you be completing this form?
             </div>
             <Radio
+              name={"send"}
+              htmlFor={"send"}
+              id={"send"}
               label={`Send the enrollment link to the client`}
               checked={option === "send"}
               onChange={() => setOption("send")}
             />
             <Radio
+              name={"complete"}
+              htmlFor={"complete"}
+              id={"complete"}
               label={`Agent to Complete the enrollment forms themselves`}
               checked={option === "complete"}
               onChange={() => setOption("complete")}

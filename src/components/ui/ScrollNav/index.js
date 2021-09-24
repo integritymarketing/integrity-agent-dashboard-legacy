@@ -14,9 +14,14 @@ function getNavElements(
   setIsScrolling
 ) {
   const rows = [];
+  var key = 0;
   for (const section of sections) {
     if (section.header) {
-      rows.push(<div className={"nav-header"}>{section.header}</div>);
+      rows.push(
+        <div className={"nav-header"} key={key++}>
+          {section.header}
+        </div>
+      );
     } else {
       const ref = sectionRefs[section.id];
       rows.push(
@@ -27,6 +32,7 @@ function getNavElements(
             ref.current.scrollIntoView(SCROLL_BEHAVIOR);
             setTimeout(() => setIsScrolling(false), 500);
           }}
+          key={key++}
           className={activeSectionID === section.id ? "selected" : undefined}
         >
           {section.label}
