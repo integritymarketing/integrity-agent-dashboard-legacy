@@ -10,6 +10,7 @@ import styles from "../ContactsPage.module.scss";
 import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
+import { formatDate } from "utils/dates";
 import { STATES } from "utils/address";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
@@ -62,6 +63,7 @@ export default (props) => {
     firstName = "",
     middleName = "",
     lastName = "",
+    birthdate = "",
     emails = [],
     phones = [],
     addresses = [],
@@ -137,6 +139,7 @@ export default (props) => {
         lastName: lastName,
         middleName: middleName,
         email: email,
+        birthdate: formatDate(birthdate),
         phones: {
           leadPhone: phone,
           phoneLabel: phoneLabel?.toLowerCase(),
@@ -209,6 +212,11 @@ export default (props) => {
               validator: validationService.composeValidator([
                 validationService.validateAddress,
               ]),
+            },
+            {
+              name: "birthdate",
+              validator: validationService.validateDate,
+              args: ["Date of Birth"],
             },
           ],
           values
@@ -384,37 +392,37 @@ export default (props) => {
                   </div>
                   <div className="responsive-display contact-details-col1 mob-res-w-100">
                     <Textfield
-                      id="contact-dob"
+                      id="contact-birthdate"
                       type="text"
                       label="Date of Birth"
                       placeholder="MM/DD/YYYY"
-                      name="dob"
-                      value=""
-                      disabled
+                      name="birthdate"
+                      value={values.birthdate}
                       className="custom-w-px1"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      error={touched.birthdate && errors.birthdate}
                     />
                   </div>
                 </div>
                 <div className="mob-email-row contact-details-row mob-res-row1">
                   <div className="custom-w-186 responsive-d-none contact-details-col1 mob-res-w-100">
                     <Textfield
-                      id="contact-dob"
+                      id="contact-birthdate"
                       type="text"
                       label="Date of Birth"
                       placeholder="MM/DD/YYYY"
-                      name="dob"
-                      value=""
-                      disabled
+                      name="birthdate"
+                      value={values.birthdate}
                       className="custom-w-px1"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      error={touched.birthdate && errors.birthdate}
                     />
                   </div>
                   <div className="ml-65 responsive-w-50 custom-w-25 contact-details-col1">
                     <label
-                      className=" custom-label-state label"
+                      className="custom-label-state label"
                       htmlFor="phone-label"
                     >
                       Contact Record Type
