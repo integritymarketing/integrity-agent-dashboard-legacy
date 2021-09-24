@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
-import GlobalNav from "partials/global-nav";
+import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import EnrollClientBanner from "partials/enroll-clients-banner";
 import ResourceLinkGrid from "partials/resource-link-grid";
