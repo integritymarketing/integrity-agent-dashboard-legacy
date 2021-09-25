@@ -8,7 +8,7 @@ import React, {
 import { Link, useHistory } from "react-router-dom";
 import clientsService from "services/clientsService";
 import Container from "components/ui/container";
-import Pagination from "components/ui/pagination";
+import Pagination from "components/ui/Pagination/pagination";
 import Card from "components/ui/card";
 import PhoneIcon from "images/call-icon.svg";
 import NavIcon from "images/nav-icon.svg";

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import "./index.scss";
 
+
 function Checkbox({
   htmlFor = "",
   id = "",
@@ -12,8 +13,10 @@ function Checkbox({
   className,
   onChange,
   checked = false,
+  disabled=false,
+  defaultChecked=false,
 }) {
-  const theClassName = className ? `checkbox-label ${className}` : "checkbox-label";
+  const theClassName = className ? `checkbox-label ${className} ${disabled && "disabled"}` : `checkbox-label ${disabled && "disabled"}`;
   return (
     <label htmlFor={htmlFor} className={theClassName}>
       <input
@@ -23,19 +26,23 @@ function Checkbox({
         name={name}
         value={value}
         onChange={onChange}
-        checked={checked}
+        disabled={disabled}
+        defaultChecked={defaultChecked}
       />
       {label}
     </label>
   );
 }
 
-Checkbox.propTypes = {
+export const checkboxProps = {
+  defaultChecked: PropTypes.bool,
+  checked: PropTypes.bool,
+  disabled: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  value: PropTypes.string,
-  checked: PropTypes.bool,
 };
+Checkbox.propTypes = checkboxProps;
 
 export default Checkbox;

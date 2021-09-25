@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import * as Sentry from "@sentry/react";
 import App from "./App";
+import { RecoilRoot } from "recoil";
 import * as serviceWorker from "./serviceWorker";
 import "focus-visible";
 
@@ -18,7 +19,9 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -19,17 +19,25 @@ import { getNextEffectiveDate } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import PlanResults from "components/ui/plan-results";
+import PlanTypesFilter, { planTypesMap } from "components/ui/PlanTypesFilter";
+import PharmacyFilter from "components/ui/PharmacyFilter";
+import AdditionalFilters from "components/ui/AdditionalFilters";
+import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
 
-function getPlansAvailableSection(plansAvailableCount) {
+const convertPlanTypeToValue = (value) => {
+  const type = planTypesMap.find((element) => element.value === value);
+  return type?.label;
+};
+
+function getPlansAvailableSection(plansAvailableCount, planType) {
   if (plansAvailableCount == null) {
-    return <div></div>;
+    return <div>No plans returned</div>;
   } else {
     return (
       <div className={`${styles["plans-available"]}`}>
         <span className={`${styles["plans-type"]}`}>
-          {/* TODO specifiy type based on filters. i.e. "10 Mediacre Suppliment plans based on your filters" */}
-          {plansAvailableCount} Medicare Suppliment plans
+          {plansAvailableCount} {convertPlanTypeToValue(planType)} plans
         </span>{" "}
         based on your filters
       </div>
@@ -39,12 +47,14 @@ function getPlansAvailableSection(plansAvailableCount) {
 const EFFECTIVE_YEARS_SUPPORTED = [
   parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
 ];
+
 export default () => {
   const { contactId: id } = useParams();
   const [contact, setContact] = useState();
-  const [plansAvailableCount, setPlansAvailableCount] = useState(null);
+  const [plansAvailableCount, setPlansAvailableCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [myAppointedPlans, setMyAppointedPlans] = useState(true);
   const [section, setSection] = useState("details");
   const [sort, setSort] = useState("premium:asc");
   const [isEdit, setIsEdit] = useState(false);
@@ -82,7 +92,16 @@ export default () => {
       setLoading(false);
     }
   }, [id]);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [planType, setPlanType] = useState(2);
+  const [carrierList, setCarrierList] = useState([]);
+  const [subTypeList, setSubTypeList] = useState([]);
+  const toggleAppointedPlans = (e) => {
+    setMyAppointedPlans(e.target.checked);
+  };
+  const changePlanType = (e) => {
+    setPlanType(e.target.value);
+  };
   const getAllPlans = useCallback(async () => {
     if (contact) {
       try {
@@ -91,9 +110,10 @@ export default () => {
           fips: contact.addresses[0].countyFips.toString(),
           zip: contact.addresses[0].postalCode.toString(),
           year: effectiveDate.getFullYear(),
-          ReturnAllMedicarePlans: true,
+          ReturnAllMedicarePlans: !myAppointedPlans,
           ShowFormulary: true,
           ShowPharmacy: true,
+          PlanType: planType,
           effectiveDate: `${effectiveDate.getFullYear()}-${
             effectiveDate.getMonth() + 1
           }-01`,
@@ -101,12 +121,28 @@ export default () => {
         });
         setPlansAvailableCount(plansData?.medicarePlans?.length);
         setResults(plansData?.medicarePlans);
+        const carriers = [
+          ...new Set(plansData?.medicarePlans.map((plan) => plan.carrierName)),
+        ];
+        const subTypes = [
+          ...new Set(
+            plansData?.medicarePlans.map((plan) => plan?.planSubType || "PDP")
+          ),
+        ];
+        setSubTypeList(subTypes);
+        setCarrierList(carriers);
         analyticsService.fireEvent("event-quoting-plans");
       } catch (e) {
         Sentry.captureException(e);
       }
     }
-  }, [contact, effectiveDate, sort]);
+  }, [contact, effectiveDate, planType, myAppointedPlans, sort]);
+
+  //const filteredPlanList = useRecoilValue(filteredPlans);
+
+  //const [filtersList, setFiltersList] = useRecoilState(filterList);
+
+  const pageSize = 10;
 
   useEffect(() => {
     getContactRecordInfo();
@@ -118,99 +154,133 @@ export default () => {
 
   const isLoading = loading;
   return (
-    <ToastContextProvider>
-      <div className={`${styles["plans-page"]}`}>
-        <Media
-          query={"(max-width: 500px)"}
-          onChange={(isMobile) => {
-            setIsMobile(isMobile);
-          }}
-        />
-        <WithLoader isLoading={isLoading}>
-          <Helmet>
-            <title>MedicareCENTER - Plans</title>
-          </Helmet>
-          {!isEdit && <GlobalNav />}
-          {isEdit && (
-            <FocusedNav
-              backText={"Back to plans page"}
-              onBackClick={() => {
-                setIsEdit(false);
-                getContactRecordInfo();
-              }}
-            />
-          )}
-          {contact && !isEdit && (
-            <div className={`${styles["header"]}`}>
-              <Container>
-                <ContactRecordHeader
-                  contact={contact}
-                  isMobile={isMobile}
-                  onEditClick={(section) => {
-                    setSection(section);
-                    setIsEdit(true);
-                  }}
-                  providersCount={providers?.length}
-                  prescriptionsCount={prescriptions?.length}
-                  pharmacyCount={pharmacies?.length}
-                />
-              </Container>
-            </div>
-          )}
-          {!isEdit && (
-            <Container className={`${styles["search-container"]}`}>
-              <div className={`${styles["filters"]}`}>
-                <div className={`${styles["section"]}`}>
-                  {effectiveDate && (
-                    <EffectiveDateFilter
-                      years={EFFECTIVE_YEARS_SUPPORTED}
-                      initialValue={effectiveDate}
-                      onChange={(date) => setEffectiveDate(date)}
-                    />
-                  )}
-                </div>
+    <>
+      <ToastContextProvider>
+        <div className={`${styles["plans-page"]}`}>
+          <Media
+            query={"(max-width: 500px)"}
+            onChange={(isMobile) => {
+              setIsMobile(isMobile);
+            }}
+          />
+          <WithLoader isLoading={isLoading}>
+            <Helmet>
+              <title>MedicareCENTER - Plans</title>
+            </Helmet>
+            {!isEdit && <GlobalNav />}
+            {isEdit && (
+              <FocusedNav
+                backText={"Back to plans page"}
+                onBackClick={() => {
+                  setIsEdit(false);
+                  getContactRecordInfo();
+                }}
+              />
+            )}
+            {contact && !isEdit && (
+              <div className={`${styles["header"]}`}>
+                <Container>
+                  <ContactRecordHeader
+                    contact={contact}
+                    isMobile={isMobile}
+                    onEditClick={(section) => {
+                      setSection(section);
+                      setIsEdit(true);
+                    }}
+                    providersCount={providers?.length}
+                    prescriptionsCount={prescriptions?.length}
+                    pharmacyCount={pharmacies?.length}
+                  />
+                </Container>
               </div>
-              <div className={`${styles["results"]}`}>
-                <div className={`${styles["sort"]}`}>
-                  {getPlansAvailableSection(plansAvailableCount)}
-                  <div className={`${styles["sort-select"]}`}>
-                    <Select
-                      mobileLabel={<SortIcon />}
-                      initialValue="premium:asc"
-                      onChange={(value) => setSort(value)}
-                      options={PLAN_SORT_OPTIONS}
-                      prefix="Sort by: "
+            )}
+            {!isEdit && (
+              <Container className={`${styles["search-container"]}`}>
+                <div className={`${styles["filters"]}`}>
+                  <div className={`${styles["filter-section"]}`}>
+                    {effectiveDate && (
+                      <PlanTypesFilter changeFilter={changePlanType} />
+                    )}
+                  </div>
+                  <div className={`${styles["filter-section"]}`}>
+                    {effectiveDate && (
+                      <EffectiveDateFilter
+                        years={EFFECTIVE_YEARS_SUPPORTED}
+                        initialValue={effectiveDate}
+                        onChange={(date) => setEffectiveDate(date)}
+                      />
+                    )}
+                  </div>
+
+                  <div className={`${styles["filter-section"]}`}>
+                    {effectiveDate && (
+                      <PharmacyFilter
+                        pharmacies={pharmacies}
+                        onChange={() => {}}
+                      />
+                    )}
+                  </div>
+
+                  <div className={`${styles["filter-section"]}`}>
+                    {effectiveDate && (
+                      <AdditionalFilters
+                        onChange={() => {}}
+                        toggleAppointedPlans={toggleAppointedPlans}
+                        carriers={carrierList}
+                        policyTypes={subTypeList}
+                      />
+                    )}
+                  </div>
+                </div>
+                <div className={`${styles["results"]}`}>
+                  <div className={`${styles["sort"]}`}>
+                    {getPlansAvailableSection(plansAvailableCount, planType)}
+                    <div className={`${styles["sort-select"]}`}>
+                      <Select
+                        mobileLabel={<SortIcon />}
+                        initialValue="premium:asc"
+                        onChange={(value) => setSort(value)}
+                        options={PLAN_SORT_OPTIONS}
+                        prefix="Sort by: "
+                      />
+                    </div>
+                  </div>
+                  <div className={`${styles["plans"]}`}>
+                    <PlanResults
+                      plans={results}
+                      isMobile={isMobile}
+                      effectiveDate={effectiveDate}
+                      contact={contact}
+                      leadId={id}
+                      pharmacies={pharmacies}
+                    />
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={Math.ceil(results?.length / 10)}
+                      totalResults={results?.length}
+                      pageSize={pageSize}
+                      onPageChange={(page) => setCurrentPage(page)}
                     />
                   </div>
                 </div>
-                <div className={`${styles["plans"]}`}>
-                  <PlanResults
-                    plans={results}
-                    isMobile={isMobile}
-                    effectiveDate={effectiveDate}
-                    contact={contact}
-                    leadId={id}
-                    pharmacies={pharmacies}
-                  />
-                </div>
-              </div>
-            </Container>
-          )}
-          {isEdit && (
-            <Container className={`${styles["edit-container"]}`}>
-              <ContactEdit
-                leadId={id}
-                personalInfo={contact}
-                initialSection={section}
-                initialEdit={isEdit}
-                getContactRecordInfo={getContactRecordInfo}
-                successNavigationRoute={`/plans/${id}`}
-                isMobile={isMobile}
-              />
-            </Container>
-          )}
-        </WithLoader>
-      </div>
-    </ToastContextProvider>
+              </Container>
+            )}
+            {isEdit && (
+              <Container className={`${styles["edit-container"]}`}>
+                <ContactEdit
+                  leadId={id}
+                  personalInfo={contact}
+                  initialSection={section}
+                  initialEdit={isEdit}
+                  getContactRecordInfo={getContactRecordInfo}
+                  successNavigationRoute={`/plans/${id}`}
+                  isMobile={isMobile}
+                />
+              </Container>
+            )}
+          </WithLoader>
+        </div>
+      </ToastContextProvider>
+    </>
   );
 };

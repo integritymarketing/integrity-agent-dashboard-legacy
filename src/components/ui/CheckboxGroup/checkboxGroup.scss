@@ -1,0 +1,27 @@
+.checkbox {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  color: #2B323B;
+  margin-bottom: 8px;
+}
+
+.checkbox-input {
+  width: 15px;
+  height: 15px;
+  border: 1.25px solid #64748B;
+
+}
+
+.checkbox-label {
+  margin-left: 5px;
+  font-weight: normal;
+  font-size: 14px;
+}
+.disabled{
+  color:#64748B;
+}

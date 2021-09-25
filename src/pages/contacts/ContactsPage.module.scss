@@ -1,24 +1,28 @@
 .header {
-  & > div {
+  &>div {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+
   padding: 35px 40px;
   border-bottom: 1px solid #c7ccd1;
   background: #ffff;
   margin-bottom: 35px;
+
   @media (max-width: 480px) {
     padding: 25px 0px 0px 0px;
     font-size: 30px;
     border-bottom: none;
     background: none;
   }
+
   .headerText {
     font-size: 40px;
     line-height: 48px;
     color: var(--v2-dark-blue);
   }
+
   .buttonGroup {
     display: flex;
   }
@@ -45,11 +49,13 @@
 .tableWrapper {
   margin-top: 1.5rem;
   min-height: calc(100vh - 300px);
+
   table {
     border-spacing: 0;
     width: 100%;
     background: var(--v2-white);
     margin-bottom: 24px;
+
     tr {
       :last-child {
         td {
@@ -57,36 +63,45 @@
         }
       }
     }
+
     th,
     td {
       text-align: left;
       margin: 0;
       padding: 0;
       border-bottom: 1px solid var(--v2-disabled-gray-border);
-      & > div {
+
+      &>div {
         padding: 20px;
       }
     }
+
     td:nth-child(1) {
       width: 22.5%;
       font-weight: bold;
       color: var(--v2-dark-blue);
     }
+
     td:nth-child(2) {
       width: 20%;
+
       @media (max-width: 480px) {
         width: 30%;
       }
     }
+
     td:nth-child(3) {
       width: 40%;
+
       @media (max-width: 480px) {
         width: 30%;
       }
+
       .reminder {
         display: flex;
         align-items: center;
       }
+
       .cal {
         display: flex;
         width: 80px;
@@ -99,51 +114,16 @@
         border-radius: 5px;
       }
     }
+
     td:nth-child(4) {
       width: 20%;
     }
+
     td:nth-child(5) {
       width: 5%;
     }
   }
-  .pagination {
-    font-family: Lato;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-    padding: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .info {
-      color: "#70777E";
-      float: left;
-    }
-    .right {
-      border: 1px solid var(--card-border-color);
-      background: var(--card-bg);
-      display: flex;
-    }
-    .text {
-      width: 70px;
-    }
-    button {
-      width: 45px;
-      height: 40px;
-      padding: 6px 10px;
-      border-right: 1px solid var(--card-border-color);
-      &.active {
-        background: var(--v2-secondary-blue-100);
-        border: 1px solid var(--border-light);
-        box-sizing: border-box;
-        border-radius: 4px 0px 0px 4px;
-      }
-      &:disabled {
-        background: var(--v2-light-gray);
-      }
-    }
-  }
+
   @media (max-width: 480px) {
     border-top: 1px solid #d8dee4;
   }
@@ -156,6 +136,7 @@
 
 .contactPersonName {
   text-decoration: none;
+
   &:hover {
     text-decoration: underline;
   }
@@ -165,6 +146,7 @@
   @media (min-width: 480px) {
     width: 265px;
   }
+
   float: right;
 }
 
@@ -172,13 +154,16 @@
 .cardInfo {
   display: flex;
   align-items: center;
+
   @media (max-width: 480px) {
     padding-bottom: 20px;
   }
 }
+
 .cardInfo {
   margin-top: 15px;
   justify-content: space-between;
+
   .cardInfoLabel {
     margin-bottom: 12px;
     font-size: 13px;
@@ -188,10 +173,12 @@
     color: #646f7b;
   }
 }
-.cardInfo > div:first-child {
+
+.cardInfo>div:first-child {
   min-width: 140px;
 }
-.cardInfo > div:last-child {
+
+.cardInfo>div:last-child {
   @media (min-width: 480px) {
     width: 40%;
   }
@@ -236,6 +223,7 @@
 
 .switch-view {
   margin-right: -20px;
+
   & Button {
     width: 40px;
     height: 40px;
@@ -244,9 +232,11 @@
     border: 1px solid #c7ccd1;
     border-radius: 4px !important;
   }
+
   & svg {
     stroke: none !important;
   }
+
   @media (max-width: 480px) {
     padding-left: 12px !important;
     padding-top: 6px !important;
@@ -262,6 +252,7 @@
     border: 1px solid #c7ccd1;
     border-radius: 4px !important;
   }
+
   @media (max-width: 480px) {
     padding-left: 12px !important;
     padding-top: 6px !important;
@@ -277,12 +268,14 @@
 
 .mobileStage {
   display: block;
+
   span {
     font-size: 12px;
     text-transform: uppercase;
     padding: 7px;
     border-radius: 4px;
   }
+
   @media (min-width: 480px) {
     display: none;
   }
@@ -291,6 +284,7 @@
 .divider {
   border-bottom: 1px solid #c7ccd1;
   margin: 0 -17px;
+
   @media (min-width: 480px) {
     display: none;
   }
@@ -298,6 +292,7 @@
 
 .reminderNotesMobile {
   height: 50px;
+
   @media (min-width: 480px) {
     display: none;
   }
@@ -305,6 +300,7 @@
 
 .mobileActions {
   display: flex;
+
   @media (min-width: 480px) {
     display: none;
   }
@@ -320,6 +316,7 @@
   background-color: #f4f6fa;
   margin-right: 15px;
 }
+
 .reminder {
   :global {
     .datepicker-row {
@@ -327,17 +324,20 @@
       align-items: flex-start;
       display: flex;
     }
+
     .short-reminder-note {
       padding: 10px 0px 25px 0px;
       white-space: normal;
       word-break: break-all;
     }
   }
+
   @media (min-width: 480px) {
     :global {
       .short-reminder-note {
         display: none;
       }
+
       .datepicker-row {
         flex-direction: initial;
       }
@@ -350,6 +350,7 @@
     .bar {
       flex: 0;
     }
+
     #contacts-search-wrapper {
       flex: 1;
     }
@@ -360,27 +361,34 @@
 .add--new-contact {
   border-radius: 8px;
   background-color: #fff;
+
   h4 {
     color: #3d4553;
     cursor: pointer;
     font-size: 14px;
   }
+
   h3 {
     font-size: 24px;
     color: #002d72;
   }
+
   .contact-address {
     width: 225px;
   }
+
   .contact-address--city {
     width: 165px;
   }
+
   .contact-address--statecode {
     width: 50px;
   }
+
   .contact-address--zip {
     width: 85px;
   }
+
   .duplicate-lead {
     display: flex;
     padding: 15px;
@@ -388,10 +396,12 @@
     height: 63px;
     background: #fff8de;
     border-radius: 4px;
+
     .duplicate-lead--text {
       font-size: 14px;
       justify-content: center;
       align-items: center;
+
       a {
         color: var(--v2-secondary-blue-900);
         cursor: pointer;
@@ -399,6 +409,7 @@
     }
   }
 }
+
 /* End Add new contact */
 
 /*Start duplicate contact link */
@@ -409,11 +420,13 @@
   height: 50px;
   background: #fff8de;
   border-radius: 4px;
+
   a {
     color: var(--v2-secondary-blue-900);
     cursor: pointer;
   }
 }
+
 /*End duplicate contact link */
 
 .contacts-search-input-wrapper {
@@ -428,18 +441,23 @@
     :global {
       .cr-mobile-search {
         display: none;
+
         span.clear-link {
           color: blue;
         }
       }
+
       .form-input__input {
         max-width: 40px;
+
         .form-input__input-actions {
           display: none;
         }
+
         &:focus-within {
           max-width: unset;
           width: 90vw;
+
           .form-input__input-actions {
             display: flex;
           }
@@ -452,7 +470,8 @@
           line-height: 17px;
         }
       }
-      .form-input__icon--main + input {
+
+      .form-input__icon--main+input {
         padding: 0;
       }
     }
@@ -471,6 +490,7 @@
       stroke: #0052ce;
     }
   }
+
   &[class*="opened"] {
     background: #ebeff6;
     svg > path {

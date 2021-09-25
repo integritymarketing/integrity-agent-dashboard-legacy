@@ -284,3 +284,512 @@ PlansPageSuccess.parameters = {
     },
   ],
 };
+const planDataValues = [
+  {
+    PlanName: "Medicare Prime and Complete",
+    LogoURL: "",
+    CarrierName: "HealthPartners",
+    MedicalPremium: 25.2,
+    MedicalDeductible: 0,
+    MaximumOutOfPocketCost: 50,
+    DrugDeductible: 20,
+    EstimatedAnnualDrugCostPartialYear: 250,
+    id: "planID",
+    contractID: "string",
+    planSubType: "string",
+    planType: 3,
+    PlanRating: 3.5,
+    annualPlanPremium: 245,
+    estimatedAnnualDrugCost: 0,
+    estimatedAnnualMedicalCost: 0,
+    medicalDeductible: 0,
+    maximumOutOfPocketCost: 0,
+    outOfNetworkMaximumOutOfPocketCost: 0,
+    providers: [
+      {
+        firstName: "Cam",
+        lastName: "Newton",
+        degree: "MD",
+        specialty: "PCP",
+        npi: "string",
+        isPrimary: true,
+        addressId: "string",
+        inNetwork: true,
+        address: {
+          city: "Boston",
+          state: "MA",
+          streetLine1: "111 Fake St.",
+          zipCode: "02111",
+          phoneNumbers: ["string"],
+        },
+      },
+      {
+        firstName: "Derek",
+        lastName: "Carr",
+        degree: "MD",
+        specialty: "PCP",
+        npi: "string",
+        isPrimary: true,
+        addressId: "string",
+        inNetwork: true,
+        address: {
+          city: "Las Vegas",
+          state: "LV",
+          streetLine1: "1 Championship Drive",
+          zipCode: "88901",
+          phoneNumbers: ["string"],
+        },
+      },
+      {
+        firstName: "Ladainian",
+        lastName: "Tomlinson",
+        degree: "MD",
+        specialty: "PCP",
+        npi: "string",
+        isPrimary: true,
+        addressId: "string",
+        inNetwork: true,
+        address: {
+          city: "Los Angeles",
+          state: "CA",
+          streetLine1: "1818 Melrose Place Drive",
+          zipCode: "90210",
+          phoneNumbers: ["string"],
+        },
+      },
+      {
+        firstName: "Michael",
+        lastName: "Scott",
+        degree: "MD",
+        specialty: "PCP",
+        npi: "string",
+        isPrimary: true,
+        addressId: "string",
+        inNetwork: false,
+        address: {
+          city: "Los Angeles",
+          state: "CA",
+          streetLine1: "123 Wagner Way",
+          zipCode: "90210",
+          phoneNumbers: ["string"],
+        },
+      },
+    ],
+    pharmacyCosts: [
+      {
+        pharmacyType: 0,
+        specifiedPharmacy: true,
+        pharmacyID: "string",
+        isMailOrder: true,
+        name: "CVS",
+        address1: "123 Pharmacy Rd",
+        address2: "string",
+        city: "string",
+        zip: "string",
+        state: "string",
+        pharmacyPhone: "string",
+        isPreferred: true,
+        monthlyCosts: [
+          {
+            monthID: 0,
+            totalMonthlyCost: 0,
+            costPhases: "string",
+            costDetail: [
+              {
+                fullCost: 0,
+                memberCost: 0,
+                phase: "string",
+                labelName: "string",
+              },
+            ],
+          },
+        ],
+        drugCosts: [
+          {
+            labelName: "string",
+            quantity: 0,
+            fullCost: 0,
+            deductible: 0,
+            beforeGap: 0,
+            gap: 0,
+            afterGap: 0,
+            drugFootnotes: [
+              {
+                number: 0,
+                letter: "string",
+                description: "string",
+              },
+            ],
+          },
+        ],
+        isNetwork: true,
+        hasCeilingPrice: true,
+      },
+      {
+        pharmacyType: 0,
+        specifiedPharmacy: true,
+        pharmacyID: "string",
+        isMailOrder: true,
+        name: "Walgreens",
+        address1: "123 Other Pharmacy Lane",
+        address2: "string",
+        city: "string",
+        zip: "string",
+        state: "string",
+        pharmacyPhone: "string",
+        isPreferred: true,
+        monthlyCosts: [
+          {
+            monthID: 0,
+            totalMonthlyCost: 0,
+            costPhases: "string",
+            costDetail: [
+              {
+                fullCost: 0,
+                memberCost: 0,
+                phase: "string",
+                labelName: "string",
+              },
+            ],
+          },
+        ],
+        drugCosts: [
+          {
+            labelName: "string",
+            quantity: 0,
+            fullCost: 0,
+            deductible: 0,
+            beforeGap: 0,
+            gap: 0,
+            afterGap: 0,
+            drugFootnotes: [
+              {
+                number: 0,
+                letter: "string",
+                description: "string",
+              },
+            ],
+          },
+        ],
+        isNetwork: false,
+        hasCeilingPrice: true,
+      },
+    ],
+    planBenefits: [
+      {
+        name: "string",
+        description: "string",
+        type: "string",
+        range: [
+          {
+            rangeMax: 0,
+            rangeMin: 0,
+            amount: 0,
+            amountType: 0,
+          },
+        ],
+      },
+    ],
+    planDocuments: [
+      {
+        name: "string",
+        url: "string",
+        linkName: "string",
+      },
+    ],
+    planDrugCoverage: [
+      {
+        tierNumber: 0,
+        hasQuantityLimit: true,
+        hasStepTherapy: true,
+        hasPriorAuthorization: true,
+        labelName: "string",
+        ndc: "string",
+        limitedAccess: true,
+      },
+    ],
+    effectiveEndDate: "2021-09-07T17:41:12.304Z",
+    effectiveStartDate: "2021-09-07T17:41:12.304Z",
+  },
+];
+
+export const PlansPageCards = Template.bind({});
+PlansPageCards.parameters = {
+  mockData: [
+    {
+      url:
+        "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/123",
+      method: "GET",
+      status: 200,
+      response: {
+        firstName: "Victoria",
+        lastName: "Garcia",
+        middleName: "R.",
+        leadsId: 123,
+        addresses: [
+          {
+            address1: "",
+            address2: "",
+            city: "",
+            stateCode: "",
+            countyFips: "01234",
+            postalCode: "92701",
+          },
+        ],
+      },
+    },
+    {
+      url:
+        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan",
+      method: "GET",
+      status: 200,
+      response: {
+        medicarePlans: planDataValues,
+      },
+    },
+    {
+      url:
+        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan/PlansByFilter",
+      method: "POST",
+      status: 200,
+      response: {
+        medicarePlans: [
+          {
+            carrierName: "string",
+            id: "string",
+            planName: "string",
+            contractID: "string",
+            planSubType: "string",
+            planRating: 0,
+            annualPlanPremium: 0,
+            estimatedAnnualDrugCost: 0,
+            estimatedAnnualMedicalCost: 0,
+            medicalDeductible: 0,
+            maximumOutOfPocketCost: 0,
+            outOfNetworkMaximumOutOfPocketCost: 0,
+            providers: [
+              {
+                firstName: "string",
+                lastName: "string",
+                degree: "string",
+                specialty: "string",
+                npi: "string",
+                isPrimary: true,
+                addressId: "string",
+                inNetwork: true,
+                address: {
+                  city: "string",
+                  state: "string",
+                  streetLine1: "string",
+                  zipCode: "string",
+                  phoneNumbers: ["string"],
+                },
+              },
+            ],
+            pharmacyCosts: [
+              {
+                pharmacyType: 0,
+                specifiedPharmacy: true,
+                pharmacyID: "string",
+                isMailOrder: true,
+                name: "string",
+                address1: "string",
+                address2: "string",
+                city: "string",
+                zip: "string",
+                state: "string",
+                pharmacyPhone: "string",
+                isPreferred: true,
+                monthlyCosts: [
+                  {
+                    monthID: 0,
+                    totalMonthlyCost: 0,
+                    costPhases: "string",
+                    costDetail: [
+                      {
+                        fullCost: 0,
+                        memberCost: 0,
+                        phase: "string",
+                        labelName: "string",
+                      },
+                    ],
+                  },
+                ],
+                drugCosts: [
+                  {
+                    labelName: "string",
+                    quantity: 0,
+                    fullCost: 0,
+                    deductible: 0,
+                    beforeGap: 0,
+                    gap: 0,
+                    afterGap: 0,
+                    drugFootnotes: [
+                      {
+                        number: 0,
+                        letter: "string",
+                        description: "string",
+                      },
+                    ],
+                  },
+                ],
+                isNetwork: true,
+                hasCeilingPrice: true,
+              },
+            ],
+            planBenefits: [
+              {
+                name: "string",
+                description: "string",
+                type: "string",
+                range: [
+                  {
+                    rangeMax: 0,
+                    rangeMin: 0,
+                    amount: 0,
+                    amountType: 0,
+                  },
+                ],
+              },
+            ],
+            planDocuments: [
+              {
+                name: "string",
+                url: "string",
+                linkName: "string",
+              },
+            ],
+            planDrugCoverage: [
+              {
+                tierNumber: 0,
+                hasQuantityLimit: true,
+                hasStepTherapy: true,
+                hasPriorAuthorization: true,
+                labelName: "string",
+                ndc: "string",
+                limitedAccess: true,
+              },
+            ],
+          },
+          {
+            carrierName: "string",
+            id: "string",
+            planName: "string",
+            contractID: "string",
+            planSubType: "string",
+            planRating: 0,
+            annualPlanPremium: 0,
+            estimatedAnnualDrugCost: 0,
+            estimatedAnnualMedicalCost: 0,
+            medicalDeductible: 0,
+            maximumOutOfPocketCost: 0,
+            outOfNetworkMaximumOutOfPocketCost: 0,
+            providers: [
+              {
+                firstName: "string",
+                lastName: "string",
+                degree: "string",
+                specialty: "string",
+                npi: "string",
+                isPrimary: true,
+                addressId: "string",
+                inNetwork: true,
+                address: {
+                  city: "string",
+                  state: "string",
+                  streetLine1: "string",
+                  zipCode: "string",
+                  phoneNumbers: ["string"],
+                },
+              },
+            ],
+            pharmacyCosts: [
+              {
+                pharmacyType: 0,
+                specifiedPharmacy: true,
+                pharmacyID: "string",
+                isMailOrder: true,
+                name: "string",
+                address1: "string",
+                address2: "string",
+                city: "string",
+                zip: "string",
+                state: "string",
+                pharmacyPhone: "string",
+                isPreferred: true,
+                monthlyCosts: [
+                  {
+                    monthID: 0,
+                    totalMonthlyCost: 0,
+                    costPhases: "string",
+                    costDetail: [
+                      {
+                        fullCost: 0,
+                        memberCost: 0,
+                        phase: "string",
+                        labelName: "string",
+                      },
+                    ],
+                  },
+                ],
+                drugCosts: [
+                  {
+                    labelName: "string",
+                    quantity: 0,
+                    fullCost: 0,
+                    deductible: 0,
+                    beforeGap: 0,
+                    gap: 0,
+                    afterGap: 0,
+                    drugFootnotes: [
+                      {
+                        number: 0,
+                        letter: "string",
+                        description: "string",
+                      },
+                    ],
+                  },
+                ],
+                isNetwork: true,
+                hasCeilingPrice: true,
+              },
+            ],
+            planBenefits: [
+              {
+                name: "string",
+                description: "string",
+                type: "string",
+                range: [
+                  {
+                    rangeMax: 0,
+                    rangeMin: 0,
+                    amount: 0,
+                    amountType: 0,
+                  },
+                ],
+              },
+            ],
+            planDocuments: [
+              {
+                name: "string",
+                url: "string",
+                linkName: "string",
+              },
+            ],
+            planDrugCoverage: [
+              {
+                tierNumber: 0,
+                hasQuantityLimit: true,
+                hasStepTherapy: true,
+                hasPriorAuthorization: true,
+                labelName: "string",
+                ndc: "string",
+                limitedAccess: true,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+};

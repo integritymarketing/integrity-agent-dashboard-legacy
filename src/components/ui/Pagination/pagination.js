@@ -2,6 +2,7 @@ import React from "react";
 import Media from "react-media";
 import Next from "components/icons/next";
 import Previous from "components/icons/previous";
+import "./pagination.scss";
 
 const PaginationButton = ({ state = "active", children, ...props }) => (
   <li className={`pagination__button pagination__button--${state}`} {...props}>
@@ -61,7 +62,7 @@ export default ({
           <div className="pagination-container">
             {!providerPagination && (
               <div className="pagination-display-results">
-                {`Showing ${showingFrom} - ${showingTo} of ${totalResults} contacts`}
+                {`Showing ${showingFrom} - ${showingTo} of ${totalResults} plans`}
               </div>
             )}
             {totalPages > 1 ? (
