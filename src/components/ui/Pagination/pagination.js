@@ -36,6 +36,7 @@ export default ({
   totalResults,
   currentPage = 1,
   pageSize = 12,
+  resultName = "contacts",
   onPageChange = noop,
   providerPagination = false,
   ...props
@@ -62,7 +63,7 @@ export default ({
           <div className="pagination-container">
             {!providerPagination && (
               <div className="pagination-display-results">
-                {`Showing ${showingFrom} - ${showingTo} of ${totalResults} plans`}
+                {`Showing ${showingFrom} - ${showingTo} of ${totalResults} ${resultName}`}
               </div>
             )}
             {totalPages > 1 ? (
