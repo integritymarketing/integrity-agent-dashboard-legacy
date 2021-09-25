@@ -19,6 +19,7 @@ import { getNextEffectiveDate } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import PlanResults from "components/ui/plan-results";
+import analyticsService from "services/analyticsService";
 
 function getPlansAvailableSection(plansAvailableCount) {
   if (plansAvailableCount == null) {
@@ -72,6 +73,9 @@ export default () => {
       setProviders(providerData.providers);
       setPrescriptions(prescriptionData);
       setPharmacies(pharmacyData);
+      analyticsService.fireEvent("event-content-load", {
+        pagePath: "/plans/:contactId",
+      });
     } catch (e) {
       Sentry.captureException(e);
     } finally {
@@ -97,6 +101,7 @@ export default () => {
         });
         setPlansAvailableCount(plansData?.medicarePlans?.length);
         setResults(plansData?.medicarePlans);
+        analyticsService.fireEvent("event-quoting-plans");
       } catch (e) {
         Sentry.captureException(e);
       }

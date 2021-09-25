@@ -31,14 +31,11 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
       });
 
       if (enrolled && enrolled.url) {
-        if (option === "complete") {
-          window.open(enrolled.url, "_blank").focus();
-        } else {
-          addToast({
-            type: "success",
-            message: "Successfully Sent to Client",
-          });
-        }
+        window.open(enrolled.url, "_blank").focus();
+        addToast({
+          type: "success",
+          message: "Successfully Sent to Client",
+        });
       } else {
         addToast({
           type: "error",
@@ -89,7 +86,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
               name={"complete"}
               htmlFor={"complete"}
               id={"complete"}
-              label={`Agent to Complete the enrollment forms themselves`}
+              label={`Agent to complete the enrollment forms themselves`}
               checked={option === "complete"}
               onChange={() => setOption("complete")}
             />
