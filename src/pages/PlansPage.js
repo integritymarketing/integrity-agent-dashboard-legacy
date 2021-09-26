@@ -25,19 +25,61 @@ import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
 
-const convertPlanTypeToValue = (value) => {
-  const type = planTypesMap.find((element) => element.value === value);
-  return type?.label;
+const convertPlanTypeToValue = (value, planTypesMap) => {
+  const type = planTypesMap.find((element) => element.value === Number(value));
+  return type?.label || planTypesMap[0].label;
+};
+const premAsc = (res1, res2) => {
+  return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
+    ? 1
+    : res1.annualPlanPremium / 12 < res2.annualPlanPremium / 12
+    ? -1
+    : 0;
+};
+const premDsc = (res1, res2) => {
+  return res1.annualPlanPremium / 12 < res2.annualPlanPremium / 12
+    ? 1
+    : res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
+    ? -1
+    : 0;
+};
+const ratings = (res1, res2) => {
+  return res1.planRating < res2.planRating
+    ? 1
+    : res1.planRating > res2.planRating
+    ? -1
+    : 0;
+};
+const drugsPrice = (res1, res2) => {
+  return res1.estimatedAnnualDrugCost / 12 > res2.estimatedAnnualDrugCost / 12
+    ? 1
+    : res1.estimatedAnnualDrugCost / 12 < res2.estimatedAnnualDrugCost / 12
+    ? -1
+    : 0;
+};
+const getSortFunction = (sort) => {
+  if (sort === PLAN_SORT_OPTIONS[1].value) {
+    return premDsc;
+  }
+  if (sort === PLAN_SORT_OPTIONS[2].value) {
+    return ratings;
+  }
+  if (sort === PLAN_SORT_OPTIONS[3].value) {
+    return drugsPrice;
+  } else {
+    return premAsc;
+  }
 };
 
 function getPlansAvailableSection(plansAvailableCount, planType) {
+  const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
   if (plansAvailableCount == null) {
-    return <div>No plans returned</div>;
+    return <div />;
   } else {
     return (
       <div className={`${styles["plans-available"]}`}>
         <span className={`${styles["plans-type"]}`}>
-          {plansAvailableCount} {convertPlanTypeToValue(planType)} plans
+          {plansAvailableCount} {planTypeString} plans
         </span>{" "}
         based on your filters
       </div>
@@ -56,7 +98,7 @@ export default () => {
   const [isMobile, setIsMobile] = useState(false);
   const [myAppointedPlans, setMyAppointedPlans] = useState(true);
   const [section, setSection] = useState("details");
-  const [sort, setSort] = useState("premium:asc");
+  const [sort, setSort] = useState(PLAN_SORT_OPTIONS[0].value);
   const [isEdit, setIsEdit] = useState(false);
   const [effectiveDate, setEffectiveDate] = useState(
     getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
@@ -96,6 +138,7 @@ export default () => {
   const [planType, setPlanType] = useState(2);
   const [carrierList, setCarrierList] = useState([]);
   const [subTypeList, setSubTypeList] = useState([]);
+  const [pagedResults, setPagedResults] = useState([]);
   const toggleAppointedPlans = (e) => {
     setMyAppointedPlans(e.target.checked);
   };
@@ -104,6 +147,7 @@ export default () => {
   };
   const getAllPlans = useCallback(async () => {
     if (contact) {
+      setPlansAvailableCount(0);
       try {
         setResults([]);
         const plansData = await plansService.getPlans(contact.leadsId, {
@@ -117,9 +161,9 @@ export default () => {
           effectiveDate: `${effectiveDate.getFullYear()}-${
             effectiveDate.getMonth() + 1
           }-01`,
-          sort: sort, // TODO: sort on the frontend
         });
         setPlansAvailableCount(plansData?.medicarePlans?.length);
+        setCurrentPage(1);
         setResults(plansData?.medicarePlans);
         const carriers = [
           ...new Set(plansData?.medicarePlans.map((plan) => plan.carrierName)),
@@ -136,13 +180,18 @@ export default () => {
         Sentry.captureException(e);
       }
     }
-  }, [contact, effectiveDate, planType, myAppointedPlans, sort]);
-
-  //const filteredPlanList = useRecoilValue(filteredPlans);
-
-  //const [filtersList, setFiltersList] = useRecoilState(filterList);
+  }, [contact, effectiveDate, planType, myAppointedPlans]);
 
   const pageSize = 10;
+
+  useEffect(() => {
+    const pagedStart = (currentPage - 1) * pageSize;
+    const pageLimit = pageSize * currentPage;
+    const sortFunction = getSortFunction(sort);
+    const sortedResults = [...results].sort(sortFunction);
+    const slicedResults = [...sortedResults].slice(pagedStart, pageLimit);
+    setPagedResults(slicedResults);
+  }, [results, currentPage, pageSize, sort]);
 
   useEffect(() => {
     getContactRecordInfo();
@@ -238,7 +287,7 @@ export default () => {
                     <div className={`${styles["sort-select"]}`}>
                       <Select
                         mobileLabel={<SortIcon />}
-                        initialValue="premium:asc"
+                        initialValue={PLAN_SORT_OPTIONS[0].value}
                         onChange={(value) => setSort(value)}
                         options={PLAN_SORT_OPTIONS}
                         prefix="Sort by: "
@@ -247,7 +296,7 @@ export default () => {
                   </div>
                   <div className={`${styles["plans"]}`}>
                     <PlanResults
-                      plans={results}
+                      plans={pagedResults}
                       isMobile={isMobile}
                       effectiveDate={effectiveDate}
                       contact={contact}
@@ -256,6 +305,7 @@ export default () => {
                     />
                     <Pagination
                       currentPage={currentPage}
+                      resultName="plans"
                       totalPages={Math.ceil(results?.length / 10)}
                       totalResults={results?.length}
                       pageSize={pageSize}
