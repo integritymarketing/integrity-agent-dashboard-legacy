@@ -25,7 +25,6 @@ import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
 
-
 const convertPlanTypeToValue = (value, planTypesMap) => {
   const type = planTypesMap.find((element) => element.value === Number(value));
   return type?.label || planTypesMap[0].label;
@@ -108,8 +107,6 @@ export default () => {
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
-  const [policyFilters, setPolicyFilters] = useState([]);
-  const [carrierFilters, setCarrierFilters] = useState([]);
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
