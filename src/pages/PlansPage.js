@@ -45,9 +45,9 @@ const premDsc = (res1, res2) => {
     : 0;
 };
 const ratings = (res1, res2) => {
-  return res1.planRating > res2.planRating
+  return res1.planRating < res2.planRating
     ? 1
-    : res1.planRating < res2.planRating
+    : res1.planRating > res2.planRating
     ? -1
     : 0;
 };
