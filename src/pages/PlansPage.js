@@ -25,9 +25,10 @@ import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
 
-const convertPlanTypeToValue = (value) => {
-  const type = planTypesMap.find((element) => element.value === value);
-  return type?.label;
+
+const convertPlanTypeToValue = (value, planTypesMap) => {
+  const type = planTypesMap.find((element) => element.value === Number(value));
+  return type?.label || planTypesMap[0].label;
 };
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -72,13 +73,14 @@ const getSortFunction = (sort) => {
 };
 
 function getPlansAvailableSection(plansAvailableCount, planType) {
+  const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
   if (plansAvailableCount == null) {
-    return <div>No plans returned</div>;
+    return <div />;
   } else {
     return (
       <div className={`${styles["plans-available"]}`}>
         <span className={`${styles["plans-type"]}`}>
-          {plansAvailableCount} {convertPlanTypeToValue(planType)} plans
+          {plansAvailableCount} {planTypeString} plans
         </span>{" "}
         based on your filters
       </div>
@@ -106,6 +108,8 @@ export default () => {
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
+  const [policyFilters, setPolicyFilters] = useState([]);
+  const [carrierFilters, setCarrierFilters] = useState([]);
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
@@ -146,6 +150,7 @@ export default () => {
   };
   const getAllPlans = useCallback(async () => {
     if (contact) {
+      setPlansAvailableCount(0);
       try {
         setResults([]);
         const plansData = await plansService.getPlans(contact.leadsId, {
@@ -161,6 +166,7 @@ export default () => {
           }-01`,
         });
         setPlansAvailableCount(plansData?.medicarePlans?.length);
+        setCurrentPage(1);
         setResults(plansData?.medicarePlans);
         const carriers = [
           ...new Set(plansData?.medicarePlans.map((plan) => plan.carrierName)),
@@ -183,9 +189,10 @@ export default () => {
 
   useEffect(() => {
     const pagedStart = (currentPage - 1) * pageSize;
+    const pageLimit = pageSize * currentPage;
     const sortFunction = getSortFunction(sort);
     const sortedResults = [...results].sort(sortFunction);
-    const slicedResults = sortedResults?.slice(pagedStart, pageSize);
+    const slicedResults = [...sortedResults].slice(pagedStart, pageLimit);
     setPagedResults(slicedResults);
   }, [results, currentPage, pageSize, sort]);
 
