@@ -150,6 +150,8 @@ export default () => {
       setPlansAvailableCount(0);
       try {
         setResults([]);
+        setSubTypeList([]);
+        setCarrierList([]);
         const plansData = await plansService.getPlans(contact.leadsId, {
           fips: contact.addresses[0].countyFips.toString(),
           zip: contact.addresses[0].postalCode.toString(),
