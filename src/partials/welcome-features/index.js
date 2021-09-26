@@ -7,43 +7,42 @@ import ImageFeatureSSO from "images/welcome-features/feature-sso.png";
 import ImageFeatureQAE from "images/welcome-features/feature-quote-and-enrollment.png";
 
 import "./index.scss";
+const Section = ({ className = "", rightCol, leftCol }) => (
+  <div className={`section-flex ${className}`}>
+    <div className="column left-col">{leftCol}</div>
+    <div className="column right-col">{rightCol}</div>
+  </div>
+);
+
+const SectionText = ({ title, description }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleEnter = () => {
+    setIsVisible(true);
+  };
+
+  return (
+    <>
+      <Waypoint onEnter={handleEnter} />
+      <div
+        className={`welcome-features__feature-content ${
+          isVisible ? "slidein" : ""
+        }`}
+      >
+        <h3 className="hdg--2 text-thin mb-2">{title}</h3>
+
+        <p className="text-left section-text">{description}</p>
+      </div>
+    </>
+  );
+};
+const SectionImage = ({ imgSrc }) => (
+  <div className="welcome-features__feature-image">
+    <img src={imgSrc} alt="" loading="lazy" />
+  </div>
+);
 
 const WelcomeFeatures = () => {
-  const Section = ({ className = "", rightCol, leftCol }) => (
-    <div className={`section-flex ${className}`}>
-      <div className="column left-col">{leftCol}</div>
-      <div className="column right-col">{rightCol}</div>
-    </div>
-  );
-
-  const SectionText = ({ title, description }) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    const handleEnter = () => {
-      setIsVisible(true);
-    };
-
-    return (
-      <>
-        <Waypoint onEnter={handleEnter} />
-        <div
-          className={`welcome-features__feature-content ${
-            isVisible ? "slidein" : ""
-          }`}
-        >
-          <h3 className="hdg--2 text-thin mb-2">{title}</h3>
-
-          <p className="text-left section-text">{description}</p>
-        </div>
-      </>
-    );
-  };
-  const SectionImage = ({ imgSrc }) => (
-    <div className="welcome-features__feature-image">
-      <img src={imgSrc} alt="" loading="lazy" />
-    </div>
-  );
-
   return (
     <Container className="mt-30 welcome-features mt-scale-3 mb-scale-3">
       <Section
