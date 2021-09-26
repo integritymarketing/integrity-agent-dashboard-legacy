@@ -111,8 +111,8 @@ button {
   --bg-photo-default-vert-anchor: 25%;
   --bg-photo-gradient: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.6) 100%
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.9) 100%
   );
   background: var(--invert-bg-color) center
     var(--bg-photo-vert-anchor, var(--bg-photo-default-vert-anchor)) no-repeat;

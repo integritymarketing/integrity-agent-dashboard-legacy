@@ -30,25 +30,25 @@ const WelcomeHero = () => {
         <div
           className={`container--hero__content ${isVisible ? "slidein" : ""}`}
         >
-          <h2 className="welcomeHero__title">Welcome to MedicareCENTER</h2>
-
-          <p className="welcomeHero__content p-1">
-            A powerful new platform with all you need to increase production
-            this upcoming AEP – enrollment tools, CRM, Learning Center and more!
+          <h2 className="welcomeHero__title mt-2">MedicareCENTER Agent Portal</h2>
+          <p className="welcomeHero__content p-1 mb-2">
+            <span className="crm-quote-enroll-border" />
+            <span className="crm-quote-enroll">CRM + Quoting + Enrollment</span>
+            <span className="crm-quote-enroll-border" />
           </p>
 
           <p className="welcomeHero__content">
-            If this is your first visit to the new MedicareCENTER, you need to
-            start by registering your account.
+            The most powerful solution built to make client engagement, tracking
+            quoting, enrollment and follow-up simple and seamless.
           </p>
 
-          <LoginLink className="btn btn--invert login-btn">
-            Log-in <IconArrowRightLong className="icon" />
+          <LoginLink className="btn login-btn">
+            Login <IconArrowRightLong className="icon" />
           </LoginLink>
 
-          <p className="mt-scale-2">
+          <p className="mt-scale-1 mb-2">
             Don't have an account?&nbsp;
-            <RegisterLink className="link link--invert link--force-underline">
+            <RegisterLink className="link link--force-underline">
               Register
             </RegisterLink>
           </p>

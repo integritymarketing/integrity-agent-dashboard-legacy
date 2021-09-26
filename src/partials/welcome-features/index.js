@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Container from "components/ui/container";
 import { Waypoint } from "react-waypoint";
-import ImageFeatureCMS from "images/welcome-features/feature-cms.png";
-import ImageFeatureSMS from "images/welcome-features/feature-sms.png";
+import ImageFeatureCSG from "images/welcome-features/feature-csg.png";
+import ImageFeatureCRM from "images/welcome-features/feature-client-management.png";
 import ImageFeatureSSO from "images/welcome-features/feature-sso.png";
-import ImageFeatureTools from "images/welcome-features/feature-tools.png";
+import ImageFeatureQAE from "images/welcome-features/feature-quote-and-enrollment.png";
 
 import "./index.scss";
 
@@ -48,26 +48,26 @@ const WelcomeFeatures = () => {
     <Container className="mt-30 welcome-features mt-scale-3 mb-scale-3">
       <Section
         className="reverse"
-        leftCol={<SectionImage imgSrc={ImageFeatureCMS} />}
+        leftCol={<SectionImage imgSrc={ImageFeatureCSG} />}
         rightCol={
           <SectionText
-            title="Client Management, Simplified"
-            description="No matter what quoting or enrollment tool you use, MedicareCENTER
-            now lets you note where clients are in the application process or
-            manage your follow-ups 24/7."
+            title="CSG + MedicareCENTER"
+            description="Access powerful quoting and research features with the full CSG 
+            suite of solutions available within MedicareCENTER."
           />
         }
       />
       <Section
         leftCol={
           <SectionText
-            title="Text Your Clients"
-            description="Compliantly text clients from start to finish! Sales should always
-              be this easy and straightforward. Text scope of appointments, text
-              to review and sign — all with less stress about staying compliant."
+            title="Expanded Client Management"
+            description="Now it’s easier than ever to keep track of your clients’ 
+            needs and history. Create better engagement, 
+            stronger relationships, and greater business with the 
+            improved CRM features. "
           />
         }
-        rightCol={<SectionImage imgSrc={ImageFeatureSMS} />}
+        rightCol={<SectionImage imgSrc={ImageFeatureCRM} />}
       />
       <Section
         className="reverse"
@@ -82,11 +82,13 @@ const WelcomeFeatures = () => {
       <Section
         leftCol={
           <SectionText
-            title="The Best Tools at Your Fingertips"
-            description="Why spend time searching the web for enrollment and quoting tools? MedicareCENTER brings MedicareAPP, MedicareLINK and Medicare Supplement quoting to your laptop, tablet or smartphone. Which makes it easy to access anytime, anywhere."
+            title="Integrated Quoting and Enrollment"
+            description="Save time every step of the way by jumping 
+            straight from a client activity log or provider 
+            perference into a quote or SOA."
           />
         }
-        rightCol={<SectionImage imgSrc={ImageFeatureTools} />}
+        rightCol={<SectionImage imgSrc={ImageFeatureQAE} />}
       />
     </Container>
   );
