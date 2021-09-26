@@ -10,10 +10,10 @@ export const SORT_OPTIONS = [
 ];
 
 export const PLAN_SORT_OPTIONS = [
-  { label: "Premium Lowest to Highest", value: "premium:asc" },
-  { label: "Premium Highest to Lowest", value: "premium:desc" },
-  { label: "Highest Star Rating", value: "rating:desc" },
-  { label: "Lowest Estimated Drug Cost", value: "drugs:asc" },
+  { label: "Premium Lowest to Highest", value: "premium-asc" },
+  { label: "Premium Highest to Lowest", value: "premium-desc" },
+  { label: "Highest Star Rating", value: "rating-desc" },
+  { label: "Lowest Estimated Drug Cost", value: "drugs-asc" },
 ];
 
 export const PLAN_TYPE_ENUMS = {
