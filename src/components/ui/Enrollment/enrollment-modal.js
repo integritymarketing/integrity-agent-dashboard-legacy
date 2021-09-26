@@ -75,7 +75,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
               How will you be completing this form?
             </div>
             <Radio
-              name={"send"}
+              name={"enrollModal"}
               htmlFor={"send"}
               id={"send"}
               label={`Send the enrollment link to the client`}
@@ -83,7 +83,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
               onChange={() => setOption("send")}
             />
             <Radio
-              name={"complete"}
+              name={"enrollModal"}
               htmlFor={"complete"}
               id={"complete"}
               label={`Agent to complete the enrollment forms themselves`}
