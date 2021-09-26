@@ -4,36 +4,45 @@ import { SubSection } from "components/ui/FilterSection";
 import "./index.scss";
 import "scss/_forms.scss";
 
-export default function AdditionalFilters({ carriers, policyTypes, onChange,toggleAppointedPlans }) {
+export default function AdditionalFilters({
+  carriers,
+  policyTypes,
+  onFilterChange,
+  toggleAppointedPlans,
+  toggleNeeds,
+  toggleRebates,
+}) {
   return (
     <div className="effective-date-filter">
       <div className="header">Filters</div>
       <SubSection title="Carrier">
         <CheckboxGroup
-          checkboxes={carriers.map((carrier)=>{
+          checkboxes={carriers.map((carrier) => {
             return {
               label: carrier,
               id: carrier,
+              name: "carrier",
               defaultChecked: carriers.length === 1,
               disabled: carriers.length === 1,
               value: carrier,
-              onChange:(e)=>onChange(e.target.value)
-            }
+              onChange: onFilterChange,
+            };
           })}
         />
       </SubSection>
       <SubSection title="Policy Type">
         <CheckboxGroup
-         checkboxes={policyTypes.map((type)=>{
-          return {
-            label: type,
-            id: type,
-            defaultChecked: policyTypes.length ===1,
-            disabled: policyTypes.length ===1,
-            value: type,
-            onChange:(e)=>onChange(e.target.value)
-          }
-        })}
+          checkboxes={policyTypes.map((type) => {
+            return {
+              label: type,
+              id: type,
+              name: "policy",
+              defaultChecked: policyTypes.length === 1,
+              disabled: policyTypes.length === 1,
+              value: type,
+              onChange: onFilterChange,
+            };
+          })}
         />
       </SubSection>
       <SubSection title="Additional Filters">
@@ -44,21 +53,21 @@ export default function AdditionalFilters({ carriers, policyTypes, onChange,togg
               id: "appointed",
               defaultChecked: true,
               value: "appointed",
-              onChange:toggleAppointedPlans
+              onChange: toggleAppointedPlans,
             },
             {
               label: "Special needs",
               id: "specialNeeds",
               defaultChecked: false,
               value: "needs",
-              onChange:()=>onChange()
+              onChange: toggleNeeds,
             },
             {
               label: "Includes Part B rebates",
               id: "rebates",
               defaultChecked: false,
               value: "rebate",
-              onChange:()=>onChange()
+              onChange: toggleRebates,
             },
           ]}
         />

@@ -144,6 +144,27 @@ export default () => {
   const toggleAppointedPlans = (e) => {
     setMyAppointedPlans(e.target.checked);
   };
+
+  const changeFilters = (e) => {
+    const { checked, value, name } = e.target;
+    const list = name === "policy" ? policyFilters : carrierFilters;
+
+    if (checked === true) {
+      const itemList = [...new Set([...list, value])];
+      if (name === "policy") {
+        setPolicyFilters(itemList);
+      } else if (name === "carrier") {
+        setCarrierFilters(itemList);
+      }
+    } else {
+      const filteredList = [...list].filter((item) => item !== value);
+      if (name === "policy") {
+        setPolicyFilters(filteredList);
+      } else if (name === "carrier") {
+        setCarrierFilters(filteredList);
+      }
+    }
+  };
   const changePlanType = (e) => {
     setPlanType(e.target.value);
   };
@@ -192,10 +213,19 @@ export default () => {
     const pagedStart = (currentPage - 1) * pageSize;
     const pageLimit = pageSize * currentPage;
     const sortFunction = getSortFunction(sort);
-    const sortedResults = [...results].sort(sortFunction);
-    const slicedResults = [...sortedResults].slice(pagedStart, pageLimit);
+    const resultsList = results || [];
+    const carrierGroup =
+      carrierFilters.length > 0
+        ? resultsList.filter((res) => carrierFilters.includes(res.carrierName))
+        : resultsList;
+    const policyGroup =
+      policyFilters.length > 0
+        ? carrierGroup.filter((res) => policyFilters.includes(res.planSubType))
+        : carrierGroup;
+    const sortedResults = [...policyGroup]?.sort(sortFunction);
+    const slicedResults = [...sortedResults]?.slice(pagedStart, pageLimit);
     setPagedResults(slicedResults);
-  }, [results, currentPage, pageSize, sort, carrierFilters, policyFilters ]);
+  }, [results, currentPage, pageSize, sort, carrierFilters, policyFilters]);
 
   useEffect(() => {
     getContactRecordInfo();
@@ -281,6 +311,7 @@ export default () => {
                         toggleAppointedPlans={toggleAppointedPlans}
                         carriers={carrierList}
                         policyTypes={subTypeList}
+                        onFilterChange={changeFilters}
                       />
                     )}
                   </div>
