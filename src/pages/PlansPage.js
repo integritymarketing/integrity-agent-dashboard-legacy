@@ -71,15 +71,15 @@ const getSortFunction = (sort) => {
   }
 };
 
-function getPlansAvailableSection(plansAvailableCount, planType) {
+function getPlansAvailableSection(planCount, totalPlanCount, planType) {
   const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
-  if (plansAvailableCount == null) {
+  if (planCount == null || totalPlanCount == null) {
     return <div />;
   } else {
     return (
       <div className={`${styles["plans-available"]}`}>
         <span className={`${styles["plans-type"]}`}>
-          {plansAvailableCount} {planTypeString} plans
+          {planCount} {planTypeString} plans
         </span>{" "}
         based on your filters
       </div>
@@ -94,6 +94,7 @@ export default () => {
   const { contactId: id } = useParams();
   const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
+  const [filteredPlansCount, setFilteredPlansCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [myAppointedPlans, setMyAppointedPlans] = useState(true);
@@ -171,6 +172,7 @@ export default () => {
   const getAllPlans = useCallback(async () => {
     if (contact) {
       setPlansAvailableCount(0);
+      setFilteredPlansCount(0);
       try {
         setResults([]);
         setSubTypeList([]);
@@ -223,6 +225,7 @@ export default () => {
         ? carrierGroup.filter((res) => policyFilters.includes(res.planSubType))
         : carrierGroup;
     const sortedResults = [...policyGroup]?.sort(sortFunction);
+    setFilteredPlansCount(sortedResults?.length || 0);
     const slicedResults = [...sortedResults]?.slice(pagedStart, pageLimit);
     setPagedResults(slicedResults);
   }, [results, currentPage, pageSize, sort, carrierFilters, policyFilters]);
@@ -318,7 +321,7 @@ export default () => {
                 </div>
                 <div className={`${styles["results"]}`}>
                   <div className={`${styles["sort"]}`}>
-                    {getPlansAvailableSection(plansAvailableCount, planType)}
+                    {getPlansAvailableSection(filteredPlansCount, plansAvailableCount ,planType)}
                     <div className={`${styles["sort-select"]}`}>
                       <Select
                         mobileLabel={<SortIcon />}
@@ -341,8 +344,8 @@ export default () => {
                     <Pagination
                       currentPage={currentPage}
                       resultName="plans"
-                      totalPages={Math.ceil(results?.length / 10)}
-                      totalResults={results?.length}
+                      totalPages={Math.ceil(filteredPlansCount / 10)}
+                      totalResults={filteredPlansCount}
                       pageSize={pageSize}
                       onPageChange={(page) => setCurrentPage(page)}
                     />
