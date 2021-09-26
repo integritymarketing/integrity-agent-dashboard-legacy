@@ -11,6 +11,7 @@ const PlanResults = ({
   leadId,
   contact,
   pharmacies,
+  loading,
 }) => {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -38,6 +39,8 @@ const PlanResults = ({
         />
       );
     }
+  } else if (!loading && (!plans || plans.length === 0)) {
+    cards.push(<div key={"loading"} />);
   } else {
     for (let i = 0; i < 10; i++) {
       cards.push(<PlanCardLoader key={i}></PlanCardLoader>);

@@ -71,9 +71,14 @@ const getSortFunction = (sort) => {
   }
 };
 
-function getPlansAvailableSection(planCount, totalPlanCount, planType) {
+function getPlansAvailableSection(
+  planCount,
+  totalPlanCount,
+  loading,
+  planType
+) {
   const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
-  if (planCount == null || totalPlanCount == null) {
+  if (loading || planCount == null || totalPlanCount == null) {
     return <div />;
   } else {
     return (
@@ -96,6 +101,7 @@ export default () => {
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
   const [filteredPlansCount, setFilteredPlansCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [plansLoading, setPlansLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [myAppointedPlans, setMyAppointedPlans] = useState(true);
   const [section, setSection] = useState("details");
@@ -173,6 +179,7 @@ export default () => {
     if (contact) {
       setPlansAvailableCount(0);
       setFilteredPlansCount(0);
+      setPlansLoading(true);
       try {
         setResults([]);
         setSubTypeList([]);
@@ -205,6 +212,8 @@ export default () => {
         analyticsService.fireEvent("event-quoting-plans");
       } catch (e) {
         Sentry.captureException(e);
+      } finally {
+        setPlansLoading(false);
       }
     }
   }, [contact, effectiveDate, planType, myAppointedPlans]);
@@ -321,7 +330,12 @@ export default () => {
                 </div>
                 <div className={`${styles["results"]}`}>
                   <div className={`${styles["sort"]}`}>
-                    {getPlansAvailableSection(filteredPlansCount, plansAvailableCount ,planType)}
+                    {getPlansAvailableSection(
+                      filteredPlansCount,
+                      plansAvailableCount,
+                      plansLoading,
+                      planType
+                    )}
                     <div className={`${styles["sort-select"]}`}>
                       <Select
                         mobileLabel={<SortIcon />}
@@ -336,6 +350,7 @@ export default () => {
                     <PlanResults
                       plans={pagedResults}
                       isMobile={isMobile}
+                      loading={plansLoading}
                       effectiveDate={effectiveDate}
                       contact={contact}
                       leadId={id}
