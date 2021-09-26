@@ -139,6 +139,8 @@ export default () => {
   const [carrierList, setCarrierList] = useState([]);
   const [subTypeList, setSubTypeList] = useState([]);
   const [pagedResults, setPagedResults] = useState([]);
+  const [carrierFilters, setCarrierFilters] = useState([]);
+  const [policyFilters, setPolicyFilters] = useState([]);
   const toggleAppointedPlans = (e) => {
     setMyAppointedPlans(e.target.checked);
   };
@@ -193,7 +195,7 @@ export default () => {
     const sortedResults = [...results].sort(sortFunction);
     const slicedResults = [...sortedResults].slice(pagedStart, pageLimit);
     setPagedResults(slicedResults);
-  }, [results, currentPage, pageSize, sort]);
+  }, [results, currentPage, pageSize, sort, carrierFilters, policyFilters ]);
 
   useEffect(() => {
     getContactRecordInfo();
