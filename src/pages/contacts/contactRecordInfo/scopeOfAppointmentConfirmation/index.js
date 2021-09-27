@@ -543,7 +543,6 @@ export default () => {
                             placeholder="(XXX) XXX-XXXX"
                             name="phone"
                             value={formatPhoneNumber(values.phone)}
-                            maxLength="10"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={errors.phone ? true : false}
@@ -606,7 +605,8 @@ export default () => {
                           className="authorized-representative-form"
                         >
                           <div className="authorized-representative-fill-form pt-2 pb-2">
-                          Please fill out the following details as the Authorized Representative:
+                            Please fill out the following details as the
+                            Authorized Representative:
                           </div>
                           <fieldset className="form__fields form__fields--constrained hide-input-err">
                             <Textfield
@@ -915,7 +915,6 @@ export default () => {
                               value={formatPhoneNumber(
                                 values?.authorizedRepresentative?.phone
                               )}
-                              maxLength="10"
                               onChange={handleChange}
                               onBlur={handleBlur}
                               error={
