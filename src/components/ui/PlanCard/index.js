@@ -119,7 +119,9 @@ export default function PlanCard({
           onClick={() => onDetailsClick(planData.id)}
           type="secondary"
         />
-        <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+        {!planData.nonLicensedPlan && (
+          <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+        )}
       </div>
     </div>
   );
