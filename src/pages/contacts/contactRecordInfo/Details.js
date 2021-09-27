@@ -42,6 +42,8 @@ export default forwardRef((props, ref) => {
   const onAddNewPharmacy = () => setIsOpenPharmacy(true);
   const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
   const onAddNewProvider = () => setIsOpen(true);
+  /* Need to remove this temporary condition in the Next release */
+  const hideProviderUntilNextRelease = true;
 
   const [leadProviders, setLeadProviders] = useState({
     items: {},

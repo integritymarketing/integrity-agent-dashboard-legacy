@@ -105,6 +105,7 @@ export default (props) => {
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
   const history = useHistory();
+  const hideDOBUntilNextRelease = true;
 
   const getContactLink = (id) => `/contact/${id}`;
   const goToContactDetailPage = (id) => {
