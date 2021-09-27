@@ -24,7 +24,7 @@ const CompactPlanCard = ({ planData, onEnrollClick, isMobile }) => {
           <Rating value={planData.planRating} />
         </div>
       </div>
-      {onEnrollClick && (
+      {onEnrollClick && !planData.nonLicensedPlan && (
         <div className={`footer ${isMobile ? "mobile" : ""}`}>
           {/* TODO: uncomment once implementing share plan
           <Button
