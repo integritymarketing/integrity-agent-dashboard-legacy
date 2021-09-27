@@ -126,6 +126,12 @@ button {
         var(--bg-photo-src-800, var(--bg-photo-default-src-800));
     }
     background-image: var(--bg-photo-src-800, var(--bg-photo-default-src-800));
+    --bg-photo-gradient: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    --bg-photo-default-vert-anchor: top;
   }
 
   // retina > 500px or standard > 1000px
