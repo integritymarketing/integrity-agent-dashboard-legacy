@@ -14,7 +14,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
 
   const enroll = useCallback(async () => {
     try {
-      const enrolled = await plansService.enroll(contact.id, planData.id, {
+      const enrolled = await plansService.enroll(contact.leadsId, planData.id, {
         firstName: contact?.firstName,
         middleInitial:
           contact?.middleName?.length > 1 ? contact.middleName[0] : "",
