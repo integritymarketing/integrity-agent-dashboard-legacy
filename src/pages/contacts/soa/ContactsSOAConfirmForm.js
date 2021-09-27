@@ -99,7 +99,10 @@ const ContactsSOAConfirmForm = () => {
     formValues.firstName &&
     formValues.lastName &&
     formValues.methodOfContact &&
-    formValues.acceptedSOA;
+    formValues.acceptedSOA &&
+    (formValues.soaSignedDuringAppointment
+      ? formValues.explanationOfSOASignedDuringAppointment
+      : true);
   const handleSubmit = async () => {
     formValues.submittedDateTime = new Date().toISOString();
     const payload = {
