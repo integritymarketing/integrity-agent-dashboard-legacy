@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, { useState, forwardRef } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
@@ -123,9 +123,10 @@ export default forwardRef((props, ref) => {
     }
   }, [props.id]);
 
-  useEffect(() => {
-    fetchProviders();
-  }, [fetchProviders]);
+  /* It should be uncommented when Provider is going to live */
+  // useEffect(() => {
+  //   fetchProviders();
+  // }, [fetchProviders]);
 
   const getFrequencyValue = (dayofSupply) => {
     const frequencyOptions = FREQUENCY_OPTIONS.filter(
