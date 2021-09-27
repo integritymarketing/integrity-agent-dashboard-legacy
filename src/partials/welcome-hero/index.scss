@@ -31,6 +31,7 @@
 		flex-direction: column;
 		justify-content: center;
 		overflow: hidden;
+		opacity: 0.9;
 		padding-bottom: 80px;
 		padding-top: 80px;
 		&__content {
@@ -45,7 +46,6 @@
 			@media (min-width: 425px) {
 				background-color: #ffffff;
 				mix-blend-mode: normal;
-				opacity: 0.9;
 				border-radius: 8px;
 				padding-bottom: 2rem;
 				padding-top: 2rem;

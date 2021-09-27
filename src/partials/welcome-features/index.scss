@@ -1,5 +1,8 @@
 .welcome-features {
   z-index: 1;
+  max-width: none;
+  padding: 0px;
+  width: 100%;
   &__feature {
     display: grid;
     overflow: hidden;
@@ -113,8 +116,6 @@
     }
   }
   &.mt-30 {
-    margin-top: 190px;
-    // padding: 0px !important;
     @media (max-width: 480px) {
       margin-top: 32px;
       padding: 0px 40px !important;
@@ -150,7 +151,9 @@
       font-size: 30px;
       line-height: 34px;
     }
-
+    div.column {
+      max-width: 500px;
+    }
     @media (min-width: 480px) {
       margin-bottom: 100px;
       flex-direction: row;

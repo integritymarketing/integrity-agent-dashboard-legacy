@@ -71,15 +71,20 @@ const getSortFunction = (sort) => {
   }
 };
 
-function getPlansAvailableSection(plansAvailableCount, planType) {
+function getPlansAvailableSection(
+  planCount,
+  totalPlanCount,
+  loading,
+  planType
+) {
   const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
-  if (plansAvailableCount == null) {
+  if (loading || planCount == null || totalPlanCount == null) {
     return <div />;
   } else {
     return (
       <div className={`${styles["plans-available"]}`}>
         <span className={`${styles["plans-type"]}`}>
-          {plansAvailableCount} {planTypeString} plans
+          {planCount} {planTypeString} plans
         </span>{" "}
         based on your filters
       </div>
@@ -94,7 +99,9 @@ export default () => {
   const { contactId: id } = useParams();
   const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
+  const [filteredPlansCount, setFilteredPlansCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [plansLoading, setPlansLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [myAppointedPlans, setMyAppointedPlans] = useState(true);
   const [section, setSection] = useState("details");
@@ -139,8 +146,31 @@ export default () => {
   const [carrierList, setCarrierList] = useState([]);
   const [subTypeList, setSubTypeList] = useState([]);
   const [pagedResults, setPagedResults] = useState([]);
+  const [carrierFilters, setCarrierFilters] = useState([]);
+  const [policyFilters, setPolicyFilters] = useState([]);
   const toggleAppointedPlans = (e) => {
     setMyAppointedPlans(e.target.checked);
+  };
+
+  const changeFilters = (e) => {
+    const { checked, value, name } = e.target;
+    const list = name === "policy" ? policyFilters : carrierFilters;
+
+    if (checked === true) {
+      const itemList = [...new Set([...list, value])];
+      if (name === "policy") {
+        setPolicyFilters(itemList);
+      } else if (name === "carrier") {
+        setCarrierFilters(itemList);
+      }
+    } else {
+      const filteredList = [...list].filter((item) => item !== value);
+      if (name === "policy") {
+        setPolicyFilters(filteredList);
+      } else if (name === "carrier") {
+        setCarrierFilters(filteredList);
+      }
+    }
   };
   const changePlanType = (e) => {
     setPlanType(e.target.value);
@@ -148,6 +178,8 @@ export default () => {
   const getAllPlans = useCallback(async () => {
     if (contact) {
       setPlansAvailableCount(0);
+      setFilteredPlansCount(0);
+      setPlansLoading(true);
       try {
         setResults([]);
         setSubTypeList([]);
@@ -180,6 +212,8 @@ export default () => {
         analyticsService.fireEvent("event-quoting-plans");
       } catch (e) {
         Sentry.captureException(e);
+      } finally {
+        setPlansLoading(false);
       }
     }
   }, [contact, effectiveDate, planType, myAppointedPlans]);
@@ -190,10 +224,20 @@ export default () => {
     const pagedStart = (currentPage - 1) * pageSize;
     const pageLimit = pageSize * currentPage;
     const sortFunction = getSortFunction(sort);
-    const sortedResults = [...results].sort(sortFunction);
-    const slicedResults = [...sortedResults].slice(pagedStart, pageLimit);
+    const resultsList = results || [];
+    const carrierGroup =
+      carrierFilters.length > 0
+        ? resultsList.filter((res) => carrierFilters.includes(res.carrierName))
+        : resultsList;
+    const policyGroup =
+      policyFilters.length > 0
+        ? carrierGroup.filter((res) => policyFilters.includes(res.planSubType))
+        : carrierGroup;
+    const sortedResults = [...policyGroup]?.sort(sortFunction);
+    setFilteredPlansCount(sortedResults?.length || 0);
+    const slicedResults = [...sortedResults]?.slice(pagedStart, pageLimit);
     setPagedResults(slicedResults);
-  }, [results, currentPage, pageSize, sort]);
+  }, [results, currentPage, pageSize, sort, carrierFilters, policyFilters]);
 
   useEffect(() => {
     getContactRecordInfo();
@@ -279,13 +323,19 @@ export default () => {
                         toggleAppointedPlans={toggleAppointedPlans}
                         carriers={carrierList}
                         policyTypes={subTypeList}
+                        onFilterChange={changeFilters}
                       />
                     )}
                   </div>
                 </div>
                 <div className={`${styles["results"]}`}>
                   <div className={`${styles["sort"]}`}>
-                    {getPlansAvailableSection(plansAvailableCount, planType)}
+                    {getPlansAvailableSection(
+                      filteredPlansCount,
+                      plansAvailableCount,
+                      plansLoading,
+                      planType
+                    )}
                     <div className={`${styles["sort-select"]}`}>
                       <Select
                         mobileLabel={<SortIcon />}
@@ -300,6 +350,7 @@ export default () => {
                     <PlanResults
                       plans={pagedResults}
                       isMobile={isMobile}
+                      loading={plansLoading}
                       effectiveDate={effectiveDate}
                       contact={contact}
                       leadId={id}
@@ -308,8 +359,8 @@ export default () => {
                     <Pagination
                       currentPage={currentPage}
                       resultName="plans"
-                      totalPages={Math.ceil(results?.length / 10)}
-                      totalResults={results?.length}
+                      totalPages={Math.ceil(filteredPlansCount / 10)}
+                      totalResults={filteredPlansCount}
                       pageSize={pageSize}
                       onPageChange={(page) => setCurrentPage(page)}
                     />
