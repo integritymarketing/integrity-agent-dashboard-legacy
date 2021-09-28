@@ -19,7 +19,11 @@ export default ({ leadsId, leadName, ...props }) => {
   return (
     <div className="customform">
       <div className="deletecontactsection">
-        <button className="del-btn" onClick={() => setDeleteModalStatus(true)}>
+        <button
+          className="del-btn"
+          data-gtm="buttonn-delete-contact"
+          onClick={() => setDeleteModalStatus(true)}
+        >
           Delete Contact
         </button>
       </div>

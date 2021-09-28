@@ -13,7 +13,7 @@ import clientsService from "services/clientsService";
 import styles from "./ContactsPage.module.scss";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
-import Pagination from "components/ui/pagination";
+import Pagination from "components/ui/Pagination/pagination";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
 import DeleteLeadContext from "contexts/deleteLead";

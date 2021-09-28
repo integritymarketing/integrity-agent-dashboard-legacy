@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Details from "pages/contacts/contactRecordInfo/Details";
 import "./index.scss";
 import ScrollNav from "../ScrollNav";
+import analyticsService from "services/analyticsService";
 
 export default (props) => {
   const [isEdit, setIsEdit] = useState(props.initialEdit);
@@ -9,6 +10,12 @@ export default (props) => {
   const providersRef = useRef(null);
   const prescriptionRef = useRef(null);
   const pharmacyRef = useRef(null);
+
+  useEffect(() => {
+    if (isEdit) {
+      analyticsService.fireEvent("event-contact-edit-from-plans-list");
+    }
+  }, [isEdit]);
 
   return (
     <div className={"contact-edit"}>

@@ -35,7 +35,7 @@ export default ({ planData, isPreffered, isRetail, header }) => {
   );
   const data = [];
 
-  if (planData.formularyTiers) {
+  if (planData.formularyTiers && Array.isArray(planData.formularyTiers)) {
     planData.formularyTiers.forEach((tier) => {
       var values = [];
       var label = labelMap[tier.tierNumber];

@@ -23,7 +23,7 @@ function Radio({
         name={name}
         value={value}
         onChange={onChange}
-        checked={checked}
+        defaultChecked={checked}
       />
       {label}
     </label>
@@ -31,11 +31,11 @@ function Radio({
 }
 
 Radio.propTypes = {
-  htmlFor: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  htmlFor: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.any,
 };
 
 export default Radio;

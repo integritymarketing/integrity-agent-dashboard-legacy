@@ -17,6 +17,7 @@ function DetailsCard({
   isLoading = false,
   itemRender = () => null,
   provider,
+  dataGtm,
 }) {
   const title = headerTitle.toLowerCase();
   let titleToAdd = title;
@@ -38,7 +39,7 @@ function DetailsCard({
     headerTitle === "Pharmacies" && items.length === 1 ? true : false;
 
   return (
-    <div className="details-card">
+    <div className="details-card" data-gtm={dataGtm}>
       <div className="header">
         {headerTitle && (
           <h4 className="headerTitle">{displayTitleWithCount}</h4>
@@ -61,7 +62,11 @@ function DetailsCard({
           <WithLoader isLoading={isLoading}>
             <div className="no-items">
               <span>This contact has no {title}.&nbsp;</span>
-              <button className="link" onClick={onAddClick}>
+              <button
+                className="link"
+                data-gtm={`button-add-${title}`}
+                onClick={onAddClick}
+              >
                 {" "}
                 Add a {`${titleToAdd}`}
               </button>

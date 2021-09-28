@@ -106,9 +106,10 @@ export default () => {
     } else {
       setErrors("Invalid email address");
     }
-  }, 1000);
+  }, 5000);
 
-  const handleSetEmail = (email) => {
+  const handleSetEmail = (_email) => {
+    const email = _email.trim();
     setEmail(email);
     validateEmail(email);
   };

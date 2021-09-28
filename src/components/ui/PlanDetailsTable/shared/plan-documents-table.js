@@ -21,16 +21,18 @@ export default ({ planData }) => {
     []
   );
   const data = [];
-  planData.documents.forEach((document) => {
-    data.push({
-      label: <span className={"label"}>{document.name}</span>,
-      value: (
-        <a className={"link"} href={document.url}>
-          {document.linkName}
-        </a>
-      ),
+  if (planData.documents && Array.isArray(planData.documents)) {
+    planData.documents.forEach((document) => {
+      data.push({
+        label: <span className={"label"}>{document.name}</span>,
+        value: (
+          <a className={"link"} href={document.url}>
+            {document.linkName}
+          </a>
+        ),
+      });
     });
-  });
+  }
 
   return (
     <>

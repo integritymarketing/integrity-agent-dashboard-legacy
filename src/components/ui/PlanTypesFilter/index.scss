@@ -1,0 +1,23 @@
+.effective-date-filter {
+  color: #2b323b;
+  font-family: Lato;
+  font-size: 14px;
+
+  .header {
+    margin-bottom: -20px;
+    font-weight: 600;
+  }
+  .subSection {
+    .radio-label {
+      font-size: 14px !important;
+      color: #2b323b !important;
+    }
+  }
+
+  .option {
+    width: 100%;
+    font-weight: normal;
+    display: block;
+    color: var(--v2-dark-gray);
+  }
+}

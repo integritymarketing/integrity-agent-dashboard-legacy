@@ -54,26 +54,28 @@ export default ({ planData, pharmacies }) => {
   );
   const data = [];
 
-  planData.pharmacyCosts.forEach((pharmacyCost) => {
-    const pharmacy = pharmacies[pharmacyCost.pharmacyID];
-    data.push({
-      name: <span className={"label"}>{pharmacy.name}</span>,
-      address: (
-        <span className={"subtext"}>
-          {pharmacy.address1 +
-            "\n" +
-            pharmacy.address2 +
-            "\n" +
-            pharmacy.city +
-            " " +
-            pharmacy.state +
-            " " +
-            pharmacy.zip}
-        </span>
-      ),
-      inNetwork: getInNetwork(pharmacyCost),
+  if (planData.pharmacyCosts && Array.isArray(planData.pharmacyCosts)) {
+    planData.pharmacyCosts.forEach((pharmacyCost) => {
+      const pharmacy = pharmacies[pharmacyCost.pharmacyID];
+      data.push({
+        name: <span className={"label"}>{pharmacy.name}</span>,
+        address: (
+          <span className={"subtext"}>
+            {pharmacy.address1 +
+              "\n" +
+              pharmacy.address2 +
+              "\n" +
+              pharmacy.city +
+              " " +
+              pharmacy.state +
+              " " +
+              pharmacy.zip}
+          </span>
+        ),
+        inNetwork: getInNetwork(pharmacyCost),
+      });
     });
-  });
+  }
 
   return (
     <>

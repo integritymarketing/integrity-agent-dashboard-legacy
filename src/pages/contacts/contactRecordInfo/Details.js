@@ -214,6 +214,7 @@ export default forwardRef((props, ref) => {
         )}
         <div ref={props.providersRef}>
           <DetailsCard
+            dataGtm="section-provider"
             headerTitle="Providers"
             onAddClick={onAddNewProvider}
             items={leadProviders?.items?.providers || []}
@@ -260,6 +261,7 @@ export default forwardRef((props, ref) => {
         </div>
         <div ref={props.prescriptionRef}>
           <DetailsCard
+            dataGtm="section-prescription"
             headerTitle="Prescriptions"
             onAddClick={onAddNewPrescription}
             items={prescriptions}
@@ -271,6 +273,7 @@ export default forwardRef((props, ref) => {
         </div>
         <div ref={props.pharmacyRef}>
           <DetailsCard
+            dataGtm="section-pharmacies"
             headerTitle="Pharmacies"
             onAddClick={onAddNewPharmacy}
             items={pharmacies}

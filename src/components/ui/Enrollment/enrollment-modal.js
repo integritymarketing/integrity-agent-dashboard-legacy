@@ -14,7 +14,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
 
   const enroll = useCallback(async () => {
     try {
-      const enrolled = await plansService.enroll(contact.id, planData.id, {
+      const enrolled = await plansService.enroll(contact.leadsId, planData.id, {
         firstName: contact?.firstName,
         middleInitial:
           contact?.middleName?.length > 1 ? contact.middleName[0] : "",
@@ -31,14 +31,11 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
       });
 
       if (enrolled && enrolled.url) {
-        if (option === "complete") {
-          window.open(enrolled.url, "_blank").focus();
-        } else {
-          addToast({
-            type: "success",
-            message: "Successfully Sent to Client",
-          });
-        }
+        window.open(enrolled.url, "_blank").focus();
+        addToast({
+          type: "success",
+          message: "Successfully Sent to Client",
+        });
       } else {
         addToast({
           type: "error",
@@ -78,7 +75,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
               How will you be completing this form?
             </div>
             <Radio
-              name={"send"}
+              name={"enrollModal"}
               htmlFor={"send"}
               id={"send"}
               label={`Send the enrollment link to the client`}
@@ -86,10 +83,10 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
               onChange={() => setOption("send")}
             />
             <Radio
-              name={"complete"}
+              name={"enrollModal"}
               htmlFor={"complete"}
               id={"complete"}
-              label={`Agent to Complete the enrollment forms themselves`}
+              label={`Agent to complete the enrollment forms themselves`}
               checked={option === "complete"}
               onChange={() => setOption("complete")}
             />

@@ -19,6 +19,7 @@ import MaContent from "partials/plan-details-content/ma";
 import PdpContent from "partials/plan-details-content/pdp";
 import { PLAN_TYPE_ENUMS } from "../constants";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
+import analyticsService from "services/analyticsService";
 
 const PlanDetailsPage = () => {
   const history = useHistory();
@@ -57,6 +58,9 @@ const PlanDetailsPage = () => {
       }
       setPlan(planData);
       setContact(contactData);
+      analyticsService.fireEvent("event-content-load", {
+        pagePath: "/:contactId/plan/:planId",
+      });
     } catch (e) {
       Sentry.captureException(e);
       addToast({

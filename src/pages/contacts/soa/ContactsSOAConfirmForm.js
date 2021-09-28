@@ -99,8 +99,10 @@ const ContactsSOAConfirmForm = () => {
     formValues.firstName &&
     formValues.lastName &&
     formValues.methodOfContact &&
-    formValues.explanationOfSOASignedDuringAppointment &&
-    formValues.acceptedSOA;
+    formValues.acceptedSOA &&
+    (formValues.soaSignedDuringAppointment
+      ? formValues.explanationOfSOASignedDuringAppointment
+      : true);
   const handleSubmit = async () => {
     formValues.submittedDateTime = new Date().toISOString();
     const payload = {
@@ -356,21 +358,6 @@ const ContactsSOAConfirmForm = () => {
                   <div className="soa-authorize-container">
                     <input
                       name="soaSignedDuringAppointment"
-                      type="radio"
-                      disabled={isSubmited}
-                      onChange={() =>
-                        formProps.onChangeFormValue(
-                          "soaSignedDuringAppointment",
-                          true
-                        )
-                      }
-                      checked={!!formValues.soaSignedDuringAppointment}
-                    />
-                    Yes
-                  </div>
-                  <div className="soa-authorize-container">
-                    <input
-                      name="soaSignedDuringAppointment"
                       disabled={isSubmited}
                       type="radio"
                       onChange={() =>
@@ -382,6 +369,21 @@ const ContactsSOAConfirmForm = () => {
                       checked={!formValues.soaSignedDuringAppointment}
                     />
                     No
+                  </div>
+                  <div className="soa-authorize-container">
+                    <input
+                      name="soaSignedDuringAppointment"
+                      type="radio"
+                      disabled={isSubmited}
+                      onChange={() =>
+                        formProps.onChangeFormValue(
+                          "soaSignedDuringAppointment",
+                          true
+                        )
+                      }
+                      checked={!!formValues.soaSignedDuringAppointment}
+                    />
+                    Yes
                   </div>
                 </Col>
               }
