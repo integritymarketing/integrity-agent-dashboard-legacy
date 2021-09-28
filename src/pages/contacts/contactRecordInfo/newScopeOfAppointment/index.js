@@ -16,6 +16,7 @@ import AuthContext from "contexts/auth";
 import clientService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
+import StageStatusContext from "contexts/stageStatus";
 import "./index.scss";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
@@ -55,6 +56,7 @@ export default () => {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState({});
   const [errors, setErrors] = useState("");
+  const { allStatuses } = useContext(StageStatusContext);
 
   useEffect(() => {
     const getContactInfo = async () => {
@@ -72,7 +74,7 @@ export default () => {
       getContactInfo();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newSoaContactDetails, leadId]);
+  }, [leadId]);
   useEffect(() => {
     setCurrentPage("Scope of Appointment Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,6 +162,12 @@ export default () => {
           await clientService.sendSoaInformation(data, leadsId);
         }
       }
+      await clientService.updateClient(newSoaContactDetails, {
+        ...newSoaContactDetails,
+        leadStatusId: allStatuses.find(
+          (status) => status.statusName === "SOA Sent"
+        )?.leadStatusId,
+      });
       history.goBack();
       addToast({
         message: "Scope of Appointment sent",
