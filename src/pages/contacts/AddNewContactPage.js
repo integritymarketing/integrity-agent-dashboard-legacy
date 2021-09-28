@@ -105,7 +105,7 @@ const NewContactForm = () => {
           county: "",
           countyFips: "",
         },
-        primaryCommunication: "phone",
+        primaryCommunication: "email",
         contactRecordType: "prospect",
       }}
       validate={async (values) => {
