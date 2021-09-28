@@ -40,10 +40,17 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
 
   return (
     <>
-      <div className="contactdetailscardheader responsive-d-none">
+      <div
+        className="contactdetailscardheader responsive-d-none"
+        data-gtm="section-contact-details"
+      >
         <h4>Contact Details</h4>
         {!rest.isEdit && (
-          <button className="send-btn" onClick={() => rest.setEdit(true)}>
+          <button
+            className="send-btn"
+            data-gtm="button-edit-contact-details"
+            onClick={() => rest.setEdit(true)}
+          >
             <Editicon />
             <span className="edit-btn-text">Edit</span>
           </button>
