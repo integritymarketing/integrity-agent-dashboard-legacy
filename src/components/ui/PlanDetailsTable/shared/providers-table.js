@@ -54,37 +54,39 @@ export default ({ planData }) => {
   );
   const data = [];
 
-  for (var i = 0; i < planData.providers.length; i++) {
-    var provider = planData.providers[i];
-    data.push({
-      name: (
-        <>
-          <span className={"label"}>
-            {`${provider.title || ""} ${provider.firstName} ${
-              provider.lastName
-            } ${provider.suffix || ""}`}
+  if (planData.providers && Array.isArray(planData.providers)) {
+    for (var i = 0; i < planData.providers.length; i++) {
+      var provider = planData.providers[i];
+      data.push({
+        name: (
+          <>
+            <span className={"label"}>
+              {`${provider.title || ""} ${provider.firstName} ${
+                provider.lastName
+              } ${provider.suffix || ""}`}
+            </span>
+            <span className={"subtext"}>{provider.specialty}</span>
+          </>
+        ),
+        address: (
+          <span className={"subtext"}>
+            {provider.address.streetLine1 +
+              "\n" +
+              provider.address.streetLine2 +
+              "\n" +
+              provider.address.city +
+              " " +
+              provider.address.state +
+              " " +
+              provider.address.zipCode}
           </span>
-          <span className={"subtext"}>{provider.specialty}</span>
-        </>
-      ),
-      address: (
-        <span className={"subtext"}>
-          {provider.address.streetLine1 +
-            "\n" +
-            provider.address.streetLine2 +
-            "\n" +
-            provider.address.city +
-            " " +
-            provider.address.state +
-            " " +
-            provider.address.zipCode}
-        </span>
-      ),
-      inNetwork: getInNetwork(
-        provider.inNetwork,
-        planData.isPlanNetworkAvailable
-      ),
-    });
+        ),
+        inNetwork: getInNetwork(
+          provider.inNetwork,
+          planData.isPlanNetworkAvailable
+        ),
+      });
+    }
   }
 
   return (

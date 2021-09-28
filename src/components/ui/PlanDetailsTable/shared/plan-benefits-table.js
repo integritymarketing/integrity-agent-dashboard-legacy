@@ -44,14 +44,16 @@ export default ({ planData }) => {
     },
   ];
 
-  planData.planDataFields.forEach((dataField) => {
-    data.push({
-      label: <span className={"label"}>{dataField.name}</span>,
-      value: (
-        <div dangerouslySetInnerHTML={{ __html: dataField.description }} />
-      ),
+  if (planData.planDataFields && Array.isArray(planData.planDataFields)) {
+    planData.planDataFields.forEach((dataField) => {
+      data.push({
+        label: <span className={"label"}>{dataField.name}</span>,
+        value: (
+          <div dangerouslySetInnerHTML={{ __html: dataField.description }} />
+        ),
+      });
     });
-  });
+  }
 
   return (
     <>

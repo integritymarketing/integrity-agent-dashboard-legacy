@@ -56,12 +56,14 @@ export default ({ planData }) => {
   const pharmacyCost = planData.pharmacyCosts[0];
 
   const prescriptionMap = {};
-  planData.planDrugCoverage.forEach((drugCoverage) => {
-    prescriptionMap[drugCoverage.labelName] = {
-      isCovered: drugCoverage.tierNumber !== 0,
-      cost: 0,
-    };
-  });
+  if (planData.planDrugCoverage && Array.isArray(planData.planDrugCoverage)) {
+    planData.planDrugCoverage.forEach((drugCoverage) => {
+      prescriptionMap[drugCoverage.labelName] = {
+        isCovered: drugCoverage.tierNumber !== 0,
+        cost: 0,
+      };
+    });
+  }
 
   const data = [];
   for (var i = monthsRemaining; i < pharmacyCost.monthlyCosts.length; i++) {
