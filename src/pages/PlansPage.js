@@ -76,13 +76,13 @@ function getPlansAvailableSection(
   planType
 ) {
   const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
-  if (plansLoading || planCount == null || totalPlanCount == null) {
+  if (plansLoading) {
     return <div />;
   } else {
     return (
       <div className={`${styles["plans-available"]}`}>
         <span className={`${styles["plans-type"]}`}>
-          {planCount} {planTypeString} plans
+          {planCount || 0} {planTypeString} plans
         </span>
         {` based on your filters`}
       </div>
