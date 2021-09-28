@@ -66,13 +66,16 @@ export default ({ planData }) => {
   }
 
   const data = [];
-  for (var i = monthsRemaining; i < pharmacyCost.monthlyCosts.length; i++) {
-    var monthlyCost = pharmacyCost.monthlyCosts[i];
-    for (var k = 0; k < monthlyCost.costDetail.length; k++) {
-      var costDetail = monthlyCost.costDetail[k];
-      prescriptionMap[costDetail.labelName].cost += costDetail.memberCost;
+  if (pharmacyCost.monthlyCosts && Array.isArray(pharmacyCost.monthlyCosts))
+    for (var i = monthsRemaining; i < pharmacyCost.monthlyCosts.length; i++) {
+      var monthlyCost = pharmacyCost.monthlyCosts[i];
+      if (monthlyCost.costDetail && Array.isArray(monthlyCost.costDetail)) {
+        for (var k = 0; k < monthlyCost.costDetail.length; k++) {
+          var costDetail = monthlyCost.costDetail[k];
+          prescriptionMap[costDetail.labelName].cost += costDetail.memberCost;
+        }
+      }
     }
-  }
   Object.keys(prescriptionMap).forEach((labelName) => {
     data.push({
       name: <span className={"label"}>{labelName}</span>,
