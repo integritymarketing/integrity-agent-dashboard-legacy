@@ -60,7 +60,7 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Home</title>
       </Helmet>
-      <div className="bg-photo logged-in text-invert">
+      <div className="bg-photo-portal-page logged-in text-invert">
         <GlobalNav />
         <Container
           id="main-content"
@@ -78,7 +78,7 @@ export default () => {
                 </div>
                 <div className="mt-1 text-color body">
                   <p className="text-body">
-                    Quote and enroll PDP clients into the right plan with ease
+                    Easily quote & enroll the largest selection of MA/PDP plans.
                   </p>
                 </div>
                 <div className="pt-2 mt-auto">
@@ -128,8 +128,7 @@ export default () => {
                 </div>
                 <div className="mt-1 text-color body">
                   <p className="text-body">
-                    Quote and enroll Medicare Advantage into the right plan
-                    quickly and easily
+                    Efficiently track, quote, &amp; enroll key MA/PDP plans.
                   </p>
                 </div>
                 <div className="pt-2 mt-auto">
@@ -159,7 +158,7 @@ export default () => {
             >
               <div className="box-content">
                 <div className="pb-1">
-                  <div className="tool-icon">MED SUPP</div>
+                  <div className="tool-icon">CSG APP</div>
                 </div>
                 <div className="mt-1 text-color body">
                   <p className="text-body">
@@ -179,7 +178,7 @@ export default () => {
                         "medicaresupplement-button"
                       )}`}
                     >
-                      Medicare Supplement
+                      CSG APP
                     </button>
                   </div>
                 </div>
