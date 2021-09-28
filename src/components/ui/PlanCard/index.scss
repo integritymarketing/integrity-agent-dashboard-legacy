@@ -7,6 +7,11 @@
   padding: 16px 32px;
   background: var(--v2-white);
 
+
+  &.no-plan-results{
+      padding: 80px;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
