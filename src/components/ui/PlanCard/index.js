@@ -65,13 +65,16 @@ export default function PlanCard({
   isMobile,
 }) {
   let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
+  const { logoURL } = planData;
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
         <div className={"plan-name"}>{planData.planName}</div>
-        <div className={"plan-logo"}>
-          <img src={LOGO_BASE_URL + planData.logoURL} alt="logo" />
-        </div>
+        {logoURL && logoURL !== "" && (
+          <div className={"plan-logo"}>
+            <img src={LOGO_BASE_URL + logoURL} alt="logo" />
+          </div>
+        )}
       </div>
       <div className={"sub-header"}>
         <div className={"carrier-name"}>{planData.carrierName}</div>

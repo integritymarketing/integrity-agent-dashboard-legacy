@@ -18,17 +18,15 @@ import plansService from "services/plansService";
 import { getNextEffectiveDate } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import PlanResults from "components/ui/plan-results";
+import PlanResults, {
+  convertPlanTypeToValue,
+} from "components/ui/plan-results";
 import PlanTypesFilter, { planTypesMap } from "components/ui/PlanTypesFilter";
 import PharmacyFilter from "components/ui/PharmacyFilter";
 import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
 
-const convertPlanTypeToValue = (value, planTypesMap) => {
-  const type = planTypesMap.find((element) => element.value === Number(value));
-  return type?.label || planTypesMap[0].label;
-};
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
     ? 1
@@ -74,19 +72,19 @@ const getSortFunction = (sort) => {
 function getPlansAvailableSection(
   planCount,
   totalPlanCount,
-  loading,
+  plansLoading,
   planType
 ) {
   const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
-  if (loading || planCount == null || totalPlanCount == null) {
+  if (plansLoading) {
     return <div />;
   } else {
     return (
       <div className={`${styles["plans-available"]}`}>
         <span className={`${styles["plans-type"]}`}>
-          {planCount} {planTypeString} plans
-        </span>{" "}
-        based on your filters
+          {planCount || 0} {planTypeString} plans
+        </span>
+        {` based on your filters`}
       </div>
     );
   }
@@ -355,15 +353,18 @@ export default () => {
                       contact={contact}
                       leadId={id}
                       pharmacies={pharmacies}
+                      planType={planType}
                     />
-                    <Pagination
-                      currentPage={currentPage}
-                      resultName="plans"
-                      totalPages={Math.ceil(filteredPlansCount / 10)}
-                      totalResults={filteredPlansCount}
-                      pageSize={pageSize}
-                      onPageChange={(page) => setCurrentPage(page)}
-                    />
+                    {!plansLoading && filteredPlansCount > 0 && (
+                      <Pagination
+                        currentPage={currentPage}
+                        resultName="plans"
+                        totalPages={Math.ceil(filteredPlansCount / 10)}
+                        totalResults={filteredPlansCount}
+                        pageSize={pageSize}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      />
+                    )}
                   </div>
                 </div>
               </Container>

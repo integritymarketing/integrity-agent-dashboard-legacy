@@ -3,7 +3,12 @@ import { useHistory } from "react-router";
 import PlanCard from "./PlanCard";
 import PlanCardLoader from "./PlanCard/loader";
 import EnrollmentModal from "./Enrollment/enrollment-modal";
+import { planTypesMap } from "./PlanTypesFilter";
 
+export const convertPlanTypeToValue = (value, planTypesMap) => {
+  const type = planTypesMap.find((element) => element.value === Number(value));
+  return type?.label || planTypesMap[0].label;
+};
 const PlanResults = ({
   plans,
   isMobile,
@@ -12,6 +17,7 @@ const PlanResults = ({
   contact,
   pharmacies,
   loading,
+  planType,
 }) => {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -39,8 +45,13 @@ const PlanResults = ({
         />
       );
     }
-  } else if (!loading && (!plans || plans.length === 0)) {
-    cards.push(<div key={"loading"} />);
+  } else if (!loading && (!plans || plans == null || plans.length === 0)) {
+    const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
+    cards.push(
+      <div key={"NoResultsCard"}className={"plan-card no-plan-results"}>
+        {`No ${planTypeString} plans available. Review the selected filters and/or contact information.`}
+      </div>
+    );
   } else {
     for (let i = 0; i < 10; i++) {
       cards.push(<PlanCardLoader key={i}></PlanCardLoader>);
