@@ -89,8 +89,6 @@ export default function AddPrescription({
       if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
       }
-      upst;
-
       setQuantity(commonUserQuantity);
       setFrequency(commonDaysOfSupply);
     }
