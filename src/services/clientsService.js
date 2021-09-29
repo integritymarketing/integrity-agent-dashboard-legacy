@@ -363,23 +363,19 @@ class ClientsService {
         },
       ];
     }
-    if (phones?.leadPhone) {
-      reqData.phones = [
-        {
-          phoneId: 0,
-          ...phones,
-          leadPhone: this._getFormattedPhone(phones.leadPhone),
-        },
-      ];
-    }
-    if (address?.address1) {
-      reqData.addresses = [
-        {
-          leadAddressId: 0,
-          ...address,
-        },
-      ];
-    }
+    reqData.phones = [
+      {
+        phoneId: 0,
+        ...phones,
+        leadPhone: this._getFormattedPhone(phones.leadPhone),
+      },
+    ];
+    reqData.addresses = [
+      {
+        leadAddressId: 0,
+        ...address,
+      },
+    ];
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/`,
       "POST",

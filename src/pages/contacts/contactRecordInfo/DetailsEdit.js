@@ -99,7 +99,7 @@ export default (props) => {
 
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
-    : "phone";
+    : "email";
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
