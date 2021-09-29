@@ -149,28 +149,31 @@ export default () => {
   const [pagedResults, setPagedResults] = useState([]);
   const [carrierFilters, setCarrierFilters] = useState([]);
   const [policyFilters, setPolicyFilters] = useState([]);
+  const [rebatesFilter, setRebatesFilter] = useState(false);
+  const [specialNeedsFilter, setSpecialNeedsFilter] = useState(false);
   const toggleAppointedPlans = (e) => {
     setMyAppointedPlans(e.target.checked);
+  };
+  const toggleNeeds = (e) => {
+    setSpecialNeedsFilter(e.target.checked);
+  };
+  const toggleRebates = (e) => {
+    setRebatesFilter(e.target.checked);
   };
 
   const changeFilters = (e) => {
     const { checked, value, name } = e.target;
     const list = name === "policy" ? policyFilters : carrierFilters;
-
+    let resultingList = [];
     if (checked === true) {
-      const itemList = [...new Set([...list, value])];
-      if (name === "policy") {
-        setPolicyFilters(itemList);
-      } else if (name === "carrier") {
-        setCarrierFilters(itemList);
-      }
+      resultingList = [...new Set([...list, value])];
     } else {
-      const filteredList = [...list].filter((item) => item !== value);
-      if (name === "policy") {
-        setPolicyFilters(filteredList);
-      } else if (name === "carrier") {
-        setCarrierFilters(filteredList);
-      }
+      resultingList = [...list].filter((item) => item !== value);
+    }
+    if (name === "policy") {
+      setPolicyFilters(resultingList);
+    } else if (name === "carrier") {
+      setCarrierFilters(resultingList);
     }
   };
   const changePlanType = (e) => {
@@ -235,11 +238,36 @@ export default () => {
       policyFilters.length > 0
         ? carrierGroup.filter((res) => policyFilters.includes(res.planSubType))
         : carrierGroup;
-    const sortedResults = [...policyGroup]?.sort(sortFunction);
+    const specialNeedsPlans = specialNeedsFilter
+      ? [...policyGroup].filter((plan) => plan.SNPType && plan.SNPType !== "")
+      : policyGroup;
+
+    const rebatePlans = rebatesFilter
+      ? [...specialNeedsPlans].filter((plan) => {
+          if (plan.planDataFields && plan.planDataFields.length > 0) {
+            return plan.planDataFields.find((detail) =>
+              detail.name.toLowerCase().includes("part b giveback")
+            );
+          } else {
+            return false;
+          }
+        })
+      : specialNeedsPlans;
+
+    const sortedResults = [...rebatePlans]?.sort(sortFunction);
     setFilteredPlansCount(sortedResults?.length || 0);
     const slicedResults = [...sortedResults]?.slice(pagedStart, pageLimit);
     setPagedResults(slicedResults);
-  }, [results, currentPage, pageSize, sort, carrierFilters, policyFilters]);
+  }, [
+    results,
+    currentPage,
+    pageSize,
+    sort,
+    carrierFilters,
+    policyFilters,
+    rebatesFilter,
+    specialNeedsFilter,
+  ]);
 
   useEffect(() => {
     getContactRecordInfo();
@@ -329,6 +357,8 @@ export default () => {
                         carriers={carrierList}
                         policyTypes={subTypeList}
                         onFilterChange={changeFilters}
+                        toggleRebates={toggleRebates}
+                        toggleNeeds={toggleNeeds}
                       />
                     )}
                   </div>
