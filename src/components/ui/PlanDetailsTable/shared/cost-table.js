@@ -89,7 +89,7 @@ export default ({ planData }) => {
         <>
           <span className={"value"}>
             {currencyFormatter.format(
-              (planData.annualPlanPremium / 12) *
+              planData.medicalPremium *
                 (effectiveEndDate.getMonth() - effectiveStartDate.getMonth()) +
                 planData.estimatedAnnualDrugCostPartialYear
             )}
