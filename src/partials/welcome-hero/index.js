@@ -30,7 +30,9 @@ const WelcomeHero = () => {
         <div
           className={`container--hero__content ${isVisible ? "slidein" : ""}`}
         >
-          <h2 className="welcomeHero__title mt-2">MedicareCENTER Agent Portal</h2>
+          <h2 className="welcomeHero__title mt-2">
+            MedicareCENTER Agent Portal
+          </h2>
           <p className="welcomeHero__content p-1 mb-2">
             <span className="crm-quote-enroll-border" />
             <span className="crm-quote-enroll">CRM + Quoting + Enrollment</span>
@@ -38,8 +40,8 @@ const WelcomeHero = () => {
           </p>
 
           <p className="welcomeHero__content">
-            The most powerful solution built to make client engagement, tracking
-            quoting, enrollment and follow-up simple and seamless.
+            The most powerful solution built to make client engagement,
+            tracking, quoting, enrollment and follow-up simple and seamless.
           </p>
 
           <LoginLink className="btn login-btn">
