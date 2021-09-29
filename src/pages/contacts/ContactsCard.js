@@ -23,7 +23,7 @@ import analyticsService from "services/analyticsService";
 import styles from "./ContactsPage.module.scss";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
-import { MORE_ACTIONS } from "../../utils/moreActions";
+import { MORE_ACTIONS, PLAN_ACTION } from "../../utils/moreActions";
 
 const useClientCardInfo = (client) => {
   const { firstName, middleName, lastName, statusName } = client;
@@ -76,24 +76,32 @@ const ClientCard = ({ client, onRefresh }) => {
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
 
-  const navigateToSOANew = (leadId) => {
-    history.push(`/new-soa/${leadId}`);
+  const navigateToPage = (leadId, page) => {
+    history.push(`/${page}/${leadId}`);
   };
-
   const handleDropdownActions = (contact) => (value, leadId) => {
     switch (value) {
       case "addnewreminder":
         setShowAddModal(leadId);
         setShowAddNewModal(true);
         break;
-      case "addnewsoa":
-        setNewSoaContactDetails(contact);
-        navigateToSOANew(leadId);
+      case "new-soa":
+      case "plans":
+        if (value === "new-soa") {
+          setNewSoaContactDetails(contact);
+        }
+        navigateToPage(leadId, value);
         break;
+
       default:
         break;
     }
   };
+
+  const options = MORE_ACTIONS.slice(0);
+  if (client?.addresses[0]?.postalCode && client?.addresses[0]?.county) {
+    options.splice(1, 0, PLAN_ACTION);
+  }
 
   return (
     <Card data-gtm="card-view-contact-card">
@@ -118,7 +126,7 @@ const ClientCard = ({ client, onRefresh }) => {
           <div className={styles.hideOnMobile}>
             <ActionsDropdown
               className={styles["more-icon"]}
-              options={MORE_ACTIONS}
+              options={options}
               id={client.leadsId}
               onClick={handleDropdownActions(client)}
             >
