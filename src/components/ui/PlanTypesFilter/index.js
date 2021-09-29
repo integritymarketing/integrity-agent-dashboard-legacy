@@ -6,9 +6,9 @@ import "scss/_forms.scss";
 import "./index.scss";
 
 export const planTypesMap = [
-  { id: "AdvantagePlusD", label: "Medicare Advantage Part D", value: 2 },
-  { id: "Advantage", label: "Medicare Advantage", value: 4 },
-  { id: "PartD", label: "Part D", value: 1 },
+  { id: "AdvantagePlusD", label: "MAPD", value: 2 },
+  { id: "Advantage", label: "MA", value: 4 },
+  { id: "PartD", label: "PDP", value: 1 },
 ];
 export default function PlanTypesFilter({
   options,
@@ -25,7 +25,7 @@ export default function PlanTypesFilter({
           id="AdvantagePlusD"
           name="PlanType"
           value={2}
-          label="Medicare Advantage Part D"
+          label="MAPD"
           checked={initialValue === 2}
           onChange={(value) => changeFilter(value)}
         />
@@ -35,7 +35,7 @@ export default function PlanTypesFilter({
           name="PlanType"
           value={4}
           checked={initialValue === 4}
-          label="Medicare Advantage"
+          label="MA"
           onChange={(value) => changeFilter(value)}
         />
         <Radio
@@ -44,7 +44,7 @@ export default function PlanTypesFilter({
           name="PlanType"
           value={1}
           checked={initialValue === 1}
-          label="Part D"
+          label="PDP"
           onChange={(value) => changeFilter(value)}
         />
         {includeAll && (
