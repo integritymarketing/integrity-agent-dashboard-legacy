@@ -9,11 +9,11 @@ export const planTypesMap = [
   { id: "AdvantagePlusD", label: "Medicare Advantage Part D", value: 2 },
   { id: "Advantage", label: "Medicare Advantage", value: 4 },
   { id: "PartD", label: "Part D", value: 1 },
-
 ];
 export default function PlanTypesFilter({
   options,
   includeAll = false,
+  initialValue = 2,
   changeFilter = () => {},
 }) {
   return (
@@ -26,7 +26,7 @@ export default function PlanTypesFilter({
           name="PlanType"
           value={2}
           label="Medicare Advantage Part D"
-          checked={true}
+          checked={initialValue === 2}
           onChange={(value) => changeFilter(value)}
         />
         <Radio
@@ -34,6 +34,7 @@ export default function PlanTypesFilter({
           id="Advantage"
           name="PlanType"
           value={4}
+          checked={initialValue === 4}
           label="Medicare Advantage"
           onChange={(value) => changeFilter(value)}
         />
@@ -42,6 +43,7 @@ export default function PlanTypesFilter({
           id="PartD"
           name="PlanType"
           value={1}
+          checked={initialValue === 1}
           label="Part D"
           onChange={(value) => changeFilter(value)}
         />

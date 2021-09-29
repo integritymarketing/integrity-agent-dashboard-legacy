@@ -48,7 +48,7 @@ const PlanResults = ({
   } else if (!loading && (!plans || plans == null || plans.length === 0)) {
     const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
     cards.push(
-      <div key={"NoResultsCard"}className={"plan-card no-plan-results"}>
+      <div key={"NoResultsCard"} className={"plan-card no-plan-results"}>
         {`No ${planTypeString} plans available. Review the selected filters and/or contact information.`}
       </div>
     );

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import * as Sentry from "@sentry/react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import GlobalNav from "partials/global-nav-v2";
@@ -95,6 +95,7 @@ const EFFECTIVE_YEARS_SUPPORTED = [
 
 export default () => {
   const { contactId: id } = useParams();
+  const history = useHistory();
   const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
   const [filteredPlansCount, setFilteredPlansCount] = useState(0);
@@ -140,7 +141,9 @@ export default () => {
     }
   }, [id]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [planType, setPlanType] = useState(2);
+  const [planType, setPlanType] = useState(
+    history.location.state?.planType || 2
+  );
   const [carrierList, setCarrierList] = useState([]);
   const [subTypeList, setSubTypeList] = useState([]);
   const [pagedResults, setPagedResults] = useState([]);
@@ -172,6 +175,7 @@ export default () => {
   };
   const changePlanType = (e) => {
     setPlanType(e.target.value);
+    history.push({ state: { planType: parseInt(e.target.value) } });
   };
   const getAllPlans = useCallback(async () => {
     if (contact) {
@@ -292,7 +296,10 @@ export default () => {
                 <div className={`${styles["filters"]}`}>
                   <div className={`${styles["filter-section"]}`}>
                     {effectiveDate && (
-                      <PlanTypesFilter changeFilter={changePlanType} />
+                      <PlanTypesFilter
+                        changeFilter={changePlanType}
+                        initialValue={planType}
+                      />
                     )}
                   </div>
                   <div className={`${styles["filter-section"]}`}>

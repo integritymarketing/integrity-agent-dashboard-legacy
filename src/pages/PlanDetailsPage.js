@@ -103,7 +103,12 @@ const PlanDetailsPage = () => {
                   <Button
                     icon={<ArrowDown />}
                     label="Back to Plans List"
-                    onClick={() => history.push(`/plans/${contactId}`)}
+                    onClick={() => {
+                      history.push({
+                        pathname: `/plans/${contactId}`,
+                        state: { planType: plan?.planType },
+                      });
+                    }}
                     type="tertiary"
                   />
                 </div>
