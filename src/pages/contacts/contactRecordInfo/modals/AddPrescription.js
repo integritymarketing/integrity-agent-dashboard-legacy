@@ -77,9 +77,11 @@ export default function AddPrescription({
 
   useEffect(() => {
     if (dosage) {
-      const { commonMetricQuantity, commonDaysOfSupply } = dosage;
+      const { commonUserQuantity, commonDaysOfSupply } = dosage;
       const packageOptions = (dosage?.packages || []).map((_package) => ({
-        label: `${_package.commonUserQuantity} ${_package.packageDescription}`,
+        label: `${_package?.packageSize} ${
+          _package?.PackageSizeUnitOfMeasure
+        } 'm'  ${_package?.packageDescription ?? ""}`,
         value: _package,
       }));
 
@@ -87,7 +89,9 @@ export default function AddPrescription({
       if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
       }
-      setQuantity(commonMetricQuantity);
+      upst;
+
+      setQuantity(commonUserQuantity);
       setFrequency(commonDaysOfSupply);
     }
   }, [dosage]);
@@ -298,25 +302,25 @@ export default function AddPrescription({
           </div>
           {isMobile ? null : <hr />}
           <div className="dialog--actions">
-          <div className="prescription-cancel">
-            <Button
-              fullWidth={isMobile}
-              className="mr-1"
-              label="Cancel"
-              onClick={onClose}
-              type="secondary"
-              data-gtm="button-add-prescription"
-            />
+            <div className="prescription-cancel">
+              <Button
+                fullWidth={isMobile}
+                className="mr-1"
+                label="Cancel"
+                onClick={onClose}
+                type="secondary"
+                data-gtm="button-add-prescription"
+              />
             </div>
             <div className="prescription-add">
-            {" "}
-            <Button
-              fullWidth={isMobile}
-              label="Add Prescription"
-              onClick={handleAddPrecscription}
-              disabled={!isFormValid || isSaving}
-              data-gtm="button-cancel-prescription"
-            />
+              {" "}
+              <Button
+                fullWidth={isMobile}
+                label="Add Prescription"
+                onClick={handleAddPrecscription}
+                disabled={!isFormValid || isSaving}
+                data-gtm="button-cancel-prescription"
+              />
             </div>
           </div>
         </div>
