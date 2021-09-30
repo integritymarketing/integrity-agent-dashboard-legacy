@@ -325,16 +325,17 @@ const ContactsSOAConfirmForm = () => {
           scheduled appointments (even for no-shows, cancelled appointments, or
           those that do not result in a sale)
         </div>
+        <div className="mandatory-notes">* Indicates a required field</div>
         <div className="section-1">
           <Row>
             <LabelValueItem
-              label="Agent First Name"
+              label="Agent First Name *"
               value={<FormInput {...formProps} objKey="firstName" />}
             />
           </Row>
           <Row>
             <LabelValueItem
-              label="Agent Last Name"
+              label="Agent Last Name *"
               value={<FormInput {...formProps} objKey="lastName" />}
             />
           </Row>
@@ -346,7 +347,7 @@ const ContactsSOAConfirmForm = () => {
           </Row>
           <Row>
             <LabelValueItem
-              label="Initial Method of Contact"
+              label="Initial Method of Contact *"
               value={<FormInput {...formProps} objKey="methodOfContact" />}
             />
           </Row>
@@ -392,7 +393,7 @@ const ContactsSOAConfirmForm = () => {
           {formValues.soaSignedDuringAppointment && (
             <Row>
               <LabelValueItem
-                label="Provide an explanation why the SOA was not documented prior to the meeting:"
+                label="Provide an explanation why the SOA was not documented prior to the meeting: *"
                 value={
                   isSubmited ? (
                     formValues.explanationOfSOASignedDuringAppointment
