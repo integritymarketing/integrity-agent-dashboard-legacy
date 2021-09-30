@@ -26,6 +26,13 @@ const transformPrescriptionOptions = (option) => {
   };
 };
 
+const frontTruncate = (str, maxChars, replacement = "...") => {
+  if (str.length > maxChars) {
+    return replacement + str.slice(str.length - maxChars);
+  }
+  return str;
+};
+
 export default function AddPrescription({
   isOpen,
   onClose: onCloseHandler,
@@ -59,7 +66,7 @@ export default function AddPrescription({
         const drugID = drugName?.value;
         const results = await clientService.getDrugDetails(drugID);
         const dosageOptions = (results?.dosages || []).map((dosage) => ({
-          label: dosage.labelName,
+          label: frontTruncate(dosage.labelName, 35),
           value: dosage,
         }));
         setDosageOptions(dosageOptions);
