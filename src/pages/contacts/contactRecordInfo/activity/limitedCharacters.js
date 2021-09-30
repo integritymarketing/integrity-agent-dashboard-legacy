@@ -27,8 +27,8 @@ export default ({ characters, size }) => {
     }
     return (
       <ul className="activities-block">
-        {value.split(",").map((item) => (
-          <li>{item}</li>
+        {value.split(",").map((item, index) => (
+          <li key={index}>{item}</li>
         ))}
       </ul>
     );

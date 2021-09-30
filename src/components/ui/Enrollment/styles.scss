@@ -1,0 +1,54 @@
+.enrollment-modal {
+  &.modal .modal__card.card {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    .modal__exit.icon-btn {
+      right: auto;
+    }
+  }
+
+  .dialog--title {
+    margin-left: 0;
+    margin-bottom: 31px;
+    margin-top: 39px;
+  }
+
+  .plan-card {
+    margin-bottom: 24px;
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+
+  .enrollment-label {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    height: 40px;
+  }
+
+  .radio-label {
+    margin-bottom: 16px;
+  }
+
+  label {
+    font-weight: normal;
+    color: #2b323b;
+  }
+
+  .footer {
+    border-top: 1px solid #cbd5e1;
+    margin-top: 40px;
+    display: flex;
+    flex-flow: row-reverse;
+    margin-left: -5rem;
+    margin-right: -5rem;
+    padding-top: 10px;
+    padding-right: 35px;
+
+    .button {
+      margin-right: 16px;
+    }
+  }
+}

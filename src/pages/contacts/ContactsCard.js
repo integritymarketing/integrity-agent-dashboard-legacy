@@ -5,14 +5,15 @@ import React, {
   useMemo,
   useContext,
 } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import clientsService from "services/clientsService";
 import Container from "components/ui/container";
-import Pagination from "components/ui/pagination";
+import Pagination from "components/ui/Pagination/pagination";
 import Card from "components/ui/card";
 import PhoneIcon from "images/call-icon.svg";
 import NavIcon from "images/nav-icon.svg";
 import StageStatusContext from "contexts/stageStatus";
+import ContactContext from "contexts/contacts";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import { getPrimaryContact } from "utils/primaryContact";
@@ -22,7 +23,7 @@ import analyticsService from "services/analyticsService";
 import styles from "./ContactsPage.module.scss";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
-import { MORE_ACTIONS } from "../../utils/moreActions";
+import { MORE_ACTIONS, PLAN_ACTION } from "../../utils/moreActions";
 
 const useClientCardInfo = (client) => {
   const { firstName, middleName, lastName, statusName } = client;
@@ -66,6 +67,8 @@ const getMapUrl = () => {
 
 const ClientCard = ({ client, onRefresh }) => {
   const { statusOptions } = useContext(StageStatusContext);
+  const { setNewSoaContactDetails } = useContext(ContactContext);
+  const history = useHistory();
   const { displayName, stage, reminders, primaryContact } = useClientCardInfo(
     client
   );
@@ -73,16 +76,32 @@ const ClientCard = ({ client, onRefresh }) => {
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
 
-  const handleDropdownActions = (value, leadId) => {
+  const navigateToPage = (leadId, page) => {
+    history.push(`/${page}/${leadId}`);
+  };
+  const handleDropdownActions = (contact) => (value, leadId) => {
     switch (value) {
       case "addnewreminder":
         setShowAddModal(leadId);
         setShowAddNewModal(true);
         break;
+      case "new-soa":
+      case "plans":
+        if (value === "new-soa") {
+          setNewSoaContactDetails(contact);
+        }
+        navigateToPage(leadId, value);
+        break;
+
       default:
         break;
     }
   };
+
+  const options = MORE_ACTIONS.slice(0);
+  if (client?.addresses[0]?.postalCode && client?.addresses[0]?.county) {
+    options.splice(1, 0, PLAN_ACTION);
+  }
 
   return (
     <Card data-gtm="card-view-contact-card">
@@ -107,9 +126,9 @@ const ClientCard = ({ client, onRefresh }) => {
           <div className={styles.hideOnMobile}>
             <ActionsDropdown
               className={styles["more-icon"]}
-              options={MORE_ACTIONS}
+              options={options}
               id={client.leadsId}
-              onClick={handleDropdownActions}
+              onClick={handleDropdownActions(client)}
             >
               <More />
             </ActionsDropdown>

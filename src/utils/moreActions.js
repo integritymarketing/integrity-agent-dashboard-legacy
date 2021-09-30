@@ -1,8 +1,14 @@
 export const MORE_ACTIONS = [
   {
+    label: "Send Scope of Appointment",
+    value: "new-soa",
+  },
+  {
     label: "Add New Reminder",
     value: "addnewreminder",
-    label2: "View Available Plans",
-    value2: "viewavailableplans",
   },
 ];
+export const PLAN_ACTION = {
+  label: "Find a Plan",
+  value: "plans",
+};

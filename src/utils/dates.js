@@ -1,5 +1,9 @@
 import { parse, parseISO, format } from "date-fns";
 
+const DEFAULT_EFFECTIVE_YEAR = [
+  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
+];
+
 export const parseDate = (dateString) => {
   return parse(dateString, "MM/dd/yyyy", new Date());
 };
@@ -112,3 +116,24 @@ export const getNextEffectiveDate = (years) => {
     }
   }
 };
+
+export function getEffectiveDates(planData) {
+  var effectiveStartDate,
+    effectiveEndDate = null;
+  if (planData.effectiveStartDate) {
+    effectiveStartDate = new Date(planData.effectiveStartDate);
+  } else {
+    effectiveStartDate = new Date();
+    effectiveStartDate.setFullYear(DEFAULT_EFFECTIVE_YEAR);
+    effectiveStartDate.setMonth(effectiveStartDate.getMonth() + 1); // by default, start NEXT month
+  }
+  if (planData.effectiveEndDate) {
+    effectiveEndDate = new Date(planData.effectiveEndDate);
+  } else {
+    effectiveEndDate = new Date();
+    effectiveEndDate.setFullYear(DEFAULT_EFFECTIVE_YEAR);
+    effectiveEndDate.setMonth(11);
+  }
+
+  return { effectiveStartDate, effectiveEndDate };
+}

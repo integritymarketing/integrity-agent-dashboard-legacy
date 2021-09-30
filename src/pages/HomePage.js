@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
-import GlobalNav from "partials/global-nav";
+import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
-import FeedbackRibbon from "partials/feedback-ribbon";
+import EnrollClientBanner from "partials/enroll-clients-banner";
 import ResourceLinkGrid from "partials/resource-link-grid";
-import Modal from "components/ui/modal";
 import analyticsService from "services/analyticsService";
 import validationService from "services/validationService";
 import authService from "services/authService";
@@ -46,95 +45,6 @@ const handleCSGSSO = async (history, loading) => {
   }
 };
 
-const SSOButtonWithModal = ({ ...props }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  useEffect(() => {
-    if (modalOpen) {
-      analyticsService.fireEvent("event-modal-appear", {
-        modalName: "Enrollment Option Modal",
-      });
-    }
-  }, [modalOpen]);
-  return (
-    <React.Fragment>
-      <button
-        type="button"
-        onClick={() => setModalOpen(true)}
-        {...props}
-      ></button>
-      <Modal
-        wide
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        labeledById="dialog_sso_label"
-        descById="dialog_sso_desc"
-      >
-        <div className="mb-3">
-          <div className="tool-icon" id="dialog_sso_label">
-            MA PDP
-          </div>
-        </div>
-        <p
-          className="text-body text-body--large pb-3 border-bottom mb-3"
-          id="dialog_sso_desc"
-        >
-          Choose from two amazing enrollment tool options:
-        </p>
-        <div className="pt-2 mb-2">
-          <p className="text-body text-body--large">
-            Access MedicareCENTER with an enhanced interface offering texting,
-            document storage capabilities, and more!
-          </p>
-        </div>
-        <div
-          className="mb-4 text-body"
-          data-gtm="enrollment-option-modal-medicareapp-button"
-        >
-          <a
-            href={
-              process.env.REACT_APP_AUTH_AUTHORITY_URL +
-              "/external/SamlLogin/2021"
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`btn btn--no-upper ${analyticsService.clickClass(
-              "connecture-button"
-            )}`}
-          >
-            MedicareAPP
-          </a>
-        </div>
-        <div className="mb-3">
-          <p className="text-body text-body--large text-bold text-hr text-hr--dark text-hr--short">
-            OR
-          </p>
-        </div>
-        <div className="pt-1 mb-2">
-          <p className="text-body text-body--large">
-            Access a new enrollment tool option that offers texting capabilities
-            and more!
-          </p>
-        </div>
-        <div
-          className="text-body"
-          data-gtm="enrollment-option-modal-medicare-link"
-        >
-          <a
-            href={process.env.REACT_APP_SUNFIRE_SSO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`btn btn--no-upper ${analyticsService.clickClass(
-              "sunfire-button"
-            )}`}
-          >
-            MedicareLINK
-          </a>
-        </div>
-      </Modal>
-    </React.Fragment>
-  );
-};
-
 export default () => {
   const history = useHistory();
   const loading = useLoading();
@@ -162,94 +72,125 @@ export default () => {
               className="mod text-center"
               data-gtm="hp-category-wrapper-item"
             >
-              <div className="pb-1">
-                <div className="tool-icon">MA PDP</div>
-              </div>
-              <div className="mt-1">
-                <p className="text-body">
-                  Quote and enroll Medicare Advantage and PDP clients into the
-                  right plan quickly and easily
-                </p>
-              </div>
-              <div className="pt-2 mt-auto">
-                <div className="button-wrapper">
-                  <SSOButtonWithModal
-                    data-gtm="hp-category-wrapper-item-button"
-                    className={`btn--invert cta-button ${analyticsService.clickClass(
-                      "medicareadvantage-button"
+              <div className="box-content">
+                <div className="pb-1">
+                  <div className="tool-icon">MED APP</div>
+                </div>
+                <div className="mt-1 text-color body">
+                  <p className="text-body">
+                    Easily quote & enroll the largest selection of MA/PDP plans.
+                  </p>
+                </div>
+                <div className="pt-2 mt-auto">
+                  <div className="button-wrapper">
+                    <button
+                      data-gtm="hp-category-wrapper-item-button"
+                      type="button"
+                      onClick={() => {
+                        window.open(
+                          process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                            "/external/SamlLogin/2022",
+                          "_blank"
+                        );
+                      }}
+                      className={`btn--invert cta-button ${analyticsService.clickClass(
+                        "medicaresupplement-button"
+                      )}`}
+                    >
+                      2022 MedicareAPP
+                    </button>
+                  </div>
+                </div>
+                <div className="pt-2 mt-auto">
+                  <a
+                    href={
+                      process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2021"
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${analyticsService.clickClass(
+                      "connecture-button"
                     )}`}
                   >
-                    Medicare Advantage & PDP
-                  </SSOButtonWithModal>
+                    2021 MedicareAPP
+                  </a>
                 </div>
               </div>
             </div>
-
             <div
               className="mod text-center"
               data-gtm="hp-category-wrapper-item"
             >
-              <div className="pb-1">
-                <div className="tool-icon">MED SUPP</div>
-              </div>
-              <div className="mt-1">
-                <p className="text-body">
-                  Quote, compare, and research Med Supp plans and more by
-                  location, carrier, features, or product
-                </p>
-              </div>
-              <div className="pt-2 mt-auto">
-                <div className="button-wrapper">
-                  <button
-                    data-gtm="hp-category-wrapper-item-button"
-                    type="button"
-                    onClick={() => {
-                      handleCSGSSO(history, loading);
-                    }}
-                    className={`btn--invert cta-button ${analyticsService.clickClass(
-                      "medicaresupplement-button"
-                    )}`}
-                  >
-                    Medicare Supplement
-                  </button>
+              <div className="box-content">
+                <div className="pb-1">
+                  <div className="tool-icon">MED LINK</div>
+                </div>
+                <div className="mt-1 text-color body">
+                  <p className="text-body">
+                    Efficiently track, quote, &amp; enroll key MA/PDP plans.
+                  </p>
+                </div>
+                <div className="pt-2 mt-auto">
+                  <div className="button-wrapper">
+                    <button
+                      data-gtm="hp-category-wrapper-item-button"
+                      type="button"
+                      onClick={() => {
+                        window.open(
+                          process.env.REACT_APP_SUNFIRE_SSO_URL,
+                          "_blank"
+                        );
+                      }}
+                      className={`btn--invert cta-button ${analyticsService.clickClass(
+                        "medicaresupplement-button"
+                      )}`}
+                    >
+                      MedicareLINK
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-
             <div
               className="mod text-center"
               data-gtm="hp-category-wrapper-item"
             >
-              <div className="pb-1">
-                <div className="tool-icon">CRM</div>
-              </div>
-              <div className="mt-1">
-                <p className="text-body">
-                  Manage client information and relationships
-                </p>
-              </div>
-              <div className="pt-2 mt-auto">
-                <div className="button-wrapper">
-                  <Link
-                    data-gtm="hp-category-wrapper-item-button"
-                    to="/contacts"
-                    className={`btn--invert cta-button ${analyticsService.clickClass(
-                      "crm-button"
-                    )}`}
-                  >
-                    Client Management
-                  </Link>
+              <div className="box-content">
+                <div className="pb-1">
+                  <div className="tool-icon">CSG APP</div>
+                </div>
+                <div className="mt-1 text-color body">
+                  <p className="text-body">
+                    Quote, compare, and research plans by location, carrier,
+                    features, or product
+                  </p>
+                </div>
+                <div className="pt-2 mt-auto">
+                  <div className="button-wrapper">
+                    <button
+                      data-gtm="hp-category-wrapper-item-button"
+                      type="button"
+                      onClick={() => {
+                        handleCSGSSO(history, loading);
+                      }}
+                      className={`btn--invert cta-button ${analyticsService.clickClass(
+                        "medicaresupplement-button"
+                      )}`}
+                    >
+                      CSG APP
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </Container>
       </div>
-      <FeedbackRibbon />
-      <Container
-        className="mt-scale-3 mb-4"
-        data-gtm="hp-learning-center-container"
-      >
+      <EnrollClientBanner />
+      {/*       <FeedbackRibbon />
+       */}
+      <Container className="mb-4" data-gtm="hp-learning-center-container">
         <section>
           <div className="custom-homepage-heading hdg hdg--1">
             Learning Center

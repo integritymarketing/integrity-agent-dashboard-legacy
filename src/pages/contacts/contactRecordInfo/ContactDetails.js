@@ -40,10 +40,17 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
 
   return (
     <>
-      <div className="scope-details-card-header contactdetailscardheader">
+      <div
+        className="contactdetailscardheader responsive-d-none"
+        data-gtm="section-contact-details"
+      >
         <h4>Contact Details</h4>
         {!rest.isEdit && (
-          <button className="send-btn" onClick={() => rest.setEdit(true)}>
+          <button
+            className="send-btn"
+            data-gtm="button-edit-contact-details"
+            onClick={() => rest.setEdit(true)}
+          >
             <Editicon />
             <span className="edit-btn-text">Edit</span>
           </button>
@@ -70,7 +77,6 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
                 {lastName || notAvailable}
               </span>
             </div>
-            {/* DOB fiels will go in the Next release */}
             {/* <div className="responsive-display contact-details-col1">
               <p className="contact-details-label">Date Of Birth</p>
               <span className="mob-mb-24 contact-details-name">10/06/1994</span>

@@ -99,13 +99,12 @@ export default (props) => {
 
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
-    : "phone";
+    : "email";
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
   const history = useHistory();
-  const hideDOBUntilNextRelease = true;
 
   const getContactLink = (id) => `/contact/${id}`;
   const goToContactDetailPage = (id) => {
@@ -226,7 +225,11 @@ export default (props) => {
         let response = await clientService.updateLead(values);
         if (response.ok) {
           props.getContactRecordInfo();
-          goToContactDetailPage(leadsId);
+          if (props.successNavigationRoute) {
+            history.push(props.successNavigationRoute);
+          } else {
+            goToContactDetailPage(leadsId);
+          }
           props.setEdit(false);
           setSubmitting(false);
           addToast({
@@ -379,41 +382,37 @@ export default (props) => {
                       </div>
                     )}
                   </div>
-                  {!hideDOBUntilNextRelease && (
-                    <div className="responsive-display contact-details-col1 mob-res-w-100">
-                      <Textfield
-                        id="contact-dob"
-                        type="text"
-                        label="Date of Birth"
-                        placeholder="MM/DD/YYYY"
-                        name="dob"
-                        value=""
-                        disabled
-                        className="custom-w-px1"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                  )}
+                  {/* <div className="responsive-display contact-details-col1 mob-res-w-100">
+                    <Textfield
+                      id="contact-dob"
+                      type="text"
+                      label="Date of Birth"
+                      placeholder="MM/DD/YYYY"
+                      name="dob"
+                      value=""
+                      disabled
+                      className="custom-w-px1"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div> */}
                 </div>
                 <div className="mob-email-row contact-details-row mob-res-row1">
-                  {!hideDOBUntilNextRelease && (
-                    <div className="custom-w-186 responsive-d-none contact-details-col1 mob-res-w-100">
-                      <Textfield
-                        id="contact-dob"
-                        type="text"
-                        label="Date of Birth"
-                        placeholder="MM/DD/YYYY"
-                        name="dob"
-                        value=""
-                        disabled
-                        className="custom-w-px1"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                  )}
-                  {/* Need to add back ml-65 in the class name when DOB is added back  */}
+                  {/* <div className="custom-w-186 responsive-d-none contact-details-col1 mob-res-w-100">
+                    <Textfield
+                      id="contact-dob"
+                      type="text"
+                      label="Date of Birth"
+                      placeholder="MM/DD/YYYY"
+                      name="dob"
+                      value=""
+                      disabled
+                      className="custom-w-px1"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div> */}
+                  {/* Need to add back ml-65 in the class name below when DOB is added back  */}
                   <div className="responsive-w-50 custom-w-25 contact-details-col1">
                     <label
                       className=" custom-label-state label"

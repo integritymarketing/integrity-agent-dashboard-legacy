@@ -19,8 +19,10 @@ export const ShortReminder = ({
     : {};
   const { reminderDate, reminderNote } = reminder;
   useEffect(() => {
+    if(showAddModal) {
     analyticsService.fireEvent("event-date-edit");
-  }, []);
+  }
+  }, [showAddModal]);
 
   return (
     <div className={`reminder-content datepicker-row ${className}`}>

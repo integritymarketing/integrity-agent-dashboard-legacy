@@ -4,6 +4,7 @@ import "./index.scss";
 import "scss/_forms.scss";
 
 export default function EffectiveDateFilter({ years, initialValue, onChange }) {
+  initialValue.setDate(15); // setting the day of month here to the middle of the month, to avoid timezone issues.
   const options = useMemo(() => {
     const options = [];
     const now = new Date();
@@ -14,9 +15,9 @@ export default function EffectiveDateFilter({ years, initialValue, onChange }) {
         date.setMonth(i);
         date.setFullYear(year);
         options.push({
-          label: `${date.getFullYear()} ${date.toLocaleString("default", {
+          label: `${date.toLocaleString("default", {
             month: "long",
-          })}`,
+          })} ${date.getFullYear()} `,
           value: date.toISOString(),
         });
         i++;

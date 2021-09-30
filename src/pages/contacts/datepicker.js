@@ -20,14 +20,21 @@ function formatDate(date, format, locale) {
   return dateFnsFormat(date, format, { locale });
 }
 
-export default ({ date, onAddNew, overDueStatus = false }) => {
+export default ({
+  date,
+  format,
+  onAddNew,
+  overDueStatus = false,
+  onChangeDate,
+}) => {
   return (
     <DayPickerInput
       value={date ? new Date(date) : "Add"}
       formatDate={formatDate}
-      format={FORMAT}
+      format={format || FORMAT}
       parseDate={parseDate}
-      placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
+      placeholder={`${dateFnsFormat(new Date(), format || FORMAT)}`}
+      onDayChange={onChangeDate}
       component={(props) => {
         return (
           <span className="datepickerparent">
