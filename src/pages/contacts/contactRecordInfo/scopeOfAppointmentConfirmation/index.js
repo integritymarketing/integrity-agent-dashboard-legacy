@@ -293,6 +293,7 @@ export default () => {
                           (cardholder).
                         </span>
                       </div>
+                      <div className="mandatory-notes-div">* Indicates a required field</div>
                       <section
                         data-gtm="section-beneficiary-info"
                         className="beneficiary-form"
@@ -300,7 +301,7 @@ export default () => {
                         <fieldset className="form__fields form__fields--constrained hide-input-err">
                           <Textfield
                             id="beneficiary-fname"
-                            label="Beneficiary's First Name"
+                            label="Beneficiary's First Name *"
                             name="firstName"
                             value={values.firstName}
                             onChange={handleChange}
@@ -349,7 +350,7 @@ export default () => {
                           <Textfield
                             id="beneficiary-lname"
                             className="pb-2"
-                            label="Beneficiary's Last Name"
+                            label="Beneficiary's Last Name *"
                             name="lastName"
                             value={values.lastName}
                             onChange={handleChange}
@@ -388,7 +389,7 @@ export default () => {
                         <fieldset className="form__fields form__fields--constrained hide-input-err">
                           <Textfield
                             id="beneficiary-address"
-                            label="Address Line1"
+                            label="Address Line1 *"
                             name="address.address1"
                             value={values.address.address1}
                             onChange={handleChange}
@@ -444,7 +445,7 @@ export default () => {
                             )}
                           <Textfield
                             id="beneficiary-address__city"
-                            label="City"
+                            label="City *"
                             name="address.city"
                             value={values.address.city}
                             onChange={handleChange}
@@ -472,7 +473,7 @@ export default () => {
                             )}
                           <div>
                             <label className="label" htmlFor="state-label">
-                              State
+                              State *
                             </label>
                             <div className="state-select-input">
                               <Select
@@ -511,7 +512,7 @@ export default () => {
                           <Textfield
                             id="beneficiary-address__zip"
                             className={`contact-address--zip`}
-                            label="ZIP Code"
+                            label="ZIP Code *"
                             name="address.postalCode"
                             value={values.address.postalCode}
                             onChange={handleChange}

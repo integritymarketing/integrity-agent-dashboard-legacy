@@ -120,7 +120,6 @@
           .understand-contents-of-soa-content {
             padding-right: 48px;
             color: #3d4553;
-            // font-family: Roboto;
             font-size: 14px;
             font-style: normal;
             font-weight: 400;
@@ -275,5 +274,15 @@ a.blue-link {
     font-size: 24px;
     color: #002d72;
   }
+}
+
+.mandatory-notes-div {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #515e6f;
+  margin-bottom: 26px;
 }
 /* End form submitted */
