@@ -18,6 +18,7 @@ import plansService from "services/plansService";
 import { getNextEffectiveDate } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import { BackToTop } from "components/ui/BackToTop";
 import PlanResults, {
   convertPlanTypeToValue,
 } from "components/ui/plan-results";
@@ -393,6 +394,8 @@ export default () => {
                       planType={planType}
                     />
                     {!plansLoading && filteredPlansCount > 0 && (
+                      <>
+                      <BackToTop />
                       <Pagination
                         currentPage={currentPage}
                         resultName="plans"
@@ -401,6 +404,7 @@ export default () => {
                         pageSize={pageSize}
                         onPageChange={(page) => setCurrentPage(page)}
                       />
+                      </>
                     )}
                   </div>
                 </div>

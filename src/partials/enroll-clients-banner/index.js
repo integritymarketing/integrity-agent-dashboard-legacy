@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import analyticsService from "services/analyticsService";
 import "./index.scss";
-import image from "./image.jpg";
-import mobileImage from "./mobileImage.jpg";
+import image from "./image.png";
+import mobileImage from "./mobileImage.png";
 
 const EnrollClientBanner = () => (
   <div className="enrollClientBanner">
@@ -28,14 +28,8 @@ const EnrollClientBanner = () => (
           </div>
         </div>
       </div>
-
-      {mobileImage && (
-        <source
-          media="(min-width: 320px) and (max-width: 480px)"
-          srcSet={mobileImage}
-        />
-      )}
-      <img src={image} alt="plans" className="image"></img>
+      <img src={mobileImage} alt="plans" className="mobile image"></img>
+      <img src={image} alt="plans" className="large-screen image"></img>
     </div>
   </div>
 );

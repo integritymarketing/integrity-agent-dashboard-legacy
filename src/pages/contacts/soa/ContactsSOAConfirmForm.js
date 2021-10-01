@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import Back from "components/icons/back";
+import { useParams } from "react-router-dom";
+import NavBarWithBack from "partials/back-nav";
 import * as Sentry from "@sentry/react";
 import BackNavContext from "contexts/backNavProvider";
 import clientService from "services/clientsService";
@@ -51,7 +51,6 @@ const Col = ({ children, fullWidth = false }) => {
 };
 
 const ContactsSOAConfirmForm = () => {
-  const history = useHistory();
   const { contactId, linkCode } = useParams();
   const { previousPage } = useContext(BackNavContext);
   const [soaConfirmData, setSoaConfirmData] = useState(null);
@@ -84,7 +83,7 @@ const ContactsSOAConfirmForm = () => {
       acceptedSOA: agent_data.acceptedSOA,
       appointmentDate: agent_data.appointmentDate,
       explanationOfSOASignedDuringAppointment:
-        agent_data.explanationOfSOASignedDuringAppointment,
+      agent_data.explanationOfSOASignedDuringAppointment,
       firstName: agent_data.firstName,
       lastName: agent_data.lastName,
       methodOfContact: agent_data.methodOfContact,
@@ -144,25 +143,9 @@ const ContactsSOAConfirmForm = () => {
     },
   };
 
-  const goBack = (e) => {
-    e.preventDefault();
-    if (previousPage) {
-      history.push({
-        pathname: `/contact/${contactId}`,
-        state: { display: "ScopeOfAppointment" },
-      });
-    } else {
-      history.goBack();
-    }
-  };
-
   return (
     <div className="contacts-soa">
-      <header className="global-nav-v2 gtm-nav-wrapper">
-        <a className="page-title" href="#eslint" onClick={goBack}>
-          <Back /> Back to {previousPage}
-        </a>
-      </header>
+      <NavBarWithBack title={`Back to ${previousPage}`} leadId={contactId} />
       <div className="content-wrapper">
         <div className="heading">Scope of Appointment Confirmation Form</div>
         <div className="section-1">
@@ -226,6 +209,15 @@ const ContactsSOAConfirmForm = () => {
               <LabelValueItem
                 label="Address (Line 1)"
                 value={leadSection?.beneficiary?.address1}
+              />
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <LabelValueItem
+                label="Address (Line 2)"
+                value={leadSection?.beneficiary?.address2}
               />
             </Col>
           </Row>
