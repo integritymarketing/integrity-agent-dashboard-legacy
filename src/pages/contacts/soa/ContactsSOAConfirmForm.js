@@ -215,6 +215,15 @@ const ContactsSOAConfirmForm = () => {
 
           <Row>
             <Col>
+              <LabelValueItem
+                label="Address (Line 2)"
+                value={leadSection?.beneficiary?.address2}
+              />
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
               <Row>
                 <Col>
                   <LabelValueItem
