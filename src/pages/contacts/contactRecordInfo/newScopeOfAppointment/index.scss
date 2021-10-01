@@ -1,0 +1,95 @@
+.new-sop-page {
+  display: flex;
+  justify-content: center;
+  .new-scope-card {
+    display: flex;
+    min-height: 450px;
+    width: 730px;
+    margin: 55px 0px 308px 0px;
+    .scope-title {
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+      color: #002d72;
+      padding: 15px 92px 50px 0;
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 29px;
+        letter-spacing: 0em;
+        text-align: left;
+        min-width: 330px;
+        min-height: 60px;
+        padding: 30px 0px 40px 0px;
+      }
+    }
+    .select-scope-wrapper {
+      display: flex;
+      flex-direction: column;
+      .select-scope-heading {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+    .new-email-or-mobile {
+      display: flex;
+      align-items: flex-start;
+      & > div:first-child {
+        margin-right: 16px;
+      }
+     
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        flex-direction: column;
+      }
+      .email-mobile-section {
+        width: 40%;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          margin-top: 10px;
+          width: 100%;
+        }
+        .text-input {
+          width: 100%;
+          padding: 10px;
+        }
+
+        .email-mobile-error {
+          background: #fff2f2;
+          border: 1px solid #cf3c28;
+          color: #2b323b;
+          margin-bottom: 5px;
+        }
+      }
+    }
+    .error-class {
+      background: #fff2f2;
+      border: 1px solid #cf3c28;
+      color: #2b323b;
+      margin-bottom: 5px;
+    }
+
+    .validation-msg {
+      font-family: Lato;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 130%;
+      color: #cf3c28;
+    }
+    .send-button {
+      padding-top: 50px;
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        width: 100%;
+      }
+    }
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+      justify-content: space-between;
+      width: 100%;
+      margin: 0px;
+      border: none;
+      height: calc(100vh - 92px);
+    }
+  }
+}

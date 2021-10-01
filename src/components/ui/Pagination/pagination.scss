@@ -1,0 +1,39 @@
+.pagination {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .info {
+        color: "#70777E";
+        float: left;
+    }
+
+    .right {
+        border: 1px solid var(--card-border-color);
+        background: var(--card-bg);
+        display: flex;
+    }
+
+    .text {
+        width: 70px;
+    }
+
+    button {
+        &.active {
+            background: var(--v2-secondary-blue-100);
+            border: 1px solid var(--border-light);
+            box-sizing: border-box;
+            border-radius: 4px 0px 0px 4px;
+        }
+
+        &:disabled {
+            background: var(--v2-light-gray);
+        }
+    }
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "components/ui/container";
-import GlobalNav from "partials/global-nav";
+import GlobalNav from "partials/global-nav-v2";
 import SimpleFooter from "partials/simple-footer";
 import LoginLink from "components/ui/login-link";
 import Modal from "components/ui/modal";

@@ -31,10 +31,11 @@
       display: flex;
       flex-wrap: wrap;
 
-      a {
+      .button {
         margin-right: 32px;
         text-decoration: none;
         cursor: pointer;
+        font-weight: normal;
         color: #313336;
 
         &:hover {

@@ -3,21 +3,39 @@ import PropTypes from "prop-types";
 
 import "./radio.scss";
 
-function Radio({ htmlFor = "", id = "", name = "", value = "", label = "" }) {
+function Radio({
+  htmlFor = "",
+  id = "",
+  name = "",
+  value = "",
+  label = "",
+  className,
+  onChange,
+  checked = false,
+}) {
+  const theClassName = className ? `radio-label ${className}` : "radio-label";
   return (
-    <label htmlFor={htmlFor} className="radio-label">
-      <input type="radio" className="mr-1" id={id} name={name} value={value} />
+    <label htmlFor={htmlFor} className={theClassName}>
+      <input
+        type="radio"
+        className="mr-1"
+        id={id}
+        name={name}
+        value={value}
+        onChange={onChange}
+        defaultChecked={checked}
+      />
       {label}
     </label>
   );
 }
 
 Radio.propTypes = {
-  htmlFor: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  htmlFor: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  type: PropTypes.string,
+  value: PropTypes.any,
 };
 
 export default Radio;

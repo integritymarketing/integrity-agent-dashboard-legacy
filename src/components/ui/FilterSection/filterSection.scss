@@ -1,0 +1,30 @@
+.section {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #2B323B;
+
+  &.-header {
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.header {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.subSection {
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 8px;
+
+
+  .title {
+    margin-bottom: 8px;
+    margin-top: 28px;
+  }
+}

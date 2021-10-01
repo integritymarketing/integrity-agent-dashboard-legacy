@@ -10,9 +10,47 @@
 }
 
 .mod {
-  max-width: 280px;
+  align-items: center;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  height: 285px;
+  max-width: 320px;
+  width: 100%;
+  width: 320px;
+  padding: 30px 20px;
+  mix-blend-mode: normal;
+  opacity: 0.9;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+button.gtm-medicareadvantage-button,
+.gtm-medicaresupplement-button,
+.gtm-crm-button {
+  background: #0052ce;
+  color: #f8fafc !important;
+  &:hover {
+    background: #0052ce !important;
+  }
+}
+
+.text-color {
+  color: #2b323b;
+}
+
+.box-content {
+  width: 100%;
+  .body {
+    height: 50px;
+  }
+  a {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+    color: #0052ce;
+    text-decoration: none;
+  }
 }
 
 .v2 {

@@ -1,0 +1,74 @@
+.enrollClientBanner {
+    background: linear-gradient(93.04deg, #ffffff 30.3%, #cad6e2 70.25%);
+    border-radius: 8px;
+    height: 242px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1120px;
+    position: relative;
+    top: -95px;
+    left: 0;
+}
+
+.content-enroll {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.enroll-content {
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.content-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    max-width: 473px;
+    display: flex;
+    width: 100%;
+    gap: 15px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.heading3 {
+    color: #2b323b;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.image {
+    height: 100%;
+    position: relative;
+    top: 25px;
+    width: 100%;
+}
+
+@media screen and (max-width: 480px) {
+    .content-container {
+        max-width: 275px;
+        padding: 20px 0 0 0;
+    }
+    .content-enroll {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .enrollClientBanner {
+        height: 510px;
+        top: -20px;
+    }
+
+    .image {
+        background-image: url('./mobileImage.jpg');
+        height: 100%;
+        top: 0;
+        width: 100%;
+    }
+}

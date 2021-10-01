@@ -26,6 +26,13 @@ const transformPrescriptionOptions = (option) => {
   };
 };
 
+const frontTruncate = (str, maxChars, replacement = "...") => {
+  if (str.length > maxChars) {
+    return replacement + str.slice(str.length - maxChars);
+  }
+  return str;
+};
+
 export default function AddPrescription({
   isOpen,
   onClose: onCloseHandler,
@@ -59,7 +66,7 @@ export default function AddPrescription({
         const drugID = drugName?.value;
         const results = await clientService.getDrugDetails(drugID);
         const dosageOptions = (results?.dosages || []).map((dosage) => ({
-          label: dosage.labelName,
+          label: frontTruncate(dosage.labelName, 35),
           value: dosage,
         }));
         setDosageOptions(dosageOptions);
@@ -77,9 +84,9 @@ export default function AddPrescription({
 
   useEffect(() => {
     if (dosage) {
-      const { commonMetricQuantity, commonDaysOfSupply } = dosage;
+      const { commonUserQuantity, commonDaysOfSupply } = dosage;
       const packageOptions = (dosage?.packages || []).map((_package) => ({
-        label: `${_package.commonUserQuantity} ${_package.packageDescription}`,
+        label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
         value: _package,
       }));
 
@@ -87,7 +94,7 @@ export default function AddPrescription({
       if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
       }
-      setQuantity(commonMetricQuantity);
+      setQuantity(commonUserQuantity);
       setFrequency(commonDaysOfSupply);
     }
   }, [dosage]);
@@ -298,25 +305,25 @@ export default function AddPrescription({
           </div>
           {isMobile ? null : <hr />}
           <div className="dialog--actions">
-          <div className="prescription-cancel">
-            <Button
-              fullWidth={isMobile}
-              className="mr-1"
-              label="Cancel"
-              onClick={onClose}
-              type="secondary"
-              data-gtm="button-add-prescription"
-            />
+            <div className="prescription-cancel">
+              <Button
+                fullWidth={isMobile}
+                className="mr-1"
+                label="Cancel"
+                onClick={onClose}
+                type="secondary"
+                data-gtm="button-add-prescription"
+              />
             </div>
             <div className="prescription-add">
-            {" "}
-            <Button
-              fullWidth={isMobile}
-              label="Add Prescription"
-              onClick={handleAddPrecscription}
-              disabled={!isFormValid || isSaving}
-              data-gtm="button-cancel-prescription"
-            />
+              {" "}
+              <Button
+                fullWidth={isMobile}
+                label="Add Prescription"
+                onClick={handleAddPrecscription}
+                disabled={!isFormValid || isSaving}
+                data-gtm="button-cancel-prescription"
+              />
             </div>
           </div>
         </div>

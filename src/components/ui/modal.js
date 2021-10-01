@@ -15,6 +15,7 @@ export default ({
   isVideo,
   providerModal,
   footer,
+  cssClassName = "",
   ...props
 }) => {
   const scrollRef = useRef(null);
@@ -43,7 +44,7 @@ export default ({
     <div
       className={`modal ${open ? "modal--show" : "modal--hide"} ${
         isVideo ? "modal--video" : ""
-      }`}
+      } ${cssClassName}`}
       {...props}
       onClick={(event) => {
         if (event.target.matches(".modal") && onClose) {

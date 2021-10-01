@@ -1,0 +1,63 @@
+import React, { useMemo } from "react";
+import PlanDetailsTable from "..";
+
+const currencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
+
+export default ({ planData }) => {
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Plan Benefits",
+        columns: [
+          {
+            hideHeader: true,
+            accessor: "label",
+          },
+          {
+            hideHeader: true,
+            accessor: "value",
+          },
+        ],
+      },
+    ],
+    []
+  );
+  const data = [
+    {
+      label: <span className={"label"}>Medical Deductible</span>,
+      value: (
+        <span className={"value"}>
+          {currencyFormatter.format(planData.medicalDeductible)}
+        </span>
+      ),
+    },
+    {
+      label: <span className={"label"}>In-Network Maximum out of Pocket</span>,
+      value: (
+        <span className={"value"}>
+          {currencyFormatter.format(planData.maximumOutOfPocketCost)}
+        </span>
+      ),
+    },
+  ];
+
+  if (planData.planDataFields && Array.isArray(planData.planDataFields)) {
+    planData.planDataFields.forEach((dataField) => {
+      data.push({
+        label: <span className={"label"}>{dataField.name}</span>,
+        value: (
+          <div dangerouslySetInnerHTML={{ __html: dataField.description }} />
+        ),
+      });
+    });
+  }
+
+  return (
+    <>
+      <PlanDetailsTable columns={columns} data={data} />
+    </>
+  );
+};

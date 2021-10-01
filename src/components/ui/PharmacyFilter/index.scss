@@ -1,0 +1,40 @@
+.pharmacy-filter {
+  color: #2b323b;
+  font-family: Lato;
+  font-size: 14px;
+
+  .header {
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .radio-label {
+    font-size: 14px;
+  }
+
+  .pharmacy-label {
+    font-weight: normal;
+  }
+
+  .pharmacy-address {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 150%;
+    display: flex;
+    align-items: center;
+    color: #64748b;
+  }
+
+  .option {
+    width: 100%;
+    font-weight: normal;
+    display: block;
+    color: var(--v2-dark-gray);
+  }
+
+  .subSection {
+    margin-top: 0;
+  }
+}

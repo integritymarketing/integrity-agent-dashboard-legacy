@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
-import Pagination from "components/ui/pagination";
+import Pagination from "components/ui/Pagination/pagination";
 import ExitIcon from "components/icons/exit";
 import { Button } from "components/ui/Button";
 import clientsService from "services/clientsService";

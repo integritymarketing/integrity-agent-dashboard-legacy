@@ -1,0 +1,30 @@
+.focused-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #002d72;
+  height: 64px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 150%;
+
+  .container {
+    padding-left: 15px;
+  }
+
+  .back-button {
+    .button {
+      color: var(--v2-white);
+      height: 24px;
+      svg {
+        transform: rotate(90deg);
+
+        g {
+          fill: var(--v2-royal-blue);
+        }
+      }
+    }
+  }
+}

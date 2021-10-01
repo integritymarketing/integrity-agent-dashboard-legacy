@@ -120,7 +120,7 @@
   margin-bottom: 24px;
 }
 
-.para-btn-section p {
+.para-btn-section {
   font-family: "Lato", sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -130,7 +130,7 @@
   width: 80%;
   min-height: 26px;
 }
-.para-btn-section p > span {
+.para-btn-section > span {
   width: 100%;
   display: block;
   word-break: break-all;
@@ -147,7 +147,7 @@
   font-style: normal;
   font-weight: 400;
 }
-.para-btn-section p > span button {
+.para-btn-section span button {
   font-family: "Lato", sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -949,6 +949,9 @@
 .contactdetailscardheader button:hover {
   background: #f5f7fa;
   border: 1px solid #dfe5ef;
+  span {
+    color: var(--v2-royal-blue);
+  }
 }
 
 .deleteTextAreaText:hover,
@@ -1445,9 +1448,16 @@ button {
   .custom-mob-email-row {
     flex-direction: column-reverse;
   }
-  .scope-details-card-header {
-    display: none;
+  .scope-details-card-header .send-btn {
+    background: #ffffff;
+    border: 1px solid #dfe5ef;
+    border-radius: 4px;
+    height: 40px;
   }
+  .soa-list-body {
+    padding: 0 10px 26px !important;
+  }
+
   .contactDetailsSection {
     padding: 0 !important;
   }
@@ -2177,4 +2187,26 @@ button {
 
 .ml-10 {
   margin-left: 10px;
+}
+.no-items {
+  height: 69px;
+  border: 1.5px solid #e6ecf2;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Lato;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  color: #64748b;
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    flex-direction: column;
+  }
+  a {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }

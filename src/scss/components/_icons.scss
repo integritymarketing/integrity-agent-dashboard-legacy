@@ -15,7 +15,7 @@
   cursor: pointer;
 
   &--bump-right {
-    margin-right: -0.5rem;
+      margin-right: -0.5rem;
   }
 }
 
@@ -32,16 +32,16 @@
   display: flex;
   align-items: flex-start;
   > img {
-    margin-top: 2px;
+      margin-top: 2px;
   }
 }
 
 @keyframes iconspin {
   from {
-    transform: rotate(0deg);
+      transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+      transform: rotate(360deg);
   }
 }
 
@@ -51,24 +51,25 @@
 }
 
 .tool-icon {
-  display: inline-flex;
-  width: 3rem;
-  height: 3rem;
-  justify-content: center;
   align-items: center;
-  border: 2px solid;
-  border-radius: 6px;
-  font-size: (14/16) * 1rem;
-  font-weight: 400;
-  line-height: (16/14);
-  letter-spacing: -0.25px;
+  border: 3px solid #002D72;
+  border-radius: 8px;
+  color: #002d72;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+  height: 4rem;
+  width: 4rem;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  line-height: 24px;
 }
 
 .provider-close {
   top: -33px !important;
   right: -71px !important;
   @media (max-width: 480px) {
-    top: -15px !important;
-    right: -15px !important;
+      top: -15px !important;
+      right: -15px !important;
   }
 }

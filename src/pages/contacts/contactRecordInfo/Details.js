@@ -1,5 +1,4 @@
-/* useEffet should be imported when Provider is going to live */
-import React, { useState } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
@@ -16,7 +15,7 @@ import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 
-export default (props) => {
+export default forwardRef((props, ref) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
@@ -43,8 +42,6 @@ export default (props) => {
   const onAddNewPharmacy = () => setIsOpenPharmacy(true);
   const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
   const onAddNewProvider = () => setIsOpen(true);
-  /* Need to remove this temporary condition in the Next release */
-  const hideProviderUntilNextRelease = true;
 
   const [leadProviders, setLeadProviders] = useState({
     items: {},
@@ -126,10 +123,9 @@ export default (props) => {
     }
   }, [props.id]);
 
-  /* It should be uncommented when Provider is going to live */
-  // useEffect(() => {
-  //   fetchProviders();
-  // }, [fetchProviders]);
+  useEffect(() => {
+    fetchProviders();
+  }, [fetchProviders]);
 
   const getFrequencyValue = (dayofSupply) => {
     const frequencyOptions = FREQUENCY_OPTIONS.filter(
@@ -167,7 +163,7 @@ export default (props) => {
   };
 
   const PharamaciesRow = ({ item, className }) => {
-    const address = `${item.address1} ${item.address2 ?? ""}, ${item.city}, 
+    const address = `${item.address1} ${item.address2 ?? ""}, ${item.city},
     ${item.state}, ${item.zip}`;
     const phone = formatPhoneNumber(item.pharmacyPhone);
     return (
@@ -183,7 +179,7 @@ export default (props) => {
 
   return (
     <>
-      <div className="contactdetailscard">
+      <div className="contactdetailscard" ref={props.detailsRef}>
         {props.isEdit ? <EditForm {...props} /> : <ContactDetails {...props} />}
       </div>
       <div className="detailscard-container">
@@ -216,8 +212,9 @@ export default (props) => {
             onSave={addPharmacy}
           />
         )}
-        {!hideProviderUntilNextRelease && (
+        <div ref={props.providersRef}>
           <DetailsCard
+            dataGtm="section-provider"
             headerTitle="Providers"
             onAddClick={onAddNewProvider}
             items={leadProviders?.items?.providers || []}
@@ -261,24 +258,30 @@ export default (props) => {
               );
             }}
           />
-        )}
-        <DetailsCard
-          headerTitle="Prescriptions"
-          onAddClick={onAddNewPrescription}
-          items={prescriptions}
-          Row={PrescriptionRow}
-          onDelete={deletePrescription}
-          onEdit={onEditPrescription}
-          isLoading={isLoading}
-        />
-        <DetailsCard
-          headerTitle="Pharmacies"
-          onAddClick={onAddNewPharmacy}
-          items={pharmacies}
-          Row={PharamaciesRow}
-          onDelete={deletePharmacy}
-          isLoading={isLoading}
-        />
+        </div>
+        <div ref={props.prescriptionRef}>
+          <DetailsCard
+            dataGtm="section-prescription"
+            headerTitle="Prescriptions"
+            onAddClick={onAddNewPrescription}
+            items={prescriptions}
+            Row={PrescriptionRow}
+            onDelete={deletePrescription}
+            onEdit={onEditPrescription}
+            isLoading={isLoading}
+          />
+        </div>
+        <div ref={props.pharmacyRef}>
+          <DetailsCard
+            dataGtm="section-pharmacies"
+            headerTitle="Pharmacies"
+            onAddClick={onAddNewPharmacy}
+            items={pharmacies}
+            Row={PharamaciesRow}
+            onDelete={deletePharmacy}
+            isLoading={isLoading}
+          />
+        </div>
         <DeleteLeadModal
           leadsId={props?.id}
           leadName={`${firstName} ${middleName || ""} ${lastName}`}
@@ -286,4 +289,4 @@ export default (props) => {
       </div>
     </>
   );
-};
+});
