@@ -243,27 +243,11 @@ const NewContactForm = () => {
                 }
               />
               {(touched.firstName || submitCount > 0) && errors.firstName && (
-                <>
-                  <ul className="details-edit-custom-error-msg">
-                    <li className="error-msg-green">
-                      First name must be 2 characters or more
-                    </li>
-                    <li className="error-msg-green">
-                      Only alpha numerics and space, apostrophe('), hyphen(-)
-                      are allowed
-                    </li>
-                    <li className="error-msg-red">
-                      Certain special characters such as ! @ . , ; : " ? are not
-                      allowed
-                    </li>
-                  </ul>
-                </>
+                <ul className="details-edit-custom-error-msg">
+                  <li className="error-msg-red">{errors.firstName}</li>
+                </ul>
               )}
-              {values.firstName.length > 50 && (
-                <div className="custom-error-msg">
-                  First name must be 50 characters or less
-                </div>
-              )}
+
               <Textfield
                 id="contact-mname"
                 label="Middle Initial"
@@ -290,26 +274,9 @@ const NewContactForm = () => {
                 }
               />
               {(touched.lastName || submitCount > 0) && errors.lastName && (
-                <>
-                  <ul className="details-edit-custom-error-msg">
-                    <li className="error-msg-green">
-                      Last name must be 2 characters or more
-                    </li>
-                    <li className="error-msg-green">
-                      Only alpha numerics and space, apostrophe('), hyphen(-)
-                      are allowed
-                    </li>
-                    <li className="error-msg-red">
-                      Certain special characters such as ! @ . , ; : " ? are not
-                      allowed
-                    </li>
-                  </ul>
-                </>
-              )}
-              {values.lastName.length > 50 && (
-                <div className="custom-error-msg">
-                  Last name must be 50 characters or less
-                </div>
+                <ul className="details-edit-custom-error-msg">
+                  <li className="error-msg-red">{errors.lastName}</li>
+                </ul>
               )}
             </fieldset>
             <div className="mt-3 mb-3 border-bottom border-bottom--light" />
@@ -332,17 +299,11 @@ const NewContactForm = () => {
               />
               {(touched.address?.address1 || submitCount > 0) &&
                 errors.address?.address1 && (
-                  <>
-                    <ul className="details-edit-custom-error-msg">
-                      <li className="error-msg-green">
-                        Address must be 4 characters or more
-                      </li>
-                      <li className="error-msg-green">
-                        Only alpha numerics and certain special characters such
-                        as # ' . - are allowed
-                      </li>
-                    </ul>
-                  </>
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">
+                      {errors.address?.address1}
+                    </li>
+                  </ul>
                 )}
               {!showAddress2 && (
                 <h4
@@ -372,17 +333,11 @@ const NewContactForm = () => {
                   />
                   {(touched.address?.address2 || submitCount > 0) &&
                     errors.address?.address2 && (
-                      <>
-                        <ul className="details-edit-custom-error-msg">
-                          <li className="error-msg-green">
-                            Address must be 4 characters or more
-                          </li>
-                          <li className="error-msg-green">
-                            Only alpha numerics and certain special characters
-                            such as # ' . - are allowed
-                          </li>
-                        </ul>
-                      </>
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">
+                          {errors.address?.address2}
+                        </li>
+                      </ul>
                     )}
                 </>
               )}
@@ -473,20 +428,11 @@ const NewContactForm = () => {
                   </div>
                 </div>
               </div>
-
               {(touched.address?.city || submitCount > 0) &&
                 errors.address?.city && (
-                  <>
-                    <ul className="details-edit-custom-error-msg">
-                      <li className="error-msg-green">
-                        City must be 4 characters or more
-                      </li>
-                      <li className="error-msg-green">
-                        Only alpha numerics and certain special characters such
-                        as # ' . - are allowed
-                      </li>
-                    </ul>
-                  </>
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">{errors.address?.city}</li>
+                  </ul>
                 )}
 
               {errors.address?.postalCode &&
