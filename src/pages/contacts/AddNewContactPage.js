@@ -209,6 +209,7 @@ const NewContactForm = () => {
         touched,
         isValid,
         dirty,
+        submitCount,
         handleChange,
         handleBlur,
         handleSubmit,
@@ -226,7 +227,7 @@ const NewContactForm = () => {
         }
         return (
           <Form className="form mt-3">
-            <fieldset className="form__fields form__fields--constrained">
+            <fieldset className="form__fields form__fields--constrained hide-input-err">
               <Textfield
                 id="contact-fname"
                 label="First Name"
@@ -235,28 +236,34 @@ const NewContactForm = () => {
                 value={values.firstName}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                error={
+                  (touched.firstName || submitCount > 0) && errors.firstName
+                    ? true
+                    : false
+                }
               />
-              {values.firstName.length < 50 && errors.firstName && (
+              {(touched.firstName || submitCount > 0) && errors.firstName && (
                 <>
-                  <div className="custom-error-msg">
-                    First name must be 2 characters or more{" "}
-                  </div>
-                  <div className="custom-error-msg">
-                    Only alpha numerics and space, apostrophe('), hyphen(-) are
-                    allowed
-                  </div>
-                  <div className="custom-error-msg">
-                    Certain special characters such as ! @ . , ; : " ? are not
-                    allowed
-                  </div>
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-green">
+                      First name must be 2 characters or more
+                    </li>
+                    <li className="error-msg-green">
+                      Only alpha numerics and space, apostrophe('), hyphen(-)
+                      are allowed
+                    </li>
+                    <li className="error-msg-red">
+                      Certain special characters such as ! @ . , ; : " ? are not
+                      allowed
+                    </li>
+                  </ul>
                 </>
               )}
-              {values.firstName.length > 50 && errors.firstName && (
+              {values.firstName.length > 50 && (
                 <div className="custom-error-msg">
                   First name must be 50 characters or less
                 </div>
               )}
-
               <Textfield
                 id="contact-mname"
                 label="Middle Initial"
@@ -268,7 +275,6 @@ const NewContactForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-
               <Textfield
                 id="contact-lname"
                 label="Last Name"
@@ -277,30 +283,37 @@ const NewContactForm = () => {
                 value={values.lastName}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                error={
+                  (touched.lastName || submitCount > 0) && errors.lastName
+                    ? true
+                    : false
+                }
               />
-              {values.lastName.length < 50 && errors.lastName && (
+              {(touched.lastName || submitCount > 0) && errors.lastName && (
                 <>
-                  <div className="custom-error-msg">
-                    Last name must be 2 characters or more
-                  </div>
-                  <div className="custom-error-msg">
-                    Only alpha numerics and space, apostrophe('), hyphen(-) are
-                    allowed
-                  </div>
-                  <div className="custom-error-msg">
-                    Certain special characters such as ! @ . , ; : " ? are not
-                    allowed
-                  </div>
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-green">
+                      Last name must be 2 characters or more
+                    </li>
+                    <li className="error-msg-green">
+                      Only alpha numerics and space, apostrophe('), hyphen(-)
+                      are allowed
+                    </li>
+                    <li className="error-msg-red">
+                      Certain special characters such as ! @ . , ; : " ? are not
+                      allowed
+                    </li>
+                  </ul>
                 </>
               )}
-              {values.lastName.length > 50 && errors.lastName && (
+              {values.lastName.length > 50 && (
                 <div className="custom-error-msg">
                   Last name must be 50 characters or less
                 </div>
               )}
             </fieldset>
             <div className="mt-3 mb-3 border-bottom border-bottom--light" />
-            <fieldset className="custom-form-fields form__fields form__fields--constrained err-length-message">
+            <fieldset className="custom-form-fields form__fields form__fields--constrained  hide-input-err">
               <Textfield
                 id="contact-address"
                 className={`${styles["contact-address"]}`}
@@ -310,18 +323,27 @@ const NewContactForm = () => {
                 value={values.address.address1}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                error={
+                  (touched.address?.address1 || submitCount > 0) &&
+                  errors.address?.address1
+                    ? true
+                    : false
+                }
               />
-              {errors.address?.address1 && (
-                <>
-                  <div className="custom-error-msg">
-                    Address must be 4 characters or more
-                  </div>
-                  <div className="custom-error-msg">
-                    Only alpha numerics and certain special characters such as #
-                    ' . - are allowed
-                  </div>
-                </>
-              )}
+              {(touched.address?.address1 || submitCount > 0) &&
+                errors.address?.address1 && (
+                  <>
+                    <ul className="details-edit-custom-error-msg">
+                      <li className="error-msg-green">
+                        Address must be 4 characters or more
+                      </li>
+                      <li className="error-msg-green">
+                        Only alpha numerics and certain special characters such
+                        as # ' . - are allowed
+                      </li>
+                    </ul>
+                  </>
+                )}
               {!showAddress2 && (
                 <h4
                   className="address--2"
@@ -341,22 +363,31 @@ const NewContactForm = () => {
                     value={values.address.address2}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    error={
+                      (touched.address?.address2 || submitCount > 0) &&
+                      errors.address?.address2
+                        ? true
+                        : false
+                    }
                   />
-                  {errors.address?.address2 && (
-                    <>
-                      <div className="custom-error-msg">
-                        Apt, Suite, Unit must be 4 characters or more
-                      </div>
-                      <div className="custom-error-msg">
-                        Only alpha numerics and certain special characters such
-                        as # ' . - are allowed
-                      </div>
-                    </>
-                  )}
+                  {(touched.address?.address2 || submitCount > 0) &&
+                    errors.address?.address2 && (
+                      <>
+                        <ul className="details-edit-custom-error-msg">
+                          <li className="error-msg-green">
+                            Address must be 4 characters or more
+                          </li>
+                          <li className="error-msg-green">
+                            Only alpha numerics and certain special characters
+                            such as # ' . - are allowed
+                          </li>
+                        </ul>
+                      </>
+                    )}
                 </>
               )}
               <div
-                className="address__city__state__zip"
+                className="address__city__state__zip hide-input-err"
                 style={{ display: "flex" }}
               >
                 <Textfield
@@ -367,8 +398,14 @@ const NewContactForm = () => {
                   value={values.address.city}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={errors.address?.city ? true : false}
+                  error={
+                    (touched.address?.city || submitCount > 0) &&
+                    errors.address?.city
+                      ? true
+                      : false
+                  }
                 />
+
                 <div>
                   <label className="label" htmlFor="phone-label">
                     State
@@ -398,8 +435,14 @@ const NewContactForm = () => {
                     doFetch(e.target.value);
                   }}
                   onBlur={handleBlur}
-                  error={errors.address?.postalCode ? true : false}
+                  error={
+                    (touched.address?.postalCode || submitCount > 0) &&
+                    errors.address?.postalCode
+                      ? true
+                      : false
+                  }
                 />
+
                 <div className="mob-res-mt-29 ml-10 custom-w-25 contact-details-col1">
                   <label
                     className=" custom-label-state label"
@@ -430,27 +473,33 @@ const NewContactForm = () => {
                   </div>
                 </div>
               </div>
-              {(errors.address?.city || errors.address?.postalCode) && (
-                <div className="custom-error-block errors-block">
-                  {errors.address?.city && (
-                    <div className="addresss-error-msg">
-                      <div className="custom-error-msg">
+
+              {(touched.address?.city || submitCount > 0) &&
+                errors.address?.city && (
+                  <>
+                    <ul className="details-edit-custom-error-msg">
+                      <li className="error-msg-green">
                         City must be 4 characters or more
-                      </div>
-                      <div className="custom-error-msg">
+                      </li>
+                      <li className="error-msg-green">
                         Only alpha numerics and certain special characters such
                         as # ' . - are allowed
-                      </div>
-                    </div>
-                  )}
-                  {errors.address?.postalCode && (
-                    <p className="error-msg">{errors.address?.postalCode}</p>
-                  )}
-                </div>
-              )}
+                      </li>
+                    </ul>
+                  </>
+                )}
+
+              {errors.address?.postalCode &&
+                (touched.address?.postalCode || submitCount > 0) && (
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red zip-code-error-msg ">
+                      {errors.address?.postalCode}
+                    </li>
+                  </ul>
+                )}
             </fieldset>
             <div className="mt-3 mb-3 border-bottom border-bottom--light" />
-            <fieldset className="form__fields form__fields--constrained">
+            <fieldset className="form__fields form__fields--constrained ">
               <Textfield
                 id="contact-email"
                 type="email"
@@ -596,7 +645,7 @@ export default function AddNewContactPage() {
       <div className="v2">
         <Container
           id="main-content"
-          className={`mt-4 add--new-contact ${styles["add--new-contact"]}`}
+          className={`mt-4 add--new-contact new--contact-err ${styles["add--new-contact"]}`}
         >
           <ToastContextProvider>
             <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
