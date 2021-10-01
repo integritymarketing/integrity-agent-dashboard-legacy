@@ -1,0 +1,35 @@
+.backToTop {
+  bottom: 100px;
+  right: calc(50% - 703px);
+  position: fixed;
+
+  &.visible {
+    display: block;
+  }
+
+  &.hidden {
+    display: none;
+  }
+
+  &-button {
+    height: 48px;
+    width: 48px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-sizing: border-box;
+    border-radius: 100px;
+  }
+
+  &-text {
+    width:100%;
+    font-family: Lato;
+    font-size: 12px;
+    line-height: 18px;
+    white-space: nowrap;
+    display: block;
+    text-align: center;
+    margin-left: -6px;
+    margin-bottom: 5px;
+    color: #313336;
+  }
+}
