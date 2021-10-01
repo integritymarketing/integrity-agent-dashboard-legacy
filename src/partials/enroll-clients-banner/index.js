@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Media from "react-media";
 import analyticsService from "services/analyticsService";
 import "./index.scss";
 import image from "./image.png";
