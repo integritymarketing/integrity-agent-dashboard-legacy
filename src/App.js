@@ -28,7 +28,6 @@ import ContactsPage from "pages/contacts/ContactsPage";
 import AddNewContactPage from "pages/contacts/AddNewContactPage";
 import ContactRecordInfo from "pages/contacts/contactRecordInfo";
 import ContactsSOAConfirmForm from "pages/contacts/soa/ContactsSOAConfirmForm";
-import { StageStatusProvider } from "contexts/stageStatus";
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
@@ -99,9 +98,7 @@ const App = () => {
                             <ContactRecordInfo />
                           </AuthenticatedRoute>
                           <AuthenticatedRoute path="/new-soa/:leadId">
-                            <StageStatusProvider>
                               <NewScopeOfAppointment />
-                            </StageStatusProvider>
                           </AuthenticatedRoute>
                           <AuthenticatedRoute
                             exact
