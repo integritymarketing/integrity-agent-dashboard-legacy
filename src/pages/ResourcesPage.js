@@ -31,12 +31,16 @@ const createDictBy = (list, prop) =>
 const resourceDict = createDictBy(resourceData.resources, "name");
 const categoryDict = createDictBy(resourceData.categories, "id");
 
-export const getResourceUrl = (filename, resourceName) => {
-  const isTrainingURL = resourceName === "MedicreCENTER’s Video Training Hub";
-  const resourcesBaseUrl = isTrainingURL
-    ? process.env.REACT_APP_TRAINING_URL
-    : process.env.REACT_APP_RESOURCES_URL;
-  return isTrainingURL ? resourcesBaseUrl : `${resourcesBaseUrl}/${filename}`;
+export const getResourceUrl = (filename) => {
+  if (filename.indexOf("http") === 0) {
+    return filename; // use full http filename
+  } else {
+    return `${process.env.REACT_APP_RESOURCES_URL}/${filename}`; // relative path, add resources_url
+  }
+};
+
+const isTrainingHub = (resource) => {
+  return resource.name === "MedicareCENTER's Video Training Hub" ? true : false;
 };
 
 export default () => {
@@ -90,10 +94,7 @@ export default () => {
                           data-gtm="learning-center-recommended-read-item-button"
                         >
                           <a
-                            href={getResourceUrl(
-                              resource.filename,
-                              resource?.name
-                            )}
+                            href={getResourceUrl(resource.filename)}
                             rel="noopener noreferrer"
                             target="_blank"
                             className="btn-v2"
@@ -106,10 +107,7 @@ export default () => {
                               })
                             }
                           >
-                            {resource.name ===
-                            "MedicreCENTER’s Video Training Hub"
-                              ? "Watch Now"
-                              : "Downlaod"}
+                            {isTrainingHub(resource) ? "Watch Now" : "Download"}
                           </a>
                         </div>
                       </div>
