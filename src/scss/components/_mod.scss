@@ -74,10 +74,10 @@ button.gtm-medicareadvantage-button,
   .mod {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     align-items: flex-start;
     max-width: none;
-
+    height: 310px;
     @media (min-width: 768px) {
       max-width: none;
     }
