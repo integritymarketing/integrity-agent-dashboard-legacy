@@ -33,7 +33,6 @@ const categoryDict = createDictBy(resourceData.categories, "id");
 
 export const getResourceUrl = (filename, resourceName) => {
   const isTrainingURL = resourceName === "MedicreCENTER’s Video Training Hub";
-  console.log(process.env);
   const resourcesBaseUrl = isTrainingURL
     ? process.env.REACT_APP_TRAINING_URL
     : process.env.REACT_APP_RESOURCES_URL;
