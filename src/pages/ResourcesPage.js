@@ -31,9 +31,13 @@ const createDictBy = (list, prop) =>
 const resourceDict = createDictBy(resourceData.resources, "name");
 const categoryDict = createDictBy(resourceData.categories, "id");
 
-export const getResourceUrl = (filename) => {
-  const resourcesBaseUrl = process.env.REACT_APP_RESOURCES_URL;
-  return `${resourcesBaseUrl}/${filename}`;
+export const getResourceUrl = (filename, resourceName) => {
+  const isTrainingURL = resourceName === "MedicreCENTER’s Video Training Hub";
+  console.log(process.env);
+  const resourcesBaseUrl = isTrainingURL
+    ? process.env.REACT_APP_TRAINING_URL
+    : process.env.REACT_APP_RESOURCES_URL;
+  return isTrainingURL ? resourcesBaseUrl : `${resourcesBaseUrl}/${filename}`;
 };
 
 export default () => {
@@ -87,12 +91,15 @@ export default () => {
                           data-gtm="learning-center-recommended-read-item-button"
                         >
                           <a
-                            href={getResourceUrl(resource.filename)}
+                            href={getResourceUrl(
+                              resource.filename,
+                              resource?.name
+                            )}
                             rel="noopener noreferrer"
                             target="_blank"
                             className="btn-v2"
                             onClick={() =>
-                              analyticsService.fireEvent("resourceDownloaded", {
+                              analyticsService.fireEvent("resourceWatchNow", {
                                 featuredCategory:
                                   categoryDict[resource.categories[0]]
                                     .analyticsKey,
@@ -100,7 +107,10 @@ export default () => {
                               })
                             }
                           >
-                            Download
+                            {resource.name ===
+                            "MedicreCENTER’s Video Training Hub"
+                              ? "Watch Now"
+                              : "Downlaod"}
                           </a>
                         </div>
                       </div>
