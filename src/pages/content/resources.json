@@ -2,7 +2,7 @@
   "featured": [
     "MedicareAPP Technical Guide",
     "MedicareLINK Technical Guide",
-    "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy"
+    "MedicareCENTER's Video Training Hub"
   ],
   "categories": [
     {
@@ -50,10 +50,10 @@
       "filename": "MedicareCENTER-GTL-Guide.pdf"
     },
     {
-      "name": "Medicare Phone Guide: 30-Day Callback Telephone Script for an Issued Policy",
-      "description": "Suggested phone talking points that cover typical topics and recommended discussion flow for following up on new policies.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Sales-Tips-30-Day-Callback-Script.pdf"
+      "name": "MedicareCENTER's Video Training Hub",
+      "description": "Check out our latest video tutorials from our team of experts. We upload weekly interactive content to ensure you are prepared for AEP by the best in the Medicare industry.",
+      "categories": ["tech-guides"],
+      "filename": "https://vimeo.com/medicarecenter"
     },
     {
       "name": "MedicareAPP Technical Guide",

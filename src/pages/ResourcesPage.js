@@ -32,8 +32,15 @@ const resourceDict = createDictBy(resourceData.resources, "name");
 const categoryDict = createDictBy(resourceData.categories, "id");
 
 export const getResourceUrl = (filename) => {
-  const resourcesBaseUrl = process.env.REACT_APP_RESOURCES_URL;
-  return `${resourcesBaseUrl}/${filename}`;
+  if (filename.indexOf("http") === 0) {
+    return filename; // use full http filename
+  } else {
+    return `${process.env.REACT_APP_RESOURCES_URL}/${filename}`; // relative path, add resources_url
+  }
+};
+
+const isTrainingHub = (resource) => {
+  return resource.name === "MedicareCENTER's Video Training Hub" ? true : false;
 };
 
 export default () => {
@@ -92,7 +99,7 @@ export default () => {
                             target="_blank"
                             className="btn-v2"
                             onClick={() =>
-                              analyticsService.fireEvent("resourceDownloaded", {
+                              analyticsService.fireEvent("resourceWatchNow", {
                                 featuredCategory:
                                   categoryDict[resource.categories[0]]
                                     .analyticsKey,
@@ -100,7 +107,7 @@ export default () => {
                               })
                             }
                           >
-                            Download
+                            {isTrainingHub(resource) ? "Watch Now" : "Download"}
                           </a>
                         </div>
                       </div>

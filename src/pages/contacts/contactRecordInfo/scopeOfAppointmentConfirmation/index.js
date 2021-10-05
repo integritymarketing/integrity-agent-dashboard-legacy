@@ -123,9 +123,9 @@ export default () => {
                   lastName: authorizedRepresentative.lastName,
                   address1: authorizedRepresentative.address.address1,
                   address2: authorizedRepresentative.address.address2,
-                  city: authorizedRepresentative.city,
-                  state: authorizedRepresentative.stateCode,
-                  zip: authorizedRepresentative.postalCode,
+                  city: authorizedRepresentative.address.city,
+                  state: authorizedRepresentative.address.stateCode,
+                  zip: authorizedRepresentative.address.postalCode,
                   phone: authorizedRepresentative.phone,
                   relationshipToBeneficiary:
                     authorizedRepresentative.relationshipToBeneficiary,
@@ -711,7 +711,7 @@ export default () => {
                           <fieldset className="form__fields form__fields--constrained hide-input-err">
                             <Textfield
                               id="representative-address"
-                              label="Address *"
+                              label="Address Line1 *"
                               name="authorizedRepresentative.address.address1"
                               value={
                                 values?.authorizedRepresentative?.address
@@ -748,7 +748,7 @@ export default () => {
                               )}
                             <Textfield
                               id="representative-address2"
-                              label="Apt, Suite, Unit (optional)"
+                              label="Address Line2"
                               name="authorizedRepresentative.address.address2"
                               value={
                                 values?.authorizedRepresentative?.address
