@@ -105,7 +105,7 @@ const NewContactForm = () => {
           county: "",
           countyFips: "",
         },
-        primaryCommunication: "email",
+        primaryCommunication: "",
         contactRecordType: "prospect",
       }}
       validate={async (values) => {
@@ -215,6 +215,18 @@ const NewContactForm = () => {
         handleSubmit,
         setFieldValue,
       }) => {
+        let primaryCommunicationStatus = false;
+        if (
+          !errors.phones?.leadPhone &&
+          touched.phones?.leadPhone &&
+          touched.email &&
+          !errors.email &&
+          values.email !== "" &&
+          values.phones?.leadPhone !== "" &&
+          values.primaryCommunication === ""
+        ) {
+          primaryCommunicationStatus = true;
+        }
         let countyName = allCounties[0]?.value;
         let countyFipsName = allCounties[0]?.key;
         if (
@@ -505,6 +517,13 @@ const NewContactForm = () => {
                 <label htmlFor="primary--phone">Primary Communication</label>
               </div>
             </fieldset>
+            {primaryCommunicationStatus && (
+              <ul className="details-edit-custom-error-msg">
+                <li className="error-msg-red zip-code-error-msg ">
+                  Please choose the primary communication type
+                </li>
+              </ul>
+            )}
             <div className="mt-3 mb-3 border-bottom border-bottom--light" />
             <div>
               <label className="label" htmlFor="contact--record--type">
@@ -563,7 +582,7 @@ const NewContactForm = () => {
                   data-gtm="new-contact-create-button"
                   label="Create Contact"
                   type="primary"
-                  disabled={!dirty || !isValid}
+                  disabled={!dirty || !isValid || primaryCommunicationStatus}
                   onClick={handleSubmit}
                 />
               </div>

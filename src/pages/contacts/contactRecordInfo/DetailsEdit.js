@@ -175,12 +175,18 @@ export default (props) => {
             {
               name: "phones.leadPhone",
               validator: validationService.composeValidator([
+                validationService.validateRequiredIf(
+                  "phone" === values.primaryCommunication
+                ),
                 validationService.validatePhone,
               ]),
             },
             {
               name: "email",
               validator: validationService.composeValidator([
+                validationService.validateRequiredIf(
+                  "email" === values.primaryCommunication
+                ),
                 validationService.validateEmail,
               ]),
             },

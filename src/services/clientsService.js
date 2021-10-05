@@ -352,9 +352,15 @@ class ClientsService {
       lastName,
       middleName: middleName?.toUpperCase(),
       leadStatusId: 0,
-      primaryCommunication,
       contactRecordType,
     };
+
+    if (primaryCommunication === "") {
+      reqData.primaryCommunication = email !== "" ? "email" : "phone";
+    } else {
+      reqData.primaryCommunication = primaryCommunication;
+    }
+
     if (email) {
       reqData.emails = [
         {
