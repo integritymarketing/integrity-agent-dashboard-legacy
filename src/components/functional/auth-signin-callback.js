@@ -7,20 +7,9 @@ export default () => {
   const history = useHistory();
 
   useEffect(() => {
-    auth
-      .signinRedirectCallback()
-      .catch((error) => {
-        history.replace("/error?code=login_callback_error");
-      })
-      .then(() => {
-        const redirectUrl = localStorage.getItem("redirectUri");
-        if (redirectUrl) {
-          setTimeout(() => {
-            history.replace(redirectUrl);
-            localStorage.removeItem("redirectUri");
-          }, 1000);          
-        }
-      });
+    auth.signinRedirectCallback().catch((error) => {
+      history.replace("/error?code=login_callback_error");
+    });
   }, [auth, history]);
 
   return "";

@@ -24,14 +24,14 @@ export const UnauthenticatedRoute = ({ children, ...rest }) => {
   );
 };
 
-export const AuthenticatedRoute = ({
-  children,
-  requestAuth = false,
-  ...rest
-}) => {
+export const AuthenticatedRoute = ({ children, ...rest }) => {
   const auth = useContext(AuthContext);
   const location = useLocation();
-  if (requestAuth) {
+
+  // if not authenticated, store the path the user originally requested
+  // and later return them to after auth success and user loaded
+  // see authService() line 19
+  if (!auth.isAuthenticated()) {
     localStorage.setItem("redirectUri", location.pathname);
   }
 

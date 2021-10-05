@@ -18,7 +18,13 @@ class authService {
 
     this.UserManager.events.addUserLoaded((user) => {
       if (this.isAuthSuccessCallback()) {
-        window.location.replace("/");
+        const redirectUrl = localStorage.getItem("redirectUri");
+        if (redirectUrl) {
+          localStorage.removeItem("redirectUri");
+          window.location.replace(redirectUrl);
+        } else {
+          window.location.replace("/");
+        }
       } else {
         // update userProfile after silent renew
         this.setUserProfile();
@@ -136,7 +142,7 @@ class authService {
     return JSON.parse(window.atob(base64));
   };
 
-  signinRedirect = () => {    
+  signinRedirect = () => {
     return this.UserManager.signinRedirect({});
   };
 
