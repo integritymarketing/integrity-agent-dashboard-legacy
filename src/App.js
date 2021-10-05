@@ -102,6 +102,7 @@ const App = () => {
                           </AuthenticatedRoute>
                           <AuthenticatedRoute
                             exact
+                            requestAuth
                             path="/contact/:contactId/soa-confirm/:linkCode"
                           >
                             <ContactsSOAConfirmForm />

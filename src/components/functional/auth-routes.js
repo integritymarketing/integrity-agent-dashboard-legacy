@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, useLocation } from "react-router-dom";
 import AuthContext from "contexts/auth";
 
 export const UnauthenticatedRoute = ({ children, ...rest }) => {
@@ -24,8 +24,16 @@ export const UnauthenticatedRoute = ({ children, ...rest }) => {
   );
 };
 
-export const AuthenticatedRoute = ({ children, ...rest }) => {
+export const AuthenticatedRoute = ({
+  children,
+  requestAuth = false,
+  ...rest
+}) => {
   const auth = useContext(AuthContext);
+  const location = useLocation();
+  if (requestAuth) {
+    localStorage.setItem("redirectUri", location.pathname);
+  }
 
   return (
     <Route

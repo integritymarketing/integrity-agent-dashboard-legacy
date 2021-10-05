@@ -136,8 +136,7 @@ class authService {
     return JSON.parse(window.atob(base64));
   };
 
-  signinRedirect = () => {
-    localStorage.setItem("redirectUri", window.location.pathname);
+  signinRedirect = () => {    
     return this.UserManager.signinRedirect({});
   };
 
