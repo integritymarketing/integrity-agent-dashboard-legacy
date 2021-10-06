@@ -215,8 +215,8 @@ export default (props) => {
             },
             {
               name: "birthdate",
-              validator: validationService.validateDate,
-              args: ["Date of Birth"],
+              validator: validationService.validateDateInput,
+              args: ["Date of Birth", "MM/dd/yyyy"],
             },
           ],
           values

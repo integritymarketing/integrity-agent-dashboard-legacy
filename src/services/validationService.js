@@ -1,5 +1,5 @@
 import dateFnsParse from "date-fns/parse";
-import isDate from "date-fns/isDate";
+import { isAfter, isMatch, isDate } from "date-fns";
 
 function getProp(object, keys, defaultVal) {
   keys = Array.isArray(keys) ? keys : keys.split(".");
@@ -127,6 +127,15 @@ class ValidationService {
     const parsed = dateFnsParse(dateStr, "MM/dd/yyyy", new Date());
     if (dateStr && (dateStr.length < 10 || !isDate(parsed))) {
       return `${label} must use the format MM/DD/YYYY`;
+    }
+    return null;
+  };
+
+  validateDateInput = (dateStr, label = "Date", format = "MM/dd/yyyy") => {
+    if (dateStr && !isMatch(dateStr, format)) {
+      return `${label} must use the format MM/DD/YYYY`;
+    } else if (dateStr && isAfter(new Date(dateStr), new Date())) {
+      return `${label} must be valid`;
     }
     return null;
   };
