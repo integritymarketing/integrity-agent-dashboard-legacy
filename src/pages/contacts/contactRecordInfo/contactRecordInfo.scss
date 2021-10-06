@@ -2210,3 +2210,14 @@ button {
     cursor: pointer;
   }
 }
+.new--contact-err {
+  .hide-input-err > .form-input--error > .form-input__error {
+    display: none;
+  }
+  .details-edit-custom-error-msg {
+    width: 300px;
+    .error-msg-green {
+      line-height: 210%;
+    }
+  }
+}

@@ -101,7 +101,7 @@ export default (props) => {
 
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
-    : "phone";
+    : "email";
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
@@ -317,27 +317,10 @@ export default (props) => {
                       onBlur={handleBlur}
                       error={errors.firstName ? true : false}
                     />
-                    {values.firstName.length < 50 && errors.firstName && (
-                      <>
-                        <ul className="details-edit-custom-error-msg">
-                          <li className="error-msg-green">
-                            First name must be 2 characters or more
-                          </li>
-                          <li className="error-msg-green">
-                            Only alpha numerics and space, apostrophe('),
-                            hyphen(-) are allowed
-                          </li>
-                          <li className="error-msg-red">
-                            Certain special characters such as ! @ . , ; : " ?
-                            are not allowed
-                          </li>
-                        </ul>
-                      </>
-                    )}
-                    {values.firstName.length > 50 && errors.firstName && (
-                      <div className="custom-error-msg">
-                        First name must be 50 characters or less
-                      </div>
+                    {touched.firstName && errors.firstName && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">{errors.firstName}</li>
+                      </ul>
                     )}
                   </div>
                   <div className="ml-65 res-middle-initial custom-w-25 contact-details-col1">
@@ -367,27 +350,10 @@ export default (props) => {
                       onBlur={handleBlur}
                       error={errors.lastName ? true : false}
                     />
-                    {values.lastName.length < 50 && errors.lastName && (
-                      <>
-                        <ul className="details-edit-custom-error-msg-lname details-edit-custom-error-msg">
-                          <li className="error-msg-green">
-                            Last name must be 2 characters or more
-                          </li>
-                          <li className="error-msg-green">
-                            Only alpha numerics and space, apostrophe('),
-                            hyphen(-) are allowed
-                          </li>
-                          <li className="error-msg-red">
-                            Certain special characters such as ! @ . , ; : " ?
-                            are not allowed
-                          </li>
-                        </ul>
-                      </>
-                    )}
-                    {values.lastName.length > 50 && errors.lastName && (
-                      <div className="custom-error-msg">
-                        Last name must be 50 characters or less
-                      </div>
+                    {touched.lastName && errors.lastName && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">{errors.lastName}</li>
+                      </ul>
                     )}
                   </div>
                   <div className="responsive-display contact-details-col1 mob-res-w-100">
@@ -529,18 +495,12 @@ export default (props) => {
                       onBlur={handleBlur}
                       error={errors.address?.address1 ? true : false}
                     />
-                    {errors.address?.address1 && (
-                      <>
-                        <ul className="details-edit-custom-error-msg">
-                          <li className="error-msg-green">
-                            Address must be 4 characters or more
-                          </li>
-                          <li className="error-msg-green">
-                            Only alpha numerics and certain special characters
-                            such as # ' . - are allowed
-                          </li>
-                        </ul>
-                      </>
+                    {touched.address?.address1 && errors.address?.address1 && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">
+                          {errors.address?.address1}
+                        </li>
+                      </ul>
                     )}
                   </div>
                   <div className="res-add-2 responsive-w-50 custom-w-25 contact-details-col1 mob-res-margin">
@@ -555,18 +515,12 @@ export default (props) => {
                       onBlur={handleBlur}
                       error={errors.address?.address2 ? true : false}
                     />
-                    {errors.address?.address2 && (
-                      <>
-                        <ul className="details-edit-custom-error-msg">
-                          <li className="error-msg-green">
-                            Address must be 4 characters or more
-                          </li>
-                          <li className="error-msg-green">
-                            Only alpha numerics and certain special characters
-                            such as # ' . - are allowed
-                          </li>
-                        </ul>
-                      </>
+                    {touched.address?.address2 && errors.address?.address2 && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">
+                          {errors.address?.address2}
+                        </li>
+                      </ul>
                     )}
                   </div>
                   <div className="custom-w-25 contact-details-col1 visibility-hidden"></div>
@@ -583,18 +537,12 @@ export default (props) => {
                       onBlur={handleBlur}
                       error={errors.address?.city ? true : false}
                     />
-                    {errors.address?.city && (
-                      <>
-                        <ul className="details-edit-custom-error-msg">
-                          <li className="error-msg-green">
-                            City must be 4 characters or more
-                          </li>
-                          <li className="error-msg-green">
-                            Only alpha numerics and certain special characters
-                            such as # ' . - are allowed
-                          </li>
-                        </ul>
-                      </>
+                    {touched.address?.city && errors.address?.city && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">
+                          {errors.address?.city}
+                        </li>
+                      </ul>
                     )}
                   </div>
                   <div className="ml-65 custom-w-12 state--label--space custom-w-25 contact-details-col1">

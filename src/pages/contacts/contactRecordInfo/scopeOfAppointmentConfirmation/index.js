@@ -123,9 +123,9 @@ export default () => {
                   lastName: authorizedRepresentative.lastName,
                   address1: authorizedRepresentative.address.address1,
                   address2: authorizedRepresentative.address.address2,
-                  city: authorizedRepresentative.city,
-                  state: authorizedRepresentative.stateCode,
-                  zip: authorizedRepresentative.postalCode,
+                  city: authorizedRepresentative.address.city,
+                  state: authorizedRepresentative.address.stateCode,
+                  zip: authorizedRepresentative.address.postalCode,
                   phone: authorizedRepresentative.phone,
                   relationshipToBeneficiary:
                     authorizedRepresentative.relationshipToBeneficiary,
@@ -293,6 +293,9 @@ export default () => {
                           (cardholder).
                         </span>
                       </div>
+                      <div className="mandatory-notes-div">
+                        * Indicates a required field
+                      </div>
                       <section
                         data-gtm="section-beneficiary-info"
                         className="beneficiary-form"
@@ -300,7 +303,7 @@ export default () => {
                         <fieldset className="form__fields form__fields--constrained hide-input-err">
                           <Textfield
                             id="beneficiary-fname"
-                            label="Beneficiary's First Name"
+                            label="Beneficiary's First Name *"
                             name="firstName"
                             value={values.firstName}
                             onChange={handleChange}
@@ -349,7 +352,7 @@ export default () => {
                           <Textfield
                             id="beneficiary-lname"
                             className="pb-2"
-                            label="Beneficiary's Last Name"
+                            label="Beneficiary's Last Name *"
                             name="lastName"
                             value={values.lastName}
                             onChange={handleChange}
@@ -388,7 +391,7 @@ export default () => {
                         <fieldset className="form__fields form__fields--constrained hide-input-err">
                           <Textfield
                             id="beneficiary-address"
-                            label="Address Line1"
+                            label="Address Line1 *"
                             name="address.address1"
                             value={values.address.address1}
                             onChange={handleChange}
@@ -444,7 +447,7 @@ export default () => {
                             )}
                           <Textfield
                             id="beneficiary-address__city"
-                            label="City"
+                            label="City *"
                             name="address.city"
                             value={values.address.city}
                             onChange={handleChange}
@@ -472,7 +475,7 @@ export default () => {
                             )}
                           <div>
                             <label className="label" htmlFor="state-label">
-                              State
+                              State *
                             </label>
                             <div className="state-select-input">
                               <Select
@@ -511,7 +514,7 @@ export default () => {
                           <Textfield
                             id="beneficiary-address__zip"
                             className={`contact-address--zip`}
-                            label="ZIP Code"
+                            label="ZIP Code *"
                             name="address.postalCode"
                             value={values.address.postalCode}
                             onChange={handleChange}
@@ -611,7 +614,7 @@ export default () => {
                           <fieldset className="form__fields form__fields--constrained hide-input-err">
                             <Textfield
                               id="representative-fname"
-                              label="Authorized Representative’s  First Name"
+                              label="Authorized Representative’s  First Name *"
                               name="authorizedRepresentative.firstName"
                               value={
                                 values?.authorizedRepresentative?.firstName
@@ -666,7 +669,7 @@ export default () => {
                             <Textfield
                               id="contact-lname"
                               className="pb-2"
-                              label="Authorized Representative’s Last Name"
+                              label="Authorized Representative’s Last Name *"
                               name="authorizedRepresentative.lastName"
                               value={values?.authorizedRepresentative?.lastName}
                               onChange={handleChange}
@@ -708,7 +711,7 @@ export default () => {
                           <fieldset className="form__fields form__fields--constrained hide-input-err">
                             <Textfield
                               id="representative-address"
-                              label="Address"
+                              label="Address Line1 *"
                               name="authorizedRepresentative.address.address1"
                               value={
                                 values?.authorizedRepresentative?.address
@@ -745,7 +748,7 @@ export default () => {
                               )}
                             <Textfield
                               id="representative-address2"
-                              label="Apt, Suite, Unit (optional)"
+                              label="Address Line2"
                               name="authorizedRepresentative.address.address2"
                               value={
                                 values?.authorizedRepresentative?.address
@@ -782,7 +785,7 @@ export default () => {
                               )}
                             <Textfield
                               id="representative-address__city"
-                              label="City"
+                              label="City *"
                               name="authorizedRepresentative.address.city"
                               value={
                                 values?.authorizedRepresentative?.address?.city
@@ -819,7 +822,7 @@ export default () => {
                                 className="label"
                                 htmlFor="state-label-representative"
                               >
-                                State
+                                State *
                               </label>
                               <div className="state-select-input">
                                 <Select
@@ -871,7 +874,7 @@ export default () => {
                             <Textfield
                               id="contact-address__zip"
                               className={`contact-address--zip`}
-                              label="ZIP Code"
+                              label="ZIP Code *"
                               name="authorizedRepresentative.address.postalCode"
                               value={
                                 values?.authorizedRepresentative?.address
@@ -935,7 +938,7 @@ export default () => {
                               )}
                             <Textfield
                               id="representative-relationship-to-beneficiary"
-                              label="Relationship to Beneficiary"
+                              label="Relationship to Beneficiary *"
                               name="authorizedRepresentative.relationshipToBeneficiary"
                               value={
                                 values?.authorizedRepresentative

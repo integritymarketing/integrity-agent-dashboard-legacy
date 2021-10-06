@@ -11,6 +11,9 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
+const REACT_APP_HIDE_ENROLL_BTN =
+  process.env.REACT_APP_HIDE_ENROLL_BTN || false;
+
 const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
@@ -65,13 +68,16 @@ export default function PlanCard({
   isMobile,
 }) {
   let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
+  const { logoURL } = planData;
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
         <div className={"plan-name"}>{planData.planName}</div>
-        <div className={"plan-logo"}>
-          <img src={LOGO_BASE_URL + planData.logoURL} alt="logo" />
-        </div>
+        {logoURL && (
+          <div className={"plan-logo"}>
+            <img src={LOGO_BASE_URL + logoURL} alt="logo" />
+          </div>
+        )}
       </div>
       <div className={"sub-header"}>
         <div className={"carrier-name"}>{planData.carrierName}</div>
@@ -119,7 +125,7 @@ export default function PlanCard({
           onClick={() => onDetailsClick(planData.id)}
           type="secondary"
         />
-        {!planData.nonLicensedPlan && (
+        {!REACT_APP_HIDE_ENROLL_BTN && !planData.nonLicensedPlan && (
           <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
         )}
       </div>

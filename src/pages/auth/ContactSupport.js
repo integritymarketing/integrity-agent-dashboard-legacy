@@ -16,7 +16,10 @@ export default () => {
         <SimpleHeader />
         <Container size="small">
           <h1 className="hdg hdg--2 mb-1">Contact Support</h1>
-          <p className="text text--secondary mb-3">Supporting copy here.</p>
+          <p className="text text--secondary mb-3">
+            Call or email one of our support representatives to help resolve
+            your issue.
+          </p>
           <p className="mb-2 content-center ">
             <MailIcon />
             <a

@@ -225,27 +225,23 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
     fetchData(tableState);
   }, [tableState, fetchData, duplicateIdsLength]);
 
-  const navigateToSOANew = (leadId) => {
-    history.push(`/new-soa/${leadId}`);
+  const navigateToPage = (leadId, page) => {
+    history.push(`/${page}/${leadId}`);
   };
-
-  const navigateToPlansPage = (leadId) => {
-    history.push(`/plans/${leadId}`);
-  };
-
   const handleDropdownActions = (contact) => (value, leadId) => {
     switch (value) {
       case "addnewreminder":
         setShowAddModal(leadId);
         setShowAddNewModal(true);
         break;
-      case "addnewsoa":
-        setNewSoaContactDetails(contact);
-        navigateToSOANew(leadId);
+      case "new-soa":
+      case "plans":
+        if (value === "new-soa") {
+          setNewSoaContactDetails(contact);
+        }
+        navigateToPage(leadId, value);
         break;
-      case "viewavailableplans":
-        navigateToPlansPage(leadId);
-        break;
+
       default:
         break;
     }

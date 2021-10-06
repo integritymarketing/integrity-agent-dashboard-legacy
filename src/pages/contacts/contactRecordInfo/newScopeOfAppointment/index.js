@@ -192,7 +192,7 @@ export default () => {
     >
       {(matches) => (
         <>
-          <NavBarWithBack title={`Back to ${previousPage}`} />
+          <NavBarWithBack title={`Back to ${previousPage}`} leadId={leadId} />
           <Container className="new-sop-page">
             <Card className="new-scope-card">
               <div>

@@ -42,20 +42,33 @@ const fullStar = (key) => (
 
 function getStars(rating) {
   const stars = [];
-  for (var i = 1; i < 6; i++) {
-    if (i <= rating) {
-      stars.push(fullStar(i));
-    } else if (i > rating) {
-      if (i - rating < 1) {
-        stars.push(halfStar(i));
-      } else {
-        stars.push(emptyStar(i));
+  if (rating && rating > 0) {
+    for (var i = 1; i < 6; i++) {
+      if (i <= rating) {
+        stars.push(fullStar(i));
+      } else if (i > rating) {
+        if (i - rating < 1) {
+          stars.push(halfStar(i));
+        } else {
+          stars.push(emptyStar(i));
+        }
       }
     }
+  } else {
+    stars.push(emptyStar(1));
   }
   return stars;
 }
 
 export default ({ value }) => {
-  return <div className={"rating"}>{getStars(value)}</div>;
+  if (value === 0) {
+    return (
+      <div className={"zero-rating rating"}>
+        {getStars(value)}
+        <span className="zero-rating-label"> No Star Rating</span>
+      </div>
+    );
+  } else {
+    return <div className={"rating"}>{getStars(value)}</div>;
+  }
 };

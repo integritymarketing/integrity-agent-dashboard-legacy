@@ -152,10 +152,15 @@ export default () => {
   const handleViewPlans = (isMobile) => {
     const county = personalInfo?.addresses[0]?.county;
     const postalCode = personalInfo?.addresses[0]?.postalCode;
+    const type = isMobile ? "secondary" : "primary";
     if (county && postalCode) {
-      if (isMobile)
-        return <Button label="View Available Plans" type="secondary" />;
-      return <Button label="View Available Plans" type="primary" />;
+      return (
+        <Button
+          label="View Available Plans"
+          onClick={() => history.push(`/plans/${id}`)}
+          type={type}
+        />
+      );
     } else
       return (
         <Button
@@ -281,14 +286,7 @@ export default () => {
                 </label>
                 <span>Preferences</span>
               </li>
-              <li
-                className="plans-button"
-                onClick={() => {
-                  history.push(`/plans/${id}`);
-                }}
-              >
-                {handleViewPlans(true)}
-              </li>
+              <li className="plans-button">{handleViewPlans(true)}</li>
             </ul>
             <PersonalInfo
               personalInfo={personalInfo}
@@ -344,14 +342,7 @@ export default () => {
                     </label>
                     <span>Preferences </span>
                   </li>
-                  <li
-                    className="plans-button"
-                    onClick={() => {
-                      history.push(`/plans/${id}`);
-                    }}
-                  >
-                    {handleViewPlans(false)}
-                  </li>
+                  <li className="plans-button">{handleViewPlans(false)}</li>
                 </ul>
                 <div className="rightSection">{handleRendering()}</div>
               </Container>

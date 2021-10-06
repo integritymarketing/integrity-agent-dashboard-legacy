@@ -39,38 +39,40 @@ export default ({ planData, isPreffered, isRetail, header }) => {
     planData.formularyTiers.forEach((tier) => {
       var values = [];
       var label = labelMap[tier.tierNumber];
-      tier.copayPrices.forEach((copay) => {
-        if (
-          copay.isPreferredPharmacy === isPreffered &&
-          copay.isMailOrder === !isRetail
-        ) {
-          if (copay.costType === 1) {
-            values.push(
-              <>
-                <div className={"copay"}>
-                  <span className={"label"}>
-                    {currencyFormatter.format(copay.cost)}
-                  </span>{" "}
-                  <span className={"supply"}>
-                    copay ({copay.daysOfSupply}-day supply)
-                  </span>
-                </div>
-              </>
-            );
-          } else if (copay.costType === 2) {
-            values.push(
-              <>
-                <div className={"copay"}>
-                  <span className={"label"}>{copay.cost}%</span>
-                  <span className={"supply"}>
-                    coinsurance ({copay.daysOfSupply}-day supply)
-                  </span>
-                </div>
-              </>
-            );
+      if (tier && Array.isArray(tier.copayPrices)) {
+        tier.copayPrices.forEach((copay) => {
+          if (
+            copay.isPreferredPharmacy === isPreffered &&
+            copay.isMailOrder === !isRetail
+          ) {
+            if (copay.costType === 1) {
+              values.push(
+                <>
+                  <div className={"copay"}>
+                    <span className={"label"}>
+                      {currencyFormatter.format(copay.cost)}
+                    </span>{" "}
+                    <span className={"supply"}>
+                      copay ({copay.daysOfSupply}-day supply)
+                    </span>
+                  </div>
+                </>
+              );
+            } else if (copay.costType === 2) {
+              values.push(
+                <>
+                  <div className={"copay"}>
+                    <span className={"label"}>{copay.cost}%</span>
+                    <span className={"supply"}>
+                      coinsurance ({copay.daysOfSupply}-day supply)
+                    </span>
+                  </div>
+                </>
+              );
+            }
           }
-        }
-      });
+        });
+      }
       if (values.length > 0) {
         data.push({
           label: <span className={"label"}>{label}</span>,
