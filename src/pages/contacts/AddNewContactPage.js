@@ -518,8 +518,8 @@ const NewContactForm = () => {
               </div>
             </fieldset>
             {primaryCommunicationStatus && (
-              <ul className="details-edit-custom-error-msg">
-                <li className="error-msg-red zip-code-error-msg ">
+              <ul className="details-edit-custom-error-msg ">
+                <li className="error-msg-red primary-error-msg ">
                   Please choose the primary communication type
                 </li>
               </ul>
