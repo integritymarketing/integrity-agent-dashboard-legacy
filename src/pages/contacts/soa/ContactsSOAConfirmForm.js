@@ -83,7 +83,7 @@ const ContactsSOAConfirmForm = () => {
       acceptedSOA: agent_data.acceptedSOA,
       appointmentDate: agent_data.appointmentDate,
       explanationOfSOASignedDuringAppointment:
-      agent_data.explanationOfSOASignedDuringAppointment,
+        agent_data.explanationOfSOASignedDuringAppointment,
       firstName: agent_data.firstName,
       lastName: agent_data.lastName,
       methodOfContact: agent_data.methodOfContact,
@@ -254,33 +254,117 @@ const ContactsSOAConfirmForm = () => {
               />
             </Col>
           </Row>
-          <Row>
-            <Col fullWidth>
-              <LabelValueItem
-                label="Are you the authorized representative acting on behalf of the benificiary?"
-                value={
-                  <Col>
-                    <div className="soa-authorize-container">
-                      <input
-                        disabled
-                        type="radio"
-                        checked={leadSection?.hasAuthorizedRepresentative}
+          {leadSection?.hasAuthorizedRepresentative && (
+            <>
+              <Row>
+                <Col fullWidth>
+                  <LabelValueItem
+                    label="Are you the authorized representative acting on behalf of the benificiary?"
+                    value={
+                      <Col>
+                        <div className="soa-authorize-container">
+                          <input
+                            type="checkbox"
+                            className="input-tag"
+                            disabled
+                            checked={leadSection?.hasAuthorizedRepresentative}
+                          />
+                          Yes
+                        </div>
+                      </Col>
+                    }
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <LabelValueItem
+                    label="Authorized Representative’s First Name"
+                    value={leadSection?.authorizedRepresentative?.firstName}
+                  />
+                </Col>
+
+                <Col>
+                  <LabelValueItem
+                    label="Authorized Representative’s Middle Initial"
+                    value={leadSection?.authorizedRepresentative?.middleName?.toUpperCase()}
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <LabelValueItem
+                    label="Authorized Representative’s Last Name"
+                    value={leadSection?.authorizedRepresentative?.lastName}
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <LabelValueItem
+                    label="Address (Line 1)"
+                    value={leadSection?.authorizedRepresentative?.address1}
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <LabelValueItem
+                    label="Address (Line 2)"
+                    value={leadSection?.authorizedRepresentative?.address2}
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Row>
+                    <Col>
+                      <LabelValueItem
+                        label="City"
+                        value={leadSection?.authorizedRepresentative?.city}
                       />
-                      Yes
-                    </div>
-                    <div className="soa-authorize-container">
-                      <input
-                        disabled
-                        type="radio"
-                        checked={!leadSection?.hasAuthorizedRepresentative}
+                    </Col>
+                    <Col>
+                      <LabelValueItem
+                        label="State"
+                        value={leadSection?.authorizedRepresentative?.state}
                       />
-                      No
-                    </div>
-                  </Col>
-                }
-              />
-            </Col>
-          </Row>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <LabelValueItem
+                    label="ZIP"
+                    value={leadSection?.authorizedRepresentative?.zip}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <LabelValueItem
+                    label="Phone"
+                    value={leadSection?.authorizedRepresentative?.phone}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <LabelValueItem
+                    label="Relationship To Beneficiary"
+                    value={
+                      leadSection?.authorizedRepresentative
+                        ?.relationshipToBeneficiary
+                    }
+                  />
+                </Col>
+              </Row>
+            </>
+          )}
           <Row>
             <div className="soa-terms-conditions">
               <input
@@ -351,6 +435,7 @@ const ContactsSOAConfirmForm = () => {
                   <div className="soa-authorize-container">
                     <input
                       name="soaSignedDuringAppointment"
+                      className="input-tag"
                       disabled={isSubmited}
                       type="radio"
                       onChange={() =>
@@ -366,6 +451,7 @@ const ContactsSOAConfirmForm = () => {
                   <div className="soa-authorize-container">
                     <input
                       name="soaSignedDuringAppointment"
+                      className="input-tag"
                       type="radio"
                       disabled={isSubmited}
                       onChange={() =>

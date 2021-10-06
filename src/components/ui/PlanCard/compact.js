@@ -8,6 +8,9 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
+const REACT_APP_HIDE_ENROLL_BTN =
+  process.env.REACT_APP_HIDE_ENROLL_BTN || false;
+
 const CompactPlanCard = ({ planData, onEnrollClick, isMobile }) => {
   return (
     <div className={"plan-card plan-card-compact"}>
@@ -24,18 +27,20 @@ const CompactPlanCard = ({ planData, onEnrollClick, isMobile }) => {
           <Rating value={planData.planRating} />
         </div>
       </div>
-      {onEnrollClick && !planData.nonLicensedPlan && (
-        <div className={`footer ${isMobile ? "mobile" : ""}`}>
-          {/* TODO: uncomment once implementing share plan
+      {!REACT_APP_HIDE_ENROLL_BTN &&
+        onEnrollClick &&
+        !planData.nonLicensedPlan && (
+          <div className={`footer ${isMobile ? "mobile" : ""}`}>
+            {/* TODO: uncomment once implementing share plan
           <Button
             label="Share Plan"
             icon={<ShareIcon />}
             onClick={() => onShareClick(planData.id)}
             type="secondary"
           /> */}
-          <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
-        </div>
-      )}
+            <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+          </div>
+        )}
     </div>
   );
 };
