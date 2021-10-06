@@ -19,6 +19,7 @@ import MaContent from "partials/plan-details-content/ma";
 import PdpContent from "partials/plan-details-content/pdp";
 import { PLAN_TYPE_ENUMS } from "../constants";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
+import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import analyticsService from "services/analyticsService";
 
 const PlanDetailsPage = () => {
@@ -31,6 +32,7 @@ const PlanDetailsPage = () => {
   const [contact, setContact] = useState();
   const [plan, setPlan] = useState();
   const [modalOpen, setModalOpen] = useState();
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
@@ -92,6 +94,12 @@ const PlanDetailsPage = () => {
             contact={contact}
             handleCloseModal={() => setModalOpen(false)}
           />
+          <SharePlanModal
+            modalOpen={shareModalOpen}
+            planData={plan}
+            contact={contact}
+            handleCloseModal={() => setShareModalOpen(false)}
+          />
           <WithLoader isLoading={isLoading}>
             <Helmet>
               <title>MedicareCENTER - Plans</title>
@@ -120,6 +128,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
+                  onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                 />
@@ -129,6 +138,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
+                  onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                 />
@@ -138,6 +148,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
+                  onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                 />
               )}
