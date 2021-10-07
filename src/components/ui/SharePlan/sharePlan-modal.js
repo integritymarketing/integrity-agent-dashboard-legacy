@@ -55,7 +55,6 @@ export default ({
   const { planRating, id, documents } = planData;
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
-  debugger
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState("email");
   const [formattedMobile, setFormattedMobile] = useState("");
@@ -91,8 +90,8 @@ export default ({
   };
 
   const summaryBenfitURL = () => {
-    const result  = documents.find(data => data.name === "Benefit Summary")
-    return result?.url;
+    const result  = documents.map(d => ({key: d.name, value: d.url}))
+    return result;
   }
 
   const enroll = useCallback(async () => {
