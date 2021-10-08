@@ -9,7 +9,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     firstName = "",
     middleName = "",
     lastName = "",
-    birthdate = "",
+    birthdate,
     emails = [],
     phones = [],
     addresses = [],
@@ -39,6 +39,8 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
     : "phone";
+
+  console.log("HHHHHHHHH", birthdate);
 
   return (
     <>
@@ -83,7 +85,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="responsive-display contact-details-col1">
               <p className="contact-details-label">Date of Birth</p>
               <span className="mob-mb-24 contact-details-name">
-                {formatDate(birthdate) || "--"}
+                {birthdate ? formatDate(birthdate) : "--"}
               </span>
             </div>
           </div>
@@ -91,7 +93,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="responsive-d-none contact-details-col1">
               <p className="contact-details-label">Date of Birth</p>
               <span className="mob-mb-24 contact-details-name">
-                {formatDate(birthdate) || "--"}
+                {birthdate ? formatDate(birthdate) : "--"}
               </span>
             </div>
             <div className="custom-w-59 custom-w-25 contact-details-col1">
