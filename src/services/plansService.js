@@ -45,7 +45,7 @@ class PlansService {
     if (response.ok) {
       return response.json();
     }
-    throw new Error("Create Lead failed.");
+    throw new Error(response.statusText);
   };
 
   _clientAPIRequest = async (path, method = "GET", query, body) => {
