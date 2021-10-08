@@ -2,7 +2,7 @@ import React from "react";
 import "./index.scss";
 import Rating from "../Rating";
 import { Button } from "../Button";
-import ShareIcon from "components/icons/scope-send";
+import ShareIcon from "components/icons/vector";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
