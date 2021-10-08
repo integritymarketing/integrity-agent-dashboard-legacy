@@ -85,7 +85,8 @@ export default ({ planData }) => {
       cost: (
         <>
           <span className={"label"}>
-            {currencyFormatter.format(prescriptionMap[labelName].cost)}
+            {currencyFormatter.format(prescriptionMap[labelName].cost)}{" "}
+            <span className="per">/year</span>
           </span>
           <span className={"subtext"}>
             Estimate based on an effective date {effectiveDateString}
