@@ -141,7 +141,7 @@ export default function Dashbaord() {
       className: "updated",
       cell: ({ row }) => (
           <>
-          {row?.activities?.length > 1 &&
+          {row?.activities?.length > 0 &&
             <span>
           <LastUpdatedIcon />
           &nbsp;
