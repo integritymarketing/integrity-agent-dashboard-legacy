@@ -24,7 +24,7 @@ class PlansService {
 
     return response.json();
   };
-  enroll = async (data, leadId, planId) => {
+  enroll = async (leadId, planId, data) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/Enroll/${planId}`,
       "POST",
