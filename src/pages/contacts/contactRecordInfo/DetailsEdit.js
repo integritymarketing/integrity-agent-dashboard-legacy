@@ -235,7 +235,6 @@ export default (props) => {
         );
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
-        debugger;
         setSubmitting(true);
         let response = await clientService.updateLead(values);
         if (response.ok) {

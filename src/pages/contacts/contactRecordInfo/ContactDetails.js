@@ -40,8 +40,6 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     ? contactPreferences?.primary
     : "phone";
 
-  console.log("HHHHHHHHH", birthdate);
-
   return (
     <>
       <div
