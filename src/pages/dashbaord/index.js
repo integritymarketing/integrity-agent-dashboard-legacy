@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
-import moment from 'moment';
+import moment from "moment";
 import GlobalNav from "partials/global-nav-v2";
 import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
@@ -91,7 +91,11 @@ export default function Dashbaord() {
     const pageSize = activityData?.pageResult?.pageSize;
     const nextPage =
       1 + Math.floor((activityData?.result?.length ?? 0) / pageSize);
-    const response = await clientService.getList(nextPage, pageSize, "Activities.CreateDate:desc");
+    const response = await clientService.getList(
+      nextPage,
+      pageSize,
+      "Activities.CreateDate:desc"
+    );
     setActivityData((data) => {
       return {
         ...response,
@@ -142,14 +146,14 @@ export default function Dashbaord() {
       title: "Last Updated",
       className: "updated",
       cell: ({ row }) => (
-          <>
-          {row?.activities?.length > 0 &&
+        <>
+          {row?.activities?.length > 0 && (
             <span>
-          <LastUpdatedIcon />
-          &nbsp;
-          {moment((row?.activities || [])[0]?.createDate).format("MM/DD")}
-          </span>
-        }
+              <LastUpdatedIcon />
+              &nbsp;
+              {moment((row?.activities || [])[0]?.createDate).format("MM/DD")}
+            </span>
+          )}
         </>
       ),
     },
@@ -173,7 +177,7 @@ export default function Dashbaord() {
       setSortByRange(value);
       clientService.getApplicationCount(value).then(setDashboardData);
     }
-  }
+  };
 
   return (
     <>
@@ -265,7 +269,7 @@ export default function Dashbaord() {
           </section>
           <section className="recent-activity-section">
             <ActivityTable
-              caption="Recent Activty"
+              caption="Recent Activity"
               rows={activityData?.result}
               headers={headers}
               totalRecords={activityData?.pageResult?.total ?? 0}
