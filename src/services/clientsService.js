@@ -1,8 +1,38 @@
 import authService from "services/authService";
 import { parseDate, formatServerDate } from "utils/dates";
+import moment from "moment";
 
 export const LEADS_API_VERSION = "v2.0";
 export const QUOTES_API_VERSION = "v1.0";
+const rangeDateFormat = "yyyyMMDD";
+
+const getSortByRangeDates = (type) => {
+  if (type === "current-year-to-date") {
+    return [
+      moment().startOf("year").format(rangeDateFormat),
+      moment().format(rangeDateFormat),
+    ];
+  } else if (type === "last-week") {
+    return [
+      moment().subtract(1, "week").startOf("isoWeek").format(rangeDateFormat),
+      moment().subtract(1, "week").endOf("isoWeek").format(rangeDateFormat),
+    ];
+  } else if (type === "last-month") {
+    return [
+      moment().subtract(1, "month").startOf("month").format(rangeDateFormat),
+      moment().subtract(1, "month").endOf("month").format(rangeDateFormat),
+    ];
+  } else if (type === "last-quarter") {
+    return [
+      moment().subtract(1, "Q").startOf("Q").format(rangeDateFormat),
+      moment().subtract(1, "Q").endOf("Q").format(rangeDateFormat),
+    ];
+  }
+  return [
+    moment().startOf("year").format(rangeDateFormat),
+    moment().format(rangeDateFormat),
+  ];
+};
 
 class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
@@ -668,6 +698,29 @@ class ClientsService {
       return response;
     }
   };
+
+  /*Start Dashboard API */
+
+  getDashbaordSummary = async () => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/summary`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  getApplicationCount = async (sortByRange) => {
+    const [startDate, endDate] = getSortByRangeDates(sortByRange);
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/appCount?startdate=${startDate}&enddate=${endDate}`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  /*End Dashboard API */
 }
 
 export default new ClientsService();
