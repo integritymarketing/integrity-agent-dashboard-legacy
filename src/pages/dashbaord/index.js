@@ -8,7 +8,6 @@ import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
-import SortIcon from "components/icons/sort";
 import LastUpdatedIcon from "components/icons/last-updated";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
@@ -90,7 +89,7 @@ export default function Dashbaord() {
     const pageSize = activityData?.pageResult?.pageSize;
     const nextPage =
       1 + Math.floor((activityData?.result?.length ?? 0) / pageSize);
-    const response = await clientService.getList(nextPage, pageSize);
+    const response = await clientService.getList(nextPage, pageSize, "Activities.CreateDate:desc");
     setActivityData((data) => {
       return {
         ...response,
@@ -119,7 +118,8 @@ export default function Dashbaord() {
       }
     };
     getDashboardData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addToast, sortByRange]);
 
   const headers = [
     {
@@ -192,6 +192,7 @@ export default function Dashbaord() {
                     ? Morning
                     : Afternoon
                 }
+                alt="Greeting"
               />
             </div>
             <div className="greet-user">
