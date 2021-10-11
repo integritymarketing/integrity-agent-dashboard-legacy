@@ -9,6 +9,7 @@ import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
+import Tooltip from "components/ui/Tooltip";
 import LastUpdatedIcon from "components/icons/last-updated";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
@@ -181,12 +182,12 @@ export default function Dashbaord() {
 
   return (
     <>
-    <Media
-            query={"(max-width: 500px)"}
-            onChange={(isMobile) => {
-              setIsMobile(isMobile);
-            }}
-          />
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <Helmet>
         <title>MedicareCENTER - Dashboard</title>
       </Helmet>
@@ -229,15 +230,19 @@ export default function Dashbaord() {
               </div>
             </div>
             <div className="application-form-text">
-              Includes applications from MedicareCenter, Medicare App, and
-              Medicare Link.
+              * Includes applications from MedicareCENTER Medicare APP, and
+              Medicare LINK.
             </div>
             <div className="snapshot-wrapper">
               <div className="title">
                 Client Snapshot&nbsp;&nbsp;
-                <Info />
+                <Tooltip
+                  content="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
+                  direction="right"
+                >
+                  <Info />
+                </Tooltip>
               </div>
-
               <div className="snapshot-data">
                 {snapshotData.map((d) => (
                   <div className="snapshot-item">
@@ -249,23 +254,23 @@ export default function Dashbaord() {
                 ))}
               </div>
             </div>
-            {!isMobile && 
-            <>
-            <div className="resources">Resources</div>
-            <Help
-              icon={LearningCenter}
-              text="For the lastest resources and news from Integrity visit the"
-              labelName="Learning Center"
-              handleClick={handleLearningCenter}
-            />
-            <Help
-              icon={ContactSupport}
-              text="For a professional assistance"
-              labelName="Contact Support"
-              handleClick={openHelpModal}
-            />
-            </>
-            }
+            {!isMobile && (
+              <>
+                <div className="resources">Resources</div>
+                <Help
+                  icon={LearningCenter}
+                  text="For the lastest resources and news from Integrity visit the"
+                  labelName="Learning Center"
+                  handleClick={handleLearningCenter}
+                />
+                <Help
+                  icon={ContactSupport}
+                  text="For a professional assistance"
+                  labelName="Contact Support"
+                  handleClick={openHelpModal}
+                />
+              </>
+            )}
           </section>
           <section className="recent-activity-section">
             <ActivityTable
@@ -275,23 +280,23 @@ export default function Dashbaord() {
               totalRecords={activityData?.pageResult?.total ?? 0}
               onLoadMore={onLoadMore}
             />
-            {isMobile && 
-            <>
-            <div className="resources">Resources</div>
-            <Help
-              icon={LearningCenter}
-              text="For the lastest resources and news from Integrity visit the"
-              labelName="Learning Center"
-              handleClick={handleLearningCenter}
-            />
-            <Help
-              icon={ContactSupport}
-              text="For a professional assistance"
-              labelName="Contact Support"
-              handleClick={openHelpModal}
-            />
-            </>
-            }
+            {isMobile && (
+              <>
+                <div className="resources">Resources</div>
+                <Help
+                  icon={LearningCenter}
+                  text="For the lastest resources and news from Integrity visit the"
+                  labelName="Learning Center"
+                  handleClick={handleLearningCenter}
+                />
+                <Help
+                  icon={ContactSupport}
+                  text="For a professional assistance"
+                  labelName="Contact Support"
+                  handleClick={openHelpModal}
+                />
+              </>
+            )}
           </section>
         </div>
       </WithLoader>
