@@ -2,6 +2,7 @@ import React from "react";
 import "./index.scss";
 import Rating from "../Rating";
 import { Button } from "../Button";
+import ShareIcon from "components/icons/vector";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -11,7 +12,12 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const REACT_APP_HIDE_ENROLL_BTN =
   process.env.REACT_APP_HIDE_ENROLL_BTN || false;
 
-const CompactPlanCard = ({ planData, onEnrollClick, isMobile }) => {
+const CompactPlanCard = ({
+  planData,
+  onEnrollClick,
+  onShareClick,
+  isMobile,
+}) => {
   return (
     <div className={"plan-card plan-card-compact"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -31,13 +37,12 @@ const CompactPlanCard = ({ planData, onEnrollClick, isMobile }) => {
         onEnrollClick &&
         !planData.nonLicensedPlan && (
           <div className={`footer ${isMobile ? "mobile" : ""}`}>
-            {/* TODO: uncomment once implementing share plan
-          <Button
-            label="Share Plan"
-            icon={<ShareIcon />}
-            onClick={() => onShareClick(planData.id)}
-            type="secondary"
-          /> */}
+            <Button
+              label="Share Plan"
+              icon={<ShareIcon />}
+              onClick={() => onShareClick(planData.id)}
+              type="secondary"
+            />
             <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
           </div>
         )}

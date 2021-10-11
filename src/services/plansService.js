@@ -24,7 +24,7 @@ class PlansService {
 
     return response.json();
   };
-  enroll = async (leadId, planId, data) => {
+  enroll = async (data, leadId, planId) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/Enroll/${planId}`,
       "POST",
@@ -34,6 +34,20 @@ class PlansService {
 
     return response.json();
   };
+  sendPlan = async (data, leadId, planId) => {
+    const response = await this._clientAPIRequest(
+      `Lead/${leadId}/SendPlan/${planId}`,
+      "POST",
+      {},
+      data
+    );
+
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response.statusText);
+  };
+
   _clientAPIRequest = async (path, method = "GET", query, body) => {
     const user = await authService.getUser();
     const opts = {

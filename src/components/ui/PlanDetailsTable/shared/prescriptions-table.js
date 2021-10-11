@@ -66,8 +66,10 @@ export default ({ planData }) => {
   }
 
   const data = [];
-  if (pharmacyCost.monthlyCosts && Array.isArray(pharmacyCost.monthlyCosts))
-    for (var i = monthsRemaining; i < pharmacyCost.monthlyCosts.length; i++) {
+  if (pharmacyCost.monthlyCosts && Array.isArray(pharmacyCost.monthlyCosts)) {
+    var monthlyCostLength = pharmacyCost.monthlyCosts.length;
+    var startingMonth = monthlyCostLength - monthsRemaining;
+    for (var i = startingMonth - 1; i < pharmacyCost.monthlyCosts.length; i++) {
       var monthlyCost = pharmacyCost.monthlyCosts[i];
       if (monthlyCost.costDetail && Array.isArray(monthlyCost.costDetail)) {
         for (var k = 0; k < monthlyCost.costDetail.length; k++) {
@@ -76,13 +78,15 @@ export default ({ planData }) => {
         }
       }
     }
+  }
   Object.keys(prescriptionMap).forEach((labelName) => {
     data.push({
       name: <span className={"label"}>{labelName}</span>,
       cost: (
         <>
           <span className={"label"}>
-            {currencyFormatter.format(prescriptionMap[labelName].cost)}
+            {currencyFormatter.format(prescriptionMap[labelName].cost)}{" "}
+            <span className="per">/year</span>
           </span>
           <span className={"subtext"}>
             Estimate based on an effective date {effectiveDateString}

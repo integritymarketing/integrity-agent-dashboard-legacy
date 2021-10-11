@@ -297,7 +297,7 @@ class ClientsService {
       firstName,
       middleName: middleName?.toUpperCase(),
       lastName,
-      birthdate: formatServerDate(parseDate(birthdate)),
+      birthdate: birthdate ? formatServerDate(parseDate(birthdate)) : null,
       leadStatusId,
       primaryCommunication,
       contactRecordType,
