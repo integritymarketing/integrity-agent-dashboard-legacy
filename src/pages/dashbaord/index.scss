@@ -120,15 +120,6 @@
         }
       }
     }
-    .resources {
-      margin-left: 35px;
-      font-size: 24px;
-      font-weight: 600;
-      color: #2b323b;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        margin-left: 12px;
-      }
-    }
   }
   .recent-activity-section {
     @media screen and (min-width: 480px) {
@@ -142,4 +133,14 @@
   font-size: 14px;
   font-weight: 400;
   color: #0052ce;
+}
+
+.resources {
+  margin-left: 35px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2b323b;
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    margin-left: 12px;
+  }
 }

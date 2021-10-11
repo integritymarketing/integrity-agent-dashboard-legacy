@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
+import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import moment from 'moment';
 import GlobalNav from "partials/global-nav-v2";
@@ -61,6 +62,7 @@ const useHelpButtonWithModal = () => {
 export default function Dashbaord() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
   const [snapshotData, setSnapshotData] = useState([]);
   const [activityData, setActivityData] = useState({
@@ -175,6 +177,12 @@ export default function Dashbaord() {
 
   return (
     <>
+    <Media
+            query={"(max-width: 500px)"}
+            onChange={(isMobile) => {
+              setIsMobile(isMobile);
+            }}
+          />
       <Helmet>
         <title>MedicareCENTER - Dashboard</title>
       </Helmet>
@@ -237,6 +245,8 @@ export default function Dashbaord() {
                 ))}
               </div>
             </div>
+            {!isMobile && 
+            <>
             <div className="resources">Resources</div>
             <Help
               icon={LearningCenter}
@@ -250,6 +260,8 @@ export default function Dashbaord() {
               labelName="Contact Support"
               handleClick={openHelpModal}
             />
+            </>
+            }
           </section>
           <section className="recent-activity-section">
             <ActivityTable
@@ -259,6 +271,23 @@ export default function Dashbaord() {
               totalRecords={activityData?.pageResult?.total ?? 0}
               onLoadMore={onLoadMore}
             />
+            {isMobile && 
+            <>
+            <div className="resources">Resources</div>
+            <Help
+              icon={LearningCenter}
+              text="For the lastest resources and news from Integrity visit the"
+              labelName="Learning Center"
+              handleClick={handleLearningCenter}
+            />
+            <Help
+              icon={ContactSupport}
+              text="For a professional assistance"
+              labelName="Contact Support"
+              handleClick={openHelpModal}
+            />
+            </>
+            }
           </section>
         </div>
       </WithLoader>
