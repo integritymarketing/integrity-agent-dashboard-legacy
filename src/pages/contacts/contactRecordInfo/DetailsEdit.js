@@ -63,7 +63,7 @@ export default (props) => {
     firstName = "",
     middleName = "",
     lastName = "",
-    birthdate = "",
+    birthdate,
     emails = [],
     phones = [],
     addresses = [],
@@ -139,7 +139,7 @@ export default (props) => {
         lastName: lastName,
         middleName: middleName,
         email: email,
-        birthdate: formatDate(birthdate),
+        birthdate: birthdate ? formatDate(birthdate) : "",
         phones: {
           leadPhone: phone,
           phoneLabel: phoneLabel?.toLowerCase(),
