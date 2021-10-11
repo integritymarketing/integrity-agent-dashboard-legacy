@@ -92,7 +92,9 @@ const ClientCard = ({ client, onRefresh }) => {
         }
         navigateToPage(leadId, value);
         break;
-
+      case "contact":
+        navigateToPage(leadId, value);
+        break;
       default:
         break;
     }
