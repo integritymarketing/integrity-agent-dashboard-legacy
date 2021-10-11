@@ -1,0 +1,100 @@
+.activity-table {
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+        margin: 10px 12px 10px 12px;
+    }
+    span.title {
+        font-size: 24px;
+        line-height: 130%;
+        color: #2b323b;
+    }
+    .table {
+        background: #ffffff;
+        width: 100%;
+        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        margin-top: 30px;
+        padding: 35px;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            padding: 12px;
+        }
+        .thead {
+            padding-right: 35px;
+            display: none;
+        }
+        @media screen and (min-width: 480px) {
+            .thead {
+                display: block;
+            }
+            .tbody {
+                max-height: calc(100vh - 250px);
+                min-height: 750px;
+                overflow-x: auto;
+                padding-right: 35px;
+            }
+        }
+    }
+
+    .trow {
+        height: 69px;
+        display: flex;
+        align-items: center;
+        box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            flex-direction: column;
+            align-items: flex-start;
+            height: 116px;
+            padding: 14px;
+            position: relative;
+            justify-content: space-between;
+        }
+    }
+    .load-more {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        line-height: 150%;
+        color: #64748b;
+        height: 79px;
+        cursor: pointer;
+    }
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+        .tcell.updated {
+            position: absolute;
+            right: 0;
+        }
+    }
+    
+    .tcell {
+        text-align: left;
+    }
+    
+    @media screen and (min-width: 480px) {
+        .tcell.contact {
+            flex: 2;
+        }
+        .tcell.activity {
+            flex: 3;
+        }
+        .tcell.updated {
+            flex: 2;
+        }
+        .tcell.action {
+            flex: 1;
+            min-width: 120px;
+        }
+    }
+    .thead > .trow > .tcell {
+        font-size: 14px;
+        line-height: 150%;
+        color: #64748b;
+    }
+
+    .tbody > .trow > .tcell {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        color: #2b323b;
+    }
+}
