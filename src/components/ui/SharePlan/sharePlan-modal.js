@@ -107,7 +107,7 @@ export default ({
         agentLastName: agentLastName,
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
-        summaryOfBenefitsLink: summaryBenfitURL(),
+        documentationLinks: summaryBenfitURL(),
         starRatingsLink: planRating.toString(),
       };
 

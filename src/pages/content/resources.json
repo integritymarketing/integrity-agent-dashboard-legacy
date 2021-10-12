@@ -140,6 +140,12 @@
       "filename": "MedicareCENTER-Carrier-Comparison-Chart.pdf"
     },
     {
+      "name": "MedicareCENTER FAQs",
+      "description": "Get answers to frequently asked questions about MedicareCENTER.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-FAQs.pdf"
+    },
+    {
       "name": "CSO's Medicare Supplement e-App Guide",
       "description": "Guide for how to submit CSO business online using the CSO's e-App and common FAQs when writing CSO Medicare Supplement electronlically.",
       "categories": ["working-remote"],

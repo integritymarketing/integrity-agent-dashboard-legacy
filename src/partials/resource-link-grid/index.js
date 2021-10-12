@@ -33,6 +33,14 @@ export default () => {
       images: { 373: techGuidesSrc, 746: techGuidesSrc2x },
     },
     {
+      id: "MedicareCENTER FAQs",
+      analyticsKey: "medicarecenterfaqs",
+      name: "Tech Guides",
+      desc:
+        "Get answers to frequently asked questions about MedicareCENTER.",
+      images: { 373: techGuidesSrc, 746: techGuidesSrc2x },
+    },
+    {
       id: "working-remote",
       analyticsKey: "workingremotely",
       name: "Working Remote",
