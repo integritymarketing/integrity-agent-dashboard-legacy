@@ -1,8 +1,9 @@
 import InNetworkCheck from "components/icons/in-network-check";
 import OutNetworkX from "components/icons/out-network-x";
+import { useParams } from "react-router-dom";
+import { parseDate } from "utils/dates";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
-import { getEffectiveDates } from "utils/dates";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -25,7 +26,10 @@ function getCoveredCheck(isCovered) {
   );
 }
 export default ({ planData }) => {
-  const { effectiveStartDate, effectiveEndDate } = getEffectiveDates(planData);
+  const { effectiveDate } = useParams();
+  const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
+  const effectiveEndDate = new Date(effectiveStartDate);
+  effectiveEndDate.setMonth(11);
   const monthsRemaining =
     effectiveEndDate.getMonth() - effectiveStartDate.getMonth();
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {

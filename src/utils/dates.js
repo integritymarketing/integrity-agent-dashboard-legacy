@@ -4,8 +4,8 @@ const DEFAULT_EFFECTIVE_YEAR = [
   parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
 ];
 
-export const parseDate = (dateString) => {
-  return parse(dateString, "MM/dd/yyyy", new Date());
+export const parseDate = (dateString, format = "MM/dd/yyyy") => {
+  return parse(dateString, format, new Date());
 };
 
 export const formatServerDate = (dateString) => {
