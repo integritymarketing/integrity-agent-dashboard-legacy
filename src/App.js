@@ -116,7 +116,7 @@ const App = () => {
                           <AuthenticatedRoute path="/plans/:contactId">
                             <PlansPage />
                           </AuthenticatedRoute>
-                          <AuthenticatedRoute path="/:contactId/plan/:planId">
+                          <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
                             <PlanDetailsPage />
                           </AuthenticatedRoute>
                           <Route path="/terms">

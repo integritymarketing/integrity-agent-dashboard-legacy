@@ -4,6 +4,7 @@ import PlanCard from "./PlanCard";
 import PlanCardLoader from "./PlanCard/loader";
 import EnrollmentModal from "./Enrollment/enrollment-modal";
 import { planTypesMap } from "./PlanTypesFilter";
+import { formatServerDate } from "utils/dates";
 
 export const convertPlanTypeToValue = (value, planTypesMap) => {
   const type = planTypesMap.find((element) => element.value === Number(value));
@@ -37,7 +38,11 @@ const PlanResults = ({
           effectiveDate={effectiveDate}
           isMobile={isMobile}
           pharmacyMap={pharmacyMap}
-          onDetailsClick={() => history.push(`/${leadId}/plan/${plan.id}`)}
+          onDetailsClick={() =>
+            history.push(
+              `/${leadId}/plan/${plan.id}/${formatServerDate(effectiveDate)}`
+            )
+          }
           onEnrollClick={() => {
             setEnrollingPlan(plan);
             setModalOpen(true);
