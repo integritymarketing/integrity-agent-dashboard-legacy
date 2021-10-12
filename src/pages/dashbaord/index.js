@@ -26,6 +26,17 @@ import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 
+const SORT_BY_ORDER = {
+  New: 1,
+  Renewal: 2,
+  Contacted: 3,
+  SoaSent: 4,
+  SoaSigned: 5,
+  Quoted: 6,
+  Applied: 7,
+  Enrolled: 8,
+};
+
 const ActionButton = ({ row, onClick }) => {
   return (
     <button className="action-button" onClick={() => onClick(row)}>
@@ -110,7 +121,16 @@ export default function Dashbaord() {
       setIsLoading(true);
       try {
         await Promise.all([
-          clientService.getDashbaordSummary().then(setSnapshotData),
+          clientService.getDashbaordSummary().then((response) => {
+            setSnapshotData(
+              response.sort((a, b) => {
+                return (
+                  (SORT_BY_ORDER[a.statusName] || 1000) -
+                  (SORT_BY_ORDER[b.statusName] || 1000)
+                );
+              })
+            );
+          }),
           clientService.getApplicationCount(sortByRange).then(setDashboardData),
           onLoadMore(),
         ]);

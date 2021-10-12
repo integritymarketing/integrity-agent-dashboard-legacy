@@ -88,6 +88,7 @@ export default () => {
   const agentLastName = user?.lastName;
   const agentEmail = user?.email;
   const agentPhoneNumber = user?.phone;
+  const npnNumber = user?.npn;
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
 
@@ -127,6 +128,7 @@ export default () => {
         agentLastName: agentLastName,
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
+        agentNpn: npnNumber,
       };
       if (selectOption === "email") {
         const data = {
