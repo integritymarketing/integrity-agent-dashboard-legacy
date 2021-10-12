@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useCallback,
   useMemo,
   useEffect,
   useContext,
@@ -56,7 +55,7 @@ export default ({
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
   const [selectLabel, setSelectLabel] = useState("email");
-  const [selectOption, setSelectOption] = useState("email");
+  const [selectOption, setSelectOption] = useState(null);
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
@@ -90,11 +89,11 @@ export default ({
   };
 
   const summaryBenfitURL = () => {
-    const result  = documents.map(d => ({key: d.name, value: d.url}))
+    const result = documents.map((d) => ({ key: d.name, value: d.url }));
     return result;
-  }
+  };
 
-  const enroll = useCallback(async () => {
+  const enroll = async () => {
     const agentFirstName = user?.firstName;
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
@@ -107,10 +106,9 @@ export default ({
         agentLastName: agentLastName,
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
-        summaryOfBenefitsLink: summaryBenfitURL(),
+        documentationLinks: summaryBenfitURL(),
         starRatingsLink: planRating.toString(),
       };
-
       if (selectOption === "email") {
         const data = {
           ...payload,
@@ -159,9 +157,7 @@ export default ({
       setUser({});
       handleCloseModal();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [planData, contact, addToast, handleCloseModal]);
-
+  };
 
   const idFormNotValid = useMemo(() => {
     if (selectOption === "newEmailOrMObile") {
@@ -208,7 +204,7 @@ export default ({
                     id="email"
                     htmlFor="email"
                     label={`Email (${leadEmail})`}
-                    name="new-soa"
+                    name="share-plan"
                     value="email"
                     checked={selectOption === "email"}
                     onChange={(event) =>
@@ -219,7 +215,7 @@ export default ({
                     id="textMessage"
                     htmlFor="textMessage"
                     label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
-                    name="new-soa"
+                    name="share-plan"
                     value="textMessage"
                     checked={selectOption === "textMessage"}
                     onChange={(event) =>
@@ -230,7 +226,7 @@ export default ({
                     id="newEmailOrMobile"
                     htmlFor="newEmailOrMobile"
                     label="New email or mobile number"
-                    name="new-soa"
+                    name="share-plan"
                     value="newEmailOrMObile"
                     checked={selectOption === "newEmailOrMObile"}
                     onChange={(event) =>
