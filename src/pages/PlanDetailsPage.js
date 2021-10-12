@@ -21,11 +21,12 @@ import { PLAN_TYPE_ENUMS } from "../constants";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
 import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import analyticsService from "services/analyticsService";
+import { formatServerDate } from "utils/dates";
 
 const PlanDetailsPage = () => {
   const history = useHistory();
   const addToast = useToast();
-  const { contactId, planId } = useParams();
+  const { contactId, planId, effectiveDate } = useParams();
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pharmacies, setPharmacies] = useState();
@@ -44,7 +45,8 @@ const PlanDetailsPage = () => {
       const planData = await plansService.getPlan(
         contactId,
         planId,
-        contactData
+        contactData,
+        formatServerDate(effectiveDate)
       );
       setPharmacies(
         pharmacies.reduce((dict, item) => {
