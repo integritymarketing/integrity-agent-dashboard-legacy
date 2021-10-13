@@ -73,7 +73,7 @@ const PlanDetailsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [contactId, planId, addToast]);
+  }, [contactId, planId, addToast, effectiveDate]);
 
   useEffect(() => {
     getContactAndPlanData();
