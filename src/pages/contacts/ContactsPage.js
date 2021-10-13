@@ -24,7 +24,7 @@ import { Select } from "components/ui/Select";
 import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { StageStatusProvider } from "contexts/stageStatus";
-import BackNavContext from "contexts/backNavProvider"; 
+import BackNavContext from "contexts/backNavProvider";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
 import { SORT_OPTIONS } from "../../constants";
@@ -62,21 +62,25 @@ export default () => {
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(null);
   const [layout, setLayout] = useState();
+  const [count, setCount] = useState(null);
   const location = useLocation();
   const history = useHistory();
   const [isMobile, setIsMobile] = useState(false);
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
-  const {setCurrentPage} = useContext(BackNavContext)
+  const queryParams = new URLSearchParams(window.location.search);
+  const statusName = queryParams.get("status");
+
+  const { setCurrentPage } = useContext(BackNavContext);
 
   const duplicateIdsLength = duplicateIds?.length;
 
   useEffect(() => {
-    setCurrentPage('Contacts Page')
-    
-// eslint-disable-next-line react-hooks/exhaustive-deps 
-  } , []);
+    setCurrentPage("Contacts Page");
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     setLayout(() =>
       location.pathname === cardViewLayoutPath ? "card" : "list"
@@ -193,6 +197,19 @@ export default () => {
                     </button>
                   </div>
                 )}
+                {statusName && (
+                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                    <div className={styles["duplicate-found"]}>
+                      {count} contacts found for {statusName}
+                    </div>
+                    <button
+                      onClick={() => history.push("/contacts/list")}
+                      className={styles["reset-close"]}
+                    >
+                      <RoundCloseIcon />
+                    </button>
+                  </div>
+                )}
               </div>
               <div className="bar">
                 {isMobile ? null : (
@@ -250,6 +267,8 @@ export default () => {
                     duplicateIdsLength={duplicateIdsLength}
                     searchString={searchStringNew}
                     sort={sort}
+                    statusName={statusName}
+                    setCount={setCount}
                   />
                 </Route>
                 <Route path="/contacts/card">

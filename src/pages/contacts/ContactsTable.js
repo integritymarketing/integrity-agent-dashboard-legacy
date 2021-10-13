@@ -23,6 +23,7 @@ import analyticsService from "services/analyticsService";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
 import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
+import StageStatusContext from "contexts/stageStatus";
 
 function Table({
   columns,
@@ -33,6 +34,7 @@ function Table({
   loading,
   totalResults,
   sort,
+  filterId,
 }) {
   const {
     getTableProps,
@@ -58,8 +60,8 @@ function Table({
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/list-view/",
     });
-    onChangeTableState({ pageSize, pageIndex, searchString, sort });
-  }, [onChangeTableState, pageSize, pageIndex, searchString, sort]);
+    onChangeTableState({ pageSize, pageIndex, searchString, sort, filterId });
+  }, [onChangeTableState, pageSize, pageIndex, searchString, sort, filterId]);
 
   if (loading) {
     return <Spinner />;
@@ -124,7 +126,13 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
   }
 };
 
-function ContactsTable({ searchString, sort, duplicateIdsLength }) {
+function ContactsTable({
+  searchString,
+  sort,
+  duplicateIdsLength,
+  statusName,
+  setCount,
+}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
@@ -138,6 +146,10 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
   const history = useHistory();
+  const { allStatuses } = useContext(StageStatusContext);
+  const filterId = allStatuses?.find(
+    (status) => status.statusName === statusName
+  )?.leadStatusId;
 
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
@@ -180,10 +192,11 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
   }, [deleteLeadId, deleteContact]);
 
   const fetchData = useCallback(
-    ({ pageSize, pageIndex, searchString, sort }) => {
+    ({ pageSize, pageIndex, searchString, sort, filterId }) => {
       if (pageIndex === undefined) {
         return;
       }
+
       setLoading(true);
       const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
       clientsService
@@ -191,7 +204,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
           pageIndex,
           pageSize,
           sort,
-          null,
+          filterId || null,
           searchString || null,
           duplicateIds
         )
@@ -208,6 +221,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
           );
           setPageCount(list.pageResult.totalPages);
           setTotalResults(list.pageResult.total);
+          setCount(list.pageResult.total);
           setLoading(false);
         })
         .catch(() => {
@@ -348,6 +362,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
       pageCount={pageCount}
       totalResults={totalResults}
       sort={sort}
+      filterId={filterId}
       onChangeTableState={setTableState}
     />
   );

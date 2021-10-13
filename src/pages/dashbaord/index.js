@@ -200,6 +200,10 @@ export default function Dashbaord() {
     }
   };
 
+  const navigateToContactListPage = (status) => {
+    history.push(`/contacts/list?status=${status}`);
+  };
+
   return (
     <>
       <Media
@@ -265,8 +269,16 @@ export default function Dashbaord() {
               </div>
               <div className="snapshot-data">
                 {snapshotData.map((d) => (
-                  <div className="snapshot-item">
-                    <div className="snapshot-name">{d.statusName}</div>
+                  <div
+                    className="snapshot-item"
+                    onClick={() => navigateToContactListPage(d.statusName)}
+                  >
+                    <div className="snapshot-name">
+                      {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
+                      {d?.statusName?.includes("Soa")
+                        ? d.statusName.replace("Soa", "SOA ")
+                        : d.statusName}
+                    </div>
                     <div className="snapshot-count">
                       {numberWithCommas(d.totalCount)}
                     </div>
