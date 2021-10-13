@@ -30,6 +30,9 @@
                 min-height: 750px;
                 overflow-x: auto;
                 padding-right: 35px;
+                &.MenuList {
+                    margin-right: 0px;
+                }
             }
         }
     }

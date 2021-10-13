@@ -12,13 +12,14 @@ class PlansService {
 
     return response.json();
   };
-  getPlan = async (leadId, planId, contactData) => {
+  getPlan = async (leadId, planId, contactData, effectiveDate) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/Plan/${planId}`,
       "GET",
       {
         zip: contactData.addresses[0].postalCode,
         fips: contactData.addresses[0].countyFips,
+        effectiveDate,
       }
     );
 

@@ -25,7 +25,7 @@ import analyticsService from "services/analyticsService";
 const PlanDetailsPage = () => {
   const history = useHistory();
   const addToast = useToast();
-  const { contactId, planId } = useParams();
+  const { contactId, planId, effectiveDate } = useParams();
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pharmacies, setPharmacies] = useState();
@@ -44,7 +44,8 @@ const PlanDetailsPage = () => {
       const planData = await plansService.getPlan(
         contactId,
         planId,
-        contactData
+        contactData,
+        effectiveDate
       );
       setPharmacies(
         pharmacies.reduce((dict, item) => {
@@ -72,7 +73,7 @@ const PlanDetailsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [contactId, planId, addToast]);
+  }, [contactId, planId, addToast, effectiveDate]);
 
   useEffect(() => {
     getContactAndPlanData();
