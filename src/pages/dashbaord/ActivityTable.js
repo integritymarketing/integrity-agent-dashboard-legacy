@@ -49,7 +49,7 @@ export default function ActivityTable({
             ))}
           </div>
         </div>
-        <div className="tbody">
+        <div className="tbody MenuList">
           {rows.map((row, idx) => (
             <TRow key={idx} headers={headers} row={row} />
           ))}
