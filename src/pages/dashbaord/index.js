@@ -146,7 +146,7 @@ export default function Dashbaord() {
     };
     getDashboardData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast, sortByRange]);
+  }, [addToast]);
 
   const headers = [
     {
@@ -171,7 +171,7 @@ export default function Dashbaord() {
           {row?.activities?.length > 0 && (
             <span>
               <LastUpdatedIcon />
-              &nbsp;
+              &nbsp;&nbsp;
               {moment((row?.activities || [])[0]?.createDate).format("MM/DD")}
             </span>
           )}
