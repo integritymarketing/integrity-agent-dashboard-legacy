@@ -18,58 +18,65 @@
     .greeting {
       height: 257px;
       background-repeat: no-repeat;
-    }
-    .greet-user {
-      position: absolute;
-      top: 12%;
-      padding-left: 40px;
-      font-size: 32px;
-      font-weight: 600;
-      color: #ffffff;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        top: 5%;
-      }
-    }
-    .confirmed-applications-wrapper {
-      position: absolute;
-      top: 22%;
+      position: relative;
       display: flex;
-      margin: 0px 30px 0px 30px;
-      height: 139px;
-      width: 351px;
-      background: #ffffff;
-      box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.05);
-      border-radius: 8px;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        top: 10%;
-        margin: 0px 12px 0px 12px;
-        width: calc(100% - 24px);
+      flex-direction: column;
+      img {
+        position: absolute;
+        top: 0;
       }
-      .wrapper-body {
-        padding-left: 24px;
-        .header-text {
-          padding: 12px 0px 10px 0px;
-          font-size: 16px;
-          font-weight: 400;
-          color: #64748b;
+      .greet-user {
+        padding-left: 40px;
+        font-size: 32px;
+        font-weight: 600;
+        color: #ffffff;
+        z-index: 1;
+        padding-top: 25px;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          padding-top: 25px;
         }
-        .application-count {
-          font-size: 24px;
-          font-weight: 600;
-          color: #0052ce;
-          padding-top: 10px;
+      }
+      .confirmed-applications-wrapper {
+        position: absolute;
+        bottom: -35px;
+        display: flex;
+        margin: 0px 30px 0px 30px;
+        height: 139px;
+        width: 351px;
+        background: #ffffff;
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          margin: 0px 12px 0px 12px;
+          width: calc(100% - 24px);
         }
-        .application-sort {
-          padding: 12px 0px 15px 0px;
-          width: 300px;
-          @media screen and (min-width: 320px) and (max-width: 480px) {
-            .select {
-              margin-left: 0px;
+        .wrapper-body {
+          padding-left: 24px;
+          .header-text {
+            padding: 12px 0px 10px 0px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #64748b;
+          }
+          .application-count {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0052ce;
+            padding-top: 10px;
+          }
+          .application-sort {
+            padding: 12px 0px 15px 0px;
+            width: 300px;
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+              .select {
+                margin-left: 0px;
+              }
             }
           }
         }
       }
     }
+
     .application-form-text {
       height: 55px;
       margin: 60px 65px 12px 35px;

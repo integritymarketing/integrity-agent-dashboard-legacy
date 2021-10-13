@@ -9,8 +9,13 @@ export default function Help({ icon, text, labelName, handleClick }) {
       <div className="help-text">
         {text}{" "}
         <a href={() => false} onClick={handleClick} className="help-click">
-          {labelName}{" "}
-          <img className="right-arrow" src={RightArrow} alt="Click here"></img>
+          {labelName}&nbsp;&nbsp;
+          <img
+            onClick={handleClick}
+            className="right-arrow"
+            src={RightArrow}
+            alt="Click here"
+          ></img>
         </a>
       </div>
     </div>
