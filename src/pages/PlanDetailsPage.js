@@ -21,7 +21,6 @@ import { PLAN_TYPE_ENUMS } from "../constants";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
 import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import analyticsService from "services/analyticsService";
-import { formatServerDate } from "utils/dates";
 
 const PlanDetailsPage = () => {
   const history = useHistory();
@@ -46,7 +45,7 @@ const PlanDetailsPage = () => {
         contactId,
         planId,
         contactData,
-        formatServerDate(effectiveDate)
+        effectiveDate
       );
       setPharmacies(
         pharmacies.reduce((dict, item) => {

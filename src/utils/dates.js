@@ -13,9 +13,9 @@ export const formatServerDate = (dateString) => {
   return format(date, "yyyy-MM-dd");
 };
 
-export const formatDate = (dateString) => {
+export const formatDate = (dateString, formatString = "MM/dd/yyyy") => {
   const date = new Date(dateString);
-  return isNaN(date.getTime()) ? "" : format(date, "MM/dd/yyyy");
+  return isNaN(date.getTime()) ? "" : format(date, formatString);
 };
 
 export const formatToLocalDate = (dateString) => {
