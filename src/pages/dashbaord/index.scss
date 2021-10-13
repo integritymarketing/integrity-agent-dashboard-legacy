@@ -43,6 +43,7 @@
       @media screen and (min-width: 320px) and (max-width: 480px) {
         top: 10%;
         margin: 0px 12px 0px 12px;
+        width: calc(100% - 24px);
       }
       .wrapper-body {
         padding-left: 24px;
