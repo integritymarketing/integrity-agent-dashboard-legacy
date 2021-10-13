@@ -67,7 +67,7 @@ export default ({
       setUser(user.profile);
     };
     getData();
-  }, [auth]);
+  }, [auth, modalOpen]);
 
   const mobile = useMemo(
     () => (formattedMobile ? ("" + formattedMobile).replace(/\D/g, "") : ""),
