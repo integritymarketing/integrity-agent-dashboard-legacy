@@ -1,5 +1,9 @@
 export const MORE_ACTIONS = [
   {
+    label: "View Contact",
+    value: "contact",
+  },
+  {
     label: "Send Scope of Appointment",
     value: "new-soa",
   },

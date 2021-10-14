@@ -12,13 +12,14 @@ class PlansService {
 
     return response.json();
   };
-  getPlan = async (leadId, planId, contactData) => {
+  getPlan = async (leadId, planId, contactData, effectiveDate) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/Plan/${planId}`,
       "GET",
       {
         zip: contactData.addresses[0].postalCode,
         fips: contactData.addresses[0].countyFips,
+        effectiveDate,
       }
     );
 
@@ -34,6 +35,20 @@ class PlansService {
 
     return response.json();
   };
+  sendPlan = async (data, leadId, planId) => {
+    const response = await this._clientAPIRequest(
+      `Lead/${leadId}/SendPlan/${planId}`,
+      "POST",
+      {},
+      data
+    );
+
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response.statusText);
+  };
+
   _clientAPIRequest = async (path, method = "GET", query, body) => {
     const user = await authService.getUser();
     const opts = {

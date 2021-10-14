@@ -16,6 +16,7 @@ import PrivacyPage from "pages/PrivacyPage";
 import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
+import Dashboard from "pages/dashbaord";
 import NewScopeOfAppointment from "pages/contacts/contactRecordInfo/newScopeOfAppointment";
 import SOAConfirmationPage from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage";
 import SOAConfirmationForm from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation";
@@ -75,6 +76,9 @@ const App = () => {
                           <AuthenticatedRoute path="/home">
                             <HomePage />
                           </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/dashboard">
+                            <Dashboard />
+                          </AuthenticatedRoute>
 
                           <AuthenticatedRoute path="/edit-account">
                             <AccountPage />
@@ -112,7 +116,7 @@ const App = () => {
                           <AuthenticatedRoute path="/plans/:contactId">
                             <PlansPage />
                           </AuthenticatedRoute>
-                          <AuthenticatedRoute path="/:contactId/plan/:planId">
+                          <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
                             <PlanDetailsPage />
                           </AuthenticatedRoute>
                           <Route path="/terms">

@@ -1,5 +1,6 @@
 import React from "react";
 import { formatPhoneNumber } from "utils/phones";
+import { formatDate } from "utils/dates";
 import Editicon from "components/icons/edit-details";
 const notAvailable = "-";
 
@@ -8,6 +9,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     firstName = "",
     middleName = "",
     lastName = "",
+    birthdate,
     emails = [],
     phones = [],
     addresses = [],
@@ -77,16 +79,21 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
                 {lastName || notAvailable}
               </span>
             </div>
-            {/* <div className="responsive-display contact-details-col1">
-              <p className="contact-details-label">Date Of Birth</p>
-              <span className="mob-mb-24 contact-details-name">10/06/1994</span>
-            </div> */}
+
+            <div className="responsive-display contact-details-col1">
+              <p className="contact-details-label">Date of Birth</p>
+              <span className="mob-mb-24 contact-details-name">
+                {birthdate ? formatDate(birthdate) : "--"}
+              </span>
+            </div>
           </div>
           <div className=" custom-mob-address-row contact-details-row">
-            {/* <div className="responsive-d-none contact-details-col1">
-              <p className="contact-details-label">Date Of Birth</p>
-              <span className="mob-mb-24 contact-details-name"> -- </span>
-            </div> */}
+            <div className="responsive-d-none contact-details-col1">
+              <p className="contact-details-label">Date of Birth</p>
+              <span className="mob-mb-24 contact-details-name">
+                {birthdate ? formatDate(birthdate) : "--"}
+              </span>
+            </div>
             <div className="custom-w-59 custom-w-25 contact-details-col1">
               <p className="contact-details-label">Contact Record Type</p>
               <span className="contact-details-name text-capitalize">

@@ -19,18 +19,20 @@ import MaContent from "partials/plan-details-content/ma";
 import PdpContent from "partials/plan-details-content/pdp";
 import { PLAN_TYPE_ENUMS } from "../constants";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
+import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import analyticsService from "services/analyticsService";
 
 const PlanDetailsPage = () => {
   const history = useHistory();
   const addToast = useToast();
-  const { contactId, planId } = useParams();
+  const { contactId, planId, effectiveDate } = useParams();
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pharmacies, setPharmacies] = useState();
   const [contact, setContact] = useState();
   const [plan, setPlan] = useState();
   const [modalOpen, setModalOpen] = useState();
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
@@ -42,7 +44,8 @@ const PlanDetailsPage = () => {
       const planData = await plansService.getPlan(
         contactId,
         planId,
-        contactData
+        contactData,
+        effectiveDate
       );
       setPharmacies(
         pharmacies.reduce((dict, item) => {
@@ -70,7 +73,7 @@ const PlanDetailsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [contactId, planId, addToast]);
+  }, [contactId, planId, addToast, effectiveDate]);
 
   useEffect(() => {
     getContactAndPlanData();
@@ -91,6 +94,12 @@ const PlanDetailsPage = () => {
             planData={plan}
             contact={contact}
             handleCloseModal={() => setModalOpen(false)}
+          />
+          <SharePlanModal
+            modalOpen={shareModalOpen}
+            planData={plan}
+            contact={contact}
+            handleCloseModal={() => setShareModalOpen(false)}
           />
           <WithLoader isLoading={isLoading}>
             <Helmet>
@@ -120,6 +129,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
+                  onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                 />
@@ -129,6 +139,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
+                  onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                 />
@@ -138,6 +149,7 @@ const PlanDetailsPage = () => {
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
+                  onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                 />
               )}

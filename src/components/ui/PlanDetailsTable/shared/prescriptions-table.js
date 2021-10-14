@@ -1,8 +1,9 @@
 import InNetworkCheck from "components/icons/in-network-check";
 import OutNetworkX from "components/icons/out-network-x";
+import { useParams } from "react-router-dom";
+import { parseDate } from "utils/dates";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
-import { getEffectiveDates } from "utils/dates";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -25,7 +26,10 @@ function getCoveredCheck(isCovered) {
   );
 }
 export default ({ planData }) => {
-  const { effectiveStartDate, effectiveEndDate } = getEffectiveDates(planData);
+  const { effectiveDate } = useParams();
+  const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
+  const effectiveEndDate = new Date(effectiveStartDate);
+  effectiveEndDate.setMonth(11);
   const monthsRemaining =
     effectiveEndDate.getMonth() - effectiveStartDate.getMonth();
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
@@ -66,8 +70,10 @@ export default ({ planData }) => {
   }
 
   const data = [];
-  if (pharmacyCost.monthlyCosts && Array.isArray(pharmacyCost.monthlyCosts))
-    for (var i = monthsRemaining; i < pharmacyCost.monthlyCosts.length; i++) {
+  if (pharmacyCost.monthlyCosts && Array.isArray(pharmacyCost.monthlyCosts)) {
+    var monthlyCostLength = pharmacyCost.monthlyCosts.length;
+    var startingMonth = monthlyCostLength - monthsRemaining;
+    for (var i = startingMonth - 1; i < pharmacyCost.monthlyCosts.length; i++) {
       var monthlyCost = pharmacyCost.monthlyCosts[i];
       if (monthlyCost.costDetail && Array.isArray(monthlyCost.costDetail)) {
         for (var k = 0; k < monthlyCost.costDetail.length; k++) {
@@ -76,13 +82,15 @@ export default ({ planData }) => {
         }
       }
     }
+  }
   Object.keys(prescriptionMap).forEach((labelName) => {
     data.push({
       name: <span className={"label"}>{labelName}</span>,
       cost: (
         <>
           <span className={"label"}>
-            {currencyFormatter.format(prescriptionMap[labelName].cost)}
+            {currencyFormatter.format(prescriptionMap[labelName].cost)}{" "}
+            <span className="per">/year</span>
           </span>
           <span className={"subtext"}>
             Estimate based on an effective date {effectiveDateString}

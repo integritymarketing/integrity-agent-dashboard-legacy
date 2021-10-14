@@ -140,6 +140,18 @@
       "filename": "MedicareCENTER-Carrier-Comparison-Chart.pdf"
     },
     {
+      "name": "MedicareCENTER FAQs",
+      "description": "Get answers to frequently asked questions about MedicareCENTER.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-FAQs.pdf"
+    },
+    {
+      "name": "MedicareCENTER Enrollment Options Guide",
+      "description": "Multiple enrollment options at your fingertips. Choose the app (MedicareAPP, MedicareLINK, CSG APP or Integrated Contact Management) that works best for your client needs.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-Enrollment-Options.pdf"
+    },
+    {
       "name": "CSO's Medicare Supplement e-App Guide",
       "description": "Guide for how to submit CSO business online using the CSO's e-App and common FAQs when writing CSO Medicare Supplement electronlically.",
       "categories": ["working-remote"],
