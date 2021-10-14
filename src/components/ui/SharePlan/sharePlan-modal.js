@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useMemo,
-  useEffect,
-  useContext,
-} from "react";
+import React, { useState, useMemo, useEffect, useContext } from "react";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
 import Media from "react-media";
@@ -152,11 +147,12 @@ export default ({
       });
     } finally {
       setSelectOption("");
-      setEmail("email");
+      setEmail("");
       setErrors("");
       setFormattedMobile("");
       setUser({});
       handleCloseModal();
+      selectLabel("email");
     }
   };
 
@@ -252,7 +248,7 @@ export default ({
                           type="text"
                           onFocus={() => setFocus(true)}
                           onBlur={() => setFocus(false)}
-                          placeholder={hasFocus ?  '' : "Enter email"}
+                          placeholder={hasFocus ? "" : "Enter email"}
                           value={email}
                           className={`${errors && "error-class"} text-input`}
                           onChange={(e) => {
