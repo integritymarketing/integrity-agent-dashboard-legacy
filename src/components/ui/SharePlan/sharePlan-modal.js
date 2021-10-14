@@ -151,8 +151,8 @@ export default ({
       setErrors("");
       setFormattedMobile("");
       setUser({});
+      setSelectLabel("email");
       handleCloseModal();
-      selectLabel("email");
     }
   };
 
@@ -264,7 +264,9 @@ export default ({
                       <div className="email-mobile-section">
                         <input
                           type="text"
-                          placeholder="XXX-XXX-XXXX"
+                          onFocus={() => setFocus(true)}
+                          onBlur={() => setFocus(false)}
+                          placeholder={hasFocus ? "" : "XXX-XXX-XXXX"}
                           value={formattedMobile}
                           maxLength="10"
                           className={`${
