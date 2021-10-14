@@ -111,21 +111,18 @@
         .snapshot-item {
           height: 40px;
           font-weight: 400;
-          font-size: 18px;
+          font-size: 20px;
           border-radius: 4px;
           color: #2b323b;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding-right: 30px;
-          //   &:hover {
-          //     background: #f2f9ff;
-          //     cursor: pointer;
-          //   }
-          .snapshot-count {
-            font-size: 18px;
-            font-weight: 700;
+          padding: 7px;
+          &:hover {
+            background: #f2f9ff;
+            cursor: pointer;
             color: #0052ce;
+            font-weight: 600;
           }
         }
       }
