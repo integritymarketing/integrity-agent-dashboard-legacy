@@ -134,7 +134,7 @@ function ContactsTable({
   setCount,
 }) {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [tableState, setTableState] = useState({});
@@ -147,8 +147,9 @@ function ContactsTable({
   const addToast = useToast();
   const history = useHistory();
   const { allStatuses } = useContext(StageStatusContext);
+
   const filterId = allStatuses?.find(
-    (status) => status.statusName === statusName
+    (status) => status.statusName?.toLocaleLowerCase() === statusName?.toLocaleLowerCase()
   )?.leadStatusId;
 
   const deleteContact = useCallback(() => {
@@ -192,12 +193,13 @@ function ContactsTable({
   }, [deleteLeadId, deleteContact]);
 
   const fetchData = useCallback(
-    ({ pageSize, pageIndex, searchString, sort, filterId }) => {
+    ({ pageSize, pageIndex, searchString, sort }) => {
       if (pageIndex === undefined) {
         return;
       }
 
       setLoading(true);
+      setCount(0);
       const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
       clientsService
         .getList(
@@ -228,7 +230,7 @@ function ContactsTable({
           setLoading(false);
         });
     },
-    []
+    [filterId,setCount]
   );
 
   const handleRefresh = useCallback(() => {

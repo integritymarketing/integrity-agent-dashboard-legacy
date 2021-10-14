@@ -60,6 +60,7 @@ export default ({
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
   const [user, setUser] = useState({});
+  const [hasFocus, setFocus] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -249,7 +250,9 @@ export default ({
                       <div className="email-mobile-section">
                         <input
                           type="text"
-                          placeholder="Enter email"
+                          onFocus={() => setFocus(true)}
+                          onBlur={() => setFocus(false)}
+                          placeholder={hasFocus ?  '' : "Enter email"}
                           value={email}
                           className={`${errors && "error-class"} text-input`}
                           onChange={(e) => {

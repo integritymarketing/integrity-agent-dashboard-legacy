@@ -263,7 +263,7 @@ export default () => {
                   <Redirect to="/contacts/list" />
                 </Route>
                 <Route path="/contacts/list">
-                  <ContactsTable
+                  <ContactsTable                    
                     duplicateIdsLength={duplicateIdsLength}
                     searchString={searchStringNew}
                     sort={sort}
