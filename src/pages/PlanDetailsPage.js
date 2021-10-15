@@ -21,6 +21,7 @@ import { PLAN_TYPE_ENUMS } from "../constants";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
 import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import analyticsService from "services/analyticsService";
+import { BackToTop } from "components/ui/BackToTop";
 
 const PlanDetailsPage = () => {
   const history = useHistory();
@@ -154,6 +155,7 @@ const PlanDetailsPage = () => {
                 />
               )}
             </Container>
+            <BackToTop />
           </WithLoader>
         </div>
       </ToastContextProvider>

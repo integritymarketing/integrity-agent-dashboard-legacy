@@ -221,7 +221,6 @@ export default function Dashbaord() {
         <div className="dashbaord-page">
           <section className="details-section">
             <div className="greeting">
-
               <img
                 src={
                   greetings() === "Evening"
@@ -232,27 +231,27 @@ export default function Dashbaord() {
                 }
                 alt="Greeting"
               />
-            <div className="greet-user">
-              <div className="greet-session">Good {greetings()},</div>
-              <div className="greet-name">{user.firstName}</div>
-            </div>
-
-            <div className="confirmed-applications-wrapper">
-              <div className="wrapper-body">
-                <div className="header-text">Confirmed Applications*</div>
-                <div className="application-count">
-                  {dashboardData?.applicationCount} Applied
-                </div>
-                <div className={"application-sort"}>
-                  <Select
-                    initialValue={DASHBOARD_SORT_OPTIONS[0].value}
-                    onChange={handleSortDateRange}
-                    options={DASHBOARD_SORT_OPTIONS}
-                    prefix="Range: "
-                    showValueAlways={true}
-                  />
-                </div>
+              <div className="greet-user">
+                <div className="greet-session">Good {greetings()},</div>
+                <div className="greet-name">{user.firstName}</div>
               </div>
+
+              <div className="confirmed-applications-wrapper">
+                <div className="wrapper-body">
+                  <div className="header-text">Confirmed Applications*</div>
+                  <div className="application-count">
+                    {dashboardData?.applicationCount} Applied
+                  </div>
+                  <div className={"application-sort"}>
+                    <Select
+                      initialValue={DASHBOARD_SORT_OPTIONS[0].value}
+                      onChange={handleSortDateRange}
+                      options={DASHBOARD_SORT_OPTIONS}
+                      prefix="Range: "
+                      showValueAlways={true}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="application-form-text">
@@ -293,13 +292,13 @@ export default function Dashbaord() {
                 <div className="resources">Resources</div>
                 <Help
                   icon={LearningCenter}
-                  text="For the lastest resources and news from Integrity visit the"
+                  text="For the lastest resources and news from MedicareCENTER visit the"
                   labelName="Learning Center"
                   handleClick={handleLearningCenter}
                 />
                 <Help
                   icon={ContactSupport}
-                  text="For a professional assistance"
+                  text="For professional assistance"
                   labelName="Contact Support"
                   handleClick={openHelpModal}
                 />
@@ -319,13 +318,13 @@ export default function Dashbaord() {
                 <div className="resources">Resources</div>
                 <Help
                   icon={LearningCenter}
-                  text="For the latest resources and news from Integrity visit the"
+                  text="For the latest resources and news from MedicareCENTER visit the"
                   labelName="Learning Center"
                   handleClick={handleLearningCenter}
                 />
                 <Help
                   icon={ContactSupport}
-                  text="For a professional assistance"
+                  text="For professional assistance"
                   labelName="Contact Support"
                   handleClick={openHelpModal}
                 />
