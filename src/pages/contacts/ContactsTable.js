@@ -149,7 +149,8 @@ function ContactsTable({
   const { allStatuses } = useContext(StageStatusContext);
 
   const filterId = allStatuses?.find(
-    (status) => status.statusName?.toLocaleLowerCase() === statusName?.toLocaleLowerCase()
+    (status) =>
+      status.statusName?.toLocaleLowerCase() === statusName?.toLocaleLowerCase()
   )?.leadStatusId;
 
   const deleteContact = useCallback(() => {
@@ -230,7 +231,7 @@ function ContactsTable({
           setLoading(false);
         });
     },
-    [filterId,setCount]
+    [filterId, setCount]
   );
 
   const handleRefresh = useCallback(() => {
@@ -334,7 +335,8 @@ function ContactsTable({
           const options = MORE_ACTIONS.slice(0);
           if (
             row?.original?.addresses[0]?.postalCode &&
-            row?.original?.addresses[0]?.county
+            row?.original?.addresses[0]?.county &&
+            row?.original?.addresses[0]?.stateCode
           ) {
             options.splice(1, 0, PLAN_ACTION);
           }
