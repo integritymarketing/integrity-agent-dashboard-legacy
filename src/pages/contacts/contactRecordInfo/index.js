@@ -151,9 +151,10 @@ export default () => {
 
   const handleViewPlans = (isMobile) => {
     const county = personalInfo?.addresses[0]?.county;
+    const stateCode = personalInfo?.addresses[0]?.stateCode;
     const postalCode = personalInfo?.addresses[0]?.postalCode;
     const type = isMobile ? "secondary" : "primary";
-    if (county && postalCode) {
+    if (county && postalCode && stateCode) {
       return (
         <Button
           label="View Available Plans"
@@ -164,7 +165,7 @@ export default () => {
     } else
       return (
         <Button
-          label="Add Zip Code to View Plans"
+          label="Add State/Zip to view plans"
           type="primary"
           disabled={true}
         />
