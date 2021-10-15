@@ -22,7 +22,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
         address1: contact?.addresses[0]?.address1,
         address2: contact?.addresses[0]?.address2,
         city: contact?.addresses[0]?.city,
-        state: contact?.addresses[0]?.state,
+        state: contact?.addresses[0]?.stateCode,
         zip: contact?.addresses[0]?.postalCode,
         countyFIPS: contact?.addresses[0]?.countyFips,
         phoneNumber: contact?.phones[0]?.leadPhone,
