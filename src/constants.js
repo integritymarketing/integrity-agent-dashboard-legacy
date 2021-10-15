@@ -16,6 +16,13 @@ export const PLAN_SORT_OPTIONS = [
   { label: "Lowest Estimated Drug Cost", value: "drugs-asc" },
 ];
 
+export const DASHBOARD_SORT_OPTIONS = [
+  { label: "Current Year to Date", value: "current-year-to-date" },
+  { label: "Last week", value: "last-week" },
+  { label: "Last month", value: "last-month" },
+  { label: "Last quarter", value: "last-quarter" },
+];
+
 export const PLAN_TYPE_ENUMS = {
   1: "PDP",
   2: "MAPD",

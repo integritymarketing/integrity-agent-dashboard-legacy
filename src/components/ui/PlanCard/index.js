@@ -69,11 +69,13 @@ export default function PlanCard({
 }) {
   let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
   const { logoURL } = planData;
+  const checkForImage =
+    logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
         <div className={"plan-name"}>{planData.planName}</div>
-        {logoURL && (
+        {checkForImage && (
           <div className={"plan-logo"}>
             <img src={LOGO_BASE_URL + logoURL} alt="logo" />
           </div>

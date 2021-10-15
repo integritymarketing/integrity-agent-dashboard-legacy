@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect, useMemo } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
-import { debounce } from "debounce";
 import useToast from "hooks/useToast";
 import NavBarWithBack from "partials/back-nav";
 import Container from "components/ui/container";
@@ -89,6 +88,7 @@ export default () => {
   const agentLastName = user?.lastName;
   const agentEmail = user?.email;
   const agentPhoneNumber = user?.phone;
+  const npnNumber = user?.npn;
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
 
@@ -100,13 +100,13 @@ export default () => {
     getData();
   }, [auth]);
 
-  const validateEmail = debounce((email) => {
+  const validateEmail = (email) => {
     if (emailRegex.test(email)) {
       setErrors(null);
     } else {
       setErrors("Invalid email address");
     }
-  }, 5000);
+  };
 
   const handleSetEmail = (_email) => {
     const email = _email.trim();
@@ -128,6 +128,7 @@ export default () => {
         agentLastName: agentLastName,
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
+        agentNpn: npnNumber,
       };
       if (selectOption === "email") {
         const data = {

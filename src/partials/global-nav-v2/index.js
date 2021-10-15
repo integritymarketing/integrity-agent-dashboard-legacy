@@ -77,6 +77,14 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             {
               component: Link,
               props: {
+                to: "/dashboard",
+                className: analyticsService.clickClass("dashbaord-header"),
+              },
+              label: "Dashboard",
+            },
+            {
+              component: Link,
+              props: {
                 to: "/contacts",
                 className: analyticsService.clickClass("contacts-header"),
               },

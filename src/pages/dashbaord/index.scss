@@ -1,0 +1,156 @@
+.dashbaord-page {
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  align-self: flex-start;
+  width: 100%;
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    width: 100%;
+    flex-direction: column;
+  }
+  .details-section {
+    width: 420px;
+    margin-right: 96px;
+    background: #ffffff;
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+      background: #f1f5f9;
+    }
+    .greeting {
+      height: 257px;
+      background-repeat: no-repeat;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      img {
+        position: absolute;
+        top: 0;
+      }
+      .greet-user {
+        padding-left: 40px;
+        font-size: 32px;
+        font-weight: 600;
+        color: #ffffff;
+        z-index: 1;
+        padding-top: 25px;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          padding-top: 25px;
+        }
+      }
+      .confirmed-applications-wrapper {
+        position: absolute;
+        bottom: -35px;
+        display: flex;
+        margin: 0px 30px 0px 30px;
+        height: 139px;
+        width: 351px;
+        background: #ffffff;
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          margin: 0px 12px 0px 12px;
+          width: calc(100% - 24px);
+        }
+        .wrapper-body {
+          padding-left: 24px;
+          .header-text {
+            padding: 12px 0px 10px 0px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #64748b;
+          }
+          .application-count {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0052ce;
+            padding-top: 10px;
+          }
+          .application-sort {
+            padding: 12px 0px 15px 0px;
+            width: 300px;
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+              .select {
+                margin-left: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .application-form-text {
+      height: 55px;
+      margin: 60px 65px 12px 35px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #64748b;
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        margin: 60px 44px 12px 12px;
+      }
+    }
+    .snapshot-wrapper {
+      .title {
+        display: flex;
+        align-items: center;
+        margin-left: 35px;
+        font-size: 24px;
+        font-weight: 600;
+        color: #2b323b;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          margin-left: 12px;
+        }
+      }
+      .snapshot-data {
+        margin: 16px 32px 20px 35px;
+        padding: 20px 13px 20px 13px;
+        background: #ffffff;
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          margin: 16px 12px 20px 15px;
+        }
+        .snapshot-item {
+          height: 40px;
+          font-weight: 400;
+          font-size: 20px;
+          border-radius: 4px;
+          color: #2b323b;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 7px;
+          &:hover {
+            background: #f2f9ff;
+            cursor: pointer;
+            color: #0052ce;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+  .recent-activity-section {
+    @media screen and (min-width: 480px) {
+      margin: 55px 80px 0px 0px;
+    }
+    flex: 1;
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+      background: #f1f5f9;
+    }
+  }
+}
+
+.action-button {
+  font-size: 14px;
+  font-weight: 400;
+  color: #0052ce;
+}
+
+.resources {
+  margin-left: 35px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2b323b;
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    margin-left: 12px;
+  }
+}

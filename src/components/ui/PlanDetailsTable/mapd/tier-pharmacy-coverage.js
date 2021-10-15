@@ -62,7 +62,7 @@ export default ({ planData, isPreffered, isRetail, header }) => {
               values.push(
                 <>
                   <div className={"copay"}>
-                    <span className={"label"}>{copay.cost}%</span>
+                    <span className={"label"}>{copay.cost * 100}%</span>
                     <span className={"supply"}>
                       coinsurance ({copay.daysOfSupply}-day supply)
                     </span>

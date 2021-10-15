@@ -8,7 +8,7 @@ import PpdPharmacyCoverageTable from "components/ui/PlanDetailsTable/shared/phar
 import PpdTierPharmacyCoverage from "components/ui/PlanDetailsTable/mapd/tier-pharmacy-coverage";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 
-export default ({ plan, isMobile, styles, onEnrollClick, pharmacies }) => {
+export default ({ plan, isMobile, styles, onEnrollClick, onShareClick, pharmacies }) => {
   const costsRef = useRef(null);
   const prescriptionsRef = useRef(null);
   const pharmacyRef = useRef(null);
@@ -85,7 +85,11 @@ export default ({ plan, isMobile, styles, onEnrollClick, pharmacies }) => {
       <div className={`${styles["main"]}`}>
         <div className={`${styles["card-container"]}`}>
           {plan && (
-            <CompactPlanCard planData={plan} onEnrollClick={onEnrollClick} />
+            <CompactPlanCard
+              planData={plan}
+              onEnrollClick={onEnrollClick}
+              onShareClick={onShareClick}
+            />
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>

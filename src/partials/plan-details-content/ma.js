@@ -6,7 +6,7 @@ import MaProvidersTable from "components/ui/PlanDetailsTable/shared/providers-ta
 import MaPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 
-export default ({ plan, isMobile, styles, onEnrollClick }) => {
+export default ({ plan, isMobile, styles, onEnrollClick, onShareClick }) => {
   const costsRef = useRef(null);
   const providersRef = useRef(null);
   const planBenefitsRef = useRef(null);
@@ -53,7 +53,11 @@ export default ({ plan, isMobile, styles, onEnrollClick }) => {
       <div className={`${styles["main"]}`}>
         <div className={`${styles["card-container"]}`}>
           {plan && (
-            <CompactPlanCard planData={plan} onEnrollClick={onEnrollClick} />
+            <CompactPlanCard
+              planData={plan}
+              onEnrollClick={onEnrollClick}
+              onShareClick={onShareClick}
+            />
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>

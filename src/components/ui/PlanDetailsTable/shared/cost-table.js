@@ -1,7 +1,8 @@
 import { PLAN_TYPE_ENUMS } from "../../../../constants";
 import React, { useMemo } from "react";
+import { useParams } from "react-router-dom";
 import PlanDetailsTable from "..";
-import { getEffectiveDates } from "utils/dates";
+import { parseDate } from "utils/dates";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -9,7 +10,9 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export default ({ planData }) => {
-  const { effectiveStartDate, effectiveEndDate } = getEffectiveDates(planData);
+  const { effectiveDate } = useParams();
+  const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
+  const monthsRemaining = 12 - effectiveStartDate.getMonth();
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
@@ -89,8 +92,7 @@ export default ({ planData }) => {
         <>
           <span className={"value"}>
             {currencyFormatter.format(
-              planData.medicalPremium *
-                (effectiveEndDate.getMonth() - effectiveStartDate.getMonth()) +
+              planData.medicalPremium * monthsRemaining +
                 planData.estimatedAnnualDrugCostPartialYear
             )}
             <span className={"per"}>/year</span>
