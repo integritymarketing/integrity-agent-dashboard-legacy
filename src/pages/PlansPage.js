@@ -27,6 +27,7 @@ import PharmacyFilter from "components/ui/PharmacyFilter";
 import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
+import { PlanPageFooter } from './PlanPageFooter';
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -114,6 +115,7 @@ export default () => {
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
+  const [selectedPlans, setSelectedPlans] = useState({});
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
@@ -392,6 +394,8 @@ export default () => {
                       leadId={id}
                       pharmacies={pharmacies}
                       planType={planType}
+                      selectedPlans={selectedPlans}
+                      setSelectedPlans={setSelectedPlans}
                     />
                     {!plansLoading && filteredPlansCount > 0 && (
                       <>
@@ -424,6 +428,7 @@ export default () => {
               </Container>
             )}
           </WithLoader>
+          <PlanPageFooter plans={pagedResults?.filter(plan => selectedPlans[plan.id])}/>
         </div>
       </ToastContextProvider>
     </>

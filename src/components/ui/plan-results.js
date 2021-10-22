@@ -19,6 +19,8 @@ const PlanResults = ({
   pharmacies,
   loading,
   planType,
+  setSelectedPlans,
+  selectedPlans
 }) => {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -50,6 +52,11 @@ const PlanResults = ({
             setEnrollingPlan(plan);
             setModalOpen(true);
           }}
+          onChangeCompare={(checked) => {
+            setSelectedPlans(prev => ({...prev, [plan.id]: checked}))
+          }}
+          isChecked={!!selectedPlans[plan.id]}
+          isCompareDisabled={Object.values(selectedPlans).filter(Boolean).length >= 3 && !selectedPlans[plan.id]}
         />
       );
     }
