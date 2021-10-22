@@ -22,6 +22,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-table": "^7.6.3",
+    "react-tiny-popover": "6.0.5",
     "react-waypoint": "^10.1.0",
     "recoil": "^0.4.1",
     "tldts": "^5.7.2",

@@ -9,7 +9,7 @@ import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
-import Tooltip from "components/ui/Tooltip";
+import Popover from "components/ui/Popover";
 import LastUpdatedIcon from "components/icons/last-updated";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
@@ -261,12 +261,15 @@ export default function Dashbaord() {
             <div className="snapshot-wrapper">
               <div className="title">
                 Client Snapshot&nbsp;&nbsp;
-                <Tooltip
-                  content="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
-                  direction="right"
+                <Popover
+                  openOn="hover"
+                  icon={<Info />}
+                  title={"Client Snapshot"}
+                  description="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
+                  positions={["right", "bottom"]}
                 >
                   <Info />
-                </Tooltip>
+                </Popover>
               </div>
               <div className="snapshot-data">
                 {snapshotData.map((d) => (
