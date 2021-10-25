@@ -1,0 +1,265 @@
+import React, { useState, useEffect } from "react";
+import useToast from "hooks/useToast";
+import Filter from "components/icons/filter";
+import FilterClose from "components/icons/filterClose";
+import FilterOpen from "components/icons/filterOpen";
+import Close from "components/icons/close";
+
+import { Button } from "components/ui/Button";
+import styles from "./ContactsPage.module.scss";
+import Switch from "components/ui/switch";
+import clientService from "services/clientsService";
+import * as Sentry from "@sentry/react";
+import { useHistory } from "react-router-dom";
+
+const ContactRecordTypes = ["Prospect", "Client"];
+const SORT_BY_ORDER = {
+  New: 1,
+  Renewal: 2,
+  Contacted: 3,
+  SoaSent: 4,
+  SoaSigned: 5,
+  Quoted: 6,
+  Applied: 7,
+  Enrolled: 8,
+};
+
+export default ({ applyFilters, setApplyFilters }) => {
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [stageOpen, setStageOpen] = useState(false);
+  const [snapshotData, setSnapshotData] = useState([]);
+  const addToast = useToast();
+  const history = useHistory();
+
+  const [filters, setFilters] = useState({
+    contactRecordType: "",
+    stages: [],
+    hasReminder: false,
+  });
+
+  const selectStage = (id) => {
+    let isExist = filters?.stages?.findIndex((statusId) => statusId === id);
+    let newStages = filters?.stages;
+    if (isExist > -1) {
+      newStages.splice(isExist, 1);
+    } else {
+      newStages.push(id);
+    }
+    setFilters((previousData) => ({ ...previousData, stages: [...newStages] }));
+  };
+
+  useEffect(() => {
+    setFilters(applyFilters);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilters]);
+
+  useEffect(() => {
+    const closeFilters = (event) => {
+      if (event.target.closest(".contact-list-filters")) {
+        return;
+      }
+      setFilterOpen(false);
+    };
+
+    document.body.addEventListener("click", closeFilters);
+
+    return () => document.body.removeEventListener("click", closeFilters);
+  }, [filterOpen, setFilterOpen]);
+
+  useEffect(() => {
+    const getDashboardData = async () => {
+      try {
+        await clientService.getDashbaordSummary().then((response) => {
+          setSnapshotData(
+            response.sort((a, b) => {
+              return (
+                (SORT_BY_ORDER[a.statusName] || 1000) -
+                (SORT_BY_ORDER[b.statusName] || 1000)
+              );
+            })
+          );
+        });
+      } catch (err) {
+        Sentry.captureException(err);
+        addToast({
+          type: "error",
+          message: "Failed to load data",
+        });
+      }
+    };
+    getDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addToast]);
+  const getFullCount = () => {
+    let fullCount = 0;
+    snapshotData.map((status) => {
+      fullCount += status?.totalCount;
+      return fullCount;
+    });
+    return fullCount;
+  };
+
+  const resetFilters = () => {
+    history.push(`/contacts/list`);
+    let resetData = {
+      contactRecordType: "",
+      stages: [],
+      hasReminder: false,
+    };
+    setFilters(resetData);
+    setApplyFilters(resetData);
+    setFilterOpen(false);
+  };
+
+  const onApplyFilters = () => {
+    setApplyFilters(filters);
+    setFilterOpen(false);
+  };
+
+  return (
+    <div className={styles["filter-view"]}>
+      <Button
+        data-gtm="contacts-filter"
+        icon={<Filter />}
+        label="Filter"
+        className={filterOpen ? styles.openFilter : ""}
+        type="Primary"
+        onClick={() => setFilterOpen(!filterOpen)}
+      />
+      {filterOpen && (
+        <div className={`${styles.filterCard} contact-list-filters`}>
+          <div className={styles.filterHeader}>
+            <div className={styles.filterTitleSection}>
+              <div className={styles.filterTitle}>Filter</div>
+              <Close onClick={() => setFilterOpen(!filterOpen)} />
+            </div>
+            <div>
+              <div className={styles.contactRecordTxt}>Contact Record Type</div>
+              <ul className={styles.filterTabs}>
+                <li
+                  className={
+                    filters?.contactRecordType === ""
+                      ? styles.filterTabsActive
+                      : ""
+                  }
+                  onClick={() =>
+                    setFilters((previousData) => ({
+                      ...previousData,
+                      contactRecordType: "",
+                    }))
+                  }
+                >
+                  All
+                </li>
+                {ContactRecordTypes &&
+                  ContactRecordTypes.map((recordType, r_index) => {
+                    return (
+                      <li
+                        key={`${r_index}-${recordType}`}
+                        className={
+                          filters?.contactRecordType === recordType
+                            ? styles.filterTabsActive
+                            : ""
+                        }
+                        onClick={() =>
+                          setFilters((previousData) => ({
+                            ...previousData,
+                            contactRecordType: recordType,
+                          }))
+                        }
+                      >
+                        {recordType}s
+                      </li>
+                    );
+                  })}
+              </ul>
+            </div>
+            <div className={styles.filterStage}>
+              <div className={styles.filterStageTitle}>Stage</div>
+
+              {stageOpen ? (
+                <FilterClose
+                  className={styles.pointCursor}
+                  onClick={() => setStageOpen(!stageOpen)}
+                />
+              ) : (
+                <FilterOpen
+                  className={styles.pointCursor}
+                  onClick={() => setStageOpen(!stageOpen)}
+                />
+              )}
+            </div>
+            {(stageOpen || filters?.stages?.length > 0) && (
+              <ul className={styles.filterStageList}>
+                <li
+                  className={
+                    filters?.stages?.length === 0
+                      ? styles.filterStageListActive
+                      : ""
+                  }
+                  onClick={() =>
+                    setFilters((previousData) => ({
+                      ...previousData,
+                      stages: [],
+                    }))
+                  }
+                >
+                  <span className={styles.filterStageListLeft}>All</span>
+                  <span className={styles.filterStageListRight}>
+                    {getFullCount()}
+                  </span>
+                </li>
+                {snapshotData &&
+                  snapshotData.map((status, s_index) => {
+                    return (
+                      <li
+                        key={`${s_index}-${status?.statusName}`}
+                        className={
+                          filters?.stages.filter(
+                            (id) => id === status.leadStatusId
+                          )?.length > 0
+                            ? styles.filterStageListActive
+                            : ""
+                        }
+                        onClick={() => selectStage(status?.leadStatusId)}
+                      >
+                        <span className={styles.filterStageListLeft}>
+                          {status?.statusName}
+                        </span>
+                        <span className={styles.filterStageListRight}>
+                          {status?.totalCount}
+                        </span>
+                      </li>
+                    );
+                  })}
+              </ul>
+            )}
+            <div className={styles.hasReminderToggle}>
+              <div className={styles.hasReminderTxt}>Has Reminder</div>
+              <div className={styles.hasReminderSwitcher}>
+                <Switch
+                  onChange={() =>
+                    setFilters((previousData) => ({
+                      ...previousData,
+                      hasReminder: !filters?.hasReminder,
+                    }))
+                  }
+                  value={filters?.hasReminder}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.filterButton}>
+            <button className={styles.resetButton} onClick={resetFilters}>
+              Reset
+            </button>
+            <button className={styles.applyButton} onClick={onApplyFilters}>
+              Apply
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

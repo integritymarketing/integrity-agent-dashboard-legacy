@@ -17,13 +17,12 @@ import SearchIcon from "components/icons/search";
 import RoundCloseIcon from "components/icons/round-close";
 import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
-//import Filter from "components/icons/filter";
+import ContactListFilter from "./ContactListFilter";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import { Select } from "components/ui/Select";
 import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import { StageStatusProvider } from "contexts/stageStatus";
 import BackNavContext from "contexts/backNavProvider";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -32,6 +31,7 @@ import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
 import ContactsTable from "./ContactsTable";
 import analyticsService from "services/analyticsService";
+import StageStatusContext from "contexts/stageStatus";
 
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
@@ -62,15 +62,39 @@ export default () => {
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(null);
   const [layout, setLayout] = useState();
-  const [count, setCount] = useState(null);
   const location = useLocation();
   const history = useHistory();
   const [isMobile, setIsMobile] = useState(false);
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
+  const [applyFilters, setApplyFilters] = useState({});
+  const { allStatuses } = useContext(StageStatusContext);
+
   const queryParams = new URLSearchParams(window.location.search);
   const statusName = queryParams.get("status");
+
+  useEffect(() => {
+    if (statusName) {
+      const filterId = allStatuses?.find(
+        (status) =>
+          status.statusName?.toLocaleLowerCase() ===
+          statusName?.toLocaleLowerCase()
+      )?.leadStatusId;
+      setApplyFilters({
+        contactRecordType: "",
+        stages: filterId ? [filterId] : [],
+        hasReminder: false,
+      });
+    } else {
+      setApplyFilters({
+        contactRecordType: "",
+        stages: [],
+        hasReminder: false,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusName]);
 
   const { setCurrentPage } = useContext(BackNavContext);
 
@@ -122,164 +146,144 @@ export default () => {
           setIsMobile(isMobile);
         }}
       />
-      <StageStatusProvider>
-        <ToastContextProvider>
-          <Helmet>
-            <title>MedicareCENTER - Contacts</title>
-          </Helmet>
-          <GlobalNav />
-          <div className={styles.header}>
-            <Container>
-              <div className={styles.headerText}>Contacts</div>
-              <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
-                <Button
-                  className="mr-2"
-                  data-gtm="contacts-import"
-                  icon={<Import />}
-                  label="Import"
-                  type="secondary"
-                  onClick={goToImportPage}
-                />
-                <Button
-                  data-gtm="contacts-add-new"
-                  icon={<Add />}
-                  label="Add New"
-                  type="primary"
-                  onClick={goToAddNewContactPage}
-                />
-              </div>
-            </Container>
-          </div>
+
+      <ToastContextProvider>
+        <Helmet>
+          <title>MedicareCENTER - Contacts</title>
+        </Helmet>
+        <GlobalNav />
+        <div className={styles.header}>
           <Container>
-            <div
-              className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
-              style={{
-                "--bar-spacing-vert": 0,
-                "--bar-spacing-horiz": "2.5rem",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Textfield
-                  id="contacts-search"
-                  type={isMobile ? "text" : "search"}
-                  defaultValue={searchString}
-                  icon={<SearchIcon />}
-                  placeholder="Search "
-                  name="search"
-                  className="bar__item-small"
-                  onChange={(event) => {
-                    setSearchString(event.currentTarget.value || null);
-                  }}
-                  onBlur={() => {
-                    analyticsService.fireEvent("event-search");
-                    return null;
-                  }}
-                  isMobile={isMobile}
-                  onClear={(e) => {
-                    setSearchString("");
-                    document.getElementById("contacts-search").focus();
-                  }}
-                  onReset={() => {
-                    setSearchString("");
-                    document.activeElement.blur();
-                  }}
-                />
-                {duplicateIdsLength > 0 && (
-                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                    <div className={styles["duplicate-found"]}>
-                      {duplicateIdsLength} duplicates found
-                    </div>
-                    <button
-                      onClick={() => setDuplicateLeadIds([])}
-                      className={styles["reset-close"]}
-                    >
-                      <RoundCloseIcon />
-                    </button>
-                  </div>
-                )}
-                {statusName && (
-                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                    <div className={styles["duplicate-found"]}>
-                      {count} contacts found for {statusName}
-                    </div>
-                    <button
-                      onClick={() => history.push("/contacts/list")}
-                      className={styles["reset-close"]}
-                    >
-                      <RoundCloseIcon />
-                    </button>
-                  </div>
-                )}
-              </div>
-              <div className="bar">
-                {isMobile ? null : (
-                  <div className={styles["switch-view"]}>
-                    {layout === "list" ? (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<CardView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
-                    ) : (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<TableView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
-                    )}
-                  </div>
-                )}
-                <div className="nav-header-mobile"></div>
-                <div className={styles.sortSelect}>
-                  <Select
-                    mobileLabel={<SortButton />}
-                    placeholder={"Sort by"}
-                    initialValue="followUpDate:asc"
-                    options={SORT_OPTIONS}
-                    prefix="Sort by "
-                    onChange={(value) => setSort(value)}
-                  />
-                </div>
-                {/* <div className={styles["filter-view"]}>
-                  <Button
-                    data-gtm="contacts-filter"
-                    icon={<Filter />}
-                    label="Filter"
-                    type="secondary"
-                    onClick={switchLayout}
-                  />
-                </div> */}
-              </div>
-            </div>
-            <div className={styles.tableWrapper}>
-              <Switch>
-                <Route exact path="/contacts">
-                  <Redirect to="/contacts/list" />
-                </Route>
-                <Route path="/contacts/list">
-                  <ContactsTable                    
-                    duplicateIdsLength={duplicateIdsLength}
-                    searchString={searchStringNew}
-                    sort={sort}
-                    statusName={statusName}
-                    setCount={setCount}
-                  />
-                </Route>
-                <Route path="/contacts/card">
-                  <ContactsCard searchString={searchStringNew} sort={sort} />
-                </Route>
-              </Switch>
+            <div className={styles.headerText}>Contacts</div>
+            <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
+              <Button
+                className="mr-2"
+                data-gtm="contacts-import"
+                icon={<Import />}
+                label="Import"
+                type="secondary"
+                onClick={goToImportPage}
+              />
+              <Button
+                data-gtm="contacts-add-new"
+                icon={<Add />}
+                label="Add New"
+                type="primary"
+                onClick={goToAddNewContactPage}
+              />
             </div>
           </Container>
-          <ContactFooter hideMedicareIcon={true} />
-        </ToastContextProvider>
-      </StageStatusProvider>
+        </div>
+        <Container>
+          <div
+            className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
+            style={{
+              "--bar-spacing-vert": 0,
+              "--bar-spacing-horiz": "2.5rem",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Textfield
+                id="contacts-search"
+                type={isMobile ? "text" : "search"}
+                defaultValue={searchString}
+                icon={<SearchIcon />}
+                placeholder="Search "
+                name="search"
+                className="bar__item-small"
+                onChange={(event) => {
+                  setSearchString(event.currentTarget.value || null);
+                }}
+                onBlur={() => {
+                  analyticsService.fireEvent("event-search");
+                  return null;
+                }}
+                isMobile={isMobile}
+                onClear={(e) => {
+                  setSearchString("");
+                  document.getElementById("contacts-search").focus();
+                }}
+                onReset={() => {
+                  setSearchString("");
+                  document.activeElement.blur();
+                }}
+              />
+              {duplicateIdsLength > 0 && (
+                <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                  <div className={styles["duplicate-found"]}>
+                    {duplicateIdsLength} duplicates found
+                  </div>
+                  <button
+                    onClick={() => setDuplicateLeadIds([])}
+                    className={styles["reset-close"]}
+                  >
+                    <RoundCloseIcon />
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="bar">
+              {isMobile ? null : (
+                <div className={styles["switch-view"]}>
+                  {layout === "list" ? (
+                    <Button
+                      data-gtm="contacts-slide-view"
+                      icon={<CardView />}
+                      iconOnly
+                      label="Button"
+                      type="secondary"
+                      onClick={switchLayout}
+                    />
+                  ) : (
+                    <Button
+                      data-gtm="contacts-slide-view"
+                      icon={<TableView />}
+                      iconOnly
+                      label="Button"
+                      type="secondary"
+                      onClick={switchLayout}
+                    />
+                  )}
+                </div>
+              )}
+              <div className="nav-header-mobile"></div>
+              <div className={styles.sortSelect}>
+                <Select
+                  mobileLabel={<SortButton />}
+                  placeholder={"Sort by"}
+                  initialValue="followUpDate:asc"
+                  options={SORT_OPTIONS}
+                  prefix="Sort by "
+                  onChange={(value) => setSort(value)}
+                />
+              </div>
+              <ContactListFilter
+                applyFilters={applyFilters}
+                setApplyFilters={setApplyFilters}
+              />
+            </div>
+          </div>
+          <div className={styles.tableWrapper}>
+            <Switch>
+              <Route exact path="/contacts">
+                <Redirect to="/contacts/list" />
+              </Route>
+              <Route path="/contacts/list">
+                <ContactsTable
+                  duplicateIdsLength={duplicateIdsLength}
+                  searchString={searchStringNew}
+                  sort={sort}
+                  applyFilters={applyFilters}
+                />
+              </Route>
+              <Route path="/contacts/card">
+                <ContactsCard searchString={searchStringNew} sort={sort} />
+              </Route>
+            </Switch>
+          </div>
+        </Container>
+        <ContactFooter hideMedicareIcon={true} />
+      </ToastContextProvider>
     </React.Fragment>
   );
 };

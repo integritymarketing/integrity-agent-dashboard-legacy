@@ -23,7 +23,6 @@ import analyticsService from "services/analyticsService";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
 import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
-import StageStatusContext from "contexts/stageStatus";
 
 function Table({
   columns,
@@ -34,7 +33,7 @@ function Table({
   loading,
   totalResults,
   sort,
-  filterId,
+  applyFilters,
 }) {
   const {
     getTableProps,
@@ -60,8 +59,21 @@ function Table({
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/list-view/",
     });
-    onChangeTableState({ pageSize, pageIndex, searchString, sort, filterId });
-  }, [onChangeTableState, pageSize, pageIndex, searchString, sort, filterId]);
+    onChangeTableState({
+      pageSize,
+      pageIndex,
+      searchString,
+      sort,
+      applyFilters,
+    });
+  }, [
+    onChangeTableState,
+    pageSize,
+    pageIndex,
+    searchString,
+    sort,
+    applyFilters,
+  ]);
 
   if (loading) {
     return <Spinner />;
@@ -130,8 +142,7 @@ function ContactsTable({
   searchString,
   sort,
   duplicateIdsLength,
-  statusName,
-  setCount,
+  applyFilters,
 }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -146,12 +157,6 @@ function ContactsTable({
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
   const history = useHistory();
-  const { allStatuses } = useContext(StageStatusContext);
-
-  const filterId = allStatuses?.find(
-    (status) =>
-      status.statusName?.toLocaleLowerCase() === statusName?.toLocaleLowerCase()
-  )?.leadStatusId;
 
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
@@ -200,16 +205,15 @@ function ContactsTable({
       }
 
       setLoading(true);
-      setCount(0);
       const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
       clientsService
         .getList(
           pageIndex,
           pageSize,
           sort,
-          filterId || null,
           searchString || null,
-          duplicateIds
+          duplicateIds,
+          applyFilters
         )
         .then((list) => {
           setData(
@@ -224,14 +228,13 @@ function ContactsTable({
           );
           setPageCount(list.pageResult.totalPages);
           setTotalResults(list.pageResult.total);
-          setCount(list.pageResult.total);
           setLoading(false);
         })
         .catch(() => {
           setLoading(false);
         });
     },
-    [filterId, setCount]
+    [applyFilters]
   );
 
   const handleRefresh = useCallback(() => {
@@ -366,7 +369,7 @@ function ContactsTable({
       pageCount={pageCount}
       totalResults={totalResults}
       sort={sort}
-      filterId={filterId}
+      applyFilters={applyFilters}
       onChangeTableState={setTableState}
     />
   );

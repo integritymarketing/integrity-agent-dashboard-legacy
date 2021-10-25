@@ -64,21 +64,30 @@ class ClientsService {
     return fetch(path, opts);
   };
 
-  getList = async (page, pageSize, sort, filterId, searchText, leadIds) => {
-    const params = {
+  getList = async (page, pageSize, sort, searchText, leadIds, filters) => {
+    let params = {
       PageSize: pageSize,
       CurrentPage: page,
       Sort: sort,
-      FilterId: filterId,
+      HasReminder: filters?.hasReminder,
       Search: searchText,
       leadIds,
+      Stage: filters?.stages,
     };
+    if (filters?.contactRecordType !== "") {
+      params.ContactRecordType = filters?.contactRecordType;
+    }
 
     const queryStr = Object.keys(params)
       .map((key) => {
         if (key === "leadIds" && leadIds) {
           return (params[key] || [])
             .map((leadId) => `${key}=${leadId}`)
+            .join("&");
+        }
+        if (key === "Stage") {
+          return filters?.stages
+            .map((stageId) => `${key}=${stageId}`)
             .join("&");
         }
         return params[key] ? `${key}=${params[key]}` : null;
