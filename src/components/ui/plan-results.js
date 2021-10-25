@@ -57,7 +57,7 @@ const PlanResults = ({
           }}
           isChecked={!!selectedPlans[plan.id]}
           isCompareDisabled={
-            Object.values(selectedPlans).filter(Boolean).length >= 2 &&
+            Object.values(selectedPlans).filter(Boolean).length >= 3 &&
             !selectedPlans[plan.id]
           }
         />

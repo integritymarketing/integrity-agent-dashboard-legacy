@@ -46,7 +46,7 @@ export const PlanPageFooter = ({ plans = [], onRemove }) => {
             </div>
           );
       })}
-      <Button label="Compare" type="primary" disabled={plans.length < 3} />
+      <Button label="Compare" type="primary" disabled={plans.length < 2} />
     </div>
   );
 };
