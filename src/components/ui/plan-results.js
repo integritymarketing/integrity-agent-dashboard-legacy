@@ -20,7 +20,7 @@ const PlanResults = ({
   loading,
   planType,
   setSelectedPlans,
-  selectedPlans
+  selectedPlans,
 }) => {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,10 +53,13 @@ const PlanResults = ({
             setModalOpen(true);
           }}
           onChangeCompare={(checked) => {
-            setSelectedPlans(prev => ({...prev, [plan.id]: checked}))
+            setSelectedPlans((prev) => ({ ...prev, [plan.id]: checked }));
           }}
           isChecked={!!selectedPlans[plan.id]}
-          isCompareDisabled={Object.values(selectedPlans).filter(Boolean).length >= 3 && !selectedPlans[plan.id]}
+          isCompareDisabled={
+            Object.values(selectedPlans).filter(Boolean).length >= 2 &&
+            !selectedPlans[plan.id]
+          }
         />
       );
     }

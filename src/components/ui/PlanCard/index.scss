@@ -7,9 +7,8 @@
   padding: 16px 32px;
   background: var(--v2-white);
 
-
-  &.no-plan-results{
-      padding: 80px;
+  &.no-plan-results {
+    padding: 80px;
   }
 
   .header {
@@ -277,5 +276,30 @@
 
   &.plan-card-compact .footer {
     border: none;
+  }
+
+  .compare-check {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 15px;
+
+    .compare-inpt {
+      margin-top: 2px;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+    }
+
+    .compare-txt {
+      margin-left: 5px;
+      font-family: Lato;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 150%;
+      color: #64748b;
+    }
   }
 }

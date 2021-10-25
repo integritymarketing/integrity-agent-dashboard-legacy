@@ -1,14 +1,16 @@
 import React from "react";
 
 import styles from "./PlansPage.module.scss";
-import FooterIcon from "components/icons/plan-footer";
 import { Button } from "components/ui/Button";
 import Close from "../components/icons/input-clear";
 
 /**
  * Primary UI component for user interaction
  */
-export const PlanPageFooter = ({ plans = [] }) => {
+export const PlanPageFooter = ({ plans = [], onRemove }) => {
+  if (!plans || plans.length < 1) {
+    return null;
+  }
   const planCopy = [...plans];
   for (let i = plans.length; i < 3; i++) {
     planCopy.push(null);
@@ -30,7 +32,7 @@ export const PlanPageFooter = ({ plans = [] }) => {
         } else
           return (
             <div className={styles["plans-list"]}>
-              <div className={styles["close"]}>
+              <div className={styles["close"]} onClick={() => onRemove(plan)}>
                 {" "}
                 <Close />
               </div>
