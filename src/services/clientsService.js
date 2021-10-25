@@ -72,10 +72,12 @@ class ClientsService {
       HasReminder: filters?.hasReminder,
       Search: searchText,
       leadIds,
-      Stage: filters?.stages,
     };
     if (filters?.contactRecordType !== "") {
       params.ContactRecordType = filters?.contactRecordType;
+    }
+    if (filters?.stages.length > 0) {
+      params.Stage = filters?.stages;
     }
 
     const queryStr = Object.keys(params)
