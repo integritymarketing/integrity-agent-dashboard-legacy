@@ -38,7 +38,6 @@ import { DeleteLeadProvider } from "contexts/deleteLead";
 import { CountyProvider } from "contexts/counties";
 import { ContactsProvider } from "contexts/contacts";
 import { BackNavProvider } from "contexts/backNavProvider";
-import { StageStatusProvider } from "contexts/stageStatus";
 import PlanDetailsPage from "pages/PlanDetailsPage";
 
 const App = () => {
@@ -49,136 +48,131 @@ const App = () => {
           <DeleteLeadProvider>
             <ContactsProvider>
               <BackNavProvider>
-                <StageStatusProvider>
-                  <HelmetProvider>
-                    <Router>
-                      <Helmet>
-                        <title>MedicareCENTER</title>
-                      </Helmet>
-                      <div className="content-frame">
-                        {process.env.REACT_APP_MAINTENANCE_MODE ? (
-                          <Switch>
-                            <Route path="/maintenance">
-                              <MaintenancePage />
-                            </Route>
-                            <Route path="*">
-                              <Redirect to="/maintenance" />
-                            </Route>
-                          </Switch>
-                        ) : (
-                          <Switch>
-                            {/* root path directs traffic to unauthenticed
+                <HelmetProvider>
+                  <Router>
+                    <Helmet>
+                      <title>MedicareCENTER</title>
+                    </Helmet>
+                    <div className="content-frame">
+                      {process.env.REACT_APP_MAINTENANCE_MODE ? (
+                        <Switch>
+                          <Route path="/maintenance">
+                            <MaintenancePage />
+                          </Route>
+                          <Route path="*">
+                            <Redirect to="/maintenance" />
+                          </Route>
+                        </Switch>
+                      ) : (
+                        <Switch>
+                          {/* root path directs traffic to unauthenticed
               Welcome or authenticated Home page */}
-                            <Route exact path="/">
-                              <TrafficDirector />
-                            </Route>
-                            <UnauthenticatedRoute path="/welcome">
-                              <WelcomePage />
-                            </UnauthenticatedRoute>
-                            <AuthenticatedRoute path="/home">
-                              <HomePage />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/dashboard">
-                              <Dashboard />
-                            </AuthenticatedRoute>
+                          <Route exact path="/">
+                            <TrafficDirector />
+                          </Route>
+                          <UnauthenticatedRoute path="/welcome">
+                            <WelcomePage />
+                          </UnauthenticatedRoute>
+                          <AuthenticatedRoute path="/home">
+                            <HomePage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/dashboard">
+                            <Dashboard />
+                          </AuthenticatedRoute>
 
-                            <AuthenticatedRoute path="/edit-account">
-                              <AccountPage />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/learning-center">
-                              <ResourcesPage />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/contacts">
-                              <ContactsPage />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/contact/add-new">
-                              <AddNewContactPage />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute
-                              exact
-                              path="/contact/:contactId/duplicate/:duplicateLeadId"
-                            >
-                              <ContactRecordInfo />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute
-                              exact
-                              path="/contact/:contactId"
-                            >
-                              <ContactRecordInfo />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/new-soa/:leadId">
-                              <NewScopeOfAppointment />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute
-                              exact
-                              path="/contact/:contactId/soa-confirm/:linkCode"
-                            >
-                              <ContactsSOAConfirmForm />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/client-import">
-                              <ClientImportPage />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/plans/:contactId">
-                              <PlansPage />
-                            </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
-                              <PlanDetailsPage />
-                            </AuthenticatedRoute>
-                            <Route path="/terms">
-                              <TermsPage />
-                            </Route>
-                            <Route path="/privacy">
-                              <PrivacyPage />
-                            </Route>
-                            <Route path="/soa-confirmation-form/:linkCode">
-                              <SOAConfirmationForm />
-                            </Route>
-                            <Route path="/soa-confirmation-page/:firstName/:lastName">
-                              <SOAConfirmationPage />
-                            </Route>
+                          <AuthenticatedRoute path="/edit-account">
+                            <AccountPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/learning-center">
+                            <ResourcesPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/contacts">
+                            <ContactsPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/contact/add-new">
+                            <AddNewContactPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute
+                            exact
+                            path="/contact/:contactId/duplicate/:duplicateLeadId"
+                          >
+                            <ContactRecordInfo />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute exact path="/contact/:contactId">
+                            <ContactRecordInfo />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/new-soa/:leadId">
+                            <NewScopeOfAppointment />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute
+                            exact
+                            path="/contact/:contactId/soa-confirm/:linkCode"
+                          >
+                            <ContactsSOAConfirmForm />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/client-import">
+                            <ClientImportPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/plans/:contactId">
+                            <PlansPage />
+                          </AuthenticatedRoute>
+                          <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
+                            <PlanDetailsPage />
+                          </AuthenticatedRoute>
+                          <Route path="/terms">
+                            <TermsPage />
+                          </Route>
+                          <Route path="/privacy">
+                            <PrivacyPage />
+                          </Route>
+                          <Route path="/soa-confirmation-form/:linkCode">
+                            <SOAConfirmationForm />
+                          </Route>
+                          <Route path="/soa-confirmation-page/:firstName/:lastName">
+                            <SOAConfirmationPage />
+                          </Route>
 
-                            {/* auth routes + callbacks */}
-                            <Route
-                              path="/signin"
-                              component={AuthSigninRedirectPage}
-                            />
-                            <Route
-                              path="/signin-oidc-silent"
-                              component={AuthSilentCallback}
-                            />
-                            <Route
-                              path="/signin-oidc-silent"
-                              component={AuthSilentCallback}
-                            />
-                            <Route
-                              path="/signin-oidc"
-                              component={AuthSigninCallback}
-                            />
-                            <Route
-                              path="/signout-oidc"
-                              component={AuthSignoutCallback}
-                            />
+                          {/* auth routes + callbacks */}
+                          <Route
+                            path="/signin"
+                            component={AuthSigninRedirectPage}
+                          />
+                          <Route
+                            path="/signin-oidc-silent"
+                            component={AuthSilentCallback}
+                          />
+                          <Route
+                            path="/signin-oidc-silent"
+                            component={AuthSilentCallback}
+                          />
+                          <Route
+                            path="/signin-oidc"
+                            component={AuthSigninCallback}
+                          />
+                          <Route
+                            path="/signout-oidc"
+                            component={AuthSignoutCallback}
+                          />
 
-                            <Route path="/maintenance">
-                              <Redirect to="/" />
-                            </Route>
-                            <Route path="/clients">
-                              <Redirect to="/contacts" />
-                            </Route>
+                          <Route path="/maintenance">
+                            <Redirect to="/" />
+                          </Route>
+                          <Route path="/clients">
+                            <Redirect to="/contacts" />
+                          </Route>
 
-                            <Route path="/error">
-                              <ErrorPage />
-                            </Route>
-                            <Route path="*">
-                              <NotFoundPage />
-                            </Route>
-                          </Switch>
-                        )}
-                      </div>
-                      <PortalUrl />
-                    </Router>
-                  </HelmetProvider>
-                </StageStatusProvider>
+                          <Route path="/error">
+                            <ErrorPage />
+                          </Route>
+                          <Route path="*">
+                            <NotFoundPage />
+                          </Route>
+                        </Switch>
+                      )}
+                    </div>
+                    <PortalUrl />
+                  </Router>
+                </HelmetProvider>
               </BackNavProvider>
             </ContactsProvider>
           </DeleteLeadProvider>

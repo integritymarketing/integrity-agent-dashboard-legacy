@@ -10,7 +10,7 @@ import styles from "./ContactsPage.module.scss";
 import Switch from "components/ui/switch";
 import clientService from "services/clientsService";
 import * as Sentry from "@sentry/react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const ContactRecordTypes = ["Prospect", "Client"];
 const SORT_BY_ORDER = {
@@ -24,18 +24,46 @@ const SORT_BY_ORDER = {
   Enrolled: 8,
 };
 
-export default ({ applyFilters, setApplyFilters }) => {
+export default () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [stageOpen, setStageOpen] = useState(false);
   const [snapshotData, setSnapshotData] = useState([]);
   const addToast = useToast();
   const history = useHistory();
+  const location = useLocation();
 
   const [filters, setFilters] = useState({
     contactRecordType: "",
     stages: [],
     hasReminder: false,
   });
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+
+    const stages = queryParams.get("Stage");
+    const contactRecordType = queryParams.get("ContactRecordType");
+    const hasReminder = queryParams.get("HasReminder");
+    const applyFilters = {
+      contactRecordType: contactRecordType ? contactRecordType : "",
+      hasReminder: hasReminder === "true" ? true : false,
+      stages: stages ? stages.split(",").map(Number) : [],
+    };
+    if (
+      (stages && applyFilters?.stages.length > 0) ||
+      contactRecordType ||
+      hasReminder
+    ) {
+      setFilters(applyFilters);
+    } else {
+      setFilters({
+        contactRecordType: "",
+        stages: [],
+        hasReminder: false,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   const selectStage = (id) => {
     let isExist = filters?.stages?.findIndex((statusId) => statusId === id);
@@ -49,23 +77,20 @@ export default ({ applyFilters, setApplyFilters }) => {
   };
 
   useEffect(() => {
-    setFilters(applyFilters);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilters]);
-
-  useEffect(() => {
     const closeFilters = (event) => {
-      if (event.target.closest(".contact-list-filters")) {
+      if (
+        event.target.closest(".contact-list-filters") ||
+        event.target.closest(".filterBtn")
+      ) {
         return;
       }
-      setFilterOpen(false);
+      closeFilterSection();
     };
 
     document.body.addEventListener("click", closeFilters);
 
     return () => document.body.removeEventListener("click", closeFilters);
-  }, [filterOpen, setFilterOpen]);
+  }, [filterOpen]);
 
   useEffect(() => {
     const getDashboardData = async () => {
@@ -91,6 +116,7 @@ export default ({ applyFilters, setApplyFilters }) => {
     getDashboardData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast]);
+
   const getFullCount = () => {
     let fullCount = 0;
     snapshotData.map((status) => {
@@ -108,23 +134,36 @@ export default ({ applyFilters, setApplyFilters }) => {
       hasReminder: false,
     };
     setFilters(resetData);
-    setApplyFilters(resetData);
-    setFilterOpen(false);
+    closeFilterSection();
   };
 
   const onApplyFilters = () => {
-    setApplyFilters(filters);
-    setFilterOpen(false);
+    let pathname = location.pathname;
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.set("ContactRecordType", filters?.contactRecordType);
+    searchParams.set("Stage", filters?.stages);
+    searchParams.set("HasReminder", filters?.hasReminder);
+    history.push({
+      pathname: pathname,
+      search: searchParams.toString(),
+    });
+    closeFilterSection();
   };
 
+  const closeFilterSection = () => {
+    setFilterOpen(false);
+    setStageOpen(false);
+  };
   return (
     <div className={styles["filter-view"]}>
       <Button
         data-gtm="contacts-filter"
         icon={<Filter />}
         label="Filter"
-        className={filterOpen ? styles.openFilter : ""}
-        type="Primary"
+        className={`${filterOpen ? styles.openFilter : ""} ${
+          styles["filter-button"]
+        } filterBtn`}
+        type="primary"
         onClick={() => setFilterOpen(!filterOpen)}
       />
       {filterOpen && (
@@ -190,7 +229,7 @@ export default ({ applyFilters, setApplyFilters }) => {
                 />
               )}
             </div>
-            {(stageOpen || filters?.stages?.length > 0) && (
+            {stageOpen && (
               <ul className={styles.filterStageList}>
                 <li
                   className={
@@ -245,7 +284,7 @@ export default ({ applyFilters, setApplyFilters }) => {
                       hasReminder: !filters?.hasReminder,
                     }))
                   }
-                  value={filters?.hasReminder}
+                  defaultChecked={filters?.hasReminder}
                 />
               </div>
             </div>

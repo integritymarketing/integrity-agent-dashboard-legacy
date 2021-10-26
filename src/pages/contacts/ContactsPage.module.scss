@@ -245,13 +245,17 @@
 
 .filter-view {
   position: relative;
-  & Button {
+  & .filter-button {
     width: 40px;
     height: 40px;
     padding: 0px !important;
-    background: #ffffff;
-    border: 1px solid #c7ccd1;
+    background: #ffffff !important;
+    border: 1px solid #c7ccd1 !important;
     border-radius: 4px !important;
+    color: #3d4553;
+  }
+  & svg {
+    stroke: #3d4553;
   }
   & .openFilter {
     border: 1px solid #151e29;

@@ -15,7 +15,7 @@ function Switch({
   defaultChecked = false,
 }) {
   return (
-    <label class="switch">
+    <label className="switch">
       <input
         type="checkbox"
         className="mr-1"

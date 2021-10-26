@@ -200,8 +200,8 @@ export default function Dashbaord() {
     }
   };
 
-  const navigateToContactListPage = (status) => {
-    history.push(`/contacts/list?status=${status}`);
+  const navigateToContactListPage = (id) => {
+    history.push(`/contacts/list?Stage=${id}`);
   };
 
   return (
@@ -275,7 +275,7 @@ export default function Dashbaord() {
                 {snapshotData.map((d) => (
                   <div
                     className="snapshot-item"
-                    onClick={() => navigateToContactListPage(d.statusName)}
+                    onClick={() => navigateToContactListPage(d.leadStatusId)}
                   >
                     <div className="snapshot-name">
                       {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}

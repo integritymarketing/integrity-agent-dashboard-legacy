@@ -6,7 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import { useTable, usePagination } from "react-table";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import clientsService from "services/clientsService";
@@ -138,12 +138,7 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
   }
 };
 
-function ContactsTable({
-  searchString,
-  sort,
-  duplicateIdsLength,
-  applyFilters,
-}) {
+function ContactsTable({ searchString, sort, duplicateIdsLength }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
@@ -154,10 +149,26 @@ function ContactsTable({
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
     DeleteLeadContext
   );
+  const [applyFilters, setApplyFilters] = useState({});
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
   const history = useHistory();
+  const location = useLocation();
 
+  const queryParams = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const stages = queryParams.get("Stage");
+    const contactRecordType = queryParams.get("ContactRecordType");
+    const hasReminder = queryParams.get("HasReminder");
+    const applyFilters = {
+      contactRecordType,
+      hasReminder,
+      stages: stages ? stages.split(",") : [],
+    };
+    setApplyFilters(applyFilters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
       const clearTimer = () =>
@@ -213,7 +224,9 @@ function ContactsTable({
           sort,
           searchString || null,
           duplicateIds,
-          applyFilters
+          applyFilters?.contactRecordType,
+          applyFilters?.stages,
+          applyFilters?.hasReminder
         )
         .then((list) => {
           setData(
