@@ -48,6 +48,7 @@ export default ({
 
   const { firstName, lastName, emails, phones, leadsId } = contact;
   const { planRating, id, documents } = planData;
+  debugger
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
   const [selectLabel, setSelectLabel] = useState("email");

@@ -272,10 +272,11 @@ export default function Dashbaord() {
                 </Popover>
               </div>
               <div className="snapshot-data">
-                {snapshotData.map((d) => (
+                {snapshotData.map((d, index) => (
                   <div
                     className="snapshot-item"
                     onClick={() => navigateToContactListPage(d.leadStatusId)}
+                    key={index}
                   >
                     <div className="snapshot-name">
                       {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
@@ -295,7 +296,7 @@ export default function Dashbaord() {
                 <div className="resources">Resources</div>
                 <Help
                   icon={LearningCenter}
-                  text="For the lastest resources and news from MedicareCENTER visit the"
+                  text="For the latest resources and news from MedicareCENTER visit the"
                   labelName="Learning Center"
                   handleClick={handleLearningCenter}
                 />
