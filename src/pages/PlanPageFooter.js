@@ -19,7 +19,7 @@ export const PlanPageFooter = ({ plans = [], onRemove }) => {
     "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
   return (
-    <div className={styles["plan-footer"]}>
+    <div className={styles["plan-footer"]} data-gtm="plans-compare-wrapper">
       {planCopy.map((plan) => {
         console.log("plan", plan);
 
@@ -31,7 +31,7 @@ export const PlanPageFooter = ({ plans = [], onRemove }) => {
           );
         } else
           return (
-            <div className={styles["plans-list"]}>
+            <div className={styles["plans-list"]} data-gtm="plan-comparision">
               <div className={styles["close"]} onClick={() => onRemove(plan)}>
                 {" "}
                 <Close />
@@ -46,7 +46,12 @@ export const PlanPageFooter = ({ plans = [], onRemove }) => {
             </div>
           );
       })}
-      <Button label="Compare" type="primary" disabled={plans.length < 2} />
+      <Button
+        label="Compare"
+        type="primary"
+        disabled={plans.length < 2}
+        data-gtm="button-compare"
+      />
     </div>
   );
 };
