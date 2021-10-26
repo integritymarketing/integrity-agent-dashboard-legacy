@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useContext } from "react";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
 import Media from "react-media";
+import analyticsService from "services/analyticsService";
 import AuthContext from "contexts/auth";
 import plansService from "services/plansService";
 import useToast from "hooks/useToast";
