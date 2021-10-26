@@ -66,6 +66,9 @@ export default function PlanCard({
   onEnrollClick,
   onDetailsClick,
   isMobile,
+  onChangeCompare,
+  isChecked,
+  isCompareDisabled,
 }) {
   let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
   const { logoURL } = planData;
@@ -122,14 +125,26 @@ export default function PlanCard({
         </div>
       </div>
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
-        <Button
-          label="Plan Details"
-          onClick={() => onDetailsClick(planData.id)}
-          type="secondary"
-        />
-        {!REACT_APP_HIDE_ENROLL_BTN && !planData.nonLicensedPlan && (
-          <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
-        )}
+        <div className={"compare-check"}>
+          <input
+            type="checkbox"
+            className={"compare-inpt"}
+            disabled={isCompareDisabled}
+            checked={isChecked}
+            onChange={(e) => onChangeCompare(e.target.checked)}
+          />
+          <span className={"compare-txt"}>Compare</span>{" "}
+        </div>
+        <div style={{ display: "flex" }}>
+          <Button
+            label="Plan Details"
+            onClick={() => onDetailsClick(planData.id)}
+            type="secondary"
+          />
+          {!REACT_APP_HIDE_ENROLL_BTN && !planData.nonLicensedPlan && (
+            <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+          )}
+        </div>
       </div>
     </div>
   );
