@@ -65,6 +65,14 @@ export default ({
     getData();
   }, [auth, modalOpen]);
 
+  useEffect(() => {
+    if (modalOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Share Plans",
+      });
+    }
+  }, [modalOpen]);
+
   const mobile = useMemo(
     () => (formattedMobile ? ("" + formattedMobile).replace(/\D/g, "") : ""),
     [formattedMobile]
@@ -199,6 +207,7 @@ export default ({
                 <div className="select-scope-radios">
                   <Radio
                     id="email"
+                    data-gtm="input-share-plans"
                     htmlFor="email"
                     label={`Email (${leadEmail})`}
                     name="share-plan"
@@ -210,6 +219,7 @@ export default ({
                   />
                   <Radio
                     id="textMessage"
+                    data-gtm="input-share-plans"
                     htmlFor="textMessage"
                     label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
                     name="share-plan"
@@ -221,6 +231,7 @@ export default ({
                   />
                   <Radio
                     id="newEmailOrMobile"
+                    data-gtm="input-share-plans"
                     htmlFor="newEmailOrMobile"
                     label="New email or mobile number"
                     name="share-plan"
@@ -246,6 +257,7 @@ export default ({
                       <div className="email-mobile-section">
                         <input
                           type="text"
+                          data-gtm="input-share-plans"
                           onFocus={() => setFocus(true)}
                           onBlur={() => setFocus(false)}
                           placeholder={hasFocus ? "" : "Enter email"}
@@ -264,6 +276,7 @@ export default ({
                       <div className="email-mobile-section">
                         <input
                           type="text"
+                          data-gtm="input-share-plans"
                           onFocus={() => setFocus(true)}
                           onBlur={() => setFocus(false)}
                           placeholder={hasFocus ? "" : "XXX-XXX-XXXX"}
@@ -294,11 +307,13 @@ export default ({
                 <div className={"footer"}>
                   <Button
                     label="Share"
+                    data-gtm="button-share"
                     onClick={enroll}
                     disabled={idFormNotValid}
                   />
                   <Button
                     fullWidth={matches.mobile}
+                    data-gtm="button-cancel"
                     label={"Cancel"}
                     onClick={handleCloseModal}
                     type="secondary"
