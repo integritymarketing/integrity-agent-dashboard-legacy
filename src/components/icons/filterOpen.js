@@ -3,24 +3,24 @@ import React from "react";
 export default (props) => {
   return (
     <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        d="M12 4L4 12"
-        stroke="#313336"
-        strokeWidth="1.5"
+        d="M9.00001 2.63604V15.364"
+        stroke="#6A7279"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M4 4L12 12"
-        stroke="#313336"
-        strokeWidth="1.5"
+        d="M2.63605 9H15.364"
+        stroke="#6A7279"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

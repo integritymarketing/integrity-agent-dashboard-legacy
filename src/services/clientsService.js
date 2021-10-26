@@ -64,15 +64,32 @@ class ClientsService {
     return fetch(path, opts);
   };
 
-  getList = async (page, pageSize, sort, filterId, searchText, leadIds) => {
-    const params = {
+  getList = async (
+    page,
+    pageSize,
+    sort,
+    searchText,
+    leadIds,
+    contactRecordType = "",
+    stages = [],
+    hasReminder = false
+  ) => {
+    let params = {
       PageSize: pageSize,
       CurrentPage: page,
       Sort: sort,
-      FilterId: filterId,
       Search: searchText,
       leadIds,
     };
+    if (hasReminder) {
+      params.HasReminder = hasReminder;
+    }
+    if (contactRecordType !== "") {
+      params.ContactRecordType = contactRecordType;
+    }
+    if (stages && stages.length > 0) {
+      params.Stage = stages;
+    }
 
     const queryStr = Object.keys(params)
       .map((key) => {
@@ -80,6 +97,9 @@ class ClientsService {
           return (params[key] || [])
             .map((leadId) => `${key}=${leadId}`)
             .join("&");
+        }
+        if (key === "Stage") {
+          return stages.map((stageId) => `${key}=${stageId}`).join("&");
         }
         return params[key] ? `${key}=${params[key]}` : null;
       })

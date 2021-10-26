@@ -6,7 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import { useTable, usePagination } from "react-table";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import clientsService from "services/clientsService";
@@ -23,7 +23,6 @@ import analyticsService from "services/analyticsService";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
 import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
-import StageStatusContext from "contexts/stageStatus";
 
 function Table({
   columns,
@@ -34,7 +33,7 @@ function Table({
   loading,
   totalResults,
   sort,
-  filterId,
+  applyFilters,
 }) {
   const {
     getTableProps,
@@ -60,8 +59,21 @@ function Table({
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/list-view/",
     });
-    onChangeTableState({ pageSize, pageIndex, searchString, sort, filterId });
-  }, [onChangeTableState, pageSize, pageIndex, searchString, sort, filterId]);
+    onChangeTableState({
+      pageSize,
+      pageIndex,
+      searchString,
+      sort,
+      applyFilters,
+    });
+  }, [
+    onChangeTableState,
+    pageSize,
+    pageIndex,
+    searchString,
+    sort,
+    applyFilters,
+  ]);
 
   if (loading) {
     return <Spinner />;
@@ -126,13 +138,7 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
   }
 };
 
-function ContactsTable({
-  searchString,
-  sort,
-  duplicateIdsLength,
-  statusName,
-  setCount,
-}) {
+function ContactsTable({ searchString, sort, duplicateIdsLength }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
@@ -143,16 +149,26 @@ function ContactsTable({
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
     DeleteLeadContext
   );
+  const [applyFilters, setApplyFilters] = useState({});
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
   const history = useHistory();
-  const { allStatuses } = useContext(StageStatusContext);
+  const location = useLocation();
 
-  const filterId = allStatuses?.find(
-    (status) =>
-      status.statusName?.toLocaleLowerCase() === statusName?.toLocaleLowerCase()
-  )?.leadStatusId;
+  const queryParams = new URLSearchParams(location.search);
 
+  useEffect(() => {
+    const stages = queryParams.get("Stage");
+    const contactRecordType = queryParams.get("ContactRecordType");
+    const hasReminder = queryParams.get("HasReminder");
+    const applyFilters = {
+      contactRecordType,
+      hasReminder,
+      stages: stages ? stages.split(",") : [],
+    };
+    setApplyFilters(applyFilters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
       const clearTimer = () =>
@@ -200,16 +216,17 @@ function ContactsTable({
       }
 
       setLoading(true);
-      setCount(0);
       const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
       clientsService
         .getList(
           pageIndex,
           pageSize,
           sort,
-          filterId || null,
           searchString || null,
-          duplicateIds
+          duplicateIds,
+          applyFilters?.contactRecordType,
+          applyFilters?.stages,
+          applyFilters?.hasReminder
         )
         .then((list) => {
           setData(
@@ -224,14 +241,13 @@ function ContactsTable({
           );
           setPageCount(list.pageResult.totalPages);
           setTotalResults(list.pageResult.total);
-          setCount(list.pageResult.total);
           setLoading(false);
         })
         .catch(() => {
           setLoading(false);
         });
     },
-    [filterId, setCount]
+    [applyFilters]
   );
 
   const handleRefresh = useCallback(() => {
@@ -366,7 +382,7 @@ function ContactsTable({
       pageCount={pageCount}
       totalResults={totalResults}
       sort={sort}
-      filterId={filterId}
+      applyFilters={applyFilters}
       onChangeTableState={setTableState}
     />
   );

@@ -46,24 +46,12 @@ it("clientsService.getList, accepts sort param", async () => {
   );
 });
 
-it("clientsService.getList, accepts filterId param", async () => {
-  const asyncMock = jest
-    .fn()
-    .mockResolvedValue({ json: () => Promise.resolve() });
-  clientsService._clientAPIRequest = await asyncMock;
-  clientsService.getList(1, 10, null, 1);
-  expect(asyncMock).toHaveBeenCalled();
-  expect(asyncMock).toHaveBeenCalledWith(
-    `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=10&CurrentPage=1&FilterId=1`
-  );
-});
-
 it("clientsService.getList, accepts searchText param", async () => {
   const asyncMock = jest
     .fn()
     .mockResolvedValue({ json: () => Promise.resolve() });
   clientsService._clientAPIRequest = await asyncMock;
-  clientsService.getList(1, 10, null, null, "John");
+  clientsService.getList(1, 10, null, "John");
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
     `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=10&CurrentPage=1&Search=John`
