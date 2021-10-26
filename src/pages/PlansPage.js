@@ -27,6 +27,7 @@ import PharmacyFilter from "components/ui/PharmacyFilter";
 import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
+import { PlanPageFooter } from "./PlanPageFooter";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -114,20 +115,17 @@ export default () => {
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
+  const [selectedPlans, setSelectedPlans] = useState({});
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
-      const [
-        contactData,
-        prescriptionData,
-        providerData,
-        pharmacyData,
-      ] = await Promise.all([
-        clientsService.getContactInfo(id),
-        clientsService.getLeadPrescriptions(id),
-        clientsService.getLeadProviders(id),
-        clientsService.getLeadPharmacies(id),
-      ]);
+      const [contactData, prescriptionData, providerData, pharmacyData] =
+        await Promise.all([
+          clientsService.getContactInfo(id),
+          clientsService.getLeadPrescriptions(id),
+          clientsService.getLeadProviders(id),
+          clientsService.getLeadPharmacies(id),
+        ]);
       setContact(contactData);
       setProviders(providerData.providers);
       setPrescriptions(prescriptionData);
@@ -392,18 +390,20 @@ export default () => {
                       leadId={id}
                       pharmacies={pharmacies}
                       planType={planType}
+                      selectedPlans={selectedPlans}
+                      setSelectedPlans={setSelectedPlans}
                     />
                     {!plansLoading && filteredPlansCount > 0 && (
                       <>
-                      <BackToTop />
-                      <Pagination
-                        currentPage={currentPage}
-                        resultName="plans"
-                        totalPages={Math.ceil(filteredPlansCount / 10)}
-                        totalResults={filteredPlansCount}
-                        pageSize={pageSize}
-                        onPageChange={(page) => setCurrentPage(page)}
-                      />
+                        <BackToTop />
+                        <Pagination
+                          currentPage={currentPage}
+                          resultName="plans"
+                          totalPages={Math.ceil(filteredPlansCount / 10)}
+                          totalResults={filteredPlansCount}
+                          pageSize={pageSize}
+                          onPageChange={(page) => setCurrentPage(page)}
+                        />
                       </>
                     )}
                   </div>
@@ -424,6 +424,12 @@ export default () => {
               </Container>
             )}
           </WithLoader>
+          <PlanPageFooter
+            plans={pagedResults?.filter((plan) => selectedPlans[plan.id])}
+            onRemove={(plan) => {
+              setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
+            }}
+          />
         </div>
       </ToastContextProvider>
     </>
