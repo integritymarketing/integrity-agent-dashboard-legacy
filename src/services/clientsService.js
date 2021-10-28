@@ -364,6 +364,12 @@ class ClientsService {
       lastName,
       leadId,
     };
+    // don't attempt call if either are empty
+    // as it will throw a 400 and fill up the logs.
+    if (!email && !phones?.leadPhone) {
+      return {};
+    }
+
     if (email) {
       reqData.emails = [
         {
