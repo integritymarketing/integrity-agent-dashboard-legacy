@@ -1,0 +1,48 @@
+.lost-stage-page {
+    .select .select-container {
+        @media (min-width: 480px) {
+            width: 250px !important;
+        }
+    }
+    .label-reason {
+        display: block;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 27px;
+        color: #475569;
+    }
+    .loaststage-modal {
+        .dialog--container {
+            height: 350px;
+        }
+        &.modal .modal__card.card {
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            .modal__exit.icon-btn {
+                right: auto;
+            }
+        }
+
+        .dialog--title {
+            margin-left: 0;
+            margin-bottom: 31px;
+            margin-top: 39px;
+        }
+
+        .footer {
+            border-top: 1px solid #cbd5e1;
+            margin-top: 40px;
+            display: flex;
+            flex-flow: row-reverse;
+            margin-left: -5rem;
+            margin-right: -5rem;
+            padding-top: 10px;
+            padding-right: 35px;
+
+            .button {
+                margin-right: 16px;
+            }
+        }
+    }
+}

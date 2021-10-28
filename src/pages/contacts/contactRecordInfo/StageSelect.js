@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
 import { Select } from "components/ui/Select";
@@ -6,22 +7,40 @@ import clientsService from "services/clientsService";
 import useToast from "../../../hooks/useToast";
 import StageStatusContext from "contexts/stageStatus";
 import analyticsService from "services/analyticsService";
-import Media from "react-media";
+import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisposition";
 
 export default ({ value, original }) => {
+  const [selectedValue, setSelectedValue] = useState(value || 'New')
   const { allStatuses, statusOptions } = useContext(StageStatusContext);
   const addToast = useToast();
   const [isMobile, setIsMobile] = useState(false);
-
-  const handleChangeStatus = async (val) => {
+  const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
+  const onLostReasonModalCancel = () => {
+    setIsLostReasonModalOpen(false);
+    setSelectedValue(value || 'New');
+  }
+  const handleChangeStatus = async (val, leadSubStatus) => {
+    setSelectedValue(val)
+    if (val === "Lost" && !leadSubStatus) {
+      setIsLostReasonModalOpen(true);
+      return;
+    }
+    setIsLostReasonModalOpen(false)
     analyticsService.fireEvent("event-sort", {
       clickedItemText: `Sort: ${val}`,
     });
     try {
+      // TODO: Do sub select formatting properly. Vishal format properly before you submit
+      const subSelectPayload = leadSubStatus?.length > 0
+        ? {
+            leadSubStatus,
+          }
+        : {};
       const response = await clientsService.updateClient(original, {
         ...original,
         leadStatusId: allStatuses.find((status) => status.statusName === val)
           ?.leadStatusId,
+        ...subSelectPayload,
       });
       if (response.ok) {
         addToast({
@@ -39,6 +58,7 @@ export default ({ value, original }) => {
     } catch (e) {
       Sentry.captureException(e);
     }
+    return false;
   };
 
   const filteredStatuses = statusOptions.filter((opt) => {
@@ -52,6 +72,11 @@ export default ({ value, original }) => {
   });
   return (
     <React.Fragment>
+      <LostStageDisposition
+       open={isLostReasonModalOpen}
+       onClose={onLostReasonModalCancel} 
+       onSubmit={handleChangeStatus}
+      />
       <Media
         query={"(max-width: 500px)"}
         onChange={(isMobile) => {
@@ -64,7 +89,7 @@ export default ({ value, original }) => {
           onChange={(e) => handleChangeStatus(e.target.value)}
         >
           {filteredStatuses.map((sts) => (
-            <option value={sts.value} selected={value === sts.value}>
+            <option value={sts.value} selected={selectedValue === sts.value}>
               {sts.label}
             </option>
           ))}
@@ -72,7 +97,7 @@ export default ({ value, original }) => {
       ) : (
         <Select
           Option={ColorOptionRender}
-          initialValue={value || "New"}
+          initialValue={selectedValue || "New"}
           placeholder="Stage"
           options={filteredStatuses}
           onChange={handleChangeStatus}
