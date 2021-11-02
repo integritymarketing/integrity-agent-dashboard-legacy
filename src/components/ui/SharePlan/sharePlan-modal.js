@@ -98,11 +98,29 @@ export default ({
     return result;
   };
 
+  const handleCleanUp = () => {
+    setSelectOption("");
+      setEmail("");
+      setErrors("");
+      setFormattedMobile("");
+      setUser({});
+      setSelectLabel("email");
+      handleCloseModal();
+  }
+
   const enroll = async () => {
     const agentFirstName = user?.firstName;
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
     const agentPhoneNumber = user?.phone;
+
+    if (documents === null || documents?.length === 0) {
+      addToast({
+        type: "error",
+        message: "This plan does not have any documentation to share.",
+      });
+      return handleCleanUp();
+    }
     try {
       let payload = {
         leadFirstName: firstName,
@@ -155,13 +173,7 @@ export default ({
         message: "Failed to share plan",
       });
     } finally {
-      setSelectOption("");
-      setEmail("");
-      setErrors("");
-      setFormattedMobile("");
-      setUser({});
-      setSelectLabel("email");
-      handleCloseModal();
+      handleCleanUp()
     }
   };
 
