@@ -8,34 +8,37 @@ import useToast from "../../../hooks/useToast";
 import StageStatusContext from "contexts/stageStatus";
 import analyticsService from "services/analyticsService";
 import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisposition";
+import stageSummaryContext from "contexts/stageSummary";
 
 export default ({ value, original }) => {
-  const [selectedValue, setSelectedValue] = useState(value || 'New')
+  const [selectedValue, setSelectedValue] = useState(value || "New");
   const { allStatuses, statusOptions } = useContext(StageStatusContext);
+  const { getStageSummaryData } = useContext(stageSummaryContext);
   const addToast = useToast();
   const [isMobile, setIsMobile] = useState(false);
   const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
   const onLostReasonModalCancel = () => {
     setIsLostReasonModalOpen(false);
-    setSelectedValue(value || 'New');
-  }
+    setSelectedValue(value || "New");
+  };
   const handleChangeStatus = async (val, leadSubStatus) => {
-    setSelectedValue(val)
+    setSelectedValue(val);
     if (val === "Lost" && !leadSubStatus) {
       setIsLostReasonModalOpen(true);
       return;
     }
-    setIsLostReasonModalOpen(false)
+    setIsLostReasonModalOpen(false);
     analyticsService.fireEvent("event-sort", {
       clickedItemText: `Sort: ${val}`,
     });
     try {
       // TODO: Do sub select formatting properly. Vishal format properly before you submit
-      const subSelectPayload = leadSubStatus?.length > 0
-        ? {
-            leadSubStatus,
-          }
-        : {};
+      const subSelectPayload =
+        leadSubStatus?.length > 0
+          ? {
+              leadSubStatus,
+            }
+          : {};
       const response = await clientsService.updateClient(original, {
         ...original,
         leadStatusId: allStatuses.find((status) => status.statusName === val)
@@ -43,6 +46,7 @@ export default ({ value, original }) => {
         ...subSelectPayload,
       });
       if (response.ok) {
+        getStageSummaryData();
         addToast({
           type: "success",
           message: "Contact successfully updated.",
@@ -73,9 +77,9 @@ export default ({ value, original }) => {
   return (
     <React.Fragment>
       <LostStageDisposition
-       open={isLostReasonModalOpen}
-       onClose={onLostReasonModalCancel} 
-       onSubmit={handleChangeStatus}
+        open={isLostReasonModalOpen}
+        onClose={onLostReasonModalCancel}
+        onSubmit={handleChangeStatus}
       />
       <Media
         query={"(max-width: 500px)"}

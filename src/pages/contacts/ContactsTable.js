@@ -301,12 +301,17 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
             return "--";
           }
           return (
-            <Link
-              to={`/contact/${row.original.leadsId}`}
-              className={styles.contactPersonName}
-            >
-              {name}
-            </Link>
+            <>
+              <Link
+                to={`/contact/${row.original.leadsId}`}
+                className={styles.contactPersonName}
+              >
+                {name}
+              </Link>
+              {row.original.leadSource === "Import" && (
+                <div className={styles.visualIndicator}>MARKETING LEAD</div>
+              )}
+            </>
           );
         },
       },

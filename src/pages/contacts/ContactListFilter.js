@@ -1,36 +1,22 @@
-import React, { useState, useEffect } from "react";
-import useToast from "hooks/useToast";
+import React, { useState, useEffect, useContext } from "react";
 import Filter from "components/icons/filter";
 import FilterClose from "components/icons/filterClose";
 import FilterOpen from "components/icons/filterOpen";
 import Close from "components/icons/close";
-
 import { Button } from "components/ui/Button";
 import styles from "./ContactsPage.module.scss";
 import Switch from "components/ui/switch";
-import clientService from "services/clientsService";
-import * as Sentry from "@sentry/react";
 import { useHistory, useLocation } from "react-router-dom";
+import stageSummaryContext from "contexts/stageSummary";
 
 const ContactRecordTypes = ["Prospect", "Client"];
-const SORT_BY_ORDER = {
-  New: 1,
-  Renewal: 2,
-  Contacted: 3,
-  SoaSent: 4,
-  SoaSigned: 5,
-  Quoted: 6,
-  Applied: 7,
-  Enrolled: 8,
-};
 
 export default () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [stageOpen, setStageOpen] = useState(false);
-  const [snapshotData, setSnapshotData] = useState([]);
-  const addToast = useToast();
   const history = useHistory();
   const location = useLocation();
+  const { stageSummaryData } = useContext(stageSummaryContext);
 
   const [filters, setFilters] = useState({
     contactRecordType: "",
@@ -92,34 +78,9 @@ export default () => {
     return () => document.body.removeEventListener("click", closeFilters);
   }, [filterOpen]);
 
-  useEffect(() => {
-    const getDashboardData = async () => {
-      try {
-        await clientService.getDashbaordSummary().then((response) => {
-          setSnapshotData(
-            response.sort((a, b) => {
-              return (
-                (SORT_BY_ORDER[a.statusName] || 1000) -
-                (SORT_BY_ORDER[b.statusName] || 1000)
-              );
-            })
-          );
-        });
-      } catch (err) {
-        Sentry.captureException(err);
-        addToast({
-          type: "error",
-          message: "Failed to load data",
-        });
-      }
-    };
-    getDashboardData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast]);
-
   const getFullCount = () => {
     let fullCount = 0;
-    snapshotData.map((status) => {
+    stageSummaryData.map((status) => {
       fullCount += status?.totalCount;
       return fullCount;
     });
@@ -249,8 +210,8 @@ export default () => {
                     {getFullCount()}
                   </span>
                 </li>
-                {snapshotData &&
-                  snapshotData.map((status, s_index) => {
+                {stageSummaryData &&
+                  stageSummaryData.map((status, s_index) => {
                     return (
                       <li
                         key={`${s_index}-${status?.statusName}`}

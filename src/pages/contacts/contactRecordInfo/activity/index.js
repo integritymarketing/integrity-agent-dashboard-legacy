@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import AddNote from "components/icons/add-note";
 import ActivityModal from "./ActivityModal";
 import SuccessIcon from "components/icons/success-note";
@@ -15,6 +16,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
   const [hovered, setHovered] = useState(null);
   const addToast = useToast();
   const [showSize, setShowSize] = useState(3);
+  const history = useHistory();
 
   const deleteActivity = async (activityId) => {
     await clientsService.deleteActivity(activityId);
@@ -35,6 +37,12 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
     setActivityData({});
     setIsEdit(false);
     setActivityModalStatus(false);
+  };
+
+  const navigateToSOA = (item) => {
+    history.push(
+      `/contact/${leadId}/soa-confirm/${item?.activityInteractionURL}`
+    );
   };
 
   return (
@@ -80,20 +88,10 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                             : getForDistance(item.createDate)}
                         </label>
                       </p>
-                      <div className="mobile-edit">
-                        <button onClick={() => editActivity(item)}>Edit</button>
-                      </div>
-                    </div>
-                    <h6>{item.activitySubject}</h6>
-                    <div className="para-btn-section">
-                      <LimitedCharacters
-                        characters={item.activityBody}
-                        size={150}
-                      />
                       {hovered &&
                         hovered === item.activityId &&
                         item.activityTypeName === "Note" && (
-                          <div className="hover-btn-hide datepicker-row reminderCardSection2row1of1">
+                          <div className="hover-btn-hide datepicker-row reminderCardSection2row1of1 activity-Btn">
                             <button
                               className="deleteTextAreaText"
                               onClick={() => deleteActivity(item.activityId)}
@@ -105,6 +103,40 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                               onClick={() => editActivity(item)}
                             >
                               Edit
+                            </button>
+                          </div>
+                        )}
+                      <div className="mobile-edit">
+                        <button onClick={() => editActivity(item)}>Edit</button>
+                      </div>
+                    </div>
+                    <h6>{item.activitySubject}</h6>
+                    <div className="para-btn-section flex-dir-column">
+                      <LimitedCharacters
+                        characters={item.activityBody}
+                        size={150}
+                      />
+
+                      {item.activityTypeName === "Triggered" &&
+                        (item.activitySubject ===
+                          "Scope of Appointment Signed" ||
+                          item.activitySubject ===
+                            "Scope of Appointment Completed") && (
+                          <div className="remindercardsectioncancelsavebtn reminderCardSection2row2right full-width-mobile ">
+                            <button
+                              className={`${
+                                item.activitySubject ===
+                                "Scope of Appointment Signed"
+                                  ? "complete-btn"
+                                  : "activity-complete-btn"
+                              } full-width-mobile mt-10-mb`}
+                              data-gtm="contact-record-activity-view-soa-button"
+                              onClick={() => navigateToSOA(item)}
+                            >
+                              {item.activitySubject ===
+                              "Scope of Appointment Signed"
+                                ? "Complete"
+                                : "View"}
                             </button>
                           </div>
                         )}

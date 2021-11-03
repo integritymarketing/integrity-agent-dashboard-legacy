@@ -136,7 +136,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           {isEdit && <button onClick={() => deleteReminder()}>Delete</button>}
         </div>
 
-        <div className="remindercardsectioncancelsavebtn reminderCardSection2row2right">
+        <div className="remindercardsectioncancelsavebtn reminderCardSection2row2right full-width-mobile">
           {!isEdit && !isComplete && (
             <button
               className="complete-btn"
