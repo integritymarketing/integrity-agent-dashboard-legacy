@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Popover as TinyPopover, ArrowContainer } from "react-tiny-popover";
-import './index.scss';
+import "./index.scss";
 
 export default function Popover({
   children,
   openOn,
   title,
   icon,
+  footer,
   description,
   closeWhenClickOutside,
   ...rest
@@ -24,9 +25,9 @@ export default function Popover({
   };
   const onClickOutside = () => {
     if (closeWhenClickOutside) {
-      setIsPopoverOpen(false)
+      setIsPopoverOpen(false);
     }
-  }
+  };
   return (
     <TinyPopover
       {...rest}
@@ -47,14 +48,17 @@ export default function Popover({
               {icon}
               {title}
             </div>
-            <div className="popover-description">
-              {description}
-            </div>
+            <div className="popover-description">{description}</div>
+            {footer && <div className="popover-footer">{footer}</div>}
           </div>
         </ArrowContainer>
       )}
     >
-      <div className="popover-action-handler" onClick={handleOnClick} onMouseOver={handleOnHover}>
+      <div
+        className="popover-action-handler"
+        onClick={handleOnClick}
+        onMouseOver={handleOnHover}
+      >
         {children}
       </div>
     </TinyPopover>
@@ -63,9 +67,9 @@ export default function Popover({
 
 Popover.defaultProps = {
   icon: null,
-  openOn: 'click',
+  openOn: "click",
   title: null,
-  positions:["top", "right", "left", "bottom"],
+  positions: ["top", "right", "left", "bottom"],
   padding: 10,
   closeWhenClickOutside: true,
-}
+};
