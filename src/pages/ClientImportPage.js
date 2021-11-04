@@ -51,7 +51,9 @@ export default () => {
           <li>Last Name</li>
           <li>Email</li>
           <li>Phone</li>
+          <li>Address</li>
           <li>Postal Code</li>
+          <li>County</li>
           <li>Stage</li>
           <li>Client Notes</li>
         </ul>
