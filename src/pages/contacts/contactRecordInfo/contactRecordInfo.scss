@@ -127,7 +127,7 @@
   font-size: 16px;
   line-height: 17px;
   color: #525761;
-  width: 80%;
+  width: 100%;
   min-height: 26px;
 }
 .para-btn-section > span {
@@ -766,7 +766,6 @@
 .datepicker-row {
   flex: 1;
   align-items: center;
-  overflow: hidden;
   max-width: 400px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1257,6 +1256,15 @@ button {
   width: 90px !important;
 }
 @media screen and (min-width: 320px) and (max-width: 767px) {
+  .mt-10-mb {
+    margin-top: 10px;
+  }
+  .full-width-mobile {
+    width: 100% !important;
+  }
+  .flex-dir-column {
+    flex-direction: column;
+  }
   .ml-65 {
     margin-left: 0px;
   }
@@ -2224,4 +2232,24 @@ button {
     display: block;
     margin-top: 20px;
   }
+}
+.activity-Btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.activity-complete-btn {
+  background: #f4f6fa;
+  border: 1px solid #c7ccd1;
+  color: var(--v2-royal-blue);
+  border-radius: 4px;
+  width: 80px;
+  height: 32px;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
 }

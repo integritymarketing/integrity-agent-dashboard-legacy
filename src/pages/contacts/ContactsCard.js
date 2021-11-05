@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useContext,
 } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import clientsService from "services/clientsService";
 import Container from "components/ui/container";
 import Pagination from "components/ui/Pagination/pagination";
@@ -121,12 +121,19 @@ const ClientCard = ({ client, onRefresh }) => {
             {displayName === "--" ? (
               "--"
             ) : (
-              <Link
-                to={`/contact/${client.leadsId}`}
-                className={styles.viewLink}
-              >
-                {displayName}
-              </Link>
+              <>
+                <Link
+                  to={`/contact/${client.leadsId}`}
+                  className={styles.viewLink}
+                >
+                  {displayName}
+                </Link>
+                {client.leadSource === "Import" && (
+                  <div className={`${styles.visualIndicator} ${styles.mt10}`}>
+                    MARKETING LEAD
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className={styles.hideOnMobile}>
@@ -223,12 +230,52 @@ function ContactsCard({ searchString, sort }) {
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12;
+  const [applyFilters, setApplyFilters] = useState({});
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const stages = queryParams.get("Stage");
+    const contactRecordType = queryParams.get("ContactRecordType");
+    const hasReminder = queryParams.get("HasReminder");
+    const applyFilters = {
+      contactRecordType,
+      hasReminder,
+      stages: stages ? stages.split(",") : [],
+    };
+    setApplyFilters(applyFilters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
+  const {
+    contactRecordType = "",
+    stages = [],
+    hasReminder = false,
+  } = applyFilters;
 
   const fetchData = useCallback(
-    ({ pageSize, pageIndex, searchString, sort }) => {
+    ({
+      pageSize,
+      pageIndex,
+      searchString,
+      sort,
+      contactRecordType,
+      stages,
+      hasReminder,
+    }) => {
       setLoading(true);
       clientsService
-        .getList(pageIndex, pageSize, sort, null, searchString || null)
+        .getList(
+          pageIndex,
+          pageSize,
+          sort,
+          null,
+          searchString || null,
+          contactRecordType,
+          stages,
+          hasReminder
+        )
         .then((list) => {
           setData(
             list.result.map((res) => ({
@@ -270,8 +317,19 @@ function ContactsCard({ searchString, sort }) {
       pageIndex: currentPage,
       searchString,
       sort,
+      contactRecordType,
+      stages,
+      hasReminder,
     });
-  }, [currentPage, fetchData, searchString, sort]);
+  }, [
+    currentPage,
+    fetchData,
+    searchString,
+    sort,
+    contactRecordType,
+    stages,
+    hasReminder,
+  ]);
 
   if (loading) {
     return <Spinner />;

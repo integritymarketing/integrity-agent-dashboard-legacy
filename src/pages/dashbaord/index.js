@@ -19,23 +19,13 @@ import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
 import ActivityTable from "./ActivityTable";
 import Help from "./Help";
+import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
 import Morning from "./morning.svg";
 import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
-
-const SORT_BY_ORDER = {
-  New: 1,
-  Renewal: 2,
-  Contacted: 3,
-  SoaSent: 4,
-  SoaSigned: 5,
-  Quoted: 6,
-  Applied: 7,
-  Enrolled: 8,
-};
 
 const ActionButton = ({ row, onClick }) => {
   return (
@@ -76,7 +66,6 @@ export default function Dashbaord() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
-  const [snapshotData, setSnapshotData] = useState([]);
   const [activityData, setActivityData] = useState({
     pageResult: {
       total: 0,
@@ -90,6 +79,7 @@ export default function Dashbaord() {
   const addToast = useToast();
   const auth = useContext(AuthContext);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
+  const { stageSummaryData } = useContext(stageSummaryContext);
 
   useEffect(() => {
     const getData = async () => {
@@ -120,20 +110,10 @@ export default function Dashbaord() {
     const getDashboardData = async () => {
       setIsLoading(true);
       try {
-        await Promise.all([
-          clientService.getDashbaordSummary().then((response) => {
-            setSnapshotData(
-              response.sort((a, b) => {
-                return (
-                  (SORT_BY_ORDER[a.statusName] || 1000) -
-                  (SORT_BY_ORDER[b.statusName] || 1000)
-                );
-              })
-            );
-          }),
-          clientService.getApplicationCount(sortByRange).then(setDashboardData),
-          onLoadMore(),
-        ]);
+        await clientService
+          .getApplicationCount(sortByRange)
+          .then(setDashboardData);
+        onLoadMore();
       } catch (err) {
         Sentry.captureException(err);
         addToast({
@@ -272,23 +252,24 @@ export default function Dashbaord() {
                 </Popover>
               </div>
               <div className="snapshot-data">
-                {snapshotData.map((d, index) => (
-                  <div
-                    className="snapshot-item"
-                    onClick={() => navigateToContactListPage(d.leadStatusId)}
-                    key={index}
-                  >
-                    <div className="snapshot-name">
-                      {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
-                      {d?.statusName?.includes("Soa")
-                        ? d.statusName.replace("Soa", "SOA ")
-                        : d.statusName}
+                {stageSummaryData &&
+                  stageSummaryData.map((d, index) => (
+                    <div
+                      className="snapshot-item"
+                      onClick={() => navigateToContactListPage(d.leadStatusId)}
+                      key={index}
+                    >
+                      <div className="snapshot-name">
+                        {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
+                        {d?.statusName?.includes("Soa")
+                          ? d.statusName.replace("Soa", "SOA ")
+                          : d.statusName}
+                      </div>
+                      <div className="snapshot-count">
+                        {numberWithCommas(d.totalCount)}
+                      </div>
                     </div>
-                    <div className="snapshot-count">
-                      {numberWithCommas(d.totalCount)}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
             {!isMobile && (

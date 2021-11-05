@@ -229,14 +229,14 @@ export default forwardRef((props, ref) => {
                   className="provider-container"
                 >
                   <div className="provider-content">
-                    <div className="pr-h1">{item.presentationName}</div>
+                    <div className="pr-h1">{item?.presentationName}</div>
                     <div className="pr-h2 pr-title-mble">
-                      {item.specialty}&nbsp;/&nbsp;{item.title}
+                      {item?.specialty}&nbsp;/&nbsp;{item?.title}
                     </div>
-                    <div className="pr-h2">{item.email}</div>
+                    <div className="pr-h2">{item?.email}</div>
                   </div>
                   <div className="provider-content">
-                    <div className="pr-h1 pr-phone-mble">{item.phone}</div>
+                    <div className="pr-h1 pr-phone-mble">{item?.phone}</div>
                     <div className="pr-h2">
                       {item?.addresses[0]?.streetLine1},&nbsp;
                     </div>
