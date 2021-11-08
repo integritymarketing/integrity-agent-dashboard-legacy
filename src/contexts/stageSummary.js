@@ -1,7 +1,8 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
+import AuthContext from "contexts/auth";
 
 const StageSummaryContext = createContext({});
 
@@ -17,6 +18,7 @@ const SORT_BY_ORDER = {
 };
 
 export const StageSummaryProvider = (props) => {
+  const auth = useContext(AuthContext);
   const [stageSummaryData, setStageSummaryData] = useState([]);
   const addToast = useToast();
 
@@ -42,9 +44,11 @@ export const StageSummaryProvider = (props) => {
   };
 
   useEffect(() => {
-    getStageSummaryData();
+    if(auth.isAuthenticated()) {
+      getStageSummaryData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [auth.isAuthenticated()]);
 
   return (
     <StageSummaryContext.Provider

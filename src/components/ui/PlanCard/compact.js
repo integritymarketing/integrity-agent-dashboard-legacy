@@ -18,6 +18,7 @@ const CompactPlanCard = ({
   onShareClick,
   isMobile,
 }) => {
+  const { documents } = planData;
   return (
     <div className={"plan-card plan-card-compact"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -38,6 +39,7 @@ const CompactPlanCard = ({
         !planData.nonLicensedPlan && (
           <div className={`footer ${isMobile ? "mobile" : ""}`}>
             <Button
+              disabled={documents === null || documents?.length === 0}
               label="Share Plan"
               icon={<ShareIcon />}
               onClick={() => onShareClick(planData.id)}

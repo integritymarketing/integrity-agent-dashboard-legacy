@@ -25,6 +25,11 @@
     height: 40px;
   }
 
+  .document-wrapper {
+    max-height: 250px;
+    overflow: auto;
+  }
+
   .radio-label {
     margin-bottom: 16px;
   }
