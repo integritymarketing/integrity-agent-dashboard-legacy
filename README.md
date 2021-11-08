@@ -40,8 +40,6 @@ The portal app should now be running on http://localhost:3000/
 
 The auth app is a separate react app that controls the front-end for Identity Server (authentication).
 
-##### Part 1
-
 For local development, you can run the front-end auth app in a similar way to the portal:
 
 1. Add a `.env` file to project root
@@ -51,41 +49,10 @@ For local development, you can run the front-end auth app in a similar way to th
 
 The auth app should be running on http://localhost:3001/
 
-##### Part 2
+Note that w/ current environments, you need to request a config chance to the identity server dev app to do local development on the auth app forms.
 
-You will also need to clone the Identity Server code base and run it locally.
+In the future, the data team plans to build a separate 'localhost' environment to enable easier local dev for the auth app.
 
-1. Download Visual Studio
-2. Clone the Identity Server project within VS (after adding your ssh key)
-
-`IntegrityMarketing@vs-ssh.visualstudio.com:v3/IntegrityMarketing/AgentEnablement/ae-identity-service`
-
-3. check out the `feature/local-dev` branch
-
-4. request non-versioned key vault values for `appsettings.Development.json` file in the project root. eg
-
-```
-  "KeyVault": {
-    "Vault": "",
-    "ClientId": "",
-    "ClientSecret": ""
-  }
-```
-
-5. run the project in visual studio (by default, this will run on http://localhost:5000)
-
-6. note, SSL is required to run Identity Server locally. Either set-up a local SSL cert, or use a reverse proxy like ngrok to setup an SSL connection to port 5000.
-
-7. in the `.env.local` config file (used for both auth + portal apps), set the following env vars to the https version of identity server eg
-
-```
-REACT_APP_AUTH_AUTHORITY_URL="https://dd23a78795e6.ngrok.io"
-REACT_APP_AUTH_BASE_URL="https://dd23a78795e6.ngrok.io"
-```
-
-(restart the portal + auth app after updating env vars)
-
-Phew!
 
 ### Key Libraries & Frameworks
 
