@@ -44,11 +44,11 @@ export const StageSummaryProvider = (props) => {
   };
 
   useEffect(() => {
-    if(auth.isAuthenticated()) {
+    if (auth.isAuthenticated()) {
       getStageSummaryData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.isAuthenticated()]);
+  }, [auth]);
 
   return (
     <StageSummaryContext.Provider
