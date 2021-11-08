@@ -16,13 +16,23 @@ export default () => {
   const [stageOpen, setStageOpen] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  const { stageSummaryData } = useContext(stageSummaryContext);
+
+  const { stageSummaryData, loadStageSummaryData } = useContext(
+    stageSummaryContext
+  );
 
   const [filters, setFilters] = useState({
     contactRecordType: "",
     stages: [],
     hasReminder: false,
   });
+
+  useEffect(() => {
+    const loadAsyncData = async () => {
+      await loadStageSummaryData();
+    };
+    loadAsyncData();
+  }, [loadStageSummaryData]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);

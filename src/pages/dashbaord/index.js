@@ -79,15 +79,20 @@ export default function Dashbaord() {
   const addToast = useToast();
   const auth = useContext(AuthContext);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
-  const { stageSummaryData } = useContext(stageSummaryContext);
+  const { stageSummaryData, loadStageSummaryData } = useContext(
+    stageSummaryContext
+  );
 
   useEffect(() => {
-    const getData = async () => {
+    const loadAsyncData = async () => {
+      await loadStageSummaryData();
+
       const user = await auth.getUser();
       setUser(user.profile);
     };
-    getData();
-  }, [auth]);
+
+    loadAsyncData();
+  }, [auth, loadStageSummaryData]);
 
   const onLoadMore = async () => {
     const pageSize = activityData?.pageResult?.pageSize;

@@ -13,7 +13,7 @@ import stageSummaryContext from "contexts/stageSummary";
 export default ({ value, original }) => {
   const [selectedValue, setSelectedValue] = useState(value || "New");
   const { allStatuses, statusOptions } = useContext(StageStatusContext);
-  const { getStageSummaryData } = useContext(stageSummaryContext);
+  const { loadStageSummaryData } = useContext(stageSummaryContext);
   const addToast = useToast();
   const [isMobile, setIsMobile] = useState(false);
   const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
@@ -46,7 +46,7 @@ export default ({ value, original }) => {
         ...subSelectPayload,
       });
       if (response.ok) {
-        getStageSummaryData();
+        await loadStageSummaryData();
         addToast({
           type: "success",
           message: "Contact successfully updated.",
