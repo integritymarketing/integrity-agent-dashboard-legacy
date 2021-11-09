@@ -10,7 +10,7 @@ import analyticsService from "services/analyticsService";
 import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisposition";
 import stageSummaryContext from "contexts/stageSummary";
 
-export default ({ value, original }) => {
+export default ({ value, original, onRefresh }) => {
   const [selectedValue, setSelectedValue] = useState(value || "New");
   const { allStatuses, statusOptions } = useContext(StageStatusContext);
   const { loadStageSummaryData } = useContext(stageSummaryContext);
@@ -47,6 +47,7 @@ export default ({ value, original }) => {
       });
       if (response.ok) {
         await loadStageSummaryData();
+        onRefresh();
         addToast({
           type: "success",
           message: "Contact successfully updated.",

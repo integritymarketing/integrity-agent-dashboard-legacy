@@ -319,7 +319,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
         Header: "Stage",
         accessor: "statusName",
         Cell: ({ value, row }) => {
-          return <StageSelect value={value} original={row.original} />;
+          return <StageSelect value={value} original={row.original} onRefresh={handleRefresh} />;
         },
       },
       {
