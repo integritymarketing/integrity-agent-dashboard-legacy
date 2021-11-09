@@ -85,14 +85,21 @@ export default function Dashbaord() {
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      await loadStageSummaryData();
-
       const user = await auth.getUser();
       setUser(user.profile);
     };
 
     loadAsyncData();
-  }, [auth, loadStageSummaryData]);
+  }, [auth]);
+
+  useEffect(() => {
+    const loadAsyncData = async () => {
+      await loadStageSummaryData();
+    };
+    loadAsyncData();
+    // ensure this only runs once.. adding a dependency w/ the stage summary data causes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onLoadMore = async () => {
     const pageSize = activityData?.pageResult?.pageSize;

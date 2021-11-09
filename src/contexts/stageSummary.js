@@ -45,7 +45,7 @@ export const StageSummaryProvider = (props) => {
     <StageSummaryContext.Provider
       value={{
         stageSummaryData,
-        loadStageSummaryData: () => loadStageSummaryData(),
+        loadStageSummaryData,
       }}
       {...props}
     />

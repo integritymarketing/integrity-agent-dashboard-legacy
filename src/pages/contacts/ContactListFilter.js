@@ -32,7 +32,9 @@ export default () => {
       await loadStageSummaryData();
     };
     loadAsyncData();
-  }, [loadStageSummaryData]);
+    // ensure this only runs once.. adding a dependency w/ the stage summary data causes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
