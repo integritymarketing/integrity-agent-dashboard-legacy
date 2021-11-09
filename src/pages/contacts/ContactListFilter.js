@@ -16,13 +16,25 @@ export default () => {
   const [stageOpen, setStageOpen] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  const { stageSummaryData } = useContext(stageSummaryContext);
+
+  const { stageSummaryData, loadStageSummaryData } = useContext(
+    stageSummaryContext
+  );
 
   const [filters, setFilters] = useState({
     contactRecordType: "",
     stages: [],
     hasReminder: false,
   });
+
+  useEffect(() => {
+    const loadAsyncData = async () => {
+      await loadStageSummaryData();
+    };
+    loadAsyncData();
+    // ensure this only runs once.. adding a dependency w/ the stage summary data causes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);

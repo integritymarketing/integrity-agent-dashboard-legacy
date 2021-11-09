@@ -79,15 +79,27 @@ export default function Dashbaord() {
   const addToast = useToast();
   const auth = useContext(AuthContext);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
-  const { stageSummaryData } = useContext(stageSummaryContext);
+  const { stageSummaryData, loadStageSummaryData } = useContext(
+    stageSummaryContext
+  );
 
   useEffect(() => {
-    const getData = async () => {
+    const loadAsyncData = async () => {
       const user = await auth.getUser();
       setUser(user.profile);
     };
-    getData();
+
+    loadAsyncData();
   }, [auth]);
+
+  useEffect(() => {
+    const loadAsyncData = async () => {
+      await loadStageSummaryData();
+    };
+    loadAsyncData();
+    // ensure this only runs once.. adding a dependency w/ the stage summary data causes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onLoadMore = async () => {
     const pageSize = activityData?.pageResult?.pageSize;
