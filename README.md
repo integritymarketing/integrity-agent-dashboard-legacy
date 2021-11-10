@@ -131,12 +131,13 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 
 ## Releases
 
-1. To prepare a release, a PR from `develop` -> `release` (or `hotfix/name-of-fix` -> `release`) should be initiated.
-2. The new version number should be set for each release in the netlify.toml file under then `REACT_APP_VERSION` variable. This version variable is tied directly to the Sentry integration.
-3. Merging the PR will create a release build in both the UAT and QA [environments](#environements).
-4. Once the build has passed QA, create a PR from `release` -> `master`.
-5. Merging this PR will create and publish a build on stage, as well as create an un-published build in the production site.
-6. Once the release build is merged to master, a github release should be created with the appropriate version tag (eg `1.0.2`).
+1. To prepare a normal release, a PR from `develop` -> `release`.  The PR should be titled as a release candidate (RC), and should be in the format `RC-major.minor.micro` (eg RC-2.1.2) to indicate the release candidate version number.  (Alternatively, if a hotfix release is needed, a PR should be cut from the current release branch, and targetted to release w/ the format `Hotfix-major.minor.micro.hotfix_num`)
+3. The new version number should be set for each release in the package.json file. This version variable is tied directly to the Sentry integration and is automatically added to the Netlify build.
+4. When ready for UAT testing, merging the RC or Hotfix PR to release will create and publish a release build in both the UAT and Stage [environments](#environments).  It will also create a build in the production environment, however builds there need to be manually published.
+5. Once everything is good on UAT and/or Stage, open a new PR titled `Release major.minor.micro` again, where major.minor.micro is the version number.
+6. Releasing to producting is as simple as publishing the latest release build that is currently on prod, but un-published.  
+7. Rolling back:  In the event a rollback is needed, simply re-publish the last build that was live in production.  On Netlify, this will swap the build out in less than a second. 
+8. Once the release build on production has been smoke tested and cleared, merge the Release PR into Main, then draft and publish a new release in github (which also tags the release).  The tag should be created with the appropriate version tag in the format (eg `v2.1.2`).
 
 ## Error logging
 
