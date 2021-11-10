@@ -135,7 +135,7 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 3. The new version number should be set for each release in the package.json file. This version variable is tied directly to the Sentry integration and is automatically added to the Netlify build.
 4. When ready for UAT testing, merging the RC or Hotfix PR to release will create and publish a release build in both the UAT and Stage [environments](#environments).  It will also create a build in the production environment, however builds there need to be manually published.
 5. Once everything is good on UAT and/or Stage, open a new PR titled `Release major.minor.micro` again, where major.minor.micro is the version number.
-6. Releasing to producting is as simple as publishing the latest release build that is currently on prod, but un-published.  
+6. Releasing to producting is as simple as publishing the latest release build that is currently on prod, but un-published.  (NOTE:  it is important that you publish the build in both the main medicare center app, as well as the auth app.  Usually there are no changes to the auth app, but it's good to keep it up-to-date and at the same version as the main production app).
 7. Rolling back:  In the event a rollback is needed, simply re-publish the last build that was live in production.  On Netlify, this will swap the build out in less than a second. 
 8. Once the release build on production has been smoke tested and cleared, merge the Release PR into Main, then draft and publish a new release in github (which also tags the release).  The tag should be created with the appropriate version tag in the format (eg `v2.1.2`).
 
