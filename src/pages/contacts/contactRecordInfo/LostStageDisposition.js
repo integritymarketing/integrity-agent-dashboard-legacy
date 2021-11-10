@@ -37,7 +37,7 @@ export default ({ open, onClose: handleCloseModal, onSubmit }) => {
         <div className="loaststage-modal dialog--container">
           <div className="dialog--title ">
             <h2 id="dialog_help_label" className="hdg hdg--2 mb-1 mble-title">
-              Share this Plan
+            Lost Contact
             </h2>
           </div>
           <label className="label-reason pb-2" htmlFor="reason-label">

@@ -32,7 +32,6 @@ export default ({ value, original, onRefresh }) => {
       clickedItemText: `Sort: ${val}`,
     });
     try {
-      // TODO: Do sub select formatting properly. Vishal format properly before you submit
       const subSelectPayload =
         leadSubStatus?.length > 0
           ? {
