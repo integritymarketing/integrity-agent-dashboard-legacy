@@ -145,7 +145,7 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 
 ## Environments
 
-All builds are automatically created via Netlify's out of the box CI/CD build process to the five environments below.
+All builds are automatically created via Netlify's out of the box CI/CD build process to the environments documented below.
 There are two build targets. App + Auth
 
 ### Build Target: Portal App
