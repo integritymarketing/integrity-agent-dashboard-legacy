@@ -30,7 +30,7 @@ export default ({ open, onClose: handleCloseModal, onSubmit }) => {
     <div className="lost-stage-page">
       <Modal
         open={open}
-        wide
+        size="small"
         cssClassName={"loaststage-modal"}
         onClose={handleOnClose}
       >
@@ -54,7 +54,7 @@ export default ({ open, onClose: handleCloseModal, onSubmit }) => {
             />
           )}
         </div>
-        <div className={"footer"}>
+        <div className="footer">
           <Button
             disabled={!subSelect}
             label="Submit"

@@ -13,21 +13,22 @@
     }
     .loaststage-modal {
         .dialog--container {
-            height: 350px;
+            height: 240px;
         }
         &.modal .modal__card.card {
-            padding-top: 10px;
-            padding-bottom: 10px;
-
+            padding: 40px;
             .modal__exit.icon-btn {
                 right: auto;
+            }
+            .modal__header {
+                width: calc(100% - 40px);
             }
         }
 
         .dialog--title {
             margin-left: 0;
             margin-bottom: 31px;
-            margin-top: 39px;
+            margin-top: 20px;
         }
 
         .footer {
@@ -35,10 +36,10 @@
             margin-top: 40px;
             display: flex;
             flex-flow: row-reverse;
-            margin-left: -5rem;
-            margin-right: -5rem;
+            justify-content: center;
+            margin-left: -40px;
+            margin-right: -40px;
             padding-top: 10px;
-            padding-right: 35px;
 
             .button {
                 margin-right: 16px;
