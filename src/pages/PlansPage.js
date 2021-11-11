@@ -27,6 +27,7 @@ import PharmacyFilter from "components/ui/PharmacyFilter";
 import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
+import { formatDate } from "utils/dates";
 import { PlanPageFooter } from "./PlanPageFooter";
 
 const premAsc = (res1, res2) => {
@@ -119,13 +120,17 @@ export default () => {
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
-      const [contactData, prescriptionData, providerData, pharmacyData] =
-        await Promise.all([
-          clientsService.getContactInfo(id),
-          clientsService.getLeadPrescriptions(id),
-          clientsService.getLeadProviders(id),
-          clientsService.getLeadPharmacies(id),
-        ]);
+      const [
+        contactData,
+        prescriptionData,
+        providerData,
+        pharmacyData,
+      ] = await Promise.all([
+        clientsService.getContactInfo(id),
+        clientsService.getLeadPrescriptions(id),
+        clientsService.getLeadProviders(id),
+        clientsService.getLeadPharmacies(id),
+      ]);
       setContact(contactData);
       setProviders(providerData.providers);
       setPrescriptions(prescriptionData);
@@ -425,6 +430,8 @@ export default () => {
             )}
           </WithLoader>
           <PlanPageFooter
+            leadId={id}
+            effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
             plans={pagedResults?.filter((plan) => selectedPlans[plan.id])}
             onRemove={(plan) => {
               setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));

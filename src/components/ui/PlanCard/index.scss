@@ -255,6 +255,11 @@
     padding-right: 32px;
     padding-top: 16px;
     padding-left: 16px;
+    justify-content: space-between;
+
+    .plan-btn-container {
+      display: flex;
+    }
 
     .button {
       margin-left: 16px;

@@ -76,3 +76,55 @@
     }
   }
 }
+
+.comp-pr-name {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 150%;
+  color: #2b323b;
+}
+
+.pr-address {
+  margin-top: 10px;
+}
+
+.pr-network {
+  display: flex;
+  align-items: center;
+
+  .pr-network-text {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    color: #2b323b;
+    margin-left: 10px;
+  }
+}
+
+.comp-pres-label {
+  margin-top: 20px;
+}
+
+.comp-doc-link {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 150%;
+  color: #0052ce;
+  text-decoration: none;
+}
+
+.comp-td {
+  border-right: 1.5px dashed #64748b;
+}
+
+.comp-tr {
+  .comp-td:last-child {
+    border-right: none;
+  }
+}

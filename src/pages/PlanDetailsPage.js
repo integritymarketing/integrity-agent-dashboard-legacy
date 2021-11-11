@@ -107,7 +107,7 @@ const PlanDetailsPage = () => {
               <title>MedicareCENTER - Plans</title>
             </Helmet>
             <GlobalNav />
-            <div className={`${styles["header"]}`}>
+            <div className={`${styles["header"]}`} style={{ height: "auto" }}>
               <Container>
                 <div className={`${styles["back"]}`}>
                   <Button

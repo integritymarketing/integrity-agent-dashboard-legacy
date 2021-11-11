@@ -3,11 +3,18 @@ import React from "react";
 import styles from "./PlansPage.module.scss";
 import { Button } from "components/ui/Button";
 import Close from "../components/icons/input-clear";
+import { useHistory } from "react-router-dom";
 
 /**
  * Primary UI component for user interaction
  */
-export const PlanPageFooter = ({ plans = [], onRemove }) => {
+export const PlanPageFooter = ({
+  leadId,
+  plans = [],
+  onRemove,
+  effectiveDate,
+}) => {
+  const history = useHistory();
   if (!plans || plans.length < 1) {
     return null;
   }
@@ -20,14 +27,12 @@ export const PlanPageFooter = ({ plans = [], onRemove }) => {
 
   return (
     <div className={styles["plan-footer"]} data-gtm="plans-compare-wrapper">
-      {planCopy.map((plan) => {
-        console.log("plan", plan);
-
+      {planCopy.map((plan, index) => {
         if (!plan) {
           return (
-            <div
-              className={`${styles["plans-list"]} ${styles["empty-plan"]}`}
-            ></div>
+            <div className={`${styles["plans-list"]} ${styles["empty-plan"]}`}>
+              Plan {index + 1}
+            </div>
           );
         } else
           return (
@@ -51,6 +56,14 @@ export const PlanPageFooter = ({ plans = [], onRemove }) => {
         type="primary"
         disabled={plans.length < 2}
         data-gtm="button-compare"
+        onClick={() => {
+          sessionStorage.setItem("__plans__", JSON.stringify(plans));
+          history.push(
+            `/plans/${leadId}/compare/${plans
+              ?.map(({ id }) => id)
+              .join(",")}/${effectiveDate}`
+          );
+        }}
       />
     </div>
   );
