@@ -19,6 +19,8 @@ import { PrescriptionsCompareTable } from "./../components/ui/PlanDetailsTable/s
 import { PlanDocumentsCompareTable } from "./../components/ui/PlanDetailsTable/shared/plan-documents-compare-table";
 import { PharmaciesCompareTable } from "./../components/ui/PlanDetailsTable/shared/pharmacies-compare-table";
 import { PlanBenefitsCompareTable } from "./../components/ui/PlanDetailsTable/shared/plan-benefits-compare-table";
+import { PharmacyCoverageCompareTable } from "./../components/ui/PlanDetailsTable/shared/pharmacy-coverage-compare-table";
+import { RetailPharmacyCoverage } from "./../components/ui/PlanDetailsTable/shared/retail-pharmacy-coverage-compare-table";
 
 export default () => {
   const { contactId: id, planIds: comparePlanIds } = useParams();
@@ -183,6 +185,21 @@ export default () => {
                   <PlanBenefitsCompareTable
                     plans={comparePlans}
                     pharmacies={pharmacies}
+                  />
+                  <div style={{ height: 20 }} />
+
+                  <PharmacyCoverageCompareTable
+                    plans={comparePlans}
+                    pharmacies={pharmacies}
+                  />
+                  <div style={{ height: 20 }} />
+
+                  <RetailPharmacyCoverage
+                    plans={comparePlans}
+                    pharmacies={pharmacies}
+                    header="Standard Retail Pharmacy Coverage"
+                    isPreffered={false}
+                    isRetail={true}
                   />
                 </div>
               )}

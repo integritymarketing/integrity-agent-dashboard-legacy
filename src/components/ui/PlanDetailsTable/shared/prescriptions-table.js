@@ -57,7 +57,7 @@ export default ({ planData }) => {
     ],
     []
   );
-  const pharmacyCost = planData.pharmacyCosts[0];
+  const pharmacyCost = planData?.pharmacyCosts[0];
 
   const prescriptionMap = {};
   if (planData.planDrugCoverage && Array.isArray(planData.planDrugCoverage)) {

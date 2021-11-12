@@ -57,13 +57,13 @@ export function PharmaciesCompareTable({ plans, pharmacies }) {
   const data = pharmacies.map((document) => ({
     name: <span className="label">{document.name}</span>,
     address: document.address,
-    [`plan-0`]: !!plans[0]?.pharmacyCosts.find(
+    [`plan-0`]: !!plans[0]?.pharmacyCosts?.find(
       (pr) => pr.pharmacyID === document.pharmacyID
     ),
-    [`plan-1`]: !!plans[1]?.pharmacyCosts.find(
+    [`plan-1`]: !!plans[1]?.pharmacyCosts?.find(
       (pr) => pr.pharmacyID === document.pharmacyID
     ),
-    [`plan-2`]: !!plans[2]?.pharmacyCosts.find(
+    [`plan-2`]: !!plans[2]?.pharmacyCosts?.find(
       (pr) => pr.pharmacyID === document.pharmacyID
     ),
   }));

@@ -42,7 +42,7 @@ function renderData(prescriptionMap, labelName, effectiveDateString) {
 }
 
 function buildPrescription({ planData, monthsRemaining }) {
-  const pharmacyCost = planData.pharmacyCosts[0];
+  const pharmacyCost = planData?.pharmacyCosts ? planData?.pharmacyCosts[0] : {};
 
   const prescriptionMap = {};
   if (planData.planDrugCoverage && Array.isArray(planData.planDrugCoverage)) {
