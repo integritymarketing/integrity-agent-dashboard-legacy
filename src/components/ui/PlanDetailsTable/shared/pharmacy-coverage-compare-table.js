@@ -47,7 +47,7 @@ export function PharmacyCoverageCompareTable({ plans }) {
       name: "Pharmacy Deductible",
       [`plan-0`]: {
         description: plans[0]
-          ? currencyFormatter.format(plans[0].drugDeductible) 
+          ? currencyFormatter.format(plans[0].drugDeductible)
           : "",
       },
       [`plan-1`]: {

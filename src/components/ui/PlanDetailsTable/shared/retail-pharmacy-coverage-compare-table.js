@@ -45,7 +45,7 @@ export function RetailPharmacyCoverage({
         ],
       },
     ],
-    [clonedPlans]
+    [clonedPlans,header]
   );
 
   const tierNumbersFromAllPlans = useMemo(

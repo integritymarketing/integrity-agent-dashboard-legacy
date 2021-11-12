@@ -86,7 +86,6 @@ export default () => {
           <Media
             query={"(max-width: 500px)"}
             onChange={(isMobile) => {
-              // setIsMobile(isMobile);
             }}
           />
           <WithLoader isLoading={isLoading}>
