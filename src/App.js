@@ -17,6 +17,7 @@ import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
 import Dashboard from "pages/dashbaord";
+import ComparePlansPage from "pages/ComparePlansPage";
 import NewScopeOfAppointment from "pages/contacts/contactRecordInfo/newScopeOfAppointment";
 import SOAConfirmationPage from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage";
 import SOAConfirmationForm from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation";
@@ -117,6 +118,9 @@ const App = () => {
                             </AuthenticatedRoute>
                             <AuthenticatedRoute path="/client-import">
                               <ClientImportPage />
+                            </AuthenticatedRoute>
+                            <AuthenticatedRoute path="/plans/:contactId/compare/:planIds/:effectiveDate">
+                              <ComparePlansPage />
                             </AuthenticatedRoute>
                             <AuthenticatedRoute path="/plans/:contactId">
                               <PlansPage />

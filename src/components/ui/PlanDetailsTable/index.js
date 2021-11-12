@@ -8,7 +8,7 @@ function getHeader(column) {
   }
 }
 
-export default ({ columns, data }) => {
+export default ({ columns, data, compareTable }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -18,6 +18,7 @@ export default ({ columns, data }) => {
   } = useTable({
     columns,
     data,
+    compareTable,
   });
 
   return (
@@ -34,10 +35,18 @@ export default ({ columns, data }) => {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                {...row.getRowProps()}
+                className={`${compareTable && "comp-tr"}`}
+              >
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td
+                      {...cell.getCellProps()}
+                      className={`${compareTable && "comp-td"}`}
+                    >
+                      {cell.render("Cell")}
+                    </td>
                   );
                 })}
               </tr>

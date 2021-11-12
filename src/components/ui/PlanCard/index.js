@@ -135,7 +135,7 @@ export default function PlanCard({
           />
           <span className={"compare-txt"}>Compare</span>{" "}
         </div>
-        <div style={{ display: "flex" }}>
+        <div className={"plan-btn-container"}>
           <Button
             label="Plan Details"
             onClick={() => onDetailsClick(planData.id)}

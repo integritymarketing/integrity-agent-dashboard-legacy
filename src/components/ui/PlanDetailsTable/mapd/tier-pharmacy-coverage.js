@@ -6,7 +6,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-const labelMap = {
+export const labelMap = {
   1: "Preferred Generic",
   2: "Generic",
   3: "Preferred Brand",
