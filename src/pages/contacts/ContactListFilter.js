@@ -47,6 +47,11 @@ export default () => {
       hasReminder: hasReminder === "true" ? true : false,
       stages: stages ? stages.split(",").map(Number) : [],
     };
+    if (applyFilters?.stages && applyFilters?.stages.length > 0) {
+      setStageOpen(true);
+    } else {
+      setStageOpen(false);
+    }
     if (
       (stages && applyFilters?.stages.length > 0) ||
       contactRecordType ||
@@ -61,7 +66,7 @@ export default () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location, filterOpen]);
 
   const selectStage = (id) => {
     let isExist = filters?.stages?.findIndex((statusId) => statusId === id);
@@ -202,7 +207,7 @@ export default () => {
                 />
               )}
             </div>
-            {(stageOpen || filters?.stages.length > 0) && (
+            {stageOpen && (
               <ul className={styles.filterStageList}>
                 <li
                   className={
