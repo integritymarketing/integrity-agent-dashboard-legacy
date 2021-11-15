@@ -40,7 +40,7 @@ const CompactPlanCard = ({
       {!REACT_APP_HIDE_ENROLL_BTN &&
         onEnrollClick &&
         !planData.nonLicensedPlan && (
-          <div className={`footer ${isMobile ? "mobile" : ""}`}>
+          <div className={`footer overview-footer ${isMobile ? "mobile" : ""}`}>
             {documents === null || documents?.length === 0 ? (
               <Popover
                 openOn="hover"
