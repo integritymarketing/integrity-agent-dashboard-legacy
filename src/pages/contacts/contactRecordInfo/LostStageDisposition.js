@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Select } from "components/ui/Select";
 import { Button } from "components/ui/Button";
 import Modal from "components/ui/modal";
-import LOST_REASONS from "utils/lostContactLabels";
 import "./lostStageDisposition.scss";
 
-export default ({ open, onClose: handleCloseModal, onSubmit }) => {
+export default ({ subStatuses = [], open, onClose: handleCloseModal, onSubmit }) => {
   const [subSelect, setSubSelect] = useState(null);
 
   const handlOnSubmit = (ev) => {
@@ -13,10 +12,10 @@ export default ({ open, onClose: handleCloseModal, onSubmit }) => {
     onSubmit &&
       onSubmit(
         "Lost",
-        LOST_REASONS.filter(({ value }) => value === subSelect).map(
+        subStatuses.filter(({ value }) => value === subSelect).map(
           ({ value, label }) => ({
             leadStatusId: value,
-            leasdStatusName: label,
+            leadStatusName: label,
           })
         )
       );
@@ -47,7 +46,7 @@ export default ({ open, onClose: handleCloseModal, onSubmit }) => {
             <Select
               containerHeight={250}
               className="mr-2"
-              options={LOST_REASONS}
+              options={subStatuses}
               placeholder="Select"
               showValueAlways={true}
               onChange={setSubSelect}

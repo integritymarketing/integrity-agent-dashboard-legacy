@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
@@ -11,8 +11,17 @@ import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisp
 import stageSummaryContext from "contexts/stageSummary";
 
 export default ({ value, original, onRefresh }) => {
-  const [selectedValue, setSelectedValue] = useState(value || "New");
-  const { allStatuses, statusOptions } = useContext(StageStatusContext);
+  const { allStatuses, statusOptions, lostSubStatusesOptions } = useContext(
+    StageStatusContext
+  );
+  if (!lostSubStatusesOptions) return null;
+  const [selectedValue, setSelectedValue] = useState(() => {
+    return value
+      ? lostSubStatusesOptions?.filter((opt) => opt.label === value).length > 0
+        ? "Lost"
+        : value
+      : "New";
+  });
   const { loadStageSummaryData } = useContext(stageSummaryContext);
   const addToast = useToast();
   const [isMobile, setIsMobile] = useState(false);
@@ -40,8 +49,11 @@ export default ({ value, original, onRefresh }) => {
           : {};
       const response = await clientsService.updateClient(original, {
         ...original,
-        leadStatusId: allStatuses.find((status) => status.statusName === val)
-          ?.leadStatusId,
+        leadStatusId:
+          leadSubStatus?.length > 0
+            ? leadSubStatus[0]?.leadStatusId
+            : allStatuses.find((status) => status.statusName === val)
+                ?.leadStatusId,
         ...subSelectPayload,
       });
       if (response.ok) {
@@ -64,22 +76,26 @@ export default ({ value, original, onRefresh }) => {
     }
     return false;
   };
-
-  const filteredStatuses = statusOptions.filter((opt) => {
-    if (
-      original.contactRecordType &&
-      original.contactRecordType.toLowerCase() === "client"
-    ) {
-      return opt.value !== "New";
-    }
-    return opt.value !== "Renewal";
-  });
+  const filteredStatuses = useMemo(
+    () =>
+      statusOptions.filter((opt) => {
+        if (
+          original.contactRecordType &&
+          original.contactRecordType.toLowerCase() === "client"
+        ) {
+          return opt.value !== "New";
+        }
+        return opt.value !== "Renewal";
+      }),
+    [statusOptions, original]
+  );
   return (
     <React.Fragment>
       <LostStageDisposition
         open={isLostReasonModalOpen}
         onClose={onLostReasonModalCancel}
         onSubmit={handleChangeStatus}
+        subStatuses={lostSubStatusesOptions}
       />
       <Media
         query={"(max-width: 500px)"}
