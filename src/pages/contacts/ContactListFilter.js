@@ -202,7 +202,7 @@ export default () => {
                 />
               )}
             </div>
-            {stageOpen && (
+            {(stageOpen || filters?.stages.length > 0) && (
               <ul className={styles.filterStageList}>
                 <li
                   className={

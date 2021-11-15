@@ -117,7 +117,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                         size={150}
                       />
 
-                      {item.activityTypeName === "Triggered" &&
+                      {item.activityTypeName === "Triggered" && item?.activityInteractionURL &&
                         (item.activitySubject ===
                           "Scope of Appointment Signed" ||
                           item.activitySubject ===
