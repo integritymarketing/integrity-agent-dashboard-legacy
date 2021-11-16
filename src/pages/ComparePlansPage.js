@@ -190,8 +190,6 @@ export default () => {
                     prescriptions={prescriptions}
                   />
                   <div style={{ height: 20 }} />
-                  <PlanDocumentsCompareTable plans={comparePlans} />
-                  <div style={{ height: 20 }} />
                   <PharmaciesCompareTable
                     plans={comparePlans}
                     pharmacies={pharmacies}
@@ -217,6 +215,8 @@ export default () => {
                     isPreffered={false}
                     isRetail={true}
                   />
+                  <div style={{ height: 20 }} />
+                  <PlanDocumentsCompareTable plans={comparePlans} />
                 </div>
               )}
             </Container>
