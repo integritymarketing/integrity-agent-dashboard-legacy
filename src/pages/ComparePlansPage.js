@@ -21,9 +21,25 @@ import { PharmaciesCompareTable } from "./../components/ui/PlanDetailsTable/shar
 import { PlanBenefitsCompareTable } from "./../components/ui/PlanDetailsTable/shared/plan-benefits-compare-table";
 import { PharmacyCoverageCompareTable } from "./../components/ui/PlanDetailsTable/shared/pharmacy-coverage-compare-table";
 import { RetailPharmacyCoverage } from "./../components/ui/PlanDetailsTable/shared/retail-pharmacy-coverage-compare-table";
+import plansService from "services/plansService";
+
+async function getAllPlanDetails({
+  planIds,
+  contactId,
+  contactData,
+  effectiveDate,
+}) {
+  return Promise.all(
+    planIds
+      .filter(Boolean)
+      .map((planId) =>
+        plansService.getPlan(contactId, planId, contactData, effectiveDate)
+      )
+  );
+}
 
 export default () => {
-  const { contactId: id, planIds: comparePlanIds } = useParams();
+  const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
   const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
   const history = useHistory();
   const [loading, setLoading] = useState(true);
@@ -37,8 +53,13 @@ export default () => {
     setLoading(true);
     try {
       setResults([]);
-      const plans = sessionStorage.getItem("__plans__");
-      const plansData = plans ? JSON.parse(plans) : [];
+      const contactData = await clientsService.getContactInfo(id);
+      const plansData = await getAllPlanDetails({
+        planIds,
+        contactId: id,
+        contactData,
+        effectiveDate,
+      });
       setResults(plansData);
 
       const [prescriptionData, pharmacyData] = await Promise.all([
@@ -55,7 +76,7 @@ export default () => {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [effectiveDate, id, planIds]);
 
   useEffect(() => {
     if (results && results.length) {
@@ -83,11 +104,7 @@ export default () => {
     <>
       <ToastContextProvider>
         <div className={styles.comparePage}>
-          <Media
-            query={"(max-width: 500px)"}
-            onChange={(isMobile) => {
-            }}
-          />
+          <Media query={"(max-width: 500px)"} onChange={(isMobile) => {}} />
           <WithLoader isLoading={isLoading}>
             <Helmet>
               <title>MedicareCENTER - Plans</title>

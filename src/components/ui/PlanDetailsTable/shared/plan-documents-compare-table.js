@@ -50,7 +50,14 @@ export function PlanDocumentsCompareTable({ plans }) {
     [clonedPlans]
   );
 
-  const data = allDocuments.map((document) => ({
+  const uniqDocs = {};
+  allDocuments.forEach((doc) => {
+    if (!uniqDocs[doc.name]) {
+      uniqDocs[doc.name] = doc;
+    }
+  });
+
+  const data = Object.values(uniqDocs).map((document) => ({
     name: <span className="label">{document.name}</span>,
     [`plan-0`]: plans[0]?.documents.find((pr) => pr.name === document.name),
     [`plan-1`]: plans[1]?.documents.find((pr) => pr.name === document.name),
