@@ -45,21 +45,17 @@ export function RetailPharmacyCoverage({
         ],
       },
     ],
-    [clonedPlans,header]
+    [clonedPlans, header]
   );
 
-  const tierNumbersFromAllPlans = useMemo(
-    () => {
-      debugger
-      return Object.keys(
-        plans.filter(Boolean).reduce((acc, planData) => {
-          planData.formularyTiers.map((tier) => acc[tier.tierNumber]);
-          return acc;
-        }, {})
-      )
-    },
-    [plans]
-  );
+  const tierNumbersFromAllPlans = useMemo(() => {
+    return Object.keys(
+      plans.filter(Boolean).reduce((acc, planData) => {
+        planData.formularyTiers.map((tier) => acc[tier.tierNumber]);
+        return acc;
+      }, {})
+    );
+  }, [plans]);
 
   const tierValue = (plan, tierNumber) => {
     const tier =

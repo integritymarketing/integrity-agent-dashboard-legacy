@@ -42,7 +42,9 @@ function renderData(prescriptionMap, labelName, effectiveDateString) {
 }
 
 function buildPrescription({ planData, monthsRemaining }) {
-  const pharmacyCost = planData?.pharmacyCosts ? planData?.pharmacyCosts[0] : {};
+  const pharmacyCost = planData?.pharmacyCosts
+    ? planData?.pharmacyCosts[0]
+    : {};
 
   const prescriptionMap = {};
   if (planData.planDrugCoverage && Array.isArray(planData.planDrugCoverage)) {
@@ -136,7 +138,9 @@ export function PrescriptionsCompareTable({ plans, prescriptions }) {
     return acc;
   }, []);
 
-  const data = allPrescriptions.map((labelName, index) => ({
+  const uniqPres = [...new Set(allPrescriptions)];
+
+  const data = Object.values(uniqPres).map((labelName, index) => ({
     labelName,
     "plan-0": { labelName, prescriptionMap: allPrescriptionsMap[0] },
     "plan-1": { labelName, prescriptionMap: allPrescriptionsMap[1] },
