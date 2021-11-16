@@ -27,7 +27,6 @@ function getCoveredCheck(isCovered) {
 }
 
 function renderData(prescriptionMap, labelName, effectiveDateString) {
-  console.log({ prescriptionMap, labelName });
   return (
     <>
       {getCoveredCheck(prescriptionMap[labelName].isCovered)}
