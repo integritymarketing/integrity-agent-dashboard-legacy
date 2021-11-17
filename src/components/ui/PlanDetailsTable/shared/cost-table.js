@@ -34,7 +34,7 @@ function EstRxLabel() {
   );
 }
 
-function EstRxValue({ planData, effectiveStartDate }) {
+function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
@@ -42,7 +42,7 @@ function EstRxValue({ planData, effectiveStartDate }) {
     <>
       <span className={"value"}>
         {currencyFormatter.format(planData.estimatedAnnualDrugCostPartialYear)}
-        <span className={"per"}>/year</span>
+        <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
       </span>
       <span className={"subtext"}>
         Estimated based on a {effectiveDateString}
@@ -63,7 +63,7 @@ function TotalEstLabel() {
   );
 }
 
-function TotalEstValue({ planData, effectiveStartDate }) {
+function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
   const monthsRemaining = 12 - effectiveStartDate.getMonth();
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
@@ -76,7 +76,7 @@ function TotalEstValue({ planData, effectiveStartDate }) {
           planData.medicalPremium * monthsRemaining +
             planData.estimatedAnnualDrugCostPartialYear
         )}
-        <span className={"per"}>/year</span>
+        <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
       </span>
       <span className={"subtext"}>
         Estimated based on a {effectiveDateString} effective date.
@@ -146,7 +146,7 @@ export default ({ planData }) => {
   );
 };
 
-export function CostCompareTable({ plans }) {
+export function CostCompareTable({ plans, isFullYear }) {
   const effectiveStartDate = new Date();
   const clonedPlans = useMemo(() => {
     const copyPlans = [...plans];
@@ -186,7 +186,11 @@ export function CostCompareTable({ plans }) {
       label: <EstRxLabel />,
       ...clonedPlans.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? (
-          <EstRxValue planData={plan} effectiveStartDate={effectiveStartDate} />
+          <EstRxValue
+            planData={plan}
+            effectiveStartDate={effectiveStartDate}
+            isFullYear={isFullYear}
+          />
         ) : (
           "-"
         );
@@ -200,6 +204,7 @@ export function CostCompareTable({ plans }) {
           <TotalEstValue
             planData={plan}
             effectiveStartDate={effectiveStartDate}
+            isFullYear={isFullYear}
           />
         ) : (
           "-"

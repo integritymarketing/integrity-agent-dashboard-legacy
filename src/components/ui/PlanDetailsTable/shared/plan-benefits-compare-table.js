@@ -92,7 +92,14 @@ export function PlanBenefitsCompareTable({ plans }) {
     },
   ];
 
-  const data = allPlanBenefits.map((document) => ({
+  const uniqPlans = {};
+  allPlanBenefits.forEach((doc) => {
+    if (!uniqPlans[doc.name]) {
+      uniqPlans[doc.name] = doc;
+    }
+  });
+
+  const data = Object.values(uniqPlans).map((document) => ({
     name: document.name,
     [`plan-0`]: buildData(plans[0], document),
     [`plan-1`]: buildData(plans[1], document),

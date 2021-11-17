@@ -26,13 +26,18 @@ function getCoveredCheck(isCovered) {
   );
 }
 
-function renderData(prescriptionMap, labelName, effectiveDateString) {
+function renderData(
+  prescriptionMap,
+  labelName,
+  effectiveDateString,
+  isFullYear
+) {
   return (
     <>
       {getCoveredCheck(prescriptionMap[labelName].isCovered)}
       <span className={"label comp-pres-label"}>
         {currencyFormatter.format(prescriptionMap[labelName].cost)}{" "}
-        <span className="per">/year</span>
+        <span className="per">{isFullYear ? "/year" : "/partial year"}</span>
       </span>
       <span className={"subtext"}>
         Estimate based on an effective date {effectiveDateString}
@@ -73,7 +78,11 @@ function buildPrescription({ planData, monthsRemaining }) {
   return prescriptionMap;
 }
 
-export function PrescriptionsCompareTable({ plans, prescriptions }) {
+export function PrescriptionsCompareTable({
+  plans,
+  prescriptions,
+  isFullYear,
+}) {
   const clonedPlans = useMemo(() => {
     const copyPlans = [...plans];
     if (plans.length < 3) {
@@ -118,14 +127,15 @@ export function PrescriptionsCompareTable({ plans, prescriptions }) {
               return renderData(
                 prescriptionMap,
                 labelName,
-                effectiveDateString
+                effectiveDateString,
+                isFullYear
               );
             },
           })),
         ],
       },
     ],
-    [clonedPlans, effectiveDateString]
+    [clonedPlans, effectiveDateString, isFullYear]
   );
 
   const allPrescriptions = [];
