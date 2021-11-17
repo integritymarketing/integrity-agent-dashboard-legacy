@@ -8,7 +8,7 @@ export default function Help({ icon, text, labelName, handleClick }) {
       <img src={icon} className="help-icon" alt=""></img>
       <div className="help-text">
         {text}{" "}
-        <a href={() => false} onClick={handleClick} className="help-click">
+        <a href="# " onClick={handleClick} className="help-click">
           {labelName}&nbsp;&nbsp;
           <img
             onClick={handleClick}

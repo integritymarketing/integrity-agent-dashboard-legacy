@@ -64,15 +64,32 @@ class ClientsService {
     return fetch(path, opts);
   };
 
-  getList = async (page, pageSize, sort, filterId, searchText, leadIds) => {
-    const params = {
+  getList = async (
+    page,
+    pageSize,
+    sort,
+    searchText,
+    leadIds,
+    contactRecordType = "",
+    stages = [],
+    hasReminder = false
+  ) => {
+    let params = {
       PageSize: pageSize,
       CurrentPage: page,
       Sort: sort,
-      FilterId: filterId,
       Search: searchText,
       leadIds,
     };
+    if (hasReminder) {
+      params.HasReminder = hasReminder;
+    }
+    if (contactRecordType !== "") {
+      params.ContactRecordType = contactRecordType;
+    }
+    if (stages && stages.length > 0) {
+      params.Stage = stages;
+    }
 
     const queryStr = Object.keys(params)
       .map((key) => {
@@ -80,6 +97,9 @@ class ClientsService {
           return (params[key] || [])
             .map((leadId) => `${key}=${leadId}`)
             .join("&");
+        }
+        if (key === "Stage") {
+          return stages.map((stageId) => `${key}=${stageId}`).join("&");
         }
         return params[key] ? `${key}=${params[key]}` : null;
       })
@@ -344,6 +364,12 @@ class ClientsService {
       lastName,
       leadId,
     };
+    // don't attempt call if either are empty
+    // as it will throw a 400 and fill up the logs.
+    if (!email && !phones?.leadPhone) {
+      return {};
+    }
+
     if (email) {
       reqData.emails = [
         {
@@ -359,6 +385,7 @@ class ClientsService {
         },
       ];
     }
+
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/GetDuplicateContact`,
       "POST",

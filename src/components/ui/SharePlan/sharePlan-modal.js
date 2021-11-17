@@ -2,10 +2,12 @@ import React, { useState, useMemo, useEffect, useContext } from "react";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
 import Media from "react-media";
+import analyticsService from "services/analyticsService";
 import AuthContext from "contexts/auth";
 import plansService from "services/plansService";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
+import CheckboxGroup from "components/ui/CheckboxGroup";
 import CompactPlanCard from "../PlanCard/compact";
 import Radio from "components/ui/Radio";
 import { Button } from "../Button";
@@ -56,6 +58,8 @@ export default ({
   const [errors, setErrors] = useState("");
   const [user, setUser] = useState({});
   const [hasFocus, setFocus] = useState(false);
+  const [isDocumentsSelected, setIsDocumentsSelected] = useState(false);
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -64,6 +68,14 @@ export default ({
     };
     getData();
   }, [auth, modalOpen]);
+
+  useEffect(() => {
+    if (modalOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Share Plans",
+      });
+    }
+  }, [modalOpen]);
 
   const mobile = useMemo(
     () => (formattedMobile ? ("" + formattedMobile).replace(/\D/g, "") : ""),
@@ -85,8 +97,23 @@ export default ({
   };
 
   const summaryBenfitURL = () => {
-    const result = documents.map((d) => ({ key: d.name, value: d.url }));
+    const result = selectedDocuments.map((d) => ({
+      key: d.name,
+      value: d.url,
+    }));
     return result;
+  };
+
+  const handleCleanUp = () => {
+    setSelectOption("");
+    setEmail("");
+    setErrors("");
+    setFormattedMobile("");
+    setUser({});
+    setSelectLabel("email");
+    handleCloseModal();
+    setIsDocumentsSelected(false);
+    setSelectedDocuments([]);
   };
 
   const enroll = async () => {
@@ -94,6 +121,7 @@ export default ({
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
     const agentPhoneNumber = user?.phone;
+
     try {
       let payload = {
         leadFirstName: firstName,
@@ -146,13 +174,7 @@ export default ({
         message: "Failed to share plan",
       });
     } finally {
-      setSelectOption("");
-      setEmail("");
-      setErrors("");
-      setFormattedMobile("");
-      setUser({});
-      setSelectLabel("email");
-      handleCloseModal();
+      handleCleanUp();
     }
   };
 
@@ -164,6 +186,20 @@ export default ({
     }
     return !selectOption;
   }, [selectOption, selectLabel, mobile, email]);
+
+  const handleOnDocumentChange = (e) => {
+    const { checked, value: name } = e.target;
+    const value = documents.filter(document => document.name === name)[0];
+    const result = checked
+      ? [...selectedDocuments, value]
+      : selectedDocuments.filter((document) => document.name !== value.name);
+    setSelectedDocuments(result);
+  };
+
+  const handleContinue = (e) => {
+    e.preventDefault();
+    setIsDocumentsSelected(true);
+  };
 
   return (
     <Media
@@ -193,112 +229,153 @@ export default ({
                   </h2>
                 </div>
                 {planData && <CompactPlanCard planData={planData} />}
-                <div className={"shareplan-label"}>
-                  How do you want to share this plan?
-                </div>
-                <div className="select-scope-radios">
-                  <Radio
-                    id="email"
-                    htmlFor="email"
-                    label={`Email (${leadEmail})`}
-                    name="share-plan"
-                    value="email"
-                    checked={selectOption === "email"}
-                    onChange={(event) =>
-                      setSelectOption(event.currentTarget.value)
-                    }
-                  />
-                  <Radio
-                    id="textMessage"
-                    htmlFor="textMessage"
-                    label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
-                    name="share-plan"
-                    value="textMessage"
-                    checked={selectOption === "textMessage"}
-                    onChange={(event) =>
-                      setSelectOption(event.currentTarget.value)
-                    }
-                  />
-                  <Radio
-                    id="newEmailOrMobile"
-                    htmlFor="newEmailOrMobile"
-                    label="New email or mobile number"
-                    name="share-plan"
-                    value="newEmailOrMObile"
-                    checked={selectOption === "newEmailOrMObile"}
-                    onChange={(event) =>
-                      setSelectOption(event.currentTarget.value)
-                    }
-                  />
-                </div>
-                {selectOption === "newEmailOrMObile" && (
-                  <div className="new-email-or-mobile">
-                    <Select
-                      className="mr-2"
-                      options={EMAIL_MOBILE_LABELS}
-                      style={{ width: "140px" }}
-                      initialValue="email"
-                      providerModal={true}
-                      onChange={setSelectLabel}
-                      showValueAlways={true}
+                {isDocumentsSelected ? (
+                  <>
+                    <div className={"shareplan-label"}>
+                      How do you want to share this plan?
+                    </div>
+                    <div className="select-scope-radios">
+                      <Radio
+                        id="email"
+                        data-gtm="input-share-plans"
+                        htmlFor="email"
+                        label={`Email (${leadEmail})`}
+                        name="share-plan"
+                        value="email"
+                        checked={selectOption === "email"}
+                        onChange={(event) =>
+                          setSelectOption(event.currentTarget.value)
+                        }
+                      />
+                      <Radio
+                        id="textMessage"
+                        data-gtm="input-share-plans"
+                        htmlFor="textMessage"
+                        label={`Text Message (${__formatPhoneNumber(
+                          leadPhone
+                        )})`}
+                        name="share-plan"
+                        value="textMessage"
+                        checked={selectOption === "textMessage"}
+                        onChange={(event) =>
+                          setSelectOption(event.currentTarget.value)
+                        }
+                      />
+                      <Radio
+                        id="newEmailOrMobile"
+                        data-gtm="input-share-plans"
+                        htmlFor="newEmailOrMobile"
+                        label="New email or mobile number"
+                        name="share-plan"
+                        value="newEmailOrMObile"
+                        checked={selectOption === "newEmailOrMObile"}
+                        onChange={(event) =>
+                          setSelectOption(event.currentTarget.value)
+                        }
+                      />
+                    </div>
+                    {selectOption === "newEmailOrMObile" && (
+                      <div className="new-email-or-mobile">
+                        <Select
+                          className="mr-2"
+                          options={EMAIL_MOBILE_LABELS}
+                          style={{ width: "140px" }}
+                          initialValue="email"
+                          providerModal={true}
+                          onChange={setSelectLabel}
+                          showValueAlways={true}
+                        />
+                        {selectLabel === "email" && (
+                          <div className="email-mobile-section">
+                            <input
+                              type="text"
+                              data-gtm="input-share-plans"
+                              onFocus={() => setFocus(true)}
+                              onBlur={() => setFocus(false)}
+                              placeholder={hasFocus ? "" : "Enter email"}
+                              value={email}
+                              className={`${
+                                errors && "error-class"
+                              } text-input`}
+                              onChange={(e) => {
+                                handleSetEmail(e.currentTarget.value);
+                              }}
+                            />
+                            {errors && (
+                              <span className="validation-msg">{errors}</span>
+                            )}
+                          </div>
+                        )}
+                        {selectLabel === "mobile" && (
+                          <div className="email-mobile-section">
+                            <input
+                              type="text"
+                              data-gtm="input-share-plans"
+                              onFocus={() => setFocus(true)}
+                              onBlur={() => setFocus(false)}
+                              placeholder={hasFocus ? "" : "XXX-XXX-XXXX"}
+                              value={formattedMobile}
+                              maxLength="10"
+                              className={`${
+                                mobile.length !== 10 && mobile.length !== 0
+                                  ? "error-class"
+                                  : ""
+                              } text-input`}
+                              onChange={(e) => {
+                                setFormattedMobile(
+                                  formatPhoneNumber(
+                                    e.currentTarget.value.replace(/\D/g, "")
+                                  )
+                                );
+                              }}
+                            />
+                            {mobile.length !== 10 && mobile.length !== 0 && (
+                              <span className="validation-msg">
+                                Invalid mobile number
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="document-wrapper">
+                    <div className={"shareplan-label"}>
+                      What documents do you want to share?
+                    </div>
+                    <CheckboxGroup
+                      checkboxes={documents.map((document) => {
+                        return {
+                          label: document.name,
+                          id: document.name,
+                          name: "documents",
+                          value: document.name,
+                          onChange: handleOnDocumentChange,
+                        };
+                      })}
                     />
-                    {selectLabel === "email" && (
-                      <div className="email-mobile-section">
-                        <input
-                          type="text"
-                          onFocus={() => setFocus(true)}
-                          onBlur={() => setFocus(false)}
-                          placeholder={hasFocus ? "" : "Enter email"}
-                          value={email}
-                          className={`${errors && "error-class"} text-input`}
-                          onChange={(e) => {
-                            handleSetEmail(e.currentTarget.value);
-                          }}
-                        />
-                        {errors && (
-                          <span className="validation-msg">{errors}</span>
-                        )}
-                      </div>
-                    )}
-                    {selectLabel === "mobile" && (
-                      <div className="email-mobile-section">
-                        <input
-                          type="text"
-                          onFocus={() => setFocus(true)}
-                          onBlur={() => setFocus(false)}
-                          placeholder={hasFocus ? "" : "XXX-XXX-XXXX"}
-                          value={formattedMobile}
-                          maxLength="10"
-                          className={`${
-                            mobile.length !== 10 && mobile.length !== 0
-                              ? "error-class"
-                              : ""
-                          } text-input`}
-                          onChange={(e) => {
-                            setFormattedMobile(
-                              formatPhoneNumber(
-                                e.currentTarget.value.replace(/\D/g, "")
-                              )
-                            );
-                          }}
-                        />
-                        {mobile.length !== 10 && mobile.length !== 0 && (
-                          <span className="validation-msg">
-                            Invalid mobile number
-                          </span>
-                        )}
-                      </div>
-                    )}
                   </div>
                 )}
                 <div className={"footer"}>
-                  <Button
-                    label="Share"
-                    onClick={enroll}
-                    disabled={idFormNotValid}
-                  />
+                  {isDocumentsSelected ? (
+                    <Button
+                      label="Share"
+                      data-gtm="button-share"
+                      onClick={enroll}
+                      disabled={idFormNotValid}
+                    />
+                  ) : (
+                    <Button
+                      label="Continue"
+                      data-gtm="button-continue"
+                      onClick={handleContinue}
+                      disabled={selectedDocuments.length === 0}
+                    />
+                  )}
                   <Button
                     fullWidth={matches.mobile}
+                    data-gtm="button-cancel"
                     label={"Cancel"}
                     onClick={handleCloseModal}
                     type="secondary"

@@ -59,6 +59,7 @@ export const Select = ({
   providerModal,
   showValueAlways = false,
   error,
+  containerHeight = 0,
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -66,7 +67,7 @@ export const Select = ({
 
   const { height: windowHeight } = useWindowSize();
 
-  useOnClickOutside(ref, () => { 
+  useOnClickOutside(ref, () => {
     setIsOpen(false);
     if (isOpen) {
       onBlur && onBlur();
@@ -89,7 +90,7 @@ export const Select = ({
     ev && ev.preventDefault();
     setIsOpen((isOpen) => !isOpen && !disabled);
     if (isOpen) {
-     onBlur && onBlur();
+      onBlur && onBlur();
     }
   };
 
@@ -105,20 +106,27 @@ export const Select = ({
 
   const heightStyle = useMemo(() => {
     const top = isOpen ? ref?.current?.getBoundingClientRect().top + 40 : 40;
-    return windowHeight
+    return containerHeight || windowHeight
       ? {
-          maxHeight: Math.max(
-            Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
-            Math.min(selectableOptions.length + 1, 3) * 40
-          ) + 2,
+          maxHeight:
+            containerHeight ||
+            Math.max(
+              Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
+              Math.min(selectableOptions.length + 1, 3) * 40
+            ) + 2,
         }
       : {
           maxHeight: 0,
         };
-  }, [selectableOptions.length, isOpen, windowHeight]);
+  }, [selectableOptions.length, isOpen, containerHeight, windowHeight]);
 
   const inputBox = (
-    <div className={`${error ? 'has-error' : ''} ${showValueAlways ? 'show-always' : ''} inputbox`} onClick={toggleOptionsMenu}>
+    <div
+      className={`${error ? "has-error" : ""} ${
+        showValueAlways ? "show-always" : ""
+      } inputbox`}
+      onClick={toggleOptionsMenu}
+    >
       {value ? (
         <Option
           prefix={prefix}
@@ -131,7 +139,7 @@ export const Select = ({
       <ArrowDownIcon />
     </div>
   );
-  const selectBox = mobileLabel ?  (
+  const selectBox = mobileLabel ? (
     <div className="selectbox" onClick={toggleOptionsMenu}>
       {mobileLabel}
     </div>

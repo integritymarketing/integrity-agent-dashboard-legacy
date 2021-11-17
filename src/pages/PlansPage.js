@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import * as Sentry from "@sentry/react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import GlobalNav from "partials/global-nav-v2";
@@ -27,6 +27,8 @@ import PharmacyFilter from "components/ui/PharmacyFilter";
 import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
 import analyticsService from "services/analyticsService";
+import { formatDate } from "utils/dates";
+import { PlanPageFooter } from "./PlanPageFooter";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -94,8 +96,27 @@ const EFFECTIVE_YEARS_SUPPORTED = [
   parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
 ];
 
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 export default () => {
   const { contactId: id } = useParams();
+  const query = useQuery();
+  const showSelected = query && query.get("preserveSelected");
+  const jsonStr = sessionStorage.getItem("__plans__");
+  const { plans: initialPlans, effectiveDate: initialEffectiveDate } = jsonStr
+    ? JSON.parse(jsonStr)
+    : {};
+  const initialMonth =
+    showSelected && initialEffectiveDate
+      ? parseInt(initialEffectiveDate?.split("-")?.[1], 10)
+      : null;
+  const initialeffDate = initialMonth
+    ? getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED, initialMonth - 1)
+    : null;
+  const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
   const history = useHistory();
   const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
@@ -108,12 +129,18 @@ export default () => {
   const [sort, setSort] = useState(PLAN_SORT_OPTIONS[0].value);
   const [isEdit, setIsEdit] = useState(false);
   const [effectiveDate, setEffectiveDate] = useState(
-    getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
+    initialeffDate || getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
   );
   const [results, setResults] = useState([]);
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
+  const [selectedPlans, setSelectedPlans] = useState(
+    initialSelectedPlans.reduce((acc, p) => {
+      acc[p.id] = true;
+      return acc;
+    }, {})
+  );
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
@@ -392,18 +419,20 @@ export default () => {
                       leadId={id}
                       pharmacies={pharmacies}
                       planType={planType}
+                      selectedPlans={selectedPlans}
+                      setSelectedPlans={setSelectedPlans}
                     />
                     {!plansLoading && filteredPlansCount > 0 && (
                       <>
-                      <BackToTop />
-                      <Pagination
-                        currentPage={currentPage}
-                        resultName="plans"
-                        totalPages={Math.ceil(filteredPlansCount / 10)}
-                        totalResults={filteredPlansCount}
-                        pageSize={pageSize}
-                        onPageChange={(page) => setCurrentPage(page)}
-                      />
+                        <BackToTop />
+                        <Pagination
+                          currentPage={currentPage}
+                          resultName="plans"
+                          totalPages={Math.ceil(filteredPlansCount / 10)}
+                          totalResults={filteredPlansCount}
+                          pageSize={pageSize}
+                          onPageChange={(page) => setCurrentPage(page)}
+                        />
                       </>
                     )}
                   </div>
@@ -424,6 +453,14 @@ export default () => {
               </Container>
             )}
           </WithLoader>
+          <PlanPageFooter
+            leadId={id}
+            effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
+            plans={pagedResults?.filter((plan) => selectedPlans[plan.id])}
+            onRemove={(plan) => {
+              setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
+            }}
+          />
         </div>
       </ToastContextProvider>
     </>

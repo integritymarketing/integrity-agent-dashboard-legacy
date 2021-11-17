@@ -40,8 +40,6 @@ The portal app should now be running on http://localhost:3000/
 
 The auth app is a separate react app that controls the front-end for Identity Server (authentication).
 
-##### Part 1
-
 For local development, you can run the front-end auth app in a similar way to the portal:
 
 1. Add a `.env` file to project root
@@ -51,41 +49,10 @@ For local development, you can run the front-end auth app in a similar way to th
 
 The auth app should be running on http://localhost:3001/
 
-##### Part 2
+Note that w/ current environments, you need to request a config chance to the identity server dev app to do local development on the auth app forms.
 
-You will also need to clone the Identity Server code base and run it locally.
+In the future, the data team plans to build a separate 'localhost' environment to enable easier local dev for the auth app.
 
-1. Download Visual Studio
-2. Clone the Identity Server project within VS (after adding your ssh key)
-
-`IntegrityMarketing@vs-ssh.visualstudio.com:v3/IntegrityMarketing/AgentEnablement/ae-identity-service`
-
-3. check out the `feature/local-dev` branch
-
-4. request non-versioned key vault values for `appsettings.Development.json` file in the project root. eg
-
-```
-  "KeyVault": {
-    "Vault": "",
-    "ClientId": "",
-    "ClientSecret": ""
-  }
-```
-
-5. run the project in visual studio (by default, this will run on http://localhost:5000)
-
-6. note, SSL is required to run Identity Server locally. Either set-up a local SSL cert, or use a reverse proxy like ngrok to setup an SSL connection to port 5000.
-
-7. in the `.env.local` config file (used for both auth + portal apps), set the following env vars to the https version of identity server eg
-
-```
-REACT_APP_AUTH_AUTHORITY_URL="https://dd23a78795e6.ngrok.io"
-REACT_APP_AUTH_BASE_URL="https://dd23a78795e6.ngrok.io"
-```
-
-(restart the portal + auth app after updating env vars)
-
-Phew!
 
 ### Key Libraries & Frameworks
 
@@ -164,12 +131,13 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 
 ## Releases
 
-1. To prepare a release, a PR from `develop` -> `release` (or `hotfix/name-of-fix` -> `release`) should be initiated.
-2. The new version number should be set for each release in the netlify.toml file under then `REACT_APP_VERSION` variable. This version variable is tied directly to the Sentry integration.
-3. Merging the PR will create a release build in both the UAT and QA [environments](#environements).
-4. Once the build has passed QA, create a PR from `release` -> `master`.
-5. Merging this PR will create and publish a build on stage, as well as create an un-published build in the production site.
-6. Once the release build is merged to master, a github release should be created with the appropriate version tag (eg `1.0.2`).
+1. To prepare a normal release, a PR from `develop` -> `release`.  The PR should be titled as a release candidate (RC), and should be in the format `RC-major.minor.micro` (eg RC-2.1.2) to indicate the release candidate version number.  (Alternatively, if a hotfix release is needed, a PR should be cut from the current release branch, and targetted to release w/ the format `Hotfix-major.minor.micro.hotfix_num`)
+3. The new version number should be set for each release in the package.json file. This version variable is tied directly to the Sentry integration and is automatically added to the Netlify build.
+4. When ready for UAT testing, merging the RC or Hotfix PR to release will create and publish a release build in both the UAT and Stage [environments](#environments).  It will also create a build in the production environment, however production builds need to be manually published.
+5. Once everything is good on UAT and/or Stage, open a new PR titled `Release major.minor.micro` from `release` -> `main`.
+6. Releasing to producting is as simple as publishing the latest release build that is currently on prod, but un-published.  (NOTE:  it is important that you publish the build in both the main medicare center app, as well as the auth app.  Usually there are no changes to the auth app, but it's good to keep it up-to-date and at the same version as the main production app).
+7. Rolling back:  In the event a rollback is needed, simply re-publish the last build that was live in production.  On Netlify, this will swap the build out in less than a second. 
+8. Once the release build on production has been smoke tested and cleared, merge the Release PR into Main, then draft and publish a new release in github (which also tags the release).  The tag should be created with the appropriate version tag in the format (eg `v2.1.2`).  Documenting the new release happens [here in github](https://github.com/integritymarketing/ae-agent-portal/releases).
 
 ## Error logging
 
@@ -177,7 +145,7 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 
 ## Environments
 
-All builds are automatically created via Netlify's out of the box CI/CD build process to the five environments below.
+All builds are automatically created via Netlify's out of the box CI/CD build process to the environments documented below.
 There are two build targets. App + Auth
 
 ### Build Target: Portal App

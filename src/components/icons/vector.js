@@ -12,9 +12,9 @@ export default (props) => {
       <path
         d="M14.6666 1.33398L9.99998 14.6673L7.33331 8.66732L1.33331 6.00065L14.6666 1.33398Z"
         stroke="#0052CE"
-        stroke-width="1.875"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.875"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

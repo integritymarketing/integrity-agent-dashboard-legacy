@@ -6,11 +6,17 @@ import MapdProvidersTable from "components/ui/PlanDetailsTable/shared/providers-
 import MapdPrescriptionsTable from "components/ui/PlanDetailsTable/shared/prescriptions-table";
 import MapdPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
 import MapdPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-table";
-import MapdPharmacyCoverageTable from "components/ui/PlanDetailsTable/shared/pharmacy-coverage-table";
-import MapdTierPharmacyCoverage from "components/ui/PlanDetailsTable/mapd/tier-pharmacy-coverage";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
+import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
 
-export default ({ plan, isMobile, styles, onEnrollClick, onShareClick, pharmacies }) => {
+export default ({
+  plan,
+  isMobile,
+  styles,
+  onEnrollClick,
+  onShareClick,
+  pharmacies,
+}) => {
   const costsRef = useRef(null);
   const providersRef = useRef(null);
   const prescriptionsRef = useRef(null);
@@ -22,6 +28,11 @@ export default ({ plan, isMobile, styles, onEnrollClick, onShareClick, pharmacie
   const preferredMailOrderPharmacyCoverageRef = useRef(null);
   const standardMailOrderPharmacyCoverageRef = useRef(null);
   const planDocumentsRef = useRef(null);
+  const {
+    hasPreferredRetailPharmacyNetwork,
+    hasPreferredMailPharmacyNetwork,
+    hasMailDrugBenefits,
+  } = plan;
   return (
     <>
       <div className={`${styles["left"]}`}>
@@ -61,21 +72,33 @@ export default ({ plan, isMobile, styles, onEnrollClick, onShareClick, pharmacie
               label: "Pharmacy Coverage",
             },
             {
-              id: "preferredRetailPharmacyCoverage",
-              label: "Preferred Retail Pharmacy Coverage",
-            },
-            {
               id: "standardRetailPharmacyCoverage",
               label: "Standard Retail Pharmacy Coverage",
             },
-            {
-              id: "preferredMailOrderPharmacyCoverage",
-              label: "Preferred Mail Order Pharmacy Coverage",
-            },
-            {
-              id: "standardMailOrderPharmacyCoverage",
-              label: "Standard Mail Order Pharmacy Coverage",
-            },
+            ...(hasPreferredRetailPharmacyNetwork
+              ? [
+                  {
+                    id: "preferredRetailPharmacyCoverage",
+                    label: "Preferred Retail Pharmacy Coverage",
+                  },
+                ]
+              : []),
+            ...(hasPreferredMailPharmacyNetwork
+              ? [
+                  {
+                    id: "preferredMailOrderPharmacyCoverage",
+                    label: "Preferred Mail Order Pharmacy Coverage",
+                  },
+                ]
+              : []),
+            ...(hasMailDrugBenefits
+              ? [
+                  {
+                    id: "standardMailOrderPharmacyCoverage",
+                    label: "Standard Mail Order Pharmacy Coverage",
+                  },
+                ]
+              : []),
             {
               id: "planDocuments",
               label: "Plan Documents",
@@ -88,11 +111,17 @@ export default ({ plan, isMobile, styles, onEnrollClick, onShareClick, pharmacie
             pharmacy: pharmacyRef,
             planBenefits: planBenefitsRef,
             pharmacyCoverage: pharmacyCoverageRef,
-            preferredRetailPharmacyCoverage: preferredRetailPharmacyCoverageRef,
-            standardRetailPharmacyCoverage: standardRetailPharmacyCoverageRef,
-            preferredMailOrderPharmacyCoverage: preferredMailOrderPharmacyCoverageRef,
-            standardMailOrderPharmacyCoverage: standardMailOrderPharmacyCoverageRef,
             planDocuments: planDocumentsRef,
+            standardRetailPharmacyCoverage: standardRetailPharmacyCoverageRef,
+            ...(hasPreferredRetailPharmacyNetwork && {
+              preferredRetailPharmacyCoverage: preferredRetailPharmacyCoverageRef,
+            }),
+            ...(hasPreferredMailPharmacyNetwork && {
+              preferredMailOrderPharmacyCoverage: preferredMailOrderPharmacyCoverageRef,
+            }),
+            ...(hasMailDrugBenefits && {
+              standardMailOrderPharmacyCoverage: standardMailOrderPharmacyCoverageRef,
+            }),
           }}
         />
       </div>
@@ -126,64 +155,17 @@ export default ({ plan, isMobile, styles, onEnrollClick, onShareClick, pharmacie
         <div ref={planBenefitsRef} className={`${styles["plan-benefits"]}`}>
           {plan && <MapdPlanBenefitsTable planData={plan} />}
         </div>
-        <div
-          ref={pharmacyCoverageRef}
-          className={`${styles["pharmacy-coverage"]}`}
-        >
-          {plan && <MapdPharmacyCoverageTable planData={plan} />}
-        </div>
-        <div
-          ref={preferredRetailPharmacyCoverageRef}
-          className={`${styles["preferred-retail-pharmacy"]}`}
-        >
-          {plan && (
-            <MapdTierPharmacyCoverage
-              header={"Preferred Retail Pharmacy Coverage"}
-              planData={plan}
-              isPreffered={true}
-              isRetail={true}
-            />
-          )}
-        </div>
-        <div
-          ref={standardRetailPharmacyCoverageRef}
-          className={`${styles["standard-retail-pharmacy"]}`}
-        >
-          {plan && (
-            <MapdTierPharmacyCoverage
-              header={"Standard Retail Pharmacy Coverage"}
-              planData={plan}
-              isPreffered={false}
-              isRetail={true}
-            />
-          )}
-        </div>
-        <div
-          ref={preferredMailOrderPharmacyCoverageRef}
-          className={`${styles["preferred-mail-order-pharmacy"]}`}
-        >
-          {plan && (
-            <MapdTierPharmacyCoverage
-              header={"Preferred Mail Order Pharmacy Coverage"}
-              planData={plan}
-              isPreffered={true}
-              isRetail={false}
-            />
-          )}
-        </div>
-        <div
-          ref={standardMailOrderPharmacyCoverageRef}
-          className={`${styles["standard-mail-order-pharmacy"]}`}
-        >
-          {plan && (
-            <MapdTierPharmacyCoverage
-              header={"Standard Mail Order Pharmacy Coverage"}
-              planData={plan}
-              isPreffered={false}
-              isRetail={false}
-            />
-          )}
-        </div>
+        <PlanDetailsPharmacyCoverageContent
+          plan={plan}
+          styles={styles}
+          refs={{
+            pharmacyCoverageRef,
+            preferredRetailPharmacyCoverageRef,
+            standardRetailPharmacyCoverageRef,
+            preferredMailOrderPharmacyCoverageRef,
+            standardMailOrderPharmacyCoverageRef,
+          }}
+        />
         <div ref={planDocumentsRef} className={`${styles["plan-documents"]}`}>
           <PlanDocumentsTable planData={plan} />
         </div>

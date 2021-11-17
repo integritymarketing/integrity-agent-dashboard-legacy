@@ -55,18 +55,26 @@ export const StageStatusProvider = (props) => {
     }));
   }, [allStatuses]);
 
+  const lostSubStatusesOptions = useMemo(() => {
+    return allStatuses
+      .filter(({ statusName }) => statusName === "Lost")[0]
+      ?.leadSubStatus?.map(({ leadStatusId: value, statusName: label }) => ({
+        value,
+        label,
+      }));
+  }, [allStatuses]);
+
   useEffect(() => {
     const doFetch = async () => {
       const statuses = await clientsService.getStatuses();
       setAllStatuses(statuses);
     };
-
     doFetch();
   }, []);
 
   return (
     <StageStatusContext.Provider
-      value={{ allStatuses, statusOptions, colorCodes }}
+      value={{ allStatuses, statusOptions, lostSubStatusesOptions, colorCodes }}
       {...props}
     />
   );

@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
+import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
 import { Select } from "components/ui/Select";
@@ -6,24 +7,58 @@ import clientsService from "services/clientsService";
 import useToast from "../../../hooks/useToast";
 import StageStatusContext from "contexts/stageStatus";
 import analyticsService from "services/analyticsService";
-import Media from "react-media";
+import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisposition";
+import stageSummaryContext from "contexts/stageSummary";
 
-export default ({ value, original }) => {
-  const { allStatuses, statusOptions } = useContext(StageStatusContext);
+export default ({ value, original, onRefresh }) => {
+  const { allStatuses, statusOptions, lostSubStatusesOptions } = useContext(
+    StageStatusContext
+  );
+  if (!lostSubStatusesOptions) return null;
+  const [selectedValue, setSelectedValue] = useState(() => {
+    return value
+      ? lostSubStatusesOptions?.filter((opt) => opt.label === value).length > 0
+        ? "Lost"
+        : value
+      : "New";
+  });
+  const { loadStageSummaryData } = useContext(stageSummaryContext);
   const addToast = useToast();
   const [isMobile, setIsMobile] = useState(false);
-
-  const handleChangeStatus = async (val) => {
+  const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
+  const onLostReasonModalCancel = () => {
+    setIsLostReasonModalOpen(false);
+    setSelectedValue(value || "New");
+  };
+  const handleChangeStatus = async (val, leadSubStatus) => {
+    setSelectedValue(val);
+    if (val === "Lost" && !leadSubStatus) {
+      setIsLostReasonModalOpen(true);
+      return;
+    }
+    setIsLostReasonModalOpen(false);
     analyticsService.fireEvent("event-sort", {
       clickedItemText: `Sort: ${val}`,
     });
     try {
+      const subSelectPayload =
+        leadSubStatus?.length > 0
+          ? {
+              leadSubStatus,
+            }
+          : {};
       const response = await clientsService.updateClient(original, {
         ...original,
-        leadStatusId: allStatuses.find((status) => status.statusName === val)
-          ?.leadStatusId,
+        leadStatusId:
+          leadSubStatus?.length > 0
+            ? leadSubStatus[0]?.leadStatusId
+            : allStatuses.find((status) => status.statusName === val)
+                ?.leadStatusId,
+        ...subSelectPayload,
       });
       if (response.ok) {
+        await loadStageSummaryData();
+        onRefresh();
         addToast({
           type: "success",
           message: "Contact successfully updated.",
@@ -39,19 +74,29 @@ export default ({ value, original }) => {
     } catch (e) {
       Sentry.captureException(e);
     }
+    return false;
   };
-
-  const filteredStatuses = statusOptions.filter((opt) => {
-    if (
-      original.contactRecordType &&
-      original.contactRecordType.toLowerCase() === "client"
-    ) {
-      return opt.value !== "New";
-    }
-    return opt.value !== "Renewal";
-  });
+  const filteredStatuses = useMemo(
+    () =>
+      statusOptions.filter((opt) => {
+        if (
+          original.contactRecordType &&
+          original.contactRecordType.toLowerCase() === "client"
+        ) {
+          return opt.value !== "New";
+        }
+        return opt.value !== "Renewal";
+      }),
+    [statusOptions, original]
+  );
   return (
     <React.Fragment>
+      <LostStageDisposition
+        open={isLostReasonModalOpen}
+        onClose={onLostReasonModalCancel}
+        onSubmit={handleChangeStatus}
+        subStatuses={lostSubStatusesOptions}
+      />
       <Media
         query={"(max-width: 500px)"}
         onChange={(isMobile) => {
@@ -64,7 +109,7 @@ export default ({ value, original }) => {
           onChange={(e) => handleChangeStatus(e.target.value)}
         >
           {filteredStatuses.map((sts) => (
-            <option value={sts.value} selected={value === sts.value}>
+            <option value={sts.value} selected={selectedValue === sts.value}>
               {sts.label}
             </option>
           ))}
@@ -72,7 +117,7 @@ export default ({ value, original }) => {
       ) : (
         <Select
           Option={ColorOptionRender}
-          initialValue={value || "New"}
+          initialValue={selectedValue || "New"}
           placeholder="Stage"
           options={filteredStatuses}
           onChange={handleChangeStatus}

@@ -7,9 +7,8 @@
   padding: 16px 32px;
   background: var(--v2-white);
 
-
-  &.no-plan-results{
-      padding: 80px;
+  &.no-plan-results {
+    padding: 80px;
   }
 
   .header {
@@ -248,15 +247,23 @@
     }
   }
 
+  .overview-footer {
+    justify-content: flex-end !important;
+  }
+
   .footer {
     border-top: 1px solid #cbd5e1;
     margin: 0 -30px;
     display: flex;
     font-weight: bold;
-    justify-content: flex-end;
     padding-right: 32px;
     padding-top: 16px;
     padding-left: 16px;
+    justify-content: space-between;
+
+    .plan-btn-container {
+      display: flex;
+    }
 
     .button {
       margin-left: 16px;
@@ -277,5 +284,30 @@
 
   &.plan-card-compact .footer {
     border: none;
+  }
+
+  .compare-check {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 15px;
+
+    .compare-inpt {
+      margin-top: 2px;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+    }
+
+    .compare-txt {
+      margin-left: 5px;
+      font-family: Lato;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 150%;
+      color: #64748b;
+    }
   }
 }

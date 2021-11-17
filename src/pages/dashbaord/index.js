@@ -9,7 +9,7 @@ import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
-import Tooltip from "components/ui/Tooltip";
+import Popover from "components/ui/Popover";
 import LastUpdatedIcon from "components/icons/last-updated";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
@@ -19,23 +19,13 @@ import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
 import ActivityTable from "./ActivityTable";
 import Help from "./Help";
+import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
 import Morning from "./morning.svg";
 import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
-
-const SORT_BY_ORDER = {
-  New: 1,
-  Renewal: 2,
-  Contacted: 3,
-  SoaSent: 4,
-  SoaSigned: 5,
-  Quoted: 6,
-  Applied: 7,
-  Enrolled: 8,
-};
 
 const ActionButton = ({ row, onClick }) => {
   return (
@@ -76,7 +66,6 @@ export default function Dashbaord() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
-  const [snapshotData, setSnapshotData] = useState([]);
   const [activityData, setActivityData] = useState({
     pageResult: {
       total: 0,
@@ -90,14 +79,27 @@ export default function Dashbaord() {
   const addToast = useToast();
   const auth = useContext(AuthContext);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
+  const { stageSummaryData, loadStageSummaryData } = useContext(
+    stageSummaryContext
+  );
 
   useEffect(() => {
-    const getData = async () => {
+    const loadAsyncData = async () => {
       const user = await auth.getUser();
       setUser(user.profile);
     };
-    getData();
+
+    loadAsyncData();
   }, [auth]);
+
+  useEffect(() => {
+    const loadAsyncData = async () => {
+      await loadStageSummaryData();
+    };
+    loadAsyncData();
+    // ensure this only runs once.. adding a dependency w/ the stage summary data causes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onLoadMore = async () => {
     const pageSize = activityData?.pageResult?.pageSize;
@@ -120,20 +122,10 @@ export default function Dashbaord() {
     const getDashboardData = async () => {
       setIsLoading(true);
       try {
-        await Promise.all([
-          clientService.getDashbaordSummary().then((response) => {
-            setSnapshotData(
-              response.sort((a, b) => {
-                return (
-                  (SORT_BY_ORDER[a.statusName] || 1000) -
-                  (SORT_BY_ORDER[b.statusName] || 1000)
-                );
-              })
-            );
-          }),
-          clientService.getApplicationCount(sortByRange).then(setDashboardData),
-          onLoadMore(),
-        ]);
+        await clientService
+          .getApplicationCount(sortByRange)
+          .then(setDashboardData);
+        onLoadMore();
       } catch (err) {
         Sentry.captureException(err);
         addToast({
@@ -200,8 +192,8 @@ export default function Dashbaord() {
     }
   };
 
-  const navigateToContactListPage = (status) => {
-    history.push(`/contacts/list?status=${status}`);
+  const navigateToContactListPage = (id) => {
+    history.push(`/contacts/list?Stage=${id}`);
   };
 
   return (
@@ -261,30 +253,35 @@ export default function Dashbaord() {
             <div className="snapshot-wrapper">
               <div className="title">
                 Client Snapshot&nbsp;&nbsp;
-                <Tooltip
-                  content="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
-                  direction="right"
+                <Popover
+                  openOn="hover"
+                  icon={<Info />}
+                  title={"Client Snapshot"}
+                  description="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
+                  positions={["right", "bottom"]}
                 >
                   <Info />
-                </Tooltip>
+                </Popover>
               </div>
               <div className="snapshot-data">
-                {snapshotData.map((d) => (
-                  <div
-                    className="snapshot-item"
-                    onClick={() => navigateToContactListPage(d.statusName)}
-                  >
-                    <div className="snapshot-name">
-                      {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
-                      {d?.statusName?.includes("Soa")
-                        ? d.statusName.replace("Soa", "SOA ")
-                        : d.statusName}
+                {stageSummaryData &&
+                  stageSummaryData.map((d, index) => (
+                    <div
+                      className="snapshot-item"
+                      onClick={() => navigateToContactListPage(d.leadStatusId)}
+                      key={index}
+                    >
+                      <div className="snapshot-name">
+                        {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
+                        {d?.statusName?.includes("Soa")
+                          ? d.statusName.replace("Soa", "SOA ")
+                          : d.statusName}
+                      </div>
+                      <div className="snapshot-count">
+                        {numberWithCommas(d.totalCount)}
+                      </div>
                     </div>
-                    <div className="snapshot-count">
-                      {numberWithCommas(d.totalCount)}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
             {!isMobile && (
@@ -292,7 +289,7 @@ export default function Dashbaord() {
                 <div className="resources">Resources</div>
                 <Help
                   icon={LearningCenter}
-                  text="For the lastest resources and news from MedicareCENTER visit the"
+                  text="For the latest resources and news from MedicareCENTER visit the"
                   labelName="Learning Center"
                   handleClick={handleLearningCenter}
                 />

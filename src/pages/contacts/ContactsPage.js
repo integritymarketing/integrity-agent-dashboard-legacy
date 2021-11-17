@@ -17,13 +17,12 @@ import SearchIcon from "components/icons/search";
 import RoundCloseIcon from "components/icons/round-close";
 import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
-//import Filter from "components/icons/filter";
+import ContactListFilter from "./ContactListFilter";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import { Select } from "components/ui/Select";
 import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import { StageStatusProvider } from "contexts/stageStatus";
 import BackNavContext from "contexts/backNavProvider";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -32,7 +31,7 @@ import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
 import ContactsTable from "./ContactsTable";
 import analyticsService from "services/analyticsService";
-
+import { StageStatusProvider } from "contexts/stageStatus";
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
@@ -62,15 +61,12 @@ export default () => {
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(null);
   const [layout, setLayout] = useState();
-  const [count, setCount] = useState(null);
   const location = useLocation();
   const history = useHistory();
   const [isMobile, setIsMobile] = useState(false);
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
-  const queryParams = new URLSearchParams(window.location.search);
-  const statusName = queryParams.get("status");
 
   const { setCurrentPage } = useContext(BackNavContext);
 
@@ -197,19 +193,6 @@ export default () => {
                     </button>
                   </div>
                 )}
-                {statusName && (
-                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                    <div className={styles["duplicate-found"]}>
-                      {count} contacts found for {statusName}
-                    </div>
-                    <button
-                      onClick={() => history.push("/contacts/list")}
-                      className={styles["reset-close"]}
-                    >
-                      <RoundCloseIcon />
-                    </button>
-                  </div>
-                )}
               </div>
               <div className="bar">
                 {isMobile ? null : (
@@ -246,15 +229,7 @@ export default () => {
                     onChange={(value) => setSort(value)}
                   />
                 </div>
-                {/* <div className={styles["filter-view"]}>
-                  <Button
-                    data-gtm="contacts-filter"
-                    icon={<Filter />}
-                    label="Filter"
-                    type="secondary"
-                    onClick={switchLayout}
-                  />
-                </div> */}
+                <ContactListFilter />
               </div>
             </div>
             <div className={styles.tableWrapper}>
@@ -263,12 +238,10 @@ export default () => {
                   <Redirect to="/contacts/list" />
                 </Route>
                 <Route path="/contacts/list">
-                  <ContactsTable                    
+                  <ContactsTable
                     duplicateIdsLength={duplicateIdsLength}
                     searchString={searchStringNew}
                     sort={sort}
-                    statusName={statusName}
-                    setCount={setCount}
                   />
                 </Route>
                 <Route path="/contacts/card">
