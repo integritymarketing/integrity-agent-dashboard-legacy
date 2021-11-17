@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import * as Sentry from "@sentry/react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import GlobalNav from "partials/global-nav-v2";
@@ -96,8 +96,18 @@ const EFFECTIVE_YEARS_SUPPORTED = [
   parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
 ];
 
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 export default () => {
   const { contactId: id } = useParams();
+  const query = useQuery();
+  const showSelected = query && query.get("preserveSelected");
+  const savedPlans = sessionStorage.getItem("__plans__");
+  const initialSelectedPlans =
+    savedPlans && showSelected ? JSON.parse(savedPlans) : [];
   const history = useHistory();
   const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
@@ -116,7 +126,12 @@ export default () => {
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
-  const [selectedPlans, setSelectedPlans] = useState({});
+  const [selectedPlans, setSelectedPlans] = useState(
+    initialSelectedPlans.reduce((acc, p) => {
+      acc[p.id] = true;
+      return acc;
+    }, {})
+  );
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {

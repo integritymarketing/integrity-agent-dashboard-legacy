@@ -40,6 +40,7 @@ async function getAllPlanDetails({
 
 export default () => {
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
+  const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;
   const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
   const history = useHistory();
   const [loading, setLoading] = useState(true);
@@ -169,7 +170,9 @@ export default () => {
                   {comparePlans.length === 2 && (
                     <div className={`${styles["plan-div"]}`}>
                       <span className={styles["retrun-txt"]}>
-                        Retun to plans list to add 3rd plan for comparsion.
+                        <a href={`/plans/${id}?preserveSelected=true`}>
+                          Retun to plans list to add 3rd plan for comparsion.
+                        </a>
                       </span>
                     </div>
                   )}
@@ -181,13 +184,17 @@ export default () => {
                 <Spinner />
               ) : (
                 <div className={styles["compare-plans-list"]}>
-                  <CostCompareTable plans={comparePlans} />
+                  <CostCompareTable
+                    plans={comparePlans}
+                    isFullYear={isFullYear}
+                  />
                   <div style={{ height: 20 }} />
                   <ProvidersCompareTable plans={comparePlans} />
                   <div style={{ height: 20 }} />
                   <PrescriptionsCompareTable
                     plans={comparePlans}
                     prescriptions={prescriptions}
+                    isFullYear={isFullYear}
                   />
                   <div style={{ height: 20 }} />
                   <PharmaciesCompareTable
