@@ -102,16 +102,16 @@ export const getOverDue = (value) => {
   return false;
 };
 
-export const getNextEffectiveDate = (years) => {
+export const getNextEffectiveDate = (years, month) => {
   const now = new Date();
 
   for (const year of years) {
     if (year === now.getFullYear()) {
-      now.setMonth(now.getMonth() + 1);
+      now.setMonth(month || now.getMonth() + 1);
       return now;
     } else if (year > now.getFullYear()) {
       now.setFullYear(year);
-      now.setMonth(0);
+      now.setMonth(month || 0);
       return now;
     }
   }

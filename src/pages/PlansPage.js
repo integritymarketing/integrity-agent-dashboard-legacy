@@ -105,9 +105,18 @@ export default () => {
   const { contactId: id } = useParams();
   const query = useQuery();
   const showSelected = query && query.get("preserveSelected");
-  const savedPlans = sessionStorage.getItem("__plans__");
-  const initialSelectedPlans =
-    savedPlans && showSelected ? JSON.parse(savedPlans) : [];
+  const jsonStr = sessionStorage.getItem("__plans__");
+  const { plans: initialPlans, effectiveDate: initialEffectiveDate } = jsonStr
+    ? JSON.parse(jsonStr)
+    : {};
+  const initialMonth =
+    showSelected && initialEffectiveDate
+      ? parseInt(initialEffectiveDate?.split("-")?.[1], 10)
+      : null;
+  const initialeffDate = initialMonth
+    ? getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED, initialMonth - 1)
+    : null;
+  const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
   const history = useHistory();
   const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
@@ -120,7 +129,7 @@ export default () => {
   const [sort, setSort] = useState(PLAN_SORT_OPTIONS[0].value);
   const [isEdit, setIsEdit] = useState(false);
   const [effectiveDate, setEffectiveDate] = useState(
-    getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
+    initialeffDate || getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
   );
   const [results, setResults] = useState([]);
   const [providers, setProviders] = useState([]);

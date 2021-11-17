@@ -187,6 +187,7 @@ export default () => {
                   <CostCompareTable
                     plans={comparePlans}
                     isFullYear={isFullYear}
+                    effectiveDate={effectiveDate}
                   />
                   <div style={{ height: 20 }} />
                   <ProvidersCompareTable plans={comparePlans} />

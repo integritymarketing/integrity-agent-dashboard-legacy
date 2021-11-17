@@ -1,7 +1,7 @@
 import { PLAN_TYPE_ENUMS } from "../../../../constants";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
-import { parseDate } from "utils/dates";
+import { useParams } from "react-router-dom";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -86,7 +86,9 @@ function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
 }
 
 export default ({ planData }) => {
-  const effectiveStartDate = parseDate(new Date());
+  const { effectiveDate } = useParams();
+  const [y, d] = effectiveDate.split("-");
+  const effectiveStartDate = new Date(`${y}-${d}-15`);
 
   const columns = useMemo(
     () => [
@@ -146,8 +148,9 @@ export default ({ planData }) => {
   );
 };
 
-export function CostCompareTable({ plans, isFullYear }) {
-  const effectiveStartDate = new Date();
+export function CostCompareTable({ plans, isFullYear, effectiveDate }) {
+  const [y, m] = effectiveDate.split("-");
+  const effectiveStartDate = new Date(`${y}-${m}-15`);
   const clonedPlans = useMemo(() => {
     const copyPlans = [...plans];
     if (plans.length < 3) {

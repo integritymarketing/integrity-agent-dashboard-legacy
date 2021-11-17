@@ -57,7 +57,10 @@ export const PlanPageFooter = ({
         disabled={plans.length < 2}
         data-gtm="button-compare"
         onClick={() => {
-          sessionStorage.setItem("__plans__", JSON.stringify(plans));
+          sessionStorage.setItem(
+            "__plans__",
+            JSON.stringify({ plans, effectiveDate })
+          );
           history.push(
             `/plans/${leadId}/compare/${plans
               ?.map(({ id }) => id)
