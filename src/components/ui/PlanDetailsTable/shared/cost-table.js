@@ -149,7 +149,6 @@ export default ({ planData }) => {
 };
 
 export function CostCompareTable({ plans, isFullYear, effectiveDate }) {
-  console.log({ effectiveDate });
   const [y, m] = effectiveDate.split("-");
   const effectiveStartDate = new Date(`${y}-${m}-15`);
   const clonedPlans = useMemo(() => {
