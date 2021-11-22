@@ -120,6 +120,7 @@ const PlanDetailsPage = () => {
                       });
                     }}
                     type="tertiary"
+                    className={`${styles["back-button"]}`}
                   />
                 </div>
               </Container>

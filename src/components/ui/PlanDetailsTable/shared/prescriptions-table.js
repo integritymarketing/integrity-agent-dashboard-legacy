@@ -25,7 +25,7 @@ function getCoveredCheck(isCovered) {
     </>
   );
 }
-export default ({ planData }) => {
+export default ({ planData, isMobile }) => {
   const { effectiveDate } = useParams();
   const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
   const effectiveEndDate = new Date(effectiveStartDate);
@@ -40,14 +40,23 @@ export default ({ planData }) => {
       {
         Header: "Prescriptions",
         columns: [
-          {
-            hideHeader: true,
-            accessor: "name",
-          },
-          {
-            hideHeader: true,
-            accessor: "cost",
-          },
+          ...(isMobile
+            ? [
+                {
+                  hideHeader: true,
+                  accessor: "name_cost",
+                },
+              ]
+            : [
+                {
+                  hideHeader: true,
+                  accessor: "name",
+                },
+                {
+                  hideHeader: true,
+                  accessor: "cost",
+                },
+              ]),
           {
             hideHeader: true,
             accessor: "covered",
@@ -55,7 +64,7 @@ export default ({ planData }) => {
         ],
       },
     ],
-    []
+    [isMobile]
   );
   const pharmacyCost = planData?.pharmacyCosts[0];
 
@@ -84,7 +93,7 @@ export default ({ planData }) => {
     }
   }
   Object.keys(prescriptionMap).forEach((labelName) => {
-    data.push({
+    const row = {
       name: <span className={"label"}>{labelName}</span>,
       cost: (
         <>
@@ -98,6 +107,10 @@ export default ({ planData }) => {
         </>
       ),
       covered: getCoveredCheck(prescriptionMap[labelName].isCovered),
+    }
+    data.push({
+      ...row, 
+      name_cost: <><div>{row.name}</div><div>{row.cost}</div></>
     });
   });
 

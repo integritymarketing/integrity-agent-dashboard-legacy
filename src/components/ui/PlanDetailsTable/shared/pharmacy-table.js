@@ -29,20 +29,29 @@ function getInNetwork(pharmacyCost) {
   );
 }
 
-export default ({ planData, pharmacies }) => {
+export default ({ planData, pharmacies, isMobile }) => {
   const columns = useMemo(
     () => [
       {
         Header: "Pharmacy",
         columns: [
-          {
-            hideHeader: true,
-            accessor: "name",
-          },
-          {
-            hideHeader: true,
-            accessor: "address",
-          },
+          ...(isMobile
+            ? [
+                {
+                  hideHeader: true,
+                  accessor: "name_address",
+                },
+              ]
+            : [
+                {
+                  hideHeader: true,
+                  accessor: "name",
+                },
+                {
+                  hideHeader: true,
+                  accessor: "address",
+                },
+              ]),
           {
             hideHeader: true,
             accessor: "inNetwork",
@@ -50,7 +59,7 @@ export default ({ planData, pharmacies }) => {
         ],
       },
     ],
-    []
+    [isMobile]
   );
   const data = [];
 
@@ -58,7 +67,7 @@ export default ({ planData, pharmacies }) => {
     planData.pharmacyCosts.forEach((pharmacyCost) => {
       const pharmacy = pharmacies[pharmacyCost.pharmacyID];
       if (pharmacy) {
-        data.push({
+        const row = {
           name: <span className={"label"}>{pharmacy.name}</span>,
           address: (
             <span className={"subtext"}>
@@ -74,6 +83,15 @@ export default ({ planData, pharmacies }) => {
             </span>
           ),
           inNetwork: getInNetwork(pharmacyCost),
+        };
+        data.push({
+          ...row,
+          name_address: (
+            <>
+              <div>{row.name}</div>
+              <div>{row.address}</div>
+            </>
+          ),
         });
       }
     });

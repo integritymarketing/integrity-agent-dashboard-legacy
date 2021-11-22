@@ -20,53 +20,74 @@ const CompactPlanCard = ({
   onEnrollClick,
   onShareClick,
   isMobile,
+  onlyButtons = false,
 }) => {
   const { documents } = planData;
-  return (
-    <div className={"plan-card plan-card-compact"}>
+  const buttons = (
+    <div className={`footer ${isMobile ? "mobile" : ""}`}>
+      {documents === null || documents?.length === 0 ? (
+        <Popover
+          openOn="hover"
+          icon={<Info />}
+          title={"No Plans to share"}
+          positions={["right", "bottom"]}
+        >
+          <Button
+            disabled={true}
+            label="Share Plan"
+            icon={<ShareIconDisabled />}
+            onClick={() => onShareClick(planData.id)}
+            type="secondary"
+          />
+        </Popover>
+      ) : (
+        <Button
+          label="Share Plan"
+          icon={<ShareIcon />}
+          onClick={() => onShareClick(planData.id)}
+          type="secondary"
+        />
+      )}
+      <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+    </div>
+  );
+
+  return onlyButtons ? (
+    <div className={`plan-card-buttons`}>
+      {buttons}
+    </div>
+  ) : (
+    <div className={`plan-card plan-card-compact ${isMobile ? "mobile" : ""}`}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
         <div className={"plan-name"}>{planData.planName}</div>
-        <div className={"monthly-cost"}>
-          {currencyFormatter.format(planData.annualPlanPremium / 12)}
-          <span className={"label"}>/month</span>
-        </div>
+        {isMobile ? null : (
+          <div className={"monthly-cost"}>
+            {currencyFormatter.format(planData.annualPlanPremium / 12)}
+            <span className={"label"}>/month</span>
+          </div>
+        )}
       </div>
-      <div className={"sub-header"}>
+      <div className={`sub-header ${isMobile ? "mobile" : ""}`}>
         <div className={"carrier-name"}>{planData.carrierName}</div>
         <div className={"rating-container"}>
           <Rating value={planData.planRating} />
         </div>
       </div>
+      {isMobile ? (
+        <div className={`footer ${isMobile ? "mobile" : ""}`}>
+          <div className={"monthly-cost"}>
+            <div className="currency">
+              {currencyFormatter.format(planData.annualPlanPremium / 12)}
+            </div>
+            <div className={"label"}> Monthly Premium</div>
+          </div>
+        </div>
+      ) : null}
       {!REACT_APP_HIDE_ENROLL_BTN &&
         onEnrollClick &&
-        !planData.nonLicensedPlan && (
-          <div className={`footer overview-footer ${isMobile ? "mobile" : ""}`}>
-            {documents === null || documents?.length === 0 ? (
-              <Popover
-                openOn="hover"
-                icon={<Info />}
-                title={"No Plans to share"}
-                positions={["right", "bottom"]}
-              >
-                <Button
-                  disabled={true}
-                  label="Share Plan"
-                  icon={<ShareIconDisabled />}
-                  onClick={() => onShareClick(planData.id)}
-                  type="secondary"
-                />
-              </Popover>
-            ) : (
-              <Button
-                label="Share Plan"
-                icon={<ShareIcon />}
-                onClick={() => onShareClick(planData.id)}
-                type="secondary"
-              />
-            )}
-            <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
-          </div>
-        )}
+        !planData.nonLicensedPlan &&
+        !isMobile &&
+        buttons}
     </div>
   );
 };
