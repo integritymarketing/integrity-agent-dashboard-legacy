@@ -23,7 +23,7 @@ function Radio({
         name={name}
         value={value}
         onChange={onChange}
-        defaultChecked={checked}
+        checked={checked}
       />
       {label}
     </label>

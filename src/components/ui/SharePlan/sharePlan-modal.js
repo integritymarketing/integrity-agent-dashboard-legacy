@@ -189,7 +189,7 @@ export default ({
 
   const handleOnDocumentChange = (e) => {
     const { checked, value: name } = e.target;
-    const value = documents.filter(document => document.name === name)[0];
+    const value = documents.filter((document) => document.name === name)[0];
     const result = checked
       ? [...selectedDocuments, value]
       : selectedDocuments.filter((document) => document.name !== value.name);
@@ -350,6 +350,12 @@ export default ({
                           label: document.name,
                           id: document.name,
                           name: "documents",
+                          checked:
+                            selectedDocuments.filter(
+                              (item) => item === document
+                            )?.length > 0
+                              ? true
+                              : false,
                           value: document.name,
                           onChange: handleOnDocumentChange,
                         };

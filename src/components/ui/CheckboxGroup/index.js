@@ -8,7 +8,14 @@ function CheckboxGroup({ checkboxes }) {
   return (
     <div className="checkbox-group">
       {checkboxes.map((box) => {
-        return <Checkbox key={box.label} disabled={box.disabled} onChange={(event)=>box.onChange(event.target.value)} {...box} />;
+        return (
+          <Checkbox
+            key={box.label}
+            disabled={box.disabled}
+            onChange={(event) => box.onChange(event.target.value)}
+            {...box}
+          />
+        );
       })}
     </div>
   );

@@ -290,7 +290,7 @@ export default (props) => {
             <div className="scope-details-card-header contactdetailscardheader">
               <h4>Contact Details</h4>
 
-              <div className="" style={{ display: "flex" }}>
+              <div className="top-button-group responsive-d-none"  >
                 <Button
                   className="edit-contact-details-cancel-btn contact-details-cancel cancel-btn btn mr-2 ml-10"
                   data-gtm="new-contact-cancel-button"
@@ -655,7 +655,7 @@ export default (props) => {
                   </div>
                 )}
                 <div
-                  className="btn-responsive-display mt-3"
+                  className={` ${props.page === "plansPage" ? "save-btn-only" : ""} btn-responsive-display mt-3`}
                   style={{ display: "flex" }}
                 >
                   <Button

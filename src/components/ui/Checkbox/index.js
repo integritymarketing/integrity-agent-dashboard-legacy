@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import "./index.scss";
 
-
 function Checkbox({
   htmlFor = "",
   id = "",
@@ -13,10 +12,12 @@ function Checkbox({
   className,
   onChange,
   checked = false,
-  disabled=false,
-  defaultChecked=false,
+  disabled = false,
+  defaultChecked = false,
 }) {
-  const theClassName = className ? `checkbox-label ${className} ${disabled && "disabled"}` : `checkbox-label ${disabled && "disabled"}`;
+  const theClassName = className
+    ? `checkbox-label ${className} ${disabled && "disabled"}`
+    : `checkbox-label ${disabled && "disabled"}`;
   return (
     <label htmlFor={htmlFor} className={theClassName}>
       <input
@@ -27,7 +28,7 @@ function Checkbox({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        defaultChecked={defaultChecked}
+        checked={checked}
       />
       {label}
     </label>
