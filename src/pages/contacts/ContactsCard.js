@@ -358,6 +358,7 @@ function ContactsCard({ searchString, sort }) {
       </div>
       {data.length > 0 && (
         <Pagination
+          contactsCardPage
           currentPage={currentPage}
           totalPages={pageCount}
           totalResults={totalResults}

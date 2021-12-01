@@ -6,6 +6,7 @@ import ArrowDownIcon from "../../icons/arrow-down";
 import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
+import { useSelectFilterToScroll } from "hooks/useSelectFilter";
 
 export const DefaultOption = ({
   label,
@@ -25,6 +26,7 @@ export const DefaultOption = ({
       {...rest}
       className={`option ${selected ? "selected" : ""}`}
       onClick={handleOptionClick}
+      id={`option-${label}`}
     >
       {prefix}
       {showValueAsLabel ? value : label}
@@ -73,6 +75,14 @@ export const Select = ({
       onBlur && onBlur();
     }
   });
+
+  useSelectFilterToScroll(options, isOpen, (label) => scrollToOption(label));
+
+  const scrollToOption = (label) => {
+    var topPos = document.getElementById(`option-${label}`)?.offsetTop;
+    document.getElementById("option-container-scrolling_div").scrollTop =
+      topPos - 40;
+  };
 
   useEffect(() => {
     setValue(initialValue);
@@ -151,7 +161,11 @@ export const Select = ({
     </div>
   );
   const optionsContainer = (
-    <div className="options" style={{ maxHeight: heightStyle.maxHeight - 40 }}>
+    <div
+      id={"option-container-scrolling_div"}
+      className="options"
+      style={{ maxHeight: heightStyle.maxHeight - 40 }}
+    >
       {selectHeader}
       {selectableOptions.map((option, idx) => (
         <Option
