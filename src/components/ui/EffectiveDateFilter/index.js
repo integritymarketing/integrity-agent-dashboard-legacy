@@ -30,9 +30,11 @@ export default function EffectiveDateFilter({ years, initialValue, onChange }) {
     <div className="effective-date-filter">
       <div className="header">Effective Date</div>
       <Select
+        placeholder="select"
         initialValue={initialValue.toISOString()}
         onChange={(value) => onChange(new Date(value))}
         options={options}
+        showValueAlways={true}
       />
     </div>
   );
