@@ -270,7 +270,6 @@ function ContactsCard({ searchString, sort }) {
           pageIndex,
           pageSize,
           sort,
-          null,
           searchString || null,
           contactRecordType,
           stages,
@@ -349,6 +348,7 @@ function ContactsCard({ searchString, sort }) {
         {data.map((client, idx) => {
           return (
             <ClientCard
+              searchString={searchString}
               key={client.leadsId}
               client={client}
               onRefresh={handleRefresh}
