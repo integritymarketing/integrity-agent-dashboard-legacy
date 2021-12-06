@@ -76,12 +76,23 @@ export const Select = ({
     }
   });
 
-  useSelectFilterToScroll(options, isOpen, (label) => scrollToOption(label));
+  useSelectFilterToScroll(options, isOpen, (label, callBack) => {
+    scrollToOption(label, callBack);
+  });
 
-  const scrollToOption = (label) => {
-    var topPos = document.getElementById(`option-${label}`)?.offsetTop;
-    document.getElementById("option-container-scrolling_div").scrollTop =
-      topPos - 40;
+  const scrollToOption = (label, callBack) => {
+    const timer = setTimeout(() => {
+      if (label) {
+        let selectedElement = document.getElementById(`option-${label}`);
+        let topPos = selectedElement?.offsetTop;
+        let scrollContainer = document.getElementById(
+          "option-container-scrolling_div"
+        );
+        scrollContainer.scrollTop = topPos - 40;
+      }
+      callBack();
+    }, 800);
+    return () => clearTimeout(timer);
   };
 
   useEffect(() => {

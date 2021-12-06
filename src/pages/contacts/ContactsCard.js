@@ -248,22 +248,8 @@ function ContactsCard({ searchString, sort }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
-  const {
-    contactRecordType = "",
-    stages = [],
-    hasReminder = false,
-  } = applyFilters;
-
   const fetchData = useCallback(
-    ({
-      pageSize,
-      pageIndex,
-      searchString,
-      sort,
-      contactRecordType,
-      stages,
-      hasReminder,
-    }) => {
+    ({ pageSize, pageIndex, searchString, sort, applyFilters }) => {
       setLoading(true);
       clientsService
         .getList(
@@ -271,9 +257,10 @@ function ContactsCard({ searchString, sort }) {
           pageSize,
           sort,
           searchString || null,
-          contactRecordType,
-          stages,
-          hasReminder
+          null,
+          applyFilters?.contactRecordType,
+          applyFilters?.stages,
+          applyFilters?.hasReminder
         )
         .then((list) => {
           setData(
@@ -298,6 +285,7 @@ function ContactsCard({ searchString, sort }) {
       pageIndex: currentPage,
       searchString,
       sort,
+      applyFilters,
     });
   };
 
@@ -316,19 +304,9 @@ function ContactsCard({ searchString, sort }) {
       pageIndex: currentPage,
       searchString,
       sort,
-      contactRecordType,
-      stages,
-      hasReminder,
+      applyFilters,
     });
-  }, [
-    currentPage,
-    fetchData,
-    searchString,
-    sort,
-    contactRecordType,
-    stages,
-    hasReminder,
-  ]);
+  }, [currentPage, fetchData, searchString, sort, applyFilters]);
 
   if (loading) {
     return <Spinner />;
@@ -348,7 +326,6 @@ function ContactsCard({ searchString, sort }) {
         {data.map((client, idx) => {
           return (
             <ClientCard
-              searchString={searchString}
               key={client.leadsId}
               client={client}
               onRefresh={handleRefresh}
