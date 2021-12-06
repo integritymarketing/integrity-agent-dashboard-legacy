@@ -324,6 +324,13 @@
 .compare-plans-list {
   table tbody td {
     width: 25%;
+    a {
+      display: inline-block;
+      max-width: 175px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 16px;
+    }
   }
 }
 @media (min-width: 320px) and (max-width: 767px) {

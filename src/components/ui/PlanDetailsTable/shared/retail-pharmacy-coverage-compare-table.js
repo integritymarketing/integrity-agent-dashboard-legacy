@@ -7,6 +7,60 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
+function findPlanData({ planData, isPreffered = false, isRetail = true }) {
+  const values = [];
+  if (
+    planData &&
+    planData.formularyTiers &&
+    Array.isArray(planData.formularyTiers)
+  ) {
+    planData.formularyTiers.forEach((tier) => {
+      if (tier && Array.isArray(tier.copayPrices)) {
+        tier.copayPrices.forEach((copay) => {
+          if (
+            copay.isPreferredPharmacy === isPreffered &&
+            copay.isMailOrder === !isRetail
+          ) {
+            if (copay.costType === 1) {
+              values.push({
+                name: tier.tierDescription,
+                value: (
+                  <>
+                    <div className={"copay"}>
+                      <span className={"label"}>
+                        {currencyFormatter.format(copay.cost)}
+                      </span>{" "}
+                      <span className={"supply"}>
+                        copay ({copay.daysOfSupply}-day supply)
+                      </span>
+                    </div>
+                  </>
+                ),
+              });
+            } else if (copay.costType === 2) {
+              values.push({
+                name: tier.tierDescription,
+                value: (
+                  <>
+                    <div className={"copay"}>
+                      <span className={"label"}>{copay.cost * 100}%</span>
+                      <span className={"supply"}>
+                        coinsurance ({copay.daysOfSupply}-day supply)
+                      </span>
+                    </div>
+                  </>
+                ),
+              });
+            }
+          }
+        });
+      }
+    });
+  }
+
+  return values.length ? values : null;
+}
+
 export function RetailPharmacyCoverage({
   plans,
   header,
@@ -37,9 +91,7 @@ export function RetailPharmacyCoverage({
               if (!plan || !value) {
                 return "-";
               }
-              return (
-                <div dangerouslySetInnerHTML={{ __html: value.description }} />
-              );
+              return value;
             },
           })),
         ],
@@ -48,73 +100,20 @@ export function RetailPharmacyCoverage({
     [clonedPlans, header]
   );
 
-  const tierNumbersFromAllPlans = useMemo(() => {
-    return Object.keys(
-      plans.filter(Boolean).reduce((acc, planData) => {
-        planData.formularyTiers.map((tier) => acc[tier.tierNumber]);
-        return acc;
-      }, {})
-    );
-  }, [plans]);
-
-  const tierValue = (plan, tierNumber) => {
-    const tier =
-      plan?.formularyTiers?.find((tier) => tier.tierNumber === tierNumber) ||
-      {};
-    var values = [];
-    if (tier && Array.isArray(tier.copayPrices)) {
-      tier.copayPrices.forEach((copay) => {
-        if (
-          copay.isPreferredPharmacy === isPreffered &&
-          copay.isMailOrder === !isRetail
-        ) {
-          if (copay.costType === 1) {
-            values.push(
-              <>
-                <div className={"copay"}>
-                  <span className={"label"}>
-                    {currencyFormatter.format(copay.cost)}
-                  </span>{" "}
-                  <span className={"supply"}>
-                    copay ({copay.daysOfSupply}-day supply)
-                  </span>
-                </div>
-              </>
-            );
-          } else if (copay.costType === 2) {
-            values.push(
-              <>
-                <div className={"copay"}>
-                  <span className={"label"}>{copay.cost * 100}%</span>
-                  <span className={"supply"}>
-                    coinsurance ({copay.daysOfSupply}-day supply)
-                  </span>
-                </div>
-              </>
-            );
-          }
-        }
-      });
-    }
-    return values;
-  };
-
-  const buildData = (tierNumber) => {
+  const planCoverageValues = clonedPlans.map((planData) =>
+    findPlanData({ planData })
+  );
+  const defaultData = Object.values(labelMap).map((tierName) => {
     return {
-      name: labelMap[tierNumber],
-      [`plan-0`]: {
-        description: tierValue(plans[0], tierNumber),
-      },
-      [`plan-1`]: {
-        description: tierValue(plans[1], tierNumber),
-      },
-      [`plan-2`]: {
-        description: tierValue(plans[2], tierNumber),
-      },
+      name: tierName,
+      [`plan-0`]: planCoverageValues[0]?.find(({ name }) => name === tierName)
+        ?.value,
+      [`plan-1`]: planCoverageValues[1]?.find(({ name }) => name === tierName)
+        ?.value,
+      [`plan-2`]: planCoverageValues[3]?.find(({ name }) => name === tierName)
+        ?.value,
     };
-  };
-
-  const defaultData = tierNumbersFromAllPlans.map(buildData);
+  });
 
   return (
     <>
