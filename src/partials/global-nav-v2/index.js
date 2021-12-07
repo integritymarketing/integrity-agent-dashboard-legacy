@@ -68,7 +68,7 @@ const SiteNotification = ({
             data-testid="maintance-notification"
           >
             <div>We are currently experiencing issues</div>
-            <div>
+            <div className="site-maintanance-text">
               This may affect your ability to use MedicareCENTER. We are working
               as fast as we can to resolve the issue.
             </div>
@@ -149,8 +149,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   const showPhoneNotification =
     auth.isAuthenticated() && !auth.userProfile.phone;
-  const showMaintenaceNotification = process.env.NOTIFICATION_BANNER === "true";
-
+  const showMaintenaceNotification = process.env.REACT_APP_NOTIFICATION_BANNER === "true";
   const headernotificationClass = [
     "global-nav-v2-",
     showPhoneNotification ? "hasNotification" : null,

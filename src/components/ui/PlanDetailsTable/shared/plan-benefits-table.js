@@ -57,7 +57,7 @@ export default ({ planData }) => {
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} />
+      <PlanDetailsTable columns={columns} data={data} className="plan-benfits" />
     </>
   );
 };

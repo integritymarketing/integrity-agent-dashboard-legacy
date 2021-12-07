@@ -27,6 +27,8 @@ export const DefaultOption = ({
       className={`option ${selected ? "selected" : ""}`}
       onClick={handleOptionClick}
       id={`option-${label}`}
+      tabIndex="-1"
+      rules="menuitem"
     >
       {prefix}
       {showValueAsLabel ? value : label}
@@ -115,6 +117,12 @@ export const Select = ({
     }
   };
 
+  const toggleOptionsMenuKeyUp = (ev) => {
+    if (ev.keyCode === 13) {
+      toggleOptionsMenu(ev)
+  }
+  };
+
   const [selectedOption, selectableOptions] = useMemo(() => {
     setIsOpen(isDefaultOpen);
     const selectedOptions = options.filter((option) => option?.value === value);
@@ -146,7 +154,10 @@ export const Select = ({
       className={`${error ? "has-error" : ""} ${
         showValueAlways ? "show-always" : ""
       } inputbox`}
+      tabindex="0"
+      role="menu"
       onClick={toggleOptionsMenu}
+      onKeyUp={toggleOptionsMenuKeyUp}
     >
       {value ? (
         <Option
