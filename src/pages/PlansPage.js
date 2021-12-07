@@ -653,7 +653,7 @@ export default () => {
           <PlanPageFooter
             leadId={id}
             effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
-            plans={pagedResults?.filter((plan) => selectedPlans[plan.id])}
+            plans={results?.filter((plan) => selectedPlans[plan.id])}
             onRemove={(plan) => {
               setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
             }}
