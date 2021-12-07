@@ -116,7 +116,7 @@ export default ({ planData, isMobile }) => {
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} />
+      <PlanDetailsTable columns={columns} data={data} className="quotes" />
     </>
   );
 };

@@ -18,7 +18,7 @@ export default function ContactRecordHeader({
   const fullName = `${contact.firstName} ${contact.middleName || ""} ${
     contact.lastName
   }`;
-  const zip = contact.addresses[0].postalCode;
+  const zip = contact?.addresses[0]?.postalCode;
   return (
     <div className="contactRecordHeader">
       <div className="back">
