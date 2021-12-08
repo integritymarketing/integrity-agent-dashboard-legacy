@@ -56,6 +56,8 @@
     td {
       @media screen and (min-width: 320px) and (max-width: 480px) {
         word-break: break-word;
+        padding-top: 5px;
+        padding-bottom: 5px;
       }
       padding-left: 25px;
       .label,
