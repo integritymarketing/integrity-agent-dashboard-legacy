@@ -47,6 +47,9 @@
     &--hasNotification-hasMainitananceNotification {
       padding: 170px 2.5rem 40px;
     }
+    &--hasMainitananceNotification {
+      padding: 120px 2.5rem 40px;
+    }
   }
 }
 
@@ -193,7 +196,9 @@
   }
 
   &__maintanance {
+    @media (min-width: 768px) {
       height: 92px;
+    }
       background: #FFF1F0;
       justify-content: flex-start;
       font-size: 16px;
