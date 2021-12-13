@@ -5,13 +5,11 @@ export const useSelectFilterToScroll = (options, isOpen, handler) => {
 
   useEffect(() => {
     if (userInput !== "") {
-      let filtered_value = options.filter((state) => {
-        return state.label.toLowerCase().startsWith(userInput?.toLowerCase());
-      });
-      let filtered_label = filtered_value[0]?.label;
-      if (filtered_label) {
-        handler(filtered_label, () => setUserInput(""));
-      }
+      const timer = setTimeout(() => {
+        handler(userInput, () => setUserInput(""));
+        setUserInput("");
+      }, 800);
+      return () => clearTimeout(timer);
     }
   }, [userInput, handler, options]);
 

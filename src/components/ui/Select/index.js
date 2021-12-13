@@ -78,29 +78,37 @@ export const Select = ({
     }
   });
 
-  useSelectFilterToScroll(options, isOpen, (label, callBack) => {
-    scrollToOption(label, callBack);
+  useSelectFilterToScroll(options, isOpen, (label) => {
+    scrollToOption(label);
   });
 
-  const scrollToOption = (label, callBack) => {
-    const timer = setTimeout(() => {
-      if (label) {
-        let selectedElement = document.getElementById(`option-${label}`);
-        let topPos = selectedElement?.offsetTop;
-        let scrollContainer = document.getElementById(
-          "option-container-scrolling_div"
-        );
-        scrollContainer.scrollTop = topPos - 40;
-      }
-      callBack();
-    }, 800);
-    return () => clearTimeout(timer);
+  const scrollToOption = (label) => {
+    if (label) {
+      let filtered = options.filter((state) => {
+        return state.label.toLowerCase().startsWith(label?.toLowerCase());
+      });
+      let filtered_label = filtered[0]?.label;
+      let filtered_value = filtered[0]?.value;
+
+      let selectedElement = document.getElementById(`option-${filtered_label}`);
+      selectedElement.classList.add("active-item-selected");
+      let topPos = selectedElement?.offsetTop;
+      let scrollContainer = document.getElementById(
+        "option-container-scrolling_div"
+      );
+      scrollContainer.scrollTop = topPos - 40;
+      setValue(filtered_value);
+      onChange(filtered_value);
+      setIsOpen(true);
+    }
   };
 
   useEffect(() => {
-    setValue(initialValue);
-    setIsOpen(isDefaultOpen);
-  }, [initialValue, isDefaultOpen]);
+    if (!isOpen) {
+      setValue(initialValue);
+      setIsOpen(isDefaultOpen);
+    }
+  }, [initialValue, isDefaultOpen, isOpen]);
 
   const handleOptionChange = (ev, value) => {
     ev.preventDefault();
@@ -119,19 +127,18 @@ export const Select = ({
 
   const toggleOptionsMenuKeyUp = (ev) => {
     if (ev.keyCode === 13) {
-      toggleOptionsMenu(ev)
-  }
+      toggleOptionsMenu(ev);
+    }
   };
 
   const [selectedOption, selectableOptions] = useMemo(() => {
-    setIsOpen(isDefaultOpen);
     const selectedOptions = options.filter((option) => option?.value === value);
     const selectableOptions = options.map((option) => ({
       ...option,
       selected: option?.value === value,
     }));
     return [selectedOptions[0], selectableOptions];
-  }, [options, value, isDefaultOpen]);
+  }, [options, value]);
 
   const heightStyle = useMemo(() => {
     const top = isOpen ? ref?.current?.getBoundingClientRect().top + 40 : 40;
