@@ -141,13 +141,13 @@ export default () => {
                     error={touched.Username && errors.Username}
                     auxLink={
                       <div className="mt-2" data-gtm="login-forgot-npn">
-                        <Link
+                        <a
                           to="https://nipr.com/help/look-up-your-npn"
                           target="_blank"
                           className="text-sm link link--force-underline"
                         >
                           Forgot NPN Number?
-                        </Link>
+                        </a>
                       </div>
                     }
                   />
