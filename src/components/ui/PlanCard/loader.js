@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.scss";
 import ContentLoader from "react-content-loader";
 
 const PlanCardLoader = (props) => (
