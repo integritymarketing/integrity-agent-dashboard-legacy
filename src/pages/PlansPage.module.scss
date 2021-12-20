@@ -280,6 +280,14 @@
 
     .comp-mr-left {
       margin-left: 25px;
+      position: relative;
+
+      .close {
+        position: absolute;
+        top: 0;
+        cursor: pointer;
+        right: 0;
+      }
     }
 
     .comp-plan-name {
