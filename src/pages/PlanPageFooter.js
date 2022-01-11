@@ -42,7 +42,7 @@ export const PlanPageFooter = ({
                 <Close />
               </div>
 
-              <div>
+              <div className={styles["plans-logo"]}>
                 {" "}
                 <img src={LOGO_BASE_URL + plan.logoURL} alt="logo" />
               </div>

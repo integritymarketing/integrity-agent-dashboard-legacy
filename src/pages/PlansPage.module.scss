@@ -43,6 +43,7 @@
       max-width: 871px;
       @media (max-width: 480px) {
         margin-top: 0px;
+        width: 100%;
       }
 
       .sort {
@@ -140,6 +141,10 @@
 }
 
 .plan-footer {
+  @media (max-width: 767px) {
+    flex-direction: column;
+    background: #f8fafc;
+  }
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.2);
@@ -151,7 +156,34 @@
   bottom: 0;
   z-index: 1;
 
+  button {
+    @media (max-width: 767px) {
+      width: 90% !important;
+      margin-top: 5px;
+      max-width: 90%;
+      min-width: 90%;
+      min-height: 48px;
+      max-height: 48px;
+    }
+  }
+
+  .plans-logo {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
   .plans-list {
+    @media (max-width: 767px) {
+      max-height: 48px;
+      min-height: 48px;
+
+      max-width: 90%;
+      min-width: 90%;
+
+      margin: 5px;
+    }
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -189,6 +221,9 @@
   }
 
   .empty-plan {
+    @media (max-width: 767px) {
+      background: white;
+    }
     background: #f1f5f9;
     border: 1px dashed #64748b;
     box-sizing: border-box;
@@ -215,6 +250,9 @@
   background-color: var(--v2-white);
   box-shadow: var(--shadow-default);
   position: sticky;
+  @media (max-width: 767px) {
+    position: initial !important;
+  }
   top: 0;
   z-index: 1;
   display: flex;
@@ -253,6 +291,16 @@
 }
 
 .plan-comparsion-heder {
+  @media (max-width: 767px) {
+    padding: 10px;
+    width: 100vw;
+    overflow-x: scroll;
+
+    .compr-plan-col-hdr {
+      width: 200px;
+    }
+  }
+
   display: flex;
   padding: 36px 40px 16px 40px;
   justify-content: flex-start;
@@ -267,6 +315,9 @@
     }
   }
   .plan-div {
+    @media (max-width: 767px) {
+      width: auto !important;
+    }
     width: 25%;
     display: flex;
     align-items: center;
