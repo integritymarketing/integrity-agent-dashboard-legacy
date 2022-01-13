@@ -101,21 +101,6 @@ export default () => {
                     </button>
                   </div>
                 </div>
-                <div className="pt-2 mt-auto">
-                  <a
-                    href={
-                      process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                      "/external/SamlLogin/2021"
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${analyticsService.clickClass(
-                      "connecture-button"
-                    )}`}
-                  >
-                    2021 MedicareAPP
-                  </a>
-                </div>
               </div>
             </div>
             <div
