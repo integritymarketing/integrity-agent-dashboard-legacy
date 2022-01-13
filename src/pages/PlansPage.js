@@ -273,6 +273,7 @@ export default () => {
       setPlanType(value);
       history.push({ state: { planType: parseInt(value) } });
     }
+    setSelectedPlans({});
   };
   const getAllPlans = useCallback(async () => {
     if (contact) {

@@ -148,14 +148,18 @@ export default () => {
               {comparePlans.length > 0 && (
                 <>
                   <div className={`${styles["plan-div"]}`}>
-                    <span className={styles["comp-mr-left"]}>
+                    <span
+                      className={`${styles["comp-mr-left"]} ${styles["compr-plan-col-hdr"]}`}
+                    >
                       Compare Plans
                     </span>
                     <span className={`${styles["plan-seperator"]}`}></span>
                   </div>
                   {comparePlans.map((plan) => (
                     <div className={`${styles["plan-div"]}`}>
-                      <div className={styles["comp-mr-left"]}>
+                      <div
+                        className={`${styles["comp-mr-left"]} ${styles["compr-plan-col-hdr"]}`}
+                      >
                         <div>
                           {" "}
                           <img

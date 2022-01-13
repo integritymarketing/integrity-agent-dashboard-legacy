@@ -122,16 +122,16 @@ export default function PlanCard({
           className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}
         >
           <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
-        </div>
-        <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
-          <div className={"label"}>In-Network</div>
-          <div className={"items"}>
-            {getProviders(
-              planData.providers,
-              isMobile,
-              planData.isPlanNetworkAvailable
-            )}
-            {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+          <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
+            <div className={"label"}>In-Network</div>
+            <div className={"items"}>
+              {getProviders(
+                planData.providers,
+                isMobile,
+                planData.isPlanNetworkAvailable
+              )}
+              {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+            </div>
           </div>
         </div>
       </div>
