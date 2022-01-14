@@ -173,8 +173,6 @@ export default () => {
         </Container>
       </div>
       <EnrollClientBanner />
-      {/*       <FeedbackRibbon />
-       */}
       <Container className="mb-4" data-gtm="hp-learning-center-container">
         <section>
           <div className="custom-homepage-heading hdg hdg--1">
