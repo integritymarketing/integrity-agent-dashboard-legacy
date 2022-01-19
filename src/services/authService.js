@@ -65,7 +65,12 @@ class authService {
     };
   };
 
-  _authAPIRequest = async (path, method = "GET", body = null) => {
+  _authAPIRequest = async (
+    path,
+    method = "GET",
+    body = null,
+    isExtranlLogin = false
+  ) => {
     let user = null;
     try {
       if (this.isAuthenticated()) {
@@ -88,10 +93,14 @@ class authService {
       opts.body = JSON.stringify(body);
     }
 
-    return fetch(
-      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/${AUTH_API_VERSION}/account${path}`,
-      opts
-    );
+    let url = `${process.env.REACT_APP_AUTH_AUTHORITY_URL}`;
+    if (isExtranlLogin) {
+      url = `${url}/external${path}`;
+    } else {
+      url = `${url}/api/${AUTH_API_VERSION}/account${path}`;
+    }
+
+    return fetch(url, opts);
   };
 
   setUserProfile = async () => {
@@ -224,7 +233,9 @@ class authService {
   registerUser = async (values) =>
     this._authAPIRequest("/register", "POST", values);
 
-  loginUser = async (values) => this._authAPIRequest("/login", "POST", values);
+  loginUser = async (values, isClinetId) => {
+    this._authAPIRequest("/login", "POST", values, isClinetId);
+  };
 
   logoutUser = async (logoutId) =>
     this._authAPIRequest(`/logout?logoutId=${logoutId}`);
