@@ -20,10 +20,70 @@ export default () => {
   const params = useQueryParams();
 
   useEffect(() => {
-    analyticsService.fireEvent("event-content-load", {
-      pagePath: "/login/",
-    });
-  }, []);
+    async function checkForExtrnalLogin() {
+      let clientId = params.get("client_id");
+      if (clientId === "ASBClient") {
+        loading.begin();
+        let userDetail = {
+          Username: params.get("username"),
+          Password: "",
+          returnUrl: params.get("ReturnUrl"),
+        };
+        const response = authService.loginUserWithClinetID(userDetail, true);
+        postLogin(response, {}, userDetail);
+      } else {
+        analyticsService.fireEvent("event-content-load", {
+          pagePath: "/login/",
+        });
+      }
+    }
+
+    checkForExtrnalLogin();
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
+  
+  const postLogin = async (response, { setErrors, setSubmitting }, payload) => {
+    // a 500 server error occurs when invalid OIDC query string params
+    // are present (eg missing ReturnUrl).
+    // catch 500 and send to final error page.
+    if (response.status >= 500) {
+      history.push(
+        `sorry?message=${encodeURIComponent(
+          "Something went wrong with your login request.  Please try again."
+        )}`
+      );
+      loading.end();
+      return;
+    }
+    const data = await response.json();
+    if (setSubmitting) {
+      setSubmitting(false);
+    }
+    loading.end();
+    if (data && data.isOk) {
+      analyticsService.fireEvent("event-form-submit", {
+        formName: "Login",
+      });
+      window.location = data.redirectUrl;
+    } else {
+      let errors = validationService.formikErrorsFor(data);
+
+      if (errors.Global === "account_unconfirmed") {
+        analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
+          formName: "Login",
+        });
+        history.push(
+          `registration-email-sent?npn=${payload.Username}&mode=error`
+        );
+      } else {
+        analyticsService.fireEvent("event-form-submit-invalid", {
+          formName: "Login",
+        });
+        if (setErrors) {
+          setErrors(errors);
+        }
+      }
+    }
+  };
 
   return (
     <React.Fragment>
@@ -68,11 +128,12 @@ export default () => {
               loading.begin();
               values.returnUrl = params.get("ReturnUrl");
               const response = await authService.loginUser(values);
-
+              postLogin(response, { setErrors, setSubmitting }, values);
               // a 500 server error occurs when invalid OIDC query string params
               // are present (eg missing ReturnUrl).
               // catch 500 and send to final error page.
-              if (response.status >= 500) {
+              //Need to remove after testing
+              /* if (response.status >= 500) {
                 history.push(
                   `sorry?message=${encodeURIComponent(
                     "Something went wrong with your login request.  Please try again."
@@ -110,7 +171,7 @@ export default () => {
                   });
                   setErrors(errors);
                 }
-              }
+              } */
             }}
           >
             {({
@@ -145,6 +206,8 @@ export default () => {
                           to="https://nipr.com/help/look-up-your-npn"
                           target="_blank"
                           className="text-sm link link--force-underline"
+                          href={() => false}
+                          rel="noopener noreferrer"
                         >
                           Forgot NPN Number?
                         </a>
