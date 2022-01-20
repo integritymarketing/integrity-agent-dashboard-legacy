@@ -39,8 +39,8 @@ export default () => {
     }
 
     checkForExtrnalLogin();
-  }, []);
-
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
+  
   const postLogin = async (response, { setErrors, setSubmitting }, payload) => {
     // a 500 server error occurs when invalid OIDC query string params
     // are present (eg missing ReturnUrl).
@@ -206,6 +206,8 @@ export default () => {
                           to="https://nipr.com/help/look-up-your-npn"
                           target="_blank"
                           className="text-sm link link--force-underline"
+                          href={() => false}
+                          rel="noopener noreferrer"
                         >
                           Forgot NPN Number?
                         </a>
