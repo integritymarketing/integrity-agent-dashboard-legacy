@@ -39,6 +39,7 @@ export default ({
   resultName = "contacts",
   onPageChange = noop,
   providerPagination = false,
+  contactsCardPage = false,
   ...props
 }) => {
   const handlePageChange = (page) => {
@@ -59,7 +60,8 @@ export default ({
       }}
     >
       {(matches) =>
-        ((!matches.large && providerPagination) || matches.large) && (
+        ((!matches.large && (providerPagination || contactsCardPage)) ||
+          matches.large) && (
           <div className="pagination-container">
             {!providerPagination && (
               <div className="pagination-display-results">
@@ -120,7 +122,7 @@ export default ({
                       >
                         {!providerPagination && (
                           <span className="mr-1">Next</span>
-                        )}{" "}
+                        )}
                         <Next /> <span className="visuallyhidden">page</span>
                       </PaginationButton>
                     )}

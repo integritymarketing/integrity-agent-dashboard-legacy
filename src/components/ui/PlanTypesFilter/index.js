@@ -27,7 +27,7 @@ export default function PlanTypesFilter({
           value={2}
           label="MAPD"
           checked={initialValue === 2}
-          onChange={(value) => changeFilter(value)}
+          onChange={() => changeFilter(2)}
         />
         <Radio
           htmlFor="PlanType"
@@ -36,7 +36,7 @@ export default function PlanTypesFilter({
           value={4}
           checked={initialValue === 4}
           label="MA"
-          onChange={(value) => changeFilter(value)}
+          onChange={() => changeFilter(4)}
         />
         <Radio
           htmlFor="PlanType"
@@ -45,7 +45,7 @@ export default function PlanTypesFilter({
           value={1}
           checked={initialValue === 1}
           label="PDP"
-          onChange={(value) => changeFilter(value)}
+          onChange={() => changeFilter(1)}
         />
         {includeAll && (
           <Radio
@@ -54,7 +54,7 @@ export default function PlanTypesFilter({
             name="PlanType"
             value={-1}
             label="All"
-            onChange={(value) => changeFilter(value)}
+            onChange={() => changeFilter(-1)}
           />
         )}
       </SubSection>

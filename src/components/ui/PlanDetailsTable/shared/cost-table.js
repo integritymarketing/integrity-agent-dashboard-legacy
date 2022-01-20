@@ -16,8 +16,11 @@ function PremiumCell({ planData }) {
   return (
     <>
       <span className={"value"}>
-        {currencyFormatter.format(planData.annualPlanPremium / 12)}
+        <span className={"currency"}>
+          {currencyFormatter.format(planData.annualPlanPremium / 12)}
+        </span>
         <span className={"per"}>/month</span>
+        <span className={"per-mobile"}>Monthly</span>
       </span>
     </>
   );
@@ -41,8 +44,13 @@ function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
   return (
     <>
       <span className={"value"}>
-        {currencyFormatter.format(planData.estimatedAnnualDrugCostPartialYear)}
+        <span className={"currency"}>
+          {currencyFormatter.format(
+            planData.estimatedAnnualDrugCostPartialYear
+          )}
+        </span>
         <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
+        <span className={"per-mobile"}>Yearly</span>
       </span>
       <span className={"subtext"}>
         Estimated based on a {effectiveDateString}
@@ -72,11 +80,14 @@ function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
   return (
     <>
       <span className={"value"}>
-        {currencyFormatter.format(
-          planData.medicalPremium * monthsRemaining +
-            planData.estimatedAnnualDrugCostPartialYear
-        )}
+        <span className={"currency"}>
+          {currencyFormatter.format(
+            planData.medicalPremium * monthsRemaining +
+              planData.estimatedAnnualDrugCostPartialYear
+          )}
+        </span>
         <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
+        <span className={"per-mobile"}>Yearly</span>
       </span>
       <span className={"subtext"}>
         Estimated based on a {effectiveDateString} effective date.

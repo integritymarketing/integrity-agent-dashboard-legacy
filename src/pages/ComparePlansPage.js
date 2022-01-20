@@ -89,6 +89,19 @@ export default () => {
     getContactRecordInfo();
   }, [getContactRecordInfo]);
 
+  const handleRemovePlan = (planId) => {
+    setComparePlans((prevPlans) => {
+      const plans = prevPlans.filter((plan) => plan.id !== planId);
+
+      sessionStorage.setItem(
+        "__plans__",
+        JSON.stringify({ plans, effectiveDate })
+      );
+
+      return plans;
+    });
+  };
+
   const isLoading = loading;
   const LOGO_BASE_URL =
     "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
@@ -135,14 +148,18 @@ export default () => {
               {comparePlans.length > 0 && (
                 <>
                   <div className={`${styles["plan-div"]}`}>
-                    <span className={styles["comp-mr-left"]}>
+                    <span
+                      className={`${styles["comp-mr-left"]} ${styles["compr-plan-col-hdr"]}`}
+                    >
                       Compare Plans
                     </span>
                     <span className={`${styles["plan-seperator"]}`}></span>
                   </div>
                   {comparePlans.map((plan) => (
                     <div className={`${styles["plan-div"]}`}>
-                      <div className={styles["comp-mr-left"]}>
+                      <div
+                        className={`${styles["comp-mr-left"]} ${styles["compr-plan-col-hdr"]}`}
+                      >
                         <div>
                           {" "}
                           <img
@@ -163,6 +180,12 @@ export default () => {
                           </span>
                         </div>
                         <Button label="Enroll" type="primary" />
+                        <span
+                          className={styles.close}
+                          onClick={() => handleRemovePlan(plan.id)}
+                        >
+                          X
+                        </span>
                       </div>
                       <div className={`${styles["plan-seperator"]}`}></div>
                     </div>

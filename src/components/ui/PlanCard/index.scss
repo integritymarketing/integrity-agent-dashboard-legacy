@@ -1,3 +1,19 @@
+.plan-card-buttons {
+  margin: 0px -18px !important;
+  .footer {
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    @media (max-width: 480px) {
+      background: #f8fafc;
+    }
+    button {
+      width: calc(50% - 8px);
+    }
+  }
+}
+
 .plan-card {
   font-family: Lato;
   font-style: normal;
@@ -6,7 +22,14 @@
   border-radius: 8px;
   padding: 16px 32px;
   background: var(--v2-white);
-
+  @media (max-width: 480px) {
+    margin: 0px 20px 0px 20px;
+    padding: 9px;
+    width: auto !important;
+  }
+  &.mobile {
+    padding: 23px 23px 0px 23px;
+  }
   &.no-plan-results {
     padding: 80px;
   }
@@ -23,12 +46,23 @@
       color: #002d72;
     }
 
+    .hide-desktop {
+      display: none;
+      @media (max-width: 480px) {
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+
     .plan-logo {
       margin-top: 6px;
 
       > img {
         max-height: 56px;
         max-width: 116px;
+        @media (max-width: 480px) {
+          max-width: 80px;
+        }
       }
     }
 
@@ -60,7 +94,11 @@
     display: flex;
     margin-top: 5px;
     margin-bottom: 16px;
-
+    .cr-name-mbl {
+      @media (max-width: 480px) {
+        display: none;
+      }
+    }
     .carrier-name {
       font-weight: bold;
       font-size: 16px;
@@ -72,6 +110,20 @@
 
     .rating-container {
       padding-left: 16px;
+      @media (max-width: 480px) {
+        padding-left: 0px;
+      }
+    }
+    &.mobile {
+      flex-direction: column;
+      margin-top: 12px;
+      .carrier-name {
+        border-right: none;
+      }
+      .rating-container {
+        padding-left: 0px;
+        margin-top: 12px;
+      }
     }
   }
 
@@ -82,6 +134,9 @@
     padding: 24px 16px 24px 32px;
     background: #f2f9ff;
     margin-bottom: 24px;
+    @media (max-width: 480px) {
+      align-items: initial;
+    }
 
     .monthly {
       display: flex;
@@ -124,6 +179,9 @@
             font-size: 16px;
             line-height: 150%;
             white-space: nowrap;
+            @media (max-width: 480px) {
+              font-size: 20px;
+            }
           }
           .filler {
             border-bottom: dashed #94a3b8;
@@ -156,9 +214,18 @@
 
         .label {
           margin-top: 1rem;
+          @media (max-width: 480px) {
+            margin-top: 8px;
+            font-size: 20px;
+          }
 
           svg {
             vertical-align: middle;
+          }
+          .mnth-mbl {
+            @media (max-width: 480px) {
+              margin-left: 4px;
+            }
           }
         }
       }
@@ -190,7 +257,17 @@
     }
   }
 
+  .mob-show {
+    display: none;
+    @media (max-width: 480px) {
+      display: initial !important;
+    }
+  }
+
   .in-network {
+    @media (max-width: 480px) {
+      display: none;
+    }
     .label {
       font-family: Lato;
       font-style: normal;
@@ -263,16 +340,61 @@
 
     .plan-btn-container {
       display: flex;
+      @media (max-width: 480px) {
+        justify-content: space-around;
+        width: 100%;
+      }
     }
 
     .button {
       margin-left: 16px;
+      @media (max-width: 480px) {
+        margin-left: 0px;
+        min-width: 152px;
+        min-height: 48px;
+      }
+      @media (max-width: 375px) {
+        min-width: 114px;
+      }
     }
 
     &.mobile {
-      justify-content: center;
-      .button {
-        width: 50%;
+      margin: 0 -23px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-left: 0px;
+      background: #f2f9ff;
+      height: 76px;
+      align-items: center;
+      padding: 17px 23px;
+      border-radius: 0px 0px 8px 8px;
+      @media (max-width: 480px) {
+        background-color: initial;
+        border-top: none;
+        margin: 0px;
+        padding: 0px;
+      }
+      .monthly-cost {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        & > div {
+          width: 50%;
+        }
+        .currency {
+          font-size: 32px;
+          font-weight: 600;
+          line-height: 42px;
+          letter-spacing: 0em;
+          text-align: left;
+        }
+        .label {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 21px;
+          letter-spacing: 0em;
+          text-align: left;
+        }
       }
     }
 
@@ -286,11 +408,21 @@
     border: none;
   }
 
+  .cmp-chk-mbl {
+    @media (max-width: 480px) {
+      display: none !important;
+    }
+  }
+
   .compare-check {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-left: 15px;
+    @media (max-width: 480px) {
+      margin-left: 0px;
+      margin-bottom: 15px;
+    }
 
     .compare-inpt {
       margin-top: 2px;

@@ -6,6 +6,7 @@ import ArrowDownIcon from "../../icons/arrow-down";
 import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
+import { useSelectFilterToScroll } from "hooks/useSelectFilter";
 
 export const DefaultOption = ({
   label,
@@ -25,6 +26,9 @@ export const DefaultOption = ({
       {...rest}
       className={`option ${selected ? "selected" : ""}`}
       onClick={handleOptionClick}
+      id={`option-${label}`}
+      tabIndex="-1"
+      rules="menuitem"
     >
       {prefix}
       {showValueAsLabel ? value : label}
@@ -74,10 +78,37 @@ export const Select = ({
     }
   });
 
+  useSelectFilterToScroll(options, isOpen, (label) => {
+    scrollToOption(label);
+  });
+
+  const scrollToOption = (label) => {
+    if (label) {
+      let filtered = options.filter((state) => {
+        return state.label.toLowerCase().startsWith(label?.toLowerCase());
+      });
+      let filtered_label = filtered[0]?.label;
+      let filtered_value = filtered[0]?.value;
+
+      let selectedElement = document.getElementById(`option-${filtered_label}`);
+      selectedElement.classList.add("active-item-selected");
+      let topPos = selectedElement?.offsetTop;
+      let scrollContainer = document.getElementById(
+        "option-container-scrolling_div"
+      );
+      scrollContainer.scrollTop = topPos - 40;
+      setValue(filtered_value);
+      onChange(filtered_value);
+      setIsOpen(true);
+    }
+  };
+
   useEffect(() => {
-    setValue(initialValue);
-    setIsOpen(isDefaultOpen);
-  }, [initialValue, isDefaultOpen]);
+    if (!isOpen) {
+      setValue(initialValue);
+      setIsOpen(isDefaultOpen);
+    }
+  }, [initialValue, isDefaultOpen, isOpen]);
 
   const handleOptionChange = (ev, value) => {
     ev.preventDefault();
@@ -94,15 +125,20 @@ export const Select = ({
     }
   };
 
+  const toggleOptionsMenuKeyUp = (ev) => {
+    if (ev.keyCode === 13) {
+      toggleOptionsMenu(ev);
+    }
+  };
+
   const [selectedOption, selectableOptions] = useMemo(() => {
-    setIsOpen(isDefaultOpen);
     const selectedOptions = options.filter((option) => option?.value === value);
     const selectableOptions = options.map((option) => ({
       ...option,
       selected: option?.value === value,
     }));
     return [selectedOptions[0], selectableOptions];
-  }, [options, value, isDefaultOpen]);
+  }, [options, value]);
 
   const heightStyle = useMemo(() => {
     const top = isOpen ? ref?.current?.getBoundingClientRect().top + 40 : 40;
@@ -125,7 +161,10 @@ export const Select = ({
       className={`${error ? "has-error" : ""} ${
         showValueAlways ? "show-always" : ""
       } inputbox`}
+      tabindex="0"
+      role="menu"
       onClick={toggleOptionsMenu}
+      onKeyUp={toggleOptionsMenuKeyUp}
     >
       {value ? (
         <Option
@@ -151,7 +190,11 @@ export const Select = ({
     </div>
   );
   const optionsContainer = (
-    <div className="options" style={{ maxHeight: heightStyle.maxHeight - 40 }}>
+    <div
+      id={"option-container-scrolling_div"}
+      className="options"
+      style={{ maxHeight: heightStyle.maxHeight - 40 }}
+    >
       {selectHeader}
       {selectableOptions.map((option, idx) => (
         <Option

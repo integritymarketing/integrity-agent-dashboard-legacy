@@ -29,20 +29,29 @@ function getInNetwork(isCovered, isPlanNetworkAvailable) {
   );
 }
 
-export default ({ planData }) => {
+export default ({ planData, isMobile }) => {
   const columns = useMemo(
     () => [
       {
         Header: "Providers",
         columns: [
-          {
-            hideHeader: true,
-            accessor: "name",
-          },
-          {
-            hideHeader: true,
-            accessor: "address",
-          },
+          ...(isMobile
+            ? [
+                {
+                  hideHeader: true,
+                  accessor: "name_address",
+                },
+              ]
+            : [
+                {
+                  hideHeader: true,
+                  accessor: "name",
+                },
+                {
+                  hideHeader: true,
+                  accessor: "address",
+                },
+              ]),
           {
             hideHeader: true,
             accessor: "inNetwork",
@@ -50,14 +59,14 @@ export default ({ planData }) => {
         ],
       },
     ],
-    []
+    [isMobile]
   );
   const data = [];
 
   if (planData.providers && Array.isArray(planData.providers)) {
     for (var i = 0; i < planData.providers.length; i++) {
       var provider = planData.providers[i];
-      data.push({
+      const row = {
         name: (
           <>
             <span className={"label"}>
@@ -85,13 +94,17 @@ export default ({ planData }) => {
           provider.inNetwork,
           planData.isPlanNetworkAvailable
         ),
+      }
+      data.push({
+        ...row,
+        name_address: <><div>{row.name}</div><div>{row.address}</div></>
       });
     }
   }
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} />
+      <PlanDetailsTable columns={columns} data={data} className="quotes" />
     </>
   );
 };

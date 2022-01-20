@@ -290,7 +290,7 @@ export default (props) => {
             <div className="scope-details-card-header contactdetailscardheader">
               <h4>Contact Details</h4>
 
-              <div className="" style={{ display: "flex" }}>
+              <div className="top-button-group responsive-d-none"  >
                 <Button
                   className="edit-contact-details-cancel-btn contact-details-cancel cancel-btn btn mr-2 ml-10"
                   data-gtm="new-contact-cancel-button"
@@ -401,11 +401,13 @@ export default (props) => {
                     </label>
                     <div className="record-select-input mob-res-mar-0">
                       <Select
+                        placeholder="select"
                         options={ContactRecordTypes}
                         initialValue={values.contactRecordType}
                         onChange={(value) =>
                           setFieldValue("contactRecordType", value)
                         }
+                        showValueAlways={true}
                       />
                     </div>
                   </div>
@@ -478,11 +480,13 @@ export default (props) => {
                       </label>
                       <div className="record-select-input mob-res-mar-0">
                         <Select
+                          placeholder="select"
                           options={PhoneLabels}
                           initialValue={values.phones.phoneLabel}
                           onChange={(value) =>
                             setFieldValue("phones.phoneLabel", value)
                           }
+                          showValueAlways={true}
                         />
                       </div>
                     </div>
@@ -568,6 +572,7 @@ export default (props) => {
                         onChange={(value) => {
                           setFieldValue("address.stateCode", value);
                         }}
+                        showValueAlways={true}
                       />
                     </div>
                   </div>
@@ -620,6 +625,7 @@ export default (props) => {
                           )[0]?.key;
                           setFieldValue("address.countyFips", fip);
                         }}
+                        showValueAlways={true}
                       />
                     </div>
                   </div>
@@ -655,7 +661,7 @@ export default (props) => {
                   </div>
                 )}
                 <div
-                  className="btn-responsive-display mt-3"
+                  className={` ${props.page === "plansPage" ? "save-btn-only" : ""} btn-responsive-display mt-3`}
                   style={{ display: "flex" }}
                 >
                   <Button

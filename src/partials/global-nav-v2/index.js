@@ -36,18 +36,44 @@ const useHelpButtonWithModal = () => {
   ];
 };
 
-const SiteNotification = ({ showPhoneNotification }) => {
-  if (showPhoneNotification) {
+const SiteNotification = ({
+  showPhoneNotification,
+  showMaintenaceNotification,
+}) => {
+  const notificationClass = [
+    "site-notification2-",
+    showPhoneNotification ? "hasNotification" : null,
+    showMaintenaceNotification ? "hasMainitananceNotification" : null,
+  ]
+    .filter(Boolean)
+    .join("-");
+
+  if (showPhoneNotification || showMaintenaceNotification) {
     return (
       <div
-        className="site-notification site-notification--notice"
-        data-testid="phone-number-notification"
+        className={`site-notification2 site-notification2--notice ${notificationClass}`}
       >
-        <div className="site-notification__icon">&#9888;</div>
-        <div>
-          Phone number is required. Please{" "}
-          <Link to="/edit-account">update</Link> your account information.
-        </div>
+        {showPhoneNotification && (
+          <div data-testid="phone-number-notification">
+            <div className="site-notification2__icon">&#9888;</div>
+            <div>
+              Phone number is required. Please{" "}
+              <Link to="/edit-account">update</Link> your account information.
+            </div>
+          </div>
+        )}
+        {showMaintenaceNotification && (
+          <div
+            className="site-notification2__maintanance"
+            data-testid="maintance-notification"
+          >
+            <div>We are currently experiencing issues</div>
+            <div className="site-maintanance-text">
+              This may affect your ability to use MedicareCENTER. We are working
+              as fast as we can to resolve the issue.
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -123,24 +149,35 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   const showPhoneNotification =
     auth.isAuthenticated() && !auth.userProfile.phone;
+  const showMaintenaceNotification = process.env.REACT_APP_NOTIFICATION_BANNER === "true";
+  const headernotificationClass = [
+    "global-nav-v2-",
+    showPhoneNotification ? "hasNotification" : null,
+    showMaintenaceNotification ? "hasMainitananceNotification" : null,
+  ]
+    .filter(Boolean)
+    .join("-");
 
   return (
     <>
-      <SiteNotification showPhoneNotification={showPhoneNotification} />
+      <SiteNotification
+        showPhoneNotification={showPhoneNotification}
+        showMaintenaceNotification={showMaintenaceNotification}
+      />
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
-        )} ${className} ${
-          showPhoneNotification ? "global-nav-v2--hasNotification" : ""
-        }`}
+        )} ${className} ${headernotificationClass}`}
         {...props}
       >
         <a href="#main-content" className="skip-link">
           Jump to main content
         </a>
-        <h1 className={`global-nav-v2__title ${analyticsService.clickClass(
-          "nav-logo"
-        )}`}>
+        <h1
+          className={`global-nav-v2__title ${analyticsService.clickClass(
+            "nav-logo"
+          )}`}
+        >
           <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
             <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>

@@ -118,20 +118,29 @@ export default ({
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}
+              isMobile={isMobile}
             />
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>
-          {plan && <PdpCostTable planData={plan} />}
+          {plan && <PdpCostTable planData={plan} isMobile={isMobile} />}
         </div>
         <div
           ref={prescriptionsRef}
           className={`${styles["prescription-details"]}`}
         >
-          {plan && <PdpPrescriptionsTable planData={plan} />}
+          {plan && (
+            <PdpPrescriptionsTable planData={plan} isMobile={isMobile} />
+          )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
-          {plan && <PdpPharmacyTable planData={plan} pharmacies={pharmacies} />}
+          {plan && (
+            <PdpPharmacyTable
+              planData={plan}
+              pharmacies={pharmacies}
+              isMobile={isMobile}
+            />
+          )}
         </div>
         <PlanDetailsPharmacyCoverageContent
           plan={plan}
@@ -143,9 +152,10 @@ export default ({
             preferredMailOrderPharmacyCoverageRef,
             standardMailOrderPharmacyCoverageRef,
           }}
+          isMobile={isMobile}
         />
         <div ref={planDocumentsRef} className={`${styles["plan-documents"]}`}>
-          <PlanDocumentsTable planData={plan} />
+          <PlanDocumentsTable planData={plan} isMobile={isMobile} />
         </div>
       </div>
     </>

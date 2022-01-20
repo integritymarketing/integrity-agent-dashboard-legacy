@@ -36,7 +36,7 @@ function DetailsCard({
           itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength
         }`;
   const disableStatus =
-    headerTitle === "Pharmacies" && items.length === 1 ? true : false;
+    headerTitle === "Pharmacies" && items.length > 0 ? true : false;
 
   return (
     <div className="details-card" data-gtm={dataGtm}>

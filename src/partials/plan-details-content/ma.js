@@ -57,20 +57,21 @@ export default ({ plan, isMobile, styles, onEnrollClick, onShareClick }) => {
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}
+              isMobile={isMobile}
             />
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>
-          {plan && <MaCostTable planData={plan} />}
+          {plan && <MaCostTable isMobile={isMobile} planData={plan} />}
         </div>
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
-          {plan && <MaProvidersTable planData={plan} />}
+          {plan && <MaProvidersTable isMobile={isMobile} planData={plan} />}
         </div>
         <div ref={planBenefitsRef} className={`${styles["plan-benefits"]}`}>
-          {plan && <MaPlanBenefitsTable planData={plan} />}
+          {plan && <MaPlanBenefitsTable isMobile={isMobile} planData={plan} />}
         </div>
         <div ref={planDocumentsRef} className={`${styles["plan-documents"]}`}>
-          <PlanDocumentsTable planData={plan} />
+          <PlanDocumentsTable isMobile={isMobile} planData={plan} />
         </div>
       </div>
     </>

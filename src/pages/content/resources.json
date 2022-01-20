@@ -182,6 +182,18 @@
       "filename": "MedicareCENTER-Ameritas-PrimeStar-FAQ.pdf"
     },
     {
+      "name": "Florida Blue 2022 Broker Toolkit",
+      "description": "",
+      "categories": ["carrier-guides"],
+      "filename": "MedicareCENTER-Florida-Blue-2022-Broker-Toolkit.pdf"
+    },
+    {
+      "name": "Florida Blue 2022 First Look",
+      "description": "",
+      "categories": ["carrier-guides"],
+      "filename": "MedicareCENTER-Florida-Blue-2022-First-Look.pdf"
+    },
+    {
       "name": "Humana Medicare Supplement Sales Agent Field Guide",
       "description": "Complete guide to Humana's MedSupp features, eligibility requirements, enrollment guide, underwriting guidelines and more. Updated 06/20",
       "categories": ["carrier-guides"],
@@ -204,6 +216,30 @@
       "description": "Everything you need to know about getting started with SureBridge",
       "categories": ["carrier-guides"],
       "filename": "MedicareCENTER-SureBridge-Getting-Started-Guide.pdf"
+    },
+    {
+      "name": "Zing Health 2022 Product Comparison - Part-B Buy-downs (IL, IN, MI)",
+      "description": "",
+      "categories": ["carrier-guides"],
+      "filename": "MedicareCENTER-Zing-Health-2022-Part-B-Buydowns.pdf"
+    },
+    {
+      "name": "Zing Health 2022 Overview - IL",
+      "description": "",
+      "categories": ["carrier-guides"],
+      "filename": "MedicareCENTER-Zing-Health-2022-IL.pdf"
+    },
+    {
+      "name": "Zing Health 2022 Overview - IN",
+      "description": "",
+      "categories": ["carrier-guides"],
+      "filename": "MedicareCENTER-Zing-Health-2022-IN.pdf"
+    },
+    {
+      "name": "Zing Health 2022 Overview - MI",
+      "description": "",
+      "categories": ["carrier-guides"],
+      "filename": "MedicareCENTER-Zing-Health-2022-MI.pdf"
     },
     {
       "name": "CVS Accendo Med Supp Medicare Center Overview",

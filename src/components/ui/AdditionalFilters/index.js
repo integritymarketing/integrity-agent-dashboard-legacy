@@ -11,6 +11,11 @@ export default function AdditionalFilters({
   toggleAppointedPlans,
   toggleNeeds,
   toggleRebates,
+  carrierFilters,
+  policyFilters,
+  myAppointedPlans,
+  rebatesFilter,
+  specialNeedsFilter,
 }) {
   return (
     <div className="effective-date-filter">
@@ -22,7 +27,10 @@ export default function AdditionalFilters({
               label: carrier,
               id: carrier,
               name: "carrier",
-              defaultChecked: carriers.length === 1,
+              checked:
+                carrierFilters.filter((item) => item === carrier)?.length > 0
+                  ? true
+                  : false,
               disabled: carriers.length === 1,
               value: carrier,
               onChange: onFilterChange,
@@ -37,7 +45,10 @@ export default function AdditionalFilters({
               label: type,
               id: type,
               name: "policy",
-              defaultChecked: policyTypes.length === 1,
+              checked:
+                policyFilters.filter((item) => item === type)?.length > 0
+                  ? true
+                  : false,
               disabled: policyTypes.length === 1,
               value: type,
               onChange: onFilterChange,
@@ -51,21 +62,21 @@ export default function AdditionalFilters({
             {
               label: "My appointed plans",
               id: "appointed",
-              defaultChecked: true,
+              checked: myAppointedPlans,
               value: "appointed",
               onChange: toggleAppointedPlans,
             },
             {
               label: "Special needs",
               id: "specialNeeds",
-              defaultChecked: false,
+              checked: specialNeedsFilter,
               value: "needs",
               onChange: toggleNeeds,
             },
             {
               label: "Includes Part B rebates",
               id: "rebates",
-              defaultChecked: false,
+              checked: rebatesFilter,
               value: "rebate",
               onChange: toggleRebates,
             },

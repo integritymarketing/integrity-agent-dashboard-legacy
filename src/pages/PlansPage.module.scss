@@ -11,6 +11,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    padding-bottom: 80px;
 
     .filter-section {
       border: 1px solid #cbd5e1;
@@ -29,6 +30,10 @@
       margin-right: 15px;
       flex-grow: 1;
       flex-shrink: 1;
+      @media (min-width: 320px) and (max-width: 767px) {
+        width: 90%;
+        margin: 35px 18px 0;
+      }
     }
 
     .results {
@@ -36,6 +41,10 @@
       flex-shrink: 3;
       margin-top: 25px;
       max-width: 871px;
+      @media (max-width: 480px) {
+        margin-top: 0px;
+        width: 100%;
+      }
 
       .sort {
         display: flex;
@@ -43,6 +52,9 @@
         align-items: center;
         margin-top: 15px;
         padding-bottom: 33px;
+        @media (max-width: 480px) {
+          padding: 18px 0px 18px 0px;
+        }
 
         .sort-select {
           @media (min-width: 480px) {
@@ -55,6 +67,9 @@
 
           .plans-type {
             font-weight: 700;
+            @media (min-width: 320px) and (max-width: 767px) {
+              margin-left: 20px;
+            }
           }
         }
       }
@@ -71,6 +86,9 @@
 
   .edit-container {
     margin-top: 46px;
+    @media (min-width: 320px) and (max-width: 767px) {
+      margin-top: 0;
+    }
   }
 }
 
@@ -123,6 +141,10 @@
 }
 
 .plan-footer {
+  @media (max-width: 767px) {
+    flex-direction: column;
+    background: #f8fafc;
+  }
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.2);
@@ -134,7 +156,34 @@
   bottom: 0;
   z-index: 1;
 
+  button {
+    @media (max-width: 767px) {
+      width: 90% !important;
+      margin-top: 5px;
+      max-width: 90%;
+      min-width: 90%;
+      min-height: 48px;
+      max-height: 48px;
+    }
+  }
+
+  .plans-logo {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
   .plans-list {
+    @media (max-width: 767px) {
+      max-height: 48px;
+      min-height: 48px;
+
+      max-width: 90%;
+      min-width: 90%;
+
+      margin: 5px;
+    }
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -172,6 +221,9 @@
   }
 
   .empty-plan {
+    @media (max-width: 767px) {
+      background: white;
+    }
     background: #f1f5f9;
     border: 1px dashed #64748b;
     box-sizing: border-box;
@@ -198,6 +250,9 @@
   background-color: var(--v2-white);
   box-shadow: var(--shadow-default);
   position: sticky;
+  @media (max-width: 767px) {
+    position: initial !important;
+  }
   top: 0;
   z-index: 1;
   display: flex;
@@ -236,6 +291,16 @@
 }
 
 .plan-comparsion-heder {
+  @media (max-width: 767px) {
+    padding: 10px;
+    width: 100vw;
+    overflow-x: scroll;
+
+    .compr-plan-col-hdr {
+      width: 200px;
+    }
+  }
+
   display: flex;
   padding: 36px 40px 16px 40px;
   justify-content: flex-start;
@@ -250,6 +315,9 @@
     }
   }
   .plan-div {
+    @media (max-width: 767px) {
+      width: auto !important;
+    }
     width: 25%;
     display: flex;
     align-items: center;
@@ -263,6 +331,14 @@
 
     .comp-mr-left {
       margin-left: 25px;
+      position: relative;
+
+      .close {
+        position: absolute;
+        top: 0;
+        cursor: pointer;
+        right: 0;
+      }
     }
 
     .comp-plan-name {
@@ -313,5 +389,57 @@
 .compare-plans-list {
   table tbody td {
     width: 25%;
+    a {
+      display: inline-block;
+      max-width: 175px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 16px;
+    }
+  }
+}
+@media (min-width: 320px) and (max-width: 767px) {
+  .effective-date-filter .select {
+    width: 75%;
+    margin-left: 0 !important;
+  }
+  .filter-btn-section {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background: #fff;
+    left: 0;
+    justify-content: center;
+  }
+  .filter-grey-btn {
+    background: #f4f6fa;
+    margin-right: 17px;
+    width: 150px;
+    border: 1px solid #dfe5ef;
+    border-radius: 4px;
+  }
+  .filter-blue-btn {
+    width: 150px;
+  }
+  .plans-count-mobile {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 130%;
+    margin-bottom: 26px;
+    display: flex;
+    align-items: center;
+    color: #2b323b;
+  }
+  .filter-plans-btn {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 90%;
+    margin: 20px 20px 0;
   }
 }

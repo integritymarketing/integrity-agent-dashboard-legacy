@@ -132,24 +132,25 @@ export default ({
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}
+              isMobile={isMobile}
             />
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>
-          {plan && <MapdCostTable planData={plan} />}
+          {plan && <MapdCostTable isMobile={isMobile}  planData={plan} />}
         </div>
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
-          {plan && <MapdProvidersTable planData={plan} />}
+          {plan && <MapdProvidersTable isMobile={isMobile} planData={plan} />}
         </div>
         <div
           ref={prescriptionsRef}
           className={`${styles["prescription-details"]}`}
         >
-          {plan && <MapdPrescriptionsTable planData={plan} />}
+          {plan && <MapdPrescriptionsTable isMobile={isMobile} planData={plan} />}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
           {plan && (
-            <MapdPharmacyTable planData={plan} pharmacies={pharmacies} />
+            <MapdPharmacyTable isMobile={isMobile} planData={plan} pharmacies={pharmacies} />
           )}
         </div>
         <div ref={planBenefitsRef} className={`${styles["plan-benefits"]}`}>
@@ -169,6 +170,15 @@ export default ({
         <div ref={planDocumentsRef} className={`${styles["plan-documents"]}`}>
           <PlanDocumentsTable planData={plan} />
         </div>
+        {plan && isMobile && (
+            <CompactPlanCard
+              planData={plan}
+              onEnrollClick={onEnrollClick}
+              onShareClick={onShareClick}
+              isMobile={isMobile}
+              onlyButtons={isMobile}
+            />
+          )}
       </div>
     </>
   );

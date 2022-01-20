@@ -5,7 +5,8 @@
   border: 1px solid #cbd5e1;
   box-sizing: border-box;
   border-radius: 8px;
-
+  border-collapse: collapse;
+  background-color: white;
   thead {
     font-weight: 600;
     font-size: 24px;
@@ -21,9 +22,31 @@
     }
   }
 
+  &.quotes {
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+      tr {
+        td:last-child {
+          width: 140px;
+          padding-right: 5px;
+        }
+      }
+    }
+  }
+
+  &.plan-benfits {
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+      tr > td {
+          width: 50%;
+      }
+    }
+  }
+
   tbody {
     tr {
       height: 118px;
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        width: 100% !important;
+      }
     }
 
     tr:nth-child(even) {
@@ -31,6 +54,11 @@
     }
 
     td {
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        word-break: break-word;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
       padding-left: 25px;
       .label,
       .value {
@@ -43,16 +71,36 @@
         .per {
           font-weight: normal;
         }
+        .per-mobile {
+          font-weight: normal;
+          display: none;
+        }
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          display: flex;
+          flex-direction: column;
+          .per {
+            display: none;
+          }
+          .per-mobile {
+            display: block;
+          }
+        }
       }
 
       .link {
         font-weight: 600;
         font-size: 18px;
         line-height: 150%;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          word-break: break-word;
+        }
       }
 
       .copay {
         display: flex;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          flex-direction: column;
+        }
         .label {
           margin-right: 4px;
         }

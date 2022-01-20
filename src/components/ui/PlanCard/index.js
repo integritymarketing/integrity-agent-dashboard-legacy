@@ -77,6 +77,16 @@ export default function PlanCard({
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
+        <div className={"compare-check hide-desktop"}>
+          <input
+            type="checkbox"
+            className={"compare-inpt"}
+            disabled={isCompareDisabled}
+            checked={isChecked}
+            onChange={(e) => onChangeCompare(e.target.checked)}
+          />
+          <span className={"compare-txt"}>Compare</span>{" "}
+        </div>
         <div className={"plan-name"}>{planData.planName}</div>
         {checkForImage && (
           <div className={"plan-logo"}>
@@ -85,7 +95,7 @@ export default function PlanCard({
         )}
       </div>
       <div className={"sub-header"}>
-        <div className={"carrier-name"}>{planData.carrierName}</div>
+        <div className={"carrier-name cr-name-mbl"}>{planData.carrierName}</div>
         <div className={"rating-container"}>
           <Rating value={planData.planRating} />
         </div>
@@ -103,7 +113,8 @@ export default function PlanCard({
           </div>
           {isMobile && (
             <div className={"label"}>
-              /month <ArrowDown />
+              <span className={"mnth-mbl"}>/month </span>
+              <ArrowDown />
             </div>
           )}
         </div>
@@ -111,6 +122,17 @@ export default function PlanCard({
           className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}
         >
           <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
+          <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
+            <div className={"label"}>In-Network</div>
+            <div className={"items"}>
+              {getProviders(
+                planData.providers,
+                isMobile,
+                planData.isPlanNetworkAvailable
+              )}
+              {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+            </div>
+          </div>
         </div>
       </div>
       <div className={`in-network ${isMobile ? "mobile" : ""}`}>
@@ -125,7 +147,7 @@ export default function PlanCard({
         </div>
       </div>
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
-        <div className={"compare-check"}>
+        <div className={"compare-check cmp-chk-mbl"}>
           <input
             type="checkbox"
             className={"compare-inpt"}

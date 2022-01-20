@@ -6,8 +6,32 @@
   font-family: Lato;
   font-weight: normal;
   font-style: normal;
-
+  @media (max-width: 767px) and (min-width: 320px) {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+  .back {
+    @media (max-width: 767px) and (min-width: 320px) {
+      height: 60px;
+      background: #002d72;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      width: 100%;
+    }
+  }
+  .back > button {
+    @media (max-width: 767px) and (min-width: 320px) {
+      padding: 0;
+      color: #fff;
+    }
+  }
   .back svg {
+    @media (max-width: 767px) and (min-width: 320px) {
+      fill: #fff;
+      margin-bottom: 0;
+    }
     transform: rotate(90deg);
 
     g {
@@ -18,13 +42,18 @@
   .details {
     color: #313336;
     line-height: 130%;
-
+    @media (max-width: 767px) and (min-width: 320px) {
+      padding: 17px 20px 0;
+    }
     .name {
       color: var(--v2-header-title);
       font-weight: 600;
       font-size: 24px;
       margin-top: 0;
       margin-bottom: 14px;
+      @media (max-width: 767px) and (min-width: 320px) {
+        margin-bottom: 17px;
+      }
     }
 
     .info {
@@ -37,6 +66,9 @@
         cursor: pointer;
         font-weight: normal;
         color: #313336;
+        @media (max-width: 767px) and (min-width: 320px) {
+          margin-bottom: 15px;
+        }
 
         &:hover {
           color: var(--v2-royal-blue);
@@ -46,8 +78,16 @@
   }
 
   .edit {
+    @media (max-width: 767px) and (min-width: 320px) {
+      padding: 0 20px 20px;
+      width: 100%;
+    }
     Button {
       background-color: #f1f5f9;
+      @media (max-width: 767px) and (min-width: 320px) {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+      }
     }
 
     path {

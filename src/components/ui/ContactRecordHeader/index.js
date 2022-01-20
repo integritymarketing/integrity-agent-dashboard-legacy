@@ -18,18 +18,16 @@ export default function ContactRecordHeader({
   const fullName = `${contact.firstName} ${contact.middleName || ""} ${
     contact.lastName
   }`;
-  const zip = contact.addresses[0].postalCode;
+  const zip = contact?.addresses[0]?.postalCode;
   return (
     <div className="contactRecordHeader">
       <div className="back">
-        {!isMobile && (
           <Button
             icon={<ArrowDown />}
             label="Back to Contact Record"
             onClick={() => history.push(`/contact/${contact.leadsId}`)}
             type="tertiary"
           />
-        )}
       </div>
       <div className="details">
         <h4 className="name">{fullName}</h4>
@@ -64,11 +62,10 @@ export default function ContactRecordHeader({
       </div>
       <div className="edit">
         <Button
-          icon={<EditDetails />}
-          label="Edit Contact"
+          icon={!isMobile ? <EditDetails /> : null}
+          label={ isMobile ? "Edit Contact Record" : "Edit Contact"}
           onClick={() => onEditClick("details")}
           type="secondary"
-          iconOnly={isMobile}
         />
       </div>
     </div>

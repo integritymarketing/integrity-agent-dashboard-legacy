@@ -8,7 +8,7 @@ function getHeader(column) {
   }
 }
 
-export default ({ columns, data, compareTable }) => {
+export default ({ columns, data, compareTable, className }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -23,7 +23,7 @@ export default ({ columns, data, compareTable }) => {
 
   return (
     <>
-      <table {...getTableProps()} className={"plan-details-table"}>
+      <table {...getTableProps()} className={`${className} plan-details-table`}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
