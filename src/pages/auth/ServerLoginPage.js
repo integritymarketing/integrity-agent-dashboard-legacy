@@ -29,7 +29,7 @@ export default () => {
           Password: "",
           returnUrl: params.get("ReturnUrl"),
         };
-        const response = authService.loginUser(userDetail, true);
+        const response = authService.loginUserWithClinetID(userDetail, true);
         postLogin(response, {}, userDetail);
       } else {
         analyticsService.fireEvent("event-content-load", {

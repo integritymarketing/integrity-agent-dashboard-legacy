@@ -233,7 +233,11 @@ class authService {
   registerUser = async (values) =>
     this._authAPIRequest("/register", "POST", values);
 
-  loginUser = async (values, isClinetId) => {
+  loginUser = async (values) => {
+    this._authAPIRequest("/login", "POST", values);
+  };
+  
+  loginUserWithClinetID = async (values, isClinetId) => {
     this._authAPIRequest("/login", "POST", values, isClinetId);
   };
 
