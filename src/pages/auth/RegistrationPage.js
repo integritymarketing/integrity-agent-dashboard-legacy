@@ -149,6 +149,8 @@ export default () => {
                           to="https://nipr.com/help/look-up-your-npn"
                           target="_blank"
                           className="text-sm link link--force-underline"
+                          href={() => false}
+                          rel="noopener noreferrer"
                         >
                           Forgot NPN Number?
                         </a>
