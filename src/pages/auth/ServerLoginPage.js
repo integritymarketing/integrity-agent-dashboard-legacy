@@ -19,9 +19,12 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
 
+  console.log("params", params);
+  console.log("history", history);
   useEffect(() => {
     async function checkForExtrnalLogin() {
       let clientId = params.get("client_id");
+      console.log("clientId", clientId);
       if (clientId === "ASBClient") {
         loading.begin();
         let userDetail = {
@@ -39,13 +42,14 @@ export default () => {
     }
 
     checkForExtrnalLogin();
-  }, []);// eslint-disable-line react-hooks/exhaustive-deps
-  
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const postLogin = async (response, { setErrors, setSubmitting }, payload) => {
     // a 500 server error occurs when invalid OIDC query string params
     // are present (eg missing ReturnUrl).
     // catch 500 and send to final error page.
-    if (response.status >= 500) {
+    console.log("response", response);
+    if (response && response.status >= 500) {
       history.push(
         `sorry?message=${encodeURIComponent(
           "Something went wrong with your login request.  Please try again."
