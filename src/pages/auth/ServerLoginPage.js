@@ -132,12 +132,12 @@ export default () => {
               loading.begin();
               values.returnUrl = params.get("ReturnUrl");
               const response = await authService.loginUser(values);
-              postLogin(response, { setErrors, setSubmitting }, values);
+              // postLogin(response, { setErrors, setSubmitting }, values);
               // a 500 server error occurs when invalid OIDC query string params
               // are present (eg missing ReturnUrl).
               // catch 500 and send to final error page.
               //Need to remove after testing
-              /* if (response.status >= 500) {
+              if (response.status >= 500) {
                 history.push(
                   `sorry?message=${encodeURIComponent(
                     "Something went wrong with your login request.  Please try again."
@@ -175,7 +175,7 @@ export default () => {
                   });
                   setErrors(errors);
                 }
-              } */
+              }
             }}
           >
             {({
