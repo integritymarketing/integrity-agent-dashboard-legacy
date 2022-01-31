@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import * as Sentry from "@sentry/react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import { Button } from "components/ui/Button";
@@ -42,7 +42,6 @@ export default () => {
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
   const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;
   const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
-  const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [plansLoading] = useState(false);
 
@@ -131,9 +130,7 @@ export default () => {
                     icon={<ArrowDown />}
                     label="Back to Plans List"
                     onClick={() => {
-                      history.push({
-                        pathname: `/plans/${id}`,
-                      });
+                      window.location = `/plans/${id}?preserveSelected=true`;
                     }}
                     type="tertiary"
                   />
@@ -194,7 +191,9 @@ export default () => {
                     <div className={`${styles["plan-div"]}`}>
                       <span className={styles["retrun-txt"]}>
                         <a href={`/plans/${id}?preserveSelected=true`}>
-                          Retun to plans list to add 3rd plan for comparsion.
+                          Return to plans list to add{" "}
+                          {comparePlans.length === 1 ? "2nd" : "3rd"} plan for
+                          Comparison.
                         </a>
                       </span>
                     </div>
