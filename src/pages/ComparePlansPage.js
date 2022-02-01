@@ -177,17 +177,19 @@ export default () => {
                           </span>
                         </div>
                         <Button label="Enroll" type="primary" />
-                        <span
-                          className={styles.close}
-                          onClick={() => handleRemovePlan(plan.id)}
-                        >
-                          X
-                        </span>
+                        {comparePlans.length > 1 && (
+                          <span
+                            className={styles.close}
+                            onClick={() => handleRemovePlan(plan.id)}
+                          >
+                            X
+                          </span>
+                        )}
                       </div>
                       <div className={`${styles["plan-seperator"]}`}></div>
                     </div>
                   ))}
-                  {comparePlans.length === 2 && (
+                  {comparePlans.length < 3 && (
                     <div className={`${styles["plan-div"]}`}>
                       <span className={styles["retrun-txt"]}>
                         <a href={`/plans/${id}?preserveSelected=true`}>
