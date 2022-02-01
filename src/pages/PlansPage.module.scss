@@ -141,10 +141,11 @@
 }
 
 .plan-footer {
-  @media (max-width: 767px) {
-    flex-direction: column;
-    background: #f8fafc;
-  }
+  /* Releasing Mobile view for plans compare footer modal and plans compare page in next deployment so commenting out */
+  // @media (max-width: 767px) {
+  //   flex-direction: column;
+  //   background: #f8fafc;
+  // }
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.2);
@@ -156,33 +157,33 @@
   bottom: 0;
   z-index: 1;
 
-  button {
-    @media (max-width: 767px) {
-      width: 90% !important;
-      margin-top: 5px;
-      max-width: 90%;
-      min-width: 90%;
-      min-height: 48px;
-      max-height: 48px;
-    }
-  }
+  // button {
+  //   @media (max-width: 767px) {
+  //     width: 90% !important;
+  //     margin-top: 5px;
+  //     max-width: 90%;
+  //     min-width: 90%;
+  //     min-height: 48px;
+  //     max-height: 48px;
+  //   }
+  // }
 
-  .plans-logo {
-    @media (max-width: 767px) {
-      display: none;
-    }
-  }
+  // .plans-logo {
+  //   @media (max-width: 767px) {
+  //     display: none;
+  //   }
+  // }
 
   .plans-list {
-    @media (max-width: 767px) {
-      max-height: 48px;
-      min-height: 48px;
+    // @media (max-width: 767px) {
+    //   max-height: 48px;
+    //   min-height: 48px;
 
-      max-width: 90%;
-      min-width: 90%;
+    //   max-width: 90%;
+    //   min-width: 90%;
 
-      margin: 5px;
-    }
+    //   margin: 5px;
+    // }
 
     display: flex;
     flex-direction: column;
@@ -221,9 +222,9 @@
   }
 
   .empty-plan {
-    @media (max-width: 767px) {
-      background: white;
-    }
+    // @media (max-width: 767px) {
+    //   background: white;
+    // }
     background: #f1f5f9;
     border: 1px dashed #64748b;
     box-sizing: border-box;
@@ -291,15 +292,16 @@
 }
 
 .plan-comparsion-heder {
-  @media (max-width: 767px) {
-    padding: 10px;
-    width: 100vw;
-    overflow-x: scroll;
+  /* Releasing Mobile view for plans compare footer modal and plans compare page in next deployment so commenting out */
+  // @media (max-width: 767px) {
+  //   padding: 10px;
+  //   width: 100vw;
+  //   overflow-x: scroll;
 
-    .compr-plan-col-hdr {
-      width: 200px;
-    }
-  }
+  //   .compr-plan-col-hdr {
+  //     width: 200px;
+  //   }
+  // }
 
   display: flex;
   padding: 36px 40px 16px 40px;
@@ -315,9 +317,9 @@
     }
   }
   .plan-div {
-    @media (max-width: 767px) {
-      width: auto !important;
-    }
+    // @media (max-width: 767px) {
+    //   width: auto !important;
+    // }
     width: 25%;
     display: flex;
     align-items: center;

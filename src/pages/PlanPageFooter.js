@@ -13,6 +13,7 @@ export const PlanPageFooter = ({
   plans = [],
   onRemove,
   effectiveDate,
+  planType,
 }) => {
   const history = useHistory();
   if (!plans || plans.length < 1) {
@@ -59,7 +60,7 @@ export const PlanPageFooter = ({
         onClick={() => {
           sessionStorage.setItem(
             "__plans__",
-            JSON.stringify({ plans, effectiveDate })
+            JSON.stringify({ plans, effectiveDate, planType })
           );
           history.push(
             `/plans/${leadId}/compare/${plans
