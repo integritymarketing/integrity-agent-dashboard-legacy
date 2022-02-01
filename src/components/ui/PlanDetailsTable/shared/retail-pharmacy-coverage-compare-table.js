@@ -43,7 +43,9 @@ function findPlanData({ planData, isPreffered = false, isRetail = true }) {
                 value: (
                   <>
                     <div className={"copay"}>
-                      <span className={"label"}>{copay.cost * 100}%</span>
+                      <span className={"label"}>
+                        {Math.round(copay.cost * 100)}%
+                      </span>
                       <span className={"supply"}>
                         coinsurance ({copay.daysOfSupply}-day supply)
                       </span>
