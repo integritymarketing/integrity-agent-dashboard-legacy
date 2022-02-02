@@ -280,7 +280,7 @@ export default ({
                           className="mr-2"
                           options={EMAIL_MOBILE_LABELS}
                           style={{ width: "140px" }}
-                          initialValue="email"
+                          initialValue={selectLabel}
                           providerModal={true}
                           onChange={setSelectLabel}
                           showValueAlways={true}
