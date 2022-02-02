@@ -13,77 +13,16 @@ import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
-
 export default () => {
   const loading = useLoading();
   const history = useHistory();
   const params = useQueryParams();
 
   useEffect(() => {
-    async function checkForExtrnalLogin() {
-      let clientId = params.get("client_id");
-      if (clientId === "ASBClient") {
-        loading.begin();
-        let userDetail = {
-          Username: params.get("username"),
-          Password: "",
-          returnUrl: params.get("ReturnUrl"),
-        };
-        const response = authService.loginUserWithClinetID(userDetail, true);
-        postLogin(response, {}, userDetail);
-      } else {
-        analyticsService.fireEvent("event-content-load", {
-          pagePath: "/login/",
-        });
-      }
-    }
-
-    checkForExtrnalLogin();
+    analyticsService.fireEvent("event-content-load", {
+      pagePath: "/login/",
+    });
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
-  
-  const postLogin = async (response, { setErrors, setSubmitting }, payload) => {
-    // a 500 server error occurs when invalid OIDC query string params
-    // are present (eg missing ReturnUrl).
-    // catch 500 and send to final error page.
-    if (response.status >= 500) {
-      history.push(
-        `sorry?message=${encodeURIComponent(
-          "Something went wrong with your login request.  Please try again."
-        )}`
-      );
-      loading.end();
-      return;
-    }
-    const data = await response.json();
-    if (setSubmitting) {
-      setSubmitting(false);
-    }
-    loading.end();
-    if (data && data.isOk) {
-      analyticsService.fireEvent("event-form-submit", {
-        formName: "Login",
-      });
-      window.location = data.redirectUrl;
-    } else {
-      let errors = validationService.formikErrorsFor(data);
-
-      if (errors.Global === "account_unconfirmed") {
-        analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
-          formName: "Login",
-        });
-        history.push(
-          `registration-email-sent?npn=${payload.Username}&mode=error`
-        );
-      } else {
-        analyticsService.fireEvent("event-form-submit-invalid", {
-          formName: "Login",
-        });
-        if (setErrors) {
-          setErrors(errors);
-        }
-      }
-    }
-  };
 
   return (
     <React.Fragment>
@@ -94,7 +33,6 @@ export default () => {
         <SimpleHeader />
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
-
           {/* <div className="auth-notification">
             <InfoIcon style={{ display: "block" }} />
             <p>
@@ -102,7 +40,6 @@ export default () => {
               <Link to="/forgot-username">Forgot your email?</Link>
             </p>
           </div> */}
-
           <Formik
             initialValues={{ Username: "", Password: "" }}
             validate={(values) => {
@@ -128,12 +65,11 @@ export default () => {
               loading.begin();
               values.returnUrl = params.get("ReturnUrl");
               const response = await authService.loginUser(values);
-              postLogin(response, { setErrors, setSubmitting }, values);
+
               // a 500 server error occurs when invalid OIDC query string params
               // are present (eg missing ReturnUrl).
               // catch 500 and send to final error page.
-              //Need to remove after testing
-              /* if (response.status >= 500) {
+              if (response.status >= 500) {
                 history.push(
                   `sorry?message=${encodeURIComponent(
                     "Something went wrong with your login request.  Please try again."
@@ -142,11 +78,9 @@ export default () => {
                 loading.end();
                 return;
               }
-
               const data = await response.json();
               setSubmitting(false);
               loading.end();
-
               if (data && data.isOk) {
                 analyticsService.fireEvent("event-form-submit", {
                   formName: "Login",
@@ -154,7 +88,6 @@ export default () => {
                 window.location = data.redirectUrl;
               } else {
                 let errors = validationService.formikErrorsFor(data);
-
                 if (errors.Global === "account_unconfirmed") {
                   analyticsService.fireEvent(
                     "event-form-submit-account-unconfirmed",
@@ -171,7 +104,7 @@ export default () => {
                   });
                   setErrors(errors);
                 }
-              } */
+              }
             }}
           >
             {({

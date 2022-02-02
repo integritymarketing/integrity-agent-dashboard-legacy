@@ -118,9 +118,11 @@ export default () => {
   const query = useQuery();
   const showSelected = query && query.get("preserveSelected");
   const jsonStr = sessionStorage.getItem("__plans__");
-  const { plans: initialPlans, effectiveDate: initialEffectiveDate } = jsonStr
-    ? JSON.parse(jsonStr)
-    : {};
+  const {
+    plans: initialPlans,
+    effectiveDate: initialEffectiveDate,
+    planType: initialPlanType,
+  } = jsonStr ? JSON.parse(jsonStr) : {};
   const initialMonth =
     showSelected && initialEffectiveDate
       ? parseInt(initialEffectiveDate?.split("-")?.[1], 10)
@@ -182,7 +184,9 @@ export default () => {
   }, [id]);
   const [currentPage, setCurrentPage] = useState(1);
   const [planType, setPlanType] = useState(
-    history.location.state?.planType || 2
+    (showSelected ? initialPlanType : null) ||
+      history.location.state?.planType ||
+      2
   );
   const [carrierList, setCarrierList] = useState([]);
   const [subTypeList, setSubTypeList] = useState([]);
@@ -653,6 +657,7 @@ export default () => {
           </WithLoader>
           <PlanPageFooter
             leadId={id}
+            planType={planType}
             effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
             plans={results?.filter((plan) => selectedPlans[plan.id])}
             onRemove={(plan) => {

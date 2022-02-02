@@ -63,7 +63,9 @@ export default forwardRef(
                 values.push(
                   <>
                     <div className={"copay"}>
-                      <span className={"label"}>{copay.cost * 100}%</span>
+                      <span className={"label"}>
+                        {Math.round(copay.cost * 100)}%
+                      </span>
                       <span className={"supply"}>
                         coinsurance ({copay.daysOfSupply}-day supply)
                       </span>

@@ -608,7 +608,7 @@ class ClientsService {
     );
 
     if (response.ok) {
-      return response.json();
+      return response;
     }
     throw new Error("Create Lead failed.");
   };
