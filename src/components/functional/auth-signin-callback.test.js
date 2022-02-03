@@ -19,7 +19,7 @@ afterEach(cleanup);
 
 test("<AuthSigninCallback /> success, ", () => {
   const mockAuthService = {
-    signinRedirectCallback: jest.fn(async () => {
+    signinSilent: jest.fn(async () => {
       return true;
     }),
   };
@@ -33,13 +33,13 @@ test("<AuthSigninCallback /> success, ", () => {
     }
   );
 
-  expect(mockAuthService.signinRedirectCallback.mock.calls.length).toBe(1);
+  expect(mockAuthService.signinSilent.mock.calls.length).toBe(1);
   expect(mockHistoryReplace).toBeCalledTimes(0);
 });
 
 test("<AuthSigninCallback /> error, ", async () => {
   const mockAuthService = {
-    signinRedirectCallback: jest.fn(async () => {
+    signinSilent: jest.fn(async () => {
       throw new Error(400);
     }),
   };
@@ -53,6 +53,6 @@ test("<AuthSigninCallback /> error, ", async () => {
     }
   );
 
-  expect(mockAuthService.signinRedirectCallback.mock.calls.length).toBe(1);
+  expect(mockAuthService.signinSilent.mock.calls.length).toBe(1);
   expect(mockHistoryReplace).toBeCalledTimes(1);
 });

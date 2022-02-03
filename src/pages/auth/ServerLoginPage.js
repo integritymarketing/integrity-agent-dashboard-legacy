@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
@@ -13,16 +13,90 @@ import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
+import AuthContext from "contexts/auth";
 export default () => {
   const loading = useLoading();
   const history = useHistory();
   const params = useQueryParams();
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
-    analyticsService.fireEvent("event-content-load", {
-      pagePath: "/login/",
-    });
-  }, []);// eslint-disable-line react-hooks/exhaustive-deps
+    async function checkForExtrnalLogin() {
+      const params1 = new URLSearchParams(
+        new URL(params.get("ReturnUrl")).search
+      );
+      let clientId = params1.get("client_id");
+      if (clientId === "ASBClient") {
+        loading.begin();
+        let userDetail = {
+          Username: params1.get("username"),
+          Password: "",
+          returnUrl: params.get("ReturnUrl"),
+          isExternal: true,
+        };
+        const response = await authService.loginUserWithClinetID(
+          userDetail,
+          true
+        );
+        postLogin(response, {}, userDetail, auth);
+      } else {
+        analyticsService.fireEvent("event-content-load", {
+          pagePath: "/login/",
+        });
+      }
+    }
+
+    checkForExtrnalLogin();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const postLogin = async (
+    response,
+    { setErrors, setSubmitting },
+    payload,
+    auth
+  ) => {
+    // a 500 server error occurs when invalid OIDC query string params
+    // are present (eg missing ReturnUrl).
+    // catch 500 and send to final error page.
+    if (response && response.status >= 500) {
+      history.push(
+        `sorry?message=${encodeURIComponent(
+          "Something went wrong with your login request.  Please try again."
+        )}`
+      );
+      loading.end();
+      return;
+    }
+    const data = await response.json();
+    if (setSubmitting) {
+      setSubmitting(false);
+    }
+    loading.end();
+    if (data && data.isOk) {
+      analyticsService.fireEvent("event-form-submit", {
+        formName: "Login",
+      });
+      window.location = data.redirectUrl;
+    } else {
+      let errors = validationService.formikErrorsFor(data);
+
+      if (errors.Global === "account_unconfirmed") {
+        analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
+          formName: "Login",
+        });
+        history.push(
+          `registration-email-sent?npn=${payload.Username}&mode=error`
+        );
+      } else {
+        analyticsService.fireEvent("event-form-submit-invalid", {
+          formName: "Login",
+        });
+        if (setErrors) {
+          setErrors(errors);
+        }
+      }
+    }
+  };
 
   return (
     <React.Fragment>
@@ -33,6 +107,7 @@ export default () => {
         <SimpleHeader />
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
+
           {/* <div className="auth-notification">
             <InfoIcon style={{ display: "block" }} />
             <p>
@@ -40,6 +115,7 @@ export default () => {
               <Link to="/forgot-username">Forgot your email?</Link>
             </p>
           </div> */}
+
           <Formik
             initialValues={{ Username: "", Password: "" }}
             validate={(values) => {
@@ -65,46 +141,7 @@ export default () => {
               loading.begin();
               values.returnUrl = params.get("ReturnUrl");
               const response = await authService.loginUser(values);
-
-              // a 500 server error occurs when invalid OIDC query string params
-              // are present (eg missing ReturnUrl).
-              // catch 500 and send to final error page.
-              if (response.status >= 500) {
-                history.push(
-                  `sorry?message=${encodeURIComponent(
-                    "Something went wrong with your login request.  Please try again."
-                  )}`
-                );
-                loading.end();
-                return;
-              }
-              const data = await response.json();
-              setSubmitting(false);
-              loading.end();
-              if (data && data.isOk) {
-                analyticsService.fireEvent("event-form-submit", {
-                  formName: "Login",
-                });
-                window.location = data.redirectUrl;
-              } else {
-                let errors = validationService.formikErrorsFor(data);
-                if (errors.Global === "account_unconfirmed") {
-                  analyticsService.fireEvent(
-                    "event-form-submit-account-unconfirmed",
-                    {
-                      formName: "Login",
-                    }
-                  );
-                  history.push(
-                    `registration-email-sent?npn=${values.Username}&mode=error`
-                  );
-                } else {
-                  analyticsService.fireEvent("event-form-submit-invalid", {
-                    formName: "Login",
-                  });
-                  setErrors(errors);
-                }
-              }
+              postLogin(response, { setErrors, setSubmitting }, values);
             }}
           >
             {({
