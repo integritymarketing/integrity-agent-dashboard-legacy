@@ -97,7 +97,7 @@ export default () => {
                         "medicaresupplement-button"
                       )}`}
                     >
-                      2022 MedicareAPP
+                      MedicareAPP
                     </button>
                   </div>
                 </div>
