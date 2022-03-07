@@ -347,8 +347,8 @@ export default ({
                     <CheckboxGroup
                       checkboxes={documents.map((document) => {
                         return {
-                          label: document.name,
-                          id: document.name,
+                          label: document.linkName,
+                          id: document.linkName,
                           name: "documents",
                           checked:
                             selectedDocuments.filter(
@@ -356,7 +356,7 @@ export default ({
                             )?.length > 0
                               ? true
                               : false,
-                          value: document.name,
+                          value: document.linkName,
                           onChange: handleOnDocumentChange,
                         };
                       })}
