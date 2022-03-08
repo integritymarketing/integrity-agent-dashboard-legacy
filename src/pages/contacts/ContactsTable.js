@@ -130,7 +130,6 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
   try {
     const item = window.localStorage.getItem(key);
     const val = item ? JSON.parse(item) : initialValue;
-    window.localStorage.removeItem(key);
     return val;
   } catch (error) {
     Sentry.captureException(error);
@@ -215,7 +214,6 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
       if (pageIndex === undefined) {
         return;
       }
-
       setLoading(true);
       const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
       clientsService
