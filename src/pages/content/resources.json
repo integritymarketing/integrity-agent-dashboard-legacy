@@ -183,13 +183,13 @@
     },
     {
       "name": "Florida Blue 2022 Broker Toolkit",
-      "description": "",
+      "description": "Comprehensive and easy-reference guide to doing business with Florida Blue Medicare",
       "categories": ["carrier-guides"],
       "filename": "MedicareCENTER-Florida-Blue-2022-Broker-Toolkit.pdf"
     },
     {
       "name": "Florida Blue 2022 First Look",
-      "description": "",
+      "description": "Overview of Florida Blue Medicare and GuideWell, alongside a product portfolio breakdown by region and supplemental benefits",
       "categories": ["carrier-guides"],
       "filename": "MedicareCENTER-Florida-Blue-2022-First-Look.pdf"
     },
@@ -218,26 +218,32 @@
       "filename": "MedicareCENTER-SureBridge-Getting-Started-Guide.pdf"
     },
     {
+      "name": "Nassau Financial Group Medicare Supplement Insurance 2022 Agent Introduction",
+      "description": "Informative training guide with additional resources for Nassau MedSupp business",
+      "categories": ["carrier-guides"],
+      "filename": "MedicareCENTER-Nassau-MedSupp-2022.pdf"
+    },
+    {
       "name": "Zing Health 2022 Product Comparison - Part-B Buy-downs (IL, IN, MI)",
-      "description": "",
+      "description": "Product comparison for Cook and Wayne County Part-B Buy-down plans",
       "categories": ["carrier-guides"],
       "filename": "MedicareCENTER-Zing-Health-2022-Part-B-Buydowns.pdf"
     },
     {
       "name": "Zing Health 2022 Overview - IL",
-      "description": "",
+      "description": "Outline of Zing Health’s Big 6 Benefits, Supplemental Benefits, leading plans in the Illinois market and more",
       "categories": ["carrier-guides"],
       "filename": "MedicareCENTER-Zing-Health-2022-IL.pdf"
     },
     {
       "name": "Zing Health 2022 Overview - IN",
-      "description": "",
+      "description": "Outline of Zing Health’s Big 6 Benefits, Supplemental Benefits, leading plans in the Indiana market and more",
       "categories": ["carrier-guides"],
       "filename": "MedicareCENTER-Zing-Health-2022-IN.pdf"
     },
     {
       "name": "Zing Health 2022 Overview - MI",
-      "description": "",
+      "description": "Outline of Zing Health’s Big 6 Benefits, Supplemental Benefits, leading plans in the Michigan market and more",
       "categories": ["carrier-guides"],
       "filename": "MedicareCENTER-Zing-Health-2022-MI.pdf"
     },
