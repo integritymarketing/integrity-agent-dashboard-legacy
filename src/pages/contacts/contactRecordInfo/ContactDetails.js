@@ -154,15 +154,15 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
               </span>
             </div>
             <div className="custom-w-22 custom-w-25 contact-details-col1">
-              <p className="contact-details-label">State</p>
-              <span className="contact-details-name">
-                {stateCode || notAvailable}
-              </span>
-            </div>
-            <div className="custom-w-20 custom-w-25 contact-details-col1 mob-res-margin">
               <p className="contact-details-label">ZIP</p>
               <span className="contact-details-name">
                 {postalCode || notAvailable}
+              </span>
+            </div>
+            <div className="custom-w-20 custom-w-25 contact-details-col1 mob-res-margin">
+              <p className="contact-details-label">State</p>
+              <span className="contact-details-name">
+                {stateCode || notAvailable}
               </span>
             </div>
             <div className="custom-w-31 custom-w-25 contact-details-col1 mob-res-margin">

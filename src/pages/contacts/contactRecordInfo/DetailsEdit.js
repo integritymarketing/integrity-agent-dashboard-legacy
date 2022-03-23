@@ -11,7 +11,6 @@ import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
-import { STATES } from "utils/address";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
@@ -74,7 +73,7 @@ export default (props) => {
     notes,
   } = props.personalInfo;
 
-  let { allCounties = [], doFetch } = useContext(CountyContext);
+  let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
   let addressData = addresses.length > 0 ? addresses[0] : null;
@@ -277,6 +276,8 @@ export default (props) => {
       }) => {
         let countyName = allCounties[0]?.value;
         let countyFipsName = allCounties[0]?.key;
+        let stateCodeName = allStates[0]?.value;
+
         if (
           allCounties.length === 1 &&
           countyName !== values.address.county &&
@@ -285,12 +286,18 @@ export default (props) => {
           setFieldValue("address.county", allCounties[0].value);
           setFieldValue("address.countyFips", allCounties[0].key);
         }
+        if (
+          allStates.length === 1 &&
+          stateCodeName !== values.address.stateCode
+        ) {
+          setFieldValue("address.stateCode", allStates[0].value);
+        }
         return (
           <>
             <div className="scope-details-card-header contactdetailscardheader">
               <h4>Contact Details</h4>
 
-              <div className="top-button-group responsive-d-none"  >
+              <div className="top-button-group responsive-d-none">
                 <Button
                   className="edit-contact-details-cancel-btn contact-details-cancel cancel-btn btn mr-2 ml-10"
                   data-gtm="new-contact-cancel-button"
@@ -555,27 +562,6 @@ export default (props) => {
                       </ul>
                     )}
                   </div>
-                  <div className="ml-65 custom-w-12 state--label--space custom-w-25 contact-details-col1">
-                    <label
-                      className="custom-label-state label"
-                      htmlFor="phone-label"
-                    >
-                      State
-                    </label>
-                    <div className="state-select-input mob-res-mar-0">
-                      <Select
-                        placeholder="select"
-                        showValueAsLabel={true}
-                        className={`${styles["contact-address--statecode"]} `}
-                        options={STATES}
-                        initialValue={values.address.stateCode}
-                        onChange={(value) => {
-                          setFieldValue("address.stateCode", value);
-                        }}
-                        showValueAlways={true}
-                      />
-                    </div>
-                  </div>
                   <div className=" custom-w-10 custom-w-25 contact-details-col1 mob-res-margin">
                     <Textfield
                       id="contact-address__zip"
@@ -586,6 +572,7 @@ export default (props) => {
                       onChange={(e) => {
                         setFieldValue("address.postalCode", e.target.value);
                         setFieldValue("address.county", "");
+                        setFieldValue("address.stateCode", "");
                         doFetch(e.target.value);
                       }}
                       onBlur={handleBlur}
@@ -599,6 +586,34 @@ export default (props) => {
                       </ul>
                     )}
                   </div>
+                  <div className="ml-20 custom-w-14  state--label--space custom-w-25 contact-details-col1">
+                    <label
+                      className="custom-label-state label"
+                      htmlFor="phone-label"
+                    >
+                      State
+                    </label>
+                    <div className="state-select-input mob-res-mar-0">
+                      <Select
+                        placeholder="select"
+                        showValueAsLabel={true}
+                        className={`${styles["contact-address--statecode"]} `}
+                        options={allStates}
+                        isDefaultOpen={
+                          allStates.length > 1 &&
+                          values.address.stateCode === ""
+                            ? true
+                            : false
+                        }
+                        initialValue={values.address.stateCode}
+                        onChange={(value) => {
+                          setFieldValue("address.stateCode", value);
+                        }}
+                        showValueAlways={true}
+                      />
+                    </div>
+                  </div>
+                  <div></div>
                   <div className="mob-res-mt-29 custom-w-25 contact-details-col1">
                     <label
                       className=" custom-label-state label"
@@ -661,7 +676,9 @@ export default (props) => {
                   </div>
                 )}
                 <div
-                  className={` ${props.page === "plansPage" ? "save-btn-only" : ""} btn-responsive-display mt-3`}
+                  className={` ${
+                    props.page === "plansPage" ? "save-btn-only" : ""
+                  } btn-responsive-display mt-3`}
                   style={{ display: "flex" }}
                 >
                   <Button
