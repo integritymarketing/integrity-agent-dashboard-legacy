@@ -86,6 +86,7 @@ export default forwardRef((props, ref) => {
   async function handleDeleteProvider(provider) {
     try {
       await clientsService.deleteProvider(
+        provider?.addresses?.[0]?.id,
         props.id,
         provider.npi || provider.NPI
       );
