@@ -26,7 +26,7 @@ export default () => {
         new URL(params.get("ReturnUrl")).search
       );
       let clientId = params1.get("client_id");
-      if (clientId === "ASBClient") {
+      if (clientId === "ASBClient" || clientId === "FFLClient") {
         loading.begin();
         let userDetail = {
           Username: params1.get("username"),
