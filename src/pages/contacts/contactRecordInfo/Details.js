@@ -239,12 +239,31 @@ export default forwardRef((props, ref) => {
                   <div className="provider-content">
                     <div className="pr-h1 pr-phone-mble">{item?.phone}</div>
                     <div className="pr-h2">
-                      {item?.addresses[0]?.streetLine1},&nbsp;
+                      {`${
+                        item?.addresses[0]?.streetLine1
+                          ? item?.addresses[0]?.streetLine1 + ","
+                          : ""
+                      }`}
+                      &nbsp;
                     </div>
                     <div className="pr-h2">
-                      {item?.addresses[0]?.city},&nbsp;
-                      {item?.addresses[0]?.state}
-                      ,&nbsp;{item?.addresses[0]?.zipCode}
+                      {`${
+                        item?.addresses[0]?.city
+                          ? item?.addresses[0]?.city + ","
+                          : ""
+                      }`}
+                      &nbsp;
+                      {`${
+                        item?.addresses[0]?.state
+                          ? item?.addresses[0]?.state + ","
+                          : ""
+                      }`}
+                      &nbsp;
+                      {`${
+                        item?.addresses[0]?.zipCode
+                          ? item?.addresses[0]?.zipCode + ","
+                          : ""
+                      }`}
                     </div>
                   </div>
                   <div>
