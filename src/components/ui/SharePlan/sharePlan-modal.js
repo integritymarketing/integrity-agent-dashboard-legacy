@@ -14,7 +14,6 @@ import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
 import "./styles.scss";
-import closestIndexTo from "date-fns/fp/closestIndexTo/index";
 
 const EMAIL_MOBILE_LABELS = [
   { value: "email", label: "Email" },
