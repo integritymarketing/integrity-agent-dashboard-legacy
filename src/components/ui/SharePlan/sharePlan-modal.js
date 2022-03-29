@@ -14,6 +14,7 @@ import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
 import "./styles.scss";
+import closestIndexTo from "date-fns/fp/closestIndexTo/index";
 
 const EMAIL_MOBILE_LABELS = [
   { value: "email", label: "Email" },
@@ -165,7 +166,7 @@ export default ({
         }
       }
       addToast({
-        message: "Sucessfully shared plan",
+        message: "Successfully shared plan",
       });
     } catch (err) {
       Sentry.captureException(err);
@@ -200,7 +201,6 @@ export default ({
     e.preventDefault();
     setIsDocumentsSelected(true);
   };
-
   return (
     <Media
       queries={{
@@ -345,7 +345,7 @@ export default ({
                       What documents do you want to share?
                     </div>
                     <CheckboxGroup
-                      checkboxes={documents.map((document) => {
+                      checkboxes={documents.map((document, index) => {
                         return {
                           label: document.linkName,
                           id: document.linkName,
@@ -356,7 +356,7 @@ export default ({
                             )?.length > 0
                               ? true
                               : false,
-                          value: document.linkName,
+                          value: document.name,
                           onChange: handleOnDocumentChange,
                         };
                       })}
