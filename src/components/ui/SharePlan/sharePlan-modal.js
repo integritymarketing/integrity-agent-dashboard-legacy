@@ -346,7 +346,10 @@ export default ({
                     <CheckboxGroup
                       checkboxes={documents.map((document, index) => {
                         return {
-                          label: document.linkName,
+                          label:
+                            planData.carrierName === "Aetna Medicare"
+                              ? document.linkName
+                              : document.name,
                           id: document.linkName,
                           name: "documents",
                           checked:
