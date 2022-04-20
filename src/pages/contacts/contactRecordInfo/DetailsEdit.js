@@ -569,6 +569,7 @@ export default (props) => {
                       label="ZIP Code"
                       name="address.postalCode"
                       value={values.address.postalCode}
+                      inputProps={{ maxLength: 5 }}
                       onChange={(e) => {
                         setFieldValue("address.postalCode", e.target.value);
                         setFieldValue("address.county", "");
@@ -576,6 +577,12 @@ export default (props) => {
                         doFetch(e.target.value);
                       }}
                       onBlur={handleBlur}
+                      onInput={(e) => {
+                        e.target.value = e.target.value
+                          .replace(/[^0-9]/g, "")
+                          .toString()
+                          .slice(0, 5);
+                      }}
                       error={errors.address?.postalCode ? true : false}
                     />
                     {errors.address?.postalCode && (

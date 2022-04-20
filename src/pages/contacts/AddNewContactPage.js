@@ -384,6 +384,7 @@ const NewContactForm = () => {
                   className={`${styles["contact-address--zip"]}`}
                   label="ZIP Code"
                   name="address.postalCode"
+                  inputProps={{ maxLength: 5 }}
                   value={values.address.postalCode}
                   onChange={(e) => {
                     setFieldValue("address.postalCode", e.target.value);
@@ -392,6 +393,12 @@ const NewContactForm = () => {
                     doFetch(e.target.value);
                   }}
                   onBlur={handleBlur}
+                  onInput={(e) => {
+                    e.target.value = e.target.value
+                      .replace(/[^0-9]/g, "")
+                      .toString()
+                      .slice(0, 5);
+                  }}
                   error={
                     (touched.address?.postalCode || submitCount > 0) &&
                     errors.address?.postalCode
