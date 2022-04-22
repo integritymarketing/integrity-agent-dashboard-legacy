@@ -8,9 +8,6 @@
 .select {
   height: 40px;
   position: relative;
-  @media (max-width: 480px) {
-    margin-left: 75px;
-  }
   .select-container {
     top: 0px;
     width: 100%;

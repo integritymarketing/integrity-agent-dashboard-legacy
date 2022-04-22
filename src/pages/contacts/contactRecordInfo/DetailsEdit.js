@@ -593,7 +593,7 @@ export default (props) => {
                       </ul>
                     )}
                   </div>
-                  <div className="ml-20 custom-w-14  state--label--space custom-w-25 contact-details-col1">
+                  <div className="ml-20 custom-w-14  state--label--space custom-w-25 contact-details-col1 mob-res-margin">
                     <label
                       className="custom-label-state label"
                       htmlFor="phone-label"
