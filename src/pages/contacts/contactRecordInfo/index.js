@@ -203,7 +203,7 @@ export default () => {
                   The entry is a potential duplicate to&nbsp;&nbsp;
                   <a
                     onClick={handleMultileDuplicates}
-                    href={`/contacts`}
+                    href={`/contacts/list`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
