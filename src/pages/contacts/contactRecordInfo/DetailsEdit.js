@@ -336,7 +336,7 @@ export default (props) => {
                       </ul>
                     )}
                   </div>
-                  <div className="ml-65 res-middle-initial custom-w-25 contact-details-col1">
+                  <div className="ml-65 res-middle-initial custom-w-25 contact-details-col1 mob-res-margin">
                     <Textfield
                       id="contact-mname"
                       type="text"
