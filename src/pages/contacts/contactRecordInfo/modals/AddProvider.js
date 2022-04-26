@@ -205,7 +205,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                         { value: 20, label: "20 miles" },
                         { value: 30, label: "30 miles" },
                       ]}
-                      initialValue={10}
+                      initialValue={radius}
                       onChange={(value) => {
                         setRadius(value);
                         setCurrentPage(1);

@@ -66,6 +66,11 @@
 			padding: 3.5rem 1rem 0.5rem;
 			background-color: var(--main-bg-color);
 			border-radius: 0.25rem;
+			>li a {
+				color: var(--neutral-text-color);
+				font-weight: 600;
+				font-size: 14px;
+			}
 			>li {
 				padding: 0.5rem 0;
 			}

@@ -79,25 +79,26 @@ export default ({ planData, isMobile }) => {
         ),
         address: (
           <span className={"subtext"}>
-            {provider.address.streetLine1 +
-              "\n" +
-              provider.address.streetLine2 +
-              "\n" +
-              provider.address.city +
-              " " +
-              provider.address.state +
-              " " +
-              provider.address.zipCode}
+            {`${provider?.address?.streetLine1 || ""} ${
+              provider?.address?.streetLine2 || ""
+            }
+            ${provider?.address?.city || ""} ${provider?.address?.state || ""}
+            ${provider?.address?.zipCode || ""}`}
           </span>
         ),
         inNetwork: getInNetwork(
           provider.inNetwork,
           planData.isPlanNetworkAvailable
         ),
-      }
+      };
       data.push({
         ...row,
-        name_address: <><div>{row.name}</div><div>{row.address}</div></>
+        name_address: (
+          <>
+            <div>{row.name}</div>
+            <div>{row.address}</div>
+          </>
+        ),
       });
     }
   }

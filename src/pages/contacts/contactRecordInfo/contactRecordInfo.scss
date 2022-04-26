@@ -1931,6 +1931,9 @@ button {
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px;
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 }
 .contact-details-row .contact-details-col1 {
   width: 33.33%;
@@ -2152,6 +2155,9 @@ button {
 .contact-details-row .custom-w-12 {
   width: 6%;
 }
+.contact-details-row .custom-w-14 {
+  width: 14%;
+}
 .contact-details-row .custom-w-10 {
   width: 9%;
   margin-left: 25px;
@@ -2207,6 +2213,9 @@ button {
 
 .ml-10 {
   margin-left: 10px;
+  @media (max-width: 480px) {
+    margin-left: initial;
+  }
 }
 .no-items {
   height: 69px;

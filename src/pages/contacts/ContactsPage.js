@@ -110,6 +110,11 @@ export default () => {
     history.push("/contact/add-new");
   };
 
+  const clearDuplicateList = () => {
+    window.localStorage.removeItem("duplicateLeadIds");
+    setDuplicateLeadIds([]);
+  };
+
   return (
     <React.Fragment>
       <Media
@@ -186,7 +191,7 @@ export default () => {
                       {duplicateIdsLength} duplicates found
                     </div>
                     <button
-                      onClick={() => setDuplicateLeadIds([])}
+                      onClick={clearDuplicateList}
                       className={styles["reset-close"]}
                     >
                       <RoundCloseIcon />

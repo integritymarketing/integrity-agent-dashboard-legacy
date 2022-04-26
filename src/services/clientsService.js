@@ -613,9 +613,9 @@ class ClientsService {
     throw new Error("Create Lead failed.");
   };
 
-  deleteProvider = async (leadId, npi) => {
+  deleteProvider = async (addressId, leadId, npi) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${npi}`,
+      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${npi}?addressId=${addressId}`,
       "DELETE"
     );
     if (response.ok) {

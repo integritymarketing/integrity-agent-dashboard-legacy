@@ -108,7 +108,8 @@ export const Select = ({
       setValue(initialValue);
       setIsOpen(isDefaultOpen);
     }
-  }, [initialValue, isDefaultOpen, isOpen]);
+  }, [initialValue, isDefaultOpen])// eslint-disable-line react-hooks/exhaustive-deps
+  
 
   const handleOptionChange = (ev, value) => {
     ev.preventDefault();

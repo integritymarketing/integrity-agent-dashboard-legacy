@@ -13,7 +13,6 @@ import GlobalFooter from "partials/global-footer";
 import styles from "./ContactsPage.module.scss";
 import clientService from "../../services/clientsService";
 import useToast from "../../hooks/useToast";
-import { STATES } from "utils/address";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import PhoneLabels from "utils/phoneLabels";
@@ -54,7 +53,9 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
 const NewContactForm = () => {
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-  const { allCounties = [], doFetch } = useContext(CountyContext);
+  const { allCounties = [], allStates = [], doFetch } = useContext(
+    CountyContext
+  );
 
   const history = useHistory();
   const addToast = useToast();
@@ -229,6 +230,8 @@ const NewContactForm = () => {
         }
         let countyName = allCounties[0]?.value;
         let countyFipsName = allCounties[0]?.key;
+        let stateCodeName = allStates[0]?.value;
+
         if (
           allCounties.length === 1 &&
           countyName !== values.address.county &&
@@ -236,6 +239,9 @@ const NewContactForm = () => {
         ) {
           setFieldValue("address.county", allCounties[0].value);
           setFieldValue("address.countyFips", allCounties[0].key);
+        }
+        if (allStates.length === 1 && stateCodeName !== values.address.stateCode) {
+          setFieldValue("address.stateCode", allStates[0].value);
         }
         return (
           <Form className="form mt-3">
@@ -373,7 +379,34 @@ const NewContactForm = () => {
                   }
                 />
 
-                <div>
+                <Textfield
+                  id="contact-address__zip"
+                  className={`${styles["contact-address--zip"]}`}
+                  label="ZIP Code"
+                  name="address.postalCode"
+                  inputProps={{ maxLength: 5 }}
+                  value={values.address.postalCode}
+                  onChange={(e) => {
+                    setFieldValue("address.postalCode", e.target.value);
+                    setFieldValue("address.county", "");
+                    setFieldValue("address.stateCode", "");
+                    doFetch(e.target.value);
+                  }}
+                  onBlur={handleBlur}
+                  onInput={(e) => {
+                    e.target.value = e.target.value
+                      .replace(/[^0-9]/g, "")
+                      .toString()
+                      .slice(0, 5);
+                  }}
+                  error={
+                    (touched.address?.postalCode || submitCount > 0) &&
+                    errors.address?.postalCode
+                      ? true
+                      : false
+                  }
+                />
+                <div className="ml-10">
                   <label className="label" htmlFor="phone-label">
                     State
                   </label>
@@ -382,33 +415,19 @@ const NewContactForm = () => {
                       placeholder="select"
                       showValueAsLabel={true}
                       className={`${styles["contact-address--statecode"]} `}
-                      options={STATES}
+                      options={allStates}
                       initialValue={values.address.stateCode}
+                      isDefaultOpen={
+                        allStates.length > 1 && values.address.stateCode === ""
+                          ? true
+                          : false
+                      }
                       onChange={(value) =>
                         setFieldValue("address.stateCode", value)
                       }
                     />
                   </div>
                 </div>
-                <Textfield
-                  id="contact-address__zip"
-                  className={`${styles["contact-address--zip"]}`}
-                  label="ZIP Code"
-                  name="address.postalCode"
-                  value={values.address.postalCode}
-                  onChange={(e) => {
-                    setFieldValue("address.postalCode", e.target.value);
-                    setFieldValue("address.county", "");
-                    doFetch(e.target.value);
-                  }}
-                  onBlur={handleBlur}
-                  error={
-                    (touched.address?.postalCode || submitCount > 0) &&
-                    errors.address?.postalCode
-                      ? true
-                      : false
-                  }
-                />
 
                 <div className="mob-res-mt-29 ml-10 custom-w-25 contact-details-col1">
                   <label

@@ -165,7 +165,7 @@ export default ({
         }
       }
       addToast({
-        message: "Sucessfully shared plan",
+        message: "Successfully shared plan",
       });
     } catch (err) {
       Sentry.captureException(err);
@@ -200,7 +200,6 @@ export default ({
     e.preventDefault();
     setIsDocumentsSelected(true);
   };
-
   return (
     <Media
       queries={{
@@ -345,10 +344,13 @@ export default ({
                       What documents do you want to share?
                     </div>
                     <CheckboxGroup
-                      checkboxes={documents.map((document) => {
+                      checkboxes={documents.map((document, index) => {
                         return {
-                          label: document.name,
-                          id: document.name,
+                          label:
+                            planData.carrierName === "Aetna Medicare"
+                              ? document.linkName
+                              : document.name,
+                          id: document.linkName,
                           name: "documents",
                           checked:
                             selectedDocuments.filter(
