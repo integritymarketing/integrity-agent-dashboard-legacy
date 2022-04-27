@@ -37,3 +37,7 @@ export const onlyAlphabets = (e) => {
     e.preventDefault();
   }
 };
+
+export const scrollTop = () =>{
+  window.scrollTo(0, 0);
+}
