@@ -148,8 +148,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   );
 
   const showPhoneNotification =
-    auth.isAuthenticated() && !auth.userProfile.phone;
-  const showMaintenaceNotification = process.env.REACT_APP_NOTIFICATION_BANNER === "true";
+    auth.isAuthenticated() && auth.userProfile.phone === null;
+  const showMaintenaceNotification =
+    process.env.REACT_APP_NOTIFICATION_BANNER === "true";
   const headernotificationClass = [
     "global-nav-v2-",
     showPhoneNotification ? "hasNotification" : null,
