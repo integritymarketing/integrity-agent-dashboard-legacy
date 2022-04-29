@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Media from "react-media";
@@ -85,6 +85,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
   const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
+  const [user, setUser] = useState({});
 
   const menuProps = Object.assign(
     {
@@ -147,8 +148,17 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         }
   );
 
-  const showPhoneNotification =
-    auth.isAuthenticated() && auth.userProfile.phone === null;
+  useEffect(() => {
+    const loadAsyncData = async () => {
+      const user = await auth.getUser();
+      setUser(user.profile);
+    };
+    if (auth.isAuthenticated()) {
+      loadAsyncData();
+    }
+  }, [auth]);
+  const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
+
   const showMaintenaceNotification =
     process.env.REACT_APP_NOTIFICATION_BANNER === "true";
   const headernotificationClass = [
