@@ -142,9 +142,9 @@
   }
 }
 
-.sortSelect {
+.sortSelect { 
   @media (min-width: 480px) {
-    width: 265px;
+    width: 40px;
   }
 
   float: right;
@@ -222,16 +222,17 @@
 }
 
 .switch-view {
-  margin-right: -20px;
+  margin-right: 30px;
 
   & Button {
+    background: #ffffff;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px !important;
+    box-sizing: border-box;
+    padding: 0px !important;
     width: 40px;
     height: 40px;
-    padding: 0px !important;
-    background: #ffffff;
-    border: 1px solid #c7ccd1;
-    border-radius: 4px !important;
-  }
+    }
 
   & svg {
     stroke: none !important;
@@ -246,16 +247,28 @@
 .filter-view {
   position: relative;
   & .filter-button {
-    width: 40px;
     height: 40px;
+    width: 40px;
     padding: 0px !important;
     background: #ffffff !important;
     border: 1px solid #c7ccd1 !important;
     border-radius: 4px !important;
     color: #3d4553;
+
+    @media (max-width: 480px) {
+      width: 100px;
+
+      & svg {
+        stroke: #3d4553;
+        width: 18px;
+        margin-right: 50px;
+      }
+    }
+
   }
   & svg {
-    stroke: #3d4553;
+    stroke: none;
+    margin-left: 7px;
   }
   & .openFilter {
     border: 1px solid #151e29;
@@ -266,6 +279,7 @@
     padding-top: 6px !important;
     display: block;
     position: unset;
+    width: 500px;   
   }
 }
 
@@ -810,4 +824,41 @@
 
 .mt10 {
   margin-top: 10px;
+}
+
+/*View, Sort, Filter title */
+
+.filterFunctionTitle {
+  padding-bottom: 8px;
+  color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.sortFunctionTitle {
+  padding-bottom: 8px;
+  margin-left: -36px;
+  color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.switchViewTitle {
+  padding-bottom: 8px;
+  margin-left: -15px;
+  color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
 }

@@ -20,7 +20,7 @@ import TableView from "components/icons/table-view";
 import ContactListFilter from "./ContactListFilter";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
-import { Select } from "components/ui/Select";
+import { ContactPageSort } from "components/ui/ContactPageSort";
 import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import BackNavContext from "contexts/backNavProvider";
@@ -203,34 +203,40 @@ export default () => {
                 {isMobile ? null : (
                   <div className={styles["switch-view"]}>
                     {layout === "list" ? (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<CardView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
+                      <div>
+                        <div className={styles.switchViewTitle}>Grid View</div>
+                        <Button
+                          data-gtm="contacts-slide-view"
+                          icon={<CardView />}
+                          iconOnly
+                          label="Button"
+                          type="secondary"
+                          onClick={switchLayout}
+                        />
+                      </div>
                     ) : (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<TableView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
+                      <div>
+                        <div className={styles.switchViewTitle}>Table View</div>
+                        <Button
+                          data-gtm="contacts-slide-view"
+                          icon={<TableView />}
+                          iconOnly
+                          label="Button"
+                          type="secondary"
+                          onClick={switchLayout}
+                        />
+                      </div>
                     )}
                   </div>
                 )}
                 <div className="nav-header-mobile"></div>
                 <div className={styles.sortSelect}>
-                  <Select
+                  <div className={styles.sortFunctionTitle}>Sort</div>
+                  <ContactPageSort
                     mobileLabel={<SortButton />}
                     placeholder={"Sort by"}
                     initialValue="followUpDate:asc"
                     options={SORT_OPTIONS}
-                    prefix="Sort by "
                     onChange={(value) => setSort(value)}
                   />
                 </div>
