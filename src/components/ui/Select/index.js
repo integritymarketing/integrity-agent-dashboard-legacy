@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
-
 import PropTypes from "prop-types";
-
 import ArrowDownIcon from "../../icons/arrow-down";
 import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
