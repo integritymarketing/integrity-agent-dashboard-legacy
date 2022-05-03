@@ -24,7 +24,6 @@ import ComparePlanModal from "components/ui/ComparePlanModal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
 import { RetailPharmacyCoverage } from "components/ui/PlanDetailsTable/shared/retail-pharmacy-coverage-compare-table";
 import plansService from "services/plansService";
-import WelcomeEmailUser from "partials/welcome-email-user";
 import ComparePlansService from "services/comparePlansService";
 
 function getAllPlanDetails({
@@ -107,12 +106,11 @@ export default (props) => {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line
   }, [effectiveDate, id, planIds, isComingFromEmail]);
 
   useEffect(() => {
     if (results && results.length) {
-      setComparePlans(results?.filter(({ id }) => planIds.includes(id)));
+      setComparePlans(results.filter(({ id }) => planIds.includes(id)));
     }
   }, [planIds, results]);
 
@@ -122,7 +120,7 @@ export default (props) => {
 
   const handleRemovePlan = (planId) => {
     setComparePlans((prevPlans) => {
-      const plans = prevPlans?.filter((plan) => plan.id !== planId);
+      const plans = prevPlans.filter((plan) => plan.id !== planId);
 
       sessionStorage.setItem(
         "__plans__",
@@ -152,48 +150,33 @@ export default (props) => {
   return (
     <>
       <ToastContextProvider>
-        {!isComingFromEmail && (
-          <ComparePlanModal
-            modalOpen={comparePlanModalOpen}
-            handleCloseModal={() => setComparePlanModalOpen(false)}
-            contactData={contactData}
-            {...getComparePlansByPlanNamesProps()}
-          />
-        )}
+        <ComparePlanModal
+          modalOpen={comparePlanModalOpen}
+          handleCloseModal={() => setComparePlanModalOpen(false)}
+          contactData={contactData}
+          {...getComparePlansByPlanNamesProps()}
+        />
         <div className={styles.comparePage}>
           <Media query={"(max-width: 500px)"} onChange={(isMobile) => {}} />
           <WithLoader isLoading={isLoading}>
             <Helmet>
               <title>MedicareCENTER - Plans</title>
             </Helmet>
-            {!isComingFromEmail && <GlobalNav />}
-            {!isComingFromEmail && (
-              <div className={`${styles["header"]}`} style={{ height: "auto" }}>
-                <Container>
-                  <div className={styles["back-btn"]}>
-                    <Button
-                      icon={<ArrowDown />}
-                      label="Back to Plans List"
-                      onClick={() => {
-                        window.location = `/plans/${id}?preserveSelected=true`;
-                      }}
-                      type="tertiary"
-                    />
-                  </div>
-                </Container>
-              </div>
-            )}
-            {isComingFromEmail && (
-              <div className={styles["welcome-user-header"]}>
-                <Container>
-                  <WelcomeEmailUser
-                    firstName={agentInfo.LeadFirstName}
-                    lastName={agentInfo.LeadLastName}
-                    className="welcome-user-plans"
+            <GlobalNav />
+            <div className={`${styles["header"]}`} style={{ height: "auto" }}>
+              <Container>
+                <div className={styles["back-btn"]}>
+                  <Button
+                    icon={<ArrowDown />}
+                    label="Back to Plans List"
+                    onClick={() => {
+                      window.location = `/plans/${id}?preserveSelected=true`;
+                    }}
+                    type="tertiary"
                   />
-                </Container>
-              </div>
-            )}
+                </div>
+              </Container>
+            </div>
             <ComparePlansByPlanName {...getComparePlansByPlanNamesProps()} />
             <Container>
               {plansLoading ? (

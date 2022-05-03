@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import Filter from "components/icons/filter";
+import Filters from "components/icons/filters";
 import FilterClose from "components/icons/filterClose";
 import FilterOpen from "components/icons/filterOpen";
 import Close from "components/icons/close";
@@ -134,10 +134,10 @@ export default () => {
   };
   return (
     <div className={styles["filter-view"]}>
+      <div className={styles.filterFunctionTitle}>Filter</div>
       <Button
         data-gtm="contacts-filter"
-        icon={<Filter />}
-        label="Filter"
+        icon={<Filters />}
         className={`${filterOpen ? styles.openFilter : ""} ${
           styles["filter-button"]
         } filterBtn`}

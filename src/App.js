@@ -18,6 +18,7 @@ import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
 import Dashboard from "pages/dashbaord";
 import ComparePlansPage from "pages/ComparePlansPage";
+import ComparePlansCodePage from "pages/ComparePlansCodePage";
 import NewScopeOfAppointment from "pages/contacts/contactRecordInfo/newScopeOfAppointment";
 import SOAConfirmationPage from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage";
 import SOAConfirmationForm from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation";
@@ -82,7 +83,6 @@ const App = () => {
                             <AuthenticatedRoute path="/dashboard">
                               <Dashboard />
                             </AuthenticatedRoute>
-
                             <AuthenticatedRoute path="/edit-account">
                               <AccountPage />
                             </AuthenticatedRoute>
@@ -137,10 +137,12 @@ const App = () => {
                             <Route path="/soa-confirmation-form/:linkCode">
                               <SOAConfirmationForm />
                             </Route>
+                            <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
+                              <ComparePlansCodePage />
+                            </Route>
                             <Route path="/soa-confirmation-page/:firstName/:lastName">
                               <SOAConfirmationPage />
                             </Route>
-
                             {/* auth routes + callbacks */}
                             <Route
                               path="/signin"
@@ -162,14 +164,12 @@ const App = () => {
                               path="/signout-oidc"
                               component={AuthSignoutCallback}
                             />
-
                             <Route path="/maintenance">
                               <Redirect to="/" />
                             </Route>
                             <Route path="/clients">
                               <Redirect to="/contacts" />
                             </Route>
-
                             <Route path="/error">
                               <ErrorPage />
                             </Route>

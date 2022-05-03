@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
+
 import PropTypes from "prop-types";
-import ArrowDownIcon from "../../icons/arrow-down";
-import "./select.scss";
+
+import ContactSort from "components/icons/contact-sort";
+import "./contactPageSort.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import { useSelectFilterToScroll } from "hooks/useSelectFilter";
@@ -43,7 +45,7 @@ DefaultOption.propTypes = {
   prefix: PropTypes.string,
 };
 
-export const Select = ({
+export const ContactPageSort = ({
   initialValue,
   mobileLabel = null,
   options,
@@ -106,8 +108,7 @@ export const Select = ({
       setValue(initialValue);
       setIsOpen(isDefaultOpen);
     }
-  }, [initialValue, isDefaultOpen])// eslint-disable-line react-hooks/exhaustive-deps
-  
+  }, [initialValue, isDefaultOpen, isOpen]);
 
   const handleOptionChange = (ev, value) => {
     ev.preventDefault();
@@ -167,14 +168,15 @@ export const Select = ({
     >
       {value ? (
         <Option
-          prefix={prefix}
+        className="selectOption"
+          
           {...selectedOption}
           showValueAsLabel={showValueAsLabel}
+          prefix={<ContactSort />}
         />
       ) : (
         <span className="placeholder">{placeholder}</span>
       )}
-      <ArrowDownIcon />
     </div>
   );
   const selectBox = mobileLabel ? (
@@ -210,15 +212,14 @@ export const Select = ({
     <div
       ref={ref}
       style={style}
-      className={`select ${contactsPage && "contacts-dd"} ${
+      className={`select-2 ${contactsPage && "contacts-dd"} ${
         providerModal && "pr-select"
       } ${!isOpen && showValueAsLabel ? "short-label" : ""}`}
     >
       <div
-        className={`select-container ${isOpen ? "opened" : "closed"} ${
+        className={`select-container-2 ${isOpen ? "opened" : "closed"} ${
           disabled ? "disabled" : ""
-        }`}
-        style={heightStyle}
+        }`}      
       >
         {inputBox}
         {selectBox}
@@ -228,7 +229,7 @@ export const Select = ({
   );
 };
 
-Select.propTypes = {
+ContactPageSort.propTypes = {
   initialValue: PropTypes.string,
   prefix: PropTypes.string,
   placeholder: PropTypes.string,
@@ -242,7 +243,7 @@ Select.propTypes = {
   error: PropTypes.bool,
 };
 
-Select.defaultProps = {
+ContactPageSort.defaultProps = {
   placeholder: "- Select -",
   prefix: "",
   initialValue: null,

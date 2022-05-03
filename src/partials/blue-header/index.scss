@@ -1,0 +1,32 @@
+@import "../../scss/mixins";
+
+.header-unauthenticated {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--v2-header-bg-color);
+
+  .logo {
+    height: 80px;
+    width: 280px;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .need-help {
+    color: var(--v2-white);
+    cursor: pointer;
+    padding-right: 10px;
+  }
+
+  @media (min-width: 480px) {
+    padding: 0.5rem 2rem;
+    margin-top: 0;
+  }
+  @media (min-width: 768px) {
+    justify-content: flex-start;
+    padding: 1rem 2.5rem;
+  }
+}
