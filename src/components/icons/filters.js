@@ -4,8 +4,8 @@ export default (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="26"
-      height="35"
+      width="25"
+      height="33"
       viewBox="0 0 40 45"
     >
       <path

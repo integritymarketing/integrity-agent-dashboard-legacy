@@ -224,14 +224,14 @@
 .switch-view {
   margin-right: 30px;
 
+  :hover {
+    background: #f9fafb;
+  }
+
   & Button {
-    background: #ffffff;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px !important;
-    box-sizing: border-box;
+    background: #f9fafb;
+    border: 0px ;
     padding: 0px !important;
-    width: 40px;
-    height: 40px;
     }
 
   & svg {
@@ -247,20 +247,22 @@
 .filter-view {
   position: relative;
   & .filter-button {
-    height: 40px;
-    width: 40px;
     padding: 0px !important;
-    background: #ffffff !important;
-    border: 1px solid #c7ccd1 !important;
-    border-radius: 4px !important;
+    background: #f9fafb;
+    border: 0px;
     color: #3d4553;
 
     @media (max-width: 480px) {
-      width: 100px;
+      width: 80px;
+      height: 33px;
+      background-color: #FFFFFF ;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      margin-top: 4px;
 
       & svg {
-        stroke: #3d4553;
-        width: 18px;
+        stroke: #36373a;
+        width: 16px;
         margin-right: 50px;
       }
     }
@@ -269,9 +271,6 @@
   & svg {
     stroke: none;
     margin-left: 7px;
-  }
-  & .openFilter {
-    border: 1px solid #151e29;
   }
 
   @media (max-width: 480px) {

@@ -168,8 +168,7 @@ export const ContactPageSort = ({
     >
       {value ? (
         <Option
-        className="selectOption"
-          
+          className="selectOption"
           {...selectedOption}
           showValueAsLabel={showValueAsLabel}
           prefix={<ContactSort />}
@@ -185,9 +184,11 @@ export const ContactPageSort = ({
     </div>
   ) : null;
   const selectHeader = (
-    <div className="select-header">
+     <div className="select-header">
       <div className="prefix">{placeholder}</div>
-      <button onClick={toggleOptionsMenu}>&times;</button>
+      <button className="close-btn" onClick={toggleOptionsMenu}>
+        &times;
+      </button>
     </div>
   );
   const optionsContainer = (
@@ -219,7 +220,7 @@ export const ContactPageSort = ({
       <div
         className={`select-container-2 ${isOpen ? "opened" : "closed"} ${
           disabled ? "disabled" : ""
-        }`}      
+        }`}
       >
         {inputBox}
         {selectBox}

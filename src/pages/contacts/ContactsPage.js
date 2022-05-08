@@ -202,9 +202,7 @@ export default () => {
               <div className="bar">
                 {isMobile ? null : (
                   <div className={styles["switch-view"]}>
-                    {layout === "list" ? (
-                      <div>
-                        <div className={styles.switchViewTitle}>Grid View</div>
+                     {layout === "list" ? (
                         <Button
                           data-gtm="contacts-slide-view"
                           icon={<CardView />}
@@ -213,10 +211,7 @@ export default () => {
                           type="secondary"
                           onClick={switchLayout}
                         />
-                      </div>
                     ) : (
-                      <div>
-                        <div className={styles.switchViewTitle}>Table View</div>
                         <Button
                           data-gtm="contacts-slide-view"
                           icon={<TableView />}
@@ -225,13 +220,11 @@ export default () => {
                           type="secondary"
                           onClick={switchLayout}
                         />
-                      </div>
                     )}
                   </div>
                 )}
                 <div className="nav-header-mobile"></div>
                 <div className={styles.sortSelect}>
-                  <div className={styles.sortFunctionTitle}>Sort</div>
                   <ContactPageSort
                     mobileLabel={<SortButton />}
                     placeholder={"Sort by"}
