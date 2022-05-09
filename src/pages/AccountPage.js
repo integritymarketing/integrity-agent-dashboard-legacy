@@ -13,6 +13,9 @@ import useLoading from "hooks/useLoading";
 import authService from "services/authService";
 /* import NPNRequest from "partials/npn-request"; */
 import analyticsService from "services/analyticsService";
+import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
+
+import styles from "./ActiveSellingPermissionTable.module.scss";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -386,6 +389,12 @@ export default () => {
             {/*  <NPNModal /> */}
           </Container>
         )}
+        <div className={styles["rts-table-container"]}>
+          <div className={styles.tableHeading}>Active Selling Permissions</div>
+          <div className={styles.tableWrapper}>
+          <ActiveSellingPermissionTable npn={npn} />
+          </div>
+        </div>
       </div>
       <GlobalFooter />
     </React.Fragment>

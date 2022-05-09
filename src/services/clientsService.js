@@ -4,6 +4,7 @@ import moment from "moment";
 
 export const LEADS_API_VERSION = "v2.0";
 export const QUOTES_API_VERSION = "v1.0";
+export const AGENTS_API_VERSION = "v1.0";
 const rangeDateFormat = "yyyyMMDD";
 
 const getSortByRangeDates = (type) => {
@@ -741,6 +742,15 @@ class ClientsService {
     const [startDate, endDate] = getSortByRangeDates(sortByRange);
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/appCount?startdate=${startDate}&enddate=${endDate}`,
+      "GET"
+    );
+
+    return response.json();
+  };
+
+  getAgents = async (npn) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
       "GET"
     );
 
