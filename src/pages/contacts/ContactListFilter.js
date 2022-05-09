@@ -17,9 +17,8 @@ export default () => {
   const history = useHistory();
   const location = useLocation();
 
-  const { stageSummaryData, loadStageSummaryData } = useContext(
-    stageSummaryContext
-  );
+  const { stageSummaryData, loadStageSummaryData } =
+    useContext(stageSummaryContext);
 
   const [filters, setFilters] = useState({
     contactRecordType: "",
@@ -242,7 +241,7 @@ export default () => {
                         onClick={() => selectStage(status?.leadStatusId)}
                       >
                         <span className={styles.filterStageListLeft}>
-                          {status?.statusName}
+                          {status?.statusName?.replace("Soa", "SOA")}
                         </span>
                         <span className={styles.filterStageListRight}>
                           {status?.totalCount}
