@@ -157,7 +157,7 @@ export default () => {
                   <Textfield
                     id="login-username"
                     className="mb-3"
-                    label="NPN Number"
+                    label="National Producer Number (NPN)"
                     placeholder="Enter your NPN Number"
                     name="Username"
                     value={values.Username}
@@ -178,7 +178,7 @@ export default () => {
                           className="text-sm link link--force-underline"
                           rel="noopener noreferrer"
                         >
-                          Forgot NPN Number?
+                          Forgot National Producer Number (NPN)?
                         </a>
                       </div>
                     }

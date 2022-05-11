@@ -130,7 +130,7 @@ export default () => {
                   <Textfield
                     id="register-npn"
                     className="mb-4"
-                    label="NPN Number"
+                    label="National Producer Number (NPN)"
                     placeholder="Enter your NPN Number"
                     name="NPN"
                     value={values.NPN}

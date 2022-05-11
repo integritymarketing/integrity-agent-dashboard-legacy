@@ -190,7 +190,7 @@ export default () => {
                       />
                       <Textfield
                         id="account-npn"
-                        label="NPN Number"
+                        label=" National Producer Number (NPN)"
                         placeholder="Enter your NPN Number"
                         name="npn"
                         value={values.npn}
