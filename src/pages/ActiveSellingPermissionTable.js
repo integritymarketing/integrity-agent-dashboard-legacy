@@ -10,6 +10,7 @@ import clientService from "services/clientsService";
 export default function ActiveSellingPermissionTable({ npn }) {
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
+  const [error, setError] = useState(null);
   useEffect(
     function () {
       if (!npn) return;
@@ -19,10 +20,12 @@ export default function ActiveSellingPermissionTable({ npn }) {
         .getAgents(npn)
         .then((resp) => {
           setIsLoadings(false);
+          setError(null);
           setAgents(resp);
         })
         .catch((err) => {
           setIsLoadings(false);
+          setError(err);
           console.error("Error fetching Agents", err);
         });
     },
@@ -78,6 +81,10 @@ export default function ActiveSellingPermissionTable({ npn }) {
         <Spinner />
       </div>
     );
+  }
+
+  if (error) {
+    return <div>Error fetching data</div>;
   }
 
   return (
