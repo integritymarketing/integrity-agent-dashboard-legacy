@@ -133,7 +133,6 @@ export default () => {
   };
   return (
     <div className={styles["filter-view"]}>
-      <div className={styles.filterFunctionTitle}>Filter</div>
       <Button
         data-gtm="contacts-filter"
         icon={<Filters />}

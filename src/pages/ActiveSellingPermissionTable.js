@@ -12,6 +12,8 @@ export default function ActiveSellingPermissionTable({ npn }) {
   const [isLoading, setIsLoadings] = useState(true);
   useEffect(
     function () {
+      if (!npn) return;
+
       setIsLoadings(true);
       clientService
         .getAgents(npn)

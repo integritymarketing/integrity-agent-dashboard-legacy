@@ -84,7 +84,7 @@ const WelcomeFeatures = () => {
             title="Integrated Quoting and Enrollment"
             description="Save time every step of the way by jumping 
             straight from a client activity log or provider 
-            perference into a quote or SOA."
+            preference into a quote or SOA."
           />
         }
         rightCol={<SectionImage imgSrc={ImageFeatureQAE} />}
