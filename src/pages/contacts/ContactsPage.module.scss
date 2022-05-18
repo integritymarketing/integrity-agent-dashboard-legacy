@@ -824,3 +824,69 @@
 .mt10 {
   margin-top: 10px;
 }
+
+/*View, Sort, Filter title */
+
+.filterFunctionTitle {
+  padding-bottom: 8px;
+  color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.sortFunctionTitle {
+  padding-bottom: 8px;
+  margin-left: -36px;
+  color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.switchViewTitle {
+  padding-bottom: 8px;
+  margin-left: -15px;
+  color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.drop-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  height: 40px;
+  width: 40px;
+  border: 1px solid #CCCCCC;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.deleteContactsModal, .exportContactsModal {
+  padding: 1rem;
+}
+
+.deleteContactFooterButtons, .exportContactFooterButtons {
+  display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.contactsGridActions {
+  display: flex; 
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}

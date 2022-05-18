@@ -5,7 +5,7 @@ import React, {
   useContext,
   useMemo,
 } from "react";
-import { useTable, usePagination } from "react-table";
+import { useTable, usePagination, useRowSelect } from "react-table";
 import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as Sentry from "@sentry/react";
@@ -14,6 +14,7 @@ import styles from "./ContactsPage.module.scss";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import Pagination from "components/ui/Pagination/pagination";
+import Checkbox from "components/ui/Checkbox";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import { getPrimaryContact } from "utils/primaryContact";
 import DeleteLeadContext from "contexts/deleteLead";
@@ -34,6 +35,7 @@ function Table({
   totalResults,
   sort,
   applyFilters,
+  onRowSelected,
 }) {
   const {
     getTableProps,
@@ -44,6 +46,7 @@ function Table({
     pageCount,
     gotoPage,
     state: { pageIndex, pageSize },
+    selectedFlatRows,
   } = useTable(
     {
       columns,
@@ -52,8 +55,36 @@ function Table({
       initialState: { pageIndex: 1, pageSize: 50 },
       pageCount: manualPageCount + 1,
     },
-    usePagination
+    usePagination,
+    useRowSelect,
+    hooks => {
+      hooks.visibleColumns.push(columns => [
+        // Let's make a column for selection
+        {
+          id: 'selection',
+          // The header can use the table's getToggleAllRowsSelectedProps method
+          // to render a checkbox
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <div>
+              <Checkbox {...getToggleAllRowsSelectedProps()} />
+            </div>
+          ),
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a checkbox
+          Cell: ({ row }) => (
+            <div>
+              <Checkbox {...row.getToggleRowSelectedProps()} />
+            </div>
+          ),
+        },
+        ...columns,
+      ])
+    }
   );
+
+  useEffect(() => {
+    onRowSelected(selectedFlatRows);
+  }, [onRowSelected, selectedFlatRows]);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -138,7 +169,7 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
   }
 };
 
-function ContactsTable({ searchString, sort, duplicateIdsLength }) {
+function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelected, deleteCounter, handleGetAllLeadIds }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
@@ -169,6 +200,14 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
     setApplyFilters(applyFilters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
+
+  useEffect(() => {
+    if (deleteCounter) {
+      handleRefresh()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteCounter])
+
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
       const clearTimer = () =>
@@ -228,16 +267,16 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
           applyFilters?.hasReminder
         )
         .then((list) => {
-          setData(
-            list.result.map((res) => ({
-              ...res,
-              contactRecordType:
-                res.contactRecordType === ("Client" || "client") &&
+          const listData = list.result.map((res) => ({
+            ...res,
+            contactRecordType:
+              res.contactRecordType === ("Client" || "client") &&
                 !res.statusName
-                  ? "Enrolled"
-                  : res.contactRecordType,
-            }))
-          );
+                ? "Enrolled"
+                : res.contactRecordType,
+          }));
+          handleGetAllLeadIds(listData)
+          setData(listData);
           setPageCount(list.pageResult.totalPages);
           setTotalResults(list.pageResult.total);
           setLoading(false);
@@ -246,7 +285,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
           setLoading(false);
         });
     },
-    [applyFilters]
+    [applyFilters, handleGetAllLeadIds]
   );
 
   const handleRefresh = useCallback(() => {
@@ -385,6 +424,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength }) {
 
   return (
     <Table
+      onRowSelected={handleRowSelected}
       columns={columns}
       data={data}
       searchString={searchString}

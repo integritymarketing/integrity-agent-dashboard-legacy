@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+} from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Redirect,
@@ -17,7 +22,11 @@ import SearchIcon from "components/icons/search";
 import RoundCloseIcon from "components/icons/round-close";
 import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
+import Delete from "components/icons/trashbin";
+import Export from "components/icons/export";
 import ContactListFilter from "./ContactListFilter";
+import DeleteContactsModal from "./DeleteContactsModal";
+import ExportContactsModal from "./ExportContactsModal";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import { ContactPageSort } from "components/ui/ContactPageSort";
@@ -29,8 +38,10 @@ import ContactFooter from "partials/global-footer";
 import { SORT_OPTIONS } from "../../constants";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
+import clientsService from "services/clientsService";
 import ContactsTable from "./ContactsTable";
 import analyticsService from "services/analyticsService";
+import useToast from "hooks/useToast";
 import { StageStatusProvider } from "contexts/stageStatus";
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
@@ -61,14 +72,22 @@ export default () => {
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(null);
   const [layout, setLayout] = useState();
+  const [selectedContacts, setSelectedContacts] = useState([]);
+  const [allLeads, setAllLeads] = useState([]);
   const location = useLocation();
   const history = useHistory();
   const [isMobile, setIsMobile] = useState(false);
+  const [deleteCounter, setDeleteCounter] = useState(0);
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
+  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] =
+    useState(false);
+  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] =
+    useState(false);
 
   const { setCurrentPage } = useContext(BackNavContext);
+  const addToast = useToast();
 
   const duplicateIdsLength = duplicateIds?.length;
 
@@ -115,6 +134,67 @@ export default () => {
     setDuplicateLeadIds([]);
   };
 
+  const handleRowSelected = useCallback(
+    (data) => {
+      setSelectedContacts(data?.map((contact) => contact.original.leadsId));
+    },
+    [setSelectedContacts]
+  );
+
+  const handleGetAllLeadIds = useCallback(
+    (data) => {
+      setAllLeads(data?.map((contact) => contact.leadsId));
+    },
+    [setAllLeads]
+  );
+
+  const handleDeleteContacts = async () => {
+    await clientsService.deleteContactLeads(selectedContacts);
+    setDeleteCounter((deleteCounter) => deleteCounter + 1);
+
+    const undoDelete = async () => {
+      let response = await clientsService.reActivateClients(selectedContacts);
+      if (response.ok) {
+        setDeleteCounter((deleteCounter) => deleteCounter + 1);
+        addToast({
+          type: "success",
+          message: `contacts reactivated successfully`,
+        });
+      } else if (response.status === 400) {
+        addToast({
+          type: "error",
+          message: "Error while reactivating contacts",
+        });
+      }
+    };
+    addToast({
+      type: "success",
+      message: `${selectedContacts.length} contacts deleted`,
+      time: 10000,
+      link: "UNDO",
+      onClickHandler: undoDelete,
+      closeToastRequired: true,
+    });
+    setIsOpenDeleteContactsModal(false);
+  };
+
+  const showDeleteContactsModal = () => {
+    setIsOpenDeleteContactsModal(true);
+  };
+
+  const onCloseDeleteContactsModal = () => {
+    setIsOpenDeleteContactsModal(false);
+  };
+
+  const showExportContactsModal = () => {
+    setIsOpenExportContactsModal(true);
+  };
+
+  const onCloseExportContactsModal = () => {
+    setIsOpenExportContactsModal(false);
+  };
+
+
   return (
     <React.Fragment>
       <Media
@@ -129,6 +209,18 @@ export default () => {
             <title>MedicareCENTER - Contacts</title>
           </Helmet>
           <GlobalNav />
+          <DeleteContactsModal
+            open={isOpenDeleteContactsIdModal}
+            count={selectedContacts.length}
+            close={onCloseDeleteContactsModal}
+            onConfirm={handleDeleteContacts}
+          />
+          <ExportContactsModal
+            open={isOpenExportContactsIdModal}
+            close={onCloseExportContactsModal}
+            contacts={selectedContacts}
+            allLeads={allLeads}
+          />
           <div className={styles.header}>
             <Container>
               <div className={styles.headerText}>Contacts</div>
@@ -199,27 +291,53 @@ export default () => {
                   </div>
                 )}
               </div>
+            </div>
+            <div
+              className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
+              style={{
+                "--bar-spacing-vert": 0,
+                "--bar-spacing-horiz": "2.5rem",
+              }}
+            >
+              <div className={`${styles.contactsGridActions} mt-2`}>
+                {selectedContacts.length > 0 && (
+                  <>
+                    <button
+                      className={styles["drop-bg"]}
+                      onClick={showDeleteContactsModal}
+                    >
+                      <Delete />
+                    </button>
+                    <button
+                      className={styles["drop-bg"]}
+                      onClick={showExportContactsModal}
+                    >
+                      <Export />
+                    </button>
+                  </>
+                )}
+              </div>
               <div className="bar">
                 {isMobile ? null : (
                   <div className={styles["switch-view"]}>
-                     {layout === "list" ? (
-                        <Button
-                          data-gtm="contacts-slide-view"
-                          icon={<CardView />}
-                          iconOnly
-                          label="Button"
-                          type="secondary"
-                          onClick={switchLayout}
-                        />
+                    {layout === "list" ? (
+                      <Button
+                        data-gtm="contacts-slide-view"
+                        icon={<CardView />}
+                        iconOnly
+                        label="Button"
+                        type="secondary"
+                        onClick={switchLayout}
+                      />
                     ) : (
-                        <Button
-                          data-gtm="contacts-slide-view"
-                          icon={<TableView />}
-                          iconOnly
-                          label="Button"
-                          type="secondary"
-                          onClick={switchLayout}
-                        />
+                      <Button
+                        data-gtm="contacts-slide-view"
+                        icon={<TableView />}
+                        iconOnly
+                        label="Button"
+                        type="secondary"
+                        onClick={switchLayout}
+                      />
                     )}
                   </div>
                 )}
@@ -246,6 +364,9 @@ export default () => {
                     duplicateIdsLength={duplicateIdsLength}
                     searchString={searchStringNew}
                     sort={sort}
+                    handleRowSelected={handleRowSelected}
+                    handleGetAllLeadIds={handleGetAllLeadIds}
+                    deleteCounter={deleteCounter}
                   />
                 </Route>
                 <Route path="/contacts/card">

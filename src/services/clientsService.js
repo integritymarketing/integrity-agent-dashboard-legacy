@@ -180,6 +180,19 @@ class ClientsService {
     return response;
   };
 
+  bulkExportContacts = async (reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkexport`,
+      "POST",
+      reqData
+    );
+
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
+  };
+
   updateClient = async (oldValues, data) => {
     const reqData = this._getFormattedData(data, oldValues);
     const response = await this._clientAPIRequest(
@@ -226,6 +239,16 @@ class ClientsService {
     );
 
     return response.json();
+  };
+
+  deleteContactLeads = async (leadsId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
+      "DELETE",
+      leadsId
+    );
+
+    return response;
   };
 
   createReminder = async (data) => {
