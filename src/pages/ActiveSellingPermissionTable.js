@@ -52,7 +52,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
       },
       {
         Header: "Plan type",
-        accessor: "product",
+        accessor: "planType",
         Cell: ({ value, row }) => {
           return <div>{value}</div>;
         },
