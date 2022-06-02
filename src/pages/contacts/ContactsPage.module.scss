@@ -18,8 +18,8 @@
   }
 
   .headerText {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 32px;
+    line-height: 38px;
     color: var(--v2-dark-blue);
   }
 
@@ -31,7 +31,7 @@
 .tb-cell {
   font-family: Lato;
   font-style: normal;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
 }
 
@@ -39,10 +39,10 @@
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 40px;
   letter-spacing: 0.1px;
-  color: var(--v2-bg-gray);
+  color: #000000;
   padding: 20px;
 }
 
@@ -77,9 +77,9 @@
     }
 
     td:nth-child(1) {
-      width: 22.5%;
+      width: 5%;
       font-weight: bold;
-      color: var(--v2-dark-blue);
+      color: var(--v2-royal-blue);
     }
 
     td:nth-child(2) {
@@ -91,7 +91,7 @@
     }
 
     td:nth-child(3) {
-      width: 30%;
+      width: 20%;
 
       @media (max-width: 480px) {
         width: 30%;
@@ -136,7 +136,9 @@
 
 .contactPersonName {
   text-decoration: none;
-
+  color: var(--v2-royal-blue);
+  font-size: 16px;
+  font-weight: bold;
   &:hover {
     text-decoration: underline;
   }
@@ -889,6 +891,45 @@
   align-items: center;
   gap: 1rem;
   cursor: pointer;
+}
+
+.reminderRow {
+  display: flex;
+  align-items: center;
+}
+
+.reminderAction{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.reminderIcon{
+  margin-right: 10px;
+}
+
+.reminderDate{
+  color: #000000;
+  font-weight: 800;
+}
+
+.dueReminder{
+  color: #D32028;
+  font-weight: 800;
+}
+
+.reminderNote {
+  white-space: nowrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 5px;
+}
+
+.link{
+  text-decoration: none;
+  color:var(--v2-royal-blue);
+  font-weight: bold;
 }
 
 .listContainer {

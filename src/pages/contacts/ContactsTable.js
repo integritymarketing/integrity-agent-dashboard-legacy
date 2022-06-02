@@ -389,8 +389,35 @@ function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelect
       },
       {
         Header: "Primary Contact",
-        accessor: (row) => {
-          return getPrimaryContact(row);
+        accessor: "primaryCommunication",
+        Cell: ({ value, row }) => {
+          return (
+            <div>
+              {row?.original?.primaryCommunication === "email" ? (
+                <>
+                  {row?.original?.emails?.length !== 0 && (
+                    <a
+                      className={styles.link}
+                      href={`mailto:${getPrimaryContact(row.original)}`}
+                    >
+                      {getPrimaryContact(row.original)}
+                    </a>
+                  )}
+                </>
+              ) : (
+                <>
+                  {row?.original?.phones?.length !== 0 && (
+                    <a
+                      className={styles.link}
+                      href={`tel:${getPrimaryContact(row.original)}`}
+                    >
+                      {getPrimaryContact(row.original)}
+                    </a>
+                  )}
+                </>
+              )}
+            </div>
+          );
         },
       },
       {
