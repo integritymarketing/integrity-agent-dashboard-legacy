@@ -773,7 +773,7 @@ class ClientsService {
 
   getAgents = async (npn) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
+      `https://ae-api-dev.integritymarketinggroup.com/ae-agent-service/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
       "GET"
     );
 

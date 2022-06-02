@@ -3,11 +3,9 @@
   padding: 0px 40px;
 
   .tableHeading {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 24px;
-    color: #151e29;
+    color: #002D72;
+    font-family: Lato;
+    font-size: 24px;
   }
 }
 
@@ -45,26 +43,27 @@
 }
 
 .tb-cell {
+  line-height: 20px;
+  color: var(--neutral-text-color);
   font-family: Lato;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 16px;
 }
 
 .tb-headers {
+  color: var(--v2-black);
   font-family: Lato;
-  font-style: normal;
+  font-size: 16px;
   font-weight: bold;
-  font-size: 14px;
   line-height: 40px;
   letter-spacing: 0.1px;
-  color: var(--v2-bg-gray);
   padding: 20px 0;
+  display: flex;
+  gap: 2px;
 }
 
 .tableWrapper {
   margin-top: 1.5rem;
-  min-height: calc(100vh - 300px);
+  //min-height: calc(100vh - 300px);
 
   table {
     border-spacing: 0;
@@ -143,4 +142,44 @@
   @media (max-width: 480px) {
     border-top: 1px solid #d8dee4;
   }
+}
+
+.carrierName {
+  color: #0052CE;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.productTag {
+  height: 16px;
+  width: 32px;
+  background-color: #939393;
+}
+
+.seeMore {
+  min-height: 13px;
+  min-width: 67px;
+  color: #0052CE;
+  font-family: Lato;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 2rem;
+  width: 100%;
+}
+
+.paginationResultsDisplay {
+
+  color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sortingIcon {
+  margin: 0 1rem;
+  padding-top: 1px;
 }

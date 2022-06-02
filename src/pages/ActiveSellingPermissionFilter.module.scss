@@ -48,7 +48,7 @@
 
 .tableWrapper {
   margin-top: 1.5rem;
-  min-height: calc(100vh - 300px);
+  //min-height: calc(100vh - 300px);
 
   table {
     border-spacing: 0;
@@ -556,12 +556,11 @@
 .filterCard {
   position: absolute;
   background: #ffff;
-  width: 338px;
+  width: 410px;
   height: auto;
   right: 0;
   z-index: 1;
   margin-top: 5px;
-  border: 1px solid #3d4553;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
 
@@ -580,7 +579,9 @@
     right: unset;
   }
   & .filterHeader {
-    padding: 22px 21px 0;
+    padding: 22px 21px;
+    background-color: #F4F8FB;
+    box-shadow: 0 0 16px 0 rgba(0,0,0,0.18);
   }
 
   & .filterTitleSection {
@@ -598,13 +599,10 @@
     }
   }
   & .filterTitle {
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 29px;
+    color: #002D72;
     font-family: Lato;
-    font-style: normal;
+    font-size: 24px;
     margin-bottom: 30px;
-    color: #151e29;
     @media (max-width: 480px) {
       margin-bottom: 0;
     }
@@ -619,14 +617,15 @@
     margin-bottom: 20px;
   }
   & .filterTabs {
-    border: 1px solid #c7ccd1;
-    border-radius: 4px;
+    background-color: #e5e8ec;
+    font-family: Lato;
+    font-size: 16px;
     width: 100%;
+    text-align: center;
     padding: 0;
     margin: 0;
     display: flex;
-    margin-bottom: 27px;
-    border-bottom: 1px solid #c7ccd1;
+    margin-bottom: 1.5rem;
     & li {
       width: 33.3%;
       text-align: center;
@@ -634,12 +633,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: Lato;
-      font-style: normal;
       font-weight: bold;
       font-size: 14px;
       line-height: 17px;
-      color: #6a7279;
+      color: #434A51;
       border-right: 1px solid #c7ccd1;
       cursor: pointer;
     }
@@ -648,8 +645,7 @@
       border: 0;
     }
     & .filterTabsActive {
-      background: #eaeef5;
-      border: 1px solid #6a7279 !important;
+      background: #FFFFFF;
     }
     & .filterTabsActive:first-child {
       border-top-left-radius: 4px;
@@ -772,7 +768,7 @@
     }
     & .resetButton {
       background: #f4f6fa;
-      border: 1px solid #dfe5ef;
+      border: 1px solid #0052ce;
       box-sizing: border-box;
       border-radius: 4px;
       width: 140px;
@@ -909,6 +905,9 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid gray;
+   color: #434A51;
+  font-family: Lato;
+  font-size: 16px;
 }
 
 .listItem:last-child {

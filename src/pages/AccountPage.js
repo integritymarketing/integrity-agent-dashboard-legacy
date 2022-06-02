@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
+import ResourceSection from "components/ui/resourcesCard";
+
 /* import Modal from "components/ui/modal";*/
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav-v2";
@@ -390,11 +392,11 @@ export default () => {
           </Container>
         )}
         <div className={styles["rts-table-container"]}>
-          <div className={styles.tableHeading}>Active Selling Permissions</div>
-          <div className={styles.tableWrapper}>
           <ActiveSellingPermissionTable npn={npn} />
+          <div>
+            <ResourceSection />
           </div>
-        </div>
+        </div>  
       </div>
       <GlobalFooter />
     </React.Fragment>
