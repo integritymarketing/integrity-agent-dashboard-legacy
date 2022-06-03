@@ -2,6 +2,8 @@ import React from "react";
 import Media from "react-media";
 import Next from "components/icons/next";
 import Previous from "components/icons/previous";
+import { Select } from "components/ui/Select";
+
 import "./pagination.scss";
 
 const PaginationButton = ({ state = "active", children, ...props }) => (
@@ -31,6 +33,24 @@ const getVisibleRange = (total, current, maxVisible = 5) => {
   });
 };
 
+const ResetPageSize = ({ size, resetSize }) => {
+  const OPTIONS = [
+    { value: 25, label: 25 },
+    { value: 50, label: 50 },
+    { value: 100, label: 100 },
+  ];
+
+  return (
+    <>
+      <Select
+        initialValue={size}
+        onChange={(value) => resetSize(value)}
+        options={OPTIONS}
+      />
+    </>
+  );
+};
+
 export default ({
   totalPages = 5,
   totalResults,
@@ -40,6 +60,8 @@ export default ({
   onPageChange = noop,
   providerPagination = false,
   contactsCardPage = false,
+  onResetPageSize = false,
+  setPageSize,
   ...props
 }) => {
   const handlePageChange = (page) => {
@@ -63,10 +85,25 @@ export default ({
         ((!matches.large && (providerPagination || contactsCardPage)) ||
           matches.large) && (
           <div className="pagination-container">
-            {!providerPagination && (
+            {onResetPageSize ? (
               <div className="pagination-display-results">
-                {`Showing ${showingFrom} - ${showingTo} of ${totalResults} ${resultName}`}
+                Showing
+                <div className="reset-select-input ">
+                  <ResetPageSize
+                    size={pageSize}
+                    resetSize={(value) => setPageSize(value)}
+                  />
+                </div>
+                of {`${totalResults} ${resultName}`}
               </div>
+            ) : (
+              <>
+                {!providerPagination && (
+                  <div className="pagination-display-results">
+                    {`Showing ${showingFrom} - ${showingTo} of ${totalResults} ${resultName}`}
+                  </div>
+                )}
+              </>
             )}
             {totalPages > 1 ? (
               <nav

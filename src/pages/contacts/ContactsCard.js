@@ -229,7 +229,8 @@ function ContactsCard({ searchString, sort }) {
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 12;
+  const [pageSize, setPageSize] = useState(25);
+
   const [applyFilters, setApplyFilters] = useState({});
   const location = useLocation();
 
@@ -306,7 +307,12 @@ function ContactsCard({ searchString, sort }) {
       sort,
       applyFilters,
     });
-  }, [currentPage, fetchData, searchString, sort, applyFilters]);
+  }, [currentPage, fetchData, searchString, sort, applyFilters, pageSize]);
+
+  const onPageSizeChange = (value) => {
+    setPageSize(value);
+    setCurrentPage(0);
+  };
 
   if (loading) {
     return <Spinner />;
@@ -341,6 +347,8 @@ function ContactsCard({ searchString, sort }) {
           totalResults={totalResults}
           pageSize={pageSize}
           onPageChange={(page) => setCurrentPage(page)}
+          onResetPageSize={true}
+          setPageSize={(value) => onPageSizeChange(value)}
         />
       )}
     </Container>

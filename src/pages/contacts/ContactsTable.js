@@ -37,6 +37,8 @@ function Table({
   applyFilters,
   onRowSelected,
 }) {
+  const [pageSize, setPageSize] = useState(25);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -45,23 +47,23 @@ function Table({
     page,
     pageCount,
     gotoPage,
-    state: { pageIndex, pageSize },
+    state: { pageIndex },
     selectedFlatRows,
   } = useTable(
     {
       columns,
       data,
       manualPagination: true,
-      initialState: { pageIndex: 1, pageSize: 50 },
+      initialState: { pageIndex: 1, pageSize: pageSize },
       pageCount: manualPageCount + 1,
     },
     usePagination,
     useRowSelect,
-    hooks => {
-      hooks.visibleColumns.push(columns => [
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => [
         // Let's make a column for selection
         {
-          id: 'selection',
+          id: "selection",
           // The header can use the table's getToggleAllRowsSelectedProps method
           // to render a checkbox
           Header: ({ getToggleAllRowsSelectedProps }) => (
@@ -78,7 +80,7 @@ function Table({
           ),
         },
         ...columns,
-      ])
+      ]);
     }
   );
 
@@ -105,6 +107,11 @@ function Table({
     sort,
     applyFilters,
   ]);
+
+  const onPageSizeChange = (value) => {
+    setPageSize(value);
+    gotoPage(0);
+  };
 
   if (loading) {
     return <Spinner />;
@@ -152,6 +159,8 @@ function Table({
         totalResults={totalResults}
         pageSize={pageSize}
         onPageChange={(pageIndex) => gotoPage(pageIndex)}
+        onResetPageSize={true}
+        setPageSize={(value) => onPageSizeChange(value)}
       />
     </>
   );
@@ -169,11 +178,19 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
   }
 };
 
-function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelected, deleteCounter, handleGetAllLeadIds }) {
+function ContactsTable({
+  searchString,
+  sort,
+  duplicateIdsLength,
+  handleRowSelected,
+  deleteCounter,
+  handleGetAllLeadIds,
+}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
+
   const [tableState, setTableState] = useState({});
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
@@ -203,10 +220,10 @@ function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelect
 
   useEffect(() => {
     if (deleteCounter) {
-      handleRefresh()
+      handleRefresh();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteCounter])
+  }, [deleteCounter]);
 
   const deleteContact = useCallback(() => {
     if (deleteLeadId !== null) {
@@ -271,11 +288,11 @@ function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelect
             ...res,
             contactRecordType:
               res.contactRecordType === ("Client" || "client") &&
-                !res.statusName
+              !res.statusName
                 ? "Enrolled"
                 : res.contactRecordType,
           }));
-          handleGetAllLeadIds(listData)
+          handleGetAllLeadIds(listData);
           setData(listData);
           setPageCount(list.pageResult.totalPages);
           setTotalResults(list.pageResult.total);
@@ -393,7 +410,7 @@ function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelect
         Cell: ({ value, row }) => {
           return (
             <div>
-              {row?.original?.primaryCommunication === "email" ? (
+              {row?.original?.primaryCommunication === "email" && (
                 <>
                   {row?.original?.emails?.length !== 0 && (
                     <a
@@ -404,7 +421,8 @@ function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelect
                     </a>
                   )}
                 </>
-              ) : (
+              )}
+              {row?.original?.primaryCommunication === "phone" && (
                 <>
                   {row?.original?.phones?.length !== 0 && (
                     <a
@@ -416,6 +434,8 @@ function ContactsTable({ searchString, sort, duplicateIdsLength, handleRowSelect
                   )}
                 </>
               )}
+              {!row?.original?.primaryCommunication &&
+                getPrimaryContact(row.original)}
             </div>
           );
         },

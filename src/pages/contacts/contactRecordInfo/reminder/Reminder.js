@@ -58,7 +58,12 @@ export const ShortReminder = ({
           )}
         </div>
       ) : (
-        <img className={styles.reminderIcon} src={Reminder_Add} alt="rem" />
+        <img
+          onClick={() => setShowAddModal(true)}
+          className={styles.reminderAdd}
+          src={Reminder_Add}
+          alt="rem"
+        />
       )}
 
       {showAddModal && (
