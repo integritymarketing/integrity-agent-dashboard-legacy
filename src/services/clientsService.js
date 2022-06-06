@@ -785,6 +785,30 @@ class ClientsService {
   };
 
   /*End Dashboard API */
+
+  /*Start purl API calls */
+
+  getAgentPurlCodeByNPN = async (agentnpn) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
+      "GET"
+   );
+    return response.json();
+  };
+
+  createAgentPurlCode = async (payload) => {
+    const response = await this._clientAPIRequest(
+     `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
+     "POST",
+     payload
+    );
+    if (response.ok) {
+      return response;
+    }
+  };
+  /*End purl API calls */
+  
 }
 
 export default new ClientsService();
+
