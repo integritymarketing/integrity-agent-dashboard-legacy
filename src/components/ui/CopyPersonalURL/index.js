@@ -16,7 +16,7 @@ export default function CopyPersonalURL(props) {
   const getAgentPurlCodeWithNPN = useCallback(async () => {
     try {
       let data = await clientService.getAgentPurlCodeByNPN(agentnpn);
-      if (!data.agentPurlCode) {
+      if (data === 'null') {
         data = await clientService.createAgentPurlCode({
           agentNpn: agentnpn
         });
