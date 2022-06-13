@@ -14,6 +14,7 @@ export default function CopyPersonalURL(props) {
   const addToast = useToast();
 
   const getAgentPurlCodeWithNPN = useCallback(async () => {
+    const URL = process.env.REACT_APP_MEDICARE_ENROLL;
     try {
       let data = await clientService.getAgentPurlCodeByNPN(agentnpn);
       if (!data) {
@@ -21,7 +22,7 @@ export default function CopyPersonalURL(props) {
           agentNpn: agentnpn
         });
       }
-      setPurlCode(data.agentPurlCode);
+      setPurlCode(`${URL}/?purl=${data.agentPurlCode}`);
     } catch (error) {
       addToast({
         type: "error",
