@@ -19,6 +19,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
   const [error, setError] = useState(null);
+  
   useEffect(
     function () {
       if (!npn) return;
@@ -41,6 +42,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
           });
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [npn]
   );
 
