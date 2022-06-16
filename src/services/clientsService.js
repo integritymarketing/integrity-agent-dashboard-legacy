@@ -511,7 +511,7 @@ class ClientsService {
 
   getCounties = async (zipcode) => {
     const response = await this._clientAPIRequest(
-      `https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
+      `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
       "GET"
     );
 
@@ -773,7 +773,7 @@ class ClientsService {
 
   getAgents = async (npn) => {
     const response = await this._clientAPIRequest(
-      `https://ae-api-dev.integritymarketinggroup.com/ae-agent-service/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
       "GET"
     );
 
