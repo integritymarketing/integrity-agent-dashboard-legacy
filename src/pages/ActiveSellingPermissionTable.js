@@ -10,10 +10,12 @@ import Sort from "components/icons/sort-arrow";
 import SortUp from "components/icons/sort-arrow-up";
 import SortDown from "components/icons/sort-arrow-down";
 import LableGroupCard from "components/ui/LableGroupCard";
+import useToast from "hooks/useToast";
 
 const uniqValues = (array) => Array.from(new Set(array))
 
 export default function ActiveSellingPermissionTable({ npn }) {
+  const addToast = useToast();
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
   const [error, setError] = useState(null);
@@ -32,7 +34,11 @@ export default function ActiveSellingPermissionTable({ npn }) {
         .catch((err) => {
           setIsLoadings(false);
           setError(err);
-          console.error("Error fetching Agents", err);
+          addToast({
+            type: "error",
+            message: "Failed to load data",
+            time: 10000,
+          });
         });
     },
     [npn]
@@ -119,6 +125,10 @@ export default function ActiveSellingPermissionTable({ npn }) {
 
   if (error) {
     return <div>Error fetching data</div>;
+  }
+
+  if (!agents.length) {
+    return <div>No records found</div>;
   }
 
   return (
