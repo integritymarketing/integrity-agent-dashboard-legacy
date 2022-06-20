@@ -12,14 +12,14 @@ import SortDown from "components/icons/sort-arrow-down";
 import LableGroupCard from "components/ui/LableGroupCard";
 import useToast from "hooks/useToast";
 
-const uniqValues = (array) => Array.from(new Set(array))
+const uniqValues = (array) => Array.from(new Set(array));
 
 export default function ActiveSellingPermissionTable({ npn }) {
   const addToast = useToast();
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(
     function () {
       if (!npn) return;
@@ -46,32 +46,49 @@ export default function ActiveSellingPermissionTable({ npn }) {
     [npn]
   );
 
-  const uniqAgenets = useMemo(() =>
-    Object.values(agents.reduce((acc, row) => {
-      const { businessUnit, carrier, planType, planYear, producerId, state, status } = row
-      const key = `${carrier}-${producerId}-${planYear}`
-      acc[key] = {
-        businessUnit,
-        carrier,
-        planTypes: uniqValues([...(acc[key]?.planTypes ?? []), planType]),
-        planYear,
-        producerId,
-        status,
-        states: uniqValues([...(acc[key]?.states ?? []), state]),
-      };
-      return acc;
-    }, {})), [agents])
+  const uniqAgenets = useMemo(
+    () =>
+      Object.values(
+        agents.reduce((acc, row) => {
+          const {
+            businessUnit,
+            carrier,
+            planType,
+            planYear,
+            producerId,
+            state,
+            status,
+          } = row;
+          const key = `${carrier}-${producerId}-${planYear}`;
+          acc[key] = {
+            businessUnit,
+            carrier,
+            planTypes: uniqValues([...(acc[key]?.planTypes ?? []), planType]),
+            planYear,
+            producerId,
+            status,
+            states: uniqValues([...(acc[key]?.states ?? []), state]),
+          };
+          return acc;
+        }, {})
+      ),
+    [agents]
+  );
 
-  const filterOptions = useMemo(() => agents.reduce((acc, row) => {
-    const { carrier, planType, state } = row
-    return {
-      'Carrier': uniqValues([carrier, ...(acc?.Carrier ?? [])]),
-      'State': uniqValues([state, ...(acc?.State ?? [])]),
-      'PlanType': uniqValues([planType, ...(acc?.PlanType ?? [])]),
-    }
-  }, {}), [agents])
+  const filterOptions = useMemo(
+    () =>
+      agents.reduce((acc, row) => {
+        const { carrier, planType, state } = row;
+        return {
+          Carrier: uniqValues([carrier, ...(acc?.Carrier ?? [])]),
+          State: uniqValues([state, ...(acc?.State ?? [])]),
+          PlanType: uniqValues([planType, ...(acc?.PlanType ?? [])]),
+        };
+      }, {}),
+    [agents]
+  );
 
-  const handleChangeTable = useCallback(function () { }, []);
+  const handleChangeTable = useCallback(function () {}, []);
 
   const columns = useMemo(
     () => [
@@ -87,7 +104,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
         accessor: "states",
         disableSortBy: true,
         Cell: ({ value, row }) => {
-          return <div>{value?.join(', ')}</div>;
+          return <div>{value?.join(", ")}</div>;
         },
       },
       {
@@ -95,7 +112,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
         accessor: "planTypes",
         disableSortBy: true,
         Cell: ({ value, row }) => {
-          return ( <LableGroupCard labelNames={value?.join(', ')} />);
+          return <LableGroupCard labelNames={value?.join(", ")} />;
         },
       },
       {
@@ -129,7 +146,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
     return <div>Error fetching data</div>;
   }
 
-  if (!agents) {
+  if (agents === null) {
     return <div>No records found</div>;
   }
 
@@ -151,31 +168,42 @@ function Table({
   loading,
   sort,
   applyFilters,
-  filterOptions
+  filterOptions,
 }) {
   const [pageSize, setPageSize] = useState(10);
   const [filters, setFilters] = useState({});
 
   const pageData = useMemo(() => {
-    const shouldApplyFilters = [
-      ...Object.keys(filters?.Carrier ?? {}).filter(id => (filters?.Carrier || {})[id]),
-      ...Object.keys(filters?.State ?? {}).filter(id => (filters?.State || {})[id]),
-      ...Object.keys(filters?.PlanType ?? {}).filter(id => (filters?.PlanType || {})[id]),
-    ].length > 0
-    const filteredData = shouldApplyFilters ? data.filter(row => {
-      const { states, carrier, planTypes } = row
-      const isStateMatched = states.filter(state => (filters?.State ?? {})[state]).length > 0;
-      if (isStateMatched) return true;
-      if ((filters?.Carrier || {})[carrier]) return true;
-      const isPlantypeMatched = planTypes.filter(planType => (filters?.PlanType ?? {})[planType]).length > 0;
-      if (isPlantypeMatched) return true;
+    const shouldApplyFilters =
+      [
+        ...Object.keys(filters?.Carrier ?? {}).filter(
+          (id) => (filters?.Carrier || {})[id]
+        ),
+        ...Object.keys(filters?.State ?? {}).filter(
+          (id) => (filters?.State || {})[id]
+        ),
+        ...Object.keys(filters?.PlanType ?? {}).filter(
+          (id) => (filters?.PlanType || {})[id]
+        ),
+      ].length > 0;
+    const filteredData = shouldApplyFilters
+      ? data.filter((row) => {
+          const { states, carrier, planTypes } = row;
+          const isStateMatched =
+            states.filter((state) => (filters?.State ?? {})[state]).length > 0;
+          if (isStateMatched) return true;
+          if ((filters?.Carrier || {})[carrier]) return true;
+          const isPlantypeMatched =
+            planTypes.filter((planType) => (filters?.PlanType ?? {})[planType])
+              .length > 0;
+          if (isPlantypeMatched) return true;
 
-      return false;
-    })
-      : [...data]
-      setPageSize(pageSize => Math.min(data.length, pageSize + 10))
-    return filteredData.splice(0, pageSize)
-  }, [data, pageSize, filters])
+          return false;
+        })
+      : [...data];
+    setPageSize((pageSize) => Math.min(data.length, pageSize + 10));
+    return filteredData.splice(0, pageSize);
+  }, [data, pageSize, filters]);
 
   const {
     getTableProps,
@@ -188,12 +216,12 @@ function Table({
       columns,
       data: pageData,
     },
-    useSortBy,
+    useSortBy
   );
 
   const handleSeeMore = useCallback(() => {
-    setPageSize(pageSize => Math.min(pageData.length, pageSize + 10))
-  }, [pageData, setPageSize])
+    setPageSize((pageSize) => Math.min(pageData.length, pageSize + 10));
+  }, [pageData, setPageSize]);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -204,12 +232,7 @@ function Table({
       sort,
       applyFilters,
     });
-  }, [
-    onChangeTableState,
-    searchString,
-    sort,
-    applyFilters
-  ]);
+  }, [onChangeTableState, searchString, sort, applyFilters]);
 
   if (loading) {
     return <Spinner />;
@@ -219,7 +242,10 @@ function Table({
     <Container className="mt-scale-3">
       <div className={styles.headerContainer}>
         <div className={styles.tableHeading}>Active Selling Permissions</div>
-        <ActiveSellingPermissionFilter onSubmit={setFilters} filterOptions={filterOptions} />
+        <ActiveSellingPermissionFilter
+          onSubmit={setFilters}
+          filterOptions={filterOptions}
+        />
       </div>
       <div className={styles.tableWrapper}>
         <table
@@ -231,15 +257,24 @@ function Table({
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())} className="text-left">
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    className="text-left"
+                  >
                     <div className={styles["tb-headers"]}>
                       <span>{column.render("Header")}</span>
                       <span className={styles.sortingIcon}>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? <SortDown />
-                            : <SortUp />
-                          : column.disableSortBy ? '' : <Sort />}
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <SortDown />
+                          ) : (
+                            <SortUp />
+                          )
+                        ) : column.disableSortBy ? (
+                          ""
+                        ) : (
+                          <Sort />
+                        )}
                       </span>
                     </div>
                   </th>
@@ -266,11 +301,15 @@ function Table({
             })}
           </tbody>
         </table>
-        {data.length > pageSize && <button onClick={handleSeeMore} className={styles.seeMore}>See More</button>}
+        {data.length > pageSize && (
+          <button onClick={handleSeeMore} className={styles.seeMore}>
+            See More
+          </button>
+        )}
         <div className={styles.paginationResultsDisplay}>
           {`Showing ${rows.length} of ${data.length} Permissions`}
         </div>
       </div>
-    </Container >
+    </Container>
   );
 }
