@@ -146,7 +146,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
     return <div>Error fetching data</div>;
   }
 
-  if (agents === null) {
+  if (!agents.length) {
     return <div>No records found</div>;
   }
 
