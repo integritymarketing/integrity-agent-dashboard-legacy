@@ -423,6 +423,7 @@ class ClientsService {
       firstName,
       lastName,
       middleName,
+      birthdate,
       email,
       phones,
       address,
@@ -434,6 +435,7 @@ class ClientsService {
       firstName,
       lastName,
       middleName: middleName?.toUpperCase(),
+      birthdate: birthdate ? formatServerDate(parseDate(birthdate)) : null,
       leadStatusId: 0,
       contactRecordType,
     };
@@ -792,23 +794,21 @@ class ClientsService {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
       "GET"
-   );
+    );
     return response.json();
   };
 
   createAgentPurlCode = async (payload) => {
     const response = await this._clientAPIRequest(
-     `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
-     "POST",
-     payload
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
+      "POST",
+      payload
     );
     if (response.ok) {
       return response;
     }
   };
   /*End purl API calls */
-  
 }
 
 export default new ClientsService();
-
