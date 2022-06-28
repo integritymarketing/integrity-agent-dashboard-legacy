@@ -406,36 +406,13 @@ function ContactsTable({
       },
       {
         Header: "Primary Contact",
-        accessor: "primaryCommunication",
-        Cell: ({ value, row }) => {
+        accessor: (row) => {
           return (
-            <div>
-              {row?.original?.primaryCommunication === "email" && (
-                <>
-                  {row?.original?.emails?.length !== 0 && (
-                    <a
-                      className={styles.link}
-                      href={`mailto:${getPrimaryContact(row.original)}`}
-                    >
-                      {getPrimaryContact(row.original)}
-                    </a>
-                  )}
-                </>
-              )}
-              {row?.original?.primaryCommunication === "phone" && (
-                <>
-                  {row?.original?.phones?.length !== 0 && (
-                    <a
-                      className={styles.link}
-                      href={`tel:${getPrimaryContact(row.original)}`}
-                    >
-                      {getPrimaryContact(row.original)}
-                    </a>
-                  )}
-                </>
-              )}
-              {!row?.original?.primaryCommunication &&
-                getPrimaryContact(row.original)}
+            <div
+              title={getPrimaryContact(row) ? getPrimaryContact(row) : ""}
+              className={styles.primaryContact}
+            >
+              {getPrimaryContact(row)}
             </div>
           );
         },

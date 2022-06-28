@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  useContext,
-} from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Redirect,
@@ -43,6 +38,8 @@ import ContactsTable from "./ContactsTable";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import { StageStatusProvider } from "contexts/stageStatus";
+import ResourceSection from "components/ui/resourcesCard";
+
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
@@ -81,10 +78,12 @@ export default () => {
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
-  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] =
-    useState(false);
-  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] =
-    useState(false);
+  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] = useState(
+    false
+  );
+  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] = useState(
+    false
+  );
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
@@ -193,7 +192,6 @@ export default () => {
   const onCloseExportContactsModal = () => {
     setIsOpenExportContactsModal(false);
   };
-
 
   return (
     <React.Fragment>
@@ -373,6 +371,9 @@ export default () => {
                   <ContactsCard searchString={searchStringNew} sort={sort} />
                 </Route>
               </Switch>
+            </div>
+            <div>
+              <ResourceSection />
             </div>
           </Container>
           <ContactFooter hideMedicareIcon={true} />
