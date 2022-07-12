@@ -12,12 +12,14 @@ import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
+import useToast from "../../hooks/useToast";
 
 export default () => {
   const history = useHistory();
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
+  const addToast = useToast();
 
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
@@ -110,6 +112,14 @@ export default () => {
                 history.push(`registration-email-sent?npn=${values.NPN}`);
               } else {
                 const errorsArr = await response.json();
+                const errMsg = errorsArr[0]?.Value || null;
+                if (errMsg) {
+                  addToast({
+                    message: errMsg,
+                    type: "error",
+                  });
+                }
+
                 analyticsService.fireEvent("event-form-submit-invalid", {
                   formName: "Register Account",
                 });
