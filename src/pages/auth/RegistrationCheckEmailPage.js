@@ -61,8 +61,8 @@ export default () => {
                 <div>
                   {clientId === "ILSClient" ? (
                     <p className="mb-2">
-                      Find the confirmation email from Integrity Lead Store
-                      (IntegrityLeadStore@integritymarketing.com)
+                      Find the confirmation email from Integrity LeadCENTER
+                      (integrityLeadCENTER@integritymarketing.com)
                     </p>
                   ) : (
                     <p className="mb-2">
@@ -80,7 +80,7 @@ export default () => {
                 {clientId === "ILSClient" ? (
                   <div>
                     Click the confirm button in the email to return to Integrity
-                    Lead Store for login
+                    LeadCENTER for login
                   </div>
                 ) : (
                   <div>
