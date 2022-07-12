@@ -137,13 +137,3 @@ export function getEffectiveDates(planData) {
 
   return { effectiveStartDate, effectiveEndDate };
 }
-
-export const formatDOB = (dateString) => {
-  const originalInput = dateString;
-  const match = originalInput
-    .replace(/^(\d\d)(\d)$/g, "$1/$2")
-    .replace(/^(\d\d\/\d\d)(\d+)$/g, "$1/$2")
-    .replace(/[^\d]/g, "");
-
-  return match;
-};

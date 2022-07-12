@@ -16,7 +16,6 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
-import { formatDOB } from "utils/dates";
 
 const isDuplicateContact = async (
   values,
@@ -377,7 +376,7 @@ export default (props) => {
                       label="Date of Birth"
                       placeholder="MM/DD/YYYY"
                       name="birthdate"
-                      value={formatDOB(values.birthdate)}
+                      value={values.birthdate}
                       maxLength={"10"}
                       className="custom-w-px1"
                       onChange={handleChange}
@@ -394,7 +393,7 @@ export default (props) => {
                       label="Date of Birth"
                       placeholder="MM/DD/YYYY"
                       name="birthdate"
-                      value={formatDOB(values.birthdate)}
+                      value={values.birthdate}
                       maxLength={"10"}
                       className="custom-w-px1"
                       onChange={handleChange}
