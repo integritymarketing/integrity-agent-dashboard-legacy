@@ -83,7 +83,7 @@ const App = () => {
                             <AuthenticatedRoute path="/dashboard">
                               <Dashboard />
                             </AuthenticatedRoute>
-                            <AuthenticatedRoute path="/edit-account">
+                            <AuthenticatedRoute path="/account">
                               <AccountPage />
                             </AuthenticatedRoute>
                             <AuthenticatedRoute path="/learning-center">
