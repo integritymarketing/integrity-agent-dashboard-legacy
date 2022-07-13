@@ -129,8 +129,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           secondary: [
             {
               component: Link,
-              props: { to: "/edit-account" },
-              label: "Edit Account",
+              props: { to: "/account" },
+              label: "Account",
             },
             {
               component: "button",
