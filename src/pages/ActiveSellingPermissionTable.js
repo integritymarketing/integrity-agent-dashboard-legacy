@@ -46,34 +46,54 @@ export default function ActiveSellingPermissionTable({ npn }) {
     [npn]
   );
 
-  const uniqAgenets = useMemo(
-    () =>
-      Object.values(
-        agents.reduce((acc, row) => {
-          const {
-            businessUnit,
-            carrier,
-            planType,
-            planYear,
-            producerId,
-            state,
-            status,
-          } = row;
-          const key = `${carrier}-${producerId}-${planYear}`;
-          acc[key] = {
-            businessUnit,
-            carrier,
-            planTypes: uniqValues([...(acc[key]?.planTypes ?? []), planType]),
-            planYear,
-            producerId,
-            status,
-            states: uniqValues([...(acc[key]?.states ?? []), state]),
-          };
-          return acc;
-        }, {})
-      ),
-    [agents]
-  );
+  const uniqAgenets = useMemo(() => {
+    const byStates = Object.values(
+      agents.reduce((acc, row) => {
+        const {
+          businessUnit,
+          carrier,
+          planType,
+          planYear,
+          producerId,
+          state,
+          status,
+        } = row;
+        const key = `${carrier}-${producerId}-${planYear}`;
+        acc[key] = {
+          businessUnit,
+          carrier,
+          planYear,
+          producerId,
+          status,
+          states: {
+            ...(acc[key]?.states ?? {}),
+            [state]: uniqValues([
+              ...(acc[key]?.states?.[state] ?? []),
+              planType,
+            ]),
+          },
+        };
+        return acc;
+      }, {})
+    );
+    const results = byStates.reduce((rows, rec) => {
+      const statesByPlanTypes = Object.keys(rec.states).reduce((acc, state) => {
+        acc[rec.states[state].join("-")] = {
+          states: [state, ...(acc[rec.states[state].join("-")]?.states ?? [])],
+          planTypes: rec.states[state],
+        };
+        return acc;
+      }, {});
+      return [
+        ...rows,
+        ...Object.values(statesByPlanTypes).map((byPlansState) => ({
+          ...rec,
+          ...byPlansState,
+        })),
+      ];
+    }, []);
+    return results;
+  }, [agents]);
 
   const filterOptions = useMemo(
     () =>
@@ -205,19 +225,14 @@ function Table({
     return filteredData.splice(0, pageSize);
   }, [data, pageSize, filters]);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    rows,
-  } = useTable(
-    {
-      columns,
-      data: pageData,
-    },
-    useSortBy
-  );
+  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } =
+    useTable(
+      {
+        columns,
+        data: pageData,
+      },
+      useSortBy
+    );
 
   const handleSeeMore = useCallback(() => {
     setPageSize((pageSize) => Math.min(pageData.length, pageSize + 10));
