@@ -178,7 +178,7 @@ export default () => {
                           className="text-sm link link--force-underline"
                           rel="noopener noreferrer"
                         >
-                          Forgot National Producer Number (NPN)?
+                          Forgot NPN?
                         </a>
                       </div>
                     }

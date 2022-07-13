@@ -161,7 +161,7 @@ export default () => {
                           rel="noopener noreferrer"
                           className="text-sm link link--force-underline"
                         >
-                          Forgot NPN Number?
+                          Forgot NPN?
                         </a>
                       </div>
                     }
