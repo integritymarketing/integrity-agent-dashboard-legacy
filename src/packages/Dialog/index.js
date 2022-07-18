@@ -1,0 +1,93 @@
+import * as React from "react";
+import PropTypes from "prop-types";
+import {Button} from "../Button";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import MUIDialog from "@mui/material/Dialog";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/system";
+import { Divider } from "@mui/material";
+
+const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
+  color: theme.palette.dialog.color,
+  fontSize: '24px',
+  fontFamily: 'lato',
+  fontWeight: 'bold',
+  }));
+
+const StyledDialog = styled(MUIDialog)(({ theme }) => ({
+    borderRadius: '5px'
+  }));
+
+  const StyledDialogActions = styled(DialogActions)(({ theme }) => ({
+    padding: '1rem',
+    backgroundColor: '#F4F8FB'
+  }));
+
+  const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
+    backgroundColor: '#F4F8FB'
+  }));
+
+export default function Dialog(props) {
+  const {
+    title,
+    saveText,
+    cancelText,
+    onSave,
+    onCancel,
+    open,
+    children,
+    onClose,
+    fullWidth,
+    maxWidth="xs"
+  } = props;
+
+  return (
+    <StyledDialog open={open} fullWidth={fullWidth} maxWidth={maxWidth}>
+      {title && (
+        <StyledDialogTitle>
+          {title}
+          {onClose ? (
+            <IconButton
+              aria-label="close"
+              onClick={onClose}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.primary.main,
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          ) : null}
+        </StyledDialogTitle>
+      )}
+      <Divider/>
+      <StyledDialogContent>{children}</StyledDialogContent>
+      <StyledDialogActions>
+        {cancelText && (
+          <Button size={"medium"} onClick={onCancel}>
+            {cancelText}
+          </Button>
+        )}
+        <Button size={"medium"} onClick={onSave}>
+          {saveText}
+        </Button>
+      </StyledDialogActions>
+    </StyledDialog>
+  );
+}
+
+Dialog.propTypes = {
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  open: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
+  saveText: PropTypes.string.isRequired,
+  cancelText: PropTypes.string,
+  title: PropTypes.string,
+  maxWidth: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl'])
+};

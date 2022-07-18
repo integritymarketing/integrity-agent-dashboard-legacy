@@ -2,6 +2,8 @@ import React from "react";
 import Router from "components/functional/router";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { theme } from './theme'
+import { ThemeProvider } from '@mui/material/styles';
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
 import authService from "services/authService";
@@ -13,6 +15,7 @@ import NotFoundPage from "pages/NotFound";
 import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
+import ContactDetailsPage from "pages/ContactDetails";
 import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
@@ -45,6 +48,7 @@ import PlanDetailsPage from "pages/PlanDetailsPage";
 
 const App = () => {
   return (
+    <ThemeProvider theme={theme}>
     <AuthContext.Provider value={authService}>
       <ToastContextProvider>
         <CountyProvider>
@@ -106,6 +110,12 @@ const App = () => {
                               path="/contact/:contactId"
                             >
                               <ContactRecordInfo />
+                            </AuthenticatedRoute>
+                            <AuthenticatedRoute
+                              exact
+                              path="/new/contact/:contactId"
+                            >
+                              <ContactDetailsPage />
                             </AuthenticatedRoute>
                             <AuthenticatedRoute path="/new-soa/:leadId">
                               <NewScopeOfAppointment />
@@ -189,6 +199,7 @@ const App = () => {
         </CountyProvider>
       </ToastContextProvider>
     </AuthContext.Provider>
+    </ThemeProvider>
   );
 };
 
