@@ -161,7 +161,7 @@ export const ContactPageSort = ({
       className={`${error ? "has-error" : ""} ${
         showValueAlways ? "show-always" : ""
       } inputbox`}
-      tabindex="0"
+      tabIndex="0"
       role="menu"
       onClick={toggleOptionsMenu}
       onKeyUp={toggleOptionsMenuKeyUp}
