@@ -40,6 +40,8 @@
   &.dropdown-menu--open {
     .dropdown-menu__trigger {
       z-index: 4;
+	  font-weight: 600;
+	  font-size: 14px;
     }
     .dropdown-menu__items {
       z-index: 3;
@@ -66,7 +68,7 @@
 			padding: 3.5rem 1rem 0.5rem;
 			background-color: var(--main-bg-color);
 			border-radius: 0.25rem;
-			>li a {
+			>li a, >li button {
 				color: var(--neutral-text-color);
 				font-weight: 600;
 				font-size: 14px;
