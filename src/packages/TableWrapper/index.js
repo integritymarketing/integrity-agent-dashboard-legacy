@@ -37,7 +37,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({theme})=> ({
-  backgroundColor: 'white'
+  backgroundColor: 'white',
+ /*  '&:hover' : {
+    backgroundColor: '#1F6FE929'
+  } */
 }));
 
 const generateSortingIndicator = (column) => {

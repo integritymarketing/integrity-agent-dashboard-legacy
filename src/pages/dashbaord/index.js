@@ -17,7 +17,7 @@ import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
-import ActivityTable from "./ActivityTable";
+import Heading2 from 'packages/Heading2';
 import Help from "./Help";
 import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
@@ -26,6 +26,7 @@ import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
+import DashboardActivityTable from "./DashboardActivityTable";
 
 const ActionButton = ({ row, onClick }) => {
   return (
@@ -252,7 +253,7 @@ export default function Dashbaord() {
             </div>
             <div className="snapshot-wrapper">
               <div className="title">
-                Client Snapshot&nbsp;&nbsp;
+                <Heading2 className="title" text="Client Snapshot" />
                 <Popover
                   openOn="hover"
                   icon={<Info />}
@@ -286,7 +287,7 @@ export default function Dashbaord() {
             </div>
             {!isMobile && (
               <>
-                <div className="resources">Resources</div>
+                <Heading2 className="resources" text="Resources"/>
                 <Help
                   icon={LearningCenter}
                   text="For the latest resources and news from MedicareCENTER visit the"
@@ -303,16 +304,23 @@ export default function Dashbaord() {
             )}
           </section>
           <section className="recent-activity-section">
-            <ActivityTable
+           {/* <ActivityTable
               caption="Recent Activity"
               rows={activityData?.result}
               headers={headers}
               totalRecords={activityData?.pageResult?.total ?? 0}
               onLoadMore={onLoadMore}
-            />
+            /> */}
+
+        <DashboardActivityTable
+          data={activityData?.result}
+          onRowClick={()=>{}}
+          onShowMore={onLoadMore}
+          pageHasMoreRows={true}
+        />
             {isMobile && (
               <>
-                <div className="resources">Resources</div>
+                <Heading2 className="resources" text="Resources"/>
                 <Help
                   icon={LearningCenter}
                   text="For the latest resources and news from MedicareCENTER visit the"

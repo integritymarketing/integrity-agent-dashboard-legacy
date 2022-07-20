@@ -1,0 +1,12 @@
+@import '../../scss/globalDefines.scss';
+
+.activityDataCell {
+    display: flex;
+    align-items: center;
+}
+
+.recentActivity {
+    @include small() {
+        margin-left: 10px;
+    }
+}
