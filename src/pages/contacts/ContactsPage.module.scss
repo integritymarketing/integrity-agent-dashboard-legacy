@@ -69,7 +69,7 @@
       text-align: left;
       margin: 0;
       padding: 0px;
-      
+
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
       & > div {
@@ -146,7 +146,7 @@
   }
 }
 
-.sortSelect { 
+.sortSelect {
   @media (min-width: 480px) {
     width: 40px;
   }
@@ -234,9 +234,9 @@
 
   & Button {
     background: #f9fafb;
-    border: 0px ;
+    border: 0px;
     padding: 0px !important;
-    }
+  }
 
   & svg {
     stroke: none !important;
@@ -259,8 +259,8 @@
     @media (max-width: 480px) {
       width: 80px;
       height: 33px;
-      background-color: #FFFFFF ;
-      border: 1px solid #CCCCCC;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
       border-radius: 4px;
       margin-top: 4px;
 
@@ -270,7 +270,6 @@
         margin-right: 50px;
       }
     }
-
   }
   & svg {
     stroke: none;
@@ -282,7 +281,7 @@
     padding-top: 6px !important;
     display: block;
     position: unset;
-    width: 500px;   
+    width: 500px;
   }
 }
 
@@ -833,7 +832,7 @@
 
 .filterFunctionTitle {
   padding-bottom: 8px;
-  color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 16px;
   line-height: 20px;
@@ -846,7 +845,7 @@
 .sortFunctionTitle {
   padding-bottom: 8px;
   margin-left: -36px;
-  color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 16px;
   line-height: 20px;
@@ -859,7 +858,7 @@
 .switchViewTitle {
   padding-bottom: 8px;
   margin-left: -15px;
-  color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 16px;
   line-height: 20px;
@@ -873,23 +872,25 @@
   box-sizing: border-box;
   height: 40px;
   width: 40px;
-  border: 1px solid #CCCCCC;
-  background-color: #FFFFFF;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
   cursor: pointer;
 }
 
-.deleteContactsModal, .exportContactsModal {
+.deleteContactsModal,
+.exportContactsModal {
   padding: 1rem;
 }
 
-.deleteContactFooterButtons, .exportContactFooterButtons {
+.deleteContactFooterButtons,
+.exportContactFooterButtons {
   display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
+  gap: 1rem;
+  justify-content: flex-end;
 }
 
 .contactsGridActions {
-  display: flex; 
+  display: flex;
   align-items: center;
   gap: 1rem;
   cursor: pointer;
@@ -900,23 +901,23 @@
   align-items: center;
 }
 
-.reminderAction{
+.reminderAction {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.reminderIcon{
+.reminderIcon {
   margin-right: 10px;
 }
 
-.reminderDate{
+.reminderDate {
   color: #000000;
   font-weight: 800;
 }
 
-.dueReminder{
-  color: #D32028;
+.dueReminder {
+  color: #d32028;
   font-weight: 800;
 }
 
@@ -925,15 +926,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 5px;
-  color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 14px;
   line-height: 20px;
 }
 
-.link{
+.link {
   text-decoration: none;
-  color:var(--v2-royal-blue);
+  color: var(--v2-royal-blue);
   font-weight: bold;
 }
 
@@ -943,7 +944,8 @@
   gap: 0.5em;
 }
 
-.oddList, .evenList {
+.oddList,
+.evenList {
   flex: 1;
   background-color: white;
   padding-left: 1em;
@@ -968,14 +970,18 @@
 .selected {
   display: block;
 }
-.reminderAdd{
+.reminderAdd {
   cursor: pointer;
 }
-.primaryContact{
-  color: #525761;;
+.primaryContact {
+  color: #525761;
   font-family: Lato;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
 }
 
+.footerBannerContainer {
+  display: flex;
+  justify-content: center;
+}
