@@ -3,21 +3,19 @@ import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
-import moment from "moment";
 import GlobalNav from "partials/global-nav-v2";
 import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Popover from "components/ui/Popover";
-import LastUpdatedIcon from "components/icons/last-updated";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
-import Heading2 from 'packages/Heading2';
+import Heading2 from "packages/Heading2";
 import Help from "./Help";
 import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
@@ -27,14 +25,6 @@ import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
-
-const ActionButton = ({ row, onClick }) => {
-  return (
-    <button className="action-button" onClick={() => onClick(row)}>
-      View Contact
-    </button>
-  );
-};
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -80,9 +70,8 @@ export default function Dashbaord() {
   const addToast = useToast();
   const auth = useContext(AuthContext);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
-  const { stageSummaryData, loadStageSummaryData } = useContext(
-    stageSummaryContext
-  );
+  const { stageSummaryData, loadStageSummaryData } =
+    useContext(stageSummaryContext);
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -141,49 +130,8 @@ export default function Dashbaord() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast]);
 
-  const headers = [
-    {
-      title: "Contact",
-      cell: ({ row }) => (
-        <span>
-          {row.firstName} {row.lastName}
-        </span>
-      ),
-      className: "contact",
-    },
-    {
-      title: "Activity",
-      className: "activity",
-      accessor: "activities.0.activitySubject",
-    },
-    {
-      title: "Last Updated",
-      className: "updated",
-      cell: ({ row }) => (
-        <>
-          {row?.activities?.length > 0 && (
-            <span>
-              <LastUpdatedIcon />
-              &nbsp;&nbsp;
-              {moment((row?.activities || [])[0]?.createDate).format("MM/DD")}
-            </span>
-          )}
-        </>
-      ),
-    },
-    {
-      title: "Action",
-      className: "action",
-      cell: ({ row }) => <ActionButton row={row} onClick={handleViewContact} />,
-    },
-  ];
-
   const handleLearningCenter = () => {
     history.push(`/learning-center`);
-  };
-
-  const handleViewContact = (row) => {
-    history.push(`/contact/${row?.leadsId}`);
   };
 
   const handleSortDateRange = (value) => {
@@ -287,7 +235,7 @@ export default function Dashbaord() {
             </div>
             {!isMobile && (
               <>
-                <Heading2 className="resources" text="Resources"/>
+                <Heading2 className="resources" text="Resources" />
                 <Help
                   icon={LearningCenter}
                   text="For the latest resources and news from MedicareCENTER visit the"
@@ -304,23 +252,15 @@ export default function Dashbaord() {
             )}
           </section>
           <section className="recent-activity-section">
-           {/* <ActivityTable
-              caption="Recent Activity"
-              rows={activityData?.result}
-              headers={headers}
-              totalRecords={activityData?.pageResult?.total ?? 0}
-              onLoadMore={onLoadMore}
-            /> */}
-
-        <DashboardActivityTable
-          data={activityData?.result}
-          onRowClick={()=>{}}
-          onShowMore={onLoadMore}
-          pageHasMoreRows={true}
-        />
+            <DashboardActivityTable
+              data={activityData?.result}
+              onRowClick={() => {}}
+              onShowMore={onLoadMore}
+              pageHasMoreRows={true}
+            />
             {isMobile && (
               <>
-                <Heading2 className="resources" text="Resources"/>
+                <Heading2 className="resources" text="Resources" />
                 <Help
                   icon={LearningCenter}
                   text="For the latest resources and news from MedicareCENTER visit the"
