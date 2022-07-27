@@ -5,7 +5,7 @@ import Media from "react-media";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import Logo from "partials/logo";
-import MyButton from "./MyButton";
+/* import MyButton from "./MyButton";*/
 import MyModal from "./MyModal";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
@@ -189,10 +189,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
   }, [auth]);
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
-
+/* 
   function clickButton() {
     handleOpen();
-  }
+  } */
 
   const showMaintenaceNotification =
     process.env.REACT_APP_NOTIFICATION_BANNER === "true";
@@ -245,10 +245,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  <MyButton
+                   {/* commenting for prod deployment */}
+                 {/*  <MyButton
                     clickButton={clickButton}
                     isAvailable={isAvailable}
-                  ></MyButton>
+                  ></MyButton> */}
                 </React.Fragment>
               )}
             </Media>
