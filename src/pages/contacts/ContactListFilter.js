@@ -41,9 +41,10 @@ export default () => {
     const stages = queryParams.get("Stage");
     const contactRecordType = queryParams.get("ContactRecordType");
     const hasReminder = queryParams.get("HasReminder");
+   
     const applyFilters = {
       contactRecordType: contactRecordType ? contactRecordType : "",
-      hasReminder: hasReminder === "true" ? true : false,
+      hasReminder: hasReminder === "false" ? false : true,
       stages: stages ? stages.split(",").map(Number) : [],
     };
     if (applyFilters?.stages && applyFilters?.stages.length > 0) {
@@ -61,7 +62,7 @@ export default () => {
       setFilters({
         contactRecordType: "",
         stages: [],
-        hasReminder: false,
+        hasReminder: true,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +120,13 @@ export default () => {
     let searchParams = new URLSearchParams(location.search);
     searchParams.set("ContactRecordType", filters?.contactRecordType);
     searchParams.set("Stage", filters?.stages);
-    searchParams.set("HasReminder", filters?.hasReminder);
+    
+    if(filters?.hasReminder) {
+      searchParams.delete('HasReminder');
+    }else{
+      searchParams.set("HasReminder", filters?.hasReminder);
+    }
+
     history.push({
       pathname: pathname,
       search: searchParams.toString(),

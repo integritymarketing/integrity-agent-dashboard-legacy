@@ -5,8 +5,14 @@ import Media from "react-media";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import Logo from "partials/logo";
+import MyButton from "./MyButton";
+import MyModal from "./MyModal";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
+import Logout from "./Logout.svg";
+import Account from "./Account.svg";
+import clientService from "services/clientsService";
+import { formatPhoneNumber } from "utils";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
 
@@ -86,6 +92,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [navOpen, setNavOpen] = useState(false);
   const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
   const [user, setUser] = useState({});
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [isAvailable, setIsAvailable] = useState(false);
+  const [phone, setPhone] = useState("");
 
   const menuProps = Object.assign(
     {
@@ -129,8 +140,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           secondary: [
             {
               component: Link,
-              props: { to: "/edit-account" },
-              label: "Edit Account",
+              props: { to: "/account" },
+              label: "Account",
+              img: Account,
             },
             {
               component: "button",
@@ -138,7 +150,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 type: "button",
                 onClick: () => auth.logout(),
               },
-              label: "Logout",
+              label: "Sign Out",
+              img: Logout,
             },
           ],
         }
@@ -148,9 +161,27 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         }
   );
 
+  const getAgentAvailability = (agentid) => {
+    if (!agentid) {
+      return;
+    }
+    clientService.getAgentAvailability(agentid).then((res) => {
+      const { isAvailable, phone } = res || {};
+      setIsAvailable(isAvailable);
+      setPhone(formatPhoneNumber(phone));
+    });
+  };
+  const updateAgentAvailability = (params) => {
+    clientService.updateAgentAvailability(params).then(() => {
+      setIsAvailable(params.availability);
+    });
+  };
+
   useEffect(() => {
     const loadAsyncData = async () => {
       const user = await auth.getUser();
+      const { agentid } = user.profile;
+      getAgentAvailability(agentid);
       setUser(user.profile);
     };
     if (auth.isAuthenticated()) {
@@ -158,6 +189,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
   }, [auth]);
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
+
+  function clickButton() {
+    handleOpen();
+  }
 
   const showMaintenaceNotification =
     process.env.REACT_APP_NOTIFICATION_BANNER === "true";
@@ -210,12 +245,25 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
+                  <MyButton
+                    clickButton={clickButton}
+                    isAvailable={isAvailable}
+                  ></MyButton>
                 </React.Fragment>
               )}
             </Media>
           </nav>
         )}
         <HelpButtonModal />
+        <MyModal
+          phone={phone}
+          user={user}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+          open={open}
+          isAvailable={isAvailable}
+          updateAgentAvailability={updateAgentAvailability}
+        />
       </header>
     </>
   );

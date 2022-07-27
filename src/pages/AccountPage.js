@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
+import ResourceSection from "components/ui/resourcesCard";
+
 /* import Modal from "components/ui/modal";*/
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
+import CopyPersonalURL from "components/ui/CopyPersonalURL";
 import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
@@ -234,6 +237,9 @@ export default () => {
                 )}
               </Formik>
             </section>
+            <section className="mt-2">
+              <CopyPersonalURL agentnpn={npn} />
+            </section>
             <section className="mt-5">
               <h3 className="hdg hdg--4">Change your password</h3>
               <Formik
@@ -390,11 +396,11 @@ export default () => {
           </Container>
         )}
         <div className={styles["rts-table-container"]}>
-          <div className={styles.tableHeading}>Active Selling Permissions</div>
-          <div className={styles.tableWrapper}>
           <ActiveSellingPermissionTable npn={npn} />
+          <div>
+            <ResourceSection />
           </div>
-        </div>
+        </div>  
       </div>
       <GlobalFooter />
     </React.Fragment>

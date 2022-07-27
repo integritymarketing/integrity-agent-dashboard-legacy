@@ -180,6 +180,19 @@ class ClientsService {
     return response;
   };
 
+  bulkExportContacts = async (reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkexport`,
+      "POST",
+      reqData
+    );
+
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
+  };
+
   updateClient = async (oldValues, data) => {
     const reqData = this._getFormattedData(data, oldValues);
     const response = await this._clientAPIRequest(
@@ -226,6 +239,16 @@ class ClientsService {
     );
 
     return response.json();
+  };
+
+  deleteContactLeads = async (leadsId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
+      "DELETE",
+      leadsId
+    );
+
+    return response;
   };
 
   createReminder = async (data) => {
@@ -400,6 +423,7 @@ class ClientsService {
       firstName,
       lastName,
       middleName,
+      birthdate,
       email,
       phones,
       address,
@@ -411,6 +435,7 @@ class ClientsService {
       firstName,
       lastName,
       middleName: middleName?.toUpperCase(),
+      birthdate: birthdate ? formatServerDate(parseDate(birthdate)) : null,
       leadStatusId: 0,
       contactRecordType,
     };
@@ -488,7 +513,7 @@ class ClientsService {
 
   getCounties = async (zipcode) => {
     const response = await this._clientAPIRequest(
-      `https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
+      `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
       "GET"
     );
 
@@ -754,10 +779,55 @@ class ClientsService {
       "GET"
     );
 
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
     return response.json();
   };
 
   /*End Dashboard API */
+
+  /*Start purl API calls */
+
+  getAgentPurlCodeByNPN = async (agentnpn) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
+      "GET"
+    );
+    return response.json();
+  };
+
+  createAgentPurlCode = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
+      "POST",
+      payload
+    );
+    if (response.ok) {
+      return response;
+    }
+  };
+
+  updateAgentAvailability = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`,
+      "POST",
+      payload
+    );
+    if (response.ok) {
+      return response;
+    }
+  };
+
+  getAgentAvailability = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
+      "GET"
+    );
+    return response.json();
+  };
+  /*End purl API calls */
 }
 
 export default new ClientsService();

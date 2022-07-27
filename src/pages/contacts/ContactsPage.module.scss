@@ -6,7 +6,7 @@
   }
 
   padding: 35px 40px;
-  border-bottom: 1px solid #c7ccd1;
+  border-bottom: 1px solid #d1c7ce;
   background: #ffff;
   margin-bottom: 35px;
 
@@ -18,8 +18,8 @@
   }
 
   .headerText {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 32px;
+    line-height: 38px;
     color: var(--v2-dark-blue);
   }
 
@@ -31,7 +31,7 @@
 .tb-cell {
   font-family: Lato;
   font-style: normal;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
 }
 
@@ -39,10 +39,10 @@
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 40px;
   letter-spacing: 0.1px;
-  color: var(--v2-bg-gray);
+  color: #000000;
   padding: 20px;
 }
 
@@ -68,7 +68,8 @@
     td {
       text-align: left;
       margin: 0;
-      padding: 0;
+      padding: 0px;
+
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
       & > div {
@@ -77,9 +78,9 @@
     }
 
     td:nth-child(1) {
-      width: 22.5%;
+      width: 5%;
       font-weight: bold;
-      color: var(--v2-dark-blue);
+      color: var(--v2-royal-blue);
     }
 
     td:nth-child(2) {
@@ -91,7 +92,7 @@
     }
 
     td:nth-child(3) {
-      width: 30%;
+      width: 20%;
 
       @media (max-width: 480px) {
         width: 30%;
@@ -120,7 +121,7 @@
     }
 
     td:nth-child(5) {
-      width: 5%;
+      width: 25%;
     }
   }
 
@@ -136,13 +137,16 @@
 
 .contactPersonName {
   text-decoration: none;
-
+  color: var(--v2-royal-blue);
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
   &:hover {
     text-decoration: underline;
   }
 }
 
-.sortSelect { 
+.sortSelect {
   @media (min-width: 480px) {
     width: 40px;
   }
@@ -230,9 +234,9 @@
 
   & Button {
     background: #f9fafb;
-    border: 0px ;
+    border: 0px;
     padding: 0px !important;
-    }
+  }
 
   & svg {
     stroke: none !important;
@@ -255,8 +259,8 @@
     @media (max-width: 480px) {
       width: 80px;
       height: 33px;
-      background-color: #FFFFFF ;
-      border: 1px solid #CCCCCC;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
       border-radius: 4px;
       margin-top: 4px;
 
@@ -266,7 +270,6 @@
         margin-right: 50px;
       }
     }
-
   }
   & svg {
     stroke: none;
@@ -278,7 +281,7 @@
     padding-top: 6px !important;
     display: block;
     position: unset;
-    width: 500px;   
+    width: 500px;
   }
 }
 
@@ -555,7 +558,7 @@
 }
 .filterCard {
   position: absolute;
-  background: #fff;
+  background: #ffff;
   width: 338px;
   height: auto;
   right: 0;
@@ -823,4 +826,162 @@
 
 .mt10 {
   margin-top: 10px;
+}
+
+/*View, Sort, Filter title */
+
+.filterFunctionTitle {
+  padding-bottom: 8px;
+  color: #434a51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.sortFunctionTitle {
+  padding-bottom: 8px;
+  margin-left: -36px;
+  color: #434a51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.switchViewTitle {
+  padding-bottom: 8px;
+  margin-left: -15px;
+  color: #434a51;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.drop-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  height: 40px;
+  width: 40px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.deleteContactsModal,
+.exportContactsModal {
+  padding: 1rem;
+}
+
+.deleteContactFooterButtons,
+.exportContactFooterButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.contactsGridActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.reminderRow {
+  display: flex;
+  align-items: center;
+}
+
+.reminderAction {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.reminderIcon {
+  margin-right: 10px;
+}
+
+.reminderDate {
+  color: #000000;
+  font-weight: 800;
+}
+
+.dueReminder {
+  color: #d32028;
+  font-weight: 800;
+}
+
+.reminderNote {
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 5px;
+  color: #434a51;
+  font-family: Lato;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--v2-royal-blue);
+  font-weight: bold;
+}
+
+.listContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.oddList,
+.evenList {
+  flex: 1;
+  background-color: white;
+  padding-left: 1em;
+}
+
+.listItem {
+  cursor: pointer;
+  padding: 0.5em;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid gray;
+}
+
+.listItem:last-child {
+  border-bottom: 1px solid white;
+}
+
+.listItemSelected {
+  display: none;
+}
+
+.selected {
+  display: block;
+}
+.reminderAdd {
+  cursor: pointer;
+}
+.primaryContact {
+  color: #525761;
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.footerBannerContainer {
+  display: flex;
+  justify-content: center;
 }

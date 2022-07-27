@@ -1,0 +1,47 @@
+@import '../../scss/globalDefines.scss';
+
+.footerBannerContainer {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    
+    @include small() {
+        flex-direction: column;
+    }
+}
+
+.footerBanner1 {
+    display:flex;
+    align-items:center;
+    background-color: $pale-blue;
+}
+
+.footerBanner2 {
+    display: flex;
+    align-items: center;
+    background-color: $pale-green;
+}
+
+.icon {
+    height:60%;
+    width:60%;
+}
+
+.textContentContainer {
+    min-height:100%;
+    display:flex;
+    background-color:$white;
+}
+
+.textContent {
+    padding:10px 20px;
+    max-width:300px;
+    display:flex;
+    flex-direction:column;
+    .link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+}
