@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import "./activitytable.scss";
 import Table from "../../packages/TableWrapper";
 import { useHistory } from "react-router-dom";
@@ -11,6 +11,8 @@ import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIco
 import styles from "./DashboardActivityTable.module.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Heading2 from "packages/Heading2";
+import Filter from "components/icons/activities/Filter";
+import ActiveFilter from "components/icons/activities/ActiveFilter";
 
 const initialState = {
   sortBy: [
@@ -48,6 +50,7 @@ export default function DashboardActivityTable({
   onRowClick,
 }) {
   const history = useHistory();
+  const [filterToggle, setFilterToggle] = useState(false);
 
   const columns = useMemo(
     () => [
@@ -58,6 +61,7 @@ export default function DashboardActivityTable({
         Cell: ({ row }) => (
           <Typography
             color="#434A51"
+            fontSize="16px"
             onClick={() => onRowClick(row?.original.activities[0])}
           >
             {dateFormatter(row?.original?.createDate, "MM/DD")}
@@ -117,7 +121,18 @@ export default function DashboardActivityTable({
       {
         id: "more",
         disableSortBy: true,
-        Header: "",
+        Header: () => (
+          <span
+            className={
+              filterToggle
+                ? `${styles.filterActive} ${styles.filter}`
+                : styles.filter
+            }
+            onClick={() => setFilterToggle(!filterToggle)}
+          >
+            {filterToggle ? <ActiveFilter /> : <Filter />}
+          </span>
+        ),
         Cell: ({ row }) => (
           <span onClick={() => onRowClick(row?.original.activities[0])}>
             <MoreHorizOutlinedIcon />
@@ -125,7 +140,7 @@ export default function DashboardActivityTable({
         ),
       },
     ],
-    [onRowClick, history]
+    [onRowClick, history, filterToggle]
   );
 
   return (
