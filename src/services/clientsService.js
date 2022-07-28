@@ -808,6 +808,25 @@ class ClientsService {
       return response;
     }
   };
+
+  updateAgentAvailability = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`,
+      "POST",
+      payload
+    );
+    if (response.ok) {
+      return response;
+    }
+  };
+
+  getAgentAvailability = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
+      "GET"
+    );
+    return response.json();
+  };
   /*End purl API calls */
 }
 

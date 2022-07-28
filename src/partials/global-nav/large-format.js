@@ -23,9 +23,11 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
   }, [navOpen, setNavOpen]);
 
   const menuLinkClickHandler = (label) => () => {
-    analyticsService.fireEvent("event-click", { clickedItemText: `Nav Account: ${label}` });
+    analyticsService.fireEvent("event-click", {
+      clickedItemText: `Nav Account: ${label}`,
+    });
     return null;
-  }
+  };
 
   return (
     <ul className="divided-hlist text-muted-light">

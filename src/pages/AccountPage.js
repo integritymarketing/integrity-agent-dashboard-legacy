@@ -9,7 +9,7 @@ import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
-import CopyPersonalURL from "components/ui/CopyPersonalURL";
+/* import CopyPersonalURL from "components/ui/CopyPersonalURL"; */
 import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
@@ -194,7 +194,7 @@ export default () => {
                       <Textfield
                         id="account-npn"
                         label=" National Producer Number (NPN)"
-                        placeholder="Enter your NPN Number"
+                        placeholder="Enter your NPN"
                         name="npn"
                         value={values.npn}
                         readOnly
@@ -237,9 +237,10 @@ export default () => {
                 )}
               </Formik>
             </section>
-            <section className="mt-2">
+            {/* commenting for prod deployment */}
+           {/*  <section className="mt-2">
               <CopyPersonalURL agentnpn={npn} />
-            </section>
+            </section> */}
             <section className="mt-5">
               <h3 className="hdg hdg--4">Change your password</h3>
               <Formik

@@ -38,7 +38,7 @@ import ContactsTable from "./ContactsTable";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import { StageStatusProvider } from "contexts/stageStatus";
-import ResourceSection from "components/ui/resourcesCard";
+import FooterBanners from "packages/FooterBanners";
 
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
@@ -78,12 +78,10 @@ export default () => {
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
-  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] = useState(
-    false
-  );
-  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] = useState(
-    false
-  );
+  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] =
+    useState(false);
+  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] =
+    useState(false);
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
@@ -372,8 +370,8 @@ export default () => {
                 </Route>
               </Switch>
             </div>
-            <div>
-              <ResourceSection />
+            <div className={styles.footerBannerContainer}>
+              <FooterBanners className={styles.footerBanners} />
             </div>
           </Container>
           <ContactFooter hideMedicareIcon={true} />
