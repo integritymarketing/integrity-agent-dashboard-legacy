@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import clientsService from "services/clientsService";
 import { Button } from "components/ui/Button";
+import EnrollmentModal from "../Enrollment/enrollment-modal";
 import styles from "../../../pages/PlansPage.module.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -10,7 +12,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
-export default function ComparePlansByPlaneName({
+export default function ComparePlansByPlanName({
   comparePlans,
   setComparePlanModalOpen,
   handleRemovePlan,
@@ -19,6 +21,23 @@ export default function ComparePlansByPlaneName({
   isEmail = false,
   isModal = false,
 }) {
+  const [contactData, setContactData] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
+  const [enrollingPlan, setEnrollingPlan] = useState();
+
+  useEffect(() => {
+    const getContactInfo = async () => {
+      const contactDataResponse = await clientsService.getContactInfo(id);
+      setContactData(contactDataResponse);
+    };
+    getContactInfo();
+  }, [id]);
+
+  const handleOnClick = (plan) => {
+    setEnrollingPlan(plan);
+    setModalOpen(true);
+  };
+
   return (
     <div
       className={`${styles["plan-comparsion-heder"]} ${
@@ -72,7 +91,13 @@ export default function ComparePlansByPlaneName({
                     <span className={styles["per"]}> / month</span>
                   </span>
                 </div>
-                {!isModal && <Button label="Enroll" type="primary" />}
+                {!isModal && (
+                  <Button
+                    onClick={() => handleOnClick(plan)}
+                    label="Enroll"
+                    type="primary"
+                  />
+                )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (
                   <span
                     className={styles.close}
@@ -98,6 +123,12 @@ export default function ComparePlansByPlaneName({
           )}
         </>
       )}
+      <EnrollmentModal
+        modalOpen={modalOpen}
+        planData={enrollingPlan}
+        contact={contactData}
+        handleCloseModal={() => setModalOpen(false)}
+      />
     </div>
   );
 }
