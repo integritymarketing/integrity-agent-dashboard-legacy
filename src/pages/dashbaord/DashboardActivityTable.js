@@ -128,9 +128,12 @@ export default function DashboardActivityTable({
                 ? `${styles.filterActive} ${styles.filter}`
                 : styles.filter
             }
-            onClick={() => setFilterToggle(!filterToggle)}
           >
-            {filterToggle ? <ActiveFilter /> : <Filter />}
+            {filterToggle ? (
+              <ActiveFilter onMouseOut={() => setFilterToggle(false)} />
+            ) : (
+              <Filter onMouseOver={() => setFilterToggle(true)} />
+            )}
           </span>
         ),
         Cell: ({ row }) => (
