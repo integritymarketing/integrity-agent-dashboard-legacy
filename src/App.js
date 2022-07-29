@@ -17,6 +17,7 @@ import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
 import Dashboard from "pages/dashbaord";
+import CallRecording from "pages/CallRecording";
 import ComparePlansPage from "pages/ComparePlansPage";
 import NewScopeOfAppointment from "pages/contacts/contactRecordInfo/newScopeOfAppointment";
 import SOAConfirmationPage from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage";
@@ -140,7 +141,9 @@ const App = () => {
                             <Route path="/soa-confirmation-page/:firstName/:lastName">
                               <SOAConfirmationPage />
                             </Route>
-
+                            <Route path="/callrecording">
+                              <CallRecording />
+                            </Route>
                             {/* auth routes + callbacks */}
                             <Route
                               path="/signin"
