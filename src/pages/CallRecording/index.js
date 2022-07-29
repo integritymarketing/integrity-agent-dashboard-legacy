@@ -5,9 +5,13 @@ import Logo from "./images/MedicareCENTER.png";
 export default function index() {
   return (
     <>
-      <header>
+      <header className="header-callrecording">
         <div className="header-image-container container-x d-flex justify-content-start align-items-center">
-          <img className="logo" src={Logo} alt="Medicare Center logo" />
+          <img
+            className="logo-call-recording"
+            src={Logo}
+            alt="Medicare Center logo"
+          />
         </div>
       </header>
       <section className="masthead">
@@ -16,7 +20,9 @@ export default function index() {
       <main>
         <section className="page-content-container">
           <div className="page-heading">
-            <h1 className="container-x">Call Recording Solutions for you!</h1>
+            <h1 className="call-recording-h1 container-x">
+              Call Recording Solutions for you!
+            </h1>
           </div>
           <div className="decorative-background-image">
             <div className="page-content container-x">
@@ -42,24 +48,37 @@ export default function index() {
               <div className="cta-button-container d-flex flex-row justify-content-center align-items-center">
                 <div
                   className="cta-button1"
-                  onClick={(event)=> window.open('https://www.medicarecenter.com/Welcome', '_blank')}
+                  onClick={() =>
+                    window.open(
+                      "https://www.medicarecenter.com/Welcome",
+                      "_blank"
+                    )
+                  }
                 >
                   Get Started
-                </div> 
+                </div>
               </div>
             </div>
           </div>
         </section>
       </main>
-      <footer>
+      <footer className="call-recording-footer">
         <div className="footer-container container-x d-flex flex-column flex-md-row justify-content-between align-items-center">
           <div className="privacy-policy-links col-6 d-flex flex-row align-items-center">
             <p>
-              <a rel="noopener noreferrer" href="https://www.medicarecenter.com/terms" target="_blank">
+              <a
+                rel="noopener noreferrer"
+                href="https://www.medicarecenter.com/terms"
+                target="_blank"
+              >
                 Terms of Use
               </a>
               &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-              <a rel="noopener noreferrer" href="https://www.medicarecenter.com/privacy" target="_blank">
+              <a
+                rel="noopener noreferrer"
+                href="https://www.medicarecenter.com/privacy"
+                target="_blank"
+              >
                 Privacy Policy
               </a>
             </p>
