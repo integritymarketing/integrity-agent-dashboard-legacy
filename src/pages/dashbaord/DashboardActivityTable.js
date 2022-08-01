@@ -64,7 +64,7 @@ export default function DashboardActivityTable({
             fontSize="16px"
             onClick={() => onRowClick(row?.original.activities[0])}
           >
-            {dateFormatter(row?.original?.createDate, "MM/DD")}
+            {dateFormatter(row?.original?.activities[0]?.createDate, "MM/DD")}
           </Typography>
         ),
       },
