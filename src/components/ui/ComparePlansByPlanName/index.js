@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import * as Sentry from "@sentry/react";
+import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
+import plansService from "services/plansService";
 import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import styles from "../../../pages/PlansPage.module.scss";
@@ -21,6 +24,7 @@ export default function ComparePlansByPlanName({
   isEmail = false,
   isModal = false,
 }) {
+  const addToast = useToast();
   const [contactData, setContactData] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
@@ -37,6 +41,46 @@ export default function ComparePlansByPlanName({
     setEnrollingPlan(plan);
     setModalOpen(true);
   };
+
+  const handleBenificiaryClick = useCallback(async (plan) => {
+    try {
+      const enrolled = await plansService.enroll(id, plan.id, {
+        firstName: contactData?.firstName,
+        middleInitial:
+          contactData?.middleName?.length > 1 ? contactData?.middleName[0] : "",
+        lastName: contactData?.lastName,
+        address1: contactData?.addresses[0]?.address1,
+        address2: contactData?.addresses[0]?.address2,
+        city: contactData?.addresses[0]?.city,
+        state: contactData?.addresses[0]?.stateCode,
+        zip: contactData?.addresses[0]?.postalCode,
+        countyFIPS: contactData?.addresses[0]?.countyFips,
+        phoneNumber: contactData?.phones[0]?.leadPhone,
+        email: contactData?.emails[0]?.leadEmail,
+        sendToBeneficiary: true,
+      });
+
+      if (enrolled && enrolled.url) {
+        window.open(enrolled.url, "_blank").focus();
+        addToast({
+          type: "success",
+          message: "Successfully Sent to Client",
+        });
+      } else {
+        addToast({
+          type: "error",
+          message: "There was an error enrolling the contact.",
+        });
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      addToast({
+        type: "error",
+        message: "There was an error enrolling the contact.",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
@@ -91,9 +135,16 @@ export default function ComparePlansByPlanName({
                     <span className={styles["per"]}> / month</span>
                   </span>
                 </div>
-                {!isModal && (
+                {!isModal && !isEmail && (
                   <Button
                     onClick={() => handleOnClick(plan)}
+                    label="Enroll"
+                    type="primary"
+                  />
+                )}
+                {!isModal && isEmail && (
+                  <Button
+                    onClick={() => handleBenificiaryClick()}
                     label="Enroll"
                     type="primary"
                   />
