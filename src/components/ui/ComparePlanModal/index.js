@@ -122,7 +122,7 @@ export default ({
     const countyFIPS = addresses[0]?.countyFips;
     const urlPathName = window.location.pathname;
     const hostName = window.location.hostname;
-    const planCompareUrl = `${hostName}/customer${urlPathName}`;
+    const planCompareUrl = `https://${hostName}/customer${urlPathName}`;
     try {
       let payload = {
         leadFirstName: firstName,
