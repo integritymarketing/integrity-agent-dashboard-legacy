@@ -121,8 +121,8 @@ export default ({
     const zipCode = addresses[0]?.postalCode;
     const countyFIPS = addresses[0]?.countyFips;
     const urlPathName = window.location.pathname;
-    const hostName = window.location.hostname;
-    const planCompareUrl = `https://${hostName}/customer${urlPathName}`;
+    const origin = window.location.origin;
+    const planCompareUrl = `${origin}/customer${urlPathName}`;
     try {
       let payload = {
         leadFirstName: firstName,
