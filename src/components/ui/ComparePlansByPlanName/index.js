@@ -16,6 +16,7 @@ const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
 export default function ComparePlansByPlanName({
+  agentInfo = {},
   comparePlans,
   setComparePlanModalOpen,
   handleRemovePlan,
@@ -30,12 +31,14 @@ export default function ComparePlansByPlanName({
   const [enrollingPlan, setEnrollingPlan] = useState();
 
   useEffect(() => {
-    const getContactInfo = async () => {
-      const contactDataResponse = await clientsService.getContactInfo(id);
-      setContactData(contactDataResponse);
-    };
-    getContactInfo();
-  }, [id]);
+    if (!agentInfo?.LeadId) {
+      const getContactInfo = async () => {
+        const contactDataResponse = await clientsService.getContactInfo(id);
+        setContactData(contactDataResponse);
+      };
+      getContactInfo();
+    }
+  }, [id, agentInfo]);
 
   const handleOnClick = (plan) => {
     setEnrollingPlan(plan);
@@ -44,19 +47,10 @@ export default function ComparePlansByPlanName({
 
   const handleBenificiaryClick = useCallback(async (plan) => {
     try {
-      const enrolled = await plansService.enroll(id, plan.id, {
-        firstName: contactData?.firstName,
-        middleInitial:
-          contactData?.middleName?.length > 1 ? contactData?.middleName[0] : "",
-        lastName: contactData?.lastName,
-        address1: contactData?.addresses[0]?.address1,
-        address2: contactData?.addresses[0]?.address2,
-        city: contactData?.addresses[0]?.city,
-        state: contactData?.addresses[0]?.stateCode,
-        zip: contactData?.addresses[0]?.postalCode,
-        countyFIPS: contactData?.addresses[0]?.countyFips,
-        phoneNumber: contactData?.phones[0]?.leadPhone,
-        email: contactData?.emails[0]?.leadEmail,
+      const enrolled = await plansService.enrollConsumerView(id, plan.id, {
+        lastName: agentInfo?.LeadLastName,
+        zip: agentInfo?.ZipCode,
+        countyFIPS: agentInfo?.CountyFIPS,
         sendToBeneficiary: true,
       });
 
@@ -144,7 +138,7 @@ export default function ComparePlansByPlanName({
                 )}
                 {!isModal && isEmail && (
                   <Button
-                    onClick={() => handleBenificiaryClick()}
+                    onClick={() => handleBenificiaryClick(plan)}
                     label="Enroll"
                     type="primary"
                   />

@@ -135,6 +135,7 @@ export default (props) => {
 
   const getComparePlansByPlanNamesProps = () => {
     return {
+      agentInfo,
       comparePlans,
       isEmail: isComingFromEmail,
       setComparePlanModalOpen,

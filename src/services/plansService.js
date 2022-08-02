@@ -38,6 +38,17 @@ class PlansService {
     return response.json();
   };
 
+  enrollConsumerView = async (leadId, planId, data) => {
+    debugger
+    const response = await this._clientPublicAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadId}/Enroll/${planId}`,
+      "POST",
+      data
+    );
+
+    return response.json();
+  };
+
   sendPlan = async (data, leadId, planId) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/SendPlan/${planId}`,
