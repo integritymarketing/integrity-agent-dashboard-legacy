@@ -15,11 +15,12 @@ export default function ActivitySubjectWithIcon({ activitySubject }) {
     const icon = {
       "Contact Updated": <ContactUpdated />,
       "Contact Created": <ContactUpdated />,
+      "Contact Imported": <ContactUpdated />,
       "Stage Change": <List />,
       "Incoming Call": <CallRecording />,
       "Call Recorded": <CallRecording />,
       "Reminder Added": <Reminder />,
-      "Reminder Completed": <Reminder />,
+      "Reminder Complete": <Reminder />,
       "Scope of Appointment Sent": <SOA />,
       "Scope of Appointment Signed": <SOA />,
       "Scope of Appointment Completed": <SOA />,

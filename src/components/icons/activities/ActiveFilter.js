@@ -21,9 +21,9 @@ const Filter = (props) => (
           transform="translate(2.5 5.5)"
           fill="none"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_655"
@@ -32,9 +32,9 @@ const Filter = (props) => (
           transform="translate(2.5 12.5)"
           fill="none"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_656"
@@ -43,9 +43,9 @@ const Filter = (props) => (
           transform="translate(2.5 19.5)"
           fill="none"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <circle
           id="Ellipse_174"
@@ -56,9 +56,9 @@ const Filter = (props) => (
           transform="translate(17.5 3.5)"
           fill="#fff"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <circle
           id="Ellipse_175"
@@ -69,9 +69,9 @@ const Filter = (props) => (
           transform="translate(5.5 10.5)"
           fill="#fff"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <circle
           id="Ellipse_176"
@@ -82,9 +82,9 @@ const Filter = (props) => (
           transform="translate(13.5 17.5)"
           fill="#fff"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
       </g>
     </g>

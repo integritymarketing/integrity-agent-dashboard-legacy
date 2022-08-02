@@ -6,13 +6,13 @@ import { useHistory } from "react-router-dom";
 import { dateFormatter } from "utils/dateFormatter";
 import { TextButton } from "packages/Button";
 import Typography from "@mui/material/Typography";
-import { Button } from "packages/Button";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import styles from "./DashboardActivityTable.module.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Heading2 from "packages/Heading2";
 import Filter from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
+import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
 
 const initialState = {
   sortBy: [
@@ -23,25 +23,51 @@ const initialState = {
   ],
 };
 
-const soaSubjectConditions = [
-  "Scope of Appointment Signed",
-  "Scope of Appointment Completed",
-];
+const getActivitySubject = (activitySubject) => {
+  switch (activitySubject) {
+    case "Scope of Appointment Sent":
+    case "Scope of Appointment Signed":
+    case "Scope of Appointment Completed":
+      let text = activitySubject.replace("Scope of Appointment", "SOA");
+      return text;
 
-function renderSOAButton(row) {
+    default:
+      return activitySubject;
+  }
+};
+
+const buttonTextByActivity = {
+  "Incoming Call": "Link To Contact",
+  "Call Recorded": "Download",
+  "Scope of Appointment Signed": "Complete",
+  "Scope of Appointment Completed": "View",
+  "Plan Shared": "View PLans",
+};
+
+const renderButtons = (row, leadsId, onRowClick) => {
+  if (!row) return false;
   const { activityTypeName, activityInteractionURL, activitySubject } = row;
-  const isActivitySubjectSoa = soaSubjectConditions.some((condition) =>
-    activitySubject.includes(condition)
-  );
-  const buttonText =
-    activitySubject === "Scope of Appointment Signed" ? "Complete" : "View";
-
-  return (
-    activityTypeName === "Triggered" &&
-    activityInteractionURL &&
-    isActivitySubjectSoa && <Button size="small">{buttonText}</Button>
-  );
-}
+  if (activityTypeName === "Triggered" && activityInteractionURL) {
+    return (
+      <div className={styles.activityDataCell}>
+        <ActivityButtonIcon
+          activitySubject={activitySubject}
+          activityInteractionURL={activityInteractionURL}
+          leadsId={leadsId}
+        />
+        <Typography
+          color="#434A51"
+          fontSize={"16px"}
+          noWrap
+          onClick={() => onRowClick(row)}
+        >
+          {buttonTextByActivity[activitySubject]}
+        </Typography>
+      </div>
+    );
+  }
+  return false;
+};
 
 export default function DashboardActivityTable({
   data = [],
@@ -103,7 +129,7 @@ export default function DashboardActivityTable({
               noWrap
               onClick={() => onRowClick(row?.original.activities[0])}
             >
-              {row?.original?.activities[0].activitySubject}
+              {getActivitySubject(row?.original?.activities[0].activitySubject)}
             </Typography>
           </div>
         ),
@@ -113,9 +139,13 @@ export default function DashboardActivityTable({
         disableSortBy: true,
         Header: "",
         Cell: ({ row }) => (
-          <span onClick={() => onRowClick(row?.original.activities[0])}>
-            {renderSOAButton(row?.original?.activities[0])}
-          </span>
+          <>
+            {renderButtons(
+              row?.original?.activities[0],
+              row?.original?.leadsId,
+              onRowClick
+            )}
+          </>
         ),
       },
       {
