@@ -104,7 +104,7 @@ export default () => {
         <title>MedicareCENTER - Login</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
+        <SimpleHeader id="footerLogo" />
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
 
