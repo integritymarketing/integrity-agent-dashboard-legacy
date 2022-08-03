@@ -48,11 +48,8 @@ export default function ComparePlansByPlanName({
   const handleBenificiaryClick = useCallback(async (plan) => {
     try {
       const enrolled = await plansService.enrollConsumerView(id, plan.id, {
-        lastName: agentInfo?.LeadLastName,
-        zip: agentInfo?.ZipCode,
-        countyFIPS: agentInfo?.CountyFIPS,
-        sendToBeneficiary: true,
-      });
+        ...agentInfo
+      }, agentInfo.AgentNpn);
 
       if (enrolled && enrolled.url) {
         window.open(enrolled.url, "_blank").focus();
