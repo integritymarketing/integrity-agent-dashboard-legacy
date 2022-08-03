@@ -29,7 +29,7 @@ import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import BackNavContext from "contexts/backNavProvider";
 import GlobalNav from "partials/global-nav-v2";
-import ContactFooter from "partials/global-footer";
+import GlobalFooter from "partials/global-footer";
 import { SORT_OPTIONS } from "../../constants";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
@@ -374,7 +374,7 @@ export default () => {
               <FooterBanners className={styles.footerBanners} />
             </div>
           </Container>
-          <ContactFooter hideMedicareIcon={true} />
+          <GlobalFooter />
         </ToastContextProvider>
       </StageStatusProvider>
     </React.Fragment>
