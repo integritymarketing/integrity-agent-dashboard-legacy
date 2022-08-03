@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import GlobalNav from "partials/global-nav-v2";
+import GlobalFooter from "partials/global-footer";
 import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Modal from "components/ui/modal";
@@ -278,6 +279,7 @@ export default function Dashbaord() {
           </section>
         </div>
       </WithLoader>
+      <GlobalFooter />
     </>
   );
 }
