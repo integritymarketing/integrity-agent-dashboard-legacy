@@ -2,14 +2,13 @@ import React, { useMemo } from "react";
 import "./activitytable.scss";
 import Table from "../../packages/TableWrapper";
 import { useHistory } from "react-router-dom";
-
 import { dateFormatter } from "utils/dateFormatter";
 import { TextButton } from "packages/Button";
 import Typography from "@mui/material/Typography";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import styles from "./DashboardActivityTable.module.scss";
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Heading2 from "packages/Heading2";
+// import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 // import Filter from "components/icons/activities/Filter";
 // import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
@@ -160,7 +159,7 @@ export default function DashboardActivityTable({
           </>
         ),
       },
-      {
+    /*   {
         id: "more",
         disableSortBy: true,
         // Header: () => (
@@ -184,7 +183,7 @@ export default function DashboardActivityTable({
             <MoreHorizOutlinedIcon />
           </span>
         ),
-      },
+      }, */
     ],
     [onRowClick, history] // TODO add filterToggle
   );
