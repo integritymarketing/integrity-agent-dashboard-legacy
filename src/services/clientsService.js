@@ -66,6 +66,8 @@ class ClientsService {
   };
 
   getList = async (
+    page,
+    pageSize,
     sort,
     searchText,
     leadIds,
@@ -74,7 +76,8 @@ class ClientsService {
     hasReminder = false
   ) => {
     let params = {
-      ReturnAll: true,
+      PageSize: pageSize,
+      CurrentPage: page,
       Sort: sort,
       Search: searchText,
       leadIds,
@@ -751,6 +754,71 @@ class ClientsService {
 
   /*Start Dashboard API */
 
+  getDashboardData = async (
+    sort,
+    searchText,
+    leadIds,
+    contactRecordType = "",
+    stages = [],
+    hasReminder = false
+  ) => {
+    let params = {
+      ReturnAll: true,
+      Sort: sort,
+      Search: searchText,
+      leadIds,
+    };
+    if (hasReminder) {
+      params.HasReminder = hasReminder;
+    }
+    if (contactRecordType !== "") {
+      params.ContactRecordType = contactRecordType;
+    }
+    if (stages && stages.length > 0) {
+      params.Stage = stages;
+    }
+
+    const queryStr = Object.keys(params)
+      .map((key) => {
+        if (key === "leadIds" && leadIds) {
+          return (params[key] || [])
+            .map((leadId) => `${key}=${leadId}`)
+            .join("&");
+        }
+        if (key === "Stage") {
+          return stages.map((stageId) => `${key}=${stageId}`).join("&");
+        }
+        return params[key] ? `${key}=${params[key]}` : null;
+      })
+      .filter((str) => str !== null)
+      .join("&");
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
+    );
+    if (response.status >= 400) {
+      throw new Error("Leads request failed.");
+    }
+    const list = await response.json();
+
+    return list;
+  };
+
+  newClientObj = () => {
+    return {
+      leadsId: null,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      postalCode: "",
+      notes: "",
+      followUpDate: "",
+      product: "",
+      leadStatusId: 1,
+      statusName: "New",
+    };
+  };
+
   getDashbaordSummary = async () => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/summary`,
@@ -828,3 +896,6 @@ class ClientsService {
 }
 
 export default new ClientsService();
+
+
+

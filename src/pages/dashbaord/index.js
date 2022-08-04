@@ -100,7 +100,7 @@ export default function Dashbaord() {
   const onLoadMore = () => setPageSize(pageSize => pageSize + 10)
 
   const loadActivityData = async () => {
-    const response = await clientService.getList(
+    const response = await clientService.getDashboardData(
       "Activities.CreateDate:desc"
     );
     setActivityData(response.result);
