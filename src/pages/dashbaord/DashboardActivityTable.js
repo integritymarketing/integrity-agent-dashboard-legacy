@@ -30,6 +30,8 @@ const getActivitySubject = (activitySubject) => {
     case "Scope of Appointment Completed":
       let text = activitySubject.replace("Scope of Appointment", "SOA");
       return text;
+    case "Stage Change":
+      return "Stage Changed";
 
     default:
       return activitySubject;
@@ -46,8 +48,16 @@ const buttonTextByActivity = {
 
 const renderButtons = (row, leadsId, onRowClick) => {
   if (!row) return false;
-  const { activityTypeName, activityInteractionURL, activitySubject } = row;
-  if (activityTypeName === "Triggered" && activityInteractionURL) {
+  const {
+    activityTypeName = "",
+    activityInteractionURL = "",
+    activitySubject = "",
+  } = row;
+  if (
+    activityTypeName &&
+    activityTypeName === "Triggered" &&
+    activityInteractionURL
+  ) {
     return (
       <div className={styles.activityDataCell}>
         <ActivityButtonIcon
@@ -88,7 +98,7 @@ export default function DashboardActivityTable({
           <Typography
             color="#434A51"
             fontSize="16px"
-            onClick={() => onRowClick(row?.original.activities[0])}
+            onClick={() => onRowClick(row?.original?.activities[0])}
           >
             {dateFormatter(row?.original?.activities[0]?.createDate, "MM/DD")}
           </Typography>
@@ -121,15 +131,17 @@ export default function DashboardActivityTable({
         Cell: ({ row }) => (
           <div className={styles.activityDataCell}>
             <ActivitySubjectWithIcon
-              activitySubject={row?.original?.activities[0].activitySubject}
+              activitySubject={row?.original?.activities[0]?.activitySubject}
             />
             <Typography
               color="#434A51"
               fontSize={"16px"}
               noWrap
-              onClick={() => onRowClick(row?.original.activities[0])}
+              onClick={() => onRowClick(row?.original?.activities[0])}
             >
-              {getActivitySubject(row?.original?.activities[0].activitySubject)}
+              {getActivitySubject(
+                row?.original?.activities[0]?.activitySubject
+              )}
             </Typography>
           </div>
         ),
@@ -167,7 +179,7 @@ export default function DashboardActivityTable({
           </span>
         ),
         Cell: ({ row }) => (
-          <span onClick={() => onRowClick(row?.original.activities[0])}>
+          <span onClick={() => onRowClick(row?.original?.activities[0])}>
             <MoreHorizOutlinedIcon />
           </span>
         ),
