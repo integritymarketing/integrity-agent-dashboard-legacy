@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
@@ -58,13 +58,9 @@ export default function Dashbaord() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
-  const [activityData, setActivityData] = useState({
-    pageResult: {
-      total: 0,
-      pageSize: 10,
-    },
-    result: [],
-  });
+  const [pageSize, setPageSize] = useState(10);
+  const [activityData, setActivityData] = useState([]);
+
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
 
@@ -73,6 +69,15 @@ export default function Dashbaord() {
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
+
+  const activityPageData = useMemo(() => {
+    // TODO: Implement filters here..
+    const filteredData = [...activityData]
+    return filteredData.splice(0, pageSize);
+  }, [pageSize, activityData])
+
+  const pageHasMoreRows = useMemo(() => activityData.length > activityPageData.length,
+   [activityData.length, activityPageData.length])
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -92,21 +97,13 @@ export default function Dashbaord() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onLoadMore = async () => {
-    const pageSize = activityData?.pageResult?.pageSize;
-    const nextPage =
-      1 + Math.floor((activityData?.result?.length ?? 0) / pageSize);
+  const onLoadMore = () => setPageSize(pageSize => pageSize + 10)
+
+  const loadActivityData = async () => {
     const response = await clientService.getList(
-      nextPage,
-      pageSize,
       "Activities.CreateDate:desc"
     );
-    setActivityData((data) => {
-      return {
-        ...response,
-        result: [...data.result, ...response.result],
-      };
-    });
+    setActivityData(response.result);
   };
 
   useEffect(() => {
@@ -116,7 +113,7 @@ export default function Dashbaord() {
         await clientService
           .getApplicationCount(sortByRange)
           .then(setDashboardData);
-        onLoadMore();
+        loadActivityData();
       } catch (err) {
         Sentry.captureException(err);
         addToast({
@@ -254,10 +251,10 @@ export default function Dashbaord() {
           </section>
           <section className="recent-activity-section">
             <DashboardActivityTable
-              data={activityData?.result}
+              data={activityPageData}
               onRowClick={() => {}}
               onShowMore={onLoadMore}
-              pageHasMoreRows={true}
+              pageHasMoreRows={pageHasMoreRows}
             />
             {isMobile && (
               <>

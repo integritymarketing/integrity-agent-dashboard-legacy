@@ -66,8 +66,6 @@ class ClientsService {
   };
 
   getList = async (
-    page,
-    pageSize,
     sort,
     searchText,
     leadIds,
@@ -76,8 +74,7 @@ class ClientsService {
     hasReminder = false
   ) => {
     let params = {
-      PageSize: pageSize,
-      CurrentPage: page,
+      ReturnAll: true,
       Sort: sort,
       Search: searchText,
       leadIds,
