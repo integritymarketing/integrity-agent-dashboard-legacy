@@ -47,9 +47,23 @@ export default function ComparePlansByPlanName({
 
   const handleBenificiaryClick = useCallback(async (plan) => {
     try {
-      const enrolled = await plansService.enrollConsumerView(id, plan.id, {
-        ...agentInfo
-      }, agentInfo.AgentNpn);
+      const enrolled = await plansService.enrollConsumerView(
+        id,
+        plan.id,
+        {
+          enrollRequest: {
+            firstName: agentInfo?.LeadFirstName,
+            middleInitial: "",
+            lastName: agentInfo?.LeadLastName,
+            zip: agentInfo?.ZipCode,
+            countyFIPS: agentInfo?.CountyFIPS,
+            phoneNumber: agentInfo?.AgentPhoneNumber,
+            email: agentInfo?.AgentEmail,
+            sendToBeneficiary: true,
+          },
+        },
+        agentInfo.AgentNpn
+      );
 
       if (enrolled && enrolled.url) {
         window.open(enrolled.url, "_blank").focus();
