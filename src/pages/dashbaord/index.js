@@ -1,23 +1,22 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
-import moment from "moment";
 import GlobalNav from "partials/global-nav-v2";
+import GlobalFooter from "partials/global-footer";
 import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Popover from "components/ui/Popover";
-import LastUpdatedIcon from "components/icons/last-updated";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
-import ActivityTable from "./ActivityTable";
+import Heading2 from "packages/Heading2";
 import Help from "./Help";
 import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
@@ -26,14 +25,7 @@ import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
-
-const ActionButton = ({ row, onClick }) => {
-  return (
-    <button className="action-button" onClick={() => onClick(row)}>
-      View Contact
-    </button>
-  );
-};
+import DashboardActivityTable from "./DashboardActivityTable";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -66,22 +58,26 @@ export default function Dashbaord() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
-  const [activityData, setActivityData] = useState({
-    pageResult: {
-      total: 0,
-      pageSize: 10,
-    },
-    result: [],
-  });
+  const [pageSize, setPageSize] = useState(10);
+  const [activityData, setActivityData] = useState([]);
+
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
 
   const addToast = useToast();
   const auth = useContext(AuthContext);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
-  const { stageSummaryData, loadStageSummaryData } = useContext(
-    stageSummaryContext
-  );
+  const { stageSummaryData, loadStageSummaryData } =
+    useContext(stageSummaryContext);
+
+  const activityPageData = useMemo(() => {
+    // TODO: Implement filters here..
+    const filteredData = [...activityData]
+    return filteredData.splice(0, pageSize);
+  }, [pageSize, activityData])
+
+  const pageHasMoreRows = useMemo(() => activityData.length > activityPageData.length,
+   [activityData.length, activityPageData.length])
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -101,21 +97,13 @@ export default function Dashbaord() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onLoadMore = async () => {
-    const pageSize = activityData?.pageResult?.pageSize;
-    const nextPage =
-      1 + Math.floor((activityData?.result?.length ?? 0) / pageSize);
-    const response = await clientService.getList(
-      nextPage,
-      pageSize,
+  const onLoadMore = () => setPageSize(pageSize => pageSize + 10)
+
+  const loadActivityData = async () => {
+    const response = await clientService.getDashboardData(
       "Activities.CreateDate:desc"
     );
-    setActivityData((data) => {
-      return {
-        ...response,
-        result: [...data.result, ...response.result],
-      };
-    });
+    setActivityData(response.result);
   };
 
   useEffect(() => {
@@ -125,7 +113,7 @@ export default function Dashbaord() {
         await clientService
           .getApplicationCount(sortByRange)
           .then(setDashboardData);
-        onLoadMore();
+        loadActivityData();
       } catch (err) {
         Sentry.captureException(err);
         addToast({
@@ -140,49 +128,8 @@ export default function Dashbaord() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast]);
 
-  const headers = [
-    {
-      title: "Contact",
-      cell: ({ row }) => (
-        <span>
-          {row.firstName} {row.lastName}
-        </span>
-      ),
-      className: "contact",
-    },
-    {
-      title: "Activity",
-      className: "activity",
-      accessor: "activities.0.activitySubject",
-    },
-    {
-      title: "Last Updated",
-      className: "updated",
-      cell: ({ row }) => (
-        <>
-          {row?.activities?.length > 0 && (
-            <span>
-              <LastUpdatedIcon />
-              &nbsp;&nbsp;
-              {moment((row?.activities || [])[0]?.createDate).format("MM/DD")}
-            </span>
-          )}
-        </>
-      ),
-    },
-    {
-      title: "Action",
-      className: "action",
-      cell: ({ row }) => <ActionButton row={row} onClick={handleViewContact} />,
-    },
-  ];
-
   const handleLearningCenter = () => {
     history.push(`/learning-center`);
-  };
-
-  const handleViewContact = (row) => {
-    history.push(`/contact/${row?.leadsId}`);
   };
 
   const handleSortDateRange = (value) => {
@@ -252,7 +199,7 @@ export default function Dashbaord() {
             </div>
             <div className="snapshot-wrapper">
               <div className="title">
-                Client Snapshot&nbsp;&nbsp;
+                <Heading2 className="title" text="Client Snapshot" />
                 <Popover
                   openOn="hover"
                   icon={<Info />}
@@ -286,7 +233,7 @@ export default function Dashbaord() {
             </div>
             {!isMobile && (
               <>
-                <div className="resources">Resources</div>
+                <Heading2 className="resources" text="Resources" />
                 <Help
                   icon={LearningCenter}
                   text="For the latest resources and news from MedicareCENTER visit the"
@@ -303,16 +250,15 @@ export default function Dashbaord() {
             )}
           </section>
           <section className="recent-activity-section">
-            <ActivityTable
-              caption="Recent Activity"
-              rows={activityData?.result}
-              headers={headers}
-              totalRecords={activityData?.pageResult?.total ?? 0}
-              onLoadMore={onLoadMore}
+            <DashboardActivityTable
+              data={activityPageData}
+              onRowClick={() => {}}
+              onShowMore={onLoadMore}
+              pageHasMoreRows={pageHasMoreRows}
             />
             {isMobile && (
               <>
-                <div className="resources">Resources</div>
+                <Heading2 className="resources" text="Resources" />
                 <Help
                   icon={LearningCenter}
                   text="For the latest resources and news from MedicareCENTER visit the"
@@ -330,6 +276,7 @@ export default function Dashbaord() {
           </section>
         </div>
       </WithLoader>
+      <GlobalFooter />
     </>
   );
 }

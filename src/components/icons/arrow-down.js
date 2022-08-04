@@ -6,7 +6,7 @@ export default (props) => {
       <g fill="none" fillRule="evenodd">
         <path
           d="M1.92 1.182L6 5.262l4.08-4.08 1.253 1.262L6 7.778.667 2.444z"
-          className="icon-fill--current"
+          fill="#0052CE"
         />
       </g>
     </svg>

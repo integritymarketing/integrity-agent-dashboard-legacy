@@ -93,6 +93,7 @@ const NewContactForm = () => {
         lastName: "",
         middleName: "",
         email: "",
+        birthdate: "",
         phones: {
           leadPhone: "",
           phoneLabel: "mobile",
@@ -121,6 +122,11 @@ const NewContactForm = () => {
               name: "lastName",
               validator: validationService.validateName,
               args: ["Last Name"],
+            },
+            {
+              name: "birthdate",
+              validator: validationService.validateDateInput,
+              args: ["Date of Birth", "MM/dd/yyyy"],
             },
 
             {
@@ -240,7 +246,10 @@ const NewContactForm = () => {
           setFieldValue("address.county", allCounties[0].value);
           setFieldValue("address.countyFips", allCounties[0].key);
         }
-        if (allStates.length === 1 && stateCodeName !== values.address.stateCode) {
+        if (
+          allStates.length === 1 &&
+          stateCodeName !== values.address.stateCode
+        ) {
           setFieldValue("address.stateCode", allStates[0].value);
         }
         return (
@@ -296,6 +305,21 @@ const NewContactForm = () => {
                   <li className="error-msg-red">{errors.lastName}</li>
                 </ul>
               )}
+              <div className="custom-w-186  contact-details-col1 mob-res-w-100">
+                <Textfield
+                  id="contact-birthdate"
+                  type="text"
+                  label="Date of Birth"
+                  placeholder="MM/DD/YYYY"
+                  name="birthdate"
+                  value={values.birthdate}
+                  maxLength={"10"}
+                  className="custom-w-px1"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.birthdate && errors.birthdate}
+                />
+              </div>
             </fieldset>
             <div className="mt-3 mb-3 border-bottom border-bottom--light" />
             <fieldset className="custom-form-fields form__fields form__fields--constrained  hide-input-err">

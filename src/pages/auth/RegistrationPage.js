@@ -12,12 +12,14 @@ import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
+import useToast from "../../hooks/useToast";
 
 export default () => {
   const history = useHistory();
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
+  const addToast = useToast();
 
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
@@ -33,7 +35,7 @@ export default () => {
         <title>MedicareCENTER - Register Account</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
+        <SimpleHeader id="footerLogo" />
         <Container size="small">
           <h1 className="text-xl mb-4">Register your account</h1>
 
@@ -110,6 +112,14 @@ export default () => {
                 history.push(`registration-email-sent?npn=${values.NPN}`);
               } else {
                 const errorsArr = await response.json();
+                const errMsg = errorsArr[0]?.Value || null;
+                if (errMsg) {
+                  addToast({
+                    message: errMsg,
+                    type: "error",
+                  });
+                }
+
                 analyticsService.fireEvent("event-form-submit-invalid", {
                   formName: "Register Account",
                 });
@@ -130,8 +140,8 @@ export default () => {
                   <Textfield
                     id="register-npn"
                     className="mb-4"
-                    label="NPN Number"
-                    placeholder="Enter your NPN Number"
+                    label="National Producer Number (NPN)"
+                    placeholder="Enter your NPN"
                     name="NPN"
                     value={values.NPN}
                     onChange={handleChange}
@@ -151,7 +161,7 @@ export default () => {
                           rel="noopener noreferrer"
                           className="text-sm link link--force-underline"
                         >
-                          Forgot NPN Number?
+                          Forgot NPN?
                         </a>
                       </div>
                     }

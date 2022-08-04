@@ -4,26 +4,50 @@ import clientsService from "services/clientsService";
 const colorCodes = {
   blue: [
     {
-      bg: "#DEEDFF",
-      color: "#0052CE",
+      bg: "#FFFFFF",
+      color: "#0267FF",
     },
   ],
   orange: [
     {
-      bg: "#FFF2D1",
-      color: "#8C6A0E",
+      bg: "#FFFFFF",
+      color: "#FFAB3B",
     },
   ],
   green: [
     {
-      bg: "#DBF5D9",
-      color: "#357A2F",
+      bg: "#FFFFFF",
+      color: "#5AD76B",
     },
   ],
   grey: [
     {
-      bg: "#EDEDED",
-      color: "#151E29",
+      bg: "#FFFFFF",
+      color: "#C1C1C1",
+    },
+  ],
+  yellow: [
+    {
+      bg: "#FFFFFF",
+      color: "#FFDE00",
+    },
+  ],
+  red: [
+    {
+      bg: "#FFFFFF",
+      color: "#FF675E",
+    },
+  ],
+  blueMagenta: [
+    {
+      bg: "#FFFFFF",
+      color: "#BF77E4",
+    },
+  ],
+  skyBlue: [
+    {
+      bg: "#FFFFFF",
+      color: "#67AEFF",
     },
   ],
 };
@@ -36,10 +60,20 @@ const StageStatusContext = createContext({
 const getStageColor = (status) => {
   const statusColor =
     status === "New" || status === "Renewal"
-      ? colorCodes.blue
-      : status === "Applied"
       ? colorCodes.green
-      : status === "Lost" || status === "Enrolled"
+      : status === "Contacted"
+      ? colorCodes.yellow
+      : status === "SOA Sent"
+      ? colorCodes.orange
+      : status === "SOA Signed"
+      ? colorCodes.red
+      : status === "Applied"
+      ? colorCodes.skyBlue
+      : status === "Quoted"
+      ? colorCodes.blueMagenta
+      : status === "Enrolled"
+      ? colorCodes.blue
+      : status === "Lost"
       ? colorCodes.grey
       : colorCodes.orange;
   return statusColor;

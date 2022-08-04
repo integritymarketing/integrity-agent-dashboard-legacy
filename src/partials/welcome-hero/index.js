@@ -45,7 +45,7 @@ const WelcomeHero = () => {
           </p>
 
           <LoginLink className="btn login-btn">
-            Login <IconArrowRightLong className="icon" />
+            Login <IconArrowRightLong className="icon-right" />
           </LoginLink>
 
           <p className="mt-scale-1 mb-2">

@@ -55,12 +55,27 @@ export function ProvidersCompareTable({ plans }) {
                   </div>
                   <div className="subtext pr-address">
                     <div className="pr-h2">
-                      {item?.address?.streetLine1},&nbsp;
+                      {`${
+                        item?.address?.streetLine1
+                          ? item?.address?.streetLine1 + ","
+                          : ""
+                      }`}
+                      &nbsp;
                     </div>
                     <div className="pr-h2">
-                      {item?.address?.city},&nbsp;
-                      {item?.address?.state}
-                      ,&nbsp;{item?.address?.zipCode}
+                      {`${
+                        item?.address?.city ? item?.address?.city + "," : ""
+                      }`}
+                      &nbsp;
+                      {`${
+                        item?.address?.state ? item?.address?.state + "," : ""
+                      }`}
+                      &nbsp;
+                      {`${
+                        item?.address?.zipCode
+                          ? item?.address?.zipCode + ","
+                          : ""
+                      }`}
                     </div>
                   </div>
                 </div>

@@ -7,11 +7,11 @@
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
+    color: #434a51;
+    font-size: 16px;
+    line-height: 20px;
     display: flex;
     align-items: center;
-    color: #646f7b;
   }
 
   .pagination {
@@ -27,16 +27,17 @@
       padding: 0 1rem;
     }
     &__button {
-      color: var(--main-text-color);
-      padding: 0.75rem;
+      padding: 7px 15px 7px 15px;
+
       cursor: default;
       background: #ffffff;
       box-sizing: border-box;
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
-      font-size: 14px;
-      line-height: 17px;
+      color: #434a51;
+      font-size: 16px;
+      line-height: 20px;
 
       border: 1px solid #dfe5ef;
 
@@ -49,10 +50,9 @@
       }
 
       &--current {
-        font-weight: bold;
-        background: #ebeef3;
-        border: 1px solid #c7ccd1;
         box-sizing: border-box;
+        border: 1px solid #cdd1d5;
+        background-color: #cde2f8;
       }
 
       &--inactive {
@@ -61,6 +61,8 @@
     }
     .first > .pagination__button,
     .last > .pagination__button {
+      padding: 7px 15px 7px 15px;
+
       border-radius: 4px;
     }
 
@@ -68,7 +70,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
       .pagination__button {
+        padding: 7px 10px;
         &:not(:first-child) {
           border-left-width: 0px;
         }
@@ -91,14 +95,15 @@
 
     .small-pagination {
       .pagination__button {
-        padding: 0.50rem 0.75rem;
+        padding: 0.5rem 0.75rem;
       }
     }
   }
 
   .provider-pagination-ul > .pagination__middle > li {
-    color: #515E6F;
-    font-size: 14px;
+    color: #434a51;
+    font-size: 16px;
+    line-height: 20px;
     font-family: Lato;
     font-style: normal;
     font-weight: normal;

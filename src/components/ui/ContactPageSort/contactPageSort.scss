@@ -1,0 +1,197 @@
+@media (max-width: 480px) {
+  .pr-select {
+    margin-left: 0px !important;
+    margin-top: 4px;
+  }
+}
+
+.select-2 {
+  height: 30px;
+  position: relative;
+  margin-left: -28px;
+
+  @media (max-width: 480px) {
+    margin-left: 0px;
+  }
+  .select-container-2 {
+    cursor: pointer;
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 40px;
+    letter-spacing: 0.10000000149011612px;
+
+    @media (max-width: 480px) {
+      width: 90px;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px !important;
+      background-color: #FFFFFF;}
+
+    .selectbox {
+      display: none;
+      border: 0 solid #CCCCCC;
+      background-color: #FFFFFF;
+      border-radius: 4px !important;
+      @media (max-width: 480px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 500;
+        height: 30px;
+        span {
+          margin-left: 8px;
+          color: #3d4553;
+        }
+      }
+    }
+    .inputbox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 15px;
+      .placeholder {
+        padding-left: 15px;
+      }
+      height: 40px;
+      svg {
+        stroke: none; /* TODO: use variable later */
+        margin-top: 3px;
+
+        @media (max-width: 768px) {
+          margin-left: 2px;
+        }
+      }
+      @media (max-width: 480px) {
+        display: none;
+        &.show-always {
+          display: flex;
+        }
+      }
+      &.has-error {
+        background: #fff2f2;
+        border: 1px solid #cf3c28;
+        box-sizing: border-box;
+        border-radius: 2px;
+      }
+    }
+    &.opened {
+      position: absolute;
+      z-index: 1;
+      border-radius: 4px !important;
+      background: #ffffff;
+      border: 1px solid #CCCCCC;
+      width: 200px;
+      height: 200px;
+      right: 0;
+
+      & svg {
+        display: none;
+      }
+      .inputbox {
+        display: none  !important;
+      }
+      .selectbox {
+        display: none !important;
+      }
+      box-shadow: 0px 4px 15px 0px #00000040;
+      .select-header {
+        margin-left: 15px;
+
+        & .prefix {
+          margin-top: 10px;
+          width: 50px;
+          height: 0;
+        }
+
+        & .close-btn {
+         margin-left: 145px;
+        }
+      }
+      .options .option {
+        font-weight: normal;
+
+        &.selected {
+          font-weight: 600;
+        }
+      }
+      @media (max-width: 480px) {
+        position: fixed;
+        border: none;
+        top: 0;
+        left: 0;
+        height: 100%;
+        max-height: 100% !important;
+        width: 100%;
+
+        .inputbox {
+          display: none;
+          width: 40px;
+          height: 40px;
+        }
+        .select-header {
+          display: flex;
+          padding-right: 15px;
+          padding-left: 15px;
+          padding-top: 50px;
+          border-bottom: 1px solid #d8dee4;
+          padding-bottom: 18px;
+          margin-bottom: 18px;
+          font-size: 20px;
+          font-weight: 600;
+          justify-content: space-between;
+        }
+        .options {
+          max-height: 100% !important;
+          .option.selected {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    }
+    &.closed {
+      background: #ffffff;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px !important;
+      box-sizing: border-box;
+      padding: 0px !important;
+      width: 40px;
+      height: 40px;
+    }
+    .inputbox {
+      margin: 6px;
+    }
+    &.disabled {
+      background: #f1f5f9 !important;
+      cursor: not-allowed;
+    }
+    .options {
+      overflow: auto;
+    }
+    .options {
+      .option {
+        padding-left: 15px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+    }
+    .options {
+      .option:hover {
+        background: #ebeff6;
+      }
+    }
+  }
+
+.contacts-dd {
+  min-width: 239px;
+}
+
+.short-label {
+  width: 90px !important;
+}

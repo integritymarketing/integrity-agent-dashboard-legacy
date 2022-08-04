@@ -198,6 +198,10 @@ button {
     max-width: 800px;
   }
 
+  &--size-xlg {
+    max-width: 900px;
+  }
+
   @media (max-width: 480px) {
     padding: 0;
   }

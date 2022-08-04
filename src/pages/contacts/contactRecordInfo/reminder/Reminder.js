@@ -3,6 +3,11 @@ import Datepicker from "../../datepicker";
 import ReminderModal from "./ReminderModal";
 import analyticsService from "services/analyticsService";
 import { getOverDue } from "utils/dates";
+import ReminderIcon from "images/Reminder.svg";
+import Reminder_Overdue from "images/Reminder_Overdue.svg";
+import Reminder_Add from "images/Reminder_Add.svg";
+import styles from "../../ContactsPage.module.scss";
+import format from "date-fns/format";
 
 export const ShortReminder = ({
   leadId,
@@ -19,33 +24,48 @@ export const ShortReminder = ({
     : {};
   const { reminderDate, reminderNote } = reminder;
   useEffect(() => {
-    if(showAddModal) {
-    analyticsService.fireEvent("event-date-edit");
-  }
+    if (showAddModal) {
+      analyticsService.fireEvent("event-date-edit");
+    }
   }, [showAddModal]);
 
   return (
     <div className={`reminder-content datepicker-row ${className}`}>
-      {
-        <Datepicker
-          date={reminderDate}
-          overDueStatus={getOverDue(reminderDate) ? true : false}
-          onAddNew={(e) => {
-            e.stopPropagation();
-            setShowAddModal(true);
-          }}
+      {reminderDate ? (
+        <div className={styles.reminderRow}>
+          <span
+            className={styles.reminderAction}
+            onClick={() => setShowAddModal(true)}
+          >
+            <img
+              className={styles.reminderIcon}
+              src={getOverDue(reminderDate) ? Reminder_Overdue : ReminderIcon}
+              alt="rem"
+            />
+            <span
+              className={
+                getOverDue(reminderDate)
+                  ? styles.dueReminder
+                  : styles.reminderDate
+              }
+            >
+              {format(new Date(reminderDate), "MM/dd")}
+              {!isCardView && ":"}
+            </span>
+          </span>
+          {!isCardView && (
+            <span className={styles.reminderNote}>{reminderNote}</span>
+          )}
+        </div>
+      ) : (
+        <img
+          onClick={() => setShowAddModal(true)}
+          className={styles.reminderAdd}
+          src={Reminder_Add}
+          alt="rem"
         />
-      }
-      <div className="reminder-inner-content">
-        {getOverDue(reminderDate) && (
-          <div className={`due-date-text ${isCardView ? "card-view" : ""}`}>
-            {getOverDue(reminderDate)}
-          </div>
-        )}
-        {reminderNote && (
-          <div className="short-reminder-note">{reminderNote}</div>
-        )}
-      </div>
+      )}
+
       {showAddModal && (
         <ReminderModal
           reminder={reminder}

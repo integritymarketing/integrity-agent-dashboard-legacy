@@ -18,7 +18,10 @@ const useHelpButtonWithModal = () => {
     ({ onClick, ...props }) => (
       <button
         type="button"
-        onClick={(e) =>{ onClick && onClick(e); setModalOpen(true)}}
+        onClick={(e) => {
+          onClick && onClick(e);
+          setModalOpen(true);
+        }}
         {...props}
       ></button>
     ),
@@ -116,7 +119,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   );
 
   const showPhoneNotification =
-    auth.isAuthenticated() && !auth.userProfile.phone;
+    auth.isAuthenticated() && auth.userProfile.phone === null;
 
   return (
     <>

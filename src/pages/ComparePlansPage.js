@@ -6,6 +6,7 @@ import Media from "react-media";
 import { Button } from "components/ui/Button";
 import ArrowDown from "components/icons/arrow-down";
 import GlobalNav from "partials/global-nav-v2";
+import GlobalFooter from "partials/global-footer";
 import Container from "components/ui/container";
 import clientsService from "services/clientsService";
 import WithLoader from "components/ui/WithLoader";
@@ -14,58 +15,89 @@ import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import analyticsService from "services/analyticsService";
 import { CostCompareTable } from "components/ui/PlanDetailsTable/shared/cost-table";
 import { ProvidersCompareTable } from "components/ui/PlanDetailsTable/shared/providers-compare-table";
-import Spinner from "./../components/ui/Spinner/index";
-import { PrescriptionsCompareTable } from "./../components/ui/PlanDetailsTable/shared/prescriptions-compare-table";
-import { PlanDocumentsCompareTable } from "./../components/ui/PlanDetailsTable/shared/plan-documents-compare-table";
-import { PharmaciesCompareTable } from "./../components/ui/PlanDetailsTable/shared/pharmacies-compare-table";
-import { PlanBenefitsCompareTable } from "./../components/ui/PlanDetailsTable/shared/plan-benefits-compare-table";
-import { PharmacyCoverageCompareTable } from "./../components/ui/PlanDetailsTable/shared/pharmacy-coverage-compare-table";
-import { RetailPharmacyCoverage } from "./../components/ui/PlanDetailsTable/shared/retail-pharmacy-coverage-compare-table";
+import Spinner from "components/ui/Spinner/index";
+import { PrescriptionsCompareTable } from "components/ui/PlanDetailsTable/shared/prescriptions-compare-table";
+import { PlanDocumentsCompareTable } from "components/ui/PlanDetailsTable/shared/plan-documents-compare-table";
+import { PharmaciesCompareTable } from "components/ui/PlanDetailsTable/shared/pharmacies-compare-table";
+import { PlanBenefitsCompareTable } from "components/ui/PlanDetailsTable/shared/plan-benefits-compare-table";
+import { PharmacyCoverageCompareTable } from "components/ui/PlanDetailsTable/shared/pharmacy-coverage-compare-table";
+import ComparePlanModal from "components/ui/ComparePlanModal";
+import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
+import { RetailPharmacyCoverage } from "components/ui/PlanDetailsTable/shared/retail-pharmacy-coverage-compare-table";
 import plansService from "services/plansService";
+import WelcomeEmailUser from "partials/welcome-email-user";
+import ComparePlansService from "services/comparePlansService";
 
-async function getAllPlanDetails({
+function getAllPlanDetails({
   planIds,
   contactId,
   contactData,
   effectiveDate,
+  isComingFromEmail,
+  agentNPN,
+  agentInfo,
 }) {
   return Promise.all(
     planIds
       .filter(Boolean)
       .map((planId) =>
-        plansService.getPlan(contactId, planId, contactData, effectiveDate)
+        !isComingFromEmail
+          ? plansService.getPlan(contactId, planId, contactData, effectiveDate)
+          : ComparePlansService.getPlan(
+              contactId,
+              planId,
+              agentInfo,
+              effectiveDate,
+              agentNPN
+            )
       )
   );
 }
 
-export default () => {
+export default (props) => {
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
+  const { isComingFromEmail, agentInfo = {} } = props;
   const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;
   const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
   const [loading, setLoading] = useState(true);
   const [plansLoading] = useState(false);
-
   const [results, setResults] = useState([]);
   const [comparePlans, setComparePlans] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
+  const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
+  const [contactData, setContactData] = useState({});
+
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
       setResults([]);
-      const contactData = await clientsService.getContactInfo(id);
+      let contactData = {};
+      if (!isComingFromEmail) {
+        contactData = await clientsService.getContactInfo(id);
+        setContactData(contactData);
+      }
+
       const plansData = await getAllPlanDetails({
         planIds,
         contactId: id,
         contactData,
         effectiveDate,
+        isComingFromEmail,
+        agentInfo,
+        agentNPN: agentInfo?.AgentNpn,
       });
       setResults(plansData);
 
-      const [prescriptionData, pharmacyData] = await Promise.all([
-        clientsService.getLeadPrescriptions(id),
-        clientsService.getLeadPharmacies(id),
-      ]);
+      const [prescriptionData, pharmacyData] = !isComingFromEmail
+        ? await Promise.all([
+            clientsService.getLeadPrescriptions(id),
+            clientsService.getLeadPharmacies(id),
+          ])
+        : await Promise.all([
+            ComparePlansService.getLeadPrescriptions(id, agentInfo?.AgentNpn),
+            ComparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn),
+          ]);
       setPrescriptions(prescriptionData);
       setPharmacies(pharmacyData || []);
       analyticsService.fireEvent("event-content-load", {
@@ -76,11 +108,12 @@ export default () => {
     } finally {
       setLoading(false);
     }
-  }, [effectiveDate, id, planIds]);
+    // eslint-disable-next-line
+  }, [effectiveDate, id, planIds, isComingFromEmail]);
 
   useEffect(() => {
     if (results && results.length) {
-      setComparePlans(results.filter(({ id }) => planIds.includes(id)));
+      setComparePlans(results?.filter(({ id }) => planIds.includes(id)));
     }
   }, [planIds, results]);
 
@@ -90,7 +123,7 @@ export default () => {
 
   const handleRemovePlan = (planId) => {
     setComparePlans((prevPlans) => {
-      const plans = prevPlans.filter((plan) => plan.id !== planId);
+      const plans = prevPlans?.filter((plan) => plan.id !== planId);
 
       sessionStorage.setItem(
         "__plans__",
@@ -101,14 +134,19 @@ export default () => {
     });
   };
 
-  const isLoading = loading;
-  const LOGO_BASE_URL =
-    "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
+  const getComparePlansByPlanNamesProps = () => {
+    return {
+      agentInfo,
+      comparePlans,
+      isEmail: isComingFromEmail,
+      setComparePlanModalOpen,
+      handleRemovePlan,
+      id,
+      plansLoading,
+    };
+  };
 
-  const currencyFormatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+  const isLoading = loading;
 
   if (loading) {
     return <Spinner />;
@@ -116,93 +154,49 @@ export default () => {
   return (
     <>
       <ToastContextProvider>
+        {!isComingFromEmail && (
+          <ComparePlanModal
+            modalOpen={comparePlanModalOpen}
+            handleCloseModal={() => setComparePlanModalOpen(false)}
+            contactData={contactData}
+            {...getComparePlansByPlanNamesProps()}
+          />
+        )}
         <div className={styles.comparePage}>
           <Media query={"(max-width: 500px)"} onChange={(isMobile) => {}} />
           <WithLoader isLoading={isLoading}>
             <Helmet>
               <title>MedicareCENTER - Plans</title>
             </Helmet>
-            <GlobalNav />
-            <div className={`${styles["header"]}`} style={{ height: "auto" }}>
-              <Container>
-                <div className={styles["back-btn"]}>
-                  <Button
-                    icon={<ArrowDown />}
-                    label="Back to Plans List"
-                    onClick={() => {
-                      window.location = `/plans/${id}?preserveSelected=true`;
-                    }}
-                    type="tertiary"
-                  />
-                </div>
-              </Container>
-            </div>
-            <div
-              className={`${styles["plan-comparsion-heder"]} ${
-                plansLoading && styles["display-initial"]
-              }`}
-            >
-              {comparePlans.length > 0 && (
-                <>
-                  <div className={`${styles["plan-div"]}`}>
-                    <span
-                      className={`${styles["comp-mr-left"]} ${styles["compr-plan-col-hdr"]}`}
-                    >
-                      Compare Plans
-                    </span>
-                    <span className={`${styles["plan-seperator"]}`}></span>
+            {!isComingFromEmail && <GlobalNav />}
+            {!isComingFromEmail && (
+              <div className={`${styles["header"]}`} style={{ height: "auto" }}>
+                <Container>
+                  <div className={styles["back-btn"]}>
+                    <Button
+                      icon={<ArrowDown />}
+                      label="Back to Plans List"
+                      onClick={() => {
+                        window.location = `/plans/${id}?preserveSelected=true`;
+                      }}
+                      type="tertiary"
+                    />
                   </div>
-                  {comparePlans.map((plan) => (
-                    <div className={`${styles["plan-div"]}`}>
-                      <div
-                        className={`${styles["comp-mr-left"]} ${styles["compr-plan-col-hdr"]}`}
-                      >
-                        <div>
-                          {" "}
-                          <img
-                            src={LOGO_BASE_URL + plan.logoURL}
-                            alt="logo"
-                            className={styles["plan-img"]}
-                          />
-                        </div>
-                        <div className={styles["comp-plan-name"]}>
-                          {plan && plan.planName}
-                        </div>
-                        <div className={styles["comp-plan-amnt"]}>
-                          <span className={styles["value"]}>
-                            {currencyFormatter.format(
-                              plan.annualPlanPremium / 12
-                            )}
-                            <span className={styles["per"]}> / month</span>
-                          </span>
-                        </div>
-                        <Button label="Enroll" type="primary" />
-                        {comparePlans.length > 1 && (
-                          <span
-                            className={styles.close}
-                            onClick={() => handleRemovePlan(plan.id)}
-                          >
-                            X
-                          </span>
-                        )}
-                      </div>
-                      <div className={`${styles["plan-seperator"]}`}></div>
-                    </div>
-                  ))}
-                  {comparePlans.length < 3 && (
-                    <div className={`${styles["plan-div"]}`}>
-                      <span className={styles["retrun-txt"]}>
-                        <a href={`/plans/${id}?preserveSelected=true`}>
-                          Return to plans list to add{" "}
-                          {comparePlans.length === 1 ? "2nd" : "3rd"} plan for
-                          Comparison.
-                        </a>
-                      </span>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
+                </Container>
+              </div>
+            )}
+            {isComingFromEmail && (
+              <div className={styles["welcome-user-header"]}>
+                <Container>
+                  <WelcomeEmailUser
+                    firstName={agentInfo.LeadFirstName}
+                    lastName={agentInfo.LeadLastName}
+                    className="welcome-user-plans"
+                  />
+                </Container>
+              </div>
+            )}
+            <ComparePlansByPlanName {...getComparePlansByPlanNamesProps()} />
             <Container>
               {plansLoading ? (
                 <Spinner />
@@ -253,6 +247,7 @@ export default () => {
               )}
             </Container>
           </WithLoader>
+          <GlobalFooter />
         </div>
       </ToastContextProvider>
     </>

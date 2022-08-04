@@ -1,0 +1,52 @@
+import React from "react";
+
+export default (props) => {
+  return (
+    <svg
+      width="28"
+      height="26"
+      viewBox="0 0 21 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="11.1221"
+        y="13.2996"
+        width="7.16775"
+        height="0.83271"
+        rx="0.716357"
+        fill="#0052CE"
+      />
+      <rect
+        x="8.24585"
+        y="7.1499"
+        width="10.04357"
+        height="0.83271"
+        rx="0.716357"
+        fill="#0052CE"
+      />
+      <rect
+        x="8.24585"
+        y="1"
+        width="10.04357"
+        height="0.83271"
+        rx="0.716357"
+        fill="#0052CE"
+      />
+      <path
+        d="M5 0.00601V15.1457"
+        stroke="#0052CE"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 13L5 16L1 13"
+        stroke="#0052CE"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
