@@ -26,7 +26,7 @@ export default function index() {
           </div>
           <div className="decorative-background-image">
             <div className="page-content container-x">
-              <div className="h2-call-recording">Begining AEP 2023!</div>
+              <div className="h2-call-recording">Beginning AEP 2023!</div>
 
               <p className="paragraph-content">
                 MedicareCENTER is helping you stay productive — and compliant.

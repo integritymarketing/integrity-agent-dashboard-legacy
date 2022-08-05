@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import * as Sentry from "@sentry/react";
 import { Link } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Media from "react-media";
@@ -161,16 +162,20 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         }
   );
 
-  const getAgentAvailability = (agentid) => {
+  const getAgentAvailability = async (agentid) => {
     if (!agentid) {
       return;
     }
-    clientService.getAgentAvailability(agentid).then((res) => {
+    try {
+      const res = await clientService.getAgentAvailability(agentid);
       const { isAvailable, phone } = res || {};
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone));
-    });
+    } catch (error) {
+      Sentry.captureException(error);
+    }
   };
+
   const updateAgentAvailability = (params) => {
     clientService.updateAgentAvailability(params).then(() => {
       setIsAvailable(params.availability);
@@ -189,7 +194,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
   }, [auth]);
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
-/* 
+  /* 
   function clickButton() {
     handleOpen();
   } */
@@ -245,8 +250,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                   {/* commenting for prod deployment */}
-                 {/*  <MyButton
+                  {/* commenting for prod deployment */}
+                  {/*  <MyButton
                     clickButton={clickButton}
                     isAvailable={isAvailable}
                   ></MyButton> */}
