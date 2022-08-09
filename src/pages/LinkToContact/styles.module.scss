@@ -1,0 +1,63 @@
+.outerContainer {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+
+    .innerContainer {
+        min-width: 328px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 56px 0;
+
+        .medContent {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .contactsListContainer {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+
+        .contactItem {
+            background-color: #EAEEF0;
+        }
+
+        .emptyList {
+            height: 175px;
+            width: 327px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #EAEEF0;
+            margin-top: 24px;
+        }
+    }
+}
+
+.upperSectionModal {
+    text-align: center;
+    padding: 0px 10px;
+    letter-spacing: 0.16px;
+    margin-top: 8px;
+}
+
+.lowerSectionModal {
+    background-color: #FFF;
+    letter-spacing: 0.16px;
+    padding: 16px;
+    margin-top: 16px;
+}

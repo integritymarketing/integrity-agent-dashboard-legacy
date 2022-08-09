@@ -26,6 +26,12 @@ import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
+import DashboardHeaderSection from "./DashboardHeaderSection";
+import {Typography} from "@mui/material";
+import Tags from 'packages/Tags/Tags';
+import {TextButton} from 'packages/Button';
+import DescriptionIcon from '@mui/icons-material/Description';
+import LinkIcon from '@mui/icons-material/Link';
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -143,6 +149,24 @@ export default function Dashbaord() {
     history.push(`/contacts/list?Stage=${id}`);
   };
 
+  const bannerContent = () => {
+    return (        <>
+      <div style={{display: 'flex'}}>
+          <Typography sx={{mx: 1}} variant={'subtitle1'}>Incoming call: </Typography>
+          <Typography sx={{mx: 1}} variant={'subtitle1'}>CALLER ID </Typography>
+      </div>
+      <div>
+          <TextButton variant={"outlined"} size={"small"} startIcon={<DescriptionIcon/>}>Call Script</TextButton>
+      </div>
+      <div>
+          <TextButton onClick={()=> { history.push('/link-to-contact')}} variant={"outlined"} size={"small"} startIcon={<LinkIcon/>}>Link to contact</TextButton>
+      </div>
+      <div>
+          <Tags words={["CALL LEAD", "MAPD"]}/>
+      </div>
+  </>);
+  }
+
   return (
     <>
       <Media
@@ -156,6 +180,7 @@ export default function Dashbaord() {
       </Helmet>
       <GlobalNav />
       <HelpButtonModal />
+      <DashboardHeaderSection content={bannerContent()} />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">

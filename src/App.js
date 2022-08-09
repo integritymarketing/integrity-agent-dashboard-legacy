@@ -23,6 +23,7 @@ import Dashboard from "pages/dashbaord";
 import CallRecording from "pages/CallRecording";
 import ComparePlansPage from "pages/ComparePlansPage";
 import ComparePlansCodePage from "pages/ComparePlansCodePage";
+import LinkToContact from "pages/LinkToContact";
 import NewScopeOfAppointment from "pages/contacts/contactRecordInfo/newScopeOfAppointment";
 import SOAConfirmationPage from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage";
 import SOAConfirmationForm from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation";
@@ -87,6 +88,9 @@ const App = () => {
                               </AuthenticatedRoute>
                               <AuthenticatedRoute path="/dashboard">
                                 <Dashboard />
+                              </AuthenticatedRoute>
+                              <AuthenticatedRoute path="/link-to-contact">
+                                <LinkToContact />
                               </AuthenticatedRoute>
                               <AuthenticatedRoute path="/account">
                                 <AccountPage />
