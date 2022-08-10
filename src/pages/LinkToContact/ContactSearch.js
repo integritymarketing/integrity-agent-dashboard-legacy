@@ -8,25 +8,24 @@ import {
   Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { FixedSizeList } from "react-window";
 import styles from "./styles.module.scss";
 import { Link } from "react-router-dom";
 
 export default function ContactSearch({ contacts, onChange }) {
-    const [searchStr, setSearchStr] = useState('');
+  const [searchStr, setSearchStr] = useState('');
 
-  function renderRow({ index }) {
-    const fullname = `${contacts[index].firstName} ${contacts[index].lastName}`;
+  function renderRow(v, i) {
+    const fullname = `${v.firstName} ${v.lastName}`;
     return (
       <ListItem
-        key={index}
+        key={'contactindex' + i}
         className={styles.contactItem}
         component="div"
         disablePadding
       >
         <ListItemButton
           component={Link}
-          to={`/contact/${contacts[index].leadsId}`}
+          to={`/contact/${v.leadsId}`}
         >
           <ListItemText
             primary={
@@ -62,16 +61,7 @@ export default function ContactSearch({ contacts, onChange }) {
       />
       <div className={styles.contactsListContainer}>
         {contacts && contacts.length > 0 && searchStr.length > 0 ? (
-          <FixedSizeList
-            height={0}
-            width={327}
-            itemSize={46}
-            itemCount={contacts.length}
-            overscanCount={5}
-            style={{ minHeight: 175, backgroundColor: "#EAEEF0" }}
-          >
-            {renderRow}
-          </FixedSizeList>
+            contacts.map((v, i)=>{return renderRow(v)})
         )
          : (<div className={styles.emptyList}> {searchStr && searchStr.length > 0 && (contacts && contacts.length >= 0) ? 'No records found' : 'Search for a contact' }</div>
          )}

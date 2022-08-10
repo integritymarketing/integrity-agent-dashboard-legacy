@@ -3,7 +3,7 @@ import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
 import DescriptionIcon from "@mui/icons-material/Description";
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
-import Modal from "packages/Modal";
+import Heading3 from "packages/Heading3";
 import React, { useState } from "react";
 import Tags from "packages/Tags/Tags";
 import clientService from "services/clientsService";
@@ -11,9 +11,11 @@ import styles from "./styles.module.scss";
 import { Helmet } from "react-helmet-async";
 import { TextButton } from "packages/Button";
 import { Typography } from "@mui/material";
-import Heading3 from "packages/Heading3";
+import { useHistory } from "react-router-dom";
+import { CallScriptModal } from "packages/CallScriptModal";
 
 export default function LinkToContact() {
+  const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
 
@@ -50,36 +52,8 @@ export default function LinkToContact() {
     );
   };
 
-  const modalContent = () => {
-    return (
-      <>
-        <Typography id="transition-modal-title" variant="h5" color={"#002D72"}>
-          Recorded Call Script
-        </Typography>
-        <div className={styles.upperSectionModal}>
-          <Typography
-            id="transition-modal-subtitle"
-            variant="subtitle1"
-            color={"#434A51"}
-          >
-            To be in compliance with CMS guidelines, please read this script
-            before every call
-          </Typography>
-        </div>
-        <div className={styles.lowerSectionModal}>
-          <Typography
-            id="transition-modal-description"
-            sx={{ p: "16px" }}
-            color={"#434A51"}
-          >
-            Donec id elit non mi porta gravida at eget metus. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor. Donec
-            ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget
-            urna mollis ornare.
-          </Typography>
-        </div>
-      </>
-    );
+  const goToAddNewContactsPage = () => {
+    history.push("/contact/add-new");
   };
 
   return (
@@ -105,7 +79,7 @@ export default function LinkToContact() {
             <Tags words={["CALL LEAD", "MAPD"]} flexDirection={"column"} />
           </div>
           <div className={styles.medContent}>
-            <TextButton variant={"outlined"} size={"large"}>
+            <TextButton onClick={goToAddNewContactsPage}  variant={"outlined"} size={"large"}>
               Create new contact
             </TextButton>
           </div>
@@ -115,11 +89,7 @@ export default function LinkToContact() {
         </div>
       </div>
 
-      <Modal
-        content={modalContent()}
-        open={modalOpen}
-        handleClose={() => setModalOpen(false)}
-      />
+    <CallScriptModal modalOpen={modalOpen} handleClose={()=>{setModalOpen(false)}}/>
   <Footer />
     </>
   );
