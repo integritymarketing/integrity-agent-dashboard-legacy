@@ -32,6 +32,7 @@ import Tags from 'packages/Tags/Tags';
 import {TextButton} from 'packages/Button';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LinkIcon from '@mui/icons-material/Link';
+import { CallScriptModal } from "packages/CallScriptModal";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -66,6 +67,7 @@ export default function Dashbaord() {
   const [dashboardData, setDashboardData] = useState({});
   const [pageSize, setPageSize] = useState(10);
   const [activityData, setActivityData] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
@@ -156,7 +158,7 @@ export default function Dashbaord() {
           <Typography sx={{mx: 1}} variant={'subtitle1'}>CALLER ID </Typography>
       </div>
       <div>
-          <TextButton variant={"outlined"} size={"small"} startIcon={<DescriptionIcon/>}>Call Script</TextButton>
+          <TextButton variant={"outlined"} size={"small"} startIcon={<DescriptionIcon/>} onClick={()=>{setModalOpen(true)}}>Call Script</TextButton>
       </div>
       <div>
           <TextButton onClick={()=> { history.push('/link-to-contact')}} variant={"outlined"} size={"small"} startIcon={<LinkIcon/>}>Link to contact</TextButton>
@@ -302,6 +304,7 @@ export default function Dashbaord() {
         </div>
       </WithLoader>
       <GlobalFooter />
+    <CallScriptModal modalOpen={modalOpen} handleClose={()=>{setModalOpen(false)}}/>
     </>
   );
 }

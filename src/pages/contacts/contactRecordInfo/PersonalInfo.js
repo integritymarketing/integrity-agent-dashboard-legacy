@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Container from "components/ui/container";
 import StageSelect from "./StageSelect";
 import { formatPhoneNumber } from "utils/phones";
@@ -6,10 +6,14 @@ import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
+import CallScript from "components/icons/callScript";
+import { CallScriptModal } from "packages/CallScriptModal";
 
 const notAvailable = "N/A";
 
 export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  
   let {
     firstName = "",
     lastName = "",
@@ -61,11 +65,15 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
         </div>
         <div className="nameCardSection2">
           <div className=" customSelectbox personalInfo">
-            <label>Stage</label>
+            <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
+          <div className="personalInfo personalInfoCallScriptIcon">
+          <label className="text-bold">Call Script</label>
+          <div onClick={()=>{setModalOpen(true)}}><CallScript /></div>
+          </div>
           <div className="desktop-select-show personalInfo">
-            <label>Email {isPrimary === "email" && "(Primary)"}</label>
+            <label className="text-bold">Email {isPrimary === "email" && "(Primary)"}</label>
 
             <div className="personalInfoEmailText">
               <a className="info-link hover-line" href={`mailto:${emails}`}>
@@ -74,7 +82,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
             </div>
           </div>
           <div className="desktop-select-show personalInfo">
-            <label>Phone {isPrimary === "phone" && "(Primary)"}</label>
+            <label className="text-bold">Phone {isPrimary === "phone" && "(Primary)"}</label>
             <div className="personalInfoText mobile-hide">
               {phones ? formatPhoneNumber(phones) : notAvailable}
             </div>
@@ -93,7 +101,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
           </div>
 
           <div className=" desktop-select-show personalInfo">
-            <label>Address</label>
+            <label className="text-bold">Address</label>
             <div className="personalInfoText mobile-hide">
               {formatAddress(addresses)}
             </div>
@@ -108,6 +116,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
           </div>
         </div>
       </Container>
+    <CallScriptModal modalOpen={modalOpen} handleClose={()=>{setModalOpen(false)}}/>
     </div>
   );
 };

@@ -29,8 +29,10 @@
     .contactsListContainer {
         margin-top: 24px;
         display: flex;
-        flex-direction: row;
-        gap: 5px;
+        flex-direction: column;
+        overflow-y: auto;
+        height: 175px;
+        width: 327px;
 
         .contactItem {
             background-color: #EAEEF0;
@@ -43,21 +45,6 @@
             justify-content: center;
             align-items: center;
             background-color: #EAEEF0;
-            margin-top: 24px;
         }
     }
-}
-
-.upperSectionModal {
-    text-align: center;
-    padding: 0px 10px;
-    letter-spacing: 0.16px;
-    margin-top: 8px;
-}
-
-.lowerSectionModal {
-    background-color: #FFF;
-    letter-spacing: 0.16px;
-    padding: 16px;
-    margin-top: 16px;
 }
