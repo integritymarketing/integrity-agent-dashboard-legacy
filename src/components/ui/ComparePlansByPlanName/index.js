@@ -100,14 +100,15 @@ export default function ComparePlansByPlanName({
               <div className={`${styles["vertical-stack"]}`}>
                 <div className={`${styles["compare-text"]}`}>Compare Plans</div>
                 <div className={`${styles["spacer"]}`}></div>
-                <div className={`${styles["share-plan-text"]}`}>
+                {/* commenting for prod deployment} */}
+                {/*   <div className={`${styles["share-plan-text"]}`}>
                   Share plans with client
                 </div>
                 <Button
                   onClick={() => setComparePlanModalOpen(true)}
                   label="Share"
                   type="secondary"
-                ></Button>
+                ></Button> */}
               </div>
               <span className={`${styles["plan-separator"]}`}></span>
             </div>
