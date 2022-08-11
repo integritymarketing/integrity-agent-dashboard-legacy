@@ -2,16 +2,17 @@ import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import {IconButton} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import styles from './styles.module.scss';
 import { styled } from "@mui/system";
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
+const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
     cursor:'pointer',
     display: 'flex',
     marginTop: '5px',
-    width: '20px',
+    width: '30px',
+    height: '30px',
+    color: '#0052CE',
     marginLeft: 'auto'
   }));
 
@@ -31,9 +32,7 @@ export default function TModal({content, open, handleClose}) {
             >
                 <Fade in={open}>
                     <div className={styles.modalContentContainer}>
-                        <StyledIconButton onClick={()=>{handleClose()}}>
-                            <CloseIcon/>
-                        </StyledIconButton>
+                        <StyledIconButton onClick={()=>{handleClose()}}/>
                         {content}
                     </div>
                 </Fade>

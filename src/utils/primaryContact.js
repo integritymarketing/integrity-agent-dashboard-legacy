@@ -1,4 +1,5 @@
-import { formatPhoneNumber } from "./phones";
+import React from "react";
+import PrimaryContactPhone from 'pages/contacts/PrimaryContactPhone';
 
 export const getPrimaryContact = (clientInfo) => {
   const { primaryCommunication, phones, emails } = clientInfo;
@@ -7,7 +8,6 @@ export const getPrimaryContact = (clientInfo) => {
     return email;
   } else if (primaryCommunication === "phone") {
     const phone = phones.map((phone) => phone.leadPhone);
-    const formatContactNumber = formatPhoneNumber(phone);
-    return formatContactNumber;
+    return <PrimaryContactPhone leadsId={clientInfo.leadsId} phone={phone} />;
   } else return "N/A";
 };

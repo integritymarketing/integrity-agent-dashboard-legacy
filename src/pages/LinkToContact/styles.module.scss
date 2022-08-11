@@ -1,5 +1,7 @@
+@import 'src/scss/globalDefines.scss';
+
 .outerContainer {
-    height: 70vh;
+    height: 75vh;
     display: flex;
     justify-content: center;
 
@@ -9,11 +11,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 56px 0;
+        margin: 4rem 0;
+        gap: 3rem;
 
         .medContent {
             width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -31,20 +33,23 @@
         display: flex;
         flex-direction: column;
         overflow-y: auto;
-        height: 175px;
-        width: 327px;
+        max-height: 350px;
+
+        @include small() {
+            max-height: 250px;
+        }
 
         .contactItem {
-            background-color: #EAEEF0;
+            background-color: $bright-gray;
         }
 
         .emptyList {
-            height: 175px;
-            width: 327px;
+            height: 350px;
+            width: 350px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #EAEEF0;
+            background-color: $bright-gray;
         }
     }
 }

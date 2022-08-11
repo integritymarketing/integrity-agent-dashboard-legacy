@@ -93,6 +93,7 @@ export default () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     setLayout(() =>
       location.pathname === cardViewLayoutPath ? "card" : "list"
@@ -101,7 +102,7 @@ export default () => {
       switchLayout();
     }
   }, [location, isMobile]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  
   const debouncedSetSearchString = useCallback(
     debounce(setSearchStringNew, 500),
     []

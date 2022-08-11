@@ -1,11 +1,13 @@
+@import 'src/scss/globalDefines.scss';
+
 .modalContentContainer {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 328px;
+    width: 400px;
     padding: 24px;
-    background-color: #F4F8FB;
+    background-color: $alice-blue;
     box-shadow: 0px 0px 6px #00000029;
     border-radius: 8px;
     display: flex;
