@@ -1,6 +1,10 @@
-export const formatPhoneNumber = (phoneNumberString) => {
-  const originalInput = phoneNumberString;
-  const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+export const formatPhoneNumber = (phoneNumberString, countryCode = false) => {
+  let phoneNumber;
+  if (countryCode) {
+    phoneNumber = phoneNumberString?.replace(/^\+1/, "");
+  }
+  const originalInput = phoneNumber;
+  const cleaned = ("" + phoneNumber).replace(/\D/g, "");
   const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
 
   if (match) {
