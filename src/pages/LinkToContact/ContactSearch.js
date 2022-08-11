@@ -14,18 +14,18 @@ import { Link } from "react-router-dom";
 export default function ContactSearch({ contacts, onChange }) {
   const [searchStr, setSearchStr] = useState('');
 
-  function renderRow(v, i) {
-    const fullname = `${v.firstName} ${v.lastName}`;
+  function renderRow(value, index) {
+    const fullname = `${value.firstName} ${value.lastName}`;
     return (
       <ListItem
-        key={'contactindex' + i}
+        key={'contactindex' + index}
         className={styles.contactItem}
         component="div"
         disablePadding
       >
         <ListItemButton
           component={Link}
-          to={`/contact/${v.leadsId}`}
+          to={`/contact/${value.leadsId}`}
         >
           <ListItemText
             primary={
@@ -61,7 +61,7 @@ export default function ContactSearch({ contacts, onChange }) {
       />
       <div className={styles.contactsListContainer}>
         {contacts && contacts.length > 0 && searchStr.length > 0 ? (
-            contacts.map((v, i)=>{return renderRow(v)})
+            contacts.map((value, index)=>{return renderRow(value, index)})
         )
          : (<div className={styles.emptyList}> {searchStr && searchStr.length > 0 && (contacts && contacts.length >= 0) ? 'No records found' : 'Search for a contact' }</div>
          )}

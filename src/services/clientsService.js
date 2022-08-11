@@ -35,7 +35,7 @@ const getSortByRangeDates = (type) => {
   ];
 };
 
-class ClientsService {
+export class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
     const user = await authService.getUser();
     const opts = {

@@ -33,6 +33,9 @@ import {TextButton} from 'packages/Button';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LinkIcon from '@mui/icons-material/Link';
 import { CallScriptModal } from "packages/CallScriptModal";
+import useCallRecordings from "hooks/useCallRecordings"
+
+const IN_PROGRESS = "in progress";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -62,24 +65,22 @@ const useHelpButtonWithModal = () => {
 
 export default function Dashbaord() {
   const history = useHistory();
+  const auth = useContext(AuthContext);
+  const callRecordings = useCallRecordings();
+  const addToast = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
   const [pageSize, setPageSize] = useState(10);
   const [activityData, setActivityData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
-
-  const addToast = useToast();
-  const auth = useContext(AuthContext);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
 
   const activityPageData = useMemo(() => {
-    // TODO: Implement filters here..
     const filteredData = [...activityData]
     return filteredData.splice(0, pageSize);
   }, [pageSize, activityData])
@@ -151,22 +152,30 @@ export default function Dashbaord() {
     history.push(`/contacts/list?Stage=${id}`);
   };
 
+  const navigateToLinkToContact = () => {
+    history.push(`/link-to-contact`);
+  };
+
+  const callStatusInProgress = callRecordings.some(callRecording => callRecording.callStatus === IN_PROGRESS);
+
   const bannerContent = () => {
-    return (        <>
+    return (        
+    <>
       <div style={{display: 'flex'}}>
           <Typography sx={{mx: 1}} variant={'subtitle1'}>Incoming call: </Typography>
-          <Typography sx={{mx: 1}} variant={'subtitle1'}>CALLER ID </Typography>
+          <Typography sx={{mx: 1}} variant={'subtitle1'}>{user?.virtualPhoneNumber} </Typography>
       </div>
       <div>
           <TextButton variant={"outlined"} size={"small"} startIcon={<DescriptionIcon/>} onClick={()=>{setModalOpen(true)}}>Call Script</TextButton>
       </div>
       <div>
-          <TextButton onClick={()=> { history.push('/link-to-contact')}} variant={"outlined"} size={"small"} startIcon={<LinkIcon/>}>Link to contact</TextButton>
+          <TextButton onClick={navigateToLinkToContact} variant={"outlined"} size={"small"} startIcon={<LinkIcon/>}>Link to contact</TextButton>
       </div>
       <div>
           <Tags words={["CALL LEAD", "MAPD"]}/>
       </div>
-  </>);
+  </>
+  );
   }
 
   return (
@@ -182,7 +191,7 @@ export default function Dashbaord() {
       </Helmet>
       <GlobalNav />
       <HelpButtonModal />
-      <DashboardHeaderSection content={bannerContent()} />
+      {callStatusInProgress && <DashboardHeaderSection content={bannerContent()} />}
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">
