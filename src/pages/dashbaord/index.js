@@ -33,7 +33,8 @@ import {TextButton} from 'packages/Button';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LinkIcon from '@mui/icons-material/Link';
 import { CallScriptModal } from "packages/CallScriptModal";
-import useCallRecordings from "hooks/useCallRecordings"
+import useCallRecordings from "hooks/useCallRecordings";
+import { formatPhoneNumber } from "utils/phones";
 
 const IN_PROGRESS = "in progress";
 
@@ -75,6 +76,7 @@ export default function Dashbaord() {
   const [activityData, setActivityData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [user, setUser] = useState({});
+  const [agentInformation, setAgentInformation] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } =
@@ -90,8 +92,14 @@ export default function Dashbaord() {
 
   useEffect(() => {
     const loadAsyncData = async () => {
+      try {
       const user = await auth.getUser();
       setUser(user.profile);
+      const agentInfo = await clientService.getAgentAvailability(user?.profile?.agentid);
+      setAgentInformation(agentInfo);
+    } catch(error) {
+      Sentry.captureException(error);
+    }
     };
 
     loadAsyncData();
@@ -159,11 +167,12 @@ export default function Dashbaord() {
   const callStatusInProgress = callRecordings.some(callRecording => callRecording.callStatus === IN_PROGRESS);
 
   const bannerContent = () => {
+    const tags = agentInformation?.tags?.map(tag => tag);
     return (        
     <>
       <div style={{display: 'flex'}}>
           <Typography sx={{mx: 1}} variant={'subtitle1'}>Incoming call: </Typography>
-          <Typography sx={{mx: 1}} variant={'subtitle1'}>{user?.virtualPhoneNumber} </Typography>
+          <Typography sx={{mx: 1}} variant={'subtitle1'}>{formatPhoneNumber(agentInformation?.agentVirtualPhoneNumber, true)} </Typography>
       </div>
       <div>
           <TextButton variant={"outlined"} size={"small"} startIcon={<DescriptionIcon/>} onClick={()=>{setModalOpen(true)}}>Call Script</TextButton>
@@ -172,7 +181,7 @@ export default function Dashbaord() {
           <TextButton onClick={navigateToLinkToContact} variant={"outlined"} size={"small"} startIcon={<LinkIcon/>}>Link to contact</TextButton>
       </div>
       <div>
-          <Tags words={["CALL LEAD", "MAPD"]}/>
+          <Tags words={tags}/>
       </div>
   </>
   );
