@@ -97,7 +97,7 @@ export default function LinkToContact() {
             </Typography>
           </div>
           <div className={styles.medContent}>
-            <Tags words={tags} flexDirection={"column"} />
+            {tags?.length && <Tags words={tags} flexDirection={"column"} />}
           </div>
           <div className={styles.medContent}>
             <TextButton

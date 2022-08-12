@@ -206,9 +206,7 @@ export default function Dashbaord() {
             Link to contact
           </TextButton>
         </div>
-        <div>
-          <Tags words={tags} />
-        </div>
+          {tags?.length && <Tags words={tags} /> }
       </>
     );
   };
