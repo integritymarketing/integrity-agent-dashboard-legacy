@@ -1,23 +1,39 @@
 .box {
-  background-color: #fff;
-  border-radius: 1.5px;
+  background-color: #f4f8fb;
+  border-radius: 8px;
   box-shadow: 24px;
   display: flex;
   flex-direction: column;
-  height: 224px;
+  height: 365px;
   left: 50%;
   overflow: hidden;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 288px;
+  width: 328px;
+  padding: 15px;
 }
 
-.itemBox {
-  align-items: center;
-  display: flex;
-  flex: 1;
-  width: 100%;
+.callCenter-box-h {
+  height: 357px;
+  width: 336px;
+}
+.leadType-box-h {
+  height: 263px;
+  width: 328px;
+}
+
+.leadSource-box-h {
+  height: 263px;
+  width: 328px;
+}
+.main-box-h {
+  height: 365px;
+  width: 328px;
+}
+.checkOut-box-h {
+  height: 140px;
+  width: 320px;
 }
 
 .item {

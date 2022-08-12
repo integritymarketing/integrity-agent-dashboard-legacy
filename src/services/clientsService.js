@@ -875,8 +875,16 @@ export class ClientsService {
   };
 
   updateAgentAvailability = async (payload) => {
+    let url = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`;
+    const response = await this._clientAPIRequest(url, "POST", payload);
+    if (response.ok) {
+      return response;
+    }
+  };
+
+  updateAgentPreferences = async (payload) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`,
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Preference`,
       "POST",
       payload
     );
@@ -896,6 +904,3 @@ export class ClientsService {
 }
 
 export default new ClientsService();
-
-
-

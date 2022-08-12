@@ -1,32 +1,30 @@
 import React from "react";
-import back from "./back.svg";
-import './ModalContactText.scss'
+
+import "./modalText.scss";
 
 const MODAL_TEXT = {
   TITLE: "Contact",
   BACK_TITLE: "Check In",
 };
 
-function ModalContactText({ handleClosePhone }) {
+function ModalContactText({ virtualNumber }) {
   return (
-    <div className='ModalContactTextBox'>
-      <div
-        className='modal_title'
-        
-      >
-        <div
-          onClick={handleClosePhone}
-          className='close_phone'
-        >
-          <img className='icon' alt="back" src={back} />
-          <span class='back_title'>
-            {MODAL_TEXT.BACK_TITLE}
-          </span>
-        </div>
+    <div>
+      <div className="modalTextTop">
+        <span className="modalTextFont">{MODAL_TEXT.TITLE}</span>
+      </div>
 
-        <span className='title'>
-          {MODAL_TEXT.TITLE}
-        </span>
+      <div className="modalTextStyle">
+        <span>Your MedicareCENTER number</span>
+      </div>
+      <div className="modalTextNum">
+        <span>{virtualNumber}</span>
+      </div>
+
+      <div className="modalTextStyle">
+        <span>Calls to your MedicareCENTER number</span>
+        <span> will be forwarded to the number</span>
+        <span> below and will be recorded. </span>
       </div>
     </div>
   );

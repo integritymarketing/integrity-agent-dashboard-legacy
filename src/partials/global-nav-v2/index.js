@@ -6,7 +6,7 @@ import Media from "react-media";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import Logo from "partials/logo";
-/* import MyButton from "./MyButton";*/
+import MyButton from "./MyButton";
 import MyModal from "./MyModal";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
@@ -16,6 +16,7 @@ import clientService from "services/clientsService";
 import { formatPhoneNumber } from "utils";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
+import useToast from "hooks/useToast";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -98,7 +99,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const handleClose = () => setOpen(false);
   const [isAvailable, setIsAvailable] = useState(false);
   const [phone, setPhone] = useState("");
-
+  const [virtualNumber, setVirtualNumber] = useState("");
+  const addToast = useToast();
   const menuProps = Object.assign(
     {
       navOpen,
@@ -168,18 +170,46 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
     try {
       const res = await clientService.getAgentAvailability(agentid);
-      const { isAvailable, phone } = res || {};
+      const { isAvailable, phone, agentVirtualPhoneNumber } = res || {};
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone));
+      if (agentVirtualPhoneNumber) {
+        setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber));
+      } else {
+        setVirtualNumber("XXX-XXX-XXXX");
+      }
     } catch (error) {
       Sentry.captureException(error);
     }
   };
 
-  const updateAgentAvailability = (params) => {
-    clientService.updateAgentAvailability(params).then(() => {
-      setIsAvailable(params.availability);
-    });
+  const updateAgentAvailability = async (data) => {
+    try {
+      let res = await clientService.updateAgentAvailability(data);
+      if (res.ok) {
+        setIsAvailable(data.availability);
+      }
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to Save the Availability.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    }
+  };
+
+  const updateAgentPreferences = async (data) => {
+    try {
+      await clientService.updateAgentPreferences(data);
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to Save the Preferences.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    }
   };
 
   useEffect(() => {
@@ -194,10 +224,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
   }, [auth]);
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
-  /* 
   function clickButton() {
     handleOpen();
-  } */
+  }
 
   const showMaintenaceNotification =
     process.env.REACT_APP_NOTIFICATION_BANNER === "true";
@@ -251,10 +280,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
                   {/* commenting for prod deployment */}
-                  {/*  <MyButton
+                  <MyButton
                     clickButton={clickButton}
                     isAvailable={isAvailable}
-                  ></MyButton> */}
+                  ></MyButton>
                 </React.Fragment>
               )}
             </Media>
@@ -263,12 +292,14 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         <HelpButtonModal />
         <MyModal
           phone={phone}
+          virtualNumber={virtualNumber}
           user={user}
           handleOpen={handleOpen}
           handleClose={handleClose}
           open={open}
           isAvailable={isAvailable}
           updateAgentAvailability={updateAgentAvailability}
+          updateAgentPreferences={updateAgentPreferences}
         />
       </header>
     </>

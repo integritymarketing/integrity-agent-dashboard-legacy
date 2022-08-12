@@ -12,7 +12,7 @@ import Sort from "components/icons/sort-arrow";
 import SortArrowUp from "components/icons/sort-arrow-up";
 import SortArrowDown from "components/icons/sort-arrow-down";
 
-const Centered = styled('div')`
+const Centered = styled("div")`
   display: flex;
   gap: 5px;
   align-items: center;
@@ -32,13 +32,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: "14px",
     lineHeight: "20px",
     maxWidth: 360,
-    cursor: "pointer"
+    cursor: "pointer",
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({theme})=> ({
-  backgroundColor: 'white',
- /*  '&:hover' : {
+const StyledTableRow = styled(TableRow)(({ theme, bg }) => ({
+  backgroundColor: bg ? "#2175F41A" : "white",
+  /*  '&:hover' : {
     backgroundColor: '#1F6FE929'
   } */
 }));
@@ -48,12 +48,12 @@ const generateSortingIndicator = (column) => {
     return null;
   }
   if (column.isSorted === false) {
-    return <Sort />
+    return <Sort />;
   }
   if (column.isSortedDesc) {
-    return <SortArrowDown />
+    return <SortArrowDown />;
   }
-  return <SortArrowUp />
+  return <SortArrowUp />;
 };
 
 function Table({ columns, data, footer, initialState }) {
@@ -62,7 +62,7 @@ function Table({ columns, data, footer, initialState }) {
     {
       columns,
       data,
-      initialState
+      initialState,
     },
     useSortBy
   );
@@ -79,8 +79,7 @@ function Table({ columns, data, footer, initialState }) {
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
                   <Centered>
-                    {column.render("Header")} {' '}
-                    {generateSortingIndicator(column)}
+                    {column.render("Header")} {generateSortingIndicator(column)}
                   </Centered>
                 </StyledTableCell>
               ))}
@@ -91,7 +90,13 @@ function Table({ columns, data, footer, initialState }) {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <StyledTableRow {...row.getRowProps()}>
+              <StyledTableRow
+                bg={
+                  row?.original?.activities[0]?.activitySubject ===
+                  "Incoming Call"
+                }
+                {...row.getRowProps()}
+              >
                 {row.cells.map((cell) => {
                   return (
                     <StyledTableCell {...cell.getCellProps()}>

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 const Share = (props) => (
   <svg
@@ -6,8 +6,8 @@ const Share = (props) => (
     data-name="Layer 2"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 16 16"
-    width="16px"
-    height="16px"
+    width="6px"
+    height="12px"
     {...props}
   >
     <defs>
@@ -24,6 +24,6 @@ const Share = (props) => (
     <path className="b" d="m7.14 15.5 2.34-2.34-2.34-2.34" />
     <circle className="b" cx={2.42} cy={2.42} r={1.92} />
   </svg>
-)
+);
 
-export default Share
+export default Share;
