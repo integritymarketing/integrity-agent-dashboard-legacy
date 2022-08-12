@@ -34,10 +34,7 @@ export default function LinkToContact() {
   const bannerContent = () => {
     return (
       <>
-        <div>
-          <Heading3 text={'Link to contact'}>
-          </Heading3>
-        </div>
+          <Heading3 text="Link to contact" />
         <div>
           <TextButton
             variant={"outlined"}

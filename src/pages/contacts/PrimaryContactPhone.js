@@ -28,9 +28,9 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
     callRecordingsService.outboundCallFromMedicareCenter({
       agentId: agentData.agentID,
       leadId: leadsId,
-      agentTwilioNumber: agentData.virtualPhoneNumber,
+      agentTwilioNumber: agentData.agentVirtualPhoneNumber,
       agentPhoneNumber: agentData.phone,
-      customerNumber: phone[0],
+      customerNumber: phone,
     });
      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

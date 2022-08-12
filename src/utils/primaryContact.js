@@ -8,6 +8,6 @@ export const getPrimaryContact = (clientInfo) => {
     return email;
   } else if (primaryCommunication === "phone") {
     const phone = phones.map((phone) => phone.leadPhone);
-    return <PrimaryContactPhone leadsId={clientInfo.leadsId} phone={phone} />;
+    return <PrimaryContactPhone leadsId={clientInfo.leadsId} phone={phone[0]} />;
   } else return "N/A";
 };

@@ -27,11 +27,11 @@ import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
 import DashboardHeaderSection from "./DashboardHeaderSection";
-import {Typography} from "@mui/material";
-import Tags from 'packages/Tags/Tags';
-import {TextButton} from 'packages/Button';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LinkIcon from '@mui/icons-material/Link';
+import { Typography } from "@mui/material";
+import Tags from "packages/Tags/Tags";
+import { TextButton } from "packages/Button";
+import DescriptionIcon from "@mui/icons-material/Description";
+import LinkIcon from "@mui/icons-material/Link";
 import { CallScriptModal } from "packages/CallScriptModal";
 import useCallRecordings from "hooks/useCallRecordings";
 import { formatPhoneNumber } from "utils/phones";
@@ -83,23 +83,27 @@ export default function Dashbaord() {
     useContext(stageSummaryContext);
 
   const activityPageData = useMemo(() => {
-    const filteredData = [...activityData]
+    const filteredData = [...activityData];
     return filteredData.splice(0, pageSize);
-  }, [pageSize, activityData])
+  }, [pageSize, activityData]);
 
-  const pageHasMoreRows = useMemo(() => activityData.length > activityPageData.length,
-   [activityData.length, activityPageData.length])
+  const pageHasMoreRows = useMemo(
+    () => activityData.length > activityPageData.length,
+    [activityData.length, activityPageData.length]
+  );
 
   useEffect(() => {
     const loadAsyncData = async () => {
       try {
-      const user = await auth.getUser();
-      setUser(user.profile);
-      const agentInfo = await clientService.getAgentAvailability(user?.profile?.agentid);
-      setAgentInformation(agentInfo);
-    } catch(error) {
-      Sentry.captureException(error);
-    }
+        const user = await auth.getUser();
+        setUser(user.profile);
+        const agentInfo = await clientService.getAgentAvailability(
+          user?.profile?.agentid
+        );
+        setAgentInformation(agentInfo);
+      } catch (error) {
+        Sentry.captureException(error);
+      }
     };
 
     loadAsyncData();
@@ -114,7 +118,7 @@ export default function Dashbaord() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onLoadMore = () => setPageSize(pageSize => pageSize + 10)
+  const onLoadMore = () => setPageSize((pageSize) => pageSize + 10);
 
   const loadActivityData = async () => {
     const response = await clientService.getDashboardData(
@@ -130,7 +134,7 @@ export default function Dashbaord() {
         await clientService
           .getApplicationCount(sortByRange)
           .then(setDashboardData);
-        loadActivityData();
+        await loadActivityData();
       } catch (err) {
         Sentry.captureException(err);
         addToast({
@@ -164,28 +168,50 @@ export default function Dashbaord() {
     history.push(`/link-to-contact`);
   };
 
-  const callStatusInProgress = callRecordings.some(callRecording => callRecording.callStatus === IN_PROGRESS);
+  const callStatusInProgress = callRecordings.some(
+    (callRecording) => callRecording.callStatus === IN_PROGRESS
+  );
 
   const bannerContent = () => {
-    const tags = agentInformation?.tags?.map(tag => tag);
-    return (        
-    <>
-      <div style={{display: 'flex'}}>
-          <Typography sx={{mx: 1}} variant={'subtitle1'}>Incoming call: </Typography>
-          <Typography sx={{mx: 1}} variant={'subtitle1'}>{formatPhoneNumber(agentInformation?.agentVirtualPhoneNumber, true)} </Typography>
-      </div>
-      <div>
-          <TextButton variant={"outlined"} size={"small"} startIcon={<DescriptionIcon/>} onClick={()=>{setModalOpen(true)}}>Call Script</TextButton>
-      </div>
-      <div>
-          <TextButton onClick={navigateToLinkToContact} variant={"outlined"} size={"small"} startIcon={<LinkIcon/>}>Link to contact</TextButton>
-      </div>
-      <div>
-          <Tags words={tags}/>
-      </div>
-  </>
-  );
-  }
+    const tags = agentInformation?.tags?.map((tag) => tag);
+    return (
+      <>
+        <div style={{ display: "flex" }}>
+          <Typography sx={{ mx: 1 }} variant={"subtitle1"}>
+            Incoming call:{" "}
+          </Typography>
+          <Typography sx={{ mx: 1 }} variant={"subtitle1"}>
+            {formatPhoneNumber(agentInformation?.agentVirtualPhoneNumber, true)}{" "}
+          </Typography>
+        </div>
+        <div>
+          <TextButton
+            variant={"outlined"}
+            size={"small"}
+            startIcon={<DescriptionIcon />}
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          >
+            Call Script
+          </TextButton>
+        </div>
+        <div>
+          <TextButton
+            onClick={navigateToLinkToContact}
+            variant={"outlined"}
+            size={"small"}
+            startIcon={<LinkIcon />}
+          >
+            Link to contact
+          </TextButton>
+        </div>
+        <div>
+          <Tags words={tags} />
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
@@ -200,7 +226,9 @@ export default function Dashbaord() {
       </Helmet>
       <GlobalNav />
       <HelpButtonModal />
-      {callStatusInProgress && <DashboardHeaderSection content={bannerContent()} />}
+      {callStatusInProgress && (
+        <DashboardHeaderSection content={bannerContent()} />
+      )}
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">
@@ -322,7 +350,12 @@ export default function Dashbaord() {
         </div>
       </WithLoader>
       <GlobalFooter />
-    <CallScriptModal modalOpen={modalOpen} handleClose={()=>{setModalOpen(false)}}/>
+      <CallScriptModal
+        modalOpen={modalOpen}
+        handleClose={() => {
+          setModalOpen(false);
+        }}
+      />
     </>
   );
 }

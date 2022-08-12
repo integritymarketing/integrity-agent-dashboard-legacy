@@ -1,7 +1,6 @@
 @import 'src/scss/globalDefines.scss';
 
 .outerContainer {
-    height: 75vh;
     display: flex;
     justify-content: center;
 
@@ -11,8 +10,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 4rem 0;
-        gap: 3rem;
+        margin: 3rem 0;
+        gap: 2rem;
 
         .medContent {
             width: 100%;
@@ -34,10 +33,6 @@
         flex-direction: column;
         overflow-y: auto;
         max-height: 350px;
-
-        @include small() {
-            max-height: 250px;
-        }
 
         .contactItem {
             background-color: $bright-gray;
