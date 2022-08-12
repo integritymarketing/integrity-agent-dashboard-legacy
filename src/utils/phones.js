@@ -1,7 +1,7 @@
 export const formatPhoneNumber = (phoneNumberString, countryCode = false) => {
-  let phoneNumber;
+  let phoneNumber = phoneNumberString;
   if (countryCode) {
-    phoneNumber = phoneNumberString?.replace(/^\+1/, "");
+    phoneNumber = phoneNumber?.replace(/^\+1/, "");
   }
   const originalInput = phoneNumber;
   const cleaned = ("" + phoneNumber).replace(/\D/g, "");

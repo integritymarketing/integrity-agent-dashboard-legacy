@@ -8,10 +8,11 @@ import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
 import CallScript from "components/icons/callScript";
 import { CallScriptModal } from "packages/CallScriptModal";
+import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone"
 
-const notAvailable = "N/A";
+const NOT_AVAILABLE = "N/A";
 
-export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
+export default ({ personalInfo, isEdit, setEdit, setDisplay, leadsId }) => {
   const [modalOpen, setModalOpen] = useState(false);
   
   let {
@@ -27,7 +28,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
     contactPreferences,
   } = personalInfo;
 
-  emails = emails.length > 0 ? emails[0].leadEmail : notAvailable;
+  emails = emails.length > 0 ? emails[0].leadEmail : NOT_AVAILABLE;
   phones = phones.length > 0 ? phones[0].leadPhone : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 
@@ -84,7 +85,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
           <div className="desktop-select-show personalInfo">
             <label className="text-bold">Phone {isPrimary === "phone" && "(Primary)"}</label>
             <div className="personalInfoText mobile-hide">
-              {phones ? formatPhoneNumber(phones) : notAvailable}
+              {phones ? <PrimaryContactPhone phone={phones} leadsId={leadsId} /> : NOT_AVAILABLE}
             </div>
             <div className="personalInfoText desktop-hide">
               {phones ? (
@@ -95,7 +96,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay }) => {
                   {formatPhoneNumber(phones)}
                 </a>
               ) : (
-                notAvailable
+                NOT_AVAILABLE
               )}
             </div>
           </div>
