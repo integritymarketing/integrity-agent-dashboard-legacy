@@ -123,28 +123,35 @@ const RenderModalItem = ({
   handleClick,
   activeModal,
   handleButtonClick,
-  leadType,
-  setLeadType,
-  leadSource,
-  setLeadSource,
   phone,
+  handlePreferences,
+  preferences,
+  isAvailable,
 }) => {
   const [callHover, setCallHover] = useState("");
   const [dataHover, setDataHover] = useState("");
   const [lcHover, setlcHover] = useState("");
   const [mcHover, setmcHover] = useState("");
+  const {
+    data = false,
+    call = false,
+    leadCenter = false,
+    medicareEnrollPurl = false,
+  } = preferences;
   const BUTTONS = {
     cancel: {
       text: "Cancel",
       onClick: () => {
         handleClick("main");
       },
+      disabled: false,
     },
     checkOut: {
       text: "Check Out",
       onClick: () => {
         handleButtonClick("checkOut");
       },
+      disabled: !isAvailable,
     },
     continue: {
       text: "Continue",
@@ -172,7 +179,7 @@ const RenderModalItem = ({
               onMouseEnter={() => setCallHover(true)}
               onMouseLeave={() => setCallHover(false)}
               onClick={() => {
-                setLeadType("callLead");
+                handlePreferences("call", !call);
               }}
             >
               <img src={Home} alt="icon" className="modalItemImgStyle" />
@@ -180,7 +187,7 @@ const RenderModalItem = ({
                 <span className=".span_source-title">Call Lead</span>
               </div>
 
-              {(callHover || leadType === "callLead") && (
+              {(callHover || call) && (
                 <img src={Check} alt="activeIcon" className="active_icon" />
               )}
             </div>
@@ -190,14 +197,14 @@ const RenderModalItem = ({
               onMouseEnter={() => setDataHover(true)}
               onMouseLeave={() => setDataHover(false)}
               onClick={() => {
-                setLeadType("dataLead");
+                handlePreferences("data", !data);
               }}
             >
               <img className="modalItemImgStyle" alt="itemIcon" src={Lead} />
               <div className="modalItemTextStyle">
                 <span className=".span_source-title">Data Lead</span>
               </div>
-              {(dataHover || leadType === "dataLead") && (
+              {(dataHover || data) && (
                 <img src={Check} alt="activeIcon" className="active_icon" />
               )}
             </div>
@@ -218,7 +225,7 @@ const RenderModalItem = ({
               onMouseEnter={() => setlcHover(true)}
               onMouseLeave={() => setlcHover(false)}
               onClick={() => {
-                setLeadSource("leadCenter");
+                handlePreferences("leadCenter", !leadCenter);
               }}
             >
               <div className="modal-lead-source">
@@ -229,7 +236,7 @@ const RenderModalItem = ({
                   </Button>
                 </div>
 
-                {lcHover || leadSource === "leadCenter" ? (
+                {lcHover || leadCenter ? (
                   <img src={Check} alt="activeIcon" className="active_icon" />
                 ) : (
                   <div className="active_icon"> </div>
@@ -242,12 +249,12 @@ const RenderModalItem = ({
               onMouseEnter={() => setmcHover(true)}
               onMouseLeave={() => setmcHover(false)}
               onClick={() => {
-                setLeadSource("pURL");
+                handlePreferences("medicareEnrollPurl", !medicareEnrollPurl);
               }}
             >
               <div className="modal-lead-source">
                 <span className="span_source-title">MedicareEnroll pURL</span>
-                {(mcHover || leadSource === "pURL") && (
+                {(mcHover || medicareEnrollPurl) && (
                   <img src={Check} alt="activeIcon" className="active_icon" />
                 )}
               </div>
@@ -288,11 +295,9 @@ const RenderModalItem = ({
               <div className="modalItemTextStyle">
                 <span className="span_title">Lead Type</span>
                 <span className="span_type">
-                  {leadType === "callLead"
-                    ? "Call"
-                    : leadType === "dataLead"
-                    ? "Data"
-                    : "Call/Data"}
+                  {((call && data) || (!call && !data)) && "Call/Data"}
+                  {call && !data && "Call"}
+                  {data && !call && "Data"}
                 </span>
               </div>
               <Arrow className="span_icon" />
@@ -312,10 +317,11 @@ const RenderModalItem = ({
               <div className="modalItemTextStyle">
                 <span className="span_title">Lead Source:</span>
                 <span className="span_source_type">
-                  {" "}
-                  {leadSource === "leadCenter"
-                    ? "LeadCENTER"
-                    : "MedicareEnroll"}
+                  {((leadCenter && medicareEnrollPurl) ||
+                    (!leadCenter && !medicareEnrollPurl)) &&
+                    "LC/ME-pURL"}
+                  {leadCenter && !medicareEnrollPurl && "LeadCENTER"}
+                  {medicareEnrollPurl && !leadCenter && "MedicareEnroll"}
                 </span>
               </div>
               <Arrow className="span_icon" />

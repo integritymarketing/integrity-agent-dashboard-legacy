@@ -11,6 +11,13 @@ const StyledTextButton = styled(MUIButton)(({ theme, variant }) => ({
   color: theme.palette.primary.main,
   border: "1px solid #0052CE",
   borderRadius: "4px",
+  "&:disabled": {
+    color: "#a0c4f8",
+    backgroundColor: "#ffffff",
+    border: "1px solid #a0c4f8",
+    cursor: "not-allowed",
+    pointerEvents: "all !important",
+  },
 }));
 
 export const TextButton = ({

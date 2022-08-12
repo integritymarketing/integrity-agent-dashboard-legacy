@@ -11,6 +11,7 @@ function ModalContactText({ buttonOne, buttonTwo }) {
         onClick={() => {
           buttonOne.onClick();
         }}
+        disabled={buttonOne.disabled}
       >
         {buttonOne.text}
       </TextButton>

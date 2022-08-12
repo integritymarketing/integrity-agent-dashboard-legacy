@@ -31,8 +31,20 @@ export default function BasicModal({
 }) {
   const { agentid = "" } = user || {};
   const [activeModal, setActiveModal] = useState("main");
-  const [leadType, setLeadType] = useState("");
-  const [leadSource, setLeadSource] = useState("");
+
+  const [preferences, setPreferences] = useState({
+    data: false,
+    call: false,
+    leadCenter: false,
+    medicareEnrollPurl: false,
+  });
+
+  const handlePreferences = (name, value) => {
+    setPreferences((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   useEffect(() => {
     if (open) setActiveModal("main");
@@ -45,6 +57,7 @@ export default function BasicModal({
     if (key === "checkOut") {
       if (isAvailable) {
         updateAgentAvailability({ agentID: agentid, availability: false });
+        setActiveModal("checkOut");
       }
     }
     if (key === "continue") {
@@ -53,19 +66,14 @@ export default function BasicModal({
           agentID: agentid,
           availability: true,
         });
-        let leadPreference = {
-          data: leadType === "dataLead" ? true : false,
-          call: leadType === "callLead" ? true : false,
-          leadCenter: leadSource === "leadCenter" ? true : false,
-          medicareEnrollPurl: leadSource === "pURL" ? true : false,
-        };
+
         updateAgentPreferences({
           agentID: agentid,
-          leadPreference: leadPreference,
+          leadPreference: preferences,
         });
       }
+      handleClose();
     }
-    handleClose();
   };
 
   return (
@@ -96,12 +104,11 @@ export default function BasicModal({
                 activeModal={activeModal}
                 handleButtonClick={handleButtonClick}
                 handleClose={handleClose}
-                leadType={leadType}
-                setLeadType={setLeadType}
-                leadSource={leadSource}
-                setLeadSource={setLeadSource}
+                preferences={preferences}
+                handlePreferences={handlePreferences}
                 phone={phone}
                 virtualNumber={virtualNumber}
+                isAvailable={isAvailable}
                 agentId={agentid}
               />
             )}

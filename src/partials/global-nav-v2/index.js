@@ -172,9 +172,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       const res = await clientService.getAgentAvailability(agentid);
       const { isAvailable, phone, agentVirtualPhoneNumber } = res || {};
       setIsAvailable(isAvailable);
-      setPhone(formatPhoneNumber(phone));
+      setPhone(formatPhoneNumber(phone, true));
       if (agentVirtualPhoneNumber) {
-        setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber));
+        setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
       } else {
         setVirtualNumber("XXX-XXX-XXXX");
       }
