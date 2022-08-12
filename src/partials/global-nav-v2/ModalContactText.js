@@ -1,4 +1,5 @@
 import React from "react";
+import { formatPhoneNumber } from "utils/phones";
 
 import "./modalText.scss";
 
@@ -18,7 +19,7 @@ function ModalContactText({ virtualNumber }) {
         <span>Your MedicareCENTER number</span>
       </div>
       <div className="modalTextNum">
-        <span>{virtualNumber}</span>
+        <span>{formatPhoneNumber(virtualNumber,true)}</span>
       </div>
 
       <div className="modalTextStyle">
