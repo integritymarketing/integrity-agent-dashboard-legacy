@@ -4,6 +4,7 @@
 }
 .callCenter-h {
   height: 120px;
+  margin-top: 16px;
 }
 .leadType-h {
   height: 190px;
@@ -29,6 +30,7 @@
   padding-top: 8px;
   padding-bottom: 8px;
   cursor: pointer;
+  width: 100%;
 }
 
 .bg {
@@ -43,6 +45,18 @@
   width: 190px;
   color: #000000;
 }
+
+.editPhone {
+  display: flex;
+  padding: 0 14px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.editPhoneContainer {
+  width: 100%;
+}
+
 .modal-source {
   margin-left: 14px;
   width: 190px;

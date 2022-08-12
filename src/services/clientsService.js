@@ -900,6 +900,18 @@ export class ClientsService {
     );
     return response.json();
   };
+
+ 
+  updateAgentCallForwardingNumber = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/CallForwardNumber`,
+      "POST",
+      payload
+    );
+    if (response.ok) {
+      return response;
+    }
+  }; 
   /*End purl API calls */
 }
 

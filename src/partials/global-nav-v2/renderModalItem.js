@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as Sentry from "@sentry/react";
 import Home from "./Home.svg";
 import Lead from "./Lead.svg";
 import LeadSource from "./LeadSource.svg";
@@ -8,11 +9,117 @@ import Arrow from "components/icons/right-arrow";
 import FooterButtons from "./footerButtons";
 import { Button } from "packages/Button";
 import Mobile from "./Mobile.svg";
+import { Formik, Form } from "formik";
+import Textfield from "components/ui/textfield";
+import validationService from "services/validationService";
+import { formatPhoneNumber } from "utils/phones";
+import Editicon from "components/icons/edit-details";
+import clientService from "services/clientsService";
+import useToast from "hooks/useToast";
+
+const CallCenterContent = ({
+  agentId,
+  phone,
+  cancelButton,
+  continueButton,
+}) => {
+  const addToast = useToast();
+  const [isEditingNumber, setIsEditingNumber] = useState(false);
+
+  return (
+    <>
+      <Formik
+        initialValues={{
+          phone: phone,
+        }}
+        validate={(values) => {
+          const error = validationService.validatePhone(values.phone);
+          if (!error) return null;
+          return {
+            phone: error,
+          };
+        }}
+        onSubmit={async (values, { setErrors, setSubmitting }) => {
+          const phone = values.phone.replace(/[()\s-]/g, "");
+          setSubmitting(true);
+          try {
+            await clientService.updateAgentCallForwardingNumber({
+              callForwardNumber: `${phone}`,
+              agentID: agentId,
+            });
+            addToast({
+              message: "Contact number updated succesfully",
+            });
+          } catch (error) {
+            addToast({
+              type: "error",
+              message: "Failed to update the contact",
+            });
+            Sentry.captureException(error);
+          }
+          setIsEditingNumber(false);
+          setSubmitting(false);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+        }) => {
+          return (
+            <Form>
+              <div className="modalItemStyle bb ">
+                <div className="editPhoneContainer">
+                  {isEditingNumber && (
+                    <Textfield
+                      id="contact-phone"
+                      type="tel"
+                      placeholder="(XXX) XXX-XXXX"
+                      name="phone"
+                      value={formatPhoneNumber(values.phone)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.phone && errors.phone}
+                    />
+                  )}
+                  {errors.phone && <div class="mb-3" />}
+                  {!isEditingNumber && (
+                    <div className="editPhone">
+                      <span className="number">{values.phone}</span>
+                      <span onClick={() => setIsEditingNumber(true)}>
+                        <Editicon />
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="modalItemStyle">
+                <FooterButtons
+                  buttonOne={cancelButton}
+                  buttonTwo={
+                    isEditingNumber
+                      ? {
+                          text: "Save",
+                          onClick: handleSubmit,
+                          disabled: errors.phone,
+                        }
+                      : continueButton
+                  }
+                />
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+    </>
+  );
+};
 
 const RenderModalItem = ({
-  icon,
-  title,
-  phoneNumber,
+  agentId,
   handleClick,
   activeModal,
   handleButtonClick,
@@ -50,20 +157,12 @@ const RenderModalItem = ({
     switch (activeModal) {
       case "callCenter":
         return (
-          <>
-            <div className="modalItemStyle bb ">
-              <div className="modalItemTextStyle">
-                <span className="number">{phone}</span>
-              </div>
-            </div>
-
-            <div className="modalItemStyle">
-              <FooterButtons
-                buttonOne={BUTTONS.cancel}
-                buttonTwo={BUTTONS.continue}
-              />
-            </div>
-          </>
+          <CallCenterContent
+            phone={phone}
+            cancelButton={BUTTONS.cancel}
+            continueButton={BUTTONS.continue}
+            agentId={agentId}
+          />
         );
       case "leadType":
         return (

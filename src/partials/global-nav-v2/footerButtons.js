@@ -18,6 +18,7 @@ function ModalContactText({ buttonOne, buttonTwo }) {
       <Button
         variant="primary"
         size="medium"
+        disabled={buttonTwo.disabled}
         onClick={() => {
           buttonTwo.onClick();
         }}

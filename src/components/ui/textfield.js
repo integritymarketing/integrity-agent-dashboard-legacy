@@ -99,11 +99,13 @@ const Textfield = ({
   };
   return (
     <div id={`${id}-wrapper`} className={classes} {...wrapperProps}>
-      <div className="form-input__header">
-        <label htmlFor={id} className="label">
-          {label}
-        </label>
-      </div>
+      {label && (
+        <div className="form-input__header">
+          <label htmlFor={id} className="label">
+            {label}
+          </label>
+        </div>
+      )}
       <div
         className={`form-input__input ${
           focusBannerVisible ? "form-input__input--show-banner" : ""
