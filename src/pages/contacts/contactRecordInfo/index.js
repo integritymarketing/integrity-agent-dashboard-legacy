@@ -294,6 +294,7 @@ export default () => {
               setEdit={setEdit}
               isEdit={isEdit}
               setDisplay={setDisplay}
+              leadsId={id}
             />
             <div className="details-card-main">
               <Container className={styles.container}>

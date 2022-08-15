@@ -1,0 +1,13 @@
+@import '../../scss/globalDefines.scss';
+
+.tagsContainer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tags {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 1px;
+}

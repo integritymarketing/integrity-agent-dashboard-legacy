@@ -29,7 +29,7 @@ import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import BackNavContext from "contexts/backNavProvider";
 import GlobalNav from "partials/global-nav-v2";
-import ContactFooter from "partials/global-footer";
+import GlobalFooter from "partials/global-footer";
 import { SORT_OPTIONS } from "../../constants";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
@@ -93,6 +93,7 @@ export default () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     setLayout(() =>
       location.pathname === cardViewLayoutPath ? "card" : "list"
@@ -101,7 +102,7 @@ export default () => {
       switchLayout();
     }
   }, [location, isMobile]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  
   const debouncedSetSearchString = useCallback(
     debounce(setSearchStringNew, 500),
     []
@@ -374,7 +375,7 @@ export default () => {
               <FooterBanners className={styles.footerBanners} />
             </div>
           </Container>
-          <ContactFooter hideMedicareIcon={true} />
+          <GlobalFooter />
         </ToastContextProvider>
       </StageStatusProvider>
     </React.Fragment>

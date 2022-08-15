@@ -38,6 +38,19 @@ class PlansService {
     return response.json();
   };
 
+  enrollConsumerView = async (leadId, planId, data, agentNPN) => {
+    const response = await this._clientPublicAPIRequest(
+      `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadId}/Enroll/${planId}`,
+      "POST",
+      data,
+      {
+        AgentNPN: agentNPN,
+      }
+    );
+
+    return response.json();
+  };
+
   sendPlan = async (data, leadId, planId) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/SendPlan/${planId}`,
@@ -108,11 +121,12 @@ class PlansService {
     return fetch(url.toString(), opts);
   };
 
-  _clientPublicAPIRequest = async (path, method = "GET", body) => {
+  _clientPublicAPIRequest = async (path, method = "GET", body, headers = {}) => {
     const opts = {
       method,
       headers: {
         "Content-Type": "application/json",
+        ...headers,
       },
     };
     if (body) {

@@ -13,7 +13,7 @@
     width: 95%;
     font-family: Lato;
     font-size: 14px;
-     line-height: 40px;
+    line-height: 40px;
     letter-spacing: 0.10000000149011612px;
     text-align: left;
     border: 1px solid #c7ccd1;
@@ -47,7 +47,7 @@
       }
       height: 40px;
       svg {
-        stroke: #525761; /* TODO: use variable later */
+        cursor: pointer;
         margin-top: 3px;
         @media (max-width: 768px) {
           margin-left: 2px;

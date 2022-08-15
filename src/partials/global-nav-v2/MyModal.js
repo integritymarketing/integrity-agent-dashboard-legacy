@@ -1,86 +1,81 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Lead from "./Lead.svg";
-import Mobile from "./Mobile.svg";
-import Office from "./Office.svg";
-import Home from "./Home.svg";
 import RenderModalItem from "./renderModalItem";
 import ModalText from "./ModalText";
 import ModalContactText from "./ModalContactText";
 import "./myModal.scss";
+import LeadText from "./leadText";
+import CheckOut from "./checkout";
+import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/system";
 
-const MODAL_PHONE_ITEMS = {
-  Mobile: {
-    title: "Mobile",
-    icon: Mobile,
-    phoneNumber: "801-867-5309",
-  },
-  Office: {
-    title: "Office",
-    icon: Office,
-    phoneNumber: "800-273-8255",
-  },
-  Home: {
-    title: "Home",
-    icon: Home,
-    phoneNumber: "801-555-1234",
-  },
-};
-
-const MODAL_LEAD_TYPE = [
-  {
-    title: "Lead Type",
-    type: "Call",
-    icon: Lead,
-  },
-];
-
-const MODAL_BUTTON = [
-  {
-    text: "Check Out",
-    key: "checkOut",
-    className: 'modal_button',
-  },
-  { text: "Continue", key: "continue", className: '' },
-];
+const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
+  cursor: "pointer",
+  display: "flex",
+  width: "24px",
+  height: "24px",
+  color: "#0052CE",
+  marginLeft: "auto",
+}));
 
 export default function BasicModal({
   handleClose,
   isAvailable,
   open,
   phone,
+  virtualNumber,
   updateAgentAvailability,
   user,
+  updateAgentPreferences,
 }) {
   const { agentid = "" } = user || {};
-  MODAL_PHONE_ITEMS["Mobile"].phoneNumber = phone;
-  const [activePhone, setActivePhone] = useState("Mobile");
-  const [isOpenPhoneList, setIsOpenPhoneList] = useState(false);
-  const handleClick = ({ type, value }) => {
-    if (type === "phoneList") {
-      setActivePhone(value);
-    }
+  const [activeModal, setActiveModal] = useState("main");
+
+  const [preferences, setPreferences] = useState({
+    data: false,
+    call: false,
+    leadCenter: false,
+    medicareEnrollPurl: false,
+  });
+
+  const handlePreferences = (name, value) => {
+    setPreferences((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    if (open) setActiveModal("main");
+  }, [open]);
+
+  const handleClick = (value) => {
+    setActiveModal(value);
   };
   const handleButtonClick = (key) => {
-    if (key === MODAL_BUTTON[0].key) {
+    if (key === "checkOut") {
       if (isAvailable) {
         updateAgentAvailability({ agentID: agentid, availability: false });
+        setActiveModal("checkOut");
       }
     }
-    if (key === MODAL_BUTTON[1].key) {
+    if (key === "continue") {
       if (!isAvailable) {
-        updateAgentAvailability({ agentID: agentid, availability: true });
+        updateAgentAvailability({
+          agentID: agentid,
+          availability: true,
+        });
+
+        updateAgentPreferences({
+          agentID: agentid,
+          leadPreference: preferences,
+        });
       }
+      handleClose();
     }
-    handleClose();
   };
-  const handleOpenPhone = () => {
-    setIsOpenPhoneList(true);
-  };
-  const handleClosePhone = () => {
-    setIsOpenPhoneList(false);
-  };
+
   return (
     <div>
       <Modal
@@ -89,46 +84,35 @@ export default function BasicModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className='box'>
-          {isOpenPhoneList ? (
-            <Fragment>
-              <ModalContactText handleClosePhone={handleClosePhone} />
+        <Box className={`box ${activeModal}-box-h`}>
+          <Fragment>
+            <StyledIconButton
+              onClick={() => {
+                handleClose();
+              }}
+            />
+            {activeModal === "callCenter" && (
+              <ModalContactText virtualNumber={virtualNumber} />
+            )}
+            {activeModal === "main" && <ModalText />}
+            {activeModal === "leadType" && <LeadText title={"Lead Type"} />}
+            {activeModal === "leadSource" && <LeadText title={"Lead Source"} />}
+            {activeModal === "checkOut" && <CheckOut />}
+            {activeModal && activeModal !== "" && (
               <RenderModalItem
-                renderType={"phoneList"}
                 handleClick={handleClick}
-                activedPhone={activePhone}
-                handleOpenPhone={handleOpenPhone}
-                dataSource={MODAL_PHONE_ITEMS}
+                activeModal={activeModal}
+                handleButtonClick={handleButtonClick}
+                handleClose={handleClose}
+                preferences={preferences}
+                handlePreferences={handlePreferences}
+                phone={phone}
+                virtualNumber={virtualNumber}
+                isAvailable={isAvailable}
+                agentId={agentid}
               />
-            </Fragment>
-          ) : (
-            <Fragment>
-              <ModalText />
-              <RenderModalItem
-                handleClick={handleClick}
-                handleOpenPhone={handleOpenPhone}
-                {...MODAL_PHONE_ITEMS[activePhone]}
-                MODAL_LEAD_TYPE={MODAL_LEAD_TYPE}
-              />
-
-              <div className="itemBox">
-                {MODAL_BUTTON.map((item) => {
-                  return (
-                    <div
-                      key={item.key}
-                      onClick={() => {
-                        handleButtonClick(item.key);
-                      }}
-                      className={`item ${item.className}`}
-                     
-                    >
-                      {item.text}
-                    </div>
-                  );
-                })}
-              </div>
-            </Fragment>
-          )}
+            )}
+          </Fragment>
         </Box>
       </Modal>
     </div>

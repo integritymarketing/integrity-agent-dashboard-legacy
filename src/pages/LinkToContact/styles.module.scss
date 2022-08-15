@@ -1,0 +1,50 @@
+@import 'src/scss/globalDefines.scss';
+
+.outerContainer {
+    display: flex;
+    justify-content: center;
+
+    .innerContainer {
+        min-width: 328px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 3rem 0;
+        gap: 2rem;
+
+        .medContent {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .contactsListContainer {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        max-height: 350px;
+
+        .contactItem {
+            background-color: $bright-gray;
+        }
+
+        .emptyList {
+            height: 350px;
+            width: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $bright-gray;
+        }
+    }
+}

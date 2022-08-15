@@ -35,7 +35,7 @@ export default () => {
         <title>MedicareCENTER - Register Account</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
+        <SimpleHeader id="footerLogo" />
         <Container size="small">
           <h1 className="text-xl mb-4">Register your account</h1>
 
@@ -141,7 +141,7 @@ export default () => {
                     id="register-npn"
                     className="mb-4"
                     label="National Producer Number (NPN)"
-                    placeholder="Enter your NPN Number"
+                    placeholder="Enter your NPN"
                     name="NPN"
                     value={values.NPN}
                     onChange={handleChange}

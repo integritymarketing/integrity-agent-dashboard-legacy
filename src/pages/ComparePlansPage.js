@@ -6,6 +6,7 @@ import Media from "react-media";
 import { Button } from "components/ui/Button";
 import ArrowDown from "components/icons/arrow-down";
 import GlobalNav from "partials/global-nav-v2";
+import GlobalFooter from "partials/global-footer";
 import Container from "components/ui/container";
 import clientsService from "services/clientsService";
 import WithLoader from "components/ui/WithLoader";
@@ -135,6 +136,7 @@ export default (props) => {
 
   const getComparePlansByPlanNamesProps = () => {
     return {
+      agentInfo,
       comparePlans,
       isEmail: isComingFromEmail,
       setComparePlanModalOpen,
@@ -245,6 +247,7 @@ export default (props) => {
               )}
             </Container>
           </WithLoader>
+          <GlobalFooter />
         </div>
       </ToastContextProvider>
     </>

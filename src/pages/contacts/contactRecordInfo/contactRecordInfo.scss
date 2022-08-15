@@ -1,3 +1,5 @@
+@import 'src/scss/globalDefines.scss';
+
 .rightSection {
   width: calc(100% - 296px);
   margin: 0 0 0 auto;
@@ -454,14 +456,23 @@
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
-  padding-bottom: 31px;
+  padding-bottom: 2em;
+  justify-content: space-between;
 }
-.personalInfo:first-child {
-  width: 28%;
-}
+
 .personalInfo {
-  width: 22%;
+  max-width: 30%;
   height: 70px;
+}
+
+.personalInfoCallScriptIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  @include small() {
+    display: none;
+  }
 }
 
 .customSelectbox .select .select-container {
@@ -489,9 +500,8 @@
 .personalInfo label {
   font-size: 13px;
   line-height: 22px;
-  color: #70777e;
+  color: #434A51;
   font-family: "Lato", sans-serif;
-  font-weight: 400;
 }
 .personalInfoText {
   font-size: 16px;
@@ -1294,7 +1304,7 @@ button {
   .btn-responsive-display {
     background-color: #fff;
   }
-  
+
   .details-edit-form .btn-responsive-display {
     display: flex !important;
     justify-content: space-around;
@@ -1921,7 +1931,6 @@ button {
   font-weight: 600;
   font-size: 14px;
   line-height: 130%;
-  color: #94a3b8;
 }
 .contactDetailsSection {
   display: flex;

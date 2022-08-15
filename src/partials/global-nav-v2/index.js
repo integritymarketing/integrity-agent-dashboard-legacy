@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import * as Sentry from "@sentry/react";
 import { Link } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Media from "react-media";
@@ -15,6 +16,7 @@ import clientService from "services/clientsService";
 import { formatPhoneNumber } from "utils";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
+import useToast from "hooks/useToast";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -97,7 +99,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const handleClose = () => setOpen(false);
   const [isAvailable, setIsAvailable] = useState(false);
   const [phone, setPhone] = useState("");
-
+  const [virtualNumber, setVirtualNumber] = useState("");
+  const addToast = useToast();
   const menuProps = Object.assign(
     {
       navOpen,
@@ -161,20 +164,52 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         }
   );
 
-  const getAgentAvailability = (agentid) => {
+  const getAgentAvailability = async (agentid) => {
     if (!agentid) {
       return;
     }
-    clientService.getAgentAvailability(agentid).then((res) => {
-      const { isAvailable, phone } = res || {};
+    try {
+      const res = await clientService.getAgentAvailability(agentid);
+      const { isAvailable, phone, agentVirtualPhoneNumber } = res || {};
       setIsAvailable(isAvailable);
-      setPhone(formatPhoneNumber(phone));
-    });
+      setPhone(formatPhoneNumber(phone, true));
+      if (agentVirtualPhoneNumber) {
+        setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
+      } else {
+        setVirtualNumber("XXX-XXX-XXXX");
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+    }
   };
-  const updateAgentAvailability = (params) => {
-    clientService.updateAgentAvailability(params).then(() => {
-      setIsAvailable(params.availability);
-    });
+
+  const updateAgentAvailability = async (data) => {
+    try {
+      let res = await clientService.updateAgentAvailability(data);
+      if (res.ok) {
+        setIsAvailable(data.availability);
+      }
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to Save the Availability.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    }
+  };
+
+  const updateAgentPreferences = async (data) => {
+    try {
+      await clientService.updateAgentPreferences(data);
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to Save the Preferences.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    }
   };
 
   useEffect(() => {
@@ -189,7 +224,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
   }, [auth]);
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
-
   function clickButton() {
     handleOpen();
   }
@@ -245,6 +279,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
+                  {/* commenting for prod deployment */}
                   <MyButton
                     clickButton={clickButton}
                     isAvailable={isAvailable}
@@ -257,12 +292,14 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         <HelpButtonModal />
         <MyModal
           phone={phone}
+          virtualNumber={virtualNumber}
           user={user}
           handleOpen={handleOpen}
           handleClose={handleClose}
           open={open}
           isAvailable={isAvailable}
           updateAgentAvailability={updateAgentAvailability}
+          updateAgentPreferences={updateAgentPreferences}
         />
       </header>
     </>

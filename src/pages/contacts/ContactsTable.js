@@ -409,7 +409,6 @@ function ContactsTable({
         accessor: (row) => {
           return (
             <div
-              title={getPrimaryContact(row) ? getPrimaryContact(row) : ""}
               className={styles.primaryContact}
             >
               {getPrimaryContact(row)}

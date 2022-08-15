@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import * as Sentry from "@sentry/react";
+import useToast from "hooks/useToast";
+import clientsService from "services/clientsService";
+import plansService from "services/plansService";
 import { Button } from "components/ui/Button";
+import EnrollmentModal from "../Enrollment/enrollment-modal";
 import styles from "../../../pages/PlansPage.module.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -10,7 +15,8 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
-export default function ComparePlansByPlaneName({
+export default function ComparePlansByPlanName({
+  agentInfo = {},
   comparePlans,
   setComparePlanModalOpen,
   handleRemovePlan,
@@ -19,6 +25,68 @@ export default function ComparePlansByPlaneName({
   isEmail = false,
   isModal = false,
 }) {
+  const addToast = useToast();
+  const [contactData, setContactData] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
+  const [enrollingPlan, setEnrollingPlan] = useState();
+
+  useEffect(() => {
+    if (!agentInfo?.LeadId) {
+      const getContactInfo = async () => {
+        const contactDataResponse = await clientsService.getContactInfo(id);
+        setContactData(contactDataResponse);
+      };
+      getContactInfo();
+    }
+  }, [id, agentInfo]);
+
+  const handleOnClick = (plan) => {
+    setEnrollingPlan(plan);
+    setModalOpen(true);
+  };
+
+  const handleBenificiaryClick = useCallback(async (plan) => {
+    try {
+      const enrolled = await plansService.enrollConsumerView(
+        id,
+        plan.id,
+        {
+          enrollRequest: {
+            firstName: agentInfo?.LeadFirstName,
+            middleInitial: "",
+            lastName: agentInfo?.LeadLastName,
+            zip: agentInfo?.ZipCode,
+            countyFIPS: agentInfo?.CountyFIPS,
+            phoneNumber: agentInfo?.AgentPhoneNumber,
+            email: agentInfo?.AgentEmail,
+            sendToBeneficiary: true,
+          },
+        },
+        agentInfo.AgentNpn
+      );
+
+      if (enrolled && enrolled.url) {
+        window.open(enrolled.url, "_blank").focus();
+        addToast({
+          type: "success",
+          message: "Successfully Sent to Client",
+        });
+      } else {
+        addToast({
+          type: "error",
+          message: "There was an error enrolling the contact.",
+        });
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      addToast({
+        type: "error",
+        message: "There was an error enrolling the contact.",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
       className={`${styles["plan-comparsion-heder"]} ${
@@ -72,7 +140,20 @@ export default function ComparePlansByPlaneName({
                     <span className={styles["per"]}> / month</span>
                   </span>
                 </div>
-                {!isModal && <Button label="Enroll" type="primary" />}
+                {!isModal && !isEmail && (
+                  <Button
+                    onClick={() => handleOnClick(plan)}
+                    label="Enroll"
+                    type="primary"
+                  />
+                )}
+                {!isModal && isEmail && (
+                  <Button
+                    onClick={() => handleBenificiaryClick(plan)}
+                    label="Enroll"
+                    type="primary"
+                  />
+                )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (
                   <span
                     className={styles.close}
@@ -98,6 +179,12 @@ export default function ComparePlansByPlaneName({
           )}
         </>
       )}
+      <EnrollmentModal
+        modalOpen={modalOpen}
+        planData={enrollingPlan}
+        contact={contactData}
+        handleCloseModal={() => setModalOpen(false)}
+      />
     </div>
   );
 }

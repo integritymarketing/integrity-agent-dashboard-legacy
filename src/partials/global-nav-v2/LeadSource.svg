@@ -1,0 +1,13 @@
+<svg id="LeadSource" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Group_1819" data-name="Group 1819" transform="translate(-55.561 -123.219)">
+    <g id="IconBG" transform="translate(55.561 123.219)">
+      <circle id="Ellipse_299" data-name="Ellipse 299" cx="16" cy="16" r="16" fill="rgba(33,117,244,0.1)"/>
+    </g>
+    <g id="Group_1818" data-name="Group 1818">
+      <path id="Path_2559" data-name="Path 2559" d="M65.614,137.219H77.508a.667.667,0,0,1,.665.718l-.612,7.949a.666.666,0,0,1-.667.667H66.228a.667.667,0,0,1-.667-.667l-.611-7.949A.667.667,0,0,1,65.614,137.219Z" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="Line_696" data-name="Line 696" x2="9.333" transform="translate(66.894 134.552)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="Line_697" data-name="Line 697" x2="5.333" transform="translate(68.894 131.885)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="Path_2560" data-name="Path 2560" d="M74.228,140.552v.667a.666.666,0,0,1-.667.667h-4a.667.667,0,0,1-.667-.667v-.667" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>
