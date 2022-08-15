@@ -22,15 +22,17 @@ const CallCenterContent = ({
   phone,
   cancelButton,
   continueButton,
+  callForwardNumber
 }) => {
   const addToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
+  const phoneNumber = callForwardNumber || phone;
 
   return (
     <>
       <Formik
         initialValues={{
-          phone: phone,
+          phone: phoneNumber,
         }}
         validate={(values) => {
           const error = validationService.validatePhone(values.phone);
@@ -127,6 +129,7 @@ const RenderModalItem = ({
   handlePreferences,
   preferences,
   isAvailable,
+  callForwardNumber,
 }) => {
   const [callHover, setCallHover] = useState("");
   const [dataHover, setDataHover] = useState("");
@@ -169,6 +172,7 @@ const RenderModalItem = ({
             cancelButton={BUTTONS.cancel}
             continueButton={BUTTONS.continue}
             agentId={agentId}
+            callForwardNumber={callForwardNumber}
           />
         );
       case "leadType":
