@@ -71,12 +71,12 @@ export default function BasicModal({
           agentID: agentid,
           availability: true,
         });
-
-        updateAgentPreferences({
-          agentID: agentid,
-          leadPreference: preferences,
-        });
       }
+      updateAgentPreferences({
+        agentID: agentid,
+        leadPreference: preferences,
+      });
+
       handleClose();
     }
   };
