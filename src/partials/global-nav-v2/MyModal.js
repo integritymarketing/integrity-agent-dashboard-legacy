@@ -38,6 +38,8 @@ export default function BasicModal({
     call: false,
     leadCenter: false,
     medicareEnrollPurl: false,
+    isAgentMobilePopUpDismissed: false,
+    medicareEnroll: false,
   });
 
   const handlePreferences = (name, value) => {
@@ -59,6 +61,12 @@ export default function BasicModal({
     setActiveModal(value);
   };
   const handleButtonClick = (key) => {
+    if (preferences !== leadPreference) {
+      updateAgentPreferences({
+        agentID: agentid,
+        leadPreference: preferences,
+      });
+    }
     if (key === "checkOut") {
       if (isAvailable) {
         updateAgentAvailability({ agentID: agentid, availability: false });
@@ -72,13 +80,8 @@ export default function BasicModal({
           availability: true,
         });
       }
-      updateAgentPreferences({
-        agentID: agentid,
-        leadPreference: preferences,
-      });
-
-      handleClose();
     }
+    handleClose();
   };
 
   return (

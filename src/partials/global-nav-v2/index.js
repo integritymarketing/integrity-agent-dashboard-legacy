@@ -198,7 +198,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     try {
       let res = await clientService.updateAgentAvailability(data);
       if (res.ok) {
-        setIsAvailable(data.availability);
+        getAgentAvailability(data.agentID);
       }
     } catch (error) {
       addToast({
