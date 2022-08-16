@@ -13,18 +13,20 @@ const StyledPopover = styled(Popover)(() => ({
     },
   }));
 
-export default function Filter({heading, content}) {
+export default function Filter({heading, content, open, onToggle}) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        onToggle(true);
     };
 
     const handleClose = () => {
         setAnchorEl(null);
+        onToggle(false);
     };
 
-    const open = Boolean(anchorEl);
+    //const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
     return (

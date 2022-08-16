@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useMemo } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
@@ -26,17 +26,14 @@ import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
-import DashboardHeaderSection from "./DashboardHeaderSection";
+import DashboardCallinProgress from "./DashBoardCallinProgress";
 import { Typography } from "@mui/material";
 import Tags from "packages/Tags/Tags";
 import { TextButton } from "packages/Button";
 import DescriptionIcon from "@mui/icons-material/Description";
 import LinkIcon from "@mui/icons-material/Link";
 import { CallScriptModal } from "packages/CallScriptModal";
-import useCallRecordings from "hooks/useCallRecordings";
 import { formatPhoneNumber } from "utils/phones";
-
-const IN_PROGRESS = "in progress";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -67,29 +64,18 @@ const useHelpButtonWithModal = () => {
 export default function Dashbaord() {
   const history = useHistory();
   const auth = useContext(AuthContext);
-  const callRecordings = useCallRecordings();
   const addToast = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
-  const [pageSize, setPageSize] = useState(10);
   const [activityData, setActivityData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [user, setUser] = useState({});
   const [agentInformation, setAgentInformation] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
-  const { stageSummaryData, loadStageSummaryData } =
-    useContext(stageSummaryContext);
-
-  const activityPageData = useMemo(() => {
-    const filteredData = [...activityData];
-    return filteredData.splice(0, pageSize);
-  }, [pageSize, activityData]);
-
-  const pageHasMoreRows = useMemo(
-    () => activityData.length > activityPageData.length,
-    [activityData.length, activityPageData.length]
+  const { stageSummaryData, loadStageSummaryData } = useContext(
+    stageSummaryContext
   );
 
   useEffect(() => {
@@ -117,8 +103,6 @@ export default function Dashbaord() {
     // ensure this only runs once.. adding a dependency w/ the stage summary data causes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onLoadMore = () => setPageSize((pageSize) => pageSize + 10);
 
   const loadActivityData = async () => {
     const response = await clientService.getDashboardData(
@@ -168,10 +152,6 @@ export default function Dashbaord() {
     history.push(`/link-to-contact`);
   };
 
-  const callStatusInProgress = callRecordings.some(
-    (callRecording) => callRecording.callStatus === IN_PROGRESS
-  );
-
   const bannerContent = () => {
     const tags = agentInformation?.tags?.map((tag) => tag);
     return (
@@ -206,7 +186,7 @@ export default function Dashbaord() {
             Link to contact
           </TextButton>
         </div>
-          {tags?.length && <Tags words={tags} /> }
+        {tags?.length && <Tags words={tags} />}
       </>
     );
   };
@@ -224,9 +204,7 @@ export default function Dashbaord() {
       </Helmet>
       <GlobalNav />
       <HelpButtonModal />
-      {callStatusInProgress && (
-        <DashboardHeaderSection content={bannerContent()} />
-      )}
+      <DashboardCallinProgress content={bannerContent()} />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">
@@ -322,10 +300,8 @@ export default function Dashbaord() {
           </section>
           <section className="recent-activity-section">
             <DashboardActivityTable
-              data={activityPageData}
               onRowClick={() => {}}
-              onShowMore={onLoadMore}
-              pageHasMoreRows={pageHasMoreRows}
+              activityData={activityData}
             />
             {isMobile && (
               <>

@@ -18,6 +18,7 @@ export const ShortReminder = ({
   showAddModal,
   setShowAddModal,
   showAddNewModal,
+  hideIcon,
 }) => {
   const reminder = !showAddNewModal
     ? reminders.find((reminder) => !reminder.isComplete) || {}
@@ -58,12 +59,16 @@ export const ShortReminder = ({
           )}
         </div>
       ) : (
-        <img
-          onClick={() => setShowAddModal(true)}
-          className={styles.reminderAdd}
-          src={Reminder_Add}
-          alt="rem"
-        />
+        <>
+          {!hideIcon && (
+            <img
+              onClick={() => setShowAddModal(true)}
+              className={styles.reminderAdd}
+              src={Reminder_Add}
+              alt="rem"
+            />
+          )}
+        </>
       )}
 
       {showAddModal && (

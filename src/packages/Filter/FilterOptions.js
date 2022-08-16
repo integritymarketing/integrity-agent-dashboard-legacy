@@ -51,7 +51,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
           borderRadius: 3,
         }}
       >
-        <List sx={{py: 0}}>
+        <List sx={{ py: 0 }}>
           {updatedValues.map((row, i) => {
             return (
               <Box
@@ -68,10 +68,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
               >
                 <div style={{ display: "flex", padding: "0 8px" }}>
                   <ActivitySubjectWithIcon activitySubject={row.name} />
-                  <Typography
-                    sx={{ color: "#72777C" }}
-                    variant={"subtitle1"}
-                  >
+                  <Typography sx={{ color: "#72777C" }} variant={"subtitle1"}>
                     {row.name}
                   </Typography>
                 </div>

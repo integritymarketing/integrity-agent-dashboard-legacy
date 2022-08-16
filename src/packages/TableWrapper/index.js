@@ -37,7 +37,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme, bg }) => ({
-  backgroundColor: bg ? "#2175F41A" : "white",
+  backgroundColor: bg === "true" ? "#2175F41A" : "white",
   /*  '&:hover' : {
     backgroundColor: '#1F6FE929'
   } */
@@ -94,6 +94,8 @@ function Table({ columns, data, footer, initialState }) {
                 bg={
                   row?.original?.activities[0]?.activitySubject ===
                   "Incoming Call"
+                    ? "true"
+                    : "false"
                 }
                 {...row.getRowProps()}
               >

@@ -1,4 +1,10 @@
-import React, { useMemo } from "react";
+import React, {
+  useMemo,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from "react";
 import "./activitytable.scss";
 import Table from "../../packages/TableWrapper";
 import { useHistory } from "react-router-dom";
@@ -8,10 +14,14 @@ import Typography from "@mui/material/Typography";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import styles from "./DashboardActivityTable.module.scss";
 import Heading2 from "packages/Heading2";
-// import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-// import Filter from "components/icons/activities/Filter";
-// import ActiveFilter from "components/icons/activities/ActiveFilter";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
+import Filter from "packages/Filter/Filter";
+import FilterOptions from "packages/Filter/FilterOptions";
+import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
+import ActionsDropdown from "components/ui/ActionsDropdown";
+import ContactContext from "contexts/contacts";
+import { ShortReminder } from "pages/contacts/contactRecordInfo/reminder/Reminder";
 
 const initialState = {
   sortBy: [
@@ -78,14 +88,59 @@ const renderButtons = (row, leadsId, onRowClick) => {
   return false;
 };
 
-export default function DashboardActivityTable({
-  data = [],
-  pageHasMoreRows,
-  onShowMore,
-  onRowClick,
-}) {
+export default function DashboardActivityTable({ activityData, onRowClick }) {
   const history = useHistory();
-  // const [filterToggle, setFilterToggle] = useState(false); // TODO enable for filter icons
+  const { setNewSoaContactDetails } = useContext(ContactContext);
+  const [filterToggle, setFilterToggle] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedFilterValues, setSelectedFilterValues] = useState([]);
+  const [pageSize, setPageSize] = useState(10);
+
+  const [showAddModal, setShowAddModal] = useState(null);
+  const [showAddNewModal, setShowAddNewModal] = useState(false);
+
+  const pagedData = useMemo(() => {
+    return [...filteredData].splice(0, pageSize);
+  }, [pageSize, filteredData]);
+
+  const pageHasMoreRows = useMemo(
+    () => filteredData.length > pagedData.length,
+    [pagedData.length, filteredData.length]
+  );
+
+  const onShowMore = useCallback(() => setPageSize((ps) => ps + 10), [
+    setPageSize,
+  ]);
+
+  useEffect(() => {
+    setFilteredData([...activityData]);
+  }, [activityData]);
+
+  const navigateToPage = (leadId, page) => {
+    history.push(`/${page}/${leadId}`);
+  };
+
+  const handleDropdownActions = (contact) => (value, leadId) => {
+    switch (value) {
+      case "addnewreminder":
+        setShowAddModal(leadId);
+        setShowAddNewModal(true);
+        break;
+      case "new-soa":
+      case "plans":
+        if (value === "new-soa") {
+          setNewSoaContactDetails(contact);
+        }
+        navigateToPage(leadId, value);
+        break;
+      case "contact":
+        navigateToPage(leadId, value);
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -159,41 +214,117 @@ export default function DashboardActivityTable({
           </>
         ),
       },
-    /*   {
+      {
+        Header: "",
         id: "more",
         disableSortBy: true,
-        // Header: () => (
-        //   <span
-        //     className={
-        //       filterToggle
-        //         ? `${styles.filterActive} ${styles.filter}`
-        //         : styles.filter
-        //     }
-        //   >
-        //     {filterToggle ? (
-        //       <ActiveFilter onMouseOut={() => setFilterToggle(false)} />
-        //     ) : (
-        //       <Filter onMouseOver={() => setFilterToggle(true)} />
-        //     )}
-        //   </span>
-        // ),
-        Header: "",
-        Cell: ({ row }) => (
-          <span onClick={() => onRowClick(row?.original?.activities[0])}>
-            <MoreHorizOutlinedIcon />
-          </span>
-        ),
-      }, */
+        accessor: "reminders",
+        Cell: ({ value, row }) => {
+          const options = MORE_ACTIONS.slice(0);
+
+          if (
+            row?.original?.addresses[0]?.postalCode &&
+            row?.original?.addresses[0]?.county &&
+            row?.original?.addresses[0]?.stateCode
+          ) {
+            options.splice(1, 0, PLAN_ACTION);
+          }
+          return (
+            <>
+              <ActionsDropdown
+                options={options}
+                id={row.original.leadsId}
+                onClick={handleDropdownActions(row.original)}
+              >
+                <MoreHorizOutlinedIcon />
+              </ActionsDropdown>
+              {showAddNewModal && (
+                <ShortReminder
+                  reminders={value || []}
+                  leadId={row.original.leadsId}
+                  showAddModal={showAddModal === row.original.leadsId}
+                  setShowAddModal={(value) => {
+                    setShowAddModal(value ? row.original.leadsId : null);
+                    if (!value) {
+                      setShowAddNewModal(false);
+                    }
+                  }}
+                  showAddNewModal={showAddNewModal}
+                  hideIcon={true}
+                />
+              )}
+            </>
+          );
+        },
+      },
     ],
-    [onRowClick, history] // TODO add filterToggle
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [onRowClick, history, showAddModal]
   );
+
+  const getFilterValues = () => {
+    const allValues = (activityData || [])
+      .filter((row) => {
+        return row.activities && row.activities.length > 0;
+      })
+      .map((row) => {
+        return row.activities[0]?.activitySubject;
+      });
+
+    return [...new Set(allValues)].map((name) => {
+      return {
+        name,
+        selected:
+          selectedFilterValues.filter(
+            (selectedFilterValue) =>
+              selectedFilterValue.name === name &&
+              !!selectedFilterValue.selected
+          ).length > 0,
+      };
+    });
+  };
+
+  const onFilterApply = (filterValues) => {
+    setSelectedFilterValues([...filterValues]);
+
+    if (filterValues.length === 0) {
+      return setFilteredData(activityData);
+    }
+
+    const newFilteredRows = activityData.filter((row) => {
+      if (row.activities && row.activities.length > 0) {
+        return (
+          filterValues.filter((f) => {
+            return f.selected && f.name === row.activities[0].activitySubject;
+          }).length > 0
+        );
+      }
+      return false;
+    });
+    setFilteredData(newFilteredRows);
+    setFilterToggle(false);
+  };
 
   return (
     <>
-      <Heading2 className={styles.recentActivity} text="Recent Activity" />
+      <div className={styles.headerWithFilter}>
+        <Heading2 className={styles.recentActivity} text="Recent Activity" />
+        <Filter
+          heading={"Filter by Activity Type"}
+          open={filterToggle}
+          onToggle={setFilterToggle}
+          content={
+            <FilterOptions
+              values={getFilterValues()}
+              multiSelect={true}
+              onApply={onFilterApply}
+            />
+          }
+        />
+      </div>
       <Table
         initialState={initialState}
-        data={data}
+        data={pagedData}
         columns={columns}
         footer={
           pageHasMoreRows ? (

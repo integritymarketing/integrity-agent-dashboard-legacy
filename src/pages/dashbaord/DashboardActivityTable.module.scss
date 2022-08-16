@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+.headerWithFilter {
+  display: flex;
+  justify-content: space-between;
+}
+
 .recentActivity {
   @include small() {
     margin-left: 10px;
