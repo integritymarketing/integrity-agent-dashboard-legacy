@@ -27,12 +27,12 @@ export default function BasicModal({
   virtualNumber,
   updateAgentAvailability,
   user,
+  leadPreference,
   updateAgentPreferences,
   callForwardNumber,
 }) {
   const { agentid = "" } = user || {};
   const [activeModal, setActiveModal] = useState("main");
-
   const [preferences, setPreferences] = useState({
     data: false,
     call: false,
@@ -50,6 +50,10 @@ export default function BasicModal({
   useEffect(() => {
     if (open) setActiveModal("main");
   }, [open]);
+
+  useEffect(() => {
+    setPreferences(leadPreference);
+  }, [leadPreference]);
 
   const handleClick = (value) => {
     setActiveModal(value);

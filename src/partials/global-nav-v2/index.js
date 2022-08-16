@@ -102,6 +102,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [virtualNumber, setVirtualNumber] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
   const addToast = useToast();
+  const [leadPreference, setLeadPreference] = useState({});
+
   const menuProps = Object.assign(
     {
       navOpen,
@@ -171,14 +173,21 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
     try {
       const res = await clientService.getAgentAvailability(agentid);
-      const { isAvailable, phone, agentVirtualPhoneNumber, callForwardNumber } = res || {};
+      const {
+        isAvailable,
+        phone,
+        agentVirtualPhoneNumber,
+        callForwardNumber,
+        leadPreference,
+      } = res || {};
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
+      setLeadPreference(leadPreference);
       if (agentVirtualPhoneNumber) {
         setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
       }
-      if(callForwardNumber) {
-        setCallForwardNumber(callForwardNumber)
+      if (callForwardNumber) {
+        setCallForwardNumber(callForwardNumber);
       }
     } catch (error) {
       Sentry.captureException(error);
@@ -303,6 +312,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           updateAgentAvailability={updateAgentAvailability}
           updateAgentPreferences={updateAgentPreferences}
           callForwardNumber={callForwardNumber}
+          leadPreference={leadPreference}
         />
       </header>
     </>
