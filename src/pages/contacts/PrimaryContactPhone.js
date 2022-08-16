@@ -24,21 +24,36 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
     }
   };
 
+  const getAgentByAgentId = async function (agentId) {
+    try {
+      const data = await clientsService.getAgentByAgentId(agentId);
+      return data;
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+  };
+
   const formatContactNumber = useMemo(() => formatPhoneNumber(phone), [phone]);
 
   const onPhoneClickHandler = useCallback(async (event) => {
+    let agentCallForwardingNumber;
     event.preventDefault();
     try {
       const agentData = await getAgentAvailability();
-      const formattedPhoneNumber = agentData?.agentVirtualPhoneNumber?.replace(
-        /^\+1/,
-        ""
+      if (!agentData?.callForwardNumber) {
+        const agentDataById = await getAgentByAgentId(agentData.agentID);
+        agentCallForwardingNumber = agentDataById.callForwardNumber;
+      }
+      const formattedPhoneNumber = formatPhoneNumber(
+        agentData?.agentVirtualPhoneNumber,
+        true
       );
       callRecordingsService.outboundCallFromMedicareCenter({
         agentId: agentData.agentID,
         leadId: `${leadsId}`,
         agentTwilioNumber: formattedPhoneNumber,
-        agentPhoneNumber: agentData.callForwardNumber,
+        agentPhoneNumber:
+          agentData.callForwardNumber || agentCallForwardingNumber,
         customerNumber: phone,
       });
       addToast({
@@ -52,6 +67,7 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
         type: "error",
         message: "There was an error please try again.",
       });
+      setModalOpen(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
