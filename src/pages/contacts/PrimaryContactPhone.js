@@ -38,7 +38,7 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
         agentId: agentData.agentID,
         leadId: `${leadsId}`,
         agentTwilioNumber: formattedPhoneNumber,
-        agentPhoneNumber: agentData.phone,
+        agentPhoneNumber: agentData.callForwardNumber,
         customerNumber: phone,
       });
       addToast({
