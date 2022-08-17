@@ -6,7 +6,7 @@ class CallRecordingsService extends ClientsService {
 
   getAllCallRecordingsByAgent = async () => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/Recordings?UnAssistedCallRecordingsOnly=true`
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/Records?UnAssistedCallRecordingsOnly=true`
     );
     const data = await response.json();
     return data;
