@@ -66,6 +66,7 @@ export default function BasicModal({
         agentID: agentid,
         leadPreference: preferences,
       });
+      handleClose();
     }
     if (key === "checkOut") {
       if (isAvailable) {
@@ -79,9 +80,9 @@ export default function BasicModal({
           agentID: agentid,
           availability: true,
         });
+        handleClose();
       }
     }
-    handleClose();
   };
 
   return (
