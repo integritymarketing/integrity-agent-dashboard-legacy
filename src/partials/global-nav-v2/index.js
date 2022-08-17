@@ -290,7 +290,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  {/* commenting for prod deployment */}
                   <MyButton
                     clickButton={clickButton}
                     isAvailable={isAvailable}

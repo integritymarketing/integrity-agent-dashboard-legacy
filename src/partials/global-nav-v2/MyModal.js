@@ -61,27 +61,32 @@ export default function BasicModal({
     setActiveModal(value);
   };
   const handleButtonClick = (key) => {
-    if (preferences !== leadPreference) {
-      updateAgentPreferences({
-        agentID: agentid,
-        leadPreference: preferences,
-      });
-      handleClose();
-    }
     if (key === "checkOut") {
+      if (preferences !== leadPreference) {
+        updateAgentPreferences({
+          agentID: agentid,
+          leadPreference: preferences,
+        });
+      }
       if (isAvailable) {
         updateAgentAvailability({ agentID: agentid, availability: false });
         setActiveModal("checkOut");
       }
     }
     if (key === "continue") {
+      if (preferences !== leadPreference) {
+        updateAgentPreferences({
+          agentID: agentid,
+          leadPreference: preferences,
+        });
+      }
       if (!isAvailable) {
         updateAgentAvailability({
           agentID: agentid,
           availability: true,
         });
-        handleClose();
       }
+      handleClose();
     }
   };
 
