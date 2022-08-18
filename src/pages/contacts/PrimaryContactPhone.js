@@ -7,11 +7,14 @@ import AuthContext from "contexts/auth";
 import styles from "./ContactsPage.module.scss";
 import useToast from "hooks/useToast";
 import { CallScriptModal } from "packages/CallScriptModal";
+import useUserProfile from "hooks/useUserProfile";
 
 export default function PrimaryContactPhone({ phone, leadsId }) {
   const auth = useContext(AuthContext);
+  const userProfile = useUserProfile();
   const addToast = useToast();
   const [modalOpen, setModalOpen] = useState(false);
+  const { npn } = userProfile;
 
   const getAgentAvailability = async function () {
     try {
@@ -44,18 +47,17 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
         const agentDataById = await getAgentByAgentId(agentData.agentID);
         agentCallForwardingNumber = agentDataById.callForwardNumber;
       }
-      const formattedPhoneNumber = formatPhoneNumber(
-        agentData?.agentVirtualPhoneNumber,
-        true
-      );
-      callRecordingsService.outboundCallFromMedicareCenter({
+      const formattedPhoneNumber = agentData?.agentVirtualPhoneNumber?.replace(/^\+1/, "");
+      const payload = {
         agentId: agentData.agentID,
         leadId: `${leadsId}`,
         agentTwilioNumber: formattedPhoneNumber,
         agentPhoneNumber:
           agentData.callForwardNumber || agentCallForwardingNumber,
         customerNumber: phone,
-      });
+        agentNPN: npn,
+      };
+      await callRecordingsService.outboundCallFromMedicareCenter(payload);
       addToast({
         type: "success",
         message: "Call Intiated Successfully",
@@ -70,7 +72,7 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
       setModalOpen(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [npn]);
 
   return (
     <>

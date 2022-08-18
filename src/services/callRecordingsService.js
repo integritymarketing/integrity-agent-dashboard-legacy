@@ -18,7 +18,10 @@ class CallRecordingsService extends ClientsService {
       "POST",
       data
     );
-    return response;
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
   };
  
 }
