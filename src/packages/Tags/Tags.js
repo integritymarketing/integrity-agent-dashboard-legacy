@@ -16,9 +16,9 @@ export default function Tags({ words, flexDirection = "row" }) {
           words.length > 0 &&
           words.map((word, i) => (
             <div key={`${word}-${i}`} className={styles.tags}>
-              <Typography variant="subtitle2" sx={{ mx: 1 }}>
+              <div className={styles.tagText}>
                 {word}
-              </Typography>
+              </div>
             </div>
           ))}
       </div>
