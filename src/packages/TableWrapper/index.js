@@ -36,7 +36,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme, bg }) => ({
+const StyledTableRow = styled(TableRow)(({ bg }) => ({
   backgroundColor: bg === "true" ? "#2175F41A" : "white",
   /*  '&:hover' : {
     backgroundColor: '#1F6FE929'
@@ -56,7 +56,7 @@ const generateSortingIndicator = (column) => {
   return <SortArrowUp />;
 };
 
-function Table({ columns, data, footer, initialState }) {
+function Table({ columns, data, footer, initialState, fixedRow }) {
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -87,16 +87,18 @@ function Table({ columns, data, footer, initialState }) {
           ))}
         </TableHead>
         <TableBody>
+          {fixedRow ? (
+            <StyledTableRow bg = "true">
+              {fixedRow}
+            </StyledTableRow>
+          ) : (
+            ""
+          )}
+
           {rows.map((row, i) => {
             prepareRow(row);
             return (
               <StyledTableRow
-                bg={
-                  row?.original?.activities[0]?.activitySubject ===
-                  "Incoming Call"
-                    ? "true"
-                    : "false"
-                }
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell) => {

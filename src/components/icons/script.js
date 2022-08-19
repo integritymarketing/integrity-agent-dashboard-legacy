@@ -3,8 +3,8 @@ import React from "react";
 export default (props) => {
   return (
     <svg
-      id="Call_Script"
-      data-name="Call Script"
+      id="icon-Script-S"
+      xmlns="http://www.w3.org/2000/svg"
       width="32"
       height="32"
       viewBox="0 0 32 32"
@@ -14,8 +14,8 @@ export default (props) => {
           <rect
             id="Rectangle_13686"
             data-name="Rectangle 13686"
-            width="23"
-            height="24"
+            width="15.333"
+            height="16"
             fill="none"
           />
         </clipPath>
@@ -24,19 +24,19 @@ export default (props) => {
         <circle
           id="Ellipse_299"
           data-name="Ellipse 299"
-          cx="24"
-          cy="24"
-          r="24"
+          cx="16"
+          cy="16"
+          r="16"
           fill="rgba(33,117,244,0.1)"
         />
       </g>
-      <g id="Group_3291" data-name="Group 3291" transform="translate(13 12)">
+      <g id="Group_1774" data-name="Group 1774" transform="translate(8 8)">
         <g id="Group_1773" data-name="Group 1773" clip-path="url(#clip-path)">
           <path
             id="Path_2524"
             data-name="Path 2524"
-            d="M5.5,20.5V1.5a1,1,0,0,1,1-1h15a1,1,0,0,1,1,1v19a3,3,0,0,1-3,3H5.5"
-            transform="translate(0 0)"
+            d="M5.5,13.833V1.167A.667.667,0,0,1,6.167.5h10a.667.667,0,0,1,.667.667V13.833a2,2,0,0,1-2,2H5.5"
+            transform="translate(-1.833 -0.167)"
             fill="none"
             stroke="#0052ce"
             stroke-linecap="round"
@@ -46,8 +46,8 @@ export default (props) => {
           <path
             id="Path_2525"
             data-name="Path 2525"
-            d="M3,23.5H3A2.5,2.5,0,0,1,.5,21V11.5a1,1,0,0,1,1-1h4V21A2.5,2.5,0,0,1,3,23.5Z"
-            transform="translate(0)"
+            d="M2.167,19.167h0A1.666,1.666,0,0,1,.5,17.5V11.167a.667.667,0,0,1,.667-.667H3.833v7A1.666,1.666,0,0,1,2.167,19.167Z"
+            transform="translate(-0.167 -3.5)"
             fill="none"
             stroke="#0052ce"
             stroke-linecap="round"
@@ -57,8 +57,8 @@ export default (props) => {
           <line
             id="Line_667"
             data-name="Line 667"
-            x1="5"
-            transform="translate(3.5 23.5)"
+            x1="3.333"
+            transform="translate(2.333 15.667)"
             fill="none"
             stroke="#0052ce"
             stroke-linecap="round"
@@ -68,8 +68,8 @@ export default (props) => {
           <line
             id="Line_668"
             data-name="Line 668"
-            x2="9"
-            transform="translate(9.5 4.5)"
+            x2="6"
+            transform="translate(6.333 3)"
             fill="none"
             stroke="#0052ce"
             stroke-linecap="round"
@@ -79,8 +79,8 @@ export default (props) => {
           <line
             id="Line_669"
             data-name="Line 669"
-            x2="9"
-            transform="translate(9.5 8.5)"
+            x2="6"
+            transform="translate(6.333 5.667)"
             fill="none"
             stroke="#0052ce"
             stroke-linecap="round"
@@ -90,8 +90,8 @@ export default (props) => {
           <line
             id="Line_670"
             data-name="Line 670"
-            x2="9"
-            transform="translate(9.5 12.5)"
+            x2="6"
+            transform="translate(6.333 8.333)"
             fill="none"
             stroke="#0052ce"
             stroke-linecap="round"

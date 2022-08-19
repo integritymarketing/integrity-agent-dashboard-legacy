@@ -18,7 +18,7 @@ export default function ActivityButtonIcon({
   const getIcon = () => {
     const icon = {
       "Incoming Call": <LINK />,
-      "Call Recorded": <DOWNLOAD />,
+      "Call Recording": <DOWNLOAD />,
       "Scope of Appointment Signed": <SOACOMPLETE />,
       "Scope of Appointment Completed": <SOAVIEW />,
       "Plan Shared": <VIEWPLANS />,
@@ -38,11 +38,8 @@ export default function ActivityButtonIcon({
       case "Plan Shared":
         // TODO : change it with plan interaction URL
         break;
-      case "Call Recorded":
-        // TODO : change it with download URL
-        break;
-      case "Incoming Call":
-        // TODO : change it with Link to contact URL
+      case "Call Recording":
+        window.open(activityInteractionURL, "_blank")
         break;
       default:
         break;

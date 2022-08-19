@@ -4,6 +4,12 @@ import Button from "@mui/material/Button";
 import DoneIcon from "@mui/icons-material/Done";
 import React, { useState, useEffect } from "react";
 import { List, Typography } from "@mui/material";
+import { styled } from "@mui/system";
+
+const StyledList = styled(List)(() => ({
+  maxHeight: "150px",
+  overflow: "auto"
+}));
 
 export default function FilterOptions({ values, onApply, multiSelect = true }) {
   const [updatedValues, setUpdatedValues] = useState([]);
@@ -51,7 +57,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
           borderRadius: 3,
         }}
       >
-        <List sx={{ py: 0 }}>
+        <StyledList sx={{ py: 0 }}>
           {updatedValues.map((row, i) => {
             return (
               <Box
@@ -76,7 +82,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
               </Box>
             );
           })}
-        </List>
+        </StyledList>
       </Box>
       <Box
         sx={{

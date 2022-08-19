@@ -22,6 +22,8 @@ import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
 import ActionsDropdown from "components/ui/ActionsDropdown";
 import ContactContext from "contexts/contacts";
 import { ShortReminder } from "pages/contacts/contactRecordInfo/reminder/Reminder";
+import useCallRecordings from "hooks/useCallRecordings";
+import FixedRow from "./FixedRow";
 
 const initialState = {
   sortBy: [
@@ -49,7 +51,7 @@ const getActivitySubject = (activitySubject) => {
 
 const buttonTextByActivity = {
   "Incoming Call": "Link To Contact",
-  "Call Recorded": "Download",
+  "Call Recording": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
@@ -67,6 +69,7 @@ const renderButtons = (row, leadsId, onRowClick) => {
     activityTypeName === "Triggered" &&
     activityInteractionURL
   ) {
+    debugger
     return (
       <div className={styles.activityDataCell}>
         <ActivityButtonIcon
@@ -90,12 +93,12 @@ const renderButtons = (row, leadsId, onRowClick) => {
 
 export default function DashboardActivityTable({ activityData, onRowClick }) {
   const history = useHistory();
+  const callRecordings = useCallRecordings();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [filterToggle, setFilterToggle] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedFilterValues, setSelectedFilterValues] = useState([]);
   const [pageSize, setPageSize] = useState(10);
-
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
 
@@ -161,6 +164,7 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
       {
         id: "name",
         Header: "Name",
+        accessor: (row) => `${row?.original?.firstName} ${row?.original?.lastName}`,
         Cell: ({ row }) => (
           <div className={styles.activityDataCell}>
             <Typography
@@ -198,6 +202,16 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
               )}
             </Typography>
           </div>
+        ),
+      },
+      {
+        id: "incoming call",
+        disableSortBy: true,
+        Header: "",
+        Cell: () => (
+          <>
+           
+          </>
         ),
       },
       {
@@ -331,6 +345,7 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
             <TextButton onClick={onShowMore}>Show more</TextButton>
           ) : null
         }
+        fixedRow={<FixedRow callRecordings={callRecordings} />}
       />
     </>
   );
