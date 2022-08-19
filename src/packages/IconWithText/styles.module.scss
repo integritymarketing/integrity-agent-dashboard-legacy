@@ -1,0 +1,18 @@
+@import 'src/scss/globalDefines.scss';
+
+.layout {
+    display: flex;
+    align-items: center;
+    :hover {
+        cursor: pointer;
+    }
+}
+
+.icon {
+    margin-right: 8px;
+}
+
+.text {
+    font-size: 1rem;
+    color: $cyan-blue;
+}
