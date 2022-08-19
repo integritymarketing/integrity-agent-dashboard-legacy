@@ -24,7 +24,7 @@ export default ({ subscribe = true } = {}) => {
         clearInterval(intervalId);
       };
     }
-  }, [setCallRecordings]);
+  }, [setCallRecordings, subscribe]);
 
   return callRecordings;
 };

@@ -112,9 +112,10 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
     [pagedData.length, filteredData.length]
   );
 
-  const onShowMore = useCallback(() => setPageSize((ps) => ps + 10), [
-    setPageSize,
-  ]);
+  const onShowMore = useCallback(
+    () => setPageSize((ps) => ps + 10),
+    [setPageSize]
+  );
 
   useEffect(() => {
     setFilteredData([...activityData]);
@@ -229,11 +230,7 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
         id: "inboundcall",
         disableSortBy: true,
         Header: "",
-        Cell: ({  }) => (
-          <>
-          
-          </>
-        ),
+        Cell: () => null
       },
       {
         id: "status",
