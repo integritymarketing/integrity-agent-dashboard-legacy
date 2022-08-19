@@ -57,25 +57,27 @@ const buttonTextByActivity = {
   "Plan Shared": "View PLans",
 };
 
-const renderButtons = (row, leadsId, onRowClick) => {
+const renderButtons = (row, leadsId, onRowClick, handleClick) => {
   if (!row) return false;
   const {
     activityTypeName = "",
     activityInteractionURL = "",
     activitySubject = "",
   } = row;
+
   if (
     activityTypeName &&
     activityTypeName === "Triggered" &&
     activityInteractionURL
   ) {
     return (
-      <div className={styles.activityDataCell}>
-        <ActivityButtonIcon
-          activitySubject={activitySubject}
-          activityInteractionURL={activityInteractionURL}
-          leadsId={leadsId}
-        />
+      <div
+        className={styles.activityDataCell}
+        onClick={() =>
+          handleClick(activitySubject, activityInteractionURL, leadsId)
+        }
+      >
+        <ActivityButtonIcon activitySubject={activitySubject} />
         <Typography
           color="#434A51"
           fontSize={"16px"}
@@ -144,6 +146,25 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
     }
   };
 
+  const handleClick = (activitySubject, activityInteractionURL, leadsId) => {
+    switch (activitySubject) {
+      case "Scope of Appointment Signed":
+      case "Scope of Appointment Completed":
+        history.push(
+          `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
+        );
+        break;
+      case "Plan Shared":
+        // TODO : change it with plan interaction URL
+        break;
+      case "Call Recording":
+        window.open(activityInteractionURL, "_blank");
+        break;
+      default:
+        break;
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -163,7 +184,8 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
       {
         id: "name",
         Header: "Name",
-        accessor: (row) => `${row?.original?.firstName} ${row?.original?.lastName}`,
+        accessor: (row) =>
+          `${row?.original?.firstName} ${row?.original?.lastName}`,
         Cell: ({ row }) => (
           <div className={styles.activityDataCell}>
             <Typography
@@ -204,16 +226,6 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
         ),
       },
       {
-        id: "incoming call",
-        disableSortBy: true,
-        Header: "",
-        Cell: () => (
-          <>
-           
-          </>
-        ),
-      },
-      {
         id: "status",
         disableSortBy: true,
         Header: "",
@@ -222,7 +234,8 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
             {renderButtons(
               row?.original?.activities[0],
               row?.original?.leadsId,
-              onRowClick
+              onRowClick,
+              handleClick
             )}
           </>
         ),

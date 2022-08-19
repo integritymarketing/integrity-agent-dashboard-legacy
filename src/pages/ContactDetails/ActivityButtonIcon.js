@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
 import LINK from "components/icons/activities/Link";
 import DOWNLOAD from "components/icons/activities/Download";
@@ -8,13 +7,7 @@ import SOACOMPLETE from "components/icons/activities/SoaComplete";
 import SOAVIEW from "components/icons/activities/SoaView";
 import VIEWPLANS from "components/icons/activities/ViewPlans";
 
-export default function ActivityButtonIcon({
-  activitySubject,
-  activityInteractionURL,
-  leadsId,
-}) {
-  const history = useHistory();
-
+export default function ActivityButtonIcon({ activitySubject }) {
   const getIcon = () => {
     const icon = {
       "Incoming Call": <LINK />,
@@ -27,28 +20,5 @@ export default function ActivityButtonIcon({
     return icon[activitySubject] || null;
   };
 
-  const handleClick = () => {
-    switch (activitySubject) {
-      case "Scope of Appointment Signed":
-      case "Scope of Appointment Completed":
-        history.push(
-          `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
-        );
-        break;
-      case "Plan Shared":
-        // TODO : change it with plan interaction URL
-        break;
-      case "Call Recording":
-        window.open(activityInteractionURL, "_blank")
-        break;
-      default:
-        break;
-    }
-  };
-
-  return (
-    <div className={styles.linkIcon} onClick={handleClick}>
-      {getIcon()}
-    </div>
-  );
+  return <div className={styles.linkIcon}>{getIcon()}</div>;
 }

@@ -22,7 +22,8 @@ const CallCenterContent = ({
   phone,
   cancelButton,
   continueButton,
-  callForwardNumber
+  callForwardNumber,
+  getAgentAvailability,
 }) => {
   const addToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
@@ -49,10 +50,12 @@ const CallCenterContent = ({
               callForwardNumber: `${phone}`,
               agentID: agentId,
             });
+            getAgentAvailability(agentId);
             addToast({
               message: "Contact number updated succesfully",
             });
           } catch (error) {
+            console.log(" errrrroorrrr", error);
             addToast({
               type: "error",
               message: "Failed to update the contact",
@@ -130,6 +133,7 @@ const RenderModalItem = ({
   preferences,
   isAvailable,
   callForwardNumber,
+  getAgentAvailability,
 }) => {
   const [callHover, setCallHover] = useState("");
   const [dataHover, setDataHover] = useState("");
@@ -173,6 +177,7 @@ const RenderModalItem = ({
             continueButton={BUTTONS.continue}
             agentId={agentId}
             callForwardNumber={callForwardNumber}
+            getAgentAvailability={getAgentAvailability}
           />
         );
       case "leadType":

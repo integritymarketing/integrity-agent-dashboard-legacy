@@ -30,6 +30,7 @@ export default function BasicModal({
   leadPreference,
   updateAgentPreferences,
   callForwardNumber,
+  getAgentAvailability,
 }) {
   const { agentid = "" } = user || {};
   const [activeModal, setActiveModal] = useState("main");
@@ -125,6 +126,7 @@ export default function BasicModal({
                 isAvailable={isAvailable}
                 agentId={agentid}
                 callForwardNumber={callForwardNumber}
+                getAgentAvailability={getAgentAvailability}
               />
             )}
           </Fragment>

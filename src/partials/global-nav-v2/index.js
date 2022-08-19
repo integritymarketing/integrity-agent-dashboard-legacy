@@ -312,6 +312,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           updateAgentPreferences={updateAgentPreferences}
           callForwardNumber={callForwardNumber}
           leadPreference={leadPreference}
+          getAgentAvailability={getAgentAvailability}
         />
       </header>
     </>
