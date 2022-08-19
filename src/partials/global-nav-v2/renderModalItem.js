@@ -284,7 +284,7 @@ const RenderModalItem = ({
               <img src={Mobile} alt="icon" className="modalItemImgStyle" />
               <div className="modalItemTextStyle">
                 <span className="span_title">Call Number</span>
-                <span className="span_type">{phone}</span>
+                <span className="span_type">{callForwardNumber}</span>
               </div>
               <Arrow className="span_icon" />
             </div>

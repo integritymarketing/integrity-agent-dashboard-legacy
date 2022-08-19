@@ -41,7 +41,7 @@ export default function FixedRow({ callRecordings = [] }) {
         </Typography>
       </TableCell>
       <TableCell>
-        {<IconWithText text="Inbound call" icon={<InboundCall />} />}
+        {<IconWithText text="Incoming Call" icon={<InboundCall />} />}
       </TableCell>
       <StyledTableCell onClick={goTolinkToContact}>
         {<IconWithText text="Link To Contact" icon={<LinkToContact />} />}

@@ -7,7 +7,7 @@ import { List, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 const StyledList = styled(List)(() => ({
-  maxHeight: "150px",
+  maxHeight: "350px",
   overflow: "auto"
 }));
 

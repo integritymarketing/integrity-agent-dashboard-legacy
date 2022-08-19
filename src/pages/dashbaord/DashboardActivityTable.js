@@ -69,7 +69,6 @@ const renderButtons = (row, leadsId, onRowClick) => {
     activityTypeName === "Triggered" &&
     activityInteractionURL
   ) {
-    debugger
     return (
       <div className={styles.activityDataCell}>
         <ActivityButtonIcon
