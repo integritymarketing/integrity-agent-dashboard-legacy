@@ -23,6 +23,18 @@ class CallRecordingsService extends ClientsService {
     }
     throw new Error("Update failed.");
   };
+
+  assignsLeadToInboundCallRecord = async (data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/Records/AssignToLead`,
+      "PUT",
+      data
+    );
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
+  };
  
 }
 

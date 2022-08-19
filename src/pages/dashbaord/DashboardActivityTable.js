@@ -226,6 +226,16 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
         ),
       },
       {
+        id: "inboundcall",
+        disableSortBy: true,
+        Header: "",
+        Cell: ({  }) => (
+          <>
+          
+          </>
+        ),
+      },
+      {
         id: "status",
         disableSortBy: true,
         Header: "",

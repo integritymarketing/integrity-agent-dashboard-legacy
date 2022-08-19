@@ -89,9 +89,14 @@ const App = () => {
                               <AuthenticatedRoute path="/dashboard">
                                 <Dashboard />
                               </AuthenticatedRoute>
+                              
+                              <AuthenticatedRoute path="/link-to-contact/:callLogId">
+                                <LinkToContact />
+                              </AuthenticatedRoute>
                               <AuthenticatedRoute path="/link-to-contact">
                                 <LinkToContact />
                               </AuthenticatedRoute>
+
                               <AuthenticatedRoute path="/account">
                                 <AccountPage />
                               </AuthenticatedRoute>
@@ -100,6 +105,9 @@ const App = () => {
                               </AuthenticatedRoute>
                               <AuthenticatedRoute path="/contacts">
                                 <ContactsPage />
+                              </AuthenticatedRoute>
+                              <AuthenticatedRoute path="/contact/add-new/:callLogId">
+                                <AddNewContactPage />
                               </AuthenticatedRoute>
                               <AuthenticatedRoute path="/contact/add-new">
                                 <AddNewContactPage />

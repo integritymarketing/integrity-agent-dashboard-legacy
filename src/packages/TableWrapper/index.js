@@ -37,10 +37,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ bg }) => ({
-  backgroundColor: bg === "true" ? "#2175F41A" : "white",
-  /*  '&:hover' : {
-    backgroundColor: '#1F6FE929'
-  } */
+  background: bg === "true" ? "#2175F41A 0% 0% no-repeat padding-box" : "white",
+  boxShadow: bg === "true" && "inset 0px -1px 0px #C7CCD1",
+  borderRadius: bg === "true" &&  "8px 8px 0px 0px"
 }));
 
 const generateSortingIndicator = (column) => {
