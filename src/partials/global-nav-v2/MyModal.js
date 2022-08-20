@@ -27,16 +27,20 @@ export default function BasicModal({
   virtualNumber,
   updateAgentAvailability,
   user,
+  leadPreference,
   updateAgentPreferences,
+  callForwardNumber,
+  getAgentAvailability,
 }) {
   const { agentid = "" } = user || {};
   const [activeModal, setActiveModal] = useState("main");
-
   const [preferences, setPreferences] = useState({
     data: false,
     call: false,
     leadCenter: false,
     medicareEnrollPurl: false,
+    isAgentMobilePopUpDismissed: false,
+    medicareEnroll: false,
   });
 
   const handlePreferences = (name, value) => {
@@ -50,26 +54,37 @@ export default function BasicModal({
     if (open) setActiveModal("main");
   }, [open]);
 
+  useEffect(() => {
+    setPreferences(leadPreference);
+  }, [leadPreference]);
+
   const handleClick = (value) => {
     setActiveModal(value);
   };
   const handleButtonClick = (key) => {
     if (key === "checkOut") {
+      if (preferences !== leadPreference) {
+        updateAgentPreferences({
+          agentID: agentid,
+          leadPreference: preferences,
+        });
+      }
       if (isAvailable) {
         updateAgentAvailability({ agentID: agentid, availability: false });
         setActiveModal("checkOut");
       }
     }
     if (key === "continue") {
+      if (preferences !== leadPreference) {
+        updateAgentPreferences({
+          agentID: agentid,
+          leadPreference: preferences,
+        });
+      }
       if (!isAvailable) {
         updateAgentAvailability({
           agentID: agentid,
           availability: true,
-        });
-
-        updateAgentPreferences({
-          agentID: agentid,
-          leadPreference: preferences,
         });
       }
       handleClose();
@@ -110,6 +125,8 @@ export default function BasicModal({
                 virtualNumber={virtualNumber}
                 isAvailable={isAvailable}
                 agentId={agentid}
+                callForwardNumber={callForwardNumber}
+                getAgentAvailability={getAgentAvailability}
               />
             )}
           </Fragment>

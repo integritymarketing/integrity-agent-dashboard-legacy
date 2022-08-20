@@ -7,11 +7,14 @@ import AuthContext from "contexts/auth";
 import styles from "./ContactsPage.module.scss";
 import useToast from "hooks/useToast";
 import { CallScriptModal } from "packages/CallScriptModal";
+import useUserProfile from "hooks/useUserProfile";
 
 export default function PrimaryContactPhone({ phone, leadsId }) {
   const auth = useContext(AuthContext);
+  const userProfile = useUserProfile();
   const addToast = useToast();
   const [modalOpen, setModalOpen] = useState(false);
+  const { npn } = userProfile;
 
   const getAgentAvailability = async function () {
     try {
@@ -24,23 +27,37 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
     }
   };
 
+  const getAgentByAgentId = async function (agentId) {
+    try {
+      const data = await clientsService.getAgentByAgentId(agentId);
+      return data;
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+  };
+
   const formatContactNumber = useMemo(() => formatPhoneNumber(phone), [phone]);
 
   const onPhoneClickHandler = useCallback(async (event) => {
+    let agentCallForwardingNumber;
     event.preventDefault();
     try {
       const agentData = await getAgentAvailability();
-      const formattedPhoneNumber = agentData?.agentVirtualPhoneNumber?.replace(
-        /^\+1/,
-        ""
-      );
-      callRecordingsService.outboundCallFromMedicareCenter({
+      if (!agentData?.callForwardNumber) {
+        const agentDataById = await getAgentByAgentId(agentData.agentID);
+        agentCallForwardingNumber = agentDataById.callForwardNumber;
+      }
+      const formattedPhoneNumber = agentData?.agentVirtualPhoneNumber?.replace(/^\+1/, "");
+      const payload = {
         agentId: agentData.agentID,
         leadId: `${leadsId}`,
         agentTwilioNumber: formattedPhoneNumber,
-        agentPhoneNumber: agentData.phone,
+        agentPhoneNumber:
+          agentData.callForwardNumber || agentCallForwardingNumber,
         customerNumber: phone,
-      });
+        agentNPN: npn,
+      };
+      await callRecordingsService.outboundCallFromMedicareCenter(payload);
       addToast({
         type: "success",
         message: "Call Intiated Successfully",
@@ -52,9 +69,10 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
         type: "error",
         message: "There was an error please try again.",
       });
+      setModalOpen(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [npn]);
 
   return (
     <>

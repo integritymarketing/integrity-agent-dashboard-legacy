@@ -100,7 +100,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [isAvailable, setIsAvailable] = useState(false);
   const [phone, setPhone] = useState("");
   const [virtualNumber, setVirtualNumber] = useState("");
+  const [callForwardNumber, setCallForwardNumber] = useState("");
   const addToast = useToast();
+  const [leadPreference, setLeadPreference] = useState({});
+
   const menuProps = Object.assign(
     {
       navOpen,
@@ -170,13 +173,21 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
     try {
       const res = await clientService.getAgentAvailability(agentid);
-      const { isAvailable, phone, agentVirtualPhoneNumber } = res || {};
+      const {
+        isAvailable,
+        phone,
+        agentVirtualPhoneNumber,
+        callForwardNumber,
+        leadPreference,
+      } = res || {};
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
+      setLeadPreference(leadPreference);
       if (agentVirtualPhoneNumber) {
         setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
-      } else {
-        setVirtualNumber("XXX-XXX-XXXX");
+      }
+      if (callForwardNumber) {
+        setCallForwardNumber(callForwardNumber);
       }
     } catch (error) {
       Sentry.captureException(error);
@@ -187,7 +198,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     try {
       let res = await clientService.updateAgentAvailability(data);
       if (res.ok) {
-        setIsAvailable(data.availability);
+        getAgentAvailability(data.agentID);
       }
     } catch (error) {
       addToast({
@@ -279,7 +290,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  {/* commenting for prod deployment */}
                   <MyButton
                     clickButton={clickButton}
                     isAvailable={isAvailable}
@@ -300,6 +310,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           isAvailable={isAvailable}
           updateAgentAvailability={updateAgentAvailability}
           updateAgentPreferences={updateAgentPreferences}
+          callForwardNumber={callForwardNumber}
+          leadPreference={leadPreference}
+          getAgentAvailability={getAgentAvailability}
         />
       </header>
     </>

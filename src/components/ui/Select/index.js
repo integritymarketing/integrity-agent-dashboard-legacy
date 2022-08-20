@@ -1,11 +1,10 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import ArrowDownIcon from "../../icons/arrow-down";
 import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import { useSelectFilterToScroll } from "hooks/useSelectFilter";
-
+import arrow from "images/down-arrow.png";
 export const DefaultOption = ({
   label,
   value,
@@ -106,8 +105,7 @@ export const Select = ({
       setValue(initialValue);
       setIsOpen(isDefaultOpen);
     }
-  }, [initialValue, isDefaultOpen])// eslint-disable-line react-hooks/exhaustive-deps
-  
+  }, [initialValue, isDefaultOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOptionChange = (ev, value) => {
     ev.preventDefault();
@@ -174,7 +172,7 @@ export const Select = ({
       ) : (
         <span className="placeholder">{placeholder}</span>
       )}
-      <ArrowDownIcon />
+      <img src={arrow} alt="plans" className="arrow-down"></img>
     </div>
   );
   const selectBox = mobileLabel ? (

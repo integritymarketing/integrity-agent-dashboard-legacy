@@ -913,6 +913,15 @@ export class ClientsService {
     }
   }; 
   /*End purl API calls */
+  
+  getAgentByAgentId = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
+      "GET"
+    );
+    return response.json();
+  };
+
 }
 
 export default new ClientsService();

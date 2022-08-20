@@ -22,15 +22,18 @@ const CallCenterContent = ({
   phone,
   cancelButton,
   continueButton,
+  callForwardNumber,
+  getAgentAvailability,
 }) => {
   const addToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
+  const phoneNumber = callForwardNumber || phone;
 
   return (
     <>
       <Formik
         initialValues={{
-          phone: phone,
+          phone: phoneNumber,
         }}
         validate={(values) => {
           const error = validationService.validatePhone(values.phone);
@@ -47,10 +50,12 @@ const CallCenterContent = ({
               callForwardNumber: `${phone}`,
               agentID: agentId,
             });
+            getAgentAvailability(agentId);
             addToast({
               message: "Contact number updated succesfully",
             });
           } catch (error) {
+            console.log(" errrrroorrrr", error);
             addToast({
               type: "error",
               message: "Failed to update the contact",
@@ -127,6 +132,8 @@ const RenderModalItem = ({
   handlePreferences,
   preferences,
   isAvailable,
+  callForwardNumber,
+  getAgentAvailability,
 }) => {
   const [callHover, setCallHover] = useState("");
   const [dataHover, setDataHover] = useState("");
@@ -169,6 +176,8 @@ const RenderModalItem = ({
             cancelButton={BUTTONS.cancel}
             continueButton={BUTTONS.continue}
             agentId={agentId}
+            callForwardNumber={callForwardNumber}
+            getAgentAvailability={getAgentAvailability}
           />
         );
       case "leadType":
@@ -280,7 +289,7 @@ const RenderModalItem = ({
               <img src={Mobile} alt="icon" className="modalItemImgStyle" />
               <div className="modalItemTextStyle">
                 <span className="span_title">Call Number</span>
-                <span className="span_type">{phone}</span>
+                <span className="span_type">{callForwardNumber}</span>
               </div>
               <Arrow className="span_icon" />
             </div>

@@ -29,6 +29,7 @@ export const Button = ({
   disabled = false,
   onClick,
   children,
+  ...props
 }) => {
   return (
     <StyledButton
@@ -36,6 +37,7 @@ export const Button = ({
       size={size}
       disabled={disabled}
       onClick={onClick}
+      {...props}   
     >
       {children}
     </StyledButton>

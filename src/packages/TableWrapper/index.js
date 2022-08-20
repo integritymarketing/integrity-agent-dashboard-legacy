@@ -36,11 +36,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme, bg }) => ({
-  backgroundColor: bg ? "#2175F41A" : "white",
-  /*  '&:hover' : {
-    backgroundColor: '#1F6FE929'
-  } */
+const StyledTableRow = styled(TableRow)(({ isLast }) => ({
+  background: "#2175F41A 0% 0% no-repeat padding-box",
+  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : 'none',
+  borderRadius: "8px 8px 0px 0px",
 }));
 
 const generateSortingIndicator = (column) => {
@@ -56,7 +55,7 @@ const generateSortingIndicator = (column) => {
   return <SortArrowUp />;
 };
 
-function Table({ columns, data, footer, initialState }) {
+function Table({ columns, data, footer, initialState, fixedRows = [] }) {
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -87,16 +86,16 @@ function Table({ columns, data, footer, initialState }) {
           ))}
         </TableHead>
         <TableBody>
+          {fixedRows.map((fixedRow, idx) => (
+            <StyledTableRow key={idx} bg="true" isLast={idx === fixedRows}>
+              {fixedRow}
+            </StyledTableRow>
+          ))}
+
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <StyledTableRow
-                bg={
-                  row?.original?.activities[0]?.activitySubject ===
-                  "Incoming Call"
-                }
-                {...row.getRowProps()}
-              >
+              <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
                     <StyledTableCell {...cell.getCellProps()}>
@@ -104,17 +103,17 @@ function Table({ columns, data, footer, initialState }) {
                     </StyledTableCell>
                   );
                 })}
-              </StyledTableRow>
+              </TableRow>
             );
           })}
         </TableBody>
         {footer ? (
           <TableFooter>
-            <StyledTableRow>
+            <TableRow>
               <TableCell colSpan={columns.length}>
                 <center>{footer}</center>
               </TableCell>
-            </StyledTableRow>
+            </TableRow>
           </TableFooter>
         ) : null}
       </MUITable>
