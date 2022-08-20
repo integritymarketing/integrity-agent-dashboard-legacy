@@ -30,15 +30,12 @@ class CallRecordingsService extends ClientsService {
       "PUT",
       data
     );
+
     if (response.ok) {
       return response;
     }
-    throw new Error("Update failed.");
+    throw new Error(response?.statusText);
   };
- 
 }
 
 export default new CallRecordingsService();
-
-
-

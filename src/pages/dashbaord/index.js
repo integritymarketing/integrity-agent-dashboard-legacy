@@ -139,8 +139,6 @@ export default function Dashbaord() {
     history.push(`/contacts/list?Stage=${id}`);
   };
 
-
- 
   return (
     <>
       <Media

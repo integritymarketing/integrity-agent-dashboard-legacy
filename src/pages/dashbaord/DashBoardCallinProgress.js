@@ -10,6 +10,7 @@ import { formatPhoneNumber } from "utils/phones";
 import IconWithText from "packages/IconWithText";
 import LinkToContact from "components/icons/LinkToContact";
 import CallScript from "components/icons/script";
+import "./index.scss";
 
 const IN_PROGRESS = "in-progress";
 
@@ -47,7 +48,7 @@ export default function DashboardCallinProgress({ agentInformation }) {
         <div onClick={navigateToLinkToContact}>
           <IconWithText text="Link to contact" icon={<LinkToContact />} />
         </div>
-        {tags?.length && <Tags words={tags} />}
+        {tags?.length && <Tags className="header-tag" words={tags} />}
       </>
     );
   };

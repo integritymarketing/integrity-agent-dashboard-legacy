@@ -35,7 +35,7 @@
         max-height: 350px;
 
         .contactItem {
-            background-color: $bright-gray;
+            background-color: #FFFFFF;
         }
 
         .emptyList {
@@ -46,5 +46,20 @@
             align-items: center;
             background-color: $bright-gray;
         }
+    }
+}
+
+.headerSection {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px #C7CCD1;
+}
+
+.contactName {
+    padding: 4px 8px;
+    width: 100%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #F1FAFF;
     }
 }
