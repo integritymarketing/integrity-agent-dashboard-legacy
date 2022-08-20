@@ -5,9 +5,9 @@ export default (props) => {
     <svg
       id="Call_Script"
       data-name="Call Script"
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
+      width="48"
+      height="48"
+      viewBox="0 0 48 48"
     >
       <defs>
         <clipPath id="clip-path">

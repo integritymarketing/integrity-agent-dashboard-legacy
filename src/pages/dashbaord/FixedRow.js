@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { styled } from "@mui/system";
 import Typography from "@mui/material/Typography";
@@ -16,40 +16,37 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
 }));
 
-export default function FixedRow({ callRecordings = [] }) {
+export default function FixedRow({ unAssosiatedCallRecord }) {
   const history = useHistory();
 
-  const inProgressRecord = useMemo(
-    () => callRecordings.find((record) => record.callStatus === "in-progress"),
-    [callRecordings]
-  );
-
-  const goTolinkToContact = () => {
-    history.push("/link-to-contact");
+  const goTolinkToContact = (callLogId) => {
+      history.push(`/link-to-contact/${callLogId}`);
   };
 
-  return inProgressRecord ? (
+  const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
+
+  return (
     <>
       <TableCell>
         <Typography color="#434A51" fontSize="16px">
-          {dateFormatter(inProgressRecord.callStartTime, "MM/DD")}
+          {dateFormatter(unAssosiatedCallRecord.callStartTime, "MM/DD")}
         </Typography>
       </TableCell>
       <TableCell>
         <Typography noWrap fontWeight="bold" fontSize="16px" color="#0052CE">
-          <strong>{formatPhoneNumber(inProgressRecord.from, true)}</strong>
+          <strong>{formatPhoneNumber(unAssosiatedCallRecord.from, true)}</strong>
         </Typography>
       </TableCell>
       <TableCell>
-        {<IconWithText text="Incoming Call" icon={<InboundCall />} />}
+        {<IconWithText text={isIncommingCall ? "Incoming Call" : "Inbound Call"} icon={<InboundCall />} />}
       </TableCell>
-      <StyledTableCell onClick={goTolinkToContact}>
+      <StyledTableCell onClick={() => goTolinkToContact(unAssosiatedCallRecord.callLogId)}>
         {<IconWithText text="Link To Contact" icon={<LinkToContact />} />}
       </StyledTableCell>
       <StyledTableCell>
-        {<DownloadCallRecording url={inProgressRecord.url} />}
+        {<DownloadCallRecording url={unAssosiatedCallRecord.url} />}
       </StyledTableCell>
       <TableCell></TableCell>
     </>
-  ) : null;
+  ) 
 }

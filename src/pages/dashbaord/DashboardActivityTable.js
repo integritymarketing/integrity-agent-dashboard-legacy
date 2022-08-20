@@ -112,9 +112,10 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
     [pagedData.length, filteredData.length]
   );
 
-  const onShowMore = useCallback(() => setPageSize((ps) => ps + 10), [
-    setPageSize,
-  ]);
+  const onShowMore = useCallback(
+    () => setPageSize((ps) => ps + 10),
+    [setPageSize]
+  );
 
   useEffect(() => {
     setFilteredData([...activityData]);
@@ -224,6 +225,12 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
             </Typography>
           </div>
         ),
+      },
+      {
+        id: "inboundcall",
+        disableSortBy: true,
+        Header: "",
+        Cell: () => null,
       },
       {
         id: "status",
@@ -357,7 +364,12 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
             <TextButton onClick={onShowMore}>Show more</TextButton>
           ) : null
         }
-        fixedRow={<FixedRow callRecordings={callRecordings} />}
+        fixedRows={callRecordings.map((unAssosiatedCallRecord, index) => (
+          <FixedRow
+            index={index}
+            unAssosiatedCallRecord={unAssosiatedCallRecord}
+          />
+        ))}
       />
     </>
   );

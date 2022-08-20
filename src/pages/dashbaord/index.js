@@ -17,7 +17,6 @@ import useToast from "hooks/useToast";
 import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
 import Heading2 from "packages/Heading2";
-import Heading4 from "packages/Heading4";
 import Help from "./Help";
 import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
@@ -28,13 +27,6 @@ import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
 import DashboardCallinProgress from "./DashBoardCallinProgress";
-import { Typography } from "@mui/material";
-import Tags from "packages/Tags/Tags";
-import { CallScriptModal } from "packages/CallScriptModal";
-import { formatPhoneNumber } from "utils/phones";
-import IconWithText from "packages/IconWithText";
-import LinkToContact from "components/icons/LinkToContact";
-import CallScript from "components/icons/script";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -70,7 +62,6 @@ export default function Dashbaord() {
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
   const [activityData, setActivityData] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
   const [user, setUser] = useState({});
   const [agentInformation, setAgentInformation] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
@@ -148,35 +139,8 @@ export default function Dashbaord() {
     history.push(`/contacts/list?Stage=${id}`);
   };
 
-  const navigateToLinkToContact = () => {
-    history.push(`/link-to-contact`);
-  };
 
-  const bannerContent = () => {
-    const tags = agentInformation?.tags?.map((tag) => tag);
-    return (
-      <>
-        <div className="incomming-cal-wrapper">
-          <Heading4 text="Incoming Call: " />
-          <Typography sx={{ mx: 1 }} variant={"subtitle1"}>
-            {formatPhoneNumber(agentInformation?.agentVirtualPhoneNumber, true)}{" "}
-          </Typography>
-        </div>
-        <div
-          onClick={() => {
-            setModalOpen(true);
-          }}
-        >
-          <IconWithText text="Call Script" icon={<CallScript />} />
-        </div>
-        <div onClick={navigateToLinkToContact}>
-          <IconWithText text="Link to contact" icon={<LinkToContact />} />
-        </div>
-        {tags?.length && <Tags words={tags} />}
-      </>
-    );
-  };
-
+ 
   return (
     <>
       <Media
@@ -190,7 +154,7 @@ export default function Dashbaord() {
       </Helmet>
       <GlobalNav />
       <HelpButtonModal />
-      <DashboardCallinProgress content={bannerContent()} />
+      <DashboardCallinProgress agentInformation={agentInformation} />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">
@@ -310,12 +274,6 @@ export default function Dashbaord() {
         </div>
       </WithLoader>
       <GlobalFooter />
-      <CallScriptModal
-        modalOpen={modalOpen}
-        handleClose={() => {
-          setModalOpen(false);
-        }}
-      />
     </>
   );
 }
