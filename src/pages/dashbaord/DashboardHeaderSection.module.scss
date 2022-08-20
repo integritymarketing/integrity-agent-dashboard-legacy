@@ -1,7 +1,7 @@
 @import 'src/scss/globalDefines.scss';
 
 .layout {
-    background: #F1FAFF 0% 0% no-repeat padding-box;
+    background: $bluish-cyan 0% 0% no-repeat padding-box;
     box-shadow: inset 0px -1px 0px #C7CCD1;
     height: 4.5rem;
     margin: 3rem 0;
@@ -13,6 +13,11 @@
     top: 96px;
     width: 100%;
     height: 72px;
-    background-color: #F1FAFF;
+    background-color: $bluish-cyan;
     align-items: center;
+
+    @include small() {
+        height: 100px;
+        flex-wrap: wrap;
+    }
 }

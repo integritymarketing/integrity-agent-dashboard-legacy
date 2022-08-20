@@ -230,7 +230,7 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
         id: "inboundcall",
         disableSortBy: true,
         Header: "",
-        Cell: () => null
+        Cell: () => null,
       },
       {
         id: "status",
@@ -364,7 +364,12 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
             <TextButton onClick={onShowMore}>Show more</TextButton>
           ) : null
         }
-        fixedRow={<FixedRow callRecordings={callRecordings} />}
+        fixedRows={callRecordings.map((unAssosiatedCallRecord, index) => (
+          <FixedRow
+            index={index}
+            unAssosiatedCallRecord={unAssosiatedCallRecord}
+          />
+        ))}
       />
     </>
   );
