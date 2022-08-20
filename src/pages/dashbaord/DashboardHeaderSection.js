@@ -5,10 +5,11 @@ export default function DashboardHeaderSection({
   content,
   justifyContent = "center",
   padding = 0,
+  className = ""
 }) {
   return (
     <div
-      className={styles.bannerSection}
+      className={`${className} ${styles.bannerSection}`}
       style={{ justifyContent: justifyContent, padding: padding }}
     >
       {content}

@@ -12,17 +12,25 @@ import clientService from "services/clientsService";
 import styles from "./styles.module.scss";
 import { CallScriptModal } from "packages/CallScriptModal";
 import { Helmet } from "react-helmet-async";
-import { TextButton } from "packages/Button";
-import { Typography } from "@mui/material";
+import { TextButton, Button } from "packages/Button";
 import { formatPhoneNumber } from "utils/phones";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import useCallRecordings from "hooks/useCallRecordings";
+import Heading2 from "packages/Heading2";
+
+const IN_PROGRESS = "in-progress";
 
 export default function LinkToContact() {
   const history = useHistory();
+  const { callLogId } = useParams();
   const auth = useContext(AuthContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [agentInformation, setAgentInformation] = useState({});
+  const callRecordings = useCallRecordings({ subscribe: false });
+  const callStatusInProgress = callRecordings.find(
+    (callRecording) => callRecording.callStatus === IN_PROGRESS
+  );
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -56,24 +64,25 @@ export default function LinkToContact() {
       <>
         <Heading3 text="Link to contact" />
         <div>
-          <TextButton
-            variant={"outlined"}
+          <Button
             size={"medium"}
             startIcon={<DescriptionIcon />}
             onClick={() => setModalOpen(true)}
           >
             Call Script
-          </TextButton>
+          </Button>
         </div>
       </>
     );
   };
 
   const goToAddNewContactsPage = () => {
-    history.push("/contact/add-new");
+    history.push(`/contact/add-new?callLogId=${callLogId}`);
   };
 
-  const tags = agentInformation?.tags?.map((tag) => tag);
+  const tags = callStatusInProgress?.callLogTags.map(
+    (callLogTag) => callLogTag.tag.tagLabel
+  );
 
   return (
     <>
@@ -85,20 +94,23 @@ export default function LinkToContact() {
         content={bannerContent()}
         justifyContent={"space-between"}
         padding={"0 15%"}
+        className={styles.headerSection}
       />
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
           <div className={styles.medContent}>
-            <Typography sx={{ mx: 1 }} variant={"h5"}>
-              {formatPhoneNumber(
+            <Heading2
+              text={formatPhoneNumber(
                 agentInformation?.agentVirtualPhoneNumber,
                 true
               )}
-            </Typography>
+            />
           </div>
-          <div className={styles.medContent}>
-            {tags?.length && <Tags words={tags} flexDirection={"column"} />}
-          </div>
+          {tags?.length && (
+            <div className={styles.medContent}>
+              <Tags words={tags} flexDirection={"column"} />
+            </div>
+          )}
           <div className={styles.medContent}>
             <TextButton
               onClick={goToAddNewContactsPage}

@@ -18,7 +18,7 @@ export default function ActivitySubjectWithIcon({ activitySubject }) {
       "Contact Imported": <ContactUpdated />,
       "Stage Change": <List />,
       "Incoming Call": <CallRecording />,
-      "Call Recorded": <CallRecording />,
+      "Call Recording": <CallRecording />,
       "Reminder Added": <Reminder />,
       "Reminder Complete": <Reminder />,
       "Scope of Appointment Sent": <SOA />,
