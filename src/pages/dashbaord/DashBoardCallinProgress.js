@@ -11,6 +11,7 @@ import IconWithText from "packages/IconWithText";
 import LinkToContact from "components/icons/LinkToContact";
 import CallScript from "components/icons/script";
 import "./index.scss";
+
 const IN_PROGRESS = "in-progress";
 
 export default function DashboardCallinProgress({ agentInformation }) {

@@ -40,6 +40,3 @@ class CallRecordingsService extends ClientsService {
 }
 
 export default new CallRecordingsService();
-
-
-
