@@ -36,6 +36,7 @@ class CallRecordingsService extends ClientsService {
     }
     throw new Error(response?.statusText);
   };
+ 
 }
 
 export default new CallRecordingsService();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import MUITable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,6 +11,7 @@ import { useTable, useSortBy } from "react-table";
 import Sort from "components/icons/sort-arrow";
 import SortArrowUp from "components/icons/sort-arrow-up";
 import SortArrowDown from "components/icons/sort-arrow-down";
+import Media from "react-media";
 
 const Centered = styled("div")`
   display: flex;
@@ -65,10 +66,17 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
     },
     useSortBy
   );
+  const [isMobile, setIsMobile] = useState(false);
 
   // Render the UI for table
   return (
     <TableContainer>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <MUITable {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
@@ -110,7 +118,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
         {footer ? (
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={columns.length}>
+              <TableCell colSpan={isMobile ? 3 : columns.length}>
                 <center>{footer}</center>
               </TableCell>
             </TableRow>
