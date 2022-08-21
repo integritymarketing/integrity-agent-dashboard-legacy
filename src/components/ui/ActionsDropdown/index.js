@@ -32,6 +32,7 @@ export default function ActionsDropDown({
   };
 
   const dropDownStyles = useMemo(() => {
+    if(isOpen)
     return handlerElemRef?.current
       ? {
           right:
