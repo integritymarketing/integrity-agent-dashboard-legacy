@@ -77,7 +77,7 @@ export default function LinkToContact() {
   };
 
   const goToAddNewContactsPage = () => {
-    history.push(`/contact/add-new?callLogId=${callLogId}`);
+    history.push(`/contact/add-new/${callLogId}`);
   };
 
   const tags = callStatusInProgress?.callLogTags.map(
