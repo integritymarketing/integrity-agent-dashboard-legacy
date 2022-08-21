@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -20,6 +20,7 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
+import callRecordingsService from "services/callRecordingsService";
 
 const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
@@ -50,12 +51,14 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   }
 };
 
-const NewContactForm = () => {
+const NewContactForm = ({ callLogId }) => {
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-  const { allCounties = [], allStates = [], doFetch } = useContext(
-    CountyContext
-  );
+  const {
+    allCounties = [],
+    allStates = [],
+    doFetch,
+  } = useContext(CountyContext);
 
   const history = useHistory();
   const addToast = useToast();
@@ -188,6 +191,12 @@ const NewContactForm = () => {
           analyticsService.fireEvent("event-form-submit", {
             formName: "New Contact",
           });
+          if (callLogId) {
+            await callRecordingsService.assignsLeadToInboundCallRecord({
+              callLogId,
+              leadId,
+            });
+          }
           addToast({
             message: "Contact added successfully",
           });
@@ -638,6 +647,8 @@ const NewContactForm = () => {
 };
 
 export default function AddNewContactPage() {
+  const { callLogId } = useParams();
+
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/new-contact/",
@@ -658,7 +669,7 @@ export default function AddNewContactPage() {
           <ToastContextProvider>
             <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
             <div className="border-bottom border-bottom--light"></div>
-            <NewContactForm />
+            <NewContactForm callLogId={callLogId} />
           </ToastContextProvider>
         </Container>
       </div>

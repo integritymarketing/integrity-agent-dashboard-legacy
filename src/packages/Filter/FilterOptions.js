@@ -40,12 +40,18 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
     newValues[index].selected = !newValues[index].selected;
     setUpdatedValues(newValues);
   };
+  
   const handleReset = () => {
     onApply([]);
   };
-  const handleApply = (event) => {
+  
+  const handleApply = () => {
     onApply(updatedValues);
   };
+
+  const checkDisabled = () => {
+    return updatedValues.filter(r => r.selected).length === 0;
+  }
 
   return (
     <>
@@ -105,6 +111,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
             aria-describedby={"Apply"}
             sx={{ width: "40%" }}
             variant="contained"
+            disabled={checkDisabled}
             onClick={handleApply}
           >
             Apply
