@@ -17,6 +17,7 @@ import { formatPhoneNumber } from "utils";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
+import InboundCallBanner from "packages/InboundCallBanner";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -92,6 +93,7 @@ const SiteNotification = ({
 export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const [navOpen, setNavOpen] = useState(false);
+  const [agentInfo, setAgentInfo] = useState({});
   const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
   const [user, setUser] = useState({});
   const [open, setOpen] = useState(false);
@@ -172,14 +174,15 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       return;
     }
     try {
-      const res = await clientService.getAgentAvailability(agentid);
+      const response = await clientService.getAgentAvailability(agentid);
       const {
         isAvailable,
         phone,
         agentVirtualPhoneNumber,
         callForwardNumber,
         leadPreference,
-      } = res || {};
+      } = response || {};
+      setAgentInfo(response);
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
       setLeadPreference(leadPreference);
@@ -196,8 +199,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   const updateAgentAvailability = async (data) => {
     try {
-      let res = await clientService.updateAgentAvailability(data);
-      if (res.ok) {
+      let response = await clientService.updateAgentAvailability(data);
+      if (response.ok) {
         getAgentAvailability(data.agentID);
       }
     } catch (error) {
@@ -315,6 +318,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           getAgentAvailability={getAgentAvailability}
         />
       </header>
+      <InboundCallBanner agentInformation={agentInfo} />
+
     </>
   );
 };
