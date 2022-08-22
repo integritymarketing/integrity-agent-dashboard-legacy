@@ -54,7 +54,7 @@ export default function InboundCallBanner({ agentInformation }) {
         <div onClick={navigateToLinkToContact}>
           <IconWithText text="Link to contact" icon={<LinkToContact />} />
         </div>
-        {tags?.length && <Tags className="header-tag" words={tags} />}
+        {tags?.length > 0 && <Tags className="header-tag" words={tags} />}
       </>
     );
   };
