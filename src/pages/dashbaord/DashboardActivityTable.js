@@ -162,6 +162,9 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
       case "Call Recording":
         window.open(activityInteractionURL, "_blank");
         break;
+      case "Contact's new call log created":
+        window.open(activityInteractionURL, "_blank");
+        break;
       default:
         break;
     }

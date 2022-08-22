@@ -15,6 +15,7 @@ import callRecordingsService from "services/callRecordingsService";
 import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
+import Spinner from "components/ui/Spinner/index";
 
 const SearchInput = styled(OutlinedInput)(() => ({
   background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -56,12 +57,20 @@ const ContactListItemButton = ({ leadId, callLogId, children }) => {
   );
 };
 
-export default function ContactSearch({ contacts, onChange }) {
+export default function ContactSearch({ contacts, onChange, isLoading }) {
   const { callLogId } = useParams();
   const [searchStr, setSearchStr] = useState("");
 
   function renderRow(value, index) {
     const fullname = `${value.firstName} ${value.lastName}`;
+    if (isLoading) {
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
+    }
+
     return (
       <ListItem
         key={"contactindex" + index}

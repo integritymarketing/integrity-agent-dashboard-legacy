@@ -27,6 +27,7 @@ export default function LinkToContact() {
   const [modalOpen, setModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [agentInformation, setAgentInformation] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const callRecordings = useCallRecordings({ subscribe: false });
   const callStatusInProgress = callRecordings.find(
     (callRecording) => callRecording.callStatus === IN_PROGRESS
@@ -48,15 +49,23 @@ export default function LinkToContact() {
   }, [auth]);
 
   const getContacts = async (searchStr) => {
+    setIsLoading(true)
+    try{
     const response = await clientService.getList(
       undefined,
       undefined,
       "Activities.CreateDate:desc",
       searchStr
     );
+    setIsLoading(false)
     if (response && response.result) {
       setContacts(response.result);
     }
+  } catch (error) {
+    Sentry.captureException(error);
+  } finally {
+    setIsLoading(false)
+  }
   };
 
   const bannerContent = () => {
@@ -121,7 +130,7 @@ export default function LinkToContact() {
             </TextButton>
           </div>
           <div className={styles.medContent}>
-            <ContactSearch onChange={getContacts} contacts={contacts} />
+            <ContactSearch isLoading={isLoading} onChange={getContacts} contacts={contacts} />
           </div>
         </div>
       </div>
