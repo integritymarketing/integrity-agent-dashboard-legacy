@@ -9,6 +9,8 @@ export default () => {
     lastName: "",
     npn: "",
     email: "",
+    phone: "",
+    agentid
   });
 
   useEffect(() => {
