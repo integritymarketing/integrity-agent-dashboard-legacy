@@ -25,6 +25,7 @@ export default function ActivitySubjectWithIcon({ activitySubject }) {
       "Scope of Appointment Signed": <SOA />,
       "Scope of Appointment Completed": <SOA />,
       "Plan Shared": <Share />,
+      "Contact's new call log created": <CallRecording />,
     };
 
     return icon[activitySubject] || <Activity />;
