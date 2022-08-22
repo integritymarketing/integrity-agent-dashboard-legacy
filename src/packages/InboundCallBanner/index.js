@@ -28,7 +28,8 @@ export default function InboundCallBanner({ agentInformation }) {
   );
 
   const navigateToLinkToContact = () => {
-    history.push(`/link-to-contact`);
+    const callLogId = callStatusInProgress?.callLogId;
+    history.push(`/link-to-contact/${callLogId}`);
   };
 
   const bannerContent = () => {
@@ -40,7 +41,7 @@ export default function InboundCallBanner({ agentInformation }) {
       <>
         <div className={styles.inboundCallWrapper}>
           <Heading4 text="Incoming Call: " />
-          <Typography sx={{ mx: 1 }} variant={"subtitle1"}>
+          <Typography color="#434A51" sx={{ mx: 1 }} variant={"subtitle1"}>
             {formatPhoneNumber(agentInformation?.agentVirtualPhoneNumber, true)}{" "}
           </Typography>
         </div>
