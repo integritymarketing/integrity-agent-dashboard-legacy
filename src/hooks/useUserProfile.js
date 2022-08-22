@@ -10,7 +10,7 @@ export default () => {
     npn: "",
     email: "",
     phone: "",
-    agentid
+    agentid: "",
   });
 
   useEffect(() => {
