@@ -117,7 +117,8 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                         size={150}
                       />
 
-                      {item.activityTypeName === "Triggered" && item?.activityInteractionURL &&
+                      {item.activityTypeName === "Triggered" &&
+                        item?.activityInteractionURL &&
                         (item.activitySubject ===
                           "Scope of Appointment Signed" ||
                           item.activitySubject ===
@@ -137,6 +138,25 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
                               "Scope of Appointment Signed"
                                 ? "Complete"
                                 : "View"}
+                            </button>
+                          </div>
+                        )}
+                      {item?.activityInteractionURL &&
+                        (item.activitySubject === "Call Recording" ||
+                          item.activitySubject ===
+                            "Contact's new call log created") && (
+                          <div className="remindercardsectioncancelsavebtn reminderCardSection2row2right full-width-mobile ">
+                            <button
+                              className={`${"activity-complete-btn"} full-width-mobile mt-10-mb`}
+                              data-gtm="contact-record-activity-view-soa-button"
+                              onClick={() =>
+                                window.open(
+                                  item.activityInteractionURL,
+                                  "_blank"
+                                )
+                              }
+                            >
+                              Download
                             </button>
                           </div>
                         )}
