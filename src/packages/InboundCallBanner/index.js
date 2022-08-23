@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import DashboardHeaderSection from "./DashboardHeaderSection";
+import React, { useState, useMemo } from "react";
+import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
 import useCallRecordings from "hooks/useCallRecordings";
 import { useHistory } from "react-router-dom";
 import Heading4 from "packages/Heading4";
@@ -10,31 +10,38 @@ import { formatPhoneNumber } from "utils/phones";
 import IconWithText from "packages/IconWithText";
 import LinkToContact from "components/icons/LinkToContact";
 import CallScript from "components/icons/script";
-import "./index.scss";
+import styles from "./styles.module.scss";
 
 const IN_PROGRESS = "in-progress";
 
-export default function DashboardCallinProgress({ agentInformation }) {
+export default function InboundCallBanner({ agentInformation }) {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
   const callRecordings = useCallRecordings();
-  const callStatusInProgress = callRecordings.find(
-    (callRecording) => callRecording.callStatus === IN_PROGRESS
+
+  const callStatusInProgress = useMemo(
+    () =>
+      callRecordings.find(
+        (callRecording) => callRecording.callStatus === IN_PROGRESS
+      ),
+    [callRecordings]
   );
 
   const navigateToLinkToContact = () => {
-    history.push(`/link-to-contact`);
+    const callLogId = callStatusInProgress?.callLogId;
+    history.push(`/link-to-contact/${callLogId}`);
   };
 
   const bannerContent = () => {
     const tags = callStatusInProgress?.callLogTags.map(
       (callLogTag) => callLogTag.tag.tagLabel
     );
+
     return (
       <>
-        <div className="incomming-cal-wrapper">
+        <div className={styles.inboundCallWrapper}>
           <Heading4 text="Incoming Call: " />
-          <Typography sx={{ mx: 1 }} variant={"subtitle1"}>
+          <Typography color="#434A51" sx={{ mx: 1 }} variant={"subtitle1"}>
             {formatPhoneNumber(agentInformation?.agentVirtualPhoneNumber, true)}{" "}
           </Typography>
         </div>
@@ -48,19 +55,22 @@ export default function DashboardCallinProgress({ agentInformation }) {
         <div onClick={navigateToLinkToContact}>
           <IconWithText text="Link to contact" icon={<LinkToContact />} />
         </div>
-        {tags?.length && <Tags className="header-tag" words={tags} />}
+        {tags?.length > 0 && <Tags className="header-tag" words={tags} />}
       </>
     );
   };
 
-  
   return (
-    <>{callStatusInProgress && <DashboardHeaderSection content={bannerContent()} />}
-    <CallScriptModal
+    <>
+      {callStatusInProgress && (
+        <DashboardHeaderSection content={bannerContent()} />
+      )}
+      <CallScriptModal
         modalOpen={modalOpen}
         handleClose={() => {
           setModalOpen(false);
         }}
-      /></>
+      />
+    </>
   );
 }

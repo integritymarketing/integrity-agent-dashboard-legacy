@@ -52,6 +52,7 @@ const getActivitySubject = (activitySubject) => {
 const buttonTextByActivity = {
   "Incoming Call": "Link To Contact",
   "Call Recording": "Download",
+  "Contact's new call log created": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
@@ -159,6 +160,9 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
         // TODO : change it with plan interaction URL
         break;
       case "Call Recording":
+        window.open(activityInteractionURL, "_blank");
+        break;
+      case "Contact's new call log created":
         window.open(activityInteractionURL, "_blank");
         break;
       default:

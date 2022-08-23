@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import "./actionDropdown.scss";
 import analyticsService from "services/analyticsService";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
@@ -12,6 +12,7 @@ export default function ActionsDropDown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef();
+  const handlerElemRef = useRef();
 
   useOnClickOutside(ref, () => setIsOpen(false));
 
@@ -30,14 +31,29 @@ export default function ActionsDropDown({
     setIsOpen((isOpen) => !isOpen);
   };
 
+  const dropDownStyles = useMemo(() => {
+    if(isOpen)
+    return handlerElemRef?.current
+      ? {
+          right:
+            window.innerWidth -
+              handlerElemRef?.current?.getBoundingClientRect()?.right ?? 0,
+        }
+      : {};
+  }, [isOpen, handlerElemRef]);
+
   const openClass = isOpen ? "opened" : "closed";
 
   return (
     <div ref={ref} className={`action-dropdown ${openClass}`}>
-      <div onClick={toggleDropdownMenu} className={`${openClass} ${className}`}>
+      <div
+        ref={handlerElemRef}
+        onClick={toggleDropdownMenu}
+        className={`${openClass} ${className}`}
+      >
         {children}
       </div>
-      <div className="action-dropdown-menu">
+      <div className="action-dropdown-menu" style={dropDownStyles}>
         {options.map((option) => (
           <div
             className="action-dropdown-menu-item"
