@@ -16,6 +16,8 @@ import { formatPhoneNumber } from "utils/phones";
 import Editicon from "components/icons/edit-details";
 import clientService from "services/clientsService";
 import useToast from "hooks/useToast";
+import { UserManager, WebStorageStateStore } from "oidc-client";
+import useUserProfile from "hooks/useUserProfile";
 
 const CallCenterContent = ({
   agentId,
@@ -139,6 +141,8 @@ const RenderModalItem = ({
   const [dataHover, setDataHover] = useState("");
   const [lcHover, setlcHover] = useState("");
   const [mcHover, setmcHover] = useState("");
+  const userProfile = useUserProfile();
+  const { npn } = userProfile;
   const {
     data = false,
     call = false,
@@ -167,6 +171,24 @@ const RenderModalItem = ({
       },
     },
   };
+
+  const handleOpenLeadsCenter = () => {
+    const userManager = new UserManager({
+      authority: process.env.REACT_APP_AUTH_ILC_URL,
+      client_id: "AEPortal",
+      response_type: "code",
+      redirect_uri: process.env.REACT_APP_AUTH_ILC_REDIRECT_URI,
+      scope:
+        "openid profile email phone roles IdentityServerApi LeadsAPI_Full AgentService_Full QuoteService_Full NotificationService_Full AgentService_Full",
+      userStore: new WebStorageStateStore({ store: window.localStorage }),
+    });
+    userManager.signinRedirect({
+      extraQueryParams: {
+        username: npn,
+      },
+    });
+  };
+
   const renderContent = () => {
     switch (activeModal) {
       case "callCenter":
@@ -240,7 +262,11 @@ const RenderModalItem = ({
               <div className="modal-lead-source">
                 <div className="span_source-title">LeadCENTER</div>
                 <div className="span_setup">
-                  <Button variant="primary" size="small" onClick={() => {}}>
+                  <Button
+                    variant="primary"
+                    size="small"
+                    onClick={handleOpenLeadsCenter}
+                  >
                     setup
                   </Button>
                 </div>
