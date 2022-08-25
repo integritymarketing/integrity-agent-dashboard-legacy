@@ -16,6 +16,8 @@ import { formatPhoneNumber } from "utils/phones";
 import Editicon from "components/icons/edit-details";
 import clientService from "services/clientsService";
 import useToast from "hooks/useToast";
+import useUserProfile from "hooks/useUserProfile";
+import authService from "services/authService";
 
 const CallCenterContent = ({
   agentId,
@@ -139,6 +141,8 @@ const RenderModalItem = ({
   const [dataHover, setDataHover] = useState("");
   const [lcHover, setlcHover] = useState("");
   const [mcHover, setmcHover] = useState("");
+  const userProfile = useUserProfile();
+  const { npn } = userProfile;
   const {
     data = false,
     call = false,
@@ -167,6 +171,7 @@ const RenderModalItem = ({
       },
     },
   };
+
   const renderContent = () => {
     switch (activeModal) {
       case "callCenter":
@@ -240,7 +245,11 @@ const RenderModalItem = ({
               <div className="modal-lead-source">
                 <div className="span_source-title">LeadCENTER</div>
                 <div className="span_setup">
-                  <Button variant="primary" size="small" onClick={() => {}}>
+                  <Button
+                    variant="primary"
+                    size="small"
+                    onClick={() => authService.handleOpenLeadsCenter(npn)}
+                  >
                     setup
                   </Button>
                 </div>
