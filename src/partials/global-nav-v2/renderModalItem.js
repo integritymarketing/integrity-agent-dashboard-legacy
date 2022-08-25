@@ -16,8 +16,8 @@ import { formatPhoneNumber } from "utils/phones";
 import Editicon from "components/icons/edit-details";
 import clientService from "services/clientsService";
 import useToast from "hooks/useToast";
-import { UserManager, WebStorageStateStore } from "oidc-client";
 import useUserProfile from "hooks/useUserProfile";
+import authService from "services/authService";
 
 const CallCenterContent = ({
   agentId,
@@ -172,23 +172,6 @@ const RenderModalItem = ({
     },
   };
 
-  const handleOpenLeadsCenter = () => {
-    const userManager = new UserManager({
-      authority: process.env.REACT_APP_AUTH_ILC_URL,
-      client_id: "AEPortal",
-      response_type: "code",
-      redirect_uri: process.env.REACT_APP_AUTH_ILC_REDIRECT_URI,
-      scope:
-        "openid profile email phone roles IdentityServerApi LeadsAPI_Full AgentService_Full QuoteService_Full NotificationService_Full AgentService_Full",
-      userStore: new WebStorageStateStore({ store: window.localStorage }),
-    });
-    userManager.signinRedirect({
-      extraQueryParams: {
-        username: npn,
-      },
-    });
-  };
-
   const renderContent = () => {
     switch (activeModal) {
       case "callCenter":
@@ -265,7 +248,7 @@ const RenderModalItem = ({
                   <Button
                     variant="primary"
                     size="small"
-                    onClick={handleOpenLeadsCenter}
+                    onClick={() => authService.handleOpenLeadsCenter(npn)}
                   >
                     setup
                   </Button>

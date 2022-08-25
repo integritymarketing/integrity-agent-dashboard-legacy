@@ -251,6 +251,23 @@ class authService {
   handleExpiredToken = async () => {
     return this.signinRedirect();
   };
+
+  handleOpenLeadsCenter = (npn) => {
+    const userManager = new UserManager({
+      authority: process.env.REACT_APP_AUTH_ILC_URL,
+      client_id: "AEPortal",
+      response_type: "code",
+      redirect_uri: process.env.REACT_APP_AUTH_ILC_REDIRECT_URI,
+      scope:
+        "openid profile email phone roles IdentityServerApi LeadsAPI_Full AgentService_Full QuoteService_Full NotificationService_Full AgentService_Full",
+      userStore: new WebStorageStateStore({ store: window.localStorage }),
+    });
+    userManager.signinRedirect({
+      extraQueryParams: {
+        username: npn,
+      },
+    });
+  };
 }
 
 export default new authService();
