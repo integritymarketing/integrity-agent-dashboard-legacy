@@ -260,7 +260,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {showGetStarted && !user?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted onClose={() => setShowGetStarted(false)} />}
+      {showGetStarted && user?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted onClose={() => setShowGetStarted(false)} />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
