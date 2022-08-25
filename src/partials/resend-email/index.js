@@ -33,7 +33,7 @@ export default ({ resendFn, btnClass = "" }) => {
             const clientId = useClientId();
 
             let response = await resendFn({
-              npn: params.get("npn"),
+              Username: params.get("npn"),
               ClientId: clientId,
             });
             if (response.status >= 200 && response.status < 300) {
