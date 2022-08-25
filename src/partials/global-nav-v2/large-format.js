@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ArrowDownIcon from "components/icons/arrow-down";
+import Arrow from "components/icons/down";
 import useUserProfile from "hooks/useUserProfile";
 import { useHistory } from "react-router-dom";
 
@@ -59,11 +59,11 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
           }`}
         >
           <button
-            className={`link link--inherit dropdown-menu__trigger button_color`}
+            className={`dropdown-menu__trigger button_color`}
             onClick={() => setNavOpen(!navOpen)}
           >
             <span>{userProfile.fullName}</span>
-            <ArrowDownIcon className={navOpen ? "icon-flip" : ""} />
+            <Arrow color={"#FFFFFF"} className={navOpen ? "icon-flip" : ""} />
           </button>
           <ul className="dropdown-menu__items">
             {secondary
