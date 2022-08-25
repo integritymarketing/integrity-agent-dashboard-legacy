@@ -106,7 +106,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [callForwardNumber, setCallForwardNumber] = useState("");
   const addToast = useToast();
   const [leadPreference, setLeadPreference] = useState({});
-  const [showGetStarted, setShowGetStarted] = useState(true)
 
   const menuProps = Object.assign(
     {
@@ -260,7 +259,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {showGetStarted && user?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted onClose={() => setShowGetStarted(false)} />}
+      {user?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"

@@ -13,7 +13,6 @@ import PlayStore from "components/icons/playstore";
 import AppStore from "components/icons/appstore";
 import styles from "./styles.module.scss";
 import clientService from "services/clientsService";
-import CloseIcon from "components/icons/close";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { formatPhoneNumber } from "utils/phones";
 import useToast from "hooks/useToast";
@@ -21,7 +20,7 @@ import phonesImage from "images/signup-phones.png";
 import authService from "services/authService";
 import useUserProfile from "hooks/useUserProfile";
 
-export default function GetStarted({ onClose }) {
+export default function GetStarted() {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
   const auth = useContext(AuthContext);
@@ -204,7 +203,6 @@ export default function GetStarted({ onClose }) {
         >
           Get Started
         </Button>
-        <CloseIcon onClick={onClose} className={styles.crossIcon} />
       </div>
       <Modal
         content={modalContent}
