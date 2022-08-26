@@ -1,10 +1,10 @@
 import React from "react";
-import "./renderModalItem.scss";
 import { TextButton, Button } from "packages/Button";
+import styles from "./styles.module.scss";
 
-function ModalContactText({ buttonOne, buttonTwo }) {
+function FooterButtons({ buttonOne, buttonTwo }) {
   return (
-    <div className="buttons">
+    <div className={styles.buttons}>
       <TextButton
         variant="text"
         size="medium"
@@ -29,4 +29,4 @@ function ModalContactText({ buttonOne, buttonTwo }) {
     </div>
   );
 }
-export default ModalContactText;
+export default FooterButtons;

@@ -6,7 +6,7 @@ import LeadSource from "./LeadSource.svg";
 import Check from "./Check.svg";
 import "./renderModalItem.scss";
 import Arrow from "components/icons/right-arrow";
-import FooterButtons from "./footerButtons";
+import FooterButtons from "packages/FooterButtons";
 import { Button } from "packages/Button";
 import Mobile from "./Mobile.svg";
 import { Formik, Form } from "formik";
