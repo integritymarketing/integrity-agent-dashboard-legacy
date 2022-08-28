@@ -188,7 +188,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         leadPreference,
       } = response || {};
       if (!agentVirtualPhoneNumber) {
-        await clientService.genarateAgentTwiloNumber(agentVirtualPhoneNumber);
+        await clientService.genarateAgentTwiloNumber(agentid);
       }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
