@@ -207,12 +207,16 @@ function ContactsTable({
 
   useEffect(() => {
     const stages = queryParams.get("Stage");
+    const tags = queryParams.get("Tags");
     const contactRecordType = queryParams.get("ContactRecordType");
     const hasReminder = queryParams.get("HasReminder");
+    const hasOverdueReminder = queryParams.get("HasOverdueReminder");
     const applyFilters = {
       contactRecordType,
       hasReminder,
       stages: stages ? stages.split(",") : [],
+      tags: tags ? tags.split(",") : [],
+      hasOverdueReminder,
     };
     setApplyFilters(applyFilters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -281,7 +285,9 @@ function ContactsTable({
           duplicateIds,
           applyFilters?.contactRecordType,
           applyFilters?.stages,
-          applyFilters?.hasReminder
+          applyFilters?.hasReminder,
+          applyFilters.hasOverdueReminder,
+          applyFilters.tags
         )
         .then((list) => {
           const listData = list.result.map((res) => ({
@@ -421,9 +427,7 @@ function ContactsTable({
         Header: "Primary Contact",
         accessor: (row) => {
           return (
-            <div
-              className={styles.primaryContact}
-            >
+            <div className={styles.primaryContact}>
               {getPrimaryContact(row)}
             </div>
           );

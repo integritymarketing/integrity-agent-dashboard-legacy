@@ -17,6 +17,9 @@ import { formatPhoneNumber } from "utils";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
+import GetStarted from "packages/GetStarted";
+import InboundCallBanner from "packages/InboundCallBanner";
+import Spinner from "components/ui/Spinner/index";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -91,18 +94,22 @@ const SiteNotification = ({
 
 export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
+  const addToast = useToast();
   const [navOpen, setNavOpen] = useState(false);
+  const [agentInfo, setAgentInfo] = useState({});
   const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
   const [user, setUser] = useState({});
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [isAvailable, setIsAvailable] = useState(false);
   const [phone, setPhone] = useState("");
   const [virtualNumber, setVirtualNumber] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
-  const addToast = useToast();
   const [leadPreference, setLeadPreference] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
 
   const menuProps = Object.assign(
     {
@@ -172,14 +179,16 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       return;
     }
     try {
-      const res = await clientService.getAgentAvailability(agentid);
+      setLoading(true);
+      const response = await clientService.getAgentAvailability(agentid);
       const {
         isAvailable,
         phone,
         agentVirtualPhoneNumber,
         callForwardNumber,
         leadPreference,
-      } = res || {};
+      } = response || {};
+      setAgentInfo(response);
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
       setLeadPreference(leadPreference);
@@ -191,13 +200,15 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       }
     } catch (error) {
       Sentry.captureException(error);
+    } finally {
+      setLoading(false)
     }
   };
 
   const updateAgentAvailability = async (data) => {
     try {
-      let res = await clientService.updateAgentAvailability(data);
-      if (res.ok) {
+      let response = await clientService.updateAgentAvailability(data);
+      if (response.ok) {
         getAgentAvailability(data.agentID);
       }
     } catch (error) {
@@ -234,6 +245,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       loadAsyncData();
     }
   }, [auth]);
+
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
   function clickButton() {
     handleOpen();
@@ -249,12 +261,17 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     .filter(Boolean)
     .join("-");
 
+    if (loading) {
+      return <Spinner />;
+    }
+    
   return (
     <>
       <SiteNotification
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
+      {!agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
@@ -315,6 +332,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           getAgentAvailability={getAgentAvailability}
         />
       </header>
+      <InboundCallBanner agentInformation={agentInfo} />
     </>
   );
 };

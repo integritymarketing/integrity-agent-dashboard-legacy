@@ -6,6 +6,15 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
 import styles from "./styles.module.scss";
+import CloseIcon from "@mui/icons-material/Close";
+
+const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
+  cursor: "pointer",
+  display: "flex",
+  width: "30px",
+  height: "30px",
+  color: "#2175F4",
+}));
 
 const StyledPopover = styled(Popover)(() => ({
   ".MuiPopover-paper": {
@@ -68,12 +77,15 @@ export default function Filter({ heading, content, open, onToggle }) {
             backgroundColor: "#F4F8FB",
           }}
         >
-          <Box sx={{ py: 2, px: 3 }}>
-            <Typography variant="h5" sx={{ color: "#093577" }}>
-              {heading}
-            </Typography>
+          <Box sx={{ py: 3, px: 3 }}>
+            <Box className={styles.filterHeader}>
+              <Typography variant="h5" sx={{ color: "#093577" }}>
+                {heading}
+              </Typography>
+              <StyledIconButton onClick={handleClose} />
+            </Box>
+            {content}
           </Box>
-          {content}
         </Box>
       </StyledPopover>
     </Box>

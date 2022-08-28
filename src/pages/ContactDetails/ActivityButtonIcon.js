@@ -12,6 +12,7 @@ export default function ActivityButtonIcon({ activitySubject }) {
     const icon = {
       "Incoming Call": <LINK />,
       "Call Recording": <DOWNLOAD />,
+      "Contact's new call log created": <DOWNLOAD />,
       "Scope of Appointment Signed": <SOACOMPLETE />,
       "Scope of Appointment Completed": <SOAVIEW />,
       "Plan Shared": <VIEWPLANS />,

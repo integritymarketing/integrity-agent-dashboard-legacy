@@ -4,7 +4,7 @@ import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import { useSelectFilterToScroll } from "hooks/useSelectFilter";
-import arrow from "images/down-arrow.png";
+import Arrow from "components/icons/down";
 export const DefaultOption = ({
   label,
   value,
@@ -172,7 +172,7 @@ export const Select = ({
       ) : (
         <span className="placeholder">{placeholder}</span>
       )}
-      <img src={arrow} alt="plans" className="arrow-down"></img>
+      <Arrow color={"#0052CE"} />
     </div>
   );
   const selectBox = mobileLabel ? (

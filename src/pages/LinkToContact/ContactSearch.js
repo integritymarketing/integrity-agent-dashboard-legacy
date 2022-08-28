@@ -11,10 +11,11 @@ import { useHistory } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
 import useToast from "hooks/useToast";
-import useCallRecordings from "hooks/useCallRecordings";
 import callRecordingsService from "services/callRecordingsService";
 import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
+import { useParams } from "react-router-dom";
+import Spinner from "components/ui/Spinner/index";
 
 const SearchInput = styled(OutlinedInput)(() => ({
   background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -56,16 +57,20 @@ const ContactListItemButton = ({ leadId, callLogId, children }) => {
   );
 };
 
-export default function ContactSearch({ contacts, onChange }) {
+export default function ContactSearch({ contacts, onChange, isLoading }) {
+  const { callLogId } = useParams();
   const [searchStr, setSearchStr] = useState("");
-
-  const callRecordings = useCallRecordings({ subscribe: false });
-  const callStatusInProgress = callRecordings.find(
-    (callRecording) => callRecording.callStatus === "in-progress"
-  );
 
   function renderRow(value, index) {
     const fullname = `${value.firstName} ${value.lastName}`;
+    if (isLoading) {
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
+    }
+
     return (
       <ListItem
         key={"contactindex" + index}
@@ -75,7 +80,7 @@ export default function ContactSearch({ contacts, onChange }) {
         <ListItemButton
           component={ContactListItemButton}
           leadId={value.leadsId}
-          callLogId={callStatusInProgress?.callLogId}
+          callLogId={callLogId}
         >
           <ListItemText
             primary={

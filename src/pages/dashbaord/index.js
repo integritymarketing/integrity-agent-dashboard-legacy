@@ -26,7 +26,6 @@ import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
-import DashboardCallinProgress from "./DashBoardCallinProgress";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -63,7 +62,6 @@ export default function Dashbaord() {
   const [dashboardData, setDashboardData] = useState({});
   const [activityData, setActivityData] = useState([]);
   const [user, setUser] = useState({});
-  const [agentInformation, setAgentInformation] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } =
@@ -74,10 +72,6 @@ export default function Dashbaord() {
       try {
         const user = await auth.getUser();
         setUser(user.profile);
-        const agentInfo = await clientService.getAgentAvailability(
-          user?.profile?.agentid
-        );
-        setAgentInformation(agentInfo);
       } catch (error) {
         Sentry.captureException(error);
       }
@@ -152,7 +146,6 @@ export default function Dashbaord() {
       </Helmet>
       <GlobalNav />
       <HelpButtonModal />
-      <DashboardCallinProgress agentInformation={agentInformation} />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">

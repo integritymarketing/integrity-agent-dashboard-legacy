@@ -19,7 +19,6 @@ import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
 import Delete from "components/icons/trashbin";
 import Export from "components/icons/export";
-import ContactListFilter from "./ContactListFilter";
 import DeleteContactsModal from "./DeleteContactsModal";
 import ExportContactsModal from "./ExportContactsModal";
 import { Button } from "components/ui/Button";
@@ -39,7 +38,8 @@ import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import { StageStatusProvider } from "contexts/stageStatus";
 import FooterBanners from "packages/FooterBanners";
-
+import Filter from "packages/Filter/Filter";
+import ContactListFilterOptions from "packages/ContactListFilterOptions";
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
@@ -78,10 +78,13 @@ export default () => {
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
-  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] =
-    useState(false);
-  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] =
-    useState(false);
+  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] = useState(
+    false
+  );
+  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] = useState(
+    false
+  );
+  const [filterToggle, setFilterToggle] = useState(false);
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
@@ -102,7 +105,7 @@ export default () => {
       switchLayout();
     }
   }, [location, isMobile]); // eslint-disable-line react-hooks/exhaustive-deps
-  
+
   const debouncedSetSearchString = useCallback(
     debounce(setSearchStringNew, 500),
     []
@@ -348,7 +351,12 @@ export default () => {
                     onChange={(value) => setSort(value)}
                   />
                 </div>
-                <ContactListFilter />
+                <Filter
+                  heading={"Filter by "}
+                  open={filterToggle}
+                  onToggle={setFilterToggle}
+                  content={<ContactListFilterOptions close={setFilterToggle} />}
+                />
               </div>
             </div>
             <div className={styles.tableWrapper}>
