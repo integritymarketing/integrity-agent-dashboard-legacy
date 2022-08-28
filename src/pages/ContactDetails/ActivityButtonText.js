@@ -12,11 +12,8 @@ const buttonTextByActivity = {
 };
 
 export default function ActivityButtonText(activity) {
-  const {
-    activityTypeName,
-    activityInteractionURL,
-    activitySubject,
-  } = activity.activity;
+  const { activityTypeName, activityInteractionURL, activitySubject } =
+    activity.activity;
   const history = useHistory();
   const { contactId: leadsId } = useParams();
 
@@ -45,10 +42,12 @@ export default function ActivityButtonText(activity) {
   const showButton =
     activityTypeName &&
     activityTypeName === "Triggered" &&
-    activityInteractionURL ? true : false;
+    activityInteractionURL
+      ? true
+      : false;
 
-    const buttonText =  buttonTextByActivity[activitySubject]
-debugger
+  const buttonText = buttonTextByActivity[activitySubject];
+
   return (
     <>
       {showButton && (
@@ -57,7 +56,9 @@ debugger
           onClick={() =>
             handleClick(activitySubject, activityInteractionURL, leadsId)
           }
-        >{buttonText}</Button>
+        >
+          {buttonText}
+        </Button>
       )}
     </>
   );
