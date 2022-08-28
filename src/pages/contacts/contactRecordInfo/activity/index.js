@@ -9,7 +9,7 @@ import LimitedCharacters from "./limitedCharacters";
 import clientsService from "services/clientsService";
 import useToast from "../../../../hooks/useToast";
 
-export default ({ activities, leadId, getContactRecordInfo }) => {
+export default ({ activities, leadId, getLeadDetails }) => {
   const [activityModalStatus, setActivityModalStatus] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [activityData, setActivityData] = useState({});
@@ -20,7 +20,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
 
   const deleteActivity = async (activityId) => {
     await clientsService.deleteActivity(activityId);
-    getContactRecordInfo();
+    getLeadDetails();
     addToast({
       type: "success",
       message: "Activity successfully deleted",
@@ -191,7 +191,7 @@ export default ({ activities, leadId, getContactRecordInfo }) => {
         activityModalStatus={activityModalStatus}
         setModalClose={closeModal}
         leadId={leadId}
-        getContactRecordInfo={getContactRecordInfo}
+        getLeadDetails={getLeadDetails}
       />
     </>
   );

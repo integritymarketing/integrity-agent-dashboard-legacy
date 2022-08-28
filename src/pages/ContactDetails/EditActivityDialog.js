@@ -3,22 +3,23 @@ import React, { useState } from "react";
 import styles from "./AddNewActivityDialog.module.scss";
 import { Box, TextField } from "@mui/material";
 
-export default function AddNewActivityDialog({ open, onClose, onSave }) {
-  const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
-
+export default function EditActivityDialog({
+  open,
+  onClose,
+  onSave,
+  activity,
+}) {
+  const { activitySubject, activityBody, activityId } = activity;
+  const [title, setTitle] = useState(activitySubject);
+  const [note, setNote] = useState(activityBody);
   const renderContent = () => {
     return (
       <div>
         <div>
-          <div className={styles.subHeading}>Activity Title</div>
+          <div className={styles.subHeading}>Edit Note</div>
           <div>
             <TextField
-              sx={{
-                background: "white",
-                border: "1px solid #DFDEDD",
-                borderRadius: "8px",
-              }}
+              sx={{ background: "white", border: "1px solid #DFDEDD", borderRadius: "8px" }}
               hiddenLabel
               fullWidth
               rows={2}
@@ -34,11 +35,7 @@ export default function AddNewActivityDialog({ open, onClose, onSave }) {
           <div className={styles.subHeading}>Activity Note</div>
           <div>
             <TextField
-              sx={{
-                background: "white",
-                border: "1px solid #DFDEDD",
-                borderRadius: "8px",
-              }}
+              sx={{ background: "white", border: "1px solid #DFDEDD", borderRadius: "8px" }}
               hiddenLabel
               multiline
               fullWidth
@@ -58,11 +55,10 @@ export default function AddNewActivityDialog({ open, onClose, onSave }) {
   return (
     <Box>
       <Dialog
-        keepMounted
         open={open}
         fullWidth={true}
         onSave={() => {
-          onSave(title, note);
+          onSave(activityId, title, note);
         }}
         title={"New Note"}
         saveText={"Save"}

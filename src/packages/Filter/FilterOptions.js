@@ -111,7 +111,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
             aria-describedby={"Apply"}
             sx={{ width: "40%" }}
             variant="contained"
-            disabled={checkDisabled}
+            disabled={checkDisabled()}
             onClick={handleApply}
           >
             Apply

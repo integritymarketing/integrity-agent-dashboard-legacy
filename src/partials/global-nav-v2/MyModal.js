@@ -87,8 +87,8 @@ export default function BasicModal({
           availability: true,
         });
       }
-      handleClose();
     }
+    handleClose();
   };
 
   return (

@@ -45,7 +45,7 @@ export default function Dialog(props) {
   } = props;
 
   return (
-    <StyledDialog open={open} fullWidth={fullWidth} maxWidth={maxWidth}>
+    <StyledDialog onClose={onClose} open={open} fullWidth={fullWidth} maxWidth={maxWidth}>
       {title && (
         <StyledDialogTitle>
           {title}

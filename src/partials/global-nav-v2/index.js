@@ -19,7 +19,6 @@ import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
-import Spinner from "components/ui/Spinner/index";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -260,10 +259,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   ]
     .filter(Boolean)
     .join("-");
-
-    if (loading) {
-      return <Spinner />;
-    }
     
   return (
     <>
@@ -271,7 +266,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {!agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted />}
+      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"

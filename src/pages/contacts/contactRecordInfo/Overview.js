@@ -1,27 +1,22 @@
 import React from "react";
-import Activities from "./activity";
 import Reminders from "./reminder";
 import ClientNotes from "./clientNotes";
+import Activities from "pages/ContactDetails/Activities";
 
 export default ({
   personalInfo,
-  reminders =[],
-  activities=[],
-  getContactRecordInfo,
+  reminders = [],
+  getLeadDetails,
   id,
 }) => {
   return (
     <>
       <Reminders
-        getContactRecordInfo={getContactRecordInfo}
+        getLeadDetails={getLeadDetails}
         leadId={id}
         reminders={reminders}
       />
-      <Activities
-        activities={activities}
-        getContactRecordInfo={getContactRecordInfo}
-        leadId={id}
-      />
+      <Activities getLeadDetails={getLeadDetails} leadId={id} />
       <ClientNotes personalInfo={personalInfo} />
     </>
   );

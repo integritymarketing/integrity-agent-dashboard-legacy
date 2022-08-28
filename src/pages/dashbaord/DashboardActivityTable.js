@@ -58,13 +58,13 @@ const buttonTextByActivity = {
   "Plan Shared": "View PLans",
 };
 
-const renderButtons = (row, leadsId, onRowClick, handleClick) => {
-  if (!row) return false;
+const renderButtons = (activity, leadsId, handleClick) => {
+  if (!activity) return false;
   const {
     activityTypeName = "",
     activityInteractionURL = "",
     activitySubject = "",
-  } = row;
+  } = activity;
 
   if (
     activityTypeName &&
@@ -79,12 +79,7 @@ const renderButtons = (row, leadsId, onRowClick, handleClick) => {
         }
       >
         <ActivityButtonIcon activitySubject={activitySubject} />
-        <Typography
-          color="#434A51"
-          fontSize={"16px"}
-          noWrap
-          onClick={() => onRowClick(row)}
-        >
+        <Typography color="#434A51" fontSize={"16px"} noWrap>
           {buttonTextByActivity[activitySubject]}
         </Typography>
       </div>
@@ -113,10 +108,9 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
     [pagedData.length, filteredData.length]
   );
 
-  const onShowMore = useCallback(
-    () => setPageSize((ps) => ps + 10),
-    [setPageSize]
-  );
+  const onShowMore = useCallback(() => setPageSize((ps) => ps + 10), [
+    setPageSize,
+  ]);
 
   useEffect(() => {
     setFilteredData([...activityData]);
@@ -245,7 +239,6 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
             {renderButtons(
               row?.original?.activities[0],
               row?.original?.leadsId,
-              onRowClick,
               handleClick
             )}
           </>
