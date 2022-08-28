@@ -86,6 +86,7 @@ export const StageStatusProvider = (props) => {
       value: status.statusName,
       label: status.statusName,
       color: status.colorCode || getStageColor(status.statusName),
+      statusId: status.leadStatusId,
     }));
   }, [allStatuses]);
 

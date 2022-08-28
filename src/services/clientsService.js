@@ -73,7 +73,9 @@ export class ClientsService {
     leadIds,
     contactRecordType = "",
     stages = [],
-    hasReminder = false
+    hasReminder = false,
+    hasOverdueReminder = false,
+    tags = []
   ) => {
     let params = {
       PageSize: pageSize,
@@ -85,11 +87,17 @@ export class ClientsService {
     if (hasReminder) {
       params.HasReminder = hasReminder;
     }
+    if (hasReminder) {
+      params.HasOverdueReminder = hasOverdueReminder;
+    }
     if (contactRecordType !== "") {
       params.ContactRecordType = contactRecordType;
     }
     if (stages && stages.length > 0) {
       params.Stage = stages;
+    }
+    if (tags && tags.length > 0) {
+      params.Tags = tags;
     }
 
     const queryStr = Object.keys(params)
@@ -101,6 +109,9 @@ export class ClientsService {
         }
         if (key === "Stage") {
           return stages.map((stageId) => `${key}=${stageId}`).join("&");
+        }
+        if (key === "Tags") {
+          return tags.map((tagId) => `${key}=${tagId}`).join("&");
         }
         return params[key] ? `${key}=${params[key]}` : null;
       })
@@ -901,7 +912,6 @@ export class ClientsService {
     return response.json();
   };
 
- 
   updateAgentCallForwardingNumber = async (payload) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/CallForwardNumber`,
@@ -911,9 +921,9 @@ export class ClientsService {
     if (response.ok) {
       return response;
     }
-  }; 
+  };
   /*End purl API calls */
-  
+
   getAgentByAgentId = async (id) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
@@ -921,7 +931,13 @@ export class ClientsService {
     );
     return response.json();
   };
-
+  getAllTagsByGroups = async () => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`,
+      "GET"
+    );
+    return response.json();
+  };
 }
 
 export default new ClientsService();

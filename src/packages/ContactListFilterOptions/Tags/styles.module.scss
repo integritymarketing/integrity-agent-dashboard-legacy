@@ -1,0 +1,23 @@
+.stageFilters {
+  padding-left: 15px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.listContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 12px;
+  width: 47%;
+  height: fit-content;
+}
+
+.tagName {
+  margin-left: 5px;
+}

@@ -1,0 +1,18 @@
+.filterMenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 41px;
+  background-color: #f1f1f1;
+  color: #434a51;
+  border-radius: 6px;
+  margin-top: 15px;
+  .item {
+    padding: 9px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .bgSelect {
+    background-color: #ffffff;
+  }
+}
