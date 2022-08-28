@@ -187,6 +187,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         callForwardNumber,
         leadPreference,
       } = response || {};
+      if (!agentVirtualPhoneNumber) {
+        await clientService.genarateAgentTwiloNumber(agentVirtualPhoneNumber);
+      }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
@@ -200,7 +203,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     } catch (error) {
       Sentry.captureException(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -259,14 +262,16 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   ]
     .filter(Boolean)
     .join("-");
-    
+
   return (
     <>
       <SiteNotification
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted />}
+      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
+        <GetStarted />
+      )}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
