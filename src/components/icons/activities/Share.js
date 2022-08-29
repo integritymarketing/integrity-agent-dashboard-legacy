@@ -13,7 +13,7 @@ const Share = (props) => (
     <defs>
       <style>
         {
-          ".b{fill:none;stroke:#0052ce;stroke-linecap:round;stroke-linejoin:round}"
+          ".b{fill:none;stroke:#0052ce;strokeLinecap:round;strokeLinejoin:round}"
         }
       </style>
     </defs>

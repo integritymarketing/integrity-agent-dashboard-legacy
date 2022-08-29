@@ -41,6 +41,7 @@ export default ({ personalInfo, isEdit, setEdit, setDisplay, leadsId }) => {
     setDisplay("Details");
     setEdit(true);
   };
+  
   return (
     <div className="nameCard">
       <Container className={styles.container}>

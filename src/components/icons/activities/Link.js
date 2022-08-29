@@ -8,7 +8,7 @@ const LINK = (props) => (
     viewBox="0 0 32 32"
   >
     <defs>
-      <clipPath id="clip-path">
+      <clipPath id="clipPath">
         <rect
           id="Rectangle_20844"
           data-name="Rectangle 20844"
@@ -31,7 +31,7 @@ const LINK = (props) => (
       />
     </g>
     <g id="Group_3219" data-name="Group 3219" transform="translate(8 8)">
-      <g id="Group_3218" data-name="Group 3218" clip-path="url(#clip-path)">
+      <g id="Group_3218" data-name="Group 3218" clipPath="url(#clipPath)">
         <path
           id="Path_3506"
           data-name="Path 3506"
