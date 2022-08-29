@@ -10,7 +10,7 @@ import Stages from "./Stages";
 import Tags from "./Tags";
 
 export default function ContactListFilterOptions({ close }) {
-  const [filterType, setFilterType] = useState("stage");
+  const [filterType, setFilterType] = useState("Stage");
   const [reminder, setReminder] = useState("");
   const [stages, setStages] = useState([]);
   const [tags, setTags] = useState([]);
@@ -157,17 +157,17 @@ export default function ContactListFilterOptions({ close }) {
   return (
     <>
       <FilterTypeMenu filterType={filterType} setFilterType={setFilterType} />
-      {filterType === "reminders" && (
+      {filterType === "Reminders" && (
         <Reminders reminder={reminder} setReminder={setReminder} />
       )}
-      {filterType === "stage" && (
+      {filterType === "Stage" && (
         <Stages
           statusOptions={statusOptions}
           selectStage={selectStage}
           stages={stages}
         />
       )}
-      {filterType === "tags" && (
+      {filterType === "Tags" && (
         <Tags selectTag={selectTag} tags={tags} TAGS={TAGS} />
       )}
 
