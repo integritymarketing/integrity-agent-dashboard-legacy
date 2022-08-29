@@ -130,7 +130,7 @@ export default () => {
       case "OverView":
         return <OverView {...props} />;
       case "Details":
-        return <Details {...props} />;
+        return <Details {...props} getContactRecordInfo={getLeadDetails} />;
       case "ScopeOfAppointment":
         return <ScopeOfAppointment {...props} />;
       case "Preferences":
