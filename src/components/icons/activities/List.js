@@ -17,7 +17,7 @@ const List = (props) => (
   >
     <style>
       {
-        ".st0{fill:none;stroke:#0052ce;stroke-width:.99;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.96}"
+        ".st0{fill:none;stroke:#0052ce;strokeWidth:.99;strokeLinecap:round;strokeLinejoin:round;stroke-miterlimit:3.96}"
       }
     </style>
     <path className="st0" d="M7.4 2.5h15.9" />

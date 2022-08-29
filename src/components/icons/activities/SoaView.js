@@ -8,7 +8,7 @@ const SOAVIEW = (props) => (
     viewBox="0 0 32 32"
   >
     <defs>
-      <clipPath id="clip-path">
+      <clipPath id="clipPath">
         <rect
           id="Rectangle_20849"
           data-name="Rectangle 20849"
@@ -29,7 +29,7 @@ const SOAVIEW = (props) => (
       />
     </g>
     <g id="Group_3324" data-name="Group 3324" transform="translate(10 8)">
-      <g id="Group_3323" data-name="Group 3323" clipPath="url(#clip-path)">
+      <g id="Group_3323" data-name="Group 3323" clipPath="url(#clipPath)">
         <path
           id="Path_3515"
           data-name="Path 3515"

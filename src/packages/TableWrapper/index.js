@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import MUITable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -30,16 +30,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Lato",
-    fontSize: "14px",
+    fontSize: "16px",
     lineHeight: "20px",
-    maxWidth: 360,
+    maxWidth: 250,
     cursor: "pointer",
+    color: "#434A51",
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ isLast }) => ({
   background: "#2175F41A 0% 0% no-repeat padding-box",
-  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : 'none',
+  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : "none",
   borderRadius: "8px 8px 0px 0px",
 }));
 
@@ -118,8 +119,13 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
         {footer ? (
           <TableFooter>
             <TableRow>
-              <TableCell style={{border: 'none'}} colSpan={isMobile ? 3 : columns.length}>
-                <center style={isMobile ? { marginLeft: -100 } : {}}>{footer}</center>
+              <TableCell
+                style={{ border: "none" }}
+                colSpan={isMobile ? 3 : columns.length}
+              >
+                <center style={isMobile ? { marginLeft: -100 } : {}}>
+                  {footer}
+                </center>
               </TableCell>
             </TableRow>
           </TableFooter>

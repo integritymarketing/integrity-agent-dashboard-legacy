@@ -8,7 +8,7 @@ const VIEWPLANS = (props) => (
     viewBox="0 0 32 32"
   >
     <defs>
-      <clipPath id="clip-path">
+      <clipPath id="clipPath">
         <rect
           id="Rectangle_20850"
           data-name="Rectangle 20850"
@@ -29,7 +29,7 @@ const VIEWPLANS = (props) => (
       />
     </g>
     <g id="Group_3326" data-name="Group 3326" transform="translate(8 8)">
-      <g id="Group_3325" data-name="Group 3325" clip-path="url(#clip-path)">
+      <g id="Group_3325" data-name="Group 3325" clipPath="url(#clipPath)">
         <path
           id="Path_3517"
           data-name="Path 3517"

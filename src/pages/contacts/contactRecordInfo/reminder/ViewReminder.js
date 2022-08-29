@@ -5,7 +5,7 @@ import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 import { getForDistance, getOverDue } from "utils/dates";
 
-export default ({ reminder, leadId, getContactRecordInfo }) => {
+export default ({ reminder, leadId, getLeadDetails }) => {
   const { reminderNote = "", isComplete = false, reminderId } = reminder;
   const inputRef = useRef(null);
 
@@ -40,7 +40,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
           time: 3000,
         });
         setEdit(false);
-        getContactRecordInfo();
+        getLeadDetails();
       })
       .catch((e) => {
         Sentry.captureException(e);
@@ -49,7 +49,7 @@ export default ({ reminder, leadId, getContactRecordInfo }) => {
 
   const deleteReminder = async () => {
     await clientsService.deleteReminder(reminderId);
-    getContactRecordInfo();
+    getLeadDetails();
     addToast({
       type: "success",
       message: "Reminder successfully deleted",

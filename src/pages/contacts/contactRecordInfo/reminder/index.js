@@ -3,7 +3,7 @@ import AddReminder from "components/icons/addreminder";
 import AddReminderView from "./AddReminder";
 import ViewReminder from "./ViewReminder";
 
-export default ({ getContactRecordInfo, leadId, reminders }) => {
+export default ({ getLeadDetails, leadId, reminders }) => {
   const [reminderModalStatus, setReminderModalStatus] = useState(false);
 
   return (
@@ -31,7 +31,7 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
         <hr />
         {reminderModalStatus && (
           <AddReminderView
-            getContactRecordInfo={getContactRecordInfo}
+            getLeadDetails={getLeadDetails}
             reminderModalStatus={reminderModalStatus}
             setReminderModalStatus={() => setReminderModalStatus(false)}
             leadId={leadId}
@@ -46,7 +46,7 @@ export default ({ getContactRecordInfo, leadId, reminders }) => {
                   reminder={item}
                   key={index}
                   leadId={leadId}
-                  getContactRecordInfo={getContactRecordInfo}
+                  getLeadDetails={getLeadDetails}
                 />
               );
             } else return null;

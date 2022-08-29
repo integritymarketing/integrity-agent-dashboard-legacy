@@ -24,9 +24,9 @@ const InboundCall = (props) => (
           transform="translate(-0.137 0.001)"
           fill="none"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <g
           id="Group_1768"
@@ -40,9 +40,9 @@ const InboundCall = (props) => (
             transform="translate(8.635 5.842)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_665"
@@ -52,9 +52,9 @@ const InboundCall = (props) => (
             transform="translate(8 5.843)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_666"
@@ -64,9 +64,9 @@ const InboundCall = (props) => (
             transform="translate(8 3.063)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>

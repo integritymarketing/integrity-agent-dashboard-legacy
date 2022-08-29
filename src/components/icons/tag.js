@@ -13,8 +13,8 @@ export default (props) => {
           {`.b {
       fill: none;
       stroke: #0052ce;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      strokeLinecap: round;
+      strokeLinejoin: round;
     }`}
         </style>
       </defs>
