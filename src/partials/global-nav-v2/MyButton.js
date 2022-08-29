@@ -4,8 +4,8 @@ import ToggleOnline from "./ToggleOnline.svg";
 import "./myButton.scss";
 
 const BUTTON_TEXT = {
-  offline: "Offline",
-  online: "Online",
+  offline: "Check In",
+  online: "Check Out",
 };
 
 function MyButton({ clickButton, isAvailable }) {
@@ -15,16 +15,22 @@ function MyButton({ clickButton, isAvailable }) {
   };
   return (
     <div className="myButton" onClick={handleClick}>
-      <img
-        src={ToggleOffline}
-        alt="offButton"
-        className={`buttonIcon ${statusText === "offline" ? 'show' : 'hidden' }` }
-      />
-      <span>{BUTTON_TEXT[statusText]}</span>
+      {statusText === "offline" && (
+        <img
+          src={ToggleOffline}
+          alt="offButton"
+          className={`buttonIcon  ${
+            statusText === "offline" ? "show" : "hidden"
+          }`}
+        />
+      )}
+      <span className={` ${statusText === "online" ? "ml-2" : ""}`}>
+        {BUTTON_TEXT[statusText]}
+      </span>
       <img
         src={ToggleOnline}
         alt="onButton"
-        className={`buttonIcon ${statusText === "online" ? 'show' : 'hidden' }` }
+        className={`buttonIcon ${statusText === "online" ? "show" : "hidden"}`}
       />
     </div>
   );

@@ -50,7 +50,7 @@ const getActivitySubject = (activitySubject) => {
 };
 
 const buttonTextByActivity = {
-  "Incoming Call": "Link To Contact",
+  "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
   "Contact's new call log created": "Download",
   "Scope of Appointment Signed": "Complete",
