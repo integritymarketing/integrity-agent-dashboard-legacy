@@ -43,7 +43,11 @@ export default function Reminders({ reminder, setReminder }) {
               borderBottom: "1px solid lightgrey",
               "&:last-child": { borderBottom: "unset" },
             }}
-            onClick={() => setReminder(row.name)}
+            onClick={() => {
+              if (row.name === reminder) {
+                setReminder("");
+              } else setReminder(row.name);
+            }}
             key={row.name + i}
           >
             <div style={{ display: "flex", padding: "0 8px" }}>
