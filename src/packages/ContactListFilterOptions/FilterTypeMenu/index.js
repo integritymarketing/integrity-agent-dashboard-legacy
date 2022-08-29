@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import styles from "./styles.module.scss";
 
-const MENU = ["stage", "reminders", "tags"];
+const MENU = ["Stage", "Reminders", "Tags"];
 
 export default function FilterTypeMenu({ filterType, setFilterType }) {
   return (

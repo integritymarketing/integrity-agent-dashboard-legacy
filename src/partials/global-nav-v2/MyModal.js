@@ -55,7 +55,9 @@ export default function BasicModal({
   }, [open]);
 
   useEffect(() => {
-    setPreferences(leadPreference);
+    if (!leadPreference.call && !leadPreference.data) {
+      setPreferences({ ...leadPreference, call: true });
+    } else setPreferences(leadPreference);
   }, [leadPreference]);
 
   const handleClick = (value) => {
@@ -87,8 +89,8 @@ export default function BasicModal({
           availability: true,
         });
       }
+      handleClose();
     }
-    handleClose();
   };
 
   return (
