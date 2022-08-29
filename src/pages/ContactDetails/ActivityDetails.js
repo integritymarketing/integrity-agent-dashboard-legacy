@@ -41,7 +41,7 @@ export default function ActivityDetails({
                 <div>{dateFormatter(activityObj?.createDate, 'MM/DD/YYYY')}</div>
               </div>
               <div className={styles.topSection}>
-                {activityObj?.activityBody}.
+                {activityObj?.activityBody}
                 <ActivityButtonText activity={activityObj} />
               </div>
             </div>
