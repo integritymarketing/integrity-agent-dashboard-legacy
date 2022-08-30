@@ -62,7 +62,6 @@
       background-color: var(--main-bg-color);
       border-radius: 0.25rem;
       left: -1rem;
-      padding: 0.5rem 1rem 0.5rem;
       position: absolute;
       top: 2rem;
       width: calc(100% + 2rem);
@@ -73,10 +72,7 @@
         font-weight: 600;
       }
       > li {
-        padding: 0.5rem 0;
-      }
-      > li + li {
-        margin-top: 0.5rem;
+        padding: 1rem;
       }
     }
     .dropdown-menu__icon {

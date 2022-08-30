@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Media from "react-media";
 import LargeFormatMenu from "./large-format";
@@ -19,6 +19,9 @@ import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
+import authService from "services/authService";
+import validationService from "services/validationService";
+import useLoading from "hooks/useLoading";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,6 +47,40 @@ const useHelpButtonWithModal = () => {
       </Modal>
     ),
   ];
+};
+
+const handleCSGSSO = async (history, loading) => {
+  loading.begin(0);
+
+  let user = await authService.getUser();
+
+  const response = await fetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + user.access_token,
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+  );
+
+  loading.end();
+
+  if (response.status >= 200 && response.status < 300) {
+    let res = await response.json();
+
+    // standardize the API response into a formatted object
+    // note that formikErrorsFor is a bit of a mis-nomer, this simply formats the
+    // [{"Key":"redirect_url","Value":"url"}] api response
+    // as { redirct_url: 'url' } for simplicity
+    let formattedRes = validationService.formikErrorsFor(res);
+    window.open(formattedRes.redirect_url, "_blank");
+    return;
+  } else {
+    history.replace("/error?code=third_party_notauthorized");
+  }
 };
 
 const SiteNotification = ({
@@ -94,6 +131,8 @@ const SiteNotification = ({
 export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const addToast = useToast();
+  const history = useHistory();
+  const loadingHook = useLoading();
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
@@ -155,6 +194,40 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               props: { to: "/account" },
               label: "Account",
               img: Account,
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2022",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                },
+              },
+              label: "MedicareLINK",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  handleCSGSSO(history, loadingHook);
+                },
+              },
+              label: "CSG APP",
             },
             {
               component: "button",
@@ -286,7 +359,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             "nav-logo"
           )}`}
         >
-          <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
+          <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
             <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>
           </Link>
@@ -332,7 +405,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           getAgentAvailability={getAgentAvailability}
         />
       </header>
-      <InboundCallBanner agentInformation={agentInfo} />
+      {auth.isAuthenticated() && !menuHidden && (
+        <InboundCallBanner agentInformation={agentInfo} />
+      )}
     </>
   );
 };

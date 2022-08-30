@@ -8,7 +8,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
 import authService from "services/authService";
-import HomePage from "pages/HomePage";
 import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
 import ClientImportPage from "pages/ClientImportPage";
@@ -87,7 +86,7 @@ const App = () => {
                                     <WelcomePage />
                                   </UnauthenticatedRoute>
                                   <AuthenticatedRoute path="/home">
-                                    <HomePage />
+                                    <Dashboard />
                                   </AuthenticatedRoute>
                                   <AuthenticatedRoute path="/dashboard">
                                     <Dashboard />

@@ -92,17 +92,22 @@
       z-index: 1;
       top: -1rem;
       left: -1rem;
-      width: calc(100% + 2rem);
-      padding: 3.5rem 1rem 0.5rem;
+      width: calc(100% + 4rem);
       background-color: var(--main-bg-color);
       border-radius: 0.25rem;
 
       > li {
-        padding: 0.5rem 0;
+        padding: 1rem;
+        box-shadow: inset 0px -1px 0px #CDD0D5;
       }
 
-      > li + li {
-        margin-top: 0.5rem;
+      > li:hover {
+       background-color: var(--v2-secondary-blue-200);
+       color: var(--v2-royal-blue);
+      }
+
+      > li a:hover {
+        color: var(--v2-royal-blue);
       }
     }
     .dropdown-menu__icon {

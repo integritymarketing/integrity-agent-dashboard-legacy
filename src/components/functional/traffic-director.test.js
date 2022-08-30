@@ -14,7 +14,7 @@ const myTestRouter = (mockAuthService) =>
       <Route exact path="/">
         <TrafficDirector />
       </Route>
-      <Route path="/home" component={() => <h1>home route</h1>} />
+      <Route path="/dashboard" component={() => <h1>dashbaord route</h1>} />
       <Route path="/welcome" component={() => <h1>welcome route</h1>} />
     </TestRouterWithAuth>,
     {
@@ -28,12 +28,4 @@ test("<TrafficDirector />, directs unauthenticated traffic to welcome route", ()
   myTestRouter(mockAuthService);
 
   expect(screen.getByText(/welcome route/i)).toBeInTheDocument();
-});
-
-test("<TrafficDirector />, directs authenticated traffic to home route", () => {
-  const mockAuthService = { isAuthenticated: jest.fn(() => true) };
-
-  myTestRouter(mockAuthService);
-
-  expect(screen.getByText(/home route/i)).toBeInTheDocument();
 });
