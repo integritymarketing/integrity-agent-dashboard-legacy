@@ -88,13 +88,13 @@
       align-items: center;
     }
     .dropdown-menu__items {
-      position: absolute;
-      z-index: 1;
-      top: -1rem;
-      left: -1rem;
-      width: calc(100% + 4rem);
       background-color: var(--main-bg-color);
       border-radius: 0.25rem;
+      left: -1rem;
+      position: absolute;
+      top: 2rem;
+      width: calc(100% + 2rem);
+      z-index: 1;
 
       > li {
         padding: 1rem;
