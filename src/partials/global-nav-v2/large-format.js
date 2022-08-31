@@ -77,7 +77,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
                       tabIndex={navOpen ? "0" : "-1"}
                       {...props}
                     >
-                      <img src={link.img} alt="linkIcon" className="icon" />
+                      {link.img && <img src={link.img} alt="linkIcon" className="icon" />}
                       {link.label}
                     </link.component>
                   </li>

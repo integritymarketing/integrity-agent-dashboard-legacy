@@ -42,7 +42,7 @@ export default function InboundCallBanner({ agentInformation }) {
         <div className={styles.inboundCallWrapper}>
           <Heading4 text="Incoming Call: " />
           <Typography color="#434A51" sx={{ mx: 1 }} variant={"subtitle1"}>
-            {formatPhoneNumber(agentInformation?.agentVirtualPhoneNumber, true)}{" "}
+            {formatPhoneNumber(callStatusInProgress?.from, true)}{" "}
           </Typography>
         </div>
         <div
