@@ -26,9 +26,11 @@ import ArrowupIcon from "components/icons/menu-arrow-up";
 import { Button } from "components/ui/Button";
 import SOAicon from "components/icons/soa";
 import ScopeOfAppointment from "./soaList/ScopeOfAppointment";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
 
 export default () => {
   const { contactId: id } = useParams();
+  const { getLeadDetails, isLoading, leadDetails } = useContactDetails(id);
   const { state = {} } = useLocation();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
   const [duplicateLeadIdName, setDuplicateLeadIdName] = useState();
@@ -47,78 +49,88 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getContactRecordInfo = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await clientsService.getContactInfo(id);
-      setPersonalInfo(data);
-      setReminders(data.reminders);
-      setActivities(data.activities);
-      const { firstName, lastName, leadsId, emails, phones } = data;
-      const email = emails?.[0]?.leadEmail ?? "";
-      const leadPhone = phones?.[0]?.leadPhone ?? "";
-      const leadPhoneLabel = phones?.[0]?.phoneLabel ?? "";
-      const phone = { leadPhone, leadPhoneLabel };
-      const values = {
-        firstName,
-        lastName,
-        phones: phone,
-        email,
-        leadId: leadsId,
-      };
-      const response = await clientsService.getDuplicateContact(values);
-      if (response.ok) {
-        const resMessage = await response.json();
-        const duplicateLeadIds = resMessage.duplicateLeadIds;
-        if (duplicateLeadIds.length === 1) {
-          const getFullNameById = await clientsService.getContactInfo(
-            duplicateLeadIds[0]
-          );
-          const { firstName, middleName, lastName } = getFullNameById;
-          setDuplicateLeadIdName(
-            `${firstName} ${middleName || ""} ${lastName}`
-          );
-          if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
-            setDuplicateLeadIds(duplicateLeadIds);
-          }
-        } else {
-          if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
-            setDuplicateLeadIds(duplicateLeadIds);
+  const getContactRecordInfo = useCallback(
+    async (leadDetails) => {
+      setLoading(true);
+      if (leadDetails?.length === 0) {
+        return;
+      }
+      try {
+        const data = leadDetails;
+        setPersonalInfo(data);
+        setReminders(data.reminders);
+        setActivities(data.activities);
+        const { firstName, lastName, leadsId, emails, phones } = data;
+        const email = emails?.[0]?.leadEmail ?? "";
+        const leadPhone = phones?.[0]?.leadPhone ?? "";
+        const leadPhoneLabel = phones?.[0]?.phoneLabel ?? "";
+        const phone = { leadPhone, leadPhoneLabel };
+        const values = {
+          firstName,
+          lastName,
+          phones: phone,
+          email,
+          leadId: leadsId,
+        };
+        const response = await clientsService.getDuplicateContact(values);
+        if (response.ok) {
+          const resMessage = await response.json();
+          const duplicateLeadIds = resMessage.duplicateLeadIds;
+          if (duplicateLeadIds.length === 1) {
+            const getFullNameById = await clientsService.getContactInfo(
+              duplicateLeadIds[0]
+            );
+            const { firstName, middleName, lastName } = getFullNameById;
+            setDuplicateLeadIdName(
+              `${firstName} ${middleName || ""} ${lastName}`
+            );
+            if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
+              setDuplicateLeadIds(duplicateLeadIds);
+            }
+          } else {
+            if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
+              setDuplicateLeadIds(duplicateLeadIds);
+            }
           }
         }
+      } catch (e) {
+        Sentry.captureException(e);
+      } finally {
+        setLoading(false);
       }
-    } catch (e) {
-      Sentry.captureException(e);
-    } finally {
-      setLoading(false);
-    }
-  }, [id]);
+    },
+    [id]
+  );
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/contact-record-note-edit/",
     });
-    getContactRecordInfo();
+    getContactRecordInfo(leadDetails);
     setEdit(state.isEdit);
     setDisplay(state.display || "OverView");
-  }, [getContactRecordInfo, state.isEdit, state.display]);
+  }, [getContactRecordInfo, state.isEdit, state.display, leadDetails]);
 
   const handleRendering = () => {
     let props = {
       id,
       personalInfo,
       reminders,
-      getContactRecordInfo: () => getContactRecordInfo(),
       setDisplay: (value) => setDisplay(value),
       activities,
       setEdit: (value) => setEdit(value),
       isEdit,
+      getLeadDetails,
     };
     switch (display) {
       case "OverView":
         return <OverView {...props} />;
       case "Details":
-        return <Details {...props} />;
+        return <Details {...props} getContactRecordInfo={getLeadDetails} />;
       case "ScopeOfAppointment":
         return <ScopeOfAppointment {...props} />;
       case "Preferences":
@@ -147,12 +159,12 @@ export default () => {
     return true;
   };
 
-  const isLoading = loading;
+  const isLoad = loading;
 
   const handleViewPlans = (isMobile) => {
-    const county = personalInfo?.addresses[0]?.county;
-    const stateCode = personalInfo?.addresses[0]?.stateCode;
-    const postalCode = personalInfo?.addresses[0]?.postalCode;
+    const county = personalInfo?.addresses?.[0]?.county;
+    const stateCode = personalInfo?.addresses?.[0]?.stateCode;
+    const postalCode = personalInfo?.addresses?.[0]?.postalCode;
     const type = isMobile ? "secondary" : "primary";
     if (county && postalCode && stateCode) {
       return (
@@ -175,7 +187,7 @@ export default () => {
   return (
     <React.Fragment>
       <ToastContextProvider>
-        <WithLoader isLoading={isLoading}>
+        <WithLoader isLoading={isLoad}>
           <StageStatusProvider>
             <Helmet>
               <title>MedicareCENTER - Contacts</title>

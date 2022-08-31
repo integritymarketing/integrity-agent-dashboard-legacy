@@ -57,7 +57,6 @@ const CallCenterContent = ({
               message: "Contact number updated succesfully",
             });
           } catch (error) {
-            console.log(" errrrroorrrr", error);
             addToast({
               type: "error",
               message: "Failed to update the contact",
@@ -136,6 +135,7 @@ const RenderModalItem = ({
   isAvailable,
   callForwardNumber,
   getAgentAvailability,
+  handleClose,
 }) => {
   const [callHover, setCallHover] = useState("");
   const [dataHover, setDataHover] = useState("");
@@ -162,10 +162,18 @@ const RenderModalItem = ({
       onClick: () => {
         handleButtonClick("checkOut");
       },
-      disabled: !isAvailable,
+      disabled: !isAvailable || (!call && !data),
+    },
+    close: {
+      text: "Close",
+      onClick: () => {
+        handleClose();
+      },
+      disabled: false,
     },
     continue: {
-      text: "Continue",
+      text: "Check In",
+      disabled: !call && !data,
       onClick: () => {
         handleButtonClick("continue");
       },
@@ -347,7 +355,7 @@ const RenderModalItem = ({
             <div className="modalItemStyle">
               <FooterButtons
                 buttonOne={BUTTONS.checkOut}
-                buttonTwo={BUTTONS.continue}
+                buttonTwo={BUTTONS.close}
               />
             </div>
           </>

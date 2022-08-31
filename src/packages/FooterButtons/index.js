@@ -1,21 +1,20 @@
 import React from "react";
-import { TextButton, Button } from "packages/Button";
+import { Button } from "packages/Button";
 import styles from "./styles.module.scss";
 
 function FooterButtons({ buttonOne, buttonTwo }) {
   return (
     <div className={styles.buttons}>
-      <TextButton
-        variant="text"
+      <Button
+        variant="secondary"
         size="medium"
+        disabled={buttonOne.disabled}
         onClick={() => {
           buttonOne.onClick();
         }}
-        disabled={buttonOne.disabled}
       >
         {buttonOne.text}
-      </TextButton>
-
+      </Button>
       <Button
         variant="primary"
         size="medium"

@@ -909,7 +909,9 @@ export class ClientsService {
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
       "GET"
     );
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    }
   };
 
   updateAgentCallForwardingNumber = async (payload) => {
@@ -929,9 +931,20 @@ export class ClientsService {
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
       "GET"
     );
-    return response.json();
+    const agentData = await response.json();
+    if (!agentData?.virtualPhoneNumber) {
+      await this.genarateAgentTwiloNumber(id);
+    }
+    return agentData;
   };
-  
+
+  genarateAgentTwiloNumber = async (id) => {
+    await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Call/GenerateVirtualPhoneNumber/${id}?limit=1`,
+      "POST"
+    );
+  };
+
   getAllTagsByGroups = async () => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`,
@@ -939,21 +952,22 @@ export class ClientsService {
     );
     return response.json();
   };
-  getTagsGroupByCategory = async () => {
-    const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,
-      "GET"
-    );
-    return response.json();
+
+  getTagsGroupByCategory = async () => {	
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,	
+      "GET"	
+    );	
+    return response.json();	
   };
 
-  updateLeadsTags = async (leadId, tagIds = []) => {
-    const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,
-      "POST",
-      { leadId, tagIds }
-    );
-    return response.json();
+  updateLeadsTags = async (leadId, tagIds = []) => {	
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,	
+      "POST",	
+      { leadId, tagIds }	
+    );	
+    return response.json();	
   };
 }
 

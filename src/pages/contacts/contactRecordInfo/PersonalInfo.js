@@ -28,7 +28,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [expandedList, setExpandedList] = useState({});
   const addToast = useToast();
-
   function toggleTagSelection(e, tagId) {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -38,7 +37,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
         : [...selTagIds, tagId];
     });
   }
-
   function handleSaveTags() {
     setIsProcessing(true);
     clientsService
@@ -61,11 +59,9 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
         });
       });
   }
-
   function handleResetTags() {
     setSelectedTagsIds([]);
   }
-
   useEffect(() => {
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
@@ -74,7 +70,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       }, {})
     );
   }, [tagsByCategory]);
-
   useEffect(() => {
     clientsService
       .getTagsGroupByCategory()
@@ -85,24 +80,20 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
         Sentry.captureException(error);
       });
   }, []);
-
   const totalTags = useMemo(() => {
     return tagsByCategory?.reduce(
       (acc, item) => acc + item.tags?.length || 0,
       0
     );
   }, [tagsByCategory]);
-
   function handleClose() {
     if (isProcessing) return;
     setSelectedTagsIds(initialState);
     setTagModalOpen(false);
   }
-
   function handleToggleExpand(catId) {
     setExpandedList((expList) => ({ ...expList, [catId]: !expList[catId] }));
   }
-
   return (
     <TinyPopover
       onClickOutside={handleClose}
@@ -124,9 +115,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             if (!tg.tags?.length) {
               return null;
             }
-
             const isExpanded = expandedList[tg.tagCategoryId];
-
             return (
               <div>
                 <div className={styles.categoryContainer}>
@@ -229,6 +218,7 @@ export default ({
     setDisplay("Details");
     setEdit(true);
   };
+
   return (
     <div className="nameCard">
       <Container className={styles.container}>

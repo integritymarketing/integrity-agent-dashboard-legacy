@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useActivities from "./useActivities";
 import ActivitiesTable from "./ActivitiesTable";
 import { TextButton } from "packages/Button";
@@ -9,10 +9,10 @@ import FilterOptions from "packages/Filter/FilterOptions";
 import styles from "./Activities.module.scss";
 import AddNew from "components/icons/addnew";
 import AddNewActivityDialog from "./AddNewActivityDialog";
-import FooterBanners from "packages/FooterBanners";
+import EditActivityDialog from "./EditActivityDialog";
 import ActivityDetails from "./ActivityDetails";
 
-const Activities = ({ getLeadDetails }) => {
+const Activities = ({ getLeadDetails, leadId }) => {
   const {
     activities,
     filterValues,
@@ -23,25 +23,24 @@ const Activities = ({ getLeadDetails }) => {
     open,
     setOpen,
     handleAddNewActivity,
+    isFilterMenuOpen,
+    toggleFilterMenu,
+    handleDeleteActivity,
+    handleEditActivity,
+    editActivity,
+    setEditActivity,
+    selectedActivity,
+    setSelectedActivity,
+    handleAddActivtyNotes,
+    onActivityClick
   } = useActivities({ getLeadDetails });
-  const [selectedActivity, setSelectedActivity] = useState({});
-  const [modalOpen, setModalOpen] = useState(false);
-  const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => setModalOpen(false);
-
-  const onActivityClick = (activity) => {
-    setSelectedActivity(activity);
-    handleModalOpen();
-  };
-
-  const onActivitySave = (scope, note) => {
-    handleModalClose();
-  };
 
   const sectionHeaderChildren = () => {
     return (
       <div className={styles.wrapper}>
         <Filter
+          open={isFilterMenuOpen}
+          onToggle={toggleFilterMenu}
           heading={"Filter by Activity Type"}
           content={
             <FilterOptions
@@ -52,7 +51,7 @@ const Activities = ({ getLeadDetails }) => {
           }
         />
         <TextButton
-          endIcon={<AddNew />}
+          startIcon={<AddNew />}
           onClick={() => {
             setOpen(true);
           }}
@@ -73,6 +72,9 @@ const Activities = ({ getLeadDetails }) => {
           onActivityClick={onActivityClick}
           onShowMore={onShowMore}
           pageHasMoreRows={pageHasMoreRows}
+          leadId={leadId}
+          handleDeleteActivity={handleDeleteActivity}
+          setEditActivity={setEditActivity}
         />
 
         <AddNewActivityDialog
@@ -82,15 +84,26 @@ const Activities = ({ getLeadDetails }) => {
           }}
           onSave={handleAddNewActivity}
         />
-        <ActivityDetails
-          open={modalOpen}
-          onSave={onActivitySave}
-          onClose={handleModalClose}
-          leadFullName={leadFullName}
-          activityObj={selectedActivity ? selectedActivity : {}}
-        />
+        {editActivity && (
+          <EditActivityDialog
+            open={true}
+            onClose={() => {
+              setEditActivity(null);
+            }}
+            onSave={handleEditActivity}
+            activity={editActivity}
+          />
+        )}
+        {selectedActivity && (
+          <ActivityDetails
+            open={true}
+            onSave={handleAddActivtyNotes}
+            onClose={() => setSelectedActivity(null)}
+            leadFullName={leadFullName}
+            activityObj={selectedActivity}
+          />
+        )}
       </div>
-      <FooterBanners className={styles.footerBanners} />
     </div>
   );
 };

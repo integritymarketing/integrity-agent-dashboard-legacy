@@ -7,7 +7,7 @@ import useToast from "../../../../hooks/useToast";
 export default ({
   reminderModalStatus,
   setReminderModalStatus,
-  getContactRecordInfo,
+  getLeadDetails,
   leadId,
   ...props
 }) => {
@@ -32,7 +32,7 @@ export default ({
         setReminderNote("");
         setReminderDate(new Date());
         setReminderModalStatus();
-        getContactRecordInfo();
+        getLeadDetails();
       })
       .catch((e) => {
         Sentry.captureException(e);

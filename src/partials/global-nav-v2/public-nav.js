@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MedicareCenterLogo from "../../images/medicare-center.png";
 import "./index.scss";
-import WelcomeHamburgerIcon from "../../../src/components/icons/welcome-hamburger";
+import WelcomeHamburgerIcon from "../../components/icons/welcome-hamburger";
 import LoginLink from "components/ui/login-link";
 import ExitIcon from "components/icons/exit";
 

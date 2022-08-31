@@ -58,6 +58,7 @@ const filterValuesSelector = selector({
 });
 
 const contactLeadActivitiesSelector = selector({
+  key: 'contactLeadActivitiesSelector',
   get: ({ get }) => {
     const contactDetails = get(contactLeadDetailsAtom);
     const sorting = get(activitiesSortingByDateAtom);

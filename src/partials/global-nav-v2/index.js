@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Media from "react-media";
 import LargeFormatMenu from "./large-format";
@@ -19,7 +19,9 @@ import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
-import Spinner from "components/ui/Spinner/index";
+import authService from "services/authService";
+import validationService from "services/validationService";
+import useLoading from "hooks/useLoading";
 
 const useHelpButtonWithModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -45,6 +47,40 @@ const useHelpButtonWithModal = () => {
       </Modal>
     ),
   ];
+};
+
+const handleCSGSSO = async (history, loading) => {
+  loading.begin(0);
+
+  let user = await authService.getUser();
+
+  const response = await fetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + user.access_token,
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+  );
+
+  loading.end();
+
+  if (response.status >= 200 && response.status < 300) {
+    let res = await response.json();
+
+    // standardize the API response into a formatted object
+    // note that formikErrorsFor is a bit of a mis-nomer, this simply formats the
+    // [{"Key":"redirect_url","Value":"url"}] api response
+    // as { redirct_url: 'url' } for simplicity
+    let formattedRes = validationService.formikErrorsFor(res);
+    window.open(formattedRes.redirect_url, "_blank");
+    return;
+  } else {
+    history.replace("/error?code=third_party_notauthorized");
+  }
 };
 
 const SiteNotification = ({
@@ -95,6 +131,8 @@ const SiteNotification = ({
 export default ({ menuHidden = false, className = "", ...props }) => {
   const auth = useContext(AuthContext);
   const addToast = useToast();
+  const history = useHistory();
+  const loadingHook = useLoading();
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
@@ -161,6 +199,40 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               component: "button",
               props: {
                 type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2022",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                },
+              },
+              label: "MedicareLINK",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  handleCSGSSO(history, loadingHook);
+                },
+              },
+              label: "CSG APP",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
                 onClick: () => auth.logout(),
               },
               label: "Sign Out",
@@ -188,6 +260,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         callForwardNumber,
         leadPreference,
       } = response || {};
+      if (!agentVirtualPhoneNumber) {
+        await clientService.genarateAgentTwiloNumber(agentid);
+      }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
@@ -201,7 +276,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     } catch (error) {
       Sentry.captureException(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -261,17 +336,15 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     .filter(Boolean)
     .join("-");
 
-    if (loading) {
-      return <Spinner />;
-    }
-    
   return (
     <>
       <SiteNotification
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {!agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && <GetStarted />}
+      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
+        <GetStarted />
+      )}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
@@ -286,7 +359,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             "nav-logo"
           )}`}
         >
-          <Link to={auth.isAuthenticated() ? "/home" : "/welcome"}>
+          <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
             <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>
           </Link>
@@ -332,7 +405,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
           getAgentAvailability={getAgentAvailability}
         />
       </header>
-      <InboundCallBanner agentInformation={agentInfo} />
+      {auth.isAuthenticated() && !menuHidden && (
+        <InboundCallBanner agentInformation={agentInfo} />
+      )}
     </>
   );
 };
