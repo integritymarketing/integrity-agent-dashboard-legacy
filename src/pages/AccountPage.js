@@ -16,6 +16,7 @@ import authService from "services/authService";
 import analyticsService from "services/analyticsService";
 import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
 import styles from "./AccountPage.module.scss";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -27,10 +28,12 @@ const formatPhoneNumber = (phoneNumberString) => {
 };
 
 export default () => {
-  const userProfile = useUserProfile();
-  const { firstName, lastName, npn, email, phone } = userProfile;
   const { show: showMessage } = useFlashMessage();
   const loading = useLoading();
+  const userProfile = useUserProfile();
+  const { firstName, lastName, npn, email, phone } = userProfile;
+  const { agentVirtualPhoneNumber } = useAgentInformationByID();
+  const twiloNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -59,7 +62,7 @@ export default () => {
                 <Heading2
                   className={styles.agentPhone}
                   id="transition-modal-description"
-                  text={formatPhoneNumber(phone)}
+                  text={formatPhoneNumber(twiloNumber)}
                 />
               </div>
             </section>
