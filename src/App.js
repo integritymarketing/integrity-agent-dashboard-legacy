@@ -19,6 +19,7 @@ import ContactDetailsPage from "pages/ContactDetails";
 import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
+import LeadCenterRedirect from "pages/LeadCenterRedirect";
 import Dashboard from "pages/dashbaord";
 import CallRecording from "pages/CallRecording";
 import ComparePlansPage from "pages/ComparePlansPage";
@@ -140,6 +141,9 @@ const App = () => {
                                     path="/contact/:contactId/soa-confirm/:linkCode"
                                   >
                                     <ContactsSOAConfirmForm />
+                                  </AuthenticatedRoute>
+                                  <AuthenticatedRoute path="/leadcenter-redirect/:npn">
+                                    <LeadCenterRedirect />
                                   </AuthenticatedRoute>
                                   <AuthenticatedRoute path="/client-import">
                                     <ClientImportPage />
