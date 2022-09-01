@@ -1,0 +1,42 @@
+@import "src/scss/globalDefines.scss";
+
+.rtsTableContainer {
+  margin-top: 90px;
+  padding: 0px 40px;
+
+  .tableHeading {
+    color: $dark-blue;
+    font-size: 24px;
+  }
+}
+
+.headerLayout {
+  background: $white;
+  box-shadow: inset 0px -1px 0px $gray-6;
+  padding: 3rem 0 3rem 6rem;
+
+  .headerLayoutText {
+    font-weight: normal;
+  }
+}
+
+.accontCard {
+  background: $white;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 360px;
+}
+
+.agentPhone {
+  display: flex;
+  justify-content: center;
+  color: $blue-5;
+  font-weight: normal;
+}
+
+.headingText {
+  max-width: 360px;
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+  font-weight: normal;
+}

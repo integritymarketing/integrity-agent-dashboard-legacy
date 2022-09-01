@@ -56,12 +56,11 @@ export default function CopyPersonalURL(props) {
 
   return (
     <>
-      <h3 className={`hdg hdg--4 ${styles.purlHeading}`}>Personal URL</h3>
       <div className={styles.purlContent}>{PERSONAL_URL_DATA}</div>
       <Button
         className='mt-2'
         icon={<Link />}
-        label="Copy pURL"
+        label="Copy Link"
         onClick={handleOnClickCopy}
       />
     </>
