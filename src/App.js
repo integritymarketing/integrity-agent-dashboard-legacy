@@ -21,7 +21,6 @@ import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
 import LeadCenterRedirect from "pages/LeadCenterRedirect";
 import Dashboard from "pages/dashbaord";
-import CallRecording from "pages/CallRecording";
 import ComparePlansPage from "pages/ComparePlansPage";
 import ComparePlansCodePage from "pages/ComparePlansCodePage";
 import LinkToContact from "pages/LinkToContact";
@@ -171,9 +170,6 @@ const App = () => {
                                   </Route>
                                   <Route path="/soa-confirmation-page/:firstName/:lastName">
                                     <SOAConfirmationPage />
-                                  </Route>
-                                  <Route path="/callrecording">
-                                    <CallRecording />
                                   </Route>
                                   {/* auth routes + callbacks */}
                                   <Route
