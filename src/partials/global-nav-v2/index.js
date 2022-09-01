@@ -168,7 +168,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               component: "button",
               props: {
                 type: "button",
-                onClick: () => authService.handleOpenLeadsCenter(agentInfo?.agentNPN),
+                onClick: () => window.open(
+                 `/leadcenter-redirect/${agentInfo?.agentNPN}`,
+                  "_blank"
+                ),
               },
               label: "Lead Center",
             },
