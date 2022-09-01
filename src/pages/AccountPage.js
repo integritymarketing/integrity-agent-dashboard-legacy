@@ -2,23 +2,20 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 import ResourceSection from "components/ui/resourcesCard";
-
-/* import Modal from "components/ui/modal";*/
+import Heading2 from "packages/Heading2";
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
-/* import CopyPersonalURL from "components/ui/CopyPersonalURL"; */
+import CopyPersonalURL from "components/ui/CopyPersonalURL";
 import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import authService from "services/authService";
-/* import NPNRequest from "partials/npn-request"; */
 import analyticsService from "services/analyticsService";
 import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
-
-import styles from "./ActiveSellingPermissionTable.module.scss";
+import styles from "./AccountPage.module.scss";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -29,27 +26,7 @@ const formatPhoneNumber = (phoneNumberString) => {
   return null;
 };
 
-/* const useNPNLinkWithModal = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  return [
-    (props) => (
-      <button
-        className="link link--inherit link--body"
-        type="button"
-        onClick={() => setModalOpen(true)}
-        {...props}
-      ></button>
-    ),
-    () => (
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <NPNRequest />
-      </Modal>
-    ),
-  ];
-}; */
-
 export default () => {
-  /*   const [NPNLink, NPNModal] = useNPNLinkWithModal();*/
   const userProfile = useUserProfile();
   const { firstName, lastName, npn, email, phone } = userProfile;
   const { show: showMessage } = useFlashMessage();
@@ -68,14 +45,38 @@ export default () => {
       </Helmet>
       <GlobalNav />
       <div className="v2" data-gtm="account-update-form">
-        <Container id="main-content" className="mt-5 mb-5">
-          <h2 className="hdg hdg--3">Update your account</h2>
-        </Container>
-
+        <div id="main-content" className={styles.headerLayout}>
+          <Heading2 className={styles.headerLayoutText} text="Account" />
+        </div>
         {userProfile.id && (
-          <Container className="mt-scale-3">
+          <Container className="mt-scale-2">
             <section>
-              <h3 className="hdg hdg--4">Personal information</h3>
+              <Heading2
+                className={styles.headingText}
+                text="MedicareCENTER Agent Phone Number"
+              />
+              <div className={styles.accontCard}>
+                <Heading2
+                  className={styles.agentPhone}
+                  id="transition-modal-description"
+                  text={formatPhoneNumber(phone)}
+                />
+              </div>
+            </section>
+            <section className="pt-1">
+              <Heading2
+                className={styles.headingText}
+                text="Personal Agent Website"
+              />
+              <div className={styles.accontCard}>
+                <CopyPersonalURL agentnpn={npn} />
+              </div>
+            </section>
+            <section>
+              <Heading2
+                className={styles.headingText}
+                text="Personal Information"
+              />
               <Formik
                 initialValues={{
                   firstName,
@@ -132,7 +133,6 @@ export default () => {
                     analyticsService.fireEvent("event-form-submit", {
                       formName: "update-account",
                     });
-                    // fetch a new access token w/ updated meta
                     await authService.signinSilent();
 
                     setSubmitting(false);
@@ -237,12 +237,8 @@ export default () => {
                 )}
               </Formik>
             </section>
-            {/* commenting for prod deployment */}
-           {/*  <section className="mt-2">
-              <CopyPersonalURL agentnpn={npn} />
-            </section> */}
-            <section className="mt-5">
-              <h3 className="hdg hdg--4">Change your password</h3>
+            <section className="mt-3">
+              <Heading2 className={styles.headingText} text="Change your password" />
               <Formik
                 initialValues={{
                   currentPassword: "",
@@ -393,15 +389,14 @@ export default () => {
                 )}
               </Formik>
             </section>
-            {/*  <NPNModal /> */}
           </Container>
         )}
-        <div className={styles["rts-table-container"]}>
+        <div className={styles.rtsTableContainer}>
           <ActiveSellingPermissionTable npn={npn} />
           <div>
             <ResourceSection />
           </div>
-        </div>  
+        </div>
       </div>
       <GlobalFooter />
     </React.Fragment>
