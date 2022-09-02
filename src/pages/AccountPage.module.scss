@@ -10,10 +10,14 @@
   }
 }
 
-.headerLayout {
+.headerLayoutContainer {
   background: $white;
   box-shadow: inset 0px -1px 0px $gray-6;
-  padding: 3rem 0 3rem 6rem;
+}
+
+.headerLayout {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 
   .headerLayoutText {
     font-weight: normal;

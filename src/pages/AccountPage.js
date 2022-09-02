@@ -41,6 +41,7 @@ export default () => {
     });
   }, []);
 
+  let mainContentClassName = "container " + styles.headerLayout;
   return (
     <React.Fragment>
       <Helmet>
@@ -48,8 +49,12 @@ export default () => {
       </Helmet>
       <GlobalNav />
       <div className="v2" data-gtm="account-update-form">
-        <div id="main-content" className={styles.headerLayout}>
-          <Heading2 className={styles.headerLayoutText} text="Account" />
+        <div className={styles.headerLayoutContainer}>
+          <div id="main-content" className={mainContentClassName}>
+            <div>
+              <Heading2 className={styles.headerLayoutText} text="Account" />
+            </div>
+          </div>
         </div>
         {userProfile.id && (
           <Container className="mt-scale-2">
