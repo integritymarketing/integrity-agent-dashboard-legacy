@@ -24,6 +24,8 @@ import ContactContext from "contexts/contacts";
 import { ShortReminder } from "pages/contacts/contactRecordInfo/reminder/Reminder";
 import useCallRecordings from "hooks/useCallRecordings";
 import FixedRow from "./FixedRow";
+import FilterIcon from "components/icons/activities/Filter";
+import ActiveFilter from "components/icons/activities/ActiveFilter";
 
 const initialState = {
   sortBy: [
@@ -340,6 +342,8 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
       <div className={styles.headerWithFilter}>
         <Heading2 className={styles.recentActivity} text="Recent Activity" />
         <Filter
+          Icon={FilterIcon}
+          ActiveIcon={ActiveFilter}
           heading={"Filter by Activity Type"}
           open={filterToggle}
           onToggle={setFilterToggle}

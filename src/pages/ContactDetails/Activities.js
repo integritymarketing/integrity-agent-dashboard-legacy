@@ -11,6 +11,8 @@ import AddNew from "components/icons/addnew";
 import AddNewActivityDialog from "./AddNewActivityDialog";
 import EditActivityDialog from "./EditActivityDialog";
 import ActivityDetails from "./ActivityDetails";
+import FilterIcon from "components/icons/activities/Filter";
+import ActiveFilter from "components/icons/activities/ActiveFilter";
 
 const Activities = ({ getLeadDetails, leadId }) => {
   const {
@@ -32,13 +34,15 @@ const Activities = ({ getLeadDetails, leadId }) => {
     selectedActivity,
     setSelectedActivity,
     handleAddActivtyNotes,
-    onActivityClick
+    onActivityClick,
   } = useActivities({ getLeadDetails });
 
   const sectionHeaderChildren = () => {
     return (
       <div className={styles.wrapper}>
         <Filter
+          Icon={FilterIcon}
+          ActiveIcon={ActiveFilter}
           open={isFilterMenuOpen}
           onToggle={toggleFilterMenu}
           heading={"Filter by Activity Type"}

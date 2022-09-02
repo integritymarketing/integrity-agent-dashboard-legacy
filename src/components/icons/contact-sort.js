@@ -3,11 +3,12 @@ import React from "react";
 export default (props) => {
   return (
     <svg
-      width="28"
-      height="26"
-      viewBox="0 0 21 17"
+      width="30"
+      height="25"
+      viewBox="0 0 17 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <rect
         x="11.1221"

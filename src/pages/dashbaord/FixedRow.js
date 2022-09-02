@@ -20,7 +20,7 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
   const history = useHistory();
 
   const goTolinkToContact = (callLogId) => {
-      history.push(`/link-to-contact/${callLogId}`);
+    history.push(`/link-to-contact/${callLogId}`);
   };
 
   const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
@@ -34,19 +34,28 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
       </TableCell>
       <TableCell>
         <Typography noWrap fontWeight="bold" fontSize="16px" color="#0052CE">
-          <strong>{formatPhoneNumber(unAssosiatedCallRecord.from, true)}</strong>
+          <strong>
+            {formatPhoneNumber(unAssosiatedCallRecord.from, true)}
+          </strong>
         </Typography>
       </TableCell>
       <TableCell>
-        {<IconWithText text={isIncommingCall ? "Incoming Call" : "Inbound Call"} icon={<InboundCall />} />}
+        {
+          <IconWithText
+            text={isIncommingCall ? "Incoming Call" : "Inbound Call"}
+            icon={<InboundCall />}
+          />
+        }
       </TableCell>
-      <StyledTableCell onClick={() => goTolinkToContact(unAssosiatedCallRecord.callLogId)}>
-        {<IconWithText text="Link To Contact" icon={<LinkToContact />} />}
+      <StyledTableCell
+        onClick={() => goTolinkToContact(unAssosiatedCallRecord.callLogId)}
+      >
+        {<IconWithText text="Link to Contact" icon={<LinkToContact />} />}
       </StyledTableCell>
       <StyledTableCell>
         {<DownloadCallRecording url={unAssosiatedCallRecord.url} />}
       </StyledTableCell>
       <TableCell></TableCell>
     </>
-  ) 
+  );
 }

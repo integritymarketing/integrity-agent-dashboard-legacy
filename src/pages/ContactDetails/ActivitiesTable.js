@@ -24,7 +24,7 @@ const initialState = {
 };
 
 const buttonTextByActivity = {
-  "Incoming Call": "Link To Contact",
+  "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
   "Contact's new call log created": "Download",
   "Scope of Appointment Signed": "Complete",
@@ -60,13 +60,14 @@ const renderButtons = (activity, handleClick) => {
   return false;
 };
 
-const isCustomActivity = (row) => row.activityId && row.activityTypeName === "Note";
+const isCustomActivity = (row) =>
+  row.activityId && row.activityTypeName === "Note";
 
 const renderActivtyActions = (row, handleDeleteActivity, setEditActivity) => {
   if (isCustomActivity(row)) {
     const handleEditClick = () => {
       setEditActivity(row);
-    }
+    };
     return (
       <>
         <button
@@ -157,10 +158,16 @@ export default function ActivitiesTable({
         disableSortBy: true,
         Header: "",
         Cell: ({ row }) => (
-          <>{renderActivtyActions(row?.original, handleDeleteActivity, setEditActivity)}</>
+          <>
+            {renderActivtyActions(
+              row?.original,
+              handleDeleteActivity,
+              setEditActivity
+            )}
+          </>
         ),
       },
-/*       { 
+      /*       { 
         id: "more",
         disableSortBy: true,
         Header: "",
