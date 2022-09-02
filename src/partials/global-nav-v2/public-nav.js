@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import MedicareCenterLogo from "../../images/medicare-center.png";
 import LoginLink from "components/ui/login-link";
