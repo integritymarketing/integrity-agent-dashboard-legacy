@@ -3,7 +3,7 @@ import { Button } from "packages/Button";
 import { useHistory, useParams } from "react-router-dom";
 
 const buttonTextByActivity = {
-  "Incoming Call": "Link To Contact",
+  "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
   "Contact's new call log created": "Download",
   "Scope of Appointment Signed": "Complete",
@@ -12,8 +12,11 @@ const buttonTextByActivity = {
 };
 
 export default function ActivityButtonText(activity) {
-  const { activityTypeName, activityInteractionURL, activitySubject } =
-    activity.activity;
+  const {
+    activityTypeName,
+    activityInteractionURL,
+    activitySubject,
+  } = activity.activity;
   const history = useHistory();
   const { contactId: leadsId } = useParams();
 

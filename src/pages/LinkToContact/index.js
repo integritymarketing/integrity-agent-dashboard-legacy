@@ -49,23 +49,23 @@ export default function LinkToContact() {
   }, [auth]);
 
   const getContacts = async (searchStr) => {
-    setIsLoading(true)
-    try{
-    const response = await clientService.getList(
-      undefined,
-      undefined,
-      "Activities.CreateDate:desc",
-      searchStr
-    );
-    setIsLoading(false)
-    if (response && response.result) {
-      setContacts(response.result);
+    setIsLoading(true);
+    try {
+      const response = await clientService.getList(
+        undefined,
+        undefined,
+        "Activities.CreateDate:desc",
+        searchStr
+      );
+      setIsLoading(false);
+      if (response && response.result) {
+        setContacts(response.result);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    Sentry.captureException(error);
-  } finally {
-    setIsLoading(false)
-  }
   };
 
   const bannerContent = () => {
@@ -96,7 +96,7 @@ export default function LinkToContact() {
   return (
     <>
       <Helmet>
-        <title>MedicareCENTER - Link To Contact</title>
+        <title>MedicareCENTER - Link to Contact</title>
       </Helmet>
       <GlobalNav />
       <DashboardHeaderSection
@@ -130,7 +130,11 @@ export default function LinkToContact() {
             </TextButton>
           </div>
           <div className={styles.medContent}>
-            <ContactSearch isLoading={isLoading} onChange={getContacts} contacts={contacts} />
+            <ContactSearch
+              isLoading={isLoading}
+              onChange={getContacts}
+              contacts={contacts}
+            />
           </div>
         </div>
       </div>

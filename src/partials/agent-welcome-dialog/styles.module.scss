@@ -1,0 +1,32 @@
+@import 'src/scss/globalDefines.scss';
+
+
+.headingTitle {
+    text-align: center;
+  }
+  
+  .subHeadingContent {
+    text-align: center;
+    padding: 8px 34px;
+  }
+  
+  .modalBody {
+    background-color: $white;
+    padding: 24px;
+    overflow: scroll;
+  
+    div > ul {
+      list-style: unset;
+      margin-left: 2rem;
+    }
+  }
+  
+  .footerButton {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .marginY8 {
+    margin: 8px 0;
+  }

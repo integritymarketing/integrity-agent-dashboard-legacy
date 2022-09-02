@@ -17,7 +17,6 @@ import Editicon from "components/icons/edit-details";
 import clientService from "services/clientsService";
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
-import authService from "services/authService";
 
 const CallCenterContent = ({
   agentId,
@@ -256,7 +255,9 @@ const RenderModalItem = ({
                   <Button
                     variant="primary"
                     size="small"
-                    onClick={() => authService.handleOpenLeadsCenter(npn)}
+                    onClick={() =>
+                      window.open(`/leadcenter-redirect/${npn}`, "_blank")
+                    }
                   >
                     setup
                   </Button>

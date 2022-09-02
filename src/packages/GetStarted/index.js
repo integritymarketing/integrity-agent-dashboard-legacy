@@ -37,7 +37,7 @@ export default function GetStarted() {
       const payload = {
         agentId: agentid,
         leadPreference: {
-          isAgentMobilePopUpDismissed: true,
+          isAgentMobileBannerDismissed: true,
         },
       };
       await clientService.updateAgentPreferences(payload);

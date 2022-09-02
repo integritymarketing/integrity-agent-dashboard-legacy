@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import MedicareCenterLogo from "../../images/medicare-center.png";
-import "./index.scss";
-import WelcomeHamburgerIcon from "../../components/icons/welcome-hamburger";
 import LoginLink from "components/ui/login-link";
-import ExitIcon from "components/icons/exit";
+import "./index.scss";
 
 export const RegisterLink = (props) => {
   return (
@@ -18,7 +16,6 @@ export const RegisterLink = (props) => {
 };
 
 export default () => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   return (
     <>
       <div className="public-nav">
@@ -41,32 +38,6 @@ export default () => {
           </RegisterLink>
         </div>
       </div>
-      <div className="mobile-menu-icon">
-        <button
-          className="icon-btn global-nav__mobile-trigger"
-          onClick={() => setShowMobileMenu((prev) => !prev)}
-        >
-          <span className="visually-hidden">Open Navigation Menu</span>
-          {showMobileMenu ? (
-            <ExitIcon aria-hidden="true" />
-          ) : (
-            <WelcomeHamburgerIcon aria-hidden="true" />
-          )}
-        </button>
-      </div>
-      {showMobileMenu && (
-        <div className="mobile-menu">
-          <div className="link-container">
-            <Link to="/register?client_id=AEPortal">
-              <span className="link-text">Login</span>
-            </Link>
-            <div className="seperator" />
-            <Link to="/login">
-              <span className="link-text">Register</span>
-            </Link>
-          </div>
-        </div>
-      )}
     </>
   );
 };

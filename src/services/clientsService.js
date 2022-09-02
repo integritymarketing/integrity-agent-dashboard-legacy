@@ -909,7 +909,9 @@ export class ClientsService {
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
       "GET"
     );
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    }
   };
 
   updateAgentCallForwardingNumber = async (payload) => {
@@ -949,6 +951,23 @@ export class ClientsService {
       "GET"
     );
     return response.json();
+  };
+
+  getTagsGroupByCategory = async () => {	
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,	
+      "GET"	
+    );	
+    return response.json();	
+  };
+
+  updateLeadsTags = async (leadId, tagIds = []) => {	
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,	
+      "POST",	
+      { leadId, tagIds }	
+    );	
+    return response.json();	
   };
 }
 

@@ -12,6 +12,7 @@ import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import Logout from "./Logout.svg";
 import Account from "./Account.svg";
+import NeedHelp from "./Needhelp.svg";
 import clientService from "services/clientsService";
 import { formatPhoneNumber } from "utils";
 import "./index.scss";
@@ -22,32 +23,6 @@ import InboundCallBanner from "packages/InboundCallBanner";
 import authService from "services/authService";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-
-const useHelpButtonWithModal = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const testId = "header-support-modal";
-
-  return [
-    ({ ...props }) => (
-      <button
-        type="button"
-        onClick={() => setModalOpen(true)}
-        {...props}
-      ></button>
-    ),
-    () => (
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        labeledById="dialog_help_label"
-        descById="dialog_help_desc"
-        testId={testId}
-      >
-        <ContactInfo testId={testId} />
-      </Modal>
-    ),
-  ];
-};
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -135,7 +110,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const loadingHook = useLoading();
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
-  const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [user, setUser] = useState({});
   const [open, setOpen] = useState(false);
   const [isAvailable, setIsAvailable] = useState(false);
@@ -157,12 +132,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     auth.isAuthenticated() && !menuHidden
       ? {
           primary: [
-            {
-              component: HelpButtonWithModal,
-              label: "Need Help?",
-              format: "large",
-              props: { className: analyticsService.clickClass("help-header") },
-            },
             {
               component: Link,
               props: {
@@ -199,6 +168,17 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               component: "button",
               props: {
                 type: "button",
+                onClick: () => window.open(
+                 `/leadcenter-redirect/${agentInfo?.agentNPN}`,
+                  "_blank"
+                ),
+              },
+              label: "Lead Center",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
                 onClick: () => {
                   window.open(
                     process.env.REACT_APP_AUTH_AUTHORITY_URL +
@@ -228,6 +208,17 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 },
               },
               label: "CSG APP",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  setHelpModalOpen(true);
+                },
+              },
+              label: "Need Help?",
+              img: NeedHelp,
             },
             {
               component: "button",
@@ -389,7 +380,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             </Media>
           </nav>
         )}
-        <HelpButtonModal />
         <MyModal
           phone={phone}
           virtualNumber={virtualNumber}
@@ -408,6 +398,15 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       {auth.isAuthenticated() && !menuHidden && (
         <InboundCallBanner agentInformation={agentInfo} />
       )}
+      <Modal
+          open={helpModalOpen}
+          onClose={() => setHelpModalOpen(false)}
+          labeledById="dialog_help_label"
+          descById="dialog_help_desc"
+          testId={"header-support-modal"}
+      >
+        <ContactInfo testId={"header-support-modal"} />
+      </Modal>
     </>
   );
 };

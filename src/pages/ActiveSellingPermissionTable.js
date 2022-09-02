@@ -11,6 +11,7 @@ import SortUp from "components/icons/sort-arrow-up";
 import SortDown from "components/icons/sort-arrow-down";
 import LableGroupCard from "components/ui/LableGroupCard";
 import useToast from "hooks/useToast";
+import Heading2 from "packages/Heading2";
 
 const uniqValues = (array) => Array.from(new Set(array));
 
@@ -256,7 +257,7 @@ function Table({
   return (
     <Container className="mt-scale-3">
       <div className={styles.headerContainer}>
-        <div className={styles.tableHeading}>Active Selling Permissions</div>
+        <Heading2 text="Active Selling Permissions" />
         <ActiveSellingPermissionFilter
           onSubmit={setFilters}
           filterOptions={filterOptions}

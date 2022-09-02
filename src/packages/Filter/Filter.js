@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Popover from "@mui/material/Popover";
-import FilterIcon from "components/icons/activities/Filter";
-import ActiveFilter from "components/icons/activities/ActiveFilter";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
@@ -22,7 +20,14 @@ const StyledPopover = styled(Popover)(() => ({
   },
 }));
 
-export default function Filter({ heading, content, open, onToggle }) {
+export default function Filter({
+  heading,
+  content,
+  open,
+  onToggle,
+  Icon,
+  ActiveIcon,
+}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [filterToggle, setFilterToggle] = useState(false);
 
@@ -44,18 +49,17 @@ export default function Filter({ heading, content, open, onToggle }) {
       <div
         className={
           filterToggle || open
-            ? `${styles.filterActive} ${styles.filter}`
+            ? `${styles.filterActive} ${styles.filter} `
             : styles.filter
         }
         onClick={handleClick}
       >
         {filterToggle || open ? (
-          <ActiveFilter onMouseOut={() => setFilterToggle(false)} />
+          <ActiveIcon onMouseOut={() => setFilterToggle(false)} />
         ) : (
-          <FilterIcon onMouseOver={() => setFilterToggle(true)} />
+          <Icon onMouseOver={() => setFilterToggle(true)} />
         )}
       </div>
-
       <StyledPopover
         id={id}
         open={open}
