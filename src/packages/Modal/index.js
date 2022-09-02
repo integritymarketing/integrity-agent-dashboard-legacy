@@ -25,7 +25,7 @@ export default function TModal({
 }) {
   const [isMobile, setIsMobile] = useState(false);
 
-  const mobileStyle = { width: "90%" };
+  const mobileStyle = { width: "90%", maxHeight: "95%" };
   return (
     <div>
       <Media
