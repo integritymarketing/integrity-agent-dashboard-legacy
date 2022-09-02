@@ -102,7 +102,7 @@ export default function AgentWelcomeDialog({open, close, handleConfirm}) {
     <Modal
       content={modalContent}
       open={open}
-      close={close}
+      handleClose={close}
       style={{ width: "552px" }}
     />
   );
