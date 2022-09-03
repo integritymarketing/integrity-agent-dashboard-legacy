@@ -1,5 +1,5 @@
 import Dialog from "packages/Dialog";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styles from "./AddNewActivityDialog.module.scss";
 import { Box, TextField } from "@mui/material";
 
@@ -14,6 +14,11 @@ export default function AddNewActivityDialog({ open, onClose, onSave }) {
           <div className={styles.subHeading}>Activity Title</div>
           <div>
             <TextField
+              sx={{
+                background: "white",
+                border: "1px solid #DFDEDD",
+                borderRadius: "8px",
+              }}
               hiddenLabel
               fullWidth
               rows={2}
@@ -29,6 +34,11 @@ export default function AddNewActivityDialog({ open, onClose, onSave }) {
           <div className={styles.subHeading}>Activity Note</div>
           <div>
             <TextField
+              sx={{
+                background: "white",
+                border: "1px solid #DFDEDD",
+                borderRadius: "8px",
+              }}
               hiddenLabel
               multiline
               fullWidth

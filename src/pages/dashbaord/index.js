@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useMemo } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
@@ -26,6 +26,8 @@ import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import AgentWelcomeDialog from "partials/agent-welcome-dialog";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -55,38 +57,33 @@ const useHelpButtonWithModal = () => {
 
 export default function Dashbaord() {
   const history = useHistory();
+  const auth = useContext(AuthContext);
+  const addToast = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
-  const [pageSize, setPageSize] = useState(10);
   const [activityData, setActivityData] = useState([]);
-
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
-
-  const addToast = useToast();
-  const auth = useContext(AuthContext);
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
-
-  const activityPageData = useMemo(() => {
-    // TODO: Implement filters here..
-    const filteredData = [...activityData]
-    return filteredData.splice(0, pageSize);
-  }, [pageSize, activityData])
-
-  const pageHasMoreRows = useMemo(() => activityData.length > activityPageData.length,
-   [activityData.length, activityPageData.length])
+  const { leadPreference, agentID } = useAgentInformationByID();
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      const user = await auth.getUser();
-      setUser(user.profile);
+      try {
+        const user = await auth.getUser();
+        setUser(user.profile);
+        setWelcomeModalOpen(!leadPreference?.isAgentMobilePopUpDismissed);
+      } catch (error) {
+        Sentry.captureException(error);
+      }
     };
 
     loadAsyncData();
-  }, [auth]);
+  }, [auth, leadPreference, setWelcomeModalOpen]);
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -96,8 +93,6 @@ export default function Dashbaord() {
     // ensure this only runs once.. adding a dependency w/ the stage summary data causes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onLoadMore = () => setPageSize(pageSize => pageSize + 10)
 
   const loadActivityData = async () => {
     const response = await clientService.getDashboardData(
@@ -113,7 +108,7 @@ export default function Dashbaord() {
         await clientService
           .getApplicationCount(sortByRange)
           .then(setDashboardData);
-        loadActivityData();
+        await loadActivityData();
       } catch (err) {
         Sentry.captureException(err);
         addToast({
@@ -141,6 +136,27 @@ export default function Dashbaord() {
 
   const navigateToContactListPage = (id) => {
     history.push(`/contacts/list?Stage=${id}`);
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const payload = {
+        agentId: agentID,
+        leadPreference: {
+          isAgentMobilePopUpDismissed: true,
+        },
+      };
+      await clientService.updateAgentPreferences(payload);
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to update the Preferences.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    } finally {
+      setWelcomeModalOpen(false);
+    }
   };
 
   return (
@@ -219,7 +235,6 @@ export default function Dashbaord() {
                       key={index}
                     >
                       <div className="snapshot-name">
-                        {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
                         {d?.statusName?.includes("Soa")
                           ? d.statusName.replace("Soa", "SOA ")
                           : d.statusName}
@@ -251,10 +266,8 @@ export default function Dashbaord() {
           </section>
           <section className="recent-activity-section">
             <DashboardActivityTable
-              data={activityPageData}
               onRowClick={() => {}}
-              onShowMore={onLoadMore}
-              pageHasMoreRows={pageHasMoreRows}
+              activityData={activityData}
             />
             {isMobile && (
               <>
@@ -275,6 +288,13 @@ export default function Dashbaord() {
             )}
           </section>
         </div>
+        <AgentWelcomeDialog
+          open={welcomeModalOpen}
+          handleConfirm={handleConfirm}
+          close={() => {
+            setWelcomeModalOpen(false);
+          }}
+        />
       </WithLoader>
       <GlobalFooter />
     </>

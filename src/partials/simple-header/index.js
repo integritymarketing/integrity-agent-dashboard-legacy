@@ -8,7 +8,7 @@ export default ({ id }) => {
     <header className="simple-header mb-auto">
       <h1 className="simple-header__title">
         <Link to="/">
-          <Logo aria-hidden="true" id={id} />
+          <Logo aria-hidden="true" />
           <span className="visually-hidden">Medicare Center</span>
         </Link>
       </h1>

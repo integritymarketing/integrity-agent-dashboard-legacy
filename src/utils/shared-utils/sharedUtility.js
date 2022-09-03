@@ -6,13 +6,17 @@ export const ColorOptionRender = ({
   color = [],
   selected = false,
   onClick,
+  filter,
+  className,
 }) => {
   const handleClick = (ev) => {
     onClick && onClick(ev, value);
   };
   return (
     <div
-      className={`option ${selected ? "selected" : ""}`}
+      className={`option ${selected ? "selected" : ""} ${
+        filter ? className : ""
+      }`}
       onClick={handleClick}
     >
       <span
@@ -38,6 +42,6 @@ export const onlyAlphabets = (e) => {
   }
 };
 
-export const scrollTop = () =>{
+export const scrollTop = () => {
   window.scrollTo(0, 0);
-}
+};

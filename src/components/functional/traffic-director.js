@@ -8,7 +8,7 @@ export default () => {
 
   useEffect(() => {
     if (auth.isAuthenticated()) {
-      history.replace("home");
+      history.replace("dashboard");
     } else {
       history.replace("welcome");
     }
