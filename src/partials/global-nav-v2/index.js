@@ -124,6 +124,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   const handleClose = () => setOpen(false);
 
+  console.log(process.env.REACT_APP_FEATURE_FLAG === "show", '******')
+  console.log(process.env.REACT_APP_FEATURE_FLAG === "show", '&&&&&&')
   const menuProps = Object.assign(
     {
       navOpen,
@@ -164,17 +166,20 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "Account",
               img: Account,
             },
-            {
+           /* 
+           process.env.REACT_APP_FEATURE_FLAG === "show"
+           {
               component: "button",
               props: {
                 type: "button",
-                onClick: () => window.open(
-                 `/leadcenter-redirect/${agentInfo?.agentNPN}`,
-                  "_blank"
-                ),
+                onClick: () =>
+                  window.open(
+                    `/leadcenter-redirect/${agentInfo?.agentNPN}`,
+                    "_blank"
+                  ),
               },
               label: "Lead Center",
-            },
+            }, */
             {
               component: "button",
               props: {
@@ -333,9 +338,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
-        <GetStarted />
-      )}
+      {process.env.REACT_APP_FEATURE_FLAG === "show" &&
+        !loading &&
+        !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
+          <GetStarted />
+        )}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
@@ -371,10 +378,12 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  <MyButton
-                    clickButton={clickButton}
-                    isAvailable={isAvailable}
-                  ></MyButton>
+                  {process.env.REACT_APP_FEATURE_FLAG === "show" && (
+                    <MyButton
+                      clickButton={clickButton}
+                      isAvailable={isAvailable}
+                    ></MyButton>
+                  )}
                 </React.Fragment>
               )}
             </Media>
@@ -399,11 +408,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         <InboundCallBanner agentInformation={agentInfo} />
       )}
       <Modal
-          open={helpModalOpen}
-          onClose={() => setHelpModalOpen(false)}
-          labeledById="dialog_help_label"
-          descById="dialog_help_desc"
-          testId={"header-support-modal"}
+        open={helpModalOpen}
+        onClose={() => setHelpModalOpen(false)}
+        labeledById="dialog_help_label"
+        descById="dialog_help_desc"
+        testId={"header-support-modal"}
       >
         <ContactInfo testId={"header-support-modal"} />
       </Modal>
