@@ -6,16 +6,19 @@ export default () => {
   const auth = useContext(AuthContext);
   const [agentInfomration, setAgentInfomration] = useState({});
 
- const getAgentAvailability = useCallback(async() => {
-  const user = await auth.getUser();
-  const { agentid } = user.profile;
-  const response = await callRecordingsService.getAgentAvailability(agentid);
-  setAgentInfomration({...response});
- },[setAgentInfomration, auth])
+  const getAgentAvailability = useCallback(async () => {
+    const user = await auth.getUser();
+    const { agentid } = user.profile;
+    const response = await callRecordingsService.getAgentAvailability(agentid);
+    setAgentInfomration({ ...response });
+  }, [setAgentInfomration, auth]);
 
   useEffect(() => {
     getAgentAvailability();
   }, [getAgentAvailability]);
 
-  return agentInfomration;
+  return {
+    agentInfomration,
+    getAgentAvailability,
+  };
 };

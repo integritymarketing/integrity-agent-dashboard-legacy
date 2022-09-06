@@ -23,6 +23,8 @@ import InboundCallBanner from "packages/InboundCallBanner";
 import authService from "services/authService";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
+import { welcomeModalOpenAtom } from "recoil/agent/atoms";
+import { useSetRecoilState } from "recoil";
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -108,6 +110,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const addToast = useToast();
   const history = useHistory();
   const loadingHook = useLoading();
+  const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -121,11 +124,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [loading, setLoading] = useState(true);
 
   const handleOpen = () => setOpen(true);
-
   const handleClose = () => setOpen(false);
 
-  console.log(process.env.REACT_APP_FEATURE_FLAG === "show", '******')
-  console.log(process.env.REACT_APP_FEATURE_FLAG === "show", '&&&&&&')
   const menuProps = Object.assign(
     {
       navOpen,
@@ -166,7 +166,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "Account",
               img: Account,
             },
-           /* 
+            /* 
            process.env.REACT_APP_FEATURE_FLAG === "show"
            {
               component: "button",
@@ -259,6 +259,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       if (!agentVirtualPhoneNumber) {
         await clientService.genarateAgentTwiloNumber(agentid);
       }
+      if (!leadPreference?.isAgentMobilePopUpDismissed) {
+        setWelcomeModalOpen(true);
+      }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
@@ -315,6 +318,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     if (auth.isAuthenticated()) {
       loadAsyncData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
