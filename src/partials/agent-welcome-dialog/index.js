@@ -12,7 +12,7 @@ import { formatTwiloNumber } from "utils/formatTwiloNumber";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import styles from "./styles.module.scss";
 
-export default function AgentWelcomeDialog({open, close, handleConfirm}) {
+export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
   const history = useHistory();
   const { agentFirstName, agentVirtualPhoneNumber } = useAgentInformationByID();
 
@@ -71,9 +71,7 @@ export default function AgentWelcomeDialog({open, close, handleConfirm}) {
 
         <Paragraph
           id="transition-modal-description"
-          text={
-            "Learn how to use your MedicareCENTER Agent Phone Number."
-          }
+          text={"Learn how to use your MedicareCENTER Agent Phone Number."}
           className={styles.marginY8}
         />
         <Hyperlink text={"Learn more"} onClick={navigateToLearningPage} />
@@ -101,9 +99,9 @@ export default function AgentWelcomeDialog({open, close, handleConfirm}) {
   return (
     <Modal
       content={modalContent}
-      open={open}
+      open={true}
       handleClose={close}
-      style={{ width: "552px" }}
+      style={{ width: "552px", height: "100%" }}
     />
   );
 }
