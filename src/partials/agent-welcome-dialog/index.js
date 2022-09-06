@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Modal from "packages/Modal";
 import Heading2 from "packages/Heading2";
@@ -14,8 +14,16 @@ import styles from "./styles.module.scss";
 
 export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
   const history = useHistory();
-  const { agentFirstName, agentVirtualPhoneNumber } = useAgentInformationByID();
+  const {
+    agentInfomration: { agentFirstName, agentVirtualPhoneNumber },
+    getAgentAvailability
+   } = useAgentInformationByID();
 
+  useEffect(() => {
+    if (open) {
+      getAgentAvailability();
+    }
+  }, [open, getAgentAvailability])
   const navigateToLearningPage = () => {
     history.push(`/learning-center`);
   };
@@ -99,7 +107,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
   return (
     <Modal
       content={modalContent}
-      open={true}
+      open={open}
       handleClose={close}
       style={{ width: "552px", height: "100%" }}
     />
