@@ -247,14 +247,16 @@ export default ({
             <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
-          <div className="personalInfo personalInfoCallScriptIcon">
-            <label className="text-bold">Tag</label>
-            <TagsIcon
-              leadTags={leadTags}
-              leadsId={leadsId}
-              onUpdateTags={refreshContactDetails}
-            />
-          </div>
+          {process.env.REACT_APP_FEATURE_FLAG === "show" && (
+            <div className="personalInfo personalInfoCallScriptIcon">
+              <label className="text-bold">Tag</label>
+              <TagsIcon
+                leadTags={leadTags}
+                leadsId={leadsId}
+                onUpdateTags={refreshContactDetails}
+              />
+            </div>
+          )}
           <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div

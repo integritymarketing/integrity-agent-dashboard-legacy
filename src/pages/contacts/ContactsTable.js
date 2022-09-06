@@ -194,9 +194,8 @@ function ContactsTable({
   const [tableState, setTableState] = useState({});
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
-  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
-    DeleteLeadContext
-  );
+  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
+    useContext(DeleteLeadContext);
   const [applyFilters, setApplyFilters] = useState({});
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
@@ -410,7 +409,9 @@ function ContactsTable({
           );
         },
       },
-      {
+      /*
+    process.env.REACT_APP_FEATURE_FLAG === "show"     
+  {
         Header: "Tag",
         accessor: (row) => {
           return (
@@ -422,7 +423,7 @@ function ContactsTable({
             </div>
           );
         },
-      },
+      }, */
       {
         Header: "Primary Contact",
         accessor: (row) => {

@@ -71,15 +71,17 @@ export default () => {
                 />
               </div>
             </section>
-            <section className="pt-1">
-              <Heading2
-                className={styles.headingText}
-                text="Personal Agent Website"
-              />
-              <div className={styles.accontCard}>
-                <CopyPersonalURL agentnpn={npn} />
-              </div>
-            </section>
+            {process.env.REACT_APP_FEATURE_FLAG === "show" && (
+              <section className="pt-1">
+                <Heading2
+                  className={styles.headingText}
+                  text="Personal Agent Website"
+                />
+                <div className={styles.accontCard}>
+                  <CopyPersonalURL agentnpn={npn} />
+                </div>
+              </section>
+            )}
             <section>
               <Heading2
                 className={styles.headingText}
@@ -246,7 +248,10 @@ export default () => {
               </Formik>
             </section>
             <section className="mt-3">
-              <Heading2 className={styles.headingText} text="Change your password" />
+              <Heading2
+                className={styles.headingText}
+                text="Change your password"
+              />
               <Formik
                 initialValues={{
                   currentPassword: "",
