@@ -136,15 +136,19 @@ export default function PlanCard({
         </div>
       </div>
       <div className={`in-network ${isMobile ? "mobile" : ""}`}>
-        <div className={"label"}>In-Network</div>
         <div className={"items"}>
           {getProviders(
             planData.providers,
             isMobile,
             planData.isPlanNetworkAvailable
           )}
+
           {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
         </div>
+      </div>
+      <div className={`coverage ${isMobile ? "mobile" : ""}`}>
+        <div className={"label"}>Supplemental Coverage Recommendations:</div>
+        <div className="list">MAPD, Dental, Vision</div>
       </div>
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
         <div className={"compare-check cmp-chk-mbl"}>
