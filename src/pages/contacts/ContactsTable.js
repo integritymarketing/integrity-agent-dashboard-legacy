@@ -409,8 +409,8 @@ function ContactsTable({
           );
         },
       },
-      /*
-    process.env.REACT_APP_FEATURE_FLAG === "show"     
+    //   /*
+    // process.env.REACT_APP_FEATURE_FLAG === "show"     
   {
         Header: "Tag",
         accessor: (row) => {
@@ -423,7 +423,8 @@ function ContactsTable({
             </div>
           );
         },
-      }, */
+      }, 
+      // */
       {
         Header: "Primary Contact",
         accessor: (row) => {

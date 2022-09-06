@@ -7,6 +7,7 @@ import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
 import CallScript from "components/icons/callScript";
+import TagSvg from "components/icons/tag-svg";
 import TagIcon from "components/icons/tag-icon";
 import { CallScriptModal } from "packages/CallScriptModal";
 import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
@@ -175,7 +176,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
           setTagModalOpen(true);
         }}
       >
-        <CallScript />
+        <TagSvg />
       </div>
     </TinyPopover>
   );
@@ -247,16 +248,19 @@ export default ({
             <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
-          {process.env.REACT_APP_FEATURE_FLAG === "show" && (
-            <div className="personalInfo personalInfoCallScriptIcon">
-              <label className="text-bold">Tag</label>
-              <TagsIcon
-                leadTags={leadTags}
-                leadsId={leadsId}
-                onUpdateTags={refreshContactDetails}
-              />
-            </div>
-          )}
+          {/* {process.env.REACT_APP_FEATURE_FLAG === "show" && ( */}
+          <div
+            className="personalInfo personalInfoCallScriptIcon"
+            style={{ height: "55px", justifyContent: "space-between" }}
+          >
+            <label className="text-bold">Tags</label>
+            <TagsIcon
+              leadTags={leadTags}
+              leadsId={leadsId}
+              onUpdateTags={refreshContactDetails}
+            />
+          </div>
+          {/* )} */}
           <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div
