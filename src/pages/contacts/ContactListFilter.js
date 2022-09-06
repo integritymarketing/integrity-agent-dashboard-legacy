@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import Filter from "components/icons/filter";
+import Filters from "components/icons/filters";
 import FilterClose from "components/icons/filterClose";
 import FilterOpen from "components/icons/filterOpen";
 import Close from "components/icons/close";
@@ -17,9 +17,8 @@ export default () => {
   const history = useHistory();
   const location = useLocation();
 
-  const { stageSummaryData, loadStageSummaryData } = useContext(
-    stageSummaryContext
-  );
+  const { stageSummaryData, loadStageSummaryData } =
+    useContext(stageSummaryContext);
 
   const [filters, setFilters] = useState({
     contactRecordType: "",
@@ -42,9 +41,10 @@ export default () => {
     const stages = queryParams.get("Stage");
     const contactRecordType = queryParams.get("ContactRecordType");
     const hasReminder = queryParams.get("HasReminder");
+   
     const applyFilters = {
       contactRecordType: contactRecordType ? contactRecordType : "",
-      hasReminder: hasReminder === "true" ? true : false,
+      hasReminder: hasReminder === "false" ? false : true,
       stages: stages ? stages.split(",").map(Number) : [],
     };
     if (applyFilters?.stages && applyFilters?.stages.length > 0) {
@@ -62,7 +62,7 @@ export default () => {
       setFilters({
         contactRecordType: "",
         stages: [],
-        hasReminder: false,
+        hasReminder: true,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,7 +120,13 @@ export default () => {
     let searchParams = new URLSearchParams(location.search);
     searchParams.set("ContactRecordType", filters?.contactRecordType);
     searchParams.set("Stage", filters?.stages);
-    searchParams.set("HasReminder", filters?.hasReminder);
+    
+    if(filters?.hasReminder) {
+      searchParams.delete('HasReminder');
+    }else{
+      searchParams.set("HasReminder", filters?.hasReminder);
+    }
+
     history.push({
       pathname: pathname,
       search: searchParams.toString(),
@@ -136,8 +142,7 @@ export default () => {
     <div className={styles["filter-view"]}>
       <Button
         data-gtm="contacts-filter"
-        icon={<Filter />}
-        label="Filter"
+        icon={<Filters />}
         className={`${filterOpen ? styles.openFilter : ""} ${
           styles["filter-button"]
         } filterBtn`}
@@ -242,7 +247,7 @@ export default () => {
                         onClick={() => selectStage(status?.leadStatusId)}
                       >
                         <span className={styles.filterStageListLeft}>
-                          {status?.statusName}
+                          {status?.statusName?.replace("Soa", "SOA")}
                         </span>
                         <span className={styles.filterStageListRight}>
                           {status?.totalCount}

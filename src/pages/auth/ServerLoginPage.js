@@ -104,7 +104,7 @@ export default () => {
         <title>MedicareCENTER - Login</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
+        <SimpleHeader id="footerLogo" />
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
 
@@ -157,8 +157,8 @@ export default () => {
                   <Textfield
                     id="login-username"
                     className="mb-3"
-                    label="NPN Number"
-                    placeholder="Enter your NPN Number"
+                    label="National Producer Number (NPN)"
+                    placeholder="Enter your NPN"
                     name="Username"
                     value={values.Username}
                     onChange={handleChange}
@@ -178,7 +178,7 @@ export default () => {
                           className="text-sm link link--force-underline"
                           rel="noopener noreferrer"
                         >
-                          Forgot NPN Number?
+                          Forgot NPN?
                         </a>
                       </div>
                     }

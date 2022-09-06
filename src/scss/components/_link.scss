@@ -1,21 +1,26 @@
 .link {
-  color: var(--brand-text-color);
-  border: 0;
+  border-color: transparent;
+  border-style: solid;
   background: none;
-  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--brand-text-color);
   display: inline;
+  padding-bottom: 7px;
+  padding: 0;
   text-decoration: none;
-
   &:hover,
   &--body {
     color: var(--brand-text-hover-color);
-    text-decoration: underline;
   }
 
   &--invert {
     color: var(--invert-text-color);
 
     &:hover {
+      border-color: #0052ce;
+      border-style: solid;
+      border-width: 0 0 2px 0;
       color: var(--invert-text-color);
     }
   }
@@ -46,4 +51,10 @@
     display: inline-flex;
     align-items: center;
   }
+}
+
+.link_active {
+  border-color: #0052ce;
+  border-style: solid;
+  border-width: 0 0 2px 0;
 }

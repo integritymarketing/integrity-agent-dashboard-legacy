@@ -32,6 +32,7 @@ import { PlanPageFooter } from "./PlanPageFooter";
 import { Button } from "components/ui/Button";
 import Filter from "components/icons/filter";
 import Radio from "components/ui/Radio";
+import { scrollTop } from "utils/shared-utils/sharedUtility";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -357,6 +358,8 @@ export default () => {
     setFilteredPlansCount(sortedResults?.length || 0);
     const slicedResults = [...sortedResults]?.slice(pagedStart, pageLimit);
     setPagedResults(slicedResults);
+    // scrolling to top of the page while displaying new set of plans list with pagination
+    scrollTop();
   }, [
     results,
     currentPage,

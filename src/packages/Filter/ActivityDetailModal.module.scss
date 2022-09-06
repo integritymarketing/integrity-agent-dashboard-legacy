@@ -1,0 +1,33 @@
+.headingSection {
+    color:#0D3879;
+    border-bottom: 1px black solid;
+  }
+  
+  .subHeading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .subSection {
+  background-color: #F4F8FB;
+    .topSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #E5E8EC;
+      padding: 20px;
+      border-radius: 3px;
+      Button {
+        margin-top: 10px;
+      }
+    }
+  }
+  
+  .footerSection {
+    Button {
+      float: right;
+      margin-top: 10px;
+    }
+  }
+  
+  

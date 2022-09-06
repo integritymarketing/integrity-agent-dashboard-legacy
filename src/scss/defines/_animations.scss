@@ -1,0 +1,9 @@
+$animation-duration: 0.7s;
+$animation-duration-fast: 0.5s;
+$animation-duration-immediate: 0.001s;
+$animation-duration-medium: 0.7s;
+$animation-duration-slow: 1s;
+$animation-duration-very-fast: 0.25s;
+$animation-duration-very-slow: 1.5s;
+$animation-easing: ease-out;
+$transition: $animation-duration $animation-easing;

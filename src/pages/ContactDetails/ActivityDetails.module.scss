@@ -1,0 +1,27 @@
+@import '../../scss/globalDefines.scss';
+
+.subSection {
+    .topSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $athens-gray;
+    padding: 20px;
+    border-radius: 3px;
+    Button {
+        margin-top: 10px;
+    }
+    }
+}
+
+.subHeading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    .subHeadingTitle {
+        font-weight: bold;
+        display: flex;
+    }
+}

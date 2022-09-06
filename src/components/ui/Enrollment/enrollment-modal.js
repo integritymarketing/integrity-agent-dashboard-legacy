@@ -15,6 +15,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
   const enroll = useCallback(async () => {
     try {
       const enrolled = await plansService.enroll(contact.leadsId, planData.id, {
+        enrollRequest: {
         firstName: contact?.firstName,
         middleInitial:
           contact?.middleName?.length > 1 ? contact.middleName[0] : "",
@@ -28,6 +29,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
         phoneNumber: contact?.phones[0]?.leadPhone,
         email: contact?.emails[0]?.leadEmail,
         sendToBeneficiary: option === "send",
+        }
       });
 
       if (enrolled && enrolled.url) {

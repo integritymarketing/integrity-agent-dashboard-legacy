@@ -4,6 +4,7 @@ import moment from "moment";
 
 export const LEADS_API_VERSION = "v2.0";
 export const QUOTES_API_VERSION = "v1.0";
+export const AGENTS_API_VERSION = "v1.0";
 const rangeDateFormat = "yyyyMMDD";
 
 const getSortByRangeDates = (type) => {
@@ -179,6 +180,19 @@ class ClientsService {
     return response;
   };
 
+  bulkExportContacts = async (reqData) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkexport`,
+      "POST",
+      reqData
+    );
+
+    if (response.ok) {
+      return response;
+    }
+    throw new Error("Update failed.");
+  };
+
   updateClient = async (oldValues, data) => {
     const reqData = this._getFormattedData(data, oldValues);
     const response = await this._clientAPIRequest(
@@ -225,6 +239,16 @@ class ClientsService {
     );
 
     return response.json();
+  };
+
+  deleteContactLeads = async (leadsId) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
+      "DELETE",
+      leadsId
+    );
+
+    return response;
   };
 
   createReminder = async (data) => {
@@ -399,6 +423,7 @@ class ClientsService {
       firstName,
       lastName,
       middleName,
+      birthdate,
       email,
       phones,
       address,
@@ -410,6 +435,7 @@ class ClientsService {
       firstName,
       lastName,
       middleName: middleName?.toUpperCase(),
+      birthdate: birthdate ? formatServerDate(parseDate(birthdate)) : null,
       leadStatusId: 0,
       contactRecordType,
     };
@@ -487,7 +513,7 @@ class ClientsService {
 
   getCounties = async (zipcode) => {
     const response = await this._clientAPIRequest(
-      `https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
+      `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
       "GET"
     );
 
@@ -728,6 +754,71 @@ class ClientsService {
 
   /*Start Dashboard API */
 
+  getDashboardData = async (
+    sort,
+    searchText,
+    leadIds,
+    contactRecordType = "",
+    stages = [],
+    hasReminder = false
+  ) => {
+    let params = {
+      ReturnAll: true,
+      Sort: sort,
+      Search: searchText,
+      leadIds,
+    };
+    if (hasReminder) {
+      params.HasReminder = hasReminder;
+    }
+    if (contactRecordType !== "") {
+      params.ContactRecordType = contactRecordType;
+    }
+    if (stages && stages.length > 0) {
+      params.Stage = stages;
+    }
+
+    const queryStr = Object.keys(params)
+      .map((key) => {
+        if (key === "leadIds" && leadIds) {
+          return (params[key] || [])
+            .map((leadId) => `${key}=${leadId}`)
+            .join("&");
+        }
+        if (key === "Stage") {
+          return stages.map((stageId) => `${key}=${stageId}`).join("&");
+        }
+        return params[key] ? `${key}=${params[key]}` : null;
+      })
+      .filter((str) => str !== null)
+      .join("&");
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
+    );
+    if (response.status >= 400) {
+      throw new Error("Leads request failed.");
+    }
+    const list = await response.json();
+
+    return list;
+  };
+
+  newClientObj = () => {
+    return {
+      leadsId: null,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      postalCode: "",
+      notes: "",
+      followUpDate: "",
+      product: "",
+      leadStatusId: 1,
+      statusName: "New",
+    };
+  };
+
   getDashbaordSummary = async () => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/summary`,
@@ -747,7 +838,64 @@ class ClientsService {
     return response.json();
   };
 
+  getAgents = async (npn) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
+      "GET"
+    );
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    return response.json();
+  };
+
   /*End Dashboard API */
+
+  /*Start purl API calls */
+
+  getAgentPurlCodeByNPN = async (agentnpn) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
+      "GET"
+    );
+    return response.json();
+  };
+
+  createAgentPurlCode = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
+      "POST",
+      payload
+    );
+    if (response.ok) {
+      return response;
+    }
+  };
+
+  updateAgentAvailability = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`,
+      "POST",
+      payload
+    );
+    if (response.ok) {
+      return response;
+    }
+  };
+
+  getAgentAvailability = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
+      "GET"
+    );
+    return response.json();
+  };
+  /*End purl API calls */
 }
 
 export default new ClientsService();
+
+
+

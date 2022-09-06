@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "./backToTop.scss";
+import {scrollTop} from "utils/shared-utils/sharedUtility"
 
 export const BackToTop = () => {
   const [visible, setVisible] = useState(false);
-  const returnFunction = () => {
-    window.scrollTo(0, 0);
-  };
+  
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
@@ -23,7 +22,7 @@ export const BackToTop = () => {
     <button
       type="button"
       className={`backToTop-button`}
-      onClick={returnFunction}
+      onClick={scrollTop}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

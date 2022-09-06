@@ -16,6 +16,7 @@ export default ({
   providerModal,
   footer,
   cssClassName = "",
+  className = "",
   ...props
 }) => {
   const scrollRef = useRef(null);
@@ -54,7 +55,7 @@ export default ({
     >
       <Container size={size || (wide ? "wide" : "medium")}>
         <PageCard
-          className="modal__card"
+          className={`${className} modal__card`}
           scrollRef={scrollRef}
           role="dialog"
           aria-modal="true"

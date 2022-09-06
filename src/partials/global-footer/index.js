@@ -44,7 +44,7 @@ export default ({ className = "", hideMedicareIcon, ...props }) => {
         {hideMedicareTag && (
           <Link to="/">
             <span className="visually-hidden">Medicare Center</span>
-            <Logo aria-hidden="true" />
+            <Logo aria-hidden="true" id='footerLogo' />
           </Link>
         )}
         <nav className="global-footer__links mt-4">

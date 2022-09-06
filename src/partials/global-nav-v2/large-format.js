@@ -1,9 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowDownIcon from "components/icons/arrow-down";
 import useUserProfile from "hooks/useUserProfile";
+import { useHistory } from "react-router-dom";
+
+import "./index.scss";
 
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
+
+  const history = useHistory();
+  const [activedLink, setActivedLink] = useState("");
+
+  useEffect(() => {
+    history?.location?.pathname !== activedLink &&
+      setActivedLink(history.location.pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location.pathname]);
 
   useEffect(() => {
     const closeDropDown = (event) => {
@@ -22,7 +34,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
   }, [navOpen, setNavOpen]);
 
   return (
-    <ul className="divided-hlist text-muted-light">
+    <ul className="divided-hlist text-muted-light uiStyle">
       {primary
         .filter((link) => link.format !== "small")
         .map((link, idx) => {
@@ -30,7 +42,9 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
           return (
             <li key={idx}>
               <link.component
-                className={`link link--invert ${className}`}
+                className={`link link--invert ${className} ${
+                  activedLink.includes(props?.to) ? "link_active" : undefined
+                }`}
                 {...props}
               >
                 {link.label}
@@ -45,7 +59,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
           }`}
         >
           <button
-            className={`link link--inherit dropdown-menu__trigger`}
+            className={`link link--inherit dropdown-menu__trigger button_color`}
             onClick={() => setNavOpen(!navOpen)}
           >
             <span>{userProfile.fullName}</span>
@@ -59,10 +73,11 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
                 return (
                   <li key={idx}>
                     <link.component
-                      className={`link link--inherit ${className}`}
+                      className={`link link--inherit ${className} linkAlignItems`}
                       tabIndex={navOpen ? "0" : "-1"}
                       {...props}
                     >
+                      <img src={link.img} alt="linkIcon" className="icon" />
                       {link.label}
                     </link.component>
                   </li>

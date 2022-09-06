@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
-
 import PropTypes from "prop-types";
-
 import ArrowDownIcon from "../../icons/arrow-down";
 import "./select.scss";
 import { useWindowSize } from "../../../hooks/useWindowSize";
@@ -162,7 +160,7 @@ export const Select = ({
       className={`${error ? "has-error" : ""} ${
         showValueAlways ? "show-always" : ""
       } inputbox`}
-      tabindex="0"
+      tabIndex="0"
       role="menu"
       onClick={toggleOptionsMenu}
       onKeyUp={toggleOptionsMenuKeyUp}

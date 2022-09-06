@@ -1,0 +1,33 @@
+@import "../../scss/mixins";
+
+.footer-unauthenticated {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: sticky;
+  background-color: var(--v2-white);
+  top: 100%;
+
+  .logo {
+    height: 80px;
+    width: 280px;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .copyright {
+    color: #686868;
+    font-size: 16px;
+  }
+
+  @media (min-width: 480px) {
+    padding: 0.5rem 2rem;
+    margin-top: 0;
+  }
+
+  @media (min-width: 768px) {
+    justify-content: flex-start;
+    padding: 1rem 2.5rem;
+  }
+}

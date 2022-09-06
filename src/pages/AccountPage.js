@@ -1,18 +1,24 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
+import ResourceSection from "components/ui/resourcesCard";
+
 /* import Modal from "components/ui/modal";*/
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
+/* import CopyPersonalURL from "components/ui/CopyPersonalURL"; */
 import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import authService from "services/authService";
 /* import NPNRequest from "partials/npn-request"; */
 import analyticsService from "services/analyticsService";
+import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
+
+import styles from "./ActiveSellingPermissionTable.module.scss";
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -187,8 +193,8 @@ export default () => {
                       />
                       <Textfield
                         id="account-npn"
-                        label="NPN Number"
-                        placeholder="Enter your NPN Number"
+                        label=" National Producer Number (NPN)"
+                        placeholder="Enter your NPN"
                         name="npn"
                         value={values.npn}
                         readOnly
@@ -231,6 +237,10 @@ export default () => {
                 )}
               </Formik>
             </section>
+            {/* commenting for prod deployment */}
+           {/*  <section className="mt-2">
+              <CopyPersonalURL agentnpn={npn} />
+            </section> */}
             <section className="mt-5">
               <h3 className="hdg hdg--4">Change your password</h3>
               <Formik
@@ -386,6 +396,12 @@ export default () => {
             {/*  <NPNModal /> */}
           </Container>
         )}
+        <div className={styles["rts-table-container"]}>
+          <ActiveSellingPermissionTable npn={npn} />
+          <div>
+            <ResourceSection />
+          </div>
+        </div>  
       </div>
       <GlobalFooter />
     </React.Fragment>
