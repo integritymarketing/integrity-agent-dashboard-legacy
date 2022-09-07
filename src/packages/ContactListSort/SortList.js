@@ -17,7 +17,6 @@ export default function SortList({ selected, setSelected }) {
         let label = row?.label.split(":");
         let labelOne = label[0];
         let labelTwo = label[1];
-        console.log("label", label);
         return (
           <Box
             sx={{
