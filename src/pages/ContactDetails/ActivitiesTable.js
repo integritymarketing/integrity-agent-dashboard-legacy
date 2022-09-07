@@ -27,6 +27,8 @@ const buttonTextByActivity = {
   "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
   "Contact's new call log created": "Download",
+  "Outbound Call Recorded": "Download",
+  "Incoming Call Recorded": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
@@ -107,6 +109,8 @@ export default function ActivitiesTable({
           // TODO : change it with plan interaction URL
           break;
         case "Call Recording":
+        case "Incoming Call Recorded":
+        case "Outbound Call Recorded":
           window.open(activityInteractionURL, "_blank");
           break;
         case "Contact's new call log created":

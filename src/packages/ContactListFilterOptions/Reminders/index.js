@@ -48,7 +48,7 @@ export default function Reminders({ reminder, setReminder }) {
                 setReminder("");
               } else setReminder(row.name);
             }}
-            key={row.name + i}
+            key={row.name}
           >
             <div style={{ display: "flex", padding: "0 8px" }}>
               <img

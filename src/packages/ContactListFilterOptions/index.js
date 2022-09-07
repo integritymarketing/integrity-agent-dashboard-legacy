@@ -81,7 +81,9 @@ export default function ContactListFilterOptions({ close }) {
       setStages([...stageValues]);
       setTags([...tagValues]);
     } else {
-      onReset();
+      setReminder("");
+      setStages([]);
+      setTags([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
@@ -112,6 +114,7 @@ export default function ContactListFilterOptions({ close }) {
     setReminder("");
     setStages([]);
     setTags([]);
+    history.push(`/contacts/list`);
   };
 
   const onApply = () => {
