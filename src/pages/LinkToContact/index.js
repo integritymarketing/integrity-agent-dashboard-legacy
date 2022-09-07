@@ -1,12 +1,11 @@
 import * as Sentry from "@sentry/react";
-import AuthContext from "contexts/auth";
 import ContactSearch from "./ContactSearch";
 import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
 import DescriptionIcon from "@mui/icons-material/Description";
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 import Heading3 from "packages/Heading3";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import Tags from "packages/Tags/Tags";
 import clientService from "services/clientsService";
 import styles from "./styles.module.scss";
@@ -22,31 +21,14 @@ const IN_PROGRESS = "in-progress";
 
 export default function LinkToContact() {
   const history = useHistory();
-  const { callLogId } = useParams();
-  const auth = useContext(AuthContext);
+  const { callLogId, callFrom } = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
-  const [agentInformation, setAgentInformation] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const callRecordings = useCallRecordings({ subscribe: false });
   const callStatusInProgress = callRecordings.find(
     (callRecording) => callRecording.callStatus === IN_PROGRESS
   );
-
-  useEffect(() => {
-    const loadAsyncData = async () => {
-      try {
-        const user = await auth.getUser();
-        const agentId = user?.profile?.agentid;
-        const agentInfo = await clientService.getAgentAvailability(agentId);
-        setAgentInformation(agentInfo);
-      } catch (error) {
-        Sentry.captureException(error);
-      }
-    };
-
-    loadAsyncData();
-  }, [auth]);
 
   const getContacts = async (searchStr) => {
     setIsLoading(true);
@@ -108,18 +90,13 @@ export default function LinkToContact() {
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
           <div className={styles.medContent}>
-            <Heading2
-              text={formatPhoneNumber(
-                agentInformation?.agentVirtualPhoneNumber,
-                true
-              )}
-            />
+            <Heading2 text={formatPhoneNumber(callFrom, true)} />
           </div>
-          {tags?.length && (
+          {tags?.length > 0 ? (
             <div className={styles.medContent}>
               <Tags words={tags} flexDirection={"column"} />
             </div>
-          )}
+          ) : null}
           <div className={styles.medContent}>
             <TextButton
               onClick={goToAddNewContactsPage}

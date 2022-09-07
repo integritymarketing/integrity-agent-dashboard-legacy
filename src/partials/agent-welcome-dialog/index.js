@@ -16,14 +16,14 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
   const history = useHistory();
   const {
     agentInfomration: { agentFirstName, agentVirtualPhoneNumber },
-    getAgentAvailability
-   } = useAgentInformationByID();
+    getAgentAvailability,
+  } = useAgentInformationByID();
 
   useEffect(() => {
     if (open) {
       getAgentAvailability();
     }
-  }, [open, getAgentAvailability])
+  }, [open, getAgentAvailability]);
   const navigateToLearningPage = () => {
     history.push(`/learning-center`);
   };
@@ -58,7 +58,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
         <Heading2
           id="transition-modal-description"
           text={formatTwiloNumber(agentVirtualPhoneNumber)}
-          className={styles.marginY8}
+          className={styles.agentVirtualNumber}
         />
         <Paragraph
           id="transition-modal-description"
@@ -97,7 +97,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
 
         <div className={styles.footerButton}>
           <Button onClick={handleConfirm} size="medium">
-            Confirm I Have Read
+            Get Started
           </Button>
         </div>
       </div>
