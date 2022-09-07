@@ -70,6 +70,7 @@ export default function Stages({ statusOptions, stages, selectStage }) {
             if (i >= 0 && i < halfLength) {
               return (
                 <StageList
+                  key={`firstStaegs-${i}`}
                   row={row}
                   selectStage={selectStage}
                   stages={stages}
@@ -84,6 +85,7 @@ export default function Stages({ statusOptions, stages, selectStage }) {
             if (i >= halfLength && i < length) {
               return (
                 <StageList
+                  key={`secondStages-${i}`}
                   row={row}
                   selectStage={selectStage}
                   stages={stages}

@@ -15,7 +15,7 @@ export default function FilterTypeMenu({ filterType, setFilterType }) {
               filterType === item ? styles.bgSelect : ""
             }`}
             onClick={() => setFilterType(item)}
-            key={`${item - index}`}
+            key={`${item}`}
           >
             {item}
           </Box>

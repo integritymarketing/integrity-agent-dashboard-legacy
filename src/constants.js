@@ -1,7 +1,7 @@
 export const SORT_OPTIONS = [
   {
     value: "Reminders%3Aasc&Sort=Reminders.ReminderDate%3Aasc",
-    label: "Reminder: Upcoming",
+    label: "Reminders: Upcoming",
   },
   { value: "createDate:desc", label: "Date Added: Newest to Oldest" },
   { value: "createDate:asc", label: "Date Added: Oldest to Newest" },
