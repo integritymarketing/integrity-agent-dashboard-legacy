@@ -43,7 +43,7 @@ export default function SortList({ selected, setSelected }) {
                 {labelOne}:
               </Typography>
               <Typography
-                sx={{ color: " #717171", fontSize: "16px", marginLeft: "18px" }}
+                sx={{ color: " #717171", fontSize: "16px", marginLeft: "10px" }}
                 variant={"subtitle1"}
               >
                 {labelTwo}
