@@ -362,7 +362,7 @@ export default () => {
                 <div className="rightSection">{handleRendering()}</div>
               </Container>
             </div>
-            <ContactFooter hideMedicareIcon={true} />
+            <ContactFooter />
           </StageStatusProvider>
         </WithLoader>
       </ToastContextProvider>

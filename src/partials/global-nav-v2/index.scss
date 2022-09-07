@@ -54,7 +54,7 @@
     padding: 0.75rem 1.75rem;
   }
   @media (min-width: 768px) {
-    padding: 33px 2.5rem;
+    padding: 20px 2.5rem;
 
     &--hasNotification {
       padding: 77px 2.5rem 40px;
@@ -98,12 +98,12 @@
 
       > li {
         padding: 1rem;
-        box-shadow: inset 0px -1px 0px #CDD0D5;
+        box-shadow: inset 0px -1px 0px #cdd0d5;
       }
 
       > li:hover {
-       background-color: var(--v2-secondary-blue-200);
-       color: var(--v2-royal-blue);
+        background-color: var(--v2-secondary-blue-200);
+        color: var(--v2-royal-blue);
       }
 
       > li a:hover {
