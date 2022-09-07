@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Modal from "packages/Modal";
 import Heading2 from "packages/Heading2";
@@ -12,10 +12,18 @@ import { formatTwiloNumber } from "utils/formatTwiloNumber";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import styles from "./styles.module.scss";
 
-export default function AgentWelcomeDialog({open, close, handleConfirm}) {
+export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
   const history = useHistory();
-  const { agentFirstName, agentVirtualPhoneNumber } = useAgentInformationByID();
+  const {
+    agentInfomration: { agentFirstName, agentVirtualPhoneNumber },
+    getAgentAvailability
+   } = useAgentInformationByID();
 
+  useEffect(() => {
+    if (open) {
+      getAgentAvailability();
+    }
+  }, [open, getAgentAvailability])
   const navigateToLearningPage = () => {
     history.push(`/learning-center`);
   };
@@ -71,9 +79,7 @@ export default function AgentWelcomeDialog({open, close, handleConfirm}) {
 
         <Paragraph
           id="transition-modal-description"
-          text={
-            "Learn how to use your MedicareCENTER Agent Phone Number."
-          }
+          text={"Learn how to use your MedicareCENTER Agent Phone Number."}
           className={styles.marginY8}
         />
         <Hyperlink text={"Learn more"} onClick={navigateToLearningPage} />

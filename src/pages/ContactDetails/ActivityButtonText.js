@@ -6,6 +6,8 @@ const buttonTextByActivity = {
   "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
   "Contact's new call log created": "Download",
+  "Outbound Call Recorded": "Download",
+  "Incoming Call Recorded": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
