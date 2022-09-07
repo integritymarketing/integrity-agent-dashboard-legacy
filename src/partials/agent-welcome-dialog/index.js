@@ -71,7 +71,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
             <li>Recorded</li>
             <li>Accessible only to you</li>
             <li>Attached to your Contacts in Contact Management</li>
-            <li>Stored by MedicareCENTER for 10 years</li>
+            <li>Stored by MedicareCENTER for 10 years per CMS regulation</li>
             <li>Downloadable to your personal device</li>
           </ul>
         </Paragraph>
