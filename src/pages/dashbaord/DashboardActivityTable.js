@@ -345,20 +345,22 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
     <>
       <div className={styles.headerWithFilter}>
         <Heading2 className={styles.recentActivity} text="Recent Activity" />
-        <Filter
-          Icon={FilterIcon}
-          ActiveIcon={ActiveFilter}
-          heading={"Filter by Activity Type"}
-          open={filterToggle}
-          onToggle={setFilterToggle}
-          content={
-            <FilterOptions
-              values={getFilterValues()}
-              multiSelect={true}
-              onApply={onFilterApply}
-            />
-          }
-        />
+        <div className={styles.filterButton}>
+          <Filter
+            Icon={FilterIcon}
+            ActiveIcon={ActiveFilter}
+            heading={"Filter by Activity Type"}
+            open={filterToggle}
+            onToggle={setFilterToggle}
+            content={
+              <FilterOptions
+                values={getFilterValues()}
+                multiSelect={true}
+                onApply={onFilterApply}
+              />
+            }
+          />
+        </div>
       </div>
       <Table
         initialState={initialState}

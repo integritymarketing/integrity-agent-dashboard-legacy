@@ -213,8 +213,9 @@ export default function Dashbaord() {
               </div>
             </div>
             <div className="application-form-text">
-              * Includes applications from MedicareCENTER Medicare APP, and
-              Medicare LINK.
+              <div className="application-asterick">*</div>
+              <div className="application-form-content">Includes applications from MedicareCENTER Medicare APP, and
+                Medicare LINK.</div>
             </div>
             <div className="snapshot-wrapper">
               <div className="title">
