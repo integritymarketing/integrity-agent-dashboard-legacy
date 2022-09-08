@@ -57,7 +57,9 @@ const generateSortingIndicator = (column) => {
   return <SortArrowUp />;
 };
 
-function Table({ columns, data, footer, initialState, fixedRows = [] }) {
+const noop = () => {}
+
+function Table({ columns, data, footer, initialState, fixedRows = [], onRowClick = noop }) {
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -104,7 +106,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow {...row.getRowProps()} onClick={() => onRowClick(row.original)}>
                 {row.cells.map((cell) => {
                   return (
                     <StyledTableCell {...cell.getCellProps()}>
