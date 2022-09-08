@@ -8,8 +8,8 @@ function WelcomeEmailUser({ firstName, lastName, className = "" }) {
         Welcome {firstName} {lastName}
       </div>
       <div className="client-content mt-2">
-        Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras
-        mattis consectetur purus sit amet fermentum.
+        Please review the plan information below at your earliest convenience
+        and contact me with any questions.
       </div>
     </div>
   );

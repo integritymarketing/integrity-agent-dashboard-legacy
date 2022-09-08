@@ -35,7 +35,7 @@ const getSortByRangeDates = (type) => {
   ];
 };
 
-class ClientsService {
+export class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
     const user = await authService.getUser();
     const opts = {
@@ -73,7 +73,9 @@ class ClientsService {
     leadIds,
     contactRecordType = "",
     stages = [],
-    hasReminder = false
+    hasReminder = false,
+    hasOverdueReminder = false,
+    tags = []
   ) => {
     let params = {
       PageSize: pageSize,
@@ -85,11 +87,17 @@ class ClientsService {
     if (hasReminder) {
       params.HasReminder = hasReminder;
     }
+    if (hasReminder) {
+      params.HasOverdueReminder = hasOverdueReminder;
+    }
     if (contactRecordType !== "") {
       params.ContactRecordType = contactRecordType;
     }
     if (stages && stages.length > 0) {
       params.Stage = stages;
+    }
+    if (tags && tags.length > 0) {
+      params.Tags = tags;
     }
 
     const queryStr = Object.keys(params)
@@ -101,6 +109,9 @@ class ClientsService {
         }
         if (key === "Stage") {
           return stages.map((stageId) => `${key}=${stageId}`).join("&");
+        }
+        if (key === "Tags") {
+          return tags.map((tagId) => `${key}=${tagId}`).join("&");
         }
         return params[key] ? `${key}=${params[key]}` : null;
       })
@@ -875,8 +886,16 @@ class ClientsService {
   };
 
   updateAgentAvailability = async (payload) => {
+    let url = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`;
+    const response = await this._clientAPIRequest(url, "POST", payload);
+    if (response.ok) {
+      return response;
+    }
+  };
+
+  updateAgentPreferences = async (payload) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`,
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Preference`,
       "POST",
       payload
     );
@@ -890,12 +909,66 @@ class ClientsService {
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
       "GET"
     );
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    }
+  };
+
+  updateAgentCallForwardingNumber = async (payload) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/CallForwardNumber`,
+      "POST",
+      payload
+    );
+    if (response.ok) {
+      return response;
+    }
   };
   /*End purl API calls */
+
+  getAgentByAgentId = async (id) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
+      "GET"
+    );
+    const agentData = await response.json();
+    if (!agentData?.virtualPhoneNumber) {
+      await this.genarateAgentTwiloNumber(id);
+    }
+    return agentData;
+  };
+
+  genarateAgentTwiloNumber = async (id) => {
+    await this._clientAPIRequest(
+      `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Call/GenerateVirtualPhoneNumber/${id}?limit=1`,
+      "POST"
+    );
+  };
+
+  getAllTagsByGroups = async () => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`,
+      "GET"
+    );
+    return response.json();
+  };
+
+  getTagsGroupByCategory = async () => {	
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,	
+      "GET"	
+    );	
+    return response.json();	
+  };
+
+  updateLeadsTags = async (leadId, tagIds = []) => {	
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,	
+      "POST",	
+      { leadId, tagIds }	
+    );	
+    return response.json();	
+  };
 }
 
 export default new ClientsService();
-
-
-

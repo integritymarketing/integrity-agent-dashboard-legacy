@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MUITable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,8 +11,9 @@ import { useTable, useSortBy } from "react-table";
 import Sort from "components/icons/sort-arrow";
 import SortArrowUp from "components/icons/sort-arrow-up";
 import SortArrowDown from "components/icons/sort-arrow-down";
+import Media from "react-media";
 
-const Centered = styled('div')`
+const Centered = styled("div")`
   display: flex;
   gap: 5px;
   align-items: center;
@@ -29,18 +30,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Lato",
-    fontSize: "14px",
+    fontSize: "16px",
     lineHeight: "20px",
-    maxWidth: 360,
-    cursor: "pointer"
+    maxWidth: 250,
+    cursor: "pointer",
+    color: "#434A51",
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({theme})=> ({
-  backgroundColor: 'white',
- /*  '&:hover' : {
-    backgroundColor: '#1F6FE929'
-  } */
+const StyledTableRow = styled(TableRow)(({ isLast }) => ({
+  background: "#2175F41A 0% 0% no-repeat padding-box",
+  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : "none",
+  borderRadius: "8px 8px 0px 0px",
 }));
 
 const generateSortingIndicator = (column) => {
@@ -48,28 +49,35 @@ const generateSortingIndicator = (column) => {
     return null;
   }
   if (column.isSorted === false) {
-    return <Sort />
+    return <Sort />;
   }
   if (column.isSortedDesc) {
-    return <SortArrowDown />
+    return <SortArrowDown />;
   }
-  return <SortArrowUp />
+  return <SortArrowUp />;
 };
 
-function Table({ columns, data, footer, initialState }) {
+function Table({ columns, data, footer, initialState, fixedRows = [] }) {
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
-      initialState
+      initialState,
     },
     useSortBy
   );
+  const [isMobile, setIsMobile] = useState(false);
 
   // Render the UI for table
   return (
     <TableContainer>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <MUITable {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
@@ -79,8 +87,7 @@ function Table({ columns, data, footer, initialState }) {
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
                   <Centered>
-                    {column.render("Header")} {' '}
-                    {generateSortingIndicator(column)}
+                    {column.render("Header")} {generateSortingIndicator(column)}
                   </Centered>
                 </StyledTableCell>
               ))}
@@ -88,10 +95,16 @@ function Table({ columns, data, footer, initialState }) {
           ))}
         </TableHead>
         <TableBody>
+          {fixedRows.map((fixedRow, idx) => (
+            <StyledTableRow key={idx} bg="true" isLast={idx === fixedRows}>
+              {fixedRow}
+            </StyledTableRow>
+          ))}
+
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <StyledTableRow {...row.getRowProps()}>
+              <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
                     <StyledTableCell {...cell.getCellProps()}>
@@ -99,17 +112,22 @@ function Table({ columns, data, footer, initialState }) {
                     </StyledTableCell>
                   );
                 })}
-              </StyledTableRow>
+              </TableRow>
             );
           })}
         </TableBody>
         {footer ? (
           <TableFooter>
-            <StyledTableRow>
-              <TableCell colSpan={columns.length}>
-                <center>{footer}</center>
+            <TableRow>
+              <TableCell
+                style={{ border: "none" }}
+                colSpan={isMobile ? 3 : columns.length}
+              >
+                <center style={isMobile ? { marginLeft: -100 } : {}}>
+                  {footer}
+                </center>
               </TableCell>
-            </StyledTableRow>
+            </TableRow>
           </TableFooter>
         ) : null}
       </MUITable>

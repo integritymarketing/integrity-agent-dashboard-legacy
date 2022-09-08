@@ -194,9 +194,8 @@ function ContactsTable({
   const [tableState, setTableState] = useState({});
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
-  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
-    DeleteLeadContext
-  );
+  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
+    useContext(DeleteLeadContext);
   const [applyFilters, setApplyFilters] = useState({});
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
@@ -207,12 +206,16 @@ function ContactsTable({
 
   useEffect(() => {
     const stages = queryParams.get("Stage");
+    const tags = queryParams.get("Tags");
     const contactRecordType = queryParams.get("ContactRecordType");
     const hasReminder = queryParams.get("HasReminder");
+    const hasOverdueReminder = queryParams.get("HasOverdueReminder");
     const applyFilters = {
       contactRecordType,
       hasReminder,
       stages: stages ? stages.split(",") : [],
+      tags: tags ? tags.split(",") : [],
+      hasOverdueReminder,
     };
     setApplyFilters(applyFilters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -281,7 +284,9 @@ function ContactsTable({
           duplicateIds,
           applyFilters?.contactRecordType,
           applyFilters?.stages,
-          applyFilters?.hasReminder
+          applyFilters?.hasReminder,
+          applyFilters.hasOverdueReminder,
+          applyFilters.tags
         )
         .then((list) => {
           const listData = list.result.map((res) => ({
@@ -404,14 +409,26 @@ function ContactsTable({
           );
         },
       },
+      /*
+    process.env.REACT_APP_FEATURE_FLAG === "show"     
+  {
+        Header: "Tag",
+        accessor: (row) => {
+          return (
+            <div>
+              {row.leadTags?.slice(0, 3).map(lt => (
+                <span className={styles.tagBadge}>{lt.tag.tagLabel}</span>
+              ))}              
+              {row.leadTags?.length > 3 && <span className={styles.tagBadgeDot}>...</span>}
+            </div>
+          );
+        },
+      }, */
       {
         Header: "Primary Contact",
         accessor: (row) => {
           return (
-            <div
-              title={getPrimaryContact(row) ? getPrimaryContact(row) : ""}
-              className={styles.primaryContact}
-            >
+            <div className={styles.primaryContact}>
               {getPrimaryContact(row)}
             </div>
           );

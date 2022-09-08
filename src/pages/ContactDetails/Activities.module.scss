@@ -1,45 +1,59 @@
-@import '../../scss/globalDefines.scss';
+@import "../../scss/globalDefines.scss";
 
 .layout {
-    @include small() {
-        grid-template-areas:
-        	'activities             activities             activities             activities            '
-        	'footerBanners             footerBanners             footerBanners             footerBanners            ';
-    }
+  @include small() {
+    grid-template-areas:
+      "activities             activities             activities             activities            "
+      "footerBanners             footerBanners             footerBanners             footerBanners            ";
+  }
 
-    @include medium() {
-        grid-template-areas:
-        	'activities       activities       activities       activities       activities           activities             .                   .                   .                   .  . . ' 
-        	'.       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ' ;
-    }
+  @include medium() {
+    grid-template-areas:
+      "activities       activities       activities       activities       activities           activities             .                   .                   .                   .  . . "
+      ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
+  }
 
-    @include large() {
-        grid-template-areas:
-        	'activities       activities       activities       activities       activities             activities             .                   .                   .                   . '
-            '.       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ' ;
-    }
+  @include large() {
+    grid-template-areas:
+      "activities       activities       activities       activities       activities             activities             .                   .                   .                   . "
+      ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
+  }
 
-    @include xLarge() {
-        grid-template-areas:
-        	'activities       activities       activities       activities       activities            activities             .                   .                   .                   . . .'
-            '.       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ' ;
-    }
+  @include xLarge() {
+    grid-template-areas:
+      "activities       activities       activities       activities       activities            activities             .                   .                   .                   . . ."
+      ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
+  }
 }
 
 .activities {
-    grid-area: activities;
+  grid-area: activities;
+
+  tbody {
+    background-color: #fff;
+    border-radius: 8px;
+  }
 }
 
 .footerBanners {
-    grid-area: footerBanners;
+  grid-area: footerBanners;
 }
 
 .wrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .activityDataCell {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+}
+
+.deleteTextAreaText {
+  color: #ca2323;
+  margin-right: 20px;
+}
+
+.ediTextAreaText {
+  color: #0052ce;
 }

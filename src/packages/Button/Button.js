@@ -20,6 +20,9 @@ const StyledButton = styled(MUIButton)(({ theme, variant }) => ({
     color: theme.palette[variant].disabledColor,
     cursor: "not-allowed",
     pointerEvents: "all !important",
+    "&.MuiButton-secondary": {
+      border: "1px solid a0c4f8",
+    },
   },
 }));
 
@@ -29,6 +32,7 @@ export const Button = ({
   disabled = false,
   onClick,
   children,
+  ...props
 }) => {
   return (
     <StyledButton
@@ -36,6 +40,7 @@ export const Button = ({
       size={size}
       disabled={disabled}
       onClick={onClick}
+      {...props}
     >
       {children}
     </StyledButton>

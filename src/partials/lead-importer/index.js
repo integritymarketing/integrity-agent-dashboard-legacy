@@ -89,15 +89,19 @@ const LeadImporter = () => {
             history.push("contacts");
           }}
         >
-          <ImporterField name="contactRecordType" label="Contact Record Type" optional />
+          <ImporterField
+            name="contactRecordType"
+            label="Contact Record Type"
+            optional
+          />
           <ImporterField name="firstName" label="First Name" optional />
           <ImporterField name="lastName" label="Last Name" optional />
           <ImporterField name="email" label="Email" />
           <ImporterField name="phone" label="Phone" />
-          <ImporterField name="address1" label="Address 1" optional/>
-          <ImporterField name="address2" label="Address 2" optional/>
-          <ImporterField name="city" label="City" optional/>
-          <ImporterField name="state" label="State" optional/>
+          <ImporterField name="address1" label="Address 1" optional />
+          <ImporterField name="address2" label="Address 2" optional />
+          <ImporterField name="city" label="City" optional />
+          <ImporterField name="state" label="State" optional />
           <ImporterField name="postalCode" label="Postal Code" optional />
           <ImporterField name="county" label="County" optional />
           <ImporterField name="stage" label="Stage" optional />

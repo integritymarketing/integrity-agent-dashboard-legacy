@@ -13,7 +13,7 @@ const CallRecording = (props) => (
     <defs>
       <style>
         {
-          ".c{fill:none;stroke:#0052ce;stroke-linecap:round;stroke-linejoin:round}"
+          ".c{fill:none;stroke:#0052ce;strokeLinecap:round;strokeLinejoin:round}"
         }
       </style>
     </defs>

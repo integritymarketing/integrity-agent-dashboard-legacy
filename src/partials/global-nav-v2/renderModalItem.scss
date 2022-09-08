@@ -1,3 +1,21 @@
+.modalBox {
+  background-color: #ffffff;
+  border-radius: 0 0 8px 8px;
+}
+.callCenter-h {
+  height: 120px;
+  margin-top: 16px;
+}
+.leadType-h {
+  height: 190px;
+}
+.leadSource-h {
+  height: 190px;
+}
+.main-h {
+  height: 100%;
+}
+
 .modalItemImgStyle {
   height: 30px;
   margin-left: 20px;
@@ -6,33 +24,94 @@
 
 .modalItemStyle {
   align-items: center;
-  border-bottom: 1px solid #ccc;
   display: flex;
+  height: 50px;
   font-size: 15px;
-  margin-top: 7px;
-  padding-bottom: 7px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.bg {
+  background-color: #f1faff;
+}
+.bb {
+  border-bottom: 1px solid #ccc;
 }
 
 .modalItemTextStyle {
   margin-left: 14px;
   width: 190px;
+  color: #000000;
+}
+
+.editPhone {
+  display: flex;
+  padding: 0 14px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.editPhoneContainer {
+  width: 100%;
+}
+
+.modal-source {
+  margin-left: 14px;
+  width: 190px;
+  color: #434a51;
+}
+.modal-lead-source {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #434a51;
+  width: 90%;
+  margin: auto;
+  cursor: pointer;
 }
 
 .span_title {
   font-weight: 900;
 }
+.span_source-title {
+  font-weight: normal;
+}
 
 .span_icon {
   color: #ccc;
   font-size: 15px;
+  margin-left: 13px;
+}
+
+.span_icon {
+  color: #ccc;
+  font-size: 15px;
+  margin-left: 13px;
 }
 
 .span_type {
-  color: #ccc;
+  color: #717171;
   margin-left: 5px;
+}
+.span_source_type {
+  color: #717171;
+  margin-left: 2px;
 }
 
 .active_icon {
   height: 15px;
   width: 13px;
+}
+
+.number {
+  margin-left: 5px;
+  color: #0052ce;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.span_setup {
+  margin-left: 40px;
 }

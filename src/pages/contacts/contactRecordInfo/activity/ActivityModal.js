@@ -9,7 +9,7 @@ export default ({
   activityModalStatus,
   setModalClose,
   leadId,
-  getContactRecordInfo,
+  getLeadDetails,
   isEdit,
   activityData,
   deleteActivity,
@@ -52,7 +52,7 @@ export default ({
         });
         setState({ activityBody: "", activitySubject: "" });
         setModalClose();
-        getContactRecordInfo();
+        getLeadDetails();
       })
       .catch((e) => {
         Sentry.captureException(e);
@@ -76,7 +76,7 @@ export default ({
         });
         setState({ activityBody: "", activitySubject: "" });
         setModalClose();
-        getContactRecordInfo();
+        getLeadDetails();
       })
       .catch((e) => {
         Sentry.captureException(e);

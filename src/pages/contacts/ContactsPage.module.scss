@@ -1,5 +1,5 @@
 .header {
-  & > div {
+  &>div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -72,7 +72,7 @@
 
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
-      & > div {
+      &>div {
         padding: 20px;
       }
     }
@@ -141,6 +141,10 @@
   font-size: 16px;
   font-weight: bold;
   line-height: 20px;
+  color: var(--v2-royal-blue);
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
   &:hover {
     text-decoration: underline;
   }
@@ -178,11 +182,11 @@
   }
 }
 
-.cardInfo > div:first-child {
+.cardInfo>div:first-child {
   min-width: 140px;
 }
 
-.cardInfo > div:last-child {
+.cardInfo>div:last-child {
   @media (min-width: 480px) {
     width: 40%;
   }
@@ -226,7 +230,7 @@
 }
 
 .switch-view {
-  margin-right: 30px;
+  margin-right: 20px;
 
   :hover {
     background: #f9fafb;
@@ -250,6 +254,7 @@
 
 .filter-view {
   position: relative;
+
   & .filter-button {
     padding: 0px !important;
     background: #f9fafb;
@@ -271,6 +276,7 @@
       }
     }
   }
+
   & svg {
     stroke: none;
     margin-left: 7px;
@@ -496,7 +502,7 @@
         }
       }
 
-      .form-input__icon--main + input {
+      .form-input__icon--main+input {
         padding: 0;
       }
     }
@@ -509,16 +515,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   &:hover {
     background: #f4f6fa;
-    svg > path {
+
+    svg>path {
       stroke: #0052ce;
     }
   }
 
   &[class*="opened"] {
     background: #ebeff6;
-    svg > path {
+
+    svg>path {
       stroke: #002d72;
     }
   }
@@ -528,10 +537,12 @@
   @media (max-width: 480px) {
     display: none;
   }
+
   @media (max-width: 768px) {
     width: auto;
     min-height: auto;
   }
+
   display: flex;
   align-items: center;
   min-height: 40px;
@@ -556,6 +567,7 @@
     margin: 0px 12px;
   }
 }
+
 .filterCard {
   position: absolute;
   background: #ffff;
@@ -582,6 +594,7 @@
     left: 0;
     right: unset;
   }
+
   & .filterHeader {
     padding: 22px 21px 0;
   }
@@ -590,16 +603,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     @media (max-width: 480px) {
       margin-bottom: 30px;
     }
   }
-  & .filterTitleSection > svg {
+
+  & .filterTitleSection>svg {
     display: none;
+
     @media (max-width: 480px) {
       display: block;
     }
   }
+
   & .filterTitle {
     font-weight: 600;
     font-size: 24px;
@@ -608,10 +625,12 @@
     font-style: normal;
     margin-bottom: 30px;
     color: #151e29;
+
     @media (max-width: 480px) {
       margin-bottom: 0;
     }
   }
+
   & .contactRecordTxt {
     font-family: Lato;
     font-style: normal;
@@ -621,6 +640,7 @@
     color: #3d4553;
     margin-bottom: 20px;
   }
+
   & .filterTabs {
     border: 1px solid #c7ccd1;
     border-radius: 4px;
@@ -630,6 +650,7 @@
     display: flex;
     margin-bottom: 27px;
     border-bottom: 1px solid #c7ccd1;
+
     & li {
       width: 33.3%;
       text-align: center;
@@ -650,14 +671,17 @@
     & li:last-child {
       border: 0;
     }
+
     & .filterTabsActive {
       background: #eaeef5;
       border: 1px solid #6a7279 !important;
     }
+
     & .filterTabsActive:first-child {
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
     }
+
     & .filterTabsActive:last-child {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
@@ -669,12 +693,14 @@
     margin-top: 0;
     margin-bottom: 19px;
   }
+
   & .filterStage {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 17px 21px;
     border-top: 1px solid #c7ccd1;
+
     & .filterStageTitle {
       font-family: Lato;
       font-style: normal;
@@ -683,14 +709,17 @@
       line-height: 14px;
       color: #3d4553;
     }
+
     & .pointCursor {
       cursor: pointer;
     }
   }
+
   & .filterStageList {
     padding: 0 21px 7px;
     margin: 0;
     cursor: pointer;
+
     & li {
       background: #ffffff;
       border: 1px solid #c7ccd1;
@@ -702,15 +731,18 @@
       border-radius: 4px;
       margin-bottom: 10px;
     }
+
     & .filterStageListActive {
       border: 1px solid #3d4553;
       background: #ebeff6;
     }
-    & .filterStageListActive > .filterStageListLeft,
-    .filterStageListActive > .filterStageListRight {
+
+    & .filterStageListActive>.filterStageListLeft,
+    .filterStageListActive>.filterStageListRight {
       color: #3d4553;
     }
-    & li > .filterStageListLeft {
+
+    & li>.filterStageListLeft {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -718,7 +750,8 @@
       line-height: 17px;
       color: #6a7279;
     }
-    & li > .filterStageListRight {
+
+    & li>.filterStageListRight {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -732,6 +765,7 @@
       height: 395px;
     }
   }
+
   & .hasReminderToggle {
     display: flex;
     justify-content: space-between;
@@ -742,9 +776,11 @@
     cursor: pointer;
     border-top: 1px solid #c7ccd1;
     border-bottom: 1px solid #c7ccd1;
+
     @media (max-width: 480px) {
       border-bottom: 0;
     }
+
     & .hasReminderTxt {
       font-family: Lato;
       font-style: normal;
@@ -754,14 +790,17 @@
       color: #6a7279;
     }
   }
+
   & .lineSeparator1 {
     margin-top: 0;
     margin-bottom: 7px;
   }
+
   & .filterButton {
     margin: 12px 0px 12px 0px;
     display: flex;
     justify-content: center;
+
     @media (max-width: 480px) {
       position: fixed;
       bottom: 0;
@@ -773,6 +812,7 @@
       margin: 0;
       padding-top: 22px;
     }
+
     & .resetButton {
       background: #f4f6fa;
       border: 1px solid #dfe5ef;
@@ -789,6 +829,7 @@
       font-size: 14px;
       line-height: 17px;
     }
+
     & .applyButton {
       background: #0052ce;
       border: 1px solid #0052ce;
@@ -936,6 +977,7 @@
   text-decoration: none;
   color: var(--v2-royal-blue);
   font-weight: bold;
+  cursor: pointer;
 }
 
 .listContainer {
@@ -970,9 +1012,11 @@
 .selected {
   display: block;
 }
+
 .reminderAdd {
   cursor: pointer;
 }
+
 .primaryContact {
   color: #525761;
   font-family: Lato;
@@ -981,7 +1025,121 @@
   line-height: 20px;
 }
 
+.tagBadge {
+  border: 1px solid #969696;
+  border-radius: 2px;
+  color: #969696;
+  display: inline-flex;
+  margin: 0 2px;
+  padding: 2px;
+  font-size: 12px;
+  max-height: 20px;
+  align-items: center;
+  font-weight: bold;
+}
+
+.tagBadgeDot {
+  color: #969696;
+}
+
 .footerBannerContainer {
   display: flex;
   justify-content: center;
 }
+
+
+.tagsModal {
+  background: #f4f8fb;
+  padding: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+  width: 250px;
+
+
+  .tagsModalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .tagHeader {
+      font-size: 24px;
+      line-height: 48px;
+      color: var(--v2-dark-blue);
+      font-family: "Lato", sans-serif;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .tagCount {
+      font-size: 16px;
+    }
+  }
+
+  .categoryName {
+    font-weight: bold;
+    padding: 10px 0;
+    color: black;
+  }
+
+  .tagItemsList {
+    background-color: white;
+    padding: 10px;
+
+    .selectedTagCheck>i {
+      color: blue;
+    }
+  }
+
+  .tagRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    align-items: center;
+    cursor: pointer;
+
+    .tagRowText {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .delSTyles>svg {
+      margin-right: 10px;
+      vertical-align: middle;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .tagFooter {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 10px;
+
+    >Button {
+      width: 80px;
+      padding: 5px;
+      font-weight: bold;
+    }
+  }
+
+}
+
+.categoryContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expandIcons {
+  color: #0052ce;
+  width: 12px;
+  height: 8px;
+  cursor: pointer;
+}
+
+.tagCategoryId {
+  background: white;
+  padding: 16px;
+}
+

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Waypoint } from "react-waypoint";
 import Container from "components/ui/container";
-import PublicNav, { RegisterLink } from "partials/global-nav/public-nav";
+import PublicNav, { RegisterLink } from "partials/global-nav-v2/public-nav";
 import IconArrowRightLong from "components/icons/arrow-right-long";
 import LoginLink from "components/ui/login-link";
 import "./index.scss";

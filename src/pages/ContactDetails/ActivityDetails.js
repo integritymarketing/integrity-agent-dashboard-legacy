@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./ActivityDetails.module.scss";
 import { Box, TextField } from "@mui/material";
-import { Button } from "packages/Button";
 import Dialog from "packages/Dialog";
 import { dateFormatter } from "utils/dateFormatter";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
+import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js"
 
 export default function ActivityDetails({
   open,
@@ -13,12 +13,7 @@ export default function ActivityDetails({
   activityObj,
   leadFullName
 }) {
-  const [scope, setScope] = useState("");
-  const [note, setNote] = useState("");
-
-  useEffect(() => {
-    setNote(activityObj.activityNote);
-  },[activityObj]);
+  const [note, setNote] = useState(activityObj.activityNote);
 
   return (
     <Box>
@@ -27,7 +22,7 @@ export default function ActivityDetails({
         keepMounted
         open={open}
         onSave={() => {
-          onSave(scope, note);
+          onSave(activityObj, note);
         }}
         title={leadFullName}
         saveText={"Save"}
@@ -46,16 +41,8 @@ export default function ActivityDetails({
                 <div>{dateFormatter(activityObj?.createDate, 'MM/DD/YYYY')}</div>
               </div>
               <div className={styles.topSection}>
-                The scope of appointment is {activityObj.scope}.
-                <Button
-                  variant="primary"
-                  text={activityObj.action}
-                  size="small"
-                  disabled={false}
-                  callback={() => {
-                    setScope("");
-                  }}
-                ></Button>
+                {activityObj?.activityBody}
+                <ActivityButtonText activity={activityObj} />
               </div>
             </div>
           )}
@@ -65,6 +52,7 @@ export default function ActivityDetails({
             </div>
             <div>
               <TextField
+                sx={{ background: "white", border: "1px solid #DFDEDD", borderRadius: "8px" }}
                 hiddenLabel
                 multiline
                 fullWidth
