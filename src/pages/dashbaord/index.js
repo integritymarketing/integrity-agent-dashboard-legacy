@@ -26,6 +26,10 @@ import Evening from "./evening.svg";
 import LearningCenter from "./learning-center.png";
 import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import AgentWelcomeDialog from "partials/agent-welcome-dialog";
+import {welcomeModalOpenAtom} from "recoil/agent/atoms";
+import { useRecoilState } from "recoil";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -63,9 +67,13 @@ export default function Dashbaord() {
   const [activityData, setActivityData] = useState([]);
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
+  const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
+  const { 
+    agentInfomration: { leadPreference, agentID }
+   } = useAgentInformationByID();
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -78,7 +86,7 @@ export default function Dashbaord() {
     };
 
     loadAsyncData();
-  }, [auth]);
+  }, [auth, leadPreference]);
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -131,6 +139,27 @@ export default function Dashbaord() {
 
   const navigateToContactListPage = (id) => {
     history.push(`/contacts/list?Stage=${id}`);
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const payload = {
+        agentId: agentID,
+        leadPreference: {
+          isAgentMobilePopUpDismissed: true,
+        },
+      };
+      await clientService.updateAgentPreferences(payload);
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to update the Preferences.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    } finally {
+      setWelcomeModalOpen(false);
+    }
   };
 
   return (
@@ -209,7 +238,6 @@ export default function Dashbaord() {
                       key={index}
                     >
                       <div className="snapshot-name">
-                        {/* TO DO : ONCE ENDPOINT CHANGES THE RESPONSE */}
                         {d?.statusName?.includes("Soa")
                           ? d.statusName.replace("Soa", "SOA ")
                           : d.statusName}
@@ -263,6 +291,13 @@ export default function Dashbaord() {
             )}
           </section>
         </div>
+        <AgentWelcomeDialog
+          open={welcomeModalOpen}
+          handleConfirm={handleConfirm}
+          close={() => {
+            setWelcomeModalOpen(false);
+          }}
+        />
       </WithLoader>
       <GlobalFooter />
     </>

@@ -24,6 +24,8 @@ import ContactContext from "contexts/contacts";
 import { ShortReminder } from "pages/contacts/contactRecordInfo/reminder/Reminder";
 import useCallRecordings from "hooks/useCallRecordings";
 import FixedRow from "./FixedRow";
+import FilterIcon from "components/icons/activities/Filter";
+import ActiveFilter from "components/icons/activities/ActiveFilter";
 
 const initialState = {
   sortBy: [
@@ -53,6 +55,8 @@ const buttonTextByActivity = {
   "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
   "Contact's new call log created": "Download",
+  "Outbound Call Recorded": "Download",
+  "Incoming Call Recorded": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
@@ -154,6 +158,8 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
         // TODO : change it with plan interaction URL
         break;
       case "Call Recording":
+      case "Incoming Call Recorded":
+      case "Outbound Call Recorded":
         window.open(activityInteractionURL, "_blank");
         break;
       case "Contact's new call log created":
@@ -340,6 +346,8 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
       <div className={styles.headerWithFilter}>
         <Heading2 className={styles.recentActivity} text="Recent Activity" />
         <Filter
+          Icon={FilterIcon}
+          ActiveIcon={ActiveFilter}
           heading={"Filter by Activity Type"}
           open={filterToggle}
           onToggle={setFilterToggle}

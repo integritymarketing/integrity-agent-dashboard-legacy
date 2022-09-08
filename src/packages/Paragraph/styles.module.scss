@@ -4,4 +4,8 @@
     color: $cyan-blue;
     font-size: $font-size-16;
     line-height: $line-height-20;
+
+    @include small() {
+        font-size: $font-size-12;
+    }
 }

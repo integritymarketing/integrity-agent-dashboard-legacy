@@ -25,8 +25,9 @@ export default function GetStarted() {
   const [modalOpen, setModalOpen] = useState(false);
   const auth = useContext(AuthContext);
   const addToast = useToast();
-  const agentInformation = useAgentInformationByID();
-  const { agentVirtualPhoneNumber } = agentInformation;
+  const { 
+    agentInfomration: { agentVirtualPhoneNumber }
+   } = useAgentInformationByID();
   const userProfile = useUserProfile();
   const { npn } = userProfile;
 
@@ -37,7 +38,7 @@ export default function GetStarted() {
       const payload = {
         agentId: agentid,
         leadPreference: {
-          isAgentMobilePopUpDismissed: true,
+          isAgentMobileBannerDismissed: true,
         },
       };
       await clientService.updateAgentPreferences(payload);

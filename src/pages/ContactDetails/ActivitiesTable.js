@@ -24,9 +24,11 @@ const initialState = {
 };
 
 const buttonTextByActivity = {
-  "Incoming Call": "Link To Contact",
+  "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
   "Contact's new call log created": "Download",
+  "Outbound Call Recorded": "Download",
+  "Incoming Call Recorded": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
@@ -60,13 +62,14 @@ const renderButtons = (activity, handleClick) => {
   return false;
 };
 
-const isCustomActivity = (row) => row.activityId && row.activityTypeName === "Note";
+const isCustomActivity = (row) =>
+  row.activityId && row.activityTypeName === "Note";
 
 const renderActivtyActions = (row, handleDeleteActivity, setEditActivity) => {
   if (isCustomActivity(row)) {
     const handleEditClick = () => {
       setEditActivity(row);
-    }
+    };
     return (
       <>
         <button
@@ -106,6 +109,8 @@ export default function ActivitiesTable({
           // TODO : change it with plan interaction URL
           break;
         case "Call Recording":
+        case "Incoming Call Recorded":
+        case "Outbound Call Recorded":
           window.open(activityInteractionURL, "_blank");
           break;
         case "Contact's new call log created":
@@ -157,10 +162,16 @@ export default function ActivitiesTable({
         disableSortBy: true,
         Header: "",
         Cell: ({ row }) => (
-          <>{renderActivtyActions(row?.original, handleDeleteActivity, setEditActivity)}</>
+          <>
+            {renderActivtyActions(
+              row?.original,
+              handleDeleteActivity,
+              setEditActivity
+            )}
+          </>
         ),
       },
-/*       { 
+      /*       { 
         id: "more",
         disableSortBy: true,
         Header: "",

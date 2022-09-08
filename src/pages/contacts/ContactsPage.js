@@ -15,7 +15,6 @@ import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
 import SearchIcon from "components/icons/search";
 import RoundCloseIcon from "components/icons/round-close";
-import SortIcon from "components/icons/sort";
 import TableView from "components/icons/table-view";
 import Delete from "components/icons/trashbin";
 import Export from "components/icons/export";
@@ -23,13 +22,11 @@ import DeleteContactsModal from "./DeleteContactsModal";
 import ExportContactsModal from "./ExportContactsModal";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
-import { ContactPageSort } from "components/ui/ContactPageSort";
 import Textfield from "components/ui/textfield";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import BackNavContext from "contexts/backNavProvider";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
-import { SORT_OPTIONS } from "../../constants";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
 import clientsService from "services/clientsService";
@@ -40,17 +37,13 @@ import { StageStatusProvider } from "contexts/stageStatus";
 import FooterBanners from "packages/FooterBanners";
 import Filter from "packages/Filter/Filter";
 import ContactListFilterOptions from "packages/ContactListFilterOptions";
+import ContactListSort from "packages/ContactListSort";
+import FilterIcon from "components/icons/activities/Filter";
+import ActiveFilter from "components/icons/activities/ActiveFilter";
+import ContactSort from "components/icons/contact-sort";
+
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
-
-const SortButton = () => {
-  return (
-    <>
-      <SortIcon />
-      <span>Sort</span>
-    </>
-  );
-};
 
 const geItemFromLocalStorage = (key, initialValue) => {
   try {
@@ -85,6 +78,7 @@ export default () => {
     false
   );
   const [filterToggle, setFilterToggle] = useState(false);
+  const [sortToggle, setSortToggle] = useState(false);
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
@@ -341,17 +335,24 @@ export default () => {
                     )}
                   </div>
                 )}
-                <div className="nav-header-mobile"></div>
-                <div className={styles.sortSelect}>
-                  <ContactPageSort
-                    mobileLabel={<SortButton />}
-                    placeholder={"Sort by"}
-                    initialValue="followUpDate:asc"
-                    options={SORT_OPTIONS}
-                    onChange={(value) => setSort(value)}
-                  />
-                </div>
+
                 <Filter
+                  Icon={ContactSort}
+                  ActiveIcon={ContactSort}
+                  heading={"Sort by "}
+                  open={sortToggle}
+                  onToggle={setSortToggle}
+                  content={
+                    <ContactListSort
+                      close={setSortToggle}
+                      sort={sort}
+                      setSort={setSort}
+                    />
+                  }
+                />
+                <Filter
+                  Icon={FilterIcon}
+                  ActiveIcon={ActiveFilter}
                   heading={"Filter by "}
                   open={filterToggle}
                   onToggle={setFilterToggle}

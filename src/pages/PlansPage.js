@@ -339,7 +339,7 @@ export default () => {
         ? carrierGroup.filter((res) => policyFilters.includes(res.planSubType))
         : carrierGroup;
     const specialNeedsPlans = specialNeedsFilter
-      ? [...policyGroup].filter((plan) => plan.SNPType && plan.SNPType !== "")
+      ? [...policyGroup].filter((plan) => plan?.planName.includes("SNP"))
       : policyGroup;
 
     const rebatePlans = rebatesFilter

@@ -3,8 +3,8 @@ import * as React from "react";
 const Filter = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="19"
+    width="26"
+    height="21"
     viewBox="0 0 24 19"
     {...props}
   >

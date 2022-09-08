@@ -12,6 +12,7 @@ import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import Logout from "./Logout.svg";
 import Account from "./Account.svg";
+import NeedHelp from "./Needhelp.svg";
 import clientService from "services/clientsService";
 import { formatPhoneNumber } from "utils";
 import "./index.scss";
@@ -22,32 +23,8 @@ import InboundCallBanner from "packages/InboundCallBanner";
 import authService from "services/authService";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-
-const useHelpButtonWithModal = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const testId = "header-support-modal";
-
-  return [
-    ({ ...props }) => (
-      <button
-        type="button"
-        onClick={() => setModalOpen(true)}
-        {...props}
-      ></button>
-    ),
-    () => (
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        labeledById="dialog_help_label"
-        descById="dialog_help_desc"
-        testId={testId}
-      >
-        <ContactInfo testId={testId} />
-      </Modal>
-    ),
-  ];
-};
+import { welcomeModalOpenAtom } from "recoil/agent/atoms";
+import { useSetRecoilState } from "recoil";
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -133,9 +110,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const addToast = useToast();
   const history = useHistory();
   const loadingHook = useLoading();
+  const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
-  const [HelpButtonWithModal, HelpButtonModal] = useHelpButtonWithModal();
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [user, setUser] = useState({});
   const [open, setOpen] = useState(false);
   const [isAvailable, setIsAvailable] = useState(false);
@@ -146,7 +124,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [loading, setLoading] = useState(true);
 
   const handleOpen = () => setOpen(true);
-
   const handleClose = () => setOpen(false);
 
   const menuProps = Object.assign(
@@ -157,12 +134,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     auth.isAuthenticated() && !menuHidden
       ? {
           primary: [
-            {
-              component: HelpButtonWithModal,
-              label: "Need Help?",
-              format: "large",
-              props: { className: analyticsService.clickClass("help-header") },
-            },
             {
               component: Link,
               props: {
@@ -195,6 +166,20 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "Account",
               img: Account,
             },
+            /* 
+           process.env.REACT_APP_FEATURE_FLAG === "show"
+           {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () =>
+                  window.open(
+                    `/leadcenter-redirect/${agentInfo?.agentNPN}`,
+                    "_blank"
+                  ),
+              },
+              label: "Lead Center",
+            }, */
             {
               component: "button",
               props: {
@@ -233,6 +218,17 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               component: "button",
               props: {
                 type: "button",
+                onClick: () => {
+                  setHelpModalOpen(true);
+                },
+              },
+              label: "Need Help?",
+              img: NeedHelp,
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
                 onClick: () => auth.logout(),
               },
               label: "Sign Out",
@@ -262,6 +258,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       } = response || {};
       if (!agentVirtualPhoneNumber) {
         await clientService.genarateAgentTwiloNumber(agentid);
+      }
+      if (!leadPreference?.isAgentMobilePopUpDismissed) {
+        setWelcomeModalOpen(true);
       }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
@@ -319,6 +318,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     if (auth.isAuthenticated()) {
       loadAsyncData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
@@ -342,9 +342,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
-        <GetStarted />
-      )}
+      {process.env.REACT_APP_FEATURE_FLAG === "show" &&
+        !loading &&
+        !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
+          <GetStarted />
+        )}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
@@ -380,16 +382,17 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  <MyButton
-                    clickButton={clickButton}
-                    isAvailable={isAvailable}
-                  ></MyButton>
+                  {process.env.REACT_APP_FEATURE_FLAG === "show" && (
+                    <MyButton
+                      clickButton={clickButton}
+                      isAvailable={isAvailable}
+                    ></MyButton>
+                  )}
                 </React.Fragment>
               )}
             </Media>
           </nav>
         )}
-        <HelpButtonModal />
         <MyModal
           phone={phone}
           virtualNumber={virtualNumber}
@@ -408,6 +411,15 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       {auth.isAuthenticated() && !menuHidden && (
         <InboundCallBanner agentInformation={agentInfo} />
       )}
+      <Modal
+        open={helpModalOpen}
+        onClose={() => setHelpModalOpen(false)}
+        labeledById="dialog_help_label"
+        descById="dialog_help_desc"
+        testId={"header-support-modal"}
+      >
+        <ContactInfo testId={"header-support-modal"} />
+      </Modal>
     </>
   );
 };
