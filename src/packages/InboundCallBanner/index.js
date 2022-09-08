@@ -28,8 +28,8 @@ export default function InboundCallBanner({ agentInformation }) {
   );
 
   const navigateToLinkToContact = () => {
-    const callLogId = callStatusInProgress?.callLogId;
-    history.push(`/link-to-contact/${callLogId}`);
+    const {callLogId, from} = callStatusInProgress;
+    history.push(`/link-to-contact/${callLogId}/${from}`);
   };
 
   const bannerContent = () => {

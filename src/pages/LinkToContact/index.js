@@ -90,18 +90,13 @@ export default function LinkToContact() {
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
           <div className={styles.medContent}>
-            <Heading2
-              text={formatPhoneNumber(
-                callFrom,
-                true
-              )}
-            />
+            <Heading2 text={formatPhoneNumber(callFrom, true)} />
           </div>
-          {tags?.length && (
+          {tags?.length > 0 ? (
             <div className={styles.medContent}>
               <Tags words={tags} flexDirection={"column"} />
             </div>
-          )}
+          ) : null}
           <div className={styles.medContent}>
             <TextButton
               onClick={goToAddNewContactsPage}
