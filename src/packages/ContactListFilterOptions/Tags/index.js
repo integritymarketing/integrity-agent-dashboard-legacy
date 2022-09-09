@@ -60,7 +60,14 @@ export default function Tags({ tags, selectTag, TAGS }) {
         {TAGS &&
           TAGS.map((row, i) => {
             if (i >= 0 && i < halfLength) {
-              return <StageList row={row} selectTag={selectTag} tags={tags} />;
+              return (
+                <StageList
+                  row={row}
+                  selectTag={selectTag}
+                  tags={tags}
+                  key={`firstTags-${i}`}
+                />
+              );
             } else return null;
           })}
       </div>
@@ -68,7 +75,14 @@ export default function Tags({ tags, selectTag, TAGS }) {
         {TAGS &&
           TAGS.map((row, i) => {
             if (i >= halfLength && i < length) {
-              return <StageList row={row} selectTag={selectTag} tags={tags} />;
+              return (
+                <StageList
+                  row={row}
+                  selectTag={selectTag}
+                  tags={tags}
+                  key={`secondTags-${i}`}
+                />
+              );
             } else return null;
           })}
       </div>

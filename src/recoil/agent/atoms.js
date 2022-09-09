@@ -4,3 +4,8 @@ export const agentIdAtom = atom({
   key: "agentIdAtom",
   default: null,
 });
+
+export const welcomeModalOpenAtom = atom({
+  key: "welcomeModalOpenAtom",
+  default: false,
+});

@@ -13,6 +13,8 @@ export default function ActivityButtonIcon({ activitySubject }) {
       "Incoming Call": <LINK />,
       "Call Recording": <DOWNLOAD />,
       "Contact's new call log created": <DOWNLOAD />,
+      "Outbound Call Recorded": <DOWNLOAD />,
+      "Incoming Call Recorded": <DOWNLOAD />,
       "Scope of Appointment Signed": <SOACOMPLETE />,
       "Scope of Appointment Completed": <SOAVIEW />,
       "Plan Shared": <VIEWPLANS />,

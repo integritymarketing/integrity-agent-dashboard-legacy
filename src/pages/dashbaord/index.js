@@ -28,6 +28,8 @@ import ContactSupport from "./contact-support.png";
 import DashboardActivityTable from "./DashboardActivityTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import AgentWelcomeDialog from "partials/agent-welcome-dialog";
+import {welcomeModalOpenAtom} from "recoil/agent/atoms";
+import { useRecoilState } from "recoil";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -65,25 +67,26 @@ export default function Dashbaord() {
   const [activityData, setActivityData] = useState([]);
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
-  const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
+  const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
   const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
-  const { leadPreference, agentID } = useAgentInformationByID();
+  const { 
+    agentInfomration: { leadPreference, agentID }
+   } = useAgentInformationByID();
 
   useEffect(() => {
     const loadAsyncData = async () => {
       try {
         const user = await auth.getUser();
         setUser(user.profile);
-        setWelcomeModalOpen(!leadPreference?.isAgentMobilePopUpDismissed);
       } catch (error) {
         Sentry.captureException(error);
       }
     };
 
     loadAsyncData();
-  }, [auth, leadPreference, setWelcomeModalOpen]);
+  }, [auth, leadPreference]);
 
   useEffect(() => {
     const loadAsyncData = async () => {
