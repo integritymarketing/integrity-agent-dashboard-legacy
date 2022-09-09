@@ -268,6 +268,8 @@
     @media (max-width: 480px) {
       display: none;
     }
+    border-top: 1px solid #cbd5e1;
+
     .label {
       font-family: Lato;
       font-style: normal;
@@ -287,28 +289,37 @@
       display: flex;
       max-width: 832px;
       flex-wrap: wrap;
-
+      margin-top: 16px;
       .network-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        height: 42px;
+        width: 150px;
         font-weight: 600;
         font-size: 14px;
         line-height: 150%;
-        color: #2b323b;
-        display: flex;
-        flex-direction: row;
+
         margin-right: 19px;
         margin-bottom: 24px;
-
-        .icon {
-          float: left;
+        .outIcon {
           margin-top: 4px;
         }
+
+        .netIcon {
+          margin-top: 4px;
+          padding: 8px;
+        }
+        .mt18 {
+          margin-top: 18px;
+        }
         .text {
-          width: 142px;
-          padding-left: 14px;
+          margin-left: 4px;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
-
+          color: #000000;
           .name,
           .address {
             white-space: nowrap;
@@ -317,6 +328,7 @@
           }
 
           .address {
+            color: #434a51;
             font-weight: 400;
           }
         }
@@ -441,5 +453,22 @@
       line-height: 150%;
       color: #64748b;
     }
+  }
+}
+
+.coverage {
+  border-top: 1px solid #cbd5e1;
+  margin-bottom: 16px;
+  font-size: 16px;
+  .label {
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+  .list {
+    color: #434a51;
+    font-size: 16px;
+    font-weight: 500;
   }
 }
