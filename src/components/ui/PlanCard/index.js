@@ -29,7 +29,6 @@ function getProviders(entries, isMobile, isPlanNetworkAvailable) {
           address={entry?.address?.streetLine1}
           inNetwork={entry.inNetwork}
           isMobile={isMobile}
-          isPlanNetworkAvailable={isPlanNetworkAvailable}
         />
       );
     }
@@ -71,6 +70,15 @@ export default function PlanCard({
   isCompareDisabled,
 }) {
   let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
+  let {
+    dental = false,
+    combo_DVH = false,
+    cancer = false,
+    hearing = false,
+    hospital_Indemnity = false,
+    short_Term_Recovery = false,
+    vision = false,
+  } = planData?.crossUpSellPlanOptions;
   const { logoURL } = planData;
   const checkForImage =
     logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
@@ -125,25 +133,34 @@ export default function PlanCard({
           <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
             <div className={"label"}>In-Network</div>
             <div className={"items"}>
-              {getProviders(
-                planData.providers,
-                isMobile,
-                planData.isPlanNetworkAvailable
-              )}
+              {getProviders(planData.providers, isMobile)}
               {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
             </div>
           </div>
         </div>
       </div>
       <div className={`in-network ${isMobile ? "mobile" : ""}`}>
-        <div className={"label"}>In-Network</div>
         <div className={"items"}>
           {getProviders(
             planData.providers,
             isMobile,
             planData.isPlanNetworkAvailable
           )}
+
           {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+        </div>
+      </div>
+      <div className={`coverage ${isMobile ? "mobile" : ""}`}>
+        <div className={"label"}>Supplemental Coverage Recommendations:</div>
+        <div className="list">
+          {`${dental === "1" ? "Dental," : ""} ${
+            combo_DVH === "1" ? "combo_DVH," : ""
+          } ${cancer === "1" ? "Cancer," : ""} 
+          ${hearing === "1" ? "Hearing," : ""} ${
+            hospital_Indemnity === "1" ? "hospital_Indemnity," : ""
+          } ${short_Term_Recovery === "1" ? "short_Term_Recovery," : ""} ${
+            vision === "1" ? "Vision" : ""
+          }`}
         </div>
       </div>
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
