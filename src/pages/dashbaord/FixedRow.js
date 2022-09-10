@@ -19,8 +19,8 @@ const StyledTableCell = styled(TableCell)(() => ({
 export default function FixedRow({ unAssosiatedCallRecord }) {
   const history = useHistory();
 
-  const goTolinkToContact = (callLogId) => {
-    history.push(`/link-to-contact/${callLogId}`);
+  const goTolinkToContact = (callLogId, callFrom) => {
+    history.push(`/link-to-contact/${callLogId}/${callFrom}`);
   };
 
   const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
@@ -48,7 +48,7 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
         }
       </TableCell>
       <StyledTableCell
-        onClick={() => goTolinkToContact(unAssosiatedCallRecord.callLogId)}
+        onClick={() => goTolinkToContact(unAssosiatedCallRecord.callLogId, unAssosiatedCallRecord.from)}
       >
         {<IconWithText text="Link to Contact" icon={<LinkToContact />} />}
       </StyledTableCell>

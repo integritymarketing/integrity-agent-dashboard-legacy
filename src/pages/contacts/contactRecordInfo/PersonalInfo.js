@@ -262,6 +262,14 @@ export default ({
           </div>
           {/* )} */}
           <div className="personalInfo personalInfoCallScriptIcon">
+            <label className="text-bold">Tag</label>
+            <TagsIcon
+              leadTags={leadTags}
+              leadsId={leadsId}
+              onUpdateTags={refreshContactDetails}
+            />
+          </div>
+          <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div
               onClick={() => {

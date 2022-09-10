@@ -426,6 +426,19 @@ function ContactsTable({
       }, 
       // */
       {
+        Header: "Tag",
+        accessor: (row) => {
+          return (
+            <div>
+              {row.leadTags?.slice(0, 3).map(lt => (
+                <span className={styles.tagBadge}>{lt.tag.tagLabel}</span>
+              ))}              
+              {row.leadTags?.length > 3 && <span className={styles.tagBadgeDot}>...</span>}
+            </div>
+          );
+        },
+      },
+      {
         Header: "Primary Contact",
         accessor: (row) => {
           return (

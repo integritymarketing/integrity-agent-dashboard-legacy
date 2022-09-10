@@ -91,14 +91,9 @@ const App = () => {
                                   <AuthenticatedRoute path="/dashboard">
                                     <Dashboard />
                                   </AuthenticatedRoute>
-
-                                  <AuthenticatedRoute path="/link-to-contact/:callLogId">
+                                  <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom">
                                     <LinkToContact />
                                   </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/link-to-contact">
-                                    <LinkToContact />
-                                  </AuthenticatedRoute>
-
                                   <AuthenticatedRoute path="/account">
                                     <AccountPage />
                                   </AuthenticatedRoute>
