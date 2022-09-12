@@ -381,7 +381,10 @@ export default () => {
               </Switch>
             </div>
             <div className={styles.footerBannerContainer}>
-              <FooterBanners className={styles.footerBanners} />
+              <FooterBanners
+                className={styles.footerBanners}
+                type={isMobile ? "column" : "row"}
+              />
             </div>
           </Container>
           <GlobalFooter />

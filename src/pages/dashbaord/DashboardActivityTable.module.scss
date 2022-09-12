@@ -18,3 +18,11 @@
   font-weight: normal;
   margin-bottom: 15px;
 }
+
+.filterButton {
+  top: 60px;
+   position: relative;
+   @include small() {
+    top: 0
+  }
+}

@@ -7,55 +7,30 @@ import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
-import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
-import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
 import Heading2 from "packages/Heading2";
-import Help from "./Help";
 import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
 import Morning from "./morning.svg";
 import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
-import LearningCenter from "./learning-center.png";
-import ContactSupport from "./contact-support.png";
+
 import DashboardActivityTable from "./DashboardActivityTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import AgentWelcomeDialog from "partials/agent-welcome-dialog";
-import {welcomeModalOpenAtom} from "recoil/agent/atoms";
+import { welcomeModalOpenAtom } from "recoil/agent/atoms";
 import { useRecoilState } from "recoil";
+import FooterBanners from "packages/FooterBanners";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
-const useHelpButtonWithModal = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const testId = "header-support-modal";
-
-  return [
-    () => {
-      setModalOpen(true);
-    },
-    () => (
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        labeledById="dialog_help_label"
-        descById="dialog_help_desc"
-        testId={testId}
-      >
-        <ContactInfo testId={testId} />
-      </Modal>
-    ),
-  ];
-};
 
 export default function Dashbaord() {
   const history = useHistory();
@@ -67,13 +42,15 @@ export default function Dashbaord() {
   const [activityData, setActivityData] = useState([]);
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
-  const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
-  const [openHelpModal, HelpButtonModal] = useHelpButtonWithModal();
-  const { stageSummaryData, loadStageSummaryData } =
-    useContext(stageSummaryContext);
-  const { 
-    agentInfomration: { leadPreference, agentID }
-   } = useAgentInformationByID();
+  const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(
+    welcomeModalOpenAtom
+  );
+  const { stageSummaryData, loadStageSummaryData } = useContext(
+    stageSummaryContext
+  );
+  const {
+    agentInfomration: { leadPreference, agentID },
+  } = useAgentInformationByID();
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -126,10 +103,6 @@ export default function Dashbaord() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast]);
 
-  const handleLearningCenter = () => {
-    history.push(`/learning-center`);
-  };
-
   const handleSortDateRange = (value) => {
     if (value !== sortByRange) {
       setSortByRange(value);
@@ -174,7 +147,6 @@ export default function Dashbaord() {
         <title>MedicareCENTER - Dashboard</title>
       </Helmet>
       <GlobalNav />
-      <HelpButtonModal />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">
@@ -213,8 +185,11 @@ export default function Dashbaord() {
               </div>
             </div>
             <div className="application-form-text">
-              * Includes applications from MedicareCENTER Medicare APP, and
-              Medicare LINK.
+              <div className="application-asterick">*</div>
+              <div className="application-form-content">
+                Includes applications from MedicareCENTER Medicare APP, and
+                Medicare LINK.
+              </div>
             </div>
             <div className="snapshot-wrapper">
               <div className="title">
@@ -249,46 +224,15 @@ export default function Dashbaord() {
                   ))}
               </div>
             </div>
-            {!isMobile && (
-              <>
-                <Heading2 className="resources" text="Resources" />
-                <Help
-                  icon={LearningCenter}
-                  text="For the latest resources and news from MedicareCENTER visit the"
-                  labelName="Learning Center"
-                  handleClick={handleLearningCenter}
-                />
-                <Help
-                  icon={ContactSupport}
-                  text="For professional assistance"
-                  labelName="Contact Support"
-                  handleClick={openHelpModal}
-                />
-              </>
-            )}
+            {!isMobile && <FooterBanners className="banners" type="column" />}
           </section>
           <section className="recent-activity-section">
             <DashboardActivityTable
+              realoadActivityData={loadActivityData}
               onRowClick={() => {}}
               activityData={activityData}
             />
-            {isMobile && (
-              <>
-                <Heading2 className="resources" text="Resources" />
-                <Help
-                  icon={LearningCenter}
-                  text="For the latest resources and news from MedicareCENTER visit the"
-                  labelName="Learning Center"
-                  handleClick={handleLearningCenter}
-                />
-                <Help
-                  icon={ContactSupport}
-                  text="For professional assistance"
-                  labelName="Contact Support"
-                  handleClick={openHelpModal}
-                />
-              </>
-            )}
+            {isMobile && <FooterBanners className="banners" type="column" />}
           </section>
         </div>
         <AgentWelcomeDialog
