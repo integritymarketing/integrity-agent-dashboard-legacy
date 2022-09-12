@@ -368,7 +368,6 @@ export default function DashboardActivityTable({
         ...row,
       });
       setSelectedActivity(row.activities[0]);
-      console.log(row);
     },
     [setSelectedActivity, setSelectedLead]
   );
@@ -384,7 +383,6 @@ export default function DashboardActivityTable({
         activityNote,
       };
       try {
-        console.log(payload);
         await clientsService.updateActivity(payload, leadsId);
         realoadActivityData && (await realoadActivityData());
         setSelectedActivity(null);

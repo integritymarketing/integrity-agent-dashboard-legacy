@@ -142,7 +142,6 @@ const useActivities = ({ getLeadDetails }) => {
         activityNote
       };
       try {
-        console.log(payload)
         await clientsService.updateActivity(payload, leadsId);
         getLeadDetails();
         setSelectedActivity(null);
