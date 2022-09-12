@@ -15,6 +15,7 @@ const StyledIcon = styled(Icon)(({ theme }) => ({
 }));
 const StyledTypography = styled(Typography)(({ theme }) => ({
   color: "#686E72",
+  lineHeight: "1.25",
 }));
 const StyledTypographyLink = styled(Typography)(({ theme }) => ({
   color: "#1158CF",
@@ -24,12 +25,12 @@ const StyledArrowForward = styled(ArrowForward)(({ theme }) => ({
   color: "#1158CF",
 }));
 
-export default function FooterBanners({ className = "" }) {
+export default function FooterBanners({ className = "", type = "row" }) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
     <div className={className}>
-      <div className={styles.footerBannerContainer}>
+      <div className={`${styles.footerBannerContainer} ${styles[type]}`}>
         <div className={styles.footerBanner1}>
           <StyledIcon>
             <img alt="Glasses Icon" className={styles.icon} src={GlassesIcon} />
