@@ -34,28 +34,6 @@ function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const useHelpButtonWithModal = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const testId = "header-support-modal";
-
-  return [
-    () => {
-      setModalOpen(true);
-    },
-    () => (
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        labeledById="dialog_help_label"
-        descById="dialog_help_desc"
-        testId={testId}
-      >
-        <ContactInfo testId={testId} />
-      </Modal>
-    ),
-  ];
-};
-
 export default function Dashbaord() {
   const history = useHistory();
   const auth = useContext(AuthContext);
@@ -69,7 +47,6 @@ export default function Dashbaord() {
   const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(
     welcomeModalOpenAtom
   );
-  const [HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } = useContext(
     stageSummaryContext
   );
@@ -172,7 +149,6 @@ export default function Dashbaord() {
         <title>MedicareCENTER - Dashboard</title>
       </Helmet>
       <GlobalNav />
-      <HelpButtonModal />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">
