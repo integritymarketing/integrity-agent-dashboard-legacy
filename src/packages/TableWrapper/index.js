@@ -27,6 +27,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: "16px",
     fontWeight: "bold",
     lineHeight: " 20px",
+    borderBottom: "none",
   },
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Lato",
@@ -38,10 +39,40 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+const StyledTableBody = styled(TableBody)(()  => ({
+  backgroundColor: "#FFFFFF",
+}));
+
+const SMUITable = styled(MUITable)(()  => ({
+  ".MuiTableBody-root tr:first-child" : {
+    borderTopLeftRadius: '10px',
+    borderTopRightRadius: '10px'
+},
+  ".MuiTableBody-root tr:first-child td:first-child" : {
+    borderTopLeftRadius: 'inherit',
+    borderTopRightRadius: 'initial',
+  },
+  ".MuiTableBody-root tr:first-child td:last-child" : {
+    borderTopLeftRadius: 'initial',
+    borderTopRightRadius: 'inherit',
+  },
+".MuiTableBody-root tr:last-child": {
+    borderBottomLeftRadius: '10px',
+    borderBottomRightRadius: '10px'
+},
+  ".MuiTableBody-root tr:last-child td:first-child" : {
+    borderBottomLeftRadius: 'inherit',
+    borderBottomRightRadius: 'initial',
+  },
+  ".MuiTableBody-root tr:last-child td:last-child" : {
+    borderBottomLeftRadius: 'initial',
+    borderBottomRightRadius: 'inherit',
+  },
+}));
+
 const StyledTableRow = styled(TableRow)(({ isLast }) => ({
   background: "#2175F41A 0% 0% no-repeat padding-box",
-  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : "none",
-  borderRadius: "8px 8px 0px 0px",
+  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : "none"
 }));
 
 const generateSortingIndicator = (column) => {
@@ -80,7 +111,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [], onRowClick
           setIsMobile(isMobile);
         }}
       />
-      <MUITable {...getTableProps()}>
+      <SMUITable {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -96,7 +127,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [], onRowClick
             </TableRow>
           ))}
         </TableHead>
-        <TableBody>
+        <StyledTableBody>
           {fixedRows.map((fixedRow, idx) => (
             <StyledTableRow key={idx} bg="true" isLast={idx === fixedRows}>
               {fixedRow}
@@ -117,7 +148,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [], onRowClick
               </TableRow>
             );
           })}
-        </TableBody>
+        </StyledTableBody>
         {footer ? (
           <TableFooter>
             <TableRow>
@@ -132,7 +163,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [], onRowClick
             </TableRow>
           </TableFooter>
         ) : null}
-      </MUITable>
+      </SMUITable>
     </TableContainer>
   );
 }

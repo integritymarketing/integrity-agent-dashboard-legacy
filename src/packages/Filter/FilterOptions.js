@@ -101,7 +101,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Button
             aria-describedby={"Reset"}
-            sx={{ width: "40%" }}
+            sx={{ width: "40%", textTransform: "capitalize" }}
             variant="outlined"
             onClick={handleReset}
           >
@@ -109,7 +109,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
           </Button>
           <Button
             aria-describedby={"Apply"}
-            sx={{ width: "40%" }}
+            sx={{ width: "40%", textTransform: "capitalize" }}
             variant="contained"
             disabled={checkDisabled()}
             onClick={handleApply}
