@@ -7,14 +7,12 @@ import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import clientService from "services/clientsService";
 import Info from "components/icons/info-blue";
-import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
-import ContactInfo from "partials/contact-info";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
 import Heading2 from "packages/Heading2";
 import stageSummaryContext from "contexts/stageSummary";
@@ -34,28 +32,6 @@ function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const useHelpButtonWithModal = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const testId = "header-support-modal";
-
-  return [
-    () => {
-      setModalOpen(true);
-    },
-    () => (
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        labeledById="dialog_help_label"
-        descById="dialog_help_desc"
-        testId={testId}
-      >
-        <ContactInfo testId={testId} />
-      </Modal>
-    ),
-  ];
-};
-
 export default function Dashbaord() {
   const history = useHistory();
   const auth = useContext(AuthContext);
@@ -69,7 +45,6 @@ export default function Dashbaord() {
   const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(
     welcomeModalOpenAtom
   );
-  const [HelpButtonModal] = useHelpButtonWithModal();
   const { stageSummaryData, loadStageSummaryData } = useContext(
     stageSummaryContext
   );
@@ -172,7 +147,6 @@ export default function Dashbaord() {
         <title>MedicareCENTER - Dashboard</title>
       </Helmet>
       <GlobalNav />
-      <HelpButtonModal />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">
