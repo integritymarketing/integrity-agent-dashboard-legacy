@@ -269,6 +269,7 @@ export default function Dashbaord() {
           </section>
           <section className="recent-activity-section">
             <DashboardActivityTable
+              realoadActivityData={loadActivityData}
               onRowClick={() => {}}
               activityData={activityData}
             />
