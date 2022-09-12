@@ -49,7 +49,8 @@ const getActivitySubject = (activitySubject) => {
       return text;
     case "Stage Change":
       return "Stage Changed";
-
+    case "Contact's new call log created":
+      return "Call Recording";
     default:
       return activitySubject;
   }
@@ -96,7 +97,11 @@ const renderButtons = (activity, leadsId, handleClick) => {
   return false;
 };
 
-export default function DashboardActivityTable({ activityData, onRowClick, realoadActivityData }) {
+export default function DashboardActivityTable({
+  activityData,
+  onRowClick,
+  realoadActivityData,
+}) {
   const history = useHistory();
   const addToast = useToast();
 
@@ -189,8 +194,8 @@ export default function DashboardActivityTable({ activityData, onRowClick, realo
             color="#434A51"
             fontSize="16px"
             onClick={(event) => {
-              event.stopPropagation()
-              onRowClick(row?.original?.activities[0])
+              event.stopPropagation();
+              onRowClick(row?.original?.activities[0]);
             }}
           >
             {dateFormatter(row?.original?.activities[0]?.createDate, "MM/DD")}
@@ -235,7 +240,7 @@ export default function DashboardActivityTable({ activityData, onRowClick, realo
               noWrap
               onClick={(event) => {
                 event.stopPropagation();
-                onRowClick(row?.original?.activities[0])
+                onRowClick(row?.original?.activities[0]);
               }}
             >
               {getActivitySubject(
@@ -356,32 +361,32 @@ export default function DashboardActivityTable({ activityData, onRowClick, realo
     setFilterToggle(false);
   };
 
-  const handleTableRowClick = useCallback((row) => {
-    setSelectedLead({
-      fullName: `${row?.firstName} ${row?.lastName}`,
-      ...row
-    });
-    setSelectedActivity(row.activities[0]);
-    console.log(row)
-  }, [setSelectedActivity, setSelectedLead])
+  const handleTableRowClick = useCallback(
+    (row) => {
+      setSelectedLead({
+        fullName: `${row?.firstName} ${row?.lastName}`,
+        ...row,
+      });
+      setSelectedActivity(row.activities[0]);
+      console.log(row);
+    },
+    [setSelectedActivity, setSelectedLead]
+  );
 
-  const handleAddActivtyNotes = useCallback(async (activity, activityNote) => {
-    const {
-      activityBody,
-      activitySubject,
-      activityId,
-    } = activity;
-    const leadsId = selectedLead.leadsId;
+  const handleAddActivtyNotes = useCallback(
+    async (activity, activityNote) => {
+      const { activityBody, activitySubject, activityId } = activity;
+      const leadsId = selectedLead.leadsId;
       const payload = {
         activityBody,
         activitySubject,
         activityId,
-        activityNote
+        activityNote,
       };
       try {
-        console.log(payload)
+        console.log(payload);
         await clientsService.updateActivity(payload, leadsId);
-        realoadActivityData && await realoadActivityData();
+        realoadActivityData && (await realoadActivityData());
         setSelectedActivity(null);
         addToast({
           type: "success",
@@ -391,7 +396,9 @@ export default function DashboardActivityTable({ activityData, onRowClick, realo
       } catch (e) {
         Sentry.captureException(e);
       }
-  }, [setSelectedActivity, addToast, selectedLead, realoadActivityData])
+    },
+    [setSelectedActivity, addToast, selectedLead, realoadActivityData]
+  );
 
   return (
     <>
@@ -432,14 +439,14 @@ export default function DashboardActivityTable({ activityData, onRowClick, realo
         ))}
       />
       {selectedActivity && (
-          <ActivityDetails
-            open={true}
-            onSave={handleAddActivtyNotes}
-            onClose={() => setSelectedActivity(null)}
-            leadFullName={selectedLead?.fullName}
-            activityObj={selectedActivity}
-          />
-        )}
+        <ActivityDetails
+          open={true}
+          onSave={handleAddActivtyNotes}
+          onClose={() => setSelectedActivity(null)}
+          leadFullName={selectedLead?.fullName}
+          activityObj={selectedActivity}
+        />
+      )}
     </>
   );
 }
