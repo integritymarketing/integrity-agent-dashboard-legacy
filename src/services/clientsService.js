@@ -969,6 +969,15 @@ export class ClientsService {
     );	
     return response.json();	
   };
+
+  createTag = async ({ tagCategoryId, tagLabel }) => {
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag`,	
+      "POST",	
+      { tagCategoryId, tagLabel }	
+    );	
+    return response.json();	
+  };
 }
 
 export default new ClientsService();

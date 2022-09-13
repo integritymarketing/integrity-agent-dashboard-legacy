@@ -18,6 +18,7 @@ import Check from "components/icons/check-blue";
 import { Button } from "components/ui/Button";
 import useToast from "hooks/useToast";
 import Close from "components/icons/close";
+import CheckBlue from "components/icons/check-blue";
 
 const NOT_AVAILABLE = "N/A";
 
@@ -28,6 +29,12 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   const [selectedTagsIds, setSelectedTagsIds] = useState(initialState);
   const [isProcessing, setIsProcessing] = useState(false);
   const [expandedList, setExpandedList] = useState({});
+  const [serverTags, setServerTags] = useState([]);
+
+  const [newTagVal, setNewTagVal] = useState('');
+  const [isShowingCreate, setIsShowingCreate] = useState(false);
+  const [editingTag, setEditingTag] = useState(null);
+
   const addToast = useToast();
   function toggleTagSelection(e, tagId) {
     e.stopPropagation();
@@ -63,6 +70,19 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   function handleResetTags() {
     setSelectedTagsIds([]);
   }
+
+  function fetchTags() {
+    console.log('fetch tags');
+    clientsService
+      .getTagsGroupByCategory()
+      .then((data) => {
+        setServerTags(JSON.parse(JSON.stringify(data)));
+        setTagsByCategory(data);
+      })
+      .catch((error) => {
+        Sentry.captureException(error);
+      });
+  }
   useEffect(() => {
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
@@ -72,15 +92,10 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     );
   }, [tagsByCategory]);
   useEffect(() => {
-    clientsService
-      .getTagsGroupByCategory()
-      .then((data) => {
-        setTagsByCategory(data);
-      })
-      .catch((error) => {
-        Sentry.captureException(error);
-      });
-  }, []);
+    if(tagModalOpen) {
+      fetchTags();
+    }    
+  }, [tagModalOpen]);
   const totalTags = useMemo(() => {
     return tagsByCategory?.reduce(
       (acc, item) => acc + item.tags?.length || 0,
@@ -90,11 +105,94 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   function handleClose() {
     if (isProcessing) return;
     setSelectedTagsIds(initialState);
+    setTagsByCategory(serverTags);
     setTagModalOpen(false);
   }
   function handleToggleExpand(catId) {
     setExpandedList((expList) => ({ ...expList, [catId]: !expList[catId] }));
   }
+
+  function handleCreateTag(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    setIsShowingCreate(true);
+  }
+
+  function isAlphanumeric(str) {
+    return str.match(/^[0-9a-zA-Z]+$/);
+  }
+
+  async function handleSaveNewTag(e, tagCategoryId) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    if ((newTagVal || '').length > 10 || (newTagVal || '').length < 2 || !isAlphanumeric(newTagVal || '')) {
+      alert('tag length should be between 1 and 10, and only allow alphanumeric');
+      return;
+    }
+    
+    try {
+      // const resp = await clientsService.createTag({ tagCategoryId, newTagVal });
+      // console.log({ resp });    
+      // fetchTags();
+      tagsByCategory.find(tg => tg.tagCategoryId === tagCategoryId).tags.push({tagId: Math.ceil(Math.random() * 10000), tagLabel: newTagVal});
+      setTagsByCategory([...tagsByCategory]);        
+      setIsShowingCreate(false);
+      setNewTagVal('');
+    } catch(e) {
+      console.log(e);
+      alert('Erro creating tag');
+    }    
+  }
+
+  function handleEditTag(e, {tagCategoryId, tag}) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    setEditingTag({ tagCategoryId, tag, editVal: tag.tagLabel });
+  }
+
+  function handleChangeEdittagVal(e) {
+    setEditingTag({ ...editingTag, editVal: e.target.value });
+  }
+
+  function handleDeleteTag(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    const currentCat = tagsByCategory.find(tg => tg.tagCategoryId === editingTag.tagCategoryId);
+    const newTgas = currentCat.tags.filter(tg => tg.tagId !== editingTag.tag.tagId);
+    currentCat.tags = newTgas;
+
+    setTagsByCategory([...tagsByCategory]);      
+    setSelectedTagsIds((selTagIds) => {
+      return selTagIds.filter((id) => id !== editingTag.tag.tagId);
+    });     
+    setEditingTag(null); 
+  }
+
+  function handleSaveEditTag(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    if ((editingTag.editVal || '').length > 10 || (editingTag.editVal || '').length < 2 || !isAlphanumeric(editingTag.editVal || '')) {
+      alert('tag length should be between 1 and 10, and only allow alphanumeric');
+      return;
+    }
+    
+    try {
+    tagsByCategory.find(tg => tg.tagCategoryId === editingTag.tagCategoryId).tags.find(tg => tg.tagId === editingTag.tag.tagId).tagLabel = editingTag.editVal;
+    
+    setTagsByCategory([...tagsByCategory]);            
+    setEditingTag(null); 
+    } catch(e) {
+      console.log(e);
+      alert('Erro editing tag');
+    }    
+
+
+  }
+
   return (
     <TinyPopover
       onClickOutside={handleClose}
@@ -132,15 +230,28 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                   </div>
                 </div>
                 {isExpanded ? (
+                  <div>
                   <div className={styles.tagCategoryId}>
                     {tg.tags?.map((tag) => (
+                      editingTag?.tag.tagId === tag.tagId ? <div>
+                        <input type="text" value={editingTag.editVal} onChange={handleChangeEdittagVal} />
+                        <span onClick={(e) => handleDeleteTag(e)}>D</span>
+                        <span onClick={handleSaveEditTag}>S</span>
+
+                      </div> :
                       <div
                         className={styles.tagRow}
                         onClick={(e) => toggleTagSelection(e, tag.tagId)}
                       >
                         <div className={styles.tagRowText}>
-                          <span className={styles.delSTyles}>
-                            <TagIcon />
+                          <span className={[styles.delSTyles, tg.tagCategoryName === 'Other' ? styles.rowHoverWrapper : ''].join(' ')}>
+                            <span className={styles.tagIcon}>
+                              <TagIcon />
+                            </span>
+                            {tg.tagCategoryName === 'Other' &&
+                            <span className={styles.editIcon} onClick={(e) => handleEditTag(e, {tagCategoryId: tg.tagCategoryId, tag})}>
+                              EDIT
+                            </span>}
                           </span>
                           <span>{tag.tagLabel}</span>
                         </div>
@@ -149,6 +260,11 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                         </div>
                       </div>
                     ))}
+                    {tg.tagCategoryName === 'Other' && <div>
+                      {isShowingCreate && <span><input type="text" value={newTagVal} onChange={(e) => setNewTagVal(e.target.value)} /><span onClick={(e) => handleSaveNewTag(e, tg.tagCategoryId)}><CheckBlue /></span></span>}                      
+                    </div>}
+                  </div>
+                  {tg.tagCategoryName === 'Other' && !isShowingCreate && <button onClick={handleCreateTag} disabled={(tg.tags?.length || 0) >= 10} title={(tg.tags?.length || 0) >= 10 ? 'Maximum amount of custom tags has been reached' : ''}>+ Create Tag</button>}
                   </div>
                 ) : null}
               </div>
@@ -261,14 +377,14 @@ export default ({
             />
           </div>
           {/* )} */}
-          <div className="personalInfo personalInfoCallScriptIcon">
+          {/* <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Tag</label>
             <TagsIcon
               leadTags={leadTags}
               leadsId={leadsId}
               onUpdateTags={refreshContactDetails}
             />
-          </div>
+          </div> */}
           <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div

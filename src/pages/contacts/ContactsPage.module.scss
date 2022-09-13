@@ -1049,7 +1049,7 @@
   background: #f4f8fb;
   padding: 20px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
-  width: 250px;
+  width: 380px;
 
 
   .tagsModalHeader {
@@ -1103,6 +1103,22 @@
       margin-right: 10px;
       vertical-align: middle;
     }
+    
+    .rowHoverWrapper {
+      .editIcon {
+        display: none;
+      }
+            
+      &:hover {
+        .tagIcon {
+          display: none;
+        }
+
+        .editIcon {
+          display: unset;
+        }
+      }
+    }
   }
 
   .tagFooter {
@@ -1134,6 +1150,8 @@
 }
 
 .tagCategoryId {
+  display: grid;
+  grid-template-columns: auto auto;
   background: white;
   padding: 16px;
 }
