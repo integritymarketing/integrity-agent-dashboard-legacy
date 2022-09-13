@@ -229,7 +229,6 @@ export default function Dashbaord() {
           <section className="recent-activity-section">
             <DashboardActivityTable
               realoadActivityData={loadActivityData}
-              onRowClick={() => {}}
               activityData={activityData}
             />
             {isMobile && <FooterBanners className="banners" type="column" />}

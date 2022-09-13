@@ -99,7 +99,6 @@ const renderButtons = (activity, leadsId, handleClick) => {
 
 export default function DashboardActivityTable({
   activityData,
-  onRowClick,
   realoadActivityData,
 }) {
   const history = useHistory();
@@ -183,6 +182,17 @@ export default function DashboardActivityTable({
     }
   };
 
+  const handleTableRowClick = useCallback(
+    (row) => {
+      setSelectedLead({
+        fullName: `${row?.firstName} ${row?.lastName}`,
+        ...row,
+      });
+      setSelectedActivity(row.activities[0]);
+    },
+    [setSelectedActivity, setSelectedLead]
+  );
+
   const columns = useMemo(
     () => [
       {
@@ -190,14 +200,7 @@ export default function DashboardActivityTable({
         Header: "Date",
         accessor: (row) => new Date(row?.original?.createDate),
         Cell: ({ row }) => (
-          <Typography
-            color="#434A51"
-            fontSize="16px"
-            onClick={(event) => {
-              event.stopPropagation();
-              onRowClick(row?.original?.activities[0]);
-            }}
-          >
+          <Typography color="#434A51" fontSize="16px">
             {dateFormatter(row?.original?.activities[0]?.createDate, "MM/DD")}
           </Typography>
         ),
@@ -238,9 +241,8 @@ export default function DashboardActivityTable({
               color="#434A51"
               fontSize={"16px"}
               noWrap
-              onClick={(event) => {
-                event.stopPropagation();
-                onRowClick(row?.original?.activities[0]);
+              onClick={() => {
+                handleTableRowClick(row?.original);
               }}
             >
               {getActivitySubject(
@@ -315,7 +317,7 @@ export default function DashboardActivityTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [onRowClick, history, showAddModal]
+    [history, showAddModal]
   );
 
   const getFilterValues = () => {
@@ -360,17 +362,6 @@ export default function DashboardActivityTable({
     setFilteredData(newFilteredRows);
     setFilterToggle(false);
   };
-
-  const handleTableRowClick = useCallback(
-    (row) => {
-      setSelectedLead({
-        fullName: `${row?.firstName} ${row?.lastName}`,
-        ...row,
-      });
-      setSelectedActivity(row.activities[0]);
-    },
-    [setSelectedActivity, setSelectedLead]
-  );
 
   const handleAddActivtyNotes = useCallback(
     async (activity, activityNote) => {
@@ -420,7 +411,6 @@ export default function DashboardActivityTable({
         </div>
       </div>
       <Table
-        onRowClick={handleTableRowClick}
         initialState={initialState}
         data={pagedData}
         columns={columns}
