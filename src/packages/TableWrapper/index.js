@@ -39,40 +39,40 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableBody = styled(TableBody)(()  => ({
+const StyledTableBody = styled(TableBody)(() => ({
   backgroundColor: "#FFFFFF",
 }));
 
-const SMUITable = styled(MUITable)(()  => ({
-  ".MuiTableBody-root tr:first-child" : {
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px'
-},
-  ".MuiTableBody-root tr:first-child td:first-child" : {
-    borderTopLeftRadius: 'inherit',
-    borderTopRightRadius: 'initial',
+const SMUITable = styled(MUITable)(() => ({
+  ".MuiTableBody-root tr:first-child": {
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
   },
-  ".MuiTableBody-root tr:first-child td:last-child" : {
-    borderTopLeftRadius: 'initial',
-    borderTopRightRadius: 'inherit',
+  ".MuiTableBody-root tr:first-child td:first-child": {
+    borderTopLeftRadius: "inherit",
+    borderTopRightRadius: "initial",
   },
-".MuiTableBody-root tr:last-child": {
-    borderBottomLeftRadius: '10px',
-    borderBottomRightRadius: '10px'
-},
-  ".MuiTableBody-root tr:last-child td:first-child" : {
-    borderBottomLeftRadius: 'inherit',
-    borderBottomRightRadius: 'initial',
+  ".MuiTableBody-root tr:first-child td:last-child": {
+    borderTopLeftRadius: "initial",
+    borderTopRightRadius: "inherit",
   },
-  ".MuiTableBody-root tr:last-child td:last-child" : {
-    borderBottomLeftRadius: 'initial',
-    borderBottomRightRadius: 'inherit',
+  ".MuiTableBody-root tr:last-child": {
+    borderBottomLeftRadius: "10px",
+    borderBottomRightRadius: "10px",
+  },
+  ".MuiTableBody-root tr:last-child td:first-child": {
+    borderBottomLeftRadius: "inherit",
+    borderBottomRightRadius: "initial",
+  },
+  ".MuiTableBody-root tr:last-child td:last-child": {
+    borderBottomLeftRadius: "initial",
+    borderBottomRightRadius: "inherit",
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ isLast }) => ({
   background: "#2175F41A 0% 0% no-repeat padding-box",
-  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : "none"
+  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : "none",
 }));
 
 const generateSortingIndicator = (column) => {
@@ -88,9 +88,7 @@ const generateSortingIndicator = (column) => {
   return <SortArrowUp />;
 };
 
-const noop = () => {}
-
-function Table({ columns, data, footer, initialState, fixedRows = [], onRowClick = noop }) {
+function Table({ columns, data, footer, initialState, fixedRows = [] }) {
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -137,7 +135,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [], onRowClick
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()} onClick={() => onRowClick(row.original)}>
+              <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
                     <StyledTableCell {...cell.getCellProps()}>
