@@ -8,7 +8,7 @@ import { formatPhoneNumber } from "utils/phones";
 import IconWithText from "packages/IconWithText";
 import DownloadCallRecording from "packages/DownloadCallRecording";
 import InboundCall from "components/icons/activities/InboundCall";
-import LinkToContact from "components/icons/LinkToContact";
+import LINK from "components/icons/activities/Link";
 
 const StyledTableCell = styled(TableCell)(() => ({
   "&:hover": {
@@ -48,9 +48,14 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
         }
       </TableCell>
       <StyledTableCell
-        onClick={() => goTolinkToContact(unAssosiatedCallRecord.callLogId, unAssosiatedCallRecord.from)}
+        onClick={() =>
+          goTolinkToContact(
+            unAssosiatedCallRecord.callLogId,
+            unAssosiatedCallRecord.from
+          )
+        }
       >
-        {<IconWithText text="Link to Contact" icon={<LinkToContact />} />}
+        {<IconWithText text="Link to Contact" icon={<LINK />} />}
       </StyledTableCell>
       <StyledTableCell>
         {<DownloadCallRecording url={unAssosiatedCallRecord.url} />}
