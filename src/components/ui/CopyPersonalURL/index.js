@@ -15,6 +15,7 @@ export default function CopyPersonalURL(props) {
 
   const getAgentPurlCodeWithNPN = useCallback(async () => {
     const URL = process.env.REACT_APP_MEDICARE_ENROLL;
+    console.log("linkUrl", URL)
     try {
       let data = await clientService.getAgentPurlCodeByNPN(agentnpn);
       if (!data) {
@@ -39,6 +40,7 @@ export default function CopyPersonalURL(props) {
 
   const handleOnClickCopy = async () => {
     if (purlCode) {
+      console.log("purlCode", purlCode)
       try {
         await navigator.clipboard.writeText(purlCode);
         addToast({
