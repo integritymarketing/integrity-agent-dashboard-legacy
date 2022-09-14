@@ -1023,16 +1023,18 @@
 }
 
 .tagBadge {
-  border: 1px solid #969696;
-  border-radius: 2px;
-  color: #969696;
+  border: 1px solid #717171;
+  border-radius: 4px;
+  color: #434A51;
   display: inline-flex;
-  margin: 0 2px;
+  margin: 2px;
   padding: 2px;
   font-size: 12px;
-  max-height: 20px;
+  min-height: 20px;
   align-items: center;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -0.09px;
 }
 
 .tagBadgeDot {
@@ -1091,6 +1093,14 @@
     justify-content: space-between;
     padding: 5px 0;
     align-items: center;
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px var(--unnamed-color-cdd0d5);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px #CDD0D5;
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1;
+    min-width: 152px;
+    padding-right: 10px;
     cursor: pointer;
 
     .tagRowText {
@@ -1099,16 +1109,23 @@
       align-items: center;
     }
 
-    .delSTyles>svg {
-      margin-right: 10px;
+    .tagNameSpan {
+      font-size: 15px;
+      letter-spacing: 0.16px;
+      color: #434A51;
+      opacity: 1;
+    }
+
+    .tagIcon>svg {
+      margin-left: 3px;
       vertical-align: middle;
     }
-    
+
     .rowHoverWrapper {
       .editIcon {
         display: none;
       }
-            
+
       &:hover {
         .tagIcon {
           display: none;
@@ -1152,7 +1169,47 @@
 .tagCategoryId {
   display: grid;
   grid-template-columns: auto auto;
-  background: white;
+  grid-column-gap: 18px;
+  grid-row-gap: 2px;
   padding: 16px;
 }
 
+.createTagContainer {
+  display: flex;
+  align-items: center;
+
+  .createTag {
+    letter-spacing: 0.16px;
+    color: #0052CE;
+    opacity: 1;
+    font-size: 15px;
+  }
+}
+
+.createInputTagContainer {
+  display: flex;
+  margin: 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createInpt {
+  width: 111px;
+  height: 38px;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #C7CCD1;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.editExistingTagContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.editActionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

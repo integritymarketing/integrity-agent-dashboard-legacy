@@ -92,7 +92,7 @@ export default function ActivitiesTable({
   onActivityClick,
   leadId,
   handleDeleteActivity,
-  setEditActivity,
+  setEditActivity
 }) {
   const history = useHistory();
 
