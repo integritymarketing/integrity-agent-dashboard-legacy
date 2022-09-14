@@ -42,7 +42,7 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
       <TableCell>
         {
           <IconWithText
-            text={isIncommingCall ? "Incoming Call" : "Inbound Call"}
+            text={isIncommingCall ? "Incoming Call" : "Incoming Call"}
             icon={<InboundCall />}
           />
         }
