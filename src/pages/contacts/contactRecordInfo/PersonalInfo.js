@@ -475,27 +475,19 @@ export default ({
             <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
-          {/* {process.env.REACT_APP_FEATURE_FLAG === "show" && ( */}
-          <div
-            className="personalInfo personalInfoCallScriptIcon"
-            style={{ height: "55px", justifyContent: "space-between" }}
-          >
-            <label className="text-bold">Tags</label>
-            <TagsIcon
-              leadTags={leadTags}
-              leadsId={leadsId}
-              onUpdateTags={refreshContactDetails}
-            />
-          </div>
-          {/* )} */}
-          {/* <div className="personalInfo personalInfoCallScriptIcon">
-            <label className="text-bold">Tag</label>
-            <TagsIcon
-              leadTags={leadTags}
-              leadsId={leadsId}
-              onUpdateTags={refreshContactDetails}
-            />
-          </div> */}
+          {process.env.REACT_APP_FEATURE_FLAG === true && (
+            <div
+              className="personalInfo personalInfoCallScriptIcon"
+              style={{ height: "55px", justifyContent: "space-between" }}
+            >
+              <label className="text-bold">Tags</label>
+              <TagsIcon
+                leadTags={leadTags}
+                leadsId={leadsId}
+                onUpdateTags={refreshContactDetails}
+              />
+            </div>
+          )}
           <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div

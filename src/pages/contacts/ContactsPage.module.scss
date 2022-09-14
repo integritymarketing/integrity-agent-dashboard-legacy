@@ -1213,3 +1213,9 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+.mobileHidden {
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
