@@ -55,7 +55,12 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
           )
         }
       >
-        <img src={Link} alt="Link to Contact" />
+        {
+          <IconWithText
+            text="Link to Contact"
+            icon={<img src={Link} alt="Link to Contact" />}
+          />
+        }
       </StyledTableCell>
       <StyledTableCell>
         {<DownloadCallRecording url={unAssosiatedCallRecord.url} />}
