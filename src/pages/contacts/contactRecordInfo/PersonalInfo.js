@@ -6,7 +6,7 @@ import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
-import CallScript from "components/icons/callScript";
+import CallScriptSvg from "images/call-script.svg";
 import TagSvg from "components/icons/tag-svg";
 import TagIcon from "components/icons/tag-icon";
 import ButtonExpand from "components/icons/btn-expand";
@@ -499,7 +499,7 @@ export default ({
                 setModalOpen(true);
               }}
             >
-              <CallScript />
+              <img src={CallScriptSvg} alt="Call Script" />
             </div>
           </div>
           <div className="desktop-select-show personalInfo">

@@ -8,7 +8,7 @@ import Tags from "packages/Tags/Tags";
 import { CallScriptModal } from "packages/CallScriptModal";
 import { formatPhoneNumber } from "utils/phones";
 import IconWithText from "packages/IconWithText";
-import LinkToContact from "components/icons/LinkToContact";
+import Link from "images/link-svg.svg";
 import CallScript from "components/icons/script";
 import styles from "./styles.module.scss";
 
@@ -28,7 +28,7 @@ export default function InboundCallBanner({ agentInformation }) {
   );
 
   const navigateToLinkToContact = () => {
-    const {callLogId, from} = callStatusInProgress;
+    const { callLogId, from } = callStatusInProgress;
     history.push(`/link-to-contact/${callLogId}/${from}`);
   };
 
@@ -53,7 +53,7 @@ export default function InboundCallBanner({ agentInformation }) {
           <IconWithText text="Call Script" icon={<CallScript />} />
         </div>
         <div onClick={navigateToLinkToContact}>
-          <IconWithText text="Link to contact" icon={<LinkToContact />} />
+          <img src={Link} alt="Link to Contact" />
         </div>
         {tags?.length > 0 && <Tags className="header-tag" words={tags} />}
       </>
