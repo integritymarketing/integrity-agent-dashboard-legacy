@@ -434,7 +434,11 @@ export default ({
   } = personalInfo;
 
   emails = emails.length > 0 ? emails[0].leadEmail : NOT_AVAILABLE;
-  phones = phones.length > 0 ? phones[0].leadPhone : null;
+
+  let phonesData = phones?.filter((phone) => {
+    return phone?.leadPhone && phone?.leadPhone !== "" ? phone : null;
+  });
+  let phone = phonesData?.length > 0 ? phonesData[0]?.leadPhone : null;
   addresses = addresses.length > 0 ? addresses[0] : null;
 
   const isPrimary =
@@ -514,19 +518,19 @@ export default ({
               Phone {isPrimary === "phone" && "(Primary)"}
             </label>
             <div className="personalInfoText mobile-hide">
-              {phones ? (
-                <PrimaryContactPhone phone={phones} leadsId={leadsId} />
+              {phone ? (
+                <PrimaryContactPhone phone={phone} leadsId={leadsId} />
               ) : (
                 NOT_AVAILABLE
               )}
             </div>
             <div className="personalInfoText desktop-hide">
-              {phones ? (
+              {phone ? (
                 <a
                   className="info-link"
-                  href={`tel:${formatPhoneNumber(phones)}`}
+                  href={`tel:${formatPhoneNumber(phone)}`}
                 >
-                  {formatPhoneNumber(phones)}
+                  {formatPhoneNumber(phone)}
                 </a>
               ) : (
                 NOT_AVAILABLE
