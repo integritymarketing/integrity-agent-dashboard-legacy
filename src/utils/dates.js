@@ -35,12 +35,12 @@ export const getMMDDYY = (date) => {
   return [month, day, year].join("/");
 };
 
-function convertUTCDateToLocalDate(date) {
+export const convertUTCDateToLocalDate = (date) => {
   date = new Date(date);
   var newDate = new Date(date + "UTC");
   newDate.toString();
   return newDate;
-}
+};
 
 export const getForDistance = (date) => {
   const date1 = new Date(convertUTCDateToLocalDate(date));
