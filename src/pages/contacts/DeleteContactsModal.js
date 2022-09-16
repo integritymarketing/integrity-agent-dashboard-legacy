@@ -4,7 +4,7 @@ import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
 
 export default ({ open, close, count, onConfirm }) => {
-  const isContacts = count > 1 ;
+  const isContacts = count > 1;
   return (
     <Modal
       open={open}
@@ -17,8 +17,8 @@ export default ({ open, close, count, onConfirm }) => {
         Delete Contacts
       </h2>
       <p id="dialog_help_desc" className="text-body mb-4">
-        Are you sure you want to delete <strong>{count}</strong>{" "}
-        selected contact{isContacts ? 's' : ''}?.
+        Are you sure you want to delete <strong>{count}</strong> selected
+        contact{isContacts ? "s" : ""}?
       </p>
       <div className={styles.deleteContactFooterButtons}>
         <Button type="secondary" label="Cancel" onClick={close} />

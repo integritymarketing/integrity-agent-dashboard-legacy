@@ -1,5 +1,5 @@
 .header {
-  &>div {
+  & > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -44,6 +44,7 @@
   letter-spacing: 0.1px;
   color: #000000;
   padding: 20px;
+  border-top-right-radius: 8px;
 }
 
 .tableWrapper {
@@ -55,14 +56,7 @@
     width: 100%;
     background: var(--v2-white);
     margin-bottom: 24px;
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
+    border-radius: 8px;
 
     th,
     td {
@@ -72,7 +66,7 @@
 
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
-      &>div {
+      & > div {
         padding: 20px;
       }
     }
@@ -130,6 +124,14 @@
   }
 }
 
+table {
+  tr:last-child {
+    td {
+      border: none;
+    }
+  }
+}
+
 .viewLink {
   text-decoration: none;
   color: var(--v2-dark-blue);
@@ -179,11 +181,11 @@
   }
 }
 
-.cardInfo>div:first-child {
+.cardInfo > div:first-child {
   min-width: 140px;
 }
 
-.cardInfo>div:last-child {
+.cardInfo > div:last-child {
   @media (min-width: 480px) {
     width: 40%;
   }
@@ -499,7 +501,7 @@
         }
       }
 
-      .form-input__icon--main+input {
+      .form-input__icon--main + input {
         padding: 0;
       }
     }
@@ -516,7 +518,7 @@
   &:hover {
     background: #f4f6fa;
 
-    svg>path {
+    svg > path {
       stroke: #0052ce;
     }
   }
@@ -524,7 +526,7 @@
   &[class*="opened"] {
     background: #ebeff6;
 
-    svg>path {
+    svg > path {
       stroke: #002d72;
     }
   }
@@ -606,7 +608,7 @@
     }
   }
 
-  & .filterTitleSection>svg {
+  & .filterTitleSection > svg {
     display: none;
 
     @media (max-width: 480px) {
@@ -734,12 +736,12 @@
       background: #ebeff6;
     }
 
-    & .filterStageListActive>.filterStageListLeft,
-    .filterStageListActive>.filterStageListRight {
+    & .filterStageListActive > .filterStageListLeft,
+    .filterStageListActive > .filterStageListRight {
       color: #3d4553;
     }
 
-    & li>.filterStageListLeft {
+    & li > .filterStageListLeft {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -748,7 +750,7 @@
       color: #6a7279;
     }
 
-    & li>.filterStageListRight {
+    & li > .filterStageListRight {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -913,6 +915,7 @@
   border: 1px solid #cccccc;
   background-color: #ffffff;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .deleteContactsModal,
@@ -1015,11 +1018,12 @@
 }
 
 .primaryContact {
-  color: #525761;
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
+  a {
+    text-decoration: none;
+    color: var(--v2-royal-blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
 }
 
 .tagBadge {
@@ -1039,18 +1043,20 @@
   color: #969696;
 }
 
-.footerBannerContainer {
+.footerContainer {
   display: flex;
   justify-content: center;
+  .footerBanners {
+    width: 57%;
+    margin: auto;
+  }
 }
-
 
 .tagsModal {
   background: #f4f8fb;
   padding: 20px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
   width: 250px;
-
 
   .tagsModalHeader {
     display: flex;
@@ -1081,7 +1087,7 @@
     background-color: white;
     padding: 10px;
 
-    .selectedTagCheck>i {
+    .selectedTagCheck > i {
       color: blue;
     }
   }
@@ -1099,7 +1105,7 @@
       align-items: center;
     }
 
-    .delSTyles>svg {
+    .delSTyles > svg {
       margin-right: 10px;
       vertical-align: middle;
       width: 16px;
@@ -1113,13 +1119,12 @@
     padding: 10px;
     margin-top: 10px;
 
-    >Button {
+    > Button {
       width: 80px;
       padding: 5px;
       font-weight: bold;
     }
   }
-
 }
 
 .categoryContainer {
@@ -1139,4 +1144,3 @@
   background: white;
   padding: 16px;
 }
-

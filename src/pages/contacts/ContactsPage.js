@@ -380,7 +380,7 @@ export default () => {
                 </Route>
               </Switch>
             </div>
-            <div className={styles.footerBannerContainer}>
+            <div className={styles.footerContainer}>
               <FooterBanners
                 className={styles.footerBanners}
                 type={isMobile ? "column" : "row"}
