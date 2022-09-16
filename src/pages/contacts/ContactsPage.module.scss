@@ -44,6 +44,7 @@
   letter-spacing: 0.1px;
   color: #000000;
   padding: 20px;
+  border-top-right-radius: 8px;
 }
 
 .tableWrapper {
@@ -55,14 +56,7 @@
     width: 100%;
     background: var(--v2-white);
     margin-bottom: 24px;
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
+    border-radius: 8px;
 
     th,
     td {
@@ -127,6 +121,14 @@
 
   @media (max-width: 480px) {
     border-top: 1px solid #d8dee4;
+  }
+}
+
+table {
+  tr:last-child {
+    td {
+      border: none;
+    }
   }
 }
 
@@ -913,6 +915,7 @@
   border: 1px solid #cccccc;
   background-color: #ffffff;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .deleteContactsModal,
@@ -1015,11 +1018,12 @@
 }
 
 .primaryContact {
-  color: #525761;
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
+  a {
+    text-decoration: none;
+    color: var(--v2-royal-blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
 }
 
 .tagBadge {
@@ -1041,18 +1045,21 @@
   color: #969696;
 }
 
-.footerBannerContainer {
+.footerContainer {
   display: flex;
   justify-content: center;
-}
 
+  .footerBanners {
+    width: 57%;
+    margin: auto;
+  }
+}
 
 .tagsModal {
   background: #f4f8fb;
   padding: 20px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
   width: 380px;
-
 
   .tagsModalHeader {
     display: flex;
@@ -1150,7 +1157,6 @@
       font-weight: bold;
     }
   }
-
 }
 
 .categoryContainer {

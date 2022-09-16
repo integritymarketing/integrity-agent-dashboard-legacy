@@ -28,6 +28,7 @@ import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ActivityDetails from "pages/ContactDetails/ActivityDetails";
 import clientsService from "services/clientsService";
+import { convertUTCDateToLocalDate } from "utils/dates";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
 
@@ -198,12 +199,17 @@ export default function DashboardActivityTable({
       {
         id: "date",
         Header: "Date",
-        accessor: (row) => new Date(row?.original?.createDate),
-        Cell: ({ row }) => (
-          <Typography color="#434A51" fontSize="16px">
-            {dateFormatter(row?.original?.activities[0]?.createDate, "MM/DD")}
-          </Typography>
-        ),
+        accessor: (row) => new Date(row?.original?.activities[0]?.createDate),
+        Cell: ({ row }) => {
+          let date = convertUTCDateToLocalDate(
+            row?.original?.activities[0]?.createDate
+          );
+          return (
+            <Typography color="#434A51" fontSize="16px">
+              {dateFormatter(date, "MM/DD")}
+            </Typography>
+          );
+        },
       },
       {
         id: "name",
