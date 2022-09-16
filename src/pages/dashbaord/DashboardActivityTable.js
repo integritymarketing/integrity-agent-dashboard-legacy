@@ -206,7 +206,7 @@ export default function DashboardActivityTable({
           );
           return (
             <Typography color="#434A51" fontSize="16px">
-              {dateFormatter(date, "MM/DD")}
+              {dateFormatter(date, "MM/DD/yyyy")}
             </Typography>
           );
         },

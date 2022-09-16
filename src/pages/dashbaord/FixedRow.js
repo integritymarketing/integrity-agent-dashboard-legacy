@@ -9,6 +9,7 @@ import IconWithText from "packages/IconWithText";
 import DownloadCallRecording from "packages/DownloadCallRecording";
 import InboundCall from "components/icons/activities/InboundCall";
 import LINK from "components/icons/activities/Link";
+import { convertUTCDateToLocalDate } from "utils/dates";
 
 const StyledTableCell = styled(TableCell)(() => ({
   "&:hover": {
@@ -24,12 +25,13 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
   };
 
   const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
+  const date = convertUTCDateToLocalDate(unAssosiatedCallRecord?.callStartTime);
 
   return (
     <>
       <TableCell>
         <Typography color="#434A51" fontSize="16px">
-          {dateFormatter(unAssosiatedCallRecord.callStartTime, "MM/DD")}
+          {dateFormatter(date, "MM/DD/yyyy")}
         </Typography>
       </TableCell>
       <TableCell>
