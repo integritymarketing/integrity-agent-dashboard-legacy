@@ -12,7 +12,7 @@ import TagIcon from "components/icons/tag-icon";
 import ButtonExpand from "components/icons/btn-expand";
 import RoundCheck from "components/icons/round-check";
 import RoundClose from "components/icons/round-close";
-import TagEdit from "components/icons/tag-edit";
+import TagEdit from "images/tag-edit.svg";
 import { CallScriptModal } from "packages/CallScriptModal";
 import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
 import { Popover as TinyPopover } from "react-tiny-popover";
@@ -325,7 +325,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                                       })
                                     }
                                   >
-                                    <TagEdit />
+                                    <img src={TagEdit} alt="editTags"></img>
                                   </span>
                                 )}
                               </span>
