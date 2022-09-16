@@ -166,9 +166,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "Account",
               img: Account,
             },
-            /* 
-           process.env.REACT_APP_FEATURE_FLAG === "show"
-           {
+            {
               component: "button",
               props: {
                 type: "button",
@@ -179,7 +177,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   ),
               },
               label: "Lead Center",
-            }, */
+            },
             {
               component: "button",
               props: {

@@ -479,7 +479,6 @@ export default ({
             <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
-          {process.env.REACT_APP_FEATURE_FLAG === true && (
             <div
               className="personalInfo personalInfoCallScriptIcon"
               style={{ height: "55px", justifyContent: "space-between" }}
@@ -491,7 +490,6 @@ export default ({
                 onUpdateTags={refreshContactDetails}
               />
             </div>
-          )}
           <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div

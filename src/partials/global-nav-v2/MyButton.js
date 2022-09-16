@@ -15,7 +15,6 @@ function MyButton({ clickButton, isAvailable }) {
   };
   return (
     <>
-      {process.env.REACT_APP_FEATURE_FLAG === "show" && (
         <div className="myButton" onClick={handleClick}>
           {statusText === "offline" && (
             <img
@@ -37,7 +36,6 @@ function MyButton({ clickButton, isAvailable }) {
             }`}
           />
         </div>
-      )}
     </>
   );
 }
