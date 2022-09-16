@@ -1018,11 +1018,12 @@ table {
 }
 
 .primaryContact {
-  color: #525761;
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
+  a {
+    text-decoration: none;
+    color: var(--v2-royal-blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
 }
 
 .tagBadge {
