@@ -340,11 +340,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {process.env.REACT_APP_FEATURE_FLAG === "show" &&
-        !loading &&
-        !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
-          <GetStarted />
-        )}
+      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
+        <GetStarted />
+      )}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
