@@ -361,7 +361,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                         </div>
                       )}
                     </div>
-                    {tg.tagCategoryName === "Other" && !isShowingCreate && (
+                    {tg.tagCategoryName === "Other" && (
                       <button
                         onClick={handleCreateTag}
                         disabled={(tg.tags?.length || 0) >= 10}
@@ -479,17 +479,17 @@ export default ({
             <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
-            <div
-              className="personalInfo personalInfoCallScriptIcon"
-              style={{ height: "55px", justifyContent: "space-between" }}
-            >
-              <label className="text-bold">Tags</label>
-              <TagsIcon
-                leadTags={leadTags}
-                leadsId={leadsId}
-                onUpdateTags={refreshContactDetails}
-              />
-            </div>
+          <div
+            className="personalInfo personalInfoCallScriptIcon"
+            style={{ height: "55px", justifyContent: "space-between" }}
+          >
+            <label className="text-bold">Tags</label>
+            <TagsIcon
+              leadTags={leadTags}
+              leadsId={leadsId}
+              onUpdateTags={refreshContactDetails}
+            />
+          </div>
           <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div
