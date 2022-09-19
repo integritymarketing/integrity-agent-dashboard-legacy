@@ -87,7 +87,7 @@ export class ClientsService {
     if (hasReminder) {
       params.HasReminder = hasReminder;
     }
-    if (hasReminder) {
+    if (hasOverdueReminder) {
       params.HasOverdueReminder = hasOverdueReminder;
     }
     if (contactRecordType !== "") {
@@ -953,21 +953,21 @@ export class ClientsService {
     return response.json();
   };
 
-  getTagsGroupByCategory = async () => {	
-    const response = await this._clientAPIRequest(	
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,	
-      "GET"	
-    );	
-    return response.json();	
+  getTagsGroupByCategory = async () => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,
+      "GET"
+    );
+    return response.json();
   };
 
-  updateLeadsTags = async (leadId, tagIds = []) => {	
-    const response = await this._clientAPIRequest(	
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,	
-      "POST",	
-      { leadId, tagIds }	
-    );	
-    return response.json();	
+  updateLeadsTags = async (leadId, tagIds = []) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,
+      "POST",
+      { leadId, tagIds }
+    );
+    return response.json();
   };
 
   updateLeadPhone = async (contact, leadPhone) => {	
