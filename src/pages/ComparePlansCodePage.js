@@ -94,6 +94,7 @@ function ComparePlansCodePage() {
         <ComparePlansPage
           isComingFromEmail={Object.keys(agentInfo).length > 0}
           agentInfo={agentInfo}
+          footer={false}
         />
       )}
       <Footer />
