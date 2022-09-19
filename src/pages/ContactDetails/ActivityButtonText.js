@@ -33,6 +33,8 @@ export default function ActivityButtonText(activity) {
       case "Plan Shared":
         // TODO : change it with plan interaction URL
         break;
+      case "Incoming Call Recorded":
+      case "Outbound Call Recorded":
       case "Call Recording":
         window.open(activityInteractionURL, "_blank");
         break;
