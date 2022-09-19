@@ -209,7 +209,7 @@ export default function GetStarted() {
         />
       </div>
       <div className={styles.bannerText}>
-        <Typography variant={"h5"} color={"white"}>
+        <Typography variant={"h4"} color={"white"}>
           Get access to leads — real time.
         </Typography>
         <Button
