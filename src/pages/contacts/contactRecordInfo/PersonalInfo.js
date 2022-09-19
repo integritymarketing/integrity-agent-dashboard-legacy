@@ -258,7 +258,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             <div className={styles.tagCount}>{totalTags}</div>
           </div>
           {tagsByCategory?.map((tg) => {
-            if (!tg.tags?.length) {
+            if (!tg.tagCategoryName === 'Other' && !tg.tags?.length) {
               return null;
             }
             const isExpanded = expandedList[tg.tagCategoryId];
@@ -361,7 +361,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                         </div>
                       )}
                     </div>
-                    {tg.tagCategoryName === "Other" && (
+                    {tg.tagCategoryName === "Other" && !isShowingCreate &&(
                       <button
                         onClick={handleCreateTag}
                         disabled={(tg.tags?.length || 0) >= 10}
