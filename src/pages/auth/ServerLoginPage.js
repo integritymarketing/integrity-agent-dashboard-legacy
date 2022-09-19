@@ -26,7 +26,11 @@ export default () => {
         new URL(params.get("ReturnUrl")).search
       );
       let clientId = params1.get("client_id");
-      if (clientId === "ASBClient" || clientId === "FFLClient" || clientId === "ILSClient") {
+      if (
+        clientId === "ASBClient" ||
+        clientId === "FFLClient" ||
+        clientId === "ILSClient"
+      ) {
         loading.begin();
         let userDetail = {
           Username: params1.get("username"),
@@ -104,7 +108,7 @@ export default () => {
         <title>MedicareCENTER - Login</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader id="footerLogo" />
+        <SimpleHeader />
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
 

@@ -8,7 +8,7 @@ import { formatPhoneNumber } from "utils/phones";
 import IconWithText from "packages/IconWithText";
 import DownloadCallRecording from "packages/DownloadCallRecording";
 import InboundCall from "components/icons/activities/InboundCall";
-import LINK from "components/icons/activities/Link";
+import Link from "images/link-svg.svg";
 import { convertUTCDateToLocalDate } from "utils/dates";
 
 const StyledTableCell = styled(TableCell)(() => ({
@@ -57,7 +57,12 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
           )
         }
       >
-        {<IconWithText text="Link to Contact" icon={<LINK />} />}
+        {
+          <IconWithText
+            text="Link to Contact"
+            icon={<img src={Link} alt="Link to Contact" />}
+          />
+        }
       </StyledTableCell>
       <StyledTableCell>
         {<DownloadCallRecording url={unAssosiatedCallRecord.url} />}

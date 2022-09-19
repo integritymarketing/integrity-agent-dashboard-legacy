@@ -1,5 +1,5 @@
 .header {
-  & > div {
+  &>div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -66,7 +66,7 @@
 
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
-      & > div {
+      &>div {
         padding: 20px;
       }
     }
@@ -181,11 +181,11 @@ table {
   }
 }
 
-.cardInfo > div:first-child {
+.cardInfo>div:first-child {
   min-width: 140px;
 }
 
-.cardInfo > div:last-child {
+.cardInfo>div:last-child {
   @media (min-width: 480px) {
     width: 40%;
   }
@@ -501,7 +501,7 @@ table {
         }
       }
 
-      .form-input__icon--main + input {
+      .form-input__icon--main+input {
         padding: 0;
       }
     }
@@ -518,7 +518,7 @@ table {
   &:hover {
     background: #f4f6fa;
 
-    svg > path {
+    svg>path {
       stroke: #0052ce;
     }
   }
@@ -526,7 +526,7 @@ table {
   &[class*="opened"] {
     background: #ebeff6;
 
-    svg > path {
+    svg>path {
       stroke: #002d72;
     }
   }
@@ -608,7 +608,7 @@ table {
     }
   }
 
-  & .filterTitleSection > svg {
+  & .filterTitleSection>svg {
     display: none;
 
     @media (max-width: 480px) {
@@ -736,12 +736,12 @@ table {
       background: #ebeff6;
     }
 
-    & .filterStageListActive > .filterStageListLeft,
-    .filterStageListActive > .filterStageListRight {
+    & .filterStageListActive>.filterStageListLeft,
+    .filterStageListActive>.filterStageListRight {
       color: #3d4553;
     }
 
-    & li > .filterStageListLeft {
+    & li>.filterStageListLeft {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -750,7 +750,7 @@ table {
       color: #6a7279;
     }
 
-    & li > .filterStageListRight {
+    & li>.filterStageListRight {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -1027,16 +1027,18 @@ table {
 }
 
 .tagBadge {
-  border: 1px solid #969696;
-  border-radius: 2px;
-  color: #969696;
+  border: 1px solid #717171;
+  border-radius: 4px;
+  color: #434A51;
   display: inline-flex;
-  margin: 0 2px;
+  margin: 2px;
   padding: 2px;
   font-size: 12px;
-  max-height: 20px;
+  min-height: 20px;
   align-items: center;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -0.09px;
 }
 
 .tagBadgeDot {
@@ -1046,6 +1048,7 @@ table {
 .footerContainer {
   display: flex;
   justify-content: center;
+
   .footerBanners {
     width: 57%;
     margin: auto;
@@ -1056,7 +1059,7 @@ table {
   background: #f4f8fb;
   padding: 20px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
-  width: 250px;
+  width: 380px;
 
   .tagsModalHeader {
     display: flex;
@@ -1087,7 +1090,7 @@ table {
     background-color: white;
     padding: 10px;
 
-    .selectedTagCheck > i {
+    .selectedTagCheck>i {
       color: blue;
     }
   }
@@ -1097,6 +1100,14 @@ table {
     justify-content: space-between;
     padding: 5px 0;
     align-items: center;
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px var(--unnamed-color-cdd0d5);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px #CDD0D5;
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1;
+    min-width: 152px;
+    padding-right: 10px;
     cursor: pointer;
 
     .tagRowText {
@@ -1105,11 +1116,32 @@ table {
       align-items: center;
     }
 
-    .delSTyles > svg {
-      margin-right: 10px;
+    .tagNameSpan {
+      font-size: 15px;
+      letter-spacing: 0.16px;
+      color: #434A51;
+      opacity: 1;
+    }
+
+    .tagIcon>svg {
+      margin-left: 3px;
       vertical-align: middle;
-      width: 16px;
-      height: 16px;
+    }
+
+    .rowHoverWrapper {
+      .editIcon {
+        display: none;
+      }
+
+      &:hover {
+        .tagIcon {
+          display: none;
+        }
+
+        .editIcon {
+          display: unset;
+        }
+      }
     }
   }
 
@@ -1119,7 +1151,7 @@ table {
     padding: 10px;
     margin-top: 10px;
 
-    > Button {
+    >Button {
       width: 80px;
       padding: 5px;
       font-weight: bold;
@@ -1141,6 +1173,55 @@ table {
 }
 
 .tagCategoryId {
-  background: white;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 18px;
+  grid-row-gap: 2px;
   padding: 16px;
+}
+
+.createTagContainer {
+  display: flex;
+  align-items: center;
+
+  .createTag {
+    letter-spacing: 0.16px;
+    color: #0052CE;
+    opacity: 1;
+    font-size: 15px;
+  }
+}
+
+.createInputTagContainer {
+  display: flex;
+  margin: 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createInpt {
+  width: 111px;
+  height: 38px;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #C7CCD1;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.editExistingTagContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.editActionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mobileHidden {
+  @media (max-width: 480px) {
+    display: none;
+  }
 }

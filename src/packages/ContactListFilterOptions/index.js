@@ -126,9 +126,7 @@ export default function ContactListFilterOptions({ close }) {
     searchParams.delete("HasOverdueReminder");
     if (reminder === "Active Reminders") {
       searchParams.set("HasReminder", true);
-      searchParams.set("HasOverdueReminder", false);
     } else if (reminder === "Overdue Reminders") {
-      searchParams.set("HasReminder", false);
       searchParams.set("HasOverdueReminder", true);
     } else if (reminder === "No Reminders Added") {
       searchParams.set("HasReminder", false);

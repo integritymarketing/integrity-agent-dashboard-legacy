@@ -44,3 +44,20 @@
   margin-top: 3rem;
   font-weight: normal;
 }
+
+.accountPageContainer {
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.medicareCenterContainer {
+  margin-right: 50px;
+
+  @media (max-width: 480px) {
+    margin-right: initial;
+  }
+}

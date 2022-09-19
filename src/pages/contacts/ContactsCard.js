@@ -205,7 +205,8 @@ const ClientCard = ({ client, onRefresh }) => {
         </div>
         <div className={styles.mobileActions}>
           {client.phones.length !== 0 && (
-            <a href={`tel:${client.phones[0].leadPhone}`}>
+            // Hidden Mobile Icon temporarily for 9/14 release
+            <a href={`tel:${client.phones[0].leadPhone}`} className={styles.mobileHidden}>
               <ActionIcon icon={PhoneIcon} />
             </a>
           )}

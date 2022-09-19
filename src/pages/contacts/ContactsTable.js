@@ -194,8 +194,9 @@ function ContactsTable({
   const [tableState, setTableState] = useState({});
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
-  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
-    useContext(DeleteLeadContext);
+  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(
+    DeleteLeadContext
+  );
   const [applyFilters, setApplyFilters] = useState({});
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const addToast = useToast();
@@ -409,21 +410,21 @@ function ContactsTable({
           );
         },
       },
-      /*
-    process.env.REACT_APP_FEATURE_FLAG === "show"     
-  {
+      {
         Header: "Tag",
         accessor: (row) => {
           return (
             <div>
-              {row.leadTags?.slice(0, 3).map(lt => (
+              {row.leadTags?.slice(0, 3).map((lt) => (
                 <span className={styles.tagBadge}>{lt.tag.tagLabel}</span>
-              ))}              
-              {row.leadTags?.length > 3 && <span className={styles.tagBadgeDot}>...</span>}
+              ))}
+              {row.leadTags?.length > 3 && (
+                <span className={styles.tagBadgeDot}>...</span>
+              )}
             </div>
           );
         },
-      }, */
+      },
       {
         Header: "Primary Contact",
         accessor: (row) => {
