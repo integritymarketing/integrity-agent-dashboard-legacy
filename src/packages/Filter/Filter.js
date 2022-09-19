@@ -76,7 +76,7 @@ export default function Filter({
       >
         <Box
           sx={{
-            minHeight: "100%",
+            height:430,
             width: 388,
             backgroundColor: "#F4F8FB",
           }}
