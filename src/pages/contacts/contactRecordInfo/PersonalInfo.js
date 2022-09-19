@@ -216,7 +216,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       addToast({
         type: "error",
         message:
-          "tag length should be between 1 and 10, and only allow alphanumeric",
+          "Tag length should be between 2 and 10, and only allow alphanumeric",
       });
       return;
     }
