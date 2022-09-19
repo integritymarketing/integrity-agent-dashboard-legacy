@@ -406,6 +406,7 @@ export default function DashboardActivityTable({
             heading={"Filter by Activity Type"}
             open={filterToggle}
             onToggle={setFilterToggle}
+            filtered={selectedFilterValues.length > 0 ? true : false}
             content={
               <FilterOptions
                 values={getFilterValues()}

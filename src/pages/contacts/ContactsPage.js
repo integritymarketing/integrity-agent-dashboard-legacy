@@ -79,6 +79,7 @@ export default () => {
   );
   const [filterToggle, setFilterToggle] = useState(false);
   const [sortToggle, setSortToggle] = useState(false);
+  const [filtered, setFiltered] = useState(false);
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
@@ -356,7 +357,13 @@ export default () => {
                   heading={"Filter by "}
                   open={filterToggle}
                   onToggle={setFilterToggle}
-                  content={<ContactListFilterOptions close={setFilterToggle} />}
+                  filtered={filtered}
+                  content={
+                    <ContactListFilterOptions
+                      setFiltered={(value) => setFiltered(value)}
+                      close={setFilterToggle}
+                    />
+                  }
                 />
               </div>
             </div>

@@ -9,7 +9,7 @@ import Reminders from "./Reminders";
 import Stages from "./Stages";
 import Tags from "./Tags";
 
-export default function ContactListFilterOptions({ close }) {
+export default function ContactListFilterOptions({ close, setFiltered }) {
   const [filterType, setFilterType] = useState("Stage");
   const [reminder, setReminder] = useState("");
   const [stages, setStages] = useState([]);
@@ -80,10 +80,12 @@ export default function ContactListFilterOptions({ close }) {
       setReminder(reminderValue);
       setStages([...stageValues]);
       setTags([...tagValues]);
+      setFiltered(true);
     } else {
       setReminder("");
       setStages([]);
       setTags([]);
+      setFiltered(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
