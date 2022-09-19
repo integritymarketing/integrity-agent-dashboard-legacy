@@ -969,6 +969,40 @@ export class ClientsService {
     );	
     return response.json();	
   };
+
+  updateLeadPhone = async (contact, leadPhone) => {	
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,	
+      "PUT",
+      {"leadsId":contact.leadsId,"firstName":contact.firstName,"lastName":contact.lastName,"birthdate":contact.birthdate,"leadStatusId":contact.leadStatusId,"primaryCommunication":contact.primaryCommunication,"contactRecordType":contact.contactRecordType,"notes":contact.notes,"emails":contact.emails,"phones":[{"phoneId":0,"leadPhone":leadPhone?.replace("+1", ""),"phoneLabel":"mobile"}],"addresses":contact.addresses}
+    );
+    if (!response.ok)	{
+      throw new Error("Cannot update contact");
+    }
+    return response.json();	
+  };
+
+  saveTag = async ({ leadsId, tagCategoryId, tagLabel, tagId }) => {
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag/${tagId || ''}`,	
+      tagId ? "PUT" : "POST",	
+      {
+        tagId: tagId || 0,
+        tagLabel,
+        tagCategoryId,
+        leadsId
+      }
+    );	
+    return response.json();	
+  };
+
+  deleteTag = async ({ tagId }) => {
+    const response = await this._clientAPIRequest(	
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag/${tagId || ''}`,	
+      "DELETE"
+    );	
+    return response.ok;	
+  };
 }
 
 export default new ClientsService();

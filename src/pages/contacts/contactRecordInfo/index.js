@@ -307,7 +307,7 @@ export default () => {
               isEdit={isEdit}
               setDisplay={setDisplay}
               leadsId={id}
-              refreshContactDetails={getContactRecordInfo}
+              refreshContactDetails={() => getLeadDetails()}
             />
             <div className="details-card-main">
               <Container className={styles.container}>
