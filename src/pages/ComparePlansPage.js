@@ -56,7 +56,7 @@ function getAllPlanDetails({
 
 export default (props) => {
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
-  const { isComingFromEmail, agentInfo = {} } = props;
+  const { isComingFromEmail, agentInfo = {}, footer = true } = props;
   const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;
   const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
   const [loading, setLoading] = useState(true);
@@ -247,7 +247,7 @@ export default (props) => {
               )}
             </Container>
           </WithLoader>
-          <GlobalFooter />
+          {footer && <GlobalFooter />}
         </div>
       </ToastContextProvider>
     </>

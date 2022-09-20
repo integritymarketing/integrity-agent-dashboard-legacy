@@ -21,8 +21,8 @@
 
 .filterButton {
   top: 60px;
-   position: relative;
-   @include small() {
-    top: 0
+  position: relative;
+  @include small() {
+    top: 0;
   }
 }

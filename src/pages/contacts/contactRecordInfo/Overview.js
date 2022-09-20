@@ -17,7 +17,7 @@ export default ({
         reminders={reminders}
       />
       <Activities getLeadDetails={getLeadDetails} leadId={id} />
-      <ClientNotes personalInfo={personalInfo} />
+      <ClientNotes personalInfo={personalInfo || {}} />
     </>
   );
 };

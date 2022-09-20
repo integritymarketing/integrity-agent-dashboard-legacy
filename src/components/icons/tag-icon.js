@@ -3,43 +3,41 @@ import React from "react";
 export default (props) => {
   return (
     <svg
-      id="Group_1712"
-      data-name="Group 1712"
+      id="Icon_Tag"
+      data-name="Icon Tag"
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="15.703"
-      viewBox="0 0 24 15.703"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
     >
       <defs>
         <clipPath id="clip-path">
           <rect
-            id="Rectangle_13681"
-            data-name="Rectangle 13681"
-            width="24"
-            height="15.703"
+            id="Rectangle_13684"
+            data-name="Rectangle 13684"
+            width="16"
+            height="10.589"
+            transform="translate(0 0)"
             fill="none"
-            stroke="#0052ce"
-            stroke-width="1"
           />
         </clipPath>
       </defs>
-      <g id="Group_1711" data-name="Group 1711" clip-path="url(#clip-path)">
+      <path
+        id="Path_3530"
+        data-name="Path 3530"
+        d="M4,0H28a4,4,0,0,1,4,4V28a4,4,0,0,1-4,4H4a4,4,0,0,1-4-4V4A4,4,0,0,1,4,0Z"
+        fill="rgba(255,255,255,0)"
+      />
+      <g
+        id="Group_1713"
+        data-name="Group 1713"
+        transform="translate(8 11)"
+        clip-path="url(#clip-path)"
+      >
         <path
-          id="Path_2518"
-          data-name="Path 2518"
-          d="M.5,1.445V14.258a.945.945,0,0,0,.945.945h14.7a.949.949,0,0,0,.669-.277L23.223,8.52a.946.946,0,0,0,0-1.337L16.817.777A.944.944,0,0,0,16.148.5H1.445A.945.945,0,0,0,.5,1.445Z"
-          transform="translate(0 0)"
-          fill="none"
-          stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
-        />
-        <path
-          id="Path_2519"
-          data-name="Path 2519"
-          d="M18.545,9.188a1.89,1.89,0,1,1,0-2.673A1.89,1.89,0,0,1,18.545,9.188Z"
-          transform="translate(0 0)"
+          id="Path_2521"
+          data-name="Path 2521"
+          d="M.5,1.116V9.472a.616.616,0,0,0,.616.617H10.7a.614.614,0,0,0,.436-.181L15.319,5.73a.616.616,0,0,0,0-.872L11.141.68A.617.617,0,0,0,10.7.5H1.116A.616.616,0,0,0,.5,1.116Z"
           fill="none"
           stroke="#0052ce"
           stroke-linecap="round"

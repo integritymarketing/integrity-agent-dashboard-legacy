@@ -27,6 +27,7 @@ export default function Filter({
   onToggle,
   Icon,
   ActiveIcon,
+  filtered,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [filterToggle, setFilterToggle] = useState(false);
@@ -48,13 +49,13 @@ export default function Filter({
     <Box sx={{ mr: 2 }}>
       <div
         className={
-          filterToggle || open
+          filterToggle || open || filtered
             ? `${styles.filterActive} ${styles.filter} `
             : styles.filter
         }
         onClick={handleClick}
       >
-        {filterToggle || open ? (
+        {filterToggle || open || filtered ? (
           <ActiveIcon onMouseOut={() => setFilterToggle(false)} />
         ) : (
           <Icon onMouseOver={() => setFilterToggle(true)} />
@@ -76,7 +77,7 @@ export default function Filter({
       >
         <Box
           sx={{
-            minHeight: "100%",
+            height:430,
             width: 388,
             backgroundColor: "#F4F8FB",
           }}

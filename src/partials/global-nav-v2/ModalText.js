@@ -5,17 +5,21 @@ const MODAL_TEXT = {
   TITLE: "You are checked in",
 };
 
-function ModalText() {
+function ModalText({ checkInPreference }) {
   return (
-    <div>
+    <div className={`${checkInPreference ? "checkInPref" : ""}`}>
       <div className="modalTextTop">
-        <span className="modalTextFont">{MODAL_TEXT.TITLE}</span>
+        <span className={"modalTextFont"}>
+          {checkInPreference ? "Check-in preferences" : MODAL_TEXT.TITLE}
+        </span>
       </div>
 
-      <div className="modalTextStyle">
-        <span>Thanks for checking in you should be</span>
-        <span>receiving leads shortly.</span>
-      </div>
+      {!checkInPreference && (
+        <div className="modalTextStyle">
+          <span>Thanks for checking in you should be</span>
+          <span>receiving leads shortly.</span>
+        </div>
+      )}
     </div>
   );
 }

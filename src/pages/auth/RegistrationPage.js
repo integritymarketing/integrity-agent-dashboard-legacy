@@ -35,7 +35,7 @@ export default () => {
         <title>MedicareCENTER - Register Account</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader id="footerLogo" />
+        <SimpleHeader />
         <Container size="small">
           <h1 className="text-xl mb-4">Register your account</h1>
 
@@ -112,7 +112,12 @@ export default () => {
                 history.push(`registration-email-sent?npn=${values.NPN}`);
               } else {
                 const errorsArr = await response.json();
-                const errMsg = errorsArr[0]?.Value || null;
+                const errMsg =
+                  errorsArr[0]?.Value ||
+                  errorsArr[0]?.FirstName[0]?.FirstName[0] ||
+                  errorsArr[0]?.LastName[0]?.LastName[0] ||
+                  errorsArr[0]?.NPN[1]?.NPN[1] ||
+                  null;
                 if (errMsg) {
                   addToast({
                     message: errMsg,
