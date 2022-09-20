@@ -19,15 +19,30 @@ import useToast from "hooks/useToast";
 import phonesImage from "images/signup-phones.png";
 import authService from "services/authService";
 import useUserProfile from "hooks/useUserProfile";
+import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/system";
+
+const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
+  cursor: "pointer",
+  display: "flex",
+  width: "16px",
+  height: "16px",
+  marginLeft: "auto",
+  position: "absolute",
+  right: 10,
+  top: 10,
+  color: "white",
+}));
 
 export default function GetStarted() {
   const history = useHistory();
+  const [show, setShow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const auth = useContext(AuthContext);
   const addToast = useToast();
-  const { 
-    agentInfomration: { agentVirtualPhoneNumber }
-   } = useAgentInformationByID();
+  const {
+    agentInfomration: { agentVirtualPhoneNumber },
+  } = useAgentInformationByID();
   const userProfile = useUserProfile();
   const { npn } = userProfile;
 
@@ -175,8 +190,17 @@ export default function GetStarted() {
     </>
   );
 
+  if (!show) {
+    return null;
+  }
+
   return (
     <div className={styles.layout}>
+      <StyledIconButton
+        onClick={() => {
+          setShow(false);
+        }}
+      />
       <div className={styles.bannerImage}>
         <Box
           component="img"
@@ -185,7 +209,7 @@ export default function GetStarted() {
         />
       </div>
       <div className={styles.bannerText}>
-        <Typography variant={"h5"} color={"white"}>
+        <Typography variant={"h4"} color={"white"}>
           Get access to leads — real time.
         </Typography>
         <Button

@@ -21,6 +21,7 @@ import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
+import useQueryParams from "hooks/useQueryParams";
 
 const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
@@ -52,6 +53,8 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
 };
 
 const NewContactForm = ({ callLogId }) => {
+  const { get } = useQueryParams();
+  const callFrom = get('callFrom');
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
   const {
@@ -98,7 +101,7 @@ const NewContactForm = ({ callLogId }) => {
         email: "",
         birthdate: "",
         phones: {
-          leadPhone: "",
+          leadPhone: callFrom?.replace("1", "") || "",
           phoneLabel: "mobile",
         },
         address: {

@@ -6,8 +6,13 @@ import { getMMDDYY } from "utils/dates";
 import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
-import CallScript from "components/icons/callScript";
+import CallScriptSvg from "images/call-script.svg";
+import TagSvg from "components/icons/tag-svg";
 import TagIcon from "components/icons/tag-icon";
+import ButtonExpand from "components/icons/btn-expand";
+import RoundCheck from "components/icons/round-check";
+import RoundClose from "components/icons/round-close";
+import TagEdit from "images/tag-edit.svg";
 import { CallScriptModal } from "packages/CallScriptModal";
 import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
 import { Popover as TinyPopover } from "react-tiny-popover";
@@ -27,6 +32,12 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   const [selectedTagsIds, setSelectedTagsIds] = useState(initialState);
   const [isProcessing, setIsProcessing] = useState(false);
   const [expandedList, setExpandedList] = useState({});
+  const [serverTags, setServerTags] = useState([]);
+
+  const [newTagVal, setNewTagVal] = useState("");
+  const [isShowingCreate, setIsShowingCreate] = useState(false);
+  const [editingTag, setEditingTag] = useState(null);
+
   const addToast = useToast();
   function toggleTagSelection(e, tagId) {
     e.stopPropagation();
@@ -62,6 +73,18 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   function handleResetTags() {
     setSelectedTagsIds([]);
   }
+
+  function fetchTags() {
+    clientsService
+      .getTagsGroupByCategory()
+      .then((data) => {
+        setServerTags(JSON.parse(JSON.stringify(data)));
+        setTagsByCategory(data);
+      })
+      .catch((error) => {
+        Sentry.captureException(error);
+      });
+  }
   useEffect(() => {
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
@@ -71,15 +94,10 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     );
   }, [tagsByCategory]);
   useEffect(() => {
-    clientsService
-      .getTagsGroupByCategory()
-      .then((data) => {
-        setTagsByCategory(data);
-      })
-      .catch((error) => {
-        Sentry.captureException(error);
-      });
-  }, []);
+    if (tagModalOpen) {
+      fetchTags();
+    }
+  }, [tagModalOpen]);
   const totalTags = useMemo(() => {
     return tagsByCategory?.reduce(
       (acc, item) => acc + item.tags?.length || 0,
@@ -89,11 +107,139 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   function handleClose() {
     if (isProcessing) return;
     setSelectedTagsIds(initialState);
+    setTagsByCategory(serverTags);
     setTagModalOpen(false);
+    setEditingTag(null);
+    setIsShowingCreate(false);
+    setNewTagVal("");
   }
   function handleToggleExpand(catId) {
     setExpandedList((expList) => ({ ...expList, [catId]: !expList[catId] }));
   }
+
+  function handleCreateTag(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    setIsShowingCreate(true);
+  }
+
+  function isAlphanumeric(str) {
+    return str.match(/^[0-9a-zA-Z]+$/);
+  }
+
+  async function handleSaveNewTag(e, tagCategoryId) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    if (
+      (newTagVal || "").length > 10 ||
+      (newTagVal || "").length < 2 ||
+      !isAlphanumeric(newTagVal || "")
+    ) {
+      addToast({
+        type: "error",
+        message:
+          "Tag length should be between 1 and 10, and only allow alphanumeric",
+      });
+      return;
+    }
+
+    try {
+      const resp = await clientsService.saveTag({
+        leadsId,
+        tagCategoryId,
+        tagLabel: newTagVal,
+      });
+      console.log({ resp });
+      fetchTags();
+      setIsShowingCreate(false);
+      setNewTagVal("");
+    } catch (e) {
+      console.log(e);
+      addToast({
+        type: "error",
+        message: "Error creating tag",
+      });
+    }
+  }
+
+  function handleEditTag(e, { tagCategoryId, tag }) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    setEditingTag({ tagCategoryId, tag, editVal: tag.tagLabel });
+  }
+
+  function handleChangeEdittagVal(e) {
+    setEditingTag({ ...editingTag, editVal: e.target.value });
+  }
+
+  async function handleDeleteTag(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    try {
+      const resp = await clientsService.deleteTag({
+        tagId: editingTag.tag.tagId,
+      });
+      if (!resp) {
+        addToast({
+          type: "error",
+          message: "Error deleting tag",
+        });
+        return;
+      }
+      fetchTags();
+    } catch (e) {
+      console.log(e);
+      addToast({
+        type: "error",
+        message: "Error deleting tag",
+      });
+    }
+
+    setSelectedTagsIds((selTagIds) => {
+      return selTagIds.filter((id) => id !== editingTag.tag.tagId);
+    });
+    setEditingTag(null);
+  }
+
+  async function handleSaveEditTag(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    if (
+      (editingTag.editVal || "").length > 10 ||
+      (editingTag.editVal || "").length < 2 ||
+      !isAlphanumeric(editingTag.editVal || "")
+    ) {
+      addToast({
+        type: "error",
+        message:
+          "Tag length should be between 2 and 10, and only allow alphanumeric",
+      });
+      return;
+    }
+
+    try {
+      const resp = await clientsService.saveTag({
+        tagId: editingTag.tag.tagId,
+        leadsId,
+        tagCategoryId: editingTag.tagCategoryId,
+        tagLabel: editingTag.editVal,
+      });
+      console.log({ resp });
+      fetchTags();
+      setEditingTag(null);
+    } catch (e) {
+      console.log(e);
+      addToast({
+        type: "Error",
+        message: "Error saving tag",
+      });
+    }
+  }
+
   return (
     <TinyPopover
       onClickOutside={handleClose}
@@ -112,7 +258,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             <div className={styles.tagCount}>{totalTags}</div>
           </div>
           {tagsByCategory?.map((tg) => {
-            if (!tg.tags?.length) {
+            if (!tg.tagCategoryName === 'Other' && !tg.tags?.length) {
               return null;
             }
             const isExpanded = expandedList[tg.tagCategoryId];
@@ -131,23 +277,105 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                   </div>
                 </div>
                 {isExpanded ? (
-                  <div className={styles.tagCategoryId}>
-                    {tg.tags?.map((tag) => (
-                      <div
-                        className={styles.tagRow}
-                        onClick={(e) => toggleTagSelection(e, tag.tagId)}
-                      >
-                        <div className={styles.tagRowText}>
-                          <span className={styles.delSTyles}>
-                            <TagIcon />
-                          </span>
-                          <span>{tag.tagLabel}</span>
-                        </div>
+                  <div>
+                    <div className={styles.tagCategoryId}>
+                      {tg.tags?.map((tag) =>
+                        editingTag?.tag.tagId === tag.tagId ? (
+                          <div className={styles.createInputTagContainer}>
+                            <input
+                              type="text"
+                              value={editingTag.editVal}
+                              onChange={handleChangeEdittagVal}
+                              className={styles.createInpt}
+                            />
+                            <div className={styles.editActionContainer}>
+                              {" "}
+                              <span onClick={(e) => handleDeleteTag(e)}>
+                                <RoundClose />
+                              </span>
+                              <span onClick={handleSaveEditTag}>
+                                <RoundCheck />
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            className={styles.tagRow}
+                            onClick={(e) => toggleTagSelection(e, tag.tagId)}
+                          >
+                            <div className={styles.tagRowText}>
+                              <span
+                                className={[
+                                  styles.tagNameContainer,
+                                  tg.tagCategoryName === "Other"
+                                    ? styles.rowHoverWrapper
+                                    : "",
+                                ].join(" ")}
+                              >
+                                <span className={styles.tagIcon}>
+                                  <TagIcon />
+                                </span>
+                                {tg.tagCategoryName === "Other" && (
+                                  <span
+                                    className={styles.editIcon}
+                                    onClick={(e) =>
+                                      handleEditTag(e, {
+                                        tagCategoryId: tg.tagCategoryId,
+                                        tag,
+                                      })
+                                    }
+                                  >
+                                    <img src={TagEdit} alt="editTags"></img>
+                                  </span>
+                                )}
+                              </span>
+                              <span className={styles.tagNameSpan}>
+                                {tag.tagLabel}
+                              </span>
+                            </div>
+                            <div>
+                              {selectedTagsIds.includes(tag.tagId) && <Check />}
+                            </div>
+                          </div>
+                        )
+                      )}
+                      {tg.tagCategoryName === "Other" && (
                         <div>
-                          {selectedTagsIds.includes(tag.tagId) && <Check />}
+                          {isShowingCreate && (
+                            <span className={styles.createInputTagContainer}>
+                              <input
+                                type="text"
+                                value={newTagVal}
+                                onChange={(e) => setNewTagVal(e.target.value)}
+                                className={styles.createInpt}
+                              />
+                              <span
+                                onClick={(e) =>
+                                  handleSaveNewTag(e, tg.tagCategoryId)
+                                }
+                              >
+                                <RoundCheck />
+                              </span>
+                            </span>
+                          )}
                         </div>
-                      </div>
-                    ))}
+                      )}
+                    </div>
+                    {tg.tagCategoryName === "Other" && !isShowingCreate &&(
+                      <button
+                        onClick={handleCreateTag}
+                        disabled={(tg.tags?.length || 0) >= 10}
+                        title={
+                          (tg.tags?.length || 0) >= 10
+                            ? "Maximum amount of custom tags has been reached"
+                            : ""
+                        }
+                        className={styles.createTagContainer}
+                      >
+                        <ButtonExpand />{" "}
+                        <span className={styles.createTag}>Create Tag</span>
+                      </button>
+                    )}
                   </div>
                 ) : null}
               </div>
@@ -175,7 +403,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
           setTagModalOpen(true);
         }}
       >
-        <CallScript />
+        <TagSvg />
       </div>
     </TinyPopover>
   );
@@ -251,16 +479,17 @@ export default ({
             <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
-          {process.env.REACT_APP_FEATURE_FLAG === "show" && (
-            <div className="personalInfo personalInfoCallScriptIcon">
-              <label className="text-bold">Tag</label>
-              <TagsIcon
-                leadTags={leadTags}
-                leadsId={leadsId}
-                onUpdateTags={refreshContactDetails}
-              />
-            </div>
-          )}
+          <div
+            className="personalInfo personalInfoCallScriptIcon"
+            style={{ height: "55px", justifyContent: "space-between" }}
+          >
+            <label className="text-bold">Tags</label>
+            <TagsIcon
+              leadTags={leadTags}
+              leadsId={leadsId}
+              onUpdateTags={refreshContactDetails}
+            />
+          </div>
           <div className="personalInfo personalInfoCallScriptIcon">
             <label className="text-bold">Call Script</label>
             <div
@@ -268,7 +497,7 @@ export default ({
                 setModalOpen(true);
               }}
             >
-              <CallScript />
+              <img src={CallScriptSvg} alt="Call Script" />
             </div>
           </div>
           <div className="desktop-select-show personalInfo">
