@@ -305,7 +305,7 @@ export default () => {
         setCurrentPage(1);
         setResults(plansData?.medicarePlans);
         const carriers = [
-          ...new Set(plansData?.medicarePlans.map((plan) => plan.carrierName)),
+          ...new Set(plansData?.medicarePlans.map((plan) => plan.marketingName)),
         ];
         const subTypes = [
           ...new Set(
