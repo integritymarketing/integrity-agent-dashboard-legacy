@@ -3,26 +3,59 @@ import React from "react";
 export default (props) => {
   return (
     <svg
-      width={"48px"}
-      height={"16px"}
+      id="Tag-Sm"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 15.7"
+      width="48"
+      height="48"
+      viewBox="0 0 32 32"
     >
       <defs>
-        <style>
-          {`.b {
-      fill: none;
-      stroke: #0052ce;
-      strokeLinecap: round;
-      strokeLinejoin: round;
-    }`}
-        </style>
+        <clipPath id="clip-path">
+          <rect
+            id="Rectangle_13684"
+            data-name="Rectangle 13684"
+            width="16"
+            height="10.589"
+            transform="translate(0 0)"
+            fill="none"
+          />
+        </clipPath>
       </defs>
-      <path
-        class="b"
-        d="M.5,1.45V14.26c0,.52,.42,.95,.95,.95h14.7c.25,0,.49-.1,.67-.28l6.41-6.41c.37-.37,.37-.97,0-1.34L16.82,.78c-.18-.18-.42-.28-.67-.28H1.45c-.52,0-.95,.42-.95,.95Z"
-      />
-      <circle class="b" cx="17.21" cy="7.85" r="1.89" />
+      <g id="IconBG" transform="translate(0 0)">
+        <circle
+          id="Ellipse_299"
+          data-name="Ellipse 299"
+          cx="16"
+          cy="16"
+          r="16"
+          fill="rgba(33,117,244,0.1)"
+        />
+      </g>
+      <g id="Icon_Tag" data-name="Icon Tag">
+        <path
+          id="Path_3530"
+          data-name="Path 3530"
+          d="M4,0H28a4,4,0,0,1,4,4V28a4,4,0,0,1-4,4H4a4,4,0,0,1-4-4V4A4,4,0,0,1,4,0Z"
+          fill="rgba(255,255,255,0)"
+        />
+        <g
+          id="Group_1713"
+          data-name="Group 1713"
+          transform="translate(8 11)"
+          clip-path="url(#clip-path)"
+        >
+          <path
+            id="Path_2521"
+            data-name="Path 2521"
+            d="M.5,1.116V9.472a.616.616,0,0,0,.616.617H10.7a.614.614,0,0,0,.436-.181L15.319,5.73a.616.616,0,0,0,0-.872L11.141.68A.617.617,0,0,0,10.7.5H1.116A.616.616,0,0,0,.5,1.116Z"
+            fill="none"
+            stroke="#0052ce"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+          />
+        </g>
+      </g>
     </svg>
   );
 };

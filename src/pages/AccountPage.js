@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 import ResourceSection from "components/ui/resourcesCard";
 import Heading2 from "packages/Heading2";
+import * as Sentry from "@sentry/react";
 import { Formik } from "formik";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
@@ -17,7 +18,130 @@ import analyticsService from "services/analyticsService";
 import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { formatTwiloNumber } from "utils/formatTwiloNumber";
+import MyModal from "../partials/global-nav-v2/MyModal";
+import AuthContext from "contexts/auth";
+import useToast from "hooks/useToast";
+import clientService from "services/clientsService";
+import { welcomeModalOpenAtom } from "recoil/agent/atoms";
+import { useSetRecoilState } from "recoil";
 import styles from "./AccountPage.module.scss";
+
+function CheckinPreferences() {
+  const auth = useContext(AuthContext);
+  const addToast = useToast();
+  const [user, setUser] = useState({});
+  const [open, setOpen] = useState(true);
+  const [isAvailable, setIsAvailable] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [virtualNumber, setVirtualNumber] = useState("");
+  const [callForwardNumber, setCallForwardNumber] = useState("");
+  const [leadPreference, setLeadPreference] = useState({});
+  const [loading, setLoading] = useState(true);
+  const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
+
+  useEffect(() => {
+    const loadAsyncData = async () => {
+      const user = await auth.getUser();
+      const { agentid } = user.profile;
+      getAgentAvailability(agentid);
+      setUser(user.profile);
+    };
+    if (auth.isAuthenticated()) {
+      loadAsyncData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth]);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const getAgentAvailability = async (agentid) => {
+    if (!agentid) {
+      return;
+    }
+    try {
+      setLoading(true);
+      const response = await clientService.getAgentAvailability(agentid);
+      const {
+        isAvailable,
+        phone,
+        agentVirtualPhoneNumber,
+        callForwardNumber,
+        leadPreference,
+      } = response || {};
+      if (!agentVirtualPhoneNumber) {
+        await clientService.genarateAgentTwiloNumber(agentid);
+      }
+      if (!leadPreference?.isAgentMobilePopUpDismissed) {
+        setWelcomeModalOpen(true);
+      }
+      setIsAvailable(isAvailable);
+      setPhone(formatPhoneNumber(phone, true));
+      setLeadPreference(leadPreference);
+      if (agentVirtualPhoneNumber) {
+        setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
+      }
+      if (callForwardNumber) {
+        setCallForwardNumber(callForwardNumber);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateAgentAvailability = async (data) => {
+    try {
+      let response = await clientService.updateAgentAvailability(data);
+      if (response.ok) {
+        getAgentAvailability(data.agentID);
+      }
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to Save the Availability.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    }
+  };
+
+  const updateAgentPreferences = async (data) => {
+    try {
+      await clientService.updateAgentPreferences(data);
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to Save the Preferences.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <MyModal
+      phone={phone}
+      virtualNumber={virtualNumber}
+      user={user}
+      handleOpen={handleOpen}
+      handleClose={handleClose}
+      open={open}
+      checkInPreference
+      isAvailable={isAvailable}
+      updateAgentAvailability={updateAgentAvailability}
+      updateAgentPreferences={updateAgentPreferences}
+      callForwardNumber={callForwardNumber}
+      leadPreference={leadPreference}
+      getAgentAvailability={getAgentAvailability}
+    />
+  );
+}
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -426,6 +550,9 @@ export default () => {
                   <div className={styles.accontCard}>
                     <CopyPersonalURL agentnpn={npn} />
                   </div>
+                </section>
+                <section className="pt-1">
+                  <CheckinPreferences />
                 </section>
               </div>
             </div>
