@@ -1138,6 +1138,14 @@ table {
     }
 
     .rowHoverWrapper {
+      .tagIcon, .editIcon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
+        width: 32px;
+      }
+
       .editIcon {
         display: none;
       }
@@ -1148,7 +1156,7 @@ table {
         }
 
         .editIcon {
-          display: unset;
+          display: flex;
         }
       }
     }

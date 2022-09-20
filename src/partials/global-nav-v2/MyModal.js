@@ -20,7 +20,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 }));
 
 export default function BasicModal({
-  handleClose,
+  handleClose: onClose,
   isAvailable,
   open,
   phone,
@@ -45,6 +45,13 @@ export default function BasicModal({
     isAgentMobilePopUpDismissed: false,
     medicareEnroll: false,
   });
+
+  const handleClose = () => {
+    if (checkInPreference) {
+      setActiveModal("main");
+    }
+    onClose();
+  };
 
   const handlePreferences = (name, value) => {
     setPreferences((prevState) => ({
@@ -96,8 +103,7 @@ export default function BasicModal({
     }
   };
 
-  const Wrapper = ({ children, ...props }) =>
-    showAsModal ? <Modal {...props}>{children}</Modal> : <div>{children}</div>;
+  const Wrapper = showAsModal ? Modal : Box;
 
   return (
     <div>
