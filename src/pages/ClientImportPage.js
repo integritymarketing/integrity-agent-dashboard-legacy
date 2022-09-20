@@ -50,9 +50,10 @@ export default () => {
           <li>First Name</li>
           <li>Last Name</li>
           <li>Email</li>
-          <li>Phone</li>
+          <li>Phone {`(xxx-xxx-xxxx)`}</li>
           <li>Address</li>
-          <li>Postal Code</li>
+          <li>State Abbreviation</li>
+          <li>5 Digit Zip Code</li>
           <li>County</li>
           <li>Stage</li>
           <li>Client Notes</li>
