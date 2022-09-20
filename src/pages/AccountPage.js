@@ -53,7 +53,10 @@ function CheckinPreferences() {
   }, [auth]);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(true);
+  const handleClose = () => {
+    getAgentAvailability(user.profile.agentid);
+    setOpen(true);
+  };
 
   const getAgentAvailability = async (agentid) => {
     if (!agentid) {

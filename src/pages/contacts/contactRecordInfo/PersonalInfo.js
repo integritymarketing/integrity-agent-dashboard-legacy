@@ -124,7 +124,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   }
 
   function isAlphanumeric(str) {
-    return str.match(/^[0-9a-zA-Z]+$/);
+    return str.match(/^[a-zA-Z0-9-_\s]+$/);
   }
 
   async function handleSaveNewTag(e, tagCategoryId) {
@@ -139,7 +139,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       addToast({
         type: "error",
         message:
-          "Tag length should be between 1 and 10, and only allow alphanumeric",
+          "Tag length should be between 2 and 10, and only allow alphanumeric",
       });
       return;
     }
