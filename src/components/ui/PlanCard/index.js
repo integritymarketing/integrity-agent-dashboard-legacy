@@ -80,17 +80,6 @@ const getCoverageRecommendations = (planData) => {
   return coverageArray.join(", ");
 };
 
-const getCarrierName = (planData) => {
-  switch (planData?.carrierName) {
-    case "Humana WI Health Organization Insurance Corp":
-    case "HMO COLORADO, INC.":
-      return planData?.marketingName;
-
-    default:
-      return planData?.carrierName;
-  }
-};
-
 export default function PlanCard({
   planData,
   pharmacyMap,
@@ -128,7 +117,7 @@ export default function PlanCard({
       </div>
       <div className={"sub-header"}>
         <div className={"carrier-name cr-name-mbl"}>
-          {getCarrierName(planData)}
+          {planData?.marketingName}
         </div>
         <div className={"rating-container"}>
           <Rating value={planData.planRating} />
