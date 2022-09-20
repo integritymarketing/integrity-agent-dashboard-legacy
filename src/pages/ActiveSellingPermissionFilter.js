@@ -72,7 +72,7 @@ export default ({ onSubmit, filterOptions }) => {
   const [filters, setFilters] = useState(defaultFilters);
 
   const carriers = filterOptions.Carrier;
-  const states = filterOptions?.State?.sort((a, b) => a - b);
+  const states = filterOptions?.State?.sort();
   const planTypes = filterOptions.PlanType;
 
   useEffect(() => {
