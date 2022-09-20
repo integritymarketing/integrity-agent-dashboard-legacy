@@ -82,8 +82,8 @@ const getCoverageRecommendations = (planData) => {
 
 const getCarrierName = (planData) => {
   switch (planData?.carrierName) {
-    case "Humana WI Health Organization":
-    case "HMO Colorado":
+    case "Humana WI Health Organization Insurance Corp":
+    case "HMO COLORADO, INC.":
       return planData?.marketingName;
 
     default:
