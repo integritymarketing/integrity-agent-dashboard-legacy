@@ -5,42 +5,74 @@ import Close from "components/icons/close";
 import { Button } from "components/ui/Button";
 import styles from "./ActiveSellingPermissionFilter.module.scss";
 
-const FILTER_OPTIONS = ['Carrier', 'State', 'PlanType'];
+const FILTER_OPTIONS = ["Carrier", "State", "PlanType"];
 
 const ListOptions = ({ options, selected = {}, toggleSelection }) => {
-  const oddList = useMemo(() => options.filter((_option, idx) => idx % 2 === 0), [options])
-  const evenList = useMemo(() => options.filter((_option, idx) => idx % 2 === 1), [options])
-  
-  return (<div className={styles.listContainer}>
-    <div className={styles.oddList}>
-      {oddList.map(option => <div key={option} className={styles.listItem} onClick={() => toggleSelection(option)}>
-        <span className={styles.listItemLabel}>{option}</span>
-        <span className={`${styles.listItemSelected} ${selected[option] ? styles.selected : ''}`}><Check /></span>
-      </div>)}
+  const oddList = useMemo(
+    () => options.filter((_option, idx) => idx % 2 === 0),
+    [options]
+  );
+  const evenList = useMemo(
+    () => options.filter((_option, idx) => idx % 2 === 1),
+    [options]
+  );
+
+  return (
+    <div className={styles.listContainer}>
+      <div className={styles.oddList}>
+        {oddList.map((option) => (
+          <div
+            key={option}
+            className={styles.listItem}
+            onClick={() => toggleSelection(option)}
+          >
+            <span className={styles.listItemLabel}>{option}</span>
+            <span
+              className={`${styles.listItemSelected} ${
+                selected[option] ? styles.selected : ""
+              }`}
+            >
+              <Check />
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className={styles.evenList}>
+        {evenList.map((option) => (
+          <div
+            key={option}
+            className={styles.listItem}
+            onClick={() => toggleSelection(option)}
+          >
+            <span className={styles.listItemLabel}>{option}</span>
+            <span
+              className={`${styles.listItemSelected} ${
+                selected[option] ? styles.selected : ""
+              }`}
+            >
+              <Check />
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
-    <div className={styles.evenList}>
-      {evenList.map(option => <div key={option} className={styles.listItem} onClick={() => toggleSelection(option)}>
-        <span className={styles.listItemLabel}>{option}</span>
-        <span className={`${styles.listItemSelected} ${selected[option] ? styles.selected : ''}`}><Check /></span>
-      </div>)}
-    </div>
-  </div>)
-}
+  );
+};
 
 const defaultFilters = {
   State: {},
   Carrier: {},
   PlanType: {},
-}
+};
 
 export default ({ onSubmit, filterOptions }) => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Carrier");
 
-  const [filters, setFilters] = useState(defaultFilters)
+  const [filters, setFilters] = useState(defaultFilters);
 
   const carriers = filterOptions.Carrier;
-  const states = filterOptions.State;
+  const states = filterOptions?.State?.sort();
   const planTypes = filterOptions.PlanType;
 
   useEffect(() => {
@@ -59,51 +91,50 @@ export default ({ onSubmit, filterOptions }) => {
     return () => document.body.removeEventListener("click", closeFilters);
   }, [filterOpen]);
 
-
   const closeFilterSection = () => {
     setFilterOpen(false);
   };
 
   const resetFilters = () => {
-    setFilters(defaultFilters)
-  }
+    setFilters(defaultFilters);
+  };
 
   const handleOnApply = () => {
-    onSubmit && onSubmit(filters)
-    setFilterOpen(false)
-  }
+    onSubmit && onSubmit(filters);
+    setFilterOpen(false);
+  };
 
   const handleOptionClick = (option) => {
-    setFilters(filters => {
+    setFilters((filters) => {
       return {
         ...filters,
         [activeTab]: {
           ...filters[activeTab],
           [option]: !Boolean(filters[activeTab][option]),
-        }
-      }
-    })
-  }
+        },
+      };
+    });
+  };
 
   function getListOptionParams() {
-    if (activeTab === 'Carrier') {
+    if (activeTab === "Carrier") {
       return {
         options: carriers,
         toggleSelection: handleOptionClick,
-        selected: filters.Carrier
-      }
-    } else if (activeTab === 'State') {
+        selected: filters.Carrier,
+      };
+    } else if (activeTab === "State") {
       return {
         options: states,
         toggleSelection: handleOptionClick,
-        selected: filters.State
-      }
-    } else if (activeTab === 'PlanType') {
+        selected: filters.State,
+      };
+    } else if (activeTab === "PlanType") {
       return {
         options: planTypes,
         toggleSelection: handleOptionClick,
-        selected: filters.PlanType
-      }
+        selected: filters.PlanType,
+      };
     }
   }
 
@@ -112,8 +143,9 @@ export default ({ onSubmit, filterOptions }) => {
       <Button
         data-gtm="rts-filter"
         icon={<Filters />}
-        className={`${filterOpen ? styles.openFilter : ""} ${styles["filter-button"]
-          } filterBtn`}
+        className={`${filterOpen ? styles.openFilter : ""} ${
+          styles["filter-button"]
+        } filterBtn`}
         type="primary"
         onClick={() => setFilterOpen(!filterOpen)}
       />
@@ -126,27 +158,22 @@ export default ({ onSubmit, filterOptions }) => {
             </div>
             <div>
               <ul className={styles.filterTabs}>
-                {FILTER_OPTIONS.map(option =>
+                {FILTER_OPTIONS.map((option) => (
                   <li
                     key={option}
                     className={
-                      activeTab === option
-                        ? styles.filterTabsActive
-                        : ""
+                      activeTab === option ? styles.filterTabsActive : ""
                     }
-                    onClick={() =>
-                      setActiveTab(option)
-                    }
+                    onClick={() => setActiveTab(option)}
                   >
                     {option}
                   </li>
-                )}
+                ))}
               </ul>
 
               <div>
                 <ListOptions {...getListOptionParams()} />
               </div>
-
             </div>
             <div className={styles.filterButton}>
               <button className={styles.resetButton} onClick={resetFilters}>
