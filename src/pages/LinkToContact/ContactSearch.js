@@ -16,6 +16,7 @@ import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
 import Spinner from "components/ui/Spinner/index";
+import clientsService from "services/clientsService";
 
 const SearchInput = styled(OutlinedInput)(() => ({
   background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -26,12 +27,26 @@ const SearchInput = styled(OutlinedInput)(() => ({
   },
 }));
 
-const ContactListItemButton = ({ leadId, callLogId, children }) => {
+const ContactListItemButton = ({
+  contact,
+  callFrom,
+  leadId,
+  callLogId,
+  children,
+}) => {
   const addToast = useToast();
   const history = useHistory();
 
+  const updatePrimaryContact = useCallback(() => {
+    return clientsService.updateLeadPhone(contact, callFrom);
+  }, [contact, callFrom]);
+
   const onClickHandler = useCallback(async () => {
     try {
+      const hasPhone = contact.phones?.find((ph) => ph.leadPhone);
+      if (!hasPhone) {
+        await updatePrimaryContact();
+      }
       if (callLogId) {
         await callRecordingsService.assignsLeadToInboundCallRecord({
           callLogId,
@@ -48,7 +63,14 @@ const ContactListItemButton = ({ leadId, callLogId, children }) => {
         message: `${error.message}`,
       });
     }
-  }, [history, leadId, callLogId, addToast]);
+  }, [
+    history,
+    leadId,
+    callLogId,
+    addToast,
+    contact.phones,
+    updatePrimaryContact,
+  ]);
 
   return (
     <div className={styles.contactName} onClick={onClickHandler}>
@@ -58,7 +80,7 @@ const ContactListItemButton = ({ leadId, callLogId, children }) => {
 };
 
 export default function ContactSearch({ contacts, onChange, isLoading }) {
-  const { callLogId } = useParams();
+  const { callLogId, callFrom } = useParams();
   const [searchStr, setSearchStr] = useState("");
 
   function renderRow(value, index) {
@@ -81,6 +103,8 @@ export default function ContactSearch({ contacts, onChange, isLoading }) {
           component={ContactListItemButton}
           leadId={value.leadsId}
           callLogId={callLogId}
+          contact={value}
+          callFrom={callFrom}
         >
           <ListItemText
             primary={

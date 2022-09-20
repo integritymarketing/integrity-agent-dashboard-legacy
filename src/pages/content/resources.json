@@ -1,7 +1,7 @@
 {
   "featured": [
-    "MedicareAPP Technical Guide",
-    "MedicareLINK Technical Guide",
+    "MedicareCENTER Call Recording User Guide",
+    "MedicareCENTER Call Recording FAQs",
     "MedicareCENTER's Video Training Hub"
   ],
   "categories": [
@@ -56,16 +56,28 @@
       "filename": "https://vimeo.com/medicarecenter"
     },
     {
-      "name": "MedicareAPP Technical Guide",
-      "description": "Maximize your sales and streamline your workflow this AEP with our new MedicareAPP quoting and enrollment tool.",
+      "name": "MedicareCENTER Call Recording User Guide",
+      "description": "Learn how to receive and make recorded calls using MedicareCENTER's Call Recording feature in Contact Management.",
       "categories": ["tech-guides"],
-      "filename": "MedicareAPP-Professional-User-Guide.pdf"
+      "filename": "MedicareCENTER-Call-Recording-User-Guide.pdf"
     },
     {
-      "name": "MedicareLINK Technical Guide",
-      "description": "Take your sales and your workflow to the next level this AEP with our new MedicareLINK quoting and enrollment tool.",
+      "name": "MedicareCENTER Call Recording FAQs",
+      "description": "Get answers to the most frequently asked questions about Call Recording in Contact Management.",
       "categories": ["tech-guides"],
-      "filename": "MedicareLINK-Professional-User-Guide.pdf"
+      "filename": " MedicareCENTER-Call-Recording-FAQs.pdf"
+    },
+    {
+      "name": "MedicareCENTER Call Recording User Guide",
+      "description": "Learn how to receive, make, and store recorded calls between you and your Contacts using MedicareCENTER's Contact Management Call Recording feature.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-Call-Recording-User-Guide.pdf"
+    },
+    {
+      "name": "MedicareCENTER Call Recording FAQs",
+      "description": "Get up to speed and ready to use Call Recording with answers to the most frequently asked questions about Call Recording in Contact Management.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-Call-Recording-FAQs.pdf"
     },
     {
       "name": "Medicare Phone Guide: Turning 65 Med Supp Phone Guide",
