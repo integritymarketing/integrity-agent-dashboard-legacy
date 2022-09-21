@@ -23,8 +23,8 @@ import InboundCallBanner from "packages/InboundCallBanner";
 import authService from "services/authService";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
-import { useSetRecoilState } from "recoil";
+import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
+import { useSetRecoilState, useRecoilState } from "recoil";
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -111,6 +111,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const history = useHistory();
   const loadingHook = useLoading();
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
+  const [phoneAtom, setPhoneAtom] = useRecoilState(agentPhoneAtom);
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -125,6 +126,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(function () {
+    setPhoneAtom(open);
+  }, [open, setPhoneAtom])
 
   const menuProps = Object.assign(
     {
@@ -262,7 +267,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
-      setPhone(formatPhoneNumber(phone, true));
+      setPhone(formatPhoneNumber(phone, true));      
       setLeadPreference(leadPreference);
       if (agentVirtualPhoneNumber) {
         setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
@@ -317,7 +322,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       loadAsyncData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
+  }, [auth, open]);
 
   const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
   function clickButton() {
@@ -378,7 +383,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  {process.env.REACT_APP_FEATURE_FLAG === "show" && (
+                  {process.env.REACT_APP_FEATURE_FLAG !== "show" && (
                     <MyButton
                       clickButton={clickButton}
                       isAvailable={isAvailable}
