@@ -158,6 +158,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
         type: "error",
         message:
           "Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)",
+        time: 3000,
       });
       return;
     }
@@ -234,7 +235,8 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       addToast({
         type: "error",
         message:
-          "Tag length should be between 2 and 10, and only allow alphanumeric",
+          "Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)",
+        time: 3000,
       });
       return;
     }
