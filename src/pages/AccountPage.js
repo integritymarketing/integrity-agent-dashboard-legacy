@@ -22,8 +22,8 @@ import MyModal from "../partials/global-nav-v2/MyModal";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import clientService from "services/clientsService";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
-import { useSetRecoilState } from "recoil";
+import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import styles from "./AccountPage.module.scss";
 
 function CheckinPreferences() {
@@ -38,6 +38,7 @@ function CheckinPreferences() {
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
+  const [phoneAtom] = useRecoilState(agentPhoneAtom);
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -50,10 +51,10 @@ function CheckinPreferences() {
       loadAsyncData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
+  }, [auth, phoneAtom]);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => {
+  const handleClose = () => {    
     getAgentAvailability(user.profile.agentid);
     setOpen(true);
   };
@@ -79,7 +80,7 @@ function CheckinPreferences() {
         setWelcomeModalOpen(true);
       }
       setIsAvailable(isAvailable);
-      setPhone(formatPhoneNumber(phone, true));
+      setPhone(formatPhoneNumber(phone, true));      
       setLeadPreference(leadPreference);
       if (agentVirtualPhoneNumber) {
         setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));

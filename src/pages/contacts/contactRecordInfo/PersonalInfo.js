@@ -124,7 +124,25 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   }
 
   function isAlphanumeric(str) {
+    if (!str) return false;
+
+    if (isRepeating(str, " ")) {
+      return false;
+    }
+
+    if (isRepeating(str, "-")) {
+      return false;
+    }
+
+    if (isRepeating(str, "_")) {
+      return false;
+    }
+
     return str.match(/^[a-zA-Z0-9-_\s]+$/);
+  }
+
+  function isRepeating(str, char) {
+    return str.split(char).length > 2;
   }
 
   async function handleSaveNewTag(e, tagCategoryId) {
@@ -139,7 +157,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       addToast({
         type: "error",
         message:
-          "Tag length should be between 2 and 10, and only allow alphanumeric",
+          "Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)",
       });
       return;
     }
@@ -258,7 +276,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             <div className={styles.tagCount}>{totalTags}</div>
           </div>
           {tagsByCategory?.map((tg) => {
-            if (!tg.tagCategoryName === 'Other' && !tg.tags?.length) {
+            if (!tg.tagCategoryName === "Other" && !tg.tags?.length) {
               return null;
             }
             const isExpanded = expandedList[tg.tagCategoryId];
@@ -361,7 +379,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                         </div>
                       )}
                     </div>
-                    {tg.tagCategoryName === "Other" && !isShowingCreate &&(
+                    {tg.tagCategoryName === "Other" && !isShowingCreate && (
                       <button
                         onClick={handleCreateTag}
                         disabled={(tg.tags?.length || 0) >= 10}
