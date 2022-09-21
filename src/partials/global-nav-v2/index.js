@@ -386,7 +386,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  {process.env.REACT_APP_FEATURE_FLAG !== "show" && (
+                  {process.env.REACT_APP_FEATURE_FLAG === "show" && (
                     <MyButton
                       clickButton={clickButton}
                       isAvailable={isAvailable}
