@@ -332,7 +332,7 @@ export default () => {
     const resultsList = results || [];
     const carrierGroup =
       carrierFilters.length > 0
-        ? resultsList.filter((res) => carrierFilters.includes(res.carrierName))
+        ? resultsList.filter((res) => carrierFilters.includes(res.marketingName))
         : resultsList;
     const policyGroup =
       policyFilters.length > 0
