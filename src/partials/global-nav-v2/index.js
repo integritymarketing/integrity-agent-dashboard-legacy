@@ -111,7 +111,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const history = useHistory();
   const loadingHook = useLoading();
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
-  const [phoneAtom, setPhoneAtom] = useRecoilState(agentPhoneAtom);
+  const [, setPhoneAtom] = useRecoilState(agentPhoneAtom);
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -127,9 +127,12 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(function () {
-    setPhoneAtom(open);
-  }, [open, setPhoneAtom])
+  useEffect(
+    function () {
+      setPhoneAtom(open);
+    },
+    [open, setPhoneAtom]
+  );
 
   const menuProps = Object.assign(
     {
@@ -267,7 +270,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
-      setPhone(formatPhoneNumber(phone, true));      
+      setPhone(formatPhoneNumber(phone, true));
       setLeadPreference(leadPreference);
       if (agentVirtualPhoneNumber) {
         setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
