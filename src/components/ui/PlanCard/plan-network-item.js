@@ -9,10 +9,10 @@ function getNetworkIcon(inNetwork) {
 export default ({ name, address, inNetwork, isMobile }) => {
   return (
     <div className={"network-item"}>
-      <div className={inNetwork ? "netIcon" : "outIcon"}>
+      <div className={inNetwork ? "netIcon" : ""}>
         {getNetworkIcon(inNetwork)}
       </div>
-      <div className={inNetwork ? "text mt18" : "text"}>
+      <div className={"text"}>
         <div className={"name"}>{name}</div>
         {!isMobile && <div className={"address"}>{address}</div>}
       </div>
