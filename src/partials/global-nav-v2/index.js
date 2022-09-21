@@ -342,15 +342,25 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     .filter(Boolean)
     .join("-");
 
+  let showBanner = false;
+  if (
+    !loading &&
+    agentInfo &&
+    agentInfo.leadPreference &&
+    agentInfo.leadPreference.isAgentMobileBannerDismissed
+  ) {
+    showBanner = false;
+  } else {
+    showBanner = true;
+  }
+
   return (
     <>
       <SiteNotification
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
-        <GetStarted />
-      )}
+      {showBanner && <GetStarted />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
