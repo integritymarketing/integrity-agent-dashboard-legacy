@@ -1,7 +1,7 @@
 import { parse, parseISO, format } from "date-fns";
 
 const DEFAULT_EFFECTIVE_YEAR = [
-  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
+  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2023),
 ];
 
 export const parseDate = (dateString, format = "MM/dd/yyyy") => {
