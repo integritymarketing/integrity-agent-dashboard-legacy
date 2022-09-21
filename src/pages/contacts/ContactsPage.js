@@ -41,6 +41,7 @@ import ContactListSort from "packages/ContactListSort";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ContactSort from "components/icons/contact-sort";
+import { useActiveFilters } from "hooks/useActiveFilters";
 
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
@@ -79,7 +80,7 @@ export default () => {
   );
   const [filterToggle, setFilterToggle] = useState(false);
   const [sortToggle, setSortToggle] = useState(false);
-  const [filtered, setFiltered] = useState(false);
+  const { active = false } = useActiveFilters();
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
@@ -357,13 +358,8 @@ export default () => {
                   heading={"Filter by "}
                   open={filterToggle}
                   onToggle={setFilterToggle}
-                  filtered={filtered}
-                  content={
-                    <ContactListFilterOptions
-                      setFiltered={(value) => setFiltered(value)}
-                      close={setFilterToggle}
-                    />
-                  }
+                  filtered={active}
+                  content={<ContactListFilterOptions close={setFilterToggle} />}
                 />
               </div>
             </div>
