@@ -60,12 +60,12 @@ export default () => {
                   },
                   {
                     name: "FirstName",
-                    validator: validationService.validateRequired,
+                    validator: validationService.validateName,
                     args: ["First Name"],
                   },
                   {
                     name: "LastName",
-                    validator: validationService.validateRequired,
+                    validator: validationService.validateName,
                     args: ["Last Name"],
                   },
                   {
