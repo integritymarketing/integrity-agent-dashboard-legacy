@@ -327,7 +327,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth, open]);
 
-  const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
+  let showPhoneNotification = false;
+
+  if (!loading && auth.isAuthenticated() && user && !user.phone) {
+    showPhoneNotification = true;
+  }
   function clickButton() {
     handleOpen();
   }
@@ -350,7 +354,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     !agentInfo.leadPreference.isAgentMobileBannerDismissed
   ) {
     showBanner = true;
-  } 
+  }
   return (
     <>
       <SiteNotification
