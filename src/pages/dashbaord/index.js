@@ -42,12 +42,10 @@ export default function Dashbaord() {
   const [activityData, setActivityData] = useState([]);
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
-  const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(
-    welcomeModalOpenAtom
-  );
-  const { stageSummaryData, loadStageSummaryData } = useContext(
-    stageSummaryContext
-  );
+  const [welcomeModalOpen, setWelcomeModalOpen] =
+    useRecoilState(welcomeModalOpenAtom);
+  const { stageSummaryData, loadStageSummaryData } =
+    useContext(stageSummaryContext);
   const {
     agentInfomration: { leadPreference, agentID },
   } = useAgentInformationByID();
@@ -119,6 +117,7 @@ export default function Dashbaord() {
       const payload = {
         agentId: agentID,
         leadPreference: {
+          ...leadPreference,
           isAgentMobilePopUpDismissed: true,
         },
       };

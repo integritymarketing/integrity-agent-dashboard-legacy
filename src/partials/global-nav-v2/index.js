@@ -360,7 +360,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {showBanner && <GetStarted />}
+      {showBanner && <GetStarted leadPreference={leadPreference} />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"

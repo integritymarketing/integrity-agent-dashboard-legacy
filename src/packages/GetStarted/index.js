@@ -34,7 +34,8 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
   color: "white",
 }));
 
-export default function GetStarted() {
+export default function GetStarted(props) {
+  const leadPreference = props.leadPreference;
   const history = useHistory();
   const [show, setShow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,6 +54,7 @@ export default function GetStarted() {
       const payload = {
         agentId: agentid,
         leadPreference: {
+          ...leadPreference,
           isAgentMobileBannerDismissed: true,
         },
       };
