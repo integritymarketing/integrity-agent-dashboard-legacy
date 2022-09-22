@@ -1,0 +1,24 @@
+@import "src/scss/globalDefines.scss";
+
+.outerContainer {
+  background-color: $alice-blue;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centerContainer {
+  padding: 5px;
+  margin: 10px;
+  color: var(--v2-header-title);
+  text-align: center;
+}
+
+.redirectHeading {
+  color: $dark-blue;
+}
+
+.redirectSubHeading {
+  color: $dark-blue;
+}
