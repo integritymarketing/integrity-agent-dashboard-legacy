@@ -61,7 +61,7 @@ const geItemFromLocalStorage = (key, initialValue) => {
 export default () => {
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
-  const [sort, setSort] = useState(null);
+  const [sort, setSort] = useState("createDate:desc");
   const [layout, setLayout] = useState();
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [allLeads, setAllLeads] = useState([]);

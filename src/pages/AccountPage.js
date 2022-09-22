@@ -54,7 +54,7 @@ function CheckinPreferences() {
   }, [auth, phoneAtom]);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => {    
+  const handleClose = () => {
     getAgentAvailability(user.profile.agentid);
     setOpen(true);
   };
@@ -80,7 +80,7 @@ function CheckinPreferences() {
         setWelcomeModalOpen(true);
       }
       setIsAvailable(isAvailable);
-      setPhone(formatPhoneNumber(phone, true));      
+      setPhone(formatPhoneNumber(phone, true));
       setLeadPreference(leadPreference);
       if (agentVirtualPhoneNumber) {
         setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
@@ -209,12 +209,12 @@ export default () => {
                         [
                           {
                             name: "firstName",
-                            validator: validationService.validateRequired,
+                            validator: validationService.validateName,
                             args: ["First Name"],
                           },
                           {
                             name: "lastName",
-                            validator: validationService.validateRequired,
+                            validator: validationService.validateName,
                             args: ["Last Name"],
                           },
                           {
