@@ -347,13 +347,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     !loading &&
     agentInfo &&
     agentInfo.leadPreference &&
-    agentInfo.leadPreference.isAgentMobileBannerDismissed
+    !agentInfo.leadPreference.isAgentMobileBannerDismissed
   ) {
-    showBanner = false;
-  } else {
     showBanner = true;
-  }
-
+  } 
   return (
     <>
       <SiteNotification
