@@ -4,16 +4,18 @@ import { Box, TextField } from "@mui/material";
 import Dialog from "packages/Dialog";
 import { dateFormatter } from "utils/dateFormatter";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
-import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js"
+import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
+import { convertUTCDateToLocalDate } from "utils/dates";
 
 export default function ActivityDetails({
   open,
   onSave,
   onClose,
   activityObj,
-  leadFullName
+  leadFullName,
 }) {
   const [note, setNote] = useState(activityObj.activityNote);
+  let date = convertUTCDateToLocalDate(activityObj?.createDate);
 
   return (
     <Box>
@@ -35,10 +37,12 @@ export default function ActivityDetails({
             <div>
               <div className={styles.subHeading}>
                 <div className={styles.subHeadingTitle}>
-                  <ActivitySubjectWithIcon activitySubject={activityObj?.activitySubject}/>
+                  <ActivitySubjectWithIcon
+                    activitySubject={activityObj?.activitySubject}
+                  />
                   {activityObj?.activitySubject}
                 </div>
-                <div>{dateFormatter(activityObj?.createDate, 'MM/DD/YYYY')}</div>
+                <div>{dateFormatter(date, "MM/DD/YYYY")}</div>
               </div>
               <div className={styles.topSection}>
                 {activityObj?.activityBody}
@@ -52,12 +56,16 @@ export default function ActivityDetails({
             </div>
             <div>
               <TextField
-                sx={{ background: "white", border: "1px solid #DFDEDD", borderRadius: "8px" }}
+                sx={{
+                  background: "white",
+                  border: "1px solid #DFDEDD",
+                  borderRadius: "8px",
+                }}
                 hiddenLabel
                 multiline
                 fullWidth
                 rows={4}
-                value={note || ''}
+                value={note || ""}
                 placeholder="Add a note about this activity"
                 onChange={(e) => {
                   setNote(e.target.value);
