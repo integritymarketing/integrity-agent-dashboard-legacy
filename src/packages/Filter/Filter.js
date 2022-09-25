@@ -77,12 +77,11 @@ export default function Filter({
       >
         <Box
           sx={{
-            height:430,
+            height: "auto",
             width: 388,
-            backgroundColor: "#F4F8FB",
           }}
         >
-          <Box sx={{ py: 3, px: 3 }}>
+          <Box sx={{ py: 3, px: 3, backgroundColor: "#F4F8FB" }}>
             <Box className={styles.filterHeader}>
               <Typography variant="h5" sx={{ color: "#093577" }}>
                 {heading}

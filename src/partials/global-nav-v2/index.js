@@ -198,7 +198,21 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   );
                 },
               },
-              label: "MedicareAPP",
+              label: "MedicareAPP 2022",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2023",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP 2023",
             },
             {
               component: "button",
@@ -221,12 +235,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "CSG APP",
             },
             {
-              component: "button",
+              component: Link,
               props: {
-                type: "button",
-                onClick: () => {
-                  setHelpModalOpen(true);
-                },
+                to: "/help"
               },
               label: "Need Help?",
               img: NeedHelp,
@@ -327,7 +338,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth, open]);
 
-  const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
+  let showPhoneNotification = false;
+
+  if (!loading && auth.isAuthenticated() && user && !user.phone) {
+    showPhoneNotification = true;
+  }
   function clickButton() {
     handleOpen();
   }
@@ -342,15 +357,22 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     .filter(Boolean)
     .join("-");
 
+  let showBanner = false;
+  if (
+    !loading &&
+    agentInfo &&
+    agentInfo.leadPreference &&
+    !agentInfo.leadPreference.isAgentMobileBannerDismissed
+  ) {
+    showBanner = true;
+  }
   return (
     <>
       <SiteNotification
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {!loading && !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
-        <GetStarted />
-      )}
+      {showBanner && <GetStarted leadPreference={leadPreference} />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"
@@ -386,7 +408,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  {process.env.REACT_APP_FEATURE_FLAG !== "show" && (
+                  {process.env.REACT_APP_FEATURE_FLAG === "show" && (
                     <MyButton
                       clickButton={clickButton}
                       isAvailable={isAvailable}

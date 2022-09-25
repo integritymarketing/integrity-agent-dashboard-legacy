@@ -48,6 +48,7 @@ import { BackNavProvider } from "contexts/backNavProvider";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import PlanDetailsPage from "pages/PlanDetailsPage";
 import RedirectLoadingPage from "pages/RedirectLoading";
+import HelpPage from "pages/Help";
 
 const App = () => {
   return (
@@ -100,6 +101,9 @@ const App = () => {
                                   </AuthenticatedRoute>
                                   <AuthenticatedRoute path="/account">
                                     <AccountPage />
+                                  </AuthenticatedRoute>
+                                  <AuthenticatedRoute path="/help">
+                                    <HelpPage />
                                   </AuthenticatedRoute>
                                   <AuthenticatedRoute path="/learning-center">
                                     <ResourcesPage />
