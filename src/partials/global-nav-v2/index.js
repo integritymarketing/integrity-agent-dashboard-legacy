@@ -235,12 +235,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "CSG APP",
             },
             {
-              component: "button",
+              component: Link,
               props: {
-                type: "button",
-                onClick: () => {
-                  setHelpModalOpen(true);
-                },
+                to: "/help"
               },
               label: "Need Help?",
               img: NeedHelp,
