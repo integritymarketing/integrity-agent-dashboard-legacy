@@ -165,7 +165,7 @@ const RenderModalItem = ({
       disabled: !isAvailable || (!call && !data),
     },
     close: {
-      text: "Close",
+      text: "Continue",
       onClick: () => {
         handleClose();
       },
