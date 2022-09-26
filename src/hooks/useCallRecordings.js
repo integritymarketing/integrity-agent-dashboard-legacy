@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import * as Sentry from "@sentry/react";
 import callRecordingsService from "services/callRecordingsService";
+import { getSignalRConnection } from "hooks/signalRConnection"; // TODO: Move this to appropriate path.
+import AuthContext from "contexts/auth";
 
-export default ({ subscribe = true } = {}) => {
+export default () => {
   const [callRecordings, setCallRecordings] = useState([]);
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     const getCallRecordings = async () => {
@@ -15,16 +18,19 @@ export default ({ subscribe = true } = {}) => {
         Sentry.captureException(error);
       }
     };
-
     getCallRecordings();
-    if (subscribe) {
-      const intervalId = setInterval(getCallRecordings, 15_000);
-
+    if (auth.isAuthenticated()) {
+      const connection = getSignalRConnection(auth.userProfile?.agentid);
+      connection.on("ActiveCall", (status) => {
+        if (status) {
+          getCallRecordings();
+        }
+      });
       return () => {
-        clearInterval(intervalId);
+        connection.off("ActiveCall");
       };
     }
-  }, [setCallRecordings, subscribe]);
+  }, [setCallRecordings, auth]);
 
   return callRecordings;
 };
