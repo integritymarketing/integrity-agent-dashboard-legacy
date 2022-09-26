@@ -185,7 +185,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                     "_blank"
                   ),
               },
-              label: "Lead Center",
+              label: "LeadCENTER",
             },
             {
               component: "button",
