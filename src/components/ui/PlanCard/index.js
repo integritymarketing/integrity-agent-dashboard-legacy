@@ -15,9 +15,6 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-const REACT_APP_HIDE_ENROLL_BTN =
-  process.env.REACT_APP_HIDE_ENROLL_BTN || false;
-
 const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
@@ -186,7 +183,7 @@ export default function PlanCard({
             onClick={() => onDetailsClick(planData.id)}
             type="secondary"
           />
-          {!REACT_APP_HIDE_ENROLL_BTN && !planData.nonLicensedPlan && (
+          {!planData.nonLicensedPlan && (
             <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
           )}
         </div>
