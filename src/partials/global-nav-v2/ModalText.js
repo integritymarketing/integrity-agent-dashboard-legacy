@@ -2,7 +2,7 @@ import React from "react";
 import "./modalText.scss";
 
 const MODAL_TEXT = {
-  TITLE: "You are checked in",
+  TITLE: "Confirm Check In",
 };
 
 function ModalText({ checkInPreference }) {
@@ -16,8 +16,15 @@ function ModalText({ checkInPreference }) {
 
       {!checkInPreference && (
         <div className="modalTextStyle">
-          <span>Thanks for checking in you should be</span>
-          <span>receiving leads shortly.</span>
+          <span className="text-info">
+            To finish checking in, verify the information below and then click
+            continue.
+          </span>
+          <span className="text-info">
+            Be sure to answer any calls from the following number and to store
+            this number to your phone.
+          </span>
+          <span className="text-info phne-num">254-271-0085</span>
         </div>
       )}
     </div>
