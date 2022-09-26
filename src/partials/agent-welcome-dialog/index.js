@@ -32,6 +32,10 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
     history.push(`/account`);
   };
 
+  const navigateToHelpPage = () => {
+    history.push(`/help`);
+  };
+
   const modalContent = (
     <>
       <div className={styles.headingTitle}>
@@ -93,6 +97,16 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
           className={styles.marginY8}
         />
         <Hyperlink text={"View Account"} onClick={navigateToAccountPage} />
+        <Divider sx={{ my: "1rem" }} />
+
+        <Paragraph
+          id="transition-modal-description"
+          text={
+            "Questions?"
+          }
+          className={styles.marginY8}
+        />
+        <Hyperlink text={"Contact Support"} onClick={navigateToHelpPage} />
         <Divider sx={{ my: "1rem" }} />
 
         <div className={styles.footerButton}>
