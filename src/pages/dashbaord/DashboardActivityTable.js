@@ -26,6 +26,11 @@ import useCallRecordings from "hooks/useCallRecordings";
 import FixedRow from "./FixedRow";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
+import ActivityDetails from "pages/ContactDetails/ActivityDetails";
+import clientsService from "services/clientsService";
+import { convertUTCDateToLocalDate } from "utils/dates";
+import useToast from "hooks/useToast";
+import * as Sentry from "@sentry/react";
 
 const initialState = {
   sortBy: [
@@ -45,7 +50,8 @@ const getActivitySubject = (activitySubject) => {
       return text;
     case "Stage Change":
       return "Stage Changed";
-
+    case "Contact's new call log created":
+      return "Call Recording";
     default:
       return activitySubject;
   }
@@ -92,8 +98,13 @@ const renderButtons = (activity, leadsId, handleClick) => {
   return false;
 };
 
-export default function DashboardActivityTable({ activityData, onRowClick }) {
+export default function DashboardActivityTable({
+  activityData,
+  realoadActivityData,
+}) {
   const history = useHistory();
+  const addToast = useToast();
+
   const callRecordings = useCallRecordings();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [filterToggle, setFilterToggle] = useState(false);
@@ -102,6 +113,8 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
   const [pageSize, setPageSize] = useState(10);
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [selectedLead, setSelectedLead] = useState();
 
   const pagedData = useMemo(() => {
     return [...filteredData].splice(0, pageSize);
@@ -170,21 +183,33 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
     }
   };
 
+  const handleTableRowClick = useCallback(
+    (row) => {
+      setSelectedLead({
+        fullName: `${row?.firstName} ${row?.lastName}`,
+        ...row,
+      });
+      setSelectedActivity(row.activities[0]);
+    },
+    [setSelectedActivity, setSelectedLead]
+  );
+
   const columns = useMemo(
     () => [
       {
         id: "date",
         Header: "Date",
-        accessor: (row) => new Date(row?.original?.createDate),
-        Cell: ({ row }) => (
-          <Typography
-            color="#434A51"
-            fontSize="16px"
-            onClick={() => onRowClick(row?.original?.activities[0])}
-          >
-            {dateFormatter(row?.original?.activities[0]?.createDate, "MM/DD")}
-          </Typography>
-        ),
+        accessor: (row) => new Date(row?.original?.activities[0]?.createDate),
+        Cell: ({ row }) => {
+          let date = convertUTCDateToLocalDate(
+            row?.original?.activities[0]?.createDate
+          );
+          return (
+            <Typography color="#434A51" fontSize="16px">
+              {dateFormatter(date, "MM/DD/yyyy")}
+            </Typography>
+          );
+        },
       },
       {
         id: "name",
@@ -198,7 +223,8 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
               fontWeight="bold"
               fontSize="16px"
               color="#0052CE"
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation();
                 history.push(`/contact/${row?.original?.leadsId}`);
               }}
             >
@@ -221,7 +247,9 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
               color="#434A51"
               fontSize={"16px"}
               noWrap
-              onClick={() => onRowClick(row?.original?.activities[0])}
+              onClick={() => {
+                handleTableRowClick(row?.original);
+              }}
             >
               {getActivitySubject(
                 row?.original?.activities[0]?.activitySubject
@@ -295,7 +323,7 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [onRowClick, history, showAddModal]
+    [history, showAddModal]
   );
 
   const getFilterValues = () => {
@@ -341,24 +369,53 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
     setFilterToggle(false);
   };
 
+  const handleAddActivtyNotes = useCallback(
+    async (activity, activityNote) => {
+      const { activityBody, activitySubject, activityId } = activity;
+      const leadsId = selectedLead.leadsId;
+      const payload = {
+        activityBody,
+        activitySubject,
+        activityId,
+        activityNote,
+      };
+      try {
+        await clientsService.updateActivity(payload, leadsId);
+        realoadActivityData && (await realoadActivityData());
+        setSelectedActivity(null);
+        addToast({
+          type: "success",
+          message: "Activity notes added successfully",
+          time: 3000,
+        });
+      } catch (e) {
+        Sentry.captureException(e);
+      }
+    },
+    [setSelectedActivity, addToast, selectedLead, realoadActivityData]
+  );
+
   return (
     <>
       <div className={styles.headerWithFilter}>
         <Heading2 className={styles.recentActivity} text="Recent Activity" />
-        <Filter
-          Icon={FilterIcon}
-          ActiveIcon={ActiveFilter}
-          heading={"Filter by Activity Type"}
-          open={filterToggle}
-          onToggle={setFilterToggle}
-          content={
-            <FilterOptions
-              values={getFilterValues()}
-              multiSelect={true}
-              onApply={onFilterApply}
-            />
-          }
-        />
+        <div className={styles.filterButton}>
+          <Filter
+            Icon={FilterIcon}
+            ActiveIcon={ActiveFilter}
+            heading={"Filter by Activity Type"}
+            open={filterToggle}
+            onToggle={setFilterToggle}
+            filtered={selectedFilterValues.length > 0 ? true : false}
+            content={
+              <FilterOptions
+                values={getFilterValues()}
+                multiSelect={true}
+                onApply={onFilterApply}
+              />
+            }
+          />
+        </div>
       </div>
       <Table
         initialState={initialState}
@@ -376,6 +433,15 @@ export default function DashboardActivityTable({ activityData, onRowClick }) {
           />
         ))}
       />
+      {selectedActivity && (
+        <ActivityDetails
+          open={true}
+          onSave={handleAddActivtyNotes}
+          onClose={() => setSelectedActivity(null)}
+          leadFullName={selectedLead?.fullName}
+          activityObj={selectedActivity}
+        />
+      )}
     </>
   );
 }

@@ -305,7 +305,7 @@ export default () => {
         setCurrentPage(1);
         setResults(plansData?.medicarePlans);
         const carriers = [
-          ...new Set(plansData?.medicarePlans.map((plan) => plan.carrierName)),
+          ...new Set(plansData?.medicarePlans.map((plan) => plan.marketingName)),
         ];
         const subTypes = [
           ...new Set(
@@ -332,14 +332,14 @@ export default () => {
     const resultsList = results || [];
     const carrierGroup =
       carrierFilters.length > 0
-        ? resultsList.filter((res) => carrierFilters.includes(res.carrierName))
+        ? resultsList.filter((res) => carrierFilters.includes(res.marketingName))
         : resultsList;
     const policyGroup =
       policyFilters.length > 0
         ? carrierGroup.filter((res) => policyFilters.includes(res.planSubType))
         : carrierGroup;
     const specialNeedsPlans = specialNeedsFilter
-      ? [...policyGroup].filter((plan) => plan?.planName.includes("D-SNP"))
+      ? [...policyGroup].filter((plan) => plan?.planName.includes("SNP"))
       : policyGroup;
 
     const rebatePlans = rebatesFilter

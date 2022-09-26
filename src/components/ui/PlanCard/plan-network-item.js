@@ -1,32 +1,20 @@
 import React from "react";
-import InNetworkCheck from "components/icons/in-network-check";
-import OutNetworkX from "components/icons/out-network-x";
-import UnknownNetworkCheck from "components/icons/unknown-network-check";
+import InNetworkIcon from "components/icons/inNetwork";
+import OutNetworkIcon from "components/icons/outNetwork";
 
-function getNetworkIcon(inNetwork, isPlanNetworkAvailable) {
-  if (isPlanNetworkAvailable === false) {
-    return <UnknownNetworkCheck />;
-  }
-  return inNetwork ? <InNetworkCheck /> : <OutNetworkX />;
+function getNetworkIcon(inNetwork) {
+  return inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
 }
 
-export default ({
-  name,
-  address,
-  inNetwork,
-  isMobile,
-  isPlanNetworkAvailable,
-}) => {
+export default ({ name, address, inNetwork, isMobile }) => {
   return (
     <div className={"network-item"}>
-      <div>
-        <div className={"icon"}>
-          {getNetworkIcon(inNetwork, isPlanNetworkAvailable)}
-        </div>
-        <div className={"text"}>
-          <div className={"name"}>{name}</div>
-          {!isMobile && <div className={"address"}>{address}</div>}
-        </div>
+      <div className={inNetwork ? "netIcon" : ""}>
+        {getNetworkIcon(inNetwork)}
+      </div>
+      <div className={"text"}>
+        <div className={"name"}>{name}</div>
+        {!isMobile && <div className={"address"}>{address}</div>}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 .button {
   cursor: pointer;
-  &:not(.button-link) {  
-    border-radius: 2px;
+  &:not(.button-link) {
+    border-radius: 4px;
     display: flex;
     flex-direction: row;
     justify-content: center;

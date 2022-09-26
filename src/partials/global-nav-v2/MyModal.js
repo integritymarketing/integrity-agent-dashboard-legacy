@@ -20,7 +20,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 }));
 
 export default function BasicModal({
-  handleClose,
+  handleClose: onClose,
   isAvailable,
   open,
   phone,
@@ -31,9 +31,12 @@ export default function BasicModal({
   updateAgentPreferences,
   callForwardNumber,
   getAgentAvailability,
+  checkInPreference = false,
 }) {
   const { agentid = "" } = user || {};
   const [activeModal, setActiveModal] = useState("main");
+  const showAsModal =
+    !checkInPreference || activeModal !== "main" ? true : false;
   const [preferences, setPreferences] = useState({
     data: false,
     call: false,
@@ -42,6 +45,13 @@ export default function BasicModal({
     isAgentMobilePopUpDismissed: false,
     medicareEnroll: false,
   });
+
+  const handleClose = () => {
+    if (checkInPreference) {
+      setActiveModal("main");
+    }
+    onClose();
+  };
 
   const handlePreferences = (name, value) => {
     setPreferences((prevState) => ({
@@ -93,31 +103,38 @@ export default function BasicModal({
     }
   };
 
+  const Wrapper = showAsModal ? Modal : Box;
+
   return (
     <div>
-      <Modal
+      <Wrapper
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className={`box ${activeModal}-box-h`}>
+        <Box className={!showAsModal ? "" : `box ${activeModal}-box-h`}>
           <Fragment>
-            <StyledIconButton
-              onClick={() => {
-                handleClose();
-              }}
-            />
+            {showAsModal && (
+              <StyledIconButton
+                onClick={() => {
+                  handleClose();
+                }}
+              />
+            )}
             {activeModal === "callCenter" && (
               <ModalContactText virtualNumber={virtualNumber} />
             )}
-            {activeModal === "main" && <ModalText />}
+            {activeModal === "main" && (
+              <ModalText checkInPreference={checkInPreference} />
+            )}
             {activeModal === "leadType" && <LeadText title={"Lead Type"} />}
             {activeModal === "leadSource" && <LeadText title={"Lead Source"} />}
             {activeModal === "checkOut" && <CheckOut />}
             {activeModal && activeModal !== "" && (
               <RenderModalItem
                 handleClick={handleClick}
+                checkInPreference={checkInPreference}
                 activeModal={activeModal}
                 handleButtonClick={handleButtonClick}
                 handleClose={handleClose}
@@ -133,7 +150,7 @@ export default function BasicModal({
             )}
           </Fragment>
         </Box>
-      </Modal>
+      </Wrapper>
     </div>
   );
 }

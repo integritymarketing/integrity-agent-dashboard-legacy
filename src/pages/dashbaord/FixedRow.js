@@ -8,7 +8,8 @@ import { formatPhoneNumber } from "utils/phones";
 import IconWithText from "packages/IconWithText";
 import DownloadCallRecording from "packages/DownloadCallRecording";
 import InboundCall from "components/icons/activities/InboundCall";
-import LinkToContact from "components/icons/LinkToContact";
+import Link from "images/link-svg.svg";
+import { convertUTCDateToLocalDate } from "utils/dates";
 
 const StyledTableCell = styled(TableCell)(() => ({
   "&:hover": {
@@ -24,12 +25,13 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
   };
 
   const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
+  const date = convertUTCDateToLocalDate(unAssosiatedCallRecord?.callStartTime);
 
   return (
     <>
       <TableCell>
         <Typography color="#434A51" fontSize="16px">
-          {dateFormatter(unAssosiatedCallRecord.callStartTime, "MM/DD")}
+          {dateFormatter(date, "MM/DD/yyyy")}
         </Typography>
       </TableCell>
       <TableCell>
@@ -48,9 +50,19 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
         }
       </TableCell>
       <StyledTableCell
-        onClick={() => goTolinkToContact(unAssosiatedCallRecord.callLogId, unAssosiatedCallRecord.from)}
+        onClick={() =>
+          goTolinkToContact(
+            unAssosiatedCallRecord.callLogId,
+            unAssosiatedCallRecord.from
+          )
+        }
       >
-        {<IconWithText text="Link to Contact" icon={<LinkToContact />} />}
+        {
+          <IconWithText
+            text="Link to Contact"
+            icon={<img src={Link} alt="Link to Contact" />}
+          />
+        }
       </StyledTableCell>
       <StyledTableCell>
         {<DownloadCallRecording url={unAssosiatedCallRecord.url} />}

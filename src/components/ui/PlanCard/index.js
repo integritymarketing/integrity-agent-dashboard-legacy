@@ -4,6 +4,10 @@ import PlanNetworkItem from "./plan-network-item";
 import CostBreakdowns from "./cost-breakdowns";
 import { Button } from "../Button";
 import ArrowDown from "../../icons/arrow-down";
+import {
+  capitalizeFirstLetter,
+  formatUnderScorestring,
+} from "utils/shared-utils/sharedUtility";
 import "./index.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -29,7 +33,6 @@ function getProviders(entries, isMobile, isPlanNetworkAvailable) {
           address={entry?.address?.streetLine1}
           inNetwork={entry.inNetwork}
           isMobile={isMobile}
-          isPlanNetworkAvailable={isPlanNetworkAvailable}
         />
       );
     }
@@ -58,6 +61,24 @@ function getPharmacies(entries, pharmacyMap, isMobile) {
   }
   return items;
 }
+
+const getCoverageRecommendations = (planData) => {
+  if (!planData?.crossUpSellPlanOptions) return false;
+
+  let list = { ...planData?.crossUpSellPlanOptions };
+  let coverageArray = [];
+  Object.keys(list).map((keyName) => {
+    if (list[keyName] === "1") {
+      let value = keyName.includes("_")
+        ? formatUnderScorestring(keyName)
+        : capitalizeFirstLetter(keyName);
+
+      coverageArray.push(value);
+    }
+    return keyName;
+  });
+  return coverageArray.join(", ");
+};
 
 export default function PlanCard({
   planData,
@@ -95,7 +116,9 @@ export default function PlanCard({
         )}
       </div>
       <div className={"sub-header"}>
-        <div className={"carrier-name cr-name-mbl"}>{planData.carrierName}</div>
+        <div className={"carrier-name cr-name-mbl"}>
+          {planData?.marketingName}
+        </div>
         <div className={"rating-container"}>
           <Rating value={planData.planRating} />
         </div>
@@ -125,26 +148,26 @@ export default function PlanCard({
           <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
             <div className={"label"}>In-Network</div>
             <div className={"items"}>
-              {getProviders(
-                planData.providers,
-                isMobile,
-                planData.isPlanNetworkAvailable
-              )}
+              {getProviders(planData.providers, isMobile)}
               {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
             </div>
           </div>
         </div>
       </div>
       <div className={`in-network ${isMobile ? "mobile" : ""}`}>
-        <div className={"label"}>In-Network</div>
         <div className={"items"}>
           {getProviders(
             planData.providers,
             isMobile,
             planData.isPlanNetworkAvailable
           )}
+
           {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
         </div>
+      </div>
+      <div className={`coverage ${isMobile ? "mobile" : ""}`}>
+        <div className={"label"}>Supplemental Coverage Recommendations:</div>
+        <div className="list">{getCoverageRecommendations(planData)}</div>
       </div>
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
         <div className={"compare-check cmp-chk-mbl"}>

@@ -1,15 +1,9 @@
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import DoneIcon from "@mui/icons-material/Done";
 import React, { useState, useEffect } from "react";
-import { List, Typography } from "@mui/material";
-import { styled } from "@mui/system";
-
-const StyledList = styled(List)(() => ({
-  maxHeight: "350px",
-  overflow: "auto"
-}));
+import { Typography } from "@mui/material";
+import FooterButtons from "packages/FooterButtons";
+import CheckMark from "packages/ContactListFilterOptions/CheckMarkIcon/CheckMark";
 
 export default function FilterOptions({ values, onApply, multiSelect = true }) {
   const [updatedValues, setUpdatedValues] = useState([]);
@@ -40,84 +34,76 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
     newValues[index].selected = !newValues[index].selected;
     setUpdatedValues(newValues);
   };
-  
+
   const handleReset = () => {
     onApply([]);
   };
-  
+
   const handleApply = () => {
     onApply(updatedValues);
   };
 
   const checkDisabled = () => {
-    return updatedValues.filter(r => r.selected).length === 0;
-  }
+    return updatedValues.filter((r) => r.selected).length === 0;
+  };
+
+  const BUTTONS = {
+    reset: {
+      text: "Reset",
+      onClick: handleReset,
+      disabled: false,
+    },
+    apply: {
+      text: "Apply",
+      onClick: handleApply,
+      disabled: checkDisabled(),
+    },
+  };
 
   return (
     <>
       <Box
         sx={{
           backgroundColor: "white",
-          mr: 3,
-          ml: 3,
           borderRadius: 3,
+          marginTop: "18px",
         }}
       >
-        <StyledList sx={{ py: 0 }}>
-          {updatedValues.map((row, i) => {
-            return (
-              <Box
-                sx={{
-                  display: "flex",
-                  padding: "5px",
-                  cursor: "pointer",
-                  justifyContent: "space-between",
-                  borderBottom: "1px solid lightgrey",
-                  "&:last-child": { borderBottom: "unset" },
-                }}
-                onClick={(event) => handleListItemClick(event, i)}
-                key={row.name + i}
-              >
-                <div style={{ display: "flex", padding: "0 8px" }}>
-                  <ActivitySubjectWithIcon activitySubject={row.name} />
-                  <Typography sx={{ color: "#72777C" }} variant={"subtitle1"}>
-                    {row.name}
-                  </Typography>
-                </div>
-                {row.selected && <DoneIcon sx={{ color: "#093577" }} />}
-              </Box>
-            );
-          })}
-        </StyledList>
+        {updatedValues.map((row, i) => {
+          return (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                padding: "12px",
+                cursor: "pointer",
+                justifyContent: "space-between",
+                borderBottom: "1px solid lightgrey",
+                "&:last-child": { borderBottom: "unset" },
+              }}
+              onClick={(event) => handleListItemClick(event, i)}
+              key={row.name + i}
+            >
+              <div style={{ display: "flex", padding: "0 8px" }}>
+                <ActivitySubjectWithIcon activitySubject={row.name} />
+
+                <Typography
+                  sx={{
+                    color: "#434A51",
+                    fontSize: "16px",
+                    marginLeft: "18px",
+                  }}
+                  variant={"subtitle1"}
+                >
+                  {row.name}
+                </Typography>
+              </div>
+              <CheckMark show={row.selected} />
+            </Box>
+          );
+        })}
       </Box>
-      <Box
-        sx={{
-          pt: 2,
-          pb: 2,
-          pl: 5,
-          pr: 5,
-        }}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button
-            aria-describedby={"Reset"}
-            sx={{ width: "40%" }}
-            variant="outlined"
-            onClick={handleReset}
-          >
-            Reset
-          </Button>
-          <Button
-            aria-describedby={"Apply"}
-            sx={{ width: "40%" }}
-            variant="contained"
-            disabled={checkDisabled()}
-            onClick={handleApply}
-          >
-            Apply
-          </Button>
-        </div>
-      </Box>
+      <FooterButtons buttonOne={BUTTONS.reset} buttonTwo={BUTTONS.apply} />
     </>
   );
 }

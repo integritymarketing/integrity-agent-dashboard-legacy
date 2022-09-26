@@ -44,6 +44,7 @@
   letter-spacing: 0.1px;
   color: #000000;
   padding: 20px;
+  border-top-right-radius: 8px;
 }
 
 .tableWrapper {
@@ -55,14 +56,7 @@
     width: 100%;
     background: var(--v2-white);
     margin-bottom: 24px;
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
+    border-radius: 8px;
 
     th,
     td {
@@ -73,7 +67,7 @@
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
       &>div {
-        padding: 20px;
+        padding: 15px;
       }
     }
 
@@ -122,11 +116,24 @@
 
     td:nth-child(5) {
       width: 25%;
+
+      .tb-cell {
+        padding-left: 0px;
+        padding-right: 0px;
+      }
     }
   }
 
   @media (max-width: 480px) {
     border-top: 1px solid #d8dee4;
+  }
+}
+
+table {
+  tr:last-child {
+    td {
+      border: none;
+    }
   }
 }
 
@@ -913,6 +920,7 @@
   border: 1px solid #cccccc;
   background-color: #ffffff;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .deleteContactsModal,
@@ -960,7 +968,7 @@
 }
 
 .reminderNote {
-  width: 150px;
+  width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 5px;
@@ -1015,42 +1023,52 @@
 }
 
 .primaryContact {
-  color: #525761;
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
+  a {
+    text-decoration: none;
+    color: var(--v2-royal-blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
 }
 
 .tagBadge {
-  border: 1px solid #969696;
-  border-radius: 2px;
-  color: #969696;
+  border: 1px solid #717171;
+  border-radius: 4px;
+  color: #434A51;
   display: inline-flex;
-  margin: 0 2px;
+  margin: 2px;
   padding: 2px;
   font-size: 12px;
-  max-height: 20px;
+  min-height: 20px;
   align-items: center;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -0.09px;
+  white-space: nowrap;
 }
 
 .tagBadgeDot {
-  color: #969696;
-}
-
-.footerBannerContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-width: 30px;
 }
 
+.footerContainer {
+  display: flex;
+  justify-content: center;
+
+  .footerBanners {
+    width: 57%;
+    margin: auto;
+  }
+}
 
 .tagsModal {
   background: #f4f8fb;
   padding: 20px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
-  width: 250px;
-
+  width: 380px;
 
   .tagsModalHeader {
     display: flex;
@@ -1091,6 +1109,14 @@
     justify-content: space-between;
     padding: 5px 0;
     align-items: center;
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px var(--unnamed-color-cdd0d5);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px #CDD0D5;
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1;
+    min-width: 152px;
+    padding-right: 10px;
     cursor: pointer;
 
     .tagRowText {
@@ -1099,11 +1125,40 @@
       align-items: center;
     }
 
-    .delSTyles>svg {
-      margin-right: 10px;
+    .tagNameSpan {
+      font-size: 15px;
+      letter-spacing: 0.16px;
+      color: #434A51;
+      opacity: 1;
+    }
+
+    .tagIcon>svg {
+      margin-left: 3px;
       vertical-align: middle;
-      width: 16px;
-      height: 16px;
+    }
+
+    .rowHoverWrapper {
+      .tagIcon, .editIcon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
+        width: 32px;
+      }
+
+      .editIcon {
+        display: none;
+      }
+
+      &:hover {
+        .tagIcon {
+          display: none;
+        }
+
+        .editIcon {
+          display: flex;
+        }
+      }
     }
   }
 
@@ -1119,7 +1174,6 @@
       font-weight: bold;
     }
   }
-
 }
 
 .categoryContainer {
@@ -1136,7 +1190,63 @@
 }
 
 .tagCategoryId {
-  background: white;
-  padding: 16px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 18px;
+  grid-row-gap: 2px;
+  padding: 16px 16px 0px 16px;
 }
 
+.createTagContainer {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px -1px 0px #cdd0d5;
+  border-radius: 8px 8px 0px 0px;
+  opacity: 1;
+  min-width: 152px;
+  min-height: 40px;
+  margin-left: 16px;
+  margin-top: 2px;
+
+  .createTag {
+    letter-spacing: 0.16px;
+    color: #0052CE;
+    opacity: 1;
+    font-size: 15px;
+  }
+}
+
+.createInputTagContainer {
+  display: flex;
+  margin: 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createInpt {
+  width: 111px;
+  height: 38px;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #C7CCD1;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.editExistingTagContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.editActionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mobileHidden {
+  @media (max-width: 480px) {
+    display: none;
+  }
+}

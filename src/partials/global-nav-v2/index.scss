@@ -90,10 +90,10 @@
     .dropdown-menu__items {
       background-color: var(--main-bg-color);
       border-radius: 0.25rem;
-      left: -1rem;
+      left: -3rem;
       position: absolute;
       top: 2rem;
-      width: calc(100% + 3rem);
+      width: calc(100% + 5rem);
       z-index: 2;
 
       > li {

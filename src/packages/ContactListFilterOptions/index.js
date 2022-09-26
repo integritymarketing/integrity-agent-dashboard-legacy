@@ -8,6 +8,7 @@ import FilterTypeMenu from "./FilterTypeMenu";
 import Reminders from "./Reminders";
 import Stages from "./Stages";
 import Tags from "./Tags";
+import { useActiveFilters } from "hooks/useActiveFilters";
 
 export default function ContactListFilterOptions({ close }) {
   const [filterType, setFilterType] = useState("Stage");
@@ -15,11 +16,28 @@ export default function ContactListFilterOptions({ close }) {
   const [stages, setStages] = useState([]);
   const [tags, setTags] = useState([]);
   const { statusOptions } = useContext(StageStatusContext);
+  const {
+    tagValue = [],
+    stageValue = [],
+    reminderValue = "",
+  } = useActiveFilters();
 
   const history = useHistory();
   const location = useLocation();
 
   const [tagsList, setTagsList] = useState([]);
+
+  useEffect(() => {
+    if (stageValue.length > 0 || tagValue.length > 0 || reminderValue !== "") {
+      setReminder(reminderValue);
+      setStages([...stageValue]);
+      setTags([...tagValue]);
+    } else {
+      setReminder("");
+      setStages([]);
+      setTags([]);
+    }
+  }, [tagValue, stageValue, reminderValue]);
 
   useEffect(() => {
     const getTags = async () => {
@@ -41,52 +59,6 @@ export default function ContactListFilterOptions({ close }) {
     });
     return list;
   }, [tagsList]);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const stages = queryParams.get("Stage");
-    const tags = queryParams.get("Tags");
-    let hasReminder = queryParams.get("HasReminder");
-    hasReminder =
-      hasReminder && hasReminder === "false"
-        ? false
-        : hasReminder === "true"
-        ? true
-        : null;
-    let hasOverdueReminder = queryParams.get("HasOverdueReminder");
-    hasOverdueReminder =
-      hasOverdueReminder && hasOverdueReminder === "false"
-        ? false
-        : hasOverdueReminder === "true"
-        ? true
-        : null;
-    let stageValues = stages ? stages.split(",").map(Number) : [];
-    let tagValues = tags ? tags.split(",").map(Number) : [];
-
-    let reminderValue;
-    if (hasReminder) {
-      reminderValue = "Active Reminders";
-    } else if (hasOverdueReminder) {
-      reminderValue = "Overdue Reminders";
-    } else if (hasReminder === false && hasOverdueReminder === null) {
-      reminderValue = "No Reminders Added";
-    }
-    if (
-      (stages && stageValues.length > 0) ||
-      (tags && tagValues.length > 0) ||
-      hasOverdueReminder ||
-      hasReminder
-    ) {
-      setReminder(reminderValue);
-      setStages([...stageValues]);
-      setTags([...tagValues]);
-    } else {
-      setReminder("");
-      setStages([]);
-      setTags([]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
 
   const selectStage = (id) => {
     let isExist = stages?.findIndex((statusId) => statusId === id);
@@ -126,9 +98,7 @@ export default function ContactListFilterOptions({ close }) {
     searchParams.delete("HasOverdueReminder");
     if (reminder === "Active Reminders") {
       searchParams.set("HasReminder", true);
-      searchParams.set("HasOverdueReminder", false);
     } else if (reminder === "Overdue Reminders") {
-      searchParams.set("HasReminder", false);
       searchParams.set("HasOverdueReminder", true);
     } else if (reminder === "No Reminders Added") {
       searchParams.set("HasReminder", false);

@@ -1,4 +1,5 @@
 import { parse, parseISO, format } from "date-fns";
+import moment from 'moment'
 
 const DEFAULT_EFFECTIVE_YEAR = [
   parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
@@ -35,12 +36,9 @@ export const getMMDDYY = (date) => {
   return [month, day, year].join("/");
 };
 
-function convertUTCDateToLocalDate(date) {
-  date = new Date(date);
-  var newDate = new Date(date + "UTC");
-  newDate.toString();
-  return newDate;
-}
+export const convertUTCDateToLocalDate = (date) => {
+  return moment(date).local();
+};
 
 export const getForDistance = (date) => {
   const date1 = new Date(convertUTCDateToLocalDate(date));

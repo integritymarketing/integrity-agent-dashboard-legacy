@@ -124,6 +124,7 @@ const CallCenterContent = ({
 };
 
 const RenderModalItem = ({
+  checkInPreference,
   agentId,
   handleClick,
   activeModal,
@@ -164,7 +165,7 @@ const RenderModalItem = ({
       disabled: !isAvailable || (!call && !data),
     },
     close: {
-      text: "Close",
+      text: "Continue",
       onClick: () => {
         handleClose();
       },
@@ -353,12 +354,14 @@ const RenderModalItem = ({
               </div>
               <Arrow className="span_icon" />
             </div>
-            <div className="modalItemStyle">
-              <FooterButtons
-                buttonOne={BUTTONS.checkOut}
-                buttonTwo={BUTTONS.close}
-              />
-            </div>
+            {!checkInPreference && (
+              <div className="modalItemStyle">
+                <FooterButtons
+                  buttonOne={BUTTONS.checkOut}
+                  buttonTwo={BUTTONS.close}
+                />
+              </div>
+            )}
           </>
         );
       default:

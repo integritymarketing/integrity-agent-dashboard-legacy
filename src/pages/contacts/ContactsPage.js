@@ -41,6 +41,7 @@ import ContactListSort from "packages/ContactListSort";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ContactSort from "components/icons/contact-sort";
+import { useActiveFilters } from "hooks/useActiveFilters";
 
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
@@ -60,7 +61,7 @@ const geItemFromLocalStorage = (key, initialValue) => {
 export default () => {
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
-  const [sort, setSort] = useState(null);
+  const [sort, setSort] = useState("createDate:desc");
   const [layout, setLayout] = useState();
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [allLeads, setAllLeads] = useState([]);
@@ -79,6 +80,7 @@ export default () => {
   );
   const [filterToggle, setFilterToggle] = useState(false);
   const [sortToggle, setSortToggle] = useState(false);
+  const { active = false } = useActiveFilters();
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
@@ -356,6 +358,7 @@ export default () => {
                   heading={"Filter by "}
                   open={filterToggle}
                   onToggle={setFilterToggle}
+                  filtered={active}
                   content={<ContactListFilterOptions close={setFilterToggle} />}
                 />
               </div>
@@ -380,8 +383,11 @@ export default () => {
                 </Route>
               </Switch>
             </div>
-            <div className={styles.footerBannerContainer}>
-              <FooterBanners className={styles.footerBanners} />
+            <div className={styles.footerContainer}>
+              <FooterBanners
+                className={styles.footerBanners}
+                type={isMobile ? "column" : "row"}
+              />
             </div>
           </Container>
           <GlobalFooter />

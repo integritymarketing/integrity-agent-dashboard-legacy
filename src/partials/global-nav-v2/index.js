@@ -23,8 +23,8 @@ import InboundCallBanner from "packages/InboundCallBanner";
 import authService from "services/authService";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
-import { useSetRecoilState } from "recoil";
+import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
+import { useSetRecoilState, useRecoilState } from "recoil";
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -111,6 +111,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const history = useHistory();
   const loadingHook = useLoading();
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
+  const [, setPhoneAtom] = useRecoilState(agentPhoneAtom);
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -125,6 +126,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(
+    function () {
+      setPhoneAtom(open);
+    },
+    [open, setPhoneAtom]
+  );
 
   const menuProps = Object.assign(
     {
@@ -166,9 +174,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "Account",
               img: Account,
             },
-            /* 
-           process.env.REACT_APP_FEATURE_FLAG === "show"
-           {
+            {
               component: "button",
               props: {
                 type: "button",
@@ -179,7 +185,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   ),
               },
               label: "Lead Center",
-            }, */
+            },
             {
               component: "button",
               props: {
@@ -192,7 +198,21 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   );
                 },
               },
-              label: "MedicareAPP",
+              label: "MedicareAPP 2022",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2023",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP 2023",
             },
             {
               component: "button",
@@ -215,12 +235,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "CSG APP",
             },
             {
-              component: "button",
+              component: Link,
               props: {
-                type: "button",
-                onClick: () => {
-                  setHelpModalOpen(true);
-                },
+                to: "/help"
               },
               label: "Need Help?",
               img: NeedHelp,
@@ -319,9 +336,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       loadAsyncData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
+  }, [auth, open]);
 
-  const showPhoneNotification = auth.isAuthenticated() && !user?.phone;
+  let showPhoneNotification = false;
+
+  if (!loading && auth.isAuthenticated() && user && !user.phone) {
+    showPhoneNotification = true;
+  }
   function clickButton() {
     handleOpen();
   }
@@ -336,17 +357,22 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     .filter(Boolean)
     .join("-");
 
+  let showBanner = false;
+  if (
+    !loading &&
+    agentInfo &&
+    agentInfo.leadPreference &&
+    !agentInfo.leadPreference.isAgentMobileBannerDismissed
+  ) {
+    showBanner = true;
+  }
   return (
     <>
       <SiteNotification
         showPhoneNotification={showPhoneNotification}
         showMaintenaceNotification={showMaintenaceNotification}
       />
-      {process.env.REACT_APP_FEATURE_FLAG === "show" &&
-        !loading &&
-        !agentInfo?.leadPreference?.isAgentMobilePopUpDismissed && (
-          <GetStarted />
-        )}
+      {showBanner && <GetStarted leadPreference={leadPreference} />}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           "nav-wrapper"

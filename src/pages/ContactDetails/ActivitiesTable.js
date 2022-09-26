@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import Table from "packages/TableWrapper";
+import { convertUTCDateToLocalDate } from "utils/dates";
 import { dateFormatter } from "utils/dateFormatter";
 import { TextButton } from "packages/Button";
 import Typography from "@mui/material/Typography";
@@ -92,7 +93,7 @@ export default function ActivitiesTable({
   onActivityClick,
   leadId,
   handleDeleteActivity,
-  setEditActivity,
+  setEditActivity
 }) {
   const history = useHistory();
 
@@ -129,11 +130,14 @@ export default function ActivitiesTable({
         id: "date",
         Header: "Date",
         accessor: (row) => new Date(row?.original?.createDate),
-        Cell: ({ row }) => (
-          <span onClick={() => onActivityClick(row?.original)}>
-            {dateFormatter(row?.original?.createDate, "MM/DD")}
-          </span>
-        ),
+        Cell: ({ row }) => {
+          let date = convertUTCDateToLocalDate(row?.original?.createDate);
+          return (
+            <span onClick={() => onActivityClick(row?.original)}>
+              {dateFormatter(date, "MM/DD/yyyy")}
+            </span>
+          );
+        },
       },
       {
         id: "activity",

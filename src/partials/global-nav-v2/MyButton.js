@@ -14,25 +14,29 @@ function MyButton({ clickButton, isAvailable }) {
     typeof clickButton == "function" && clickButton();
   };
   return (
-    <div className="myButton" onClick={handleClick}>
-      {statusText === "offline" && (
-        <img
-          src={ToggleOffline}
-          alt="offButton"
-          className={`buttonIcon  ${
-            statusText === "offline" ? "show" : "hidden"
-          }`}
-        />
-      )}
-      <span className={` ${statusText === "online" ? "ml-2" : ""}`}>
-        {BUTTON_TEXT[statusText]}
-      </span>
-      <img
-        src={ToggleOnline}
-        alt="onButton"
-        className={`buttonIcon ${statusText === "online" ? "show" : "hidden"}`}
-      />
-    </div>
+    <>
+        <div className="myButton" onClick={handleClick}>
+          {statusText === "offline" && (
+            <img
+              src={ToggleOffline}
+              alt="offButton"
+              className={`buttonIcon  ${
+                statusText === "offline" ? "show" : "hidden"
+              }`}
+            />
+          )}
+          <span className={` ${statusText === "online" ? "ml-2" : ""}`}>
+            {BUTTON_TEXT[statusText]}
+          </span>
+          <img
+            src={ToggleOnline}
+            alt="onButton"
+            className={`buttonIcon ${
+              statusText === "online" ? "show" : "hidden"
+            }`}
+          />
+        </div>
+    </>
   );
 }
 export default MyButton;

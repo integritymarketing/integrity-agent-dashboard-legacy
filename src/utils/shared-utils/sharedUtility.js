@@ -45,3 +45,12 @@ export const onlyAlphabets = (e) => {
 export const scrollTop = () => {
   window.scrollTo(0, 0);
 };
+
+export const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export const formatUnderScorestring = (str) => {
+  let value = str.charAt(0).toUpperCase() + str.slice(1);
+  return value.replaceAll("_", " ");
+};
