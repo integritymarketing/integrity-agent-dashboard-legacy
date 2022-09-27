@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
@@ -19,10 +19,8 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
   const auth = useContext(AuthContext);
-  const urlParam = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
-
-  const mobileAppLogin =
-    urlParam.get("client_id") === "AgentMobile" ? true : false;
+  
+  const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
     async function checkForExtrnalLogin() {
@@ -30,6 +28,10 @@ export default () => {
         new URL(params.get("ReturnUrl")).search
       );
       let clientId = params1.get("client_id");
+      console.log("clientId", clientId)
+      if ( clientId === "ASBClient"){
+        setMobileAppLogin(true);
+      }
       if (
         clientId === "ASBClient" ||
         clientId === "FFLClient" ||
