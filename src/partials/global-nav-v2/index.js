@@ -201,21 +201,21 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               },
               label: "MedicareAPP 2022",
             },
-            /*commented out for tonight release */
-            // {
-            //   component: "button",
-            //   props: {
-            //     type: "button",
-            //     onClick: () => {
-            //       window.open(
-            //         process.env.REACT_APP_AUTH_AUTHORITY_URL +
-            //           "/external/SamlLogin/2023",
-            //         "_blank"
-            //       );
-            //     },
-            //   },
-            //   label: "MedicareAPP 2023",
-            // },
+            ...(process.env.REACT_APP_FEATURE_FLAG === "show" ? 
+            [{
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2023",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP 2023",
+            }] : []),
             {
               component: "button",
               props: {

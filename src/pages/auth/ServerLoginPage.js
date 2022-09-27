@@ -19,6 +19,10 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
   const auth = useContext(AuthContext);
+  const urlParam = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
+
+  const mobileAppLogin =
+    urlParam.get("client_id") === "AgentMobile" ? true : false;
 
   useEffect(() => {
     async function checkForExtrnalLogin() {
@@ -108,7 +112,7 @@ export default () => {
         <title>MedicareCENTER - Login</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
+        <SimpleHeader mobileAppLogin={mobileAppLogin} />
         <Container size="small">
           <h1 className="text-xl mb-2">Login to your account</h1>
 
@@ -226,17 +230,18 @@ export default () => {
                       Login
                     </button>
                   </div>
-                  <p className="text-sm">
-                    {`Need to `}
-                    <Link
-                      to="/register"
-                      className={`link link--secondary link--force-underline ${analyticsService.clickClass(
-                        "setup-newaccount"
-                      )}`}
-                    >
-                      register for an account?
-                    </Link>
-                    {/* {` or `}
+                  {mobileAppLogin && (
+                    <p className="text-sm">
+                      {`Need to `}
+                      <Link
+                        to="/register"
+                        className={`link link--secondary link--force-underline ${analyticsService.clickClass(
+                          "setup-newaccount"
+                        )}`}
+                      >
+                        register for an account?
+                      </Link>
+                      {/* {` or `}
                     <Link
                       to="/forgot-username"
                       className={`link link--secondary link--force-underline ${analyticsService.clickClass(
@@ -245,13 +250,14 @@ export default () => {
                     >
                       forgot your email?
                     </Link> */}
-                  </p>
+                    </p>
+                  )}
                 </fieldset>
               </form>
             )}
           </Formik>
         </Container>
-        <SimpleFooter />
+        <SimpleFooter mobileAppLogin={mobileAppLogin} />
       </div>
     </React.Fragment>
   );
