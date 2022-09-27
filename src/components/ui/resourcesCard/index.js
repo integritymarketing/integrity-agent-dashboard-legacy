@@ -12,8 +12,8 @@ export default function ResourceSection() {
     history.push(`/learning-center`);
   };
 
-  const handleViewContact = (row) => {
-    history.push(`/contact/${row?.leadsId}`);
+  const navigateToHelp = () => {
+    history.push(`/help`);
   };
 
   return (
@@ -28,7 +28,7 @@ export default function ResourceSection() {
         icon={ContactSupport}
         text="Need Help? Visit the help center for 24/7 professional"
         labelName="Zendesk Assistance"
-        handleClick={handleViewContact}
+        handleClick={navigateToHelp}
       />     
     </div>
   );
