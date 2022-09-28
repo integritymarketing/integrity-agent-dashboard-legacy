@@ -5,7 +5,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "upgrade-insecure-requests; default-src 'self' 'unsafe-eval' 'unsafe-inline' *.destinationrx.com *.integritymarketinggroup.com *.integrityleadcenter.com *.medicarecenter.com *.cdn.mxpnl.com *.sentry.io *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com cdn.jsdelivr.net cdnjs.cloudflare.com player.vimeo.com agentmanagement-dev.azure-api.net ae-agenthub-signalr-dev.service.signalr.net wss://ae-agenthub-signalr-dev.service.signalr.net *.mapbox.com data:; object-src 'none'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net; font-src fonts.gstatic.com;"
+    Content-Security-Policy = "upgrade-insecure-requests; default-src 'self' 'unsafe-eval' 'unsafe-inline' *.destinationrx.com *.integritymarketinggroup.com *.integrityleadcenter.com *.medicarecenter.com *.cdn.mxpnl.com *.sentry.io *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com cdn.jsdelivr.net cdnjs.cloudflare.com player.vimeo.com agentmanagement-dev.azure-api.net ae-agenthub-signalr-dev.service.signalr.net wss://ae-agenthub-signalr-dev.service.signalr.net agentmanagement-qa.azure-api.net ae-agenthub-signalr-qa.service.signalr.net wss://ae-agenthub-signalr-qa.service.signalr.net *.mapbox.com data:; object-src 'none'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net; font-src fonts.gstatic.com;"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
