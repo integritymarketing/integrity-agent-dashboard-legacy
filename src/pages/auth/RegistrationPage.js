@@ -111,12 +111,12 @@ export default () => {
                 });
                 history.push(`registration-email-sent?npn=${values.NPN}`);
               } else {
-                const errorsArr = await response.json();
+                const { errors: errorsArr } = await response.json();
                 const errMsg =
                   errorsArr[0]?.Value ||
-                  errorsArr[0]?.FirstName[0]?.FirstName[0] ||
-                  errorsArr[0]?.LastName[0]?.LastName[0] ||
-                  errorsArr[0]?.NPN[1]?.NPN[1] ||
+                  errorsArr[0]?.FirstName[0] ||
+                  errorsArr[0]?.LastName[0] ||
+                  errorsArr[0]?.NPN[0] ||
                   null;
                 if (errMsg) {
                   addToast({
