@@ -4,6 +4,7 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  max-height: 104px;
 }
 
 .headerLayoutContainer {
@@ -12,8 +13,9 @@
 }
 
 .headerLayout {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 8rem;
 
   .headerLayoutText {
     font-weight: normal;
