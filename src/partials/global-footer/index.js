@@ -1,35 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import Logo from "partials/logo";
-import Modal from "components/ui/modal";
-import ContactInfo from "partials/contact-info";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
 import usePortalUrl from "hooks/usePortalUrl";
-
-const HelpButtonWithModal = ({ ...props }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const testId = "footer-support-modal";
-  return (
-    <React.Fragment>
-      <button
-        type="button"
-        onClick={() => setModalOpen(true)}
-        {...props}
-      ></button>
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        labeledById="dialog_help_label"
-        descById="dialog_help_desc"
-        testId={testId}
-      >
-        <ContactInfo testId={testId} />
-      </Modal>
-    </React.Fragment>
-  );
-};
 
 export default ({ className = "", hideMedicareIcon, ...props }) => {
   const portalUrl = usePortalUrl();
@@ -44,7 +19,7 @@ export default ({ className = "", hideMedicareIcon, ...props }) => {
         {hideMedicareTag && (
           <Link to="/">
             <span className="visually-hidden">Medicare Center</span>
-            <Logo aria-hidden="true" id='footerLogo' />
+            <Logo aria-hidden="true" id="footerLogo" />
           </Link>
         )}
         <nav className="global-footer__links mt-4">
@@ -63,13 +38,14 @@ export default ({ className = "", hideMedicareIcon, ...props }) => {
                 !matches.small ? (
                   <React.Fragment>
                     <li>
-                      <HelpButtonWithModal
+                      <Link
+                        to="/help"
                         className={`link link--inherit ${analyticsService.clickClass(
                           "help-footer"
                         )}`}
                       >
                         Need Help?
-                      </HelpButtonWithModal>
+                      </Link>
                     </li>
                     <li>
                       <Link
