@@ -113,10 +113,10 @@ export default () => {
               } else {
                 const { errors: errorsArr } = await response.json();
                 const errMsg =
-                  errorsArr[0]?.Value ||
-                  errorsArr[0]?.FirstName[0] ||
-                  errorsArr[0]?.LastName[0] ||
-                  errorsArr[0]?.NPN[0] ||
+                  errorsArr?.Value ||
+                  errorsArr?.FirstName?.[0] ||
+                  errorsArr?.LastName?.[0] ||
+                  errorsArr?.NPN?.[0] ||
                   null;
                 if (errMsg) {
                   addToast({
@@ -128,7 +128,7 @@ export default () => {
                 analyticsService.fireEvent("event-form-submit-invalid", {
                   formName: "Register Account",
                 });
-                setErrors(validationService.formikErrorsFor(errorsArr));
+                setErrors(validationService.formikErrorsFor(Object.entries(errorsArr).map(([Key, Value]) => ({Key, Value}))));
               }
             }}
           >
