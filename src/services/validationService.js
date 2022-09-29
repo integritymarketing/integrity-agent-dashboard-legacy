@@ -57,6 +57,19 @@ class ValidationService {
     return this.validateRequired(username, label);
   };
 
+  validateOnlyAlphabetics = (username, label = "firstName") => {
+    if (username && !/^[A-Za-z]{2,}$/.test(username)) {
+      return `${label} must be 2 characters or more accept only alphabets`;
+    }
+
+    if (username && username.length > 50) {
+      return `${label} must be 50 characters or less`;
+    }
+
+    // else
+    return this.validateRequired(username, label);
+  };
+
   validateUsername = (username, label = "NPN") => {
     if (username && !/^[0-9A-Za-z!@.,;:'"?-]{2,}$/.test(username)) {
       return `${label} must be 2 characters or more`;

@@ -18,7 +18,7 @@ const Template = (args) => (
 var nextEffectiveDate = getNextEffectiveDate([2021, 2022]);
 export const EffectiveDateFilterCustom = Template.bind({});
 EffectiveDateFilterCustom.args = {
-  years: [2021, 2022],
+  years: [2022, 2023],
   onChange: (value) => {
     nextEffectiveDate = value;
     action("on change")(nextEffectiveDate);

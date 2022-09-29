@@ -10,7 +10,7 @@ export default function ContactListSort({ close, setSort }) {
     close();
   };
   const onReset = () => {
-    setSelected("");
+    setSort("createDate:desc");
   };
   const BUTTONS = {
     reset: {

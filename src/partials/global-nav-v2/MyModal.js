@@ -65,7 +65,7 @@ export default function BasicModal({
   }, [open]);
 
   useEffect(() => {
-    if (!leadPreference.call && !leadPreference.data) {
+    if (!leadPreference?.call && !leadPreference?.data) {
       setPreferences({ ...leadPreference, call: true });
     } else setPreferences(leadPreference);
   }, [leadPreference]);
