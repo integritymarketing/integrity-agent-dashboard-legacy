@@ -34,6 +34,7 @@ export default () => {
       if (
         clientId === "ASBClient" ||
         clientId === "FFLClient" ||
+        clientId === "AgentMobileSunfire" ||
         clientId === "ILSClient"
       ) {
         loading.begin();
