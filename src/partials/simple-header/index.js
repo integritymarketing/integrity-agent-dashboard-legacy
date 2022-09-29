@@ -15,8 +15,10 @@ export default (mobileAppLogin) => {
         ) : (
           <>
             {" "}
-            <Logo aria-hidden="true" id="footerLogo" />
-            <span className="visually-hidden">Medicare Center</span>
+            <div className="mobile-med-icon">
+              <Logo aria-hidden="true" id="footerLogo" />
+              <span className="visually-hidden">Medicare Center</span>
+            </div>
           </>
         )}
       </h1>
