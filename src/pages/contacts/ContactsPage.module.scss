@@ -1037,8 +1037,8 @@ table {
   color: #434A51;
   display: inline-flex;
   margin: 2px;
-  padding: 2px;
-  font-size: 12px;
+  padding: 0px 5px;
+  font-size: 10px;
   min-height: 20px;
   align-items: center;
   font-weight: bold;
@@ -1051,7 +1051,7 @@ table {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 30px;
+  min-width: 16px;
 }
 
 .footerContainer {
@@ -1182,10 +1182,13 @@ table {
   align-items: center;
 }
 
+.expandIconsContainer {
+  // .svg {
+  //   pointer-events: none;
+  // }
+}
+
 .expandIcons {
-  color: #0052ce;
-  width: 12px;
-  height: 8px;
   cursor: pointer;
 }
 

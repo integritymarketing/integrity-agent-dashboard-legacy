@@ -48,7 +48,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
         <Paragraph
           id="transition-modal-subtitle"
           text={
-            "MedicareCENTER now provides free, compliant, and automatic call recording and storage - per CMS requirements - for all your sales calls using your unique"
+            "MedicareCENTER now provides free, compliant, and automatic call recording and storage - per CMS requirements - for all your calls using your unique"
           }
         />
         <b>MedicareCENTER Agent Phone Number!</b>
