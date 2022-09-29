@@ -44,15 +44,15 @@ const StyledTableBody = styled(TableBody)(() => ({
 }));
 
 const SMUITable = styled(MUITable)(() => ({
-  ".MuiTableBody-root tr:first-child": {
+  ".MuiTableBody-root tr:first-of-type": {
     borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
   },
-  ".MuiTableBody-root tr:first-child td:first-child": {
+  ".MuiTableBody-root tr:first-of-type td:first-of-type": {
     borderTopLeftRadius: "inherit",
     borderTopRightRadius: "initial",
   },
-  ".MuiTableBody-root tr:first-child td:last-child": {
+  ".MuiTableBody-root tr:first-of-type td:last-child": {
     borderTopLeftRadius: "initial",
     borderTopRightRadius: "inherit",
   },
@@ -60,7 +60,7 @@ const SMUITable = styled(MUITable)(() => ({
     borderBottomLeftRadius: "10px",
     borderBottomRightRadius: "10px",
   },
-  ".MuiTableBody-root tr:last-child td:first-child": {
+  ".MuiTableBody-root tr:last-child td:first-of-type": {
     borderBottomLeftRadius: "inherit",
     borderBottomRightRadius: "initial",
   },
@@ -70,9 +70,9 @@ const SMUITable = styled(MUITable)(() => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ isLast }) => ({
+const StyledTableRow = styled(TableRow)(({ islast }) => ({
   background: "#2175F41A 0% 0% no-repeat padding-box",
-  boxShadow: isLast ? "inset 0px -1px 0px #C7CCD1" : "none",
+  boxShadow: islast ? "inset 0px -1px 0px #C7CCD1" : "none",
 }));
 
 const generateSortingIndicator = (column) => {
@@ -127,7 +127,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
         </TableHead>
         <StyledTableBody>
           {fixedRows.map((fixedRow, idx) => (
-            <StyledTableRow key={idx} bg="true" isLast={idx === fixedRows}>
+            <StyledTableRow key={idx} bg="true" islast={idx === fixedRows ? 1: 0}>
               {fixedRow}
             </StyledTableRow>
           ))}

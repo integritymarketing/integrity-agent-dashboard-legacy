@@ -37,7 +37,9 @@ export const getMMDDYY = (date) => {
 };
 
 export const convertUTCDateToLocalDate = (date) => {
-  return moment(date).local();
+  if(date) {
+    return moment(date).local();
+  } Date.now();
 };
 
 export const getForDistance = (date) => {
