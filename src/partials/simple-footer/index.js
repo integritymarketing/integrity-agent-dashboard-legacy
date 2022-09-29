@@ -4,7 +4,6 @@ import usePortalUrl from "hooks/usePortalUrl";
 
 export default ({ className = "", mobileAppLogin, ...props }) => {
   const portalUrl = usePortalUrl();
-  console.log("mobileAppLoginFoo", mobileAppLogin)
   return (
     <footer className={`simple-footer pt-5 ${className}`} {...props}>
       <div className="simple-footer__content sf-text-center">

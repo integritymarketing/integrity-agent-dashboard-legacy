@@ -28,8 +28,7 @@ export default () => {
         new URL(params.get("ReturnUrl")).search
       );
       let clientId = params1.get("client_id");
-      console.log("clientId", clientId)
-      if ( clientId === "ASBClient"){
+      if ( clientId === "AgentMobile"){
         setMobileAppLogin(true);
       }
       if (

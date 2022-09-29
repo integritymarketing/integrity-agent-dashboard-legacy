@@ -4,7 +4,6 @@ import Logo from "partials/logo";
 import "./index.scss";
 
 export default (mobileAppLogin) => {
-  console.log("mobileAppLoginLink", mobileAppLogin)
   return (
     <header className="simple-header mb-auto">
       <h1 className="simple-header__title">
