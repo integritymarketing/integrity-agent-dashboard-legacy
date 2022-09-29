@@ -6,7 +6,8 @@ import clientsService from "services/clientsService";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
 
-const isCustomActivity = (row) => row.activityId && row.activityTypeName === "Note";
+const isCustomActivity = (row) =>
+  row.activityId && row.activityTypeName === "Note";
 
 const useActivities = ({ getLeadDetails }) => {
   const addToast = useToast();
@@ -62,6 +63,17 @@ const useActivities = ({ getLeadDetails }) => {
     }));
   }, [setActivitiesPageLimit]);
 
+  const addErrorToast = useCallback(
+    (message) => {
+      addToast({
+        type: "error",
+        message: message,
+        time: 3000,
+      });
+    },
+    [addToast]
+  );
+
   const handleAddNewActivity = useCallback(
     async (activitySubject, activityBody) => {
       const payload = {
@@ -82,11 +94,12 @@ const useActivities = ({ getLeadDetails }) => {
           setOpen(false);
         })
         .catch((e) => {
-          Sentry.captureException(e);
           setOpen(false);
+          Sentry.captureException(e);
+          addErrorToast("There was an error while saving your activity");
         });
     },
-    [getLeadDetails, addToast, leadsId, setOpen]
+    [getLeadDetails, addToast, leadsId, setOpen, addErrorToast]
   );
 
   const handleDeleteActivity = useCallback(
@@ -101,9 +114,10 @@ const useActivities = ({ getLeadDetails }) => {
         });
       } catch (e) {
         Sentry.captureException(e);
+        addErrorToast("There was an error while deleting your activity");
       }
     },
-    [getLeadDetails, addToast]
+    [getLeadDetails, addToast, addErrorToast]
   );
 
   const handleEditActivity = useCallback(
@@ -123,23 +137,22 @@ const useActivities = ({ getLeadDetails }) => {
           time: 3000,
         });
       } catch (e) {
+        setSelectedActivity(null);
         Sentry.captureException(e);
+        addErrorToast("There was an error while updating your activity");
       }
     },
-    [getLeadDetails, leadsId, addToast]
+    [getLeadDetails, leadsId, addToast, addErrorToast, setSelectedActivity]
   );
 
-  const handleAddActivtyNotes = useCallback(async (activity, activityNote) => {
-    const {
-      activityBody,
-      activitySubject,
-      activityId,
-    } = activity;
+  const handleAddActivtyNotes = useCallback(
+    async (activity, activityNote) => {
+      const { activityBody, activitySubject, activityId } = activity;
       const payload = {
         activityBody,
         activitySubject,
         activityId,
-        activityNote
+        activityNote,
       };
       try {
         await clientsService.updateActivity(payload, leadsId);
@@ -151,22 +164,27 @@ const useActivities = ({ getLeadDetails }) => {
           time: 3000,
         });
       } catch (e) {
+        setSelectedActivity(null);
         Sentry.captureException(e);
+        addErrorToast("There was an error while updating your activity");
       }
     },
-    [getLeadDetails, setSelectedActivity, addToast, leadsId]
+    [getLeadDetails, setSelectedActivity, addToast, leadsId, addErrorToast]
   );
 
   const toggleFilterMenu = useCallback(() => {
     setIsFilterMenuOpen((isOpen) => !isOpen);
   }, [setIsFilterMenuOpen]);
 
-  const onActivityClick = useCallback((activity) => {
-    if (isCustomActivity(activity) === false) {
-      return setSelectedActivity(activity)
-    }
-    setSelectedActivity(null);
-  }, [setSelectedActivity])
+  const onActivityClick = useCallback(
+    (activity) => {
+      if (isCustomActivity(activity) === false) {
+        return setSelectedActivity(activity);
+      }
+      setSelectedActivity(null);
+    },
+    [setSelectedActivity]
+  );
 
   return {
     activities,
@@ -191,7 +209,7 @@ const useActivities = ({ getLeadDetails }) => {
     selectedActivity,
     setSelectedActivity,
     onActivityClick,
-    handleAddActivtyNotes
+    handleAddActivtyNotes,
   };
 };
 
