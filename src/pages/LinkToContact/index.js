@@ -2,7 +2,6 @@ import * as Sentry from "@sentry/react";
 import ContactSearch from "./ContactSearch";
 import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
 import CallScriptIcon from "./CallScriptIcon";
-// import DescriptionIcon from "@mui/icons-material/Description";
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 import Heading3 from "packages/Heading3";
