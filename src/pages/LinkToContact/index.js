@@ -25,7 +25,7 @@ export default function LinkToContact() {
   const [modalOpen, setModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const callRecordings = useCallRecordings({ subscribe: false });
+  const callRecordings = useCallRecordings();
   const callStatusInProgress = callRecordings.find(
     (callRecording) => callRecording.callStatus === IN_PROGRESS
   );

@@ -25,6 +25,7 @@ import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
+import { useAgentAvailability } from "hooks/useAgentAvailability";
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -117,7 +118,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [user, setUser] = useState({});
   const [open, setOpen] = useState(false);
-  const [isAvailable, setIsAvailable] = useState(false);
+  const [isAvailable, setIsAvailable] = useAgentAvailability(false);
   const [phone, setPhone] = useState("");
   const [virtualNumber, setVirtualNumber] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
@@ -184,7 +185,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                     "_blank"
                   ),
               },
-              label: "Lead Center",
+              label: "LeadCENTER",
             },
             {
               component: "button",
@@ -408,12 +409,10 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...menuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  {process.env.REACT_APP_FEATURE_FLAG === "show" && (
-                    <MyButton
-                      clickButton={clickButton}
-                      isAvailable={isAvailable}
-                    ></MyButton>
-                  )}
+                  <MyButton
+                    clickButton={clickButton}
+                    isAvailable={isAvailable}
+                  />
                 </React.Fragment>
               )}
             </Media>
