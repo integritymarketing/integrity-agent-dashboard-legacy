@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/react";
 import ContactSearch from "./ContactSearch";
 import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
-import DescriptionIcon from "@mui/icons-material/Description";
+import CallScriptIcon from "./CallScriptIcon";
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 import Heading3 from "packages/Heading3";
@@ -53,13 +53,13 @@ export default function LinkToContact() {
   const bannerContent = () => {
     return (
       <>
-        <Heading3 text="Link to contact" />
+        <Heading3 text="Link to contacts" />
         <div>
           <Button
             size={"medium"}
-            startIcon={<DescriptionIcon />}
+            startIcon={<CallScriptIcon />}
             onClick={() => setModalOpen(true)}
-          >
+          >            
             Call Script
           </Button>
         </div>

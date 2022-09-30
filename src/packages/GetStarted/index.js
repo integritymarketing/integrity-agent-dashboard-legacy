@@ -149,7 +149,7 @@ export default function GetStarted(props) {
         <Paragraph
           id="transition-modal-description"
           text={
-            "Learn sales tips and trick, how to use exiting new features available in MedicareCENTER, and more."
+            "Learn sales tips and tricks, how to use exiting new features available in MedicareCENTER, and more."
           }
         ></Paragraph>
         <Button
