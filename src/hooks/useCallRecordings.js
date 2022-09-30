@@ -21,8 +21,8 @@ export default () => {
     getCallRecordings();
     if (auth.isAuthenticated()) {
       const connection = getSignalRConnection(auth.userProfile?.agentid);
-      connection.on("ActiveCall", () => {
-          getCallRecordings();
+      connection.on("ActiveCall", (status) => {
+          setTimeout(getCallRecordings, status ? 5_000 : 15_000);
       });
       return () => {
         connection.off("ActiveCall");
