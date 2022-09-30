@@ -53,7 +53,7 @@ export default function LinkToContact() {
   const bannerContent = () => {
     return (
       <>
-        <Heading3 text="Link to contactss" />
+        <Heading3 text="Link to contacts" />
         <div>
           <Button
             size={"medium"}
