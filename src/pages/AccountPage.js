@@ -209,12 +209,14 @@ export default () => {
                         [
                           {
                             name: "firstName",
-                            validator: validationService.validateName,
+                            validator:
+                              validationService.validateOnlyAlphabetics,
                             args: ["First Name"],
                           },
                           {
                             name: "lastName",
-                            validator: validationService.validateName,
+                            validator:
+                              validationService.validateOnlyAlphabetics,
                             args: ["Last Name"],
                           },
                           {

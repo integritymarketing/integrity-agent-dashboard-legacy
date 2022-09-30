@@ -19,7 +19,7 @@ export default (props) => {
     }`}
         </style>
       </defs>
-      <polyline class="b" points=".5 .5 8 8 .5 15.5" />
+      <polyline className="b" points=".5 .5 8 8 .5 15.5" />
     </svg>
   );
 };

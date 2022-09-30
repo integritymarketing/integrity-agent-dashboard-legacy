@@ -37,14 +37,15 @@ export const useActiveFilters = () => {
       reminderValue = "Active Reminders";
     } else if (hasOverdueReminder) {
       reminderValue = "Overdue Reminders";
-    } else if (hasReminder === false && hasOverdueReminder === null) {
+    } else if (hasReminder === false && !hasOverdueReminder) {
       reminderValue = "No Reminders Added";
     }
     if (
       (stages && stageValues.length > 0) ||
       (tags && tagValues.length > 0) ||
       hasOverdueReminder ||
-      hasReminder
+      hasReminder === false ||
+      hasReminder === true
     ) {
       setFilters({
         tagValue: [...tagValues],

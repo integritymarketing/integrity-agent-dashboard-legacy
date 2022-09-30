@@ -201,7 +201,8 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               },
               label: "MedicareAPP 2022",
             },
-            {
+            ...(process.env.REACT_APP_FEATURE_FLAG === "show" ? 
+            [{
               component: "button",
               props: {
                 type: "button",
@@ -214,7 +215,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 },
               },
               label: "MedicareAPP 2023",
-            },
+            }] : []),
             {
               component: "button",
               props: {
@@ -238,7 +239,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             {
               component: Link,
               props: {
-                to: "/help"
+                to: "/help",
               },
               label: "Need Help?",
               img: NeedHelp,

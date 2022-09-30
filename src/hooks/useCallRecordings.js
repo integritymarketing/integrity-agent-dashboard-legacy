@@ -22,9 +22,7 @@ export default () => {
     if (auth.isAuthenticated()) {
       const connection = getSignalRConnection(auth.userProfile?.agentid);
       connection.on("ActiveCall", (status) => {
-        if (status) {
-          getCallRecordings();
-        }
+          setTimeout(getCallRecordings, status ? 5_000 : 15_000);
       });
       return () => {
         connection.off("ActiveCall");

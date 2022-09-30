@@ -14,7 +14,7 @@ import { Box } from "@material-ui/core";
 
 export default () => {
   const [isMobile, setIsMobile] = useState(false);
-  let mainContentClassName = "container " + styles.headerLayout;
+
   return (
     <React.Fragment>
       <Media
@@ -30,13 +30,11 @@ export default () => {
       <div className={styles.layout}>
         {!isMobile && (
           <div className={styles.headerLayoutContainer}>
-            <div id="main-content" className={mainContentClassName}>
-              <div>
+            <div className={styles.headerLayout}>
                 <Heading2
                   className={styles.headerLayoutText}
                   text="Need Help?"
                 />
-              </div>
             </div>
           </div>
         )}

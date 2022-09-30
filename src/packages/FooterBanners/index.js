@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Icon from "@mui/material/Icon";
 import GlassesIcon from "./Glasses.svg";
 import HeadsetIcon from "./Headset.svg";
 import { Typography } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
 import styles from "./styles.module.scss";
-import Modal from "components/ui/modal";
-import ContactInfo from "partials/contact-info";
 import { styled } from "@mui/system";
 
 const StyledIcon = styled(Icon)(({ theme }) => ({
@@ -26,8 +24,6 @@ const StyledArrowForward = styled(ArrowForward)(({ theme }) => ({
 }));
 
 export default function FooterBanners({ className = "", type = "row" }) {
-  const [openModal, setOpenModal] = useState(false);
-
   return (
     <div className={className}>
       <div className={`${styles.footerBannerContainer} ${styles[type]}`}>
@@ -64,25 +60,21 @@ export default function FooterBanners({ className = "", type = "row" }) {
               <StyledTypography variant="subtitle1">
                 Need help? Visit the help center for 24/7 professional
               </StyledTypography>
-              <div className={styles.link} onClick={() => setOpenModal(true)}>
+              <a
+                className={styles.link}
+                target="_blank"
+                href="/help"
+                rel="noopener noreferrer"
+              >
                 <StyledTypographyLink variant="subtitle1">
                   Zendesk Assistance
                 </StyledTypographyLink>
                 <StyledArrowForward />
-              </div>
+              </a>
             </div>
           </div>
         </div>
       </div>
-      <Modal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        labeledById="dialog_help_label"
-        descById="dialog_help_desc"
-        testId="header-support-modal"
-      >
-        <ContactInfo testId="header-support-modal" />
-      </Modal>
     </div>
   );
 }

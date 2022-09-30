@@ -86,10 +86,10 @@ export function ProvidersCompareTable({ plans }) {
             hideHeader: true,
             accessor: `plan-${index}`,
             Cell({ value }) {
-              if (!plan) {
+              if (!plan || !plan?.providers?.length > 0) {
                 return "-";
               }
-              return value ? (
+              return plan?.providers[0]?.inNetwork ? (
                 <span className="pr-network">
                   <InNetworkCheck />{" "}
                   <span className="pr-network-text">In Network</span>
