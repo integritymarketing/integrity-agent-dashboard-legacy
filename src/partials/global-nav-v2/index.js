@@ -201,7 +201,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               },
               label: "MedicareAPP 2022",
             },
-            ...(process.env.REACT_APP_FEATURE_FLAG === "show" ? 
+            ...(process.env.REACT_APP_ADD_JANUARY_MONTH === "show" ? 
             [{
               component: "button",
               props: {
