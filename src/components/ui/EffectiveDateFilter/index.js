@@ -23,7 +23,12 @@ export default function EffectiveDateFilter({ years, initialValue, onChange }) {
         i++;
       }
     }
-    return options;
+    return process.env.REACT_APP_ADD_JANUARY_MONTH === "show"
+      ? [
+          ...options,
+          { label: "January 2023 ", value: "2023-01-16T03:16:37.005Z" },
+        ]
+      : options;
   }, [years, initialValue]);
 
   return (
