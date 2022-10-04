@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import moment from "moment";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
@@ -30,7 +31,6 @@ export default function ComparePlansByPlanName({
   const [contactData, setContactData] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
-
   useEffect(() => {
     if (!agentInfo?.LeadId) {
       const getContactInfo = async () => {
@@ -101,16 +101,16 @@ export default function ComparePlansByPlanName({
               <div className={`${styles["vertical-stack"]}`}>
                 <div className={`${styles["compare-text"]}`}>Compare Plans</div>
                 <div className={`${styles["spacer"]}`}></div>
-                  <>
-                    <div className={`${styles["share-plan-text"]}`}>
-                      Share plans with client
-                    </div>
-                    <Button
-                      onClick={() => setComparePlanModalOpen(true)}
-                      label="Share"
-                      type="secondary"
-                    ></Button>
-                  </>
+                <>
+                  <div className={`${styles["share-plan-text"]}`}>
+                    Share plans with client
+                  </div>
+                  <Button
+                    onClick={() => setComparePlanModalOpen(true)}
+                    label="Share"
+                    type="secondary"
+                  ></Button>
+                </>
               </div>
               <span className={`${styles["plan-separator"]}`}></span>
             </div>
@@ -146,17 +146,33 @@ export default function ComparePlansByPlanName({
                 {!isModal && !isEmail && (
                   <Button
                     onClick={() => handleOnClick(plan)}
-                    label={isLiveByDate() ? "Enroll" : "Enroll 10/15"}
+                    label={
+                      isLiveByDate() ||
+                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
+                        ? "Enroll 10/15"
+                        : "Enroll"
+                    }
                     type="primary"
-                    disabled={!isLiveByDate()}
+                    disabled={
+                      !isLiveByDate() &&
+                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
+                    }
                   />
                 )}
                 {!isModal && isEmail && (
                   <Button
                     onClick={() => handleBenificiaryClick(plan)}
-                    label={isLiveByDate() ? "Enroll" : "Enroll 10/15"}
+                    label={
+                      isLiveByDate() ||
+                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
+                        ? "Enroll 10/15"
+                        : "Enroll"
+                    }
                     type="primary"
-                    disabled={!isLiveByDate()}
+                    disabled={
+                      !isLiveByDate() &&
+                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
+                    }
                   />
                 )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment";
 import Rating from "../Rating";
 import PlanNetworkItem from "./plan-network-item";
 import CostBreakdowns from "./cost-breakdowns";
@@ -89,6 +90,7 @@ export default function PlanCard({
   isChecked,
   isCompareDisabled,
 }) {
+  const isYear2023 = moment(effectiveDate).format('yyyy') === "2023";
   let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
   const { logoURL } = planData;
   const checkForImage =
@@ -186,8 +188,8 @@ export default function PlanCard({
           />
           {!planData.nonLicensedPlan && (
             <Button
-              label={isLiveByDate() ? "Enroll" : "Enroll 10/15"}
-              disabled={!isLiveByDate()}
+              label={isLiveByDate() || isYear2023 ? "Enroll 10/15" : "Enroll"}
+              disabled={!isLiveByDate() && isYear2023}
               onClick={() => onEnrollClick(planData.id)}
             />
           )}
