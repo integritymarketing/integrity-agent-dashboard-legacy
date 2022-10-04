@@ -6,6 +6,7 @@ import Popover from "components/ui/Popover";
 import ShareIcon from "components/icons/vector";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Info from "components/icons/info-blue";
+import { isLiveByDate } from "utils/dates";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -48,14 +49,16 @@ const CompactPlanCard = ({
           type="secondary"
         />
       )}
-      <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+      <Button
+        label={isLiveByDate() ? "Enroll" : "Enroll 10/15"}
+        disabled={!isLiveByDate()}
+        onClick={() => onEnrollClick(planData.id)}
+      />
     </div>
   );
 
   return onlyButtons ? (
-    <div className={`plan-card-buttons`}>
-      {buttons}
-    </div>
+    <div className={`plan-card-buttons`}>{buttons}</div>
   ) : (
     <div className={`plan-card plan-card-compact ${isMobile ? "mobile" : ""}`}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>

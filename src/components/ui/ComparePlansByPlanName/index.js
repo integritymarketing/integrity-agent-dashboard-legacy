@@ -6,6 +6,7 @@ import plansService from "services/plansService";
 import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import styles from "../../../pages/PlansPage.module.scss";
+import { isLiveByDate } from "utils/dates";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -145,15 +146,17 @@ export default function ComparePlansByPlanName({
                 {!isModal && !isEmail && (
                   <Button
                     onClick={() => handleOnClick(plan)}
-                    label="Enroll"
+                    label={isLiveByDate() ? "Enroll" : "Enroll 10/15"}
                     type="primary"
+                    disabled={!isLiveByDate()}
                   />
                 )}
                 {!isModal && isEmail && (
                   <Button
                     onClick={() => handleBenificiaryClick(plan)}
-                    label="Enroll"
+                    label={isLiveByDate() ? "Enroll" : "Enroll 10/15"}
                     type="primary"
+                    disabled={!isLiveByDate()}
                   />
                 )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (
