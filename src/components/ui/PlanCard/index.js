@@ -8,6 +8,7 @@ import {
   capitalizeFirstLetter,
   formatUnderScorestring,
 } from "utils/shared-utils/sharedUtility";
+import { isLiveByDate } from "utils/dates";
 import "./index.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -184,7 +185,11 @@ export default function PlanCard({
             type="secondary"
           />
           {!planData.nonLicensedPlan && (
-            <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+            <Button
+              label={isLiveByDate() ? "Enroll" : "Enroll 10/15"}
+              disabled={!isLiveByDate()}
+              onClick={() => onEnrollClick(planData.id)}
+            />
           )}
         </div>
       </div>
