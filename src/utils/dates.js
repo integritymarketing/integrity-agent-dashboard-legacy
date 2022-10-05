@@ -1,5 +1,6 @@
-import { parse, parseISO, format } from "date-fns";
-import moment from 'moment'
+import { parse, parseISO, format, differenceInDays } from "date-fns";
+import moment from "moment";
+import { dateFormatter } from "./dateFormatter";
 
 const DEFAULT_EFFECTIVE_YEAR = [
   parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2023),
@@ -43,9 +44,10 @@ export const getMMDDYY = (date) => {
 };
 
 export const convertUTCDateToLocalDate = (date) => {
-  if(date) {
+  if (date) {
     return moment(date).local();
-  } Date.now();
+  }
+  Date.now();
 };
 
 export const getForDistance = (date) => {
@@ -95,17 +97,15 @@ const timeZoneAbbreviated = () => {
 
 export const getOverDue = (value) => {
   let date = convertUTCDateToLocalDate(value);
-  if (new Date(date) < new Date()) {
-    let Difference_In_Time = Math.abs(new Date() - new Date(date));
-    var Difference_In_Days = parseInt(Difference_In_Time / (1000 * 3600 * 24));
-    if (Difference_In_Days > 0) {
-      return `${Difference_In_Days.toString()} Day${
-        Difference_In_Days.toString() > 1 ? "s" : ""
-      } Overdue`;
-    }
-    return false;
-  }
-  return false;
+  let one = dateFormatter(new Date(), "MM/DD/yyyy");
+  let two = dateFormatter(date, "MM/DD/yyyy");
+
+  const result = differenceInDays(new Date(one), new Date(two));
+  if (result > 0) {
+    return `${result.toString()} Day${
+      result.toString() > 1 ? "s" : ""
+    } Overdue`;
+  } else return false;
 };
 
 export const getNextEffectiveDate = (years, month) => {
