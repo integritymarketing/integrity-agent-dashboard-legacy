@@ -9,14 +9,17 @@ export default () => {
   const params = useQueryParams();
 
   useEffect(() => {
-    const params1 = new URLSearchParams(
-      new URL(params.get("ReturnUrl")).search
-    );
-    let clientId = params1.get("client_id");
-    if (clientId === "AgentMobileSunfire") {
-      window.location.href =
-        "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int";
-      return;
+    const returnUrl = params.get("ReturnUrl");
+    if (returnUrl) {
+      const params1 = new URLSearchParams(
+        new URL(returnUrl).search
+      );
+      let clientId = params1.get("client_id");
+      if (clientId === "AgentMobileSunfire") {
+        window.location.href =
+          "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int";
+        return;
+      }
     }
     auth.signinSilent().catch((error) => {
       history.replace("/error?code=login_callback_error");
