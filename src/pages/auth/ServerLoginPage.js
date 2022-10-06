@@ -31,6 +31,7 @@ export default () => {
       if ( clientId === "AgentMobile"){
         setMobileAppLogin(true);
       }
+      sessionStorage.setItem('__clientId__', clientId);      
       if (
         clientId === "ASBClient" ||
         clientId === "FFLClient" ||
