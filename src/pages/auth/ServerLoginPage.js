@@ -24,6 +24,7 @@ export default () => {
 
   useEffect(() => {
     async function checkForExtrnalLogin() {
+      debugger;
       const params1 = new URLSearchParams(
         new URL(params.get("ReturnUrl")).search
       );

@@ -7,7 +7,9 @@ export default () => {
   const history = useHistory();  
 
   useEffect(() => {
-    const clientId = sessionStorage.getItem('__clientId__');    
+    debugger;
+    const clientId = sessionStorage.getItem('__clientId__');  
+    console.log({ clientId });
     if (clientId === "AgentMobileSunfire") {
       window.location.href =
         "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int";
