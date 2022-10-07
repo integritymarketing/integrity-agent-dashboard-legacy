@@ -56,12 +56,16 @@ class authService {
     console.log('wl', window.location.search);
     const paramString = window.location.search;
     const returnUrl = new URLSearchParams(paramString).get("ReturnUrl");
-    console.log("returnUrl", returnUrl);
+    console.log("returning...Url", returnUrl);
     if (returnUrl) {
       const clientId = new URLSearchParams(new URL(returnUrl).search).get('client_id');
+      sessionStorage.setItem("asdfafsadfas", clientId); 
       if(clientId) {
+        console.log("setting returning...Url", returnUrl);
         sessionStorage.setItem("__clientId__", clientId);  
       }
+    } else {
+      console.log("no returning...Url", returnUrl);
     }
 
     return {
