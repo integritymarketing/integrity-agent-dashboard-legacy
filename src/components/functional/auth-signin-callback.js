@@ -9,10 +9,9 @@ export default () => {
   const params = useQueryParams();
 
   useEffect(() => {
-    // const clientId = sessionStorage.getItem('__clientId__');
-    const clientId = true;
+    const clientId = sessionStorage.getItem('__clientId__');
     console.log('window.location.search clientId', clientId);
-    if (clientId === true) {
+    if (clientId) {
       console.log('sessionStorage redirecting');
       window.location.href =
         "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int";

@@ -17,42 +17,42 @@ jest.mock("react-router-dom", () => ({
 
 afterEach(cleanup);
 
-// test("<AuthSigninCallback /> success, ", () => {
-//   const mockAuthService = {
-//     signinSilent: jest.fn(async () => {
-//       return true;
-//     }),
-//   };
+test("<AuthSigninCallback /> success, ", () => {
+  const mockAuthService = {
+    signinSilent: jest.fn(async () => {
+      return true;
+    }),
+  };
 
-//   renderWithRouter(
-//     <TestRouterWithAuth mockAuthService={mockAuthService}>
-//       <Route path="/signin-oidc" component={AuthSigninCallback} />
-//     </TestRouterWithAuth>,
-//     {
-//       route: "/signin-oidc",
-//     }
-//   );
+  renderWithRouter(
+    <TestRouterWithAuth mockAuthService={mockAuthService}>
+      <Route path="/signin-oidc" component={AuthSigninCallback} />
+    </TestRouterWithAuth>,
+    {
+      route: "/signin-oidc",
+    }
+  );
 
-//   expect(mockAuthService.signinSilent.mock.calls.length).toBe(1);
-//   expect(mockHistoryReplace).toBeCalledTimes(0);
-// });
+  expect(mockAuthService.signinSilent.mock.calls.length).toBe(1);
+  expect(mockHistoryReplace).toBeCalledTimes(0);
+});
 
-// test("<AuthSigninCallback /> error, ", async () => {
-//   const mockAuthService = {
-//     signinSilent: jest.fn(async () => {
-//       throw new Error(400);
-//     }),
-//   };
+test("<AuthSigninCallback /> error, ", async () => {
+  const mockAuthService = {
+    signinSilent: jest.fn(async () => {
+      throw new Error(400);
+    }),
+  };
 
-//   await renderWithRouter(
-//     <TestRouterWithAuth mockAuthService={mockAuthService}>
-//       <Route path="/signin-oidc" component={AuthSigninCallback} />
-//     </TestRouterWithAuth>,
-//     {
-//       route: "/signin-oidc",
-//     }
-//   );
+  await renderWithRouter(
+    <TestRouterWithAuth mockAuthService={mockAuthService}>
+      <Route path="/signin-oidc" component={AuthSigninCallback} />
+    </TestRouterWithAuth>,
+    {
+      route: "/signin-oidc",
+    }
+  );
 
-//   expect(mockAuthService.signinSilent.mock.calls.length).toBe(1);
-//   expect(mockHistoryReplace).toBeCalledTimes(1);
-// });
+  expect(mockAuthService.signinSilent.mock.calls.length).toBe(1);
+  expect(mockHistoryReplace).toBeCalledTimes(1);
+});
