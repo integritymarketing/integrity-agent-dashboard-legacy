@@ -188,7 +188,7 @@ const App = () => {
                                     component={AuthSilentCallback}
                                   />
                                   <Route
-                                    path="/signin-oidc"
+                                    path="/signin-oidc-sunfire-mobile"
                                     component={AuthSigninCallback}
                                   />
                                   <Route
