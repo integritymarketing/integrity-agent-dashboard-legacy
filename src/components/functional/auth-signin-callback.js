@@ -9,7 +9,8 @@ export default () => {
   const params = useQueryParams();
 
   useEffect(() => {
-    const clientId = sessionStorage.getItem('__clientId__');
+    // const clientId = sessionStorage.getItem('__clientId__');
+    const clientId = true;
     console.log('window.location.search clientId', clientId);
     if (clientId === true) {
       console.log('sessionStorage redirecting');
