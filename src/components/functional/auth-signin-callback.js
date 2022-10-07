@@ -11,7 +11,7 @@ export default () => {
   useEffect(() => {
     const clientId = sessionStorage.getItem('__clientId__');
     console.log('window.location.search clientId', clientId);
-    if (clientId === "AgentMobileSunfire") {
+    if (clientId === true) {
       console.log('sessionStorage redirecting');
       window.location.href =
         "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int";
