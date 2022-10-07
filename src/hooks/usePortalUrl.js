@@ -4,6 +4,7 @@ import useClientId from "hooks/auth/useClientId";
 export default () => {
   const cookies = new Cookies();
   const clientId = useClientId();
+  console.log("clientId", clientId)
 
   if (clientId === "ILSClient" && cookies.get("client_url")) {
     return cookies.get("client_url");
