@@ -53,13 +53,13 @@ class authService {
 
   _getIdentityConfig = () => {
     let portal_url = usePortalUrl();
-
+console.log('wl', window.location.search);
     return {
       authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
       client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
       response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
       scope: process.env.REACT_APP_AUTH_SCOPES,
-      redirect_uri: portal_url + "/signin-oidc",
+      redirect_uri: portal_url + "/signin-oidc/testtung",
       post_logout_redirect_uri: portal_url + "/signout-oidc",
       silent_redirect_uri: portal_url + "/signin-oidc-silent",
     };
