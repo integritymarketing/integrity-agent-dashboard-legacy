@@ -53,22 +53,17 @@ class authService {
 
   _getIdentityConfig = () => {
     let portal_url = usePortalUrl();
-console.log('wl', window.location.search);
-const paramString = window.location.search;
-const returnUrl = new URLSearchParams(paramString).get("ReturnUrl");
-console.log("returnUrl", returnUrl);
-if (returnUrl) {
-  const params1 = new URLSearchParams(
-    new URL(returnUrl).search
-  );
-  let clientId = params1.get("client_id");
-  if (clientId === "AgentMobileSunfire") {
-    window.location.href =
-      "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int";
-    return;
-  }
-}
-sessionStorage.setItem("test", true);
+    console.log('wl', window.location.search);
+    const paramString = window.location.search;
+    const returnUrl = new URLSearchParams(paramString).get("ReturnUrl");
+    console.log("returnUrl", returnUrl);
+    if (returnUrl) {
+      const clientId = new URLSearchParams(new URL(returnUrl).search).get('client_id');
+      if(clientId) {
+        sessionStorage.setItem("__clientId__", clientId);  
+      }
+    }
+
     return {
       authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
       client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
