@@ -14,7 +14,7 @@ export default () => {
     if (clientId) {
       console.log('sessionStorage redirecting');
       window.location.href =
-        "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int";
+      process.env.AGENT_MOBILE_SUNFIRE_URL;
       return;
     }
     auth.signinSilent().catch((error) => {
