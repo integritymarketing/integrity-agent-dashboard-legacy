@@ -24,16 +24,13 @@ export default () => {
 
   useEffect(() => {
     async function checkForExtrnalLogin() {
-      console.log('before parmas');
       const params1 = new URLSearchParams(
         new URL(params.get("ReturnUrl")).search
       );
       let clientId = params1.get("client_id");
-      console.log('client_iddd', { clientId });
       if ( clientId === "AgentMobile"){
         setMobileAppLogin(true);
       }
-      sessionStorage.setItem('__clientId__', clientId);      
       if (
         clientId === "ASBClient" ||
         clientId === "FFLClient" ||
