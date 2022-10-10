@@ -15,7 +15,7 @@ export default () => {
     if (clientId) {
       console.log('sessionStorage redirecting');
       window.location.href =
-      process.env.AGENT_MOBILE_SUNFIRE_URL;
+      process.env.REACT_APP_SUNFIRE_SSO_URL;
       return;
     }
     auth.signinSilent().catch((error) => {
