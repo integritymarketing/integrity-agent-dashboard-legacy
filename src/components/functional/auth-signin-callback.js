@@ -11,6 +11,7 @@ export default () => {
   useEffect(() => {
     const clientId = sessionStorage.getItem('__clientId__');
     console.log('window.location.search clientId', clientId);
+    console.log(' process.env.AGENT_MOBILE_SUNFIRE_URL',  process.env.AGENT_MOBILE_SUNFIRE_URL);
     if (clientId) {
       console.log('sessionStorage redirecting');
       window.location.href =
