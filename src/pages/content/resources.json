@@ -63,21 +63,33 @@
     },
     {
       "name": "MedicareCENTER Call Recording FAQs",
-      "description": "Get answers to the most frequently asked questions about Call Recording in Contact Management.",
-      "categories": ["tech-guides"],
-      "filename": " MedicareCENTER-Call-Recording-FAQs.pdf"
-    },
-    {
-      "name": "MedicareCENTER Call Recording User Guide",
-      "description": "Learn how to receive, make, and store recorded calls between you and your Contacts using MedicareCENTER's Contact Management Call Recording feature.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-Call-Recording-User-Guide.pdf"
-    },
-    {
-      "name": "MedicareCENTER Call Recording FAQs",
       "description": "Get up to speed and ready to use Call Recording with answers to the most frequently asked questions about Call Recording in Contact Management.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Call-Recording-FAQs.pdf"
+    },
+    {
+      "name": "MedicareCENTER Mobile App FAQs",
+      "description": "Get the answers to Frequently Asked Questions about the new MedicareCENTER Mobile App.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-MobileApp-FAQs.pdf"
+    },
+    {
+      "name": "MedicareCENTER Mobile App User Guide",
+      "description": "Learn how to use the new MedicareCENTER Mobile App.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-MobileApp-HelpGuide.pdf"
+    },
+    {
+      "name": "MedicareCENTER Personal Agent Websites User Guide",
+      "description": "Learn how to use your Personal Agent Website to allow your clients to enroll on our consumer-facing website.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-pURLS-HelpGuide.pdf"
+    },
+    {
+      "name": "MedicareCENTER Send Quote User Guide",
+      "description": "Learn how to send customized plan comparisons to your clients",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-SendQuote-HelpGuide.pdf"
     },
     {
       "name": "Medicare Phone Guide: Turning 65 Med Supp Phone Guide",

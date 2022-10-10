@@ -11,8 +11,14 @@ export default () => {
   useEffect(() => {
     const getCallRecordings = async () => {
       try {
-        const response =
-          await callRecordingsService.getAllCallRecordingsByAgent();
+        let response = await callRecordingsService.getAllCallRecordingsByAgent();
+
+        if (response.length > 0) {
+          response = response?.sort(
+            (a, b) => new Date(b?.callStartTime) - new Date(a?.callStartTime)
+          );
+        }
+
         setCallRecordings(response);
       } catch (error) {
         Sentry.captureException(error);

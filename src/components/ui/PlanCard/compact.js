@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import "./index.scss";
 import Rating from "../Rating";
 import { Button } from "../Button";
@@ -6,6 +7,7 @@ import Popover from "components/ui/Popover";
 import ShareIcon from "components/icons/vector";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Info from "components/icons/info-blue";
+import { isLiveByDate } from "utils/dates";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -22,6 +24,7 @@ const CompactPlanCard = ({
   isMobile,
   onlyButtons = false,
 }) => {
+  const isYear2023 = moment(planData?.effectiveStartDate).format('yyyy') === "2023";;
   const { documents } = planData;
   const buttons = (
     <div className={`footer ${isMobile ? "mobile" : ""}`}>
@@ -48,14 +51,16 @@ const CompactPlanCard = ({
           type="secondary"
         />
       )}
-      <Button label="Enroll" onClick={() => onEnrollClick(planData.id)} />
+      <Button
+        label={isLiveByDate() || isYear2023 ? "Enroll 10/15" : "Enroll"}
+        disabled={!isLiveByDate() && isYear2023}
+        onClick={() => onEnrollClick(planData.id)}
+      />
     </div>
   );
 
   return onlyButtons ? (
-    <div className={`plan-card-buttons`}>
-      {buttons}
-    </div>
+    <div className={`plan-card-buttons`}>{buttons}</div>
   ) : (
     <div className={`plan-card plan-card-compact ${isMobile ? "mobile" : ""}`}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
