@@ -12,6 +12,7 @@ export default () => {
     const clientId = cookies.get("sunfire_client_id");
     if (clientId) {
       window.location.href = process.env.REACT_APP_SUNFIRE_SSO_URL;
+      cookies.remove("sunfire_client_id");
       return;
     }
     auth.signinSilent().catch((error) => {
