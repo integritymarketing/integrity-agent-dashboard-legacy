@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/react";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 import usePortalUrl from "hooks/usePortalUrl";
+import Cookies from "universal-cookie";
 
 const AUTH_API_VERSION = "v2.0";
 
@@ -53,7 +54,12 @@ class authService {
 
   _getIdentityConfig = () => {
     let portal_url = usePortalUrl();
-
+    const cookies = new Cookies();
+    const isAgentMobileSunfire =
+      window.location.href.indexOf("sunfire-mobile") > -1;
+    if (isAgentMobileSunfire) {
+      cookies.set("sunfire_client_id", isAgentMobileSunfire);
+    }
     return {
       authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
       client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
@@ -237,9 +243,14 @@ class authService {
     const resp = await this._authAPIRequest("/login", "POST", values);
     return resp;
   };
-  
+
   loginUserWithClinetID = async (values, isClinetId) => {
-    const resp = await this._authAPIRequest("/login", "POST", values, isClinetId);
+    const resp = await this._authAPIRequest(
+      "/login",
+      "POST",
+      values,
+      isClinetId
+    );
     return resp;
   };
 
