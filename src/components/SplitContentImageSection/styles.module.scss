@@ -1,0 +1,28 @@
+@import '../../styles/global.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+    justify-content: center;
+    text-align: left;
+    width: 100%;
+
+    @include tabletAndAbove {
+        gap: 35px;
+        padding: 100px;
+    }
+}
+
+.image {
+    align-self: center;
+    flex: 1;
+    height: 100vh;
+    object-fit: cover;
+    width: 100%;
+}
+
+.splitContentImageSection {
+    width: 100%;
+}

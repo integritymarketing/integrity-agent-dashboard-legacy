@@ -1,0 +1,35 @@
+@import '../../styles/global.scss';
+@import '../../styles/global.scss';
+
+.centeredContainer {
+    grid-column: 1/4;
+}
+
+.centeredListItem {
+    opacity: 0;
+
+    &.animate {
+        opacity: 1;
+        transform: translateZ(0);
+    }
+}
+
+.firstCenteredListItem {
+    @include transitionUp(0.75s, 0.25s);
+}
+
+.secondCenteredListItem {
+    @include transitionUp(0.75s, 0.35s);
+}
+
+.thirdCenteredListItem {
+    @include transitionUp(0.75s, 0.45s);
+}
+
+.smartSecureSection {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 150px auto;
+    padding: 150px 100px;
+}

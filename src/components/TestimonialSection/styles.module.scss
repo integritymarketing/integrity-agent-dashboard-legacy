@@ -1,0 +1,19 @@
+.companyName {
+    font-style: italic;
+}
+
+.parallaxContainer {
+    padding: 50px 100px;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.quotes {
+    width: 70px;
+}
+
+.sectionHeader {
+    margin-bottom: 40px;
+}

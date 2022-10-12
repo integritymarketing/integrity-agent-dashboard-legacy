@@ -16,7 +16,6 @@ import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
 import PrivacyPage from "pages/PrivacyPage";
 import ContactDetailsPage from "pages/ContactDetails";
-import WelcomePage from "pages/WelcomePage";
 import MaintenancePage from "pages/MaintenancePage";
 import PlansPage from "pages/PlansPage";
 import LeadCenterRedirect from "pages/LeadCenterRedirect";
@@ -49,6 +48,8 @@ import { StageSummaryProvider } from "contexts/stageSummary";
 import PlanDetailsPage from "pages/PlanDetailsPage";
 import RedirectLoadingPage from "pages/RedirectLoading";
 import HelpPage from "pages/Help";
+import Welcome from "pages/welcome";
+import {ParallaxProvider} from "react-scroll-parallax";
 
 const App = () => {
   return (
@@ -56,6 +57,7 @@ const App = () => {
       <AuthContext.Provider value={authService}>
         <RecoilRoot>
           <Suspense fallback={<div></div>}>
+            <ParallaxProvider>
             <ToastContextProvider>
               <CountyProvider>
                 <DeleteLeadProvider>
@@ -85,7 +87,7 @@ const App = () => {
                                     <TrafficDirector />
                                   </Route>
                                   <UnauthenticatedRoute path="/welcome">
-                                    <WelcomePage />
+                                    <Welcome/>
                                   </UnauthenticatedRoute>
                                   <AuthenticatedRoute path="/redirect-loading">
                                     <RedirectLoadingPage />
@@ -223,6 +225,7 @@ const App = () => {
                 </DeleteLeadProvider>
               </CountyProvider>
             </ToastContextProvider>
+            </ParallaxProvider>
           </Suspense>
         </RecoilRoot>
       </AuthContext.Provider>

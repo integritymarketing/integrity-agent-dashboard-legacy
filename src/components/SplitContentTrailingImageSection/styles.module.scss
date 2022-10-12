@@ -1,0 +1,30 @@
+@import '../../styles/global.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+
+    @include tabletAndAbove {
+        gap: 35px;
+        padding: 150px 100px 100px;
+    }
+}
+
+.devices {
+    margin-top: 80px;
+    padding-top: 200px;
+    width: 130%;
+}
+
+.splitContainer {
+    overflow: hidden;
+    padding-top: 100px;
+}
+
+.splitContentImageSection {
+    width: 100%;
+}

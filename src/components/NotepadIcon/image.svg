@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 24">
+  <defs>
+    <style>
+      .b, .c {
+        fill: none;
+        stroke: #0052ce;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .c {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="b" d="M15.13,2.5h.75c.9,0,1.62,.73,1.62,1.62V21.88c0,.9-.73,1.62-1.62,1.62H2.12c-.9,0-1.62-.73-1.62-1.62V4.12c0-.9,.73-1.62,1.62-1.62h.75"/>
+  <path class="c" d="M13.5,2.5v1H4.5v-1c0-1.1,.9-2,2-2h5c1.1,0,2,.9,2,2Z"/>
+  <polyline class="b" points="3.15 10.15 4.5 11.5 7.5 8.5"/>
+  <line class="b" x1="10" y1="10" x2="15" y2="10"/>
+  <polyline class="b" points="3.15 15.91 4.5 17.26 7.5 14.26"/>
+  <line class="b" x1="10" y1="15.76" x2="15" y2="15.76"/>
+</svg>

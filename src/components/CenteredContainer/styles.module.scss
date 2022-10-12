@@ -1,0 +1,17 @@
+@import '../../styles/global.scss';
+
+.centeredContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.sectionTitle {
+    text-align: center;
+}
+
+.text {
+    @include transitionUp;
+}

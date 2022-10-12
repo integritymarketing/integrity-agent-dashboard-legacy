@@ -1,0 +1,14 @@
+@import '../../styles/global.scss';
+
+.icon {
+    background-color: $iconBackgroundColor;
+    border-radius: 100%;
+    height: 65px;
+    padding: 15px;
+    width: 65px;
+}
+
+.image {
+    height: 100%;
+    width: 100%;
+}

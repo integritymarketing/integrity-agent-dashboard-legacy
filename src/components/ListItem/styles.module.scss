@@ -1,0 +1,31 @@
+@import '../../styles/global.scss';
+
+.heading {
+    margin-top: 15px;
+}
+
+.icon {
+    background-color: $iconBackgroundColor;
+    border-radius: 100%;
+    height: 65px;
+    width: 65px;
+}
+.image{
+    cursor: pointer;
+}
+
+.listItem {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.text {
+    grid-column: 2/3;
+}
+
+.imagesContainer {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+    margin-left: 100px;
+}

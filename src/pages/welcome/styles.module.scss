@@ -1,0 +1,17 @@
+.impactText {
+    grid-column: 1/3;
+}
+
+.layout {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 30% auto;
+}
+
+.sectionTitle {
+    grid-column: 1/3;
+}
+
+.serveClientsBetterSection {
+    margin-top: 100px;
+}
