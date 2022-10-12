@@ -6,9 +6,6 @@ import clientsService from "services/clientsService";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
 
-const isCustomActivity = (row) =>
-  row.activityId && row.activityTypeName === "Note";
-
 const useActivities = ({ getLeadDetails }) => {
   const addToast = useToast();
   const { contactId: leadsId } = useParams();
