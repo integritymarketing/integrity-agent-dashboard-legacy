@@ -31,6 +31,7 @@ import clientsService from "services/clientsService";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
+import CallDetails from "./CallDetails";
 
 const initialState = {
   sortBy: [
@@ -114,6 +115,7 @@ export default function DashboardActivityTable({
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
+  const [selectedCall, setSelectedCall] = useState(null);
   const [selectedLead, setSelectedLead] = useState();
 
   const pagedData = useMemo(() => {
@@ -429,6 +431,9 @@ export default function DashboardActivityTable({
         fixedRows={callRecordings.map((unAssosiatedCallRecord, index) => (
           <FixedRow
             index={index}
+            onSelect={(call) => {
+              setSelectedCall(call);
+            }}
             unAssosiatedCallRecord={unAssosiatedCallRecord}
           />
         ))}
@@ -440,6 +445,13 @@ export default function DashboardActivityTable({
           onClose={() => setSelectedActivity(null)}
           leadFullName={selectedLead?.fullName}
           activityObj={selectedActivity}
+        />
+      )}
+      {selectedCall && (
+        <CallDetails
+          open={true}
+          onClose={() => setSelectedCall(null)}
+          callObj={selectedCall}
         />
       )}
     </>

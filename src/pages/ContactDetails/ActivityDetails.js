@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import styles from "./ActivityDetails.module.scss";
 import { Box, TextField } from "@mui/material";
 import Dialog from "packages/Dialog";
-import { dateFormatter } from "utils/dateFormatter";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
-import { convertUTCDateToLocalDate } from "utils/dates";
+import CreatedDate from "./CreatedDate";
 
 export default function ActivityDetails({
   open,
@@ -14,9 +13,9 @@ export default function ActivityDetails({
   activityObj,
   leadFullName,
 }) {
-  const [note, setNote] = useState(activityObj.activityNote);
-  let date = convertUTCDateToLocalDate(activityObj?.createDate);
+  const [note, setNote] = useState(activityObj.activityBody);
 
+  let type = activityObj?.activityTypeName;
   return (
     <Box>
       <Dialog
@@ -31,9 +30,10 @@ export default function ActivityDetails({
         onCancel={onClose}
         onClose={onClose}
         maxWidth="sm"
+        disabled={!note || note?.length < 2}
       >
         <div className={styles.subSection}>
-          {activityObj && (
+          {activityObj && type === "Triggered" && (
             <div>
               <div className={styles.subHeading}>
                 <div className={styles.subHeadingTitle}>
@@ -42,29 +42,44 @@ export default function ActivityDetails({
                   />
                   {activityObj?.activitySubject}
                 </div>
-                <div>{dateFormatter(date, "MM/DD/YYYY")}</div>
               </div>
               <div className={styles.topSection}>
                 {activityObj?.activityBody}
                 <ActivityButtonText activity={activityObj} />
               </div>
+              <CreatedDate value={activityObj?.createdDate} />
+            </div>
+          )}
+          {type === "Note" && (
+            <div className={styles.subHeading}>
+              <div className={styles.subHeadingTitle}>
+                <ActivitySubjectWithIcon
+                  activitySubject={activityObj?.activitySubject}
+                />
+                Custom Activity
+              </div>
             </div>
           )}
           <div>
-            <div className={styles.subHeading}>
-              <div className={styles.subHeadingTitle}>Activity Note</div>
-            </div>
+            {type === "Triggered" && (
+              <div className={styles.subHeading}>
+                <div className={styles.subHeadingTitle}>Activity Note</div>
+              </div>
+            )}
             <div>
               <TextField
                 sx={{
                   background: "white",
                   border: "1px solid #DFDEDD",
                   borderRadius: "8px",
+                  placeholder: {
+                    color: "red",
+                  },
                 }}
                 hiddenLabel
                 multiline
                 fullWidth
-                rows={4}
+                rows={2}
                 value={note || ""}
                 placeholder="Add a note about this activity"
                 onChange={(e) => {
@@ -72,6 +87,9 @@ export default function ActivityDetails({
                 }}
               />
             </div>
+            {type === "Note" && (
+              <CreatedDate value={activityObj?.createdDate} />
+            )}
           </div>
         </div>
       </Dialog>

@@ -2,54 +2,42 @@ import Dialog from "packages/Dialog";
 import React, { useState } from "react";
 import styles from "./AddNewActivityDialog.module.scss";
 import { Box, TextField } from "@mui/material";
+import ActivitySubjectWithIcon from "./ActivitySubjectWithIcon";
 
-export default function AddNewActivityDialog({ open, onClose, onSave }) {
-  const [title, setTitle] = useState("");
+export default function AddNewActivityDialog({
+  open,
+  onClose,
+  onSave,
+  leadFullName,
+}) {
   const [note, setNote] = useState("");
 
   const renderContent = () => {
     return (
       <div>
-        <div>
-          <div className={styles.subHeading}>Activity Title</div>
-          <div>
-            <TextField
-              sx={{
-                background: "white",
-                border: "1px solid #DFDEDD",
-                borderRadius: "8px",
-              }}
-              hiddenLabel
-              fullWidth
-              rows={2}
-              placeholder="Add a title"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            />
+        <div className={styles.subHeading}>
+          <div className={styles.subHeadingTitle}>
+            <ActivitySubjectWithIcon />
+            Custom Activity
           </div>
         </div>
         <div>
-          <div className={styles.subHeading}>Activity Note</div>
-          <div>
-            <TextField
-              sx={{
-                background: "white",
-                border: "1px solid #DFDEDD",
-                borderRadius: "8px",
-              }}
-              hiddenLabel
-              multiline
-              fullWidth
-              rows={4}
-              placeholder="Add a note about this activity"
-              value={note}
-              onChange={(e) => {
-                setNote(e.target.value);
-              }}
-            />
-          </div>
+          <TextField
+            sx={{
+              background: "white",
+              border: "1px solid #DFDEDD",
+              borderRadius: "8px",
+            }}
+            hiddenLabel
+            multiline
+            fullWidth
+            rows={2}
+            placeholder="Add a note about this activity"
+            value={note}
+            onChange={(e) => {
+              setNote(e.target.value);
+            }}
+          />
         </div>
       </div>
     );
@@ -62,13 +50,14 @@ export default function AddNewActivityDialog({ open, onClose, onSave }) {
         open={open}
         fullWidth={true}
         onSave={() => {
-          onSave(title, note);
+          onSave("Custom Activity", note);
         }}
-        title={"New Note"}
+        title={leadFullName}
         saveText={"Save"}
         onCancel={onClose}
         onClose={onClose}
         maxWidth="sm"
+        disabled={note?.length < 2}
       >
         {renderContent()}
       </Dialog>

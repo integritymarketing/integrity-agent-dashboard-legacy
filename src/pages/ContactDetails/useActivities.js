@@ -178,10 +178,7 @@ const useActivities = ({ getLeadDetails }) => {
 
   const onActivityClick = useCallback(
     (activity) => {
-      if (isCustomActivity(activity) === false) {
-        return setSelectedActivity(activity);
-      }
-      setSelectedActivity(null);
+      return setSelectedActivity(activity);
     },
     [setSelectedActivity]
   );
