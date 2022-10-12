@@ -1,30 +1,42 @@
-@import '../../scss/globalDefines.scss';
+@import "../../scss/globalDefines.scss";
 
 .subSection {
-    .topSection {
+  .topSection {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: $athens-gray;
+    background-color: #e5e8eb;
     padding: 20px;
-    border-radius: 3px;
+    border-radius: 8px;
     flex-wrap: wrap;
     word-break: break-word;
-    
+    color: #434a51;
     Button {
-        margin-top: 10px;
+      margin-top: 10px;
     }
-    }
+  }
 }
 
 .subHeading {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
 
-    .subHeadingTitle {
-        font-weight: bold;
-        display: flex;
-    }
+  .subHeadingTitle {
+    display: flex;
+    color: #002d72;
+    font-size: 20px;
+  }
+}
+
+.date {
+  margin-top: 5px;
+  text-align: end;
+  .day {
+    color: black;
+  }
+  .time {
+    color: #717171;
+  }
 }

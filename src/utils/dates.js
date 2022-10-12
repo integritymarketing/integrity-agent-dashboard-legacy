@@ -1,4 +1,10 @@
-import { parse, parseISO, format, differenceInDays } from "date-fns";
+import {
+  parse,
+  parseISO,
+  format,
+  differenceInDays,
+  intervalToDuration,
+} from "date-fns";
 import moment from "moment";
 import { dateFormatter } from "./dateFormatter";
 
@@ -16,10 +22,10 @@ export const formatServerDate = (dateString) => {
 };
 
 export const isLiveByDate = (goLiveDate = "2022/10/15") => {
-	const now = moment();
-	const result = moment(moment().year() + goLiveDate, 'YYYY/MM/DD');
-	return result.diff(now, 'days') < 0;
-}
+  const now = moment();
+  const result = moment(moment().year() + goLiveDate, "YYYY/MM/DD");
+  return result.diff(now, "days") < 0;
+};
 
 export const formatDate = (dateString, formatString = "MM/dd/yyyy") => {
   const date = new Date(dateString);
@@ -143,3 +149,17 @@ export function getEffectiveDates(planData) {
 
   return { effectiveStartDate, effectiveEndDate };
 }
+
+export const callDuration = (dateLeft, dateRight) => {
+  let dateOne = convertUTCDateToLocalDate(dateLeft);
+  let dateTwo = convertUTCDateToLocalDate(dateRight);
+  const diffTime = intervalToDuration({
+    start: new Date(dateOne),
+    end: new Date(dateTwo),
+  });
+  let { hours, minutes, seconds } = diffTime;
+
+  return `${hours > 9 ? hours : "0" + hours}:${
+    minutes > 9 ? minutes : "0" + minutes
+  }:${seconds > 9 ? seconds : "0" + seconds}`;
+};
