@@ -192,6 +192,10 @@ const App = () => {
                                     component={AuthSigninCallback}
                                   />
                                   <Route
+                                    path="/signin-oidc-sunfire-mobile"
+                                    component={AuthSigninCallback}
+                                  />
+                                  <Route
                                     path="/signout-oidc"
                                     component={AuthSignoutCallback}
                                   />
