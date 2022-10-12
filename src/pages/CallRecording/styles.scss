@@ -1,13 +1,4 @@
-html,
-body {
-	overflow-x: hidden;
-	width: auto;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-	color: #000000;
-    margin: 0;
-    padding: 0;
-}
+
 
 /* General Styles */
 
@@ -80,7 +71,7 @@ body {
 
 /* Header */
 
-header {
+.header-callrecording {
     height: 6rem;
     display: flex;
     flex-direction: flex-row;
@@ -113,7 +104,7 @@ header {
     width: 100%;
     padding: 3rem 0;
 }
-h1 {
+.call-recording-h1 {
     font-size: 60px;
     color: #002d72;
     text-align: center;
@@ -127,10 +118,15 @@ h1 {
     height: 100%;
 }
 
-h2 {
-    font-size: 40px;
+.h2-call-recording {
+    font-size: 40px ;
     color: #002d72;
     text-align: center;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
 }
 
 .cta-button-container {
@@ -138,19 +134,20 @@ h2 {
 }
 
 
-.cta-button {
+.cta-button1 {
 	background-color: #0052ce;
+    cursor: pointer;
 	padding: .8rem 3rem;
     border: 1px solid #0052ce;
 	color: #fff;
-	max-width: 175px;
+	min-width: 175px;
 	border-radius: 0;
 	transition: 0.4s;
     text-decoration: none;
     border-radius: 3px;
     font-size: 24px;
 }
-.cta-button::hover {  
+.cta-button1::hover {  
     background-color: rgba(0, 82, 206, .7);
 }
 
@@ -169,7 +166,7 @@ h2 {
 }
 
 
-footer {
+.call-recording-footer {
     background-color: #f1f6f8;
     padding: 2rem 0;
 }
@@ -186,4 +183,9 @@ footer {
 
 .copyright-container {
     font-size: .8rem;
+}
+
+.paragraph-content {
+    margin: 1rem 0;
+    font-weight: 400;
 }

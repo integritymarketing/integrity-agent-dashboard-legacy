@@ -86,7 +86,7 @@ class PlansService {
     );
 
     if (response.ok) {
-      return response.json();
+      return response;
     }
     throw new Error(response.statusText);
   };
