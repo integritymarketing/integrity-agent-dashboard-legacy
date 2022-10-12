@@ -103,6 +103,7 @@ const CallCenterContent = ({
               </div>
               <div className="modalItemStyle">
                 <FooterButtons
+                  dashBoardModal={true}
                   buttonOne={cancelButton}
                   buttonTwo={
                     isEditingNumber
@@ -233,6 +234,7 @@ const RenderModalItem = ({
 
             <div className="modalItemStyle">
               <FooterButtons
+                dashBoardModal={true}
                 buttonOne={BUTTONS.cancel}
                 buttonTwo={BUTTONS.continue}
               />
@@ -290,6 +292,7 @@ const RenderModalItem = ({
 
             <div className="modalItemStyle">
               <FooterButtons
+                dashBoardModal={true}
                 buttonOne={BUTTONS.cancel}
                 buttonTwo={BUTTONS.continue}
               />
@@ -357,6 +360,7 @@ const RenderModalItem = ({
             {!checkInPreference && (
               <div className="modalItemStyle">
                 <FooterButtons
+                  dashBoardModal={true}
                   buttonOne={BUTTONS.checkOut}
                   buttonTwo={BUTTONS.close}
                 />
