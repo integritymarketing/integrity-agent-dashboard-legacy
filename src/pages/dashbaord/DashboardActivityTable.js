@@ -372,14 +372,13 @@ export default function DashboardActivityTable({
   };
 
   const handleAddActivtyNotes = useCallback(
-    async (activity, activityNote) => {
+    async (activity, activityBody) => {
       const { activityBody, activitySubject, activityId } = activity;
       const leadsId = selectedLead.leadsId;
       const payload = {
         activityBody,
         activitySubject,
         activityId,
-        activityNote,
       };
       try {
         await clientsService.updateActivity(payload, leadsId);

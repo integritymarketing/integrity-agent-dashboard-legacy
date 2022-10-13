@@ -75,7 +75,6 @@ export default function Filter({
           vertical: "top",
           horizontal: "right",
         }}
-        top={0}
       >
         <Box
           sx={{
