@@ -1,0 +1,30 @@
+@import '../../styles/global.scss';
+
+.getStartedSection {
+    align-items: center;
+    background-color: #052a63;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 100px 350px;
+    text-align: center;
+    width: 100%;
+    
+    @include mobileOnly {
+        padding: 4rem;
+    }
+}
+
+.itemsContainer {
+    margin-top: 10px;
+    width: 50%;
+}
+
+.sectionTitle {
+    color: white;
+    text-align: center;
+}
+
+.text {
+    color: white;
+}

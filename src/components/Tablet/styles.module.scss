@@ -1,0 +1,19 @@
+@import '../../styles/global.scss';
+
+.image {
+    position: relative;
+    width: 100%;
+}
+
+.tablet {
+    position: relative;
+}
+
+.website {
+    left: 0;
+    position: absolute;
+    padding-right: 11%;
+    padding-left: 11%;
+    margin-top: 12%;
+    width: 100%;
+}

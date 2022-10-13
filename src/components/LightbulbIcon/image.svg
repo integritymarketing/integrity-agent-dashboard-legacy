@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Isolation Mode" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 24">
+  <defs>
+    <style>
+      .b {
+        fill: none;
+        stroke: #0052ce;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <line class="b" x1="5.5" y1="21.5" x2="9.5" y2="21.5"/>
+  <line class="b" x1="5.5" y1="23.5" x2="9.5" y2="23.5"/>
+  <path class="b" d="M14.5,7.5C14.5,3.59,11.3,.44,7.38,.5,3.73,.56,.64,3.59,.5,7.24c-.09,2.41,1.05,4.56,2.84,5.88,.74,.55,1.15,1.44,1.15,2.36v2.76c0,.8,.45,1.25,1,1.25h4c.55,0,1-.45,1-1v-3.01c0-.91,.39-1.8,1.13-2.34,1.74-1.27,2.87-3.32,2.87-5.65Z"/>
+  <line class="b" x1="7.5" y1="10.5" x2="7.5" y2="19.5"/>
+  <line class="b" x1="5.5" y1="8.5" x2="7.5" y2="10.5"/>
+  <line class="b" x1="9.5" y1="8.5" x2="7.5" y2="10.5"/>
+</svg>

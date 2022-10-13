@@ -1,0 +1,28 @@
+@import '../../styles/global.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+
+    @include tabletAndAbove {
+        gap: 35px;
+        padding: 100px;
+    }
+}
+
+.tablet {
+    width: 100%;
+}
+
+.splitContainer {
+    align-items: center;
+    overflow: hidden;
+}
+
+.splitContentTrailingTabletSection {
+    width: 100%;
+}

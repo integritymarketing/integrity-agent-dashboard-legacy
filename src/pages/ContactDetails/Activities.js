@@ -86,6 +86,7 @@ const Activities = ({ getLeadDetails, leadId }) => {
           onClose={() => {
             setOpen(false);
           }}
+          leadFullName={leadFullName}
           onSave={handleAddNewActivity}
         />
         {editActivity && (
@@ -94,6 +95,7 @@ const Activities = ({ getLeadDetails, leadId }) => {
             onClose={() => {
               setEditActivity(null);
             }}
+            leadFullName={leadFullName}
             onSave={handleEditActivity}
             activity={editActivity}
           />

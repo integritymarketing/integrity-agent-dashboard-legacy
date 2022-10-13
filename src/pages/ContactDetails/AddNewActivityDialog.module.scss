@@ -1,5 +1,12 @@
 .subHeading {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  .subHeadingTitle {
+    display: flex;
+    color: #002d72;
+    font-size: 20px;
   }
+}

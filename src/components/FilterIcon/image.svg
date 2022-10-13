@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.64 24">
+  <defs>
+    <style>
+      .b {
+        fill: none;
+        stroke: #0052ce;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <ellipse class="b" cx="9.32" cy="2.53" rx="8.79" ry="2.03"/>
+  <path class="b" d="M.53,2.53s-.37,3.89,1.69,7.44c2.06,3.55,5.07,4.74,5.07,4.74v8.79l4.06-2.71v-6.09s3.02-1.19,5.07-4.74c2.06-3.55,1.69-7.44,1.69-7.44"/>
+</svg>

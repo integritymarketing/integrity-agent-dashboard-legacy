@@ -17,7 +17,7 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
 }));
 
-export default function FixedRow({ unAssosiatedCallRecord }) {
+export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
   const history = useHistory();
 
   const goTolinkToContact = (callLogId, callFrom) => {
@@ -41,7 +41,7 @@ export default function FixedRow({ unAssosiatedCallRecord }) {
           </strong>
         </Typography>
       </TableCell>
-      <TableCell>
+      <TableCell onClick={() => onSelect(unAssosiatedCallRecord)}>
         {
           <IconWithText
             text={isIncommingCall ? "Incoming Call" : "Inbound Call"}

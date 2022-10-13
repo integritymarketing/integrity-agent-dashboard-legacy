@@ -1,0 +1,35 @@
+@import '../../styles/global.scss';
+
+.footer {
+    background-color: $footerBackgroundColor;
+    color: $inverseTextColor;
+    padding: 60px 0;
+    width: 100%;
+}
+
+.footerLayout {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footerLinks {
+    display: flex;
+    gap: 1rem;
+    padding: 0;
+}
+
+.footerLinks > * {
+    display: inline;
+}
+.footerLinks > *::after {
+    content: ' '; /* 4 */
+    letter-spacing: 1em; /* 5 */
+    background: linear-gradient(
+        90deg,
+        transparent calc(50% - 0.03125em),
+        currentColor 0,
+        currentColor calc(50% + 0.03125em),
+        transparent 0
+    ); /* 6 */
+}

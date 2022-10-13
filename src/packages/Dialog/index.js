@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import {Button} from "../Button";
+import { Button } from "../Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,23 +12,23 @@ import { Divider } from "@mui/material";
 
 const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
   color: theme.palette.dialog.color,
-  fontSize: '24px',
-  fontFamily: 'lato',
-  fontWeight: 'bold',
-  }));
+  fontSize: "24px",
+  fontFamily: "lato",
+  fontWeight: "bold",
+}));
 
 const StyledDialog = styled(MUIDialog)(({ theme }) => ({
-    borderRadius: '5px'
-  }));
+  borderRadius: "8px",
+}));
 
-  const StyledDialogActions = styled(DialogActions)(({ theme }) => ({
-    padding: '1rem',
-    backgroundColor: '#F4F8FB'
-  }));
+const StyledDialogActions = styled(DialogActions)(({ theme }) => ({
+  padding: "1rem",
+  backgroundColor: "#F4F8FB",
+}));
 
-  const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
-    backgroundColor: '#F4F8FB'
-  }));
+const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
+  backgroundColor: "#F4F8FB",
+}));
 
 export default function Dialog(props) {
   const {
@@ -41,11 +41,17 @@ export default function Dialog(props) {
     children,
     onClose,
     fullWidth,
-    maxWidth="xs"
+    maxWidth = "xs",
+    disabled = false,
   } = props;
 
   return (
-    <StyledDialog onClose={onClose} open={open} fullWidth={fullWidth} maxWidth={maxWidth}>
+    <StyledDialog
+      onClose={onClose}
+      open={open}
+      fullWidth={fullWidth}
+      maxWidth={maxWidth}
+    >
       {title && (
         <StyledDialogTitle>
           {title}
@@ -65,7 +71,7 @@ export default function Dialog(props) {
           ) : null}
         </StyledDialogTitle>
       )}
-      <Divider/>
+      <Divider />
       <StyledDialogContent>{children}</StyledDialogContent>
       <StyledDialogActions>
         {cancelText && (
@@ -73,9 +79,11 @@ export default function Dialog(props) {
             {cancelText}
           </Button>
         )}
-        <Button size={"medium"} onClick={onSave}>
-          {saveText}
-        </Button>
+        {(onSave || saveText) && (
+          <Button disabled={disabled} size={"medium"} onClick={onSave}>
+            {saveText}
+          </Button>
+        )}
       </StyledDialogActions>
     </StyledDialog>
   );
@@ -89,5 +97,6 @@ Dialog.propTypes = {
   saveText: PropTypes.string.isRequired,
   cancelText: PropTypes.string,
   title: PropTypes.string,
-  maxWidth: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl'])
+  maxWidth: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),
+  disabled: PropTypes.bool,
 };
