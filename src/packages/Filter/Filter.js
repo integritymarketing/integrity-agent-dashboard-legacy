@@ -17,7 +17,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 const StyledPopover = styled(Popover)(() => ({
   ".MuiPopover-paper": {
     marginTop: "10px",
-    top: "0px"
+    top: "0px !important"
   },
 }));
 
@@ -75,6 +75,7 @@ export default function Filter({
           vertical: "top",
           horizontal: "right",
         }}
+        top={0}
       >
         <Box
           sx={{
