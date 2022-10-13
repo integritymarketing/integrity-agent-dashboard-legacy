@@ -25,7 +25,7 @@ const Welcome = () => {
     const { HERO_TEXT, HERO_TITLE } = useConstants();
 
     return (
-        <>
+        <div className={styles.mainLayout}>
             <Header />
             <SplitContentImageSection>
                 <div className={styles.layout}>
@@ -61,7 +61,7 @@ const Welcome = () => {
 
             <GetStartedSection />
             <Footer />
-        </>
+        </div>
     );
 };
 

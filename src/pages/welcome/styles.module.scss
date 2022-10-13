@@ -1,5 +1,18 @@
+@import 'styles/global.scss';
+
 .impactText {
     grid-column: 1/3;
+}
+
+.mainLayout {
+    align-items: center;
+    display: grid;
+    grid:
+        'header' min-content
+        'content' auto
+        'footer' min-content
+        / auto;
+    height: 100%;
 }
 
 .layout {

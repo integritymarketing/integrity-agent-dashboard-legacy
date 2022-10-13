@@ -9,6 +9,10 @@
     padding: 100px 350px;
     text-align: center;
     width: 100%;
+    
+    @include mobileOnly {
+        padding: 4rem;
+    }
 }
 
 .itemsContainer {
