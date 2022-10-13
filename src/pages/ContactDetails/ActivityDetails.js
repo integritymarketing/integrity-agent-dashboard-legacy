@@ -30,7 +30,9 @@ export default function ActivityDetails({
         onCancel={onClose}
         onClose={onClose}
         maxWidth="sm"
-        disabled={!note || note?.length < 2}
+        disabled={
+          activityObj.activityBody === note || !note || note?.length < 2
+        }
       >
         <div className={styles.subSection}>
           {activityObj && type === "Triggered" && (
@@ -47,7 +49,7 @@ export default function ActivityDetails({
                 {activityObj?.activityBody}
                 <ActivityButtonText activity={activityObj} />
               </div>
-              <CreatedDate value={activityObj?.createdDate} />
+              <CreatedDate value={activityObj?.createDate} />
             </div>
           )}
           {type === "Note" && (
@@ -87,9 +89,7 @@ export default function ActivityDetails({
                 }}
               />
             </div>
-            {type === "Note" && (
-              <CreatedDate value={activityObj?.createdDate} />
-            )}
+            {type === "Note" && <CreatedDate value={activityObj?.createDate} />}
           </div>
         </div>
       </Dialog>
