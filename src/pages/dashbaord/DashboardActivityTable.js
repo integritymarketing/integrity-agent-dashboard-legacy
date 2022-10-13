@@ -375,6 +375,7 @@ export default function DashboardActivityTable({
     async (activity, activityNote) => {
       const { activityBody, activitySubject, activityId } = activity;
       const leadsId = selectedLead.leadsId;
+      console.log("activity", activity)
       const payload = {
         activityBody,
         activitySubject,
