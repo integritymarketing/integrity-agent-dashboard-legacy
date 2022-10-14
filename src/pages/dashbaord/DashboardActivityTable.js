@@ -376,8 +376,6 @@ export default function DashboardActivityTable({
       const { activitySubject, activityId } = activity; 
       const activityBody = activityNote;
       const leadsId = selectedLead.leadsId;
-      console.log("activity", activity)
-      console.log("activityBody", activityBody)
       const payload = {
         activityBody,
         activitySubject,

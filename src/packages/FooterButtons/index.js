@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 
 function FooterButtons({ buttonOne, buttonTwo, dashBoardModal }) {
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.buttons}>
         <Button
           variant="secondary"
