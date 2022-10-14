@@ -17,7 +17,6 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 const StyledPopover = styled(Popover)(() => ({
   ".MuiPopover-paper": {
     marginTop: "10px",
-    top: "0px !important"
   },
 }));
 
@@ -78,8 +77,9 @@ export default function Filter({
       >
         <Box
           sx={{
-            height: "auto",
+            height: "435px",
             width: 388,
+            overflowY: 'scroll',
           }}
         >
           <Box sx={{ py: 3, px: 3, backgroundColor: "#F4F8FB" }}>
