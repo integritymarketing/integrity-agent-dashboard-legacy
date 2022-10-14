@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 
 function FooterButtons({ buttonOne, buttonTwo, dashBoardModal }) {
   return (
-    <>
+    <div>
       <div className={styles.buttons}>
         <Button
           variant="secondary"
@@ -33,7 +33,7 @@ function FooterButtons({ buttonOne, buttonTwo, dashBoardModal }) {
           found on your Account page.
         </p>
       )}
-    </>
+    </div>
   );
 }
 export default FooterButtons;

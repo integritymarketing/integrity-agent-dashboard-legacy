@@ -82,6 +82,8 @@ export default ({ activities, leadId, getLeadDetails }) => {
                           )}
                           {item.activityTypeName === "Note" && <SuccessIcon />}
                         </span>
+                        debugger
+                        {console.log("item", item)}
                         <label>
                           {item.modifyDate
                             ? getForDistance(item.modifyDate)
