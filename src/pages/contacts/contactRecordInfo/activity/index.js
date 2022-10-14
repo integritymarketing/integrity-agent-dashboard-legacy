@@ -63,11 +63,8 @@ export default ({ activities, leadId, getLeadDetails }) => {
         </div>
         <hr className="headerlineseparation" />
         <div className="activityCardbody">
-        {console.log("consactivities", activities)}
           {activities.length > 0 &&
             activities.map((item, index) => {
-              {console.log("consitem", item)}
-              {console.log("consshowSize", showSize)}
               if (index < showSize) {
                 return (
                   <div
@@ -85,8 +82,6 @@ export default ({ activities, leadId, getLeadDetails }) => {
                           )}
                           {item.activityTypeName === "Note" && <SuccessIcon />}
                         </span>
-                        debugger;
-                        {console.log("item", item)}
                         <label>
                           {item.modifyDate
                             ? getForDistance(item.modifyDate)
