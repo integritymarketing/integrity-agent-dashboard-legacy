@@ -17,6 +17,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 const StyledPopover = styled(Popover)(() => ({
   ".MuiPopover-paper": {
     marginTop: "10px",
+    top: "0px !important"
   },
 }));
 
