@@ -51,7 +51,10 @@ export const getMMDDYY = (date) => {
 
 export const convertUTCDateToLocalDate = (date) => {
   if (date) {
-    return moment(date).local();
+    let value = new Date(date);
+    let newDate = new Date(value + "UTC");
+    newDate = newDate?.toString();
+    return newDate;
   }
   Date.now();
 };

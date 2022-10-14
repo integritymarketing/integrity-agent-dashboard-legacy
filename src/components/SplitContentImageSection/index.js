@@ -1,10 +1,7 @@
 import React, { forwardRef } from 'react';
-
-import { SplitContainer } from '@integritymarketing/ui-container-components';
-
 import image from './image.jpg';
-
 import styles from './styles.module.scss';
+import SplitContainer from 'components/SplitContainer';
 
 const SplitContentImageSection = forwardRef(
     ({ altImage = '', children, className = '' }, ref) => (

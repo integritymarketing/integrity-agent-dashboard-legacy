@@ -13,7 +13,7 @@ export default function ActivityDetails({
   activityObj,
   leadFullName,
 }) {
-  const [note, setNote] = useState(activityObj.activityBody);
+  const [note, setNote] = useState(activityObj?.activityBody);
 
   let type = activityObj?.activityTypeName;
   return (
@@ -31,7 +31,7 @@ export default function ActivityDetails({
         onClose={onClose}
         maxWidth="sm"
         disabled={
-          activityObj.activityBody === note || !note || note?.length < 2
+          activityObj?.activityBody === note || !note || note?.length < 2
         }
       >
         <div className={styles.subSection}>
@@ -49,7 +49,13 @@ export default function ActivityDetails({
                 {activityObj?.activityBody}
                 <ActivityButtonText activity={activityObj} />
               </div>
-              <CreatedDate value={activityObj?.createDate} />
+              <CreatedDate
+                value={
+                  activityObj?.modifyDate
+                    ? activityObj?.modifyDate
+                    : activityObj?.createDate
+                }
+              />
             </div>
           )}
           {type === "Note" && (
@@ -89,7 +95,15 @@ export default function ActivityDetails({
                 }}
               />
             </div>
-            {type === "Note" && <CreatedDate value={activityObj?.createDate} />}
+            {type === "Note" && (
+              <CreatedDate
+                value={
+                  activityObj?.modifyDate
+                    ? activityObj?.modifyDate
+                    : activityObj?.createDate
+                }
+              />
+            )}
           </div>
         </div>
       </Dialog>

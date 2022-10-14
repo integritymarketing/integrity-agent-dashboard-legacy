@@ -55,7 +55,7 @@ const Welcome = () => {
 
             <TakeControlSection />
 
-            <TestimonialSection />
+            {false && <TestimonialSection />}
 
             <SmartSecureSection />
 

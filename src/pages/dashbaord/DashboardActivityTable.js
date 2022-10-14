@@ -127,9 +127,10 @@ export default function DashboardActivityTable({
     [pagedData.length, filteredData.length]
   );
 
-  const onShowMore = useCallback(() => setPageSize((ps) => ps + 10), [
-    setPageSize,
-  ]);
+  const onShowMore = useCallback(
+    () => setPageSize((ps) => ps + 10),
+    [setPageSize]
+  );
 
   useEffect(() => {
     setFilteredData([...activityData]);
@@ -201,10 +202,17 @@ export default function DashboardActivityTable({
       {
         id: "date",
         Header: "Date",
-        accessor: (row) => new Date(row?.original?.activities[0]?.createDate),
+        accessor: (row) =>
+          new Date(
+            row?.original?.activities[0]?.modifyDate
+              ? row?.original?.activities[0].modifyDate
+              : row?.original?.activities[0].createDate
+          ),
         Cell: ({ row }) => {
           let date = convertUTCDateToLocalDate(
-            row?.original?.activities[0]?.createDate
+            row?.original?.activities[0]?.modifyDate
+              ? row?.original?.activities[0].modifyDate
+              : row?.original?.activities[0].createDate
           );
           return (
             <Typography color="#434A51" fontSize="16px">
@@ -372,9 +380,8 @@ export default function DashboardActivityTable({
   };
 
   const handleAddActivtyNotes = useCallback(
-    async (activity, activityNote) => {
-      const { activitySubject, activityId } = activity; 
-      const activityBody = activityNote;
+    async (activity, activityBody) => {
+      const { activitySubject, activityId } = activity;
       const leadsId = selectedLead.leadsId;
       const payload = {
         activityBody,
