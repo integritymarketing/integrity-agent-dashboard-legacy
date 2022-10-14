@@ -15,6 +15,17 @@
     }
 }
 
+.splitContainer {
+    display: flex;
+    flex-direction: column;
+
+    @include tabletAndAbove {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
 .image {
     align-self: center;
     flex: 1;

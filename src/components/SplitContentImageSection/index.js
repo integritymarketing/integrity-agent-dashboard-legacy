@@ -1,7 +1,5 @@
 import React, { forwardRef } from 'react';
 
-import { SplitContainer } from '@integritymarketing/ui-container-components';
-
 import image from './image.jpg';
 
 import styles from './styles.module.scss';
@@ -12,11 +10,11 @@ const SplitContentImageSection = forwardRef(
             className={`${className} ${styles.splitContentImageSection}`}
             ref={ref}
         >
-            <SplitContainer>
+            <div className={styles.splitContainer}>
                 <img alt={altImage} className={styles.image} src={image} />
 
                 <div className={styles.container}>{children}</div>
-            </SplitContainer>
+            </div>
         </section>
     )
 );
