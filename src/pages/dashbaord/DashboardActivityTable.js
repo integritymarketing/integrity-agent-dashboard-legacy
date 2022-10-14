@@ -380,9 +380,8 @@ export default function DashboardActivityTable({
   };
 
   const handleAddActivtyNotes = useCallback(
-    async (activity, activityNote) => {
+    async (activity, activityBody) => {
       const { activitySubject, activityId } = activity;
-      const activityBody = activityNote;
       const leadsId = selectedLead.leadsId;
       const payload = {
         activityBody,
