@@ -143,13 +143,12 @@ const useActivities = ({ getLeadDetails }) => {
   );
 
   const handleAddActivtyNotes = useCallback(
-    async (activity, activityNote) => {
-      const { activityBody, activitySubject, activityId } = activity;
+    async (activity, activityBody) => {
+      const { activitySubject, activityId } = activity;
       const payload = {
         activityBody,
         activitySubject,
         activityId,
-        activityNote,
       };
       try {
         await clientsService.updateActivity(payload, leadsId);
