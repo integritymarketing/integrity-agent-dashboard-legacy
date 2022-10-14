@@ -49,7 +49,13 @@ export default function ActivityDetails({
                 {activityObj?.activityBody}
                 <ActivityButtonText activity={activityObj} />
               </div>
-              <CreatedDate value={activityObj?.createDate} />
+              <CreatedDate
+                value={
+                  activityObj?.modifyDate
+                    ? activityObj?.modifyDate
+                    : activityObj?.createDate
+                }
+              />
             </div>
           )}
           {type === "Note" && (
@@ -89,7 +95,15 @@ export default function ActivityDetails({
                 }}
               />
             </div>
-            {type === "Note" && <CreatedDate value={activityObj?.createDate} />}
+            {type === "Note" && (
+              <CreatedDate
+                value={
+                  activityObj?.modifyDate
+                    ? activityObj?.modifyDate
+                    : activityObj?.createDate
+                }
+              />
+            )}
           </div>
         </div>
       </Dialog>

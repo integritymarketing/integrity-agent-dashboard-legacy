@@ -12,7 +12,8 @@ export default function EditActivityDialog({
   activity,
   leadFullName,
 }) {
-  const { activitySubject, activityBody, activityId, createDate } = activity;
+  const { activitySubject, activityBody, activityId, createDate, modifyDate } =
+    activity;
   const [note, setNote] = useState(activityBody);
 
   const renderContent = () => {
@@ -42,7 +43,7 @@ export default function EditActivityDialog({
             }}
           />
         </div>
-        <CreatedDate value={createDate} />
+        <CreatedDate value={modifyDate ? modifyDate : createDate} />
       </div>
     );
   };
