@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
@@ -7,7 +6,6 @@ import plansService from "services/plansService";
 import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import styles from "../../../pages/PlansPage.module.scss";
-import { isLiveByDate } from "utils/dates";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -146,33 +144,15 @@ export default function ComparePlansByPlanName({
                 {!isModal && !isEmail && (
                   <Button
                     onClick={() => handleOnClick(plan)}
-                    label={
-                      isLiveByDate() ||
-                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
-                        ? "Enroll 10/15"
-                        : "Enroll"
-                    }
+                    label={"Enroll"}
                     type="primary"
-                    disabled={
-                      !isLiveByDate() &&
-                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
-                    }
                   />
                 )}
                 {!isModal && isEmail && (
                   <Button
                     onClick={() => handleBenificiaryClick(plan)}
-                    label={
-                      isLiveByDate() ||
-                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
-                        ? "Enroll 10/15"
-                        : "Enroll"
-                    }
+                    label={"Enroll"}
                     type="primary"
-                    disabled={
-                      !isLiveByDate() &&
-                      moment(plan.effectiveStartDate).format("yyyy") === "2023"
-                    }
                   />
                 )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (

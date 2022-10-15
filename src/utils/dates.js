@@ -24,7 +24,7 @@ export const formatServerDate = (dateString) => {
 export const isLiveByDate = (goLiveDate = "2022/10/15") => {
   const now = moment();
   const result = moment(moment().year() + goLiveDate, "YYYY/MM/DD");
-  return result.diff(now, "days") < 0;
+  return result.diff(now, "days") <= 0;
 };
 
 export const formatDate = (dateString, formatString = "MM/dd/yyyy") => {
