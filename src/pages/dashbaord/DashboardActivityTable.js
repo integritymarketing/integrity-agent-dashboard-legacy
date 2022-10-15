@@ -205,14 +205,14 @@ export default function DashboardActivityTable({
         accessor: (row) =>
           new Date(
             row?.original?.activities[0]?.modifyDate
-              ? row?.original?.activities[0].modifyDate
-              : row?.original?.activities[0].createDate
+              ? row?.original?.activities[0]?.modifyDate
+              : row?.original?.activities[0]?.createDate
           ),
         Cell: ({ row }) => {
           let date = convertUTCDateToLocalDate(
             row?.original?.activities[0]?.modifyDate
-              ? row?.original?.activities[0].modifyDate
-              : row?.original?.activities[0].createDate
+              ? row?.original?.activities[0]?.modifyDate
+              : row?.original?.activities[0]?.createDate
           );
           return (
             <Typography color="#434A51" fontSize="16px">
