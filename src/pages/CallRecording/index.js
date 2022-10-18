@@ -84,7 +84,7 @@ export default function index() {
             </p>
           </div>
           <div className="copyright-container col-6 d-flex flex-row align-items-center justify-content-center justify-content-end">
-            <p>©2022 Integrity Marketing Group. All rights reserved.</p>
+            <p>© 2022 Integrity. All rights reserved.</p>
           </div>
         </div>
       </footer>
