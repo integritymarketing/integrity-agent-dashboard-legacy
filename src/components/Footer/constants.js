@@ -1,1 +1,1 @@
-export const creditText = `Ⓒ 2022 Integrity Marketing Group. All rights reserved.`;
+export const creditText = `Ⓒ 2022 Integrity. All rights reserved.`;
