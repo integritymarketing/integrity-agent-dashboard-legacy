@@ -8,7 +8,7 @@ export default () => {
     <footer className="footer-unauthenticated">
       <img className="logo" src={FooterLogo} alt="Medicare Center" />
       <div className="copyright pb-1">
-        ©{currentDate} Integrity Marketing Group, All rights reserved.
+        ©{currentDate} Integrity, All rights reserved.
       </div>
     </footer>
   );
