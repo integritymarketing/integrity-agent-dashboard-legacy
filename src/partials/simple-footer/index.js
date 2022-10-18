@@ -35,7 +35,7 @@ export default ({ className = "", mobileAppLogin, ...props }) => {
         </nav>
         <small className="simple-footer__legal">
           <span>&copy; {new Date().getFullYear()}</span>{" "}
-          <span>Integrity Marketing Group.</span>{" "}
+          <span>Integrity.</span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>
