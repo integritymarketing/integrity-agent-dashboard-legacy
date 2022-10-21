@@ -47,11 +47,9 @@ const filterValuesSelector = selector({
     }));
     return [
       ...new Set(
-        activities
-          .filter((activity) => "Triggered" === activity?.activityTypeName)
-          .map((activity) => {
-            return activity.activitySubject;
-          })
+        activities.map((activity) => {
+          return activity.activitySubject;
+        })
       ),
     ].map((name) => {
       return { name, selected: Boolean(filters[name]) };
