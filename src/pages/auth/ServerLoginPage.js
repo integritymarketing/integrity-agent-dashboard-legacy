@@ -232,7 +232,7 @@ export default () => {
                       Login
                     </button>
                   </div>
-                  {!mobileAppLogin && (
+                  {mobileAppLogin && (
                     <p className="text-sm">
                       {`Need to `}
                       <Link
