@@ -53,10 +53,9 @@ export const convertUTCDateToLocalDate = (date) => {
   if (date) {
     let value = new Date(date);
     let newDate = new Date(value + "UTC");
-    newDate = newDate?.toString();
     return newDate;
   }
-  Date.now();
+  return Date.now();
 };
 
 export const getForDistance = (date) => {

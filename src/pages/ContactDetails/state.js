@@ -47,9 +47,11 @@ const filterValuesSelector = selector({
     }));
     return [
       ...new Set(
-        activities.map((activity) => {
-          return activity.activitySubject;
-        })
+        activities
+          .filter((activity) => "Triggered" === activity?.activityTypeName)
+          .map((activity) => {
+            return activity.activitySubject;
+          })
       ),
     ].map((name) => {
       return { name, selected: Boolean(filters[name]) };
@@ -58,14 +60,15 @@ const filterValuesSelector = selector({
 });
 
 const contactLeadActivitiesSelector = selector({
-  key: 'contactLeadActivitiesSelector',
+  key: "contactLeadActivitiesSelector",
   get: ({ get }) => {
     const contactDetails = get(contactLeadDetailsAtom);
     const sorting = get(activitiesSortingByDateAtom);
-    const {size: pageLimit} = get(activitiesPageLimitAtom);
+    const { size: pageLimit } = get(activitiesPageLimitAtom);
     const filters = get(activitiesFiltersAtom);
 
-    const applyFilter = Object.keys(filters || {}).filter(filter => filters[filter]).length > 0;
+    const applyFilter =
+      Object.keys(filters || {}).filter((filter) => filters[filter]).length > 0;
 
     const activities = (contactDetails?.activities ?? []).map((rec) => ({
       ...rec,
@@ -91,14 +94,14 @@ const contactLeadActivitiesSelector = selector({
 });
 
 const pageHasMoreRowsSelector = selector({
-  key: 'activitieageHasMoreRows',
+  key: "activitieageHasMoreRows",
   get: ({ get }) => {
-    const {size} = get(activitiesPageLimitAtom);
+    const { size } = get(activitiesPageLimitAtom);
     const contactDetails = get(contactLeadDetailsAtom);
-    const noOfActivities = contactDetails?.activities?.length ?? 0
+    const noOfActivities = contactDetails?.activities?.length ?? 0;
     return size < noOfActivities;
-  }
-})
+  },
+});
 
 const state = {
   atoms: {
@@ -112,7 +115,7 @@ const state = {
   selectors: {
     contactLeadActivitiesSelector,
     filterValuesSelector,
-    pageHasMoreRowsSelector
+    pageHasMoreRowsSelector,
   },
 };
 
