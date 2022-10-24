@@ -6,10 +6,8 @@ import { dateFormatter } from "utils/dateFormatter";
 import { TextButton } from "packages/Button";
 import Typography from "@mui/material/Typography";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
-import styles from "./Activities.module.scss";
-/* import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
- */
 import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
+import styles from "./Activities.module.scss";
 
 const initialState = {
   sortBy: [
@@ -130,11 +128,10 @@ export default function ActivitiesTable({
         id: "date",
         Header: "Date",
         accessor: (row) =>
-          new Date(
             row?.original?.modifyDate
               ? row?.original?.modifyDate
               : row?.original?.createDate
-          ),
+          ,
         Cell: ({ row }) => {
           let date = convertUTCDateToLocalDate(
             row?.original?.modifyDate

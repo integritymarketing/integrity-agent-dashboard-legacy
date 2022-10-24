@@ -70,7 +70,7 @@ const contactLeadActivitiesSelector = selector({
 
     const activities = (contactDetails?.activities ?? []).map((rec) => ({
       ...rec,
-      createDate: new Date(rec.createDate),
+      createDate: rec.createDate,
     }));
 
     const leadFullName = `${contactDetails.firstName} ${contactDetails.lastName}`;
