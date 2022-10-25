@@ -40,9 +40,7 @@ export default ({ className = "", mobileAppLogin, loginPage, ...props }) => {
               <img
                 src={MCLogo}
                 alt="Medicare Center Logo"
-                className="mc-img"
               ></img>
-              <b>INTEGRITY</b>
             </span>
           )}
           <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span>{" "}
