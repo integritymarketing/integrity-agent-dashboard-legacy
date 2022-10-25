@@ -19,7 +19,7 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
   const auth = useContext(AuthContext);
-  
+
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default () => {
         new URL(params.get("ReturnUrl")).search
       );
       let clientId = params1.get("client_id");
-      if ( clientId === "AgentMobile"){
+      if (clientId === "AgentMobile") {
         setMobileAppLogin(true);
       }
       if (
@@ -259,7 +259,7 @@ export default () => {
             )}
           </Formik>
         </Container>
-        <SimpleFooter mobileAppLogin={mobileAppLogin} />
+        <SimpleFooter mobileAppLogin={mobileAppLogin} loginPage={true} />
       </div>
     </React.Fragment>
   );
