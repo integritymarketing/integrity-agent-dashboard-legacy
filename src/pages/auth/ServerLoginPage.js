@@ -258,8 +258,8 @@ export default () => {
               </form>
             )}
           </Formik>
-          <SimpleFooter mobileAppLogin={mobileAppLogin} loginPage={true} />
         </Container>
+        <SimpleFooter mobileAppLogin={mobileAppLogin} loginPage={true} />
       </div>
     </React.Fragment>
   );
