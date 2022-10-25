@@ -40,6 +40,7 @@ export default ({ className = "", mobileAppLogin, loginPage, ...props }) => {
               <img
                 src={MCLogo}
                 alt="Medicare Center Logo"
+                className="mc-img"
               ></img>
             </span>
           )}
