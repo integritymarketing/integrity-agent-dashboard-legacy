@@ -1,8 +1,9 @@
 import React from "react";
 import "./index.scss";
 import usePortalUrl from "hooks/usePortalUrl";
+import MCLogo from "images/mc-logo.svg";
 
-export default ({ className = "", mobileAppLogin, ...props }) => {
+export default ({ className = "", mobileAppLogin, loginPage, ...props }) => {
   const portalUrl = usePortalUrl();
   return (
     <footer className={`simple-footer pt-5 ${className}`} {...props}>
@@ -34,8 +35,16 @@ export default ({ className = "", mobileAppLogin, ...props }) => {
           </ul>
         </nav>
         <small className="simple-footer__legal">
-          <span>&copy; {new Date().getFullYear()}</span>{" "}
-          <span>Integrity.</span>{" "}
+          {loginPage && (
+            <span className="integrity-logo">
+              <img
+                src={MCLogo}
+                alt="Medicare Center Logo"
+                className="mc-img"
+              ></img>
+            </span>
+          )}
+          <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>
