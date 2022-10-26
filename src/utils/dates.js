@@ -118,6 +118,19 @@ export const getOverDue = (value) => {
 export const getNextEffectiveDate = (years, month) => {
   const now = new Date();
 
+  const aepSeasonStart = new moment(now).date(15).month("Oct").startOf("day");
+  const aepSeasonEnd = new moment(now).endOf("year");
+
+  if (now >= aepSeasonStart && now <= aepSeasonEnd) {
+    const nextYearJanuary = new moment(now)
+      .add(1, "year")
+      .month("Jan")
+      .date(15)
+      .startOf("day");
+
+    return new Date(nextYearJanuary);
+  }
+
   for (const year of years) {
     if (year === now.getFullYear()) {
       now.setMonth(month || now.getMonth() + 1);

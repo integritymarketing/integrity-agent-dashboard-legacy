@@ -1,5 +1,7 @@
 import React, { useMemo } from "react";
 import { Select } from "components/ui/Select";
+import moment from "moment";
+
 import "./index.scss";
 import "scss/_forms.scss";
 
@@ -8,8 +10,9 @@ export default function EffectiveDateFilter({ years, initialValue, onChange }) {
   const options = useMemo(() => {
     const options = [];
     const now = new Date();
+    const currentMonth = now.getMonth();
     for (const year of years) {
-      var i = year === now.getFullYear() ? now.getMonth() + 1 : 0;
+      var i = year === now.getFullYear() ? currentMonth + 1 : 0;
       while (i < 12) {
         var date = new Date(initialValue);
         date.setMonth(i);
@@ -23,12 +26,27 @@ export default function EffectiveDateFilter({ years, initialValue, onChange }) {
         i++;
       }
     }
-    return process.env.REACT_APP_ADD_JANUARY_MONTH === "show"
-      ? [
-          ...options,
-          { label: "January 2023 ", value: "2023-01-16T03:16:37.005Z" },
-        ]
-      : options;
+
+    const aepSeasonStart = new moment(now).date(15).month("Oct").startOf("day");
+    const aepSeasonEnd = new moment(now).endOf("year");
+
+    if (now >= aepSeasonStart && now <= aepSeasonEnd) {
+      const nextYearJanuary = new moment(now)
+        .add(1, "year")
+        .month("Jan")
+        .date(15)
+        .startOf("day");
+
+      return [
+        ...options,
+        {
+          label: `January ${nextYearJanuary.year()} `,
+          value: nextYearJanuary.toISOString(),
+        },
+      ];
+    }
+
+    return options;
   }, [years, initialValue]);
 
   return (
