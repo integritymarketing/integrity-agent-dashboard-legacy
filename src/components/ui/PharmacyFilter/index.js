@@ -1,10 +1,12 @@
 import React from "react";
+import { SubSection } from "../FilterSection";
 import "./index.scss";
 import "scss/_forms.scss";
-import { SubSection } from "../FilterSection";
-const mailOrder = { name: "Mail Order" };
+
+const RETAIL = { name: "Retail" };
+
 export default function PharmacyFilter({ pharmacies }) {
-  const { address1, city, state, zip, name } = pharmacies[0] || mailOrder;
+  const { address1, city, state, zip, name } = pharmacies[0] || RETAIL;
   return (
     <div className="pharmacy-filter">
       <div className="header">Drug Estimates Based On:</div>
