@@ -141,14 +141,14 @@ export default function ComparePlansByPlanName({
                     <span className={styles["per"]}> / month</span>
                   </span>
                 </div>
-                {!isModal && !isEmail && (
+                {!plan.nonLicensedPlan && !isModal && !isEmail && (
                   <Button
                     onClick={() => handleOnClick(plan)}
                     label={"Enroll"}
                     type="primary"
                   />
                 )}
-                {!isModal && isEmail && (
+                {!plan.nonLicensedPlan && !isModal && isEmail && (
                   <Button
                     onClick={() => handleBenificiaryClick(plan)}
                     label={"Enroll"}
