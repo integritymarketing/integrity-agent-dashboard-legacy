@@ -98,6 +98,7 @@ export default function AddPrescription({
       setFrequency(commonDaysOfSupply);
     }
   }, [dosage]);
+
   const fetchOptions = async (event) => {
     const searchStr = event.target.value;
     setDrugName(() => null);
@@ -135,7 +136,7 @@ export default function AddPrescription({
         quantity: quantity,
         daysOfSupply: frequency,
         ndc: dosage?.referenceNDC,
-        metricQuantity: quantity,
+        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
         selectedPackage: dosagePackage,
       });
       onClose();

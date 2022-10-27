@@ -79,7 +79,7 @@ export default function EditPrescription({
       labelName: dosage?.labelName,
       isDosageLabelNameChanged: dosage?.labelName !==  labelName,
       dosage,
-      metricQuantity: +quantity,
+      metricQuantity: +quantity * (dosagePackage?.commonMetricQuantity ?? 1),
       daysOfSupply: +frequency,
       selectedPackage:
         dosagePackage?.packageId !== item?.dosage?.selectedPackage?.packageId
