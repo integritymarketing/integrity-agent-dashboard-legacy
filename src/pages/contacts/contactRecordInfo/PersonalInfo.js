@@ -24,6 +24,7 @@ import useToast from "hooks/useToast";
 import Close from "components/icons/close";
 
 const NOT_AVAILABLE = "N/A";
+const RECOMMENDATIONS_TAG_NAME = "Recommendations";
 
 function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   const [tagModalOpen, setTagModalOpen] = useState(false);
@@ -92,7 +93,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
   }
   useEffect(() => {
-    const RECOMMENDATIONS_TAG_NAME = "Recommendations";
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
         if (cat.tagCategoryName === RECOMMENDATIONS_TAG_NAME) {
@@ -157,6 +157,8 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   async function handleSaveNewTag(e, tagCategoryId) {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+
+    if (newTagVal === "") return;
 
     if (
       (newTagVal || "").length > 10 ||
@@ -307,7 +309,9 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                   </div>
                   <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
                     {isExpanded ? (
-                      <span className={styles.expandIcons}>-</span>
+                      tg.tagCategoryName !== RECOMMENDATIONS_TAG_NAME ? (
+                        <span className={styles.expandIcons}>-</span>
+                      ) : null
                     ) : (
                       <span className={styles.expandIcons}>+</span>
                     )}
