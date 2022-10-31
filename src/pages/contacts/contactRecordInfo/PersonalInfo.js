@@ -48,7 +48,13 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
         : [...selTagIds, tagId];
     });
   }
-  function handleSaveTags() {
+  async function handleSaveTags(e) {
+    const otherCatId = tagsByCategory?.find(
+      (t) => t.tagCategoryName === "Other"
+    )?.tagCategoryId;
+
+    await handleSaveNewTag(e, otherCatId);
+
     setIsProcessing(true);
     clientsService
       .updateLeadsTags(leadsId, selectedTagsIds)
@@ -160,7 +166,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
           "Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)",
         time: 3000,
       });
-      return;
+      return Promise.reject();
     }
 
     try {
@@ -281,7 +287,21 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             if (!tg.tagCategoryName === "Other" && !tg.tags?.length) {
               return null;
             }
-            const isExpanded = expandedList[tg.tagCategoryId];
+            const isReccommendations = tg.tagCategoryName === "Recommendations";
+            const isExpanded =
+              isReccommendations || expandedList[tg.tagCategoryId];
+            const filterTags = tg.tags?.filter((tg) => {
+              if (!isReccommendations) {
+                return true;
+              }
+
+              return selectedTagsIds.includes(tg.tagId);
+            });
+
+            if (!filterTags.length) {
+              return null;
+            }
+
             return (
               <div>
                 <div className={styles.categoryContainer}>
@@ -299,7 +319,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                 {isExpanded ? (
                   <div>
                     <div className={styles.tagCategoryId}>
-                      {tg.tags?.map((tag) =>
+                      {filterTags.map((tag) =>
                         editingTag?.tag.tagId === tag.tagId ? (
                           <div className={styles.createInputTagContainer}>
                             <input
@@ -320,8 +340,15 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                           </div>
                         ) : (
                           <div
+                            data-disabled={
+                              isReccommendations ? "disabled" : false
+                            }
                             className={styles.tagRow}
-                            onClick={(e) => toggleTagSelection(e, tag.tagId)}
+                            onClick={(e) =>
+                              isReccommendations
+                                ? undefined
+                                : toggleTagSelection(e, tag.tagId)
+                            }
                           >
                             <div className={styles.tagRowText}>
                               <span
@@ -354,7 +381,8 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                               </span>
                             </div>
                             <div>
-                              {selectedTagsIds.includes(tag.tagId) && <Check />}
+                              {(selectedTagsIds.includes(tag.tagId) ||
+                                isReccommendations) && <Check />}
                             </div>
                           </div>
                         )
