@@ -92,10 +92,10 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
   }
   useEffect(() => {
-    const RECOMMENDATION_TAG_ID = 7;
+    const RECOMMENDATIONS_TAG_NAME = "Recommendations";
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
-        if(cat.tagCategoryId === RECOMMENDATION_TAG_ID) {
+        if (cat.tagCategoryName === RECOMMENDATIONS_TAG_NAME) {
           acc[cat.tagCategoryId] = true;
         }
         return acc;
@@ -318,7 +318,10 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                     <div className={styles.tagCategoryId}>
                       {tags.map((tag) =>
                         editingTag?.tag.tagId === tag.tagId ? (
-                          <div key={tag.tagId} className={styles.createInputTagContainer}>
+                          <div
+                            key={tag.tagId}
+                            className={styles.createInputTagContainer}
+                          >
                             <input
                               type="text"
                               value={editingTag.editVal}
