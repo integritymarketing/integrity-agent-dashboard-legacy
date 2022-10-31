@@ -124,15 +124,17 @@
   top: 0;
   left: 0;
   z-index: 999;
-  width: 100%;
+  width: 70%;
   height: 100%;
-  background-color: var(--invert-bg-color);
-  color: var(--invert-text-color);
-  padding: 1rem 1rem 3.25rem;
+  background-color: #0052CEF2;
+  color: #FFFFFF;
+  padding: 10% 10% 10% 10%;
+  margin-left: 20%;
+  font-family: Lato-Regular;
 
   &__header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-top: -0.25rem;
 
@@ -142,17 +144,24 @@
   }
 
   &__links {
-    font-size: 1.25rem;
+    font-size: 20px;
     line-height: (24/20);
     font-weight: 300;
   }
 
+  &__hr {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
   &__hdg {
-    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.67;
+    text-align: center;
   }
 
   > :last-child {
-    margin-top: auto;
+    margin-top: 50px;
   }
 
   @media (min-width: 480px) {
@@ -279,7 +288,7 @@
 }
 .icon {
   height: 20px;
-  margin-right: 5px;
+  margin-right: 6px;
   width: 25px;
 }
 .linkAlignItems {
@@ -339,4 +348,19 @@
     margin-left: 10px;
     margin-right: 10px;
   }
+}
+
+.logoImg {
+  width: 100%;
+
+}
+
+.linkTagMobile {
+  width: 80%;
+  margin: auto;
+}
+.iconImg {
+  height: 20px;
+  margin-right: 10px;
+  width: 25px;
 }

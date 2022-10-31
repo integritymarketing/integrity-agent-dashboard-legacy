@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19" height="21" viewBox="0 0 19 21">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1031" data-name="Rectangle 1031" width="19" height="21" fill="none" stroke="#7aafff" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="icons_Logout" data-name="icons/Logout" transform="translate(-1919 -341)">
+    <g id="icons_Logout-2" data-name="icons/Logout" transform="translate(1919 341)">
+      <g id="Group_2517" data-name="Group 2517">
+        <g id="Group_2516" data-name="Group 2516" clip-path="url(#clip-path)">
+          <path id="Path_3118" data-name="Path 3118" d="M5.272,7.528V2.8A2.328,2.328,0,0,1,7.626.5h8.509a2.328,2.328,0,0,1,2.354,2.3V18.2a2.328,2.328,0,0,1-2.354,2.3H7.626a2.328,2.328,0,0,1-2.354-2.3V13.472" fill="none" stroke="#7aafff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.011"/>
+          <path id="Path_3119" data-name="Path 3119" d="M3.1,12.982.512,10.454,3.1,7.927" fill="none" stroke="#7aafff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.011"/>
+          <line id="Line_917" data-name="Line 917" x1="8.788" transform="translate(0.512 10.454)" fill="none" stroke="#7aafff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.011"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

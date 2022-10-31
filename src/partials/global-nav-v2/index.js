@@ -26,6 +26,11 @@ import useLoading from "hooks/useLoading";
 import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
+import MobileHome from "./assets/icons-Home.svg";
+import MobileContacts from "./assets/icons-Contacts.svg";
+import MobileLogout from "./assets/icons-Logout.svg";
+import MobileAccount from "./assets/icons-Account.svg";
+
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -135,6 +140,117 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     [open, setPhoneAtom]
   );
 
+  const mobileMenuProps = Object.assign(
+    {
+      navOpen,
+      setNavOpen,
+    },
+    auth.isAuthenticated() && !menuHidden
+      ? {
+          primary: [
+            {
+              component: Link,
+              props: {
+                to: "/dashboard",
+                className: analyticsService.clickClass("dashbaord-header"),
+              },
+              label: "Dashboard",
+              img: MobileHome,
+            },
+            {
+              component: Link,
+              props: {
+                to: "/contacts",
+                className: analyticsService.clickClass("contacts-header"),
+              },
+              label: "Contacts",
+              img: MobileContacts,
+            },
+            {
+              component: Link,
+              props: { to: "/account" },
+              label: "Account",
+              img: MobileAccount,
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => auth.logout(),
+              },
+              label: "Sign Out",
+              img: MobileLogout,
+            },
+          ],
+          secondary: [
+            {
+              component: Link,
+              props: {
+                to: "/help",
+              },
+              label: "Need Help?",
+              img: NeedHelp,
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  handleCSGSSO(history, loadingHook);
+                },
+              },
+              label: "CSG APP",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                },
+              },
+              label: "MedicareLINK",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2022",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP 2022",
+            },
+            ...(process.env.REACT_APP_ADD_JANUARY_MONTH === "show"
+              ? [
+                  {
+                    component: "button",
+                    props: {
+                      type: "button",
+                      onClick: () => {
+                        window.open(
+                          process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                            "/external/SamlLogin/2023",
+                          "_blank"
+                        );
+                      },
+                    },
+                    label: "MedicareAPP 2023",
+                  },
+                ]
+              : []),
+          ],
+        }
+      : {
+          primary: [],
+          secondary: [],
+        }
+  );
+
   const menuProps = Object.assign(
     {
       navOpen,
@@ -201,21 +317,24 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               },
               label: "MedicareAPP 2022",
             },
-            ...(process.env.REACT_APP_ADD_JANUARY_MONTH === "show" ? 
-            [{
-              component: "button",
-              props: {
-                type: "button",
-                onClick: () => {
-                  window.open(
-                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                      "/external/SamlLogin/2023",
-                    "_blank"
-                  );
-                },
-              },
-              label: "MedicareAPP 2023",
-            }] : []),
+            ...(process.env.REACT_APP_ADD_JANUARY_MONTH === "show"
+              ? [
+                  {
+                    component: "button",
+                    props: {
+                      type: "button",
+                      onClick: () => {
+                        window.open(
+                          process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                            "/external/SamlLogin/2023",
+                          "_blank"
+                        );
+                      },
+                    },
+                    label: "MedicareAPP 2023",
+                  },
+                ]
+              : []),
             {
               component: "button",
               props: {
@@ -408,7 +527,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             >
               {(matches) => (
                 <React.Fragment>
-                  {matches.small && <SmallFormatMenu {...menuProps} />}
+                  {matches.small && <SmallFormatMenu {...mobileMenuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
                   <MyButton
                     clickButton={clickButton}

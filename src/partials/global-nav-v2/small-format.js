@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import HamburgerIcon from "components/icons/hamburger";
 import ExitIcon from "components/icons/exit";
 import useUserProfile from "hooks/useUserProfile";
+import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
 
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
@@ -36,7 +37,6 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
 
       <nav className={`modal-nav ${navOpen ? "" : "visually-hidden"}`}>
         <div className="modal-nav__header mb-4">
-          <span>Menu</span>
           <button
             className="icon-btn modal-nav__exit-trigger"
             onClick={() => setNavOpen(false)}
@@ -49,28 +49,31 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
           <div className="modal-nav__hdg">
             <span>{userProfile.fullName}</span>
           </div>
+          <hr className="modal-nav__hr"></hr>
           <ul>
             {primary
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
                 const { className = "", ...props } = link.props || {};
                 return (
-                  <li className="mt-3" key={idx}>
+                  <li className="mt-4 ml-3" key={idx}>
+                    
                     <link.component
-                      className={`link link--invert ${className}`}
+                      className={`link link--invert ${className} linkAlignItems`}
                       {...props}
-                    >
+                    >  {link.img && <img src={link.img} alt="linkIcon" className="iconImg"/>}
                       {link.label}
                     </link.component>
                   </li>
                 );
               })}
+              <hr className="modal-nav__hr"></hr>
             {secondary
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
                 const { className = "", ...props } = link.props || {};
                 return (
-                  <li className="mt-3" key={idx}>
+                  <li className="mt-4 ml-2" key={idx}>
                     <link.component
                       className={`link link--invert ${className}`}
                       {...props}
@@ -81,25 +84,12 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
                 );
               })}
           </ul>
+          <hr className="modal-nav__hr"></hr>
+         
+          <img src={MedicareCENTERLogo} alt="linkIcon" className="logoImg" />
+         
         </div>
-        <div className="modal-nav__links modal-nav__links--secondary pt-4">
-          <div className="modal-nav__hdg">Need Help?</div>
-          <ul>
-            <li className="mt-3">
-              <a href="tel:+1-888-818-3760" className="link link--invert">
-                Call Support
-              </a>
-            </li>
-            <li className="mt-3">
-              <a
-                href="mailto:support@medicarecenter.com"
-                className="link link--invert"
-              >
-                Email Support
-              </a>
-            </li>
-          </ul>
-        </div>
+        
       </nav>
     </React.Fragment>
   );
