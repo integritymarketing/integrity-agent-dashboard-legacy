@@ -92,9 +92,12 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
   }
   useEffect(() => {
+    const RECOMMENDATION_TAG_ID = 7;
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
-        acc[cat.tagCategoryId] = true;
+        if(cat.tagCategoryId === RECOMMENDATION_TAG_ID) {
+          acc[cat.tagCategoryId] = true;
+        }
         return acc;
       }, {})
     );
@@ -290,20 +293,14 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             const isReccommendations = tg.tagCategoryName === "Recommendations";
             const isExpanded =
               isReccommendations || expandedList[tg.tagCategoryId];
-            const filterTags = tg.tags?.filter((tg) => {
-              if (!isReccommendations) {
-                return true;
-              }
+            const tags = tg.tags || [];
 
-              return selectedTagsIds.includes(tg.tagId);
-            });
-
-            if (!filterTags.length) {
+            if (!tags.length) {
               return null;
             }
 
             return (
-              <div>
+              <div key={tg.tagCategoryId}>
                 <div className={styles.categoryContainer}>
                   <div className={styles.categoryName}>
                     {tg.tagCategoryName}
@@ -319,9 +316,9 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                 {isExpanded ? (
                   <div>
                     <div className={styles.tagCategoryId}>
-                      {filterTags.map((tag) =>
+                      {tags.map((tag) =>
                         editingTag?.tag.tagId === tag.tagId ? (
-                          <div className={styles.createInputTagContainer}>
+                          <div key={tag.tagId} className={styles.createInputTagContainer}>
                             <input
                               type="text"
                               value={editingTag.editVal}
@@ -340,6 +337,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                           </div>
                         ) : (
                           <div
+                            key={tag.tagId}
                             data-disabled={
                               isReccommendations ? "disabled" : false
                             }
@@ -434,13 +432,13 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
               label="Reset"
               type={"secondary"}
               onClick={handleResetTags}
-              disable={isProcessing}
+              disabled={isProcessing}
             />
             <Button
               label="Apply"
               type={"primary"}
               onClick={handleSaveTags}
-              disable={isProcessing}
+              disabled={isProcessing}
             />
           </div>
         </div>
