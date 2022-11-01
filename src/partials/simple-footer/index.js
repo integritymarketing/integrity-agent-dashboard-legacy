@@ -6,7 +6,7 @@ import MCLogo from "images/mc-logo.svg";
 export default ({ className = "", mobileAppLogin, loginPage, ...props }) => {
   const portalUrl = usePortalUrl();
   return (
-    <footer className={`simple-footer pt-5 ${className}`} {...props}>
+    <footer className={`simple-footer ${className}`} {...props}>
       <div className="simple-footer__content sf-text-center">
         <nav className="simple-footer__links">
           <ul className="divided-hlist">

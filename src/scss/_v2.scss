@@ -31,12 +31,14 @@
     border-right-style: none;
     padding: 45px 2rem;
     max-width: 480px;
+    margin-bottom: 80px;
 
     @media (min-width: 480px) {
       padding: 45px 60px;
       border-radius: 12px;
       border-left-style: solid;
       border-right-style: solid;
+      margin-bottom: initial;
     }
   }
 
