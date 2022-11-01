@@ -127,7 +127,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     setIsShowingCreate(false);
     setNewTagVal("");
   }
-  
+
   function handleToggleExpand(catId) {
     setExpandedList((expList) => ({ ...expList, [catId]: !expList[catId] }));
   }
@@ -296,6 +296,12 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
           </div>
           {tagsByCategory?.map((tg) => {
             if (!tg.tagCategoryName === "Other" && !tg.tags?.length) {
+              return null;
+            }
+            if (
+              tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME &&
+              !leadTags?.some((st) => st.tag.tagId)
+            ) {
               return null;
             }
             const isReccommendations =
