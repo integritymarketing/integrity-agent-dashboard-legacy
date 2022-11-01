@@ -386,8 +386,9 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                               </span>
                             </div>
                             <div>
-                              {(selectedTagsIds.includes(tag.tagId) ||
-                                isReccommendations) && <Check />}
+                              {selectedTagsIds?.includes(tag.tagId) && (
+                                <Check />
+                              )}
                             </div>
                           </div>
                         )
