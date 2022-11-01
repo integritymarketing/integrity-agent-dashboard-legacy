@@ -95,13 +95,17 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   useEffect(() => {
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
-        if (cat.tagCategoryName === RECOMMENDATIONS_TAG_NAME) {
+        if (
+          cat.tagCategoryName === RECOMMENDATIONS_TAG_NAME &&
+          leadTags?.some((st) => st.tag.tagId)
+        ) {
           acc[cat.tagCategoryId] = true;
         }
         return acc;
       }, {})
     );
-  }, [tagsByCategory]);
+  }, [tagsByCategory, leadTags]);
+
   useEffect(() => {
     if (tagModalOpen) {
       fetchTags();
@@ -113,6 +117,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       0
     );
   }, [tagsByCategory]);
+
   function handleClose() {
     if (isProcessing) return;
     setSelectedTagsIds(initialState);
@@ -122,6 +127,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     setIsShowingCreate(false);
     setNewTagVal("");
   }
+  
   function handleToggleExpand(catId) {
     setExpandedList((expList) => ({ ...expList, [catId]: !expList[catId] }));
   }
@@ -292,9 +298,9 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             if (!tg.tagCategoryName === "Other" && !tg.tags?.length) {
               return null;
             }
-            const isReccommendations = tg.tagCategoryName === "Recommendations";
-            const isExpanded =
-              isReccommendations || expandedList[tg.tagCategoryId];
+            const isReccommendations =
+              tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME;
+            const isExpanded = expandedList[tg.tagCategoryId];
             const tags = tg.tags || [];
 
             if (!tags.length) {
@@ -309,9 +315,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                   </div>
                   <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
                     {isExpanded ? (
-                      tg.tagCategoryName !== RECOMMENDATIONS_TAG_NAME ? (
-                        <span className={styles.expandIcons}>-</span>
-                      ) : null
+                      <span className={styles.expandIcons}>-</span>
                     ) : (
                       <span className={styles.expandIcons}>+</span>
                     )}
