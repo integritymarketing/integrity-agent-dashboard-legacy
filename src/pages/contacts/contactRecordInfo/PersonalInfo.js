@@ -97,7 +97,10 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       tagsByCategory.reduce((acc, cat) => {
         if (
           cat.tagCategoryName === RECOMMENDATIONS_TAG_NAME &&
-          leadTags?.some((st) => st.tag.tagId)
+          leadTags?.some(
+            (st) =>
+              st.tag.tagCategory.tagCategoryName === RECOMMENDATIONS_TAG_NAME
+          )
         ) {
           acc[cat.tagCategoryId] = true;
         }
@@ -300,7 +303,11 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             }
             if (
               tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME &&
-              !leadTags?.some((st) => st.tag.tagId)
+              !leadTags?.some(
+                (st) =>
+                  st.tag.tagCategory.tagCategoryName ===
+                  RECOMMENDATIONS_TAG_NAME
+              )
             ) {
               return null;
             }
