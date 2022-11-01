@@ -37,9 +37,6 @@ export default function ActivityButtonText(activity) {
       case "Incoming Call Recorded":
       case "Outbound Call Recorded":
       case "Call Recording":
-      case "Enrollment Submitted":
-        window.open(activityInteractionURL, "_blank");
-        break;
       case "Contact's new call log created":
         window.open(activityInteractionURL, "_blank");
         break;
