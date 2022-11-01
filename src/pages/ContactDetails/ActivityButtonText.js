@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "packages/Button";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import ComparePlansService from "services/comparePlansService";
+import useUserProfile from "hooks/useUserProfile";
 
 const buttonTextByActivity = {
   "Incoming Call": "Link to Contact",
@@ -15,15 +17,13 @@ const buttonTextByActivity = {
 };
 
 export default function ActivityButtonText(activity) {
-  const {
-    activityTypeName,
-    activityInteractionURL,
-    activitySubject,
-  } = activity.activity;
+  const { activityTypeName, activityInteractionURL, activitySubject, leadsId } =
+    activity.activity;
   const history = useHistory();
-  const { contactId: leadsId } = useParams();
+  const userProfile = useUserProfile();
+  const { npn } = userProfile;
 
-  const handleClick = (activitySubject, activityInteractionURL, leadsId) => {
+  const handleClick = async (activitySubject, activityInteractionURL) => {
     switch (activitySubject) {
       case "Scope of Appointment Signed":
       case "Scope of Appointment Completed":
@@ -42,6 +42,20 @@ export default function ActivityButtonText(activity) {
         break;
       case "Contact's new call log created":
         window.open(activityInteractionURL, "_blank");
+        break;
+      case "Enrollment Submitted":
+        let link = await ComparePlansService?.getPdfSource(
+          activityInteractionURL,
+          npn
+        );
+        // Testing ...
+        console.log("PDF SOURCE", link);
+        if (link && link !== "") {
+          window.open(link, "_blank");
+        } else {
+          // Testing ...
+          console.log("NO PDF SOURCE AVAILABLE", link);
+        }
         break;
       default:
         break;
