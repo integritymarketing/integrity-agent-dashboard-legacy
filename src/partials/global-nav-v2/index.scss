@@ -124,7 +124,7 @@
   top: 0;
   left: 0;
   z-index: 999;
-  width: 70%;
+  width: 80%;
   height: 100%;
   background-color: #0052CEF2;
   color: #FFFFFF;
@@ -143,15 +143,15 @@
     }
   }
 
-  &__links {
+  &__link {
     font-size: 20px;
     line-height: (24/20);
     font-weight: 300;
   }
 
   &__hr {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
   &__hdg {

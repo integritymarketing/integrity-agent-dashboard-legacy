@@ -56,26 +56,32 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
               .map((link, idx) => {
                 const { className = "", ...props } = link.props || {};
                 return (
-                  <li className="mt-4 ml-3" key={idx}>
-                    
+                  <li className="mt-3 ml-3" key={idx}>
                     <link.component
-                      className={`link link--invert ${className} linkAlignItems`}
+                      className={`link link--invert modal-nav__link ${className} linkAlignItems`}
                       {...props}
-                    >  {link.img && <img src={link.img} alt="linkIcon" className="iconImg"/>}
+                    >
+                      {link.img && (
+                        <img
+                          src={link.img}
+                          alt="linkIcon"
+                          className="iconImg"
+                        />
+                      )}
                       {link.label}
                     </link.component>
                   </li>
                 );
               })}
-              <hr className="modal-nav__hr"></hr>
+            <hr className="modal-nav__hr"></hr>
             {secondary
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
                 const { className = "", ...props } = link.props || {};
                 return (
-                  <li className="mt-4 ml-2" key={idx}>
+                  <li className="mt-3 ml-2" key={idx}>
                     <link.component
-                      className={`link link--invert ${className}`}
+                      className={`link link--invert modal-nav__link ${className}`}
                       {...props}
                     >
                       {link.label}
@@ -85,11 +91,9 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
               })}
           </ul>
           <hr className="modal-nav__hr"></hr>
-         
+
           <img src={MedicareCENTERLogo} alt="linkIcon" className="logoImg" />
-         
         </div>
-        
       </nav>
     </React.Fragment>
   );
