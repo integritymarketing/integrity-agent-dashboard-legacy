@@ -1,3 +1,5 @@
+import authService from "services/authService";
+
 export const QUOTES_API_VERSION = "v1.0";
 
 class ComparePlansService {
@@ -78,10 +80,12 @@ class ComparePlansService {
   };
 
   getPdfSource = async (URL, agentNPN) => {
-    const response = await this._clientPublicAPIRequest(URL, "GET", {
-      headers: {
+    const user = await authService.getUser();
+    const response = await this._clientPublicAPIRequest(URL, "GET", {},
+    undefined, 
+    {
         AgentNPN: agentNPN,
-      },
+        Authorization: "Bearer " + user.access_token
     });
     return response;
   };
