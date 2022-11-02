@@ -59,7 +59,10 @@ class ComparePlansService {
       },
     };
 
-    const url = path + "?" + new URLSearchParams(query).toString();
+    let url = path;
+    if (query !== null) {
+      url = path + "?" + new URLSearchParams(query).toString();
+    }
 
     if (body) {
       opts.body = JSON.stringify(body);
@@ -81,13 +84,17 @@ class ComparePlansService {
 
   getPdfSource = async (URL, agentNPN) => {
     const user = await authService.getUser();
-    const response = await this._clientPublicAPIRequest(URL, "GET", {},
-    undefined, 
-    {
+    const response = await this._clientPublicAPIRequest(
+      URL,
+      "GET",
+      null,
+      undefined,
+      {
         AgentNPN: agentNPN,
-        Authorization: "Bearer " + user.access_token
-    });
-    return response;
+        Authorization: "Bearer " + user.access_token,
+      }
+    );
+    return response.blob();
   };
 }
 
