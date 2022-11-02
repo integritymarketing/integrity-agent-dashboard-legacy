@@ -34,7 +34,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [expandedList, setExpandedList] = useState({});
   const [serverTags, setServerTags] = useState([]);
-
   const [newTagVal, setNewTagVal] = useState("");
   const [isShowingCreate, setIsShowingCreate] = useState(false);
   const [editingTag, setEditingTag] = useState(null);
@@ -92,6 +91,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
         Sentry.captureException(error);
       });
   }
+
   useEffect(() => {
     setExpandedList(
       tagsByCategory.reduce((acc, cat) => {
@@ -298,7 +298,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
             <div className={styles.tagCount}>{totalTags}</div>
           </div>
           {tagsByCategory?.map((tg) => {
-            if (!tg.tagCategoryName === "Other" && !tg.tags?.length) {
+            if (tg.tagCategoryName !== "Other" && !tg.tags?.length) {
               return null;
             }
             if (
@@ -315,10 +315,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
               tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME;
             const isExpanded = expandedList[tg.tagCategoryId];
             const tags = tg.tags || [];
-
-            if (!tags.length) {
-              return null;
-            }
 
             return (
               <div key={tg.tagCategoryId}>
