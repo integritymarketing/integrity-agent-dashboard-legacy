@@ -76,10 +76,12 @@ class ComparePlansService {
 
     return fetch(path, opts);
   };
-  
+
   getPdfSource = async (URL, agentNPN) => {
     const response = await this._clientPublicAPIRequest(URL, "GET", {
-      AgentNPN: agentNPN,
+      headers: {
+        AgentNPN: agentNPN,
+      },
     });
     return response;
   };
