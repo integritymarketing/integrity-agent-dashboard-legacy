@@ -45,13 +45,12 @@ export default function ActivityButtonText(activity) {
           activityInteractionURL,
           npn
         );
-        // Testing ...
-        console.log("PDF SOURCE", link);
-        if (link && link !== "") {
-          window.open(link, "_blank");
+        var url = await window.URL.createObjectURL(link);
+
+        if (url && url !== "") {
+          window.open(url, "_blank");
         } else {
-          // Testing ...
-          console.log("NO PDF SOURCE AVAILABLE", link);
+          console.log("NO PDF SOURCE AVAILABLE", url);
         }
         break;
       default:
