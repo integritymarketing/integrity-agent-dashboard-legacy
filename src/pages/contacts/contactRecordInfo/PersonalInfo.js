@@ -77,7 +77,15 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
   }
   function handleResetTags() {
-    setSelectedTagsIds([]);
+    debugger
+    const recommendationTagIds = Object.fromEntries(
+      (tagsByCategory
+      .filter(category => category.tagCategoryName === RECOMMENDATIONS_TAG_NAME)?.[0]?.tags ?? [])
+      .map(({tagId}) => [tagId, true])
+    )
+    setSelectedTagsIds((selectedTagIds) => {
+      return selectedTagIds.filter(id => recommendationTagIds[id]);
+    });
   }
 
   function fetchTags() {
