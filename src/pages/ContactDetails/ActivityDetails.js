@@ -16,6 +16,24 @@ export default function ActivityDetails({
   const [note, setNote] = useState(activityObj?.activityBody);
 
   let type = activityObj?.activityTypeName;
+
+  const activityBody_Parser = (data) => {
+    if (!data) return null;
+    let dataParse = data?.split(",");
+    return (
+      <div>
+        {dataParse &&
+          dataParse.map((item, index) => {
+            return (
+              <div className={index > 0 ? "mt-2" : ""} key={index}>
+                {item}
+              </div>
+            );
+          })}
+      </div>
+    );
+  };
+
   return (
     <Box>
       <Dialog
@@ -46,7 +64,7 @@ export default function ActivityDetails({
                 </div>
               </div>
               <div className={styles.topSection}>
-                {activityObj?.activityBody}
+                {activityBody_Parser(activityObj?.activityBody)}
                 <ActivityButtonText activity={activityObj} />
               </div>
               <CreatedDate
