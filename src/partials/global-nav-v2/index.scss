@@ -130,7 +130,7 @@
   color: #FFFFFF;
   padding: 10% 10% 10% 10%;
   margin-left: 20%;
-  font-family: Lato-Regular;
+  font-family: "Lato";
 
   &__header {
     display: flex;
@@ -146,17 +146,17 @@
   &__link {
     font-size: 20px;
     line-height: (24/20);
-    font-weight: 300;
+    font-family: "Lato";
   }
 
   &__hr {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    border: 0.5px solid #7AAFFF;
   }
 
   &__hdg {
     font-size: 16px;
-    line-height: 1.67;
     text-align: center;
   }
 

@@ -31,7 +31,6 @@ import MobileContacts from "./assets/icons-Contacts.svg";
 import MobileLogout from "./assets/icons-Logout.svg";
 import MobileAccount from "./assets/icons-Account.svg";
 
-
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
 
@@ -173,12 +172,11 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               img: MobileAccount,
             },
             {
-              component: "button",
+              component: "Link",
               props: {
-                type: "button",
                 onClick: () => auth.logout(),
               },
-              label: "Sign Out",
+              label: "Sign out",
               img: MobileLogout,
             },
           ],
@@ -192,29 +190,26 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               img: NeedHelp,
             },
             {
-              component: "button",
+              component: "Link",
               props: {
-                type: "button",
                 onClick: () => {
                   handleCSGSSO(history, loadingHook);
                 },
               },
-              label: "CSG APP",
+              label: "CSG App",
             },
             {
-              component: "button",
+              component: "Link",
               props: {
-                type: "button",
                 onClick: () => {
                   window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
                 },
               },
-              label: "MedicareLINK",
+              label: "MedicareLink",
             },
             {
-              component: "button",
+              component: "Link",
               props: {
-                type: "button",
                 onClick: () => {
                   window.open(
                     process.env.REACT_APP_AUTH_AUTHORITY_URL +
@@ -223,14 +218,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   );
                 },
               },
-              label: "MedicareAPP 2022",
+              label: "MedicareApp 2022",
             },
             ...(process.env.REACT_APP_ADD_JANUARY_MONTH === "show"
               ? [
                   {
-                    component: "button",
+                    component: "Link",
                     props: {
-                      type: "button",
                       onClick: () => {
                         window.open(
                           process.env.REACT_APP_AUTH_AUTHORITY_URL +
@@ -239,7 +233,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                         );
                       },
                     },
-                    label: "MedicareAPP 2023",
+                    label: "MedicareApp 2023",
                   },
                 ]
               : []),

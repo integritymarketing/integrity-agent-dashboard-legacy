@@ -3,9 +3,10 @@ import HamburgerIcon from "components/icons/hamburger";
 import ExitIcon from "components/icons/exit";
 import useUserProfile from "hooks/useUserProfile";
 import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
-
+import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
+  console.log("HHH", userProfile?.firstName, userProfile?.lastName);
 
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", navOpen);
@@ -47,7 +48,8 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
         </div>
         <div className="modal-nav__links modal-nav__links--primary">
           <div className="modal-nav__hdg">
-            <span>{userProfile.fullName}</span>
+            {capitalizeFirstLetter(userProfile?.firstName)}{" "}
+            {capitalizeFirstLetter(userProfile?.lastName)}
           </div>
           <hr className="modal-nav__hr"></hr>
           <ul>
