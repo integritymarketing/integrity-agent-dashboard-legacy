@@ -41,31 +41,33 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
   const addToast = useToast();
   function toggleTagSelection(e, tagId) {
     e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+    e.nativeEvent && e.nativeEvent.stopImmediatePropagation();
     setSelectedTagsIds((selTagIds) => {
       return selTagIds.includes(tagId)
         ? selTagIds.filter((id) => id !== tagId)
         : [...selTagIds, tagId];
     });
   }
-  async function handleSaveTags(e) {
+  async function handleSaveTags(e, closeModal = true) {
+    setIsProcessing(true);
+
     const otherCatId = tagsByCategory?.find(
       (t) => t.tagCategoryName === "Other"
     )?.tagCategoryId;
-
-    await handleSaveNewTag(e, otherCatId);
-
-    setIsProcessing(true);
+    const tagId = await handleSaveNewTag(e, otherCatId);
+    toggleTagSelection(e, tagId);
     clientsService
-      .updateLeadsTags(leadsId, selectedTagsIds)
+      .updateLeadsTags(leadsId, [...selectedTagsIds, tagId])
       .then((data) => {
-        setTagModalOpen(false);
-        setIsProcessing(false);
-        onUpdateTags();
-        addToast({
-          type: "success",
-          message: "Successfully Updated the Tags",
-        });
+        if (closeModal) {
+          setTagModalOpen(false);
+          setIsProcessing(false);
+          onUpdateTags();
+          addToast({
+            type: "success",
+            message: "Successfully Updated the Tags",
+          });
+        }
       })
       .catch((error) => {
         setIsProcessing(false);
@@ -77,7 +79,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
   }
   function handleResetTags() {
-    debugger
     const recommendationTagIds = Object.fromEntries(
       (tagsByCategory
       .filter(category => category.tagCategoryName === RECOMMENDATIONS_TAG_NAME)?.[0]?.tags ?? [])
@@ -173,7 +174,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
 
   async function handleSaveNewTag(e, tagCategoryId) {
     e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+    e.nativeEvent && e.nativeEvent.stopImmediatePropagation();
 
     if (newTagVal === "") return;
 
@@ -201,6 +202,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       fetchTags();
       setIsShowingCreate(false);
       setNewTagVal("");
+      return resp?.tagId;
     } catch (e) {
       console.log(e);
       addToast({
@@ -426,7 +428,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                               />
                               <span
                                 onClick={(e) =>
-                                  handleSaveNewTag(e, tg.tagCategoryId)
+                                  handleSaveTags(e, false)
                                 }
                               >
                                 <RoundCheck />
