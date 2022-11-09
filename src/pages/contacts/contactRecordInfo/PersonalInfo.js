@@ -64,6 +64,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
           setIsProcessing(false);
           onUpdateTags();
           addToast({
+            time: 10000,
             type: "success",
             message: "Successfully Updated the Tags",
           });
@@ -73,6 +74,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
         setIsProcessing(false);
         Sentry.captureException(error);
         addToast({
+          time: 10000,
           type: "error",
           message: "Error Updating the Tags",
         });
@@ -184,6 +186,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       !isAlphanumeric(newTagVal || "")
     ) {
       addToast({
+        time: 10000,
         type: "error",
         message:
           "Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)",
@@ -206,6 +209,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     } catch (e) {
       console.log(e);
       addToast({
+        time: 10000,
         type: "error",
         message: "Error creating tag",
       });
@@ -233,6 +237,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
       if (!resp) {
         addToast({
+          time: 10000,
           type: "error",
           message: "Error deleting tag",
         });
@@ -242,6 +247,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     } catch (e) {
       console.log(e);
       addToast({
+        time: 10000,
         type: "error",
         message: "Error deleting tag",
       });
@@ -263,10 +269,10 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       !isAlphanumeric(editingTag.editVal || "")
     ) {
       addToast({
+        time: 10000,
         type: "error",
         message:
           "Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)",
-        time: 3000,
       });
       return;
     }
@@ -284,6 +290,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     } catch (e) {
       console.log(e);
       addToast({
+        time: 10000,
         type: "Error",
         message: "Error saving tag",
       });
