@@ -21,6 +21,7 @@ const PlanResults = ({
   planType,
   setSelectedPlans,
   selectedPlans,
+  setSessionData,
 }) => {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -40,14 +41,15 @@ const PlanResults = ({
           effectiveDate={effectiveDate}
           isMobile={isMobile}
           pharmacyMap={pharmacyMap}
-          onDetailsClick={() =>
+          onDetailsClick={() => {
+            setSessionData();
             history.push(
               `/${leadId}/plan/${plan.id}/${formatDate(
                 effectiveDate,
                 "yyyy-MM-01"
               )}`
-            )
-          }
+            );
+          }}
           onEnrollClick={() => {
             setEnrollingPlan(plan);
             setModalOpen(true);

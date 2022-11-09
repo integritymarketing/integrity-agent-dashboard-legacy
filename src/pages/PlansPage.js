@@ -123,14 +123,14 @@ export default () => {
     plans: initialPlans,
     effectiveDate: initialEffectiveDate,
     planType: initialPlanType,
+    s_options,
   } = jsonStr ? JSON.parse(jsonStr) : {};
-  const initialMonth =
+
+  const initialeffDate =
     showSelected && initialEffectiveDate
-      ? parseInt(initialEffectiveDate?.split("-")?.[1], 10)
-      : null;
-  const initialeffDate = initialMonth
-    ? getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED, initialMonth - 1)
-    : null;
+      ? new Date(initialEffectiveDate)
+      : getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED);
+
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
   const history = useHistory();
   const [contact, setContact] = useState();
@@ -139,13 +139,19 @@ export default () => {
   const [loading, setLoading] = useState(true);
   const [plansLoading, setPlansLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [myAppointedPlans, setMyAppointedPlans] = useState(true);
-  const [section, setSection] = useState("details");
-  const [sort, setSort] = useState(PLAN_SORT_OPTIONS[0].value);
-  const [isEdit, setIsEdit] = useState(false);
-  const [effectiveDate, setEffectiveDate] = useState(
-    initialeffDate || getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED)
+  const [myAppointedPlans, setMyAppointedPlans] = useState(
+    showSelected ? s_options?.s_myAppointedPlans : true
   );
+  const [section, setSection] = useState("details");
+  const [sort, setSort] = useState(
+    showSelected & s_options?.s_sort
+      ? s_options?.s_sort
+      : PLAN_SORT_OPTIONS[0].value
+  );
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [effectiveDate, setEffectiveDate] = useState(initialeffDate);
+
   const [results, setResults] = useState([]);
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
@@ -156,20 +162,17 @@ export default () => {
       return acc;
     }, {})
   );
+
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
-      const [
-        contactData,
-        prescriptionData,
-        providerData,
-        pharmacyData,
-      ] = await Promise.all([
-        clientsService.getContactInfo(id),
-        clientsService.getLeadPrescriptions(id),
-        clientsService.getLeadProviders(id),
-        clientsService.getLeadPharmacies(id),
-      ]);
+      const [contactData, prescriptionData, providerData, pharmacyData] =
+        await Promise.all([
+          clientsService.getContactInfo(id),
+          clientsService.getLeadPrescriptions(id),
+          clientsService.getLeadProviders(id),
+          clientsService.getLeadPharmacies(id),
+        ]);
       setContact(contactData);
       setProviders(providerData.providers);
       setPrescriptions(prescriptionData);
@@ -192,31 +195,39 @@ export default () => {
   const [carrierList, setCarrierList] = useState([]);
   const [subTypeList, setSubTypeList] = useState([]);
   const [pagedResults, setPagedResults] = useState([]);
-  const [carrierFilters, setCarrierFilters] = useState([]);
-  const [policyFilters, setPolicyFilters] = useState([]);
-  const [rebatesFilter, setRebatesFilter] = useState(false);
-  const [specialNeedsFilter, setSpecialNeedsFilter] = useState(false);
+  const [carrierFilters, setCarrierFilters] = useState(
+    showSelected && s_options?.s_carrierFilters
+      ? s_options?.s_carrierFilters
+      : []
+  );
+  const [policyFilters, setPolicyFilters] = useState(
+    showSelected & s_options?.s_policyFilters ? s_options?.s_policyFilters : []
+  );
+  const [rebatesFilter, setRebatesFilter] = useState(
+    showSelected & s_options?.s_rebatesFilter
+      ? s_options?.s_rebatesFilter
+      : false
+  );
+  const [specialNeedsFilter, setSpecialNeedsFilter] = useState(
+    showSelected & s_options?.s_specialNeedsFilter
+      ? s_options?.s_specialNeedsFilter
+      : false
+  );
   const [filtersOpen, setfiltersOpen] = useState(false);
   const [sort_mobile, setSort_mobile] = useState(sort);
   const [planType_mobile, setPlanType_mobile] = useState(planType);
-  const [effectiveDate_mobile, setEffectiveDate_mobile] = useState(
-    effectiveDate
-  );
-  const [myAppointedPlans_mobile, setMyAppointedPlans_mobile] = useState(
-    myAppointedPlans
-  );
-  const [specialNeedsFilter_mobile, setSpecialNeedsFilter_mobile] = useState(
-    specialNeedsFilter
-  );
-  const [rebatesFilter_mobile, setRebatesFilter_mobile] = useState(
-    rebatesFilter
-  );
-  const [policyFilters_mobile, setPolicyFilters_mobile] = useState(
-    policyFilters
-  );
-  const [carrierFilters_mobile, setCarrierFilters_mobile] = useState(
-    carrierFilters
-  );
+  const [effectiveDate_mobile, setEffectiveDate_mobile] =
+    useState(effectiveDate);
+  const [myAppointedPlans_mobile, setMyAppointedPlans_mobile] =
+    useState(myAppointedPlans);
+  const [specialNeedsFilter_mobile, setSpecialNeedsFilter_mobile] =
+    useState(specialNeedsFilter);
+  const [rebatesFilter_mobile, setRebatesFilter_mobile] =
+    useState(rebatesFilter);
+  const [policyFilters_mobile, setPolicyFilters_mobile] =
+    useState(policyFilters);
+  const [carrierFilters_mobile, setCarrierFilters_mobile] =
+    useState(carrierFilters);
 
   const toggleAppointedPlans = (e) => {
     if (isMobile) {
@@ -305,7 +316,9 @@ export default () => {
         setCurrentPage(1);
         setResults(plansData?.medicarePlans);
         const carriers = [
-          ...new Set(plansData?.medicarePlans.map((plan) => plan.marketingName)),
+          ...new Set(
+            plansData?.medicarePlans.map((plan) => plan.marketingName)
+          ),
         ];
         const subTypes = [
           ...new Set(
@@ -331,12 +344,14 @@ export default () => {
     const sortFunction = getSortFunction(sort);
     const resultsList = results || [];
     const carrierGroup =
-      carrierFilters.length > 0
-        ? resultsList.filter((res) => carrierFilters.includes(res.marketingName))
+      carrierFilters?.length > 0
+        ? resultsList?.filter((res) =>
+            carrierFilters?.includes(res.marketingName)
+          )
         : resultsList;
     const policyGroup =
-      policyFilters.length > 0
-        ? carrierGroup.filter((res) => policyFilters.includes(res.planSubType))
+      policyFilters?.length > 0
+        ? carrierGroup.filter((res) => policyFilters?.includes(res.planSubType))
         : carrierGroup;
     const specialNeedsPlans = specialNeedsFilter
       ? [...policyGroup].filter((plan) => plan?.planName.includes("SNP"))
@@ -413,6 +428,28 @@ export default () => {
     setSort(sort_mobile);
     setfiltersOpen(false);
   };
+  let selectedOptions = {
+    s_sort: sort,
+    s_carrierFilters: carrierFilters,
+    s_policyFilters: policyFilters,
+    s_rebatesFilter: rebatesFilter,
+    s_specialNeedsFilter: specialNeedsFilter,
+    s_myAppointedPlans: myAppointedPlans,
+  };
+
+  const setSessionData = () => {
+    let s_effectiveDate = formatDate(effectiveDate, "yyyy-MM-01");
+    let s_plans = results?.filter((plan) => selectedPlans[plan.id]);
+    sessionStorage.setItem(
+      "__plans__",
+      JSON.stringify({
+        plans: s_plans,
+        effectiveDate: s_effectiveDate,
+        planType,
+        s_options: selectedOptions,
+      })
+    );
+  };
 
   const isLoading = loading;
   return (
@@ -439,6 +476,7 @@ export default () => {
                   }
                   setfiltersOpen(false);
                   setIsEdit(false);
+                  window.location = `/plans/${id}?preserveSelected=true`;
                 }}
               />
             )}
@@ -450,6 +488,7 @@ export default () => {
                     contact={contact}
                     isMobile={isMobile}
                     onEditClick={(section) => {
+                      setSessionData();
                       setSection(section);
                       setIsEdit(true);
                     }}
@@ -604,7 +643,7 @@ export default () => {
                         <div className={`${styles["sort-select"]}`}>
                           <Select
                             mobileLabel={<SortIcon />}
-                            initialValue={PLAN_SORT_OPTIONS[0].value}
+                            initialValue={sort}
                             onChange={(value) => setSort(value)}
                             options={PLAN_SORT_OPTIONS}
                             prefix="Sort by: "
@@ -624,6 +663,7 @@ export default () => {
                         planType={planType}
                         selectedPlans={selectedPlans}
                         setSelectedPlans={setSelectedPlans}
+                        setSessionData={setSessionData}
                       />
                       {!plansLoading && filteredPlansCount > 0 && (
                         <>
@@ -660,12 +700,12 @@ export default () => {
           </WithLoader>
           <PlanPageFooter
             leadId={id}
-            planType={planType}
             effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
             plans={results?.filter((plan) => selectedPlans[plan.id])}
             onRemove={(plan) => {
               setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
             }}
+            setSessionData={setSessionData}
           />
         </div>
       </ToastContextProvider>

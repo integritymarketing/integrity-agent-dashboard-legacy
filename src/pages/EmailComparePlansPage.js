@@ -120,14 +120,15 @@ export default (props) => {
 
   const handleRemovePlan = (planId) => {
     setComparePlans((prevPlans) => {
-      const plans = prevPlans.filter((plan) => plan.id !== planId);
-
+      const plansUpdated = prevPlans.filter((plan) => plan.id !== planId);
+      const jsonStr = sessionStorage.getItem("__plans__");
+      const parseStr = jsonStr ? JSON.parse(jsonStr) : {};
       sessionStorage.setItem(
         "__plans__",
-        JSON.stringify({ plans, effectiveDate })
+        JSON.stringify({ ...parseStr, plans: plansUpdated })
       );
 
-      return plans;
+      return plansUpdated;
     });
   };
 

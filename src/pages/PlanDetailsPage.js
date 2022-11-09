@@ -115,7 +115,7 @@ const PlanDetailsPage = () => {
                     label="Back to Plans List"
                     onClick={() => {
                       history.push({
-                        pathname: `/plans/${contactId}`,
+                        pathname: `/plans/${contactId}?preserveSelected=true`,
                         state: { planType: plan?.planType },
                       });
                     }}
