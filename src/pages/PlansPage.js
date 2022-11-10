@@ -144,9 +144,7 @@ export default () => {
   );
   const [section, setSection] = useState("details");
   const [sort, setSort] = useState(
-    showSelected & s_options?.s_sort
-      ? s_options?.s_sort
-      : PLAN_SORT_OPTIONS[0].value
+    showSelected ? s_options?.s_sort : PLAN_SORT_OPTIONS[0].value
   );
 
   const [isEdit, setIsEdit] = useState(false);
@@ -438,19 +436,17 @@ export default () => {
   };
 
   const setSessionData = () => {
-    let s_effectiveDate = formatDate(effectiveDate, "yyyy-MM-01");
     let s_plans = results?.filter((plan) => selectedPlans[plan.id]);
     sessionStorage.setItem(
       "__plans__",
       JSON.stringify({
         plans: s_plans,
-        effectiveDate: s_effectiveDate,
+        effectiveDate: effectiveDate,
         planType,
         s_options: selectedOptions,
       })
     );
   };
-
   const isLoading = loading;
   return (
     <>

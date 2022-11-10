@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
@@ -24,7 +23,6 @@ import analyticsService from "services/analyticsService";
 import { BackToTop } from "components/ui/BackToTop";
 
 const PlanDetailsPage = () => {
-  const history = useHistory();
   const addToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
   const [isMobile, setIsMobile] = useState(false);
@@ -114,10 +112,7 @@ const PlanDetailsPage = () => {
                     icon={<ArrowDown />}
                     label="Back to Plans List"
                     onClick={() => {
-                      history.push({
-                        pathname: `/plans/${contactId}?preserveSelected=true`,
-                        state: { planType: plan?.planType },
-                      });
+                      window.location = `/plans/${contactId}?preserveSelected=true`;
                     }}
                     type="tertiary"
                     className={`${styles["back-button"]}`}
