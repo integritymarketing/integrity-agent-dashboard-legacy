@@ -22,6 +22,8 @@ export default forwardRef((props, ref) => {
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
   const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
+  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
+
   const {
     pharmacies,
     prescriptions,
@@ -303,10 +305,23 @@ export default forwardRef((props, ref) => {
             isLoading={isLoading}
           />
         </div>
-        <DeleteLeadModal
-          leadsId={props?.id}
-          leadName={`${firstName} ${middleName || ""} ${lastName}`}
-        />
+        <div className="deletecontactsection">
+          <button
+            className="del-btn"
+            data-gtm="buttonn-delete-contact"
+            onClick={() => setDeleteModalStatus(true)}
+          >
+            Delete Contact
+          </button>
+        </div>
+        {deleteModalStatus && (
+          <DeleteLeadModal
+            leadsId={props?.id}
+            leadName={`${firstName} ${middleName || ""} ${lastName}`}
+            setDeleteModalStatus={() => setDeleteModalStatus(false)}
+            deleteModalStatus={deleteModalStatus}
+          />
+        )}
       </div>
     </>
   );

@@ -32,6 +32,8 @@ import { convertUTCDateToLocalDate } from "utils/dates";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
 import CallDetails from "./CallDetails";
+import ComparePlansService from "services/comparePlansService";
+import useUserProfile from "hooks/useUserProfile";
 
 const initialState = {
   sortBy: [
@@ -67,6 +69,7 @@ const buttonTextByActivity = {
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
+  "Enrollment Submitted": "View",
 };
 
 const renderButtons = (activity, leadsId, handleClick) => {
@@ -118,6 +121,9 @@ export default function DashboardActivityTable({
   const [selectedCall, setSelectedCall] = useState(null);
   const [selectedLead, setSelectedLead] = useState();
 
+  const userProfile = useUserProfile();
+  const { npn } = userProfile;
+
   const pagedData = useMemo(() => {
     return [...filteredData].splice(0, pageSize);
   }, [pageSize, filteredData]);
@@ -162,7 +168,11 @@ export default function DashboardActivityTable({
     }
   };
 
-  const handleClick = (activitySubject, activityInteractionURL, leadsId) => {
+  const handleClick = async (
+    activitySubject,
+    activityInteractionURL,
+    leadsId
+  ) => {
     switch (activitySubject) {
       case "Scope of Appointment Signed":
       case "Scope of Appointment Completed":
@@ -180,6 +190,19 @@ export default function DashboardActivityTable({
         break;
       case "Contact's new call log created":
         window.open(activityInteractionURL, "_blank");
+        break;
+      case "Enrollment Submitted":
+        let link = await ComparePlansService?.getPdfSource(
+          activityInteractionURL,
+          npn
+        );
+        var url = await window.URL.createObjectURL(link);
+
+        if (url && url !== "") {
+          window.open(url, "_blank");
+        } else {
+          console.log("NO PDF SOURCE AVAILABLE", url);
+        }
         break;
       default:
         break;

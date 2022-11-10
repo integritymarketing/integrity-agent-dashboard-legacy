@@ -6,7 +6,6 @@ import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
-  console.log("HHH", userProfile?.firstName, userProfile?.lastName);
 
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", navOpen);

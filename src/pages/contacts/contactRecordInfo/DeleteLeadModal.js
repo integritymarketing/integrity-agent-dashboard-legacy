@@ -1,13 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Modal from "components/ui/modal";
 import clientsService from "services/clientsService";
 import DeleteLeadContext from "contexts/deleteLead";
 import { useHistory } from "react-router-dom";
 
-export default ({ leadsId, leadName, ...props }) => {
+export default ({
+  leadsId,
+  leadName,
+  setDeleteModalStatus,
+  deleteModalStatus,
+  ...props
+}) => {
   const { setDeleteLeadId, setLeadName } = useContext(DeleteLeadContext);
   const history = useHistory();
-  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
   const deleteLead = async () => {
     await clientsService.deleteClient(leadsId);
@@ -18,7 +23,7 @@ export default ({ leadsId, leadName, ...props }) => {
 
   return (
     <div className="customform">
-      <div className="deletecontactsection">
+      {/* <div className="deletecontactsection">
         <button
           className="del-btn"
           data-gtm="buttonn-delete-contact"
@@ -26,16 +31,13 @@ export default ({ leadsId, leadName, ...props }) => {
         >
           Delete Contact
         </button>
-      </div>
+      </div> */}
       <Modal open={deleteModalStatus} labeledById="dialog_contact_label">
         <div className="customDeletepopup">
           <h3>Delete Contact</h3>
           <p>Are you sure you want to delete this contact? </p>
           <div className="customDeletepopupbtn">
-            <button
-              className="cancelbtn"
-              onClick={() => setDeleteModalStatus(false)}
-            >
+            <button className="cancelbtn" onClick={setDeleteModalStatus}>
               cancel
             </button>
             <button className="deletebtn" onClick={deleteLead}>

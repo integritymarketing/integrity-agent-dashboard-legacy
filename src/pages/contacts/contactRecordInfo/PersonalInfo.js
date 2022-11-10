@@ -22,11 +22,19 @@ import Check from "components/icons/check-blue";
 import { Button } from "components/ui/Button";
 import useToast from "hooks/useToast";
 import Close from "components/icons/close";
+import ConfirmationModal from "packages/ConfirmationModal";
 
 const NOT_AVAILABLE = "N/A";
 const RECOMMENDATIONS_TAG_NAME = "Recommendations";
 
-function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
+function TagsIcon({
+  leadsId,
+  leadTags,
+  onUpdateTags,
+  setConfirmModalOpen,
+  deleteTagFlag,
+  setDeleteTagFlag,
+}) {
   const [tagModalOpen, setTagModalOpen] = useState(false);
   const [tagsByCategory, setTagsByCategory] = useState([]);
   const initialState = leadTags?.map((st) => st.tag.tagId) || [];
@@ -81,13 +89,16 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
   }
   function handleResetTags() {
+    debugger;
     const recommendationTagIds = Object.fromEntries(
-      (tagsByCategory
-      .filter(category => category.tagCategoryName === RECOMMENDATIONS_TAG_NAME)?.[0]?.tags ?? [])
-      .map(({tagId}) => [tagId, true])
-    )
+      (
+        tagsByCategory.filter(
+          (category) => category.tagCategoryName === RECOMMENDATIONS_TAG_NAME
+        )?.[0]?.tags ?? []
+      ).map(({ tagId }) => [tagId, true])
+    );
     setSelectedTagsIds((selectedTagIds) => {
-      return selectedTagIds.filter(id => recommendationTagIds[id]);
+      return selectedTagIds.filter((id) => recommendationTagIds[id]);
     });
   }
 
@@ -226,10 +237,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
     setEditingTag({ ...editingTag, editVal: e.target.value });
   }
 
-  async function handleDeleteTag(e) {
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-
+  async function handleDeleteTag() {
     try {
       const resp = await clientsService.deleteTag({
         tagId: editingTag.tag.tagId,
@@ -256,7 +264,15 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       return selTagIds.filter((id) => id !== editingTag.tag.tagId);
     });
     setEditingTag(null);
+    setDeleteTagFlag(false);
   }
+
+  useEffect(() => {
+    if (deleteTagFlag) {
+      handleDeleteTag();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteTagFlag]);
 
   async function handleSaveEditTag(e) {
     e.stopPropagation();
@@ -295,7 +311,6 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
       });
     }
   }
-
   return (
     <TinyPopover
       onClickOutside={handleClose}
@@ -363,7 +378,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                             />
                             <div className={styles.editActionContainer}>
                               {" "}
-                              <span onClick={(e) => handleDeleteTag(e)}>
+                              <span onClick={() => setConfirmModalOpen(true)}>
                                 <RoundClose />
                               </span>
                               <span onClick={handleSaveEditTag}>
@@ -432,11 +447,7 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags }) {
                                 onChange={(e) => setNewTagVal(e.target.value)}
                                 className={styles.createInpt}
                               />
-                              <span
-                                onClick={(e) =>
-                                  handleSaveTags(e, false)
-                                }
-                              >
+                              <span onClick={(e) => handleSaveTags(e, false)}>
                                 <RoundCheck />
                               </span>
                             </span>
@@ -501,6 +512,8 @@ export default ({
   refreshContactDetails,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [deleteTagFlag, setDeleteTagFlag] = useState(false);
 
   let {
     firstName = "",
@@ -558,7 +571,7 @@ export default ({
           </div>
         </div>
         <div className="nameCardSection2">
-          <div className=" customSelectbox personalInfo">
+          <div className="customSelectbox personalInfo minWidth">
             <label className="text-bold">Stage</label>
             <StageSelect value={statusName} original={personalInfo} />
           </div>
@@ -571,6 +584,9 @@ export default ({
               leadTags={leadTags}
               leadsId={leadsId}
               onUpdateTags={refreshContactDetails}
+              setConfirmModalOpen={setConfirmModalOpen}
+              deleteTagFlag={deleteTagFlag}
+              setDeleteTagFlag={setDeleteTagFlag}
             />
           </div>
           <div className="personalInfo personalInfoCallScriptIcon">
@@ -639,6 +655,18 @@ export default ({
         modalOpen={modalOpen}
         handleClose={() => {
           setModalOpen(false);
+        }}
+      />
+      <ConfirmationModal
+        open={confirmModalOpen}
+        title="Delete Tag"
+        message="Are you sure you want to delete this tag?"
+        cancelHandler={() => {
+          setConfirmModalOpen(false);
+        }}
+        submitHandler={() => {
+          setDeleteTagFlag(true);
+          setConfirmModalOpen(false);
         }}
       />
     </div>
