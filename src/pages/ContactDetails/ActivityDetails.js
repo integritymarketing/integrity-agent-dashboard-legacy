@@ -13,7 +13,7 @@ export default function ActivityDetails({
   activityObj,
   leadFullName,
 }) {
-  const [note, setNote] = useState(activityObj?.activityBody);
+  const [note, setNote] = useState(activityObj?.activityNote);
 
   let type = activityObj?.activityTypeName;
 
@@ -49,7 +49,7 @@ export default function ActivityDetails({
         onClose={onClose}
         maxWidth="sm"
         disabled={
-          activityObj?.activityBody === note || !note || note?.length < 2
+          activityObj?.activityNote === note || !note || note?.length < 2
         }
       >
         <div className={styles.subSection}>

@@ -72,9 +72,9 @@ const useActivities = ({ getLeadDetails }) => {
   );
 
   const handleAddNewActivity = useCallback(
-    async (activitySubject, activityBody) => {
+    async (activitySubject, activityNote) => {
       const payload = {
-        activityBody,
+        activityNote,
         activitySubject,
         leadsId,
         activityTypeId: 0,
@@ -118,9 +118,9 @@ const useActivities = ({ getLeadDetails }) => {
   );
 
   const handleEditActivity = useCallback(
-    async (activityId, activitySubject, activityBody) => {
+    async (activityId, activitySubject, activityNote) => {
       const payload = {
-        activityBody,
+        activityNote,
         activitySubject,
         activityId,
       };
@@ -143,12 +143,13 @@ const useActivities = ({ getLeadDetails }) => {
   );
 
   const handleAddActivtyNotes = useCallback(
-    async (activity, activityBody) => {
-      const { activitySubject, activityId } = activity;
+    async (activity, activityNote) => {
+      const { activitySubject, activityBody, activityId } = activity;
       const payload = {
         activityBody,
         activitySubject,
         activityId,
+        activityNote,
       };
       try {
         await clientsService.updateActivity(payload, leadsId);
