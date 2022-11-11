@@ -12,9 +12,9 @@ export default function EditActivityDialog({
   activity,
   leadFullName,
 }) {
-  const { activitySubject, activityBody, activityId, createDate, modifyDate } =
+  const { activitySubject, activityNote, activityId, createDate, modifyDate } =
     activity;
-  const [note, setNote] = useState(activityBody);
+  const [note, setNote] = useState(activityNote);
 
   const renderContent = () => {
     return (
@@ -61,7 +61,7 @@ export default function EditActivityDialog({
         onCancel={onClose}
         onClose={onClose}
         maxWidth="sm"
-        disabled={activityBody === note || !note || note?.length < 2}
+        disabled={activityNote === note || !note || note?.length < 2}
       >
         {renderContent()}
       </Dialog>

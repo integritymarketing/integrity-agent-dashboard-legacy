@@ -9,6 +9,7 @@ import styles from "./ActivitySubjectWithIcon.module.scss";
 import Reminder from "components/icons/activities/Reminder";
 import SOA from "components/icons/activities/SOA";
 import Share from "components/icons/share";
+import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
 
 export default function ActivitySubjectWithIcon({ activitySubject }) {
   const getIcon = () => {
@@ -28,6 +29,7 @@ export default function ActivitySubjectWithIcon({ activitySubject }) {
       "Scope of Appointment Completed": <SOA />,
       "Plan Shared": <Share />,
       "Contact's new call log created": <CallRecording />,
+      "Enrollment Submitted": <ApplicationSubmitted />,
     };
 
     return icon[activitySubject] || <Activity />;
