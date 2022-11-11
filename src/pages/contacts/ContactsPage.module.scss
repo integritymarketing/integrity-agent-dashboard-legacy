@@ -1231,7 +1231,7 @@ table {
   align-items: center;
 }
 
-.createInpt {
+.createInpt, .errorInput {
   width: 111px;
   height: 38px;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
@@ -1239,6 +1239,10 @@ table {
   border: 1px solid #C7CCD1;
   border-radius: 4px;
   opacity: 1;
+}
+
+.errorInput {
+  border: 1px solid tomato;
 }
 
 .editExistingTagContainer {
@@ -1257,3 +1261,4 @@ table {
     display: none;
   }
 }
+

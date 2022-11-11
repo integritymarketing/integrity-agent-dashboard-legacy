@@ -45,6 +45,7 @@ function TagsIcon({
   const [newTagVal, setNewTagVal] = useState("");
   const [isShowingCreate, setIsShowingCreate] = useState(false);
   const [editingTag, setEditingTag] = useState(null);
+  const [hasError, setHasError] = useState(false);
 
   const addToast = useToast();
   function toggleTagSelection(e, tagId) {
@@ -63,13 +64,17 @@ function TagsIcon({
       (t) => t.tagCategoryName === "Other"
     )?.tagCategoryId;
     const tagId = await handleSaveNewTag(e, otherCatId);
-    toggleTagSelection(e, tagId);
+    const tagIds = selectedTagsIds;
+    if (tagId) {
+      toggleTagSelection(e, tagId);
+      tagIds.push(tagId);
+    }
     clientsService
-      .updateLeadsTags(leadsId, [...selectedTagsIds, tagId])
+      .updateLeadsTags(leadsId, tagIds)
       .then((data) => {
+        setIsProcessing(false);
         if (closeModal) {
           setTagModalOpen(false);
-          setIsProcessing(false);
           onUpdateTags();
           addToast({
             time: 10000,
@@ -89,7 +94,6 @@ function TagsIcon({
       });
   }
   function handleResetTags() {
-    debugger;
     const recommendationTagIds = Object.fromEntries(
       (
         tagsByCategory.filter(
@@ -196,6 +200,7 @@ function TagsIcon({
       (newTagVal || "").length < 2 ||
       !isAlphanumeric(newTagVal || "")
     ) {
+      setHasError(true);
       addToast({
         time: 10000,
         type: "error",
@@ -215,6 +220,7 @@ function TagsIcon({
       fetchTags();
       setIsShowingCreate(false);
       setNewTagVal("");
+      setHasError(false);
       return resp?.tagId;
     } catch (e) {
       console.log(e);
@@ -283,6 +289,7 @@ function TagsIcon({
       (editingTag.editVal || "").length < 2 ||
       !isAlphanumeric(editingTag.editVal || "")
     ) {
+      setHasError(true);
       addToast({
         time: 10000,
         type: "error",
@@ -302,6 +309,7 @@ function TagsIcon({
       console.log({ resp });
       fetchTags();
       setEditingTag(null);
+      setHasError(false);
     } catch (e) {
       console.log(e);
       addToast({
@@ -311,6 +319,18 @@ function TagsIcon({
       });
     }
   }
+
+  function handleOnChangeTag(e) {
+    setIsProcessing(false);
+    const newTagVal = e.target.value;
+    setNewTagVal(newTagVal);
+    setHasError(
+      (newTagVal || "").length > 10 ||
+        (newTagVal || "").length < 2 ||
+        !isAlphanumeric(newTagVal || "")
+    );
+  }
+
   return (
     <TinyPopover
       onClickOutside={handleClose}
@@ -320,7 +340,11 @@ function TagsIcon({
         <div className={styles.tagsModal}>
           <div
             onClick={handleClose}
-            style={{ display: "flex", justifyContent: "flex-end" }}
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              cursor: "pointer",
+            }}
           >
             <Close />
           </div>
@@ -374,7 +398,11 @@ function TagsIcon({
                               type="text"
                               value={editingTag.editVal}
                               onChange={handleChangeEdittagVal}
-                              className={styles.createInpt}
+                              className={[
+                                hasError
+                                  ? styles.errorInput
+                                  : styles.createInpt,
+                              ]}
                             />
                             <div className={styles.editActionContainer}>
                               {" "}
@@ -444,8 +472,12 @@ function TagsIcon({
                               <input
                                 type="text"
                                 value={newTagVal}
-                                onChange={(e) => setNewTagVal(e.target.value)}
-                                className={styles.createInpt}
+                                onChange={handleOnChangeTag}
+                                className={[
+                                  hasError
+                                    ? styles.errorInput
+                                    : styles.createInpt,
+                                ]}
                               />
                               <span onClick={(e) => handleSaveTags(e, false)}>
                                 <RoundCheck />
