@@ -69,7 +69,7 @@ const buttonTextByActivity = {
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View PLans",
-  "Enrollment Submitted": "View",
+  "Application Submitted": "View",
 };
 
 const renderButtons = (activity, leadsId, handleClick) => {
@@ -191,7 +191,7 @@ export default function DashboardActivityTable({
       case "Contact's new call log created":
         window.open(activityInteractionURL, "_blank");
         break;
-      case "Enrollment Submitted":
+      case "Application Submitted":
         let link = await ComparePlansService?.getPdfSource(
           activityInteractionURL,
           npn

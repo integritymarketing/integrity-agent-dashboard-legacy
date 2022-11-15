@@ -23,7 +23,7 @@ function findPlanData({ planData, isPreffered = false, isRetail = true }) {
           ) {
             if (copay.costType === 1) {
               values.push({
-                name: tier.tierDescription,
+                name: labelMap[tier.tierNumber],
                 value: (
                   <>
                     <div className={"copay"}>
@@ -39,7 +39,7 @@ function findPlanData({ planData, isPreffered = false, isRetail = true }) {
               });
             } else if (copay.costType === 2) {
               values.push({
-                name: tier.tierDescription,
+                name: labelMap[tier.tierNumber],
                 value: (
                   <>
                     <div className={"copay"}>
@@ -112,7 +112,7 @@ export function RetailPharmacyCoverage({
         ?.value,
       [`plan-1`]: planCoverageValues[1]?.find(({ name }) => name === tierName)
         ?.value,
-      [`plan-2`]: planCoverageValues[3]?.find(({ name }) => name === tierName)
+      [`plan-2`]: planCoverageValues[2]?.find(({ name }) => name === tierName)
         ?.value,
     };
   });

@@ -18,7 +18,7 @@ export default function ActivityButtonIcon({ activitySubject }) {
       "Scope of Appointment Signed": <SOACOMPLETE />,
       "Scope of Appointment Completed": <SOAVIEW />,
       "Plan Shared": <VIEWPLANS />,
-      "Enrollment Submitted": <VIEWPLANS />,
+      "Application Submitted": <VIEWPLANS />,
     };
 
     return icon[activitySubject] || null;

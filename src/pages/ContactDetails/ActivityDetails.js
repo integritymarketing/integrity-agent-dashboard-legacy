@@ -5,6 +5,7 @@ import Dialog from "packages/Dialog";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
 import CreatedDate from "./CreatedDate";
+import { formatPhoneNumber } from "utils/phones";
 
 export default function ActivityDetails({
   open,
@@ -17,16 +18,26 @@ export default function ActivityDetails({
 
   let type = activityObj?.activityTypeName;
 
+  const callRecordFormat = (item) => {
+    if (!item) return null;
+    let itemParse = item?.split(":");
+    let itemFormat =
+      itemParse?.length > 0 ? formatPhoneNumber(itemParse[1], true) : "-";
+    return itemFormat;
+  };
+
   const activityBody_Parser = (data) => {
     if (!data) return null;
     let dataParse = data?.split(",");
     return (
-      <div>
+      <div className={styles.parsedBody}>
         {dataParse &&
           dataParse.map((item, index) => {
             return (
               <div className={index > 0 ? "mt-2" : ""} key={index}>
-                {item}
+                {item.includes("Call recorded to")
+                  ? `Call recorded to :  ${callRecordFormat(item)}`
+                  : item}
               </div>
             );
           })}

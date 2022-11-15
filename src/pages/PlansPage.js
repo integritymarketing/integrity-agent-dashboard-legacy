@@ -199,15 +199,15 @@ export default () => {
       : []
   );
   const [policyFilters, setPolicyFilters] = useState(
-    showSelected & s_options?.s_policyFilters ? s_options?.s_policyFilters : []
+    showSelected && s_options?.s_policyFilters ? s_options?.s_policyFilters : []
   );
   const [rebatesFilter, setRebatesFilter] = useState(
-    showSelected & s_options?.s_rebatesFilter
+    showSelected && s_options?.s_rebatesFilter
       ? s_options?.s_rebatesFilter
       : false
   );
   const [specialNeedsFilter, setSpecialNeedsFilter] = useState(
-    showSelected & s_options?.s_specialNeedsFilter
+    showSelected && s_options?.s_specialNeedsFilter
       ? s_options?.s_specialNeedsFilter
       : false
   );
