@@ -144,6 +144,7 @@ export default (props) => {
       handleRemovePlan,
       id,
       plansLoading,
+      contactData,
     };
   };
 

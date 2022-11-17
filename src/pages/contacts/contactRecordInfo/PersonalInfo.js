@@ -239,8 +239,15 @@ function TagsIcon({
     setEditingTag({ tagCategoryId, tag, editVal: tag.tagLabel });
   }
 
-  function handleChangeEdittagVal(e) {
-    setEditingTag({ ...editingTag, editVal: e.target.value });
+  function handleChangeEditTagVal(e) {
+    setIsProcessing(true);
+    let tagValue = e.target.value;
+    setEditingTag({ ...editingTag, editVal: tagValue });
+    setHasError(
+      (tagValue || "").length > 10 ||
+        (tagValue || "").length < 2 ||
+        !isAlphanumeric(tagValue || "")
+    );
   }
 
   async function handleDeleteTag() {
@@ -397,7 +404,7 @@ function TagsIcon({
                             <input
                               type="text"
                               value={editingTag.editVal}
-                              onChange={handleChangeEdittagVal}
+                              onChange={handleChangeEditTagVal}
                               className={[
                                 hasError
                                   ? styles.errorInput

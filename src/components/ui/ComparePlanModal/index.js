@@ -35,7 +35,8 @@ export const __formatPhoneNumber = (phoneNumberString) => {
   return originalInput;
 };
 
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default ({
   modalOpen,
@@ -57,6 +58,8 @@ export default ({
     leadsId,
     addresses,
     agentNpn,
+    middleName,
+    birthdate,
   } = contactData;
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
@@ -112,13 +115,13 @@ export default ({
     setSelectLabel("email");
     handleCloseModal();
   };
-
   const handleShareComparePlans = async () => {
     const agentFirstName = user?.firstName;
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
     const agentPhoneNumber = user?.phone;
     const zipCode = addresses[0]?.postalCode;
+    const stateCode = addresses[0]?.stateCode;
     const countyFIPS = addresses[0]?.countyFips;
     const urlPathName = window.location.pathname;
     const origin = window.location.origin;
@@ -135,7 +138,10 @@ export default ({
         leadId: `${leadsId}`,
         agentNpn,
         zipCode,
+        stateCode,
         countyFIPS,
+        middleInitial: middleName === "" ? null : middleName,
+        dateOfBirth: birthdate,
       };
       if (selectOption === "email") {
         const data = {
@@ -226,6 +232,7 @@ export default ({
                     id={id}
                     plansLoading={plansLoading}
                     isModal={true}
+                    contactData={contactData}
                   />
                 </div>
                 <div className={"shareplan-label"}>

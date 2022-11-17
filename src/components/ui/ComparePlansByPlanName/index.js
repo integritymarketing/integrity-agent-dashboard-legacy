@@ -24,20 +24,21 @@ export default function ComparePlansByPlanName({
   plansLoading,
   isEmail = false,
   isModal = false,
+  contactData,
 }) {
   const addToast = useToast();
-  const [contactData, setContactData] = useState({});
+  const [userData, setUserData] = useState(contactData);
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
   useEffect(() => {
-    if (!agentInfo?.LeadId) {
+    if (!userData && id) {
       const getContactInfo = async () => {
         const contactDataResponse = await clientsService.getContactInfo(id);
-        setContactData(contactDataResponse);
+        setUserData(contactDataResponse);
       };
       getContactInfo();
     }
-  }, [id, agentInfo]);
+  }, [id, userData]);
 
   const handleOnClick = (plan) => {
     setEnrollingPlan(plan);
@@ -59,6 +60,9 @@ export default function ComparePlansByPlanName({
             phoneNumber: agentInfo?.AgentPhoneNumber,
             email: agentInfo?.AgentEmail,
             sendToBeneficiary: true,
+            middleInitial: agentInfo?.MiddleInitial,
+            dateOfBirth: agentInfo?.DateOfBirth,
+            stateCode: agentInfo?.State,
           },
         },
         agentInfo.AgentNpn
@@ -183,7 +187,7 @@ export default function ComparePlansByPlanName({
       <EnrollmentModal
         modalOpen={modalOpen}
         planData={enrollingPlan}
-        contact={contactData}
+        contact={userData}
         handleCloseModal={() => setModalOpen(false)}
       />
     </div>
