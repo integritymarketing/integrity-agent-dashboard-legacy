@@ -53,14 +53,13 @@ export default function ComparePlansByPlanName({
         {
           enrollRequest: {
             firstName: agentInfo?.LeadFirstName,
-            middleInitial: "",
             lastName: agentInfo?.LeadLastName,
             zip: agentInfo?.ZipCode,
             countyFIPS: agentInfo?.CountyFIPS,
             phoneNumber: agentInfo?.AgentPhoneNumber,
             email: agentInfo?.AgentEmail,
             sendToBeneficiary: true,
-            middleInitial: agentInfo?.MiddleInitial,
+            middleInitial: agentInfo?.MiddleInitial === "" ? null : middleInitial,
             dateOfBirth: agentInfo?.DateOfBirth,
             stateCode: agentInfo?.State,
           },
