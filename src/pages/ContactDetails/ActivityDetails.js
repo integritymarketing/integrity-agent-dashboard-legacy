@@ -80,7 +80,7 @@ export default function ActivityDetails({
               </div>
               <CreatedDate
                 value={
-                  activityObj?.modifyDate
+                  type === "Note" && activityObj?.modifyDate
                     ? activityObj?.modifyDate
                     : activityObj?.createDate
                 }
@@ -127,7 +127,7 @@ export default function ActivityDetails({
             {type === "Note" && (
               <CreatedDate
                 value={
-                  activityObj?.modifyDate
+                  type === "Note" && activityObj?.modifyDate
                     ? activityObj?.modifyDate
                     : activityObj?.createDate
                 }
