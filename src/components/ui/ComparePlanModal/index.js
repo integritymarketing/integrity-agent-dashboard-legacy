@@ -138,7 +138,7 @@ export default ({
         leadId: `${leadsId}`,
         agentNpn,
         zipCode,
-        stateCode,
+        state: stateCode,
         countyFIPS,
         middleInitial: middleName === "" ? null : middleName,
         dateOfBirth: birthdate,
