@@ -59,9 +59,10 @@ export default function ComparePlansByPlanName({
             phoneNumber: agentInfo?.AgentPhoneNumber,
             email: agentInfo?.AgentEmail,
             sendToBeneficiary: true,
-            middleInitial: agentInfo?.MiddleInitial === "" ? null : agentInfo.MiddleInitial,
+            middleInitial:
+              agentInfo?.MiddleInitial === "" ? null : agentInfo.MiddleInitial,
             dateOfBirth: agentInfo?.DateOfBirth,
-            stateCode: agentInfo?.State,
+            state: agentInfo?.State,
           },
         },
         agentInfo.AgentNpn
