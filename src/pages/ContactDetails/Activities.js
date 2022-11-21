@@ -107,6 +107,7 @@ const Activities = ({ getLeadDetails, leadId }) => {
             onClose={() => setSelectedActivity(null)}
             leadFullName={leadFullName}
             activityObj={selectedActivity}
+            leadsId={leadId}
           />
         )}
       </div>
