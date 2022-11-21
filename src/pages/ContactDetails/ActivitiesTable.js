@@ -97,6 +97,8 @@ export default function ActivitiesTable({
 
   const handleClick = useCallback(
     (activitySubject, activityInteractionURL) => {
+      const splitViewPlansURL = activityInteractionURL.split("/");
+
       switch (activitySubject) {
         case "Scope of Appointment Signed":
         case "Scope of Appointment Completed":
@@ -105,7 +107,9 @@ export default function ActivitiesTable({
           );
           break;
         case "Plan Shared":
-          // TODO : change it with plan interaction URL
+          history.push(
+            `/plans/${leadId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
+          );
           break;
         case "Call Recording":
         case "Incoming Call Recorded":
@@ -128,10 +132,9 @@ export default function ActivitiesTable({
         id: "date",
         Header: "Date",
         accessor: (row) =>
-            row?.original?.modifyDate
-              ? row?.original?.modifyDate
-              : row?.original?.createDate
-          ,
+          row?.original?.modifyDate
+            ? row?.original?.modifyDate
+            : row?.original?.createDate,
         Cell: ({ row }) => {
           let date = convertUTCDateToLocalDate(
             row?.original?.modifyDate

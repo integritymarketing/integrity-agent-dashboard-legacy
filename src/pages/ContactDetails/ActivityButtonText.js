@@ -22,7 +22,7 @@ export default function ActivityButtonText(activity) {
   const history = useHistory();
   const userProfile = useUserProfile();
   const { npn } = userProfile;
-
+  const splitViewPlansURL = activityInteractionURL.split("/");
   const handleClick = async (activitySubject, activityInteractionURL) => {
     switch (activitySubject) {
       case "Scope of Appointment Signed":
@@ -32,7 +32,9 @@ export default function ActivityButtonText(activity) {
         );
         break;
       case "Plan Shared":
-        // TODO : change it with plan interaction URL
+        history.push(
+          `/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
+        );
         break;
       case "Incoming Call Recorded":
       case "Outbound Call Recorded":

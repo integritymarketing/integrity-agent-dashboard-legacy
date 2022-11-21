@@ -173,6 +173,7 @@ export default function DashboardActivityTable({
     activityInteractionURL,
     leadsId
   ) => {
+    const splitViewPlansURL = activityInteractionURL.split("/");
     switch (activitySubject) {
       case "Scope of Appointment Signed":
       case "Scope of Appointment Completed":
@@ -181,7 +182,9 @@ export default function DashboardActivityTable({
         );
         break;
       case "Plan Shared":
-        // TODO : change it with plan interaction URL
+        history.push(
+          `/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
+        );
         break;
       case "Call Recording":
       case "Incoming Call Recorded":

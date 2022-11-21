@@ -2,13 +2,11 @@ import React from "react";
 import Activity from "components/icons/activities/Activity";
 import List from "components/icons/activities/List";
 import CallRecording from "components/icons/activities/CallRecording";
-
 import ContactUpdated from "components/icons/activities/Contacts";
-
 import styles from "./ActivitySubjectWithIcon.module.scss";
 import Reminder from "components/icons/activities/Reminder";
 import SOA from "components/icons/activities/SOA";
-import Share from "components/icons/share";
+import Share from "components/icons/activities/PlansShared";
 import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
 
 export default function ActivitySubjectWithIcon({ activitySubject }) {
