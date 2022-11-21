@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./ActivityDetails.module.scss";
 import { Box, TextField } from "@mui/material";
 import Dialog from "packages/Dialog";
-import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
 import CreatedDate from "./CreatedDate";
 import { formatPhoneNumber } from "utils/phones";
@@ -54,7 +53,7 @@ export default function ActivityDetails({
         onSave={() => {
           onSave(activityObj, note);
         }}
-        title={leadFullName}
+        title={activityObj?.activitySubject}
         saveText={"Save"}
         onCancel={onClose}
         onClose={onClose}
@@ -64,39 +63,26 @@ export default function ActivityDetails({
         }
       >
         <div className={styles.subSection}>
-          {activityObj && type === "Triggered" && (
-            <div>
-              <div className={styles.subHeading}>
-                <div className={styles.subHeadingTitle}>
-                  <ActivitySubjectWithIcon
-                    activitySubject={activityObj?.activitySubject}
-                  />
-                  {activityObj?.activitySubject}
-                </div>
-              </div>
-              <div className={styles.topSection}>
-                {activityBody_Parser(activityObj?.activityBody)}
-                <ActivityButtonText activity={activityObj} />
-              </div>
-              <CreatedDate
-                value={
-                  type === "Note" && activityObj?.modifyDate
-                    ? activityObj?.modifyDate
-                    : activityObj?.createDate
-                }
-              />
-            </div>
-          )}
-          {type === "Note" && (
+          <div>
             <div className={styles.subHeading}>
-              <div className={styles.subHeadingTitle}>
-                <ActivitySubjectWithIcon
-                  activitySubject={activityObj?.activitySubject}
-                />
-                Custom Activity
-              </div>
+              <div className={styles.subHeadingTitle}>{leadFullName}</div>
             </div>
-          )}
+            {activityObj && type === "Triggered" && (
+              <>
+                <div className={styles.topSection}>
+                  {activityBody_Parser(activityObj?.activityBody)}
+                  <ActivityButtonText activity={activityObj} />
+                </div>
+                <CreatedDate
+                  value={
+                    type === "Note" && activityObj?.modifyDate
+                      ? activityObj?.modifyDate
+                      : activityObj?.createDate
+                  }
+                />
+              </>
+            )}
+          </div>
           <div>
             {type === "Triggered" && (
               <div className={styles.subHeading}>
@@ -127,7 +113,7 @@ export default function ActivityDetails({
             {type === "Note" && (
               <CreatedDate
                 value={
-                  type === "Note" && activityObj?.modifyDate
+                  activityObj?.modifyDate
                     ? activityObj?.modifyDate
                     : activityObj?.createDate
                 }

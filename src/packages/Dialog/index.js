@@ -1,6 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { Button } from "../Button";
+import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,7 +9,7 @@ import MUIDialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/system";
-import { Divider } from "@mui/material";
+import { Divider, Box } from "@mui/material";
 
 const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
   color: theme.palette.dialog.color,
@@ -54,7 +55,15 @@ export default function Dialog(props) {
     >
       {title && (
         <StyledDialogTitle>
-          {title}
+          <Box
+            sx={{
+              display: "flex",
+            }}
+          >
+            <ActivitySubjectWithIcon activitySubject={title} />
+            {title}
+          </Box>
+
           {onClose ? (
             <IconButton
               aria-label="close"
