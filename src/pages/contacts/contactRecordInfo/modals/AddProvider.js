@@ -11,7 +11,7 @@ import Media from "react-media";
 import "./provider-modal.scss";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
-
+import ProviderCard from "packages/ProviderCard";
 function encodeQueryData(data) {
   const ret = [];
   for (let d in data)
@@ -33,6 +33,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
   const [selectedProvider, setSelectedProvider] = useState(null);
+  const [selectAddressId, setSelectAddressId] = useState(null);
   const filteredResults = results?.providers || [];
   const totalPages = results ? Math.ceil(results.total / perPage) : 0;
   const addToast = useToast();
@@ -77,7 +78,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
     const request = [
       {
         npi: provider.NPI.toString(),
-        addressId: provider.addresses[0]?.id,
+        addressId: selectAddressId,
         isPrimary: false,
       },
     ];
@@ -105,6 +106,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
         }}
       />
       <Modal
+        header="Add Provider"
         open={isOpen}
         onClose={onClose}
         size="wide"
@@ -149,11 +151,6 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
         }
       >
         <div className="dialog--container">
-          <div className="dialog--title add-pr-title">
-            <h2 id="dialog_help_label" className="hdg hdg--2 mb-1 mble-title">
-              Add Provider
-            </h2>
-          </div>
           <div className="dialog--body provider-modal-container">
             <div className="large-view">
               <div className="pr-header-container">
@@ -178,22 +175,6 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     />
                   </label>
                 </div>
-                <div className="pr-search-section">
-                  <label className="pr-title">
-                    Provider Search
-                    <input
-                      className="pr-search-input"
-                      type="text"
-                      value={searchText}
-                      disabled={zipCode && zipCode.length < 5}
-                      placeholder="Start typing a provider’s name"
-                      onChange={(e) => {
-                        setSearchText(e.target.value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </label>
-                </div>
                 <div className="miles-section">
                   <label className="pr-title">
                     Distance
@@ -213,10 +194,25 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     />
                   </label>
                 </div>
+                {zipCode && zipCode.length < 5 && (
+                  <span className="validation-msg">Invalid ZIP Code</span>
+                )}
               </div>
-              {zipCode && zipCode.length < 5 && (
-                <span className="validation-msg">Invalid ZIP Code</span>
-              )}
+              <div className="pr-search-section">
+                <div className="pr-title">
+                  <input
+                    className="pr-search-input"
+                    type="text"
+                    value={searchText}
+                    disabled={zipCode && zipCode.length < 5}
+                    placeholder="Start typing a provider’s name"
+                    onChange={(e) => {
+                      setSearchText(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="small-view">
@@ -289,8 +285,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
             <div className="pr-search-result">
               {results?.total ? (
                 <>
-                  <b>{results?.total || 0} providers</b> found within {radius}{" "}
-                  miles
+                  <b>{results?.total || 0} providers</b> within {radius} miles
                 </>
               ) : null}
             </div>
@@ -305,45 +300,18 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                   <div className="pr-search-box">Error fetching Providers</div>
                 )}
                 {zipCode &&
-                  filteredResults.map((item) => (
-                    <div
+                  filteredResults.map((item, index) => (
+                    <ProviderCard
                       key={item.NPI}
-                      className={`provider-result-content ${
-                        selectedProvider?.NPI === item.NPI ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedProvider(item);
-                      }}
-                    >
-                      <div className="provider-content-section">
-                        <div className="pr-h1">{item.presentationName}</div>
-                        <div className="pr-h2">{item.specialty}</div>
-                        <div className="pr-h2">
-                          {item && item.addresses
-                            ? [
-                                item.addresses[0]?.streetLine1,
-                                item.addresses[0]?.streetLine2,
-                                item.addresses[0]?.city,
-                                item.addresses[0]?.state,
-                                item.addresses[0]?.zipCode,
-                              ]
-                                .filter(Boolean)
-                                .join(",")
-                            : null}
-                        </div>
-                      </div>
-                      {selectedProvider?.NPI === item.NPI && (
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedProvider(null);
-                          }}
-                          className="icon-btn deselect-pr"
-                        >
-                          <ExitIcon />
-                        </div>
-                      )}
-                    </div>
+                      item={item}
+                      index={index}
+                      selectedProvider={selectedProvider}
+                      setSelectedProvider={(value) =>
+                        setSelectedProvider(value)
+                      }
+                      setSelectAddressId={(value) => setSelectAddressId(value)}
+                      selectAddressId={selectAddressId}
+                    />
                   ))}
                 {!isLoading && (
                   <>
