@@ -4,6 +4,7 @@ import PageCard from "components/ui/page-card";
 import Container from "components/ui/container";
 
 export default ({
+  header,
   open = false,
   wide = false,
   size,
@@ -64,7 +65,25 @@ export default ({
           data-testid={testId}
           providerModal={providerModal ? providerModal : false}
         >
-          {onClose && (
+          {providerModal && (
+            <div className="p_header">
+              {header && (
+                <h2
+                  id="dialog_help_label"
+                  className="hdg hdg--2 mb-1 mble-title"
+                >
+                  {header}
+                </h2>
+              )}
+              {onClose && (
+                <button className={`close-icon`} onClick={onClose}>
+                  <ExitIcon color="#0052CE" />
+                  <span className="visually-hidden">Close modal window</span>
+                </button>
+              )}
+            </div>
+          )}
+          {!providerModal && onClose && (
             <div className="modal__header">
               <button
                 className={`modal__exit icon-btn ${
@@ -77,6 +96,7 @@ export default ({
               </button>
             </div>
           )}
+
           <div className="modal__content">{children}</div>
         </PageCard>
         {footer && <div className="modal__footer">{footer}</div>}

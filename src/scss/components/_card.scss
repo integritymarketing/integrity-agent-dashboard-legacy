@@ -118,12 +118,12 @@
   margin: 0 auto;
   border-radius: initial;
   min-height: 80vh !important;
-  @media (min-width: 768px) {
-    padding: 2.438rem 4.438rem 0 4.438rem;
-  }
+  padding: 0 !important;
+
   @media (max-width: 768px) {
     width: auto;
   }
+
   @media (max-width: 480px) {
     padding: 18px;
     min-height: 100vh !important;
@@ -131,4 +131,21 @@
       display: flex;
     }
   }
+
+  .p_header{ 
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid #DFDEDD;
+    
+  .close-icon{
+  top: 20px;
+  right: 15px;
+}
+} 
+.modal__content{
+  padding: 20px;
+  background-color: #F4F8FB;
+}
 }

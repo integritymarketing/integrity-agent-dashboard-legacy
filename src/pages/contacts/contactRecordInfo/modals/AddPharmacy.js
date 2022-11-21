@@ -140,6 +140,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
         }}
       />
       <Modal
+        header="Add Pharmacy"
         open={isOpen}
         onClose={onClose}
         size="wide"
@@ -184,11 +185,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
         }
       >
         <div className="dialog--container">
-          <div className="dialog--title add-pr-title">
-            <h2 id="dialog_help_label" className="hdg hdg--2 mb-1 mble-title">
-              Add Pharmacy
-            </h2>
-          </div>
           <div className="dialog--body pharmacy-modal-container">
             <div className="large-view">
               <div className="pr-header-container">
