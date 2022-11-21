@@ -12,6 +12,7 @@ export default function ActivityDetails({
   onClose,
   activityObj,
   leadFullName,
+  leadsId
 }) {
   const [note, setNote] = useState(activityObj?.activityNote);
 

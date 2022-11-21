@@ -12,13 +12,14 @@ const buttonTextByActivity = {
   "Incoming Call Recorded": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
-  "Plan Shared": "View PLans",
+  "Plan Shared": "View Plans",
   "Application Submitted": "View",
 };
 
-export default function ActivityButtonText(activity) {
-  const { activityTypeName, activityInteractionURL, activitySubject, leadsId } =
-    activity.activity;
+export default function ActivityButtonText(props) {
+  const { activityTypeName, activityInteractionURL, activitySubject } =
+    props.activity;
+  const { leadsId } = props;
   const history = useHistory();
   const userProfile = useUserProfile();
   const { npn } = userProfile;

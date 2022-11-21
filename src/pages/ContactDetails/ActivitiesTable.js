@@ -30,7 +30,7 @@ const buttonTextByActivity = {
   "Incoming Call Recorded": "Download",
   "Scope of Appointment Signed": "Complete",
   "Scope of Appointment Completed": "View",
-  "Plan Shared": "View PLans",
+  "Plan Shared": "View Plans",
 };
 
 const renderButtons = (activity, handleClick) => {
