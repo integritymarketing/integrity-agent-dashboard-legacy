@@ -3,7 +3,6 @@ import styles from "pages/ContactDetails/ActivityDetails.module.scss";
 import { Box } from "@mui/material";
 import { Button } from "packages/Button";
 import Dialog from "packages/Dialog";
-import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import { callDuration } from "utils/dates";
 import { formatPhoneNumber } from "utils/phones";
 import CreatedDate from "pages/ContactDetails/CreatedDate";
@@ -21,7 +20,7 @@ export default function CallDetails({ open, onClose, callObj }) {
         fullWidth={true}
         keepMounted
         open={open}
-        title={number}
+        title={"Call Recording"}
         onCancel={onClose}
         onClose={onClose}
         maxWidth="sm"
@@ -29,10 +28,7 @@ export default function CallDetails({ open, onClose, callObj }) {
         <div className={styles.subSection}>
           <div>
             <div className={styles.subHeading}>
-              <div className={styles.subHeadingTitle}>
-                <ActivitySubjectWithIcon activitySubject={"Incoming Call"} />
-                Call Recorded
-              </div>
+              <div className={styles.subHeadingTitle}>{number}</div>
             </div>
             <div className={styles.topSection}>
               <div>

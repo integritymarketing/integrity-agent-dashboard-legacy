@@ -12,7 +12,7 @@ export default function ActivityDetails({
   onClose,
   activityObj,
   leadFullName,
-  leadsId
+  leadsId,
 }) {
   const [note, setNote] = useState(activityObj?.activityNote);
 
@@ -72,7 +72,10 @@ export default function ActivityDetails({
               <>
                 <div className={styles.topSection}>
                   {activityBody_Parser(activityObj?.activityBody)}
-                  <ActivityButtonText activity={activityObj} />
+                  <ActivityButtonText
+                    activity={activityObj}
+                    leadsId={leadsId}
+                  />
                 </div>
                 <CreatedDate
                   value={

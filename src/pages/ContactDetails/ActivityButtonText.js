@@ -23,7 +23,7 @@ export default function ActivityButtonText(props) {
   const history = useHistory();
   const userProfile = useUserProfile();
   const { npn } = userProfile;
-  const splitViewPlansURL = activityInteractionURL.split("/");
+  const splitViewPlansURL = activityInteractionURL?.split("/");
   const handleClick = async (activitySubject, activityInteractionURL) => {
     switch (activitySubject) {
       case "Scope of Appointment Signed":
