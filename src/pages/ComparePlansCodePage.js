@@ -59,7 +59,7 @@ function ComparePlansCodePage() {
       <Helmet>
         <title>MedicareCENTER - Compare plans</title>
       </Helmet>
-      <Header />
+      <Header agentInfo={agentInfo} />
       {isValid === false ? (
         <div className="compare-plans-content mt-2">
           <WelcomeEmailUser

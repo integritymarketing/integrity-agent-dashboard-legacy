@@ -1,15 +1,9 @@
 import React from "react";
 import Modal from "components/ui/modal";
-import { formatPhoneNumber } from "utils/phones";
 import "./index.scss";
 
 export default ({ open, close, agentInfo }) => {
-  const {
-    AgentFirstName,
-    AgentLastName,
-    AgentPhoneNumber,
-    AgentEmail,
-  } = agentInfo;
+  const { AgentFirstName, AgentLastName, AgentEmail } = agentInfo;
   return (
     <Modal
       open={open}
@@ -31,7 +25,7 @@ export default ({ open, close, agentInfo }) => {
         <span className="hdg hdg--4 pb-1">Phone Number: &nbsp;</span>
         <span className="text-body pb-1">
           <a href="tel:+1-888-818-3760" className="link">
-            {formatPhoneNumber(AgentPhoneNumber)}
+            888-818-3760
           </a>
         </span>
         <div>
