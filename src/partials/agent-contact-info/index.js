@@ -4,7 +4,9 @@ import { formatPhoneNumber } from "utils/phones";
 import "./index.scss";
 
 export default ({ open, close, agentInfo }) => {
-  const { AgentFirstName, AgentLastName, AgentPhoneNumber, AgentEmail } = agentInfo;
+  const { AgentFirstName, AgentLastName, AgentPhoneNumber, AgentEmail } =
+    agentInfo;
+  const phone = formatPhoneNumber(AgentPhoneNumber, true);
   return (
     <Modal
       open={open}
@@ -25,8 +27,8 @@ export default ({ open, close, agentInfo }) => {
         </div>
         <span className="hdg hdg--4 pb-1">Phone Number: &nbsp;</span>
         <span className="text-body pb-1">
-          <a href={`tel:+1-${formatPhoneNumber(AgentPhoneNumber)}`} className="link">
-          {formatPhoneNumber(AgentPhoneNumber)}
+          <a href={`tel:+1-${phone}`} className="link">
+            {phone}
           </a>
         </span>
         <div>

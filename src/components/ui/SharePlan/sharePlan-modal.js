@@ -13,6 +13,7 @@ import Radio from "components/ui/Radio";
 import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import "./styles.scss";
 
 const EMAIL_MOBILE_LABELS = [
@@ -36,7 +37,8 @@ export const __formatPhoneNumber = (phoneNumberString) => {
   return originalInput;
 };
 
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default ({
   modalOpen,
@@ -46,6 +48,9 @@ export default ({
 }) => {
   const addToast = useToast();
   const auth = useContext(AuthContext);
+  const {
+    agentInfomration: { agentVirtualPhoneNumber },
+  } = useAgentInformationByID();
 
   const { firstName, lastName, emails, phones, leadsId } = contact;
   const { planRating, id, documents } = planData;
@@ -88,7 +93,7 @@ export default ({
     } else {
       setErrors("Invalid email address");
     }
-  }, 5000);
+  }, 1000);
 
   const handleSetEmail = (_email) => {
     const email = _email.trim();
@@ -120,8 +125,7 @@ export default ({
     const agentFirstName = user?.firstName;
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
-    const agentPhoneNumber = user?.phone;
-
+    const agentPhoneNumber = agentVirtualPhoneNumber;
     try {
       let payload = {
         leadFirstName: firstName,
@@ -287,6 +291,7 @@ export default ({
                         {selectLabel === "email" && (
                           <div className="email-mobile-section">
                             <input
+                              autocomplete="on"
                               type="text"
                               data-gtm="input-share-plans"
                               onFocus={() => setFocus(true)}

@@ -12,6 +12,7 @@ import Radio from "components/ui/Radio";
 import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import "./index.scss";
 
 const EMAIL_MOBILE_LABELS = [
@@ -50,6 +51,9 @@ export default ({
 }) => {
   const addToast = useToast();
   const auth = useContext(AuthContext);
+  const {
+    agentInfomration: { agentVirtualPhoneNumber },
+  } = useAgentInformationByID();
   const {
     firstName,
     lastName,
@@ -98,7 +102,7 @@ export default ({
     } else {
       setErrors("Invalid email address");
     }
-  }, 5000);
+  }, 1000);
 
   const handleSetEmail = (_email) => {
     const email = _email.trim();
@@ -119,7 +123,7 @@ export default ({
     const agentFirstName = user?.firstName;
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
-    const agentPhoneNumber = user?.phone;
+    const agentPhoneNumber = agentVirtualPhoneNumber;
     const zipCode = addresses[0]?.postalCode;
     const stateCode = addresses[0]?.stateCode;
     const countyFIPS = addresses[0]?.countyFips;
@@ -290,6 +294,7 @@ export default ({
                     {selectLabel === "email" && (
                       <div className="email-mobile-section">
                         <input
+                          autocomplete="on"
                           type="text"
                           data-gtm="input-share-plans"
                           onFocus={() => setFocus(true)}
