@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import styles from "./styles.module.scss";
@@ -41,7 +41,7 @@ const StageList = ({ row, selectTag, tags }) => {
   );
 };
 
-export default function Tags({ tags, selectTag, TAGS }) {
+function Tags({ tags, selectTag, TAGS }) {
   const length = TAGS?.length;
   const halfLength = Math.round(length / 2);
 
@@ -86,6 +86,71 @@ export default function Tags({ tags, selectTag, TAGS }) {
             } else return null;
           })}
       </div>
+    </Box>
+  );
+}
+
+export default function TagsByCategory({
+  tags,
+  selectTag,
+  TAGS,
+  defaultOpenedList,
+}) {
+  const [openTags, setOpenTags] = useState([...defaultOpenedList]);
+
+  const handleOpenTags = (tag) => {
+    if (openTags.includes(tag)) {
+      let index = openTags.indexOf(tag);
+      openTags.splice(index, 1);
+      setOpenTags([...openTags]);
+    } else {
+      setOpenTags([...openTags, tag]);
+    }
+  };
+
+  const isOpen = (item) => {
+    return openTags?.includes(item) ? true : false;
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        borderRadius: 3,
+        marginTop: "18px",
+        justifyContent: "space-between",
+      }}
+    >
+      {TAGS &&
+        TAGS.map((row, i) => {
+          return (
+            <div key={`categoris-${i}`}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  borderRadius: 3,
+                  marginTop: "18px",
+                  justifyContent: "space-between",
+                }}
+              >
+                <p className={styles.tagCategoryName}>{row?.tagCategoryName}</p>
+                <div
+                  className={styles.openClose}
+                  onClick={() => handleOpenTags(row?.tagCategoryName)}
+                >
+                  {isOpen(row?.tagCategoryName) ? "-" : "+"}
+                </div>
+              </Box>
+              {isOpen(row?.tagCategoryName) && (
+                <Tags TAGS={row?.tags} selectTag={selectTag} tags={tags} />
+              )}
+            </div>
+          );
+        })}
     </Box>
   );
 }

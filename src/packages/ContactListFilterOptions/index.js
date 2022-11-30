@@ -7,7 +7,7 @@ import StageStatusContext from "contexts/stageStatus";
 import FilterTypeMenu from "./FilterTypeMenu";
 import Reminders from "./Reminders";
 import Stages from "./Stages";
-import Tags from "./Tags";
+import TagsByCategory from "./Tags";
 import { useActiveFilters } from "hooks/useActiveFilters";
 
 export default function ContactListFilterOptions({ close }) {
@@ -51,10 +51,10 @@ export default function ContactListFilterOptions({ close }) {
     getTags();
   }, []);
 
-  const TAGS = useMemo(() => {
+  const defaultOpenedList = useMemo(() => {
     let list = [];
     tagsList.map((item, i) => {
-      list = [...list, ...item.tags];
+      list = [...list, ...item?.tagCategoryName];
       return item;
     });
     return list;
@@ -141,7 +141,12 @@ export default function ContactListFilterOptions({ close }) {
         />
       )}
       {filterType === "Tags" && (
-        <Tags selectTag={selectTag} tags={tags} TAGS={TAGS} />
+        <TagsByCategory
+          selectTag={selectTag}
+          tags={tags}
+          TAGS={tagsList}
+          defaultOpenedList={defaultOpenedList}
+        />
       )}
 
       <FooterButtons buttonOne={BUTTONS.reset} buttonTwo={BUTTONS.apply} />
