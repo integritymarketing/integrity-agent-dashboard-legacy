@@ -55,3 +55,8 @@ export const formatUnderScorestring = (str) => {
   let value = str.charAt(0).toUpperCase() + str.slice(1);
   return value.replaceAll("_", " ");
 };
+
+export const isEmptyObj = (obj) => {
+  for (let i in obj) return false;
+  return true;
+};

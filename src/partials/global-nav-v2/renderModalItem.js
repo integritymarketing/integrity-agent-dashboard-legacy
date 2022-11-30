@@ -164,14 +164,14 @@ const RenderModalItem = ({
       },
       disabled: !isAvailable || (!call && !data),
     },
-    close: {
+    continue: {
       text: "Continue",
       onClick: () => {
-        handleClose();
+        handleButtonClick("continue");
       },
       disabled: false,
     },
-    continue: {
+    checkIn: {
       text: "Check In",
       disabled: !call && !data,
       onClick: () => {
@@ -187,7 +187,7 @@ const RenderModalItem = ({
           <CallCenterContent
             phone={phone}
             cancelButton={BUTTONS.cancel}
-            continueButton={BUTTONS.continue}
+            continueButton={BUTTONS.checkIn}
             agentId={agentId}
             callForwardNumber={callForwardNumber}
             getAgentAvailability={getAgentAvailability}
@@ -234,7 +234,7 @@ const RenderModalItem = ({
             <div className="modalItemStyle">
               <FooterButtons
                 buttonOne={BUTTONS.cancel}
-                buttonTwo={BUTTONS.continue}
+                buttonTwo={BUTTONS.checkIn}
               />
             </div>
           </>
@@ -291,7 +291,7 @@ const RenderModalItem = ({
             <div className="modalItemStyle">
               <FooterButtons
                 buttonOne={BUTTONS.cancel}
-                buttonTwo={BUTTONS.continue}
+                buttonTwo={BUTTONS.checkIn}
               />
             </div>
           </>
@@ -359,7 +359,7 @@ const RenderModalItem = ({
                 <FooterButtons
                   dashBoardModal={true}
                   buttonOne={BUTTONS.checkOut}
-                  buttonTwo={BUTTONS.close}
+                  buttonTwo={BUTTONS.continue}
                 />
               </div>
             )}

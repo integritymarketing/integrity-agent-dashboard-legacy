@@ -160,7 +160,6 @@ export default function AddPrescription({
     setDrugName("");
     setSearchString("");
   };
-
   return (
     <div className="prescription--modal">
       <Media
@@ -170,22 +169,40 @@ export default function AddPrescription({
         }}
       />
       <Modal
-        size="lg"
-        wide={true}
+        header="Add Prescription"
+        size="wide"
         open={isOpen}
         onClose={onClose}
-        providerModal={isMobile}
+        providerModal={true}
         labeledById="dialog_add_prescription"
+        footer={
+          isMobile ? null : (
+            <div className="dialog--actions-pr">
+              <div className="prescription-cancel">
+                <Button
+                  fullWidth={isMobile}
+                  className="mr-1"
+                  label="Cancel"
+                  onClick={onClose}
+                  type="secondary"
+                  data-gtm="button-add-prescription"
+                />
+              </div>
+              <div className="prescription-add">
+                {" "}
+                <Button
+                  fullWidth={isMobile}
+                  label="Add Prescription"
+                  onClick={handleAddPrecscription}
+                  disabled={!isFormValid || isSaving}
+                  data-gtm="button-cancel-prescription"
+                />
+              </div>
+            </div>
+          )
+        }
       >
         <div className="dialog--container">
-          <div className="dialog--title">
-            <h2
-              id="dialog_help_label"
-              className="add--prescription--modal hdg hdg--2 mb-1"
-            >
-              Add Prescription
-            </h2>
-          </div>
           <div className="dialog--body">
             {drugName && (
               <section className="mt-2 mb-2 display--drug--name">
@@ -304,29 +321,31 @@ export default function AddPrescription({
               </>
             )}
           </div>
-          {isMobile ? null : <hr />}
-          <div className="dialog--actions">
-            <div className="prescription-cancel">
-              <Button
-                fullWidth={isMobile}
-                className="mr-1"
-                label="Cancel"
-                onClick={onClose}
-                type="secondary"
-                data-gtm="button-add-prescription"
-              />
+
+          {isMobile && (
+            <div className="dialog--actions-pr">
+              <div className="prescription-cancel">
+                <Button
+                  fullWidth={isMobile}
+                  className="mr-1"
+                  label="Cancel"
+                  onClick={onClose}
+                  type="secondary"
+                  data-gtm="button-add-prescription"
+                />
+              </div>
+              <div className="prescription-add">
+                {" "}
+                <Button
+                  fullWidth={isMobile}
+                  label="Add Prescription"
+                  onClick={handleAddPrecscription}
+                  disabled={!isFormValid || isSaving}
+                  data-gtm="button-cancel-prescription"
+                />
+              </div>
             </div>
-            <div className="prescription-add">
-              {" "}
-              <Button
-                fullWidth={isMobile}
-                label="Add Prescription"
-                onClick={handleAddPrecscription}
-                disabled={!isFormValid || isSaving}
-                data-gtm="button-cancel-prescription"
-              />
-            </div>
-          </div>
+          )}
         </div>
       </Modal>
     </div>

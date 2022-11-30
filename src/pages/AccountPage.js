@@ -18,6 +18,7 @@ import analyticsService from "services/analyticsService";
 import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { formatTwiloNumber } from "utils/formatTwiloNumber";
+import { isEmptyObj } from "utils/shared-utils/sharedUtility";
 import MyModal from "../partials/global-nav-v2/MyModal";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
@@ -171,6 +172,12 @@ export default () => {
     });
   }, []);
 
+  const buttonTitle = (initialValues, values, errors) => {
+    if (initialValues === values) return "No changes have been made";
+    if (!isEmptyObj(errors)) return "provide valid data to save";
+    return "";
+  };
+
   let mainContentClassName = "container " + styles.headerLayout;
   return (
     <React.Fragment>
@@ -287,6 +294,7 @@ export default () => {
                   >
                     {({
                       values,
+                      initialValues,
                       errors,
                       touched,
                       isValid,
@@ -359,6 +367,7 @@ export default () => {
                               className="btn-v2"
                               data-gtm="account-update-save-button"
                               type="submit"
+                              title={buttonTitle(initialValues, values, errors)}
                               disabled={!dirty || !isValid}
                             >
                               Save
