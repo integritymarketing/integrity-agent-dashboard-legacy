@@ -21,3 +21,22 @@
 .tagName {
   margin-left: 5px;
 }
+
+.tagCategoryName{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.openClose{
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid #C7CCD1;
+  border-radius: 4px;
+  color: #2175F4;
+  cursor: pointer;
+  display: flex;
+  font-size: 23px;
+  height: 25px;
+  justify-content: center;
+  width: 25px;
+}
