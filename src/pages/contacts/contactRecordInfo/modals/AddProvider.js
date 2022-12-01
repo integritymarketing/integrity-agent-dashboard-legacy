@@ -155,7 +155,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
               <div className="pr-header-container">
                 <div className="zip-section">
                   <label className="pr-title">
-                    ZIP Code
+                    Zip Code
                     <input
                       type="text"
                       placeholder="Zip"
@@ -173,6 +173,9 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                       }}
                     />
                   </label>
+                  {zipCode && zipCode.length < 5 && (
+                    <span className="validation-msg">Invalid Zip Code</span>
+                  )}
                 </div>
                 <div className="miles-section">
                   <label className="pr-title">
@@ -193,9 +196,6 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     />
                   </label>
                 </div>
-                {zipCode && zipCode.length < 5 && (
-                  <span className="validation-msg">Invalid ZIP Code</span>
-                )}
               </div>
               <div className="pr-search-section">
                 <div className="pr-title">
@@ -218,7 +218,7 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
               <div className="pr-header-container">
                 <div className="zip-section">
                   <label className="pr-title">
-                    ZIP Code
+                    Zip Code
                     <input
                       type="text"
                       placeholder="Zip"
@@ -236,6 +236,9 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                       }}
                     />
                   </label>
+                  {zipCode && zipCode.length < 5 && (
+                    <span className="validation-msg">Invalid Zip Code</span>
+                  )}
                 </div>
                 <div className="miles-section">
                   <label className="pr-title">
@@ -258,9 +261,6 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                   </label>
                 </div>
               </div>
-              {zipCode && zipCode.length < 5 && (
-                <span className="validation-msg">Invalid ZIP Code</span>
-              )}
 
               <div className="pr-search-section">
                 <label className="pr-title">
@@ -361,7 +361,6 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
                     />
                   </div>
                   <div className="pr-add">
-                    {" "}
                     <Button
                       disabled={!selectedProvider}
                       label="Add Provider"

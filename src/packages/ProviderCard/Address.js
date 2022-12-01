@@ -7,12 +7,15 @@ const Address = ({
   setSelectedProvider,
   setSelectAddressId,
   selectAddressId,
+  selectedProvider,
   address,
 }) => {
   return (
     <div
       className={`${styles.address} ${
-        selectAddressId === address?.id ? styles.selected : ""
+        selectAddressId === address?.id && selectedProvider?.NPI === item?.NPI
+          ? styles.selected
+          : ""
       }`}
     >
       <div>
@@ -32,7 +35,8 @@ const Address = ({
         </div>
       </div>
 
-      {selectAddressId === address?.id ? (
+      {selectAddressId === address?.id &&
+      selectedProvider?.NPI === item?.NPI ? (
         <div
           className={styles.select__close}
           onClick={(e) => {

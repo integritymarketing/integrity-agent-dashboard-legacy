@@ -29,12 +29,16 @@ const ProviderCard = ({
           setSelectedProvider={setSelectedProvider}
           setSelectAddressId={setSelectAddressId}
           selectAddressId={selectAddressId}
+          selectedProvider={selectedProvider}
         />
       )}
       {item && item?.addresses?.length > 1 && (
         <div className={styles.all__address}>
           <div className={styles.header__address}>
-            <div className={styles.p__h4}>
+            <div
+              className={styles.p__h4}
+              onClick={() => setOpenToggle(!isOpen)}
+            >
               Additional Locations ({item?.addresses?.length - 1})
             </div>
             <div
@@ -58,6 +62,7 @@ const ProviderCard = ({
                         setSelectedProvider={setSelectedProvider}
                         setSelectAddressId={setSelectAddressId}
                         selectAddressId={selectAddressId}
+                        selectedProvider={selectedProvider}
                       />
                     </div>
                   )}
