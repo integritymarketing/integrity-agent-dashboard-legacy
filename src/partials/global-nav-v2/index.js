@@ -213,30 +213,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 onClick: () => {
                   window.open(
                     process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                      "/external/SamlLogin/2022",
+                      "/external/SamlLogin/2023",
                     "_blank"
                   );
                 },
               },
-              label: "MedicareApp 2022",
+              label: "MedicareApp 2023",
             },
-            ...(process.env.REACT_APP_ADD_JANUARY_MONTH === "show"
-              ? [
-                  {
-                    component: "Link",
-                    props: {
-                      onClick: () => {
-                        window.open(
-                          process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                            "/external/SamlLogin/2023",
-                          "_blank"
-                        );
-                      },
-                    },
-                    label: "MedicareApp 2023",
-                  },
-                ]
-              : []),
           ],
         }
       : {
@@ -304,31 +287,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 onClick: () => {
                   window.open(
                     process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                      "/external/SamlLogin/2022",
+                      "/external/SamlLogin/2023",
                     "_blank"
                   );
                 },
               },
-              label: "MedicareAPP 2022",
+              label: "MedicareAPP 2023",
             },
-            ...(process.env.REACT_APP_ADD_JANUARY_MONTH === "show"
-              ? [
-                  {
-                    component: "button",
-                    props: {
-                      type: "button",
-                      onClick: () => {
-                        window.open(
-                          process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                            "/external/SamlLogin/2023",
-                          "_blank"
-                        );
-                      },
-                    },
-                    label: "MedicareAPP 2023",
-                  },
-                ]
-              : []),
             {
               component: "button",
               props: {
