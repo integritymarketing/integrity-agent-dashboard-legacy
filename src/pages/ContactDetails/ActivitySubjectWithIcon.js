@@ -6,10 +6,13 @@ import ContactUpdated from "components/icons/activities/Contacts";
 import styles from "./ActivitySubjectWithIcon.module.scss";
 import Reminder from "components/icons/activities/Reminder";
 import SOA from "components/icons/activities/SOA";
-import Share from "components/icons/activities/PlansShared";
 import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
+import share from "../../images/Plans-Shared.png";
 
 export default function ActivitySubjectWithIcon({ activitySubject }) {
+  const Share = () => (
+    <img className="plans-shared" src={share} alt="Plans shared" />
+  );
   const getIcon = () => {
     const icon = {
       "Contact Updated": <ContactUpdated />,
