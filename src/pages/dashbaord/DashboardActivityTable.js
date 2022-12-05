@@ -70,6 +70,7 @@ const buttonTextByActivity = {
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View Plans",
   "Application Submitted": "View",
+  "Meeting Recorded": "Download",
 };
 
 const renderButtons = (activity, leadsId, handleClick) => {
@@ -82,7 +83,8 @@ const renderButtons = (activity, leadsId, handleClick) => {
 
   if (
     activityTypeName &&
-    activityTypeName === "Triggered" &&
+    (activityTypeName === "Triggered" ||
+      activitySubject === "Meeting Recorded") &&
     activityInteractionURL
   ) {
     return (
@@ -189,9 +191,8 @@ export default function DashboardActivityTable({
       case "Call Recording":
       case "Incoming Call Recorded":
       case "Outbound Call Recorded":
-        window.open(activityInteractionURL, "_blank");
-        break;
       case "Contact's new call log created":
+      case "Meeting Recorded":
         window.open(activityInteractionURL, "_blank");
         break;
       case "Application Submitted":

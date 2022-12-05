@@ -14,6 +14,7 @@ const buttonTextByActivity = {
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View Plans",
   "Application Submitted": "View",
+  "Meeting Recorded": "Download",
 };
 
 export default function ActivityButtonText(props) {
@@ -40,6 +41,7 @@ export default function ActivityButtonText(props) {
       case "Incoming Call Recorded":
       case "Outbound Call Recorded":
       case "Call Recording":
+      case "Meeting Recorded":
       case "Contact's new call log created":
         window.open(activityInteractionURL, "_blank");
         break;

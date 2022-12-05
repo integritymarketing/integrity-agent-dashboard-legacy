@@ -68,24 +68,26 @@ export default function ActivityDetails({
             <div className={styles.subHeading}>
               <div className={styles.subHeadingTitle}>{leadFullName}</div>
             </div>
-            {activityObj && type === "Triggered" && (
-              <>
-                <div className={styles.topSection}>
-                  {activityBody_Parser(activityObj?.activityBody)}
-                  <ActivityButtonText
-                    activity={activityObj}
-                    leadsId={leadsId}
+            {activityObj &&
+              (type === "Triggered" ||
+                activityObj?.activitySubject === "Meeting Recorded") && (
+                <>
+                  <div className={styles.topSection}>
+                    {activityBody_Parser(activityObj?.activityBody)}
+                    <ActivityButtonText
+                      activity={activityObj}
+                      leadsId={leadsId}
+                    />
+                  </div>
+                  <CreatedDate
+                    value={
+                      type === "Note" && activityObj?.modifyDate
+                        ? activityObj?.modifyDate
+                        : activityObj?.createDate
+                    }
                   />
-                </div>
-                <CreatedDate
-                  value={
-                    type === "Note" && activityObj?.modifyDate
-                      ? activityObj?.modifyDate
-                      : activityObj?.createDate
-                  }
-                />
-              </>
-            )}
+                </>
+              )}
           </div>
           <div>
             {type === "Triggered" && (

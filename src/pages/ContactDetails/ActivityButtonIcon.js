@@ -19,6 +19,7 @@ export default function ActivityButtonIcon({ activitySubject }) {
       "Scope of Appointment Completed": <SOAVIEW />,
       "Plan Shared": <VIEWPLANS />,
       "Application Submitted": <VIEWPLANS />,
+      "Meeting Recorded": <DOWNLOAD />,
     };
 
     return icon[activitySubject] || null;

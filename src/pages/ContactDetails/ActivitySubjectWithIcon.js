@@ -8,6 +8,7 @@ import Reminder from "components/icons/activities/Reminder";
 import SOA from "components/icons/activities/SOA";
 import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
 import share from "../../images/Plans-Shared.png";
+import MeetingRecorded from "components/icons/activities/MeetingRecorded";
 
 export default function ActivitySubjectWithIcon({ activitySubject }) {
   const Share = () => (
@@ -31,6 +32,7 @@ export default function ActivitySubjectWithIcon({ activitySubject }) {
       "Plan Shared": <Share />,
       "Contact's new call log created": <CallRecording />,
       "Application Submitted": <ApplicationSubmitted />,
+      "Meeting Recorded": <MeetingRecorded />,
     };
 
     return icon[activitySubject] || <Activity />;

@@ -43,7 +43,8 @@ const renderButtons = (activity, handleClick) => {
 
   if (
     activityTypeName &&
-    activityTypeName === "Triggered" &&
+    (activityTypeName === "Triggered" ||
+      activitySubject === "Meeting Recorded") &&
     activityInteractionURL
   ) {
     return (
@@ -114,9 +115,8 @@ export default function ActivitiesTable({
         case "Call Recording":
         case "Incoming Call Recorded":
         case "Outbound Call Recorded":
-          window.open(activityInteractionURL, "_blank");
-          break;
         case "Contact's new call log created":
+        case "Meeting Recorded":
           window.open(activityInteractionURL, "_blank");
           break;
         default:
