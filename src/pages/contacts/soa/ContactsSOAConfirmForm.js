@@ -551,6 +551,13 @@ const ContactsSOAConfirmForm = () => {
               </Col>
             </Row>
           )}
+          {isSubmited && linkCode && (
+            <Row>
+              <Col>
+                <LabelValueItem label="Confirmation number" value={linkCode} />
+              </Col>
+            </Row>
+          )}
           {!isSubmited && (
             <Row>
               <button

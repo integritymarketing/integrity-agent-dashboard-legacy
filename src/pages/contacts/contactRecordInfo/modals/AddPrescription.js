@@ -135,7 +135,7 @@ export default function AddPrescription({
         dosageID: dosage?.dosageID,
         quantity: quantity,
         daysOfSupply: frequency,
-        ndc: dosage?.referenceNDC,
+        ndc: dosagePackage?.referenceNDC,
         metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
         selectedPackage: dosagePackage,
       });

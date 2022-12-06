@@ -8,12 +8,11 @@ import Reminder from "components/icons/activities/Reminder";
 import SOA from "components/icons/activities/SOA";
 import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
 import share from "../../images/Plans-Shared.png";
-import MeetingRecorded from "components/icons/activities/MeetingRecorded";
+import MeetingRecord from "../../images/MeetingRecording.png";
 
 export default function ActivitySubjectWithIcon({ activitySubject }) {
-  const Share = () => (
-    <img className="plans-shared" src={share} alt="Plans shared" />
-  );
+  const ImageToIcon = (src, alt) => <img src={src} alt={alt} />;
+
   const getIcon = () => {
     const icon = {
       "Contact Updated": <ContactUpdated />,
@@ -29,10 +28,12 @@ export default function ActivitySubjectWithIcon({ activitySubject }) {
       "Scope of Appointment Sent": <SOA />,
       "Scope of Appointment Signed": <SOA />,
       "Scope of Appointment Completed": <SOA />,
-      "Plan Shared": <Share />,
+      "Plan Shared": <ImageToIcon src={share} alt="Plans shared" />,
       "Contact's new call log created": <CallRecording />,
       "Application Submitted": <ApplicationSubmitted />,
-      "Meeting Recorded": <MeetingRecorded />,
+      "Meeting Recorded": (
+        <ImageToIcon src={MeetingRecord} alt="Meeting Recorded" />
+      ),
     };
 
     return icon[activitySubject] || <Activity />;
