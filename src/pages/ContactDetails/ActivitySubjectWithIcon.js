@@ -11,7 +11,7 @@ import share from "../../images/Plans-Shared.png";
 import MeetingRecord from "../../images/MeetingRecording.png";
 
 export default function ActivitySubjectWithIcon({ activitySubject }) {
-  const ImageToIcon = (src, alt) => <img src={src} alt={alt} />;
+  const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
 
   const getIcon = () => {
     const icon = {
