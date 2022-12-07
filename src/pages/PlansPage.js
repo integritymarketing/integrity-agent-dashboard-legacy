@@ -33,6 +33,7 @@ import { Button } from "components/ui/Button";
 import Filter from "components/icons/filter";
 import Radio from "components/ui/Radio";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
+import ContactFooter from "partials/global-footer";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -694,6 +695,7 @@ export default () => {
               </Container>
             )}
           </WithLoader>
+          <ContactFooter />
           <PlanPageFooter
             leadId={id}
             effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}

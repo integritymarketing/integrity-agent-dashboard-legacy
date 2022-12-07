@@ -21,6 +21,7 @@ import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
 import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import analyticsService from "services/analyticsService";
 import { BackToTop } from "components/ui/BackToTop";
+import ContactFooter from "partials/global-footer";
 
 const PlanDetailsPage = () => {
   const addToast = useToast();
@@ -151,6 +152,7 @@ const PlanDetailsPage = () => {
                 />
               )}
             </Container>
+            <ContactFooter />
             <BackToTop />
           </WithLoader>
         </div>
