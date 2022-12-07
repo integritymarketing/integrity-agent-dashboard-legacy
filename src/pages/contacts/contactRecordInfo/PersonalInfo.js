@@ -550,6 +550,7 @@ export default ({
   leadsId,
   refreshContactDetails,
 }) => {
+  const addToast = useToast();
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [deleteTagFlag, setDeleteTagFlag] = useState(false);
@@ -706,6 +707,11 @@ export default ({
         submitHandler={() => {
           setDeleteTagFlag(true);
           setConfirmModalOpen(false);
+          addToast({
+            time: 10000,
+            type: "success",
+            message: "Successfully deleted the Tags",
+          });
         }}
       />
     </div>
