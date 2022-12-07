@@ -96,7 +96,19 @@ export default function TagsByCategory({
   TAGS,
   defaultOpenedList,
 }) {
-  const [openTags, setOpenTags] = useState([...defaultOpenedList]);
+  let openOptions = defaultOpenedList?.map((each) => each?.key) || [];
+
+  const [openTags, setOpenTags] = useState([...openOptions]);
+
+  const getSelectedTagsLength = (key) => {
+    let length = defaultOpenedList?.filter((each) => each?.key === key)[0]
+      ?.length;
+    return length && length > 0 ? (
+      <span>
+        : <span>({length})</span>
+      </span>
+    ) : null;
+  };
 
   const handleOpenTags = (tag) => {
     if (openTags.includes(tag)) {
@@ -137,7 +149,10 @@ export default function TagsByCategory({
                   justifyContent: "space-between",
                 }}
               >
-                <p className={styles.tagCategoryName}>{row?.tagCategoryName}</p>
+                <p className={styles.tagCategoryName}>
+                  {row?.tagCategoryName}
+                  {getSelectedTagsLength(row?.tagCategoryName)}
+                </p>
                 <div
                   className={styles.openClose}
                   onClick={() => handleOpenTags(row?.tagCategoryName)}

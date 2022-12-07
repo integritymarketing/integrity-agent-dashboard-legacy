@@ -51,15 +51,6 @@ export default function ContactListFilterOptions({ close }) {
     getTags();
   }, []);
 
-  const defaultOpenedList = useMemo(() => {
-    let list = [];
-    tagsList.map((item, i) => {
-      list = [...list, ...item?.tagCategoryName];
-      return item;
-    });
-    return list;
-  }, [tagsList]);
-
   const selectStage = (id) => {
     let isExist = stages?.findIndex((statusId) => statusId === id);
     let newStages = stages.slice();
@@ -70,6 +61,21 @@ export default function ContactListFilterOptions({ close }) {
     }
     setStages([...newStages]);
   };
+
+  const defaultOpenDetails = useMemo(() => {
+    let D_options = tagsList.map((item, i) => {
+      let selected = item?.tags?.filter((a) => tags?.includes(a?.tagId));
+      if (selected?.length > 0) {
+        return {
+          key: item.tagCategoryName,
+          length: selected.length,
+        };
+      } else return null;
+    });
+    let filterValid = D_options?.filter((each) => each && each?.key);
+    return filterValid;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tagsList]);
 
   const selectTag = (id) => {
     let isExist = tags?.findIndex((tagId) => tagId === id);
@@ -145,7 +151,7 @@ export default function ContactListFilterOptions({ close }) {
           selectTag={selectTag}
           tags={tags}
           TAGS={tagsList}
-          defaultOpenedList={defaultOpenedList}
+          defaultOpenedList={defaultOpenDetails}
         />
       )}
 

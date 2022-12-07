@@ -239,7 +239,9 @@ export default forwardRef((props, ref) => {
                     <div className="pr-h2">{item?.email}</div>
                   </div>
                   <div className="provider-content">
-                    <div className="pr-h1 pr-phone-mble">{item?.phone}</div>
+                    <div className="pr-h1 pr-phone-mble">
+                      {formatPhoneNumber(item.phone)}
+                    </div>
                     <div className="pr-h2">
                       {`${
                         item?.addresses[0]?.streetLine1
@@ -261,11 +263,7 @@ export default forwardRef((props, ref) => {
                           : ""
                       }`}
                       &nbsp;
-                      {`${
-                        item?.addresses[0]?.zipCode
-                          ? item?.addresses[0]?.zipCode + ","
-                          : ""
-                      }`}
+                      {item?.addresses[0]?.zipCode}
                     </div>
                   </div>
                   <div>
