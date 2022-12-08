@@ -117,10 +117,10 @@
   width: 736px;
   margin: 0 auto;
   border-radius: initial;
-  min-height: 80vh !important;
   padding: 0 !important;
 
   @media (max-width: 768px) {
+    min-height: 80vh !important;
     width: auto;
   }
 

@@ -226,6 +226,9 @@
 }
 .prescription--packaging .select {
   margin-left: 0px;
+  .select-container {
+   width: 100% !important;
+  }
 }
 .drugname-search-input {
   height: 44px;
