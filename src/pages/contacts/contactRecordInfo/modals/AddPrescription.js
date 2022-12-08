@@ -28,7 +28,9 @@ const transformPrescriptionOptions = (option) => {
 
 const frontTruncate = (str, maxChars, replacement = "...") => {
   if (str.length > maxChars) {
-    return replacement + str.slice(str.length - maxChars);
+    let value =
+      str.slice(0, 14) + replacement + str.slice(str.length - 13, str.length);
+    return value;
   }
   return str;
 };
@@ -66,7 +68,7 @@ export default function AddPrescription({
         const drugID = drugName?.value;
         const results = await clientService.getDrugDetails(drugID);
         const dosageOptions = (results?.dosages || []).map((dosage) => ({
-          label: frontTruncate(dosage.labelName, 35),
+          label: frontTruncate(dosage.labelName, 34),
           value: dosage,
         }));
         setDosageOptions(dosageOptions);
@@ -160,6 +162,7 @@ export default function AddPrescription({
     setDrugName("");
     setSearchString("");
   };
+
   return (
     <div className="prescription--modal">
       <Media

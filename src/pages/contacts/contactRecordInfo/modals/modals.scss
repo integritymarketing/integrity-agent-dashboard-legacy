@@ -183,6 +183,9 @@
   .prescription--dosage {
     flex: 1;
     margin-right: 15px;
+    .select-container {
+      width: 100% !important;
+    }
     @media (max-width: 480px) {
       width: 100%;
       margin-right: 0px;
@@ -211,6 +214,9 @@
       min-width: 155px;
       .select {
         margin-left: 0px;
+      }
+      .select-container {
+        width: 100% !important;
       }
       @media (min-width: 480px) {
         max-width: 155px;
