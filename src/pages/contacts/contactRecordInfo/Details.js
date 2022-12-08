@@ -192,6 +192,7 @@ export default forwardRef((props, ref) => {
             onClose={onClose}
             personalInfo={props.personalInfo}
             leadId={props.id}
+            leadProviders={leadProviders?.items?.providers || []}
           />
         )}
 

@@ -20,7 +20,13 @@ function encodeQueryData(data) {
   return ret.join("&");
 }
 
-export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
+export default function AddProvider({
+  isOpen,
+  onClose,
+  personalInfo,
+  leadId,
+  leadProviders,
+}) {
   const [zipCode, setZipCode] = useState(personalInfo.addresses[0]?.postalCode);
   const [searchText, setSearchText] = useState("");
   const [radius, setRadius] = useState(10);
@@ -73,7 +79,31 @@ export default function AddProvider({ isOpen, onClose, personalInfo, leadId }) {
       });
   }, [perPage, currentPage, searchText, zipCode, radius]);
 
+  const deleteExistingProvider = async (provider, npi, addressId) => {
+    try {
+      await clientsService.deleteProvider(addressId, leadId, npi);
+      addProviderHandle(provider);
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Error, update unsuccessful.",
+      });
+    }
+  };
+
   const saveProvider = async (provider) => {
+    let isExist =
+      leadProviders?.filter((each) => each?.NPI === provider?.NPI)[0] || null;
+
+    if (isExist) {
+      deleteExistingProvider(provider, isExist?.NPI, isExist?.addresses[0]?.id);
+    } else {
+      addProviderHandle(provider);
+    }
+  };
+
+  const addProviderHandle = async (provider) => {
     const request = [
       {
         npi: provider.NPI.toString(),
