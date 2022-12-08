@@ -75,7 +75,7 @@ export default function ContactListFilterOptions({ close }) {
     let filterValid = D_options?.filter((each) => each && each?.key);
     return filterValid;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tagsList]);
+  }, [tagsList, tags]);
 
   const selectTag = (id) => {
     let isExist = tags?.findIndex((tagId) => tagId === id);

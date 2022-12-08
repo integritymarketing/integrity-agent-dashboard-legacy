@@ -140,12 +140,12 @@ function TagsIcon({
       fetchTags();
     }
   }, [tagModalOpen]);
+
   const totalTags = useMemo(() => {
-    return tagsByCategory?.reduce(
-      (acc, item) => acc + item.tags?.length || 0,
-      0
-    );
-  }, [tagsByCategory]);
+    return selectedTagsIds && selectedTagsIds.length > 0
+      ? selectedTagsIds?.length
+      : "";
+  }, [selectedTagsIds]);
 
   function handleClose() {
     if (isProcessing) return;
