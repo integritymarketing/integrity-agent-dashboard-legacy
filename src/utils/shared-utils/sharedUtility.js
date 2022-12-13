@@ -3,7 +3,7 @@ import React from "react";
 export const ColorOptionRender = ({
   value,
   label,
-  color = [],
+  color,
   selected = false,
   onClick,
   filter,
@@ -24,7 +24,7 @@ export const ColorOptionRender = ({
           width: 10,
           height: 10,
           borderRadius: 5,
-          backgroundColor: color?.[0]?.color,
+          backgroundColor: color,
           marginRight: 5,
         }}
       />

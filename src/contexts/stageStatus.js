@@ -1,49 +1,10 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
 import clientsService from "services/clientsService";
 
-const colorCodes = {
-  blue: [
-    {
-      bg: "#DEEDFF",
-      color: "#0052CE",
-    },
-  ],
-  orange: [
-    {
-      bg: "#FFF2D1",
-      color: "#8C6A0E",
-    },
-  ],
-  green: [
-    {
-      bg: "#DBF5D9",
-      color: "#357A2F",
-    },
-  ],
-  grey: [
-    {
-      bg: "#EDEDED",
-      color: "#151E29",
-    },
-  ],
-};
-
 const StageStatusContext = createContext({
   message: "",
   isVisible: false,
 });
-
-const getStageColor = (status) => {
-  const statusColor =
-    status === "New" || status === "Renewal"
-      ? colorCodes.blue
-      : status === "Applied"
-      ? colorCodes.green
-      : status === "Lost" || status === "Enrolled"
-      ? colorCodes.grey
-      : colorCodes.orange;
-  return statusColor;
-};
 
 export const StageStatusProvider = (props) => {
   const [allStatuses, setAllStatuses] = useState([]);
@@ -51,7 +12,7 @@ export const StageStatusProvider = (props) => {
     return allStatuses.map((status) => ({
       value: status.statusName,
       label: status.statusName,
-      color: status.colorCode || getStageColor(status.statusName),
+      color: status.hexValue,
       statusId: status.leadStatusId,
     }));
   }, [allStatuses]);
@@ -75,7 +36,7 @@ export const StageStatusProvider = (props) => {
 
   return (
     <StageStatusContext.Provider
-      value={{ allStatuses, statusOptions, lostSubStatusesOptions, colorCodes }}
+      value={{ allStatuses, statusOptions, lostSubStatusesOptions }}
       {...props}
     />
   );
