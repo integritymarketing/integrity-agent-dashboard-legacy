@@ -209,7 +209,7 @@ const RenderModalItem = ({
                 <span className=".span_source-title">Call Lead</span>
               </div>
 
-              {(callHover || call) && (
+              {call && (
                 <img src={Check} alt="activeIcon" className="active_icon" />
               )}
             </div>
@@ -226,7 +226,7 @@ const RenderModalItem = ({
               <div className="modalItemTextStyle">
                 <span className=".span_source-title">Data Lead</span>
               </div>
-              {(dataHover || data) && (
+              {data && (
                 <img src={Check} alt="activeIcon" className="active_icon" />
               )}
             </div>
@@ -264,7 +264,7 @@ const RenderModalItem = ({
                   </Button>
                 </div>
 
-                {lcHover || leadCenter ? (
+                {leadCenter ? (
                   <img src={Check} alt="activeIcon" className="active_icon" />
                 ) : (
                   <div className="active_icon"> </div>
@@ -282,7 +282,7 @@ const RenderModalItem = ({
             >
               <div className="modal-lead-source">
                 <span className="span_source-title">MedicareEnroll pURL</span>
-                {(mcHover || medicareEnrollPurl) && (
+                {medicareEnrollPurl && (
                   <img src={Check} alt="activeIcon" className="active_icon" />
                 )}
               </div>

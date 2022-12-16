@@ -121,22 +121,34 @@ export default function PlanCard({
         </div>
       </div>
       <div className={`premiums ${isMobile ? "mobile" : ""}`}>
-        <div
-          className={"monthly"}
-          onClick={() => {
-            setBreakdownCollapsed(isMobile && !breakdownCollapsed);
-          }}
-        >
-          {!isMobile && <div className={"label"}>Monthly Premium</div>}
-          <div className={"currency"}>
-            {currencyFormatter.format(planData.annualPlanPremium / 12)}
-          </div>
-          {isMobile && (
-            <div className={"label"}>
-              <span className={"mnth-mbl"}>/month </span>
-              <ArrowDown />
+        <div className="plan-monthly-costs">
+          <div className={"monthly"}>
+            {!isMobile && <div className={"label"}>Monthly Plan Premium</div>}
+            <div className={"currency"}>
+              {currencyFormatter.format(planData.annualPlanPremium / 12)}
             </div>
-          )}
+          </div>
+          <div
+            className={"monthly rx-drug"}
+            onClick={() => {
+              setBreakdownCollapsed(isMobile && !breakdownCollapsed);
+            }}
+          >
+            {!isMobile && (
+              <div className={"label"}>Est. Monthly RX Drug Cost</div>
+            )}
+            <div className={"currency"}>
+              {currencyFormatter.format(
+                planData.estimatedAnnualDrugCostPartialYear / 12
+              )}
+            </div>
+            {isMobile && (
+              <div className={"label"}>
+                <span className={"mnth-mbl"}>/month </span>
+                <ArrowDown />
+              </div>
+            )}
+          </div>
         </div>
         <div
           className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}
@@ -162,10 +174,12 @@ export default function PlanCard({
           {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
         </div>
       </div>
-      <div className={`coverage ${isMobile ? "mobile" : ""}`}>
-        <div className={"label"}>Supplemental Coverage Recommendations:</div>
-        <div className="list">{getCoverageRecommendations(planData)}</div>
-      </div>
+      {getCoverageRecommendations(planData)?.length > 0 && (
+        <div className={`coverage ${isMobile ? "mobile" : ""}`}>
+          <div className={"label"}>Supplemental Coverage Recommendations:</div>
+          <div className="list">{getCoverageRecommendations(planData)}</div>
+        </div>
+      )}
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
         <div className={"compare-check cmp-chk-mbl"}>
           <input

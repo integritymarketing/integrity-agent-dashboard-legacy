@@ -13,17 +13,21 @@ export default {
       field: "drugDeductible",
     },
     {
-      label: "Estimated Rx Drug Cost",
-      subtext: "Based on {effectiveDate} Effective Date",
-      field: "estimatedAnnualDrugCostPartialYear",
-    },
-    {
-      label: "Estimated Total Cost",
+      label: "Estimated Yearly Rx Drug Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
       function: (planData, effectiveDate) =>
-        planData.medicalPremium * (12 - effectiveDate.getMonth()) +
-        planData.estimatedAnnualDrugCostPartialYear,
+        (planData.estimatedAnnualDrugCostPartialYear / 12) *
+        (12 - effectiveDate.getMonth()),
+    },
+    {
+      label: "Estimated Yearly Total Cost",
+      subtext: "Based on {effectiveDate} Effective Date",
+      field: "estimatedAnnualDrugCostPartialYear",
+      function: (planData, effectiveDate) =>
+        (planData.estimatedAnnualDrugCostPartialYear / 12 +
+          planData.annualPlanPremium / 12) *
+        (12 - effectiveDate.getMonth()),
     },
   ],
   MA: [
@@ -36,7 +40,7 @@ export default {
       field: "maximumOutOfPocketCost",
     },
     {
-      label: "Estimated Total Cost",
+      label: "Estimated Yearly Total Cost",
       field: "estimatedAnnualDrugCostPartialYear",
       subtext: "Based on {effectiveDate} Effective Date",
       function: (planData, effectiveDate) =>
@@ -49,12 +53,12 @@ export default {
       field: "drugDeductible",
     },
     {
-      label: "Estimated Rx Drug Deductible",
+      label: "Estimated Yearly Rx Drug Deductible",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
     },
     {
-      label: "Estimated Total Cost",
+      label: "Estimated Yearly Total Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
     },
