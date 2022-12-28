@@ -29,7 +29,7 @@ function PremiumCell({ planData }) {
 function EstRxLabel() {
   return (
     <>
-      <span className={"label"}>Estimated Rx Drug Cost</span>
+      <span className={"label"}>Estimated Yearly Rx Drug Cost</span>
       <span className={"subtext"}>
         Estimate based on contacts prescriptions and selected pharmacy.
       </span>
@@ -46,7 +46,8 @@ function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
       <span className={"value"}>
         <span className={"currency"}>
           {currencyFormatter.format(
-            planData.estimatedAnnualDrugCostPartialYear
+            (planData.estimatedAnnualDrugCostPartialYear / 12) *
+              (12 - effectiveStartDate.getMonth())
           )}
         </span>
         <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
@@ -63,7 +64,7 @@ function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
 function TotalEstLabel() {
   return (
     <>
-      <span className={"label"}>Total Estimated Cost</span>
+      <span className={"label"}>Total Estimated Yearly Cost</span>
       <span className={"subtext"}>
         Estimate based on monthly premium and estimated Rx drug costs.
       </span>
@@ -72,7 +73,6 @@ function TotalEstLabel() {
 }
 
 function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
-  const monthsRemaining = 12 - effectiveStartDate.getMonth();
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
@@ -82,8 +82,9 @@ function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
       <span className={"value"}>
         <span className={"currency"}>
           {currencyFormatter.format(
-            planData.medicalPremium * monthsRemaining +
-              planData.estimatedAnnualDrugCostPartialYear
+            (planData.estimatedAnnualDrugCostPartialYear / 12 +
+              planData.annualPlanPremium / 12) *
+              (12 - effectiveStartDate.getMonth())
           )}
         </span>
         <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
