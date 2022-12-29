@@ -132,7 +132,7 @@ const Textfield = ({
               }
             }}
             {...dayPickerConfig}
-            inputProps={inputElementProps}
+            inputprops={inputElementProps}
           />
         ) : (
           <InputElement value={value} {...inputElementProps} />

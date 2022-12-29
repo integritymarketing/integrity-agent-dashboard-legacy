@@ -571,7 +571,7 @@ export default (props) => {
                       label="ZIP Code"
                       name="address.postalCode"
                       value={values.address.postalCode}
-                      inputProps={{ maxLength: 5 }}
+                      inputprops={{ maxLength: 5 }}
                       onChange={(e) => {
                         setFieldValue("address.postalCode", e.target.value);
                         setFieldValue("address.county", "");

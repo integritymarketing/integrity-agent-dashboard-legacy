@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useState, useMemo, useEffect } from "react";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
@@ -11,21 +11,28 @@ import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisp
 import stageSummaryContext from "contexts/stageSummary";
 
 export default ({ value, original, onRefresh }) => {
-  const { allStatuses, statusOptions, lostSubStatusesOptions } = useContext(
-    StageStatusContext
-  );
-  if (!lostSubStatusesOptions) return null;
-  const [selectedValue, setSelectedValue] = useState(() => {
-    return value
-      ? lostSubStatusesOptions?.filter((opt) => opt.label === value).length > 0
-        ? "Lost"
-        : value
-      : "New";
-  });
-  const { loadStageSummaryData } = useContext(stageSummaryContext);
-  const addToast = useToast();
   const [isMobile, setIsMobile] = useState(false);
   const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const { loadStageSummaryData } = useContext(stageSummaryContext);
+  const { allStatuses, statusOptions, lostSubStatusesOptions } =
+    useContext(StageStatusContext);
+
+  const addToast = useToast();
+
+  useEffect(() => {
+    if (lostSubStatusesOptions) {
+      let filteredValue = value
+        ? lostSubStatusesOptions?.filter((opt) => opt?.label === value)
+            ?.length > 0
+          ? "Lost"
+          : value
+        : "New";
+      setSelectedValue(filteredValue);
+    }
+  }, [lostSubStatusesOptions, value]);
+
   const onLostReasonModalCancel = () => {
     setIsLostReasonModalOpen(false);
     setSelectedValue(value || "New");

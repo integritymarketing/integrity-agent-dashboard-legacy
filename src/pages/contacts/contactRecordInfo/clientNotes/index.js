@@ -8,13 +8,13 @@ import useToast from "../../../../hooks/useToast";
 export default function ClientNotes(props) {
   const [isEdit, setIsEdit] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [value, setValue] = useState(props.personalInfo.notes);
+  const [value, setValue] = useState(props.personalInfo.notes || "");
   const handleOnChange = (e) => setValue(e.currentTarget.value);
   const handleOnEdit = () => setIsEdit(true);
   const handleOnCancel = () => {
     setValue(props.personalInfo.notes);
     setIsEdit(false);
-  }
+  };
   const handleOnSave = async () => {
     try {
       setIsSaving(() => true);
@@ -65,7 +65,7 @@ export default function ClientNotes(props) {
         <hr />
         <div className="client-notes-card-body">
           {!isEdit ? (
-            <div className="client-notes">              
+            <div className="client-notes">
               <p>{value ? value : "Write client notes here..."}</p>
             </div>
           ) : (

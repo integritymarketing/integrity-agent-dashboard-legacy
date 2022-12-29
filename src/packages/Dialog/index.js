@@ -99,11 +99,11 @@ export default function Dialog(props) {
 }
 
 Dialog.propTypes = {
-  onSave: PropTypes.func.isRequired,
+  onSave: PropTypes.func,
   onCancel: PropTypes.func,
   open: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
-  saveText: PropTypes.string.isRequired,
+  saveText: PropTypes.string,
   cancelText: PropTypes.string,
   title: PropTypes.string,
   maxWidth: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),

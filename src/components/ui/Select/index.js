@@ -34,7 +34,7 @@ export const DefaultOption = ({
 };
 
 DefaultOption.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.any,
   selected: PropTypes.bool,
   value: PropTypes.any,
   onClick: PropTypes.func,
@@ -227,7 +227,7 @@ export const Select = ({
 };
 
 Select.propTypes = {
-  initialValue: PropTypes.string,
+  initialValue: PropTypes.any,
   prefix: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,

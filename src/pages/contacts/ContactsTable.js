@@ -68,14 +68,14 @@ function Table({
           // to render a checkbox
           Header: ({ getToggleAllRowsSelectedProps }) => (
             <div>
-              <Checkbox {...getToggleAllRowsSelectedProps()} />
+              <Checkbox label="" id="" {...getToggleAllRowsSelectedProps()} />
             </div>
           ),
           // The cell can use the individual row's getToggleRowSelectedProps method
           // to the render a checkbox
           Cell: ({ row }) => (
             <div>
-              <Checkbox {...row.getToggleRowSelectedProps()} />
+              <Checkbox label="" id="" {...row.getToggleRowSelectedProps()} />
             </div>
           ),
         },
@@ -415,7 +415,9 @@ function ContactsTable({
           return (
             <div>
               {row.leadTags?.slice(0, 3).map((lt) => (
-                <span className={styles.tagBadge}>{lt.tag.tagLabel}</span>
+                <span key={lt?.tag?.tagLabel} className={styles.tagBadge}>
+                  {lt.tag.tagLabel}
+                </span>
               ))}
               {row.leadTags?.length > 3 && (
                 <span className={styles.tagBadge}>

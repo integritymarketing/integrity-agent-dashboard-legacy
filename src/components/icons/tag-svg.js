@@ -42,7 +42,7 @@ export default (props) => {
           id="Group_1713"
           data-name="Group 1713"
           transform="translate(8 11)"
-          clip-path="url(#clip-path)"
+          clipPath="url(#clip-path)"
         >
           <path
             id="Path_2521"
@@ -50,9 +50,9 @@ export default (props) => {
             d="M.5,1.116V9.472a.616.616,0,0,0,.616.617H10.7a.614.614,0,0,0,.436-.181L15.319,5.73a.616.616,0,0,0,0-.872L11.141.68A.617.617,0,0,0,10.7.5H1.116A.616.616,0,0,0,.5,1.116Z"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>

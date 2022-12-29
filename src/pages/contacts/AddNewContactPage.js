@@ -54,7 +54,7 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
 
 const NewContactForm = ({ callLogId }) => {
   const { get } = useQueryParams();
-  const callFrom = get('callFrom');
+  const callFrom = get("callFrom");
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
   const {
@@ -420,7 +420,7 @@ const NewContactForm = ({ callLogId }) => {
                   className={`${styles["contact-address--zip"]}`}
                   label="ZIP Code"
                   name="address.postalCode"
-                  inputProps={{ maxLength: 5 }}
+                  inputprops={{ maxLength: 5 }}
                   value={values.address.postalCode}
                   onChange={(e) => {
                     setFieldValue("address.postalCode", e.target.value);
@@ -542,7 +542,7 @@ const NewContactForm = ({ callLogId }) => {
                   type="tel"
                   placeholder="(XXX) XXX-XXXX"
                   name="phones.leadPhone"
-                  value={formatPhoneNumber(values.phones.leadPhone)}
+                  value={formatPhoneNumber(values.phones.leadPhone) || ""}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={touched.phones?.leadPhone && errors.phones?.leadPhone}

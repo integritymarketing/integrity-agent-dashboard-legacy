@@ -9,17 +9,12 @@ function getHeader(column) {
 }
 
 export default ({ columns, data, compareTable, className }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-    compareTable,
-  });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+      compareTable,
+    });
 
   return (
     <>
