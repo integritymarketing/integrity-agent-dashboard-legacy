@@ -10,7 +10,7 @@ class PlansService {
       plansFilter
     );
 
-    return response.json();
+    return response?.json();
   };
 
   getPlan = async (leadId, planId, contactData, effectiveDate) => {
@@ -24,7 +24,7 @@ class PlansService {
       }
     );
 
-    return response.json();
+    return response?.json();
   };
 
   enroll = async (leadId, planId, data) => {
@@ -35,7 +35,7 @@ class PlansService {
       data
     );
 
-    return response.json();
+    return response?.json();
   };
 
   enrollConsumerView = async (leadId, planId, data, agentNPN) => {
@@ -48,7 +48,7 @@ class PlansService {
       }
     );
 
-    return response.json();
+    return response?.json();
   };
 
   sendPlan = async (data, leadId, planId) => {
@@ -58,10 +58,10 @@ class PlansService {
       {},
       data
     );
-    if (response.ok) {
-      return response.text();
+    if (response?.ok) {
+      return response?.text();
     }
-    throw new Error(response.statusText);
+    throw new Error(response?.statusText);
   };
 
   resendCode = async (data) => {
@@ -71,10 +71,10 @@ class PlansService {
       data
     );
 
-    if (response.ok) {
-      return response.json();
+    if (response?.ok) {
+      return response?.json();
     }
-    throw new Error(response.statusText);
+    throw new Error(response?.statusText);
   };
 
   sendPlanCompare = async (data) => {
@@ -85,10 +85,10 @@ class PlansService {
       data
     );
 
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
-    throw new Error(response.statusText);
+    throw new Error(response?.statusText);
   };
 
   getPassCodeToken = async (token) => {
@@ -96,7 +96,7 @@ class PlansService {
       `${process.env.REACT_APP_QUOTE_URL}/passcode/${token}?api-version=1.0`,
       "GET"
     );
-    return response.json();
+    return response?.json();
   };
 
   _clientAPIRequest = async (path, method = "GET", query, body, bearer) => {
@@ -121,7 +121,12 @@ class PlansService {
     return fetch(url.toString(), opts);
   };
 
-  _clientPublicAPIRequest = async (path, method = "GET", body, headers = {}) => {
+  _clientPublicAPIRequest = async (
+    path,
+    method = "GET",
+    body,
+    headers = {}
+  ) => {
     const opts = {
       method,
       headers: {

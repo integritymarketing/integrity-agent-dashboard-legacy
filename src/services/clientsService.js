@@ -120,10 +120,10 @@ export class ClientsService {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
     );
-    if (response.status >= 400) {
+    if (response?.status >= 400) {
       throw new Error("Leads request failed.");
     }
-    const list = await response.json();
+    const list = await response?.json();
 
     return list;
   };
@@ -198,7 +198,7 @@ export class ClientsService {
       reqData
     );
 
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Update failed.");
@@ -211,7 +211,7 @@ export class ClientsService {
       "PUT",
       reqData
     );
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Update failed.");
@@ -241,7 +241,7 @@ export class ClientsService {
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/statuses`
     );
 
-    return response.json();
+    return response?.json();
   };
 
   getContactInfo = async (id) => {
@@ -249,7 +249,7 @@ export class ClientsService {
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
     );
 
-    return response.json();
+    return response?.json();
   };
 
   deleteContactLeads = async (leadsId) => {
@@ -269,7 +269,7 @@ export class ClientsService {
       data
     );
 
-    return response.json();
+    return response?.json();
   };
 
   updateReminder = async (data) => {
@@ -279,7 +279,7 @@ export class ClientsService {
       data
     );
 
-    return response.json();
+    return response?.json();
   };
 
   deleteReminder = async (id) => {
@@ -298,7 +298,7 @@ export class ClientsService {
       data
     );
 
-    return response.json();
+    return response?.json();
   };
 
   updateActivity = async (data, id) => {
@@ -308,7 +308,7 @@ export class ClientsService {
       data
     );
 
-    return response.json();
+    return response?.json();
   };
 
   deleteActivity = async (id) => {
@@ -493,7 +493,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   createContactPreferences = async (leadsId, payload) => {
@@ -503,7 +503,7 @@ export class ClientsService {
       { leadsId, ...payload }
     );
 
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Update failed.");
@@ -516,8 +516,8 @@ export class ClientsService {
       payload
     );
 
-    if (response.ok) {
-      return response.json();
+    if (response?.ok) {
+      return response?.json();
     }
     throw new Error("Update failed.");
   };
@@ -528,7 +528,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   getLeadPharmacies = async (leadId) => {
@@ -537,7 +537,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json().then((res) => res || []);
+    return response?.json().then((res) => res || []);
   };
 
   getLeadProviders = async (leadId) => {
@@ -546,7 +546,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json().then((res) => res || []);
+    return response?.json().then((res) => res || []);
   };
 
   getLeadPrescriptions = async (leadId) => {
@@ -554,7 +554,7 @@ export class ClientsService {
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
       "GET"
     );
-    return response.json().then((res) => res || []);
+    return response?.json().then((res) => res || []);
   };
 
   createPrescription = async (leadId, reqData) => {
@@ -563,7 +563,7 @@ export class ClientsService {
       "POST",
       reqData
     );
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Update failed.");
@@ -576,8 +576,8 @@ export class ClientsService {
       reqData
     );
 
-    if (response.ok) {
-      return response.json();
+    if (response?.ok) {
+      return response?.json();
     }
     throw new Error("Update failed.");
   };
@@ -596,7 +596,7 @@ export class ClientsService {
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugName?drugName=${drugName}`,
       "GET"
     );
-    return response.json();
+    return response?.json();
   };
 
   getDrugDetails = async (drugID) => {
@@ -604,7 +604,7 @@ export class ClientsService {
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?id=${drugID}`,
       "GET"
     );
-    return response.json();
+    return response?.json();
   };
 
   deletePharmacy = async (leadId, id) => {
@@ -622,7 +622,7 @@ export class ClientsService {
       "POST",
       reqData
     );
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Update failed.");
@@ -634,7 +634,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   createLeadProvider = async (leadId, data) => {
@@ -644,7 +644,7 @@ export class ClientsService {
       data
     );
 
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Create Lead failed.");
@@ -655,7 +655,7 @@ export class ClientsService {
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${npi}?addressId=${addressId}`,
       "DELETE"
     );
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Delete Lead failed.");
@@ -667,7 +667,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   searchPharmacies = async (payload) => {
@@ -677,7 +677,7 @@ export class ClientsService {
       payload
     );
 
-    return response.json();
+    return response?.json();
   };
 
   getLatlongByAddress = async (zipcode, address) => {
@@ -694,7 +694,7 @@ export class ClientsService {
       opts
     );
 
-    return response.json();
+    return response?.json();
   };
 
   sendSoaInformation = async (payload, leadsId) => {
@@ -704,7 +704,7 @@ export class ClientsService {
       payload
     );
 
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Failed to send soa information.");
@@ -715,8 +715,8 @@ export class ClientsService {
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
       "GET"
     );
-    if (response.ok) {
-      return response.json();
+    if (response?.ok) {
+      return response?.json();
     }
     throw new Error("Failed to Get soa list by lead Id.");
   };
@@ -727,7 +727,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   getSoaStatusByLinkCode = async (linkCode) => {
@@ -736,7 +736,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   saveSoaInformationForLeadByLinkCode = async (payload, linkCode) => {
@@ -746,7 +746,7 @@ export class ClientsService {
       payload
     );
 
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
     throw new Error("Failed to send soa information.");
@@ -758,7 +758,7 @@ export class ClientsService {
       payload
     );
 
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
   };
@@ -806,10 +806,10 @@ export class ClientsService {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
     );
-    if (response.status >= 400) {
+    if (response?.status >= 400) {
       throw new Error("Leads request failed.");
     }
-    const list = await response.json();
+    const list = await response?.json();
 
     return list;
   };
@@ -836,7 +836,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   getApplicationCount = async (sortByRange) => {
@@ -846,7 +846,7 @@ export class ClientsService {
       "GET"
     );
 
-    return response.json();
+    return response?.json();
   };
 
   getAgents = async (npn) => {
@@ -855,11 +855,11 @@ export class ClientsService {
       "GET"
     );
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (!response?.ok) {
+      throw new Error(response?.statusText);
     }
 
-    return response.json();
+    return response?.json();
   };
 
   /*End Dashboard API */
@@ -871,7 +871,7 @@ export class ClientsService {
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
       "GET"
     );
-    return response.json();
+    return response?.json();
   };
 
   createAgentPurlCode = async (payload) => {
@@ -880,7 +880,7 @@ export class ClientsService {
       "POST",
       payload
     );
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
   };
@@ -888,7 +888,7 @@ export class ClientsService {
   updateAgentAvailability = async (payload) => {
     let url = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`;
     const response = await this._clientAPIRequest(url, "POST", payload);
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
   };
@@ -899,7 +899,7 @@ export class ClientsService {
       "POST",
       payload
     );
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
   };
@@ -909,8 +909,8 @@ export class ClientsService {
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
       "GET"
     );
-    if (response.ok) {
-      return response.json();
+    if (response?.ok) {
+      return response?.json();
     }
   };
 
@@ -920,7 +920,7 @@ export class ClientsService {
       "POST",
       payload
     );
-    if (response.ok) {
+    if (response?.ok) {
       return response;
     }
   };
@@ -931,7 +931,7 @@ export class ClientsService {
       `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
       "GET"
     );
-    const agentData = await response.json();
+    const agentData = await response?.json();
     if (!agentData?.virtualPhoneNumber) {
       await this.genarateAgentTwiloNumber(id);
     }
@@ -950,7 +950,7 @@ export class ClientsService {
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`,
       "GET"
     );
-    return response.json();
+    return response?.json();
   };
 
   getTagsGroupByCategory = async () => {
@@ -958,7 +958,7 @@ export class ClientsService {
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,
       "GET"
     );
-    return response.json();
+    return response?.json();
   };
 
   updateLeadsTags = async (leadId, tagIds = []) => {
@@ -967,7 +967,7 @@ export class ClientsService {
       "POST",
       { leadId, tagIds }
     );
-    return response.json();
+    return response?.json();
   };
 
   updateLeadPhone = async (contact, leadPhone) => {
@@ -994,10 +994,10 @@ export class ClientsService {
         addresses: contact.addresses,
       }
     );
-    if (!response.ok) {
+    if (!response?.ok) {
       throw new Error("Cannot update contact");
     }
-    return response.json();
+    return response?.json();
   };
 
   saveTag = async ({ leadsId, tagCategoryId, tagLabel, tagId }) => {
@@ -1011,7 +1011,7 @@ export class ClientsService {
         leadsId,
       }
     );
-    return response.json();
+    return response?.json();
   };
 
   deleteTag = async ({ tagId }) => {
@@ -1019,7 +1019,7 @@ export class ClientsService {
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag/${tagId || ""}`,
       "DELETE"
     );
-    return response.ok;
+    return response?.ok;
   };
 }
 

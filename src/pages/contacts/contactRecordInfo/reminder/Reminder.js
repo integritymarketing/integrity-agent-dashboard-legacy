@@ -74,7 +74,7 @@ export const ShortReminder = ({
       {showAddModal && (
         <ReminderModal
           reminder={reminder}
-          getContactRecordInfo={onRefresh}
+          getContactRecordInfo={onRefresh ? onRefresh : null}
           reminderModalStatus={showAddModal}
           setReminderModalStatus={() => setShowAddModal(false)}
           leadId={leadId}

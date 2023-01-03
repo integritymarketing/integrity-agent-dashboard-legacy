@@ -51,7 +51,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     clientsService
       .getLatlongByAddress(zipCode, pharmacyAddress)
       .then((data) => {
-        if (data?.features[0]?.center) {
+        if (data?.features?.length > 0 && data?.features[0]?.center) {
           // mapbox returns longitude/latitude, so need to reverse order for
           // the pharmacy search API.
           let latlan_value = data?.features[0]?.center.reverse().toString();
@@ -363,6 +363,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 {zipCode &&
                   results?.map((item) => (
                     <div
+                      key={`${item?.pharmacyID}-pharmacy`}
                       className={`provider-result-content ${
                         selectedPharmacy?.pharmacyID === item?.pharmacyID
                           ? "selected"

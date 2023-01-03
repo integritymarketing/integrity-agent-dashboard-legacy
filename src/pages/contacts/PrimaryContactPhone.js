@@ -38,41 +38,45 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
 
   const formatContactNumber = useMemo(() => formatPhoneNumber(phone), [phone]);
 
-  const onPhoneClickHandler = useCallback(async (event) => {
-    let agentCallForwardingNumber;
-    event.preventDefault();
-    try {
-      const agentData = await getAgentAvailability();
-      if (!agentData?.callForwardNumber) {
-        const agentDataById = await getAgentByAgentId(agentData.agentID);
-        agentCallForwardingNumber = agentDataById.callForwardNumber;
+  const onPhoneClickHandler = useCallback(
+    async (event) => {
+      let agentCallForwardingNumber;
+      event.preventDefault();
+      try {
+        const agentData = await getAgentAvailability();
+        if (!agentData?.callForwardNumber) {
+          const agentDataById = await getAgentByAgentId(agentData?.agentID);
+          agentCallForwardingNumber = agentDataById.callForwardNumber;
+        }
+        const formattedPhoneNumber =
+          agentData?.agentVirtualPhoneNumber?.replace(/^\+1/, "");
+        const payload = {
+          agentId: agentData?.agentID,
+          leadId: `${leadsId}`,
+          agentTwilioNumber: formattedPhoneNumber,
+          agentPhoneNumber:
+            agentData.callForwardNumber || agentCallForwardingNumber,
+          customerNumber: phone,
+          agentNPN: npn,
+        };
+        await callRecordingsService.outboundCallFromMedicareCenter(payload);
+        addToast({
+          type: "success",
+          message: "Call Intiated Successfully",
+        });
+        setModalOpen(true);
+      } catch (error) {
+        Sentry.captureException(error);
+        addToast({
+          type: "error",
+          message: "There was an error please try again.",
+        });
+        setModalOpen(false);
       }
-      const formattedPhoneNumber = agentData?.agentVirtualPhoneNumber?.replace(/^\+1/, "");
-      const payload = {
-        agentId: agentData.agentID,
-        leadId: `${leadsId}`,
-        agentTwilioNumber: formattedPhoneNumber,
-        agentPhoneNumber:
-          agentData.callForwardNumber || agentCallForwardingNumber,
-        customerNumber: phone,
-        agentNPN: npn,
-      };
-      await callRecordingsService.outboundCallFromMedicareCenter(payload);
-      addToast({
-        type: "success",
-        message: "Call Intiated Successfully",
-      });
-      setModalOpen(true);
-    } catch (error) {
-      Sentry.captureException(error);
-      addToast({
-        type: "error",
-        message: "There was an error please try again.",
-      });
-      setModalOpen(false);
-    }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [npn]);
+    [npn]
+  );
 
   return (
     <>

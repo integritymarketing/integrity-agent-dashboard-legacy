@@ -7,10 +7,10 @@ import EditDetails from "components/icons/edit-details";
 import ArrowDown from "components/icons/arrow-down";
 
 export default function ContactRecordHeader({
-  contact={},
-  providersCount=0,
-  prescriptionsCount=0,
-  pharmacyCount=0,
+  contact = {},
+  providersCount = 0,
+  prescriptionsCount = 0,
+  pharmacyCount = 0,
   isMobile,
   onEditClick,
 }) {
@@ -18,16 +18,17 @@ export default function ContactRecordHeader({
   const fullName = `${contact.firstName} ${contact.middleName || ""} ${
     contact.lastName
   }`;
-  const zip = contact?.addresses[0]?.postalCode;
+  const zip =
+    contact?.addresses.length > 0 ? contact?.addresses[0]?.postalCode : null;
   return (
     <div className="contactRecordHeader">
       <div className="back">
-          <Button
-            icon={<ArrowDown />}
-            label="Back to Contact Record"
-            onClick={() => history.push(`/contact/${contact.leadsId}`)}
-            type="tertiary"
-          />
+        <Button
+          icon={<ArrowDown />}
+          label="Back to Contact Record"
+          onClick={() => history.push(`/contact/${contact.leadsId}`)}
+          type="tertiary"
+        />
       </div>
       <div className="details">
         <h4 className="name">{fullName}</h4>
@@ -63,7 +64,7 @@ export default function ContactRecordHeader({
       <div className="edit">
         <Button
           icon={!isMobile ? <EditDetails /> : null}
-          label={ isMobile ? "Edit Contact Record" : "Edit Contact"}
+          label={isMobile ? "Edit Contact Record" : "Edit Contact"}
           onClick={() => onEditClick("details")}
           type="secondary"
         />
