@@ -100,13 +100,16 @@ export default ({
             planDocuments: planDocumentsRef,
             standardRetailPharmacyCoverage: standardRetailPharmacyCoverageRef,
             ...(hasPreferredRetailPharmacyNetwork && {
-              preferredRetailPharmacyCoverage: preferredRetailPharmacyCoverageRef,
+              preferredRetailPharmacyCoverage:
+                preferredRetailPharmacyCoverageRef,
             }),
             ...(hasPreferredMailPharmacyNetwork && {
-              preferredMailOrderPharmacyCoverage: preferredMailOrderPharmacyCoverageRef,
+              preferredMailOrderPharmacyCoverage:
+                preferredMailOrderPharmacyCoverageRef,
             }),
             ...(hasMailDrugBenefits && {
-              standardMailOrderPharmacyCoverage: standardMailOrderPharmacyCoverageRef,
+              standardMailOrderPharmacyCoverage:
+                standardMailOrderPharmacyCoverageRef,
             }),
           }}
         />
@@ -123,7 +126,9 @@ export default ({
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>
-          {plan && <PdpCostTable planData={plan} isMobile={isMobile} />}
+          {plan && (
+            <PdpCostTable planData={plan} isMobile={isMobile} planType="PDP" />
+          )}
         </div>
         <div
           ref={prescriptionsRef}

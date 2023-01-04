@@ -62,7 +62,9 @@ export default ({ plan, isMobile, styles, onEnrollClick, onShareClick }) => {
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>
-          {plan && <MaCostTable isMobile={isMobile} planData={plan} />}
+          {plan && (
+            <MaCostTable isMobile={isMobile} planData={plan} planType="MA" />
+          )}
         </div>
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
           {plan && <MaProvidersTable isMobile={isMobile} planData={plan} />}

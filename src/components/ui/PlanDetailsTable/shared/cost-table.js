@@ -12,6 +12,46 @@ function PremiumLabel() {
   return <span className={"label"}>Premium</span>;
 }
 
+const totalCostBasedOnPlantypes = (planData, effectiveStartDate) => {
+  const type = PLAN_TYPE_ENUMS[planData.planType];
+  switch (type) {
+    case "PDP":
+      return currencyFormatter.format(
+        planData?.estimatedAnnualDrugCostPartialYear
+      );
+    case "MA":
+      return currencyFormatter.format(
+        (planData.annualPlanPremium / 12) * (12 - effectiveStartDate.getMonth())
+      );
+    case "MAPD":
+      return currencyFormatter.format(
+        (planData.estimatedAnnualDrugCostPartialYear / 12 +
+          planData.annualPlanPremium / 12) *
+          (12 - effectiveStartDate.getMonth())
+      );
+    default:
+      return null;
+  }
+};
+
+const RXCostBasedOnPlantypes = (planData, effectiveStartDate) => {
+  const type = PLAN_TYPE_ENUMS[planData.planType];
+  switch (type) {
+    case "PDP":
+      return currencyFormatter.format(
+        planData?.estimatedAnnualDrugCostPartialYear
+      );
+
+    case "MAPD":
+      return currencyFormatter.format(
+        (planData.estimatedAnnualDrugCostPartialYear / 12) *
+          (12 - effectiveStartDate.getMonth())
+      );
+    default:
+      return null;
+  }
+};
+
 function PremiumCell({ planData }) {
   return (
     <>
@@ -41,14 +81,13 @@ function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
+  const ddd = RXCostBasedOnPlantypes(planData, effectiveStartDate);
+  console.log("KJKJ", ddd);
   return (
     <>
       <span className={"value"}>
         <span className={"currency"}>
-          {currencyFormatter.format(
-            (planData.estimatedAnnualDrugCostPartialYear / 12) *
-              (12 - effectiveStartDate.getMonth())
-          )}
+          {RXCostBasedOnPlantypes(planData, effectiveStartDate)}
         </span>
         <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
         <span className={"per-mobile"}>Yearly</span>
@@ -81,11 +120,7 @@ function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
     <>
       <span className={"value"}>
         <span className={"currency"}>
-          {currencyFormatter.format(
-            (planData.estimatedAnnualDrugCostPartialYear / 12 +
-              planData.annualPlanPremium / 12) *
-              (12 - effectiveStartDate.getMonth())
-          )}
+          {totalCostBasedOnPlantypes(planData, effectiveStartDate)}
         </span>
         <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
         <span className={"per-mobile"}>Yearly</span>

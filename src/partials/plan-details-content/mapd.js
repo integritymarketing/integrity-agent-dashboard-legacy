@@ -114,13 +114,16 @@ export default ({
             planDocuments: planDocumentsRef,
             standardRetailPharmacyCoverage: standardRetailPharmacyCoverageRef,
             ...(hasPreferredRetailPharmacyNetwork && {
-              preferredRetailPharmacyCoverage: preferredRetailPharmacyCoverageRef,
+              preferredRetailPharmacyCoverage:
+                preferredRetailPharmacyCoverageRef,
             }),
             ...(hasPreferredMailPharmacyNetwork && {
-              preferredMailOrderPharmacyCoverage: preferredMailOrderPharmacyCoverageRef,
+              preferredMailOrderPharmacyCoverage:
+                preferredMailOrderPharmacyCoverageRef,
             }),
             ...(hasMailDrugBenefits && {
-              standardMailOrderPharmacyCoverage: standardMailOrderPharmacyCoverageRef,
+              standardMailOrderPharmacyCoverage:
+                standardMailOrderPharmacyCoverageRef,
             }),
           }}
         />
@@ -137,7 +140,13 @@ export default ({
           )}
         </div>
         <div ref={costsRef} className={`${styles["costs"]}`}>
-          {plan && <MapdCostTable isMobile={isMobile}  planData={plan} />}
+          {plan && (
+            <MapdCostTable
+              isMobile={isMobile}
+              planData={plan}
+              planType="MAPD"
+            />
+          )}
         </div>
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
           {plan && <MapdProvidersTable isMobile={isMobile} planData={plan} />}
@@ -146,11 +155,17 @@ export default ({
           ref={prescriptionsRef}
           className={`${styles["prescription-details"]}`}
         >
-          {plan && <MapdPrescriptionsTable isMobile={isMobile} planData={plan} />}
+          {plan && (
+            <MapdPrescriptionsTable isMobile={isMobile} planData={plan} />
+          )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
           {plan && (
-            <MapdPharmacyTable isMobile={isMobile} planData={plan} pharmacies={pharmacies} />
+            <MapdPharmacyTable
+              isMobile={isMobile}
+              planData={plan}
+              pharmacies={pharmacies}
+            />
           )}
         </div>
         <div ref={planBenefitsRef} className={`${styles["plan-benefits"]}`}>
@@ -171,14 +186,14 @@ export default ({
           <PlanDocumentsTable planData={plan} />
         </div>
         {plan && isMobile && (
-            <CompactPlanCard
-              planData={plan}
-              onEnrollClick={onEnrollClick}
-              onShareClick={onShareClick}
-              isMobile={isMobile}
-              onlyButtons={isMobile}
-            />
-          )}
+          <CompactPlanCard
+            planData={plan}
+            onEnrollClick={onEnrollClick}
+            onShareClick={onShareClick}
+            isMobile={isMobile}
+            onlyButtons={isMobile}
+          />
+        )}
       </div>
     </>
   );
