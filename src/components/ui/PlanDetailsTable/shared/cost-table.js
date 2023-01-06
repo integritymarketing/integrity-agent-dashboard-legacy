@@ -103,7 +103,7 @@ function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
 function TotalEstLabel() {
   return (
     <>
-      <span className={"label"}>Total Estimated Yearly Cost</span>
+      <span className={"label"}> Estimated Yearly Total Cost</span>
       <span className={"subtext"}>
         Estimate based on monthly premium and estimated Rx drug costs.
       </span>

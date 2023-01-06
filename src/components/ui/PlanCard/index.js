@@ -8,6 +8,7 @@ import {
   capitalizeFirstLetter,
   formatUnderScorestring,
 } from "utils/shared-utils/sharedUtility";
+import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -92,6 +93,8 @@ export default function PlanCard({
   const { logoURL } = planData;
   const checkForImage =
     logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
+
+  const planType = PLAN_TYPE_ENUMS[planData.planType];
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -122,33 +125,50 @@ export default function PlanCard({
       </div>
       <div className={`premiums ${isMobile ? "mobile" : ""}`}>
         <div className="plan-monthly-costs">
-          <div className={"monthly"}>
-            {!isMobile && <div className={"label"}>Monthly Plan Premium</div>}
-            <div className={"currency"}>
-              {currencyFormatter.format(planData.annualPlanPremium / 12)}
-            </div>
-          </div>
-          <div
-            className={"monthly rx-drug"}
-            onClick={() => {
-              setBreakdownCollapsed(isMobile && !breakdownCollapsed);
-            }}
-          >
-            {!isMobile && (
-              <div className={"label"}>Est. Monthly RX Drug Cost</div>
-            )}
-            <div className={"currency"}>
-              {currencyFormatter.format(
-                planData.estimatedAnnualDrugCostPartialYear / 12
+          {planType !== "PDP" && (
+            <div
+              className={"monthly"}
+              onClick={() => {
+                if (planType === "MA" && isMobile) {
+                  setBreakdownCollapsed(isMobile && !breakdownCollapsed);
+                } else return false;
+              }}
+            >
+              {!isMobile && <div className={"label"}>Monthly Plan Premium</div>}
+              <div className={"currency"}>
+                {currencyFormatter.format(planData.annualPlanPremium / 12)}
+              </div>
+              {isMobile && (
+                <div className={"label"}>
+                  <span className={"mnth-mbl"}>/month </span>
+                  {planType === "MA" && <ArrowDown />}
+                </div>
               )}
             </div>
-            {isMobile && (
-              <div className={"label"}>
-                <span className={"mnth-mbl"}>/month </span>
-                <ArrowDown />
+          )}
+          {planType !== "MA" && (
+            <div
+              className={"monthly rx-drug"}
+              onClick={() => {
+                setBreakdownCollapsed(isMobile && !breakdownCollapsed);
+              }}
+            >
+              {!isMobile && (
+                <div className={"label"}>Est. Monthly RX Drug Cost</div>
+              )}
+              <div className={"currency"}>
+                {currencyFormatter.format(
+                  planData.estimatedAnnualDrugCostPartialYear / 12
+                )}
               </div>
-            )}
-          </div>
+              {isMobile && (
+                <div className={"label"}>
+                  <span className={"mnth-mbl"}>/month </span>
+                  <ArrowDown />
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div
           className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}

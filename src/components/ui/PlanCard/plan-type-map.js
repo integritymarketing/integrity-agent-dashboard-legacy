@@ -53,14 +53,20 @@ export default {
       field: "drugDeductible",
     },
     {
-      label: "Estimated Yearly Rx Drug Deductible",
+      label: "Estimated Yearly Rx Drug Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
+      function: (planData, effectiveDate) =>
+        (planData.estimatedAnnualDrugCostPartialYear / 12) *
+        (12 - effectiveDate.getMonth()),
     },
     {
       label: "Estimated Yearly Total Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
+      function: (planData, effectiveDate) =>
+        (planData.estimatedAnnualDrugCostPartialYear / 12) *
+        (12 - effectiveDate.getMonth()),
     },
   ],
 };

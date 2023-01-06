@@ -106,8 +106,9 @@ function getPlansAvailableSection(
     );
   }
 }
+const CURRENT_YEAR = new Date().getFullYear();
 const EFFECTIVE_YEARS_SUPPORTED = [
-  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2022),
+  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || CURRENT_YEAR),
 ];
 
 function useQuery() {
