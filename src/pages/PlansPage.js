@@ -15,7 +15,7 @@ import SortIcon from "components/icons/sort";
 import { PLAN_SORT_OPTIONS } from "../constants";
 import EffectiveDateFilter from "components/ui/EffectiveDateFilter";
 import plansService from "services/plansService";
-import { getNextEffectiveDate } from "utils/dates";
+import { getFirstEffectiveDateOption } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { BackToTop } from "components/ui/BackToTop";
@@ -107,9 +107,11 @@ function getPlansAvailableSection(
   }
 }
 const CURRENT_YEAR = new Date().getFullYear();
-const EFFECTIVE_YEARS_SUPPORTED = [
-  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || CURRENT_YEAR),
-];
+const CURRENT_PLAN_YEAR =
+  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR) === CURRENT_YEAR
+    ? CURRENT_YEAR
+    : CURRENT_YEAR;
+const EFFECTIVE_YEARS_SUPPORTED = [CURRENT_PLAN_YEAR];
 
 function useQuery() {
   const { search } = useLocation();
@@ -131,7 +133,7 @@ export default () => {
   const initialeffDate =
     showSelected && initialEffectiveDate
       ? new Date(initialEffectiveDate)
-      : getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED);
+      : getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
 
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
   const history = useHistory();
@@ -408,7 +410,9 @@ export default () => {
 
   const resetFilters = () => {
     setMyAppointedPlans_mobile(true);
-    setEffectiveDate_mobile(getNextEffectiveDate(EFFECTIVE_YEARS_SUPPORTED));
+    setEffectiveDate_mobile(
+      getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED)
+    );
     setCarrierFilters_mobile([]);
     setPolicyFilters_mobile([]);
     setRebatesFilter_mobile(false);
