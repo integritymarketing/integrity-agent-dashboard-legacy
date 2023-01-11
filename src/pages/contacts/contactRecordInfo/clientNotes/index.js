@@ -7,13 +7,24 @@ import useToast from "../../../../hooks/useToast";
 
 export default function ClientNotes(props) {
   const [isEdit, setIsEdit] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState(true );
   const [value, setValue] = useState(props.personalInfo.notes || "");
-  const handleOnChange = (e) => setValue(e.currentTarget.value);
+  const [notesLastSaved, setnotesLastSaved] = useState(props.personalInfo.notes || "");
+  const handleOnChange = (e) => {
+    if( e.target.value === ''){
+      setValue(e.currentTarget.value); 
+      setIsSaving(true);
+    } else {
+      setValue(e.currentTarget.value); 
+      setIsSaving(false);
+    }
+  };
   const handleOnEdit = () => setIsEdit(true);
   const handleOnCancel = () => {
-    setValue(props.personalInfo.notes);
+    setValue(notesLastSaved);
     setIsEdit(false);
+    setIsSaving(() => true);
+
   };
   const handleOnSave = async () => {
     try {
@@ -23,12 +34,12 @@ export default function ClientNotes(props) {
         ...props.personalInfo,
         notes: value,
       });
+      setnotesLastSaved(value);
       addToast({
         type: "success",
         message: "Client notes successfully Updated.",
         time: 3000,
       });
-      setIsSaving(() => false);
       setIsEdit(false);
     } catch (err) {
       Sentry.captureException(err);
@@ -67,7 +78,7 @@ export default function ClientNotes(props) {
           {!isEdit ? (
             <div className="client-notes">
               <p>{value ? value : "Write client notes here..."}</p>
-            </div>
+            </div>  
           ) : (
             <div className="client-notes-edit">
               <textarea
@@ -86,7 +97,6 @@ export default function ClientNotes(props) {
         {isEdit ? (
           <div className="button-group">
             <Button
-              disabled={isSaving}
               onClick={handleOnCancel}
               label="Cancel"
               type="secondary"
