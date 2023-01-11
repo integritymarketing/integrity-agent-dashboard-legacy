@@ -95,6 +95,18 @@ export default function PlanCard({
     logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
 
   const planType = PLAN_TYPE_ENUMS[planData.planType];
+
+  const now = new Date();
+  const year = now.getFullYear();
+
+  const aepSeasonStart = new Date(`10/01/${year}`);
+  const aepSeasonMid = new Date(`10/14/${year}`);
+
+  const isMidAEP = now >= aepSeasonStart && now <= aepSeasonMid ? true : false;
+  const isJanuary = new Date(effectiveDate).getMonth() === 0 ? true : false;
+
+  const disableEnroll = isMidAEP && isJanuary;
+
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -220,6 +232,7 @@ export default function PlanCard({
           {!planData.nonLicensedPlan && (
             <Button
               label={"Enroll"}
+              disabled={disableEnroll}
               onClick={() => onEnrollClick(planData.id)}
             />
           )}
