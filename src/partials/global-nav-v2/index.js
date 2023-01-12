@@ -340,6 +340,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   );
 
   const getAgentAvailability = async (agentid) => {
+    const isDashboardLocation = history?.location?.pathname === "/dashboard";
     if (!agentid) {
       return;
     }
@@ -353,7 +354,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         callForwardNumber,
         leadPreference,
       } = response || {};
-      if (!agentVirtualPhoneNumber) {
+      if (!agentVirtualPhoneNumber && isDashboardLocation) {
         await clientService.genarateAgentTwiloNumber(agentid);
       }
       if (!leadPreference?.isAgentMobilePopUpDismissed) {
