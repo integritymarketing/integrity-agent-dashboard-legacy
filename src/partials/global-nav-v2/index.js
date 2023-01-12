@@ -355,7 +355,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
         leadPreference,
       } = response || {};
       if (!agentVirtualPhoneNumber && isDashboardLocation) {
-        await clientService.genarateAgentTwiloNumber(agentid);
+        setTimeout (() => clientService.genarateAgentTwiloNumber(agentid), 5000);
       }
       if (!leadPreference?.isAgentMobilePopUpDismissed) {
         setWelcomeModalOpen(true);
