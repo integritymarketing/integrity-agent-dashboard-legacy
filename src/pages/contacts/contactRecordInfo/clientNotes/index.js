@@ -11,7 +11,7 @@ export default function ClientNotes(props) {
   const [value, setValue] = useState(props.personalInfo.notes || "");
   const [notesLastSaved, setnotesLastSaved] = useState(props.personalInfo.notes || "");
   const handleOnChange = (e) => {
-    if( e.target.value === ''){
+    if( e.target.value === notesLastSaved ){
       setValue(e.currentTarget.value); 
       setIsSaving(true);
     } else {
@@ -28,6 +28,7 @@ export default function ClientNotes(props) {
   };
   const handleOnSave = async () => {
     try {
+
       setIsSaving(() => true);
       await clientsService.updateClient(props.personalInfo, {
         primaryContact: "phone",
