@@ -102,7 +102,7 @@ export default function ClientNotes(props) {
               label="Cancel"
               type="secondary"
             />
-            <Button disabled={isSaving} onClick={handleOnSave} label="Save" />
+            <Button disabled={isSaving || !value} onClick={handleOnSave} label="Save" />
           </div>
         ) : null}
       </div>
