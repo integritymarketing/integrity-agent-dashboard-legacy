@@ -16,20 +16,17 @@ const totalCostBasedOnPlantypes = (planData, effectiveStartDate) => {
   const type = PLAN_TYPE_ENUMS[planData.planType];
   switch (type) {
     case "PDP":
-      return currencyFormatter.format(
-        (planData.estimatedAnnualDrugCostPartialYear / 12) *
-          (12 - effectiveStartDate.getMonth())
-      );
-    case "MA":
-      return currencyFormatter.format(
-        (planData.annualPlanPremium / 12) * (12 - effectiveStartDate.getMonth())
-      );
     case "MAPD":
       return currencyFormatter.format(
         (planData.estimatedAnnualDrugCostPartialYear / 12 +
           planData.annualPlanPremium / 12) *
           (12 - effectiveStartDate.getMonth())
       );
+    case "MA":
+      return currencyFormatter.format(
+        (planData.annualPlanPremium / 12) * (12 - effectiveStartDate.getMonth())
+      );
+
     default:
       return currencyFormatter.format(0);
   }
@@ -39,16 +36,12 @@ const RXCostBasedOnPlantypes = (planData, effectiveStartDate) => {
   const type = PLAN_TYPE_ENUMS[planData.planType];
   switch (type) {
     case "PDP":
-      return currencyFormatter.format(
-        (planData.estimatedAnnualDrugCostPartialYear / 12) *
-          (12 - effectiveStartDate.getMonth())
-      );
-
     case "MAPD":
       return currencyFormatter.format(
         (planData.estimatedAnnualDrugCostPartialYear / 12) *
           (12 - effectiveStartDate.getMonth())
       );
+
     default:
       return currencyFormatter.format(0);
   }
@@ -83,8 +76,7 @@ function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
-  const ddd = RXCostBasedOnPlantypes(planData, effectiveStartDate);
-  console.log("KJKJ", ddd);
+
   return (
     <>
       <span className={"value"}>
@@ -162,9 +154,21 @@ export default ({ planData }) => {
       label: <PremiumLabel />,
       value: <PremiumCell planData={planData} />,
     },
+    {
+      label: <TotalEstLabel />,
+      value: (
+        <TotalEstValue
+          planData={planData}
+          effectiveStartDate={effectiveStartDate}
+        />
+      ),
+    },
   ];
 
-  if (PLAN_TYPE_ENUMS[planData.planType] === "MAPD") {
+  if (
+    PLAN_TYPE_ENUMS[planData.planType] === "MAPD" ||
+    PLAN_TYPE_ENUMS[planData.planType] === "PDP"
+  ) {
     data.push({
       label: <EstRxLabel />,
       value: (
@@ -176,20 +180,6 @@ export default ({ planData }) => {
     });
   }
 
-  if (
-    PLAN_TYPE_ENUMS[planData.planType] === "MAPD" ||
-    PLAN_TYPE_ENUMS[planData.planType] === "PDP"
-  ) {
-    data.push({
-      label: <TotalEstLabel />,
-      value: (
-        <TotalEstValue
-          planData={planData}
-          effectiveStartDate={effectiveStartDate}
-        />
-      ),
-    });
-  }
   return (
     <>
       <PlanDetailsTable columns={columns} data={data} />
