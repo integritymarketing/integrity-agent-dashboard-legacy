@@ -137,27 +137,26 @@ export default function PlanCard({
       </div>
       <div className={`premiums ${isMobile ? "mobile" : ""}`}>
         <div className="plan-monthly-costs">
-          {planType !== "PDP" && (
-            <div
-              className={"monthly"}
-              onClick={() => {
-                if (planType === "MA" && isMobile) {
-                  setBreakdownCollapsed(isMobile && !breakdownCollapsed);
-                } else return false;
-              }}
-            >
-              {!isMobile && <div className={"label"}>Monthly Plan Premium</div>}
-              <div className={"currency"}>
-                {currencyFormatter.format(planData.annualPlanPremium / 12)}
-              </div>
-              {isMobile && (
-                <div className={"label"}>
-                  <span className={"mnth-mbl"}>/month </span>
-                  {planType === "MA" && <ArrowDown />}
-                </div>
-              )}
+          <div
+            className={"monthly"}
+            onClick={() => {
+              if (planType === "MA" && isMobile) {
+                setBreakdownCollapsed(isMobile && !breakdownCollapsed);
+              } else return false;
+            }}
+          >
+            {!isMobile && <div className={"label"}>Monthly Plan Premium</div>}
+            <div className={"currency"}>
+              {currencyFormatter.format(planData.annualPlanPremium / 12)}
             </div>
-          )}
+            {isMobile && (
+              <div className={"label"}>
+                <span className={"mnth-mbl"}>/month </span>
+                {planType === "MA" && <ArrowDown />}
+              </div>
+            )}
+          </div>
+
           {planType !== "MA" && (
             <div
               className={"monthly rx-drug"}

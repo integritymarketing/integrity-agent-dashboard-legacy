@@ -65,7 +65,8 @@ export default {
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
       function: (planData, effectiveDate) =>
-        (planData.estimatedAnnualDrugCostPartialYear / 12) *
+        (planData.estimatedAnnualDrugCostPartialYear / 12 +
+          planData.annualPlanPremium / 12) *
         (12 - effectiveDate.getMonth()),
     },
   ],
