@@ -55,7 +55,6 @@ export default (leadId) => {
     ...rest
   }) => {
     try {
-      const method = isDosageLabelNameChanged ? "POST" : "PUT";
       const item = isDosageLabelNameChanged
         ? {
             ...rest,
@@ -69,7 +68,7 @@ export default (leadId) => {
           }
         : rest;
 
-      await clientService.editPrescription(leadId, item, method);
+      await clientService.editPrescription(leadId, item);
       addToast({
         message: "Prescription updated successfully",
       });

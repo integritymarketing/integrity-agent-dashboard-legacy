@@ -571,10 +571,10 @@ export class ClientsService {
     throw new Error("Update failed.");
   };
 
-  editPrescription = async (leadId, reqData, method = "PUT") => {
+  editPrescription = async (leadId, reqData) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`,
-      method,
+      "POST",
       reqData
     );
 
