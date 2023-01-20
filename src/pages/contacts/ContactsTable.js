@@ -24,6 +24,8 @@ import analyticsService from "services/analyticsService";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
 import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
+import StageStatusContext from "contexts/stageStatus";
+import { ColorOptionRender } from "utils/shared-utils/sharedUtility";
 
 function Table({
   columns,
@@ -36,6 +38,8 @@ function Table({
   sort,
   applyFilters,
   onRowSelected,
+  isMobile,
+  layout,
 }) {
   const [pageSize, setPageSize] = useState(25);
 
@@ -152,16 +156,18 @@ function Table({
           })}
         </tbody>
       </table>
-      <Pagination
-        contactsCardPage
-        currentPage={pageIndex}
-        totalPages={pageCount - 1}
-        totalResults={totalResults}
-        pageSize={pageSize}
-        onPageChange={(pageIndex) => gotoPage(pageIndex)}
-        onResetPageSize={true}
-        setPageSize={(value) => onPageSizeChange(value)}
-      />
+      {!(isMobile && layout === "list") && (
+        <Pagination
+          contactsCardPage
+          currentPage={pageIndex}
+          totalPages={pageCount - 1}
+          totalResults={totalResults}
+          pageSize={pageSize}
+          onPageChange={(pageIndex) => gotoPage(pageIndex)}
+          onResetPageSize={true}
+          setPageSize={(value) => onPageSizeChange(value)}
+        />
+      )}
     </>
   );
 }
@@ -185,6 +191,8 @@ function ContactsTable({
   handleRowSelected,
   deleteCounter,
   handleGetAllLeadIds,
+  isMobile,
+  layout,
 }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -197,7 +205,10 @@ function ContactsTable({
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
     useContext(DeleteLeadContext);
   const [applyFilters, setApplyFilters] = useState({});
+
   const { setNewSoaContactDetails } = useContext(ContactContext);
+  const { statusOptions } = useContext(StageStatusContext);
+
   const addToast = useToast();
   const history = useHistory();
   const location = useLocation();
@@ -275,6 +286,7 @@ function ContactsTable({
       }
       setLoading(true);
       const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
+      const returnAll = isMobile && layout === "list";
       clientsService
         .getList(
           pageIndex,
@@ -286,7 +298,8 @@ function ContactsTable({
           applyFilters?.stages,
           applyFilters?.hasReminder,
           applyFilters.hasOverdueReminder,
-          applyFilters.tags
+          applyFilters.tags,
+          returnAll
         )
         .then((list) => {
           const listData = list.result.map((res) => ({
@@ -307,7 +320,7 @@ function ContactsTable({
           setLoading(false);
         });
     },
-    [applyFilters, handleGetAllLeadIds]
+    [applyFilters, handleGetAllLeadIds, isMobile, layout]
   );
 
   const handleRefresh = useCallback(() => {
@@ -466,11 +479,64 @@ function ContactsTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [handleRefresh, showAddModal, showAddNewModal]
   );
+  const mobile_columns = useMemo(
+    () => [
+      {
+        Header: "Name",
+        accessor: "firstName",
+        Cell: ({ value, row }) => {
+          const name = [
+            row.original.firstName || "",
+            row.original.middleName || "",
+            row.original.lastName || "",
+          ]
+            .join(" ")
+            .trim();
+
+          if (!name) {
+            return "--";
+          }
+          return (
+            <>
+              <Link
+                to={`/contact/${row.original.leadsId}`}
+                className={styles.contactPersonName}
+              >
+                {name}
+              </Link>
+              {row.original.leadSource === "Import" && (
+                <div className={styles.visualIndicator}>MARKETING LEAD</div>
+              )}
+            </>
+          );
+        },
+      },
+      {
+        Header: "Stage",
+        accessor: "statusName",
+        Cell: ({ value, row }) => {
+          const data =
+            statusOptions.filter((x) => x?.value === value)?.[0] || undefined;
+          if (data) {
+            return (
+              <ColorOptionRender
+                {...data}
+                filter={true}
+                className={styles.stageOption}
+              />
+            );
+          } else return value;
+        },
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleRefresh, showAddModal, showAddNewModal, statusOptions]
+  );
 
   return (
     <Table
       onRowSelected={handleRowSelected}
-      columns={columns}
+      columns={isMobile && layout === "list" ? mobile_columns : columns}
       data={data}
       searchString={searchString}
       loading={loading}
@@ -479,6 +545,8 @@ function ContactsTable({
       sort={sort}
       applyFilters={applyFilters}
       onChangeTableState={setTableState}
+      isMobile={isMobile}
+      layout={layout}
     />
   );
 }
