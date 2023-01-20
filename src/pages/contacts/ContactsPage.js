@@ -1,12 +1,6 @@
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
-import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
@@ -62,22 +56,19 @@ export default () => {
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState("createDate:desc");
-  const [layout, setLayout] = useState();
+  const [layout, setLayout] = useState("list");
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [allLeads, setAllLeads] = useState([]);
-  const location = useLocation();
   const history = useHistory();
   const [isMobile, setIsMobile] = useState(false);
   const [deleteCounter, setDeleteCounter] = useState(0);
   const [duplicateIds, setDuplicateLeadIds] = useState(
     geItemFromLocalStorage("duplicateLeadIds")
   );
-  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] = useState(
-    false
-  );
-  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] = useState(
-    false
-  );
+  const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] =
+    useState(false);
+  const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] =
+    useState(false);
   const [filterToggle, setFilterToggle] = useState(false);
   const [sortToggle, setSortToggle] = useState(false);
   const { active = false } = useActiveFilters();
@@ -92,15 +83,6 @@ export default () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    setLayout(() =>
-      location.pathname === cardViewLayoutPath ? "card" : "list"
-    );
-    if (isMobile && location.pathname !== cardViewLayoutPath) {
-      switchLayout();
-    }
-  }, [location, isMobile]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const debouncedSetSearchString = useCallback(
     debounce(setSearchStringNew, 500),
@@ -237,57 +219,54 @@ export default () => {
                   onClick={goToAddNewContactPage}
                 />
               </div>
+              {isMobile && (
+                <div
+                  className={styles.headerText}
+                  onClick={goToAddNewContactPage}
+                >
+                  + Add New
+                </div>
+              )}
             </Container>
           </div>
-          <Container>
-            <div
-              className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
-              style={{
-                "--bar-spacing-vert": 0,
-                "--bar-spacing-horiz": "2.5rem",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Textfield
-                  id="contacts-search"
-                  type={isMobile ? "text" : "search"}
-                  defaultValue={searchString}
-                  icon={<SearchIcon />}
-                  placeholder="Search "
-                  name="search"
-                  className="bar__item-small"
-                  onChange={(event) => {
-                    setSearchString(event.currentTarget.value || null);
-                  }}
-                  onBlur={() => {
-                    analyticsService.fireEvent("event-search");
-                    return null;
-                  }}
-                  isMobile={isMobile}
-                  onClear={(e) => {
-                    setSearchString("");
-                    document.getElementById("contacts-search").focus();
-                  }}
-                  onReset={() => {
-                    setSearchString("");
-                    document.activeElement.blur();
-                  }}
-                />
-                {duplicateIdsLength > 0 && (
-                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                    <div className={styles["duplicate-found"]}>
-                      {duplicateIdsLength} duplicates found
-                    </div>
-                    <button
-                      onClick={clearDuplicateList}
-                      className={styles["reset-close"]}
-                    >
-                      <RoundCloseIcon />
-                    </button>
+          <Container className={styles.contactBodyWrapper}>
+            <div className={styles.searchContactInput}>
+              <Textfield
+                id="contacts-search"
+                type={isMobile ? "text" : "search"}
+                defaultValue={searchString}
+                icon={<SearchIcon />}
+                placeholder="Search "
+                name="search"
+                className={styles.searchInput}
+                onChange={(event) => {
+                  setSearchString(event.currentTarget.value || null);
+                }}
+                onBlur={() => {
+                  analyticsService.fireEvent("event-search");
+                  return null;
+                }}
+                isMobile={isMobile}
+                onClear={(e) => {
+                  setSearchString("");
+                  document.getElementById("contacts-search").focus();
+                }}
+              />
+              {duplicateIdsLength > 0 && (
+                <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                  <div className={styles["duplicate-found"]}>
+                    {duplicateIdsLength} duplicates found
                   </div>
-                )}
-              </div>
+                  <button
+                    onClick={clearDuplicateList}
+                    className={styles["reset-close"]}
+                  >
+                    <RoundCloseIcon />
+                  </button>
+                </div>
+              )}
             </div>
+
             <div
               className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
               style={{
@@ -314,29 +293,27 @@ export default () => {
                 )}
               </div>
               <div className="bar">
-                {isMobile ? null : (
-                  <div className={styles["switch-view"]}>
-                    {layout === "list" ? (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<CardView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
-                    ) : (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<TableView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
-                    )}
-                  </div>
-                )}
+                <div className={styles["switch-view"]}>
+                  {layout === "list" ? (
+                    <Button
+                      data-gtm="contacts-slide-view"
+                      icon={<CardView />}
+                      iconOnly
+                      label="Button"
+                      type="secondary"
+                      onClick={switchLayout}
+                    />
+                  ) : (
+                    <Button
+                      data-gtm="contacts-slide-view"
+                      icon={<TableView />}
+                      iconOnly
+                      label="Button"
+                      type="secondary"
+                      onClick={switchLayout}
+                    />
+                  )}
+                </div>
 
                 <Filter
                   Icon={ContactSort}
@@ -376,6 +353,8 @@ export default () => {
                     handleRowSelected={handleRowSelected}
                     handleGetAllLeadIds={handleGetAllLeadIds}
                     deleteCounter={deleteCounter}
+                    isMobile={isMobile}
+                    layout={layout}
                   />
                 </Route>
                 <Route path="/contacts/card">

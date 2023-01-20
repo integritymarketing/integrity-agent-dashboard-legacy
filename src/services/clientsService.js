@@ -75,9 +75,11 @@ export class ClientsService {
     stages = [],
     hasReminder = false,
     hasOverdueReminder = false,
-    tags = []
+    tags = [],
+    returnAll
   ) => {
     let params = {
+      ReturnAll: returnAll,
       PageSize: pageSize,
       CurrentPage: page,
       Sort: sort,

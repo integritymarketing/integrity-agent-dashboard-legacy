@@ -8,19 +8,22 @@
   padding: 35px 40px;
   border-bottom: 1px solid #d1c7ce;
   background: #ffff;
-  margin-bottom: 35px;
-
+ 
   @media (max-width: 480px) {
-    padding: 25px 0px 0px 0px;
+    padding: 10px 20px;
     font-size: 30px;
-    border-bottom: none;
+    border-bottom: 1px solid #C7CCD1;
     background: none;
+
   }
 
   .headerText {
     font-size: 32px;
     line-height: 38px;
     color: var(--v2-dark-blue);
+    @media (max-width: 480px) {
+      font-size: 24px;
+    }
   }
 
   .buttonGroup {
@@ -1065,9 +1068,12 @@ table {
   .footerBanners {
     width: 57%;
     margin: auto;
+    @media (max-width: 480px) {
+      width: 80%;
+    }
   }
+ 
 }
-
 .tagsModal {
   background: #f4f8fb;
   padding: 20px;
@@ -1266,3 +1272,23 @@ table {
     display: none;
   }
 }
+
+.contactBodyWrapper{
+  @media (max-width: 480px) {
+   background-color: #F4F8FB;
+  }
+}
+
+.stageOption{
+  display: flex;
+  align-items: center;
+ }
+
+ .searchInput{
+  padding-top: 30px;
+  width:30%;
+  @media (max-width: 480px) {
+  width:90%;
+  margin:auto
+  }
+ }
