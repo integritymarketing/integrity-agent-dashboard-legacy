@@ -148,4 +148,8 @@
     color: var(--v2-disabled-button-text);
     cursor: not-allowed;
   }
+  @media screen and (max-width: 480px) {
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+  }
 }

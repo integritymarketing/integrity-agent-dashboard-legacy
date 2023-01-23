@@ -49,7 +49,7 @@ import PlanDetailsPage from "pages/PlanDetailsPage";
 import RedirectLoadingPage from "pages/RedirectLoading";
 import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
-import {ParallaxProvider} from "react-scroll-parallax";
+import { ParallaxProvider } from "react-scroll-parallax";
 
 const App = () => {
   return (
@@ -58,173 +58,173 @@ const App = () => {
         <RecoilRoot>
           <Suspense fallback={<div></div>}>
             <ParallaxProvider>
-            <ToastContextProvider>
-              <CountyProvider>
-                <DeleteLeadProvider>
-                  <ContactsProvider>
-                    <BackNavProvider>
-                      <StageSummaryProvider>
-                        <HelmetProvider>
-                          <Router>
-                            <Helmet>
-                              <title>MedicareCENTER</title>
-                            </Helmet>
-                            <div className="content-frame">
-                              {process.env.REACT_APP_MAINTENANCE_MODE ? (
-                                <Switch>
-                                  <Route path="/maintenance">
-                                    <MaintenancePage />
-                                  </Route>
-                                  <Route path="*">
-                                    <Redirect to="/maintenance" />
-                                  </Route>
-                                </Switch>
-                              ) : (
-                                <Switch>
-                                  {/* root path directs traffic to unauthenticed
+              <ToastContextProvider>
+                <CountyProvider>
+                  <DeleteLeadProvider>
+                    <ContactsProvider>
+                      <BackNavProvider>
+                        <StageSummaryProvider>
+                          <HelmetProvider>
+                            <Router>
+                              <Helmet>
+                                <title>MedicareCENTER</title>
+                              </Helmet>
+                              <div className="content-frame">
+                                {process.env.REACT_APP_MAINTENANCE_MODE ? (
+                                  <Switch>
+                                    <Route path="/maintenance">
+                                      <MaintenancePage />
+                                    </Route>
+                                    <Route path="*">
+                                      <Redirect to="/maintenance" />
+                                    </Route>
+                                  </Switch>
+                                ) : (
+                                  <Switch>
+                                    {/* root path directs traffic to unauthenticed
               Welcome or authenticated Home page */}
-                                  <Route exact path="/">
-                                    <TrafficDirector />
-                                  </Route>
-                                  <UnauthenticatedRoute path="/welcome">
-                                    <Welcome/>
-                                  </UnauthenticatedRoute>
-                                  <AuthenticatedRoute path="/redirect-loading">
-                                    <RedirectLoadingPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/home">
-                                    <Dashboard />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/dashboard">
-                                    <Dashboard />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom">
-                                    <LinkToContact />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/account">
-                                    <AccountPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/help">
-                                    <HelpPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/learning-center">
-                                    <ResourcesPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/contacts">
-                                    <ContactsPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/contact/add-new/:callLogId">
-                                    <AddNewContactPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/contact/add-new">
-                                    <AddNewContactPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute
-                                    exact
-                                    path="/contact/:contactId/duplicate/:duplicateLeadId"
-                                  >
-                                    <ContactRecordInfo />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute
-                                    exact
-                                    path="/contact/:contactId"
-                                  >
-                                    <ContactRecordInfo />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute
-                                    exact
-                                    path="/new/contact/:contactId"
-                                  >
-                                    <ContactDetailsPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/new-soa/:leadId">
-                                    <NewScopeOfAppointment />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute
-                                    exact
-                                    path="/contact/:contactId/soa-confirm/:linkCode"
-                                  >
-                                    <ContactsSOAConfirmForm />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/leadcenter-redirect/:npn">
-                                    <LeadCenterRedirect />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/client-import">
-                                    <ClientImportPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/plans/:contactId/compare/:planIds/:effectiveDate">
-                                    <ComparePlansPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/plans/:contactId">
-                                    <PlansPage />
-                                  </AuthenticatedRoute>
-                                  <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
-                                    <PlanDetailsPage />
-                                  </AuthenticatedRoute>
-                                  <Route path="/terms">
-                                    <TermsPage />
-                                  </Route>
-                                  <Route path="/privacy">
-                                    <PrivacyPage />
-                                  </Route>
-                                  <Route path="/soa-confirmation-form/:linkCode">
-                                    <SOAConfirmationForm />
-                                  </Route>
-                                  <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
-                                    <ComparePlansCodePage />
-                                  </Route>
-                                  <Route path="/soa-confirmation-page/:firstName/:lastName">
-                                    <SOAConfirmationPage />
-                                  </Route>
-                                  {/* auth routes + callbacks */}
-                                  <Route
-                                    path="/signin"
-                                    component={AuthSigninRedirectPage}
-                                  />
-                                  <Route
-                                    path="/signin-oidc-silent"
-                                    component={AuthSilentCallback}
-                                  />
-                                  <Route
-                                    path="/signin-oidc-silent"
-                                    component={AuthSilentCallback}
-                                  />
-                                  <Route
-                                    path="/signin-oidc"
-                                    component={AuthSigninCallback}
-                                  />
-                                  <Route
-                                    path="/signin-oidc-sunfire-mobile"
-                                    component={AuthSigninCallback}
-                                  />
-                                  <Route
-                                    path="/signout-oidc"
-                                    component={AuthSignoutCallback}
-                                  />
-                                  <Route path="/maintenance">
-                                    <Redirect to="/" />
-                                  </Route>
-                                  <Route path="/clients">
-                                    <Redirect to="/contacts" />
-                                  </Route>
-                                  <Route path="/error">
-                                    <ErrorPage />
-                                  </Route>
-                                  <Route path="*">
-                                    <NotFoundPage />
-                                  </Route>
-                                </Switch>
-                              )}
-                            </div>
-                            <PortalUrl />
-                          </Router>
-                        </HelmetProvider>
-                      </StageSummaryProvider>
-                    </BackNavProvider>
-                  </ContactsProvider>
-                </DeleteLeadProvider>
-              </CountyProvider>
-            </ToastContextProvider>
+                                    <Route exact path="/">
+                                      <TrafficDirector />
+                                    </Route>
+                                    <UnauthenticatedRoute path="/welcome">
+                                      <Welcome />
+                                    </UnauthenticatedRoute>
+                                    <AuthenticatedRoute path="/redirect-loading">
+                                      <RedirectLoadingPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/home">
+                                      <Dashboard />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/dashboard">
+                                      <Dashboard />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom">
+                                      <LinkToContact />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/account">
+                                      <AccountPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/help">
+                                      <HelpPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/learning-center">
+                                      <ResourcesPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/contacts">
+                                      <ContactsPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/contact/add-new/:callLogId">
+                                      <AddNewContactPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/contact/add-new">
+                                      <AddNewContactPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute
+                                      exact
+                                      path="/contact/:contactId/duplicate/:duplicateLeadId"
+                                    >
+                                      <ContactRecordInfo />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute
+                                      exact
+                                      path="/contact/:contactId"
+                                    >
+                                      <ContactRecordInfo />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute
+                                      exact
+                                      path="/new/contact/:contactId"
+                                    >
+                                      <ContactDetailsPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/new-soa/:leadId">
+                                      <NewScopeOfAppointment />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute
+                                      exact
+                                      path="/contact/:contactId/soa-confirm/:linkCode"
+                                    >
+                                      <ContactsSOAConfirmForm />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/leadcenter-redirect/:npn">
+                                      <LeadCenterRedirect />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/client-import">
+                                      <ClientImportPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/plans/:contactId/compare/:planIds/:effectiveDate">
+                                      <ComparePlansPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/plans/:contactId">
+                                      <PlansPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
+                                      <PlanDetailsPage />
+                                    </AuthenticatedRoute>
+                                    <Route path="/terms">
+                                      <TermsPage />
+                                    </Route>
+                                    <Route path="/privacy">
+                                      <PrivacyPage />
+                                    </Route>
+                                    <Route path="/soa-confirmation-form/:linkCode">
+                                      <SOAConfirmationForm />
+                                    </Route>
+                                    <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
+                                      <ComparePlansCodePage />
+                                    </Route>
+                                    <Route path="/soa-confirmation-page/:firstName/:lastName">
+                                      <SOAConfirmationPage />
+                                    </Route>
+                                    {/* auth routes + callbacks */}
+                                    <Route
+                                      path="/signin"
+                                      component={AuthSigninRedirectPage}
+                                    />
+                                    <Route
+                                      path="/signin-oidc-silent"
+                                      component={AuthSilentCallback}
+                                    />
+                                    <Route
+                                      path="/signin-oidc-silent"
+                                      component={AuthSilentCallback}
+                                    />
+                                    <Route
+                                      path="/signin-oidc"
+                                      component={AuthSigninCallback}
+                                    />
+                                    <Route
+                                      path="/signin-oidc-sunfire-mobile"
+                                      component={AuthSigninCallback}
+                                    />
+                                    <Route
+                                      path="/signout-oidc"
+                                      component={AuthSignoutCallback}
+                                    />
+                                    <Route path="/maintenance">
+                                      <Redirect to="/" />
+                                    </Route>
+                                    <Route path="/clients">
+                                      <Redirect to="/contacts" />
+                                    </Route>
+                                    <Route path="/error">
+                                      <ErrorPage />
+                                    </Route>
+                                    <Route path="*">
+                                      <NotFoundPage />
+                                    </Route>
+                                  </Switch>
+                                )}
+                              </div>
+                              <PortalUrl />
+                            </Router>
+                          </HelmetProvider>
+                        </StageSummaryProvider>
+                      </BackNavProvider>
+                    </ContactsProvider>
+                  </DeleteLeadProvider>
+                </CountyProvider>
+              </ToastContextProvider>
             </ParallaxProvider>
           </Suspense>
         </RecoilRoot>

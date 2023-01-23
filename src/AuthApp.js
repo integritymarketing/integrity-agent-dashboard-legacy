@@ -34,97 +34,99 @@ import ContactSupportInvalidNPN from "pages/auth/ContactSupportInvalidNPN";
 import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
 import authService from "services/authService";
-
+import AuthContext from "contexts/auth";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 const AuthApp = () => {
   return (
     <HelmetProvider>
-      <ToastContextProvider>
-        <Router>
-          <Helmet>
-            <title>MedicareCENTER</title>
-          </Helmet>
-          <div className="content-frame">
-            <Switch>
-              <Route exact path="/login">
-                <ServerLoginPage />
-              </Route>
-              <Route exact path="/logout">
-                <ServerLogoutPage />
-              </Route>
-              <Route exact path="/error">
-                <ServerErrorPage />
-              </Route>
+      <AuthContext.Provider value={authService}>
+        <ToastContextProvider>
+          <Router>
+            <Helmet>
+              <title>MedicareCENTER</title>
+            </Helmet>
+            <div className="content-frame">
+              <Switch>
+                <Route exact path="/login">
+                  <ServerLoginPage />
+                </Route>
+                <Route exact path="/logout">
+                  <ServerLogoutPage />
+                </Route>
+                <Route exact path="/error">
+                  <ServerErrorPage />
+                </Route>
 
-              <Route exact path="/register">
-                <RegistrationPage />
-              </Route>
-              <Route exact path="/registration-email-sent">
-                <RegistrationCheckEmailPage />
-              </Route>
-              <Route exact path="/confirm-email">
-                <RegistrationConfirmEmailPage />
-              </Route>
-              <Route exact path="/confirm-link-expired">
-                <RegistrationConfirmLinkExpiredPage />
-              </Route>
-              <Route exact path="/registration-complete">
-                <RegistrationCompletedPage />
-              </Route>
+                <Route exact path="/register">
+                  <RegistrationPage />
+                </Route>
+                <Route exact path="/registration-email-sent">
+                  <RegistrationCheckEmailPage />
+                </Route>
+                <Route exact path="/confirm-email">
+                  <RegistrationConfirmEmailPage />
+                </Route>
+                <Route exact path="/confirm-link-expired">
+                  <RegistrationConfirmLinkExpiredPage />
+                </Route>
+                <Route exact path="/registration-complete">
+                  <RegistrationCompletedPage />
+                </Route>
 
-              <Route exact path="/forgot-password">
-                <ForgotPasswordPage />
-              </Route>
-              <Route exact path="/password-reset-sent">
-                <ForgotPasswordSentPage />
-              </Route>
-              <Route exact path="/reset-password">
-                <PasswordResetPage />
-              </Route>
-              <Route exact path="/password-link-expired">
-                <PasswordLinkExpiredPage />
-              </Route>
-              <Route exact path="/password-updated">
-                <PasswordUpdatedPage />
-              </Route>
+                <Route exact path="/forgot-password">
+                  <ForgotPasswordPage />
+                </Route>
+                <Route exact path="/password-reset-sent">
+                  <ForgotPasswordSentPage />
+                </Route>
+                <Route exact path="/reset-password">
+                  <PasswordResetPage />
+                </Route>
+                <Route exact path="/password-link-expired">
+                  <PasswordLinkExpiredPage />
+                </Route>
+                <Route exact path="/password-updated">
+                  <PasswordUpdatedPage />
+                </Route>
 
-              {/* <Route exact path="/forgot-username">
+                {/* <Route exact path="/forgot-username">
               <ForgotUsernamePage />
             </Route>/ */}
 
-              <Route exact path="/sorry">
-                <FinalErrorPage />
-              </Route>
-              <Route exact path="/update-email">
-                <NewEmailPage />
-              </Route>
-              <Route exact path="/email-updated">
-                <EmailUpdatedPage />
-              </Route>
+                <Route exact path="/sorry">
+                  <FinalErrorPage />
+                </Route>
+                <Route exact path="/update-email">
+                  <NewEmailPage />
+                </Route>
+                <Route exact path="/email-updated">
+                  <EmailUpdatedPage />
+                </Route>
 
-              <Route exact path="/contact-support">
-                <ContactSupport />
-              </Route>
+                <Route exact path="/contact-support">
+                  <ContactSupport />
+                </Route>
 
-              <Route exact path="/contact-support-invalid-npn/:npnId">
-                <ContactSupportInvalidNPN />
-              </Route>
+                <Route exact path="/contact-support-invalid-npn/:npnId">
+                  <ContactSupportInvalidNPN />
+                </Route>
 
-              <Route
-                path="*"
-                component={() => {
-                  authService.redirectAndRestartLoginFlow();
-                  return null;
-                }}
-              />
-            </Switch>
-          </div>
+                <Route
+                  path="*"
+                  component={() => {
+                    authService.redirectAndRestartLoginFlow();
+                    return null;
+                  }}
+                />
+              </Switch>
+            </div>
 
-          <AuthClientId />
-          <AuthClientUrl />
-        </Router>
-      </ToastContextProvider>
+            <AuthClientId />
+            <AuthClientUrl />
+          </Router>
+        </ToastContextProvider>
+      </AuthContext.Provider>
     </HelmetProvider>
   );
 };

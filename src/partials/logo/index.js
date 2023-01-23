@@ -1,7 +1,7 @@
 import React from "react";
 import useClientId from "hooks/auth/useClientId";
 import ILSLogo from "../../images/auth/lead-center-rgb.png";
-import footerLogo from "../../images/medicare-center.png";
+import footerLogo from "./logoWhite.svg";
 import Logo from "./MedicareCENTER-Main.svg";
 import "./index.scss";
 

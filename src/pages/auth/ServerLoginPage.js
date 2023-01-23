@@ -14,6 +14,8 @@ import useQueryParams from "hooks/useQueryParams";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import AuthContext from "contexts/auth";
+import Styles from "./AuthPages.module.scss";
+
 export default () => {
   const loading = useLoading();
   const history = useHistory();
@@ -116,7 +118,7 @@ export default () => {
       <div className="content-frame v2">
         <SimpleHeader mobileAppLogin={mobileAppLogin} />
         <Container size="small">
-          <h1 className="text-xl mb-2">Login to your account</h1>
+          <h1 className="text-xl mb-2 text-navyblue">Login to your account</h1>
 
           {/* <div className="auth-notification">
             <InfoIcon style={{ display: "block" }} />
@@ -181,11 +183,14 @@ export default () => {
                     }}
                     error={touched.Username && errors.Username}
                     auxLink={
-                      <div className="mt-2" data-gtm="login-forgot-npn">
+                      <div
+                        className={Styles.forgot}
+                        data-gtm="login-forgot-npn"
+                      >
                         <a
                           href="https://nipr.com/help/look-up-your-npn"
                           target="_blank"
-                          className="text-sm link link--force-underline"
+                          className="text-sm link text-bold"
                           rel="noopener noreferrer"
                         >
                           Forgot NPN?
@@ -212,10 +217,13 @@ export default () => {
                       (touched.Password && errors.Password) || errors.Global
                     }
                     auxLink={
-                      <div className="mt-2" data-gtm="login-forgot-password">
+                      <div
+                        className={Styles.forgot}
+                        data-gtm="login-forgot-password"
+                      >
                         <Link
                           to="/forgot-password"
-                          className="text-sm link link--force-underline"
+                          className="text-sm link text-bold"
                         >
                           Forgot Password?
                         </Link>
@@ -233,15 +241,15 @@ export default () => {
                     </button>
                   </div>
                   {!mobileAppLogin && (
-                    <p className="text-sm">
-                      {`Need to `}
+                    <p className="text-sm centered-flex-col">
+                      Don&apos;t have an account?
                       <Link
                         to="/register"
-                        className={`link link--secondary link--force-underline ${analyticsService.clickClass(
+                        className={`link ${analyticsService.clickClass(
                           "setup-newaccount"
                         )}`}
                       >
-                        register for an account?
+                        <span className="link text-bold ">Register</span>
                       </Link>
                       {/* {` or `}
                     <Link

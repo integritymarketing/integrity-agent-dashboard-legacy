@@ -11,6 +11,7 @@ import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
+import Styles from "./AuthPages.module.scss"
 
 // NOTE that there are instances of both username + npn in this file (they are the same thing)
 // this is to handle compatibility with identity server in the short term
@@ -35,7 +36,7 @@ export default () => {
       <div className="content-frame v2">
         <SimpleHeader />
         <Container size="small">
-          <h1 className="text-xl mb-2">Reset your password</h1>
+          <h1 className="text-xl mb-2 text-navyblue">Reset your password</h1>
           <p className="text text--secondary mb-4">
             Enter your NPN to reset your password.
           </p>
@@ -112,7 +113,7 @@ export default () => {
                 <fieldset className="form__fields">
                   <Textfield
                     id="forgot-password-username"
-                    label="NPN"
+                    label="National Producers Number"
                     placeholder=""
                     name="Username"
                     value={values.Username}
@@ -126,6 +127,18 @@ export default () => {
                     }}
                     error={
                       (touched.Username && errors.Username) || errors.Global
+                    }
+                    auxLink={
+                      <div className={Styles.forgot} data-gtm="login-forgot-npn">
+                        <a
+                          href="https://nipr.com/help/look-up-your-npn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm link text-bold"
+                        >
+                          Forgot NPN?
+                        </a>
+                      </div>
                     }
                   />
                   <div className="form__submit">

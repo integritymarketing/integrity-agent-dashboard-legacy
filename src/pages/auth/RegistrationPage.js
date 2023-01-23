@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,10 @@ import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
 import useToast from "../../hooks/useToast";
+import Styles from "./AuthPages.module.scss";
+import * as Sentry from "@sentry/react";
+import AuthContext from "../../contexts/auth";
+import useFlashMessage from "../../hooks/useFlashMessage";
 
 export default () => {
   const history = useHistory();
@@ -20,7 +24,8 @@ export default () => {
   const params = useQueryParams();
   const clientId = useClientId();
   const addToast = useToast();
-
+  const auth = useContext(AuthContext);
+  const { show: showMessage } = useFlashMessage();
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
   useEffect(() => {
@@ -28,6 +33,15 @@ export default () => {
       pagePath: "/register/account-registration-form/",
     });
   }, []);
+  async function login() {
+    try {
+      auth.signinRedirect();
+    } catch (e) {
+      Sentry.captureException(e);
+      console.error("sign in error: ", e);
+      showMessage("Unable to sign in at this time.", { type: "error" });
+    }
+  }
 
   return (
     <React.Fragment>
@@ -37,7 +51,7 @@ export default () => {
       <div className="content-frame v2">
         <SimpleHeader />
         <Container size="small">
-          <h1 className="text-xl mb-4">Register your account</h1>
+          <h1 className="text-xl mb-4 text-navyblue">Register your account</h1>
 
           <Formik
             initialValues={{
@@ -145,7 +159,7 @@ export default () => {
                   <Textfield
                     id="register-npn"
                     className="mb-4"
-                    label="National Producer Number (NPN)"
+                    label="National Producer Number"
                     placeholder="Enter your NPN"
                     name="NPN"
                     value={values.NPN}
@@ -159,12 +173,15 @@ export default () => {
                     }}
                     error={(touched.NPN && errors.NPN) || errors.Global}
                     auxLink={
-                      <div className="mt-2" data-gtm="login-forgot-npn">
+                      <div
+                        className={Styles.forgot}
+                        data-gtm="login-forgot-npn"
+                      >
                         <a
                           href="https://nipr.com/help/look-up-your-npn"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm link link--force-underline"
+                          className="text-sm link text-bold"
                         >
                           Forgot NPN?
                         </a>
@@ -296,6 +313,18 @@ export default () => {
                     >
                       Register
                     </button>
+                  </div>
+                  <div className={Styles.login}>
+                    Already have an account?
+                    {/* TODO: Add login link */}
+                    <div
+                      onClick={async () => {
+                        await login();
+                      }}
+                      className="text-sm link text-bold"
+                    >
+                      Login
+                    </div>
                   </div>
                 </fieldset>
               </form>
