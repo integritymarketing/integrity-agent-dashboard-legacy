@@ -23,6 +23,7 @@ import analyticsService from "services/analyticsService";
 import styles from "./ContactsPage.module.scss";
 import More from "components/icons/more";
 import ActionsDropdown from "components/ui/ActionsDropdown";
+import Checkbox from "components/ui/Checkbox";
 import { MORE_ACTIONS, PLAN_ACTION } from "../../utils/moreActions";
 
 const useClientCardInfo = (client) => {
@@ -69,9 +70,8 @@ const ClientCard = ({ client, onRefresh }) => {
   const { statusOptions } = useContext(StageStatusContext);
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const history = useHistory();
-  const { displayName, stage, reminders, primaryContact } = useClientCardInfo(
-    client
-  );
+  const { displayName, stage, reminders, primaryContact } =
+    useClientCardInfo(client);
 
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
@@ -136,88 +136,34 @@ const ClientCard = ({ client, onRefresh }) => {
               </>
             )}
           </div>
-          <div className={styles.hideOnMobile}>
-            <ActionsDropdown
-              className={styles["more-icon"]}
-              options={options}
-              id={client.leadsId}
-              onClick={handleDropdownActions(client)}
-            >
-              <More />
-            </ActionsDropdown>
-          </div>
-          <div className={styles.mobileStage}>
-            <span
-              style={{
-                background: statusOptions?.find((st) => st.value === stage)
-                  ?.color[0].bg,
-                color: statusOptions?.find((st) => st.value === stage)?.color[0]
-                  .color,
-                fontWeight: "bold",
-              }}
-            >
-              {stage}
-            </span>
+          <div>
+            <Checkbox label="" id="" />
           </div>
         </div>
-        <div className={styles.divider} />
+        <div className={styles.reminder}>
+          <ShortReminder
+            leadId={client.leadsId}
+            className={styles.shortReminder}
+            reminders={reminders || []}
+            onRefresh={onRefresh}
+            showAddModal={showAddModal === client.leadsId}
+            setShowAddModal={(value) => {
+              setShowAddModal(value ? client.leadsId : null);
+              if (!value) {
+                setShowAddNewModal(false);
+              }
+            }}
+            showAddNewModal={showAddNewModal}
+          />
+        </div>
         <div className={styles.cardInfo}>
-          <div className={styles.hideOnMobile}>
-            <label
-              className={styles.cardInfoLabel}
-              htmlFor={`stage-${client.leadsId}`}
-            >
-              Stage
-            </label>
+          <div>
             <StageSelect
               id={`stage-${client.leadsId}`}
               value={stage}
               original={client}
             />
           </div>
-          <div className={styles.reminder}>
-            <label
-              className={styles.cardInfoLabel}
-              htmlFor={`reminder-${client.leadsId}`}
-            >
-              <span className={styles.hideOnMobile}>Reminder</span>
-            </label>
-            <ShortReminder
-              leadId={client.leadsId}
-              className={styles.shortReminder}
-              reminders={reminders || []}
-              onRefresh={onRefresh}
-              isCardView={true}
-              showAddModal={showAddModal === client.leadsId}
-              setShowAddModal={(value) => {
-                setShowAddModal(value ? client.leadsId : null);
-                if (!value) {
-                  setShowAddNewModal(false);
-                }
-              }}
-              showAddNewModal={showAddNewModal}
-            />
-          </div>
-        </div>
-        <div className={styles.hideOnMobile}>
-          <div className={styles.primaryContactHeader}>Primary Contact</div>
-          <div className={styles.primaryContactInfo}>{primaryContact}</div>
-        </div>
-        <div className={styles.mobileActions}>
-          {client.phones.length !== 0 && (
-            // Hidden Mobile Icon temporarily for 9/14 release
-            <a href={`tel:${client.phones[0].leadPhone}`} className={styles.mobileHidden}>
-              <ActionIcon icon={PhoneIcon} />
-            </a>
-          )}
-          {client.addresses.length !== 0 && (
-            <a
-              data-gtm="mobile-card-view-location-button"
-              href={`${getMapUrl()}?q=${formatAddress(client.addresses[0])}`}
-            >
-              <img src={NavIcon} alt="map" />
-            </a>
-          )}
         </div>
       </div>
     </Card>
