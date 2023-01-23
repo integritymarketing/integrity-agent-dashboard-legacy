@@ -8,6 +8,10 @@
   justify-content: center;
   background-color: #051d43;
 
+  @include tabletAndBelow {
+    min-height: 6rem;
+  }
+
   &__title {
     a {
       display: flex;
