@@ -43,7 +43,7 @@ const ContactListItemButton = ({
 
   const onClickHandler = useCallback(async () => {
     try {
-      const hasPhone = contact.phones?.findLast((ph) => ph.leadPhone);
+      const hasPhone = contact.phones?.reverse().find((ph) => ph.leadPhone);
       if (!hasPhone) {
         await updatePrimaryContact();
       }
