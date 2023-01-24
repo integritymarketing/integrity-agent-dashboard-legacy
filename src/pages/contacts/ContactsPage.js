@@ -229,146 +229,150 @@ export default () => {
               )}
             </Container>
           </div>
-          <Container className={styles.contactBodyWrapper}>
-            <div className={styles.searchContactInput}>
-              <Textfield
-                id="contacts-search"
-                type={isMobile ? "text" : "search"}
-                defaultValue={searchString}
-                icon={<SearchIcon />}
-                placeholder="Search "
-                name="search"
-                className={styles.searchInput}
-                onChange={(event) => {
-                  setSearchString(event.currentTarget.value || null);
-                }}
-                onBlur={() => {
-                  analyticsService.fireEvent("event-search");
-                  return null;
-                }}
-                isMobile={isMobile}
-                onClear={(e) => {
-                  setSearchString("");
-                  document.getElementById("contacts-search").focus();
-                }}
-              />
-              {duplicateIdsLength > 0 && (
-                <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                  <div className={styles["duplicate-found"]}>
-                    {duplicateIdsLength} duplicates found
+          <div className={styles.contactBodyWrapper}>
+            <Container>
+              <div className={styles.searchContactInput}>
+                <Textfield
+                  id="contacts-search"
+                  type={isMobile ? "text" : "search"}
+                  defaultValue={searchString}
+                  icon={<SearchIcon />}
+                  placeholder="Search "
+                  name="search"
+                  className={styles.searchInput}
+                  onChange={(event) => {
+                    setSearchString(event.currentTarget.value || null);
+                  }}
+                  onBlur={() => {
+                    analyticsService.fireEvent("event-search");
+                    return null;
+                  }}
+                  isMobile={isMobile}
+                  onClear={(e) => {
+                    setSearchString("");
+                    document.getElementById("contacts-search").focus();
+                  }}
+                />
+                {duplicateIdsLength > 0 && (
+                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                    <div className={styles["duplicate-found"]}>
+                      {duplicateIdsLength} duplicates found
+                    </div>
+                    <button
+                      onClick={clearDuplicateList}
+                      className={styles["reset-close"]}
+                    >
+                      <RoundCloseIcon />
+                    </button>
                   </div>
-                  <button
-                    onClick={clearDuplicateList}
-                    className={styles["reset-close"]}
-                  >
-                    <RoundCloseIcon />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div
-              className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
-              style={{
-                "--bar-spacing-vert": 0,
-                "--bar-spacing-horiz": "2.5rem",
-              }}
-            >
-              <div className={`${styles.contactsGridActions} mt-2`}>
-                {selectedContacts.length > 0 && (
-                  <>
-                    <button
-                      className={styles["drop-bg"]}
-                      onClick={showDeleteContactsModal}
-                    >
-                      <Delete />
-                    </button>
-                    <button
-                      className={styles["drop-bg"]}
-                      onClick={showExportContactsModal}
-                    >
-                      <Export />
-                    </button>
-                  </>
                 )}
               </div>
-              <div className="bar">
-                <div className={styles["switch-view"]}>
-                  {layout === "list" ? (
-                    <Button
-                      data-gtm="contacts-slide-view"
-                      icon={<CardView />}
-                      iconOnly
-                      label="Button"
-                      type="secondary"
-                      onClick={switchLayout}
-                    />
-                  ) : (
-                    <Button
-                      data-gtm="contacts-slide-view"
-                      icon={<TableView />}
-                      iconOnly
-                      label="Button"
-                      type="secondary"
-                      onClick={switchLayout}
-                    />
+
+              <div
+                className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
+                style={{
+                  "--bar-spacing-vert": 0,
+                  "--bar-spacing-horiz": "2.5rem",
+                }}
+              >
+                <div className={`${styles.contactsGridActions} mt-2`}>
+                  {selectedContacts.length > 0 && (
+                    <>
+                      <button
+                        className={styles["drop-bg"]}
+                        onClick={showDeleteContactsModal}
+                      >
+                        <Delete />
+                      </button>
+                      <button
+                        className={styles["drop-bg"]}
+                        onClick={showExportContactsModal}
+                      >
+                        <Export />
+                      </button>
+                    </>
                   )}
                 </div>
+                <div className="bar">
+                  <div className={styles["switch-view"]}>
+                    {layout === "list" ? (
+                      <Button
+                        data-gtm="contacts-slide-view"
+                        icon={<CardView />}
+                        iconOnly
+                        label="Button"
+                        type="secondary"
+                        onClick={switchLayout}
+                      />
+                    ) : (
+                      <Button
+                        data-gtm="contacts-slide-view"
+                        icon={<TableView />}
+                        iconOnly
+                        label="Button"
+                        type="secondary"
+                        onClick={switchLayout}
+                      />
+                    )}
+                  </div>
 
-                <Filter
-                  Icon={ContactSort}
-                  ActiveIcon={ContactSort}
-                  heading={"Sort by "}
-                  open={sortToggle}
-                  onToggle={setSortToggle}
-                  content={
-                    <ContactListSort
-                      close={setSortToggle}
+                  <Filter
+                    Icon={ContactSort}
+                    ActiveIcon={ContactSort}
+                    heading={"Sort by "}
+                    open={sortToggle}
+                    onToggle={setSortToggle}
+                    content={
+                      <ContactListSort
+                        close={setSortToggle}
+                        sort={sort}
+                        setSort={setSort}
+                      />
+                    }
+                  />
+                  <Filter
+                    Icon={FilterIcon}
+                    ActiveIcon={ActiveFilter}
+                    heading={"Filter by "}
+                    open={filterToggle}
+                    onToggle={setFilterToggle}
+                    filtered={active}
+                    content={
+                      <ContactListFilterOptions close={setFilterToggle} />
+                    }
+                  />
+                </div>
+              </div>
+              <div className={styles.tableWrapper}>
+                <Switch>
+                  <Route exact path="/contacts">
+                    <Redirect to="/contacts/list" />
+                  </Route>
+                  <Route path="/contacts/list">
+                    <ContactsTable
+                      duplicateIdsLength={duplicateIdsLength}
+                      searchString={searchStringNew}
                       sort={sort}
-                      setSort={setSort}
+                      handleRowSelected={handleRowSelected}
+                      handleGetAllLeadIds={handleGetAllLeadIds}
+                      deleteCounter={deleteCounter}
+                      isMobile={isMobile}
+                      layout={layout}
                     />
-                  }
-                />
-                <Filter
-                  Icon={FilterIcon}
-                  ActiveIcon={ActiveFilter}
-                  heading={"Filter by "}
-                  open={filterToggle}
-                  onToggle={setFilterToggle}
-                  filtered={active}
-                  content={<ContactListFilterOptions close={setFilterToggle} />}
+                  </Route>
+                  <Route path="/contacts/card">
+                    <ContactsCard searchString={searchStringNew} sort={sort} />
+                  </Route>
+                </Switch>
+              </div>
+              <div className={styles.footerContainer}>
+                <FooterBanners
+                  className={styles.footerBanners}
+                  type={isMobile ? "column" : "row"}
                 />
               </div>
-            </div>
-            <div className={styles.tableWrapper}>
-              <Switch>
-                <Route exact path="/contacts">
-                  <Redirect to="/contacts/list" />
-                </Route>
-                <Route path="/contacts/list">
-                  <ContactsTable
-                    duplicateIdsLength={duplicateIdsLength}
-                    searchString={searchStringNew}
-                    sort={sort}
-                    handleRowSelected={handleRowSelected}
-                    handleGetAllLeadIds={handleGetAllLeadIds}
-                    deleteCounter={deleteCounter}
-                    isMobile={isMobile}
-                    layout={layout}
-                  />
-                </Route>
-                <Route path="/contacts/card">
-                  <ContactsCard searchString={searchStringNew} sort={sort} />
-                </Route>
-              </Switch>
-            </div>
-            <div className={styles.footerContainer}>
-              <FooterBanners
-                className={styles.footerBanners}
-                type={isMobile ? "column" : "row"}
-              />
-            </div>
-          </Container>
+            </Container>
+          </div>
           <GlobalFooter />
         </ToastContextProvider>
       </StageStatusProvider>

@@ -110,7 +110,7 @@ const ClientCard = ({ client, onRefresh }) => {
   }
 
   return (
-    <Card data-gtm="card-view-contact-card">
+    <Card className={styles.cardWrapper} data-gtm="card-view-contact-card">
       <div>
         <div className={styles.cardHeader}>
           <div
@@ -136,11 +136,8 @@ const ClientCard = ({ client, onRefresh }) => {
               </>
             )}
           </div>
-          <div>
-            <Checkbox label="" id="" />
-          </div>
         </div>
-        <div className={styles.reminder}>
+        <div className={`${styles.reminder} ${styles.cardReminder}`}>
           <ShortReminder
             leadId={client.leadsId}
             className={styles.shortReminder}
