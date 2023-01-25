@@ -51,7 +51,9 @@ export default () => {
       <div className="content-frame v2">
         <SimpleHeader />
         <Container size="small">
-          <h1 className="text-xl mb-4 text-navyblue">Register your account</h1>
+          <h1 className="mb-4 text-navyblue centered-flex font-32">
+            Register your account
+          </h1>
 
           <Formik
             initialValues={{

@@ -11,7 +11,7 @@ import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
-import Styles from "./AuthPages.module.scss"
+import Styles from "./AuthPages.module.scss";
 
 // NOTE that there are instances of both username + npn in this file (they are the same thing)
 // this is to handle compatibility with identity server in the short term
@@ -36,8 +36,10 @@ export default () => {
       <div className="content-frame v2">
         <SimpleHeader />
         <Container size="small">
-          <h1 className="text-xl mb-2 text-navyblue">Reset your password</h1>
-          <p className="text text--secondary mb-4">
+          <h1 className="centered-flex font-32 mb-2 text-navyblue">
+            Reset your password
+          </h1>
+          <p className="text text--secondary mb-4 centered-flex">
             Enter your NPN to reset your password.
           </p>
 
@@ -129,7 +131,10 @@ export default () => {
                       (touched.Username && errors.Username) || errors.Global
                     }
                     auxLink={
-                      <div className={Styles.forgot} data-gtm="login-forgot-npn">
+                      <div
+                        className={Styles.forgot}
+                        data-gtm="login-forgot-npn"
+                      >
                         <a
                           href="https://nipr.com/help/look-up-your-npn"
                           target="_blank"

@@ -118,7 +118,9 @@ export default () => {
       <div className="content-frame v2">
         <SimpleHeader mobileAppLogin={mobileAppLogin} />
         <Container size="small">
-          <h1 className="text-xl mb-2 text-navyblue">Login to your account</h1>
+          <h1 className="centered-flex font-32 mb-2 text-navyblue">
+            Login to your account
+          </h1>
 
           {/* <div className="auth-notification">
             <InfoIcon style={{ display: "block" }} />
