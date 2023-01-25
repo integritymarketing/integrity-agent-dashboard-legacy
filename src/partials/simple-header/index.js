@@ -9,14 +9,14 @@ export default (mobileAppLogin) => {
       <h1 className="simple-header__title">
         {!mobileAppLogin ? (
           <Link to="/">
-            <Logo aria-hidden="true" id="footerLogo" />
+            <Logo aria-hidden="true" id="headerLogo" />
             <span className="visually-hidden">Medicare Center</span>
           </Link>
         ) : (
           <>
             {" "}
             <div className="mobile-med-icon">
-              <Logo aria-hidden="true" id="footerLogo" />
+              <Logo aria-hidden="true" id="headerLogo" />
               <span className="visually-hidden">Medicare Center</span>
             </div>
           </>

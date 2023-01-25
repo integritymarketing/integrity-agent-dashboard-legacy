@@ -75,13 +75,7 @@ export default function Filter({
           horizontal: "right",
         }}
       >
-        <Box
-          sx={{
-            height: "435px",
-            width: 388,
-            overflowY: 'scroll',
-          }}
-        >
+        <Box className={styles.modalContentWrapper}>
           <Box sx={{ py: 3, px: 3, backgroundColor: "#F4F8FB" }}>
             <Box className={styles.filterHeader}>
               <Typography variant="h5" sx={{ color: "#093577" }}>
