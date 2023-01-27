@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22.12" height="22.6" viewBox="0 0 22.12 22.6">
+  <g id="Interface" transform="translate(0.5 0.5)">
+    <line id="Line_1013" data-name="Line 1013" y1="13.92" transform="translate(2.4)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1014" data-name="Line 1014" y1="2.4" transform="translate(2.4 18.72)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <circle id="Ellipse_293" data-name="Ellipse 293" cx="2.4" cy="2.4" r="2.4" transform="translate(0 13.92)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1015" data-name="Line 1015" y1="3.36" transform="translate(11.04)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1016" data-name="Line 1016" y1="12.96" transform="translate(11.04 8.16)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <circle id="Ellipse_294" data-name="Ellipse 294" cx="2.4" cy="2.4" r="2.4" transform="translate(8.64 3.36)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1017" data-name="Line 1017" y1="16.8" transform="translate(18.72)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <circle id="Ellipse_295" data-name="Ellipse 295" cx="2.4" cy="2.4" r="2.4" transform="translate(16.32 16.8)" fill="none" stroke="#0052ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </g>
+</svg>

@@ -5,6 +5,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { RecoilRoot } from "recoil";
 import { theme } from "./theme";
 import { ThemeProvider } from "@mui/material/styles";
+import Media from "react-media";
 import TrafficDirector from "components/functional/traffic-director";
 import AuthContext from "contexts/auth";
 import authService from "services/authService";
@@ -50,6 +51,7 @@ import RedirectLoadingPage from "pages/RedirectLoading";
 import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
+import LandingPage from "mobile/landing/LandingPage";
 
 const App = () => {
   return (
@@ -86,6 +88,19 @@ const App = () => {
                                     <Route exact path="/">
                                       <TrafficDirector />
                                     </Route>
+                                    <Media
+                                      queries={{
+                                        small: "(max-width: 767px)",
+                                      }}
+                                    >
+                                      {(matches) =>
+                                        matches.small ? (
+                                          <LandingPage />
+                                        ) : (
+                                          <Welcome />
+                                        )
+                                      }
+                                    </Media>
                                     <UnauthenticatedRoute path="/welcome">
                                       <Welcome />
                                     </UnauthenticatedRoute>
