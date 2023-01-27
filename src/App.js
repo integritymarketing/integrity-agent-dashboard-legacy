@@ -88,6 +88,8 @@ const App = () => {
                                     <Route exact path="/">
                                       <TrafficDirector />
                                     </Route>
+                                
+                                    <UnauthenticatedRoute path="/welcome">
                                     <Media
                                       queries={{
                                         small: "(max-width: 767px)",
@@ -101,8 +103,6 @@ const App = () => {
                                         )
                                       }
                                     </Media>
-                                    <UnauthenticatedRoute path="/welcome">
-                                      <Welcome />
                                     </UnauthenticatedRoute>
                                     <AuthenticatedRoute path="/redirect-loading">
                                       <RedirectLoadingPage />
