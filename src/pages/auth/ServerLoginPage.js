@@ -121,139 +121,135 @@ export default () => {
           <h1 className="centered-flex font-32 mb-2 text-navyblue">
             Login to your account
           </h1>
-
-          {/* <div className="auth-notification">
-            <InfoIcon style={{ display: "block" }} />
-            <p>
-              Please login to your account using your email, not your NPN.{" "}
-              <Link to="/forgot-username">Forgot your email?</Link>
-            </p>
-          </div> */}
-
-          <Formik
-            initialValues={{ Username: "", Password: "" }}
-            validate={(values) => {
-              return validationService.validateMultiple(
-                [
-                  {
-                    name: "Username",
-                    validator: validationService.composeValidator([
-                      validationService.validateRequired,
-                      // validationService.validateEmail,
-                    ]),
-                  },
-                  {
-                    name: "Password",
-                    validator: validationService.validatePasswordAccess,
-                  },
-                ],
-                values
-              );
-            }}
-            onSubmit={async (values, { setErrors, setSubmitting }) => {
-              setSubmitting(true);
-              loading.begin();
-              values.returnUrl = params.get("ReturnUrl");
-              const response = await authService.loginUser(values);
-              postLogin(response, { setErrors, setSubmitting }, values);
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleSubmit,
-              handleChange,
-              handleBlur,
-            }) => (
-              <form action="" className="form" onSubmit={handleSubmit}>
-                <fieldset className="form__fields">
-                  <Textfield
-                    id="login-username"
-                    className="mb-3"
-                    label="National Producer Number (NPN)"
-                    placeholder="Enter your NPN"
-                    name="Username"
-                    value={values.Username}
-                    onChange={handleChange}
-                    onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
-                        field: "username",
-                        formName: "login",
-                      });
-                      return handleBlur(e);
-                    }}
-                    error={touched.Username && errors.Username}
-                    auxLink={
-                      <div
-                        className={Styles.forgot}
-                        data-gtm="login-forgot-npn"
-                      >
-                        <a
-                          href="https://nipr.com/help/look-up-your-npn"
-                          target="_blank"
-                          className="text-sm link text-bold"
-                          rel="noopener noreferrer"
+          <div className="layout-sm">
+            <Formik
+              initialValues={{ Username: "", Password: "" }}
+              validate={(values) => {
+                return validationService.validateMultiple(
+                  [
+                    {
+                      name: "Username",
+                      validator: validationService.composeValidator([
+                        validationService.validateRequired,
+                        // validationService.validateEmail,
+                      ]),
+                    },
+                    {
+                      name: "Password",
+                      validator: validationService.validatePasswordAccess,
+                    },
+                  ],
+                  values
+                );
+              }}
+              onSubmit={async (values, { setErrors, setSubmitting }) => {
+                setSubmitting(true);
+                loading.begin();
+                values.returnUrl = params.get("ReturnUrl");
+                const response = await authService.loginUser(values);
+                postLogin(response, { setErrors, setSubmitting }, values);
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+              }) => (
+                <form
+                  action=""
+                  className="form form-width"
+                  onSubmit={handleSubmit}
+                >
+                  <fieldset className="form__fields">
+                    <Textfield
+                      id="login-username"
+                      className="mb-3"
+                      label="National Producer Number (NPN)"
+                      placeholder="Enter your NPN"
+                      name="Username"
+                      value={values.Username}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        analyticsService.fireEvent("leaveField", {
+                          field: "username",
+                          formName: "login",
+                        });
+                        return handleBlur(e);
+                      }}
+                      error={touched.Username && errors.Username}
+                      auxLink={
+                        <div
+                          className={Styles.forgot}
+                          data-gtm="login-forgot-npn"
                         >
-                          Forgot NPN?
-                        </a>
-                      </div>
-                    }
-                  />
-                  <Textfield
-                    id="login-password"
-                    type="password"
-                    label="Password"
-                    placeholder="Enter your Password"
-                    name="Password"
-                    value={values.Password}
-                    onChange={handleChange}
-                    onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
-                        field: "password",
-                        formName: "login",
-                      });
-                      return handleBlur(e);
-                    }}
-                    error={
-                      (touched.Password && errors.Password) || errors.Global
-                    }
-                    auxLink={
-                      <div
-                        className={Styles.forgot}
-                        data-gtm="login-forgot-password"
-                      >
-                        <Link
-                          to="/forgot-password"
-                          className="text-sm link text-bold"
+                          <a
+                            href="https://nipr.com/help/look-up-your-npn"
+                            target="_blank"
+                            className="text-sm link text-bold"
+                            rel="noopener noreferrer"
+                          >
+                            Forgot NPN?
+                          </a>
+                        </div>
+                      }
+                    />
+                    <Textfield
+                      id="login-password"
+                      type="password"
+                      label="Password"
+                      placeholder="Enter your Password"
+                      name="Password"
+                      value={values.Password}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        analyticsService.fireEvent("leaveField", {
+                          field: "password",
+                          formName: "login",
+                        });
+                        return handleBlur(e);
+                      }}
+                      error={
+                        (touched.Password && errors.Password) || errors.Global
+                      }
+                      auxLink={
+                        <div
+                          className={Styles.forgot}
+                          data-gtm="login-forgot-password"
                         >
-                          Forgot Password?
-                        </Link>
-                      </div>
-                    }
-                  />
-                  <div className="form__submit">
-                    <button
-                      className={`btn-v2 mb-4 ${analyticsService.clickClass(
-                        "main-login"
-                      )}`}
-                      type="submit"
-                    >
-                      Login
-                    </button>
-                  </div>
-                  {!mobileAppLogin && (
-                    <p className="text-sm centered-flex-col">
-                      Don&apos;t have an account?
-                      <Link
-                        to="/register"
-                        className={`link ${analyticsService.clickClass(
-                          "setup-newaccount"
+                          <Link
+                            to="/forgot-password"
+                            className="text-sm link text-bold"
+                          >
+                            Forgot Password?
+                          </Link>
+                        </div>
+                      }
+                    />
+                    <div className="form__submit">
+                      <button
+                        className={`btn-v2 mb-4 ${analyticsService.clickClass(
+                          "main-login"
                         )}`}
+                        type="submit"
                       >
-                        <span className="link text-bold ">Register</span>
-                      </Link>
-                      {/* {` or `}
+                        Login
+                      </button>
+                    </div>
+                    {!mobileAppLogin && (
+                      <p className="text-sm centered-flex-col">
+                        Don&apos;t have an account?
+                        <Link
+                          to="/register"
+                          className={`link ${analyticsService.clickClass(
+                            "setup-newaccount"
+                          )}`}
+                        >
+                          <span className="link text-bold ">Register</span>
+                        </Link>
+                        {/* {` or `}
                     <Link
                       to="/forgot-username"
                       className={`link link--secondary link--force-underline ${analyticsService.clickClass(
@@ -262,12 +258,21 @@ export default () => {
                     >
                       forgot your email?
                     </Link> */}
-                    </p>
-                  )}
-                </fieldset>
-              </form>
-            )}
-          </Formik>
+                      </p>
+                    )}
+                  </fieldset>
+                </form>
+              )}
+            </Formik>
+          </div>
+
+          {/* <div className="auth-notification">
+            <InfoIcon style={{ display: "block" }} />
+            <p>
+              Please login to your account using your email, not your NPN.{" "}
+              <Link to="/forgot-username">Forgot your email?</Link>
+            </p>
+          </div> */}
         </Container>
         <SimpleFooter mobileAppLogin={mobileAppLogin} loginPage={true} />
       </div>

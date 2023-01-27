@@ -5,7 +5,7 @@ import "./index.scss";
 
 export default (mobileAppLogin) => {
   return (
-    <header className="simple-header mb-auto">
+    <header className="simple-header">
       <h1 className="simple-header__title">
         {!mobileAppLogin ? (
           <Link to="/">
