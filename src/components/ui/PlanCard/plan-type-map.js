@@ -16,18 +16,15 @@ export default {
       label: "Estimated Yearly Rx Drug Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
-      function: (planData, effectiveDate) =>
-        (planData.estimatedAnnualDrugCostPartialYear / 12) *
-        (12 - effectiveDate.getMonth()),
+      function: (planData) => planData.estimatedAnnualDrugCostPartialYear,
     },
     {
       label: "Estimated Yearly Total Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
       function: (planData, effectiveDate) =>
-        (planData.estimatedAnnualDrugCostPartialYear / 12 +
-          planData.annualPlanPremium / 12) *
-        (12 - effectiveDate.getMonth()),
+        planData.estimatedAnnualDrugCostPartialYear +
+        planData.medicalPremium * (12 - effectiveDate.getMonth()),
     },
   ],
   MA: [
@@ -44,7 +41,7 @@ export default {
       field: "estimatedAnnualDrugCostPartialYear",
       subtext: "Based on {effectiveDate} Effective Date",
       function: (planData, effectiveDate) =>
-        (planData.annualPlanPremium / 12) * (12 - effectiveDate.getMonth()),
+        planData.medicalPremium * (12 - effectiveDate.getMonth()),
     },
   ],
   PDP: [
@@ -56,18 +53,15 @@ export default {
       label: "Estimated Yearly Rx Drug Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
-      function: (planData, effectiveDate) =>
-        (planData.estimatedAnnualDrugCostPartialYear / 12) *
-        (12 - effectiveDate.getMonth()),
+      function: (planData) => planData.estimatedAnnualDrugCostPartialYear,
     },
     {
       label: "Estimated Yearly Total Cost",
       subtext: "Based on {effectiveDate} Effective Date",
       field: "estimatedAnnualDrugCostPartialYear",
       function: (planData, effectiveDate) =>
-        (planData.estimatedAnnualDrugCostPartialYear / 12 +
-          planData.annualPlanPremium / 12) *
-        (12 - effectiveDate.getMonth()),
+        planData.estimatedAnnualDrugCostPartialYear +
+        planData.medicalPremium * (12 - effectiveDate.getMonth()),
     },
   ],
 };

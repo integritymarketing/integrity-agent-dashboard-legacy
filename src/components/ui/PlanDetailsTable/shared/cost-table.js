@@ -18,13 +18,12 @@ const totalCostBasedOnPlantypes = (planData, effectiveStartDate) => {
     case "PDP":
     case "MAPD":
       return currencyFormatter.format(
-        (planData.estimatedAnnualDrugCostPartialYear / 12 +
-          planData.annualPlanPremium / 12) *
-          (12 - effectiveStartDate.getMonth())
+        planData.estimatedAnnualDrugCostPartialYear +
+          planData.medicalPremium * (12 - effectiveStartDate.getMonth())
       );
     case "MA":
       return currencyFormatter.format(
-        (planData.annualPlanPremium / 12) * (12 - effectiveStartDate.getMonth())
+        planData.medicalPremium * (12 - effectiveStartDate.getMonth())
       );
 
     default:
@@ -32,14 +31,13 @@ const totalCostBasedOnPlantypes = (planData, effectiveStartDate) => {
   }
 };
 
-const RXCostBasedOnPlantypes = (planData, effectiveStartDate) => {
+const RXCostBasedOnPlantypes = (planData) => {
   const type = PLAN_TYPE_ENUMS[planData.planType];
   switch (type) {
     case "PDP":
     case "MAPD":
       return currencyFormatter.format(
-        (planData.estimatedAnnualDrugCostPartialYear / 12) *
-          (12 - effectiveStartDate.getMonth())
+        planData.estimatedAnnualDrugCostPartialYear
       );
 
     default:

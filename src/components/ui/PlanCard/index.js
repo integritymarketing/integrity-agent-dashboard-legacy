@@ -169,7 +169,8 @@ export default function PlanCard({
               )}
               <div className={"currency"}>
                 {currencyFormatter.format(
-                  planData.estimatedAnnualDrugCostPartialYear / 12
+                  planData.estimatedAnnualDrugCostPartialYear /
+                    (12 - effectiveDate?.getMonth())
                 )}
               </div>
               {isMobile && (
