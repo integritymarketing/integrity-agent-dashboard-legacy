@@ -6,10 +6,6 @@
     height: 100%;
     object-fit: cover;
     width: 100%;
-
-    @include mobileOnly {
-        height: 75%;
-    }
 }
 
 .videoPlayer {

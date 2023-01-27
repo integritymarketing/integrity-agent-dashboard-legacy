@@ -12,6 +12,7 @@ import Testimonial from "./testimonial/Testimonial";
 import AuthContext from "contexts/auth";
 import useFlashMessage from "hooks/useFlashMessage";
 import * as Sentry from "@sentry/react";
+import VideoPlayer from 'components/VideoPlayer';
 
 const LandingPage = () => {
   const auth = useContext(AuthContext);
@@ -64,7 +65,7 @@ const LandingPage = () => {
       <p className={Styles.bodyText}>
         Compliance at the press of a button — here to help you before AEP!
       </p>
-
+      <VideoPlayer className={Styles.videoPlayer} url={"https://player.vimeo.com/video/744367402?h=f0b1aad7a2"} />
       {/* Feature 1 */}
       <Feature1 />
       {/* Feature 2 */}
