@@ -1,29 +1,16 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-  useContext,
-} from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
 import clientsService from "services/clientsService";
 import Container from "components/ui/container";
 import Pagination from "components/ui/Pagination/pagination";
 import Card from "components/ui/card";
-import PhoneIcon from "images/call-icon.svg";
-import NavIcon from "images/nav-icon.svg";
-import StageStatusContext from "contexts/stageStatus";
-import ContactContext from "contexts/contacts";
+
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
 import { getPrimaryContact } from "utils/primaryContact";
-import { formatAddress } from "utils/address";
 import { ShortReminder } from "./contactRecordInfo/reminder/Reminder";
 import analyticsService from "services/analyticsService";
 import styles from "./ContactsPage.module.scss";
-import More from "components/icons/more";
-import ActionsDropdown from "components/ui/ActionsDropdown";
-import Checkbox from "components/ui/Checkbox";
 import { MORE_ACTIONS, PLAN_ACTION } from "../../utils/moreActions";
 
 const useClientCardInfo = (client) => {
@@ -46,59 +33,11 @@ const useClientCardInfo = (client) => {
   };
 };
 
-const ActionIcon = ({ icon }) => {
-  return (
-    <div data-gtm="mobile-card-view-phone-button" className={styles.iconCircle}>
-      <img src={icon} alt="phone" />
-    </div>
-  );
-};
-
-const getMapUrl = () => {
-  if (
-    navigator.platform.indexOf("iPhone") !== -1 ||
-    navigator.platform.indexOf("iPod") !== -1 ||
-    navigator.platform.indexOf("iPad") !== -1
-  ) {
-    return "maps://maps.google.com/maps";
-  } else {
-    return "https://maps.google.com/maps";
-  }
-};
-
 const ClientCard = ({ client, onRefresh }) => {
-  const { statusOptions } = useContext(StageStatusContext);
-  const { setNewSoaContactDetails } = useContext(ContactContext);
-  const history = useHistory();
-  const { displayName, stage, reminders, primaryContact } =
-    useClientCardInfo(client);
+  const { displayName, stage, reminders } = useClientCardInfo(client);
 
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
-
-  const navigateToPage = (leadId, page) => {
-    history.push(`/${page}/${leadId}`);
-  };
-  const handleDropdownActions = (contact) => (value, leadId) => {
-    switch (value) {
-      case "addnewreminder":
-        setShowAddModal(leadId);
-        setShowAddNewModal(true);
-        break;
-      case "new-soa":
-      case "plans":
-        if (value === "new-soa") {
-          setNewSoaContactDetails(contact);
-        }
-        navigateToPage(leadId, value);
-        break;
-      case "contact":
-        navigateToPage(leadId, value);
-        break;
-      default:
-        break;
-    }
-  };
 
   const options = MORE_ACTIONS.slice(0);
   if (

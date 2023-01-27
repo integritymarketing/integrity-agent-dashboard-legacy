@@ -461,6 +461,7 @@ const NewContactForm = ({ callLogId }) => {
                       onChange={(value) =>
                         setFieldValue("address.stateCode", value)
                       }
+                      showValueAlways={true}
                     />
                   </div>
                 </div>
@@ -491,6 +492,7 @@ const NewContactForm = ({ callLogId }) => {
                         )[0]?.key;
                         setFieldValue("address.countyFips", fip);
                       }}
+                      showValueAlways={true}
                     />
                   </div>
                 </div>
@@ -558,6 +560,7 @@ const NewContactForm = ({ callLogId }) => {
                     onChange={(value) =>
                       setFieldValue("phones.phoneLabel", value)
                     }
+                    showValueAlways={true}
                   />
                 </div>
               </div>
@@ -594,7 +597,9 @@ const NewContactForm = ({ callLogId }) => {
                   });
                   setFieldValue("contactRecordType", value);
                 }}
+                showValueAlways={true}
               />
+
               {duplicateLeadIds?.length > 0 && (
                 <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
                   <div>
