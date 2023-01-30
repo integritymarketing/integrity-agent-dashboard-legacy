@@ -16,6 +16,8 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
+import AddZip from "./modals/AddZip";
+import AddCounty from "./modals/AddCounty";
 
 const isDuplicateContact = async (
   values,
@@ -104,6 +106,9 @@ export default (props) => {
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+  const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
+  const [isCountyAlertOpen, setisCountyAlertOpen] = useState(false);
+  const [hasCountyAlertClosed, setHasCountyAlertClosed] = useState(false);
 
   const history = useHistory();
 
@@ -234,32 +239,38 @@ export default (props) => {
         );
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
-        setSubmitting(true);
-        let response = await clientService.updateLead(values);
-        if (response.ok) {
-          props.getContactRecordInfo();
-          if (props.successNavigationRoute) {
-            history.push(props.successNavigationRoute);
-          } else {
-            goToContactDetailPage(leadsId);
+        // Checking if Zip code is provided or not
+        if (document.getElementById("contact-address__zip").value) {
+          setSubmitting(true);
+          let response = await clientService.updateLead(values);
+          if (response.ok) {
+            props.getContactRecordInfo();
+            if (props.successNavigationRoute) {
+              history.push(props.successNavigationRoute);
+            } else {
+              goToContactDetailPage(leadsId);
+            }
+            props.setEdit(false);
+            setSubmitting(false);
+            addToast({
+              message: "Contact updated successfully",
+            });
+          } else if (response.status === 400) {
+            const errMessage = await response.json();
+            const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
+            setErrors({
+              duplicateLeadId,
+              firstName: "Duplicate Contact",
+              lastName: "Duplicate Contact",
+            });
+            analyticsService.fireEvent("event-form-submit-invalid", {
+              formName: "Duplicate Contact Error",
+            });
+            document.getElementsByTagName("html")[0].scrollIntoView();
           }
-          props.setEdit(false);
-          setSubmitting(false);
-          addToast({
-            message: "Contact updated successfully",
-          });
-        } else if (response.status === 400) {
-          const errMessage = await response.json();
-          const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
-          setErrors({
-            duplicateLeadId,
-            firstName: "Duplicate Contact",
-            lastName: "Duplicate Contact",
-          });
-          analyticsService.fireEvent("event-form-submit-invalid", {
-            formName: "Duplicate Contact Error",
-          });
-          document.getElementsByTagName("html")[0].scrollIntoView();
+        } else {
+          // If Zip is empty
+          setisZipAlertOpen(true);
         }
       }}
     >
@@ -291,6 +302,16 @@ export default (props) => {
           stateCodeName !== values.address.stateCode
         ) {
           setFieldValue("address.stateCode", allStates[0].value);
+        }
+
+        if (
+          allCounties.length > 1 &&
+          values.address.county === "" &&
+          !hasCountyAlertClosed
+        ) {
+          setisCountyAlertOpen(true);
+        } else {
+          setisCountyAlertOpen(false);
         }
         return (
           <>
@@ -584,6 +605,9 @@ export default (props) => {
                           .replace(/[^0-9]/g, "")
                           .toString()
                           .slice(0, 5);
+                        if (hasCountyAlertClosed) {
+                          setHasCountyAlertClosed(false);
+                        }
                       }}
                       error={errors.address?.postalCode ? true : false}
                     />
@@ -607,6 +631,7 @@ export default (props) => {
                         placeholder="select"
                         showValueAsLabel={true}
                         className={`${styles["contact-address--statecode"]} `}
+                        disabled={true}
                         options={allStates}
                         isDefaultOpen={
                           allStates.length > 1 &&
@@ -708,6 +733,18 @@ export default (props) => {
                 </div>
               </Form>
             </div>
+            <AddZip
+              isOpen={isZipAlertOpen}
+              onClose={() => setisZipAlertOpen(false)}
+              setFieldValue={setFieldValue}
+            />
+            <AddCounty
+              isOpen={isCountyAlertOpen}
+              onClose={() => setisCountyAlertOpen(false)}
+              setFieldValue={setFieldValue}
+              options={allCounties}
+              setHasCountyAlertClosed={setHasCountyAlertClosed}
+            />
           </>
         );
       }}
