@@ -8,11 +8,4 @@
   align-items: center;
   margin-top: 24px;
 }
-@media screen and (max-width: 768px) {
-  .login {
-    flex-direction: row;
-    justify-content: center;
-    width: full;
-    gap: 4px;
-  }
-}
+

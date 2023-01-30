@@ -117,7 +117,7 @@ export default () => {
       </Helmet>
       <div className="content-frame v2">
         <SimpleHeader mobileAppLogin={mobileAppLogin} />
-        <Container size="small">
+        <Container size="small" className="background-image">
           <h1 className="centered-flex font-32 mb-2 text-navyblue">
             Login to your account
           </h1>
@@ -239,17 +239,10 @@ export default () => {
                       </button>
                     </div>
                     {!mobileAppLogin && (
-                      <p className="text-sm centered-flex-col">
-                        Don&apos;t have an account?
-                        <Link
-                          to="/register"
-                          className={`link ${analyticsService.clickClass(
-                            "setup-newaccount"
-                          )}`}
-                        >
-                          <span className="link text-bold ">Register</span>
-                        </Link>
-                        {/* {` or `}
+                      <div className="centered-flex-col">
+                        <p className="text-sm ">
+                          Don&apos;t have an account?
+                          {/* {` or `}
                     <Link
                       to="/forgot-username"
                       className={`link link--secondary link--force-underline ${analyticsService.clickClass(
@@ -258,23 +251,28 @@ export default () => {
                     >
                       forgot your email?
                     </Link> */}
-                      </p>
+                        </p>
+                        <Link
+                          to="/register"
+                          className={`link ${analyticsService.clickClass(
+                            "setup-newaccount"
+                          )}`}
+                        >
+                          <span className="link text-bold ">Register</span>
+                        </Link>
+                      </div>
                     )}
                   </fieldset>
                 </form>
               )}
             </Formik>
           </div>
-
-          {/* <div className="auth-notification">
-            <InfoIcon style={{ display: "block" }} />
-            <p>
-              Please login to your account using your email, not your NPN.{" "}
-              <Link to="/forgot-username">Forgot your email?</Link>
-            </p>
-          </div> */}
         </Container>
-        <SimpleFooter mobileAppLogin={mobileAppLogin} loginPage={true} />
+        <SimpleFooter
+          className="layout-footer"
+          mobileAppLogin={mobileAppLogin}
+          loginPage={true}
+        />
       </div>
     </React.Fragment>
   );

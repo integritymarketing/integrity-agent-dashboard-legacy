@@ -51,7 +51,7 @@ export default () => {
       </Helmet>
       <div className="content-frame v2 override">
         <SimpleHeader />
-        <Container size="small">
+        <Container size="small" className="background-image">
           <h1 className="mb-4 text-navyblue centered-flex font-32 mobile-shift-reg">
             Register your account
           </h1>
@@ -329,8 +329,8 @@ export default () => {
                         Register
                       </button>
                     </div>
-                    <div className={Styles.login}>
-                      Already have an account?
+                    <div className={"centered-flex-col"}>
+                      <p>Already have an account?</p>
                       {/* TODO: Add login link */}
                       <div
                         onClick={async () => {
@@ -347,9 +347,7 @@ export default () => {
             </Formik>
           </div>
         </Container>
-        <div className="footer-container">
-          <SimpleFooter />
-        </div>
+        <SimpleFooter className="layout-footer" />
       </div>
     </React.Fragment>
   );

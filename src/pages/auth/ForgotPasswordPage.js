@@ -35,7 +35,10 @@ export default () => {
       </Helmet>
       <div className="content-frame v2">
         <SimpleHeader />
-        <Container size="small">
+        <Container
+          size="small"
+          className="fg-1 background-image background-image--small"
+        >
           <h1 className="centered-flex font-32 mb-2 text-navyblue">
             Reset your password
           </h1>
@@ -120,7 +123,7 @@ export default () => {
                     <Textfield
                       id="forgot-password-username"
                       label="National Producers Number"
-                      placeholder=""
+                      placeholder="Enter your NPN"
                       name="Username"
                       value={values.Username}
                       onChange={handleChange}
@@ -161,7 +164,7 @@ export default () => {
             </Formik>
           </div>
         </Container>
-        <SimpleFooter />
+        <SimpleFooter className="layout-footer" />
       </div>
     </React.Fragment>
   );

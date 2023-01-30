@@ -29,5 +29,22 @@
     .form__fields {
         padding: 0 5px;
     }
+    .v2 .container.background-image {
+        background: transparent url('pixels.png') 0% 400px no-repeat padding-box;
+        background-color: #f4f8fb;
+
+        &--small{    
+            background-position-y: 300px;
+        }
+    }
+    .fg-1 {
+      flex-grow: 1
+    }
+    .layout-footer.simple-footer {
+      margin-top: 0;
+        .simple-footer__content{
+          padding: 1.2rem 1rem;
+        }
+     }
   }
   
