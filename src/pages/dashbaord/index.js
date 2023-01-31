@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import Media from "react-media";
@@ -32,6 +32,8 @@ function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+const PAGESIZE = 10;
+
 export default function Dashbaord() {
   const history = useHistory();
   const auth = useContext(AuthContext);
@@ -42,6 +44,13 @@ export default function Dashbaord() {
   const [activityData, setActivityData] = useState([]);
   const [user, setUser] = useState({});
   const [sortByRange, setSortByRange] = useState("current-year-to-date");
+  const [page, setPage] = useState(1);
+  const [totalPageSize, setTotalPageSize] = useState(1);
+  const [filterValues, setFilterValues] = useState([]);
+  const [fullResults, setFullResults] = useState([]);
+  const [selectedFilterValues, setSelectedFilterValues] = useState([]);
+  const [sort, setSort] = useState("Activities.CreateDate:desc");
+
   const [welcomeModalOpen, setWelcomeModalOpen] =
     useRecoilState(welcomeModalOpenAtom);
   const { stageSummaryData, loadStageSummaryData } =
@@ -64,6 +73,32 @@ export default function Dashbaord() {
   }, [auth, leadPreference]);
 
   useEffect(() => {
+    const getFullData = async () => {
+      const response = await clientService.getDashboardData(
+        "Activities.CreateDate:desc",
+        null,
+        null,
+        null,
+        true
+      );
+      setFullResults(response.result);
+      getFilterValues(response.result);
+    };
+    getFullData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    loadActivityData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sort, page, selectedFilterValues]);
+
+  const showMore = useMemo(() => {
+    return page < totalPageSize;
+  }, [page, totalPageSize]);
+
+  useEffect(() => {
     const loadAsyncData = async () => {
       await loadStageSummaryData();
     };
@@ -73,10 +108,49 @@ export default function Dashbaord() {
   }, []);
 
   const loadActivityData = async () => {
-    const response = await clientService.getDashboardData(
-      "Activities.CreateDate:desc"
-    );
-    setActivityData(response.result);
+    let returnAll = false;
+    setIsLoading(true);
+    try {
+      const response = await clientService.getDashboardData(
+        sort,
+        page,
+        PAGESIZE,
+        selectedFilterValues,
+        returnAll
+      );
+      if (page > 1) {
+        setActivityData([...activityData, ...response.result]);
+      } else {
+        setActivityData([...response.result]);
+      }
+      setTotalPageSize(response?.pageResult?.totalPages);
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to load data",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getFilterValues = (values) => {
+    const allValues = (values || [])
+      .filter((row) => {
+        return row.activities && row.activities.length > 0;
+      })
+      .map((row) => {
+        return row.activities[0]?.activitySubject;
+      });
+
+    let returnData = [...new Set(allValues)].map((name) => {
+      return {
+        name,
+        selected: false,
+      };
+    });
+    setFilterValues([...returnData]);
   };
 
   useEffect(() => {
@@ -229,6 +303,16 @@ export default function Dashbaord() {
             <DashboardActivityTable
               realoadActivityData={loadActivityData}
               activityData={activityData}
+              setPage={setPage}
+              page={page}
+              showMore={showMore}
+              setSelectedFilterValues={setSelectedFilterValues}
+              selectedFilterValues={selectedFilterValues}
+              fullResults={fullResults}
+              filterValues={filterValues}
+              setFilterValues={setFilterValues}
+              setSort={(value) => setSort(value)}
+              sort={sort}
             />
             {isMobile && <FooterBanners className="banners" type="column" />}
           </section>

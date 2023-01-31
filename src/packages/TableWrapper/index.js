@@ -88,7 +88,16 @@ const generateSortingIndicator = (column) => {
   return <SortArrowUp />;
 };
 
-function Table({ columns, data, footer, initialState, fixedRows = [] }) {
+function Table(props) {
+  const {
+    columns,
+    data,
+    footer,
+    initialState,
+    fixedRows = [],
+    handleSort,
+    sort,
+  } = props;
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -99,6 +108,34 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
     useSortBy
   );
   const [isMobile, setIsMobile] = useState(false);
+
+  const handleSortUpdate = (value) => {
+    switch (value) {
+      case "Date":
+        if (sort === "Activities.CreateDate:asc") {
+          handleSort("Activities.CreateDate:desc");
+        } else {
+          handleSort("Activities.CreateDate:asc");
+        }
+        break;
+      case "Name":
+        if (sort === "Lead.FirstName:asc") {
+          handleSort("Lead.FirstName:desc");
+        } else {
+          handleSort("Lead.FirstName:asc");
+        }
+        break;
+      case "Activity":
+        if (sort === "Activities.ActivitySubject:asc") {
+          handleSort("Activities.ActivitySubject:desc");
+        } else {
+          handleSort("Activities.ActivitySubject:asc");
+        }
+        break;
+      default:
+        handleSort("Activities.CreateDate:desc");
+    }
+  };
 
   // Render the UI for table
   return (
@@ -116,6 +153,7 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
               {headerGroup.headers.map((column) => (
                 <StyledTableCell
                   {...column.getHeaderProps(column.getSortByToggleProps())}
+                  onClick={() => handleSortUpdate(column?.Header)}
                 >
                   <Centered>
                     {column.render("Header")} {generateSortingIndicator(column)}
@@ -127,7 +165,11 @@ function Table({ columns, data, footer, initialState, fixedRows = [] }) {
         </TableHead>
         <StyledTableBody>
           {fixedRows.map((fixedRow, idx) => (
-            <StyledTableRow key={idx} bg="true" islast={idx === fixedRows ? 1: 0}>
+            <StyledTableRow
+              key={idx}
+              bg="true"
+              islast={idx === fixedRows ? 1 : 0}
+            >
               {fixedRow}
             </StyledTableRow>
           ))}

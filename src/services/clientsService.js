@@ -769,6 +769,10 @@ export class ClientsService {
 
   getDashboardData = async (
     sort,
+    currentPage,
+    pageSize,
+    activitySubjects = [],
+    ReturnAll,
     searchText,
     leadIds,
     contactRecordType = "",
@@ -776,18 +780,24 @@ export class ClientsService {
     hasReminder = false
   ) => {
     let params = {
-      ReturnAll: true,
+      ReturnAll,
+      CurrentPage: currentPage,
+      PageSize: pageSize,
       Sort: sort,
       Search: searchText,
       leadIds,
     };
+
+    if (activitySubjects && activitySubjects?.length > 0) {
+      params.ActivitySubject = activitySubjects;
+    }
     if (hasReminder) {
       params.HasReminder = hasReminder;
     }
     if (contactRecordType !== "") {
       params.ContactRecordType = contactRecordType;
     }
-    if (stages && stages.length > 0) {
+    if (stages && stages?.length > 0) {
       params.Stage = stages;
     }
 
