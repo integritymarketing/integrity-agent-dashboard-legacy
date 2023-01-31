@@ -5,7 +5,12 @@ import { Typography } from "@mui/material";
 import FooterButtons from "packages/FooterButtons";
 import CheckMark from "packages/ContactListFilterOptions/CheckMarkIcon/CheckMark";
 
-export default function FilterOptions({ values, onApply, multiSelect = true }) {
+export default function FilterOptions({
+  values,
+  onApply,
+  multiSelect = true,
+  onReset,
+}) {
   const [updatedValues, setUpdatedValues] = useState([]);
 
   useEffect(() => {
@@ -36,7 +41,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true }) {
   };
 
   const handleReset = () => {
-    onApply([]);
+    onReset();
   };
 
   const handleApply = () => {

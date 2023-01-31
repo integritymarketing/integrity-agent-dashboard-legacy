@@ -35,15 +35,6 @@ import CallDetails from "./CallDetails";
 import ComparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
 
-const initialState = {
-  sortBy: [
-    {
-      id: "date",
-      desc: false,
-    },
-  ],
-};
-
 const getActivitySubject = (activitySubject) => {
   switch (activitySubject) {
     case "Scope of Appointment Sent":
@@ -107,6 +98,15 @@ const renderButtons = (activity, leadsId, handleClick) => {
 export default function DashboardActivityTable({
   activityData,
   realoadActivityData,
+  setPage,
+  page,
+  showMore,
+  setSelectedFilterValues,
+  selectedFilterValues,
+  setFilterValues,
+  filterValues,
+  setSort,
+  sort,
 }) {
   const history = useHistory();
   const addToast = useToast();
@@ -115,8 +115,7 @@ export default function DashboardActivityTable({
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [filterToggle, setFilterToggle] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
-  const [selectedFilterValues, setSelectedFilterValues] = useState([]);
-  const [pageSize, setPageSize] = useState(10);
+
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
@@ -125,20 +124,6 @@ export default function DashboardActivityTable({
 
   const userProfile = useUserProfile();
   const { npn } = userProfile;
-
-  const pagedData = useMemo(() => {
-    return [...filteredData].splice(0, pageSize);
-  }, [pageSize, filteredData]);
-
-  const pageHasMoreRows = useMemo(
-    () => filteredData.length > pagedData.length,
-    [pagedData.length, filteredData.length]
-  );
-
-  const onShowMore = useCallback(
-    () => setPageSize((ps) => ps + 10),
-    [setPageSize]
-  );
 
   useEffect(() => {
     setFilteredData([...activityData]);
@@ -363,47 +348,20 @@ export default function DashboardActivityTable({
     [history, showAddModal]
   );
 
-  const getFilterValues = () => {
-    const allValues = (activityData || [])
-      .filter((row) => {
-        return row.activities && row.activities.length > 0;
-      })
-      .map((row) => {
-        return row.activities[0]?.activitySubject;
-      });
+  const onFilterApply = (filterValues) => {
+    setFilterValues([...filterValues]);
+    let data = filterValues
+      .filter((item) => item.selected)
+      .map((item) => item.name);
 
-    return [...new Set(allValues)].map((name) => {
-      return {
-        name,
-        selected:
-          selectedFilterValues.filter(
-            (selectedFilterValue) =>
-              selectedFilterValue.name === name &&
-              !!selectedFilterValue.selected
-          ).length > 0,
-      };
-    });
+    setSelectedFilterValues([...data]);
+    setPage(1);
+    setFilterToggle(false);
   };
 
-  const onFilterApply = (filterValues) => {
-    setSelectedFilterValues([...filterValues]);
-
-    if (filterValues.length === 0) {
-      return setFilteredData(activityData);
-    }
-
-    const newFilteredRows = activityData.filter((row) => {
-      if (row.activities && row.activities.length > 0) {
-        return (
-          filterValues.filter((f) => {
-            return f.selected && f.name === row.activities[0].activitySubject;
-          }).length > 0
-        );
-      }
-      return false;
-    });
-    setFilteredData(newFilteredRows);
-    setFilterToggle(false);
+  const onResetFilter = () => {
+    setSelectedFilterValues([]);
+    setPage(1);
   };
 
   const handleAddActivtyNotes = useCallback(
@@ -446,22 +404,27 @@ export default function DashboardActivityTable({
             filtered={selectedFilterValues.length > 0 ? true : false}
             content={
               <FilterOptions
-                values={getFilterValues()}
+                values={[...filterValues]}
                 multiSelect={true}
                 onApply={onFilterApply}
+                onReset={onResetFilter}
               />
             }
           />
         </div>
       </div>
       <Table
-        initialState={initialState}
-        data={pagedData}
+        handleSort={setSort}
+        sort={sort}
+        initialState={{}}
+        data={filteredData}
         columns={columns}
         footer={
-          pageHasMoreRows ? (
-            <TextButton onClick={onShowMore}>Show more</TextButton>
-          ) : null
+          showMore ? (
+            <TextButton onClick={() => setPage(page + 1)}>Show more</TextButton>
+          ) : (
+            ""
+          )
         }
         fixedRows={callRecordings.map((unAssosiatedCallRecord, index) => (
           <FixedRow
