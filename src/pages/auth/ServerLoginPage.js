@@ -15,6 +15,7 @@ import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import AuthContext from "contexts/auth";
 import Styles from "./AuthPages.module.scss";
+import "./mobileStyle.scss";
 
 export default () => {
   const loading = useLoading();
@@ -231,7 +232,7 @@ export default () => {
                         </div>
                       }
                     />
-                    <div className="form__submit centered-flex-col">
+                    <div className="form__submit override">
                       <button
                         className={`btn-v2 mb-1 login-btn ${analyticsService.clickClass(
                           "main-login"
@@ -271,11 +272,13 @@ export default () => {
             </Formik>
           </div>
         </Container>
-        <SimpleFooter
-          className="layout-footer"
-          mobileAppLogin={mobileAppLogin}
-          loginPage={true}
-        />
+        <div className="override-max">
+          <SimpleFooter
+            className="layout-footer footer-container"
+            mobileAppLogin={mobileAppLogin}
+            loginPage={true}
+          />
+        </div>
       </div>
     </React.Fragment>
   );

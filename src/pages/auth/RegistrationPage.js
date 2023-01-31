@@ -49,13 +49,12 @@ export default () => {
       <Helmet>
         <title>MedicareCENTER - Register Account</title>
       </Helmet>
-      <div className="content-frame v2 override">
+      <div className="content-frame v2">
+        {/* The line below was used to make the page compact on mobile devices but commenting in out to resolve issues from iOS devices */}
+        {/* <div className="content-frame v2 override"> */}
         <SimpleHeader />
-        <Container
-          size="full"
-          className="background-image flex-fill-space mt-3"
-        >
-          <h1 className="centered-flex font-32 text-navyblue mb-2">
+        <Container size="small" className="background-image">
+          <h1 className="mb-4 text-navyblue centered-flex font-32 mobile-shift-reg">
             Register your account
           </h1>
           <div className="layout-sm">
@@ -322,9 +321,9 @@ export default () => {
                       focusBannerVisible={!!errors.Password}
                     />
 
-                    <div className="form__submit centered-flex-col">
+                    <div className="form__submit">
                       <button
-                        className={`btn-v2 mb-1 login-btn ${analyticsService.clickClass(
+                        className={`btn-v2 ${analyticsService.clickClass(
                           "registration-submit"
                         )}`}
                         type="submit"
