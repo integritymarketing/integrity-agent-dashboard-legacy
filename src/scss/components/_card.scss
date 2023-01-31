@@ -1,7 +1,7 @@
 .card-grid {
   > * {
     width: 100%;
-    min-height: 256px;
+    min-height: 150px;
   }
   @media (max-width: 539px) {
     > * + * {
@@ -16,7 +16,7 @@
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 
     > * {
-      min-height: 256px;
+      min-height: 150px;
     }
   }
 }

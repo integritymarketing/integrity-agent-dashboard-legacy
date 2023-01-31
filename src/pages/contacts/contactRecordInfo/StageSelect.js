@@ -1,5 +1,4 @@
 import React, { useContext, useState, useMemo, useEffect } from "react";
-import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
 import { Select } from "components/ui/Select";
@@ -11,7 +10,6 @@ import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisp
 import stageSummaryContext from "contexts/stageSummary";
 
 export default ({ value, original, onRefresh }) => {
-  const [isMobile, setIsMobile] = useState(false);
   const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -104,33 +102,16 @@ export default ({ value, original, onRefresh }) => {
         onSubmit={handleChangeStatus}
         subStatuses={lostSubStatusesOptions}
       />
-      <Media
-        query={"(max-width: 500px)"}
-        onChange={(isMobile) => {
-          setIsMobile(isMobile);
-        }}
+
+      <Select
+        Option={ColorOptionRender}
+        initialValue={selectedValue || "New"}
+        placeholder="Stage"
+        options={filteredStatuses}
+        onChange={handleChangeStatus}
+        contactRecordPage={true}
+        showValueAlways={true}
       />
-      {isMobile ? (
-        <select
-          placeholder="Stage"
-          onChange={(e) => handleChangeStatus(e.target.value)}
-        >
-          {filteredStatuses.map((sts) => (
-            <option value={sts.value} selected={selectedValue === sts.value}>
-              {sts.label}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <Select
-          Option={ColorOptionRender}
-          initialValue={selectedValue || "New"}
-          placeholder="Stage"
-          options={filteredStatuses}
-          onChange={handleChangeStatus}
-          contactRecordPage={true}
-        />
-      )}
     </React.Fragment>
   );
 };
