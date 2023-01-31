@@ -51,8 +51,11 @@ export default () => {
       </Helmet>
       <div className="content-frame v2 override">
         <SimpleHeader />
-        <Container size="small" className="background-image">
-          <h1 className="mb-4 text-navyblue centered-flex font-32 mobile-shift-reg">
+        <Container
+          size="full"
+          className="background-image flex-fill-space mt-3"
+        >
+          <h1 className="centered-flex font-32 text-navyblue mb-2">
             Register your account
           </h1>
           <div className="layout-sm">
@@ -319,9 +322,9 @@ export default () => {
                       focusBannerVisible={!!errors.Password}
                     />
 
-                    <div className="form__submit">
+                    <div className="form__submit centered-flex-col">
                       <button
-                        className={`btn-v2 ${analyticsService.clickClass(
+                        className={`btn-v2 mb-1 login-btn ${analyticsService.clickClass(
                           "registration-submit"
                         )}`}
                         type="submit"

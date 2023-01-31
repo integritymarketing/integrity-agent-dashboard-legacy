@@ -117,8 +117,11 @@ export default () => {
       </Helmet>
       <div className="content-frame v2">
         <SimpleHeader mobileAppLogin={mobileAppLogin} />
-        <Container size="small" className="background-image">
-          <h1 className="centered-flex font-32 mb-2 text-navyblue">
+        <Container
+          size="full"
+          className="background-image flex-fill-space mt-3"
+        >
+          <h1 className="centered-flex font-32 text-navyblue mb-2">
             Login to your account
           </h1>
           <div className="layout-sm">
@@ -228,9 +231,9 @@ export default () => {
                         </div>
                       }
                     />
-                    <div className="form__submit">
+                    <div className="form__submit centered-flex-col">
                       <button
-                        className={`btn-v2 mb-4 ${analyticsService.clickClass(
+                        className={`btn-v2 mb-1 login-btn ${analyticsService.clickClass(
                           "main-login"
                         )}`}
                         type="submit"
@@ -243,14 +246,14 @@ export default () => {
                         <p className="text-sm ">
                           Don&apos;t have an account?
                           {/* {` or `}
-                    <Link
-                      to="/forgot-username"
-                      className={`link link--secondary link--force-underline ${analyticsService.clickClass(
-                        "forgot-email"
-                      )}`}
-                    >
-                      forgot your email?
-                    </Link> */}
+                  <Link
+                    to="/forgot-username"
+                    className={`link link--secondary link--force-underline ${analyticsService.clickClass(
+                      "forgot-email"
+                    )}`}
+                  >
+                    forgot your email?
+                  </Link> */}
                         </p>
                         <Link
                           to="/register"

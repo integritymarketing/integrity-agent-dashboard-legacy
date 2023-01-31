@@ -36,10 +36,10 @@ export default () => {
       <div className="content-frame v2">
         <SimpleHeader />
         <Container
-          size="small"
-          className="fg-1 background-image background-image--small"
+          size="full"
+          className="background-image flex-fill-space mt-3"
         >
-          <h1 className="centered-flex font-32 mb-2 text-navyblue">
+          <h1 className="centered-flex font-32 text-navyblue mb-2">
             Reset your password
           </h1>
           <p className="text text--secondary mb-4 centered-flex">
@@ -153,8 +153,13 @@ export default () => {
                         </div>
                       }
                     />
-                    <div className="form__submit">
-                      <button className="btn-v2" type="submit">
+                    <div className="form__submit centered-flex-col">
+                      <button
+                        className={`btn-v2 mb-1 login-btn ${analyticsService.clickClass(
+                          "main-login"
+                        )}`}
+                        type="submit"
+                      >
                         Submit
                       </button>
                     </div>

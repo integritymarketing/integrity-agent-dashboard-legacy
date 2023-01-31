@@ -202,6 +202,10 @@ button {
     max-width: 900px;
   }
 
+  &--size-full {
+    max-width: 100%;
+  }
+
   @media (max-width: 480px) {
     padding: 0;
   }
