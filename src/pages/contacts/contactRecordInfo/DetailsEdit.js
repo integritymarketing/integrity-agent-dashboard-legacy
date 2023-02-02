@@ -737,6 +737,7 @@ export default (props) => {
               isOpen={isZipAlertOpen}
               onClose={() => setisZipAlertOpen(false)}
               setFieldValue={setFieldValue}
+              address={values.address.address1}
             />
             <AddCounty
               isOpen={isCountyAlertOpen}
@@ -744,6 +745,7 @@ export default (props) => {
               setFieldValue={setFieldValue}
               options={allCounties}
               setHasCountyAlertClosed={setHasCountyAlertClosed}
+              address={values.address.address1}
             />
           </>
         );

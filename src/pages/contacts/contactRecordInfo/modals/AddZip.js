@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Styles from "./AddZip.module.scss";
 
-export default function AddZip({ isOpen, onClose, setFieldValue }) {
+export default function AddZip({ isOpen, onClose, setFieldValue, address }) {
   const [inputZip, setInputZip] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
@@ -34,6 +34,17 @@ export default function AddZip({ isOpen, onClose, setFieldValue }) {
             <p className={Styles.subText}>
               Please enter zip code to see plan details and pricing.
             </p>
+            {address && (
+              <div className={Styles.addressWrapper}>
+                <p className="">{address}</p>
+                <button
+                  className={Styles.copy}
+                  onClick={() => navigator.clipboard.writeText(address)}
+                >
+                  <img src="/images/Clipboard.svg" alt="" />
+                </button>
+              </div>
+            )}
             <form className={Styles.inputContainer} onSubmit={handleSubmit}>
               <p className={Styles.zipCode}>Zip Code</p>
               <input
@@ -52,9 +63,9 @@ export default function AddZip({ isOpen, onClose, setFieldValue }) {
                 }}
               />
               <div className={Styles.buttonWrapper}>
-                <button className={Styles.cancel} onClick={onClose}>
+                {/* <button className={Styles.cancel} onClick={onClose}>
                   Cancel
-                </button>
+                </button> */}
                 <button type="submit" className={Styles.submit}>
                   Continue
                 </button>

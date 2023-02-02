@@ -25,9 +25,10 @@
   position: relative;
 }
 .modalTitle {
-  text-align: center;
+  text-align: left;
   letter-spacing: 0.32px;
   color: #002d72;
+  width: 100%;
   font-size: 32px;
   font-weight: 500;
 }
@@ -87,11 +88,12 @@
 .buttonWrapper {
   display: flex;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: right;
 }
 .countyOptions {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  width: 100%;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -113,4 +115,24 @@
 .cancel:hover {
   border-color: #2175f4;
   color: #0052ce;
+}
+.addressWrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 20px;
+  color: #051d43;
+  font-weight: 500;
+  padding: 8px;
+  gap: 33px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+.copy{
+  width: 32px;
+  height: 32px;
+  padding: 9px;
+  background-color: #2175F41A;
+  border-radius: 9999px;
 }

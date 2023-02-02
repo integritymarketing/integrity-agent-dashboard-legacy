@@ -8,6 +8,7 @@ export default function AddCounty({
   setFieldValue,
   options,
   setHasCountyAlertClosed,
+  address,
 }) {
   const [county, setCounty] = useState();
   function handleSubmit(e) {
@@ -45,8 +46,19 @@ export default function AddCounty({
             <p className={Styles.subText}>
               Please select the county to see plan details and pricing.
             </p>
+            {address && (
+              <div className={Styles.addressWrapper}>
+                <p className="">{address}</p>
+                <button
+                  className={Styles.copy}
+                  onClick={() => navigator.clipboard.writeText(address)}
+                >
+                  <img src="/images/Clipboard.svg" alt="" />
+                </button>
+              </div>
+            )}
             <form className={Styles.inputContainer} onSubmit={handleSubmit}>
-              {/* <p className={Styles.zipCode}>County</p> */}
+              <p className={Styles.zipCode}>Select a County</p>
               <div className={Styles.countyOptions}>
                 {options.map((option) => (
                   <div>
@@ -63,9 +75,9 @@ export default function AddCounty({
                 ))}
               </div>
               <div className={Styles.buttonWrapper}>
-                <button className={Styles.cancel} onClick={handleClose}>
+                {/* <button className={Styles.cancel} onClick={handleClose}>
                   Cancel
-                </button>
+                </button> */}
                 <button type="submit" className={Styles.submit}>
                   Continue
                 </button>

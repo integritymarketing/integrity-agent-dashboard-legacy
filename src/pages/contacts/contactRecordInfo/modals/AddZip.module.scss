@@ -14,7 +14,6 @@
 }
 .modal {
   width: 328px;
-  height: 265px;
   border-radius: 8px;
   background-color: #f4f8fb;
   box-shadow: 0px 0px 6px #00000029;
@@ -26,9 +25,10 @@
   position: relative;
 }
 .modalTitle {
-  text-align: center;
+  text-align: left;
   letter-spacing: 0.32px;
   color: #002d72;
+  width: 100%;
   font-size: 32px;
   font-weight: 500;
 }
@@ -45,14 +45,14 @@
 }
 .subText {
   font-size: 16px;
-  text-align: center;
+  text-align: left;
   color: #434a51;
   margin-top: -16px;
 }
 .inputContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   gap: 8px;
   font-size: 16px;
   color: #051d43;
@@ -88,7 +88,7 @@
 .buttonWrapper {
   display: flex;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: right;
 }
 .cancel {
   width: 120px;
@@ -108,4 +108,24 @@
 .cancel:hover {
   border-color: #2175f4;
   color: #0052ce;
+}
+.addressWrapper{
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  color: #051d43;
+  font-weight: 500;
+  width: 100%;
+  align-items: center;
+  padding: 8px;
+  gap: 33px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+.copy{
+  width: 32px;
+  height: 32px;
+  padding: 9px;
+  background-color: #2175F41A;
+  border-radius: 9999px;
 }
