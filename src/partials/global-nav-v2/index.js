@@ -218,7 +218,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   );
                 },
               },
-              label: "MedicareApp 2023",
+              label: "MedicareAPP",
             },
           ],
         }
@@ -292,7 +292,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   );
                 },
               },
-              label: "MedicareAPP 2023",
+              label: "MedicareAPP",
             },
             {
               component: "button",
