@@ -311,7 +311,10 @@ export default function Dashbaord() {
               fullResults={fullResults}
               filterValues={filterValues}
               setFilterValues={setFilterValues}
-              setSort={(value) => setSort(value)}
+              setSort={(value) => {
+                setSort(value);
+                setPage(1);
+              }}
               sort={sort}
             />
             {isMobile && <FooterBanners className="banners" type="column" />}

@@ -260,6 +260,7 @@ export default function DashboardActivityTable({
       {
         id: "activity",
         Header: "Activity",
+        accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
         Cell: ({ row }) => (
           <div className={styles.activityDataCell}>
             <ActivitySubjectWithIcon
