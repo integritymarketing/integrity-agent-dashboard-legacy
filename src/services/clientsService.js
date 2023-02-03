@@ -82,7 +82,6 @@ export class ClientsService {
       ReturnAll: returnAll,
       PageSize: pageSize,
       CurrentPage: page,
-      Sort: sort,
       Search: searchText,
       leadIds,
     };
@@ -102,6 +101,10 @@ export class ClientsService {
       params.Tags = tags;
     }
 
+    if (sort && sort.length > 0) {
+      params.Sort = sort;
+    }
+
     const queryStr = Object.keys(params)
       .map((key) => {
         if (key === "leadIds" && leadIds) {
@@ -114,6 +117,9 @@ export class ClientsService {
         }
         if (key === "Tags") {
           return tags.map((tagId) => `${key}=${tagId}`).join("&");
+        }
+        if (key === "Sort") {
+          return sort.map((sortId) => `${key}=${sortId}`).join("&");
         }
         return params[key] ? `${key}=${params[key]}` : null;
       })
