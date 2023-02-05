@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import Container from "components/ui/container";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import AuthContext from "contexts/auth";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import Heading1 from "packages/Heading1";
 
 const LoginLink = (props) => {
   const auth = useContext(AuthContext);
@@ -12,12 +14,12 @@ const LoginLink = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <div className="text-body text-body--large mb-3">
         Unable to login automatically.
       </div>
       <button onClick={login} {...props}></button>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -36,21 +38,16 @@ export default () => {
   }, [auth]);
 
   return (
-    <React.Fragment>
-      <div className="content-frame v2">
-        <SimpleHeader />
-        <Container size="small">
-          <h1 className="hdg hdg--2 mb-2">Agent Login</h1>
-
-          {!error && (
-            <p className="text-body mt-2">Attempting automatic login...</p>
-          )}
-          {error && (
-            <LoginLink className="btn-v2">Go to Login portal</LoginLink>
-          )}
-        </Container>
-        <SimpleFooter />
-      </div>
-    </React.Fragment>
+    <Grid className="content-frame v2" direction={"column"} container>
+      <HeaderUnAuthenticated />
+      <ContainerUnAuthenticated>
+        <Heading1 className="hdg hdg--2 mb-2" text="Agent Login" />
+        {!error && (
+          <p className="text-body mt-2">Attempting automatic login...</p>
+        )}
+        {error && <LoginLink className="btn-v2">Go to Login portal</LoginLink>}
+      </ContainerUnAuthenticated>
+      <FooterUnAuthenticated />
+    </Grid>
   );
 };

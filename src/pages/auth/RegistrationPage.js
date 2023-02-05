@@ -2,9 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import { useHistory } from "react-router-dom";
-import Container from "components/ui/container";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
@@ -17,6 +14,12 @@ import Styles from "./AuthPages.module.scss";
 import * as Sentry from "@sentry/react";
 import AuthContext from "../../contexts/auth";
 import useFlashMessage from "../../hooks/useFlashMessage";
+import Heading2 from "packages/Heading2";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import { Box } from "@mui/material";
+import { Button } from "packages/Button";
 import "./mobileStyle.scss";
 
 export default () => {
@@ -29,11 +32,13 @@ export default () => {
   const { show: showMessage } = useFlashMessage();
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
+
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/register/account-registration-form/",
     });
   }, []);
+
   async function login() {
     try {
       auth.signinRedirect();
@@ -50,14 +55,12 @@ export default () => {
         <title>MedicareCENTER - Register Account</title>
       </Helmet>
       <div className="content-frame v2">
-        {/* The line below was used to make the page compact on mobile devices but commenting in out to resolve issues from iOS devices */}
-        {/* <div className="content-frame v2 override"> */}
-        <SimpleHeader />
-        <Container size="small" className="background-image">
-          <h1 className="mb-4 text-navyblue centered-flex font-32 mobile-shift-reg">
-            Register your account
-          </h1>
-          <div className="layout-sm">
+        <HeaderUnAuthenticated />
+        <ContainerUnAuthenticated>
+          <Heading2
+            className={Styles.registerTitle}
+            text="Register your account"
+          />
             <Formik
               initialValues={{
                 FirstName: "",
@@ -320,20 +323,19 @@ export default () => {
                       }
                       focusBannerVisible={!!errors.Password}
                     />
-
-                    <div className="form__submit">
-                      <button
-                        className={`btn-v2 ${analyticsService.clickClass(
+                    <div className="centered-flex-col">
+                      <Button
+                        className={analyticsService.clickClass(
                           "registration-submit"
-                        )}`}
+                        )}
                         type="submit"
+                        size="large"
                       >
-                        Register
-                      </button>
+                        <Box mx="3rem">Submit</Box>
+                      </Button>
                     </div>
                     <div className={"centered-flex-col"}>
                       <p>Already have an account?</p>
-                      {/* TODO: Add login link */}
                       <div
                         onClick={async () => {
                           await login();
@@ -347,9 +349,8 @@ export default () => {
                 </form>
               )}
             </Formik>
-          </div>
-        </Container>
-        <SimpleFooter className="layout-footer" />
+        </ContainerUnAuthenticated>
+        <FooterUnAuthenticated />
       </div>
     </React.Fragment>
   );

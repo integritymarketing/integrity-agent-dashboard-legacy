@@ -8,26 +8,19 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import ServerLoginPage from "pages/auth/ServerLoginPage";
 import ServerLogoutPage from "pages/auth/ServerLogoutPage";
 import ServerErrorPage from "pages/auth/ServerErrorPage";
-
 import RegistrationPage from "pages/auth/RegistrationPage";
 import RegistrationConfirmEmailPage from "pages/auth/RegistrationConfirmEmailPage";
 import RegistrationConfirmLinkExpiredPage from "pages/auth/RegistrationConfirmLinkExpiredPage";
 import RegistrationCheckEmailPage from "pages/auth/RegistrationCheckEmailPage";
 import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
-
 import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
 import ForgotPasswordSentPage from "pages/auth/ForgotPasswordSentPage";
 import PasswordResetPage from "pages/auth/PasswordResetPage";
 import PasswordLinkExpiredPage from "pages/auth/PasswordLinkExpiredPage";
 import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
-
-// import ForgotUsernamePage from "pages/auth/ForgotUsernamePage";
-
 import FinalErrorPage from "pages/auth/FinalErrorPage";
-
 import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
-
 import ContactSupport from "pages/auth/ContactSupport";
 import ContactSupportInvalidNPN from "pages/auth/ContactSupportInvalidNPN";
 
@@ -35,10 +28,14 @@ import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
 import authService from "services/authService";
 import AuthContext from "contexts/auth";
+import { theme } from "./theme";
+import { ThemeProvider } from "@mui/material/styles";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 const AuthApp = () => {
   return (
+    <ThemeProvider theme={theme}>
+
     <HelmetProvider>
       <AuthContext.Provider value={authService}>
         <ToastContextProvider>
@@ -128,6 +125,7 @@ const AuthApp = () => {
         </ToastContextProvider>
       </AuthContext.Provider>
     </HelmetProvider>
+   </ThemeProvider>
   );
 };
 

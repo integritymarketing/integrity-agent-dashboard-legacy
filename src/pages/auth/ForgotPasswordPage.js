@@ -2,20 +2,20 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
-import Container from "components/ui/container";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
+import Paragraph from "packages/Paragraph";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
+import Heading2 from "packages/Heading2";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import { Box } from "@mui/material";
+import { Button } from "packages/Button";
 import Styles from "./AuthPages.module.scss";
-
-// NOTE that there are instances of both username + npn in this file (they are the same thing)
-// this is to handle compatibility with identity server in the short term
-// before we fully transition to 'Username' for everything
 
 export default () => {
   const history = useHistory();
@@ -34,18 +34,13 @@ export default () => {
         <title>MedicareCENTER - Forgot Password</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
-        <Container
-          size="full"
-          className="background-image flex-fill-space mt-3"
-        >
-          <h1 className="centered-flex font-32 text-navyblue mb-2">
-            Reset your password
-          </h1>
-          <p className="text text--secondary mb-4 centered-flex">
-            Enter your NPN to reset your password.
-          </p>
-          <div className="layout-sm">
+        <HeaderUnAuthenticated />
+        <ContainerUnAuthenticated>
+          <Heading2 className={Styles.resetTitle} text="Reset your password" />
+          <Paragraph
+            className={Styles.enterYourNPN}
+            text={"Enter your NPN to reset your password."}
+          />
             <Formik
               initialValues={{ Username: "" }}
               validate={(values) => {
@@ -55,7 +50,6 @@ export default () => {
                       name: "Username",
                       validator: validationService.composeValidator([
                         validationService.validateRequired,
-                        // validationService.validateEmail,
                       ]),
                     },
                   ],
@@ -70,8 +64,6 @@ export default () => {
                 const response = await authService.requestPasswordReset(values);
                 setSubmitting(false);
                 loading.end();
-
-                // TODO v2: Reconfigure from NPN to email once api changed?
                 if (response.status >= 200 && response.status < 300) {
                   history.push(`password-reset-sent?npn=${values.Username}`);
                   analyticsService.fireEvent("formSubmit", {
@@ -90,7 +82,6 @@ export default () => {
                   let errors = validationService.formikErrorsFor(errorsArr);
 
                   if (errors.Global === "account_unconfirmed") {
-                    // TODO v2: Reconfigure from NPN to email once api changed?
                     history.push(
                       `registration-email-sent?npn=${values.Username}&mode=error`
                     );
@@ -153,23 +144,23 @@ export default () => {
                         </div>
                       }
                     />
-                    <div className="form__submit centered-flex-col">
-                      <button
-                        className={`btn-v2 mb-1 login-btn ${analyticsService.clickClass(
-                          "main-login"
-                        )}`}
+                    <div className="centered-flex-col">
+                    <Box mt="3rem">
+                      <Button
+                        className={analyticsService.clickClass("main-login")}
                         type="submit"
+                        size="large"
                       >
-                        Submit
-                      </button>
+                        <Box mx="3rem">Submit</Box>
+                      </Button>
+                    </Box>
                     </div>
                   </fieldset>
                 </form>
               )}
             </Formik>
-          </div>
-        </Container>
-        <SimpleFooter className="layout-footer" />
+        </ContainerUnAuthenticated>
+        <FooterUnAuthenticated />
       </div>
     </React.Fragment>
   );
