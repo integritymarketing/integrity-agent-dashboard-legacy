@@ -16,7 +16,6 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
-import AddZip from "./modals/AddZip";
 import AddCounty from "./modals/AddCounty";
 
 const isDuplicateContact = async (
@@ -106,7 +105,6 @@ export default (props) => {
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-  const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
   const [isCountyAlertOpen, setisCountyAlertOpen] = useState(false);
   const [hasCountyAlertClosed, setHasCountyAlertClosed] = useState(false);
 
@@ -239,38 +237,32 @@ export default (props) => {
         );
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
-        // Checking if Zip code is provided or not
-        if (document.getElementById("contact-address__zip").value) {
-          setSubmitting(true);
-          let response = await clientService.updateLead(values);
-          if (response.ok) {
-            props.getContactRecordInfo();
-            if (props.successNavigationRoute) {
-              history.push(props.successNavigationRoute);
-            } else {
-              goToContactDetailPage(leadsId);
-            }
-            props.setEdit(false);
-            setSubmitting(false);
-            addToast({
-              message: "Contact updated successfully",
-            });
-          } else if (response.status === 400) {
-            const errMessage = await response.json();
-            const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
-            setErrors({
-              duplicateLeadId,
-              firstName: "Duplicate Contact",
-              lastName: "Duplicate Contact",
-            });
-            analyticsService.fireEvent("event-form-submit-invalid", {
-              formName: "Duplicate Contact Error",
-            });
-            document.getElementsByTagName("html")[0].scrollIntoView();
+        setSubmitting(true);
+        let response = await clientService.updateLead(values);
+        if (response.ok) {
+          props.getContactRecordInfo();
+          if (props.successNavigationRoute) {
+            history.push(props.successNavigationRoute);
+          } else {
+            goToContactDetailPage(leadsId);
           }
-        } else {
-          // If Zip is empty
-          setisZipAlertOpen(true);
+          props.setEdit(false);
+          setSubmitting(false);
+          addToast({
+            message: "Contact updated successfully",
+          });
+        } else if (response.status === 400) {
+          const errMessage = await response.json();
+          const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
+          setErrors({
+            duplicateLeadId,
+            firstName: "Duplicate Contact",
+            lastName: "Duplicate Contact",
+          });
+          analyticsService.fireEvent("event-form-submit-invalid", {
+            formName: "Duplicate Contact Error",
+          });
+          document.getElementsByTagName("html")[0].scrollIntoView();
         }
       }}
     >
@@ -733,19 +725,18 @@ export default (props) => {
                 </div>
               </Form>
             </div>
-            <AddZip
-              isOpen={isZipAlertOpen}
-              onClose={() => setisZipAlertOpen(false)}
-              setFieldValue={setFieldValue}
-              address={values.address.address1}
-            />
             <AddCounty
               isOpen={isCountyAlertOpen}
               onClose={() => setisCountyAlertOpen(false)}
               setFieldValue={setFieldValue}
               options={allCounties}
               setHasCountyAlertClosed={setHasCountyAlertClosed}
-              address={values.address.address1}
+              address={
+                (values.address.address1 && values.address.address1) +
+                (values.address.address2 && ", " + values.address.address2) +
+                (values.address.stateCode && ", " + values.address.stateCode) +
+                (values.address.postalCode && ", " + values.address.postalCode)
+              }
             />
           </>
         );

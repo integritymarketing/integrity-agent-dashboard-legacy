@@ -2,6 +2,11 @@ import React from "react";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
 import Editicon from "components/icons/edit-details";
+import { useEffect } from "react";
+import AddZip from "./modals/AddZip";
+import { useState } from "react";
+import person from "components/icons/person";
+import clientsService from "services/clientsService";
 const notAvailable = "-";
 
 export default ({ setDisplay, personalInfo, ...rest }) => {
@@ -16,6 +21,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     contactPreferences,
     contactRecordType = "prospect",
   } = personalInfo;
+  const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
 
   emails = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
   const phoneData = phones.length > 0 ? phones[0] : null;
@@ -39,6 +45,19 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
     : "phone";
+
+  useEffect(() => {
+    if (!postalCode) {
+      setisZipAlertOpen(true);
+    }
+  }, []);
+  async function updateZip(zip) {
+    let response = await clientsService
+      .updateLeadZip(personalInfo, zip)
+      .then(() => {
+        window.location.reload(true);
+      });
+  }
 
   return (
     <>
@@ -172,6 +191,16 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
           </div>
         </div>
       </div>
+      <AddZip
+        isOpen={isZipAlertOpen}
+        onClose={() => setisZipAlertOpen(false)}
+        updateZip={updateZip}
+        address={
+          (address1 && address1) +
+          (address2 && ", " + address2) +
+          (stateCode && ", " + stateCode)
+        }
+      />
     </>
   );
 };
