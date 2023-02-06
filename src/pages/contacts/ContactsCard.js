@@ -106,7 +106,7 @@ const ClientCard = ({ client, onRefresh }) => {
   );
 };
 
-function ContactsCard({ searchString, sort }) {
+function ContactsCard({ searchString, sort, isMobile, layout }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
@@ -119,21 +119,30 @@ function ContactsCard({ searchString, sort }) {
 
   const queryParams = new URLSearchParams(location.search);
 
+  const returnAll = useMemo(() => {
+    return isMobile && layout === "card";
+  }, [layout, isMobile]);
+
   useEffect(() => {
     const stages = queryParams.get("Stage");
+    const tags = queryParams.get("Tags");
     const contactRecordType = queryParams.get("ContactRecordType");
     const hasReminder = queryParams.get("HasReminder");
+    const hasOverdueReminder = queryParams.get("HasOverdueReminder");
+
     const applyFilters = {
       contactRecordType,
       hasReminder,
       stages: stages ? stages.split(",") : [],
+      tags: tags ? tags.split(",") : [],
+      hasOverdueReminder,
     };
     setApplyFilters(applyFilters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const fetchData = useCallback(
-    ({ pageSize, pageIndex, searchString, sort, applyFilters }) => {
+    ({ pageSize, pageIndex, searchString, sort, applyFilters, returnAll }) => {
       setLoading(true);
       clientsService
         .getList(
@@ -144,7 +153,10 @@ function ContactsCard({ searchString, sort }) {
           null,
           applyFilters?.contactRecordType,
           applyFilters?.stages,
-          applyFilters?.hasReminder
+          applyFilters?.hasReminder,
+          applyFilters.hasOverdueReminder,
+          applyFilters.tags,
+          returnAll
         )
         .then((list) => {
           setData(
@@ -183,14 +195,24 @@ function ContactsCard({ searchString, sort }) {
         pagePath: "/card-view/",
       });
     }
+
     fetchData({
       pageSize,
       pageIndex: currentPage,
       searchString,
       sort,
       applyFilters,
+      returnAll,
     });
-  }, [currentPage, fetchData, searchString, sort, applyFilters, pageSize]);
+  }, [
+    currentPage,
+    fetchData,
+    searchString,
+    sort,
+    applyFilters,
+    pageSize,
+    returnAll,
+  ]);
 
   const onPageSizeChange = (value) => {
     setPageSize(value);

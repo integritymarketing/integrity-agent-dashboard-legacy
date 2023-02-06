@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
@@ -56,10 +62,11 @@ export default () => {
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState("createDate:desc");
-  const [layout, setLayout] = useState("list");
+  const [layout, setLayout] = useState("");
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [allLeads, setAllLeads] = useState([]);
   const history = useHistory();
+  const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
   const [deleteCounter, setDeleteCounter] = useState(0);
   const [duplicateIds, setDuplicateLeadIds] = useState(
@@ -80,7 +87,6 @@ export default () => {
 
   useEffect(() => {
     setCurrentPage("Contacts Page");
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -99,6 +105,13 @@ export default () => {
     history.push(switchToLayoutPath);
     setLayout((layout) => (layout === "list" ? "card" : "list"));
   };
+
+  useEffect(() => {
+    setLayout(() =>
+      location.pathname === cardViewLayoutPath ? "card" : "list"
+    );
+    // eslint-disable-line react-hooks/exhaustive-deps
+  }, [location, isMobile]);
 
   const goToImportPage = () => {
     history.push("/client-import");
@@ -361,7 +374,12 @@ export default () => {
                     />
                   </Route>
                   <Route path="/contacts/card">
-                    <ContactsCard searchString={searchStringNew} sort={sort} />
+                    <ContactsCard
+                      searchString={searchStringNew}
+                      sort={sort}
+                      isMobile={isMobile}
+                      layout={layout}
+                    />
                   </Route>
                 </Switch>
               </div>

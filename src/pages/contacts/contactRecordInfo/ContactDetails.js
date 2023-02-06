@@ -5,7 +5,6 @@ import Editicon from "components/icons/edit-details";
 import { useEffect } from "react";
 import AddZip from "./modals/AddZip";
 import { useState } from "react";
-import person from "components/icons/person";
 import clientsService from "services/clientsService";
 const notAvailable = "-";
 
@@ -50,13 +49,14 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     if (!postalCode) {
       setisZipAlertOpen(true);
     }
-  }, []);
+  }, [postalCode]);
   async function updateZip(zip) {
     let response = await clientsService
       .updateLeadZip(personalInfo, zip)
       .then(() => {
         window.location.reload(true);
       });
+    console.log("RESPONSE..:", response);
   }
 
   return (
