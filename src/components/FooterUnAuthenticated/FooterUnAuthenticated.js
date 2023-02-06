@@ -26,9 +26,17 @@ export const FooterUnAuthenticated = (props) => {
         </Link>
       </Grid>
       <Grid>
-        <Grid align="right" container>
+        <Grid
+          align="right"
+          container
+          flexDirection={{ xs: "column", sm: "row" }}
+        >
           <img alt="Integrity Logo" src={Integrity} />
-          <Typography ml="1rem" className={styles.textContent}>
+          <Typography
+            ml={{ sm: "1rem" }}
+            mt={{ xs: "0.5rem", sm: 0 }}
+            className={styles.textContent}
+          >
             &copy; {new Date().getFullYear()} Integrity. All rights reserved.{" "}
           </Typography>
         </Grid>
