@@ -119,10 +119,10 @@ function Table(props) {
         }
         break;
       case "Name":
-        if (sort === "Lead.FirstName:asc") {
-          handleSort("Lead.FirstName:desc");
+        if (sort === "firstName:asc") {
+          handleSort("firstName:desc");
         } else {
-          handleSort("Lead.FirstName:asc");
+          handleSort("firstName:asc");
         }
         break;
       case "Activity":
