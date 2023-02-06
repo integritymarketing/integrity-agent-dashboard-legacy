@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "../LandingPage.module.scss"
+import Styles from "../LandingPage.module.scss";
 
 export default function Feature2() {
   return (
@@ -9,15 +9,12 @@ export default function Feature2() {
         alt=""
         className={Styles.featureHeroImg}
       />
-      <p className={Styles.clientServeHeading}>Serve Clients Better</p>
+      <p className={Styles.clientServeHeading}>Boost Your Productionr</p>
       <p className={Styles.clientServeBody}>
-        With Contact Management in our user-friendly CRM, you can spend less
-        time managing your clients and more time serving them, all while staying
-        100% compliant.
+        MedicareCENTER empowers you to work smarter and more efficiently. All to
+        help you take your business to a whole new level.
       </p>
-      {/* Feature Box*/}
       <div className={Styles.featureBox}>
-        {/* Image */}
         <div className={Styles.featureImgContainer}>
           <img
             src="/images/landingPage/Leads.svg"
@@ -34,9 +31,7 @@ export default function Feature2() {
           </p>
         </div>
       </div>
-      {/* Feature Box*/}
       <div className={Styles.featureBox}>
-        {/* Image */}
         <div className={Styles.featureImgContainer}>
           <img
             src="/images/landingPage/Share.svg"
@@ -44,7 +39,6 @@ export default function Feature2() {
             className={Styles.featureImg}
           />
         </div>
-        {/* Content */}
         <div className={Styles.featureContent}>
           <p className={Styles.featureHeading}>Side-by-Side Plan Comparison</p>
           <p className={Styles.featureText}>
@@ -52,9 +46,7 @@ export default function Feature2() {
           </p>
         </div>
       </div>
-      {/* Feature Box*/}
       <div className={Styles.featureBox}>
-        {/* Image */}
         <div className={Styles.featureImgContainer}>
           <img
             src="/images/landingPage/Quote-1.svg"
@@ -62,7 +54,6 @@ export default function Feature2() {
             className={Styles.featureImg}
           />
         </div>
-        {/* Content */}
         <div className={Styles.featureContent}>
           <p className={Styles.featureHeading}>
             Integrated Quoting & Enrollment
