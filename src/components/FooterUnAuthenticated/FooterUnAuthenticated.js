@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styles from "./FooterUnAuthenticated.module.scss";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Typography } from "@mui/material";
 import Integrity from "./Integrity.svg";
+import usePortalUrl from "hooks/usePortalUrl";
 
 export const FooterUnAuthenticated = (props) => {
+  const portalUrl = usePortalUrl();
   const { mobileAppLogin } = props;
 
   return (
@@ -18,15 +19,23 @@ export const FooterUnAuthenticated = (props) => {
     >
       {!mobileAppLogin && (
         <Grid container>
-          <Link to={`/terms`} className={styles.textContent}>
+          <a
+            href={`${portalUrl || ""}/terms`}
+            rel="noopener noreferrer"
+            className={styles.textContent}
+          >
             Terms of Use
-          </Link>
+          </a>
           <Typography className={styles.textContent} px={"1rem"}>
             |
           </Typography>
-          <Link to={`/privacy`} className={styles.textContent}>
+          <a
+            href={`${portalUrl || ""}/privacy`}
+            rel="noopener noreferrer"
+            className={styles.textContent}
+          >
             Privacy Policy
-          </Link>
+          </a>
         </Grid>
       )}
       <Grid>
