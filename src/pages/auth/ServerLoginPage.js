@@ -119,7 +119,7 @@ export default () => {
         <title>MedicareCENTER - Login</title>
       </Helmet>
       <div className="content-frame v2">
-        <HeaderUnAuthenticated />
+        <HeaderUnAuthenticated  />
         <ContainerUnAuthenticated>
           <Heading2 className={Styles.loginText} text="Login to your account" />
           <Box mt={"1rem"}>
@@ -258,7 +258,7 @@ export default () => {
             </Formik>
           </Box>
         </ContainerUnAuthenticated>
-        <FooterUnAuthenticated />
+        <FooterUnAuthenticated mobileAppLogin={mobileAppLogin}  />
       </div>
     </React.Fragment>
   );

@@ -6,6 +6,8 @@ import { Typography } from "@mui/material";
 import Integrity from "./Integrity.svg";
 
 export const FooterUnAuthenticated = (props) => {
+  const { mobileAppLogin } = props;
+
   return (
     <Grid
       alignItems={"center"}
@@ -14,17 +16,19 @@ export const FooterUnAuthenticated = (props) => {
       container
       px={{ xs: "0rem", sm: "2rem", md: "8.5rem" }}
     >
-      <Grid container>
-        <Link to={`/terms`} className={styles.textContent}>
-          Terms of Use
-        </Link>
-        <Typography className={styles.textContent} px={"1rem"}>
-          |
-        </Typography>
-        <Link to={`/privacy`} className={styles.textContent}>
-          Privacy Policy
-        </Link>
-      </Grid>
+      {!mobileAppLogin && (
+        <Grid container>
+          <Link to={`/terms`} className={styles.textContent}>
+            Terms of Use
+          </Link>
+          <Typography className={styles.textContent} px={"1rem"}>
+            |
+          </Typography>
+          <Link to={`/privacy`} className={styles.textContent}>
+            Privacy Policy
+          </Link>
+        </Grid>
+      )}
       <Grid>
         <Grid
           align="right"
