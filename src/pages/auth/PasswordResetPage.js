@@ -11,6 +11,7 @@ import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import useQueryParams from "hooks/useQueryParams";
 import authService from "services/authService";
+import Box from "@mui/material/Box";
 
 // NOTE that there are instances of both username + npn in this file (they are the same thing)
 // this is to handle compatibility with identity server in the short term
@@ -51,7 +52,7 @@ export default () => {
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>
           <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
-
+          <Box sx={{ width: 300 }}>
           <Formik
             initialValues={{ Password: "", ConfirmPassword: "" }}
             validate={(values) => {
@@ -166,6 +167,7 @@ export default () => {
               </form>
             )}
           </Formik>
+          </Box>
         </ContainerUnAuthenticated>
         <FooterUnAuthenticated />
       </div>

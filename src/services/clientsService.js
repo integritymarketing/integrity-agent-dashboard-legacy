@@ -812,7 +812,7 @@ export class ClientsService {
           return stages.map((stageId) => `${key}=${stageId}`).join("&");
         }
         if (key === "ActivitySubject") {
-          return activitySubjects.map((activitySubject) => `${key}=${activitySubject}`).join("&");
+          return activitySubjects.map((activitySubject) => `LatestActivitySubject=${activitySubject}`).join("&");
         }
         return params[key] ? `${key}=${params[key]}` : null;
       })
