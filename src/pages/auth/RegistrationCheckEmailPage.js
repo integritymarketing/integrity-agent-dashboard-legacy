@@ -14,8 +14,6 @@ const resendComfirmEmail = async (params) => {
 
 export default () => {
   const clientId = useClientId();
-
-  // TODO v2: Does this need to change from npn to email?
   const params = useQueryParams();
 
   return (
