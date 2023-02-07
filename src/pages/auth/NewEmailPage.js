@@ -1,18 +1,17 @@
 import React from "react";
 import { Formik } from "formik";
-import Container from "components/ui/container";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 
 export default () => {
   return (
     <div className="content-frame v2">
-      <SimpleHeader />
-      <Container size="small">
+      <HeaderUnAuthenticated />
+      <ContainerUnAuthenticated>
         <h1 className="hdg hdg--2 mb-4">Update your email address</h1>
-
         <Formik
           initialValues={{ email: "", emailRepeat: "" }}
           validate={(values) => {
@@ -90,8 +89,8 @@ export default () => {
             </form>
           )}
         </Formik>
-      </Container>
-      <SimpleFooter />
+      </ContainerUnAuthenticated>
+      <FooterUnAuthenticated />
     </div>
   );
 };
