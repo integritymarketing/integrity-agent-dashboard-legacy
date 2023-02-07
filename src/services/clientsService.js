@@ -811,6 +811,9 @@ export class ClientsService {
         if (key === "Stage") {
           return stages.map((stageId) => `${key}=${stageId}`).join("&");
         }
+        if (key === "ActivitySubject") {
+          return activitySubjects.map((activitySubject) => `${key}=${activitySubject}`).join("&");
+        }
         return params[key] ? `${key}=${params[key]}` : null;
       })
       .filter((str) => str !== null)
