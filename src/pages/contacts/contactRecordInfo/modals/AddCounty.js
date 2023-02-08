@@ -23,7 +23,7 @@ export default function AddCounty({
   }
   return (
     <div>
-      {isOpen && (
+      {isOpen && false && (
         <div className={Styles.modalContainer}>
           <div className={Styles.modal}>
             <p className={Styles.modalTitle}>County</p>
