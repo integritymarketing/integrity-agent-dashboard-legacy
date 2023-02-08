@@ -52,7 +52,7 @@ const renderButtons = (activity, handleClick) => {
         className={styles.activityDataCell}
         onClick={(e) => handleClick(activitySubject, activityInteractionURL)}
       >
-        <ActivityButtonIcon activitySubject={activitySubject} />
+        <ActivityButtonIcon activitySubject={activitySubject} route="contactDetail" />
         <Typography color="#434A51" fontSize={"16px"} noWrap>
           {buttonTextByActivity[activitySubject]}
         </Typography>

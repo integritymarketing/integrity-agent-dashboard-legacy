@@ -6,8 +6,9 @@ import styles from "./ActivitySubjectWithIcon.module.scss";
 import SOACOMPLETE from "components/icons/activities/SoaComplete";
 import SOAVIEW from "components/icons/activities/SoaView";
 import VIEWPLANS from "components/icons/activities/ViewPlans";
+import VIEWPLANSCONTACT from "components/icons/activities/ViewPlansContact";
 
-export default function ActivityButtonIcon({ activitySubject }) {
+export default function ActivityButtonIcon({ activitySubject, route = "" }) {
   const getIcon = () => {
     const icon = {
       "Incoming Call": <LINK />,
@@ -17,7 +18,7 @@ export default function ActivityButtonIcon({ activitySubject }) {
       "Incoming Call Recorded": <DOWNLOAD />,
       "Scope of Appointment Signed": <SOACOMPLETE />,
       "Scope of Appointment Completed": <SOAVIEW />,
-      "Plan Shared": <VIEWPLANS />,
+      "Plan Shared": route === "contactDetail" ? <VIEWPLANSCONTACT /> :<VIEWPLANS />,
       "Application Submitted": <VIEWPLANS />,
       "Meeting Recorded": <DOWNLOAD />,
     };
