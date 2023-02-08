@@ -11,7 +11,7 @@ export default function AddZip({ isOpen, onClose, updateZip, address }) {
   }
   return (
     <div>
-      {isOpen && (
+      {isOpen && false && (
         <div className={Styles.modalContainer}>
           <div className={Styles.modal}>
             <p className={Styles.modalTitle}>Zip Code</p>
