@@ -1,19 +1,19 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .image {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .tablet {
-    position: relative;
+  position: relative;
 }
 
 .website {
-    left: 0;
-    position: absolute;
-    padding-right: 11%;
-    padding-left: 11%;
-    margin-top: 12%;
-    width: 100%;
+  left: 0;
+  position: absolute;
+  padding-right: 11%;
+  padding-left: 11%;
+  margin-top: 12%;
+  width: 100%;
 }

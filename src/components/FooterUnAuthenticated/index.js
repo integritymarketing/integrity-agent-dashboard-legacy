@@ -1,1 +1,1 @@
-export * from './FooterUnAuthenticated';
+export * from "./FooterUnAuthenticated";

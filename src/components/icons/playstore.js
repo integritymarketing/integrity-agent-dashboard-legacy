@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 const PlayStore = (props) => (
   <svg width={135} height={40} xmlns="http://www.w3.org/2000/svg" {...props}>
@@ -128,6 +128,6 @@ const PlayStore = (props) => (
       }}
     />
   </svg>
-)
+);
 
-export default PlayStore
+export default PlayStore;

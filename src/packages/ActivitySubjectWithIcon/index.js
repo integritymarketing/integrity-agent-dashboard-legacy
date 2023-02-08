@@ -1,18 +1,17 @@
-import React from 'react';
-import Add from 'components/icons/add';
-import Back from 'components/icons/back';
+import React from "react";
+import Add from "components/icons/add";
+import Back from "components/icons/back";
 
-export default function ActivitySubjectWithIcon({activitySubject}) {
-
+export default function ActivitySubjectWithIcon({ activitySubject }) {
   const getIcon = () => {
     const icon = {
-      "Call updated" : <Add/>,
-      "Stage Change": <Add/>
-    }
+      "Call updated": <Add />,
+      "Stage Change": <Add />,
+    };
 
-    const iconToShow = icon[activitySubject] || <Back/>;
+    const iconToShow = icon[activitySubject] || <Back />;
     return iconToShow;
-  }
+  };
 
-  return getIcon(activitySubject)
+  return getIcon(activitySubject);
 }

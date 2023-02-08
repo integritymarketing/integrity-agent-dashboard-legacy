@@ -6,7 +6,9 @@ export default () => {
   return (
     <>
       <div className="blue-nav-header">
-        <div className="medicare-icon"><Logo /></div>
+        <div className="medicare-icon">
+          <Logo />
+        </div>
       </div>
     </>
   );

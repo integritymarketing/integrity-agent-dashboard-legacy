@@ -11,7 +11,8 @@ export default () => {
   useEffect(() => {
     const getCallRecordings = async () => {
       try {
-        let response = await callRecordingsService.getAllCallRecordingsByAgent();
+        let response =
+          await callRecordingsService.getAllCallRecordingsByAgent();
 
         if (response.length > 0) {
           response = response?.sort(
@@ -28,7 +29,7 @@ export default () => {
     if (auth.isAuthenticated()) {
       const connection = getSignalRConnection(auth.userProfile?.agentid);
       connection.on("ActiveCall", (status) => {
-          setTimeout(getCallRecordings, status ? 5_000 : 15_000);
+        setTimeout(getCallRecordings, status ? 5_000 : 15_000);
       });
       return () => {
         connection.off("ActiveCall");

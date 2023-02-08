@@ -74,22 +74,22 @@ export default function EditPrescription({
   const handleSave = async () => {
     setIsSaving(true);
     try {
-    await onSave({
-      dosageRecordID: item?.dosage?.dosageRecordID,
-      labelName: dosage?.labelName,
-      isDosageLabelNameChanged: dosage?.labelName !==  labelName,
-      dosage,
-      metricQuantity: +quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-      daysOfSupply: +frequency,
-      selectedPackage:
-        dosagePackage?.packageId !== item?.dosage?.selectedPackage?.packageId
-          ? dosagePackage
-          : null,
-    });
-    onClose();
-  } finally {
-    setIsSaving(false);
-  }
+      await onSave({
+        dosageRecordID: item?.dosage?.dosageRecordID,
+        labelName: dosage?.labelName,
+        isDosageLabelNameChanged: dosage?.labelName !== labelName,
+        dosage,
+        metricQuantity: +quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+        daysOfSupply: +frequency,
+        selectedPackage:
+          dosagePackage?.packageId !== item?.dosage?.selectedPackage?.packageId
+            ? dosagePackage
+            : null,
+      });
+      onClose();
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   useEffect(() => {

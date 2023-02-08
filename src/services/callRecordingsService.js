@@ -1,9 +1,8 @@
-import {ClientsService} from "./clientsService";
+import { ClientsService } from "./clientsService";
 
 export const LEADS_API_VERSION = "v2.0";
 
 class CallRecordingsService extends ClientsService {
-
   getAllCallRecordingsByAgent = async () => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/Records?UnAssistedCallRecordingsOnly=true`
@@ -36,7 +35,6 @@ class CallRecordingsService extends ClientsService {
     }
     throw new Error(response?.statusText);
   };
- 
 }
 
 export default new CallRecordingsService();

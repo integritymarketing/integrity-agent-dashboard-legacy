@@ -1,22 +1,22 @@
-@import 'styles/global.scss';
+@import "styles/global.scss";
 
 .dot {
-    background-color: $dotBackgroundColor;
-    border-radius: 50%;
-    height: 100%;
-    position: relative;
-    width: 100%;
+  background-color: $dotBackgroundColor;
+  border-radius: 50%;
+  height: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .isActive {
-    &::before {
-        border: 4px solid $dotActiveBackgroundColor;
-        border-radius: 50%;
-        content: '';
-        left: -50%;
-        position: absolute;
-        height: 100%;
-        top: -50%;
-        width: 100%;
-    }
+  &::before {
+    border: 4px solid $dotActiveBackgroundColor;
+    border-radius: 50%;
+    content: "";
+    left: -50%;
+    position: absolute;
+    height: 100%;
+    top: -50%;
+    width: 100%;
+  }
 }

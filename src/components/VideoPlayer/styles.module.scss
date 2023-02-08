@@ -1,14 +1,14 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .image {
-    align-self: center;
-    flex: 1 1;
-    height: 100%;
-    object-fit: cover;
-    width: 100%;
+  align-self: center;
+  flex: 1 1;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .videoPlayer {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }

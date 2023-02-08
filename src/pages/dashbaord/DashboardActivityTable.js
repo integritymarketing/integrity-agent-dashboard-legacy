@@ -362,7 +362,7 @@ export default function DashboardActivityTable({
 
   const onResetFilter = () => {
     setFilterValues((values) => {
-      return values.map(v => ({ ...v, selected: false }))
+      return values.map((v) => ({ ...v, selected: false }));
     });
     setSelectedFilterValues([]);
     setPage(1);

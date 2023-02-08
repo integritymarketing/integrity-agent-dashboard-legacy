@@ -53,7 +53,11 @@ export default function ActivityTable({
           {rows.map((row, idx) => (
             <TRow key={idx} headers={headers} row={row} />
           ))}
-          {hasMore && <div onClick={handleLoadMore} className="load-more">Load more activity</div>}
+          {hasMore && (
+            <div onClick={handleLoadMore} className="load-more">
+              Load more activity
+            </div>
+          )}
         </div>
       </div>
     </div>

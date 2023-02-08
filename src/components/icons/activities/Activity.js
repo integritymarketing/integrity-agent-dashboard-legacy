@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 const Activity = (props) => (
   <svg
@@ -19,6 +19,6 @@ const Activity = (props) => (
       d="M6.8.5.5 9.63H5v5.87l4.5-7.83H5L6.8.5z"
     />
   </svg>
-)
+);
 
-export default Activity
+export default Activity;

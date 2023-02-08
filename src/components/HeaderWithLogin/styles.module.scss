@@ -1,32 +1,32 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .actionButton {
-    background-color: $uiHeaderWithLoginActionButtonBackgroundColor;
-    grid-column: 5/6;
+  background-color: $uiHeaderWithLoginActionButtonBackgroundColor;
+  grid-column: 5/6;
 }
 
 .faqLink {
-    color: $uiHeaderWithLoginLinkTextColor;
-    grid-column: 3/4;
+  color: $uiHeaderWithLoginLinkTextColor;
+  grid-column: 3/4;
 }
 
 .headerWithLogin {
-    align-items: center;
-    background-color: $uiHeaderWithLoginBackgroundColor;
-    border-bottom: 0;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: 220px auto min-content min-content 200px;
-    left: 0;
-    padding: 20px;
-    right: 0;
-    top: 0;
-    white-space: nowrap;
-    width: 100%;
-    z-index: 1;
+  align-items: center;
+  background-color: $uiHeaderWithLoginBackgroundColor;
+  border-bottom: 0;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 220px auto min-content min-content 200px;
+  left: 0;
+  padding: 20px;
+  right: 0;
+  top: 0;
+  white-space: nowrap;
+  width: 100%;
+  z-index: 1;
 }
 
 .helpLink {
-    color: $uiHeaderWithLoginLinkTextColor;
-    grid-column: 4/5;
+  color: $uiHeaderWithLoginLinkTextColor;
+  grid-column: 4/5;
 }

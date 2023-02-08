@@ -5,7 +5,7 @@ export default function DashboardHeaderSection({
   content,
   justifyContent = "center",
   padding = 0,
-  className = ""
+  className = "",
 }) {
   return (
     <div

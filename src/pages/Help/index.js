@@ -31,10 +31,7 @@ export default () => {
         {!isMobile && (
           <div className={styles.headerLayoutContainer}>
             <div className={styles.headerLayout}>
-                <Heading2
-                  className={styles.headerLayoutText}
-                  text="Need Help?"
-                />
+              <Heading2 className={styles.headerLayoutText} text="Need Help?" />
             </div>
           </div>
         )}
@@ -59,13 +56,18 @@ export default () => {
               <div className={styles.iconBg}>
                 <CallIcon />
               </div>
-              <a className={styles.cta} href="tel:8888183760"><Paragraph text={"888-818-3760"} /></a>
+              <a className={styles.cta} href="tel:8888183760">
+                <Paragraph text={"888-818-3760"} />
+              </a>
             </Box>
             <Box className={styles.sectionRoundedBottom}>
               <div className={styles.iconBg}>
                 <MailIcon />
               </div>
-              <a className={styles.cta} href="mailto: support@medicarecenter.com">
+              <a
+                className={styles.cta}
+                href="mailto: support@medicarecenter.com"
+              >
                 <Paragraph text={"support@medicarecenter.com"} />
               </a>
             </Box>

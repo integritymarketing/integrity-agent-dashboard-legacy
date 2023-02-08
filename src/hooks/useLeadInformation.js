@@ -64,7 +64,7 @@ export default (leadId) => {
             quantity: dosage.commonMetricQuantity,
             userQuantity: dosage.commonUserQuantity,
             daysOfSupply: 0,
-            packages: null
+            packages: null,
           }
         : rest;
 

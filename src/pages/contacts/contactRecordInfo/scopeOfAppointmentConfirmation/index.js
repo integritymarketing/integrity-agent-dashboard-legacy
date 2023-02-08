@@ -132,30 +132,31 @@ export default () => {
                 },
               }
             : {};
-          const response = await clientService.saveSoaInformationForLeadByLinkCode(
-            {
-              leadSection: {
-                products: Object.keys(products),
-                beneficiary: {
-                  firstName,
-                  middleName,
-                  lastName,
-                  address1: address.address1,
-                  address2: address.address2,
-                  city: address.city,
-                  state: address.stateCode,
-                  zip: address.postalCode,
-                  phone: phone,
+          const response =
+            await clientService.saveSoaInformationForLeadByLinkCode(
+              {
+                leadSection: {
+                  products: Object.keys(products),
+                  beneficiary: {
+                    firstName,
+                    middleName,
+                    lastName,
+                    address1: address.address1,
+                    address2: address.address2,
+                    city: address.city,
+                    state: address.stateCode,
+                    zip: address.postalCode,
+                    phone: phone,
+                  },
+                  hasAuthorizedRepresentative,
+                  ...authorizedRepresentativeData,
+                  acceptedSOA,
+                  submittedDateTime: new Date().toISOString(),
                 },
-                hasAuthorizedRepresentative,
-                ...authorizedRepresentativeData,
-                acceptedSOA,
-                submittedDateTime: new Date().toISOString(),
+                agentSection: { ...agentSection },
               },
-              agentSection: { ...agentSection },
-            },
-            linkCode
-          );
+              linkCode
+            );
           if (response.ok) {
             analyticsService.fireEvent("event-form-submit-valid", {
               formName: "Scope of Appointment Agent Complete",
@@ -550,14 +551,15 @@ export default () => {
                             onBlur={handleBlur}
                             error={errors.phone ? true : false}
                           />
-                          {errors.phone && (touched.phone || submitCount > 0) && (
-                            <ul className="details-edit-custom-error-msg">
-                              <li className="error-msg-red ">
-                                Phone Number must be a valid 10-digit phone
-                                number
-                              </li>
-                            </ul>
-                          )}
+                          {errors.phone &&
+                            (touched.phone || submitCount > 0) && (
+                              <ul className="details-edit-custom-error-msg">
+                                <li className="error-msg-red ">
+                                  Phone Number must be a valid 10-digit phone
+                                  number
+                                </li>
+                              </ul>
+                            )}
                         </fieldset>
                         <div className="authorized-representative-wrapper">
                           <span>

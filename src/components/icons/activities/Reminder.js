@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 const Reminder = (props) => (
   <svg
@@ -8,7 +8,7 @@ const Reminder = (props) => (
       enableBackground: "new 0 0 16.7 20",
     }}
     xmlSpace="preserve"
-	width="16px"
+    width="16px"
     height="16px"
     {...props}
   >
@@ -19,6 +19,6 @@ const Reminder = (props) => (
       }}
     />
   </svg>
-)
+);
 
-export default Reminder
+export default Reminder;

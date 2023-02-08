@@ -1,3 +1,3 @@
-const isFunction = fn => typeof fn === 'function';
+const isFunction = (fn) => typeof fn === "function";
 
 export default isFunction;

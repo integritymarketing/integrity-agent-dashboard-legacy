@@ -1,4 +1,4 @@
-@import 'src/scss/globalDefines.scss';
+@import "src/scss/globalDefines.scss";
 
 .rightSection {
   width: calc(100% - 296px);
@@ -500,7 +500,7 @@
 .personalInfo label {
   font-size: 13px;
   line-height: 22px;
-  color: #434A51;
+  color: #434a51;
   font-family: "Lato", sans-serif;
 }
 .personalInfoText {
@@ -1770,7 +1770,9 @@ button {
   width: 290px;
 }
 .custom-datepicker
-  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(
+    .DayPicker-Day--outside
+  ) {
   color: #fff;
   font-weight: 700;
   background: var(--v2-royal-blue);
@@ -2288,10 +2290,10 @@ button {
   display: flex;
 }
 
-.minWidth{
+.minWidth {
   min-width: 14%;
 }
 
-.client-notes{
+.client-notes {
   white-space: pre-line;
 }

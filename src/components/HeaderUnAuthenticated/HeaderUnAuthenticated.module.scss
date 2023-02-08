@@ -1,16 +1,16 @@
-@import '../../scss/globalDefines.scss';
+@import "../../scss/globalDefines.scss";
 
 .headerContainer {
-    height: 6rem;
-    background: $blue-5;
+  height: 6rem;
+  background: $blue-5;
 }
 
 .logo {
-    width: 230px;
-    height: 32px;
-    margin-left: 40px;
+  width: 230px;
+  height: 32px;
+  margin-left: 40px;
 
-    @include small {
-        margin-left: 0;
-    }
+  @include small {
+    margin-left: 0;
+  }
 }

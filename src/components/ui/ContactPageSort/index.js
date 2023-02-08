@@ -184,7 +184,7 @@ export const ContactPageSort = ({
     </div>
   ) : null;
   const selectHeader = (
-     <div className="select-header">
+    <div className="select-header">
       <div className="prefix">{placeholder}</div>
       <button className="close-btn" onClick={toggleOptionsMenu}>
         &times;

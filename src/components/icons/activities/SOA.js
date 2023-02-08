@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 const SOA = (props) => (
   <svg
@@ -21,6 +21,6 @@ const SOA = (props) => (
       }}
     />
   </svg>
-)
+);
 
-export default SOA
+export default SOA;

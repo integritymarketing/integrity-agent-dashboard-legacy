@@ -1,13 +1,13 @@
-import isFunction from './isFunction';
+import isFunction from "./isFunction";
 
-const handleEvent = (onEvent, callback) => e => {
-    if (isFunction(onEvent)) {
-        onEvent(e);
-    }
+const handleEvent = (onEvent, callback) => (e) => {
+  if (isFunction(onEvent)) {
+    onEvent(e);
+  }
 
-    if (isFunction(callback)) {
-        callback(e);
-    }
+  if (isFunction(callback)) {
+    callback(e);
+  }
 };
 
 export default handleEvent;

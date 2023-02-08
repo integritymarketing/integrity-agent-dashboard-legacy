@@ -1,49 +1,49 @@
 .lost-stage-page {
-    .select .select-container {
-        @media (min-width: 480px) {
-            width: 250px !important;
-        }
+  .select .select-container {
+    @media (min-width: 480px) {
+      width: 250px !important;
     }
-    .label-reason {
-        display: block;
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 27px;
-        color: #475569;
+  }
+  .label-reason {
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px;
+    color: #475569;
+  }
+  .loaststage-modal {
+    .dialog--container {
+      height: 240px;
     }
-    .loaststage-modal {
-        .dialog--container {
-            height: 240px;
-        }
-        &.modal .modal__card.card {
-            padding: 40px;
-            .modal__exit.icon-btn {
-                right: auto;
-            }
-            .modal__header {
-                width: calc(100% - 40px);
-            }
-        }
-
-        .dialog--title {
-            margin-left: 0;
-            margin-bottom: 31px;
-            margin-top: 20px;
-        }
-
-        .footer {
-            border-top: 1px solid #cbd5e1;
-            margin-top: 40px;
-            display: flex;
-            flex-flow: row-reverse;
-            justify-content: center;
-            margin-left: -40px;
-            margin-right: -40px;
-            padding-top: 10px;
-
-            .button {
-                margin-right: 16px;
-            }
-        }
+    &.modal .modal__card.card {
+      padding: 40px;
+      .modal__exit.icon-btn {
+        right: auto;
+      }
+      .modal__header {
+        width: calc(100% - 40px);
+      }
     }
+
+    .dialog--title {
+      margin-left: 0;
+      margin-bottom: 31px;
+      margin-top: 20px;
+    }
+
+    .footer {
+      border-top: 1px solid #cbd5e1;
+      margin-top: 40px;
+      display: flex;
+      flex-flow: row-reverse;
+      justify-content: center;
+      margin-left: -40px;
+      margin-right: -40px;
+      padding-top: 10px;
+
+      .button {
+        margin-right: 16px;
+      }
+    }
+  }
 }

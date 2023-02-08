@@ -30,8 +30,7 @@ export const PlanDetailsPageMAPD = Template.bind({});
 PlanDetailsPageMAPD.parameters = {
   mockData: [
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
       method: "GET",
       status: 200,
       response: [
@@ -51,8 +50,7 @@ PlanDetailsPageMAPD.parameters = {
       ],
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
       method: "GET",
       status: 200,
       response: {
@@ -73,8 +71,7 @@ PlanDetailsPageMAPD.parameters = {
       },
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Plan/123?zip=92701&fips=01234",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Plan/123?zip=92701&fips=01234",
       method: "GET",
       status: 200,
       response: {
@@ -202,8 +199,7 @@ PlanDetailsPageMAPD.parameters = {
         documents: [
           {
             name: "2021 Summary of Benefits",
-            url:
-              "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/257_0/starratings.pdf",
+            url: "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/257_0/starratings.pdf",
             linkName: "2021 Summary of Benefits",
             types: [
               {
@@ -213,8 +209,7 @@ PlanDetailsPageMAPD.parameters = {
           },
           {
             name: "2021 Application Form",
-            url:
-              "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/ACME/pdf-sample.pdf",
+            url: "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/ACME/pdf-sample.pdf",
             linkName: "2021 Application Form",
             types: [
               {
@@ -415,8 +410,7 @@ export const PlanDetailsPagePDP = Template.bind({});
 PlanDetailsPagePDP.parameters = {
   mockData: [
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
       method: "GET",
       status: 200,
       response: [
@@ -436,8 +430,7 @@ PlanDetailsPagePDP.parameters = {
       ],
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
       method: "GET",
       status: 200,
       response: {
@@ -458,8 +451,7 @@ PlanDetailsPagePDP.parameters = {
       },
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Plan/123?zip=92701&fips=01234",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Plan/123?zip=92701&fips=01234",
       method: "GET",
       status: 200,
       response: {
@@ -587,8 +579,7 @@ PlanDetailsPagePDP.parameters = {
         documents: [
           {
             name: "2021 Summary of Benefits",
-            url:
-              "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/257_0/starratings.pdf",
+            url: "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/257_0/starratings.pdf",
             linkName: "2021 Summary of Benefits",
             types: [
               {
@@ -598,8 +589,7 @@ PlanDetailsPagePDP.parameters = {
           },
           {
             name: "2021 Application Form",
-            url:
-              "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/ACME/pdf-sample.pdf",
+            url: "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/ACME/pdf-sample.pdf",
             linkName: "2021 Application Form",
             types: [
               {
@@ -800,8 +790,7 @@ export const PlanDetailsPageMA = Template.bind({});
 PlanDetailsPageMA.parameters = {
   mockData: [
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Pharmacies",
       method: "GET",
       status: 200,
       response: [
@@ -821,8 +810,7 @@ PlanDetailsPageMA.parameters = {
       ],
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/456",
       method: "GET",
       status: 200,
       response: {
@@ -843,8 +831,7 @@ PlanDetailsPageMA.parameters = {
       },
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Plan/123?zip=92701&fips=01234",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/456/Plan/123?zip=92701&fips=01234",
       method: "GET",
       status: 200,
       response: {
@@ -972,8 +959,7 @@ PlanDetailsPageMA.parameters = {
         documents: [
           {
             name: "2021 Summary of Benefits",
-            url:
-              "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/257_0/starratings.pdf",
+            url: "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/257_0/starratings.pdf",
             linkName: "2021 Summary of Benefits",
             types: [
               {
@@ -983,8 +969,7 @@ PlanDetailsPageMA.parameters = {
           },
           {
             name: "2021 Application Form",
-            url:
-              "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/ACME/pdf-sample.pdf",
+            url: "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PDFs/ACME/pdf-sample.pdf",
             linkName: "2021 Application Form",
             types: [
               {
