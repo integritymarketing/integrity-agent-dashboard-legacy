@@ -1,34 +1,34 @@
 .filterOptions {
-    background-color: #F4F8FB;
-    padding: 20px;
-    width: 400px;
+  background-color: #f4f8fb;
+  padding: 20px;
+  width: 400px;
 }
 
 .heading {
-    color: #002D72;
-    font-family: Lato;
-    letter-spacing: 10px;
-    line-height: 38px;
-    padding-bottom: 20px;
+  color: #002d72;
+  font-family: Lato;
+  letter-spacing: 10px;
+  line-height: 38px;
+  padding-bottom: 20px;
 }
 
 .footerBtns {
-    display: flex;
-    justify-content: space-between;
-    padding-top:20px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
 }
 
 .tableCellContent {
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .optionWithIcon {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .doneIcon {
-    color: #002D72;
+  color: #002d72;
 }

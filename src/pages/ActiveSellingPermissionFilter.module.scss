@@ -142,7 +142,7 @@
   }
 }
 
-.sortSelect { 
+.sortSelect {
   @media (min-width: 480px) {
     width: 40px;
   }
@@ -230,9 +230,9 @@
 
   & Button {
     background: #f9fafb;
-    border: 0px ;
+    border: 0px;
     padding: 0px !important;
-    }
+  }
 
   & svg {
     stroke: none !important;
@@ -255,8 +255,8 @@
     @media (max-width: 480px) {
       width: 80px;
       height: 33px;
-      background-color: #FFFFFF ;
-      border: 1px solid #CCCCCC;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
       border-radius: 4px;
       margin-top: 4px;
 
@@ -266,7 +266,6 @@
         margin-right: 50px;
       }
     }
-
   }
   & svg {
     stroke: none;
@@ -278,7 +277,7 @@
     padding-top: 6px !important;
     display: block;
     position: unset;
-    width: 500px;   
+    width: 500px;
   }
 }
 
@@ -580,8 +579,8 @@
   }
   & .filterHeader {
     padding: 22px 21px;
-    background-color: #F4F8FB;
-    box-shadow: 0 0 16px 0 rgba(0,0,0,0.18);
+    background-color: #f4f8fb;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.18);
   }
 
   & .filterTitleSection {
@@ -599,7 +598,7 @@
     }
   }
   & .filterTitle {
-    color: #002D72;
+    color: #002d72;
     font-family: Lato;
     font-size: 24px;
     margin-bottom: 30px;
@@ -636,7 +635,7 @@
       font-weight: bold;
       font-size: 14px;
       line-height: 17px;
-      color: #434A51;
+      color: #434a51;
       border-right: 1px solid #c7ccd1;
       cursor: pointer;
     }
@@ -645,7 +644,7 @@
       border: 0;
     }
     & .filterTabsActive {
-      background: #FFFFFF;
+      background: #ffffff;
     }
     & .filterTabsActive:first-child {
       border-top-left-radius: 4px;
@@ -825,7 +824,7 @@
 
 .filterFunctionTitle {
   padding-bottom: 8px;
-  color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 16px;
   line-height: 20px;
@@ -838,7 +837,7 @@
 .sortFunctionTitle {
   padding-bottom: 8px;
   margin-left: -36px;
-  color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 16px;
   line-height: 20px;
@@ -851,7 +850,7 @@
 .switchViewTitle {
   padding-bottom: 8px;
   margin-left: -15px;
-  color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 16px;
   line-height: 20px;
@@ -865,23 +864,25 @@
   box-sizing: border-box;
   height: 40px;
   width: 40px;
-  border: 1px solid #CCCCCC;
-  background-color: #FFFFFF;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
   cursor: pointer;
 }
 
-.deleteContactsModal, .exportContactsModal {
+.deleteContactsModal,
+.exportContactsModal {
   padding: 1rem;
 }
 
-.deleteContactFooterButtons, .exportContactFooterButtons {
+.deleteContactFooterButtons,
+.exportContactFooterButtons {
   display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
+  gap: 1rem;
+  justify-content: flex-end;
 }
 
 .contactsGridActions {
-  display: flex; 
+  display: flex;
   align-items: center;
   gap: 1rem;
   cursor: pointer;
@@ -893,7 +894,8 @@
   gap: 0.5em;
 }
 
-.oddList, .evenList {
+.oddList,
+.evenList {
   flex: 1;
   background-color: white;
   padding-left: 1em;
@@ -905,7 +907,7 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid gray;
-   color: #434A51;
+  color: #434a51;
   font-family: Lato;
   font-size: 16px;
 }

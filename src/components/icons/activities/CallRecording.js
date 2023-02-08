@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 const CallRecording = (props) => (
   <svg
@@ -32,6 +32,6 @@ const CallRecording = (props) => (
       d="M4.44 8h1.19l.5-1 .42 2.81 1.08-4.96.83 6.48L9.63 6l1.08 2h1.2"
     />
   </svg>
-)
+);
 
-export default CallRecording
+export default CallRecording;

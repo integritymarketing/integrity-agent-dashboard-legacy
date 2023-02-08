@@ -25,9 +25,10 @@ export function ProvidersCompareTable({ plans }) {
       }, {}),
     [clonedPlans]
   );
-  const allProviders = useMemo(() => Object.values(allProvidersById), [
-    allProvidersById,
-  ]);
+  const allProviders = useMemo(
+    () => Object.values(allProvidersById),
+    [allProvidersById]
+  );
 
   const columns = useMemo(
     () => [

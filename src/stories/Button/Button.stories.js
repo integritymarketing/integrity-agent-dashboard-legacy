@@ -1,6 +1,6 @@
 import React from "react";
 
-import ArrowDownIcon  from '../../components/icons/arrow-down'
+import ArrowDownIcon from "../../components/icons/arrow-down";
 
 import { Button } from "../../components/ui/Button";
 
@@ -38,51 +38,51 @@ Disabled.args = {
 export const PrimaryWithIcon = Template.bind({});
 PrimaryWithIcon.args = {
   label: "Button",
-  icon: <ArrowDownIcon/>,
+  icon: <ArrowDownIcon />,
 };
 
 export const PrimaryWithIconRight = Template.bind({});
 PrimaryWithIconRight.args = {
   label: "Button",
-  icon: <ArrowDownIcon/>,
-  iconPosition: 'right'
+  icon: <ArrowDownIcon />,
+  iconPosition: "right",
 };
 
 export const SecondaryWithIcon = Template.bind({});
 SecondaryWithIcon.args = {
   label: "Button",
-  type: 'secondary',
-  icon: <ArrowDownIcon/>,
+  type: "secondary",
+  icon: <ArrowDownIcon />,
 };
 
 export const SecondaryWithIconRight = Template.bind({});
 SecondaryWithIconRight.args = {
   label: "Button",
-  type: 'secondary',
-  icon: <ArrowDownIcon/>,
-  iconPosition: 'right'
+  type: "secondary",
+  icon: <ArrowDownIcon />,
+  iconPosition: "right",
 };
 
 export const TertiaryWithIcon = Template.bind({});
 TertiaryWithIcon.args = {
   label: "Button",
   type: "tertiary",
-  icon: <ArrowDownIcon/>,
+  icon: <ArrowDownIcon />,
 };
 
 export const TertiaryWithIconRight = Template.bind({});
 TertiaryWithIconRight.args = {
   label: "Button",
   type: "tertiary",
-  icon: <ArrowDownIcon/>,
-  iconPosition: 'right'
+  icon: <ArrowDownIcon />,
+  iconPosition: "right",
 };
 
 export const IconOnly = Template.bind({});
 IconOnly.args = {
   label: "Button",
-  icon: <ArrowDownIcon/>,
-  iconOnly: true
+  icon: <ArrowDownIcon />,
+  iconOnly: true,
 };
 
 export const PrimaryOnDarkBg = Template.bind({});
@@ -105,7 +105,7 @@ export const RenderAsHref = Template.bind({});
 // <a href="https://..." className="...">Button</a>
 RenderAsHref.args = {
   label: "Link as Button",
-  href: "https://example.com"
+  href: "https://example.com",
 };
 
 export const RenderAsRouterLink = Template.bind({});
@@ -113,6 +113,6 @@ export const RenderAsRouterLink = Template.bind({});
 // <Link to="/" className="...">Button</Link>
 RenderAsRouterLink.args = {
   label: "Router Link as Button",
-  linkTo: '/clients'
+  linkTo: "/clients",
 };
 // Add more Button stories here

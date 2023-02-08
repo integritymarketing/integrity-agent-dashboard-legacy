@@ -32,14 +32,14 @@ export default function ActionsDropDown({
   };
 
   const dropDownStyles = useMemo(() => {
-    if(isOpen)
-    return handlerElemRef?.current
-      ? {
-          right:
-            window.innerWidth -
-              handlerElemRef?.current?.getBoundingClientRect()?.right ?? 0,
-        }
-      : {};
+    if (isOpen)
+      return handlerElemRef?.current
+        ? {
+            right:
+              window.innerWidth -
+                handlerElemRef?.current?.getBoundingClientRect()?.right ?? 0,
+          }
+        : {};
   }, [isOpen, handlerElemRef]);
 
   const openClass = isOpen ? "opened" : "closed";

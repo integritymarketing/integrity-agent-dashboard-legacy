@@ -18,7 +18,7 @@ const headers = [
   { label: "Postal Code", key: "postalCode" },
   { label: "County", key: "county" },
   { label: "Stage", key: "stage" },
-  {label: "Client Notes", key: "notes"},
+  { label: "Client Notes", key: "notes" },
 ];
 
 export default ({ open, close, contacts, allLeads }) => {

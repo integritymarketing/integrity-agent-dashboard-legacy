@@ -48,10 +48,9 @@ const CompactPlanCard = ({
           type="secondary"
         />
       )}
-       {!planData.nonLicensedPlan && <Button
-        label={"Enroll"}
-        onClick={() => onEnrollClick(planData.id)}
-      />}
+      {!planData.nonLicensedPlan && (
+        <Button label={"Enroll"} onClick={() => onEnrollClick(planData.id)} />
+      )}
     </div>
   );
 

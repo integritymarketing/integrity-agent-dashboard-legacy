@@ -28,13 +28,15 @@ class ValidationService {
     return null;
   };
 
-  validateRequiredIf = (isRequired) => (field, label = "Field") => {
-    if (!field && isRequired) {
-      return `${label} is required`;
-    }
+  validateRequiredIf =
+    (isRequired) =>
+    (field, label = "Field") => {
+      if (!field && isRequired) {
+        return `${label} is required`;
+      }
 
-    return null;
-  };
+      return null;
+    };
 
   validateBeneficiary = (username, label = "Relationship to Beneficiary") => {
     if (username && username.length > 40) {
@@ -108,16 +110,19 @@ class ValidationService {
     ])(password, label);
   };
 
-  validateFieldMatch = (matchingField) => (field, label = "Passwords") => {
-    if (field !== matchingField) {
-      return `${label} must match`;
-    }
+  validateFieldMatch =
+    (matchingField) =>
+    (field, label = "Passwords") => {
+      if (field !== matchingField) {
+        return `${label} must match`;
+      }
 
-    return null;
-  };
+      return null;
+    };
 
   validateEmail = (email, label = "Email Address") => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (email && !re.test(String(email).toLowerCase())) {
       return `${label} must be a valid address`;

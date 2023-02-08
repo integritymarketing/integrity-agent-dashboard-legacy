@@ -1,6 +1,6 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue } from "recoil";
 
-import state from 'app/state';
+import state from "app/state";
 
 const { configAtom } = state.app.atoms;
 

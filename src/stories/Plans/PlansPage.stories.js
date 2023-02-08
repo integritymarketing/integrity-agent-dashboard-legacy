@@ -36,8 +36,7 @@ export const PlansPageSuccess = Template.bind({});
 PlansPageSuccess.parameters = {
   mockData: [
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Provider/ProviderSearchLookup",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Provider/ProviderSearchLookup",
       method: "GET",
       status: 200,
       response: {
@@ -134,8 +133,7 @@ PlansPageSuccess.parameters = {
       },
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/123",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/123",
       method: "GET",
       status: 200,
       response: {
@@ -156,8 +154,7 @@ PlansPageSuccess.parameters = {
       },
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan?fips=01234&zip=92701&year=2021&ReturnAllMedicarePlans=true&ShowFormulary=true&ShowPharmacy=true&effectiveDate=2021-10-01&sort=premium%3Aasc",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan?fips=01234&zip=92701&year=2021&ReturnAllMedicarePlans=true&ShowFormulary=true&ShowPharmacy=true&effectiveDate=2021-10-01&sort=premium%3Aasc",
       method: "GET",
       status: 200,
       response: {
@@ -517,8 +514,7 @@ export const PlansPageCards = Template.bind({});
 PlansPageCards.parameters = {
   mockData: [
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/123",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api/api/v2.0/Leads/123",
       method: "GET",
       status: 200,
       response: {
@@ -539,8 +535,7 @@ PlansPageCards.parameters = {
       },
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan",
       method: "GET",
       status: 200,
       response: {
@@ -548,8 +543,7 @@ PlansPageCards.parameters = {
       },
     },
     {
-      url:
-        "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan/PlansByFilter",
+      url: "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service/api/v1.0/Lead/123/Plan/PlansByFilter",
       method: "POST",
       status: 200,
       response: {

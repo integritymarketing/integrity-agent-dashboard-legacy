@@ -101,9 +101,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
 
         <Paragraph
           id="transition-modal-description"
-          text={
-            "Questions?"
-          }
+          text={"Questions?"}
           className={styles.marginY8}
         />
         <Hyperlink text={"Contact Support"} onClick={navigateToHelpPage} />

@@ -35,13 +35,14 @@ export default ({ className = "", mobileAppLogin, loginPage, ...props }) => {
           </ul>
         </nav>
         <small className="simple-footer__legal">
-            <span className="integrity-logo">
-              <img
-                src={MCLogo}
-                alt="Medicare Center Logo"
-                className="mc-img"
-              ></img>
-            </span><br/>
+          <span className="integrity-logo">
+            <img
+              src={MCLogo}
+              alt="Medicare Center Logo"
+              className="mc-img"
+            ></img>
+          </span>
+          <br />
           <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span>{" "}
           <span>All rights reserved.</span>
         </small>

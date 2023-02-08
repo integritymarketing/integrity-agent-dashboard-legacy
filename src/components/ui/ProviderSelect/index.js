@@ -117,7 +117,7 @@ export default function ProviderSelect({ label }) {
             closeMenu();
           }}
         >
-          <Close/>
+          <Close />
         </div>
       </div>
       <ul

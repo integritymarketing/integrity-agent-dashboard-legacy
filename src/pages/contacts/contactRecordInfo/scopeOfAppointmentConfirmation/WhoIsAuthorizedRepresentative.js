@@ -5,7 +5,6 @@ import analyticsService from "services/analyticsService";
 import "./index.scss";
 
 export default ({ isOpen, onClose }) => {
-
   useEffect(() => {
     if (isOpen) {
       analyticsService.fireEvent("event-modal-appear", {

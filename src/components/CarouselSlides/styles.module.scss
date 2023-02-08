@@ -1,14 +1,14 @@
-@import 'styles/global.scss';
+@import "styles/global.scss";
 
 .activeSlide {
-    position: relative;
+  position: relative;
 }
 
 .carouselSlides {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    height: 100%;
-    overflow: hidden;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
 }

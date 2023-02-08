@@ -1,4 +1,4 @@
-@import 'src/scss/globalDefines.scss';
+@import "src/scss/globalDefines.scss";
 
 .layout {
   display: flex;
@@ -54,7 +54,7 @@
     color: $black;
     padding-left: 16px;
   }
-  
+
   .sectionRoundedBottom {
     box-shadow: inset 0px -1px 0px $grayish-blue;
     height: 48px;
@@ -72,7 +72,7 @@
     border-radius: 50%;
     width: 32px;
     height: 32px;
-    background-color: #2175F41A;
+    background-color: #2175f41a;
     margin-right: 8px;
     display: flex;
     justify-content: center;

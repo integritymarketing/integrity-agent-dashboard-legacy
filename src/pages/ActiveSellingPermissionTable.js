@@ -80,7 +80,10 @@ export default function ActiveSellingPermissionTable({ npn }) {
     const results = byStates.reduce((rows, rec) => {
       const statesByPlanTypes = Object.keys(rec.states).reduce((acc, state) => {
         acc[rec.states[state].join("-")] = {
-          states: [state, ...(acc[rec.states[state].join("-")]?.states ?? [])].sort(),
+          states: [
+            state,
+            ...(acc[rec.states[state].join("-")]?.states ?? []),
+          ].sort(),
           planTypes: rec.states[state],
         };
         return acc;

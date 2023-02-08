@@ -37,16 +37,16 @@ const EMAIL_MOBILE_LABELS = [
   { value: "email", label: "Email" },
   { value: "mobile", label: "Mobile" },
 ];
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default () => {
   const history = useHistory();
   const { leadId } = useParams();
   const auth = useContext(AuthContext);
   const addToast = useToast();
-  const { newSoaContactDetails, setNewSoaContactDetails } = useContext(
-    ContactContext
-  );
+  const { newSoaContactDetails, setNewSoaContactDetails } =
+    useContext(ContactContext);
   const { previousPage, setCurrentPage } = useContext(BackNavContext);
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);

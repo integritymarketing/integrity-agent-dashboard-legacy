@@ -1,18 +1,18 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .listContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  width: 100%;
 }
 
 .listItem {
-    @include transitionUp;
-    opacity: 0;
+  @include transitionUp;
+  opacity: 0;
 
-    &.animate {
-        opacity: 1;
-        transform: translateZ(0);
-    }
+  &.animate {
+    opacity: 1;
+    transform: translateZ(0);
+  }
 }

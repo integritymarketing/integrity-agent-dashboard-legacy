@@ -1,7 +1,7 @@
-import { ActionButton } from '@integritymarketing/ui-button-components';
+import { ActionButton } from "@integritymarketing/ui-button-components";
 
 import SimpleFooter from "partials/simple-footer";
-import React, {useContext} from 'react';
+import React, { useContext } from "react";
 import Feature1 from "./features/Feature1";
 import Feature2 from "./features/Feature2";
 import Feature3 from "./features/Feature3";
@@ -12,21 +12,21 @@ import Testimonial from "./testimonial/Testimonial";
 import AuthContext from "contexts/auth";
 import useFlashMessage from "hooks/useFlashMessage";
 import * as Sentry from "@sentry/react";
-import VideoPlayer from 'components/VideoPlayer';
+import VideoPlayer from "components/VideoPlayer";
 
 const LandingPage = () => {
   const auth = useContext(AuthContext);
   const { show: showMessage } = useFlashMessage();
 
   async function handleLogin() {
-      try {
-          await auth.signinRedirect();
-      } catch (e) {
-          Sentry.captureException(e);
-          console.error("sign in error: ", e);
-          showMessage("Unable to sign in at this time.", { type: "error" });
-      }
-  };
+    try {
+      await auth.signinRedirect();
+    } catch (e) {
+      Sentry.captureException(e);
+      console.error("sign in error: ", e);
+      showMessage("Unable to sign in at this time.", { type: "error" });
+    }
+  }
 
   return (
     <>
@@ -37,8 +37,11 @@ const LandingPage = () => {
           alt=""
           className={Styles.headerLogo}
         />
-        <ActionButton className={Styles.loginButton} text="Login" onClick={handleLogin} />
-
+        <ActionButton
+          className={Styles.loginButton}
+          text="Login"
+          onClick={handleLogin}
+        />
       </div>
       {/* Hero */}
       <div className={Styles.hero}>
@@ -56,7 +59,14 @@ const LandingPage = () => {
           business.
         </span>
         <div className={Styles.getStarted}>
-        <ActionButton text="Get Started" onClick={()=> {window.open(`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`)}} />
+          <ActionButton
+            text="Get Started"
+            onClick={() => {
+              window.open(
+                `${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`
+              );
+            }}
+          />
         </div>
       </div>
       {/* Call Recording */}
@@ -65,7 +75,10 @@ const LandingPage = () => {
       <p className={Styles.bodyText}>
         Compliance at the press of a button — here to help you before AEP!
       </p>
-      <VideoPlayer className={Styles.videoPlayer} url={"https://player.vimeo.com/video/744367402?h=f0b1aad7a2"} />
+      <VideoPlayer
+        className={Styles.videoPlayer}
+        url={"https://player.vimeo.com/video/744367402?h=f0b1aad7a2"}
+      />
       {/* Feature 1 */}
       <Feature1 />
       {/* Feature 2 */}

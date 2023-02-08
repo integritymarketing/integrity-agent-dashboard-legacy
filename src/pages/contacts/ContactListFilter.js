@@ -41,7 +41,7 @@ export default () => {
     const stages = queryParams.get("Stage");
     const contactRecordType = queryParams.get("ContactRecordType");
     const hasReminder = queryParams.get("HasReminder");
-   
+
     const applyFilters = {
       contactRecordType: contactRecordType ? contactRecordType : "",
       hasReminder: hasReminder === "false" ? false : true,
@@ -120,10 +120,10 @@ export default () => {
     let searchParams = new URLSearchParams(location.search);
     searchParams.set("ContactRecordType", filters?.contactRecordType);
     searchParams.set("Stage", filters?.stages);
-    
-    if(filters?.hasReminder) {
-      searchParams.delete('HasReminder');
-    }else{
+
+    if (filters?.hasReminder) {
+      searchParams.delete("HasReminder");
+    } else {
       searchParams.set("HasReminder", filters?.hasReminder);
     }
 

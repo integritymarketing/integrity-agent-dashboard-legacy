@@ -17,18 +17,18 @@ $backgroundColor: $white;
 $inverseTextColor: $white;
 $textColor: $black;
 $uiHeaderWithLoginActionButtonBackgroundColor: var(
-                --ui-header-with-login-action-button-background-color,
-                #0052cf
+  --ui-header-with-login-action-button-background-color,
+  #0052cf
 );
 
 $uiHeaderWithLoginBackgroundColor: var(
-                --ui-header-with-login-background-color,
-                #052a63
+  --ui-header-with-login-background-color,
+  #052a63
 );
 
 $uiHeaderWithLoginLinkTextColor: var(
-                --ui-header-with-login-link-text-color,
-                $white
+  --ui-header-with-login-link-text-color,
+  $white
 );
 
 // Component Colors
@@ -43,8 +43,8 @@ $iconBackgroundColor: $bleakBlue;
 // Theme overrides
 
 :root {
-    --ui-button-components-button-background-color: #{$blue};
-    // --ui-container-components-parallax-background-color
-    --ui-text-components-heading-text-color: #{$navy};
-    --ui-text-components-section-title-text-color: #{$navy};
+  --ui-button-components-button-background-color: #{$blue};
+  // --ui-container-components-parallax-background-color
+  --ui-text-components-heading-text-color: #{$navy};
+  --ui-text-components-section-title-text-color: #{$navy};
 }

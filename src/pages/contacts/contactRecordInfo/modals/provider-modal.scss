@@ -103,11 +103,10 @@
 
 /*provider Modal container css*/
 
-
 .provider-modal-container {
   margin: 0px;
   padding-bottom: 50px;
- 
+
   @media (max-width: 480px) {
     padding-bottom: 0px;
   }
@@ -131,7 +130,7 @@
         .pr-search-input {
           width: 100%;
           padding: 10px;
-          color: #2B323B;
+          color: #2b323b;
           font-size: 16px;
         }
       }
@@ -175,8 +174,6 @@
       }
     }
 
-
-
     .miles-section {
       width: 40%;
       @media (max-width: 480px) {
@@ -200,7 +197,7 @@
     .pr-search-input {
       width: 100%;
       padding: 10px;
-     }
+    }
   }
 
   .pr-title {
@@ -248,17 +245,15 @@
     font-style: normal;
     font-size: 16px;
     line-height: 150%;
-    color: #434A51;
+    color: #434a51;
     padding: 20px 0px;
-    b{
+    b {
       color: #000000;
       font-style: bold;
     }
   }
 
   .provider-result-container {
-   
-
     .provider-result-content {
       line-height: 130%;
       padding: 16px 0px;
@@ -346,5 +341,5 @@
     padding: 16px 20px;
   }
 }
- 
+
 /*End of Add Provider*/

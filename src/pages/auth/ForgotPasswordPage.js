@@ -41,110 +41,110 @@ export default () => {
             className={Styles.enterYourNPN}
             text={"Enter your NPN to reset your password."}
           />
-            <Formik
-              initialValues={{ Username: "" }}
-              validate={(values) => {
-                return validationService.validateMultiple(
-                  [
-                    {
-                      name: "Username",
-                      validator: validationService.composeValidator([
-                        validationService.validateRequired,
-                      ]),
-                    },
-                  ],
-                  values
-                );
-              }}
-              onSubmit={async (values, { setErrors, setSubmitting }) => {
-                setSubmitting(true);
-                loading.begin();
+          <Formik
+            initialValues={{ Username: "" }}
+            validate={(values) => {
+              return validationService.validateMultiple(
+                [
+                  {
+                    name: "Username",
+                    validator: validationService.composeValidator([
+                      validationService.validateRequired,
+                    ]),
+                  },
+                ],
+                values
+              );
+            }}
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
+              setSubmitting(true);
+              loading.begin();
 
-                values["ClientId"] = clientId;
-                const response = await authService.requestPasswordReset(values);
-                setSubmitting(false);
-                loading.end();
-                if (response.status >= 200 && response.status < 300) {
-                  history.push(`password-reset-sent?npn=${values.Username}`);
-                  analyticsService.fireEvent("formSubmit", {
-                    button: "forgotSubmit",
-                    pagePath: window.location.href,
-                  });
-                  analyticsService.fireEvent("formSubmit", {
-                    button: "forgotSubmit",
-                    pagePath: window.location.href,
-                  });
-                  analyticsService.fireEvent("event-form-submit", {
+              values["ClientId"] = clientId;
+              const response = await authService.requestPasswordReset(values);
+              setSubmitting(false);
+              loading.end();
+              if (response.status >= 200 && response.status < 300) {
+                history.push(`password-reset-sent?npn=${values.Username}`);
+                analyticsService.fireEvent("formSubmit", {
+                  button: "forgotSubmit",
+                  pagePath: window.location.href,
+                });
+                analyticsService.fireEvent("formSubmit", {
+                  button: "forgotSubmit",
+                  pagePath: window.location.href,
+                });
+                analyticsService.fireEvent("event-form-submit", {
+                  formName: "Reset password",
+                });
+              } else {
+                const errorsArr = await response.json();
+                let errors = validationService.formikErrorsFor(errorsArr);
+
+                if (errors.Global === "account_unconfirmed") {
+                  history.push(
+                    `registration-email-sent?npn=${values.Username}&mode=error`
+                  );
+                } else {
+                  analyticsService.fireEvent("event-form-submit-invalid", {
                     formName: "Reset password",
                   });
-                } else {
-                  const errorsArr = await response.json();
-                  let errors = validationService.formikErrorsFor(errorsArr);
-
-                  if (errors.Global === "account_unconfirmed") {
-                    history.push(
-                      `registration-email-sent?npn=${values.Username}&mode=error`
-                    );
-                  } else {
-                    analyticsService.fireEvent("event-form-submit-invalid", {
-                      formName: "Reset password",
-                    });
-                    setErrors(errors);
-                    history.push(
-                      `contact-support-invalid-npn/${values.Username}`
-                    );
-                  }
+                  setErrors(errors);
+                  history.push(
+                    `contact-support-invalid-npn/${values.Username}`
+                  );
                 }
-              }}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleSubmit,
-                handleChange,
-                handleBlur,
-              }) => (
-                <form
-                  action=""
-                  className="form form-width"
-                  onSubmit={handleSubmit}
-                >
-                  <fieldset className="form__fields">
-                    <Textfield
-                      id="forgot-password-username"
-                      label="National Producers Number"
-                      placeholder="Enter your NPN"
-                      name="Username"
-                      value={values.Username}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        analyticsService.fireEvent("leaveField", {
-                          field: "username",
-                          formName: "forgot",
-                        });
-                        return handleBlur(e);
-                      }}
-                      error={
-                        (touched.Username && errors.Username) || errors.Global
-                      }
-                      auxLink={
-                        <div
-                          className={Styles.forgot}
-                          data-gtm="login-forgot-npn"
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+            }) => (
+              <form
+                action=""
+                className="form form-width"
+                onSubmit={handleSubmit}
+              >
+                <fieldset className="form__fields">
+                  <Textfield
+                    id="forgot-password-username"
+                    label="National Producers Number"
+                    placeholder="Enter your NPN"
+                    name="Username"
+                    value={values.Username}
+                    onChange={handleChange}
+                    onBlur={(e) => {
+                      analyticsService.fireEvent("leaveField", {
+                        field: "username",
+                        formName: "forgot",
+                      });
+                      return handleBlur(e);
+                    }}
+                    error={
+                      (touched.Username && errors.Username) || errors.Global
+                    }
+                    auxLink={
+                      <div
+                        className={Styles.forgot}
+                        data-gtm="login-forgot-npn"
+                      >
+                        <a
+                          href="https://nipr.com/help/look-up-your-npn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm link text-bold"
                         >
-                          <a
-                            href="https://nipr.com/help/look-up-your-npn"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm link text-bold"
-                          >
-                            Forgot NPN?
-                          </a>
-                        </div>
-                      }
-                    />
-                    <div className="centered-flex-col">
+                          Forgot NPN?
+                        </a>
+                      </div>
+                    }
+                  />
+                  <div className="centered-flex-col">
                     <Box mt="3rem">
                       <Button
                         className={analyticsService.clickClass("main-login")}
@@ -154,11 +154,11 @@ export default () => {
                         <Box mx="3rem">Submit</Box>
                       </Button>
                     </Box>
-                    </div>
-                  </fieldset>
-                </form>
-              )}
-            </Formik>
+                  </div>
+                </fieldset>
+              </form>
+            )}
+          </Formik>
         </ContainerUnAuthenticated>
         <FooterUnAuthenticated />
       </div>

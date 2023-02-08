@@ -46,7 +46,6 @@ const ICONS = {
     encoding: "utf-8",
   });
 
-
   const ALLOWED_WINDOWS = ["Launch", "Launch: Feature"];
   const parsedResources = JSON.parse(rawResources);
   const activeResources = parsedResources.filter(

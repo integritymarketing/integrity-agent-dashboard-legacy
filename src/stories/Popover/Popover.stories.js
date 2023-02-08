@@ -32,7 +32,7 @@ TextOnlyRightCenter.args = {
   description:
     "Client Snapshot shows the number of contacts that are in each stage for Medicare CENTER only.",
   positions: ["right", "bottom"],
-  align: 'center'
+  align: "center",
 };
 
 export const TextIconLeftEnd = Template.bind({});
@@ -43,7 +43,7 @@ TextIconLeftEnd.args = {
   description:
     "Client Snapshot shows the number of contacts that are in each stage for Medicare CENTER only.",
   positions: ["left", "bottom"],
-  align:'end',
+  align: "end",
 };
 
 export const TextOnlyTopEnd = Template.bind({});
@@ -53,7 +53,7 @@ TextOnlyTopEnd.args = {
   description:
     "Client Snapshot shows the number of contacts that are in each stage for Medicare CENTER only.",
   positions: ["top", "bottom"],
-  align:'end'
+  align: "end",
 };
 
 export const TextIconBottomStart = Template.bind({});
@@ -64,7 +64,7 @@ TextIconBottomStart.args = {
   description:
     "Client Snapshot shows the number of contacts that are in each stage for Medicare CENTER only.",
   positions: ["bottom"],
-  align:'start'
+  align: "start",
 };
 
 export const TextIconWithFooter = Template.bind({});
@@ -75,8 +75,13 @@ TextIconWithFooter.args = {
   description:
     "Client Snapshot shows the number of contacts that are in each stage for Medicare CENTER only.",
   positions: ["bottom"],
-  align:'start',
-  footer: <><Button type="secondary" label="CTA Primary"></Button> <Button label="CTA Primary w"></Button></>
+  align: "start",
+  footer: (
+    <>
+      <Button type="secondary" label="CTA Primary"></Button>{" "}
+      <Button label="CTA Primary w"></Button>
+    </>
+  ),
 };
 
 export const TextIconWithSingleButtonFooter = Template.bind({});
@@ -87,6 +92,10 @@ TextIconWithSingleButtonFooter.args = {
   description:
     "Client Snapshot shows the number of contacts that are in each stage for Medicare CENTER only.",
   positions: ["bottom"],
-  align:'start',
-  footer: <><Button type="secondary" label="CTA Primary"></Button></>
+  align: "start",
+  footer: (
+    <>
+      <Button type="secondary" label="CTA Primary"></Button>
+    </>
+  ),
 };

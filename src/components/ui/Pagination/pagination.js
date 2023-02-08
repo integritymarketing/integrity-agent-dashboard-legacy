@@ -118,16 +118,18 @@ export default ({
                     providerPagination ? "provider-pagination-ul" : ""
                   }`}
                 >
-                  {currentPage !== 1 && matches.large && !providerPagination && (
-                    <div className="mr-1 first">
-                      <PaginationButton
-                        state={currentPage === 1 ? "inactive" : "active"}
-                        onClick={handlePageChange(1)}
-                      >
-                        First <span className="visuallyhidden">page</span>
-                      </PaginationButton>
-                    </div>
-                  )}
+                  {currentPage !== 1 &&
+                    matches.large &&
+                    !providerPagination && (
+                      <div className="mr-1 first">
+                        <PaginationButton
+                          state={currentPage === 1 ? "inactive" : "active"}
+                          onClick={handlePageChange(1)}
+                        >
+                          First <span className="visuallyhidden">page</span>
+                        </PaginationButton>
+                      </div>
+                    )}
                   <div className="pagination__middle">
                     {currentPage !== 1 && matches.large && (
                       <PaginationButton

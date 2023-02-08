@@ -29,7 +29,7 @@ export default function ResourceSection() {
         text="Need Help? Visit the help center for 24/7 professional"
         labelName="Zendesk Assistance"
         handleClick={navigateToHelp}
-      />     
+      />
     </div>
   );
 }

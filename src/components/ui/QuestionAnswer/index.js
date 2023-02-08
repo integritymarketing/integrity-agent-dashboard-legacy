@@ -2,16 +2,15 @@ import React from "react";
 import "./index.scss";
 
 const QuestionAnswer = ({
-    children,
-    className = '',
-    question,
-    questionClassName
+  children,
+  className = "",
+  question,
+  questionClassName,
 }) => (
-    <div className={`${className} questionAnswer`}>
-        <h4 className={`${questionClassName} question`}>{question}</h4>
+  <div className={`${className} questionAnswer`}>
+    <h4 className={`${questionClassName} question`}>{question}</h4>
 
-        {children}
-    </div>
+    {children}
+  </div>
 );
 export default QuestionAnswer;
-

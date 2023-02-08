@@ -7,7 +7,7 @@ export const agentInfomration = selector({
   key: "agentInfomration",
   get: async ({ get }) => {
     const agentId = get(agentIdAtom);
-    if(!agentId) return {};
+    if (!agentId) return {};
     try {
       const result = await clientService.getAgentAvailability(agentId);
       return result;

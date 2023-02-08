@@ -66,7 +66,7 @@
         width: auto;
       }
     }
-  
+
     & :disabled {
       cursor: not-allowed;
       background: #e6ecf2;
@@ -227,7 +227,7 @@
 .prescription--packaging .select {
   margin-left: 0px;
   .select-container {
-   width: 100% !important;
+    width: 100% !important;
   }
 }
 .drugname-search-input {

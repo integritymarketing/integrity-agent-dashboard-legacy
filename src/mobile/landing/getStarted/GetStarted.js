@@ -1,4 +1,4 @@
-import { ActionButton } from '@integritymarketing/ui-button-components';
+import { ActionButton } from "@integritymarketing/ui-button-components";
 import React from "react";
 import Styles from "./GetStarted.module.scss";
 
@@ -12,8 +12,15 @@ export default function GetStarted() {
         amazing ways it can empower you.
       </p>
       <div className={Styles.getStarted}>
-        <ActionButton text="Get Started" onClick={()=> {window.open(`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`)}} />
-        </div>
+        <ActionButton
+          text="Get Started"
+          onClick={() => {
+            window.open(
+              `${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`
+            );
+          }}
+        />
+      </div>
     </div>
   );
 }
