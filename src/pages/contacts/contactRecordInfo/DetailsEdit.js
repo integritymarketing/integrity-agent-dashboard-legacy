@@ -16,7 +16,6 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
-import AddCounty from "./modals/AddCounty";
 
 const isDuplicateContact = async (
   values,
@@ -105,8 +104,6 @@ export default (props) => {
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-  const [isCountyAlertOpen, setisCountyAlertOpen] = useState(false);
-  const [hasCountyAlertClosed, setHasCountyAlertClosed] = useState(false);
 
   const history = useHistory();
 
@@ -296,15 +293,6 @@ export default (props) => {
           setFieldValue("address.stateCode", allStates[0].value);
         }
 
-        if (
-          allCounties.length > 1 &&
-          values.address.county === "" &&
-          !hasCountyAlertClosed
-        ) {
-          setisCountyAlertOpen(true);
-        } else {
-          setisCountyAlertOpen(false);
-        }
         return (
           <>
             <div className="scope-details-card-header contactdetailscardheader">
@@ -597,9 +585,6 @@ export default (props) => {
                           .replace(/[^0-9]/g, "")
                           .toString()
                           .slice(0, 5);
-                        if (hasCountyAlertClosed) {
-                          setHasCountyAlertClosed(false);
-                        }
                       }}
                       error={errors.address?.postalCode ? true : false}
                     />
@@ -725,19 +710,6 @@ export default (props) => {
                 </div>
               </Form>
             </div>
-            <AddCounty
-              isOpen={isCountyAlertOpen}
-              onClose={() => setisCountyAlertOpen(false)}
-              setFieldValue={setFieldValue}
-              options={allCounties}
-              setHasCountyAlertClosed={setHasCountyAlertClosed}
-              address={
-                (values.address.address1 && values.address.address1) +
-                (values.address.address2 && ", " + values.address.address2) +
-                (values.address.stateCode && ", " + values.address.stateCode) +
-                (values.address.postalCode && ", " + values.address.postalCode)
-              }
-            />
           </>
         );
       }}

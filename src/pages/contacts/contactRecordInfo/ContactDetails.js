@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import AddZip from "./modals/AddZip";
 import { useState } from "react";
 import clientsService from "services/clientsService";
+import AddCounty from "./modals/AddCounty";
+import CountyContext from "contexts/counties";
+import { useContext } from "react";
 const notAvailable = "-";
 
 export default ({ setDisplay, personalInfo, ...rest }) => {
@@ -21,6 +24,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     contactRecordType = "prospect",
   } = personalInfo;
   const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
+  const [isCountyAlertOpen, setisCountyAlertOpen] = useState(false);
 
   emails = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
   const phoneData = phones.length > 0 ? phones[0] : null;
@@ -45,14 +49,41 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     ? contactPreferences?.primary
     : "phone";
 
+  let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
+
   useEffect(() => {
-    if (!postalCode) {
+    if (!postalCode && personalInfo.addresses.length !== 0) {
       setisZipAlertOpen(true);
     }
-  }, [postalCode]);
+  }, [postalCode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (
+      postalCode &&
+      personalInfo.addresses.length !== 0 &&
+      county === notAvailable &&
+      !isCountyAlertOpen
+    ) {
+      doFetch(postalCode);
+      if (allCounties.length === 1) {
+        // assign directly
+        updateCounty(allCounties[0].value, allCounties[0].key);
+      } else if (allCounties.length > 1) {
+        setisCountyAlertOpen(true);
+      }
+    }
+  }, [allCounties]); // eslint-disable-line react-hooks/exhaustive-deps
   async function updateZip(zip) {
     let response = await clientsService
       .updateLeadZip(personalInfo, zip)
+      .then(() => {
+        window.location.reload(true);
+      });
+    console.log("RESPONSE..:", response);
+  }
+  async function updateCounty(county, fip) {
+    let response = clientsService
+      .updateLeadCounty(personalInfo, county, fip)
       .then(() => {
         window.location.reload(true);
       });
@@ -199,6 +230,19 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
           (address1 && address1) +
           (address2 && ", " + address2) +
           (stateCode && ", " + stateCode)
+        }
+      />
+      <AddCounty
+        isOpen={isCountyAlertOpen}
+        onClose={() => setisCountyAlertOpen(false)}
+        options={allCounties}
+        allStates={allStates}
+        updateCounty={updateCounty}
+        address={
+          (address1 && address1) +
+          (address2 && ", " + address2) +
+          (stateCode && ", " + stateCode) +
+          (postalCode && ", " + postalCode)
         }
       />
     </>

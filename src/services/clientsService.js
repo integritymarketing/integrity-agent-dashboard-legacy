@@ -1056,6 +1056,43 @@ export class ClientsService {
     return response?.json();
   };
 
+  updateLeadCounty = async (contact, county, fips) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
+      "PUT",
+      {
+        leadsId: contact.leadsId,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        birthdate: contact.birthdate,
+        leadStatusId: contact.leadStatusId,
+        primaryCommunication: contact.primaryCommunication,
+        contactRecordType: contact.contactRecordType,
+        notes: contact.notes,
+        emails: contact.emails,
+        phones: contact.phones,
+        addresses: [
+          {
+            leadAddressId: contact.addresses[0].leadAddressId,
+            address1: contact.addresses[0].address1,
+            address2: contact.addresses[0].address2,
+            city: contact.addresses[0].city,
+            stateCode: contact.addresses[0].stateCode,
+            postalCode: contact.addresses[0].postalCode,
+            county: county,
+            countyFips: fips,
+            createDate: contact.addresses[0].createDate,
+            modifyDate: contact.addresses[0].modifyDate,
+          },
+        ],
+      }
+    );
+    if (!response?.ok) {
+      throw new Error("Cannot update contact");
+    }
+    return response?.json();
+  };
+
   saveTag = async ({ leadsId, tagCategoryId, tagLabel, tagId }) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag/${tagId || ""}`,
