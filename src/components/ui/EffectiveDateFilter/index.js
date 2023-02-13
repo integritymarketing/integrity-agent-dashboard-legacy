@@ -10,12 +10,12 @@ export default function EffectiveDateFilter({ years, initialValue, onChange }) {
 
   const options = useMemo(() => {
     const options = [];
-    const now = new Date();
+    const now = new Date().replace(/-/g, "/");
     const currentMonth = now.getMonth();
     for (const year of years) {
       var i = year === now.getFullYear() ? currentMonth + 1 : 0;
       while (i < 12) {
-        let date = new Date(initialValue);
+        let date = new Date(initialValue).replace(/-/g, "/");
         date.setMonth(i);
         date.setFullYear(year);
         options.push({

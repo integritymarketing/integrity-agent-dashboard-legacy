@@ -123,17 +123,16 @@ export default () => {
   const query = useQuery();
   const showSelected = query && query.get("preserveSelected");
   const jsonStr = sessionStorage.getItem("__plans__");
+  const initialeffDate =
+    showSelected && initialEffectiveDate
+      ? new Date(initialEffectiveDate).replace(/-/g, "/")
+      : getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
   const {
     plans: initialPlans,
     effectiveDate: initialEffectiveDate,
     planType: initialPlanType,
     s_options,
   } = jsonStr ? JSON.parse(jsonStr) : {};
-
-  const initialeffDate =
-    showSelected && initialEffectiveDate
-      ? new Date(initialEffectiveDate)
-      : getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
 
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
   const history = useHistory();
