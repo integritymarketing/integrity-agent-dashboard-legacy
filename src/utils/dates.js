@@ -120,7 +120,7 @@ export const getFirstEffectiveDateOption = (years) => {
   initialValue.setDate(15); // setting the day of month here to the middle of the month, to avoid timezone issues.
 
   let options = [];
-  const now = new Date().replace(/-/g, "/");
+  const now = new Date();
   const currentMonth = now.getMonth();
   for (const year of years) {
     var i = year === now.getFullYear() ? currentMonth + 1 : 0;
@@ -187,7 +187,7 @@ export const getFirstEffectiveDateOption = (years) => {
     }
   }
   return options?.length > 0
-    ? new Date(options[0]?.label)
+    ? new Date(options[0]?.value)
     : new Date().setDate(15);
 };
 

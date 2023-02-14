@@ -96,11 +96,11 @@ export default function PlanCard({
 
   const planType = PLAN_TYPE_ENUMS[planData.planType];
 
-  const now = new Date().replace(/-/g, "/");
+  const now = new Date();
   const year = now.getFullYear();
 
-  const aepSeasonStart = new Date(`10/01/${year}`).replace(/-/g, "/");
-  const aepSeasonMid = new Date(`10/14/${year}`).replace(/-/g, "/");
+  const aepSeasonStart = new Date(`10/01/${year}`);
+  const aepSeasonMid = new Date(`10/14/${year}`);
 
   const isMidAEP = now >= aepSeasonStart && now <= aepSeasonMid ? true : false;
   const isJanuary = new Date(effectiveDate).getMonth() === 0 ? true : false;

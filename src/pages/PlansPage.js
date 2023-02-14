@@ -131,7 +131,7 @@ export default () => {
   } = jsonStr ? JSON.parse(jsonStr) : {};
   const initialeffDate =
     showSelected && initialEffectiveDate
-      ? new Date(initialEffectiveDate).replace(/-/g, "/")
+      ? new Date(initialEffectiveDate)
       : getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
   const history = useHistory();
