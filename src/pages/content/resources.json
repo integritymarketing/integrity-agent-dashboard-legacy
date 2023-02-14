@@ -1,7 +1,7 @@
 {
   "featured": [
     "MedicareCENTER Call Recording User Guide",
-    "MedicareCENTER Call Recording FAQs",
+    "MedicareCENTER Training Schedule",
     "MedicareCENTER's Video Training Hub"
   ],
   "categories": [
@@ -16,6 +16,12 @@
       "name": "Training Schedule",
       "icon": "computer",
       "analyticsKey": "trainingSchedule"
+    },
+    {
+      "id": "sales-tips",
+      "name": "Sales Tips",
+      "icon": "lightbulb",
+      "analyticsKey": "salesTips"
     },
     {
       "id": "working-remote",
@@ -92,63 +98,57 @@
       "filename": "MedicareCENTER-SendQuote-HelpGuide.pdf"
     },
     {
-      "name": "MedicareCENTER Training Schedule",
-      "description": "View our schedule of upcoming training webinars to learn how to use MedicareCENTER effectively, and get your questions answered by a live expert.",
-      "categories": ["training-schedule"],
-      "filename": "MedicareCENTER-Webinar-Schedule.pdf"
-    },
-    {
       "name": "Medicare Phone Guide: Turning 65 Med Supp Phone Guide",
       "description": "Talking points for that first conversation with clients turning 65 deigned to help you become a long-term, trusted Medicare resource.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Sales-Tips-Turning65-Script.pdf"
     },
     {
       "name": "Tips for Telephonic Enrollment",
       "description": "Tips and tools to help you continue to conduct business as usual, via the telephone.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Phone-Sales-Tips-Medicare.pdf"
     },
     {
       "name": "Tips for Using a Positive Tone",
       "description": "Tips and specific examples for how to remain positive during telephonic enrollments.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Phone-Sales-Tips-Using-Positive-Tone.pdf"
     },
     {
       "name": "Phonetic Alphabet",
       "description": "Quick reference sheet of the NATO phonetic alphabet to help reduce errors during telephone conversations.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Phonetic-Alphabet-Guide.pdf"
     },
     {
       "name": "Guide to Handling Objections Over the Phone",
       "description": "A systematic approach to overcoming any objection you encounter.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Phone-Sales-Tips-Overcoming-Objections.pdf"
     },
     {
       "name": "Best Practice Guide: Direct Mail",
       "description": "Best practices and practical tips to help you use direct mail to drive actions and results.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Best-Practices-Direct-Mail.pdf"
     },
     {
       "name": "Best Practice Guide: Lead Gen",
       "description": "Recommendations for how to manage your lead generation campaigns to help grow your business more efficiently.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Best-Practices-Lead-Generation.pdf"
     },
     {
       "name": "Best Practice Guide: Managing Client Relationships",
       "description": "9 steps for managing client relationships for high client retention, improved cross-selling and more referrals.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Best-Practices-Client-Management.pdf"
     },
     {
       "name": "How To Create a Facebook Page",
       "description": "A step-by-step guide for creating a Facebook business page for yourself or your agency.",
-      "categories": ["training-schedule"],
+      "categories": ["sales-tips"],
       "filename": "MedicareCENTER-Best-Practices-How-To-Create-Facebook-Page.pdf"
     },
     {
@@ -312,6 +312,12 @@
       "description": "If final expense isn't part of your portfolio, you could be missing out on a big opportunity",
       "categories": ["life-solutions"],
       "filename": "MedicareCENTER-Adding-Final-Expense.pdf"
+    },
+    {
+      "name": "MedicareCENTER Training Schedule",
+      "description": "View our schedule of upcoming training webinars to learn how to use MedicareCENTER effectively, and get your questions answered by a live expert.",
+      "categories": ["training-schedule"],
+      "filename": "MedicareCENTER-Webinar-Schedule.pdf"
     }
   ]
 }
