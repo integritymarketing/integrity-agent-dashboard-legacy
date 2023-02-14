@@ -21,6 +21,7 @@ export default () => {
   const history = useHistory();
   const loading = useLoading();
   const params = useQueryParams();
+  const clientId = useClientId();
 
   useEffect(() => {
     const checkIfValidToken = async () => {
@@ -75,8 +76,6 @@ export default () => {
               onSubmit={async (values, { setErrors, setSubmitting }) => {
                 setSubmitting(true);
                 loading.begin();
-                const clientId = useClientId();
-
                 const response = await authService.resetPassword({
                   ...values,
                   Username: params.get("npn"),
@@ -170,7 +169,7 @@ export default () => {
             </Formik>
           </Box>
         </ContainerUnAuthenticated>
-        <FooterUnAuthenticated />
+        <FooterUnAuthenticated mobileAppLogin={clientId === "AgentMobile"} />
       </div>
     </React.Fragment>
   );
