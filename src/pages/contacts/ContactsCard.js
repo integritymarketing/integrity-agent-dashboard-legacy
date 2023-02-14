@@ -244,17 +244,21 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
           );
         })}
       </div>
-      {data.length > 0 && (
-        <Pagination
-          contactsCardPage
-          currentPage={currentPage}
-          totalPages={pageCount}
-          totalResults={totalResults}
-          pageSize={pageSize}
-          onPageChange={(page) => setCurrentPage(page)}
-          onResetPageSize={true}
-          setPageSize={(value) => onPageSizeChange(value)}
-        />
+      {!isMobile && (
+        <>
+          {data.length > 0 && (
+            <Pagination
+              contactsCardPage
+              currentPage={currentPage}
+              totalPages={pageCount}
+              totalResults={totalResults}
+              pageSize={pageSize}
+              onPageChange={(page) => setCurrentPage(page)}
+              onResetPageSize={true}
+              setPageSize={(value) => onPageSizeChange(value)}
+            />
+          )}
+        </>
       )}
     </Container>
   );

@@ -351,7 +351,10 @@ export default () => {
                     onToggle={setFilterToggle}
                     filtered={active}
                     content={
-                      <ContactListFilterOptions close={setFilterToggle} />
+                      <ContactListFilterOptions
+                        close={setFilterToggle}
+                        layout={layout}
+                      />
                     }
                   />
                 </div>
