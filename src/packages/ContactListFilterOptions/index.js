@@ -10,7 +10,7 @@ import Stages from "./Stages";
 import TagsByCategory from "./Tags";
 import { useActiveFilters } from "hooks/useActiveFilters";
 
-export default function ContactListFilterOptions({ close }) {
+export default function ContactListFilterOptions({ close, layout }) {
   const [filterType, setFilterType] = useState("Stage");
   const [reminder, setReminder] = useState("");
   const [stages, setStages] = useState([]);
@@ -92,7 +92,11 @@ export default function ContactListFilterOptions({ close }) {
     setReminder("");
     setStages([]);
     setTags([]);
-    history.push(`/contacts/list`);
+    if (layout === "list") {
+      history.push(`/contacts/list`);
+    } else {
+      history.push(`/contacts/card`);
+    }
   };
 
   const onApply = () => {
