@@ -27,32 +27,8 @@ export default function ClientNotes(props) {
     setIsEdit(false);
     setIsSaving(() => true);
   };
-  const handleOnSave = async () => {
-    try {
-      setIsSaving(() => true);
-      await clientsService.updateClient(props.personalInfo, {
-        primaryContact: "phone",
-        ...props.personalInfo,
-        notes: value,
-      });
-      setnotesLastSaved(value);
-      addToast({
-        type: "success",
-        message: "Client notes successfully Updated.",
-        time: 3000,
-      });
-      setIsEdit(false);
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Error, update unsuccessful.",
-        time: 3000,
-      });
-      setIsSaving(() => false);
-    }
-  };
   const addToast = useToast();
+
   return (
     <Fragment>
       <div
@@ -108,4 +84,31 @@ export default function ClientNotes(props) {
       </div>
     </Fragment>
   );
+
+  async function handleOnSave() {
+    try {
+      setIsSaving(() => true);
+      await clientsService.updateClient(props.personalInfo, {
+        primaryContact: "phone",
+        ...props.personalInfo,
+        notes: value,
+      });
+      setnotesLastSaved(value);
+      await props.getLeadDetails();
+      addToast({
+        type: "success",
+        message: "Client notes successfully Updated.",
+        time: 3000,
+      });
+      setIsEdit(false);
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Error, update unsuccessful.",
+        time: 3000,
+      });
+      setIsSaving(() => false);
+    }
+  }
 }

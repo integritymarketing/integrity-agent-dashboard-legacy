@@ -12,7 +12,10 @@ export default ({ personalInfo, reminders = [], getLeadDetails, id }) => {
         reminders={reminders}
       />
       <Activities getLeadDetails={getLeadDetails} leadId={id} />
-      <ClientNotes personalInfo={personalInfo || {}} />
+      <ClientNotes
+        personalInfo={personalInfo || {}}
+        getLeadDetails={getLeadDetails}
+      />
     </>
   );
 };
