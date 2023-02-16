@@ -90,7 +90,7 @@ export function ProvidersCompareTable({ plans }) {
               if (!plan || !plan?.providers?.length > 0) {
                 return "-";
               }
-              return plan?.providers[0]?.inNetwork ? (
+              return value ? (
                 <span className="pr-network">
                   <InNetworkCheck />{" "}
                   <span className="pr-network-text">In Network</span>
@@ -111,9 +111,15 @@ export function ProvidersCompareTable({ plans }) {
 
   const data = allProviders.map((provider, index) => ({
     provider,
-    [`plan-${index}`]: !!plans[index]?.providers.find(
+    [`plan-0`]: !!plans[0]?.providers?.filter(
       (pr) => pr.npi === provider.npi
-    ),
+    )[0]?.inNetwork,
+    [`plan-1`]: !!plans[1]?.providers?.filter(
+      (pr) => pr.npi === provider.npi
+    )[0]?.inNetwork,
+    [`plan-2`]: !!plans[2]?.providers?.filter(
+      (pr) => pr.npi === provider.npi
+    )[0]?.inNetwork,
   }));
 
   return (

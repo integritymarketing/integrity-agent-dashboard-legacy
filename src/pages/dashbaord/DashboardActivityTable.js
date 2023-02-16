@@ -185,6 +185,7 @@ export default function DashboardActivityTable({
           activityInteractionURL,
           npn
         );
+        console.log("MOBILE TESTING ....:", link);
         var url = await window.URL.createObjectURL(link);
 
         if (url && url !== "") {
