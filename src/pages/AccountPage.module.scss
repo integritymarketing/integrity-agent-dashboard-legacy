@@ -3,6 +3,9 @@
 .rtsTableContainer {
   margin-top: 90px;
   padding: 0px 40px;
+  @media (max-width: 767px) and (min-width: 320px) {
+    padding: 0;
+  }
 
   .tableHeading {
     color: $dark-blue;

@@ -253,17 +253,15 @@
     color: #3d4553;
 
     @media (max-width: 480px) {
-      width: 80px;
+      width: 40px;
       height: 33px;
-      background-color: #ffffff;
-      border: 1px solid #cccccc;
+      //background-color: #ffffff;
       border-radius: 4px;
-      margin-top: 4px;
 
       & svg {
-        stroke: #36373a;
-        width: 16px;
-        margin-right: 50px;
+        stroke: #0052ce;
+        width: 23px;
+        height: 18px;
       }
     }
   }
@@ -277,7 +275,6 @@
     padding-top: 6px !important;
     display: block;
     position: unset;
-    width: 500px;
   }
 }
 
@@ -566,9 +563,10 @@
   @media (max-width: 480px) {
     position: fixed;
     background: #fff;
+    bottom: 0;
     width: 100%;
-    height: 100vh;
-    top: 0;
+    height: 70vh;
+    //top: 0;
     z-index: 11;
     margin-top: 0;
     border: 0;
@@ -718,7 +716,7 @@
       line-height: 19px;
       color: #6a7279;
     }
-
+    
     @media (max-width: 480px) {
       overflow-y: scroll;
       height: 395px;
@@ -755,13 +753,13 @@
     display: flex;
     justify-content: center;
     @media (max-width: 480px) {
-      position: fixed;
+      //position: fixed;
       bottom: 0;
       width: 100%;
       height: 118px;
       align-items: flex-start;
-      background: #ffffff;
-      box-shadow: 0px 2px 12px #7d889a;
+      //background: #ffffff;
+      //box-shadow: 0px 2px 12px #7d889a;
       margin: 0;
       padding-top: 22px;
     }
@@ -892,6 +890,17 @@
   display: flex;
   justify-content: space-between;
   gap: 0.5em;
+
+  @media (max-width: 480px) {
+    overflow: scroll;
+  }
+}
+
+.carrier {
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: initial;
+  }
 }
 
 .oddList,
@@ -912,6 +921,14 @@
   font-size: 16px;
 }
 
+.carrier .oddList {
+  .listItem:last-child { 
+    @media (max-width: 480px) {
+      border-bottom: 1px solid gray;
+    }
+  }
+}
+
 .listItem:last-child {
   border-bottom: 1px solid white;
 }
@@ -922,4 +939,41 @@
 
 .selected {
   display: block;
+}
+
+.yearLabel {
+  margin-bottom: 10px;
+  color: #717171;
+}
+
+.yearOptionsList {
+  background-color: #ffffff; 
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 12px 12px 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 14px;
+  width: 150px;
+
+  & > span {
+    margin-left: auto;
+    order:2;
+  }
+}
+
+@media (max-width: 480px) { 
+  .drawerOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+  }
 }
