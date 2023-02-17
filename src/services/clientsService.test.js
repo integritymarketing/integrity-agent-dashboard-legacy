@@ -39,7 +39,7 @@ it("clientsService.getList, accepts sort param", async () => {
     .fn()
     .mockResolvedValue({ json: () => Promise.resolve() });
   clientsService._clientAPIRequest = await asyncMock;
-  clientsService.getList(1, 10, "ASC");
+  clientsService.getList(1, 10, ["ASC"]);
   expect(asyncMock).toHaveBeenCalled();
   expect(asyncMock).toHaveBeenCalledWith(
     `mockUrl/api/${LEADS_API_VERSION}/Leads?PageSize=10&CurrentPage=1&Sort=ASC`
