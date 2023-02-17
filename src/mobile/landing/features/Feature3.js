@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "../LandingPage.module.scss"
+import Styles from "../LandingPage.module.scss";
 
 export default function Feature3() {
   return (

@@ -1,28 +1,28 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 20px;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
 
-    @include tabletAndAbove {
-        gap: 35px;
-        padding: 100px;
-    }
+  @include tabletAndAbove {
+    gap: 35px;
+    padding: 100px;
+  }
 }
 
 .tablet {
-    width: 100%;
+  width: 100%;
 }
 
 .splitContainer {
-    align-items: center;
-    overflow: hidden;
+  align-items: center;
+  overflow: hidden;
 }
 
 .splitContentTrailingTabletSection {
-    width: 100%;
+  width: 100%;
 }

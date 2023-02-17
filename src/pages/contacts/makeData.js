@@ -13,9 +13,9 @@ const newPerson = () => {
   return {
     firstName: namor.generate({ words: 1, numbers: 0 }),
     lastName: namor.generate({ words: 1, numbers: 0 }),
-    stage: ['NEW', 'SOA SENT', 'APPLIED'][Math.floor(Math.random() * 3)],
+    stage: ["NEW", "SOA SENT", "APPLIED"][Math.floor(Math.random() * 3)],
     phone: Math.floor(Math.random() * 8905671234),
-    reminder: 'Follow up with Humana. Check on rates. Call back next week.',
+    reminder: "Follow up with Humana. Check on rates. Call back next week.",
     status:
       statusChance > 0.66
         ? "relationship"
@@ -25,7 +25,7 @@ const newPerson = () => {
   };
 };
 
-export default function makeData(...lens) {  
+export default function makeData(...lens) {
   const makeDataLevel = (depth = 0) => {
     const len = lens[depth];
     return range(len).map((d) => {

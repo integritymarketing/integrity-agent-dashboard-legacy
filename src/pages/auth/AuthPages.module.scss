@@ -1,7 +1,10 @@
+@import "../../scss/globalDefines.scss";
+
 .forgot {
   display: flex;
   justify-content: right;
 }
+
 .login {
   display: flex;
   flex-direction: column;
@@ -9,3 +12,28 @@
   margin-top: 24px;
 }
 
+.resetTitle,
+.registerTitle {
+  margin-bottom: 1rem;
+  letter-spacing: 0.32px;
+
+  @include small {
+    font-size: $font-size-32 !important;
+  }
+}
+
+.enterYourNPN {
+  color: #434a51;
+  margin-bottom: 3rem;
+  letter-spacing: 0.16px;
+
+  @include small {
+    font-size: $font-size-16 !important;
+  }
+}
+
+.loginText {
+  @include small {
+    font-size: $font-size-32 !important;
+  }
+}

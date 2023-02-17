@@ -1,1 +1,1 @@
-export const altText = 'Logo';
+export const altText = "Logo";

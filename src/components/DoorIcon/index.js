@@ -1,10 +1,10 @@
-import React from 'react';
-import Icon from 'components/Icon';
+import React from "react";
+import Icon from "components/Icon";
 
-import image from './image.png';
+import image from "./image.png";
 
-const DoorIcon = ({ className = '' }) => (
-    <Icon altText="Door Icon" className={className} image={image} />
+const DoorIcon = ({ className = "" }) => (
+  <Icon altText="Door Icon" className={className} image={image} />
 );
 
 export default DoorIcon;

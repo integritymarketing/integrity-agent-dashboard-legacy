@@ -88,21 +88,21 @@ const App = () => {
                                     <Route exact path="/">
                                       <TrafficDirector />
                                     </Route>
-                                
+
                                     <UnauthenticatedRoute path="/welcome">
-                                    <Media
-                                      queries={{
-                                        small: "(max-width: 767px)",
-                                      }}
-                                    >
-                                      {(matches) =>
-                                        matches.small ? (
-                                          <LandingPage />
-                                        ) : (
-                                          <Welcome />
-                                        )
-                                      }
-                                    </Media>
+                                      <Media
+                                        queries={{
+                                          small: "(max-width: 767px)",
+                                        }}
+                                      >
+                                        {(matches) =>
+                                          matches.small ? (
+                                            <LandingPage />
+                                          ) : (
+                                            <Welcome />
+                                          )
+                                        }
+                                      </Media>
                                     </UnauthenticatedRoute>
                                     <AuthenticatedRoute path="/redirect-loading">
                                       <RedirectLoadingPage />

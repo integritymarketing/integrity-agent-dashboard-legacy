@@ -22,11 +22,11 @@ export default ({
   );
 
   useEffect(() => {
-    if(reminderModalStatus) {
-    analyticsService.fireEvent("event-modal-appear", {
-      modalName: "Reminder",
-    });
-  }
+    if (reminderModalStatus) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Reminder",
+      });
+    }
   }, [reminderModalStatus]);
 
   const isEdit = reminder && reminder.reminderId;

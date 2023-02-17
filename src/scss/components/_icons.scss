@@ -15,7 +15,7 @@
   cursor: pointer;
 
   &--bump-right {
-      margin-right: -0.5rem;
+    margin-right: -0.5rem;
   }
 }
 
@@ -32,16 +32,16 @@
   display: flex;
   align-items: flex-start;
   > img {
-      margin-top: 2px;
+    margin-top: 2px;
   }
 }
 
 @keyframes iconspin {
   from {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -52,7 +52,7 @@
 
 .tool-icon {
   align-items: center;
-  border: 3px solid #002D72;
+  border: 3px solid #002d72;
   border-radius: 8px;
   color: #002d72;
   display: inline-flex;
@@ -69,7 +69,7 @@
   top: -33px !important;
   right: -71px !important;
   @media (max-width: 480px) {
-      top: -15px !important;
-      right: -15px !important;
+    top: -15px !important;
+    right: -15px !important;
   }
 }

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 const List = (props) => (
   <svg
@@ -27,6 +27,6 @@ const List = (props) => (
     <path className="st0" d="M7.4 14.8h15.9" />
     <circle className="st0" cx={2.5} cy={14.8} r={2} />
   </svg>
-)
+);
 
-export default List
+export default List;

@@ -82,8 +82,7 @@ export default ({ className = "", hideMedicareIcon, ...props }) => {
           </ul>
         </nav>
         <small className="global-footer__legal mt-4">
-          <span>&copy; {new Date().getFullYear()}</span>{" "}
-          <span>Integrity.</span>{" "}
+          <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span>{" "}
           <span>All rights reserved.</span>
         </small>
       </div>

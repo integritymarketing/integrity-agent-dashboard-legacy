@@ -1,28 +1,28 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .heading {
-    margin-bottom: 15px;
-    margin-top: 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 .icon {
-    background-color: $iconBackgroundColor;
-    border-radius: 100%;
-    height: 65px;
-    width: 65px;
+  background-color: $iconBackgroundColor;
+  border-radius: 100%;
+  height: 65px;
+  width: 65px;
 }
 
 .centeredListItem {
-    @include transitionUp;
+  @include transitionUp;
 
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  text-align: center;
 
-    &.animate {
-        opacity: 1;
-        transform: translateZ(0);
-    }
+  &.animate {
+    opacity: 1;
+    transform: translateZ(0);
+  }
 }

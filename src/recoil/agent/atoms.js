@@ -11,6 +11,6 @@ export const welcomeModalOpenAtom = atom({
 });
 
 export const agentPhoneAtom = atom({
-  key: 'agentPhoneAtom',
-  default: '',
+  key: "agentPhoneAtom",
+  default: "",
 });

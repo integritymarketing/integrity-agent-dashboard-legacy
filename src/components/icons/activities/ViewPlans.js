@@ -2,13 +2,14 @@ import * as React from "react";
 
 const VIEWPLANS = (props) => (
   <svg
+    id="View"
     xmlns="http://www.w3.org/2000/svg"
     width="32"
     height="32"
     viewBox="0 0 32 32"
   >
     <defs>
-      <clipPath id="clipPath">
+      <clipPath id="clip-path">
         <rect
           id="Rectangle_20850"
           data-name="Rectangle 20850"
@@ -29,7 +30,7 @@ const VIEWPLANS = (props) => (
       />
     </g>
     <g id="Group_3326" data-name="Group 3326" transform="translate(8 8)">
-      <g id="Group_3325" data-name="Group 3325" clipPath="url(#clipPath)">
+      <g id="Group_3325" data-name="Group 3325" clip-path="url(#clip-path)">
         <path
           id="Path_3517"
           data-name="Path 3517"

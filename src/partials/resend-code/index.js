@@ -8,12 +8,8 @@ import plansService from "services/plansService";
 
 export default ({ agentInfo, modalOpen, close, token, request }) => {
   const addToast = useToast();
-  const {
-    AgentPhoneNumber,
-    AgentFirstName,
-    AgentLastName,
-    AgentEmail,
-  } = agentInfo;
+  const { AgentPhoneNumber, AgentFirstName, AgentLastName, AgentEmail } =
+    agentInfo;
 
   const handleResendCode = async () => {
     const data = {

@@ -185,6 +185,7 @@ export default function DashboardActivityTable({
           activityInteractionURL,
           npn
         );
+        console.log("MOBILE TESTING ....:", link);
         var url = await window.URL.createObjectURL(link);
 
         if (url && url !== "") {
@@ -260,6 +261,7 @@ export default function DashboardActivityTable({
       {
         id: "activity",
         Header: "Activity",
+        accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
         Cell: ({ row }) => (
           <div className={styles.activityDataCell}>
             <ActivitySubjectWithIcon
@@ -360,6 +362,9 @@ export default function DashboardActivityTable({
   };
 
   const onResetFilter = () => {
+    setFilterValues((values) => {
+      return values.map((v) => ({ ...v, selected: false }));
+    });
     setSelectedFilterValues([]);
     setPage(1);
   };

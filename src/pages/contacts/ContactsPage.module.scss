@@ -1,5 +1,5 @@
 .header {
-  &>div {
+  & > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -8,13 +8,12 @@
   padding: 35px 40px;
   border-bottom: 1px solid #d1c7ce;
   background: #ffff;
- 
+
   @media (max-width: 480px) {
     padding: 10px 20px;
     font-size: 30px;
-    border-bottom: 1px solid #C7CCD1;
+    border-bottom: 1px solid #c7ccd1;
     background: none;
-
   }
 
   .headerText {
@@ -69,7 +68,7 @@
 
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
-      &>div {
+      & > div {
         padding: 15px;
       }
     }
@@ -169,25 +168,28 @@ table {
   float: right;
 }
 
-.cardWrapper{
-  padding:8px 15px 10px 15px;
- 
+.cardWrapper {
+  padding: 8px 15px 10px 15px;
+  @media (max-width: 480px) {
+    width: 90%;
+    margin: auto;
+    margin-bottom: 16px;
+  }
 }
 
 .cardHeader,
 .cardInfo {
   display: flex;
   align-items: center;
-
-  @media (max-width: 480px) {
-    padding-bottom: 20px;
-  }
 }
 
 .cardInfo {
   margin-top: 14px;
   justify-content: space-between;
 
+  @media (max-width: 480px) {
+    padding-bottom: 20px;
+  }
   .cardInfoLabel {
     margin-bottom: 12px;
     font-size: 13px;
@@ -196,17 +198,20 @@ table {
     align-items: center;
     color: #646f7b;
   }
+  .select .select-container {
+    width: 100% !important;
+  }
 }
 
-.cardReminder{
+.cardReminder {
   margin-top: 10px;
 }
 
-.cardInfo>div:first-child {
+.cardInfo > div:first-child {
   min-width: 140px;
 }
 
-.cardInfo>div:last-child {
+.cardInfo > div:last-child {
   @media (min-width: 480px) {
     width: 40%;
   }
@@ -522,7 +527,7 @@ table {
         }
       }
 
-      .form-input__icon--main+input {
+      .form-input__icon--main + input {
         padding: 0;
       }
     }
@@ -539,7 +544,7 @@ table {
   &:hover {
     background: #f4f6fa;
 
-    svg>path {
+    svg > path {
       stroke: #0052ce;
     }
   }
@@ -547,7 +552,7 @@ table {
   &[class*="opened"] {
     background: #ebeff6;
 
-    svg>path {
+    svg > path {
       stroke: #002d72;
     }
   }
@@ -629,7 +634,7 @@ table {
     }
   }
 
-  & .filterTitleSection>svg {
+  & .filterTitleSection > svg {
     display: none;
 
     @media (max-width: 480px) {
@@ -757,12 +762,12 @@ table {
       background: #ebeff6;
     }
 
-    & .filterStageListActive>.filterStageListLeft,
-    .filterStageListActive>.filterStageListRight {
+    & .filterStageListActive > .filterStageListLeft,
+    .filterStageListActive > .filterStageListRight {
       color: #3d4553;
     }
 
-    & li>.filterStageListLeft {
+    & li > .filterStageListLeft {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -771,7 +776,7 @@ table {
       color: #6a7279;
     }
 
-    & li>.filterStageListRight {
+    & li > .filterStageListRight {
       font-family: Lato;
       font-style: normal;
       font-weight: normal;
@@ -957,7 +962,7 @@ table {
   gap: 1rem;
   cursor: pointer;
   @media (max-width: 480px) {
-   margin-left: 20px;
+    margin-left: 20px;
   }
 }
 
@@ -1053,7 +1058,7 @@ table {
 .tagBadge {
   border: 1px solid #717171;
   border-radius: 4px;
-  color: #434A51;
+  color: #434a51;
   display: inline-flex;
   margin: 2px;
   padding: 0px 5px;
@@ -1084,7 +1089,6 @@ table {
       width: 80%;
     }
   }
- 
 }
 .tagsModal {
   background: #f4f8fb;
@@ -1121,7 +1125,7 @@ table {
     background-color: white;
     padding: 10px;
 
-    .selectedTagCheck>i {
+    .selectedTagCheck > i {
       color: blue;
     }
   }
@@ -1133,8 +1137,8 @@ table {
     align-items: center;
     background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
     box-shadow: inset 0px -1px 0px var(--unnamed-color-cdd0d5);
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: inset 0px -1px 0px #CDD0D5;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px #cdd0d5;
     border-radius: 8px 8px 0px 0px;
     opacity: 1;
     min-width: 152px;
@@ -1154,17 +1158,16 @@ table {
     .tagNameSpan {
       font-size: 15px;
       letter-spacing: 0.16px;
-      color: #434A51;
+      color: #434a51;
       opacity: 1;
     }
 
-    .tagIcon>svg {
+    .tagIcon > svg {
       margin-left: 3px;
       vertical-align: middle;
     }
 
     .rowHoverWrapper {
-
       .tagIcon,
       .editIcon {
         display: flex;
@@ -1196,7 +1199,7 @@ table {
     padding: 10px;
     margin-top: 10px;
 
-    >Button {
+    > Button {
       width: 80px;
       padding: 5px;
       font-weight: bold;
@@ -1225,7 +1228,7 @@ table {
 .createTagContainer {
   display: flex;
   align-items: center;
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+  background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: inset 0px -1px 0px #cdd0d5;
   border-radius: 8px 8px 0px 0px;
   opacity: 1;
@@ -1236,7 +1239,7 @@ table {
 
   .createTag {
     letter-spacing: 0.16px;
-    color: #0052CE;
+    color: #0052ce;
     opacity: 1;
     font-size: 15px;
   }
@@ -1249,23 +1252,26 @@ table {
   align-items: center;
 }
 
-.createInpt, .errorInput {
+.createInpt,
+.errorInput {
   width: 111px;
   height: 38px;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+  background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 4px;
   opacity: 1;
 }
 
-.createInpt, .createInpt:focus-visible {
-  outline: 1px solid #C7CCD1;
+.createInpt,
+.createInpt:focus-visible {
+  outline: 1px solid #c7ccd1;
   border: none;
 }
 
-.errorInput, .errorInput:focus-visible {
-  outline:1px solid tomato;
-  border:none
+.errorInput,
+.errorInput:focus-visible {
+  outline: 1px solid tomato;
+  border: none;
 }
 
 .editExistingTagContainer {
@@ -1285,20 +1291,20 @@ table {
   }
 }
 
-.contactBodyWrapper{
-    background-color: #F4F8FB;
+.contactBodyWrapper {
+  background-color: #f4f8fb;
 }
 
-.stageOption{
+.stageOption {
   display: flex;
   align-items: center;
- }
+}
 
- .searchInput{
+.searchInput {
   padding-top: 30px;
-  width:30%;
+  width: 30%;
   @media (max-width: 480px) {
-  width:90%;
-  margin:auto
+    width: 90%;
+    margin: auto;
   }
- }
+}

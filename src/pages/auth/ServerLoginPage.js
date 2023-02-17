@@ -2,10 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
-import Container from "components/ui/container";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
-// import InfoIcon from "components/icons/info";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
@@ -16,6 +12,12 @@ import authService from "services/authService";
 import AuthContext from "contexts/auth";
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
+import Heading2 from "packages/Heading2";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import { Box } from "@mui/material";
+import { Button } from "packages/Button";
 
 export default () => {
   const loading = useLoading();
@@ -117,15 +119,10 @@ export default () => {
         <title>MedicareCENTER - Login</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader mobileAppLogin={mobileAppLogin} />
-        <Container
-          size="full"
-          className="background-image flex-fill-space mt-3"
-        >
-          <h1 className="centered-flex font-32 text-navyblue mb-2">
-            Login to your account
-          </h1>
-          <div className="layout-sm">
+        <HeaderUnAuthenticated />
+        <ContainerUnAuthenticated>
+          <Heading2 className={Styles.loginText} text="Login to your account" />
+          <Box mt={"1rem"}>
             <Formik
               initialValues={{ Username: "", Password: "" }}
               validate={(values) => {
@@ -135,7 +132,6 @@ export default () => {
                       name: "Username",
                       validator: validationService.composeValidator([
                         validationService.validateRequired,
-                        // validationService.validateEmail,
                       ]),
                     },
                     {
@@ -232,30 +228,20 @@ export default () => {
                         </div>
                       }
                     />
-                    <div className="form__submit override">
-                      <button
-                        className={`btn-v2 mb-1 login-btn ${analyticsService.clickClass(
+                    <div className="centered-flex-col">
+                      <Button
+                        className={`${analyticsService.clickClass(
                           "main-login"
                         )}`}
                         type="submit"
+                        size="large"
                       >
-                        Login
-                      </button>
+                        <Box mx="4rem">Login</Box>
+                      </Button>
                     </div>
                     {!mobileAppLogin && (
                       <div className="centered-flex-col">
-                        <p className="text-sm ">
-                          Don&apos;t have an account?
-                          {/* {` or `}
-                  <Link
-                    to="/forgot-username"
-                    className={`link link--secondary link--force-underline ${analyticsService.clickClass(
-                      "forgot-email"
-                    )}`}
-                  >
-                    forgot your email?
-                  </Link> */}
-                        </p>
+                        <p className="text-sm ">Don&apos;t have an account?</p>
                         <Link
                           to="/register"
                           className={`link ${analyticsService.clickClass(
@@ -270,15 +256,9 @@ export default () => {
                 </form>
               )}
             </Formik>
-          </div>
-        </Container>
-        <div className="override-max">
-          <SimpleFooter
-            className="layout-footer footer-container"
-            mobileAppLogin={mobileAppLogin}
-            loginPage={true}
-          />
-        </div>
+          </Box>
+        </ContainerUnAuthenticated>
+        <FooterUnAuthenticated mobileAppLogin={mobileAppLogin} />
       </div>
     </React.Fragment>
   );

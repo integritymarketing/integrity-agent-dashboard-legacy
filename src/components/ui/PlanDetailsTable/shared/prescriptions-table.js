@@ -107,10 +107,15 @@ export default ({ planData, isMobile }) => {
         </>
       ),
       covered: getCoveredCheck(prescriptionMap[labelName].isCovered),
-    }
+    };
     data.push({
-      ...row, 
-      name_cost: <><div>{row.name}</div><div>{row.cost}</div></>
+      ...row,
+      name_cost: (
+        <>
+          <div>{row.name}</div>
+          <div>{row.cost}</div>
+        </>
+      ),
     });
   });
 

@@ -1,16 +1,16 @@
-@import 'src/scss/globalDefines.scss';
+@import "src/scss/globalDefines.scss";
 
 .layout {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 .icon {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 .text {
-    font-size: 1rem;
-    color: #434A51;
+  font-size: 1rem;
+  color: #434a51;
 }

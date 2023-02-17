@@ -1,7 +1,7 @@
 import React from "react";
-import Container from "components/ui/container";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Helmet } from "react-helmet-async";
 import MailIcon from "components/icons/v2-mail";
 import PhoneIcon from "components/icons/v2-phone";
@@ -13,8 +13,8 @@ export default () => {
         <title>MedicareCENTER - Contact Support</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
-        <Container size="small">
+        <HeaderUnAuthenticated />
+        <ContainerUnAuthenticated>
           <h1 className="hdg hdg--2 mb-1">Contact Support</h1>
           <p className="text text--secondary mb-3">
             Call or email one of our support representatives to help resolve
@@ -38,8 +38,8 @@ export default () => {
               888-818-3760
             </a>
           </p>
-        </Container>
-        <SimpleFooter className="global-footer--simple" />
+        </ContainerUnAuthenticated>
+        <FooterUnAuthenticated />
       </div>
     </>
   );

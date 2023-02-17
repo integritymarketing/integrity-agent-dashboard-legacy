@@ -1,21 +1,27 @@
 {
   "featured": [
     "MedicareCENTER Call Recording User Guide",
-    "MedicareCENTER Call Recording FAQs",
+    "MedicareCENTER Training Schedule",
     "MedicareCENTER's Video Training Hub"
   ],
   "categories": [
-    {
-      "id": "sales-tips",
-      "name": "Sales Tips",
-      "icon": "lightbulb",
-      "analyticsKey": "salesTips"
-    },
     {
       "id": "tech-guides",
       "name": "Tech Guides",
       "icon": "tools",
       "analyticsKey": "techGuides"
+    },
+    {
+      "id": "training-schedule",
+      "name": "Training Schedule",
+      "icon": "computer",
+      "analyticsKey": "trainingSchedule"
+    },
+    {
+      "id": "sales-tips",
+      "name": "Sales Tips",
+      "icon": "lightbulb",
+      "analyticsKey": "salesTips"
     },
     {
       "id": "working-remote",
@@ -51,7 +57,7 @@
     },
     {
       "name": "MedicareCENTER's Video Training Hub",
-      "description": "Check out our latest video tutorials from our team of experts. We upload weekly interactive content to ensure you are prepared for AEP by the best in the Medicare industry.",
+      "description": "Check out our latest video tutorials from our team of experts. ",
       "categories": ["tech-guides"],
       "filename": "https://vimeo.com/medicarecenter"
     },
@@ -306,6 +312,12 @@
       "description": "If final expense isn't part of your portfolio, you could be missing out on a big opportunity",
       "categories": ["life-solutions"],
       "filename": "MedicareCENTER-Adding-Final-Expense.pdf"
+    },
+    {
+      "name": "MedicareCENTER Training Schedule",
+      "description": "View our schedule of upcoming training webinars to learn how to use MedicareCENTER effectively, and get your questions answered by a live expert.",
+      "categories": ["training-schedule"],
+      "filename": "MedicareCENTER-Webinar-Schedule.pdf"
     }
   ]
 }

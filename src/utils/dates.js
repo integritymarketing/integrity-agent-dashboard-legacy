@@ -187,7 +187,7 @@ export const getFirstEffectiveDateOption = (years) => {
     }
   }
   return options?.length > 0
-    ? new Date(options[0]?.label)
+    ? new Date(options[0]?.value)
     : new Date().setDate(15);
 };
 

@@ -1,21 +1,20 @@
-@import '../../scss/globalDefines.scss';
+@import "../../scss/globalDefines.scss";
 
-.tagsContainer{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
+.tagsContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .tags {
-    border: 1px solid lightgrey;
-    border-radius: 5px;
-    padding: 4px 8px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 4px 8px;
 }
 
 .tagText {
-    color: #434A51;
-    font-weight: bold;
-    font-size: 12px;
-    text-transform: uppercase;
+  color: #434a51;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
 }

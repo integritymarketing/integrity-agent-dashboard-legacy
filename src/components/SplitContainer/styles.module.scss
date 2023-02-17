@@ -1,11 +1,11 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    @include tabletAndAbove {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
+  @include tabletAndAbove {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }

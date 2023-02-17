@@ -5,20 +5,17 @@ import Styles from "./AddCounty.module.scss";
 export default function AddCounty({
   isOpen,
   onClose,
-  setFieldValue,
   options,
-  setHasCountyAlertClosed,
   address,
+  updateCounty,
 }) {
   const [county, setCounty] = useState();
   function handleSubmit(e) {
     e.preventDefault();
-    setFieldValue("address.county", county);
     const fip = options.filter((item) => item.value === county)[0]?.key;
-    setFieldValue("address.countyFips", fip);
+    updateCounty(county, fip);
   }
   function handleClose() {
-    setHasCountyAlertClosed(true);
     onClose();
   }
   return (

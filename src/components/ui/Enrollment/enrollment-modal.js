@@ -16,20 +16,20 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
     try {
       const enrolled = await plansService.enroll(contact.leadsId, planData.id, {
         enrollRequest: {
-        firstName: contact?.firstName,
-        middleInitial:
-          contact?.middleName?.length > 1 ? contact.middleName[0] : "",
-        lastName: contact?.lastName,
-        address1: contact?.addresses[0]?.address1,
-        address2: contact?.addresses[0]?.address2,
-        city: contact?.addresses[0]?.city,
-        state: contact?.addresses[0]?.stateCode,
-        zip: contact?.addresses[0]?.postalCode,
-        countyFIPS: contact?.addresses[0]?.countyFips,
-        phoneNumber: contact?.phones[0]?.leadPhone,
-        email: contact?.emails[0]?.leadEmail,
-        sendToBeneficiary: option === "send",
-        }
+          firstName: contact?.firstName,
+          middleInitial:
+            contact?.middleName?.length > 1 ? contact.middleName[0] : "",
+          lastName: contact?.lastName,
+          address1: contact?.addresses[0]?.address1,
+          address2: contact?.addresses[0]?.address2,
+          city: contact?.addresses[0]?.city,
+          state: contact?.addresses[0]?.stateCode,
+          zip: contact?.addresses[0]?.postalCode,
+          countyFIPS: contact?.addresses[0]?.countyFips,
+          phoneNumber: contact?.phones[0]?.leadPhone,
+          email: contact?.emails[0]?.leadEmail,
+          sendToBeneficiary: option === "send",
+        },
       });
 
       if (enrolled && enrolled.url) {

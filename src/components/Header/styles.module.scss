@@ -1,9 +1,9 @@
-@import 'styles/global.scss';
+@import "styles/global.scss";
 
 .header {
-    background-color: $headerBackgroundColor;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
+  background-color: $headerBackgroundColor;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 }

@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import * as Sentry from "@sentry/react"
+import React, { useCallback, useEffect, useState } from "react";
+import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import { Button } from "components/ui/Button";
 import Link from "components/icons/link";
 import clientService from "services/clientsService";
-import styles from './index.module.scss'
+import styles from "./index.module.scss";
 
-const PERSONAL_URL_DATA = "Send your personalized link to the client to get them started with shopping for plans. Don't worry, you will get credit if the consumer enrolls in any of these plans."
+const PERSONAL_URL_DATA =
+  "Send your personalized link to the client to get them started with shopping for plans. Don't worry, you will get credit if the consumer enrolls in any of these plans.";
 
 export default function CopyPersonalURL(props) {
   const { agentnpn } = props;
@@ -19,7 +20,7 @@ export default function CopyPersonalURL(props) {
       let data = await clientService.getAgentPurlCodeByNPN(agentnpn);
       if (!data) {
         data = await clientService.createAgentPurlCode({
-          agentNpn: agentnpn
+          agentNpn: agentnpn,
         });
       }
       setPurlCode(`${URL}/?purl=${data.agentPurlCode}`);
@@ -34,7 +35,7 @@ export default function CopyPersonalURL(props) {
   }, [agentnpn, addToast]);
 
   useEffect(() => {
-    getAgentPurlCodeWithNPN()
+    getAgentPurlCodeWithNPN();
   }, [getAgentPurlCodeWithNPN]);
 
   const handleOnClickCopy = async () => {
@@ -51,18 +52,17 @@ export default function CopyPersonalURL(props) {
         });
       }
     }
-
   };
 
   return (
     <>
       <div className={styles.purlContent}>{PERSONAL_URL_DATA}</div>
       <Button
-        className='mt-2'
+        className="mt-2"
         icon={<Link />}
         label="Copy Link"
         onClick={handleOnClickCopy}
       />
     </>
-  )
+  );
 }

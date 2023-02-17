@@ -59,7 +59,7 @@ export default function LinkToContact() {
             size={"medium"}
             startIcon={<CallScriptIcon />}
             onClick={() => setModalOpen(true)}
-          >            
+          >
             Call Script
           </Button>
         </div>
@@ -68,7 +68,9 @@ export default function LinkToContact() {
   };
 
   const goToAddNewContactsPage = () => {
-    history.push(`/contact/add-new/${callLogId}${callFrom ? '?callFrom=' + callFrom : ''}`);
+    history.push(
+      `/contact/add-new/${callLogId}${callFrom ? "?callFrom=" + callFrom : ""}`
+    );
   };
 
   const tags = callStatusInProgress?.callLogTags.map(

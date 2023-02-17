@@ -3,12 +3,7 @@ import Reminders from "./reminder";
 import ClientNotes from "./clientNotes";
 import Activities from "pages/ContactDetails/Activities";
 
-export default ({
-  personalInfo,
-  reminders = [],
-  getLeadDetails,
-  id,
-}) => {
+export default ({ personalInfo, reminders = [], getLeadDetails, id }) => {
   return (
     <>
       <Reminders
@@ -17,7 +12,10 @@ export default ({
         reminders={reminders}
       />
       <Activities getLeadDetails={getLeadDetails} leadId={id} />
-      <ClientNotes personalInfo={personalInfo || {}} />
+      <ClientNotes
+        personalInfo={personalInfo || {}}
+        getLeadDetails={getLeadDetails}
+      />
     </>
   );
 };

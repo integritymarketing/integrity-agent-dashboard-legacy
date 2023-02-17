@@ -2,16 +2,16 @@ import React from "react";
 import { useState } from "react";
 import Styles from "./AddZip.module.scss";
 
-export default function AddZip({ isOpen, onClose, setFieldValue, address }) {
+export default function AddZip({ isOpen, onClose, updateZip, address }) {
   const [inputZip, setInputZip] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
-    setFieldValue("address.postalCode", inputZip);
+    updateZip(inputZip);
     onClose();
   }
   return (
     <div>
-      {isOpen && (
+      {isOpen && false && (
         <div className={Styles.modalContainer}>
           <div className={Styles.modal}>
             <p className={Styles.modalTitle}>Zip Code</p>

@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
-import Container from "components/ui/container";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import MailIcon from "components/icons/v2-mail";
 import PhoneIcon from "components/icons/v2-phone";
 
@@ -19,8 +19,8 @@ export default () => {
         <title>MedicareCENTER - Contact Support</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
-        <Container size="small">
+        <HeaderUnAuthenticated />
+        <ContainerUnAuthenticated>
           <h1 className="hdg hdg--2 mb-3">Something's not right</h1>
           <span className="npn-text">{npnId}</span>
           <p className="text text--secondary mt-1 mb-3">
@@ -53,8 +53,8 @@ export default () => {
               Try again using a different NPN
             </button>
           </p>
-        </Container>
-        <SimpleFooter className="global-footer--simple" />
+        </ContainerUnAuthenticated>
+        <FooterUnAuthenticated />
       </div>
     </>
   );

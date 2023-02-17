@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
-import Container from "components/ui/container";
-import SimpleHeader from "partials/simple-header";
-import SimpleFooter from "partials/simple-footer";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import authService from "services/authService";
 import analyticsService from "services/analyticsService";
 import CheckIcon from "components/icons/v2-check";
@@ -26,8 +26,8 @@ export default () => {
         <title>MedicareCENTER - Password Reset Sent</title>
       </Helmet>
       <div className="content-frame v2">
-        <SimpleHeader />
-        <Container size="small">
+        <HeaderUnAuthenticated />
+        <ContainerUnAuthenticated>
           <CheckIcon className="mb-2" />
           <div className="hdg--3 mb-4">
             Check your email to complete password reset
@@ -41,8 +41,8 @@ export default () => {
               btnClass={analyticsService.clickClass("forgot-resendnow")}
             />
           </div>
-        </Container>
-        <SimpleFooter />
+        </ContainerUnAuthenticated>
+        <FooterUnAuthenticated />
       </div>
     </React.Fragment>
   );

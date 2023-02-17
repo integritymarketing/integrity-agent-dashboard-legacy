@@ -24,14 +24,15 @@
 
     @media (max-width: 480px) {
       width: 90px;
-      border: 1px solid #CCCCCC;
+      border: 1px solid #cccccc;
       border-radius: 4px !important;
-      background-color: #FFFFFF;}
+      background-color: #ffffff;
+    }
 
     .selectbox {
       display: none;
-      border: 0 solid #CCCCCC;
-      background-color: #FFFFFF;
+      border: 0 solid #cccccc;
+      background-color: #ffffff;
       border-radius: 4px !important;
       @media (max-width: 480px) {
         display: flex;
@@ -81,7 +82,7 @@
       z-index: 1;
       border-radius: 4px !important;
       background: #ffffff;
-      border: 1px solid #CCCCCC;
+      border: 1px solid #cccccc;
       width: 200px;
       height: 200px;
       right: 0;
@@ -90,7 +91,7 @@
         display: none;
       }
       .inputbox {
-        display: none  !important;
+        display: none !important;
       }
       .selectbox {
         display: none !important;
@@ -106,7 +107,7 @@
         }
 
         & .close-btn {
-         margin-left: 145px;
+          margin-left: 145px;
         }
       }
       .options .option {
@@ -150,43 +151,43 @@
         }
       }
     }
-    }
-    &.closed {
-      background: #ffffff;
-      border: 1px solid #CCCCCC;
-      border-radius: 4px !important;
-      box-sizing: border-box;
-      padding: 0px !important;
-      width: 40px;
-      height: 40px;
-    }
-    .inputbox {
-      margin: 6px;
-    }
-    &.disabled {
-      background: #f1f5f9 !important;
-      cursor: not-allowed;
-    }
-    .options {
-      overflow: auto;
-    }
-    .options {
-      .option {
-        padding-left: 15px;
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        cursor: pointer;
-      }
-    }
-    .options {
-      .option:hover {
-        background: #ebeff6;
-      }
+  }
+  &.closed {
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px !important;
+    box-sizing: border-box;
+    padding: 0px !important;
+    width: 40px;
+    height: 40px;
+  }
+  .inputbox {
+    margin: 6px;
+  }
+  &.disabled {
+    background: #f1f5f9 !important;
+    cursor: not-allowed;
+  }
+  .options {
+    overflow: auto;
+  }
+  .options {
+    .option {
+      padding-left: 15px;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
     }
   }
+  .options {
+    .option:hover {
+      background: #ebeff6;
+    }
+  }
+}
 
 .contacts-dd {
   min-width: 239px;

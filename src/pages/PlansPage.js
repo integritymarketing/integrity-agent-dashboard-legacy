@@ -129,12 +129,10 @@ export default () => {
     planType: initialPlanType,
     s_options,
   } = jsonStr ? JSON.parse(jsonStr) : {};
-
   const initialeffDate =
     showSelected && initialEffectiveDate
       ? new Date(initialEffectiveDate)
       : getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
-
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
   const history = useHistory();
   const [contact, setContact] = useState();

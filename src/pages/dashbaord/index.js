@@ -109,7 +109,9 @@ export default function Dashbaord() {
 
   const loadActivityData = async () => {
     let returnAll = false;
-    setIsLoading(true);
+    if (activityData?.length === 0) {
+      setIsLoading(true);
+    }
     try {
       const response = await clientService.getDashboardData(
         sort,
@@ -150,7 +152,10 @@ export default function Dashbaord() {
         selected: false,
       };
     });
-    setFilterValues([...returnData]);
+    let sortedData = returnData?.sort((a, b) =>
+      a?.name?.localeCompare(b?.name)
+    );
+    setFilterValues([...sortedData]);
   };
 
   useEffect(() => {
@@ -311,7 +316,10 @@ export default function Dashbaord() {
               fullResults={fullResults}
               filterValues={filterValues}
               setFilterValues={setFilterValues}
-              setSort={(value) => setSort(value)}
+              setSort={(value) => {
+                setSort(value);
+                setPage(1);
+              }}
               sort={sort}
             />
             {isMobile && <FooterBanners className="banners" type="column" />}

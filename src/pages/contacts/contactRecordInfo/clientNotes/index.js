@@ -7,15 +7,17 @@ import useToast from "../../../../hooks/useToast";
 
 export default function ClientNotes(props) {
   const [isEdit, setIsEdit] = useState(false);
-  const [isSaving, setIsSaving] = useState(true );
+  const [isSaving, setIsSaving] = useState(true);
   const [value, setValue] = useState(props.personalInfo.notes || "");
-  const [notesLastSaved, setnotesLastSaved] = useState(props.personalInfo.notes || "");
+  const [notesLastSaved, setnotesLastSaved] = useState(
+    props.personalInfo.notes || ""
+  );
   const handleOnChange = (e) => {
-    if( e.target.value === notesLastSaved ){
-      setValue(e.currentTarget.value); 
+    if (e.target.value === notesLastSaved) {
+      setValue(e.currentTarget.value);
       setIsSaving(true);
     } else {
-      setValue(e.currentTarget.value); 
+      setValue(e.currentTarget.value);
       setIsSaving(false);
     }
   };
@@ -24,35 +26,9 @@ export default function ClientNotes(props) {
     setValue(notesLastSaved);
     setIsEdit(false);
     setIsSaving(() => true);
-
-  };
-  const handleOnSave = async () => {
-    try {
-
-      setIsSaving(() => true);
-      await clientsService.updateClient(props.personalInfo, {
-        primaryContact: "phone",
-        ...props.personalInfo,
-        notes: value,
-      });
-      setnotesLastSaved(value);
-      addToast({
-        type: "success",
-        message: "Client notes successfully Updated.",
-        time: 3000,
-      });
-      setIsEdit(false);
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Error, update unsuccessful.",
-        time: 3000,
-      });
-      setIsSaving(() => false);
-    }
   };
   const addToast = useToast();
+
   return (
     <Fragment>
       <div
@@ -79,7 +55,7 @@ export default function ClientNotes(props) {
           {!isEdit ? (
             <div className="client-notes">
               <p>{value ? value : "Write client notes here..."}</p>
-            </div>  
+            </div>
           ) : (
             <div className="client-notes-edit">
               <textarea
@@ -97,15 +73,42 @@ export default function ClientNotes(props) {
         </div>
         {isEdit ? (
           <div className="button-group">
+            <Button onClick={handleOnCancel} label="Cancel" type="secondary" />
             <Button
-              onClick={handleOnCancel}
-              label="Cancel"
-              type="secondary"
+              disabled={isSaving || !value}
+              onClick={handleOnSave}
+              label="Save"
             />
-            <Button disabled={isSaving || !value} onClick={handleOnSave} label="Save" />
           </div>
         ) : null}
       </div>
     </Fragment>
   );
+
+  async function handleOnSave() {
+    try {
+      setIsSaving(() => true);
+      await clientsService.updateClient(props.personalInfo, {
+        primaryContact: "phone",
+        ...props.personalInfo,
+        notes: value,
+      });
+      setnotesLastSaved(value);
+      await props.getLeadDetails();
+      addToast({
+        type: "success",
+        message: "Client notes successfully Updated.",
+        time: 3000,
+      });
+      setIsEdit(false);
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Error, update unsuccessful.",
+        time: 3000,
+      });
+      setIsSaving(() => false);
+    }
+  }
 }
