@@ -58,10 +58,15 @@ const geItemFromLocalStorage = (key, initialValue) => {
   }
 };
 
+const DEFAULT_SORT = [
+  "Reminders%3Aasc&Sort=Reminders.ReminderDate%3Aasc",
+  "createDate:desc",
+];
+
 export default () => {
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
-  const [sort, setSort] = useState("createDate:desc");
+  const [sort, setSort] = useState(DEFAULT_SORT);
   const [layout, setLayout] = useState("");
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [allLeads, setAllLeads] = useState([]);
@@ -339,7 +344,7 @@ export default () => {
                       <ContactListSort
                         close={setSortToggle}
                         sort={sort}
-                        setSort={setSort}
+                        setSort={(value) => setSort([value])}
                       />
                     }
                   />

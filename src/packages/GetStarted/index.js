@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import AuthContext from "contexts/auth";
 import Box from "@mui/material/Box";
@@ -39,6 +40,8 @@ export default function GetStarted(props) {
   const history = useHistory();
   const [show, setShow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const auth = useContext(AuthContext);
   const addToast = useToast();
   const {
@@ -198,6 +201,12 @@ export default function GetStarted(props) {
 
   return (
     <div className={styles.layout}>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <StyledIconButton
         onClick={() => {
           setShow(false);
@@ -211,7 +220,7 @@ export default function GetStarted(props) {
         />
       </div>
       <div className={styles.bannerText}>
-        <Typography variant={"h4"} color={"white"}>
+        <Typography variant={isMobile ? "h6" : "h4"} color={"white"}>
           Get access to leads — real time.
         </Typography>
         <Button
@@ -226,6 +235,7 @@ export default function GetStarted(props) {
               background: "white",
               color: "#054CBC",
             },
+            width: isMobile ? "40%" : "13%",
           }}
         >
           Get Started
