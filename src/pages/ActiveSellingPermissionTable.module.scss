@@ -182,3 +182,51 @@
   margin: 0 1rem;
   padding-top: 1px;
 }
+
+.gridItem {
+  display: flex;
+  gap: 8px;
+  font-size: 16px;
+  color: #051d43;
+  font-weight: 500;
+}
+
+.textBlueBold {
+  color: #0052ce;
+  font-weight: 700;
+}
+
+.textOff {
+  color: #717171;
+}
+
+.container {
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  @media (max-width: 767px) and (min-width: 320px) {
+    font-size: 20px;
+  }
+}
+
+.mobileListItem {
+  border-bottom: 1px solid #DFDEDD !important;
+  padding: 16px;
+  margin: 0;
+
+  &:last-child {
+    border-bottom: none !important;
+  };
+}
+
+.planyear, .states {
+  color: #717171;
+}
+
+.wordWrap {
+  word-break: break-all;
+}

@@ -12,10 +12,36 @@ import SortDown from "components/icons/sort-arrow-down";
 import LableGroupCard from "components/ui/LableGroupCard";
 import useToast from "hooks/useToast";
 import Heading2 from "packages/Heading2";
+import { Grid, Paper } from "@mui/material";
+import { useWindowSize } from "hooks/useWindowSize";
 
 const uniqValues = (array) => Array.from(new Set(array));
 
+const mobileColumnFormat = {
+  Carrier: {
+    name: "Carrier",
+    bold: "true",
+  },
+  "Plan year": {
+    name: "Yr",
+    bold: "",
+  },
+  States: {
+    name: "States",
+    bold: "",
+  },
+  "Producer ID": {
+    name: "ID",
+    bold: "true",
+  },
+  "Plan type": {
+    name: "Products",
+    bold: "",
+  },
+};
+
 export default function ActiveSellingPermissionTable({ npn }) {
+  const { width: windowWidth } = useWindowSize();
   const addToast = useToast();
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
@@ -180,6 +206,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
       data={uniqAgenets}
       onChangeTableState={handleChangeTable}
       filterOptions={filterOptions}
+      mobile={windowWidth <= 784 ? true : false}
     />
   );
 }
@@ -193,6 +220,7 @@ function Table({
   sort,
   applyFilters,
   filterOptions,
+  mobile,
 }) {
   const [pageSize, setPageSize] = useState(10);
   const [filters, setFilters] = useState({});
@@ -253,82 +281,177 @@ function Table({
     });
   }, [onChangeTableState, searchString, sort, applyFilters]);
 
+  const orderMobileColumns = (cells) => {
+    const clonedArr = [...cells];
+    const lastTwoItems = clonedArr.splice(-2);
+    clonedArr.splice(1, 0, ...lastTwoItems);
+    clonedArr.splice(2, 1, clonedArr.splice(3, 1, clonedArr[2])[0]);
+    return clonedArr;
+  };
+
+  const mobileListCells = (cell, index) => {
+    return (
+      <Grid item xs={(index + 1) % 2 === 0 ? 6 : 10} key={index + Date.now()}>
+        <div className={styles.gridItem}>
+          <p>{mobileColumnFormat[cell.column?.Header]["name"]}:</p>
+          {(() => {
+            if (mobileColumnFormat[cell.column?.Header]["name"] === "States") {
+              return (
+                <p
+                  className={`${
+                    mobileColumnFormat[cell.column?.Header]["bold"]
+                      ? styles.textBlueBold
+                      : ""
+                  }${
+                    styles[
+                      cell.column?.Header?.replace(/\s+/g, "").toLowerCase()
+                    ]
+                  }
+                      `}
+                >
+                  {cell?.value?.join(", ")}
+                </p>
+              );
+            } else if (
+              mobileColumnFormat[cell.column?.Header]["name"] === "Products"
+            ) {
+              return (
+                <LableGroupCard
+                  labelNames={cell?.value?.slice(0, 3).join(", ")}
+                />
+              );
+            } else {
+              return (
+                <p
+                  className={`${
+                    mobileColumnFormat[cell.column?.Header]["bold"]
+                      ? styles.textBlueBold
+                      : ""
+                  }
+                  ${
+                    styles[
+                      cell.column?.Header?.replace(/\s+/g, "").toLowerCase()
+                    ]
+                  }
+                  ${styles.wordWrap}
+                    `}
+                >
+                  {cell?.value}
+                </p>
+              );
+            }
+          })()}
+        </div>
+      </Grid>
+    );
+  };
+
+  const renderMobileList = () => (
+    <Paper>
+      {rows.map((row, i) => {
+        prepareRow(row);
+        return (
+          <Grid
+            container
+            spacing="8px"
+            columns={16}
+            className={styles.mobileListItem}
+            key={i + Date.now()}
+          >
+            {orderMobileColumns(row.cells).map((cell, index) => {
+              return mobileListCells(cell, index);
+            })}
+          </Grid>
+        );
+      })}
+    </Paper>
+  );
+
   if (loading) {
     return <Spinner />;
   }
 
   return (
-    <Container className="mt-scale-3">
+    <Container className={styles.container}>
       <div className={styles.headerContainer}>
-        <Heading2 text="Active Selling Permissions" />
+        <Heading2
+          className={styles.heading}
+          text="Active Selling Permissions"
+        />
         <ActiveSellingPermissionFilter
           onSubmit={setFilters}
           filterOptions={filterOptions}
         />
       </div>
-      <div className={styles.tableWrapper}>
-        <table
-          data-gtm="contacts-list-wrapper"
-          className={styles.table}
-          {...getTableProps()}
-        >
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    className="text-left"
-                  >
-                    <div className={styles["tb-headers"]}>
-                      <span>{column.render("Header")}</span>
-                      <span className={styles.sortingIcon}>
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <SortDown />
+      {mobile ? (
+        // Mobile View
+        renderMobileList()
+      ) : (
+        // Desktop View
+        <div className={styles.tableWrapper}>
+          <table
+            data-gtm="contacts-list-wrapper"
+            className={styles.table}
+            {...getTableProps()}
+          >
+            <thead>
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      className="text-left"
+                    >
+                      <div className={styles["tb-headers"]}>
+                        <span>{column.render("Header")}</span>
+                        <span className={styles.sortingIcon}>
+                          {column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <SortDown />
+                            ) : (
+                              <SortUp />
+                            )
+                          ) : column.disableSortBy ? (
+                            ""
                           ) : (
-                            <SortUp />
-                          )
-                        ) : column.disableSortBy ? (
-                          ""
-                        ) : (
-                          <Sort />
-                        )}
-                      </span>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()} className={styles["contact-table"]}>
-            {rows.map((row, i) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>
-                        <div className={styles["tb-cell"]}>
-                          {cell.render("Cell")}
-                        </div>
-                      </td>
-                    );
-                  })}
+                            <Sort />
+                          )}
+                        </span>
+                      </div>
+                    </th>
+                  ))}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {data.length > pageSize && (
-          <button onClick={handleSeeMore} className={styles.seeMore}>
-            See More
-          </button>
-        )}
-        <div className={styles.paginationResultsDisplay}>
-          {`Showing ${rows.length} of ${data.length} Permissions`}
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()} className={styles["contact-table"]}>
+              {rows.map((row, i) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => {
+                      return (
+                        <td {...cell.getCellProps()}>
+                          <div className={styles["tb-cell"]}>
+                            {cell.render("Cell")}
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {data.length > pageSize && (
+            <button onClick={handleSeeMore} className={styles.seeMore}>
+              See More
+            </button>
+          )}
+          <div className={styles.paginationResultsDisplay}>
+            {`Showing ${rows.length} of ${data.length} Permissions`}
+          </div>
         </div>
-      </div>
+      )}
     </Container>
   );
 }
