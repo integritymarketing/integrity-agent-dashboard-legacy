@@ -7,17 +7,19 @@ import styles from "./ActiveSellingPermissionFilter.module.scss";
 
 const FILTER_OPTIONS = ["Carrier", "State", "PlanType"];
 
-const YEAR_OPTIONS = ["2022", "2023"];
-
-const Pills = ({ items }) => {
+const Pills = ({ planYear, handleYearfilter, selectedYr }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleItemClick = (item) => {
     const index = selectedItems.indexOf(item);
     if (index === -1) {
-      setSelectedItems([...selectedItems, item]);
+      const newItems = [...selectedItems, item];
+      setSelectedItems(newItems);
+      handleYearfilter(newItems);
     } else {
-      setSelectedItems(selectedItems.filter((i) => i !== item));
+      const newItems = selectedItems.filter((i) => i !== item);
+      setSelectedItems(newItems);
+      handleYearfilter(newItems);
     }
   };
 
@@ -25,14 +27,14 @@ const Pills = ({ items }) => {
     <>
       <div className={styles.yearLabel}>Plan Year</div>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {items.map((item, index) => (
+        {planYear.map((item, index) => (
           <div
             key={index}
             onClick={() => handleItemClick(item)}
             className={styles.yearOptionsList}
           >
             {item}
-            {selectedItems.includes(item) && (
+            {selectedYr[item] && (
               <span>
                 <Check />
               </span>
@@ -112,6 +114,7 @@ const defaultFilters = {
   State: {},
   Carrier: {},
   PlanType: {},
+  PlanYear: {},
 };
 
 export default ({ onSubmit, filterOptions }) => {
@@ -123,6 +126,7 @@ export default ({ onSubmit, filterOptions }) => {
   const carriers = filterOptions.Carrier;
   const states = filterOptions?.State?.sort();
   const planTypes = filterOptions.PlanType;
+  const planYear = filterOptions.PlanYear;
 
   useEffect(() => {
     const closeFilters = (event) => {
@@ -151,6 +155,18 @@ export default ({ onSubmit, filterOptions }) => {
   const handleOnApply = () => {
     onSubmit && onSubmit(filters);
     setFilterOpen(false);
+  };
+
+  const handleYearfilter = (option, activeTab = "PlanYear") => {
+    setFilters((filters) => {
+      return {
+        ...filters,
+        [activeTab]: {
+          ...filters[activeTab],
+          [option]: !Boolean(filters[activeTab][option]),
+        },
+      };
+    });
   };
 
   const handleOptionClick = (option) => {
@@ -211,7 +227,11 @@ export default ({ onSubmit, filterOptions }) => {
             </div>
 
             <div>
-              <Pills items={YEAR_OPTIONS} />
+              <Pills
+                handleYearfilter={handleYearfilter}
+                planYear={planYear}
+                selectedYr={filters.PlanYear}
+              />
             </div>
 
             <div>

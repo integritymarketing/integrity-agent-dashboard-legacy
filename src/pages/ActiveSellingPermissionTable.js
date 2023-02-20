@@ -128,11 +128,12 @@ export default function ActiveSellingPermissionTable({ npn }) {
   const filterOptions = useMemo(
     () =>
       agents.reduce((acc, row) => {
-        const { carrier, planType, state } = row;
+        const { carrier, planType, planYear, state } = row;
         return {
           Carrier: uniqValues([carrier, ...(acc?.Carrier ?? [])]),
           State: uniqValues([state, ...(acc?.State ?? [])]),
           PlanType: uniqValues([planType, ...(acc?.PlanType ?? [])]),
+          PlanYear: uniqValues([planYear, ...(acc?.PlanYear ?? [])]),
         };
       }, {}),
     [agents]
@@ -237,10 +238,13 @@ function Table({
         ...Object.keys(filters?.PlanType ?? {}).filter(
           (id) => (filters?.PlanType || {})[id]
         ),
+        ...Object.keys(filters?.PlanYear ?? {}).filter(
+          (id) => (filters?.PlanYear || {})[id]
+        ),
       ].length > 0;
     const filteredData = shouldApplyFilters
       ? data.filter((row) => {
-          const { states, carrier, planTypes } = row;
+          const { states, carrier, planTypes, planYear } = row;
           const isStateMatched =
             states.filter((state) => (filters?.State ?? {})[state]).length > 0;
           if (isStateMatched) return true;
@@ -249,6 +253,7 @@ function Table({
             planTypes.filter((planType) => (filters?.PlanType ?? {})[planType])
               .length > 0;
           if (isPlantypeMatched) return true;
+          if ((filters?.PlanYear || {})[planYear]) return true;
 
           return false;
         })

@@ -579,6 +579,10 @@
     padding: 22px 21px;
     background-color: #f4f8fb;
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.18);
+
+    @media (max-width: 480px) { 
+      padding: 22px 24px;
+    }
   }
 
   & .filterTitleSection {
@@ -778,6 +782,10 @@
       font-weight: 600;
       font-size: 14px;
       line-height: 17px;
+
+      @media (max-width: 480px) { 
+        width: 50%;
+      }
     }
     & .applyButton {
       background: #0052ce;
@@ -792,6 +800,10 @@
       font-size: 14px;
       line-height: 17px;
       color: #fff;
+
+      @media (max-width: 480px) { 
+        width: 50%;
+      }
     }
   }
 }
