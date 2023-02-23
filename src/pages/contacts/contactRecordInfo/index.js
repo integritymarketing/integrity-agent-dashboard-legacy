@@ -27,6 +27,9 @@ import { Button } from "components/ui/Button";
 import SOAicon from "components/icons/soa";
 import ScopeOfAppointment from "./soaList/ScopeOfAppointment";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
+import AddZip from "./modals/AddZip";
+import { STATES } from "utils/address";
+import { debounce } from "debounce";
 
 export default () => {
   const { contactId: id } = useParams();
@@ -41,6 +44,12 @@ export default () => {
   const [display, setDisplay] = useState("OverView");
   const [menuToggle, setMenuToggle] = useState(false);
   const [isEdit, setEdit] = useState(false);
+  const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
+  const [allCounties, setAllCounties] = useState([]);
+  const [allStates, setAllStates] = useState([]);
+  const [county, setCounty] = useState("");
+  const [countyError, setCountyError] = useState(false);
+  const [submitEnable, setSubmitEnable] = useState(false);
   const { setCurrentPage } = useContext(BackNavContext);
   const history = useHistory();
 
@@ -161,12 +170,98 @@ export default () => {
 
   const isLoad = loading;
 
+  const handleZipDetails = () => {
+    if (!personalInfo?.addresses?.[0]?.postalCode) {
+      setisZipAlertOpen(true);
+    }
+  };
+
+  const fetchCounties = async (zipcode) => {
+    if (zipcode) {
+      const countiesList = await fetchCounty(zipcode);
+      setAllCounties([...(countiesList?.all_Counties || [])]);
+      setAllStates([...(countiesList?.all_States || [])]);
+      setSubmitEnable(false);
+    } else {
+      setAllCounties([]);
+      setAllStates([]);
+      setSubmitEnable(false);
+    }
+  };
+
+  const debounceZipFn = useCallback(debounce(fetchCounties, 1000), []);
+
+  const handleZipCode = (zipcode) => {
+    //setZipCode(zipcode);
+    setSubmitEnable(true);
+    debounceZipFn(zipcode);
+  };
+
+  const fetchCounty = async (zipcode) => {
+    const counties = (await clientsService.getCounties(zipcode)) || [];
+    const all_Counties = counties?.map((county) => ({
+      value: county.countyName,
+      label: county.countyName,
+      key: county.countyFIPS,
+    }));
+    let uniqueStates = [...new Set(counties.map((a) => a.state))];
+    const all_States = uniqueStates?.map((state) => {
+      let stateName = STATES.filter((a) => a.value === state);
+      return {
+        label: stateName[0]?.label,
+        value: state,
+      };
+    });
+    console.log("all_Counties", all_Counties);
+    console.log("all_States", all_States);
+    return { all_Counties, all_States };
+  };
+
+  const updateCounty = async (county, fip, zip, state) => {
+    await clientsService
+      .updateLeadCounty(personalInfo, county, fip, zip, state)
+      .then(() => {
+        window.location.reload(true);
+      });
+  };
+
+  const updateZip = async (zip) => {
+    const response = await clientsService.updateLeadZip(personalInfo, zip);
+    return response;
+  };
+
+  const handleUpdateZip = async (zip) => {
+    if (allCounties.length === 1) {
+      const response = await updateZip(zip);
+      if (response) {
+        updateCounty(
+          allCounties[0].value,
+          allCounties[0].key,
+          zip,
+          allStates[0]?.value
+        );
+      }
+    } else {
+      if (county) {
+        const response = await updateZip(zip);
+        if (response) {
+          const fip = allCounties.filter((item) => item.value === county)[0]
+            ?.key;
+          const state = allStates[0]?.value;
+          updateCounty(county, fip, zip, state);
+        }
+      } else {
+        setCountyError(true);
+      }
+    }
+  };
+
   const handleViewPlans = (isMobile) => {
-    const county = personalInfo?.addresses?.[0]?.county;
-    const stateCode = personalInfo?.addresses?.[0]?.stateCode;
+    // const county = personalInfo?.addresses?.[0]?.county;
+    // const stateCode = personalInfo?.addresses?.[0]?.stateCode;
     const postalCode = personalInfo?.addresses?.[0]?.postalCode;
     const type = isMobile ? "secondary" : "primary";
-    if (county && postalCode && stateCode) {
+    if (postalCode) {
       return (
         <Button
           label="View Available Plans"
@@ -179,7 +274,8 @@ export default () => {
         <Button
           label="Add State/Zip to view plans"
           type="primary"
-          disabled={true}
+          disabled={false}
+          onClick={handleZipDetails}
         />
       );
   };
@@ -366,6 +462,24 @@ export default () => {
           </StageStatusProvider>
         </WithLoader>
       </ToastContextProvider>
+      <AddZip
+        isOpen={isZipAlertOpen}
+        onClose={() => setisZipAlertOpen(false)}
+        updateZip={handleUpdateZip}
+        address={[
+          personalInfo?.addresses?.[0]?.address1,
+          personalInfo?.addresses?.[0]?.address2,
+          personalInfo?.addresses?.[0]?.stateCode,
+        ]
+          .filter(Boolean)
+          .join(", ")}
+        handleZipCode={handleZipCode}
+        allCounties={allCounties}
+        county={county}
+        setCounty={setCounty}
+        countyError={countyError}
+        submitEnable={submitEnable}
+      />
     </React.Fragment>
   );
 };

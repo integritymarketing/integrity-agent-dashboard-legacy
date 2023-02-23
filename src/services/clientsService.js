@@ -1062,7 +1062,7 @@ export class ClientsService {
     return response?.json();
   };
 
-  updateLeadCounty = async (contact, county, fips) => {
+  updateLeadCounty = async (contact, county, fips, zip, state) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
       "PUT",
@@ -1083,8 +1083,8 @@ export class ClientsService {
             address1: contact.addresses[0].address1,
             address2: contact.addresses[0].address2,
             city: contact.addresses[0].city,
-            stateCode: contact.addresses[0].stateCode,
-            postalCode: contact.addresses[0].postalCode,
+            stateCode: state ? state : contact.addresses[0].stateCode,
+            postalCode: zip ? zip : contact.addresses[0].postalCode,
             county: county,
             countyFips: fips,
             createDate: contact.addresses[0].createDate,

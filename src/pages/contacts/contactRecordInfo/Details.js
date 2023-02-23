@@ -259,8 +259,8 @@ export default forwardRef((props, ref) => {
                       }`}
                       &nbsp;
                       {`${
-                        item?.addresses[0]?.state
-                          ? item?.addresses[0]?.state + ","
+                        item?.addresses[0]?.stateCode
+                          ? item?.addresses[0]?.stateCode + ","
                           : ""
                       }`}
                       &nbsp;
