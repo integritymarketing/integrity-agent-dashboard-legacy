@@ -32,6 +32,7 @@ export default function BasicModal({
   callForwardNumber,
   getAgentAvailability,
   checkInPreference = false,
+  hideModalHeader = false,
 }) {
   const { agentid = "" } = user || {};
   const [activeModal, setActiveModal] = useState("main");
@@ -125,7 +126,7 @@ export default function BasicModal({
             {activeModal === "callCenter" && (
               <ModalContactText virtualNumber={virtualNumber} />
             )}
-            {activeModal === "main" && (
+            {activeModal === "main" && !hideModalHeader && (
               <ModalText checkInPreference={checkInPreference} />
             )}
             {activeModal === "leadType" && <LeadText title={"Lead Type"} />}

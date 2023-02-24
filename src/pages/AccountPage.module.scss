@@ -27,6 +27,23 @@
   }
 }
 
+.sectionOne{
+  width:40%;
+  @media (max-width: 480px) {
+    width: 90%;
+    margin:auto;
+  }
+}
+
+.sectionTwo{
+  width:40%;
+  @media (max-width: 480px) {
+    width: 90%;
+    margin:auto;
+    margin-top: 30px;
+  }
+}
+
 .accontCard {
   background: $white;
   border-radius: 8px;
@@ -43,9 +60,10 @@
 
 .headingText {
   max-width: 360px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   margin-top: 3rem;
-  font-weight: normal;
+  font-weight: normal !important;
+  font-size: 32px !important;
 }
 
 .accountPageContainer {
@@ -62,5 +80,53 @@
 
   @media (max-width: 480px) {
     margin-right: initial;
+  }
+}
+.detailSection{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    margin: auto;
+}
+
+.sectionContianer{
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin: auto;
+  @media (max-width: 480px) {
+    width: 100%
+  }
+}
+
+.sectionBody {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+ .customLabel label{
+  font-size: 16px;
+  color: #000000;
+}
+
+.submitSection{
+  display: flex;
+  justify-content: flex-end;
+  .submitButton{
+    background-color: #0052CE;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &[disabled],
+    &--disabled {
+      background: var(--v2-disabled-button);
+      color: var(--v2-disabled-button-text);
+      cursor: not-allowed;
+    }
   }
 }
