@@ -212,8 +212,6 @@ export default () => {
         value: state,
       };
     });
-    console.log("all_Counties", all_Counties);
-    console.log("all_States", all_States);
     return { all_Counties, all_States };
   };
 
