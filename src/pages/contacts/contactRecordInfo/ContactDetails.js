@@ -23,6 +23,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     contactPreferences,
     contactRecordType = "prospect",
   } = personalInfo;
+  // eslint-disable-next-line no-unused-vars
   const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
   const [isCountyAlertOpen, setisCountyAlertOpen] = useState(false);
 
@@ -223,7 +224,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
         </div>
       </div>
       <AddZip
-        isOpen={isZipAlertOpen}
+        isOpen={false}
         onClose={() => setisZipAlertOpen(false)}
         updateZip={updateZip}
         address={
@@ -233,7 +234,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
         }
       />
       <AddCounty
-        isOpen={isCountyAlertOpen}
+        isOpen={false}
         onClose={() => setisCountyAlertOpen(false)}
         options={allCounties}
         allStates={allStates}

@@ -122,10 +122,21 @@
   background-color: #ffffff;
   border-radius: 8px;
 }
-.copy {
+.copy, .copied {
   width: 32px;
   height: 32px;
   padding: 9px;
-  background-color: #2175f41a;
   border-radius: 9999px;
+}
+
+.copy {
+  background-color: #2175f41a;
+}
+
+.copied {
+  background-color: rgb(173, 173, 194);
+}
+
+.disabled {
+  background-color: rgb(173, 173, 194);
 }

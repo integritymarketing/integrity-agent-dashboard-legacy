@@ -1,17 +1,32 @@
 import React from "react";
 import { useState } from "react";
 import Styles from "./AddZip.module.scss";
+import { Select } from "components/ui/Select";
 
-export default function AddZip({ isOpen, onClose, updateZip, address }) {
+export default function AddZip({
+  isOpen,
+  onClose,
+  updateZip,
+  address,
+  handleZipCode = () => {},
+  allCounties = [],
+  county = "",
+  setCounty = () => {},
+  countyError = false,
+  submitEnable = false,
+}) {
   const [inputZip, setInputZip] = useState("");
+  const [copied, setCopied] = useState(false);
+
   function handleSubmit(e) {
     e.preventDefault();
     updateZip(inputZip);
-    onClose();
+    //onClose();
   }
+
   return (
     <div>
-      {isOpen && false && (
+      {isOpen && (
         <div className={Styles.modalContainer}>
           <div className={Styles.modal}>
             <p className={Styles.modalTitle}>Zip Code</p>
@@ -38,8 +53,11 @@ export default function AddZip({ isOpen, onClose, updateZip, address }) {
               <div className={Styles.addressWrapper}>
                 <p className="">{address}</p>
                 <button
-                  className={Styles.copy}
-                  onClick={() => navigator.clipboard.writeText(address)}
+                  className={copied ? Styles.copied : Styles.copy}
+                  onClick={() => {
+                    navigator.clipboard.writeText(address);
+                    setCopied(true);
+                  }}
                 >
                   <img src="/images/Clipboard.svg" alt="" />
                 </button>
@@ -60,13 +78,40 @@ export default function AddZip({ isOpen, onClose, updateZip, address }) {
                     .toString()
                     .slice(0, 5);
                   setInputZip(e.target.value);
+                  handleZipCode(e.target.value);
                 }}
               />
+
+              {allCounties?.length > 1 && (
+                <div>
+                  <label
+                    className="custom-label-county label"
+                    htmlFor="county-label"
+                  >
+                    County
+                  </label>
+                  <Select
+                    placeholder="select"
+                    options={allCounties}
+                    initialValue={county}
+                    onChange={(value) => setCounty(value)}
+                    showValueAlways={true}
+                    error={countyError}
+                  />
+                </div>
+              )}
+
               <div className={Styles.buttonWrapper}>
                 {/* <button className={Styles.cancel} onClick={onClose}>
                   Cancel
                 </button> */}
-                <button type="submit" className={Styles.submit}>
+                <button
+                  type="submit"
+                  className={`${Styles.submit} ${
+                    submitEnable ? Styles.disabled : ""
+                  }`}
+                  disabled={submitEnable}
+                >
                   Continue
                 </button>
               </div>

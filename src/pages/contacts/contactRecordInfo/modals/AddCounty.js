@@ -10,6 +10,7 @@ export default function AddCounty({
   updateCounty,
 }) {
   const [county, setCounty] = useState();
+  const [copied, setCopied] = useState(false);
   function handleSubmit(e) {
     e.preventDefault();
     const fip = options.filter((item) => item.value === county)[0]?.key;
@@ -47,8 +48,11 @@ export default function AddCounty({
               <div className={Styles.addressWrapper}>
                 <p className="">{address}</p>
                 <button
-                  className={Styles.copy}
-                  onClick={() => navigator.clipboard.writeText(address)}
+                  className={copied ? Styles.copied : Styles.copy}
+                  onClick={() => {
+                    navigator.clipboard.writeText(address);
+                    setCopied(true);
+                  }}
                 >
                   <img src="/images/Clipboard.svg" alt="" />
                 </button>
