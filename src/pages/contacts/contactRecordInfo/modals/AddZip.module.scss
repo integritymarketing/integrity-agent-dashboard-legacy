@@ -13,7 +13,7 @@
   background-color: #051d43b3;
 }
 .modal {
-  width: 30%;
+  width: 550px;
   border-radius: 8px;
   background-color: #f4f8fb;
   box-shadow: 0px 0px 6px #00000029;
@@ -94,14 +94,10 @@
   color: #ffffff;
   font-size: 16px;
   font-weight: 500;
-  margin-top: 8px;
+  margin-bottom: 30px;
   border-radius: 4px;
   position: relative;
-  left: 14%;
-
-  @media (max-width: 480px) {
-    left: 8%;
-  }
+  right: 6%;
 }
 .submit:hover {
   background-color: #2175f4;
