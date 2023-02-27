@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
 import styles from "./Activities.module.scss";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 
 const initialState = {
   sortBy: [
@@ -52,7 +53,10 @@ const renderButtons = (activity, handleClick) => {
         className={styles.activityDataCell}
         onClick={(e) => handleClick(activitySubject, activityInteractionURL)}
       >
-        <ActivityButtonIcon activitySubject={activitySubject} route="contactDetail" />
+        <ActivityButtonIcon
+          activitySubject={activitySubject}
+          route="contactDetail"
+        />
         <Typography color="#434A51" fontSize={"16px"} noWrap>
           {buttonTextByActivity[activitySubject]}
         </Typography>
@@ -184,16 +188,16 @@ export default function ActivitiesTable({
           </>
         ),
       },
-      /*       { 
+      {
         id: "more",
         disableSortBy: true,
         Header: "",
         Cell: ({ row }) => (
-          false && <span onClick={() => onActivityClick(row?.original)}>
+          <span onClick={() => onActivityClick(row?.original)}>
             <MoreHorizOutlinedIcon />
           </span>
         ),
-      }, */
+      },
     ],
     [onActivityClick, handleClick, setEditActivity, handleDeleteActivity]
   );

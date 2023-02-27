@@ -59,7 +59,7 @@ export default function ClientNotes(props) {
           ) : (
             <div className="client-notes-edit">
               <textarea
-                style={{ resize: "none" }}
+                style={{ width: "100%" }}
                 placeholder="Write client notes here..."
                 value={value}
                 onChange={handleOnChange}

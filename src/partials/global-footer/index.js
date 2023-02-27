@@ -11,7 +11,7 @@ export default ({ className = "", hideMedicareIcon, ...props }) => {
   const hideMedicareTag = !hideMedicareIcon;
   return (
     <footer
-      className={`global-footer text-muted pt-5 ${className}`}
+      className={`global-footer text-muted  ${className}`}
       data-gtm="footer-wrapper"
       {...props}
     >

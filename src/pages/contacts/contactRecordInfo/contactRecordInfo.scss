@@ -578,8 +578,9 @@
 }
 .reminderCardSection2row2 {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
 }
 .reminderCardSection2row2left .alertText {
   font-family: "Lato", sans-serif;
@@ -593,20 +594,23 @@
   font-size: 16px;
   color: #70777e;
 }
+.completeBTN-container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 .complete-btn {
   background: var(--v2-royal-blue);
   border-radius: 4px;
   border: 1px solid var(--v2-royal-blue);
-  width: 80px;
+  width: 17%;
   height: 32px;
   color: #fff !important;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  float: right;
   font-family: "Lato", sans-serif;
-  font-weight: 700;
+  font-weight: bold;
 }
 .ClientCardSection2 p {
   font-size: 16px;
@@ -1508,7 +1512,12 @@ button {
   .scope-of-app-row-section2 {
     flex-direction: column;
   }
-  .complete-btn,
+  .complete-btn {
+    width: 35% !important;
+    margin-top: 27px;
+   
+  }
+ 
   .view---btn {
     width: 100% !important;
     margin-top: 27px;
@@ -1648,6 +1657,7 @@ button {
   .rightSection {
     width: 100%;
     margin: 0;
+    padding: 20px;
   }
   .leftcardmenu {
     float: none;
@@ -1708,9 +1718,7 @@ button {
     height: 80px;
     align-items: center;
   }
-  .reminderCardSection2row2 {
-    justify-content: flex-start;
-  }
+  
   .reminderCardSection2 {
     margin: 22px 20px;
   }
@@ -2297,3 +2305,17 @@ button {
 .client-notes {
   white-space: pre-line;
 }
+
+.footerContainer {
+  display: flex;
+  justify-content: center;  
+}
+
+.details-card-main   {
+  background-color: #f4f8fb;
+
+  @media (min-width: 480px) {
+    padding-top: 30px;
+  }
+}
+ 
