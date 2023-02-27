@@ -26,12 +26,19 @@ export default () => {
   const auth = useContext(AuthContext);
 
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
+  useEffect(() => {
+    let version = params.get("Version");
+    if (!version) {
+      history.push("mobile-app-update");
+    }
+  }, []);
 
   useEffect(() => {
     async function checkForExtrnalLogin() {
       const params1 = new URLSearchParams(
         new URL(params.get("ReturnUrl")).search
       );
+
       let clientId = params1.get("client_id");
       if (clientId === "AgentMobile") {
         setMobileAppLogin(true);
@@ -223,7 +230,7 @@ export default () => {
                             to="/forgot-password"
                             className="text-sm link text-bold"
                           >
-                            Forgot Password?
+                            Forgot dsdsdsdPassword?
                           </Link>
                         </div>
                       }
