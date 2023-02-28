@@ -23,7 +23,7 @@ import NewEmailPage from "pages/auth/NewEmailPage";
 import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
 import ContactSupport from "pages/auth/ContactSupport";
 import ContactSupportInvalidNPN from "pages/auth/ContactSupportInvalidNPN";
-
+import UpdateMobileApp from "pages/auth/UpdateMobileApp";
 import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
 import authService from "services/authService";
@@ -102,7 +102,9 @@ const AuthApp = () => {
                   <Route exact path="/contact-support-invalid-npn/:npnId">
                     <ContactSupportInvalidNPN />
                   </Route>
-
+                  <Route exact path="/mobile-app-update">
+                    <UpdateMobileApp />
+                  </Route>
                   <Route
                     path="*"
                     component={() => {
