@@ -32,7 +32,7 @@ export default () => {
     if (!version) {
       history.push("/mobile-app-update");
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     async function checkForExtrnalLogin() {
