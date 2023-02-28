@@ -28,12 +28,13 @@ export default () => {
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
+    debugger;
     const params1 = new URLSearchParams(
       new URL(params.get("ReturnUrl")).search
     );
 
     let clientId = params1.get("client_id");
-    let version = params.get("Version");
+    let version = params1.get("Version");
     if (!version && clientId === "AgentMobile") {
       history.push("/mobile-app-update");
     }
