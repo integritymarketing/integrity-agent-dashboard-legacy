@@ -467,6 +467,7 @@ export default () => {
         address={[
           personalInfo?.addresses?.[0]?.address1,
           personalInfo?.addresses?.[0]?.address2,
+          personalInfo?.addresses?.[0]?.city,
           personalInfo?.addresses?.[0]?.stateCode,
         ]
           .filter(Boolean)

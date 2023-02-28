@@ -103,22 +103,22 @@ export default function AddZip({
                     />
                   </div>
                 )}
-
-                <div className={Styles.buttonWrapper}>
-                  {/* <button className={Styles.cancel} onClick={onClose}>
+              </form>
+            </div>
+            <div className={Styles.buttonWrapper}>
+              {/* <button className={Styles.cancel} onClick={onClose}>
                   Cancel
                 </button> */}
-                  <button
-                    type="submit"
-                    className={`${Styles.submit} ${
-                      submitEnable ? Styles.disabled : ""
-                    }`}
-                    disabled={submitEnable}
-                  >
-                    Continue
-                  </button>
-                </div>
-              </form>
+              <button
+                type="submit"
+                className={`${Styles.submit} ${
+                  submitEnable ? Styles.disabled : ""
+                }`}
+                disabled={submitEnable}
+                onClick={handleSubmit}
+              >
+                Continue
+              </button>
             </div>
           </div>
         </div>
