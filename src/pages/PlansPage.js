@@ -125,17 +125,30 @@ export default () => {
   const query = useQuery();
   const showSelected = query && query.get("preserveSelected");
   const jsonStr = sessionStorage.getItem("__plans__");
+
   const {
     plans: initialPlans,
     effectiveDate: initialEffectiveDate,
     planType: initialPlanType,
     s_options,
   } = jsonStr ? JSON.parse(jsonStr) : {};
+
   const initialeffDate =
     showSelected && initialEffectiveDate
       ? new Date(initialEffectiveDate)
       : getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
+
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
+
+  const { hasRole } = useRoles();
+  const nonRTS_USER = hasRole(Roles.NonRts);
+
+  const MY_APPOINTED_PLANS = nonRTS_USER
+    ? false
+    : showSelected
+    ? s_options?.s_myAppointedPlans
+    : true;
+
   const history = useHistory();
   const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
@@ -143,9 +156,7 @@ export default () => {
   const [loading, setLoading] = useState(true);
   const [plansLoading, setPlansLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [myAppointedPlans, setMyAppointedPlans] = useState(
-    showSelected ? s_options?.s_myAppointedPlans : true
-  );
+  const [myAppointedPlans, setMyAppointedPlans] = useState(false);
   const [section, setSection] = useState("details");
   const [sort, setSort] = useState(
     showSelected ? s_options?.s_sort : PLAN_SORT_OPTIONS[0].value
@@ -165,8 +176,9 @@ export default () => {
     }, {})
   );
 
-  const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  useEffect(() => {
+    setMyAppointedPlans(MY_APPOINTED_PLANS);
+  }, [nonRTS_USER]);
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -613,6 +625,7 @@ export default () => {
                                 ? specialNeedsFilter_mobile
                                 : specialNeedsFilter
                             }
+                            nonRTS_USER={nonRTS_USER}
                           />
                         )}
                       </div>
