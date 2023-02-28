@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NonRTS_Modal } from "packages/NonRTS-Modal";
+import { NonRTSModal } from "packages/NonRTS-Modal";
 import styles from "./styles.module.scss";
 
 const NonRTSBanner = () => {
@@ -19,7 +19,7 @@ const NonRTSBanner = () => {
           </div>
         </div>
       </div>
-      <NonRTS_Modal modalOpen={open} handleClose={() => setOpen(false)} />
+      <NonRTSModal modalOpen={open} handleClose={() => setOpen(false)} />
     </>
   );
 };

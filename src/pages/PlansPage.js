@@ -178,7 +178,7 @@ export default () => {
 
   useEffect(() => {
     setMyAppointedPlans(MY_APPOINTED_PLANS);
-  }, [nonRTS_USER]);
+  }, [nonRTS_USER, MY_APPOINTED_PLANS]);
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);

@@ -4,7 +4,7 @@ import Heading3 from "packages/Heading3";
 import styles from "./styles.module.scss";
 import { Typography } from "@mui/material";
 
-export const NonRTS_Modal = ({ modalOpen, handleClose }) => {
+export const NonRTSModal = ({ modalOpen, handleClose }) => {
   const modalContent = () => {
     return (
       <>

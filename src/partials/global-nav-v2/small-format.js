@@ -5,7 +5,6 @@ import useUserProfile from "hooks/useUserProfile";
 import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import useRoles, { Roles } from "hooks/useRoles";
-import { classNames } from "packages/ClassNames/indes";
 
 const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLink"];
 
@@ -15,15 +14,12 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const { hasRole } = useRoles();
   const nonRTS_USER = hasRole(Roles.NonRts);
 
-  const nonRTS_Props = {
-    class: "disabledCursor",
-  };
-
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", navOpen);
 
     return () => document.body.classList.remove("disable-scroll");
   }, [navOpen]);
+
   useEffect(() => {
     const closeDropDown = (event) => {
       if (!event.target.closest(".link")) {
