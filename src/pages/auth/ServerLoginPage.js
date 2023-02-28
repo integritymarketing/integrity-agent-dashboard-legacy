@@ -28,8 +28,13 @@ export default () => {
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
+    const params1 = new URLSearchParams(
+      new URL(params.get("ReturnUrl")).search
+    );
+
+    let clientId = params1.get("client_id");
     let version = params.get("Version");
-    if (!version) {
+    if (!version && clientId === "AgentMobile") {
       history.push("/mobile-app-update");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
