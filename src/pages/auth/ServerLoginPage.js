@@ -26,10 +26,11 @@ export default () => {
   const auth = useContext(AuthContext);
 
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
+
   useEffect(() => {
     let version = params.get("Version");
     if (!version) {
-      history.push("mobile-app-update");
+      history.push("/mobile-app-update");
     }
   }, []);
 

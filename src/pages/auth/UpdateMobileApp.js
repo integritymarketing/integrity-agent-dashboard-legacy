@@ -7,8 +7,20 @@ import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
+import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 
 export default () => {
+  const device = useDeviceInfo();
+  const updateMobile = () => {
+    if (device === DEVICES.ANDROID) {
+      window.open(
+        "https://play.google.com/store/apps/details?id=com.medicarecenter"
+      );
+    }
+    if (device === DEVICES.IOS) {
+      window.open("https://apps.apple.com/us/app/medicarecenter/id1623328763");
+    }
+  };
   return (
     <React.Fragment>
       <Helmet>
@@ -25,7 +37,9 @@ export default () => {
             Please download the latest version of the app in order to continue.
           </Box>
           <div className={Styles.buttonContainer}>
-            <button className={Styles.submitButton}>Update</button>
+            <button className={Styles.submitButton} onClick={updateMobile}>
+              Update
+            </button>
           </div>
         </ContainerUnAuthenticated>
         <FooterUnAuthenticated />
