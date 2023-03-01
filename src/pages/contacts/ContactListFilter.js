@@ -267,7 +267,7 @@ export default () => {
                       hasReminder: !filters?.hasReminder,
                     }))
                   }
-                  defaultChecked={filters?.hasReminder}
+                  checked={filters?.hasReminder}
                 />
               </div>
             </div>
