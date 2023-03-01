@@ -14,7 +14,8 @@ export default () => {
     const fetchRoles = async () => {
       const { access_token } = await authService.getUser();
       const data = authService.parseJwt(access_token);
-      const rolesMap = new Map((data.roles || []).map((role) => [role, role]));
+      const roles = typeof data.roles === "string" ? [data.roles] : data.roles;
+      const rolesMap = new Map((roles || []).map((role) => [role, role]));
       setRoles(rolesMap);
     };
     fetchRoles();
