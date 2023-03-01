@@ -172,8 +172,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               img: MobileAccount,
             },
             {
-              component: "Link",
+              component: "button",
               props: {
+                type: "button",
                 onClick: () => auth.logout(),
               },
               label: "Sign out",
@@ -190,8 +191,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               img: NeedHelp,
             },
             {
-              component: "Link",
+              component: "button",
               props: {
+                type: "button",
                 onClick: () => {
                   handleCSGSSO(history, loadingHook);
                 },
@@ -199,8 +201,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "CSG App",
             },
             {
-              component: "Link",
+              component: "button",
               props: {
+                type: "button",
                 onClick: () => {
                   window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
                 },
@@ -208,8 +211,9 @@ export default ({ menuHidden = false, className = "", ...props }) => {
               label: "MedicareLink",
             },
             {
-              component: "Link",
+              component: "button",
               props: {
+                type: "button",
                 onClick: () => {
                   window.open(
                     process.env.REACT_APP_AUTH_AUTHORITY_URL +

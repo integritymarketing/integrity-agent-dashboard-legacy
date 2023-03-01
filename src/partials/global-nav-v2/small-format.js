@@ -4,14 +4,22 @@ import ExitIcon from "components/icons/exit";
 import useUserProfile from "hooks/useUserProfile";
 import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
+import useRoles, { Roles } from "hooks/useRoles";
+
+const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLink"];
+
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
+
+  const { hasRole } = useRoles();
+  const nonRTS_USER = hasRole(Roles.NonRts);
 
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", navOpen);
 
     return () => document.body.classList.remove("disable-scroll");
   }, [navOpen]);
+
   useEffect(() => {
     const closeDropDown = (event) => {
       if (!event.target.closest(".link")) {
@@ -56,6 +64,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
                 const { className = "", ...props } = link.props || {};
+
                 return (
                   <li className="mt-3 ml-3" key={idx}>
                     <link.component
@@ -78,7 +87,11 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
             {secondary
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
-                const { className = "", ...props } = link.props || {};
+                let { className = "", ...props } = link.props || {};
+                if (nonRTS_USER && nonRTS_DisableLinks.includes(link.label)) {
+                  className = `${className} disabledEvents`;
+                }
+
                 return (
                   <li className="mt-3 ml-2" key={idx}>
                     <link.component
