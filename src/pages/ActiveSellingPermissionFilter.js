@@ -68,7 +68,6 @@ const ListOptions = ({
           ? styles.carrier
           : ""
       }`}
-      style={{ height: `${window.innerHeight / 2 - 200}px` }}
     >
       <div className={styles.oddList}>
         {oddList.map((option) => (
@@ -249,18 +248,18 @@ export default ({ onSubmit, filterOptions }) => {
                 ))}
               </ul>
 
-              <div>
+              <div className={styles.listWrapper}>
                 <ListOptions {...getListOptionParams()} />
               </div>
             </div>
-            <div className={styles.filterButton}>
-              <button className={styles.resetButton} onClick={resetFilters}>
-                Reset
-              </button>
-              <button className={styles.applyButton} onClick={handleOnApply}>
-                Apply
-              </button>
-            </div>
+          </div>
+          <div className={styles.filterButton}>
+            <button className={styles.resetButton} onClick={resetFilters}>
+              Reset
+            </button>
+            <button className={styles.applyButton} onClick={handleOnApply}>
+              Apply
+            </button>
           </div>
         </div>
       )}

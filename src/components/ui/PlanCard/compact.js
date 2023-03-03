@@ -6,6 +6,7 @@ import Popover from "components/ui/Popover";
 import ShareIcon from "components/icons/vector";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Info from "components/icons/info-blue";
+import useRoles, { Roles } from "hooks/useRoles";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -23,6 +24,9 @@ const CompactPlanCard = ({
   onlyButtons = false,
 }) => {
   const { documents } = planData;
+  const { hasRole } = useRoles();
+  const nonRTS_USER = hasRole(Roles.NonRts);
+
   const buttons = (
     <div className={`footer ${isMobile ? "mobile" : ""}`}>
       {documents === null || documents?.length === 0 ? (
@@ -48,7 +52,8 @@ const CompactPlanCard = ({
           type="secondary"
         />
       )}
-      {!planData.nonLicensedPlan && (
+
+      {!planData.nonLicensedPlan && !nonRTS_USER && (
         <Button label={"Enroll"} onClick={() => onEnrollClick(planData.id)} />
       )}
     </div>

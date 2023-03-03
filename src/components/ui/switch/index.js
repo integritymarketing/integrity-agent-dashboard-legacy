@@ -24,9 +24,9 @@ function Switch({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        defaultChecked={defaultChecked}
+        checked={checked}
       />
-      <span class="slider round"></span>
+      <span className="slider round"></span>
     </label>
   );
 }

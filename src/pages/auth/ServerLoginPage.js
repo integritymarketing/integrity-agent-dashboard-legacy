@@ -28,10 +28,27 @@ export default () => {
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
+    const params1 = new URLSearchParams(
+      new URL(params.get("ReturnUrl")).search
+    );
+
+    const feature_toggle =
+      process.env.REACT_APP_MOBILE_UPDATE === "yes" ? true : false;
+
+    let clientId = params1.get("client_id");
+    let version = params1.get("Version");
+
+    if (feature_toggle && !version && clientId === "AgentMobile") {
+      history.push("/mobile-app-update");
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     async function checkForExtrnalLogin() {
       const params1 = new URLSearchParams(
         new URL(params.get("ReturnUrl")).search
       );
+
       let clientId = params1.get("client_id");
       if (clientId === "AgentMobile") {
         setMobileAppLogin(true);

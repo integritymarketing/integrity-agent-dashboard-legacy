@@ -363,3 +363,11 @@
   margin-right: 10px;
   width: 25px;
 }
+
+.disabledCursor { 
+  cursor: not-allowed;
+ }
+ 
+.disabledEvents { 
+  pointer-events: none;
+ }
