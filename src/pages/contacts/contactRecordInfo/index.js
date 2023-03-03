@@ -21,8 +21,6 @@ import OverView from "./Overview";
 import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
-import ArrowdownIcon from "components/icons/menu-arrow-down";
-import ArrowupIcon from "components/icons/menu-arrow-up";
 import { Button } from "components/ui/Button";
 import SOAicon from "components/icons/soa";
 import ScopeOfAppointment from "./soaList/ScopeOfAppointment";
@@ -260,17 +258,15 @@ export default () => {
     }
   };
 
-  const handleViewPlans = (isMobile) => {
-    // const county = personalInfo?.addresses?.[0]?.county;
-    // const stateCode = personalInfo?.addresses?.[0]?.stateCode;
+  const handleViewPlans = () => {
     const postalCode = personalInfo?.addresses?.[0]?.postalCode;
-    const type = isMobile ? "secondary" : "primary";
+
     if (postalCode) {
       return (
         <Button
           label="View Available Plans"
           onClick={() => history.push(`/plans/${id}`)}
-          type={type}
+          type="primary"
         />
       );
     } else
@@ -330,83 +326,7 @@ export default () => {
                 </span>
               </section>
             )}
-            <ul
-              className={`mobile-menu leftcardmenu ${
-                menuToggle ? "" : "item-selected"
-              }`}
-              data-gtm="contact-record-menu-item"
-            >
-              <li
-                className={`${
-                  menuToggle ? "" : "arrow-hide"
-                } mobile-menu-arrow`}
-                onClick={() => {
-                  setMenuToggle(false);
-                }}
-              >
-                <ArrowdownIcon />
-              </li>
 
-              <li
-                className={`${
-                  menuToggle ? "arrow-hide" : ""
-                } mobile-menu-arrow`}
-                onClick={() => {
-                  setMenuToggle(true);
-                }}
-              >
-                <ArrowupIcon />
-              </li>
-
-              <li
-                className={`OverView ${
-                  display === "OverView" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("OverView")}
-              >
-                <label className="icon-spacing">
-                  <OverviewIcon />
-                </label>
-                <span>Overview</span>
-              </li>
-              <li
-                className={`Details DetailsEdit ${
-                  display === "Details" || display === "DetailsEdit"
-                    ? "mobile-menu-active"
-                    : ""
-                }`}
-                onClick={() => handleDisplay("Details")}
-              >
-                <label className="icon-spacing">
-                  <DetailsIcon />
-                </label>
-                <span>Details</span>
-              </li>
-
-              <li
-                className={`ScopeOfAppointment ${
-                  display === "ScopeOfAppointment" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("ScopeOfAppointment")}
-              >
-                <label className="icon-spacing">
-                  <SOAicon />
-                </label>
-                <span>Scope Of Appointments</span>
-              </li>
-              <li
-                className={`Preferences ${
-                  display === "Preferences" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("Preferences")}
-              >
-                <label className="icon-spacing">
-                  <PreferencesIcon />
-                </label>
-                <span>Preferences</span>
-              </li>
-              <li className="plans-button">{handleViewPlans(true)}</li>
-            </ul>
             <PersonalInfo
               personalInfo={personalInfo}
               setEdit={setEdit}
@@ -419,7 +339,13 @@ export default () => {
             <div className="details-card-main">
               <Container className={styles.container}>
                 {isMobile ? (
-                  <MobileMenu />
+                  <MobileMenu
+                    handleDisplay={handleDisplay}
+                    handleViewPlans={handleViewPlans}
+                    display={display}
+                    setMenuToggle={setMenuToggle}
+                    menuToggle={menuToggle}
+                  />
                 ) : (
                   <ul
                     className="leftcardmenu desktop-menu-hide"

@@ -97,6 +97,7 @@ export default function ActivitiesTable({
   leadId,
   handleDeleteActivity,
   setEditActivity,
+  isMobile,
 }) {
   const history = useHistory();
 
@@ -130,7 +131,7 @@ export default function ActivitiesTable({
     [history, leadId]
   );
 
-  const columns = useMemo(
+  const webColumns = useMemo(
     () => [
       {
         id: "date",
@@ -201,6 +202,63 @@ export default function ActivitiesTable({
     ],
     [onActivityClick, handleClick, setEditActivity, handleDeleteActivity]
   );
+
+  const mobileColumns = useMemo(
+    () => [
+      {
+        id: "date",
+        Header: "Date",
+        accessor: (row) =>
+          row?.original?.modifyDate
+            ? row?.original?.modifyDate
+            : row?.original?.createDate,
+        Cell: ({ row }) => {
+          let date = convertUTCDateToLocalDate(
+            row?.original?.modifyDate
+              ? row?.original?.modifyDate
+              : row?.original?.createDate
+          );
+          return (
+            <span onClick={() => onActivityClick(row?.original)}>
+              {dateFormatter(date, "MM/DD/YY")}
+            </span>
+          );
+        },
+      },
+      {
+        id: "activity",
+        accessor: (row) => row?.original?.activitySubject,
+        Header: "Activity",
+        Cell: ({ row }) => (
+          <div className={styles.activityDataCell}>
+            <ActivitySubjectWithIcon
+              activitySubject={row?.original?.activitySubject}
+            />
+            <Typography noWrap onClick={() => onActivityClick(row?.original)}>
+              <strong>
+                {row?.original?.activitySubject?.length > 15
+                  ? `${row?.original?.activitySubject?.slice(0, 13)}...`
+                  : row?.original?.activitySubject}
+              </strong>
+            </Typography>
+          </div>
+        ),
+      },
+      {
+        id: "more",
+        disableSortBy: true,
+        Header: "",
+        Cell: ({ row }) => (
+          <span onClick={() => onActivityClick(row?.original)}>
+            <MoreHorizOutlinedIcon />
+          </span>
+        ),
+      },
+    ],
+    [onActivityClick]
+  );
+
+  let columns = isMobile ? mobileColumns : webColumns;
 
   return (
     <Table

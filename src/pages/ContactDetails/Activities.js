@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useActivities from "./useActivities";
 import ActivitiesTable from "./ActivitiesTable";
 import { TextButton } from "packages/Button";
@@ -13,8 +13,10 @@ import EditActivityDialog from "./EditActivityDialog";
 import ActivityDetails from "./ActivityDetails";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
+import Media from "react-media";
 
-const Activities = ({ getLeadDetails, leadId }) => {
+const Activities = ({ getLeadDetails, leadId, personalInfo }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const {
     activities,
     filterValues,
@@ -40,20 +42,28 @@ const Activities = ({ getLeadDetails, leadId }) => {
   const sectionHeaderChildren = () => {
     return (
       <div className={styles.wrapper}>
-        <Filter
-          Icon={FilterIcon}
-          ActiveIcon={ActiveFilter}
-          open={isFilterMenuOpen}
-          onToggle={toggleFilterMenu}
-          heading={"Filter by Activity Type"}
-          content={
-            <FilterOptions
-              values={filterValues}
-              multiSelect={true}
-              onApply={onChangeFilters}
-            />
-          }
+        <Media
+          query={"(max-width: 500px)"}
+          onChange={(isMobile) => {
+            setIsMobile(isMobile);
+          }}
         />
+        <div className={styles.filterIcon}>
+          <Filter
+            Icon={FilterIcon}
+            ActiveIcon={ActiveFilter}
+            open={isFilterMenuOpen}
+            onToggle={toggleFilterMenu}
+            heading={"Filter by Activity Type"}
+            content={
+              <FilterOptions
+                values={filterValues}
+                multiSelect={true}
+                onApply={onChangeFilters}
+              />
+            }
+          />
+        </div>
         <TextButton
           startIcon={<AddNew />}
           onClick={() => {
@@ -79,6 +89,8 @@ const Activities = ({ getLeadDetails, leadId }) => {
           leadId={leadId}
           handleDeleteActivity={handleDeleteActivity}
           setEditActivity={setEditActivity}
+          isMobile={isMobile}
+          personalInfo={personalInfo}
         />
 
         <AddNewActivityDialog

@@ -18,7 +18,11 @@ export default ({
         reminders={reminders}
         isMobile={isMobile}
       />
-      <Activities getLeadDetails={getLeadDetails} leadId={id} />
+      <Activities
+        getLeadDetails={getLeadDetails}
+        personalInfo={personalInfo}
+        leadId={id}
+      />
       <ClientNotes
         personalInfo={personalInfo || {}}
         getLeadDetails={getLeadDetails}

@@ -1,0 +1,19 @@
+@import "../../scss/globalDefines.scss";
+ 
+
+.footerContainer {
+  min-height: 8rem;
+  max-height: 10rem;
+  background: $white;
+  padding-left: 136px;
+  padding-right: 136px;
+
+  @include small {
+    height: 9rem;
+  }
+}
+
+.textContent {
+  color: $gray-7;
+  text-decoration: none;
+}
