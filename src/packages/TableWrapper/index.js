@@ -196,9 +196,7 @@ function Table(props) {
                 style={{ border: "none" }}
                 colSpan={isMobile ? 3 : columns.length}
               >
-                <center style={isMobile ? { marginLeft: -100 } : {}}>
-                  {footer}
-                </center>
+                <center>{footer}</center>
               </TableCell>
             </TableRow>
           </TableFooter>

@@ -5,7 +5,7 @@ import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 import { getForDistance, getOverDue } from "utils/dates";
 
-export default ({ reminder, leadId, getLeadDetails }) => {
+export default ({ reminder, leadId, getLeadDetails, isMobile }) => {
   const { reminderNote = "", isComplete = false, reminderId } = reminder;
   const inputRef = useRef(null);
 
@@ -86,22 +86,19 @@ export default ({ reminder, leadId, getLeadDetails }) => {
           </label>
         </div>
 
-        <div>
-          <button className="mobile-edit" onClick={() => setEdit(true)}>
-            Edit
-          </button>
-        </div>
-        {!isEdit && reminderHovered && (
+        {((!isEdit && reminderHovered && !isMobile) || isMobile) && (
           <div
-            className="hover-btn-hide datepicker-row reminderCardSection2row1of1"
+            className="datepicker-row reminderCardSection2row1of1"
             style={{ textAlign: "right" }}
           >
-            <button
-              className="deleteTextAreaText"
-              onClick={() => deleteReminder()}
-            >
-              Delete
-            </button>
+            {!isEdit && (
+              <button
+                className="deleteTextAreaText"
+                onClick={() => deleteReminder()}
+              >
+                Delete
+              </button>
+            )}
             <button className="ediTextAreaText" onClick={() => setEdit(true)}>
               Edit
             </button>
@@ -131,23 +128,21 @@ export default ({ reminder, leadId, getLeadDetails }) => {
           </div>
         </div>
       </div>
-      <div className="reminderCardSection2row2">
-        <div className="reminderCardSection2row2left">
-          {isEdit && <button onClick={() => deleteReminder()}>Delete</button>}
+      {!isEdit && !isComplete && (
+        <div className="completeBTN-container">
+          <button
+            className="complete-btn"
+            data-gtm="contact-record-reminder-complete-button"
+            onClick={() => {
+              updateReminder(true);
+            }}
+          >
+            Complete
+          </button>
         </div>
-
-        <div className="remindercardsectioncancelsavebtn reminderCardSection2row2right full-width-mobile">
-          {!isEdit && !isComplete && (
-            <button
-              className="complete-btn"
-              data-gtm="contact-record-reminder-complete-button"
-              onClick={() => {
-                updateReminder(true);
-              }}
-            >
-              Complete
-            </button>
-          )}
+      )}
+      <div className="reminderCardSection2row2">
+        <div className="remindercardsectioncancelsavebtn">
           {isEdit && (
             <>
               <button

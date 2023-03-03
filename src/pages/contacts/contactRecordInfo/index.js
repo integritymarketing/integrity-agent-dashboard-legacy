@@ -21,8 +21,6 @@ import OverView from "./Overview";
 import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
-import ArrowdownIcon from "components/icons/menu-arrow-down";
-import ArrowupIcon from "components/icons/menu-arrow-up";
 import { Button } from "components/ui/Button";
 import SOAicon from "components/icons/soa";
 import ScopeOfAppointment from "./soaList/ScopeOfAppointment";
@@ -30,6 +28,9 @@ import useContactDetails from "pages/ContactDetails/useContactDetails";
 import AddZip from "./modals/AddZip";
 import { STATES } from "utils/address";
 import { debounce } from "debounce";
+import MobileMenu from "mobile/Contact/OverView/Menu";
+import Media from "react-media";
+import FooterBanners from "packages/FooterBanners";
 
 export default () => {
   const { contactId: id } = useParams();
@@ -50,6 +51,8 @@ export default () => {
   const [county, setCounty] = useState("");
   const [countyError, setCountyError] = useState(false);
   const [submitEnable, setSubmitEnable] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const { setCurrentPage } = useContext(BackNavContext);
   const history = useHistory();
 
@@ -134,6 +137,7 @@ export default () => {
       setEdit: (value) => setEdit(value),
       isEdit,
       getLeadDetails,
+      isMobile: isMobile,
     };
     switch (display) {
       case "OverView":
@@ -254,17 +258,15 @@ export default () => {
     }
   };
 
-  const handleViewPlans = (isMobile) => {
-    // const county = personalInfo?.addresses?.[0]?.county;
-    // const stateCode = personalInfo?.addresses?.[0]?.stateCode;
+  const handleViewPlans = () => {
     const postalCode = personalInfo?.addresses?.[0]?.postalCode;
-    const type = isMobile ? "secondary" : "primary";
+
     if (postalCode) {
       return (
         <Button
           label="View Available Plans"
           onClick={() => history.push(`/plans/${id}`)}
-          type={type}
+          type="primary"
         />
       );
     } else
@@ -280,6 +282,12 @@ export default () => {
 
   return (
     <React.Fragment>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <ToastContextProvider>
         <WithLoader isLoading={isLoad}>
           <StageStatusProvider>
@@ -318,83 +326,7 @@ export default () => {
                 </span>
               </section>
             )}
-            <ul
-              className={`mobile-menu leftcardmenu ${
-                menuToggle ? "" : "item-selected"
-              }`}
-              data-gtm="contact-record-menu-item"
-            >
-              <li
-                className={`${
-                  menuToggle ? "" : "arrow-hide"
-                } mobile-menu-arrow`}
-                onClick={() => {
-                  setMenuToggle(false);
-                }}
-              >
-                <ArrowdownIcon />
-              </li>
 
-              <li
-                className={`${
-                  menuToggle ? "arrow-hide" : ""
-                } mobile-menu-arrow`}
-                onClick={() => {
-                  setMenuToggle(true);
-                }}
-              >
-                <ArrowupIcon />
-              </li>
-
-              <li
-                className={`OverView ${
-                  display === "OverView" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("OverView")}
-              >
-                <label className="icon-spacing">
-                  <OverviewIcon />
-                </label>
-                <span>Overview</span>
-              </li>
-              <li
-                className={`Details DetailsEdit ${
-                  display === "Details" || display === "DetailsEdit"
-                    ? "mobile-menu-active"
-                    : ""
-                }`}
-                onClick={() => handleDisplay("Details")}
-              >
-                <label className="icon-spacing">
-                  <DetailsIcon />
-                </label>
-                <span>Details</span>
-              </li>
-
-              <li
-                className={`ScopeOfAppointment ${
-                  display === "ScopeOfAppointment" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("ScopeOfAppointment")}
-              >
-                <label className="icon-spacing">
-                  <SOAicon />
-                </label>
-                <span>Scope Of Appointments</span>
-              </li>
-              <li
-                className={`Preferences ${
-                  display === "Preferences" ? "mobile-menu-active" : ""
-                }`}
-                onClick={() => handleDisplay("Preferences")}
-              >
-                <label className="icon-spacing">
-                  <PreferencesIcon />
-                </label>
-                <span>Preferences</span>
-              </li>
-              <li className="plans-button">{handleViewPlans(true)}</li>
-            </ul>
             <PersonalInfo
               personalInfo={personalInfo}
               setEdit={setEdit}
@@ -403,57 +335,78 @@ export default () => {
               leadsId={id}
               refreshContactDetails={() => getLeadDetails()}
             />
+
             <div className="details-card-main">
               <Container className={styles.container}>
-                <ul
-                  className="leftcardmenu desktop-menu-hide"
-                  data-gtm="contact-record-menu-item"
-                >
-                  <li
-                    className={display === "OverView" ? "active" : ""}
-                    onClick={() => {
-                      setDisplay("OverView");
-                    }}
+                {isMobile ? (
+                  <MobileMenu
+                    handleDisplay={handleDisplay}
+                    handleViewPlans={handleViewPlans}
+                    display={display}
+                    setMenuToggle={setMenuToggle}
+                    menuToggle={menuToggle}
+                  />
+                ) : (
+                  <ul
+                    className="leftcardmenu desktop-menu-hide"
+                    data-gtm="contact-record-menu-item"
                   >
-                    <label className="icon-spacing">
-                      <OverviewIcon />
-                    </label>
-                    <span>Overview</span>
-                  </li>
-                  <li
-                    className={
-                      display === "Details" || display === "DetailsEdit"
-                        ? "active"
-                        : ""
-                    }
-                    onClick={() => setDisplay("Details")}
-                  >
-                    <label className="icon-spacing">
-                      <DetailsIcon />
-                    </label>
-                    <span>Details</span>
-                  </li>
-                  <li
-                    className={display === "ScopeOfAppointment" ? "active" : ""}
-                    onClick={() => setDisplay("ScopeOfAppointment")}
-                  >
-                    <label className="icon-spacing">
-                      <SOAicon />
-                    </label>
-                    <span>Scope Of Appointments</span>
-                  </li>
-                  <li
-                    className={display === "Preferences" ? "active" : ""}
-                    onClick={() => setDisplay("Preferences")}
-                  >
-                    <label className="icon-spacing">
-                      <PreferencesIcon />
-                    </label>
-                    <span>Preferences </span>
-                  </li>
-                  <li className="plans-button">{handleViewPlans(false)}</li>
-                </ul>
-                <div className="rightSection">{handleRendering()}</div>
+                    <li
+                      className={display === "OverView" ? "active" : ""}
+                      onClick={() => {
+                        setDisplay("OverView");
+                      }}
+                    >
+                      <label className="icon-spacing">
+                        <OverviewIcon />
+                      </label>
+                      <span>Overview</span>
+                    </li>
+                    <li
+                      className={
+                        display === "Details" || display === "DetailsEdit"
+                          ? "active"
+                          : ""
+                      }
+                      onClick={() => setDisplay("Details")}
+                    >
+                      <label className="icon-spacing">
+                        <DetailsIcon />
+                      </label>
+                      <span>Details</span>
+                    </li>
+                    <li
+                      className={
+                        display === "ScopeOfAppointment" ? "active" : ""
+                      }
+                      onClick={() => setDisplay("ScopeOfAppointment")}
+                    >
+                      <label className="icon-spacing">
+                        <SOAicon />
+                      </label>
+                      <span>Scope Of Appointments</span>
+                    </li>
+                    <li
+                      className={display === "Preferences" ? "active" : ""}
+                      onClick={() => setDisplay("Preferences")}
+                    >
+                      <label className="icon-spacing">
+                        <PreferencesIcon />
+                      </label>
+                      <span>Preferences </span>
+                    </li>
+                    <li className="plans-button">{handleViewPlans(false)}</li>
+                  </ul>
+                )}
+                <div className="rightSection">
+                  {handleRendering()}
+                  <div className={"footerContainer"}>
+                    <FooterBanners
+                      className={"footerBanners"}
+                      type={isMobile ? "column" : "row"}
+                    />
+                  </div>
+                </div>
               </Container>
             </div>
             <ContactFooter />

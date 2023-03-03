@@ -1,11 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import AuthContext from "contexts/auth";
 import Box from "@mui/material/Box";
 import Modal from "packages/Modal";
-import { Button, Typography, Divider } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import Heading3 from "packages/Heading3";
 import Paragraph from "packages/Paragraph";
 import Heading4 from "packages/Heading4";
@@ -40,7 +39,6 @@ export default function GetStarted(props) {
   const history = useHistory();
   const [show, setShow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   const auth = useContext(AuthContext);
   const addToast = useToast();
@@ -201,12 +199,6 @@ export default function GetStarted(props) {
 
   return (
     <div className={styles.layout}>
-      <Media
-        query={"(max-width: 500px)"}
-        onChange={(isMobile) => {
-          setIsMobile(isMobile);
-        }}
-      />
       <StyledIconButton
         onClick={() => {
           setShow(false);
@@ -220,23 +212,14 @@ export default function GetStarted(props) {
         />
       </div>
       <div className={styles.bannerText}>
-        <Typography variant={isMobile ? "h6" : "h4"} color={"white"}>
-          Get access to leads — real time.
-        </Typography>
+        <div className={styles.title}>Get access to leads — real time.</div>
         <Button
           variant={"contained"}
           size={"medium"}
           onClick={() => {
             setModalOpen(true);
           }}
-          sx={{
-            "text-transform": "capitalize",
-            "&:hover": {
-              background: "white",
-              color: "#054CBC",
-            },
-            width: isMobile ? "40%" : "13%",
-          }}
+          className={styles.button}
         >
           Get Started
         </Button>

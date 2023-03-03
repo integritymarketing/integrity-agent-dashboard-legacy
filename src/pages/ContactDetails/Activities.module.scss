@@ -57,3 +57,19 @@
 .ediTextAreaText {
   color: #0052ce;
 }
+
+.filterIcon{
+  position: relative;
+  top: 60px;
+  left: 60px;
+  @media (max-width: 480px) {
+    left: 100px;
+  }
+}
+
+
+.css-126gqmu-MuiTableCell-root {
+  @media (max-width: 480px) {
+  padding: 16px 10px !important;
+  }
+}

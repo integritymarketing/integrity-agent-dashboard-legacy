@@ -1,91 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import Logo from "partials/logo";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
 import usePortalUrl from "hooks/usePortalUrl";
+import { MobileFooter } from "mobile/MobileFooter";
 
 export default ({ className = "", hideMedicareIcon, ...props }) => {
   const portalUrl = usePortalUrl();
   const hideMedicareTag = !hideMedicareIcon;
+  const [isMobile, setIsMobile] = useState(false);
   return (
-    <footer
-      className={`global-footer text-muted pt-5 ${className}`}
-      data-gtm="footer-wrapper"
-      {...props}
-    >
-      <div className="global-footer__content sf-text-center">
-        {hideMedicareTag && (
-          <Link to="/">
-            <span className="visually-hidden">Medicare Center</span>
-            <Logo aria-hidden="true" id="footerLogo" />
-          </Link>
-        )}
-        <nav className="global-footer__links mt-4">
-          <h2 className="visually-hidden">Additional Navigation</h2>
-          <ul className="divided-hlist">
-            {/*
+    <>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
+      {isMobile ? (
+        <MobileFooter />
+      ) : (
+        <footer
+          className={`global-footer text-muted  ${className}`}
+          data-gtm="footer-wrapper"
+          {...props}
+        >
+          <div className="global-footer__content sf-text-center">
+            {hideMedicareTag && (
+              <Link to="/">
+                <span className="visually-hidden">Medicare Center</span>
+                <Logo aria-hidden="true" id="footerLogo" />
+              </Link>
+            )}
+            <nav className="global-footer__links mt-4">
+              <h2 className="visually-hidden">Additional Navigation</h2>
+              <ul className="divided-hlist">
+                {/*
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-            <Media
-              queries={{
-                small: "(max-width: 767px)",
-              }}
-            >
-              {(matches) =>
-                !matches.small ? (
-                  <React.Fragment>
-                    <li>
-                      <Link
-                        to="/help"
-                        className={`link link--inherit ${analyticsService.clickClass(
-                          "help-footer"
-                        )}`}
-                      >
-                        Need Help?
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/learning-center"
-                        className={`link link--inherit ${analyticsService.clickClass(
-                          "learningcenter-footer"
-                        )}`}
-                      >
-                        Learning Center
-                      </Link>
-                    </li>
-                  </React.Fragment>
-                ) : null
-              }
-            </Media>
-            <li>
-              <a
-                href={`${portalUrl || ""}/terms`}
-                rel="noopener noreferrer"
-                className="link link--inherit"
-              >
-                Terms of Use
-              </a>
-            </li>
-            <li>
-              <a
-                href={`${portalUrl || ""}/privacy`}
-                rel="noopener noreferrer"
-                className="link link--inherit"
-              >
-                Privacy Policy
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <small className="global-footer__legal mt-4">
-          <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span>{" "}
-          <span>All rights reserved.</span>
-        </small>
-      </div>
-    </footer>
+                <Media
+                  queries={{
+                    small: "(max-width: 767px)",
+                  }}
+                >
+                  {(matches) =>
+                    !matches.small ? (
+                      <React.Fragment>
+                        <li>
+                          <Link
+                            to="/help"
+                            className={`link link--inherit ${analyticsService.clickClass(
+                              "help-footer"
+                            )}`}
+                          >
+                            Need Help?
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/learning-center"
+                            className={`link link--inherit ${analyticsService.clickClass(
+                              "learningcenter-footer"
+                            )}`}
+                          >
+                            Learning Center
+                          </Link>
+                        </li>
+                      </React.Fragment>
+                    ) : null
+                  }
+                </Media>
+                <li>
+                  <a
+                    href={`${portalUrl || ""}/terms`}
+                    rel="noopener noreferrer"
+                    className="link link--inherit"
+                  >
+                    Terms of Use
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`${portalUrl || ""}/privacy`}
+                    rel="noopener noreferrer"
+                    className="link link--inherit"
+                  >
+                    Privacy Policy
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <small className="global-footer__legal mt-4">
+              <span>&copy; {new Date().getFullYear()}</span>{" "}
+              <span>Integrity.</span> <span>All rights reserved.</span>
+            </small>
+          </div>
+        </footer>
+      )}
+    </>
   );
 };
