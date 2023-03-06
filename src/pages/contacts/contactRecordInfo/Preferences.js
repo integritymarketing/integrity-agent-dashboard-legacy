@@ -6,7 +6,6 @@ import analyticsService from "services/analyticsService";
 import ToggleSwitch from "components/ui/switch";
 import { useWindowSize } from "hooks/useWindowSize";
 import styles from "./preferences.module.scss";
-import FooterBanners from "packages/FooterBanners";
 
 export default (props) => {
   const { width: windowWidth } = useWindowSize();
@@ -219,7 +218,6 @@ export default (props) => {
             </div>
           </div>
         </div>
-        <FooterBanners className="banners" type="column" />
       </div>
     );
   };
