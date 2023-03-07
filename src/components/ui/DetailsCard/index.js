@@ -9,7 +9,7 @@ import DetailsTable from "../DetailsTable";
 function DetailsCard({
   headerTitle,
   onAddClick,
-  buttonLabel = "Add",
+  buttonLabel = "Add New",
   items = [],
   Row,
   onDelete,

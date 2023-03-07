@@ -6,6 +6,9 @@
   margin-top: 26px;
   background: #ffffff;
   width: 100%;
+  @media screen and (max-width: 768px) {
+    background-color: transparent;
+  }
   & > .header {
     border-bottom: 1px solid #e3e8eb;
     height: 83px;
@@ -13,6 +16,9 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    @media screen and (max-width: 768px) {
+      border-bottom: 0px;
+    }
     .headerTitle {
       padding-left: 32px;
       color: var(--v2-header-title);
@@ -23,6 +29,9 @@
       line-height: 31px;
       letter-spacing: 0em;
       text-align: left;
+      @media screen and (max-width: 768px) {
+        padding-left: 0;
+      }
     }
     .actions button {
       padding: 5px 18px;
@@ -32,6 +41,10 @@
   .card-body {
     width: calc(100% - 64px);
     margin: 32px;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      margin: 0;
+    }
     .no-items {
       height: 69px;
       border: 1.5px solid #e6ecf2;
@@ -46,7 +59,7 @@
       line-height: 18px;
       letter-spacing: 0em;
       color: #64748b;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
+      @media screen and (max-width: 480px) {
         flex-direction: column;
       }
       a {

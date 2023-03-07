@@ -10,6 +10,7 @@ import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import clientService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import "./modals.scss";
+import Styles from "./AddPrescription.module.scss";
 
 const formatOptionLabel = ({ label, description }) => (
   <Options header={label} subHeader={description} />
@@ -72,6 +73,7 @@ export default function AddPrescription({
           value: dosage,
         }));
         setDosageOptions(dosageOptions);
+        console.log(dosageOptions);
         if (dosageOptions.length === 1) {
           setDosage(dosageOptions[0].value);
         }
@@ -115,6 +117,7 @@ export default function AddPrescription({
   };
 
   const onClose = (ev) => {
+    console.log(78);
     setDrugNameOptions([]);
     setDrugName("");
     setSearchString("");
@@ -171,161 +174,331 @@ export default function AddPrescription({
           setIsMobile(isMobile);
         }}
       />
-      <Modal
-        header="Add Prescription"
-        size="wide"
-        open={isOpen}
-        onClose={onClose}
-        providerModal={true}
-        labeledById="dialog_add_prescription"
-        footer={
-          isMobile ? null : (
-            <div className="dialog--actions-pr">
-              <div className="prescription-cancel">
-                <Button
-                  fullWidth={isMobile}
-                  className="mr-1"
-                  label="Cancel"
-                  onClick={onClose}
-                  type="secondary"
-                  data-gtm="button-add-prescription"
-                />
-              </div>
-              <div className="prescription-add">
-                {" "}
-                <Button
-                  fullWidth={isMobile}
-                  label="Add Prescription"
-                  onClick={handleAddPrecscription}
-                  disabled={!isFormValid || isSaving}
-                  data-gtm="button-cancel-prescription"
-                />
+      {isMobile && isOpen ? (
+        // Mobile Version
+        <div className={Styles.modalContainer}>
+          <div className={Styles.modal}>
+            <div class={Styles.modalHeader}>
+              <h2>Add Prescription</h2>
+              <button onClick={onClose}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className={Styles.closeBtn}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class={Styles.modalBody}>
+              <div className="dialog--container">
+                <div className="dialog--body">
+                  {drugName && (
+                    <section className="mt-2 mb-2 display--drug--name">
+                      <div className="icon-align" onClick={handleCloseDrugname}>
+                        <CloseIcon />
+                      </div>
+                      <div className="pl-2 drug--name">{drugName?.label}</div>
+                      <div className="pl-2 drug--type">
+                        {drugName?.description}
+                      </div>
+                    </section>
+                  )}
+                  {!drugName && !isLoading && (
+                    <>
+                      <div className="form-element">
+                        <label
+                          className="label--prescription form-input__header"
+                          htmlFor="prescription-name"
+                        >
+                          Prescription Search
+                        </label>
+                        <input
+                          className="drugname-search-input"
+                          type="text"
+                          value={searchString}
+                          placeholder="Start typing drug name"
+                          onChange={fetchOptions}
+                        />
+                      </div>
+                      <div className="search-result-count">
+                        <b>{drugNameOptions.length} prescriptions </b> found
+                      </div>
+                      {drugNameOptions.length === 0 && (
+                        <div className="no-search-data">
+                          <span>
+                            {searchString
+                              ? "Prescription not found, try a different search"
+                              : "Start typing prescription name"}
+                          </span>
+                        </div>
+                      )}
+                      {drugNameOptions.length > 0 && (
+                        <div className="search-options MenuList">
+                          {drugNameOptions.map((option, index) => (
+                            <div
+                              key={index}
+                              onClick={() => setDrugName(option)}
+                            >
+                              {formatOptionLabel(option)}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {drugName && !isLoading && (
+                    <>
+                      <div className="prescription__wrapper">
+                        <div className="form-element prescription--dosage">
+                          <label
+                            className="label--dosage form-input__header"
+                            htmlFor="prescription-dosage"
+                          >
+                            Dosage
+                          </label>
+                          <Select
+                            id="prescription-dosage"
+                            initialValue={dosage}
+                            providerModal={true}
+                            options={dosageOptions}
+                            placeholder="Dosage"
+                            onChange={setDosage}
+                          />
+                        </div>
+                        <div className="quantity-frequency-wrapper">
+                          <div className="form-element prescription--quantity">
+                            <Textfield
+                              id="quantity"
+                              className="quantity"
+                              label="Quantity"
+                              value={quantity}
+                              onChange={handleQuantity}
+                            />
+                          </div>
+                          <div className="form-element prescription--frequency">
+                            <label
+                              className="label--frequency form-input__header"
+                              htmlFor="prescription-frequency"
+                            >
+                              Frequency
+                            </label>
+                            <Select
+                              providerModal={true}
+                              initialValue={frequency}
+                              id="prescription-frequency"
+                              options={FREQUENCY_OPTIONS}
+                              placeholder="Frequency"
+                              onChange={setFrequency}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      {packageOptions?.length > 0 && (
+                        <div className="form-element prescription--packaging">
+                          <label
+                            className="label--packaging form-input__header"
+                            htmlFor="prescription-packaging"
+                          >
+                            Packaging
+                          </label>
+                          <Select
+                            providerModal={true}
+                            id="prescription-packaging"
+                            initialValue={dosagePackage}
+                            options={packageOptions}
+                            placeholder="Packaging"
+                            onChange={setDosagePackage}
+                          />
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          )
-        }
-      >
-        <div className="dialog--container">
-          <div className="dialog--body">
-            {drugName && (
-              <section className="mt-2 mb-2 display--drug--name">
-                <div className="icon-align" onClick={handleCloseDrugname}>
-                  <CloseIcon />
-                </div>
-                <div className="pl-2 drug--name">{drugName?.label}</div>
-                <div className="pl-2 drug--type">{drugName?.description}</div>
-              </section>
-            )}
-            {!drugName && !isLoading && (
-              <>
-                <div className="form-element">
-                  <label
-                    className="label--prescription form-input__header"
-                    htmlFor="prescription-name"
-                  >
-                    Prescription Search
-                  </label>
-                  <input
-                    className="drugname-search-input"
-                    type="text"
-                    value={searchString}
-                    placeholder="Start typing drug name"
-                    onChange={fetchOptions}
+            <div className={Styles.buttonWrapper}>
+              <button
+                className={Styles.cancel}
+                onClick={onClose}
+                data-gtm="button-add-prescription"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddPrecscription}
+                className={Styles.submit}
+                disabled={!isFormValid || isSaving}
+                data-gtm="button-cancel-prescription"
+              >
+                Add Prescription
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <Modal
+          header="Add Prescription"
+          size="wide"
+          open={isOpen}
+          onClose={onClose}
+          providerModal={true}
+          labeledById="dialog_add_prescription"
+          footer={
+            isMobile ? null : (
+              <div className="dialog--actions-pr">
+                <div className="prescription-cancel">
+                  <Button
+                    fullWidth={isMobile}
+                    className="mr-1"
+                    label="Cancel"
+                    onClick={onClose}
+                    type="secondary"
+                    data-gtm="button-add-prescription"
                   />
                 </div>
-                <div className="search-result-count">
-                  <b>{drugNameOptions.length} prescriptions </b> found
+                <div className="prescription-add">
+                  {" "}
+                  <Button
+                    fullWidth={isMobile}
+                    label="Add Prescription"
+                    onClick={handleAddPrecscription}
+                    disabled={!isFormValid || isSaving}
+                    data-gtm="button-cancel-prescription"
+                  />
                 </div>
-                {drugNameOptions.length === 0 && (
-                  <div className="no-search-data">
-                    <span>
-                      {searchString
-                        ? "Prescription not found, try a different search"
-                        : "Start typing prescription name"}
-                    </span>
+              </div>
+            )
+          }
+        >
+          <div className="dialog--container">
+            <div className="dialog--body">
+              {drugName && (
+                <section className="mt-2 mb-2 display--drug--name">
+                  <div className="icon-align" onClick={handleCloseDrugname}>
+                    <CloseIcon />
                   </div>
-                )}
-                {drugNameOptions.length > 0 && (
-                  <div className="search-options MenuList">
-                    {drugNameOptions.map((option, index) => (
-                      <div key={index} onClick={() => setDrugName(option)}>
-                        {formatOptionLabel(option)}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-            {drugName && !isLoading && (
-              <>
-                <div className="prescription__wrapper">
-                  <div className="form-element prescription--dosage">
+                  <div className="pl-2 drug--name">{drugName?.label}</div>
+                  <div className="pl-2 drug--type">{drugName?.description}</div>
+                </section>
+              )}
+              {!drugName && !isLoading && (
+                <>
+                  <div className="form-element">
                     <label
-                      className="label--dosage form-input__header"
-                      htmlFor="prescription-dosage"
+                      className="label--prescription form-input__header"
+                      htmlFor="prescription-name"
                     >
-                      Dosage
+                      Prescription Search
                     </label>
-                    <Select
-                      id="prescription-dosage"
-                      initialValue={dosage}
-                      providerModal={true}
-                      options={dosageOptions}
-                      placeholder="Dosage"
-                      onChange={setDosage}
+                    <input
+                      className="drugname-search-input"
+                      type="text"
+                      value={searchString}
+                      placeholder="Start typing drug name"
+                      onChange={fetchOptions}
                     />
                   </div>
-                  <div className="quantity-frequency-wrapper">
-                    <div className="form-element prescription--quantity">
-                      <Textfield
-                        id="quantity"
-                        className="quantity"
-                        label="Quantity"
-                        value={quantity}
-                        onChange={handleQuantity}
+                  <div className="search-result-count">
+                    <b>{drugNameOptions.length} prescriptions </b> found
+                  </div>
+                  {drugNameOptions.length === 0 && (
+                    <div className="no-search-data">
+                      <span>
+                        {searchString
+                          ? "Prescription not found, try a different search"
+                          : "Start typing prescription name"}
+                      </span>
+                    </div>
+                  )}
+                  {drugNameOptions.length > 0 && (
+                    <div className="search-options MenuList">
+                      {drugNameOptions.map((option, index) => (
+                        <div key={index} onClick={() => setDrugName(option)}>
+                          {formatOptionLabel(option)}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+              {drugName && !isLoading && (
+                <>
+                  <div className="prescription__wrapper">
+                    <div className="form-element prescription--dosage">
+                      <label
+                        className="label--dosage form-input__header"
+                        htmlFor="prescription-dosage"
+                      >
+                        Dosage
+                      </label>
+                      <Select
+                        id="prescription-dosage"
+                        initialValue={dosage}
+                        providerModal={true}
+                        options={dosageOptions}
+                        placeholder="Dosage"
+                        onChange={setDosage}
                       />
                     </div>
-                    <div className="form-element prescription--frequency">
+                    <div className="quantity-frequency-wrapper">
+                      <div className="form-element prescription--quantity">
+                        <Textfield
+                          id="quantity"
+                          className="quantity"
+                          label="Quantity"
+                          value={quantity}
+                          onChange={handleQuantity}
+                        />
+                      </div>
+                      <div className="form-element prescription--frequency">
+                        <label
+                          className="label--frequency form-input__header"
+                          htmlFor="prescription-frequency"
+                        >
+                          Frequency
+                        </label>
+                        <Select
+                          providerModal={true}
+                          initialValue={frequency}
+                          id="prescription-frequency"
+                          options={FREQUENCY_OPTIONS}
+                          placeholder="Frequency"
+                          onChange={setFrequency}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {packageOptions?.length > 0 && (
+                    <div className="form-element prescription--packaging">
                       <label
-                        className="label--frequency form-input__header"
-                        htmlFor="prescription-frequency"
+                        className="label--packaging form-input__header"
+                        htmlFor="prescription-packaging"
                       >
-                        Frequency
+                        Packaging
                       </label>
                       <Select
                         providerModal={true}
-                        initialValue={frequency}
-                        id="prescription-frequency"
-                        options={FREQUENCY_OPTIONS}
-                        placeholder="Frequency"
-                        onChange={setFrequency}
+                        id="prescription-packaging"
+                        initialValue={dosagePackage}
+                        options={packageOptions}
+                        placeholder="Packaging"
+                        onChange={setDosagePackage}
                       />
                     </div>
-                  </div>
-                </div>
-                {packageOptions?.length > 0 && (
-                  <div className="form-element prescription--packaging">
-                    <label
-                      className="label--packaging form-input__header"
-                      htmlFor="prescription-packaging"
-                    >
-                      Packaging
-                    </label>
-                    <Select
-                      providerModal={true}
-                      id="prescription-packaging"
-                      initialValue={dosagePackage}
-                      options={packageOptions}
-                      placeholder="Packaging"
-                      onChange={setDosagePackage}
-                    />
-                  </div>
-                )}
-              </>
-            )}
-          </div>
+                  )}
+                </>
+              )}
+            </div>
 
-          {isMobile && (
+            {/* {isMobile && (
             <div className="dialog--actions-pr">
               <div className="prescription-cancel">
                 <Button
@@ -348,9 +521,10 @@ export default function AddPrescription({
                 />
               </div>
             </div>
-          )}
-        </div>
-      </Modal>
+          )} */}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

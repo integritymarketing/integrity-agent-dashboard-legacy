@@ -28,6 +28,26 @@ function DetailsTable({ items, Row, onDelete, onEdit, headerTitle }) {
       </div>
     ) : null;
 
+  const sideButtonMobile = (item) =>
+    onDelete ? (
+      <div className="side-actions">
+        <button
+          className="edit"
+          data-gtm={`buton-edit-${headerTitle}`}
+          onClick={() => onEdit(item)}
+        >
+          Edit
+        </button>
+        <button
+          className="delete"
+          data-gtm={`buton-delete-${headerTitle}`}
+          onClick={() => onDelete(item)}
+        >
+          Delete
+        </button>
+      </div>
+    ) : null;
+
   return (
     <div className="details-table">
       {items.map((item, idx) => (
@@ -45,10 +65,7 @@ function DetailsTable({ items, Row, onDelete, onEdit, headerTitle }) {
                   {deleteButton(item)}
                 </>
               ) : (
-                <>
-                  {deleteButton(item)}
-                  {editButton(item)}
-                </>
+                <>{sideButtonMobile(item)}</>
               )
             }
           </Media>
