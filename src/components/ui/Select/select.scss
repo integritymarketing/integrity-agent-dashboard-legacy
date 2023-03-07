@@ -53,12 +53,6 @@
           margin-left: 2px;
         }
       }
-      @media (max-width: 480px) {
-        display: none;
-        &.show-always {
-          display: flex;
-        }
-      }
       &.has-error {
         background: #fff2f2;
         border: 1px solid #cf3c28;

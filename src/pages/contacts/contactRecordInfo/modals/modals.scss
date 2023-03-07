@@ -21,7 +21,7 @@
 .dialog--body,
 .dialog--actions {
   margin: 0px 80px 0px 80px;
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     margin: 0px;
   }
 }
@@ -33,10 +33,6 @@
 }
 .dialog--title {
   margin-top: 50px;
-}
-
-.dialog--body {
-  min-height: 480px;
 }
 
 .dialog--actions {
@@ -93,6 +89,9 @@
 
 .dialog--body {
   min-height: 480px;
+  @media (max-width: 768px) {
+    min-height: 176px;
+  }
 }
 
 .add--prescription--modal {
@@ -132,6 +131,11 @@
   font-family: Lato;
   font-size: 14px;
   color: #475569;
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+    font-weight: 600;
+    color: #051d43;
+  }
 }
 
 /* Start add pharmacy */
@@ -263,6 +267,9 @@
       }
     }
   }
+  @media screen and (max-width: 768px) {
+    max-height: 300px;
+  }
 }
 
 .search-result-count {
@@ -285,5 +292,10 @@
     top: 35px !important;
     right: -15px !important;
   }
+}
+
+.dialog--actions-pr {
+  flex-direction: row !important;
+  flex-wrap: nowrap;
 }
 /* End prescription */

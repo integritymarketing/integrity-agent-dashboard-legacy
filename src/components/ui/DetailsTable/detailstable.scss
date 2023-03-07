@@ -1,7 +1,18 @@
 .details-table {
+  @media screen and (max-width: 768px) {
+    background-color: #ffffff;
+    border-radius: 8px;
+  }
   & > .row-group:nth-child(odd) {
-    background: #f1f5f9;
     border-radius: 4px;
+    @media screen and (min-width: 768px) {
+      background: #f1f5f9;
+    }
+  }
+  & > .row-group:last-child {
+    @media screen and (max-width: 768px) {
+      border-bottom: 0px;
+    }
   }
   & > .row-group {
     padding: 16px 40px;
@@ -11,6 +22,9 @@
     .bottom-actions {
       margin-left: 20px;
       align-self: center;
+    }
+    @media screen and (max-width: 768px) {
+      border-bottom: 1px solid #cdd0d5;
     }
     @media screen and (min-width: 320px) and (max-width: 480px) {
       align-items: flex-start;
@@ -44,9 +58,11 @@
       flex: 1;
       justify-content: flex-end;
       display: flex;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
+      @media screen and (min-width: 320px) and (max-width: 768px) {
         justify-content: flex-end;
-        align-self: flex-start;
+        align-self: center;
+        flex-direction: column;
+        gap: 10px;
       }
     }
   }
@@ -64,9 +80,9 @@
     margin-right: 10px;
   }
   .header {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
-    color: #151e29;
+    color: #002d72;
   }
   .subText,
   .secondarySubText {
@@ -93,9 +109,13 @@ button {
   padding: 0px;
 }
 .delete {
-  color: #cf3c28;
+  color: #f44336;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .edit {
   color: #0052ce;
+  font-size: 16px;
+  font-weight: 600;
 }
