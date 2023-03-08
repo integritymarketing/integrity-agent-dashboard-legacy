@@ -461,7 +461,6 @@
 }
 
 .personalInfo {
-  max-width: 30%;
   height: 70px;
 }
 
@@ -471,7 +470,7 @@
   align-items: center;
   cursor: pointer;
   @include small() {
-    display: none;
+     margin-top: 25px;
   }
 }
 
@@ -1687,10 +1686,11 @@ button {
   }
   .nameCardSection2 {
     flex-wrap: nowrap;
-    flex-direction: column;
+    flex-direction: row;
     background: #fff;
     padding-left: 22px;
     padding-bottom: 0;
+    width: 94%;
   }
   .nameCardpara {
     height: 10px;
@@ -2305,6 +2305,9 @@ button {
 
 .minWidth {
   min-width: 14%;
+  @media (max-width: 480px) {
+    min-width: unset;
+  }
 }
 
 .client-notes {

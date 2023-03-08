@@ -1100,13 +1100,17 @@ table {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    .title{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 47%;
+    }
     .tagHeader {
       font-size: 24px;
       line-height: 48px;
       color: var(--v2-dark-blue);
       font-family: "Lato", sans-serif;
-      font-weight: 400;
       margin-bottom: 6px;
     }
 
@@ -1135,8 +1139,6 @@ table {
     justify-content: space-between;
     padding: 5px 0;
     align-items: center;
-    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
-    box-shadow: inset 0px -1px 0px var(--unnamed-color-cdd0d5);
     background: #ffffff 0% 0% no-repeat padding-box;
     box-shadow: inset 0px -1px 0px #cdd0d5;
     border-radius: 8px 8px 0px 0px;
@@ -1196,11 +1198,10 @@ table {
   .tagFooter {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
     margin-top: 10px;
 
     > Button {
-      width: 80px;
+      width: 45%;
       padding: 5px;
       font-weight: bold;
     }
@@ -1214,7 +1215,15 @@ table {
 }
 
 .expandIcons {
+  font-size: 20px;
+  color: #002d72;
   cursor: pointer;
+  padding: 0px 8px;
+  &:hover{
+    background-color: #FFFFFF;
+    border: 1px solid #C7CCD1;
+    border-radius: 4px;
+  }
 }
 
 .tagCategoryId {

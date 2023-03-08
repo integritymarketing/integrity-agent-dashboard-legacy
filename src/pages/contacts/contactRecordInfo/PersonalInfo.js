@@ -345,19 +345,19 @@ function TagsIcon({
       positions={["bottom", "top"]}
       content={
         <div className={styles.tagsModal}>
-          <div
-            onClick={handleClose}
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              cursor: "pointer",
-            }}
-          >
-            <Close />
-          </div>
           <div className={styles.tagsModalHeader}>
-            <h1 className={styles.tagHeader}>Manage Tags</h1>
-            <div className={styles.tagCount}>{totalTags}</div>
+            <div className={styles.title}>
+              <h3 className={styles.tagHeader}>Manage Tags</h3>
+              <div className={styles.tagCount}>({totalTags})</div>
+            </div>
+            <div
+              onClick={handleClose}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              <Close width="28px" height="28px" color="#0052ce" />
+            </div>
           </div>
           {tagsByCategory?.map((tg) => {
             if (tg.tagCategoryName !== "Other" && !tg.tags?.length) {
