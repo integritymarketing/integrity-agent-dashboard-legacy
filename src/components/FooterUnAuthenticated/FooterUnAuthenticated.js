@@ -4,10 +4,13 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Typography } from "@mui/material";
 import Integrity from "./Integrity.svg";
 import usePortalUrl from "hooks/usePortalUrl";
+import useClientId from "hooks/auth/useClientId";
+import ILSLogo from "../../images/auth/lead-center-rgb.png";
 
 export const FooterUnAuthenticated = (props) => {
   const portalUrl = usePortalUrl();
   const { mobileAppLogin } = props;
+  const clientId = useClientId();
 
   return (
     <Grid
@@ -19,23 +22,27 @@ export const FooterUnAuthenticated = (props) => {
     >
       {!mobileAppLogin && (
         <Grid container>
-          <a
-            href={`${portalUrl || ""}/terms`}
-            rel="noopener noreferrer"
-            className={styles.textContent}
-          >
-            Terms of Use
-          </a>
-          <Typography className={styles.textContent} px={"1rem"}>
-            |
-          </Typography>
-          <a
-            href={`${portalUrl || ""}/privacy`}
-            rel="noopener noreferrer"
-            className={styles.textContent}
-          >
-            Privacy Policy
-          </a>
+          {clientId !== "ILSClient" && (
+            <>
+              <a
+                href={`${portalUrl || ""}/terms`}
+                rel="noopener noreferrer"
+                className={styles.textContent}
+              >
+                Terms of Use
+              </a>
+              <Typography className={styles.textContent} px={"1rem"}>
+                |
+              </Typography>
+              <a
+                href={`${portalUrl || ""}/privacy`}
+                rel="noopener noreferrer"
+                className={styles.textContent}
+              >
+                Privacy Policy
+              </a>
+            </>
+          )}
         </Grid>
       )}
       <Grid>
@@ -44,7 +51,16 @@ export const FooterUnAuthenticated = (props) => {
           container
           flexDirection={{ xs: "column", sm: "row" }}
         >
-          <img alt="Integrity Logo" src={Integrity} />
+          {clientId === "ILSClient" ? (
+            <img
+              className={styles.logo}
+              src={ILSLogo}
+              alt="Integrity Lead Store"
+            />
+          ) : (
+            <img alt="Integrity Logo" src={Integrity} />
+          )}
+
           <Typography
             ml={{ sm: "1rem" }}
             mt={{ xs: "0.5rem", sm: 0 }}
