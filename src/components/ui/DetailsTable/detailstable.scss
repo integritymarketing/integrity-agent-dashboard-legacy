@@ -88,6 +88,11 @@
   .secondarySubText {
     margin-top: 4px;
   }
+  .ph {
+    color: #0052ce;
+    font-weight: 600;
+    font-size: 16px;
+  }
   @media screen and (min-width: 320px) and (max-width: 480px) {
     &:not(first-child) {
       margin-top: 0;

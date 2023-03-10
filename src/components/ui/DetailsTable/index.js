@@ -31,20 +31,24 @@ function DetailsTable({ items, Row, onDelete, onEdit, headerTitle }) {
   const sideButtonMobile = (item) =>
     onDelete ? (
       <div className="side-actions">
-        <button
-          className="edit"
-          data-gtm={`buton-edit-${headerTitle}`}
-          onClick={() => onEdit(item)}
-        >
-          Edit
-        </button>
-        <button
-          className="delete"
-          data-gtm={`buton-delete-${headerTitle}`}
-          onClick={() => onDelete(item)}
-        >
-          Delete
-        </button>
+        {onEdit && (
+          <button
+            className="edit"
+            data-gtm={`buton-edit-${headerTitle}`}
+            onClick={() => onEdit(item)}
+          >
+            Edit
+          </button>
+        )}
+        {onDelete && (
+          <button
+            className="delete"
+            data-gtm={`buton-delete-${headerTitle}`}
+            onClick={() => onDelete(item)}
+          >
+            Delete
+          </button>
+        )}
       </div>
     ) : null;
 

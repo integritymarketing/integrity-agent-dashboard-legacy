@@ -10,6 +10,7 @@ import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
 import * as Sentry from "@sentry/react";
+import Styles from "./AddPharmacy.module.scss";
 
 export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [zipCode, setZipCode] = useState(
@@ -139,282 +140,301 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
           setIsMobile(isMobile);
         }}
       />
-      <Modal
-        header="Add Pharmacy"
-        open={isOpen}
-        onClose={onClose}
-        size="wide"
-        labeledById="dialog_add_provider"
-        providerModal={true}
-        footer={
-          isMobile ? null : (
-            <div className="dialog--actions-pr">
-              {zipCode && totalPages > 1 ? (
-                <Pagination
-                  providerPagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  totalResults={totalCount}
-                  pageSize={perPage}
-                  onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
-                />
-              ) : (
-                <div />
-              )}
-              <div className="buttons-wrapper">
-                <div className="pr-cancl">
-                  <Button
-                    label="Cancel"
-                    onClick={onClose}
-                    style={{ marginRight: 10 }}
-                    data-gtm="button-save"
+      {isMobile && isOpen ? (
+        // Mobile Version
+        <div className={Styles.modalContainer}>
+          <div className={Styles.modal}>
+            <div class={Styles.modalHeader}>
+              <h2>Add Pharmacy</h2>
+              <button onClick={onClose}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className={Styles.closeBtn}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
                   />
-                </div>
-                <div className="pr-add">
-                  {" "}
-                  <Button
-                    disabled={!selectedPharmacy}
-                    label="Add Pharmacy"
-                    onClick={handleAddPharmacy}
-                    data-gtm="button-cancel"
-                  />
-                </div>
-              </div>
+                </svg>
+              </button>
             </div>
-          )
-        }
-      >
-        <div className="dialog--container">
-          <div className="dialog--body pharmacy-modal-container">
-            <div className="large-view">
-              <div className="pr-header-container">
-                <div className="zip-section">
-                  <label className="pr-title">
-                    ZIP Code
-                    <input
-                      type="text"
-                      placeholder="Zip"
-                      value={zipCode}
-                      maxLength="5"
-                      className={`${zipCodeError ? "error" : ""} zip-input`}
-                      onChange={(e) => {
-                        setZipCode(e.target.value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </label>
-                </div>
-                <div className="pr-search-section">
-                  <label className="pr-title">
-                    Pharmacy Name
-                    <input
-                      type="text"
-                      className={"pr-search-input"}
-                      value={pharmacyName}
-                      disabled={zipCodeError}
-                      placeholder="Enter name"
-                      onChange={(e) => {
-                        setPharmacyName(e?.currentTarget?.value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </label>
-                </div>
-                <div className="pr-address-section">
-                  <label className="pr-title">
-                    Pharmacy Address
-                    <input
-                      type="text"
-                      className="pr-search-input"
-                      value={pharmacyAddress}
-                      disabled={zipCodeError}
-                      placeholder="Enter address"
-                      onChange={(e) => {
-                        setPharmacyAddress(e.currentTarget.value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </label>
-                </div>
-                <div className="miles-section">
-                  <label className="pr-title">
-                    Distance
-                    <Select
-                      placeholder="select"
-                      options={[
-                        { value: 5, label: "5 miles" },
-                        { value: 10, label: "10 miles" },
-                        { value: 25, label: "25 miles" },
-                        { value: 50, label: "50 miles" },
-                      ]}
-                      initialValue={radius}
-                      onChange={(value) => {
-                        setRadius(value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </label>
-                </div>
-              </div>
-              {zipCodeError && (
-                <span className="validation-msg">Invalid ZIP Code</span>
-              )}
-            </div>
-
-            <div className="small-view">
-              <div className="pr-header-container">
-                <div className="zip-section">
-                  <label className="pr-title">
-                    ZIP Code
-                    <br />
-                    <input
-                      type="text"
-                      placeholder="Zip"
-                      value={zipCode}
-                      maxLength="5"
-                      className={`${zipCodeError ? "error" : ""} zip-input`}
-                      onChange={(e) => {
-                        setZipCode(e?.target?.value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </label>
-                </div>
-                <div className="miles-section">
-                  <label className="pr-title">
-                    Distance
-                    <Select
-                      placeholder="select"
-                      providerModal={true}
-                      options={[
-                        { value: 5, label: "5 miles" },
-                        { value: 10, label: "10 miles" },
-                        { value: 20, label: "20 miles" },
-                        { value: 30, label: "30 miles" },
-                      ]}
-                      value={radius}
-                      initialValue={5}
-                      onChange={(value) => {
-                        setRadius(value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </label>
-                </div>
-              </div>
-              {zipCodeError && (
-                <span className="validation-msg">Invalid ZIP Code</span>
-              )}
-
-              <div className="pr-search-section">
-                <label className="pr-title">
-                  Pharmacy Name
-                  <br />
-                  <input
-                    className={"pr-search-input"}
-                    type="text"
-                    value={pharmacyName}
-                    disabled={zipCodeError}
-                    placeholder="Enter name"
-                    onChange={(e) => {
-                      setPharmacyName(e?.target?.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </label>
-              </div>
-              <div className="pr-search-section">
-                <label className="pr-title">
-                  Pharmacy Address
-                  <br />
-                  <input
-                    className="pr-search-input"
-                    type="text"
-                    value={pharmacyAddress}
-                    disabled={zipCodeError}
-                    placeholder="Enter Address"
-                    onChange={(e) => {
-                      setPharmacyAddress(e?.target?.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className="pr-search-result">
-              {totalCount ? (
-                <>
-                  <b>{totalCount || 0} Pharmacies</b> found within {radius}
-                  &nbsp;miles
-                </>
-              ) : null}
-            </div>
-
-            {isLoading ? (
-              <div className="spinner-container">
-                <Spinner />
-              </div>
-            ) : (
-              <div className="provider-result-container">
-                {error && (
-                  <div className="pr-search-box">Error fetching Providers</div>
-                )}
-                {zipCode &&
-                  results?.map((item) => (
-                    <div
-                      key={`${item?.pharmacyID}-pharmacy`}
-                      className={`provider-result-content ${
-                        selectedPharmacy?.pharmacyID === item?.pharmacyID
-                          ? "selected"
-                          : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedPharmacy(item);
-                      }}
-                    >
-                      <div className="provider-content-section">
-                        <div className="pr-h1">{item?.name}</div>
-                        <div className="pr-h2">
-                          {item?.address1}
-                          {item.address2 ? " " + item.address2 : ""},{" "}
-                          {item?.city}, {item?.state}
-                        </div>
+            <div class={Styles.modalBody}>
+              <div className="dialog--container">
+                <div className="dialog--body pharmacy-modal-container">
+                  <div className="large-view">
+                    <div className="pr-header-container">
+                      <div className="zip-section">
+                        <label className="pr-title">
+                          ZIP Code
+                          <input
+                            type="text"
+                            placeholder="Zip"
+                            value={zipCode}
+                            maxLength="5"
+                            className={`${
+                              zipCodeError ? "error" : ""
+                            } zip-input`}
+                            onChange={(e) => {
+                              setZipCode(e.target.value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </label>
                       </div>
-                      {selectedPharmacy?.pharmacyID === item?.pharmacyID && (
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedPharmacy(null);
+                      <div className="pr-search-section">
+                        <label className="pr-title">
+                          Pharmacy Name
+                          <input
+                            type="text"
+                            className={"pr-search-input"}
+                            value={pharmacyName}
+                            disabled={zipCodeError}
+                            placeholder="Enter name"
+                            onChange={(e) => {
+                              setPharmacyName(e?.currentTarget?.value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </label>
+                      </div>
+                      <div className="pr-address-section">
+                        <label className="pr-title">
+                          Pharmacy Address
+                          <input
+                            type="text"
+                            className="pr-search-input"
+                            value={pharmacyAddress}
+                            disabled={zipCodeError}
+                            placeholder="Enter address"
+                            onChange={(e) => {
+                              setPharmacyAddress(e.currentTarget.value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </label>
+                      </div>
+                      <div className="miles-section">
+                        <label className="pr-title">
+                          Distance
+                          <Select
+                            placeholder="select"
+                            options={[
+                              { value: 5, label: "5 miles" },
+                              { value: 10, label: "10 miles" },
+                              { value: 25, label: "25 miles" },
+                              { value: 50, label: "50 miles" },
+                            ]}
+                            initialValue={radius}
+                            onChange={(value) => {
+                              setRadius(value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    {zipCodeError && (
+                      <span className="validation-msg">Invalid ZIP Code</span>
+                    )}
+                  </div>
+
+                  <div className="small-view">
+                    <div className="pr-header-container">
+                      <div className="zip-section">
+                        <label className="pr-title">
+                          ZIP Code
+                          <br />
+                          <input
+                            type="text"
+                            placeholder="Zip"
+                            value={zipCode}
+                            maxLength="5"
+                            className={`${
+                              zipCodeError ? "error" : ""
+                            } zip-input`}
+                            onChange={(e) => {
+                              setZipCode(e?.target?.value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </label>
+                      </div>
+                      <div className="miles-section">
+                        <label className="pr-title">
+                          Distance
+                          <Select
+                            placeholder="select"
+                            providerModal={true}
+                            options={[
+                              { value: 5, label: "5 miles" },
+                              { value: 10, label: "10 miles" },
+                              { value: 20, label: "20 miles" },
+                              { value: 30, label: "30 miles" },
+                            ]}
+                            value={radius}
+                            initialValue={5}
+                            onChange={(value) => {
+                              setRadius(value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    {zipCodeError && (
+                      <span className="validation-msg">Invalid ZIP Code</span>
+                    )}
+
+                    <div className="pr-search-section">
+                      <label className="pr-title">
+                        Pharmacy Name
+                        <br />
+                        <input
+                          className={"pr-search-input"}
+                          type="text"
+                          value={pharmacyName}
+                          disabled={zipCodeError}
+                          placeholder="Enter name"
+                          onChange={(e) => {
+                            setPharmacyName(e?.target?.value);
+                            setCurrentPage(1);
                           }}
-                          className="icon-btn deselect-pr"
-                        >
-                          <ExitIcon />
+                        />
+                      </label>
+                    </div>
+                    <div className="pr-search-section">
+                      <label className="pr-title">
+                        Pharmacy Address
+                        <br />
+                        <input
+                          className="pr-search-input"
+                          type="text"
+                          value={pharmacyAddress}
+                          disabled={zipCodeError}
+                          placeholder="Enter Address"
+                          onChange={(e) => {
+                            setPharmacyAddress(e?.target?.value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="pr-search-result">
+                    {totalCount ? (
+                      <>
+                        <b>{totalCount || 0} Pharmacies</b> found within{" "}
+                        {radius}
+                        &nbsp;miles
+                      </>
+                    ) : null}
+                  </div>
+
+                  {isLoading ? (
+                    <div className="spinner-container">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <div className="provider-result-container">
+                      {error && (
+                        <div className="pr-search-box">
+                          Error fetching Providers
                         </div>
+                      )}
+                      {zipCode &&
+                        results?.map((item) => (
+                          <div
+                            key={`${item?.pharmacyID}-pharmacy`}
+                            className={`provider-result-content ${
+                              selectedPharmacy?.pharmacyID === item?.pharmacyID
+                                ? "selected"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setSelectedPharmacy(item);
+                            }}
+                          >
+                            <div className="provider-content-section">
+                              <div className="pr-h1">{item?.name}</div>
+                              <div className="pr-h2">
+                                {item?.address1}
+                                {item.address2 ? " " + item.address2 : ""},{" "}
+                                {item?.city}, {item?.state}
+                              </div>
+                            </div>
+                            {selectedPharmacy?.pharmacyID ===
+                              item?.pharmacyID && (
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedPharmacy(null);
+                                }}
+                                className="icon-btn deselect-pr"
+                              >
+                                <ExitIcon />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+
+                      {!isLoading && (
+                        <>
+                          {zipCodeError && (
+                            <div className="pr-search-box">
+                              Fix errors before searching
+                            </div>
+                          )}
+                          {!error &&
+                            zipCode &&
+                            zipCode?.length === 5 &&
+                            results?.length === 0 && (
+                              <div className="pr-search-box">
+                                No Pharmacies found under the current search
+                                criteria
+                              </div>
+                            )}
+                        </>
                       )}
                     </div>
-                  ))}
-
-                {!isLoading && (
-                  <>
-                    {zipCodeError && (
-                      <div className="pr-search-box">
-                        Fix errors before searching
-                      </div>
-                    )}
-                    {!error &&
-                      zipCode &&
-                      zipCode?.length === 5 &&
-                      results?.length === 0 && (
-                        <div className="pr-search-box">
-                          No Pharmacies found under the current search criteria
-                        </div>
-                      )}
-                  </>
-                )}
+                  )}
+                </div>
               </div>
-            )}
-            {isMobile && (
+            </div>
+            <div className={Styles.buttonWrapper}>
+              <button
+                className={Styles.cancel}
+                onClick={onClose}
+                data-gtm="button-add"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddPharmacy}
+                className={Styles.submit}
+                disabled={!selectedPharmacy}
+                data-gtm="button-cancel"
+              >
+                Add Pharmacy
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <Modal
+          header="Add Pharmacy"
+          open={isOpen}
+          onClose={onClose}
+          size="wide"
+          labeledById="dialog_add_provider"
+          providerModal={true}
+          footer={
+            isMobile ? null : (
               <div className="dialog--actions-pr">
                 {zipCode && totalPages > 1 ? (
                   <Pagination
@@ -448,10 +468,246 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   </div>
                 </div>
               </div>
-            )}
+            )
+          }
+        >
+          <div className="dialog--container">
+            <div className="dialog--body pharmacy-modal-container">
+              <div className="large-view">
+                <div className="pr-header-container">
+                  <div className="zip-section">
+                    <label className="pr-title">
+                      ZIP Code
+                      <input
+                        type="text"
+                        placeholder="Zip"
+                        value={zipCode}
+                        maxLength="5"
+                        className={`${zipCodeError ? "error" : ""} zip-input`}
+                        onChange={(e) => {
+                          setZipCode(e.target.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </label>
+                  </div>
+                  <div className="pr-search-section">
+                    <label className="pr-title">
+                      Pharmacy Name
+                      <input
+                        type="text"
+                        className={"pr-search-input"}
+                        value={pharmacyName}
+                        disabled={zipCodeError}
+                        placeholder="Enter name"
+                        onChange={(e) => {
+                          setPharmacyName(e?.currentTarget?.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </label>
+                  </div>
+                  <div className="pr-address-section">
+                    <label className="pr-title">
+                      Pharmacy Address
+                      <input
+                        type="text"
+                        className="pr-search-input"
+                        value={pharmacyAddress}
+                        disabled={zipCodeError}
+                        placeholder="Enter address"
+                        onChange={(e) => {
+                          setPharmacyAddress(e.currentTarget.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </label>
+                  </div>
+                  <div className="miles-section">
+                    <label className="pr-title">
+                      Distance
+                      <Select
+                        placeholder="select"
+                        options={[
+                          { value: 5, label: "5 miles" },
+                          { value: 10, label: "10 miles" },
+                          { value: 25, label: "25 miles" },
+                          { value: 50, label: "50 miles" },
+                        ]}
+                        initialValue={radius}
+                        onChange={(value) => {
+                          setRadius(value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
+                {zipCodeError && (
+                  <span className="validation-msg">Invalid ZIP Code</span>
+                )}
+              </div>
+
+              <div className="small-view">
+                <div className="pr-header-container">
+                  <div className="zip-section">
+                    <label className="pr-title">
+                      ZIP Code
+                      <br />
+                      <input
+                        type="text"
+                        placeholder="Zip"
+                        value={zipCode}
+                        maxLength="5"
+                        className={`${zipCodeError ? "error" : ""} zip-input`}
+                        onChange={(e) => {
+                          setZipCode(e?.target?.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </label>
+                  </div>
+                  <div className="miles-section">
+                    <label className="pr-title">
+                      Distance
+                      <Select
+                        placeholder="select"
+                        providerModal={true}
+                        options={[
+                          { value: 5, label: "5 miles" },
+                          { value: 10, label: "10 miles" },
+                          { value: 20, label: "20 miles" },
+                          { value: 30, label: "30 miles" },
+                        ]}
+                        value={radius}
+                        initialValue={5}
+                        onChange={(value) => {
+                          setRadius(value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
+                {zipCodeError && (
+                  <span className="validation-msg">Invalid ZIP Code</span>
+                )}
+
+                <div className="pr-search-section">
+                  <label className="pr-title">
+                    Pharmacy Name
+                    <br />
+                    <input
+                      className={"pr-search-input"}
+                      type="text"
+                      value={pharmacyName}
+                      disabled={zipCodeError}
+                      placeholder="Enter name"
+                      onChange={(e) => {
+                        setPharmacyName(e?.target?.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="pr-search-section">
+                  <label className="pr-title">
+                    Pharmacy Address
+                    <br />
+                    <input
+                      className="pr-search-input"
+                      type="text"
+                      value={pharmacyAddress}
+                      disabled={zipCodeError}
+                      placeholder="Enter Address"
+                      onChange={(e) => {
+                        setPharmacyAddress(e?.target?.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <div className="pr-search-result">
+                {totalCount ? (
+                  <>
+                    <b>{totalCount || 0} Pharmacies</b> found within {radius}
+                    &nbsp;miles
+                  </>
+                ) : null}
+              </div>
+
+              {isLoading ? (
+                <div className="spinner-container">
+                  <Spinner />
+                </div>
+              ) : (
+                <div className="provider-result-container">
+                  {error && (
+                    <div className="pr-search-box">
+                      Error fetching Providers
+                    </div>
+                  )}
+                  {zipCode &&
+                    results?.map((item) => (
+                      <div
+                        key={`${item?.pharmacyID}-pharmacy`}
+                        className={`provider-result-content ${
+                          selectedPharmacy?.pharmacyID === item?.pharmacyID
+                            ? "selected"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedPharmacy(item);
+                        }}
+                      >
+                        <div className="provider-content-section">
+                          <div className="pr-h1">{item?.name}</div>
+                          <div className="pr-h2">
+                            {item?.address1}
+                            {item.address2 ? " " + item.address2 : ""},{" "}
+                            {item?.city}, {item?.state}
+                          </div>
+                        </div>
+                        {selectedPharmacy?.pharmacyID === item?.pharmacyID && (
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedPharmacy(null);
+                            }}
+                            className="icon-btn deselect-pr"
+                          >
+                            <ExitIcon />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                  {!isLoading && (
+                    <>
+                      {zipCodeError && (
+                        <div className="pr-search-box">
+                          Fix errors before searching
+                        </div>
+                      )}
+                      {!error &&
+                        zipCode &&
+                        zipCode?.length === 5 &&
+                        results?.length === 0 && (
+                          <div className="pr-search-box">
+                            No Pharmacies found under the current search
+                            criteria
+                          </div>
+                        )}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
 }

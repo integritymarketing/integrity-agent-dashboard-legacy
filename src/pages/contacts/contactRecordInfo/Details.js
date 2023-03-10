@@ -175,6 +175,7 @@ export default forwardRef((props, ref) => {
           header={item.name}
           subText={address}
           secondarySubText={phone}
+          useFor="pharmacy"
         />
       </div>
     );
