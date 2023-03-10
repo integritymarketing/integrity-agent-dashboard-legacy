@@ -25,6 +25,7 @@ export const TextButton = ({
   children,
   startIcon,
   endIcon,
+  ...rest
 }) => {
   return (
     <StyledTextButton
@@ -34,6 +35,7 @@ export const TextButton = ({
       startIcon={startIcon}
       endIcon={endIcon}
       onClick={onClick}
+      {...rest}
     >
       {children}
     </StyledTextButton>

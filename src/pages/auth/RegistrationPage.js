@@ -22,6 +22,8 @@ import { Box } from "@mui/material";
 import { Button, TextButton } from "packages/Button";
 import "./mobileStyle.scss";
 
+const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/serverlogin";
+
 export default () => {
   const history = useHistory();
   const loading = useLoading();
@@ -329,14 +331,23 @@ export default () => {
                   </div>
                   <div className={"centered-flex-col"}>
                     <p>Already have an account?</p>
-                    <TextButton
-                      onClick={async () => {
-                        await login();
-                      }}
-                      className="text-sm link text-bold"
-                    >
-                      Login
-                    </TextButton>
+                    {clientId === "ILSClient" ? (
+                      <TextButton
+                        href={LEADCENTER_LOGIN_URL}
+                        className="text-sm link text-bold"
+                      >
+                        Login
+                      </TextButton>
+                    ) : (
+                      <TextButton
+                        onClick={async () => {
+                          await login();
+                        }}
+                        className="text-sm link text-bold"
+                      >
+                        Login
+                      </TextButton>
+                    )}
                   </div>
                 </fieldset>
               </form>
