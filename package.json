@@ -25,6 +25,7 @@
     "moment": "^2.29.3",
     "namor": "^2.0.2",
     "oidc-client": "^1.10.1",
+    "prevent-orientation": "^2.1.0",
     "react": "^16.14.0",
     "react-content-loader": "^6.0.3",
     "react-csv": "^2.2.2",

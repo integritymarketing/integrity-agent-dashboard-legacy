@@ -52,8 +52,15 @@ import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
+import { PreventOrientation } from "prevent-orientation";
 
 const App = () => {
+  new PreventOrientation({
+    text: "Kindle rotate your device to the portrait mode for using this site",
+    color: "white",
+    background: "#051D43",
+    fontSize: "1.2rem",
+  }).preventLandscape();
   return (
     <ThemeProvider theme={theme}>
       <AuthContext.Provider value={authService}>

@@ -308,8 +308,6 @@ export default function DashboardActivityTable({
         disableSortBy: true,
         accessor: "reminders",
         Cell: ({ value, row }) => {
-          console.log("HHHHH", value, row.original);
-
           const options = MORE_ACTIONS.slice(0);
 
           if (
