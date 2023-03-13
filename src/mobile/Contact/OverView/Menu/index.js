@@ -1,9 +1,9 @@
 import React from "react";
-import View from "./Icons/view";
-import SOA from "./Icons/soa";
+import view from "./Images/view.png";
+import contact from "./Images/contact.png";
+import settings from "./Images/settings.png";
+import SOA from "./Images/SOA.png";
 import DownArrow from "./Icons/downArrow";
-import Contact from "./Icons/contact";
-import Settings from "./Icons/settings";
 import styles from "./styles.module.scss";
 
 const MobileMenu = ({
@@ -13,6 +13,26 @@ const MobileMenu = ({
   menuToggle,
   display,
 }) => {
+  const DATA = [
+    {
+      name: "Overview",
+      img: view,
+    },
+    {
+      name: "Details",
+      img: contact,
+    },
+    {
+      name: "Scope Of Appointment",
+      img: SOA,
+    },
+    {
+      name: "Preferences",
+      img: settings,
+    },
+  ];
+
+  const selected = DATA.filter((item) => item.name === display)?.[0] || null;
   return (
     <div className={styles.menuContainer}>
       <div
@@ -20,7 +40,14 @@ const MobileMenu = ({
         onClick={() => setMenuToggle(!menuToggle)}
       >
         <div className={styles.row}>
-          <div className={styles.name}>{display}</div>
+          <div className={styles.icon}>
+            <img
+              alt={selected.name}
+              className={styles[selected.name]}
+              src={selected.img}
+            />
+          </div>
+          <div className={styles.name}>{selected?.name}</div>
         </div>
         <div className={styles.icon}>
           <DownArrow />
@@ -30,50 +57,25 @@ const MobileMenu = ({
         <div className={styles.contentCenter}>
           <div className={styles.optionsContainer}>
             <div className={styles.options}>
-              <div
-                className={`${styles.row} ${
-                  display === "OverView" ? styles.selectedItem : ""
-                }`}
-                onClick={() => handleDisplay("OverView")}
-              >
-                <div className={styles.icon}>
-                  <View />
-                </div>
-                <div className={styles.name}>Overview</div>
-              </div>
-              <div
-                className={`${styles.row} ${
-                  display === "Details" ? styles.selectedItem : ""
-                }`}
-                onClick={() => handleDisplay("Details")}
-              >
-                <div className={styles.icon}>
-                  <Contact />
-                </div>
-                <div className={styles.name}>Details</div>
-              </div>
-              <div
-                className={`${styles.row} ${
-                  display === "ScopeOfAppointment" ? styles.selectedItem : ""
-                }`}
-                onClick={() => handleDisplay("ScopeOfAppointment")}
-              >
-                <div className={styles.icon}>
-                  <SOA />
-                </div>
-                <div className={styles.name}>Scope of Appointments</div>
-              </div>
-              <div
-                className={`${styles.row} ${
-                  display === "Preferences" ? styles.selectedItem : ""
-                }`}
-                onClick={() => handleDisplay("Preferences")}
-              >
-                <div className={styles.icon}>
-                  <Settings />
-                </div>
-                <div className={styles.name}>Preferences</div>
-              </div>
+              {DATA &&
+                DATA.map((item) => (
+                  <div
+                    className={`${styles.row} ${
+                      display === item.name ? styles.selectedItem : ""
+                    }`}
+                    onClick={() => handleDisplay(item.name)}
+                  >
+                    <div className={styles.icon}>
+                      {" "}
+                      <img
+                        alt={item.name}
+                        className={styles[item.name]}
+                        src={item.img}
+                      />
+                    </div>
+                    <div className={styles.name}>{item.name}</div>
+                  </div>
+                ))}
             </div>
             <div className={styles.buttonContainer}>
               {handleViewPlans(true)}

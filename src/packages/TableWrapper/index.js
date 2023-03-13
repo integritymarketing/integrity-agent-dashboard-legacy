@@ -96,7 +96,6 @@ function Table(props) {
     initialState,
     fixedRows = [],
     handleSort,
-    sort,
   } = props;
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
@@ -108,34 +107,6 @@ function Table(props) {
     useSortBy
   );
   const [isMobile, setIsMobile] = useState(false);
-
-  const handleSortUpdate = (value) => {
-    switch (value) {
-      case "Date":
-        if (sort === "Activities.CreateDate:asc") {
-          handleSort("Activities.CreateDate:desc");
-        } else {
-          handleSort("Activities.CreateDate:asc");
-        }
-        break;
-      case "Name":
-        if (sort === "firstName:asc") {
-          handleSort("firstName:desc");
-        } else {
-          handleSort("firstName:asc");
-        }
-        break;
-      case "Activity":
-        if (sort === "Activities.ActivitySubject:asc") {
-          handleSort("Activities.ActivitySubject:desc");
-        } else {
-          handleSort("Activities.ActivitySubject:asc");
-        }
-        break;
-      default:
-        handleSort("Activities.CreateDate:desc");
-    }
-  };
 
   // Render the UI for table
   return (
@@ -153,7 +124,7 @@ function Table(props) {
               {headerGroup.headers.map((column) => (
                 <StyledTableCell
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  onClick={() => handleSortUpdate(column?.Header)}
+                  onClick={() => handleSort(column?.Header)}
                 >
                   <Centered>
                     {column.render("Header")} {generateSortingIndicator(column)}

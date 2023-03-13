@@ -37,7 +37,10 @@ const Activities = ({ getLeadDetails, leadId, personalInfo }) => {
     setSelectedActivity,
     handleAddActivtyNotes,
     onActivityClick,
+    onResetFilter,
   } = useActivities({ getLeadDetails });
+
+  const ACTIVE_FILTER = filterValues.filter((item) => item.selected);
 
   const sectionHeaderChildren = () => {
     return (
@@ -52,6 +55,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo }) => {
           <Filter
             Icon={FilterIcon}
             ActiveIcon={ActiveFilter}
+            filtered={ACTIVE_FILTER.length > 0 ? true : false}
             open={isFilterMenuOpen}
             onToggle={toggleFilterMenu}
             heading={"Filter by Activity Type"}
@@ -60,6 +64,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo }) => {
                 values={filterValues}
                 multiSelect={true}
                 onApply={onChangeFilters}
+                onReset={onResetFilter}
               />
             }
           />

@@ -53,6 +53,19 @@ const useActivities = ({ getLeadDetails }) => {
     [setActivitiesFilters, setIsFilterMenuOpen]
   );
 
+  const onResetFilter = useCallback(() => {
+    setActivitiesFilters(
+      Object.fromEntries(
+        filterValues.map((filter) => [filter.name, filter.selected])
+      )
+    );
+
+    setActivitiesPageLimit(({ initial, size }) => ({
+      initial,
+      size: initial,
+    }));
+  }, [setActivitiesFilters, setActivitiesPageLimit, filterValues]);
+
   const onShowMore = useCallback(() => {
     setActivitiesPageLimit(({ initial, size }) => ({
       initial,
@@ -204,6 +217,7 @@ const useActivities = ({ getLeadDetails }) => {
     setSelectedActivity,
     onActivityClick,
     handleAddActivtyNotes,
+    onResetFilter,
   };
 };
 

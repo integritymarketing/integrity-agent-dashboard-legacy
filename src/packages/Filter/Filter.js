@@ -44,7 +44,6 @@ export default function Filter({
 
   //const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
   return (
     <Box sx={{ mr: 2 }}>
       <div

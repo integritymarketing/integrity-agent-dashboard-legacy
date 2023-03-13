@@ -395,6 +395,34 @@ export default function DashboardActivityTable({
     [setSelectedActivity, addToast, selectedLead, realoadActivityData]
   );
 
+  const handleSortUpdate = (value) => {
+    switch (value) {
+      case "Date":
+        if (sort === "Activities.CreateDate:asc") {
+          setSort("Activities.CreateDate:desc");
+        } else {
+          setSort("Activities.CreateDate:asc");
+        }
+        break;
+      case "Name":
+        if (sort === "firstName:asc") {
+          setSort("firstName:desc");
+        } else {
+          setSort("firstName:asc");
+        }
+        break;
+      case "Activity":
+        if (sort === "Activities.ActivitySubject:asc") {
+          setSort("Activities.ActivitySubject:desc");
+        } else {
+          setSort("Activities.ActivitySubject:asc");
+        }
+        break;
+      default:
+        setSort("Activities.CreateDate:desc");
+    }
+  };
+
   return (
     <>
       <div className={styles.headerWithFilter}>
@@ -419,8 +447,7 @@ export default function DashboardActivityTable({
         </div>
       </div>
       <Table
-        handleSort={setSort}
-        sort={sort}
+        handleSort={handleSortUpdate}
         initialState={{}}
         data={filteredData}
         columns={columns}

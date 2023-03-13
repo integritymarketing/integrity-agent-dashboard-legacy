@@ -73,7 +73,6 @@ export default function AddPrescription({
           value: dosage,
         }));
         setDosageOptions(dosageOptions);
-        console.log(dosageOptions);
         if (dosageOptions.length === 1) {
           setDosage(dosageOptions[0].value);
         }
@@ -117,7 +116,6 @@ export default function AddPrescription({
   };
 
   const onClose = (ev) => {
-    console.log(78);
     setDrugNameOptions([]);
     setDrugName("");
     setSearchString("");
