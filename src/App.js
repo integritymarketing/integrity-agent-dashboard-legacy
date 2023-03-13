@@ -56,7 +56,7 @@ import { PreventOrientation } from "prevent-orientation";
 
 const App = () => {
   new PreventOrientation({
-    text: "Kindle rotate your device to the portrait mode for using this site",
+    text: "Kindly rotate your device to the portrait mode for using this site",
     color: "white",
     background: "#051D43",
     fontSize: "1.2rem",
