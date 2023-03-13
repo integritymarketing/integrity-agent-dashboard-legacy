@@ -22,6 +22,8 @@ import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import analyticsService from "services/analyticsService";
 import { BackToTop } from "components/ui/BackToTop";
 import ContactFooter from "partials/global-footer";
+import NonRTSBanner from "components/Non-RTS-Banner";
+import useRoles, { Roles } from "hooks/useRoles";
 
 const PlanDetailsPage = () => {
   const addToast = useToast();
@@ -33,6 +35,9 @@ const PlanDetailsPage = () => {
   const [plan, setPlan] = useState();
   const [modalOpen, setModalOpen] = useState();
   const [shareModalOpen, setShareModalOpen] = useState(false);
+
+  const { hasRole } = useRoles();
+  const nonRTS_USER = hasRole(Roles.NonRts);
 
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
@@ -121,6 +126,8 @@ const PlanDetailsPage = () => {
                 </div>
               </Container>
             </div>
+            {nonRTS_USER && <NonRTSBanner />}
+
             <Container className={`${styles["body"]}`}>
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (
                 <MapdContent

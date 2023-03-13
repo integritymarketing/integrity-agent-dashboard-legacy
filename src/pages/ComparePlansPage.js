@@ -27,6 +27,8 @@ import { RetailPharmacyCoverage } from "components/ui/PlanDetailsTable/shared/re
 import plansService from "services/plansService";
 import WelcomeEmailUser from "partials/welcome-email-user";
 import ComparePlansService from "services/comparePlansService";
+import NonRTSBanner from "components/Non-RTS-Banner";
+import useRoles, { Roles } from "hooks/useRoles";
 
 function getAllPlanDetails({
   planIds,
@@ -67,6 +69,9 @@ export default (props) => {
   const [pharmacies, setPharmacies] = useState([]);
   const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
   const [contactData, setContactData] = useState({});
+
+  const { hasRole } = useRoles();
+  const nonRTS_USER = hasRole(Roles.NonRts);
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -187,6 +192,7 @@ export default (props) => {
                 </Container>
               </div>
             )}
+            {nonRTS_USER && <NonRTSBanner />}
             {isComingFromEmail && (
               <div className={styles["welcome-user-header"]}>
                 <Container>
