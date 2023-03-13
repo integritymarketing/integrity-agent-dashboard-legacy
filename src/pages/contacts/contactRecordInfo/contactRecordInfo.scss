@@ -470,7 +470,7 @@
   align-items: center;
   cursor: pointer;
   @include small() {
-     margin-top: 25px;
+    margin-top: 25px;
   }
 }
 
@@ -480,11 +480,10 @@
   }
 }
 .personalinfoname h2 {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 22px;
-  color: #697887;
+  color: #717171;
   font-family: "Lato", sans-serif;
-  font-weight: 400;
   text-transform: capitalize;
 }
 .personalInfo .italic-label {
@@ -593,7 +592,7 @@
   font-size: 16px;
   color: #70777e;
 }
-.completeBTN-container{
+.completeBTN-container {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1372,9 +1371,7 @@ button {
   .visibility-hidden {
     display: none;
   }
-  .personalinfoname h2 {
-    font-size: 18px;
-  }
+
   .details-edit-custom-error-msg {
     width: 160px !important;
   }
@@ -1519,9 +1516,8 @@ button {
   .complete-btn {
     width: 35% !important;
     margin-top: 27px;
-   
   }
- 
+
   .view---btn {
     width: 100% !important;
     margin-top: 27px;
@@ -1671,7 +1667,7 @@ button {
     padding: 0;
   }
   .nameCardHeading {
-    height: 80px;
+    height: 60px;
     width: 100%;
     background: #fff;
     margin-bottom: 20px;
@@ -1700,16 +1696,16 @@ button {
     align-items: center;
   }
   .personalInfo {
-    width: 100% !important;
     height: auto;
     margin-bottom: 24px;
   }
   .personalInfo:first-child {
+    width: 50% !important;
     margin-top: 22px;
   }
   .personalInfo label {
     margin-right: 15px;
-    color: #2b323b;
+    color: #434a51;
     font-size: 16px;
     line-height: 30px;
   }
@@ -1723,7 +1719,7 @@ button {
     height: 80px;
     align-items: center;
   }
-  
+
   .reminderCardSection2 {
     margin: 22px 20px;
   }
@@ -1783,9 +1779,7 @@ button {
   width: 290px;
 }
 .custom-datepicker
-  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(
-    .DayPicker-Day--outside
-  ) {
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   color: #fff;
   font-weight: 700;
   background: var(--v2-royal-blue);
@@ -2316,14 +2310,13 @@ button {
 
 .footerContainer {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
 }
 
-.details-card-main   {
+.details-card-main {
   background-color: #f4f8fb;
 
   @media (min-width: 480px) {
     padding-top: 30px;
   }
 }
- 

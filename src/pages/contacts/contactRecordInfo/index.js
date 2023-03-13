@@ -17,7 +17,7 @@ import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import WithLoader from "components/ui/WithLoader";
 import { StageStatusProvider } from "contexts/stageStatus";
 import BackNavContext from "contexts/backNavProvider";
-import OverView from "./Overview";
+import Overview from "./Overview";
 import Preferences from "./Preferences";
 import Details from "./Details";
 import analyticsService from "services/analyticsService";
@@ -42,7 +42,7 @@ export default () => {
   const [reminders, setReminders] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [display, setDisplay] = useState("OverView");
+  const [display, setDisplay] = useState("Overview");
   const [menuToggle, setMenuToggle] = useState(false);
   const [isEdit, setEdit] = useState(false);
   const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
@@ -124,7 +124,7 @@ export default () => {
     });
     getContactRecordInfo(leadDetails);
     setEdit(state.isEdit);
-    setDisplay(state.display || "OverView");
+    setDisplay(state.display || "Overview");
   }, [getContactRecordInfo, state.isEdit, state.display, leadDetails]);
 
   const handleRendering = () => {
@@ -140,16 +140,16 @@ export default () => {
       isMobile: isMobile,
     };
     switch (display) {
-      case "OverView":
-        return <OverView {...props} />;
+      case "Overview":
+        return <Overview {...props} />;
       case "Details":
         return <Details {...props} getContactRecordInfo={getLeadDetails} />;
-      case "ScopeOfAppointment":
+      case "Scope Of Appointment":
         return <ScopeOfAppointment {...props} />;
       case "Preferences":
         return <Preferences {...props} />;
       default:
-        return <OverView {...props} />;
+        return <Overview {...props} />;
     }
   };
 
@@ -352,9 +352,9 @@ export default () => {
                     data-gtm="contact-record-menu-item"
                   >
                     <li
-                      className={display === "OverView" ? "active" : ""}
+                      className={display === "Overview" ? "active" : ""}
                       onClick={() => {
-                        setDisplay("OverView");
+                        setDisplay("Overview");
                       }}
                     >
                       <label className="icon-spacing">
@@ -377,9 +377,9 @@ export default () => {
                     </li>
                     <li
                       className={
-                        display === "ScopeOfAppointment" ? "active" : ""
+                        display === "Scope Of Appointment" ? "active" : ""
                       }
-                      onClick={() => setDisplay("ScopeOfAppointment")}
+                      onClick={() => setDisplay("Scope Of Appointment")}
                     >
                       <label className="icon-spacing">
                         <SOAicon />

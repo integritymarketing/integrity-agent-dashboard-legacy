@@ -1,93 +1,101 @@
 @import "src/scss/globalDefines.scss";
 
-.menuContainer{
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  .selected {
+    background-color: #e8f1fe;
+    border-top: 1px solid #c7ccd1;
+    box-shadow: 0px 3px 3px #0000001a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 35px;
+    .row {
+      display: flex;
+      width: 75%;
+      align-items: center;
+      .name {
+        margin-left: 10px;
+        color: #0052ce;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+  .contentCenter {
+    display: flex;
+    justify-content: center;
+  }
+  .optionsContainer {
+    width: 80%;
+    margin: auto;
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
-    .selected{
-        background-color: #E8F1FE;
-        border-top: 1px solid #C7CCD1;
-        box-shadow: 0px 3px 3px #0000001A;
+    padding: 14px 15px;
+    background-color: #ffffff;
+    border-radius: 0px 0px 8px 8px;
+    border: 2px;
+    position: absolute;
+    z-index: 999999;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    .options {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .selectedItem {
+        background-color: #f1faff;
+      }
+      .row {
         display: flex;
+        justify-content: flex-start;
         align-items: center;
-        justify-content: space-between;
-        padding: 15px 35px;
-        .row{
-            display: flex;
-            width: 33%;
-            justify-content: space-between;
-           
-            .name{
-                color: #0052CE;
-                font-size: 18px;
-                font-weight: bold;
-            }
-        }
-    }
-    .contentCenter{
-        display: flex;
-        justify-content: center;
-    }
-    .optionsContainer{
-        width: 80%;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        padding: 14px 15px;
-        background-color: #FFFFFF;
-        border-radius: 0px 0px 8px 8px;
-        border: 2px;
-        position: absolute;
-        z-index: 999999;
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        .options{
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            .selectedItem{
-                background-color: #F1FAFF;              
-            }
-        .row{
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 10px 10px;
-            .icon{
-                margin-top: 5px;
-            }
-            .name{
-                color: #434A51;
-                font-size: 18px;
-                font-weight: bold;
-                margin-left: 15px;
-            }
-        }
-    }
-    .buttonContainer{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 10px;  
-        .submitButton{
-            width: 75%;
-            background-color: #0052CE;
-            color: #ffffff;
-            font-size: 16px;
-            padding: 8px 25px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        
-            &[disabled],
-            &--disabled {
-              background: var(--v2-disabled-button);
-              color: var(--v2-disabled-button-text);
-              cursor: not-allowed;
-            }
-          }
-    }
+        padding: 10px 10px;
 
+        .name {
+          color: #434a51;
+          font-size: 18px;
+          font-weight: bold;
+          margin-left: 15px;
+        }
+      }
     }
+    .buttonContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 10px;
+      .submitButton {
+        width: 75%;
+        background-color: #0052ce;
+        color: #ffffff;
+        font-size: 16px;
+        padding: 8px 25px;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+
+        &[disabled],
+        &--disabled {
+          background: var(--v2-disabled-button);
+          color: var(--v2-disabled-button-text);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
 }
 
- 
+.icon {
+  margin-top: 4px;
+  .Overview {
+    width: 24px;
+  }
+  .Details {
+    width: 28px;
+  }
+  .ScopeOfAppointment {
+    width: 28px;
+  }
+}

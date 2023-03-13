@@ -348,7 +348,9 @@ function TagsIcon({
           <div className={styles.tagsModalHeader}>
             <div className={styles.title}>
               <h3 className={styles.tagHeader}>Manage Tags</h3>
-              <div className={styles.tagCount}>({totalTags})</div>
+              <div className={styles.tagCount}>
+                {totalTags ? `(${totalTags})` : ""}
+              </div>
             </div>
             <div
               onClick={handleClose}

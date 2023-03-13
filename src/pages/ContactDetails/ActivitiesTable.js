@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Table from "packages/TableWrapper";
 import { convertUTCDateToLocalDate } from "utils/dates";
@@ -100,6 +100,8 @@ export default function ActivitiesTable({
   isMobile,
 }) {
   const history = useHistory();
+  const [sort, setSort] = useState("date:asc");
+  const [fullList, setFullList] = useState([...data]);
 
   const handleClick = useCallback(
     (activitySubject, activityInteractionURL) => {
@@ -260,10 +262,48 @@ export default function ActivitiesTable({
 
   let columns = isMobile ? mobileColumns : webColumns;
 
+  const handleSortUpdate = (value) => {
+    switch (value) {
+      case "Date":
+        if (sort === "date:asc") {
+          setSort("date:desc");
+          let sorted = fullList.sort(
+            (a, b) => new Date(a.createDate) - new Date(b.createDate)
+          );
+          setFullList([...sorted]);
+        } else {
+          setSort("date:asc");
+          let sorted = fullList.sort(
+            (a, b) => new Date(b.createDate) - new Date(a.createDate)
+          );
+          setFullList([...sorted]);
+        }
+        break;
+      case "Activity":
+        if (sort === "activity:asc") {
+          setSort("activity:desc");
+          let sorted = fullList.sort((a, b) =>
+            a.activitySubject.localeCompare(b.activitySubject)
+          );
+          setFullList([...sorted]);
+        } else {
+          setSort("activity:asc");
+          let sorted = fullList.sort((a, b) =>
+            b.activitySubject.localeCompare(a.activitySubject)
+          );
+          setFullList([...sorted]);
+        }
+        break;
+      default:
+        setSort("date:asc");
+    }
+  };
+
   return (
     <Table
+      handleSort={handleSortUpdate}
       initialState={initialState}
-      data={data}
+      data={fullList}
       columns={columns}
       footer={
         pageHasMoreRows ? (
