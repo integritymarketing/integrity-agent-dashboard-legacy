@@ -77,7 +77,6 @@ export default function EditPrescription({
       await onSave({
         dosageRecordID: item?.dosage?.dosageRecordID,
         labelName: dosage?.labelName,
-        isDosageLabelNameChanged: dosage?.labelName !== labelName,
         dosage,
         metricQuantity: +quantity * (dosagePackage?.commonMetricQuantity ?? 1),
         daysOfSupply: +frequency,
@@ -111,25 +110,6 @@ export default function EditPrescription({
     drugName && isOpen && getDosages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drugName, isOpen]);
-
-  /* Commenting this function becuase we dont have comparission between old package  & new one */
-  /*   const isFormValid = useMemo(() => {
-    return (
-      Boolean(
-        quantity &&
-          frequency &&
-          dosage &&
-          (packageOptions.length > 0 ? dosagePackage : true)
-      ) &&
-      Boolean(
-        +quantity !== metricQuantity ||
-          +frequency !== daysOfSupply ||
-          dosage?.labelName !== labelName ||
-          dosagePackage?.packageID !== item?.dosage?.selectedPackage?.packageID
-      )
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quantity, frequency, dosage, dosagePackage, packageOptions]); */
 
   return (
     <div className="prescription--modal">

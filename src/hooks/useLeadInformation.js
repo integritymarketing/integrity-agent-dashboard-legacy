@@ -49,25 +49,17 @@ export default (leadId) => {
     }
   };
 
-  const editPrescription = async ({
-    dosage = {},
-    isDosageLabelNameChanged = false,
-    ...rest
-  }) => {
+  const editPrescription = async ({ dosage = {}, ...rest }) => {
     try {
-      const item = isDosageLabelNameChanged
-        ? {
-            ...rest,
-            ndc: dosage.referenceNDC,
-            metricQuantity: dosage.metricQuantity,
-            dosageID: dosage.dosageID,
-            quantity: dosage.commonMetricQuantity,
-            userQuantity: dosage.commonUserQuantity,
-            daysOfSupply: 0,
-            packages: null,
-          }
-        : rest;
-
+      const item = {
+        ...rest,
+        ndc: dosage.referenceNDC,
+        metricQuantity: dosage.metricQuantity,
+        dosageID: dosage.dosageID,
+        quantity: dosage.commonMetricQuantity,
+        userQuantity: dosage.commonUserQuantity,
+      };
+      debugger;
       await clientService.editPrescription(leadId, item);
       addToast({
         message: "Prescription updated successfully",
