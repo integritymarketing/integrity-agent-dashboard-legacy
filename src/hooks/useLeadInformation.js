@@ -27,7 +27,6 @@ export default (leadId) => {
   }, [setPharmacies, setProviders, setPrescriptions, setIsLoading, leadId]);
 
   const addPrescription = async (item) => {
-    //below itemObject has been cloned for the undo to work properly
     const itemObject = {
       ...(item?.dosage ?? item),
       dosageRecordID: 0,
@@ -54,12 +53,8 @@ export default (leadId) => {
       const item = {
         ...rest,
         ndc: dosage.referenceNDC,
-        metricQuantity: dosage.metricQuantity,
         dosageID: dosage.dosageID,
-        quantity: dosage.commonMetricQuantity,
-        userQuantity: dosage.commonUserQuantity,
       };
-      debugger;
       await clientService.editPrescription(leadId, item);
       addToast({
         message: "Prescription updated successfully",
