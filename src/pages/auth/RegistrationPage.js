@@ -22,7 +22,7 @@ import { Box } from "@mui/material";
 import { Button, TextButton } from "packages/Button";
 import "./mobileStyle.scss";
 
-const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/serverlogin";
+const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
 
 export default () => {
   const history = useHistory();
