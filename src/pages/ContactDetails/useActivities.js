@@ -55,9 +55,7 @@ const useActivities = ({ getLeadDetails }) => {
 
   const onResetFilter = useCallback(() => {
     setActivitiesFilters(
-      Object.fromEntries(
-        filterValues.map((filter) => [filter.name, filter.selected])
-      )
+      Object.fromEntries(filterValues.map((filter) => [filter.name, false]))
     );
 
     setActivitiesPageLimit(({ initial, size }) => ({

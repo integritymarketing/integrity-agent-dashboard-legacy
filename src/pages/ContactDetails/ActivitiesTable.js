@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Table from "packages/TableWrapper";
 import { convertUTCDateToLocalDate } from "utils/dates";
@@ -101,7 +101,11 @@ export default function ActivitiesTable({
 }) {
   const history = useHistory();
   const [sort, setSort] = useState("date:asc");
-  const [fullList, setFullList] = useState([...data]);
+  const [fullList, setFullList] = useState([]);
+
+  useEffect(() => {
+    setFullList([...data]);
+  }, [data]);
 
   const handleClick = useCallback(
     (activitySubject, activityInteractionURL) => {
