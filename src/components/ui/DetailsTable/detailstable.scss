@@ -83,10 +83,12 @@
     font-size: 20px;
     font-weight: 600;
     color: #002d72;
+    word-break: break-all;
   }
   .subText,
   .secondarySubText {
     margin-top: 4px;
+    word-break: break-all;
   }
   .ph {
     color: #0052ce;
