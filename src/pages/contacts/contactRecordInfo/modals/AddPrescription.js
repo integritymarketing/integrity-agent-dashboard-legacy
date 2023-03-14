@@ -106,7 +106,7 @@ export default function AddPrescription({
     const searchStr = event.target.value;
     setDrugName(() => null);
     setSearchString(searchStr);
-    if (searchStr) {
+    if (searchStr && searchStr.length > 1) {
       const drugNameOptions = await clientService.getDrugNames(searchStr);
       const options = (drugNameOptions || []).map(transformPrescriptionOptions);
       setDrugNameOptions(options);
@@ -234,7 +234,7 @@ export default function AddPrescription({
                           <span>
                             {searchString
                               ? "Prescription not found, try a different search"
-                              : "Start typing prescription name"}
+                              : "Please enter atleast first 2 letters"}
                           </span>
                         </div>
                       )}
@@ -412,7 +412,7 @@ export default function AddPrescription({
                       <span>
                         {searchString
                           ? "Prescription not found, try a different search"
-                          : "Start typing prescription name"}
+                          : "Please enter atleast first 2 letters"}
                       </span>
                     </div>
                   )}
