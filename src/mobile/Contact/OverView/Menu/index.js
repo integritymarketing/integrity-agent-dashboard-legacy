@@ -23,7 +23,7 @@ const MobileMenu = ({
       img: contact,
     },
     {
-      name: "Scope Of Appointment",
+      name: "Scope Of Appointments",
       img: SOA,
     },
     {

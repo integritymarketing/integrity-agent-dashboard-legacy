@@ -144,7 +144,7 @@ export default () => {
         return <Overview {...props} />;
       case "Details":
         return <Details {...props} getContactRecordInfo={getLeadDetails} />;
-      case "Scope Of Appointment":
+      case "Scope Of Appointments":
         return <ScopeOfAppointment {...props} />;
       case "Preferences":
         return <Preferences {...props} />;
@@ -377,9 +377,9 @@ export default () => {
                     </li>
                     <li
                       className={
-                        display === "Scope Of Appointment" ? "active" : ""
+                        display === "Scope Of Appointments" ? "active" : ""
                       }
-                      onClick={() => setDisplay("Scope Of Appointment")}
+                      onClick={() => setDisplay("Scope Of Appointments")}
                     >
                       <label className="icon-spacing">
                         <SOAicon />
