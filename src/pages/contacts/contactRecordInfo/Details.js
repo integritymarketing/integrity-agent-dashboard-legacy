@@ -226,18 +226,13 @@ export default forwardRef((props, ref) => {
             provider={true}
             itemRender={(item, index) => {
               return (
-                <div
-                  key={index}
-                  style={{
-                    background: index % 2 ? "white" : "#F1F5F9",
-                  }}
-                  className="provider-container"
-                >
+                <div key={index} className="provider-container">
                   <div className="provider-content">
-                    <div className="pr-h1">{item?.presentationName}</div>
                     <div className="pr-h2 pr-title-mble">
-                      {item?.specialty}&nbsp;/&nbsp;{item?.title}
+                      {item?.specialty}
+                      {item?.title ? ` / ${item?.title}` : ""}
                     </div>
+                    <div className="pr-h1">{item?.presentationName}</div>
                     <div className="pr-h2">{item?.email}</div>
                   </div>
                   <div className="provider-content">
