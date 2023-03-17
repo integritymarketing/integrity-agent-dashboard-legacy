@@ -36,7 +36,7 @@ export default function LinkToContact() {
       const response = await clientService.getList(
         undefined,
         undefined,
-        "Activities.CreateDate:desc",
+        ["Activities.CreateDate:desc"],
         searchStr
       );
       setIsLoading(false);
