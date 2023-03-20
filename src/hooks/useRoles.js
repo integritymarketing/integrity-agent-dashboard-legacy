@@ -27,6 +27,8 @@ export default () => {
 
   const hasRole = useCallback(
     (role) => {
+      // this is to be removed
+      if (role === Roles.NonRts) return false;
       return roles.has(role);
     },
     [roles]
