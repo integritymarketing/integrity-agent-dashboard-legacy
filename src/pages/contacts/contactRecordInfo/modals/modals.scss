@@ -300,5 +300,8 @@
 .dialog--actions-pr {
   flex-direction: row !important;
   flex-wrap: nowrap;
+  @media (max-width: 480px) {
+    flex-direction: column !important;
+  }
 }
 /* End prescription */
