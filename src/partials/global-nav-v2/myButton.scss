@@ -9,24 +9,3 @@
 .ml-2 {
   margin-right: 5px;
 }
-
-.onButton {
-  margin-left: 32px;
-}
-
-.myButtonText {
-  font-size: 16px;
-  width: max-content;
-}
-
-.myButtonWrapper {
-  display: flex;
-  color: #ffffffbf;
-  margin-right: 8px;
-  margin-left: 8px;
-  @media screen and (max-width: 480px) {
-    margin-top: -28px;
-    margin-left: 65%;
-    width: max-content;
-  }
-}

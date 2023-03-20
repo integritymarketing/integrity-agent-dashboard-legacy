@@ -266,19 +266,25 @@
   box-sizing: border-box;
   display: flex;
   float: right;
-  height: 24px;
+  height: 32px;
   justify-content: space-between;
   margin-left: 12px;
-  width: 56px;
+  width: 128px;
   cursor: pointer;
   color: #fff;
+  @media (max-width: 480px) {
+    left: 50%;
+    margin-left: -64px;
+    position: absolute;
+    top: 18px;
+  }
 }
 .uiStyle {
   float: left;
 }
 
 .buttonIcon {
-  height: 20px;
+  height: 26px;
 }
 .icon {
   height: 20px;
@@ -358,10 +364,10 @@
   width: 25px;
 }
 
-.disabledCursor {
+.disabledCursor { 
   cursor: not-allowed;
-}
-
-.disabledEvents {
+ }
+ 
+.disabledEvents { 
   pointer-events: none;
-}
+ }

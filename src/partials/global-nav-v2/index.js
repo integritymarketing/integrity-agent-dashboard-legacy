@@ -7,12 +7,14 @@ import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import Logo from "partials/logo";
 import MyButton from "./MyButton";
+import MyModal from "./MyModal";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import Logout from "./Logout.svg";
 import Account from "./Account.svg";
 import NeedHelp from "./Needhelp.svg";
 import clientService from "services/clientsService";
+import { formatPhoneNumber } from "utils";
 import "./index.scss";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
@@ -21,8 +23,8 @@ import InboundCallBanner from "packages/InboundCallBanner";
 import authService from "services/authService";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
-import { useSetRecoilState } from "recoil";
+import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 import MobileHome from "./assets/icons-Home.svg";
 import MobileContacts from "./assets/icons-Contacts.svg";
@@ -114,13 +116,28 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const history = useHistory();
   const loadingHook = useLoading();
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
+  const [, setPhoneAtom] = useRecoilState(agentPhoneAtom);
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [user, setUser] = useState({});
+  const [open, setOpen] = useState(false);
   const [isAvailable, setIsAvailable] = useAgentAvailability(false);
+  const [phone, setPhone] = useState("");
+  const [virtualNumber, setVirtualNumber] = useState("");
+  const [callForwardNumber, setCallForwardNumber] = useState("");
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  useEffect(
+    function () {
+      setPhoneAtom(open);
+    },
+    [open, setPhoneAtom]
+  );
 
   const mobileMenuProps = Object.assign(
     {
@@ -334,8 +351,13 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     try {
       setLoading(true);
       const response = await clientService.getAgentAvailability(agentid);
-      const { isAvailable, agentVirtualPhoneNumber, leadPreference } =
-        response || {};
+      const {
+        isAvailable,
+        phone,
+        agentVirtualPhoneNumber,
+        callForwardNumber,
+        leadPreference,
+      } = response || {};
       if (!agentVirtualPhoneNumber && isDashboardLocation) {
         setTimeout(() => clientService.genarateAgentTwiloNumber(agentid), 5000);
       }
@@ -344,7 +366,14 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       }
       setAgentInfo(response);
       setIsAvailable(isAvailable);
+      setPhone(formatPhoneNumber(phone, true));
       setLeadPreference(leadPreference);
+      if (agentVirtualPhoneNumber) {
+        setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
+      }
+      if (callForwardNumber) {
+        setCallForwardNumber(callForwardNumber);
+      }
     } catch (error) {
       Sentry.captureException(error);
     } finally {
@@ -368,6 +397,19 @@ export default ({ menuHidden = false, className = "", ...props }) => {
     }
   };
 
+  const updateAgentPreferences = async (data) => {
+    try {
+      await clientService.updateAgentPreferences(data);
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to Save the Preferences.",
+        time: 10000,
+      });
+      Sentry.captureException(error);
+    }
+  };
+
   useEffect(() => {
     const loadAsyncData = async () => {
       const user = await auth.getUser();
@@ -379,16 +421,15 @@ export default ({ menuHidden = false, className = "", ...props }) => {
       loadAsyncData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
+  }, [auth, open]);
 
   let showPhoneNotification = false;
 
   if (!loading && auth.isAuthenticated() && user && !user.phone) {
     showPhoneNotification = true;
   }
-  const { agentid = "" } = user || {};
   function clickButton() {
-    updateAgentAvailability({ agentID: agentid, availability: !isAvailable });
+    handleOpen();
   }
 
   const showMaintenaceNotification =
@@ -461,6 +502,20 @@ export default ({ menuHidden = false, className = "", ...props }) => {
             </Media>
           </nav>
         )}
+        <MyModal
+          phone={phone}
+          virtualNumber={virtualNumber}
+          user={user}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+          open={open}
+          isAvailable={isAvailable}
+          updateAgentAvailability={updateAgentAvailability}
+          updateAgentPreferences={updateAgentPreferences}
+          callForwardNumber={callForwardNumber}
+          leadPreference={leadPreference}
+          getAgentAvailability={getAgentAvailability}
+        />
       </header>
       {auth.isAuthenticated() && !menuHidden && (
         <InboundCallBanner agentInformation={agentInfo} />
