@@ -14,6 +14,8 @@ import useToast from "./../../../hooks/useToast";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
+import DetailsMobile from "mobile/Contact/Details/ContactDetails";
+import Media from "react-media";
 
 export default forwardRef((props, ref) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
@@ -23,6 +25,7 @@ export default forwardRef((props, ref) => {
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
   const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const {
     pharmacies,
@@ -181,10 +184,28 @@ export default forwardRef((props, ref) => {
     );
   };
 
+  const DetailsInfo = () => {
+    if (isMobile) {
+      return <DetailsMobile {...props} />;
+    } else {
+      if (props.isEdit) {
+        return <EditForm {...props} />;
+      } else {
+        return <ContactDetails {...props} />;
+      }
+    }
+  };
+
   return (
     <>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <div className="contactdetailscard" ref={props.detailsRef}>
-        {props.isEdit ? <EditForm {...props} /> : <ContactDetails {...props} />}
+        {DetailsInfo()}
       </div>
       <div className="detailscard-container">
         {isOpen && (

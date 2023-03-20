@@ -11,7 +11,7 @@ const SectionHeaderMobile = ({
   return (
     <div className={styles.header}>
       <div className={styles.title}>{title}</div>
-      {actionTitle && ActionIcon && showLeft ? (
+      {actionTitle && showLeft ? (
         <div onClick={callBack} className={styles.action}>
           <div className={styles.actionTitle}>{actionTitle}</div>
           <div className={styles.actionIcon}>{ActionIcon}</div>

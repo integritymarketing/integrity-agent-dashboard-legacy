@@ -195,4 +195,7 @@
 
 .short-label {
   width: 90px !important;
+  @media (max-width: 480px) {
+    width: unset;
+  }
 }
