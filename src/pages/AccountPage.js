@@ -26,7 +26,6 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import styles from "./AccountPage.module.scss";
 import AccountMobile from "mobile/AcoountPage";
 import SubHeaderMobile from "mobile/Components/subHeader";
-import SectionHeaderMobile from "mobile/Components/sectionHeader";
 import Media from "react-media";
 import SectionContainer from "mobile/Components/SectionContainer";
 import EditIcon from "components/icons/icon-edit";
@@ -226,9 +225,8 @@ export default () => {
                     setIsEdit(!isEdit);
                   }}
                   showLeft={isMobile ? true : false}
-                  ActionIcon={<EditIcon />}
+                  ActionIcon={!isEdit ? <EditIcon /> : null}
                 >
-                  <SectionHeaderMobile />
                   <section>
                     {isMobile && !isEdit && (
                       <AccountMobile

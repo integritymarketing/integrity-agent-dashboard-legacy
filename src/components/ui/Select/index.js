@@ -61,6 +61,7 @@ export const Select = ({
   showValueAlways = false,
   error,
   containerHeight = 0,
+  page = "",
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -210,7 +211,11 @@ export const Select = ({
       style={style}
       className={`select ${contactsPage && "contacts-dd"} ${
         providerModal && "pr-select"
-      } ${!isOpen && showValueAsLabel ? "short-label" : ""}`}
+      } ${
+        !isOpen && showValueAsLabel && page !== "editDetails"
+          ? "short-label"
+          : ""
+      }`}
     >
       <div
         className={`select-container ${isOpen ? "opened" : "closed"} ${
