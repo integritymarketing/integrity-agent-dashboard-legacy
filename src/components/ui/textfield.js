@@ -64,7 +64,7 @@ const Textfield = ({
   onClear = null,
   onReset = null,
   placeholder,
-  showOverlay,
+  isOpen,
   ...inputProps
 }) => {
   let InputElement = multiline ? "textarea" : "input";
@@ -135,7 +135,7 @@ const Textfield = ({
               }
             }}
             {...dayPickerConfig}
-            showOverlay={showOverlay}
+            showOverlay={isOpen}
             inputprops={inputElementProps}
           />
         ) : (

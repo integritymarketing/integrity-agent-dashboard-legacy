@@ -77,8 +77,6 @@ export default (props) => {
     notes,
   } = props.personalInfo;
 
-  const [isPopperOpen, setIsPopperOpen] = useState(false);
-
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
@@ -110,6 +108,7 @@ export default (props) => {
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const history = useHistory();
 
@@ -137,10 +136,6 @@ export default (props) => {
     doFetch(postalCode); // eslint-disable-next-line
   }, []);
 
-  const handleButtonClick = () => {
-    debugger;
-    setIsPopperOpen(true);
-  };
   return (
     <Formik
       initialValues={{
@@ -363,7 +358,7 @@ export default (props) => {
                 <div className={styles.label}>Birthdate</div>
 
                 <Textfield
-                  showOverlay={isPopperOpen}
+                  isOpen={isOpen}
                   id="contact-birthdate"
                   type="date"
                   placeholder="MM/DD/YYYY"
@@ -373,9 +368,12 @@ export default (props) => {
                   onBlur={handleBlur}
                   error={touched.birthdate && errors.birthdate}
                 />
-                <div className={styles.iconContainer}>
+
+                <div
+                  onClick={() => setIsOpen(true)}
+                  className={styles.iconContainer}
+                >
                   <img
-                    onClick={handleButtonClick}
                     src={calendar}
                     alt="dateOfBirth"
                     className={styles.calendarIcon}
