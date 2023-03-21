@@ -87,16 +87,16 @@ const contactLeadActivitiesSelector = selector({
     if (sorting.column === "createDate") {
       sortedActivities = filteredActivities.sort((a, b) => {
         return sorting.order === "desc"
-          ? new Date(a.createDate) - new Date(b.createDate)
-          : new Date(b.createDate) - new Date(a.createDate);
+          ? new Date(b.createDate) - new Date(a.createDate)
+          : new Date(a.createDate) - new Date(b.createDate);
       });
     }
 
     if (sorting.column === "activitySubject") {
       sortedActivities = filteredActivities.sort((a, b) => {
         return sorting.order === "desc"
-          ? a.activitySubject.localeCompare(b.activitySubject)
-          : b.activitySubject.localeCompare(a.activitySubject);
+          ? b.activitySubject.localeCompare(a.activitySubject)
+          : a.activitySubject.localeCompare(b.activitySubject);
       });
     }
 
