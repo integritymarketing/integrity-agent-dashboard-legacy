@@ -14,6 +14,7 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
+import calendar from "images/icons-date.png";
 import styles from "./styles.module.scss";
 
 const PrimaryContactTypes = [
@@ -76,6 +77,8 @@ export default (props) => {
     notes,
   } = props.personalInfo;
 
+  const [isPopperOpen, setIsPopperOpen] = useState(false);
+
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
@@ -134,6 +137,10 @@ export default (props) => {
     doFetch(postalCode); // eslint-disable-next-line
   }, []);
 
+  const handleButtonClick = () => {
+    debugger;
+    setIsPopperOpen(true);
+  };
   return (
     <Formik
       initialValues={{
@@ -356,16 +363,24 @@ export default (props) => {
                 <div className={styles.label}>Birthdate</div>
 
                 <Textfield
+                  showOverlay={isPopperOpen}
                   id="contact-birthdate"
-                  type="text"
+                  type="date"
                   placeholder="MM/DD/YYYY"
                   name="birthdate"
                   value={values.birthdate}
-                  maxLength={"10"}
-                  onChange={handleChange}
+                  onDateChange={handleChange}
                   onBlur={handleBlur}
                   error={touched.birthdate && errors.birthdate}
                 />
+                <div className={styles.iconContainer}>
+                  <img
+                    onClick={handleButtonClick}
+                    src={calendar}
+                    alt="dateOfBirth"
+                    className={styles.calendarIcon}
+                  />
+                </div>
               </div>
 
               <div className={styles.inputContainer}>
