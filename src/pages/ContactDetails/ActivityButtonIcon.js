@@ -1,14 +1,15 @@
 import React from "react";
-
 import LINK from "components/icons/activities/Link";
 import DOWNLOAD from "components/icons/activities/Download";
 import styles from "./ActivitySubjectWithIcon.module.scss";
 import SOACOMPLETE from "components/icons/activities/SoaComplete";
 import SOAVIEW from "components/icons/activities/SoaView";
-import VIEWPLANS from "components/icons/activities/ViewPlans";
 import VIEWPLANSCONTACT from "components/icons/activities/ViewPlansContact";
+import View from "images/View.png";
 
 export default function ActivityButtonIcon({ activitySubject, route = "" }) {
+  const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
+
   const getIcon = () => {
     const icon = {
       "Incoming Call": <LINK />,
@@ -18,8 +19,15 @@ export default function ActivityButtonIcon({ activitySubject, route = "" }) {
       "Incoming Call Recorded": <DOWNLOAD />,
       "Scope of Appointment Signed": <SOACOMPLETE />,
       "Scope of Appointment Completed": <SOAVIEW />,
-      "Plan Shared": route === "contactDetail" ? <VIEWPLANSCONTACT /> :<VIEWPLANS />,
-      "Application Submitted": <VIEWPLANS />,
+      "Plan Shared":
+        route === "contactDetail" ? (
+          <VIEWPLANSCONTACT />
+        ) : (
+          <ImageToIcon src={View} alt="Meeting Recorded" />
+        ),
+      "Application Submitted": (
+        <ImageToIcon src={View} alt="Meeting Recorded" />
+      ),
       "Meeting Recorded": <DOWNLOAD />,
     };
 
