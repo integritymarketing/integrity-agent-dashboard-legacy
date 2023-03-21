@@ -82,11 +82,24 @@ const contactLeadActivitiesSelector = selector({
       return true;
     });
 
-    const sortedActivities = filteredActivities.sort((a, b) => {
-      return sorting.order === "desc"
-        ? b[sorting.column] - a[sorting.column]
-        : a[sorting.column] - b[sorting.column];
-    });
+    let sortedActivities = [];
+
+    if (sorting.column === "createDate") {
+      sortedActivities = filteredActivities.sort((a, b) => {
+        return sorting.order === "desc"
+          ? new Date(a.createDate) - new Date(b.createDate)
+          : new Date(b.createDate) - new Date(a.createDate);
+      });
+    }
+
+    if (sorting.column === "activitySubject") {
+      sortedActivities = filteredActivities.sort((a, b) => {
+        return sorting.order === "desc"
+          ? a.activitySubject.localeCompare(b.activitySubject)
+          : b.activitySubject.localeCompare(a.activitySubject);
+      });
+    }
+
     return [sortedActivities.splice(0, pageLimit), leadFullName];
   },
 });

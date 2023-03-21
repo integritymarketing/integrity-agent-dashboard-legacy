@@ -9,6 +9,8 @@ import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIco
 import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
 import styles from "./Activities.module.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import { useRecoilState } from "recoil";
+import state from "./state";
 
 const initialState = {
   sortBy: [
@@ -100,8 +102,11 @@ export default function ActivitiesTable({
   isMobile,
 }) {
   const history = useHistory();
-  const [sort, setSort] = useState("date:asc");
   const [fullList, setFullList] = useState([]);
+
+  const [, setActivitiesSortBy] = useRecoilState(
+    state.atoms.activitiesSortingByDateAtom
+  );
 
   useEffect(() => {
     setFullList([...data]);
@@ -269,37 +274,28 @@ export default function ActivitiesTable({
   const handleSortUpdate = (value) => {
     switch (value) {
       case "Date":
-        if (sort === "date:asc") {
-          setSort("date:desc");
-          let sorted = fullList.sort(
-            (a, b) => new Date(a.createDate) - new Date(b.createDate)
-          );
-          setFullList([...sorted]);
-        } else {
-          setSort("date:asc");
-          let sorted = fullList.sort(
-            (a, b) => new Date(b.createDate) - new Date(a.createDate)
-          );
-          setFullList([...sorted]);
-        }
+        setActivitiesSortBy((sort) => {
+          return {
+            column: "createDate",
+            order: sort.order === "desc" ? "asc" : "desc",
+          };
+        });
         break;
       case "Activity":
-        if (sort === "activity:asc") {
-          setSort("activity:desc");
-          let sorted = fullList.sort((a, b) =>
-            a.activitySubject.localeCompare(b.activitySubject)
-          );
-          setFullList([...sorted]);
-        } else {
-          setSort("activity:asc");
-          let sorted = fullList.sort((a, b) =>
-            b.activitySubject.localeCompare(a.activitySubject)
-          );
-          setFullList([...sorted]);
-        }
+        setActivitiesSortBy((sort) => {
+          return {
+            column: "activitySubject",
+            order: sort.order === "desc" ? "asc" : "desc",
+          };
+        });
         break;
       default:
-        setSort("date:asc");
+        setActivitiesSortBy((sort) => {
+          return {
+            column: "createDate",
+            order: "desc",
+          };
+        });
     }
   };
 
