@@ -14,6 +14,7 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
+import calendar from "images/icons-date.png";
 import styles from "./styles.module.scss";
 
 const PrimaryContactTypes = [
@@ -107,6 +108,7 @@ export default (props) => {
 
   const addToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const history = useHistory();
 
@@ -356,16 +358,27 @@ export default (props) => {
                 <div className={styles.label}>Birthdate</div>
 
                 <Textfield
+                  isOpen={isOpen}
                   id="contact-birthdate"
-                  type="text"
+                  type="date"
                   placeholder="MM/DD/YYYY"
                   name="birthdate"
                   value={values.birthdate}
-                  maxLength={"10"}
-                  onChange={handleChange}
+                  onDateChange={handleChange}
                   onBlur={handleBlur}
                   error={touched.birthdate && errors.birthdate}
                 />
+
+                <div
+                  onClick={() => setIsOpen(true)}
+                  className={styles.iconContainer}
+                >
+                  <img
+                    src={calendar}
+                    alt="dateOfBirth"
+                    className={styles.calendarIcon}
+                  />
+                </div>
               </div>
 
               <div className={styles.inputContainer}>
