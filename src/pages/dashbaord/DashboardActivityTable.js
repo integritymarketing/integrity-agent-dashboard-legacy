@@ -155,49 +155,48 @@ export default function DashboardActivityTable({
     }
   };
 
-  const handleClick = async (
-    activitySubject,
-    activityInteractionURL,
-    leadsId
-  ) => {
-    const splitViewPlansURL = activityInteractionURL.split("/");
-    switch (activitySubject) {
-      case "Scope of Appointment Signed":
-      case "Scope of Appointment Completed":
-        history.push(
-          `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
-        );
-        break;
-      case "Plan Shared":
-        history.push(
-          `/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
-        );
-        break;
-      case "Call Recording":
-      case "Incoming Call Recorded":
-      case "Outbound Call Recorded":
-      case "Contact's new call log created":
-      case "Meeting Recorded":
-        window.open(activityInteractionURL, "_blank");
-        break;
-      case "Application Submitted":
-        let link = await ComparePlansService?.getPdfSource(
-          activityInteractionURL,
-          npn
-        );
-        console.log("MOBILE TESTING ....:", link);
-        var url = await window.URL.createObjectURL(link);
+  const handleClick = useCallback(
+    async (activitySubject, activityInteractionURL, leadsId) => {
+      const splitViewPlansURL = activityInteractionURL.split("/");
+      switch (activitySubject) {
+        case "Scope of Appointment Signed":
+        case "Scope of Appointment Completed":
+          history.push(
+            `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
+          );
+          break;
+        case "Plan Shared":
+          history.push(
+            `/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
+          );
+          break;
+        case "Call Recording":
+        case "Incoming Call Recorded":
+        case "Outbound Call Recorded":
+        case "Contact's new call log created":
+        case "Meeting Recorded":
+          window.open(activityInteractionURL, "_blank");
+          break;
+        case "Application Submitted":
+          let link = await ComparePlansService?.getPdfSource(
+            activityInteractionURL,
+            npn
+          );
+          console.log("MOBILE TESTING ....:", link);
+          var url = await window.URL.createObjectURL(link);
 
-        if (url && url !== "") {
-          window.open(url, "_blank");
-        } else {
-          console.log("NO PDF SOURCE AVAILABLE", url);
-        }
-        break;
-      default:
-        break;
-    }
-  };
+          if (url && url !== "") {
+            window.open(url, "_blank");
+          } else {
+            console.log("NO PDF SOURCE AVAILABLE", url);
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    [history, npn]
+  );
 
   const handleTableRowClick = useCallback(
     (row) => {
