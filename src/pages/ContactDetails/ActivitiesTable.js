@@ -11,6 +11,8 @@ import styles from "./Activities.module.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import { useRecoilState } from "recoil";
 import state from "./state";
+import ComparePlansService from "services/comparePlansService";
+import useUserProfile from "hooks/useUserProfile";
 
 const initialState = {
   sortBy: [
@@ -108,12 +110,15 @@ export default function ActivitiesTable({
     state.atoms.activitiesSortingByDateAtom
   );
 
+  const userProfile = useUserProfile();
+  const { npn } = userProfile;
+
   useEffect(() => {
     setFullList([...data]);
   }, [data]);
 
   const handleClick = useCallback(
-    (activitySubject, activityInteractionURL) => {
+    async (activitySubject, activityInteractionURL) => {
       const splitViewPlansURL = activityInteractionURL.split("/");
 
       switch (activitySubject) {
@@ -135,11 +140,24 @@ export default function ActivitiesTable({
         case "Meeting Recorded":
           window.open(activityInteractionURL, "_blank");
           break;
+        case "Application Submitted":
+          let link = await ComparePlansService?.getPdfSource(
+            activityInteractionURL,
+            npn
+          );
+          var url = await window.URL.createObjectURL(link);
+
+          if (url && url !== "") {
+            window.open(url, "_blank");
+          } else {
+            console.log("NO PDF SOURCE AVAILABLE", url);
+          }
+          break;
         default:
           break;
       }
     },
-    [history, leadId]
+    [history, leadId, npn]
   );
 
   const webColumns = useMemo(
