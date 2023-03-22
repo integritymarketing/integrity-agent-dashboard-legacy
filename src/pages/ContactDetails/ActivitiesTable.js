@@ -113,7 +113,7 @@ export default function ActivitiesTable({
   }, [data]);
 
   const handleClick = useCallback(
-    (activitySubject, activityInteractionURL) => {
+    async (activitySubject, activityInteractionURL) => {
       const splitViewPlansURL = activityInteractionURL.split("/");
 
       switch (activitySubject) {
@@ -134,6 +134,19 @@ export default function ActivitiesTable({
         case "Contact's new call log created":
         case "Meeting Recorded":
           window.open(activityInteractionURL, "_blank");
+          break;
+        case "Application Submitted":
+          let link = await ComparePlansService?.getPdfSource(
+            activityInteractionURL,
+            npn
+          );
+          var url = await window.URL.createObjectURL(link);
+
+          if (url && url !== "") {
+            window.open(url, "_blank");
+          } else {
+            console.log("NO PDF SOURCE AVAILABLE", url);
+          }
           break;
         default:
           break;
