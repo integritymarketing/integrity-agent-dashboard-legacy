@@ -90,7 +90,7 @@ class ComparePlansService {
       null,
       undefined,
       {
-        AgentNPN: agentNPN,
+        AgentNPN: agentNPN || user?.profile.npn,
         Authorization: "Bearer " + user.access_token,
       }
     );
