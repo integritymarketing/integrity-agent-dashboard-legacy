@@ -11,6 +11,8 @@ import styles from "./Activities.module.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import { useRecoilState } from "recoil";
 import state from "./state";
+import ComparePlansService from "services/comparePlansService";
+import useUserProfile from "hooks/useUserProfile";
 
 const initialState = {
   sortBy: [
@@ -108,6 +110,9 @@ export default function ActivitiesTable({
     state.atoms.activitiesSortingByDateAtom
   );
 
+  const userProfile = useUserProfile();
+  const { npn } = userProfile;
+
   useEffect(() => {
     setFullList([...data]);
   }, [data]);
@@ -152,7 +157,7 @@ export default function ActivitiesTable({
           break;
       }
     },
-    [history, leadId]
+    [history, leadId, npn]
   );
 
   const webColumns = useMemo(
