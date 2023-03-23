@@ -92,6 +92,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
       .updateLeadZip(personalInfo, zip)
       .then(() => {
         setPostalCode(zip);
+        setisZipAlertOpen(false);
       });
     console.log("RESPONSE..:", response);
   }
