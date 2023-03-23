@@ -35,14 +35,16 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
 
   const addressData = addresses.length > 0 ? addresses[0] : null;
   const city = addressData && addressData.city ? addressData.city : "";
-  const stateCode =
-    addressData && addressData.stateCode ? addressData.stateCode : "";
+  const [stateCode, setStateCode] = useState(
+    addressData && addressData.stateCode ? addressData.stateCode : ""
+  );
   const address1 =
     addressData && addressData.address1 ? addressData.address1 : "";
   const address2 =
     addressData && addressData.address2 ? addressData.address2 : "";
-  const postalCode =
-    addressData && addressData.postalCode ? addressData.postalCode : "";
+  const [postalCode, setPostalCode] = useState(
+    addressData && addressData.postalCode ? addressData.postalCode : ""
+  );
   const county =
     addressData && addressData.county ? addressData.county : notAvailable;
 
@@ -74,11 +76,22 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
       }
     }
   }, [allCounties]); // eslint-disable-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
+  useEffect(() => {
+    if (allStates.length !== 0 && stateCode === "") {
+      setStateCode(allStates[0].value);
+      clientsService
+        .updateLeadState(personalInfo, allStates[0].value)
+        .then(() => {
+          console.log("State updated automatically");
+        });
+    }
+  });
   async function updateZip(zip) {
     let response = await clientsService
       .updateLeadZip(personalInfo, zip)
       .then(() => {
-        window.location.reload(true);
+        setPostalCode(zip);
       });
     console.log("RESPONSE..:", response);
   }
@@ -224,7 +237,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
         </div>
       </div>
       <AddZip
-        isOpen={false}
+        isOpen={isZipAlertOpen}
         onClose={() => setisZipAlertOpen(false)}
         updateZip={updateZip}
         address={
