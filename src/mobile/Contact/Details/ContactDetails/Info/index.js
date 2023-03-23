@@ -2,6 +2,7 @@ import React from "react";
 import { formatAddress } from "utils/address";
 import styles from "./styles.module.scss";
 import star from "images/icons-star.png";
+import { formatDate } from "utils/dates";
 
 const notAvailable = "-";
 
@@ -46,7 +47,9 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
 
       <div className={styles.content}>
         <div className={styles.title}>BirthDay</div>
-        <div className={styles.name}>{birthdate}</div>
+        <div className={styles.name}>
+          {birthdate ? formatDate(birthdate) : "--"}
+        </div>
       </div>
 
       <div className={styles.content}>
