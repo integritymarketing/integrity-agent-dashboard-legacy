@@ -364,7 +364,10 @@ export default (props) => {
                   placeholder="MM/DD/YYYY"
                   name="birthdate"
                   value={values.birthdate}
-                  onDateChange={handleChange}
+                  onDateChange={(value) => {
+                    let dd = formatDate(value);
+                    setFieldValue("birthdate", dd);
+                  }}
                   onBlur={handleBlur}
                   error={touched.birthdate && errors.birthdate}
                 />
