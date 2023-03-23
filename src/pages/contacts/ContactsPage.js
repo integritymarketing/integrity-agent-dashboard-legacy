@@ -42,7 +42,7 @@ import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ContactSort from "components/icons/contact-sort";
 import { useActiveFilters } from "hooks/useActiveFilters";
-
+import { PreventOrientation } from "prevent-orientation";
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
@@ -191,6 +191,12 @@ export default () => {
     setIsOpenExportContactsModal(false);
   };
 
+  new PreventOrientation({
+    text: "Kindly rotate your device to the portrait mode for using this site",
+    color: "white",
+    background: "#051D43",
+    fontSize: "1.2rem",
+  }).preventLandscape();
   return (
     <React.Fragment>
       <Media
