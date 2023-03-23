@@ -63,7 +63,7 @@ const Textfield = ({
   isMobile = false,
   onClear = null,
   onReset = null,
-  placeholder,
+  date_placeholder,
   isOpen,
   ...inputProps
 }) => {
@@ -127,7 +127,7 @@ const Textfield = ({
             value={value}
             formatDate={formatDate}
             format={"MM/dd/yyyy"}
-            placeholder={placeholder}
+            placeholder={date_placeholder}
             parseDate={parseDate}
             onDayChange={(selectedDay, modifiers, dayPickerInput) => {
               if (selectedDay) {

@@ -361,7 +361,7 @@ export default (props) => {
                   isOpen={isOpen}
                   id="contact-birthdate"
                   type="date"
-                  placeholder="MM/DD/YYYY"
+                  date_placeholder="MM/DD/YYYY"
                   name="birthdate"
                   value={values.birthdate}
                   onDateChange={(value) => {
