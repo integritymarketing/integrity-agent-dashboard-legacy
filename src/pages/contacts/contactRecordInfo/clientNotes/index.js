@@ -4,6 +4,7 @@ import { Button } from "components/ui/Button";
 import clientsService from "services/clientsService";
 import "./client-notes.scss";
 import useToast from "../../../../hooks/useToast";
+import EditIcon from "components/icons/icon-edit";
 
 export default function ClientNotes(props) {
   const [isEdit, setIsEdit] = useState(false);
@@ -44,9 +45,12 @@ export default function ClientNotes(props) {
               className="client-note-btn pull-right"
               data-gtm="contact-record-client-notes-edit-button"
             >
-              <Button label="Edit" onClick={handleOnEdit} type="tertiary">
-                {" "}
-              </Button>
+              <Button
+                icon={<EditIcon />}
+                label="Edit"
+                onClick={handleOnEdit}
+                type="tertiary"
+              ></Button>
             </div>
           ) : null}
         </div>
