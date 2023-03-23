@@ -136,7 +136,10 @@ const Textfield = ({
             }}
             {...dayPickerConfig}
             showOverlay={isOpen}
-            inputprops={inputElementProps}
+            inputProps={{
+              ...inputElementProps,
+              readOnly: true,
+            }}
           />
         ) : (
           <InputElement value={value} {...inputElementProps} />
