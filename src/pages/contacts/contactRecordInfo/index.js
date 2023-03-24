@@ -223,6 +223,7 @@ export default () => {
     await clientsService
       .updateLeadCounty(personalInfo, county, fip, zip, state)
       .then(() => {
+        setCounty(county);
         window.location.reload(true);
       });
   };

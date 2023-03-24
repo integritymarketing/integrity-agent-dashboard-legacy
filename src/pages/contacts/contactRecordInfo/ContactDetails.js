@@ -45,8 +45,9 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   const [postalCode, setPostalCode] = useState(
     addressData && addressData.postalCode ? addressData.postalCode : ""
   );
-  const county =
-    addressData && addressData.county ? addressData.county : notAvailable;
+  const [county, setCounty] = useState(
+    addressData && addressData.county ? addressData.county : notAvailable
+  );
 
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
@@ -61,12 +62,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   }, [postalCode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (
-      postalCode &&
-      personalInfo.addresses.length !== 0 &&
-      county === notAvailable &&
-      !isCountyAlertOpen
-    ) {
+    if (postalCode && county === notAvailable && !isCountyAlertOpen) {
       doFetch(postalCode);
       if (allCounties.length === 1) {
         // assign directly
@@ -88,6 +84,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     }
   });
   async function updateZip(zip) {
+    console.log(personalInfo);
     let response = await clientsService
       .updateLeadZip(personalInfo, zip)
       .then(() => {
@@ -100,7 +97,8 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     let response = clientsService
       .updateLeadCounty(personalInfo, county, fip)
       .then(() => {
-        window.location.reload(true);
+        setCounty(county);
+        setisCountyAlertOpen(false);
       });
     console.log("RESPONSE..:", response);
   }

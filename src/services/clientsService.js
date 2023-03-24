@@ -1026,6 +1026,38 @@ export class ClientsService {
   };
 
   updateLeadZip = async (contact, zip) => {
+    let addresses = [];
+    if (contact.addresses.length !== 0 && contact.addresses[0].leadAddressId) {
+      addresses = [
+        {
+          leadAddressId: contact.addresses[0].leadAddressId,
+          address1: contact.addresses[0].address1,
+          address2: contact.addresses[0].address2,
+          city: contact.addresses[0].city,
+          stateCode: contact.addresses[0].stateCode,
+          postalCode: zip,
+          county: contact.addresses[0].county,
+          countyFips: contact.addresses[0].countyFips,
+          createDate: contact.addresses[0].createDate,
+          modifyDate: contact.addresses[0].modifyDate,
+        },
+      ];
+    } else {
+      addresses = [
+        {
+          leadAddressId: null,
+          address1: null,
+          address2: null,
+          city: null,
+          stateCode: null,
+          postalCode: zip,
+          county: null,
+          countyFips: null,
+          createDate: null,
+          modifyDate: null,
+        },
+      ];
+    }
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
       "PUT",
@@ -1040,20 +1072,7 @@ export class ClientsService {
         notes: contact.notes,
         emails: contact.emails,
         phones: contact.phones,
-        addresses: [
-          {
-            leadAddressId: contact.addresses[0].leadAddressId,
-            address1: contact.addresses[0].address1,
-            address2: contact.addresses[0].address2,
-            city: contact.addresses[0].city,
-            stateCode: contact.addresses[0].stateCode,
-            postalCode: zip,
-            county: contact.addresses[0].county,
-            countyFips: contact.addresses[0].countyFips,
-            createDate: contact.addresses[0].createDate,
-            modifyDate: contact.addresses[0].modifyDate,
-          },
-        ],
+        addresses: addresses,
       }
     );
     if (!response?.ok) {
@@ -1100,6 +1119,39 @@ export class ClientsService {
   };
 
   updateLeadCounty = async (contact, county, fips, zip, state) => {
+    let addresses = [];
+    if (contact.addresses.length !== 0 && contact.addresses[0].leadAddressId) {
+      addresses = [
+        {
+          leadAddressId: contact.addresses[0].leadAddressId,
+          address1: contact.addresses[0].address1,
+          address2: contact.addresses[0].address2,
+          city: contact.addresses[0].city,
+          stateCode: state ? state : contact.addresses[0].stateCode,
+          postalCode: zip ? zip : contact.addresses[0].postalCode,
+          county: county,
+          countyFips: fips,
+          createDate: contact.addresses[0].createDate,
+          modifyDate: contact.addresses[0].modifyDate,
+        },
+      ];
+    } else {
+      addresses = [
+        {
+          leadAddressId: null,
+          address1: null,
+          address2: null,
+          city: null,
+          stateCode: state ? state : contact.addresses[0].stateCode,
+          postalCode: zip ? zip : contact.addresses[0].postalCode,
+          county: county,
+          countyFips: fips,
+          createDate: null,
+          modifyDate: null,
+        },
+      ];
+    }
+
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
       "PUT",
@@ -1114,20 +1166,7 @@ export class ClientsService {
         notes: contact.notes,
         emails: contact.emails,
         phones: contact.phones,
-        addresses: [
-          {
-            leadAddressId: contact.addresses[0].leadAddressId,
-            address1: contact.addresses[0].address1,
-            address2: contact.addresses[0].address2,
-            city: contact.addresses[0].city,
-            stateCode: state ? state : contact.addresses[0].stateCode,
-            postalCode: zip ? zip : contact.addresses[0].postalCode,
-            county: county,
-            countyFips: fips,
-            createDate: contact.addresses[0].createDate,
-            modifyDate: contact.addresses[0].modifyDate,
-          },
-        ],
+        addresses: addresses,
       }
     );
     if (!response?.ok) {
