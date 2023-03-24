@@ -63,8 +63,6 @@ const Textfield = ({
   isMobile = false,
   onClear = null,
   onReset = null,
-  date_placeholder,
-  isOpen,
   ...inputProps
 }) => {
   let InputElement = multiline ? "textarea" : "input";
@@ -127,7 +125,6 @@ const Textfield = ({
             value={value}
             formatDate={formatDate}
             format={"MM/dd/yyyy"}
-            placeholder={date_placeholder}
             parseDate={parseDate}
             onDayChange={(selectedDay, modifiers, dayPickerInput) => {
               if (selectedDay) {
@@ -135,7 +132,6 @@ const Textfield = ({
               }
             }}
             {...dayPickerConfig}
-            showOverlay={isOpen}
             inputProps={{
               ...inputElementProps,
               readOnly: true,
