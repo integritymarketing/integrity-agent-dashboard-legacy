@@ -236,7 +236,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
         </div>
       </div>
       <AddZip
-        isOpen={isZipAlertOpen}
+        isOpen={false}
         onClose={() => setisZipAlertOpen(false)}
         updateZip={updateZip}
         address={
