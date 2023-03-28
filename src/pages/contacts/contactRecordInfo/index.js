@@ -222,10 +222,9 @@ export default () => {
   const updateCounty = async (county, fip, zip, state) => {
     await clientsService
       .updateLeadCounty(personalInfo, county, fip, zip, state)
-      .then(async () => {
-        setCounty(county);
-        await getLeadDetails();
+      .then(() => {
         setisZipAlertOpen(false);
+        getLeadDetails();
       });
   };
 
@@ -247,13 +246,9 @@ export default () => {
       }
     } else {
       if (county) {
-        const response = await updateZip(zip);
-        if (response) {
-          const fip = allCounties.filter((item) => item.value === county)[0]
-            ?.key;
-          const state = allStates[0]?.value;
-          await updateCounty(county, fip, zip, state);
-        }
+        const fip = allCounties.filter((item) => item.value === county)[0]?.key;
+        const state = allStates[0]?.value;
+        updateCounty(county, fip, zip, state);
       } else {
         setCountyError(true);
       }

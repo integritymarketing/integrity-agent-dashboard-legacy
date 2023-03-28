@@ -100,6 +100,9 @@ export default function AddZip({
                       onChange={(value) => setCounty(value)}
                       showValueAlways={true}
                       error={countyError}
+                      isDefaultOpen={
+                        allCounties.length > 1 && county === "" ? true : false
+                      }
                     />
                   </div>
                 )}

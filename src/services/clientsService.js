@@ -1025,39 +1025,7 @@ export class ClientsService {
     return response?.json();
   };
 
-  updateLeadZip = async (contact, zip) => {
-    let addresses = [];
-    if (contact.addresses.length !== 0 && contact.addresses[0].leadAddressId) {
-      addresses = [
-        {
-          leadAddressId: contact.addresses[0].leadAddressId,
-          address1: contact.addresses[0].address1,
-          address2: contact.addresses[0].address2,
-          city: contact.addresses[0].city,
-          stateCode: contact.addresses[0].stateCode,
-          postalCode: zip,
-          county: contact.addresses[0].county,
-          countyFips: contact.addresses[0].countyFips,
-          createDate: contact.addresses[0].createDate,
-          modifyDate: contact.addresses[0].modifyDate,
-        },
-      ];
-    } else {
-      addresses = [
-        {
-          leadAddressId: null,
-          address1: null,
-          address2: null,
-          city: null,
-          stateCode: null,
-          postalCode: zip,
-          county: null,
-          countyFips: null,
-          createDate: null,
-          modifyDate: null,
-        },
-      ];
-    }
+  updateLeadZip = async (contact, zip, county, countyFips) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
       "PUT",
@@ -1072,7 +1040,20 @@ export class ClientsService {
         notes: contact.notes,
         emails: contact.emails,
         phones: contact.phones,
-        addresses: addresses,
+        addresses: [
+          {
+            leadAddressId: contact?.addresses[0]?.leadAddressId,
+            address1: contact?.addresses[0]?.address1,
+            address2: contact?.addresses[0]?.address2,
+            city: contact?.addresses[0]?.city,
+            stateCode: contact?.addresses[0]?.stateCode,
+            postalCode: zip,
+            county: county,
+            countyFips: countyFips,
+            createDate: contact?.addresses[0]?.createDate,
+            modifyDate: contact?.addresses[0]?.modifyDate,
+          },
+        ],
       }
     );
     if (!response?.ok) {
@@ -1098,16 +1079,16 @@ export class ClientsService {
         phones: contact.phones,
         addresses: [
           {
-            leadAddressId: contact.addresses[0].leadAddressId,
-            address1: contact.addresses[0].address1,
-            address2: contact.addresses[0].address2,
-            city: contact.addresses[0].city,
+            leadAddressId: contact?.addresses[0]?.leadAddressId,
+            address1: contact?.addresses[0]?.address1,
+            address2: contact?.addresses[0]?.address2,
+            city: contact?.addresses[0]?.city,
             stateCode: stateCode,
-            postalCode: contact.addresses[0].postalCode,
-            county: contact.addresses[0].county,
-            countyFips: contact.addresses[0].countyFips,
-            createDate: contact.addresses[0].createDate,
-            modifyDate: contact.addresses[0].modifyDate,
+            postalCode: contact?.addresses[0]?.postalCode,
+            county: contact?.addresses[0]?.county,
+            countyFips: contact?.addresses[0]?.countyFips,
+            createDate: contact?.addresses[0]?.createDate,
+            modifyDate: contact?.addresses[0]?.modifyDate,
           },
         ],
       }
@@ -1166,7 +1147,20 @@ export class ClientsService {
         notes: contact.notes,
         emails: contact.emails,
         phones: contact.phones,
-        addresses: addresses,
+        addresses: [
+          {
+            leadAddressId: addresses[0]?.leadAddressId,
+            address1: addresses[0]?.address1,
+            address2: addresses[0]?.address2,
+            city: addresses[0]?.city,
+            stateCode: addresses[0]?.stateCode,
+            postalCode: addresses[0]?.postalCode,
+            county: addresses[0]?.county,
+            countyFips: addresses[0]?.countyFips,
+            createDate: addresses[0]?.createDate,
+            modifyDate: addresses[0]?.modifyDate,
+          },
+        ],
       }
     );
     if (!response?.ok) {
