@@ -106,9 +106,9 @@ export default function PlanCard({
   const isMidAEP = now >= aepSeasonStart && now <= aepSeasonMid ? true : false;
   const isJanuary = new Date(effectiveDate).getMonth() === 0 ? true : false;
 
-  const { hasRole } = useRoles();
+  const { isNonRTS_User } = useRoles();
 
-  const disableEnroll = hasRole(Roles.NonRts) || (isMidAEP && isJanuary);
+  const disableEnroll = isNonRTS_User || (isMidAEP && isJanuary);
 
   return (
     <div className={"plan-card"}>
