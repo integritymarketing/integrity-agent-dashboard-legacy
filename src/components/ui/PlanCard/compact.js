@@ -6,8 +6,7 @@ import Popover from "components/ui/Popover";
 import ShareIcon from "components/icons/vector";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Info from "components/icons/info-blue";
-import useRoles, { Roles } from "hooks/useRoles";
-
+import useRoles from "hooks/useRoles";
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -24,8 +23,7 @@ const CompactPlanCard = ({
   onlyButtons = false,
 }) => {
   const { documents } = planData;
-  const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  const { isNonRTS_User } = useRoles();
 
   const buttons = (
     <div className={`footer ${isMobile ? "mobile" : ""}`}>
@@ -53,15 +51,9 @@ const CompactPlanCard = ({
         />
       )}
 
-      {!planData.nonLicensedPlan &&
-        !nonRTS_USER &&
-        process.env.REACT_APP_NON_RTS_FLAG !==
-          "hide"(
-            <Button
-              label={"Enroll"}
-              onClick={() => onEnrollClick(planData.id)}
-            />
-          )}
+      {!planData.nonLicensedPlan && !isNonRTS_User && (
+        <Button label={"Enroll"} onClick={() => onEnrollClick(planData.id)} />
+      )}
     </div>
   );
 

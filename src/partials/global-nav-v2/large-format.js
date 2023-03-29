@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Arrow from "components/icons/down";
 import useUserProfile from "hooks/useUserProfile";
 import { useHistory } from "react-router-dom";
-import useRoles, { Roles } from "hooks/useRoles";
+import useRoles from "hooks/useRoles";
 import "./index.scss";
 
 const nonRTS_DisableLinks = ["LeadCENTER", "MedicareAPP", "MedicareLINK"];
@@ -13,9 +13,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const history = useHistory();
   const [activedLink, setActivedLink] = useState("");
 
-  const { hasRole } = useRoles();
-  const nonRTS_USER =
-    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide";
+  const { isNonRTS_User } = useRoles();
 
   const nonRTS_Props = {
     disabled: true,
@@ -83,7 +81,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
               .filter((link) => link.format !== "small")
               .map((link, idx) => {
                 let { className = "", ...props } = link.props || {};
-                if (nonRTS_USER && nonRTS_DisableLinks.includes(link.label)) {
+                if (isNonRTS_User && nonRTS_DisableLinks.includes(link.label)) {
                   props = { ...props, ...nonRTS_Props };
                 }
                 return (

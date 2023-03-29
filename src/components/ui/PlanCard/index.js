@@ -8,7 +8,7 @@ import {
   capitalizeFirstLetter,
   formatUnderScorestring,
 } from "utils/shared-utils/sharedUtility";
-import useRoles, { Roles } from "hooks/useRoles";
+import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
 
@@ -106,11 +106,9 @@ export default function PlanCard({
   const isMidAEP = now >= aepSeasonStart && now <= aepSeasonMid ? true : false;
   const isJanuary = new Date(effectiveDate).getMonth() === 0 ? true : false;
 
-  const { hasRole } = useRoles();
+  const { isNonRTS_User } = useRoles();
 
-  const disableEnroll =
-    (hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide") ||
-    (isMidAEP && isJanuary);
+  const disableEnroll = isNonRTS_User || (isMidAEP && isJanuary);
 
   return (
     <div className={"plan-card"}>

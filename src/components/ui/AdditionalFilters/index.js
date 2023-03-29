@@ -16,7 +16,7 @@ export default function AdditionalFilters({
   myAppointedPlans,
   rebatesFilter,
   specialNeedsFilter,
-  nonRTS_USER,
+  isNonRTS_User,
 }) {
   return (
     <div className="effective-date-filter">
@@ -66,7 +66,7 @@ export default function AdditionalFilters({
               checked: myAppointedPlans,
               value: "appointed",
               onChange: toggleAppointedPlans,
-              disabled: nonRTS_USER ? true : false,
+              disabled: isNonRTS_User ? true : false,
             },
             {
               label: "Special needs",

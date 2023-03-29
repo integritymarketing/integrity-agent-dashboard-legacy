@@ -28,8 +28,7 @@ import plansService from "services/plansService";
 import WelcomeEmailUser from "partials/welcome-email-user";
 import ComparePlansService from "services/comparePlansService";
 import NonRTSBanner from "components/Non-RTS-Banner";
-import useRoles, { Roles } from "hooks/useRoles";
-
+import useRoles from "hooks/useRoles";
 function getAllPlanDetails({
   planIds,
   contactId,
@@ -70,8 +69,7 @@ export default (props) => {
   const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
   const [contactData, setContactData] = useState({});
 
-  const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  const { isNonRTS_User } = useRoles();
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -192,9 +190,7 @@ export default (props) => {
                 </Container>
               </div>
             )}
-            {nonRTS_USER && process.env.REACT_APP_NON_RTS_FLAG !== "hide" && (
-              <NonRTSBanner />
-            )}
+            {isNonRTS_User && <NonRTSBanner />}
             {isComingFromEmail && (
               <div className={styles["welcome-user-header"]}>
                 <Container>
