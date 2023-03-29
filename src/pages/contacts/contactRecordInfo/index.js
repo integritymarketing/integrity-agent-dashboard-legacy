@@ -211,7 +211,7 @@ export default () => {
   const fetchCounties = async (zipcode) => {
     if (zipcode) {
       const countiesList = await fetchCounty(zipcode);
-      if (countiesList?.all_Counties?.length > 1) {
+      if (countiesList) {
         setAllCounties([...(countiesList?.all_Counties || [])]);
         setAllStates([...(countiesList?.all_States || [])]);
         setSubmitEnable(false);
@@ -258,22 +258,12 @@ export default () => {
       });
   };
 
-  const updateZip = async (zip) => {
-    const response = await clientsService.updateLeadZip(personalInfo, zip);
-    return response;
-  };
-
   const handleUpdateZip = async (zip) => {
     if (allCounties.length === 1) {
-      const response = await updateZip(zip);
-      if (response) {
-        await updateCounty(
-          allCounties[0].value,
-          allCounties[0].key,
-          zip,
-          allStates[0]?.value
-        );
-      }
+      const county = allCounties?.[0]?.value;
+      const fip = allCounties?.[0]?.key;
+      const state = allStates[0]?.value;
+      updateCounty(county, fip, zip, state);
     } else {
       if (county) {
         const fip = allCounties.filter((item) => item.value === county)[0]?.key;
