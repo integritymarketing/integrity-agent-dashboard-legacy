@@ -153,23 +153,27 @@ export default function ComparePlansByPlanName({
                 {!plan.nonLicensedPlan &&
                   !isModal &&
                   !isEmail &&
-                  !nonRTS_USER && (
-                    <Button
-                      onClick={() => handleOnClick(plan)}
-                      label={"Enroll"}
-                      type="primary"
-                    />
-                  )}
+                  !nonRTS_USER &&
+                  process.env.REACT_APP_NON_RTS_FLAG !==
+                    "hide"(
+                      <Button
+                        onClick={() => handleOnClick(plan)}
+                        label={"Enroll"}
+                        type="primary"
+                      />
+                    )}
                 {!plan.nonLicensedPlan &&
                   !isModal &&
                   isEmail &&
-                  !nonRTS_USER && (
-                    <Button
-                      onClick={() => handleBenificiaryClick(plan)}
-                      label={"Enroll"}
-                      type="primary"
-                    />
-                  )}
+                  !nonRTS_USER &&
+                  process.env.REACT_APP_NON_RTS_FLAG !==
+                    "hide"(
+                      <Button
+                        onClick={() => handleBenificiaryClick(plan)}
+                        label={"Enroll"}
+                        type="primary"
+                      />
+                    )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (
                   <span
                     className={styles.close}

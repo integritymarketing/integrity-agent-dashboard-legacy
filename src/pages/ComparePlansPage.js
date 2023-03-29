@@ -192,7 +192,9 @@ export default (props) => {
                 </Container>
               </div>
             )}
-            {nonRTS_USER && <NonRTSBanner />}
+            {nonRTS_USER && process.env.REACT_APP_NON_RTS_FLAG !== "hide" && (
+              <NonRTSBanner />
+            )}
             {isComingFromEmail && (
               <div className={styles["welcome-user-header"]}>
                 <Container>

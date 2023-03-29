@@ -126,7 +126,9 @@ const PlanDetailsPage = () => {
                 </div>
               </Container>
             </div>
-            {nonRTS_USER && <NonRTSBanner />}
+            {nonRTS_USER && process.env.REACT_APP_NON_RTS_FLAG !== "hide" && (
+              <NonRTSBanner />
+            )}
 
             <Container className={`${styles["body"]}`}>
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (

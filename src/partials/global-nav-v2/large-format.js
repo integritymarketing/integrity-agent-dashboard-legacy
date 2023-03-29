@@ -14,7 +14,8 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const [activedLink, setActivedLink] = useState("");
 
   const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  const nonRTS_USER =
+    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide";
 
   const nonRTS_Props = {
     disabled: true,

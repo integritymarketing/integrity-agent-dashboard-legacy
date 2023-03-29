@@ -12,7 +12,8 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
 
   const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  const nonRTS_USER =
+    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide";
 
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", navOpen);

@@ -108,7 +108,9 @@ export default function PlanCard({
 
   const { hasRole } = useRoles();
 
-  const disableEnroll = hasRole(Roles.NonRts) || (isMidAEP && isJanuary);
+  const disableEnroll =
+    (hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide") ||
+    (isMidAEP && isJanuary);
 
   return (
     <div className={"plan-card"}>

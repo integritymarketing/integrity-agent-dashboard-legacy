@@ -27,12 +27,6 @@ export default () => {
 
   const hasRole = useCallback(
     (role) => {
-      // this is to be removed
-      if (
-        process.env.REACT_APP_NON_RTS_FLAG === "hide" &&
-        role === Roles.NonRts
-      )
-        return false;
       return roles.has(role);
     },
     [roles]

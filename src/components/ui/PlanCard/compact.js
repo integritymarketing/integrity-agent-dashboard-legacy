@@ -53,9 +53,15 @@ const CompactPlanCard = ({
         />
       )}
 
-      {!planData.nonLicensedPlan && !nonRTS_USER && (
-        <Button label={"Enroll"} onClick={() => onEnrollClick(planData.id)} />
-      )}
+      {!planData.nonLicensedPlan &&
+        !nonRTS_USER &&
+        process.env.REACT_APP_NON_RTS_FLAG !==
+          "hide"(
+            <Button
+              label={"Enroll"}
+              onClick={() => onEnrollClick(planData.id)}
+            />
+          )}
     </div>
   );
 

@@ -141,7 +141,8 @@ export default () => {
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
 
   const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  const nonRTS_USER =
+    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide";
 
   const MY_APPOINTED_PLANS = nonRTS_USER
     ? false
