@@ -24,7 +24,8 @@ export default function AddZip({
       setInputZip(zipCode);
       handleZipCode(zipCode);
     }
-  }, [zipCode, handleZipCode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zipCode]);
 
   const handleSubmit = () => {
     updateZip(inputZip);
