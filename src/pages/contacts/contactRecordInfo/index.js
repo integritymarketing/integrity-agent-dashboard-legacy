@@ -61,6 +61,28 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const autoUpdateDetails = async (data) => {
+    let zipcode = data?.addresses?.[0]?.postalCode;
+    let county = data?.addresses?.[0]?.county;
+    if (zipcode && !county) {
+      const countiesList = await fetchCounty(zipcode);
+      if (countiesList?.all_Counties?.length === 1) {
+        await clientsService
+          .updateLeadCounty(
+            data,
+            countiesList?.all_Counties[0]?.value,
+            countiesList?.all_Counties[0]?.key,
+            zipcode,
+            countiesList?.all_States[0]?.value
+          )
+          .then(() => {
+            setisZipAlertOpen(false);
+            getLeadDetails();
+          });
+      }
+    }
+  };
+
   const getContactRecordInfo = useCallback(
     async (leadDetails) => {
       setLoading(true);
@@ -72,6 +94,7 @@ export default () => {
         setPersonalInfo(data);
         setReminders(data.reminders);
         setActivities(data.activities);
+        autoUpdateDetails(data);
         const { firstName, lastName, leadsId, emails, phones } = data;
         const email = emails?.[0]?.leadEmail ?? "";
         const leadPhone = phones?.[0]?.leadPhone ?? "";
@@ -111,6 +134,7 @@ export default () => {
         setLoading(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [id]
   );
 
@@ -175,7 +199,11 @@ export default () => {
   const isLoad = loading;
 
   const handleZipDetails = () => {
-    if (!personalInfo?.addresses?.[0]?.postalCode) {
+    const postalCode = personalInfo?.addresses?.[0]?.postalCode;
+    const stateCode = personalInfo?.addresses?.[0]?.stateCode;
+    const county = personalInfo?.addresses?.[0]?.county;
+    const countyFips = personalInfo?.addresses?.[0]?.countyFips;
+    if (!postalCode || !stateCode || !county || !countyFips) {
       setisZipAlertOpen(true);
     }
   };
@@ -183,13 +211,15 @@ export default () => {
   const fetchCounties = async (zipcode) => {
     if (zipcode) {
       const countiesList = await fetchCounty(zipcode);
-      setAllCounties([...(countiesList?.all_Counties || [])]);
-      setAllStates([...(countiesList?.all_States || [])]);
-      setSubmitEnable(false);
-    } else {
-      setAllCounties([]);
-      setAllStates([]);
-      setSubmitEnable(false);
+      if (countiesList?.all_Counties?.length > 1) {
+        setAllCounties([...(countiesList?.all_Counties || [])]);
+        setAllStates([...(countiesList?.all_States || [])]);
+        setSubmitEnable(false);
+      } else {
+        setAllCounties([]);
+        setAllStates([]);
+        setSubmitEnable(false);
+      }
     }
   };
 
@@ -208,7 +238,7 @@ export default () => {
       label: county.countyName,
       key: county.countyFIPS,
     }));
-    let uniqueStates = [...new Set(counties.map((a) => a.state))];
+    let uniqueStates = [...new Set(counties?.map((a) => a.state))];
     const all_States = uniqueStates?.map((state) => {
       let stateName = STATES.filter((a) => a.value === state);
       return {
@@ -257,8 +287,11 @@ export default () => {
 
   const handleViewPlans = () => {
     const postalCode = personalInfo?.addresses?.[0]?.postalCode;
+    const stateCode = personalInfo?.addresses?.[0]?.stateCode;
+    const county = personalInfo?.addresses?.[0]?.county;
+    const countyFips = personalInfo?.addresses?.[0]?.countyFips;
 
-    if (postalCode) {
+    if (postalCode && stateCode && county && countyFips) {
       return (
         <Button
           label="View Available Plans"
@@ -423,6 +456,7 @@ export default () => {
           .filter(Boolean)
           .join(", ")}
         handleZipCode={handleZipCode}
+        zipCode={personalInfo?.addresses?.[0]?.postalCode}
         allCounties={allCounties}
         county={county}
         setCounty={setCounty}

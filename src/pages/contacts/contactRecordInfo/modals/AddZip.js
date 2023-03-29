@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Styles from "./AddZip.module.scss";
 import { Select } from "components/ui/Select";
@@ -14,15 +14,21 @@ export default function AddZip({
   setCounty = () => {},
   countyError = false,
   submitEnable = false,
+  zipCode,
 }) {
   const [inputZip, setInputZip] = useState("");
   const [copied, setCopied] = useState(false);
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  useEffect(() => {
+    if (zipCode) {
+      setInputZip(zipCode);
+      handleZipCode(zipCode);
+    }
+  }, [zipCode, handleZipCode]);
+
+  const handleSubmit = () => {
     updateZip(inputZip);
-    //onClose();
-  }
+  };
 
   return (
     <div>
@@ -85,7 +91,7 @@ export default function AddZip({
                   }}
                 />
 
-                {allCounties?.length > 1 && (
+                {(allCounties?.length > 1 || county) && (
                   <div>
                     <label
                       className="custom-label-county label"
