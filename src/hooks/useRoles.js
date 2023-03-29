@@ -39,9 +39,13 @@ export default () => {
     [roles]
   );
 
+  const isNonRTS_User =
+    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG === "show";
+
   return {
     isAdmin,
     hasRole,
     hasRoles,
+    isNonRTS_User,
   };
 };

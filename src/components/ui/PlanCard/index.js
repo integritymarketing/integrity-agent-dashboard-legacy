@@ -8,7 +8,7 @@ import {
   capitalizeFirstLetter,
   formatUnderScorestring,
 } from "utils/shared-utils/sharedUtility";
-import useRoles, { Roles } from "hooks/useRoles";
+import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
 

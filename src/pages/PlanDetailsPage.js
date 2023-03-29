@@ -23,8 +23,7 @@ import analyticsService from "services/analyticsService";
 import { BackToTop } from "components/ui/BackToTop";
 import ContactFooter from "partials/global-footer";
 import NonRTSBanner from "components/Non-RTS-Banner";
-import useRoles, { Roles } from "hooks/useRoles";
-
+import useRoles from "hooks/useRoles";
 const PlanDetailsPage = () => {
   const addToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
@@ -36,8 +35,7 @@ const PlanDetailsPage = () => {
   const [modalOpen, setModalOpen] = useState();
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
-  const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  const { isNonRTS_User } = useRoles();
 
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
@@ -126,9 +124,7 @@ const PlanDetailsPage = () => {
                 </div>
               </Container>
             </div>
-            {nonRTS_USER && process.env.REACT_APP_NON_RTS_FLAG !== "hide" && (
-              <NonRTSBanner />
-            )}
+            {isNonRTS_User && <NonRTSBanner />}
 
             <Container className={`${styles["body"]}`}>
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (

@@ -4,16 +4,13 @@ import ExitIcon from "components/icons/exit";
 import useUserProfile from "hooks/useUserProfile";
 import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
-import useRoles, { Roles } from "hooks/useRoles";
-
+import useRoles from "hooks/useRoles";
 const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLink"];
 
 export default ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
 
-  const { hasRole } = useRoles();
-  const nonRTS_USER =
-    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide";
+  const { isNonRTS_User } = useRoles();
 
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", navOpen);
@@ -89,7 +86,7 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
               .filter((link) => link.format !== "large")
               .map((link, idx) => {
                 let { className = "", ...props } = link.props || {};
-                if (nonRTS_USER && nonRTS_DisableLinks.includes(link.label)) {
+                if (isNonRTS_User && nonRTS_DisableLinks.includes(link.label)) {
                   className = `${className} disabledEvents`;
                 }
 

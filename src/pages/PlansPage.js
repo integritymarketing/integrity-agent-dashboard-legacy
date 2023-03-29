@@ -35,8 +35,7 @@ import Radio from "components/ui/Radio";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
 import ContactFooter from "partials/global-footer";
 import NonRTSBanner from "components/Non-RTS-Banner";
-import useRoles, { Roles } from "hooks/useRoles";
-
+import useRoles from "hooks/useRoles";
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
     ? 1
@@ -140,11 +139,9 @@ export default () => {
 
   const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
 
-  const { hasRole } = useRoles();
-  const nonRTS_USER =
-    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG !== "hide";
+  const { isNonRTS_User } = useRoles();
 
-  const MY_APPOINTED_PLANS = nonRTS_USER
+  const MY_APPOINTED_PLANS = isNonRTS_User
     ? false
     : showSelected
     ? s_options?.s_myAppointedPlans
@@ -179,7 +176,7 @@ export default () => {
 
   useEffect(() => {
     setMyAppointedPlans(MY_APPOINTED_PLANS);
-  }, [nonRTS_USER, MY_APPOINTED_PLANS]);
+  }, [isNonRTS_User, MY_APPOINTED_PLANS]);
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -530,7 +527,7 @@ export default () => {
 
             {!isEdit && (
               <>
-                {nonRTS_USER && <NonRTSBanner />}
+                {isNonRTS_User && <NonRTSBanner />}
                 <Container className={`${styles["search-container"]}`}>
                   {(!isMobile || (isMobile && filtersOpen)) && (
                     <div className={`${styles["filters"]}`}>
@@ -626,7 +623,7 @@ export default () => {
                                 ? specialNeedsFilter_mobile
                                 : specialNeedsFilter
                             }
-                            nonRTS_USER={nonRTS_USER}
+                            isNonRTS_User={isNonRTS_User}
                           />
                         )}
                       </div>

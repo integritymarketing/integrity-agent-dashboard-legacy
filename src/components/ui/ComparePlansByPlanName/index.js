@@ -5,7 +5,7 @@ import clientsService from "services/clientsService";
 import plansService from "services/plansService";
 import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
-import useRoles, { Roles } from "hooks/useRoles";
+import useRoles from "hooks/useRoles";
 import styles from "../../../pages/PlansPage.module.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -32,8 +32,7 @@ export default function ComparePlansByPlanName({
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
 
-  const { hasRole } = useRoles();
-  const nonRTS_USER = hasRole(Roles.NonRts);
+  const { isNonRTS_User } = useRoles();
 
   useEffect(() => {
     if (!userData && id) {
@@ -153,27 +152,23 @@ export default function ComparePlansByPlanName({
                 {!plan.nonLicensedPlan &&
                   !isModal &&
                   !isEmail &&
-                  !nonRTS_USER &&
-                  process.env.REACT_APP_NON_RTS_FLAG !==
-                    "hide"(
-                      <Button
-                        onClick={() => handleOnClick(plan)}
-                        label={"Enroll"}
-                        type="primary"
-                      />
-                    )}
+                  !isNonRTS_User && (
+                    <Button
+                      onClick={() => handleOnClick(plan)}
+                      label={"Enroll"}
+                      type="primary"
+                    />
+                  )}
                 {!plan.nonLicensedPlan &&
                   !isModal &&
                   isEmail &&
-                  !nonRTS_USER &&
-                  process.env.REACT_APP_NON_RTS_FLAG !==
-                    "hide"(
-                      <Button
-                        onClick={() => handleBenificiaryClick(plan)}
-                        label={"Enroll"}
-                        type="primary"
-                      />
-                    )}
+                  !isNonRTS_User && (
+                    <Button
+                      onClick={() => handleBenificiaryClick(plan)}
+                      label={"Enroll"}
+                      type="primary"
+                    />
+                  )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (
                   <span
                     className={styles.close}
