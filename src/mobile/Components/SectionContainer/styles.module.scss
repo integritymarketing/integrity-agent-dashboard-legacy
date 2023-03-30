@@ -1,15 +1,15 @@
-.sectionContianer{
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-    margin: auto;
-    @media (max-width: 480px) {
-      width: 100%
-    }
+.sectionContianer {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin: auto;
+  @media (max-width: 480px) {
+    width: 100%;
   }
-  
-  .sectionBody {
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-  }
+}
+
+.sectionBody {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+}

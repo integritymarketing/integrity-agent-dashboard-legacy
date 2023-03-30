@@ -3,116 +3,119 @@
 }
 
 .preferencesContainer {
-    border-radius: 5px;
-    background: #ffffff;
-    border: 1px solid #c7ccd1;
-    display: flex;
-    flex-direction: column;
-    margin: 22px 20px;
-  }
-  
-  .preferenceTitle {
-    border-bottom: 1px solid grey;
-    padding: 26px 120px 16px 20px;
-  }
+  border-radius: 5px;
+  background: #ffffff;
+  border: 1px solid #c7ccd1;
+  display: flex;
+  flex-direction: column;
+  margin: 22px 20px;
+}
 
-  .preferenceSection {
-    border-bottom: 1px solid grey;
-    padding: 0 20px 20px 20px;
-  }
+.preferenceTitle {
+  border-bottom: 1px solid grey;
+  padding: 26px 120px 16px 20px;
+}
 
-  .preferenceCommunication {
-    padding: 26px 80px 0 20px;
-  }
+.preferenceSection {
+  border-bottom: 1px solid grey;
+  padding: 0 20px 20px 20px;
+}
 
-  .preferenceTitle h6, h2, .preferenceCommunication h6, h2 { 
-    color: #0052CE;
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-  }
+.preferenceCommunication {
+  padding: 26px 80px 0 20px;
+}
 
-  .preferenceTitle h6 {
-    font-size: 24px;
-    line-height: 30px;
-  }
+.preferenceTitle h6,
+h2,
+.preferenceCommunication h6,
+h2 {
+  color: #0052ce;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
 
-  .preferenceCommunication h2 {
-    font-size: 20px;
-    line-height: 24px;
-  }
-  
-  .preferenceSection:last-child {
-    border-bottom: none;
-  }
-  
-  .preferenceCheckbox {
-    padding: 16px;
-  }
+.preferenceTitle h6 {
+  font-size: 24px;
+  line-height: 30px;
+}
 
-  .preferenceCheckbox span {
-    font-size:16px;
-    line-height: 20px;
-    padding-left: 5px;
-  }
+.preferenceCommunication h2 {
+  font-size: 20px;
+  line-height: 24px;
+}
 
-  .preferenceCheckbox label:last-child {
-    padding-left: 20px;
-  }
+.preferenceSection:last-child {
+  border-bottom: none;
+}
 
-  .checkboxes {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  label {
-    margin-right: 10px;
-  }
-  
-  .toggleSwitches {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-  }
-  
-  .toggle-switch {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid grey;
-  }
-  
-  .toggle-switch:last-child {
-    border-bottom: none;
-  }
+.preferenceCheckbox {
+  padding: 16px;
+}
+
+.preferenceCheckbox span {
+  font-size: 16px;
+  line-height: 20px;
+  padding-left: 5px;
+}
+
+.preferenceCheckbox label:last-child {
+  padding-left: 20px;
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+
+label {
+  margin-right: 10px;
+}
+
+.toggleSwitches {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.toggle-switch {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid grey;
+}
+
+.toggle-switch:last-child {
+  border-bottom: none;
+}
 
 .toggleContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 55px;
-    padding: 0px 30px 0 22px;
-    cursor: pointer;
-    border-bottom: 1px solid #c7ccd1;
-    & .toggleTxt {
-      font-family: Lato;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 18px;
-      line-height: 24px;
-      color: #0052CE;
-      width: 130px;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 55px;
+  padding: 0px 30px 0 22px;
+  cursor: pointer;
+  border-bottom: 1px solid #c7ccd1;
+  & .toggleTxt {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 24px;
+    color: #0052ce;
+    width: 130px;
+  }
 }
-  
-.preferenceSection .toggleContainer:first-child { 
+
+.preferenceSection .toggleContainer:first-child {
   border-top: 1px solid #c7ccd1;
   height: 60px;
   padding: 10px 30px 16px 22px;
 }
 
-.preferenceSection .toggleContainer:last-child { 
+.preferenceSection .toggleContainer:last-child {
   height: 80px;
 }

@@ -214,16 +214,17 @@
 }
 
 .mobileListItem {
-  border-bottom: 1px solid #DFDEDD !important;
+  border-bottom: 1px solid #dfdedd !important;
   padding: 16px;
   margin: 0;
 
   &:last-child {
     border-bottom: none !important;
-  };
+  }
 }
 
-.planyear, .states {
+.planyear,
+.states {
   color: #717171;
 }
 

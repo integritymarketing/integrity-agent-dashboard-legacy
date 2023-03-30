@@ -1777,7 +1777,9 @@ button {
   width: 290px;
 }
 .custom-datepicker
-  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(
+    .DayPicker-Day--outside
+  ) {
   color: #fff;
   font-weight: 700;
   background: var(--v2-royal-blue);

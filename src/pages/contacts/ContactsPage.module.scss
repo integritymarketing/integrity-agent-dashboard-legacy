@@ -1100,7 +1100,7 @@ table {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .title{
+    .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -1219,9 +1219,9 @@ table {
   color: #002d72;
   cursor: pointer;
   padding: 0px 8px;
-  &:hover{
-    background-color: #FFFFFF;
-    border: 1px solid #C7CCD1;
+  &:hover {
+    background-color: #ffffff;
+    border: 1px solid #c7ccd1;
     border-radius: 4px;
   }
 }
