@@ -16,6 +16,7 @@ import { formatPhoneNumber } from "utils/phones";
 import { useHistory, useParams } from "react-router-dom";
 import useCallRecordings from "hooks/useCallRecordings";
 import Heading2 from "packages/Heading2";
+import PossibleMatches from "./PossibleMatches";
 
 const IN_PROGRESS = "in-progress";
 
@@ -99,6 +100,7 @@ export default function LinkToContact() {
               <Tags words={tags} flexDirection={"column"} />
             </div>
           ) : null}
+          <PossibleMatches phone={callFrom} />
           <div className={styles.medContent}>
             <TextButton
               onClick={goToAddNewContactsPage}
