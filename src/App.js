@@ -52,17 +52,21 @@ import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
-import { PreventOrientation } from "prevent-orientation";
+import ScreenOrientationReact from "screen-orientation-react";
 
 const App = () => {
-  new PreventOrientation({
-    text: "Kindly rotate your device to the portrait mode for using this site",
+  const options = {
     color: "white",
-    background: "#051D43",
+    bgColor: "#051D43",
+    animation: false,
     fontSize: "1.2rem",
-  }).preventLandscape();
+    message: "Only portrait mode is supported for this display size.",
+  };
   return (
     <ThemeProvider theme={theme}>
+      <div className="orientationLock">
+        <ScreenOrientationReact options={options} />
+      </div>
       <AuthContext.Provider value={authService}>
         <RecoilRoot>
           <Suspense fallback={<div></div>}>
