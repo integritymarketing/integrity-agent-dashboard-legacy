@@ -60,7 +60,8 @@ const App = () => {
     bgColor: "#051D43",
     animation: false,
     fontSize: "1.2rem",
-    message: "Only portrait mode is supported for this display size.",
+    message:
+      "Landscape mode is not currently supported for this display size. Please switch to Portrait mode.",
   };
   return (
     <ThemeProvider theme={theme}>
