@@ -66,40 +66,43 @@ export default ({ planData, isMobile }) => {
   if (planData.providers && Array.isArray(planData.providers)) {
     for (var i = 0; i < planData.providers.length; i++) {
       var provider = planData.providers[i];
-      const row = {
-        name: (
-          <>
-            <span className={"label"}>
-              {`${provider.title || ""} ${provider.firstName} ${
-                provider.lastName
-              } ${provider.suffix || ""}`}
-            </span>
-            <span className={"subtext"}>{provider.specialty}</span>
-          </>
-        ),
-        address: (
-          <span className={"subtext"}>
-            {`${provider?.address?.streetLine1 || ""} ${
-              provider?.address?.streetLine2 || ""
-            }
+      if (provider?.firstName && provider?.lastName) {
+        const row = {
+          name: (
+            <>
+              <span className={"label"}>
+                {`${provider.title || ""} ${provider.firstName} ${
+                  provider.lastName
+                } ${provider.suffix || ""}`}
+              </span>
+              <span className={"subtext"}>{provider.specialty}</span>
+            </>
+          ),
+          address: (
+            <span className={"subtext"}>
+              {`${provider?.address?.streetLine1 || ""} ${
+                provider?.address?.streetLine2 || ""
+              }
             ${provider?.address?.city || ""} ${provider?.address?.state || ""}
             ${provider?.address?.zipCode || ""}`}
-          </span>
-        ),
-        inNetwork: getInNetwork(
-          provider.inNetwork,
-          planData.isPlanNetworkAvailable
-        ),
-      };
-      data.push({
-        ...row,
-        name_address: (
-          <>
-            <div>{row.name}</div>
-            <div>{row.address}</div>
-          </>
-        ),
-      });
+            </span>
+          ),
+          inNetwork: getInNetwork(
+            provider.inNetwork,
+            planData.isPlanNetworkAvailable
+          ),
+        };
+        data.push({
+          ...row,
+          name_address: (
+            <>
+              <div>{row.name}</div>
+              <div>{row.address}</div>
+            </>
+          ),
+        });
+      } else {
+      }
     }
   }
 
