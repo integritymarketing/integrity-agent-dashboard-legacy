@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import Paragraph from "packages/Paragraph";
@@ -21,8 +21,7 @@ export default () => {
   const history = useHistory();
   const loading = useLoading();
   const clientId = useClientId();
-  const location = useLocation();
-  const { mobileAppLogin } = location.state;
+  const mobileAppLogin = useParams();
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
