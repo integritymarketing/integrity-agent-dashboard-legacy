@@ -12,6 +12,12 @@
   }
 }
 
+.mobile {
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
+}
+
 .textContent {
   color: $gray-7;
   text-decoration: none;
