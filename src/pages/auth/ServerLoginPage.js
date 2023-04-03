@@ -243,9 +243,8 @@ export default () => {
                           data-gtm="login-forgot-password"
                         >
                           <Link
-                            to="/forgot-password"
+                            to={`/forgot-password?mobileAppLogin=${mobileAppLogin}`}
                             className="text-sm link text-bold"
-                            state={mobileAppLogin}
                           >
                             Forgot Password?
                           </Link>
