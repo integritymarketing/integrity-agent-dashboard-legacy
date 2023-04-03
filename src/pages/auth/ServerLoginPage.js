@@ -245,6 +245,7 @@ export default () => {
                           <Link
                             to="/forgot-password"
                             className="text-sm link text-bold"
+                            state={mobileAppLogin}
                           >
                             Forgot Password?
                           </Link>

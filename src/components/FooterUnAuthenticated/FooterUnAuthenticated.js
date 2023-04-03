@@ -8,9 +8,9 @@ import useClientId from "hooks/auth/useClientId";
 import ILSLogo from "../../images/auth/lead-center-rgb.png";
 
 export const FooterUnAuthenticated = (props) => {
+  const { mobileAppLogin } = props;
   const portalUrl = usePortalUrl();
   const clientId = useClientId();
-  const mobileAppLogin = clientId === "AgentMobile" ? true : false;
 
   return (
     <Grid
@@ -21,27 +21,28 @@ export const FooterUnAuthenticated = (props) => {
       px={{ xs: "0rem", sm: "2rem", md: "8.5rem" }}
     >
       <Grid container>
-        {!mobileAppLogin && clientId !== "ILSClient" && (
-          <>
-            <a
-              href={`${portalUrl || ""}/terms`}
-              rel="noopener noreferrer"
-              className={styles.textContent}
-            >
-              Terms of Use
-            </a>
-            <Typography className={styles.textContent} px={"1rem"}>
-              |
-            </Typography>
-            <a
-              href={`${portalUrl || ""}/privacy`}
-              rel="noopener noreferrer"
-              className={styles.textContent}
-            >
-              Privacy Policy
-            </a>
-          </>
-        )}
+        {mobileAppLogin ||
+          (clientId !== "ILSClient" && (
+            <>
+              <a
+                href={`${portalUrl || ""}/terms`}
+                rel="noopener noreferrer"
+                className={styles.textContent}
+              >
+                Terms of Use
+              </a>
+              <Typography className={styles.textContent} px={"1rem"}>
+                |
+              </Typography>
+              <a
+                href={`${portalUrl || ""}/privacy`}
+                rel="noopener noreferrer"
+                className={styles.textContent}
+              >
+                Privacy Policy
+              </a>
+            </>
+          ))}
       </Grid>
 
       <Grid>
