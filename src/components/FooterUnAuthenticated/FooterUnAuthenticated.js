@@ -22,7 +22,7 @@ export const FooterUnAuthenticated = (props) => {
     >
       <Grid container>
         {!mobileAppLogin && clientId !== "ILSClient" && (
-          <div className={styles.mobile}>
+          <>
             <a
               href={`${portalUrl || ""}/terms`}
               rel="noopener noreferrer"
@@ -40,7 +40,7 @@ export const FooterUnAuthenticated = (props) => {
             >
               Privacy Policy
             </a>
-          </div>
+          </>
         )}
       </Grid>
 
