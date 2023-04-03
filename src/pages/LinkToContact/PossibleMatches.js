@@ -27,8 +27,11 @@ export default function PossibleMatches({ phone }) {
           number
         );
 
-        if (response && response.result) {
-          setMatches(response.result);
+        if (response && response?.result.length > 0) {
+          let sorted = response?.result?.sort((a, b) =>
+            a.firstName.localeCompare(b.firstName)
+          );
+          setMatches(sorted);
         }
       } catch (error) {
         Sentry.captureException(error);
@@ -71,24 +74,27 @@ export default function PossibleMatches({ phone }) {
     },
     [history, callLogId, addToast, updatePrimaryContact]
   );
-
-  return (
-    <div className={styles.possibleMatch}>
-      <div className={styles.title}>Possible Matches</div>
-      <div className={styles.matchList}>
-        {matches &&
-          matches.map((contact, index) => {
-            return (
-              <div
-                className={styles.matchItem}
-                key={`matchItem-${index}`}
-                onClick={() => onClickHandler(contact)}
-              >
-                {`${contact?.firstName} ${contact.lastName}`}
-              </div>
-            );
-          })}
+  if (matches?.length > 0) {
+    return (
+      <div className={styles.possibleMatch}>
+        <div className={styles.title}>Possible Matches</div>
+        <div className={styles.matchList}>
+          {matches &&
+            matches.map((contact, index) => {
+              return (
+                <div
+                  className={styles.matchItem}
+                  key={`matchItem-${index}`}
+                  onClick={() => onClickHandler(contact)}
+                >
+                  {`${contact?.firstName} ${contact.lastName}`}
+                </div>
+              );
+            })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return null;
+  }
 }
