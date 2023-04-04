@@ -14,7 +14,7 @@ import styles from "./styles.module.scss";
 
 const IN_PROGRESS = "in-progress";
 
-export default function InboundCallBanner({ agentInformation }) {
+export default function InboundCallBanner() {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
   const callRecordings = useCallRecordings();

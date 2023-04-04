@@ -1,24 +1,20 @@
-import React, { useState, useCallback } from "react";
-import { useEffect } from "react";
-import styles from "./styles.module.scss";
+import React, { useState, useCallback, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 import clientService from "services/clientsService";
 import callRecordingsService from "services/callRecordingsService";
-import * as Sentry from "@sentry/react";
-import { useHistory } from "react-router-dom";
 import useToast from "hooks/useToast";
-import { useParams } from "react-router-dom";
+import styles from "./styles.module.scss";
 
 export default function PossibleMatches({ phone }) {
   const [matches, setMatches] = useState([]);
   const { callLogId, callFrom } = useParams();
-
-  const addToast = useToast();
   const history = useHistory();
+  const addToast = useToast();
 
   useEffect(() => {
     const getContacts = async () => {
-      const toString = phone.toString();
-      const number = toString?.slice(2, phone.length);
+      const number = phone.toString().slice(2, phone.length);
       try {
         const response = await clientService.getList(
           undefined,
@@ -28,7 +24,7 @@ export default function PossibleMatches({ phone }) {
         );
 
         if (response && response?.result.length > 0) {
-          let sorted = response?.result?.sort((a, b) =>
+          const sorted = response?.result?.sort((a, b) =>
             a.firstName.localeCompare(b.firstName)
           );
           setMatches(sorted);
@@ -61,7 +57,7 @@ export default function PossibleMatches({ phone }) {
             leadId: contact.leadsId,
           });
           addToast({
-            message: "Contact linked succesfully",
+            message: "Contact linked successfully",
           });
           history.push(`/contact/${contact.leadsId}`);
         }
@@ -74,23 +70,21 @@ export default function PossibleMatches({ phone }) {
     },
     [history, callLogId, addToast, updatePrimaryContact]
   );
+
   if (matches?.length > 0) {
     return (
       <div className={styles.possibleMatch}>
         <div className={styles.title}>Possible Matches</div>
         <div className={styles.matchList}>
-          {matches &&
-            matches.map((contact, index) => {
-              return (
-                <div
-                  className={styles.matchItem}
-                  key={`matchItem-${index}`}
-                  onClick={() => onClickHandler(contact)}
-                >
-                  {`${contact?.firstName} ${contact.lastName}`}
-                </div>
-              );
-            })}
+          {matches.map((contact, index) => (
+            <div
+              className={styles.matchItem}
+              key={`matchItem-${index}`}
+              onClick={() => onClickHandler(contact)}
+            >
+              {`${contact?.firstName} ${contact.lastName}`}
+            </div>
+          ))}
         </div>
       </div>
     );

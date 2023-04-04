@@ -1,81 +1,66 @@
+import { useEffect } from "react";
+
 /**
- * A custom hook that prevents mobile users from switching to landscape mode.
- * This hook only applies to non-iPod and non-iPad mobile devices.
- * When the user tries to switch to landscape mode, the screen is locked to portrait mode
- * and a message is displayed on the screen to indicate that landscape mode is not currently supported.
+ * A custom React hook that prevents landscape mode on mobile devices (excluding iPad and iPod).
+ * Displays a custom message when landscape mode is not supported for the device's display size.
  */
 function usePreventLandscapeMode() {
-  /**
-   * The function that handles orientation changes.
-   * If the orientation is landscape, the screen is locked to portrait mode and an overlay element is displayed.
-   * If the orientation is a portrait, the overlay element is hidden.
-   */
-  function handleOrientationChange() {
-    // eslint-disable-next-line no-restricted-globals
-    const { type } = screen.orientation;
+  useEffect(() => {
+    const isMobile =
+      /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) && !/iPad|Tablet|iPad Pro/i.test(navigator.userAgent);
 
-    if (type === "landscape-primary" || type === "landscape-secondary") {
-      // eslint-disable-next-line no-restricted-globals
-      screen.orientation.lock("portrait").catch(() => {
-        console.log("Failed to lock orientation.");
-      });
+    if (isMobile) {
+      /**
+       * Handler function that checks the device's orientation and prevents landscape mode if necessary.
+       * Displays a custom message if the device's display size is not supported in landscape mode.
+       */
+      const handleOrientationChange = () => {
+        const isLandscape = window.innerWidth > window.innerHeight;
+        if (isLandscape) {
+          document.body.style.overflow = "hidden";
+          document.body.style.height = "100%";
+          document.body.style.width = "100%";
+          document.body.style.position = "fixed";
+          const message = document.createElement("div");
+          message.innerHTML =
+            "Landscape mode is not currently supported for this display size. Please switch to Portrait mode.";
+          message.style.background = "rgba(0,0,0,0.7)";
+          message.style.color = "#fff";
+          message.style.fontSize = "18px";
+          message.style.padding = "10px";
+          message.style.position = "fixed";
+          message.style.top = "50%";
+          message.style.left = "50%";
+          message.style.transform = "translate(-50%, -50%)";
+          message.style.zIndex = "999999";
+          message.classList.add("prevent-landscape-message");
+          document.body.appendChild(message);
+        } else {
+          document.body.style.overflow = "";
+          document.body.style.height = "";
+          document.body.style.width = "";
+          document.body.style.position = "";
+          const message = document.querySelector(".prevent-landscape-message");
+          if (message) {
+            message.remove();
+          }
+        }
+      };
 
-      // Display an overlay element with a message
-      const overlay = document.createElement("div");
-      overlay.className = "prevent-landscape-mode-overlay";
-      overlay.style.position = "fixed";
-      overlay.style.top = "0";
-      overlay.style.left = "0";
-      overlay.style.width = "100%";
-      overlay.style.height = "100%";
-      overlay.style.backgroundColor = "#051D43";
-      overlay.style.display = "flex";
-      overlay.style.justifyContent = "center";
-      overlay.style.alignItems = "center";
-      overlay.style.color = "white";
-      overlay.style.fontSize = "1.2em";
-      overlay.style.textAlign = "center";
-      overlay.style.padding = "16px";
-      overlay.innerText =
-        "Landscape mode is not currently supported for this display size. Please switch to Portrait mode.";
-      document.body.appendChild(overlay);
-    } else {
-      // Hide the overlay element if it exists
-      const overlay = document.querySelector(".prevent-landscape-mode-overlay");
-      if (overlay) {
-        document.body.removeChild(overlay);
-      }
+      handleOrientationChange();
+
+      window.addEventListener("orientationchange", handleOrientationChange);
+
+      return () => {
+        window.removeEventListener(
+          "orientationchange",
+          handleOrientationChange
+        );
+      };
     }
-  }
-
-  /**
-   * Check if the device is a mobile device.
-   * This function returns true if the device is a mobile device and false otherwise.
-   */
-  const isMobile =
-    window.matchMedia("(max-width: 767px)").matches &&
-    /Android|webOS|iPhone|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-
-  /**
-   * Check if the device is an iPad.
-   * This function returns true if the device is an iPad and false otherwise.
-   */
-  const isIpad = /iPad/.test(navigator.userAgent);
-
-  // If the device is a mobile device and not an iPad, apply the orientation lock and add the event listener.
-  if (isMobile && !isIpad && window.screen.orientation) {
-    handleOrientationChange();
-
-    // eslint-disable-next-line no-restricted-globals
-    screen.orientation.addEventListener("change", handleOrientationChange);
-
-    return () => {
-      // eslint-disable-next-line no-restricted-globals
-      screen.orientation.removeEventListener("change", handleOrientationChange);
-    };
-  }
+  }, []);
 }
 
 export default usePreventLandscapeMode;
