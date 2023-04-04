@@ -52,22 +52,12 @@ import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
-import ScreenOrientationReact from "screen-orientation-react";
+import usePreventLandscapeMode from "hooks/usePreventLandscapeMode";
 
 const App = () => {
-  const options = {
-    color: "white",
-    bgColor: "#051D43",
-    animation: false,
-    fontSize: "1.2rem",
-    message:
-      "Landscape mode is not currently supported for this display size. Please switch to Portrait mode.",
-  };
+  usePreventLandscapeMode();
   return (
     <ThemeProvider theme={theme}>
-      <div className="orientationLock">
-        <ScreenOrientationReact options={options} />
-      </div>
       <AuthContext.Provider value={authService}>
         <RecoilRoot>
           <Suspense fallback={<div></div>}>

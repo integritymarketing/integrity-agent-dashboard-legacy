@@ -42,11 +42,3 @@
     }
   }
 }
-
-// Only Orientation lock for mobile devices (vgin)
-.orientationLock{
-  display: none;
-  @media screen and (max-height: 480px) {
-    display: block;
-  }
-}
