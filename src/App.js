@@ -52,7 +52,6 @@ import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
-import ContactSectionCard from "../src/packages/ContactSectionCard";
 
 const App = () => {
   return (
@@ -182,14 +181,6 @@ const App = () => {
                                     </Route>
                                     <Route path="/privacy">
                                       <PrivacyPage />
-                                    </Route>
-                                    <Route path="/vishal">
-                                      <ContactSectionCard
-                                        title="vishal"
-                                        actions={<button>vishal</button>}
-                                      >
-                                        <p>hello this is vishal</p>
-                                      </ContactSectionCard>
                                     </Route>
                                     <Route path="/soa-confirmation-form/:linkCode">
                                       <SOAConfirmationForm />
