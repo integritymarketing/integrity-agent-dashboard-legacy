@@ -129,7 +129,6 @@ export default () => {
       }
     }
   };
-
   return (
     <React.Fragment>
       <Helmet>
