@@ -52,21 +52,11 @@ import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
-import ScreenOrientationReact from "screen-orientation-react";
+import ContactSectionCard from "../src/packages/ContactSectionCard";
 
 const App = () => {
-  const options = {
-    color: "white",
-    bgColor: "#051D43",
-    animation: false,
-    fontSize: "1.2rem",
-    message: "Only portrait mode is supported for this display size.",
-  };
   return (
     <ThemeProvider theme={theme}>
-      <div className="orientationLock">
-        <ScreenOrientationReact options={options} />
-      </div>
       <AuthContext.Provider value={authService}>
         <RecoilRoot>
           <Suspense fallback={<div></div>}>
@@ -192,6 +182,14 @@ const App = () => {
                                     </Route>
                                     <Route path="/privacy">
                                       <PrivacyPage />
+                                    </Route>
+                                    <Route path="/vishal">
+                                      <ContactSectionCard
+                                        title="vishal"
+                                        actions={<button>vishal</button>}
+                                      >
+                                        <p>hello this is vishal</p>
+                                      </ContactSectionCard>
                                     </Route>
                                     <Route path="/soa-confirmation-form/:linkCode">
                                       <SOAConfirmationForm />
