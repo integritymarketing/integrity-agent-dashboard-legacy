@@ -3,8 +3,9 @@ import ToggleOffline from "./ToggleOffline.svg";
 import ToggleOnline from "./ToggleOnline.svg";
 import "./myButton.scss";
 import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
+import { useEffect } from "react";
 
-function MyButton({ clickButton, isAvailable, agentID }) {
+function MyButton({ clickButton, isAvailable, agentID, page }) {
   const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] =
     useState(
       localStorage.getItem("isCheckInUpdateModalDismissed")
@@ -20,6 +21,11 @@ function MyButton({ clickButton, isAvailable, agentID }) {
       setIsAvailabiltyModalVisible(true);
     }
   };
+  useEffect(() => {
+    if (!isCheckInUpdateModalDismissed && page === "dashboard") {
+      setIsAvailabiltyModalVisible(true);
+    }
+  }, [isCheckInUpdateModalDismissed, page]);
   return (
     <>
       <div className="myButtonWrapper">
@@ -30,16 +36,14 @@ function MyButton({ clickButton, isAvailable, agentID }) {
               src={ToggleOffline}
               alt="offButton"
               className={`buttonIcon offButton ${
-                statusText === "offline" ? "show" : "hidden"
+                !isAvailable ? "show" : "hidden"
               }`}
             />
           )}
           <img
             src={ToggleOnline}
             alt="onButton"
-            className={`buttonIcon onButton ${
-              statusText === "online" ? "show" : "hidden"
-            }`}
+            className={`buttonIcon onButton ${isAvailable ? "show" : "hidden"}`}
           />
         </div>
       </div>
@@ -47,8 +51,8 @@ function MyButton({ clickButton, isAvailable, agentID }) {
         <AvailabilityOverlay
           hideModal={() => {
             setIsAvailabiltyModalVisible(false);
-            setIsCheckInUpdateModalDismissed(true);
           }}
+          setDismissed={() => setIsCheckInUpdateModalDismissed(true)}
         />
       )}
     </>

@@ -108,7 +108,7 @@ const SiteNotification = ({
   return null;
 };
 
-export default ({ menuHidden = false, className = "", ...props }) => {
+export default ({ menuHidden = false, className = "", page, ...props }) => {
   const auth = useContext(AuthContext);
   const addToast = useToast();
   const history = useHistory();
@@ -455,6 +455,7 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                   <MyButton
                     clickButton={clickButton}
                     isAvailable={isAvailable}
+                    page={page}
                   />
                 </React.Fragment>
               )}

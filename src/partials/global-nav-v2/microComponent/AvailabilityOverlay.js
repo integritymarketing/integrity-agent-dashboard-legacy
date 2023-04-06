@@ -4,14 +4,15 @@ import Arrow from "./arrow.svg";
 import Box from "./box.svg";
 import ClickAwayListener from "react-click-away-listener";
 
-export default function AvailabilityOverlay({ hideModal }) {
+export default function AvailabilityOverlay({ hideModal, setDismissed }) {
   function onClick() {
     localStorage.setItem("isCheckInUpdateModalDismissed", true);
     hideModal();
+    setDismissed();
   }
   // Click away handle
   const handleClickAway = () => {
-    onClick();
+    hideModal();
   };
   return (
     <div className={Styles.wrapper}>
