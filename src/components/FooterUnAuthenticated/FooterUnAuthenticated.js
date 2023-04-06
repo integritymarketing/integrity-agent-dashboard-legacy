@@ -6,11 +6,20 @@ import Integrity from "./Integrity.svg";
 import usePortalUrl from "hooks/usePortalUrl";
 import useClientId from "hooks/auth/useClientId";
 import ILSLogo from "../../images/auth/lead-center-rgb.png";
+import useQueryParams from "hooks/useQueryParams";
 
+<<<<<<< Updated upstream
 export const FooterUnAuthenticated = (props) => {
   const { mobileAppLogin = false } = props;
+=======
+export const FooterUnAuthenticated = () => {
+>>>>>>> Stashed changes
   const portalUrl = usePortalUrl();
   const clientId = useClientId();
+  const params = useQueryParams();
+
+  const webAppLogin =
+    clientId === "AEPortal" || params.get("clientId") === "AEPortal";
 
   return (
     <Grid
@@ -21,7 +30,11 @@ export const FooterUnAuthenticated = (props) => {
       px={{ xs: "0rem", sm: "2rem", md: "8.5rem" }}
     >
       <Grid container>
+<<<<<<< Updated upstream
         {!mobileAppLogin && clientId !== "ILSClient" && (
+=======
+        {webAppLogin && (
+>>>>>>> Stashed changes
           <>
             <a
               href={`${portalUrl || ""}/terms`}
