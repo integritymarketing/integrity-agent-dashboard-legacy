@@ -24,7 +24,7 @@ export default () => {
   const clientId = useClientId();
   const params = useQueryParams();
 
-  let mobileAppLogin = params.get("mobileAppLogin");
+  let mobileAppLogin = params.get(mobileAppLogin);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
