@@ -24,9 +24,7 @@ export default () => {
   const history = useHistory();
   const params = useQueryParams();
   const auth = useContext(AuthContext);
-
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
-  const [client_id, setClient_Id] = useState("");
 
   useEffect(() => {
     const params1 = new URLSearchParams(
@@ -37,7 +35,6 @@ export default () => {
       process.env.REACT_APP_MOBILE_UPDATE === "yes" ? true : false;
 
     let clientId = params1.get("client_id");
-    setClient_Id(clientId);
     let version = params1.get("Version");
 
     if (feature_toggle && !version && clientId === "AgentMobile") {
