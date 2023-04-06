@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import useQueryParams from "hooks/useQueryParams";
 import { Formik } from "formik";
 import Paragraph from "packages/Paragraph";
 import Textfield from "components/ui/textfield";
@@ -21,7 +22,9 @@ export default () => {
   const history = useHistory();
   const loading = useLoading();
   const clientId = useClientId();
-  const mobileAppLogin = useParams();
+  const params = useQueryParams();
+
+  let mobileAppLogin = params.get("mobileAppLogin");
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
