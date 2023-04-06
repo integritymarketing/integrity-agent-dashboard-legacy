@@ -238,7 +238,7 @@ export default () => {
                           data-gtm="login-forgot-password"
                         >
                           <Link
-                            to={`/forgot-password?clientId=${client_id}`}
+                            to={`/forgot-password?mobileAppLogin=${mobileAppLogin}`}
                             className="text-sm link text-bold"
                           >
                             Forgot Password?
