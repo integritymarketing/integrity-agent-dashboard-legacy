@@ -274,7 +274,7 @@ export default () => {
             </Formik>
           </Box>
         </ContainerUnAuthenticated>
-        <FooterUnAuthenticated />
+        <FooterUnAuthenticated mobileAppLogin={mobileAppLogin} />
       </div>
     </React.Fragment>
   );

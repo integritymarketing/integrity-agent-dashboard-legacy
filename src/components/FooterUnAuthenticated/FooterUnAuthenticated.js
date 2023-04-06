@@ -8,7 +8,7 @@ import useClientId from "hooks/auth/useClientId";
 import ILSLogo from "../../images/auth/lead-center-rgb.png";
 
 export const FooterUnAuthenticated = (props) => {
-  const { mobileAppLogin } = props;
+  const { mobileAppLogin = false } = props;
   const portalUrl = usePortalUrl();
   const clientId = useClientId();
 
@@ -22,27 +22,6 @@ export const FooterUnAuthenticated = (props) => {
     >
       <Grid container>
         {!mobileAppLogin && clientId !== "ILSClient" && (
-          <>
-            <a
-              href={`${portalUrl || ""}/terms`}
-              rel="noopener noreferrer"
-              className={styles.textContent}
-            >
-              Terms of Use
-            </a>
-            <Typography className={styles.textContent} px={"1rem"}>
-              |
-            </Typography>
-            <a
-              href={`${portalUrl || ""}/privacy`}
-              rel="noopener noreferrer"
-              className={styles.textContent}
-            >
-              Privacy Policy
-            </a>
-          </>
-        )}
-        {!mobileAppLogin && (
           <>
             <a
               href={`${portalUrl || ""}/terms`}
