@@ -21,7 +21,28 @@ export const FooterUnAuthenticated = (props) => {
       px={{ xs: "0rem", sm: "2rem", md: "8.5rem" }}
     >
       <Grid container>
-        {(!mobileAppLogin || clientId !== "ILSClient") && (
+        {!mobileAppLogin && clientId !== "ILSClient" && (
+          <>
+            <a
+              href={`${portalUrl || ""}/terms`}
+              rel="noopener noreferrer"
+              className={styles.textContent}
+            >
+              Terms of Use
+            </a>
+            <Typography className={styles.textContent} px={"1rem"}>
+              |
+            </Typography>
+            <a
+              href={`${portalUrl || ""}/privacy`}
+              rel="noopener noreferrer"
+              className={styles.textContent}
+            >
+              Privacy Policy
+            </a>
+          </>
+        )}
+        {!mobileAppLogin && (
           <>
             <a
               href={`${portalUrl || ""}/terms`}
