@@ -26,7 +26,7 @@ export const FooterUnAuthenticated = () => {
     >
       <Grid container>
         {webAppLogin && (
-          <>
+          <div className={styles.hideForWebMobile}>
             <a
               href={`${portalUrl || ""}/terms`}
               rel="noopener noreferrer"
@@ -44,7 +44,7 @@ export const FooterUnAuthenticated = () => {
             >
               Privacy Policy
             </a>
-          </>
+          </div>
         )}
       </Grid>
 
