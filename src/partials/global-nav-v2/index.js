@@ -121,7 +121,6 @@ export default ({ menuHidden = false, className = "", page, ...props }) => {
   const [isAvailable, setIsAvailable] = useAgentAvailability(false);
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
-
   const mobileMenuProps = Object.assign(
     {
       navOpen,
@@ -452,11 +451,14 @@ export default ({ menuHidden = false, className = "", page, ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...mobileMenuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  <MyButton
-                    clickButton={clickButton}
-                    isAvailable={isAvailable}
-                    page={page}
-                  />
+                  {leadPreference && (
+                    <MyButton
+                      leadPreference={leadPreference}
+                      clickButton={clickButton}
+                      isAvailable={isAvailable}
+                      page={page}
+                    />
+                  )}
                 </React.Fragment>
               )}
             </Media>
