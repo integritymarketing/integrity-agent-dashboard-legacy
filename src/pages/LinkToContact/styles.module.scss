@@ -92,3 +92,16 @@
     }
   }
 }
+
+.callRecording {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .content {
+    color: #051d43;
+    font-size: 16px;
+  }
+  .mt10 {
+    margin-top: 10px;
+  }
+}

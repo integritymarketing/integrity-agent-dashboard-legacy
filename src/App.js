@@ -113,7 +113,7 @@ const App = () => {
                                     <AuthenticatedRoute path="/dashboard">
                                       <Dashboard />
                                     </AuthenticatedRoute>
-                                    <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom">
+                                    <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom/:duration/:date">
                                       <LinkToContact />
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/account">

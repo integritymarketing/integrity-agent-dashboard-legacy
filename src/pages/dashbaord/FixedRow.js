@@ -10,6 +10,7 @@ import DownloadCallRecording from "packages/DownloadCallRecording";
 import InboundCall from "components/icons/activities/InboundCall";
 import Link from "images/link-svg.svg";
 import { convertUTCDateToLocalDate } from "utils/dates";
+import { callDuration } from "utils/dates";
 
 const StyledTableCell = styled(TableCell)(() => ({
   "&:hover": {
@@ -20,12 +21,18 @@ const StyledTableCell = styled(TableCell)(() => ({
 export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
   const history = useHistory();
 
-  const goTolinkToContact = (callLogId, callFrom) => {
-    history.push(`/link-to-contact/${callLogId}/${callFrom}`);
+  const { callLogId, from, callStartTime, recordingStartTime, callEndTime } =
+    unAssosiatedCallRecord;
+
+  const date = convertUTCDateToLocalDate(callStartTime);
+
+  const goTolinkToContact = () => {
+    let duration = callDuration(recordingStartTime, callEndTime);
+
+    history.push(`/link-to-contact/${callLogId}/${from}/${duration}/${date}`);
   };
 
   const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
-  const date = convertUTCDateToLocalDate(unAssosiatedCallRecord?.callStartTime);
 
   return (
     <>
@@ -36,9 +43,7 @@ export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
       </TableCell>
       <TableCell>
         <Typography noWrap fontWeight="bold" fontSize="16px" color="#0052CE">
-          <strong>
-            {formatPhoneNumber(unAssosiatedCallRecord.from, true)}
-          </strong>
+          <strong>{formatPhoneNumber(from, true)}</strong>
         </Typography>
       </TableCell>
       <TableCell onClick={() => onSelect(unAssosiatedCallRecord)}>
@@ -49,14 +54,7 @@ export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
           />
         }
       </TableCell>
-      <StyledTableCell
-        onClick={() =>
-          goTolinkToContact(
-            unAssosiatedCallRecord.callLogId,
-            unAssosiatedCallRecord.from
-          )
-        }
-      >
+      <StyledTableCell onClick={() => goTolinkToContact()}>
         {
           <IconWithText
             text="Link to Contact"
