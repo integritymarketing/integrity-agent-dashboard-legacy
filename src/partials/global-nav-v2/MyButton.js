@@ -4,8 +4,9 @@ import ToggleOnline from "./ToggleOnline.svg";
 import "./myButton.scss";
 import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
 import { useEffect } from "react";
+import Notice from "./microComponent/Notice";
 
-function MyButton({ clickButton, isAvailable, agentID, page }) {
+function MyButton({ clickButton, isAvailable, agentID, page, leadPreference }) {
   const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] =
     useState(
       localStorage.getItem("isCheckInUpdateModalDismissed")
@@ -14,12 +15,16 @@ function MyButton({ clickButton, isAvailable, agentID, page }) {
     );
   const [isAvailabiltyModalVisible, setIsAvailabiltyModalVisible] =
     useState(false);
+  const [isNoticeVisible, setIsNoticeVisible] = useState(false);
   const statusText = isAvailable ? "online" : "offline";
   const handleClick = () => {
     typeof clickButton == "function" && clickButton();
     if (!isCheckInUpdateModalDismissed) {
       setIsAvailabiltyModalVisible(true);
     }
+  };
+  const handleDisable = () => {
+    setIsNoticeVisible(true);
   };
   useEffect(() => {
     if (!isCheckInUpdateModalDismissed && page === "dashboard") {
@@ -30,7 +35,17 @@ function MyButton({ clickButton, isAvailable, agentID, page }) {
     <>
       <div className="myButtonWrapper">
         <span className="myButtonText">I'm Available</span>
-        <div className="myButton" onClick={handleClick}>
+        <div
+          className="myButton"
+          onClick={
+            leadPreference.leadCenter ||
+            leadPreference.leadCenterLife ||
+            leadPreference.medicareEnroll ||
+            leadPreference.medicareEnrollPurl
+              ? handleClick
+              : handleDisable
+          }
+        >
           {statusText === "offline" && (
             <img
               src={ToggleOffline}
@@ -54,6 +69,9 @@ function MyButton({ clickButton, isAvailable, agentID, page }) {
           }}
           setDismissed={() => setIsCheckInUpdateModalDismissed(true)}
         />
+      )}
+      {isNoticeVisible && (
+        <Notice hideModal={() => setIsNoticeVisible(false)} />
       )}
     </>
   );
