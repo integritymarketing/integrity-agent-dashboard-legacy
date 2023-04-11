@@ -5,7 +5,7 @@ import CopyPersonalURL from "components/ui/CopyPersonalURL";
 const AgentWebsite = ({ npn, ...props }) => {
   return (
     <div className={"mt-4"}>
-      <SectionContainer title={"Personal Agent Website"}>
+      <SectionContainer title={"Agent Website"}>
         <CopyPersonalURL agentnpn={npn} />
       </SectionContainer>
     </div>

@@ -8,6 +8,7 @@ const SectionContainer = ({
   ActionIcon,
   callBack,
   showLeft = false,
+  fullWidth = false,
   ...props
 }) => {
   return (
@@ -19,7 +20,9 @@ const SectionContainer = ({
         callBack={callBack}
         showLeft={showLeft}
       />
-      <div className={styles.sectionBody}>{props.children}</div>
+      <div className={fullWidth ? styles.sectionBody2 : styles.sectionBody}>
+        {props.children}
+      </div>
     </div>
   );
 };

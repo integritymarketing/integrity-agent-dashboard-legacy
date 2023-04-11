@@ -31,6 +31,7 @@ import SectionContainer from "mobile/Components/SectionContainer";
 import EditIcon from "components/icons/icon-edit";
 import AgentPhone from "./Account/AgentPhone";
 import AgentWebsite from "./Account/AgentWebsite";
+import Switch from "components/ui/switch";
 
 function CheckinPreferences() {
   const auth = useContext(AuthContext);
@@ -135,8 +136,8 @@ function CheckinPreferences() {
   }
 
   return (
-    <SectionContainer title="Check-in preferences">
-      <MyModal
+    <SectionContainer title="Availability Preferences">
+      {/* <MyModal
         phone={phone}
         virtualNumber={virtualNumber}
         user={user}
@@ -151,10 +152,56 @@ function CheckinPreferences() {
         leadPreference={leadPreference}
         getAgentAvailability={getAgentAvailability}
         hideModalHeader={true}
-      />
+      /> */}
+      <p className={styles.subText}>
+        Calls to your Agent Phone Number will be forwarded to the number below.
+      </p>
+      <p className={styles.subTitle}>Forward calls to:</p>
+      <p className={styles.subTitle}>Lead Source</p>
+      <div className={styles.switchWrapper}>
+        <NotificationSection title="Health" />
+        <NotificationSection title="Life" />
+        <NotificationSection title="MedicareEnroll" />
+      </div>
     </SectionContainer>
   );
 }
+
+const NotificationPreferences = () => {
+  return (
+    <SectionContainer
+      fullWidth
+      className={styles.notificationContainer}
+      title="Notification Preferences"
+    >
+      <NotificationSection title="Allow email notifications" />
+      <NotificationSection
+        title="Scope of Appointment"
+        subTitle="Get notified when a contact completes a SOA."
+      />
+      <NotificationSection
+        title="Leads"
+        subTitle="Get notified when a new lead is entered"
+      />
+      <NotificationSection
+        title="Daily Reminders"
+        subTitle="Get updates on your contacts daily."
+      />
+    </SectionContainer>
+  );
+};
+
+const NotificationSection = ({ title, subTitle }) => {
+  return (
+    <div className={styles.notificationSection}>
+      <span className={styles.notificationTitle}>
+        {title}
+        <span className={styles.notificationSubTitle}>{subTitle}</span>
+      </span>
+      <Switch className={styles.notificationSwitch} />
+    </div>
+  );
+};
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -599,11 +646,15 @@ export default () => {
                 </section>
               </div>
               <div className={styles.sectionTwo}>
-                <AgentPhone agentVirtualPhoneNumber={agentVirtualPhoneNumber} />
-                <AgentWebsite npn={npn} />
-
-                <section className="mt-4">
+                <section className={styles.preferences}>
                   <CheckinPreferences />
+                  <NotificationPreferences />
+                </section>
+                <section className={styles.website}>
+                  <AgentPhone
+                    agentVirtualPhoneNumber={agentVirtualPhoneNumber}
+                  />
+                  <AgentWebsite npn={npn} />
                 </section>
               </div>
             </div>
