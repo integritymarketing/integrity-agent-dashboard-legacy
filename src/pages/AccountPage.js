@@ -4,7 +4,6 @@ import Container from "components/ui/container";
 import ResourceSection from "components/ui/resourcesCard";
 import Heading2 from "packages/Heading2";
 import * as Sentry from "@sentry/react";
-import { Formik } from "formik";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
@@ -17,7 +16,6 @@ import analyticsService from "services/analyticsService";
 import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { isEmptyObj } from "utils/shared-utils/sharedUtility";
-import MyModal from "../partials/global-nav-v2/MyModal";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import clientService from "services/clientsService";
@@ -32,15 +30,16 @@ import EditIcon from "components/icons/icon-edit";
 import AgentPhone from "./Account/AgentPhone";
 import AgentWebsite from "./Account/AgentWebsite";
 import Switch from "components/ui/switch";
+import { Formik, Form } from "formik";
+import Mobile from "partials/global-nav-v2/Mobile.svg";
+import HealthIcon from "components/icons/health";
+import LifeIcon from "components/icons/life";
 
-function CheckinPreferences() {
+function CheckinPreferences({ npn }) {
   const auth = useContext(AuthContext);
   const addToast = useToast();
   const [user, setUser] = useState({});
-  const [open, setOpen] = useState(true);
-  const [isAvailable, setIsAvailable] = useState(false);
   const [phone, setPhone] = useState("");
-  const [virtualNumber, setVirtualNumber] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
@@ -60,12 +59,6 @@ function CheckinPreferences() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth, phoneAtom]);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    getAgentAvailability(user?.profile?.agentid);
-    setOpen(true);
-  };
-
   const getAgentAvailability = async (agentid) => {
     if (!agentid) {
       return;
@@ -74,7 +67,6 @@ function CheckinPreferences() {
       setLoading(true);
       const response = await clientService.getAgentAvailability(agentid);
       const {
-        isAvailable,
         phone,
         agentVirtualPhoneNumber,
         callForwardNumber,
@@ -86,12 +78,8 @@ function CheckinPreferences() {
       if (!leadPreference?.isAgentMobilePopUpDismissed) {
         setWelcomeModalOpen(true);
       }
-      setIsAvailable(isAvailable);
       setPhone(formatPhoneNumber(phone, true));
       setLeadPreference(leadPreference);
-      if (agentVirtualPhoneNumber) {
-        setVirtualNumber(formatPhoneNumber(agentVirtualPhoneNumber, true));
-      }
       if (callForwardNumber) {
         setCallForwardNumber(callForwardNumber);
       }
@@ -102,25 +90,13 @@ function CheckinPreferences() {
     }
   };
 
-  const updateAgentAvailability = async (data) => {
-    try {
-      let response = await clientService.updateAgentAvailability(data);
-      if (response.ok) {
-        getAgentAvailability(data.agentID);
-      }
-    } catch (error) {
-      addToast({
-        type: "error",
-        message: "Failed to Save the Availability.",
-        time: 10000,
-      });
-      Sentry.captureException(error);
-    }
-  };
-
   const updateAgentPreferences = async (data) => {
     try {
-      await clientService.updateAgentPreferences(data);
+      const response = await clientService.updateAgentPreferences(data);
+
+      if (response?.leadPreference) {
+        setLeadPreference({ ...response.leadPreference });
+      }
     } catch (error) {
       addToast({
         type: "error",
@@ -131,74 +107,260 @@ function CheckinPreferences() {
     }
   };
 
+  const handleLeadCenter = () => {
+    let data = {
+      agentID: user?.agentid,
+      leadPreference: {
+        ...leadPreference,
+        leadCenter: !leadPreference?.leadCenter,
+      },
+    };
+    updateAgentPreferences(data);
+  };
+  const handleMedicareEnroll = () => {
+    let data = {
+      agentID: user?.agentid,
+      leadPreference: {
+        ...leadPreference,
+        medicareEnroll: !leadPreference?.medicareEnroll,
+      },
+    };
+    updateAgentPreferences(data);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <SectionContainer title="Availability Preferences">
-      {/* <MyModal
-        phone={phone}
-        virtualNumber={virtualNumber}
-        user={user}
-        handleOpen={handleOpen}
-        handleClose={handleClose}
-        open={open}
-        checkInPreference
-        isAvailable={isAvailable}
-        updateAgentAvailability={updateAgentAvailability}
-        updateAgentPreferences={updateAgentPreferences}
-        callForwardNumber={callForwardNumber}
-        leadPreference={leadPreference}
-        getAgentAvailability={getAgentAvailability}
-        hideModalHeader={true}
-      /> */}
       <p className={styles.subText}>
         Calls to your Agent Phone Number will be forwarded to the number below.
       </p>
-      <p className={styles.subTitle}>Forward calls to:</p>
-      <p className={styles.subTitle}>Lead Source</p>
-      <div className={styles.switchWrapper}>
-        <NotificationSection title="Health" />
-        <NotificationSection title="Life" />
-        <NotificationSection title="MedicareEnroll" />
+
+      <div>
+        <CallCenterContent
+          phone={phone}
+          agentId={user?.agentid}
+          callForwardNumber={callForwardNumber}
+          getAgentAvailability={getAgentAvailability}
+        />
+      </div>
+      <div className={styles.leadCenter}>
+        <p className={styles.subTitle}>Lead Source</p>
+        <div className={styles.switchWrapper}>
+          <div className={styles.health}>
+            <NotificationSection
+              title="Health"
+              actionTitle={"Setup"}
+              action={() =>
+                window.open(`/leadcenter-redirect/${npn}`, "_blank")
+              }
+              onChange={() => handleLeadCenter()}
+              checked={leadPreference?.leadCenter}
+              icon={<HealthIcon />}
+            />
+          </div>
+          <div>
+            <NotificationSection
+              title="MedicareEnroll"
+              onChange={() => handleMedicareEnroll()}
+              checked={leadPreference?.medicareEnroll}
+              icon={<LifeIcon />}
+            />
+          </div>
+        </div>
       </div>
     </SectionContainer>
   );
 }
 
-const NotificationPreferences = () => {
+const CallCenterContent = ({
+  agentId,
+  phone,
+  callForwardNumber,
+  getAgentAvailability,
+}) => {
+  const addToast = useToast();
+  const [isEditingNumber, setIsEditingNumber] = useState(false);
+  const phoneNumber = callForwardNumber || phone;
+
   return (
-    <SectionContainer
-      fullWidth
-      className={styles.notificationContainer}
-      title="Notification Preferences"
-    >
-      <NotificationSection title="Allow email notifications" />
-      <NotificationSection
-        title="Scope of Appointment"
-        subTitle="Get notified when a contact completes a SOA."
-      />
-      <NotificationSection
-        title="Leads"
-        subTitle="Get notified when a new lead is entered"
-      />
-      <NotificationSection
-        title="Daily Reminders"
-        subTitle="Get updates on your contacts daily."
-      />
-    </SectionContainer>
+    <>
+      <Formik
+        initialValues={{
+          phone: phoneNumber,
+        }}
+        validate={(values) => {
+          const error = validationService.validatePhone(values.phone);
+          if (!error) return null;
+          return {
+            phone: error,
+          };
+        }}
+        onSubmit={async (values, { setErrors, setSubmitting }) => {
+          const phone = values.phone.replace(/[()\s-]/g, "");
+          setSubmitting(true);
+          try {
+            await clientService.updateAgentCallForwardingNumber({
+              callForwardNumber: `${phone}`,
+              agentID: agentId,
+            });
+            getAgentAvailability(agentId);
+            addToast({
+              message: "Contact number updated succesfully",
+            });
+          } catch (error) {
+            addToast({
+              type: "error",
+              message: "Failed to update the contact",
+            });
+            Sentry.captureException(error);
+          }
+          setIsEditingNumber(false);
+          setSubmitting(false);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+        }) => {
+          return (
+            <Form>
+              <div>
+                <div className={styles.header}>
+                  <p className={styles.subTitle}>Forward calls to:</p>
+                  <div className={styles.editSection}>
+                    <span
+                      onClick={() => {
+                        if (isEditingNumber) {
+                          handleSubmit();
+                        } else {
+                          setIsEditingNumber(true);
+                        }
+                      }}
+                      className={styles.icon}
+                    >
+                      {isEditingNumber ? "Save" : "Edit"}
+                    </span>
+
+                    {isEditingNumber && (
+                      <span
+                        className={styles.icon}
+                        onClick={() => {
+                          setFieldValue("phone", phoneNumber);
+                          setIsEditingNumber(false);
+                        }}
+                      >
+                        Cancel
+                      </span>
+                    )}
+                    {!isEditingNumber && (
+                      <span
+                        onClick={() => setIsEditingNumber(true)}
+                        className={styles.icon}
+                      >
+                        <EditIcon />
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {!isEditingNumber ? (
+                  <div className={styles.phoneText}>
+                    <div>
+                      <img
+                        src={Mobile}
+                        alt="iconmobile"
+                        className={styles.imageMobile}
+                      />
+                    </div>
+                    <div className={styles.number}>
+                      {formatPhoneNumber(values.phone)}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="editPhoneContainer">
+                    <Textfield
+                      id="contact-phone"
+                      type="tel"
+                      placeholder="(XXX) XXX-XXXX"
+                      name="phone"
+                      value={formatPhoneNumber(values.phone)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.phone && errors.phone}
+                    />
+                    {errors.phone && <div class="mb-3" />}
+                  </div>
+                )}
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+    </>
   );
 };
 
-const NotificationSection = ({ title, subTitle }) => {
+// const NotificationPreferences = () => {
+//   return (
+//     <SectionContainer
+//       fullWidth
+//       className={styles.notificationContainer}
+//       title="Notification Preferences"
+//     >
+//       <NotificationSection title="Allow email notifications" />
+//       <NotificationSection
+//         title="Scope of Appointment"
+//         subTitle="Get notified when a contact completes a SOA."
+//       />
+//       <NotificationSection
+//         title="Leads"
+//         subTitle="Get notified when a new lead is entered"
+//       />
+//       <NotificationSection
+//         title="Daily Reminders"
+//         subTitle="Get updates on your contacts daily."
+//       />
+//     </SectionContainer>
+//   );
+// };
+
+const NotificationSection = ({
+  title,
+  subTitle,
+  actionTitle,
+  action,
+  icon,
+  checked,
+  onChange,
+}) => {
   return (
     <div className={styles.notificationSection}>
-      <span className={styles.notificationTitle}>
-        {title}
-        <span className={styles.notificationSubTitle}>{subTitle}</span>
-      </span>
-      <Switch className={styles.notificationSwitch} />
+      <div className={styles.iconTitle}>
+        {icon}
+        <span className={styles.notificationTitle}>
+          {title}
+          {subTitle && (
+            <span className={styles.notificationSubTitle}>{subTitle}</span>
+          )}
+        </span>
+      </div>
+      {actionTitle && action && (
+        <div className={styles.actionTitle} onClick={() => action()}>
+          {actionTitle}
+        </div>
+      )}
+      <Switch
+        className={styles.notificationSwitch}
+        checked={checked}
+        onChange={onChange}
+      />
     </div>
   );
 };
@@ -647,8 +809,8 @@ export default () => {
               </div>
               <div className={styles.sectionTwo}>
                 <section className={styles.preferences}>
-                  <CheckinPreferences />
-                  <NotificationPreferences />
+                  <CheckinPreferences npn={npn} />
+                  {/* <NotificationPreferences /> */}
                 </section>
                 <section className={styles.website}>
                   <AgentPhone

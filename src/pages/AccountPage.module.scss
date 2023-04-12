@@ -147,19 +147,11 @@
 }
 
 .notificationSection {
-  padding: 16px;
-  box-shadow: inset 0px -1px 0px #cdd0d5;
+  padding: 15px 5px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.notificationTitle {
-  font-size: 16px;
-  color: #000000;
-  display: flex;
-  flex-direction: column;
 }
 
 .notificationSwitch {
@@ -187,4 +179,68 @@
   padding: 9px;
   border: 1px solid #c7ccd1;
   border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .icon {
+    margin-top: 3px;
+  }
+}
+
+.actionTitle {
+  color: #2175f4;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.leadCenter {
+  margin-top: 10px;
+}
+
+.health {
+  font-size: 16px;
+  border-bottom: 1px solid #cdd0d5;
+}
+
+.phoneText {
+  display: flex;
+  border: 1px solid #c7ccd1;
+  border-radius: 8px;
+  padding: 8px;
+  .number {
+    color: #434a51;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+  .imageMobile {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+.editSection {
+  color: #434a51;
+  font-size: 16px;
+  font-weight: bold;
+  .icon {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}
+
+.iconTitle {
+  display: flex;
+  align-items: center;
+  .notificationTitle {
+    color: #434a51;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+  }
 }
