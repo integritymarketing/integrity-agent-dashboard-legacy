@@ -1,44 +1,55 @@
 @import "../../scss/globalDefines.scss";
 
 .cardHeader {
-    align-items: center;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border-radius: 8px 8px 0px 0px;
-    box-shadow: inset 0px -1px 0px #C7CCD1;
-    display: flex;
-    padding: 1.5rem;
+  align-items: center;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 8px 8px 0px 0px;
+  box-shadow: inset 0px -1px 0px #c7ccd1;
+  display: flex;
+  padding: 1.5rem;
 
-    @include small {
-        background: none;
-        border-radius: 8px;
-        box-shadow: none;
-        padding: 0.5rem;
+  @include small {
+    background: none;
+    border-radius: 8px;
+    box-shadow: none;
+    padding: 0.5rem;
+  }
+  .icon {
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f1faff;
+      border-radius: 40px;
     }
+  }
+  .iconReverse {
+    transform: rotate(180deg);
+  }
 }
 
 .actions {
-    align-items: flex-end;
-    margin-left: auto;
+  align-items: flex-end;
+  margin-left: auto;
 }
 
 .heading {
-    color: #002D72;
-    font-size: 24px;
-    letter-spacing: 0.24px;
+  color: #002d72;
+  font-size: 24px;
+  letter-spacing: 0.24px;
 
-    @include small {
-        font-size: 20px;
-        letter-spacing: 0.2px;
-    }
+  @include small {
+    font-size: 20px;
+    letter-spacing: 0.2px;
+  }
 }
 
 .content {
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border-radius: 0px 0px 8px 8px;
-    padding: 1.5rem;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 0px 0px 8px 8px;
+  padding: 1.5rem;
 
-    @include small {
-        background: none;
-        padding: 0.5rem;
-    }
+  @include small {
+    background: none;
+    padding: 0.5rem;
+  }
 }
