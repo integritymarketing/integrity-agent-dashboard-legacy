@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./index.scss";
 
-function Switch({
+export function Switch({
   htmlFor = "",
   id = "",
   name = "",
