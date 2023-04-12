@@ -52,6 +52,7 @@ import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
+import EnrollmentLinkToContact from "pages/EnrollmentLinkToContact";
 
 const App = () => {
   return (
@@ -115,6 +116,9 @@ const App = () => {
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom/:duration/:date">
                                       <LinkToContact />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/enrollment-link-to-contact">
+                                      <EnrollmentLinkToContact />
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/account">
                                       <AccountPage />

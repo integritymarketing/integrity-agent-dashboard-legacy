@@ -16,6 +16,7 @@ import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 import DetailsMobile from "mobile/Contact/Details/ContactDetails";
 import Media from "react-media";
+import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 
 export default forwardRef((props, ref) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
@@ -207,6 +208,9 @@ export default forwardRef((props, ref) => {
       <div className="contactdetailscard" ref={props.detailsRef}>
         {DetailsInfo()}
       </div>
+      <section>
+        <EnrollmentHistoryContainer />
+      </section>
       <div className="detailscard-container">
         {isOpen && (
           <AddProvider
