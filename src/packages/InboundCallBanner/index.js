@@ -11,6 +11,7 @@ import IconWithText from "packages/IconWithText";
 import Link from "images/link-svg.svg";
 import CallScript from "components/icons/script";
 import styles from "./styles.module.scss";
+import { convertUTCDateToLocalDate, callDuration } from "utils/dates";
 
 const IN_PROGRESS = "in-progress";
 
@@ -28,8 +29,12 @@ export default function InboundCallBanner() {
   );
 
   const navigateToLinkToContact = () => {
-    const { callLogId, from } = callStatusInProgress;
-    history.push(`/link-to-contact/${callLogId}/${from}`);
+    const { callLogId, from, callStartTime, recordingStartTime, callEndTime } =
+      callStatusInProgress;
+    let duration = callDuration(recordingStartTime, callEndTime);
+    const date = convertUTCDateToLocalDate(callStartTime);
+
+    history.push(`/link-to-contact/${callLogId}/${from}/${duration}/${date}`);
   };
 
   const bannerContent = () => {
