@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import styles from "./index.module.scss";
+import Arrow from "components/icons/down";
 
 const ContactSectionCard = (props) => {
   const { title, actions, children, className = "" } = props;
@@ -15,9 +14,12 @@ const ContactSectionCard = (props) => {
   return (
     <section className={className}>
       <div className={styles.cardHeader}>
-        <IconButton className={styles.icon} onClick={handleToggle}>
-          {isCollapsed ? <ExpandLess /> : <ExpandMore />}
-        </IconButton>
+        <div
+          className={`${styles.icon} ${isCollapsed ? styles.iconReverse : ""}`}
+          onClick={handleToggle}
+        >
+          <Arrow color={"#0052CE"} />
+        </div>
         <h3 className={styles.heading}>{title}</h3>
         <div className={styles.actions}>{actions}</div>
       </div>
