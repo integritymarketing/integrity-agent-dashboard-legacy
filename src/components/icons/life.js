@@ -3,42 +3,38 @@ import React from "react";
 export default () => {
   return (
     <svg
-      id="Life"
+      id="icon-MedicareEnroll"
       xmlns="http://www.w3.org/2000/svg"
       width="32"
       height="32"
       viewBox="0 0 32 32"
     >
-      <g id="IconBG">
-        <circle
-          id="Ellipse_299"
-          data-name="Ellipse 299"
-          cx="16"
-          cy="16"
-          r="16"
-          fill="#deebfb"
-        />
-      </g>
-      <g id="Life-2" data-name="Life" transform="translate(9 8)">
+      <circle
+        id="Ellipse_667"
+        data-name="Ellipse 667"
+        cx="16"
+        cy="16"
+        r="16"
+        fill="#e8f1fe"
+      />
+      <g
+        id="Group_5425"
+        data-name="Group 5425"
+        transform="translate(7.4 7.604)"
+      >
         <path
-          id="Path_3607"
-          data-name="Path 3607"
-          d="M.5,8.522V2.4A13.118,13.118,0,0,1,6.918.5a13.169,13.169,0,0,1,6.418,1.9V8.522c0,4.932-5.334,7.506-6.419,7.978C5.832,16.029.5,13.465.5,8.522Z"
-          fill="none"
-          stroke="#0052ce"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1"
+          id="Path_20977"
+          data-name="Path 20977"
+          d="M18.5,4.105v.01L14.005,8.6,8.9,13.7a2.4,2.4,0,0,1-3.4,0L.7,8.9a2.4,2.4,0,0,1,3.4-3.4L7.2,8.6l6.8-6.8L15.1.7a2.4,2.4,0,0,1,3.4,3.4"
+          transform="translate(-0.4 1.396)"
+          fill="#0b41aa"
         />
         <path
-          id="Path_3608"
-          data-name="Path 3608"
-          d="M2.665,9.543h.967L4.695,6.577l.886,2.939L6.809,4.244,8.06,10.509l.986-3.5L9.87,9.543h1.3"
-          fill="none"
-          stroke="#0052ce"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1"
+          id="Path_20839"
+          data-name="Path 20839"
+          d="M35.366,10.791l-5.1,5.1a2.4,2.4,0,0,1-3.4,0l-4.8-4.8a2.4,2.4,0,1,1,3.4-3.4l3.1,3.1a4.809,4.809,0,0,0,6.8,0"
+          transform="translate(-21.763 -0.79)"
+          fill="#1157ee"
         />
       </g>
     </svg>

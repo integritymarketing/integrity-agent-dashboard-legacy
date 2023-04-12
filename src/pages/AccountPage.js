@@ -161,7 +161,8 @@ function CheckinPreferences({ npn }) {
               icon={<HealthIcon />}
             />
           </div>
-          <div>
+
+          <div className={styles.innerSection}>
             <NotificationSection
               title="MedicareEnroll"
               onChange={() => handleMedicareEnroll()}
@@ -236,37 +237,38 @@ const CallCenterContent = ({
                 <div className={styles.header}>
                   <p className={styles.subTitle}>Forward calls to:</p>
                   <div className={styles.editSection}>
-                    <span
-                      onClick={() => {
-                        if (isEditingNumber) {
-                          handleSubmit();
-                        } else {
-                          setIsEditingNumber(true);
-                        }
-                      }}
-                      className={styles.icon}
-                    >
-                      {isEditingNumber ? "Save" : "Edit"}
-                    </span>
-
-                    {isEditingNumber && (
-                      <span
-                        className={styles.icon}
-                        onClick={() => {
-                          setFieldValue("phone", phoneNumber);
-                          setIsEditingNumber(false);
-                        }}
-                      >
-                        Cancel
-                      </span>
-                    )}
                     {!isEditingNumber && (
-                      <span
-                        onClick={() => setIsEditingNumber(true)}
-                        className={styles.icon}
-                      >
-                        <EditIcon />
-                      </span>
+                      <>
+                        <span onClick={() => setIsEditingNumber(true)}>
+                          Edit
+                        </span>
+
+                        <span
+                          onClick={() => setIsEditingNumber(true)}
+                          className={styles.editIcon}
+                        >
+                          <EditIcon />
+                        </span>
+                      </>
+                    )}
+                    {isEditingNumber && (
+                      <>
+                        <span
+                          className={styles.editIcon}
+                          onClick={() => {
+                            setFieldValue("phone", phoneNumber);
+                            setIsEditingNumber(false);
+                          }}
+                        >
+                          Cancel
+                        </span>
+                        <span
+                          className={styles.editIcon}
+                          onClick={() => handleSubmit()}
+                        >
+                          Save
+                        </span>
+                      </>
                     )}
                   </div>
                 </div>
