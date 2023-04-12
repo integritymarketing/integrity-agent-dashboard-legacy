@@ -1,0 +1,155 @@
+@import "../../../scss/globalDefines.scss";
+
+.planCardContainer {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.planHistory {
+  padding-bottom: 1rem;
+}
+
+.planCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px 0px 8px 8px;
+
+  @include small {
+    border-radius: 8px 8px 0px 0px;
+
+  }
+
+  .status {
+    text-transform: capitalize;
+    width: fit-content;
+    border-radius: 8px 8px 0px 0px;
+    padding: 8px 16px;
+    align-self: flex-end;
+
+    &.pending {
+      background-color: $white-1;
+    }
+
+    &.rejected {
+      background-color: #FBDEDE;
+    }
+  }
+
+  .planDetails {
+    background-color: #F1FAFF;
+
+    &.previousYear {
+      background-color: $white;
+    }
+
+    border-radius: 8px 0px 8px 8px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include small {
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .details {
+      gap: 8px;
+
+      .planName {
+        font-size: 24px;
+        color: $dark-blue;
+        padding-bottom: 0.5rem;
+      }
+
+      .planCompany {
+        color: $cyan-blue;
+        font-size: 16px;
+        padding-bottom: 0.5rem;
+      }
+
+      .planId {
+        letter-spacing: 0.16px;
+        color: $dark-blue;
+
+        @include small {
+          padding-bottom: 0.5rem;
+        }
+
+        span {
+          color: $cyan-blue;
+        }
+      }
+
+      @include small {
+        order: 1;
+        width: 75%;
+      }
+    }
+
+    .dates {
+      .date {
+        letter-spacing: 0.16px;
+        color: $dark-blue;
+        padding-bottom: 0.5rem;
+
+        span {
+          color: $cyan-blue;
+        }
+      }
+
+      @include small {
+        padding-top: 0.5rem;
+        order: 3;
+      }
+    }
+
+    .iconPng {
+      padding: 0;
+      height: 32px;
+      width: 32px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+
+      @include small {
+        order: 2;
+        width: 14%;
+      }
+    }
+  }
+}
+
+.policyDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #DEEBFB 0% 0% no-repeat padding-box;
+  border-radius: 0px 0px 8px 8px;
+  padding: 1.5rem;
+  align-items: center;
+
+  &.previousYear {
+    background-color: #EDEDED;
+  }
+
+  @include small {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem
+  }
+}
+
+.label {
+  letter-spacing: 0.16px;
+  color: $dark-blue;
+}
+
+.value {
+  letter-spacing: 0.16px;
+  color: $cyan-blue;
+}
