@@ -17,7 +17,7 @@
   top: 1.9rem;
   @media screen and (max-width: 768px) {
     right: 2.8rem;
-    top: 1.5rem;
+    top: 1.9rem;
   }
   @media screen and (max-width: 480px) {
     left: 7.2rem;
@@ -84,4 +84,14 @@
   position: absolute;
   bottom: -1rem;
   right: 16px;
+}
+
+.outerWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.innerWrapper {
+  position: relative;
 }
