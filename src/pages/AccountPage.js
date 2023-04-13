@@ -43,6 +43,7 @@ function CheckinPreferences({ npn }) {
   const [callForwardNumber, setCallForwardNumber] = useState("");
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
+  const [hasActiveCampaign, setHasActiveCampaign] = useState(false);
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [phoneAtom] = useRecoilState(agentPhoneAtom);
 
@@ -71,7 +72,9 @@ function CheckinPreferences({ npn }) {
         agentVirtualPhoneNumber,
         callForwardNumber,
         leadPreference,
+        hasActiveCampaign,
       } = response || {};
+      setHasActiveCampaign(hasActiveCampaign);
       if (!agentVirtualPhoneNumber) {
         await clientService.genarateAgentTwiloNumber(agentid);
       }
@@ -79,7 +82,6 @@ function CheckinPreferences({ npn }) {
         setWelcomeModalOpen(true);
       }
       setPhone(formatPhoneNumber(phone, true));
-      setLeadPreference(leadPreference);
       if (callForwardNumber) {
         setCallForwardNumber(callForwardNumber);
       }
@@ -127,7 +129,6 @@ function CheckinPreferences({ npn }) {
     };
     updateAgentPreferences(data);
   };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -152,12 +153,13 @@ function CheckinPreferences({ npn }) {
           <div className={styles.health}>
             <NotificationSection
               title="Health"
-              actionTitle={"Setup"}
+              actionTitle={!hasActiveCampaign ? "Setup" : "Settings"}
               action={() =>
                 window.open(`/leadcenter-redirect/${npn}`, "_blank")
               }
               onChange={() => handleLeadCenter()}
-              checked={leadPreference?.leadCenter}
+              disabled={!hasActiveCampaign}
+              checked={hasActiveCampaign ? leadPreference?.leadCenter : false}
               icon={<HealthIcon />}
             />
           </div>
@@ -254,7 +256,7 @@ const CallCenterContent = ({
                     {isEditingNumber && (
                       <>
                         <span
-                          className={styles.editIcon}
+                          className={styles.saveText}
                           onClick={() => {
                             setFieldValue("phone", phoneNumber);
                             setIsEditingNumber(false);
@@ -263,7 +265,7 @@ const CallCenterContent = ({
                           Cancel
                         </span>
                         <span
-                          className={styles.editIcon}
+                          className={styles.saveText}
                           onClick={() => handleSubmit()}
                         >
                           Save
@@ -341,6 +343,7 @@ const NotificationSection = ({
   icon,
   checked,
   onChange,
+  disabled,
 }) => {
   return (
     <div className={styles.notificationSection}>
@@ -362,6 +365,7 @@ const NotificationSection = ({
         className={styles.notificationSwitch}
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
       />
     </div>
   );
