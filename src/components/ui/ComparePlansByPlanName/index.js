@@ -68,6 +68,7 @@ export default function ComparePlansByPlanName({
             dateOfBirth: agentInfo?.DateOfBirth,
             state: agentInfo?.State,
           },
+          planDetail: plan,
         },
         agentInfo.AgentNpn
       );
