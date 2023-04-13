@@ -81,6 +81,7 @@ function CheckinPreferences({ npn }) {
       if (!leadPreference?.isAgentMobilePopUpDismissed) {
         setWelcomeModalOpen(true);
       }
+      setLeadPreference({ ...leadPreference });
       setPhone(formatPhoneNumber(phone, true));
       if (callForwardNumber) {
         setCallForwardNumber(callForwardNumber);
@@ -129,6 +130,9 @@ function CheckinPreferences({ npn }) {
     };
     updateAgentPreferences(data);
   };
+
+  console.log("log", leadPreference);
+
   if (loading) {
     return <div>Loading...</div>;
   }

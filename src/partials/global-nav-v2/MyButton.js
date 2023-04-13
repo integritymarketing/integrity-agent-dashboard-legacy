@@ -9,7 +9,13 @@ import clientService from "services/clientsService";
 import AuthContext from "contexts/auth";
 import { useContext } from "react";
 
-function MyButton({ clickButton, isAvailable, page, leadPreference }) {
+function MyButton({
+  clickButton,
+  isAvailable,
+  page,
+  leadPreference,
+  hasActiveCampaign,
+}) {
   const auth = useContext(AuthContext);
   const [user, setUser] = useState();
 
@@ -19,10 +25,23 @@ function MyButton({ clickButton, isAvailable, page, leadPreference }) {
     useState(false);
   const [isNoticeVisible, setIsNoticeVisible] = useState(false);
   const statusText = isAvailable ? "online" : "offline";
+
   async function handleClick() {
-    typeof clickButton == "function" && clickButton();
-    if (!isCheckInUpdateModalDismissed) {
-      setIsAvailabiltyModalVisible(true);
+    const response = await clientService.getAgentAvailability(
+      user?.profile.agentid
+    );
+    const { leadPreference, hasActiveCampaign } = response || {};
+
+    if (
+      (hasActiveCampaign && leadPreference?.leadCenter) ||
+      leadPreference?.medicareEnroll
+    ) {
+      typeof clickButton == "function" && clickButton();
+      if (!isCheckInUpdateModalDismissed) {
+        setIsAvailabiltyModalVisible(true);
+      }
+    } else {
+      handleDisable();
     }
   }
   const handleDisable = () => {
@@ -67,17 +86,7 @@ function MyButton({ clickButton, isAvailable, page, leadPreference }) {
     <>
       <div id="myButton" className="myButtonWrapper">
         <span className="myButtonText">I'm Available</span>
-        <div
-          className="myButton"
-          onClick={
-            leadPreference.leadCenter ||
-            leadPreference.leadCenterLife ||
-            leadPreference.medicareEnroll ||
-            leadPreference.medicareEnrollPurl
-              ? handleClick
-              : handleDisable
-          }
-        >
+        <div className="myButton" onClick={handleClick}>
           {statusText === "offline" && (
             <img
               src={ToggleOffline}

@@ -457,6 +457,7 @@ export default ({ menuHidden = false, className = "", page, ...props }) => {
                       clickButton={clickButton}
                       isAvailable={isAvailable}
                       page={page}
+                      hasActiveCampaign={agentInfo?.hasActiveCampaign}
                     />
                   )}
                 </React.Fragment>
