@@ -33,6 +33,7 @@ function MyButton({
     const { leadPreference, hasActiveCampaign } = response || {};
 
     if (
+      isAvailable ||
       (hasActiveCampaign && leadPreference?.leadCenter) ||
       leadPreference?.medicareEnroll
     ) {
