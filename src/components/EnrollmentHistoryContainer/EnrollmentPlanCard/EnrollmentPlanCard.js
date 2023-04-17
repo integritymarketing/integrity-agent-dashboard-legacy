@@ -18,7 +18,7 @@ export default function EnrollmentPlanCard(props) {
   return (
     <div className={styles.planCardContainer}>
       <div className={styles.planHistory}>
-        {currentYear ? "Curent Plan" : "Previous Years"}
+        {currentYear ? "Current Plan" : "Previous Years"}
       </div>
       <div className={styles.planCard}>
         {/* <div className={`${styles[status]} ${styles.status}`}>
