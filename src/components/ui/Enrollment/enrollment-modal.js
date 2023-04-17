@@ -30,6 +30,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
           email: contact?.emails[0]?.leadEmail,
           sendToBeneficiary: option === "send",
         },
+        planDetail: planData,
       });
 
       if (enrolled && enrolled.url) {

@@ -199,6 +199,7 @@ export default () => {
   const isLoad = loading;
 
   const handleZipDetails = () => {
+    setMenuToggle(false);
     const postalCode = personalInfo?.addresses?.[0]?.postalCode;
     const stateCode = personalInfo?.addresses?.[0]?.stateCode;
     const county = personalInfo?.addresses?.[0]?.county;

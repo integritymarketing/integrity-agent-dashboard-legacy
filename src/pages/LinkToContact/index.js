@@ -17,12 +17,14 @@ import { useHistory, useParams } from "react-router-dom";
 import useCallRecordings from "hooks/useCallRecordings";
 import Heading2 from "packages/Heading2";
 import PossibleMatches from "./PossibleMatches";
+import { dateFormatter } from "utils/dateFormatter";
 
 const IN_PROGRESS = "in-progress";
 
 export default function LinkToContact() {
   const history = useHistory();
-  const { callLogId, callFrom } = useParams();
+  const { callLogId, callFrom, duration, date } = useParams();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,6 +96,15 @@ export default function LinkToContact() {
         <div className={styles.innerContainer}>
           <div className={styles.medContent}>
             <Heading2 text={formatPhoneNumber(callFrom, true)} />
+          </div>
+          <div className={styles.callRecording}>
+            <div className={styles.content}>Call recorded</div>
+            <div className={styles.content}>
+              {dateFormatter(date, "MM/DD/yyyy hh:mm A")}
+            </div>
+            <div className={`${styles.content} ${styles.mt10}`}>
+              Duration: {duration}{" "}
+            </div>
           </div>
           {tags?.length > 0 ? (
             <div className={styles.medContent}>

@@ -108,7 +108,7 @@ const SiteNotification = ({
   return null;
 };
 
-export default ({ menuHidden = false, className = "", ...props }) => {
+export default ({ menuHidden = false, className = "", page, ...props }) => {
   const auth = useContext(AuthContext);
   const addToast = useToast();
   const history = useHistory();
@@ -121,7 +121,6 @@ export default ({ menuHidden = false, className = "", ...props }) => {
   const [isAvailable, setIsAvailable] = useAgentAvailability(false);
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
-
   const mobileMenuProps = Object.assign(
     {
       navOpen,
@@ -452,10 +451,15 @@ export default ({ menuHidden = false, className = "", ...props }) => {
                 <React.Fragment>
                   {matches.small && <SmallFormatMenu {...mobileMenuProps} />}
                   {!matches.small && <LargeFormatMenu {...menuProps} />}
-                  <MyButton
-                    clickButton={clickButton}
-                    isAvailable={isAvailable}
-                  />
+                  {leadPreference && (
+                    <MyButton
+                      leadPreference={leadPreference}
+                      clickButton={clickButton}
+                      isAvailable={isAvailable}
+                      page={page}
+                      hasActiveCampaign={agentInfo?.hasActiveCampaign}
+                    />
+                  )}
                 </React.Fragment>
               )}
             </Media>

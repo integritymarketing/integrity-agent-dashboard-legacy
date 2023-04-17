@@ -24,21 +24,3 @@
 @import "scss/components/scaling-header";
 @import "scss/components/status-field";
 @import "scss/components/toolbar";
-
-// Disable Landscape Mode Scroll in Mobile devices (created to complement prevent-orientation npm package) (vgin)
-
-//  Checking Landscape orientation
-@media screen and (orientation: landscape) {
-  // Checking if the device is mobile
-  @media screen and (max-height: 480px) {
-    /* checking if device has a touch screen */
-    @media (any-pointer: coarse) {
-      html,
-      body {
-        margin: 0;
-        height: 100%;
-        overflow: hidden;
-      }
-    }
-  }
-}

@@ -6,11 +6,15 @@ import Integrity from "./Integrity.svg";
 import usePortalUrl from "hooks/usePortalUrl";
 import useClientId from "hooks/auth/useClientId";
 import ILSLogo from "../../images/auth/lead-center-rgb.png";
+import useQueryParams from "hooks/useQueryParams";
 
-export const FooterUnAuthenticated = (props) => {
+export const FooterUnAuthenticated = () => {
   const portalUrl = usePortalUrl();
   const clientId = useClientId();
-  const mobileAppLogin = clientId === "AgentMobile" ? true : false;
+  const params = useQueryParams();
+
+  const webAppLogin =
+    clientId === "AEPortal" || params.get("clientId") === "AEPortal";
 
   return (
     <Grid
@@ -21,8 +25,8 @@ export const FooterUnAuthenticated = (props) => {
       px={{ xs: "0rem", sm: "2rem", md: "8.5rem" }}
     >
       <Grid container>
-        {!mobileAppLogin && clientId !== "ILSClient" && (
-          <>
+        {webAppLogin && (
+          <div className={styles.hideForWebMobile}>
             <a
               href={`${portalUrl || ""}/terms`}
               rel="noopener noreferrer"
@@ -40,7 +44,7 @@ export const FooterUnAuthenticated = (props) => {
             >
               Privacy Policy
             </a>
-          </>
+          </div>
         )}
       </Grid>
 

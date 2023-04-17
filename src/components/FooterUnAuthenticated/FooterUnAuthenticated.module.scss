@@ -27,3 +27,11 @@
     align-self: center;
   }
 }
+
+.hideForWebMobile {
+  display: flex;
+  align-items: center;
+  @include small {
+    display: none;
+  }
+}

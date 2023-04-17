@@ -3,4 +3,28 @@
   justify-content: center;
   color: #051d43;
   font-weight: normal;
+  margin-top: 23px;
+  margin-bottom: 28px;
+}
+
+.title {
+  font-size: 32px;
+}
+
+.subText {
+  color: #434a51;
+  font-size: 16px;
+}
+
+.button {
+  font: 16px;
+  padding: 16px;
+  border: 1px solid #0052ce;
+  color: #0052ce;
+  border-radius: 4px;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
 }

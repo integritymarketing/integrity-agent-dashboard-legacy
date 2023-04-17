@@ -224,7 +224,7 @@ export default function Dashbaord() {
       <Helmet>
         <title>MedicareCENTER - Dashboard</title>
       </Helmet>
-      <GlobalNav />
+      <GlobalNav page="dashboard" />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
           <section className="details-section">

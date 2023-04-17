@@ -18,14 +18,12 @@ import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
 import { Button } from "packages/Button";
-import { PreventOrientation } from "prevent-orientation";
 
 export default () => {
   const loading = useLoading();
   const history = useHistory();
   const params = useQueryParams();
   const auth = useContext(AuthContext);
-
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
@@ -130,12 +128,6 @@ export default () => {
       }
     }
   };
-  new PreventOrientation({
-    text: "Kindly rotate your device to the portrait mode for using this site",
-    color: "white",
-    background: "#051D43",
-    fontSize: "1.2rem",
-  }).preventLandscape();
   return (
     <React.Fragment>
       <Helmet>
@@ -243,7 +235,7 @@ export default () => {
                           data-gtm="login-forgot-password"
                         >
                           <Link
-                            to="/forgot-password"
+                            to={`/forgot-password?mobileAppLogin=${mobileAppLogin}`}
                             className="text-sm link text-bold"
                           >
                             Forgot Password?
@@ -281,7 +273,7 @@ export default () => {
             </Formik>
           </Box>
         </ContainerUnAuthenticated>
-        <FooterUnAuthenticated />
+        <FooterUnAuthenticated mobileAppLogin={mobileAppLogin} />
       </div>
     </React.Fragment>
   );
