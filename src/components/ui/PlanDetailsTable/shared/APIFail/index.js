@@ -1,12 +1,11 @@
 import React from "react";
 import TooltipMUI from "packages/ToolTip";
+import "./style.scss";
 
-const PlanCoverageUnavailable = ({ title }) => {
+const APIFail = ({ title }) => {
   return (
     <div className={"status-item"}>
-      <div className={"status-text"}>
-        {title} status temporarily unavailable
-      </div>
+      <div className={"status-content"}>Status temporarily unavailable</div>
       <div className="status-icon">
         <TooltipMUI
           title={`${title} service partner is not returning current status. Please try again later.`}
@@ -16,4 +15,4 @@ const PlanCoverageUnavailable = ({ title }) => {
   );
 };
 
-export default PlanCoverageUnavailable;
+export default APIFail;

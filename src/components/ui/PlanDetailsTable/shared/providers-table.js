@@ -3,6 +3,7 @@ import OutNetworkX from "components/icons/out-network-x";
 import UnknownNetworkCheck from "components/icons/unknown-network-check";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
+import APIFail from "./APIFail/index";
 
 function getInNetwork(isCovered, isPlanNetworkAvailable) {
   if (isPlanNetworkAvailable === false) {
@@ -30,6 +31,13 @@ function getInNetwork(isCovered, isPlanNetworkAvailable) {
 }
 
 export default ({ planData, isMobile }) => {
+  const isApiFailed =
+    planData?.providers.filter(
+      (provider) => provider.firstName && provider.lastName
+    )?.length > 0
+      ? false
+      : true;
+
   const columns = useMemo(
     () => [
       {
@@ -106,9 +114,30 @@ export default ({ planData, isMobile }) => {
     }
   }
 
+  const columnsData = [
+    {
+      Header: "Providers",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "unAvailable",
+        },
+      ],
+    },
+  ];
+
+  const rowData = [
+    {
+      unAvailable: <APIFail title={"Provider"} />,
+    },
+  ];
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} className="quotes" />
+      <PlanDetailsTable
+        columns={isApiFailed ? columnsData : columns}
+        data={isApiFailed ? rowData : data}
+        className="quotes"
+      />
     </>
   );
 };

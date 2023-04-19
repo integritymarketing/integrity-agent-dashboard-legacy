@@ -4,6 +4,7 @@ import PlanDetailsTable from "..";
 import { useParams } from "react-router-dom";
 import InNetworkCheck from "components/icons/in-network-check";
 import OutNetworkX from "components/icons/out-network-x";
+import APIFail from "./APIFail/index";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -91,6 +92,11 @@ export function PrescriptionsCompareTable({
     return copyPlans;
   }, [plans]);
 
+  const isApiFailed =
+    prescriptions?.filter((drug) => drug.dosageDetails?.labelName)?.length > 0
+      ? false
+      : true;
+
   const { effectiveDate } = useParams();
   const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
   const effectiveEndDate = new Date(effectiveStartDate);
@@ -157,9 +163,31 @@ export function PrescriptionsCompareTable({
     "plan-2": { labelName, prescriptionMap: allPrescriptionsMap[2] },
   }));
 
+  const columnsData = [
+    {
+      Header: "Prescriptions",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "unAvailable",
+        },
+      ],
+    },
+  ];
+
+  const rowData = [
+    {
+      unAvailable: <APIFail title={"Prescription"} />,
+    },
+  ];
+
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} compareTable={true} />
+      <PlanDetailsTable
+        columns={isApiFailed ? columnsData : columns}
+        data={isApiFailed ? rowData : data}
+        compareTable={true}
+      />
     </>
   );
 }

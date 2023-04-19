@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { parseDate } from "utils/dates";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
+import APIFail from "./APIFail/index";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -35,6 +36,12 @@ export default ({ planData, isMobile }) => {
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
+
+  const isApiFailed =
+    planData?.planDrugCoverage?.filter((drug) => drug.labelName)?.length > 0
+      ? false
+      : true;
+
   const columns = useMemo(
     () => [
       {
@@ -119,9 +126,31 @@ export default ({ planData, isMobile }) => {
     });
   });
 
+  const columnsData = [
+    {
+      Header: "Prescriptions",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "unAvailable",
+        },
+      ],
+    },
+  ];
+
+  const rowData = [
+    {
+      unAvailable: <APIFail title={"Prescription"} />,
+    },
+  ];
+
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} className="quotes" />
+      <PlanDetailsTable
+        columns={isApiFailed ? columnsData : columns}
+        data={isApiFailed ? rowData : data}
+        className="quotes"
+      />
     </>
   );
 };
