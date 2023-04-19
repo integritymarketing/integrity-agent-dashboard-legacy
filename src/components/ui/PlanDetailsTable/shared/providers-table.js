@@ -3,6 +3,7 @@ import OutNetworkX from "components/icons/out-network-x";
 import UnknownNetworkCheck from "components/icons/unknown-network-check";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
+import APIFail from "./APIFail/index";
 
 function getInNetwork(isCovered, isPlanNetworkAvailable) {
   if (isPlanNetworkAvailable === false) {
@@ -30,6 +31,13 @@ function getInNetwork(isCovered, isPlanNetworkAvailable) {
 }
 
 export default ({ planData, isMobile }) => {
+  const isApiFailed =
+    planData?.providers.filter(
+      (provider) => provider.firstName && provider.lastName
+    )?.length > 0
+      ? false
+      : true;
+
   const columns = useMemo(
     () => [
       {
@@ -66,46 +74,70 @@ export default ({ planData, isMobile }) => {
   if (planData.providers && Array.isArray(planData.providers)) {
     for (var i = 0; i < planData.providers.length; i++) {
       var provider = planData.providers[i];
-      const row = {
-        name: (
-          <>
-            <span className={"label"}>
-              {`${provider.title || ""} ${provider.firstName} ${
-                provider.lastName
-              } ${provider.suffix || ""}`}
-            </span>
-            <span className={"subtext"}>{provider.specialty}</span>
-          </>
-        ),
-        address: (
-          <span className={"subtext"}>
-            {`${provider?.address?.streetLine1 || ""} ${
-              provider?.address?.streetLine2 || ""
-            }
+      if (provider?.firstName && provider?.lastName) {
+        const row = {
+          name: (
+            <>
+              <span className={"label"}>
+                {`${provider.title || ""} ${provider.firstName} ${
+                  provider.lastName
+                } ${provider.suffix || ""}`}
+              </span>
+              <span className={"subtext"}>{provider.specialty}</span>
+            </>
+          ),
+          address: (
+            <span className={"subtext"}>
+              {`${provider?.address?.streetLine1 || ""} ${
+                provider?.address?.streetLine2 || ""
+              }
             ${provider?.address?.city || ""} ${provider?.address?.state || ""}
             ${provider?.address?.zipCode || ""}`}
-          </span>
-        ),
-        inNetwork: getInNetwork(
-          provider.inNetwork,
-          planData.isPlanNetworkAvailable
-        ),
-      };
-      data.push({
-        ...row,
-        name_address: (
-          <>
-            <div>{row.name}</div>
-            <div>{row.address}</div>
-          </>
-        ),
-      });
+            </span>
+          ),
+          inNetwork: getInNetwork(
+            provider.inNetwork,
+            planData.isPlanNetworkAvailable
+          ),
+        };
+        data.push({
+          ...row,
+          name_address: (
+            <>
+              <div>{row.name}</div>
+              <div>{row.address}</div>
+            </>
+          ),
+        });
+      } else {
+      }
     }
   }
 
+  const columnsData = [
+    {
+      Header: "Providers",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "unAvailable",
+        },
+      ],
+    },
+  ];
+
+  const rowData = [
+    {
+      unAvailable: <APIFail title={"Provider"} />,
+    },
+  ];
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} className="quotes" />
+      <PlanDetailsTable
+        columns={isApiFailed ? columnsData : columns}
+        data={isApiFailed ? rowData : data}
+        className="quotes"
+      />
     </>
   );
 };

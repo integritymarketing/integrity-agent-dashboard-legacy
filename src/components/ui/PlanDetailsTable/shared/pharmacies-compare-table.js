@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
 import OutNetworkX from "../../../icons/out-network-x";
 import InNetworkCheck from "../../../icons/in-network-check";
+import APIFail from "./APIFail/index";
 
 export function PharmaciesCompareTable({ plans, pharmacies }) {
   const clonedPlans = useMemo(() => {
@@ -11,6 +12,9 @@ export function PharmaciesCompareTable({ plans, pharmacies }) {
     }
     return copyPlans;
   }, [plans]);
+
+  const isApiFailed =
+    pharmacies?.filter((pharmacy) => pharmacy?.name)?.length > 0 ? false : true;
 
   const columns = useMemo(
     () => [
@@ -67,9 +71,31 @@ export function PharmaciesCompareTable({ plans, pharmacies }) {
       (pr) => pr.pharmacyID === document.pharmacyID
     ),
   }));
+  const columnsData = [
+    {
+      Header: "Pharmacies",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "unAvailable",
+        },
+      ],
+    },
+  ];
+
+  const rowData = [
+    {
+      unAvailable: <APIFail title={"Pharmacy"} />,
+    },
+  ];
+
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} compareTable={true} />
+      <PlanDetailsTable
+        columns={isApiFailed ? columnsData : columns}
+        data={isApiFailed ? rowData : data}
+        compareTable={true}
+      />
     </>
   );
 }
