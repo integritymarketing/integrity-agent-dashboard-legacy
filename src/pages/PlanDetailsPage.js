@@ -24,7 +24,18 @@ import { BackToTop } from "components/ui/BackToTop";
 import ContactFooter from "partials/global-footer";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
-const PlanDetailsPage = () => {
+
+const enrollData = {
+  submittedDate: "12/12/2022",
+  enrolledDate: "12/12/22",
+  effectiveDate: "01/11/23",
+  policyHolder: "Zimmerman Robert",
+  policyId: "6745845",
+  currentYear: false,
+};
+
+const PlanDetailsPage = ({ page }) => {
+  const isEnroll = page === "enrollmentPlanPage" ? true : false;
   const addToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
   const [isMobile, setIsMobile] = useState(false);
@@ -109,27 +120,31 @@ const PlanDetailsPage = () => {
               <title>MedicareCENTER - Plans</title>
             </Helmet>
             <GlobalNav />
-            <div className={`${styles["header"]}`} style={{ height: "auto" }}>
-              <Container>
-                <div className={`${styles["back"]}`}>
-                  <Button
-                    icon={<ArrowDown />}
-                    label="Back to Plans List"
-                    onClick={() => {
-                      window.location = `/plans/${contactId}?preserveSelected=true`;
-                    }}
-                    type="tertiary"
-                    className={`${styles["back-button"]}`}
-                  />
-                </div>
-              </Container>
-            </div>
+            {!isEnroll && (
+              <div className={`${styles["header"]}`} style={{ height: "auto" }}>
+                <Container>
+                  <div className={`${styles["back"]}`}>
+                    <Button
+                      icon={<ArrowDown />}
+                      label="Back to Plans List"
+                      onClick={() => {
+                        window.location = `/plans/${contactId}?preserveSelected=true`;
+                      }}
+                      type="tertiary"
+                      className={`${styles["back-button"]}`}
+                    />
+                  </div>
+                </Container>
+              </div>
+            )}
             {isNonRTS_User && <NonRTSBanner />}
 
             <Container className={`${styles["body"]}`}>
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (
                 <MapdContent
                   plan={plan}
+                  enrollData={enrollData}
+                  isEnroll={isEnroll}
                   styles={styles}
                   isMobile={isMobile}
                   onShareClick={() => setShareModalOpen(true)}
@@ -140,6 +155,8 @@ const PlanDetailsPage = () => {
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
                 <PdpContent
                   plan={plan}
+                  enrollData={enrollData}
+                  isEnroll={isEnroll}
                   styles={styles}
                   isMobile={isMobile}
                   onShareClick={() => setShareModalOpen(true)}
@@ -150,6 +167,8 @@ const PlanDetailsPage = () => {
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
                 <MaContent
                   plan={plan}
+                  enrollData={enrollData}
+                  isEnroll={isEnroll}
                   styles={styles}
                   isMobile={isMobile}
                   onShareClick={() => setShareModalOpen(true)}

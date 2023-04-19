@@ -1,10 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router";
 import styles from "./EnrollmentPlanCard.module.scss";
 import IconWithText from "packages/IconWithText";
 import View from "./View.png";
 import Link from "./Link.png";
 import Media from "react-media";
 import Icon from "components/Icon";
+import { formatDate } from "utils/dates";
+import { Button } from "components/ui/Button";
 
 export default function EnrollmentPlanCard(props) {
   const {
@@ -14,13 +17,27 @@ export default function EnrollmentPlanCard(props) {
     policyHolder,
     policyId,
     currentYear = true,
+    leadId,
+    isEnrollPlansPage,
   } = props;
+
+  const history = useHistory();
+
+  const navigateEnrollDetails = () => {
+    history.push(
+      `/${leadId}/enroll/KT67CY2KMJ/${formatDate(effectiveDate, "yyyy-MM-01")}`
+    );
+  };
   return (
     <div className={styles.planCardContainer}>
       <div className={styles.planHistory}>
         {currentYear ? "Current Plan" : "Previous Years"}
       </div>
-      <div className={styles.planCard}>
+      <div
+        className={`${styles.planCard} ${
+          !currentYear ? styles.isBordered : ""
+        }`}
+      >
         {/* <div className={`${styles[status]} ${styles.status}`}>
           <strong>Status:</strong> {status}
         </div> */}
@@ -45,65 +62,84 @@ export default function EnrollmentPlanCard(props) {
             <PlanDate type="Effective" date={effectiveDate} />
           </div>
 
-          <div className={styles.links}>
-            <Media
-              queries={{
-                small: "(max-width: 767px)",
-              }}
-            >
-              {(matches) =>
-                matches.small ? (
-                  <>
-                    <IconWithText
-                      text="View"
-                      icon={
-                        <Icon
-                          altText="View"
-                          className={styles.iconPng}
-                          image={View}
+          {isEnrollPlansPage ? (
+            <div>
+              {" "}
+              <Button
+                label="Share Plan"
+                onClick={() => {}}
+                type="secondary"
+              />{" "}
+            </div>
+          ) : (
+            <div className={styles.links}>
+              <Media
+                queries={{
+                  small: "(max-width: 767px)",
+                }}
+              >
+                {(matches) =>
+                  matches.small ? (
+                    <>
+                      <div onClick={navigateEnrollDetails}>
+                        <IconWithText
+                          text="View"
+                          icon={
+                            <Icon
+                              altText="View"
+                              className={styles.iconPng}
+                              image={View}
+                            />
+                          }
+                          screensize="small"
                         />
-                      }
-                      screensize="small"
-                    />
-                    <IconWithText
-                      text="Relink"
-                      icon={
-                        <Icon
-                          altText="Link"
-                          className={styles.iconPng}
-                          image={Link}
+                      </div>
+                      <div>
+                        <IconWithText
+                          text="Relink"
+                          icon={
+                            <Icon
+                              altText="Link"
+                              className={styles.iconPng}
+                              image={Link}
+                            />
+                          }
+                          screensize="small"
                         />
-                      }
-                      screensize="small"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <IconWithText
-                      text="View"
-                      icon={
-                        <Icon
-                          altText="View"
-                          className={styles.iconPng}
-                          image={View}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div onClick={navigateEnrollDetails}>
+                        <IconWithText
+                          text="View"
+                          icon={
+                            <Icon
+                              altText="View"
+                              className={styles.iconPng}
+                              image={View}
+                            />
+                          }
                         />
-                      }
-                    />
-                    <IconWithText
-                      text="Relink"
-                      icon={
-                        <Icon
-                          altText="Link"
-                          className={styles.iconPng}
-                          image={Link}
+                      </div>
+                      <div onClick={navigateEnrollDetails}>
+                        <IconWithText
+                          text="Relink"
+                          icon={
+                            <Icon
+                              altText="Link"
+                              className={styles.iconPng}
+                              image={Link}
+                            />
+                          }
                         />
-                      }
-                    />
-                  </>
-                )
-              }
-            </Media>
-          </div>
+                      </div>
+                    </>
+                  )
+                }
+              </Media>
+            </div>
+          )}
         </div>
       </div>
       <div

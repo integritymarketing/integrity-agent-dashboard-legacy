@@ -180,6 +180,11 @@ const App = () => {
                                     <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
                                       <PlanDetailsPage />
                                     </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/:contactId/enroll/:planId/:effectiveDate">
+                                      <PlanDetailsPage
+                                        page={"enrollmentPlanPage"}
+                                      />
+                                    </AuthenticatedRoute>
                                     <Route path="/terms">
                                       <TermsPage />
                                     </Route>

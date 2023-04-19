@@ -212,7 +212,7 @@ export default forwardRef((props, ref) => {
       </div>
       {isMyFeatureEnabled && (
         <section>
-          <EnrollmentHistoryContainer />
+          <EnrollmentHistoryContainer leadId={props.id} />
         </section>
       )}
       <div className="detailscard-container">

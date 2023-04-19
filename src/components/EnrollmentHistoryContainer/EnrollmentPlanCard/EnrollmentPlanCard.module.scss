@@ -12,11 +12,9 @@
 .planCard {
   display: flex;
   flex-direction: column;
-  border-radius: 8px 0px 8px 8px;
-
+  border-radius: 8px 8px 0px 0px;
   @include small {
     border-radius: 8px 8px 0px 0px;
-
   }
 
   .status {
@@ -31,12 +29,12 @@
     }
 
     &.rejected {
-      background-color: #FBDEDE;
+      background-color: #fbdede;
     }
   }
 
   .planDetails {
-    background-color: #F1FAFF;
+    background-color: #f1faff;
 
     &.previousYear {
       background-color: $white;
@@ -128,19 +126,19 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: #DEEBFB 0% 0% no-repeat padding-box;
+  background: #deebfb 0% 0% no-repeat padding-box;
   border-radius: 0px 0px 8px 8px;
   padding: 1.5rem;
   align-items: center;
 
   &.previousYear {
-    background-color: #EDEDED;
+    background-color: #ededed;
   }
 
   @include small {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem
+    gap: 0.5rem;
   }
 }
 
@@ -152,4 +150,8 @@
 .value {
   letter-spacing: 0.16px;
   color: $cyan-blue;
+}
+
+.isBordered {
+  border: 1px solid #e0e0e0;
 }

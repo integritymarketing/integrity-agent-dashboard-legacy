@@ -6,6 +6,7 @@ import PdpPrescriptionsTable from "components/ui/PlanDetailsTable/shared/prescri
 import PdpPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
+import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 
 export default ({
   plan,
@@ -14,6 +15,8 @@ export default ({
   onEnrollClick,
   onShareClick,
   pharmacies,
+  isEnroll,
+  enrollData,
 }) => {
   const costsRef = useRef(null);
   const prescriptionsRef = useRef(null);
@@ -116,12 +119,22 @@ export default ({
       </div>
       <div className={`${styles["main"]}`}>
         <div className={`${styles["card-container"]}`}>
-          {plan && (
+          {plan && !isEnroll ? (
             <CompactPlanCard
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}
               isMobile={isMobile}
+            />
+          ) : (
+            <EnrollmentPlanCard
+              key={enrollData.policyId}
+              currentYear={enrollData.currentYear}
+              submittedDate={enrollData.submittedDate}
+              enrolledDate={enrollData.enrolledDate}
+              effectiveDate={enrollData.effectiveDate}
+              policyHolder={enrollData.policyHolder}
+              policyId={enrollData.policyId}
             />
           )}
         </div>

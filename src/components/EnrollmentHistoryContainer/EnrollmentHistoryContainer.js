@@ -22,7 +22,7 @@ const mockData = [
   },
 ];
 
-export default function EnrollmentHistoryContainer(props) {
+export default function EnrollmentHistoryContainer({ leadId }) {
   return (
     <ContactSectionCard
       title="Plans"
@@ -37,6 +37,7 @@ export default function EnrollmentHistoryContainer(props) {
           effectiveDate={planData.effectiveDate}
           policyHolder={planData.policyHolder}
           policyId={planData.policyId}
+          leadId={leadId}
         />
       ))}
     </ContactSectionCard>
