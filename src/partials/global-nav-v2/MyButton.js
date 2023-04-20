@@ -30,11 +30,16 @@ function MyButton({
     const response = await clientService.getAgentAvailability(
       user?.profile.agentid
     );
-    const { leadPreference, hasActiveCampaign } = response || {};
+    const { leadPreference, hasActiveCampaign, medicareEnrollPurl } =
+      response || {};
 
     if (
+      (hasActiveCampaign === true &&
+        leadPreference === false &&
+        medicareEnrollPurl === false) ||
+      (hasActiveCampaign === false && medicareEnrollPurl === false) ||
       isAvailable ||
-      (hasActiveCampaign && leadPreference?.leadCenter) ||
+      (hasActiveCampaign === true && leadPreference?.leadCenter) ||
       leadPreference?.medicareEnroll
     ) {
       typeof clickButton == "function" && clickButton();
