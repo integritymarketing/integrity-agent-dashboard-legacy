@@ -27,27 +27,30 @@ function MyButton({
   const statusText = isAvailable ? "online" : "offline";
 
   async function handleClick() {
-    const response = await clientService.getAgentAvailability(
-      user?.profile.agentid
-    );
-    const { leadPreference, hasActiveCampaign, medicareEnrollPurl } =
-      response || {};
-
-    if (
-      (hasActiveCampaign === true &&
-        leadPreference === false &&
-        medicareEnrollPurl === false) ||
-      (hasActiveCampaign === false && medicareEnrollPurl === false) ||
-      isAvailable ||
-      (hasActiveCampaign === true && leadPreference?.leadCenter) ||
-      leadPreference?.medicareEnroll
-    ) {
-      typeof clickButton == "function" && clickButton();
+    //  If the button is set to active we directly disable it without any further checkup
+    if (isAvailable) {
+      clickButton();
       if (!isCheckInUpdateModalDismissed) {
         setIsAvailabiltyModalVisible(true);
       }
+    }
+    // If hasActiveCampaign is true, show a pop-up
+    else if (hasActiveCampaign) {
+      setIsNoticeVisible(true);
     } else {
-      handleDisable();
+      // When Availability is set to off, we first need to check if one of the flag is true
+      if (
+        leadPreference.leadCenter === true ||
+        leadPreference.medicareEnrollPurl === true
+      ) {
+        clickButton();
+        if (!isCheckInUpdateModalDismissed) {
+          setIsAvailabiltyModalVisible(true);
+        }
+      } else {
+        // When Availabily is set to false and flags are also flase then we restrict user from toggling and instead we shaow a notice
+        handleDisable();
+      }
     }
   }
   const handleDisable = () => {
