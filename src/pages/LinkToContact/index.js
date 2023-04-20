@@ -11,13 +11,14 @@ import clientService from "services/clientsService";
 import styles from "./styles.module.scss";
 import { CallScriptModal } from "packages/CallScriptModal";
 import { Helmet } from "react-helmet-async";
-import { TextButton, Button } from "packages/Button";
+import { Button } from "packages/Button";
 import { formatPhoneNumber } from "utils/phones";
 import { useHistory, useParams } from "react-router-dom";
 import useCallRecordings from "hooks/useCallRecordings";
 import Heading2 from "packages/Heading2";
 import PossibleMatches from "./PossibleMatches";
 import { dateFormatter } from "utils/dateFormatter";
+import CreateNewContact from "./CreateNewContact";
 
 const IN_PROGRESS = "in-progress";
 
@@ -113,13 +114,7 @@ export default function LinkToContact() {
           ) : null}
           <PossibleMatches phone={callFrom} />
           <div className={styles.medContent}>
-            <TextButton
-              onClick={goToAddNewContactsPage}
-              variant={"outlined"}
-              size={"large"}
-            >
-              Create new contact
-            </TextButton>
+            <CreateNewContact goToAddNewContactsPage={goToAddNewContactsPage} />
           </div>
           <div className={styles.medContent}>
             <ContactSearch

@@ -1,2 +1,14 @@
 @import "src/scss/globalDefines.scss";
 
+.medContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contactsContainer {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+}
