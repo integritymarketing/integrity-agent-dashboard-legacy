@@ -50,7 +50,7 @@ export const FooterUnAuthenticated = () => {
 
       <Grid>
         <Grid
-          align="right"
+          align={{ xs: "center", sm: "right" }}
           container
           flexDirection={{ xs: "column", sm: "row" }}
         >
