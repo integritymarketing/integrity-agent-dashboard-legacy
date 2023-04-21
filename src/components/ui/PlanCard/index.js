@@ -22,40 +22,48 @@ const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
 function getProviders(entries, isMobile, isPlanNetworkAvailable) {
+  const isApiFailed =
+    entries?.filter((provider) => provider.firstName && provider.lastName)
+      ?.length > 0
+      ? false
+      : true;
   const items = [];
-  if (entries) {
+  if (!isApiFailed) {
     var key = 0;
     for (const entry of entries) {
-      if (entry.firstName && entry.lastName) {
-        items.push(
-          <PlanNetworkItem
-            key={key++}
-            name={entry.firstName + " " + entry.lastName}
-            address={entry?.address?.streetLine1}
-            inNetwork={entry.inNetwork}
-            isMobile={isMobile}
-          />
-        );
-      } else {
-        items.push(
-          <PlanCoverageUnavailable
-            key={`${key}-provider-unavailable`}
-            title={"Provider"}
-          />
-        );
-      }
+      items.push(
+        <PlanNetworkItem
+          key={key++}
+          name={entry.firstName + " " + entry.lastName}
+          address={entry?.address?.streetLine1}
+          inNetwork={entry.inNetwork}
+          isMobile={isMobile}
+        />
+      );
     }
+  } else {
+    items.push(
+      <PlanCoverageUnavailable
+        key={`${key}-provider-unavailable`}
+        title={"Provider"}
+      />
+    );
   }
   return items;
 }
 
 function getPharmacies(entries, pharmacyMap, isMobile) {
+  const isApiFailed =
+    entries?.filter((pharmacy) => pharmacy.pharmacyID)?.length > 0
+      ? false
+      : true;
+
   const items = [];
-  if (entries) {
+  if (!isApiFailed) {
     var key = 0;
     for (const entry of entries) {
       const pharmacy = pharmacyMap[entry.pharmacyID];
-      if (pharmacy?.name) {
+      if (pharmacy) {
         items.push(
           <PlanNetworkItem
             key={key++}
@@ -65,15 +73,15 @@ function getPharmacies(entries, pharmacyMap, isMobile) {
             isMobile={isMobile}
           />
         );
-      } else {
-        items.push(
-          <PlanCoverageUnavailable
-            key={`${key}-pharmacy-unavailable`}
-            title={"Pharmacy"}
-          />
-        );
       }
     }
+  } else {
+    items.push(
+      <PlanCoverageUnavailable
+        key={`${key}-pharmacy-unavailable`}
+        title={"Pharmacy"}
+      />
+    );
   }
   return items;
 }
