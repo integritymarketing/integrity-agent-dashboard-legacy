@@ -16,6 +16,7 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
+import DatePickerMUI from "components/DatePicker";
 
 const isDuplicateContact = async (
   values,
@@ -371,7 +372,20 @@ export default (props) => {
                     )}
                   </div>
                   <div className="responsive-display contact-details-col1 mob-res-w-100">
-                    <Textfield
+                    <DatePickerMUI
+                      value={values.birthdate}
+                      disableFuture={true}
+                      onChange={(value) => {
+                        console.log("HHH", value);
+                        setFieldValue("birthdate", value);
+                      }}
+                    />
+                    {errors.birthdate && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">{errors.birthdate}</li>
+                      </ul>
+                    )}
+                    {/* <Textfield
                       id="contact-birthdate"
                       type="text"
                       label="Date of Birth"
@@ -383,12 +397,25 @@ export default (props) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       error={touched.birthdate && errors.birthdate}
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="mob-email-row contact-details-row mob-res-row1">
                   <div className="custom-w-186 responsive-d-none contact-details-col1 mob-res-w-100">
-                    <Textfield
+                    <DatePickerMUI
+                      value={values.birthdate}
+                      disableFuture={true}
+                      onChange={(value) => {
+                        console.log("HHH", value);
+                        setFieldValue("birthdate", value);
+                      }}
+                    />
+                    {errors.birthdate && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">{errors.birthdate}</li>
+                      </ul>
+                    )}
+                    {/* <Textfield
                       id="contact-birthdate"
                       type="text"
                       label="Date of Birth"
@@ -400,7 +427,7 @@ export default (props) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       error={touched.birthdate && errors.birthdate}
-                    />
+                    /> */}
                   </div>
                   <div className="ml-65 responsive-w-50 custom-w-25 contact-details-col1">
                     <label

@@ -13,6 +13,7 @@
     "@microsoft/signalr": "^6.0.9",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.11.7",
+    "@mui/x-date-pickers": "^6.2.0",
     "@sentry/react": "^5.19.0",
     "@tanstack/react-table": "^8.0.14",
     "date-fns": "^2.16.1",
