@@ -1,8 +1,11 @@
 import Styles from "./Notice.module.scss";
 import React from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import ClickAwayListener from "react-click-away-listener";
 
 export default function Notice({ hideModal }) {
+  const location = useLocation();
+  const history = useHistory();
   return (
     <div className={Styles.wrapper}>
       <ClickAwayListener onClickAway={hideModal}>
@@ -30,12 +33,14 @@ export default function Notice({ hideModal }) {
             To receive leads please turn on at least one Lead Source.
             Availability Preferences can be found on your Account Page.
           </div>
-          <button
-            className={Styles.button}
-            onClick={() => (window.location = "/account")}
-          >
-            View Account
-          </button>
+          {location.pathname !== "/account" && (
+            <button
+              className={Styles.button}
+              onClick={() => history.push("/account")}
+            >
+              View Account
+            </button>
+          )}
         </div>
       </ClickAwayListener>
     </div>
