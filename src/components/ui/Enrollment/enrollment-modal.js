@@ -8,7 +8,13 @@ import Radio from "components/ui/Radio";
 import "./styles.scss";
 import { Button } from "../Button";
 
-export default ({ modalOpen, planData, handleCloseModal, contact }) => {
+export default ({
+  modalOpen,
+  planData,
+  handleCloseModal,
+  contact,
+  effectiveDate,
+}) => {
   const [option, setOption] = useState("");
   const addToast = useToast();
 
@@ -29,6 +35,7 @@ export default ({ modalOpen, planData, handleCloseModal, contact }) => {
           phoneNumber: contact?.phones[0]?.leadPhone,
           email: contact?.emails[0]?.leadEmail,
           sendToBeneficiary: option === "send",
+          effectiveDate: effectiveDate,
         },
         planDetail: planData,
       });

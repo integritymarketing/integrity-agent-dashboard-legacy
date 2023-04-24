@@ -6,6 +6,7 @@ import plansService from "services/plansService";
 import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import useRoles from "hooks/useRoles";
+import { useParams } from "react-router-dom";
 import styles from "../../../pages/PlansPage.module.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -28,6 +29,7 @@ export default function ComparePlansByPlanName({
   contactData,
 }) {
   const addToast = useToast();
+  const { effectiveDate } = useParams();
   const [userData, setUserData] = useState(contactData);
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
@@ -67,6 +69,7 @@ export default function ComparePlansByPlanName({
               agentInfo?.MiddleInitial === "" ? null : agentInfo.MiddleInitial,
             dateOfBirth: agentInfo?.DateOfBirth,
             state: agentInfo?.State,
+            effectiveDate: effectiveDate,
           },
           planDetail: plan,
         },
@@ -200,6 +203,7 @@ export default function ComparePlansByPlanName({
         planData={enrollingPlan}
         contact={userData}
         handleCloseModal={() => setModalOpen(false)}
+        effectiveDate={effectiveDate}
       />
     </div>
   );
