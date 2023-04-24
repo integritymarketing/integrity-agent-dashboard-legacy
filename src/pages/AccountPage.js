@@ -221,9 +221,8 @@ function CheckinPreferences({ npn }) {
         maxWidth="sm"
         titleWithIcon={false}
       >
-        You have disabled all lead sources. To receive real-time leads, please
-        enable one or more lead sources in the Availability section on your
-        Account page.
+        You have disabled all lead sources. We have switched off your
+        availability until additional lead sources are enabled.
       </Dialog>
     </SectionContainer>
   );
