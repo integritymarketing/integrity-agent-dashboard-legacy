@@ -61,7 +61,7 @@ export default ({
     } finally {
       handleCloseModal();
     }
-  }, [planData, contact, addToast, option, handleCloseModal]);
+  }, [planData, contact, addToast, option, handleCloseModal, effectiveDate]);
 
   return (
     <React.Fragment>
