@@ -116,6 +116,7 @@ function CheckinPreferences({ npn }) {
   };
 
   const handleLeadCenter = async () => {
+    setShowAvilabilityDialog(false);
     let data = {
       agentID: user?.agentid,
       leadPreference: {
@@ -124,9 +125,21 @@ function CheckinPreferences({ npn }) {
       },
     };
     await updateAgentPreferences(data);
+    if (
+      isAgentAvilable &&
+      leadPreference?.leadCenter &&
+      !leadPreference?.medicareEnrollPurl
+    ) {
+      await clientService.updateAgentAvailability({
+        agentID: user?.agentid,
+        availability: false,
+      });
+      setShowAvilabilityDialog(true);
+    }
   };
 
   const handleMedicareEnroll = async () => {
+    setShowAvilabilityDialog(false);
     let data = {
       agentID: user?.agentid,
       leadPreference: {
@@ -135,8 +148,11 @@ function CheckinPreferences({ npn }) {
       },
     };
     await updateAgentPreferences(data);
-
-    if (isAgentAvilable && leadPreference?.medicareEnrollPurl) {
+    if (
+      isAgentAvilable &&
+      leadPreference?.medicareEnrollPurl &&
+      !leadPreference?.leadCenter
+    ) {
       await clientService.updateAgentAvailability({
         agentID: user?.agentid,
         availability: false,
@@ -195,7 +211,11 @@ function CheckinPreferences({ npn }) {
         </div>
       </div>
       <Dialog
-        open={showAvilabilityDialog}
+        open={
+          showAvilabilityDialog &&
+          !leadPreference?.leadCenter &&
+          !leadPreference?.medicareEnrollPurl
+        }
         onClose={handleLeadSourceClose}
         title="Lead Sources Disabled"
         maxWidth="sm"
