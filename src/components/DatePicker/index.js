@@ -1,14 +1,12 @@
 import * as React from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 export default function DatePickerMUI({ disableFuture, value, onChange }) {
-  console.log("kkkkk", value);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker
-        label={"Select a Birthdate"}
+      <DesktopDatePicker
         views={["year", "month", "day"]}
         disableFuture={disableFuture}
         value={new Date(value)}

@@ -15,6 +15,7 @@ import clientService from "../../services/clientsService";
 import useToast from "../../hooks/useToast";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
+import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
@@ -22,6 +23,7 @@ import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
 import useQueryParams from "hooks/useQueryParams";
+import DatePickerMUI from "components/DatePicker";
 
 const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
@@ -318,19 +320,21 @@ const NewContactForm = ({ callLogId }) => {
                 </ul>
               )}
               <div className="custom-w-186  contact-details-col1 mob-res-w-100">
-                <Textfield
-                  id="contact-birthdate"
-                  type="text"
-                  label="Date of Birth"
-                  placeholder="MM/DD/YYYY"
-                  name="birthdate"
+                <label className=" custom-label-state label">Birthdate</label>
+
+                <DatePickerMUI
                   value={values.birthdate}
-                  maxLength={"10"}
-                  className="custom-w-px1"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.birthdate && errors.birthdate}
+                  disableFuture={true}
+                  onChange={(value) => {
+                    setFieldValue("birthdate", formatDate(value));
+                  }}
                 />
+
+                {errors.birthdate && (
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">{errors.birthdate}</li>
+                  </ul>
+                )}
               </div>
             </fieldset>
             <div className="mt-3 mb-3 border-bottom border-bottom--light" />

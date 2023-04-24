@@ -188,7 +188,7 @@ export default forwardRef((props, ref) => {
     if (isMobile) {
       return <DetailsMobile {...props} />;
     } else {
-      if (!props.isEdit) {
+      if (props.isEdit) {
         return <EditForm {...props} />;
       } else {
         return <ContactDetails {...props} />;

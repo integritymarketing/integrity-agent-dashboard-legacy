@@ -371,43 +371,17 @@ export default (props) => {
                       </ul>
                     )}
                   </div>
-                  <div className="responsive-display contact-details-col1 mob-res-w-100">
-                    <DatePickerMUI
-                      value={values.birthdate}
-                      disableFuture={true}
-                      onChange={(value) => {
-                        console.log("HHH", value);
-                        setFieldValue("birthdate", value);
-                      }}
-                    />
-                    {errors.birthdate && (
-                      <ul className="details-edit-custom-error-msg">
-                        <li className="error-msg-red">{errors.birthdate}</li>
-                      </ul>
-                    )}
-                    {/* <Textfield
-                      id="contact-birthdate"
-                      type="text"
-                      label="Date of Birth"
-                      placeholder="MM/DD/YYYY"
-                      name="birthdate"
-                      value={values.birthdate}
-                      maxLength={"10"}
-                      className="custom-w-px1"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.birthdate && errors.birthdate}
-                    /> */}
-                  </div>
                 </div>
                 <div className="mob-email-row contact-details-row mob-res-row1">
                   <div className="custom-w-186 responsive-d-none contact-details-col1 mob-res-w-100">
+                    <label className=" custom-label-state label">
+                      Birthdate
+                    </label>
                     <DatePickerMUI
                       value={values.birthdate}
                       disableFuture={true}
                       onChange={(value) => {
-                        console.log("HHH", value);
-                        setFieldValue("birthdate", value);
+                        setFieldValue("birthdate", formatDate(value));
                       }}
                     />
                     {errors.birthdate && (
@@ -415,19 +389,6 @@ export default (props) => {
                         <li className="error-msg-red">{errors.birthdate}</li>
                       </ul>
                     )}
-                    {/* <Textfield
-                      id="contact-birthdate"
-                      type="text"
-                      label="Date of Birth"
-                      placeholder="MM/DD/YYYY"
-                      name="birthdate"
-                      value={values.birthdate}
-                      maxLength={"10"}
-                      className="custom-w-px1"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.birthdate && errors.birthdate}
-                    /> */}
                   </div>
                   <div className="ml-65 responsive-w-50 custom-w-25 contact-details-col1">
                     <label
