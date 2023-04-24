@@ -118,7 +118,7 @@ export default ({ menuHidden = false, className = "", page, ...props }) => {
   const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [user, setUser] = useState({});
-  const [isAvailable, setIsAvailable] = useAgentAvailability(false);
+  const [isAvailable, setIsAvailable] = useAgentAvailability();
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
   const mobileMenuProps = Object.assign(

@@ -34,6 +34,9 @@ import { Formik, Form } from "formik";
 import Mobile from "partials/global-nav-v2/Mobile.svg";
 import HealthIcon from "components/icons/health";
 import LifeIcon from "components/icons/life";
+import Dialog from "packages/Dialog";
+import { isAgentAvilableAtom } from "recoil/agent/atoms";
+import { useRecoilValue } from "recoil";
 
 function CheckinPreferences({ npn }) {
   const auth = useContext(AuthContext);
@@ -46,6 +49,8 @@ function CheckinPreferences({ npn }) {
   const [hasActiveCampaign, setHasActiveCampaign] = useState(false);
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [phoneAtom] = useRecoilState(agentPhoneAtom);
+  const [showAvilabilityDialog, setShowAvilabilityDialog] = useState(false);
+  const isAgentAvilable = useRecoilValue(isAgentAvilableAtom);
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -110,7 +115,7 @@ function CheckinPreferences({ npn }) {
     }
   };
 
-  const handleLeadCenter = () => {
+  const handleLeadCenter = async () => {
     let data = {
       agentID: user?.agentid,
       leadPreference: {
@@ -118,9 +123,10 @@ function CheckinPreferences({ npn }) {
         leadCenter: !leadPreference?.leadCenter,
       },
     };
-    updateAgentPreferences(data);
+    await updateAgentPreferences(data);
   };
-  const handleMedicareEnroll = () => {
+
+  const handleMedicareEnroll = async () => {
     let data = {
       agentID: user?.agentid,
       leadPreference: {
@@ -128,10 +134,20 @@ function CheckinPreferences({ npn }) {
         medicareEnrollPurl: !leadPreference?.medicareEnrollPurl,
       },
     };
-    updateAgentPreferences(data);
+    await updateAgentPreferences(data);
+
+    if (isAgentAvilable && leadPreference?.medicareEnrollPurl) {
+      await clientService.updateAgentAvailability({
+        agentID: user?.agentid,
+        availability: false,
+      });
+      setShowAvilabilityDialog(true);
+    }
   };
 
-  console.log("log", leadPreference);
+  const handleLeadSourceClose = () => {
+    setShowAvilabilityDialog(!showAvilabilityDialog);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -161,7 +177,7 @@ function CheckinPreferences({ npn }) {
               action={() =>
                 window.open(`/leadcenter-redirect/${npn}`, "_blank")
               }
-              onChange={() => handleLeadCenter()}
+              onChange={handleLeadCenter}
               disabled={!hasActiveCampaign}
               checked={hasActiveCampaign ? leadPreference?.leadCenter : false}
               icon={<HealthIcon />}
@@ -171,13 +187,24 @@ function CheckinPreferences({ npn }) {
           <div className={styles.innerSection}>
             <NotificationSection
               title="MedicareEnroll"
-              onChange={() => handleMedicareEnroll()}
+              onChange={handleMedicareEnroll}
               checked={leadPreference?.medicareEnrollPurl}
               icon={<LifeIcon />}
             />
           </div>
         </div>
       </div>
+      <Dialog
+        open={showAvilabilityDialog}
+        onClose={handleLeadSourceClose}
+        title="Lead Sources Disabled"
+        maxWidth="sm"
+        titleWithIcon={false}
+      >
+        You have disabled all lead sources. To receive real-time leads, please
+        enable one or more lead sources in the Availability section on your
+        Account page.
+      </Dialog>
     </SectionContainer>
   );
 }
