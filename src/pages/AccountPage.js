@@ -151,7 +151,8 @@ function CheckinPreferences({ npn }) {
     if (
       isAgentAvilable &&
       leadPreference?.medicareEnrollPurl &&
-      !leadPreference?.leadCenter
+      ((!leadPreference?.leadCenter && hasActiveCampaign) ||
+        (leadPreference?.leadCenter && !hasActiveCampaign))
     ) {
       await clientService.updateAgentAvailability({
         agentID: user?.agentid,
@@ -211,11 +212,7 @@ function CheckinPreferences({ npn }) {
         </div>
       </div>
       <Dialog
-        open={
-          showAvilabilityDialog &&
-          !leadPreference?.leadCenter &&
-          !leadPreference?.medicareEnrollPurl
-        }
+        open={showAvilabilityDialog}
         onClose={handleLeadSourceClose}
         title="Lead Sources Disabled"
         maxWidth="sm"
