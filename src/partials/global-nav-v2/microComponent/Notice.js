@@ -11,7 +11,7 @@ export default function Notice({ hideModal }) {
       <ClickAwayListener onClickAway={hideModal}>
         <div className={Styles.body}>
           <div className={Styles.header}>
-            Set your Availabily Preferences
+            Set your Availability Preferences
             <button onClick={hideModal}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
