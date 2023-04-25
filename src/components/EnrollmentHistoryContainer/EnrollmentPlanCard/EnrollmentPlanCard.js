@@ -19,6 +19,7 @@ export default function EnrollmentPlanCard(props) {
     currentYear = true,
     leadId,
     isEnrollPlansPage,
+    onShareClick,
   } = props;
 
   const history = useHistory();
@@ -67,7 +68,7 @@ export default function EnrollmentPlanCard(props) {
               {" "}
               <Button
                 label="Share Plan"
-                onClick={() => {}}
+                onClick={() => onShareClick()}
                 type="secondary"
               />{" "}
             </div>

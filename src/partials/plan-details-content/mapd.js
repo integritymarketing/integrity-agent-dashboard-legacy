@@ -150,6 +150,7 @@ export default ({
               policyHolder={enrollData.policyHolder}
               policyId={enrollData.policyId}
               isEnrollPlansPage={isEnroll}
+              onShareClick={onShareClick}
             />
           )}
         </div>
