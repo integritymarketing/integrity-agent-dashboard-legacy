@@ -31,12 +31,7 @@ function getProviders(entries, isMobile, isPlanNetworkAvailable) {
   const items = [];
   if (entries && entries !== null && entries?.length > 0) {
     if (isApiFailed) {
-      items.push(
-        <PlanCoverageUnavailable
-          key={`${key}-provider-unavailable`}
-          title={"Provider"}
-        />
-      );
+      items.push(<PlanCoverageUnavailable title={"Provider"} />);
     } else {
       var key = 0;
       for (const entry of entries) {
@@ -64,12 +59,7 @@ function getPharmacies(entries, pharmacyMap, isMobile) {
   const items = [];
   if (entries && entries !== null && entries?.length > 0) {
     if (isApiFailed) {
-      items.push(
-        <PlanCoverageUnavailable
-          key={`${key}-pharmacy-unavailable`}
-          title={"Pharmacy"}
-        />
-      );
+      items.push(<PlanCoverageUnavailable title={"Pharmacy"} />);
     } else {
       var key = 0;
       for (const entry of entries) {
