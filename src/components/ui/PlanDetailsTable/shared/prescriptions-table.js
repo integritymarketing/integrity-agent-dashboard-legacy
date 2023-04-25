@@ -38,9 +38,11 @@ export default ({ planData, isMobile }) => {
   })} ${effectiveStartDate.getFullYear()} `;
 
   const isApiFailed =
-    planData?.planDrugCoverage?.filter((drug) => drug.labelName)?.length > 0
+    (planData?.planDrugCoverage?.filter((drug) => drug.labelName)?.length > 0
       ? false
-      : true;
+      : true) &&
+    planData?.planDrugCoverage !== null &&
+    planData?.planDrugCoverage?.length > 0;
 
   const columns = useMemo(
     () => [

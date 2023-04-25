@@ -32,10 +32,12 @@ function getInNetwork(pharmacyCost) {
 
 export default ({ planData, pharmacies, isMobile }) => {
   const isApiFailed =
-    planData?.pharmacyCosts?.filter((pharmacy) => pharmacy.pharmacyID)?.length >
-    0
+    (planData?.pharmacyCosts?.filter((pharmacy) => pharmacy.pharmacyID)
+      ?.length > 0
       ? false
-      : true;
+      : true) &&
+    planData?.pharmacyCosts !== null &&
+    planData?.pharmacyCosts?.length > 0;
   const columns = useMemo(
     () => [
       {

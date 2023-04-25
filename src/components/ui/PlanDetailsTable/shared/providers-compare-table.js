@@ -32,10 +32,12 @@ export function ProvidersCompareTable({ plans }) {
   );
 
   const isApiFailed =
-    allProviders?.filter((provider) => provider.firstName && provider.lastName)
+    (allProviders?.filter((provider) => provider.firstName && provider.lastName)
       ?.length > 0
       ? false
-      : true;
+      : true) &&
+    allProviders !== null &&
+    allProviders?.length > 0;
 
   const columns = useMemo(
     () => [
