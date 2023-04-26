@@ -151,8 +151,7 @@ function CheckinPreferences({ npn }) {
     if (
       isAgentAvilable &&
       leadPreference?.medicareEnrollPurl &&
-      ((!leadPreference?.leadCenter && hasActiveCampaign) ||
-        (leadPreference?.leadCenter && !hasActiveCampaign))
+      !(leadPreference?.leadCenter && hasActiveCampaign)
     ) {
       await clientService.updateAgentAvailability({
         agentID: user?.agentid,
