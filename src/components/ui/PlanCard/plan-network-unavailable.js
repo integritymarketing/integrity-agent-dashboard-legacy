@@ -5,7 +5,8 @@ const PlanCoverageUnavailable = ({ title }) => {
   return (
     <div className={"status-item"}>
       <div className={"status-text"}>
-        {title} status temporarily unavailable
+        {title} Looks like you need to add a pharmacy, or there is a problem
+        with the Pharmacy Service provider. Please try again later.
       </div>
       <div className="status-icon">
         <TooltipMUI
