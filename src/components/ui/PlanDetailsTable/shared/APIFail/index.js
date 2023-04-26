@@ -7,9 +7,7 @@ const APIFail = ({ title }) => {
     <div className={"status-item"}>
       <div className={"status-content"}>Status temporarily unavailable</div>
       <div className="status-icon">
-        <TooltipMUI
-          title={`${title} service partner is not returning current status. Please try again later.`}
-        />
+        <TooltipMUI title={title} />
       </div>
     </div>
   );
