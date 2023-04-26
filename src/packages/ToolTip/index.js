@@ -17,8 +17,13 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
 }));
 
 export default function BasicTooltip({ title, props }) {
+  let titleData =
+    title === "Pharmacy"
+      ? `Looks like you need to add a pharmacy, or there is a problem
+  with the Pharmacy Service provider. Please try again later.`
+      : `${title} service partner is not returning current status. Please try again later.`;
   return (
-    <BootstrapTooltip title={title} arrow placement="right">
+    <BootstrapTooltip title={titleData} arrow placement="right">
       <span>
         <Info />
       </span>
