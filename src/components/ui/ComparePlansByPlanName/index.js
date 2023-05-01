@@ -35,6 +35,9 @@ export default function ComparePlansByPlanName({
   const [enrollingPlan, setEnrollingPlan] = useState();
 
   const { isNonRTS_User } = useRoles();
+  const isEmailNonRts = isEmail
+    ? agentInfo?.Roles.includes("NonRts")
+    : isNonRTS_User;
 
   useEffect(() => {
     if (!userData && id) {
@@ -156,7 +159,7 @@ export default function ComparePlansByPlanName({
                 {!plan.nonLicensedPlan &&
                   !isModal &&
                   !isEmail &&
-                  !isNonRTS_User && (
+                  !isEmailNonRts && (
                     <Button
                       onClick={() => handleOnClick(plan)}
                       label={"Enroll"}
@@ -166,7 +169,7 @@ export default function ComparePlansByPlanName({
                 {!plan.nonLicensedPlan &&
                   !isModal &&
                   isEmail &&
-                  !isNonRTS_User && (
+                  !isEmailNonRts && (
                     <Button
                       onClick={() => handleBenificiaryClick(plan)}
                       label={"Enroll"}
