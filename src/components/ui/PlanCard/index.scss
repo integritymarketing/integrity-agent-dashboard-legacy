@@ -272,11 +272,12 @@
     .label {
       font-family: Lato;
       font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: bold;
+      font-size: 16px;
       line-height: 150%;
-      color: #656565;
+      color: #000000;
       margin-bottom: 16px;
+      margin-top: 10px;
     }
     &.mobile {
       .items .network-item {
@@ -474,4 +475,21 @@
 
 .rx-drug {
   margin-top: 50px;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .status-icon {
+    margin-top: 10px;
+    cursor: pointer;
+  }
+}
+.status-text {
+  font-size: 16px;
+  color: #717171;
+  font-weight: bold;
+  width: 60%;
 }

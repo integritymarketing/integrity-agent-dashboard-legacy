@@ -3,7 +3,6 @@ import { useHistory } from "react-router";
 import styles from "./EnrollmentPlanCard.module.scss";
 import IconWithText from "packages/IconWithText";
 import View from "./View.png";
-import Link from "./Link.png";
 import Media from "react-media";
 import Icon from "components/Icon";
 import { formatDate } from "utils/dates";
@@ -31,9 +30,9 @@ export default function EnrollmentPlanCard(props) {
   };
   return (
     <div className={styles.planCardContainer}>
-      <div className={styles.planHistory}>
+      {/* <div className={styles.planHistory}>
         {currentYear ? "Current Plan" : "Previous Years"}
-      </div>
+      </div> */}
       <div
         className={`${styles.planCard} ${
           !currentYear ? styles.isBordered : ""
@@ -98,19 +97,6 @@ export default function EnrollmentPlanCard(props) {
                           screensize="small"
                         />
                       </div>
-                      <div>
-                        <IconWithText
-                          text="Relink"
-                          icon={
-                            <Icon
-                              altText="Link"
-                              className={styles.iconPng}
-                              image={Link}
-                            />
-                          }
-                          screensize="small"
-                        />
-                      </div>
                     </>
                   ) : (
                     <>
@@ -122,18 +108,6 @@ export default function EnrollmentPlanCard(props) {
                               altText="View"
                               className={styles.iconPng}
                               image={View}
-                            />
-                          }
-                        />
-                      </div>
-                      <div onClick={navigateEnrollDetails}>
-                        <IconWithText
-                          text="Relink"
-                          icon={
-                            <Icon
-                              altText="Link"
-                              className={styles.iconPng}
-                              image={Link}
                             />
                           }
                         />

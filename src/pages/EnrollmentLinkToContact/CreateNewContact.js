@@ -1,7 +1,7 @@
 import { TextButton } from "packages/Button";
 import React from "react";
 
-export default function CreateNewContact({goToAddNewContactsPage}) {
+export default function CreateNewContact({ goToAddNewContactsPage }) {
   return (
     <TextButton
       onClick={goToAddNewContactsPage}

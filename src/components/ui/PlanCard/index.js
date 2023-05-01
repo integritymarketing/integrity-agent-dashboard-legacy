@@ -11,6 +11,7 @@ import {
 import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
+import PlanCoverageUnavailable from "./plan-network-unavailable";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -25,15 +26,24 @@ function getProviders(entries, isMobile, isPlanNetworkAvailable) {
   if (entries) {
     var key = 0;
     for (const entry of entries) {
-      items.push(
-        <PlanNetworkItem
-          key={key++}
-          name={entry.firstName + " " + entry.lastName}
-          address={entry?.address?.streetLine1}
-          inNetwork={entry.inNetwork}
-          isMobile={isMobile}
-        />
-      );
+      if (entry.firstName && entry.lastName) {
+        items.push(
+          <PlanNetworkItem
+            key={key++}
+            name={entry.firstName + " " + entry.lastName}
+            address={entry?.address?.streetLine1}
+            inNetwork={entry.inNetwork}
+            isMobile={isMobile}
+          />
+        );
+      } else {
+        items.push(
+          <PlanCoverageUnavailable
+            key={`${key}-provider-unavailable`}
+            title={"Provider"}
+          />
+        );
+      }
     }
   }
   return items;
@@ -45,14 +55,21 @@ function getPharmacies(entries, pharmacyMap, isMobile) {
     var key = 0;
     for (const entry of entries) {
       const pharmacy = pharmacyMap[entry.pharmacyID];
-      if (pharmacy) {
+      if (pharmacy?.name) {
         items.push(
           <PlanNetworkItem
             key={key++}
-            name={pharmacy.name}
-            address={pharmacy.address1}
-            inNetwork={entry.isNetwork}
+            name={pharmacy?.name}
+            address={pharmacy?.address1}
+            inNetwork={entry?.isNetwork}
             isMobile={isMobile}
+          />
+        );
+      } else {
+        items.push(
+          <PlanCoverageUnavailable
+            key={`${key}-pharmacy-unavailable`}
+            title={"Pharmacy"}
           />
         );
       }
@@ -199,13 +216,13 @@ export default function PlanCard({
         </div>
       </div>
       <div className={`in-network ${isMobile ? "mobile" : ""}`}>
+        <div className={"label"}>Plan Coverage</div>
         <div className={"items"}>
           {getProviders(
             planData.providers,
             isMobile,
             planData.isPlanNetworkAvailable
           )}
-
           {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
         </div>
       </div>

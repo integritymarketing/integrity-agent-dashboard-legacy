@@ -2,6 +2,7 @@ import InNetworkCheck from "components/icons/in-network-check";
 import OutNetworkX from "components/icons/out-network-x";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
+import APIFail from "./APIFail/index";
 
 function getInNetwork(pharmacyCost) {
   if (pharmacyCost.isNetwork) {
@@ -30,10 +31,15 @@ function getInNetwork(pharmacyCost) {
 }
 
 export default ({ planData, pharmacies, isMobile }) => {
+  const isApiFailed =
+    planData?.pharmacyCosts?.filter((pharmacy) => pharmacy.pharmacyID)?.length >
+    0
+      ? false
+      : true;
   const columns = useMemo(
     () => [
       {
-        Header: "Pharmacy",
+        Header: "Pharmacies",
         columns: [
           ...(isMobile
             ? [
@@ -96,10 +102,31 @@ export default ({ planData, pharmacies, isMobile }) => {
       }
     });
   }
+  const columnsData = [
+    {
+      Header: "Pharmacies",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "unAvailable",
+        },
+      ],
+    },
+  ];
+
+  const rowData = [
+    {
+      unAvailable: <APIFail title={"Pharmacy"} />,
+    },
+  ];
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} className="quotes" />
+      <PlanDetailsTable
+        columns={isApiFailed ? columnsData : columns}
+        data={isApiFailed ? rowData : data}
+        className="quotes"
+      />
     </>
   );
 };

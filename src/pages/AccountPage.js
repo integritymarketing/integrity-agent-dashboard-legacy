@@ -125,7 +125,7 @@ function CheckinPreferences({ npn }) {
       agentID: user?.agentid,
       leadPreference: {
         ...leadPreference,
-        medicareEnroll: !leadPreference?.medicareEnroll,
+        medicareEnrollPurl: !leadPreference?.medicareEnrollPurl,
       },
     };
     updateAgentPreferences(data);
@@ -172,7 +172,7 @@ function CheckinPreferences({ npn }) {
             <NotificationSection
               title="MedicareEnroll"
               onChange={() => handleMedicareEnroll()}
-              checked={leadPreference?.medicareEnroll}
+              checked={leadPreference?.medicareEnrollPurl}
               icon={<LifeIcon />}
             />
           </div>

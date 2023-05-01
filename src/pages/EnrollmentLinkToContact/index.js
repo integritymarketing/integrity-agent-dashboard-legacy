@@ -1,19 +1,24 @@
 import * as Sentry from "@sentry/react";
+import ContactSearch from "./ContactSearch";
+import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
+import Heading3 from "packages/Heading3";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { Helmet } from "react-helmet-async";
-import ContactSearch from "pages/LinkToContact/ContactSearch";
-import clientsService from "services/clientsService";
 import { useHistory, useParams } from "react-router-dom";
-import CreateNewContact from "pages/LinkToContact/CreateNewContact";
+import PossibleMatches from "./PossibleMatches";
+import CreateNewContact from "./CreateNewContact";
+import clientsService from "services/clientsService";
+import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 
 export default function EnrollmentLinkToContact() {
-  const [contacts, setContacts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const { callLogId, callFrom } = useParams();
+
+  const [contacts, setContacts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getContacts = async (searchStr) => {
     setIsLoading(true);
@@ -34,7 +39,13 @@ export default function EnrollmentLinkToContact() {
       setIsLoading(false);
     }
   };
-
+  const bannerContent = () => {
+    return (
+      <>
+        <Heading3 text="Link to contacts" />
+      </>
+    );
+  };
   const goToAddNewContactsPage = () => {
     history.push(
       `/contact/add-new/${callLogId}${callFrom ? "?callFrom=" + callFrom : ""}`
@@ -47,17 +58,50 @@ export default function EnrollmentLinkToContact() {
         <title>MedicareCENTER - Enrollment Link to Contact</title>
       </Helmet>
       <GlobalNav />
-      <div className={styles.contactsContainer}>
-        <div className={styles.medContent}>
-          <CreateNewContact goToAddNewContactsPage={goToAddNewContactsPage} />
-        </div>
-        <div className={styles.medContent}>
-          <div className={styles.container}>
-            <ContactSearch
-              isLoading={isLoading}
-              onChange={getContacts}
-              contacts={contacts}
+      <div className={styles.backToContacts}>
+        <button className={styles.backToContactsBtn}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1}
+            stroke="currentColor"
+            width="24px"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
             />
+          </svg>
+          Back to Contacts Details
+        </button>
+      </div>
+      <DashboardHeaderSection
+        content={bannerContent()}
+        justifyContent={"space-between"}
+        padding={"0 10%"}
+        className={styles.headerSection}
+      />
+      <div className={styles.outerContainer}>
+        <div className={styles.innerContainer}>
+          <EnrollmentPlanCard />
+          <PossibleMatches phone={callFrom} />
+          <div className={styles.contactsContainer}>
+            <div className={styles.medContent}>
+              <CreateNewContact
+                goToAddNewContactsPage={goToAddNewContactsPage}
+              />
+            </div>
+            <div className={styles.medContent}>
+              <div className={styles.container}>
+                <ContactSearch
+                  isLoading={isLoading}
+                  onChange={getContacts}
+                  contacts={contacts}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
