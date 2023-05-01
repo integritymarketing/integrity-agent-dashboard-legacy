@@ -14,23 +14,25 @@ export default function PossibleMatches({ phone }) {
 
   useEffect(() => {
     const getContacts = async () => {
-      const number = phone.toString().slice(2, phone.length);
-      try {
-        const response = await clientService.getList(
-          undefined,
-          undefined,
-          ["Activities.CreateDate:desc"],
-          number
-        );
-
-        if (response && response?.result.length > 0) {
-          const sorted = response?.result?.sort((a, b) =>
-            a.firstName.localeCompare(b.firstName)
+      if (phone) {
+        const number = phone.toString()?.slice(2, phone?.length);
+        try {
+          const response = await clientService.getList(
+            undefined,
+            undefined,
+            ["Activities.CreateDate:desc"],
+            number
           );
-          setMatches(sorted);
+
+          if (response && response?.result.length > 0) {
+            const sorted = response?.result?.sort((a, b) =>
+              a.firstName.localeCompare(b.firstName)
+            );
+            setMatches(sorted);
+          }
+        } catch (error) {
+          Sentry.captureException(error);
         }
-      } catch (error) {
-        Sentry.captureException(error);
       }
     };
     getContacts();

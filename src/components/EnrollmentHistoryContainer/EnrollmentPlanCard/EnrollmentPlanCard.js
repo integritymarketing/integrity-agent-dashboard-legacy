@@ -1,8 +1,9 @@
 import React from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import styles from "./EnrollmentPlanCard.module.scss";
 import IconWithText from "packages/IconWithText";
 import View from "./View.png";
+import Link from "./Link.png";
 import Media from "react-media";
 import Icon from "components/Icon";
 import { formatDate } from "utils/dates";
@@ -22,12 +23,18 @@ export default function EnrollmentPlanCard(props) {
   } = props;
 
   const history = useHistory();
+  const location = useLocation();
 
   const navigateEnrollDetails = () => {
     history.push(
       `/${leadId}/enroll/KT67CY2KMJ/${formatDate(effectiveDate, "yyyy-MM-01")}`
     );
   };
+
+  const navigateToEnrollmentLink = () => {
+    history.push(`/enrollment-link-to-contact`);
+  };
+
   return (
     <div className={styles.planCardContainer}>
       {/* <div className={styles.planHistory}>
@@ -112,6 +119,22 @@ export default function EnrollmentPlanCard(props) {
                           }
                         />
                       </div>
+                      {!location.pathname.includes(
+                        "enrollment-link-to-contact"
+                      ) && (
+                        <div onClick={navigateToEnrollmentLink}>
+                          <IconWithText
+                            text="Relink"
+                            icon={
+                              <Icon
+                                altText="Link"
+                                className={styles.iconPng}
+                                image={Link}
+                              />
+                            }
+                          />
+                        </div>
+                      )}
                     </>
                   )
                 }

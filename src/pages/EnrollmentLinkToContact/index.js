@@ -12,6 +12,7 @@ import PossibleMatches from "./PossibleMatches";
 import CreateNewContact from "./CreateNewContact";
 import clientsService from "services/clientsService";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
+import GoBackNavbar from "components/BackButtonNavbar";
 
 export default function EnrollmentLinkToContact() {
   const history = useHistory();
@@ -58,25 +59,7 @@ export default function EnrollmentLinkToContact() {
         <title>MedicareCENTER - Enrollment Link to Contact</title>
       </Helmet>
       <GlobalNav />
-      <div className={styles.backToContacts}>
-        <button className={styles.backToContactsBtn}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1}
-            stroke="currentColor"
-            width="24px"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-            />
-          </svg>
-          Back to Contacts Details
-        </button>
-      </div>
+      <GoBackNavbar title="Back to Contacts Details" />
       <DashboardHeaderSection
         content={bannerContent()}
         justifyContent={"space-between"}

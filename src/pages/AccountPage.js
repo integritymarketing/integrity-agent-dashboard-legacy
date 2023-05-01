@@ -345,7 +345,7 @@ const CallCenterContent = ({
                       onBlur={handleBlur}
                       error={touched.phone && errors.phone}
                     />
-                    {errors.phone && <div class="mb-3" />}
+                    {errors.phone && <div className="mb-3" />}
                   </div>
                 )}
               </div>
