@@ -125,6 +125,7 @@ export default ({
     const agentFirstName = user?.firstName;
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
+    const roles = user?.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
     try {
       let payload = {
@@ -136,6 +137,7 @@ export default ({
         agentEmail: agentEmail,
         documentationLinks: summaryBenfitURL(),
         starRatingsLink: planRating.toString(),
+        roles,
       };
       if (selectOption === "email") {
         const data = {
