@@ -47,20 +47,22 @@ export default function EnrollmentPlanCard(props) {
             styles.planDetails
           }`}
         >
-          <div className={styles.details}>
-            <div className={styles.planName}>
-              Humana Gold Plus H5619-021 (HMO)
+          <div className={styles.detailAndDateContainer}>
+            <div className={styles.details}>
+              <div className={styles.planName}>
+                Humana Gold Plus H5619-021 (HMO)
+              </div>
+              <div className={styles.planCompany}>Humana Advantage</div>
+              <div>
+                <strong className={styles.planId}>Plan ID:</strong>{" "}
+                <span>548512365</span>
+              </div>
             </div>
-            <div className={styles.planCompany}>Humana Advantage</div>
-            <div>
-              <strong classname={styles.planId}>Plan ID:</strong>{" "}
-              <span>548512365</span>
+            <div className={styles.dates}>
+              <PlanDate type="Submitted" date={submittedDate} />
+              <PlanDate type="Enrolled" date={enrolledDate} />
+              <PlanDate type="Effective" date={effectiveDate} />
             </div>
-          </div>
-          <div className={styles.dates}>
-            <PlanDate type="Submitted" date={submittedDate} />
-            <PlanDate type="Enrolled" date={enrolledDate} />
-            <PlanDate type="Effective" date={effectiveDate} />
           </div>
 
           {isEnrollPlansPage ? (
@@ -70,6 +72,7 @@ export default function EnrollmentPlanCard(props) {
                 label="Share Plan"
                 onClick={() => onShareClick()}
                 type="secondary"
+                className={styles.shareBtn}
               />{" "}
             </div>
           ) : (

@@ -33,6 +33,16 @@
     }
   }
 
+  .detailAndDateContainer {
+    display: flex;
+    gap: 2rem;
+
+    @include small {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+  }
   .planDetails {
     background-color: #f1faff;
 
@@ -47,13 +57,14 @@
     align-items: center;
 
     @include small {
+      display: flex;
       align-items: flex-start;
-      flex-wrap: wrap;
+      flex-wrap: row;
     }
 
     .details {
       gap: 8px;
-
+     
       .planName {
         font-size: 24px;
         color: $dark-blue;
@@ -81,7 +92,7 @@
 
       @include small {
         order: 1;
-        width: 75%;
+        width: 95%;
       }
     }
 
@@ -154,4 +165,11 @@
 
 .isBordered {
   border: 1px solid #e0e0e0;
+}
+
+.shareBtn {
+@include small {
+  font-size: 20px;
+  width: max-content;
+}
 }
