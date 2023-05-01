@@ -8,9 +8,7 @@ const PlanCoverageUnavailable = ({ title }) => {
         {title} status temporarily unavailable
       </div>
       <div className="status-icon">
-        <TooltipMUI
-          title={`${title} service partner is not returning current status. Please try again later.`}
-        />
+        <TooltipMUI title={title} />
       </div>
     </div>
   );

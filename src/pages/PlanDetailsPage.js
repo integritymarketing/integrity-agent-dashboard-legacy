@@ -108,6 +108,7 @@ const PlanDetailsPage = ({ page }) => {
             planData={plan}
             contact={contact}
             handleCloseModal={() => setModalOpen(false)}
+            effectiveDate={effectiveDate}
           />
           <SharePlanModal
             modalOpen={shareModalOpen}

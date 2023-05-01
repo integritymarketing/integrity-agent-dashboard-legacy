@@ -14,7 +14,11 @@ export function PharmaciesCompareTable({ plans, pharmacies }) {
   }, [plans]);
 
   const isApiFailed =
-    pharmacies?.filter((pharmacy) => pharmacy?.name)?.length > 0 ? false : true;
+    (pharmacies?.filter((pharmacy) => pharmacy?.name)?.length > 0
+      ? false
+      : true) &&
+    pharmacies !== null &&
+    pharmacies?.length > 0;
 
   const columns = useMemo(
     () => [

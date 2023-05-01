@@ -22,11 +22,19 @@ const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
 function getProviders(entries, isMobile, isPlanNetworkAvailable) {
+  const isApiFailed =
+    entries?.filter((provider) => provider.firstName && provider.lastName)
+      ?.length > 0
+      ? false
+      : true;
+
   const items = [];
-  if (entries) {
-    var key = 0;
-    for (const entry of entries) {
-      if (entry.firstName && entry.lastName) {
+  if (entries && entries !== null && entries?.length > 0) {
+    if (isApiFailed) {
+      items.push(<PlanCoverageUnavailable title={"Provider"} />);
+    } else {
+      var key = 0;
+      for (const entry of entries) {
         items.push(
           <PlanNetworkItem
             key={key++}
@@ -36,13 +44,6 @@ function getProviders(entries, isMobile, isPlanNetworkAvailable) {
             isMobile={isMobile}
           />
         );
-      } else {
-        items.push(
-          <PlanCoverageUnavailable
-            key={`${key}-provider-unavailable`}
-            title={"Provider"}
-          />
-        );
       }
     }
   }
@@ -50,28 +51,30 @@ function getProviders(entries, isMobile, isPlanNetworkAvailable) {
 }
 
 function getPharmacies(entries, pharmacyMap, isMobile) {
+  const isApiFailed =
+    entries?.filter((pharmacy) => pharmacy.pharmacyID)?.length > 0
+      ? false
+      : true;
+
   const items = [];
-  if (entries) {
-    var key = 0;
-    for (const entry of entries) {
-      const pharmacy = pharmacyMap[entry.pharmacyID];
-      if (pharmacy?.name) {
-        items.push(
-          <PlanNetworkItem
-            key={key++}
-            name={pharmacy?.name}
-            address={pharmacy?.address1}
-            inNetwork={entry?.isNetwork}
-            isMobile={isMobile}
-          />
-        );
-      } else {
-        items.push(
-          <PlanCoverageUnavailable
-            key={`${key}-pharmacy-unavailable`}
-            title={"Pharmacy"}
-          />
-        );
+  if (entries && entries !== null && entries?.length > 0) {
+    if (isApiFailed) {
+      items.push(<PlanCoverageUnavailable title={"Pharmacy"} />);
+    } else {
+      var key = 0;
+      for (const entry of entries) {
+        const pharmacy = pharmacyMap[entry.pharmacyID];
+        if (pharmacy) {
+          items.push(
+            <PlanNetworkItem
+              key={key++}
+              name={pharmacy?.name}
+              address={pharmacy?.address1}
+              inNetwork={entry?.isNetwork}
+              isMobile={isMobile}
+            />
+          );
+        }
       }
     }
   }
@@ -206,26 +209,34 @@ export default function PlanCard({
           className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}
         >
           <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
-          <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
-            <div className={"label"}>In-Network</div>
-            <div className={"items"}>
-              {getProviders(planData.providers, isMobile)}
-              {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+          {((planData.providers !== null && planData.providers?.length > 0) ||
+            (planData.pharmacyCosts !== null &&
+              planData.pharmacyCosts?.length > 0)) && (
+            <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
+              <div className={"label"}>In-Network</div>
+              <div className={"items"}>
+                {getProviders(planData.providers, isMobile)}
+                {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+              </div>
             </div>
+          )}
+        </div>
+      </div>
+      {((planData.providers !== null && planData.providers?.length > 0) ||
+        (planData.pharmacyCosts !== null &&
+          planData.pharmacyCosts?.length > 0)) && (
+        <div className={`in-network ${isMobile ? "mobile" : ""}`}>
+          <div className={"label"}>Plan Coverage</div>
+          <div className={"items"}>
+            {getProviders(
+              planData.providers,
+              isMobile,
+              planData.isPlanNetworkAvailable
+            )}
+            {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
           </div>
         </div>
-      </div>
-      <div className={`in-network ${isMobile ? "mobile" : ""}`}>
-        <div className={"label"}>Plan Coverage</div>
-        <div className={"items"}>
-          {getProviders(
-            planData.providers,
-            isMobile,
-            planData.isPlanNetworkAvailable
-          )}
-          {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
-        </div>
-      </div>
+      )}
       {getCoverageRecommendations(planData)?.length > 0 && (
         <div className={`coverage ${isMobile ? "mobile" : ""}`}>
           <div className={"label"}>Supplemental Coverage Recommendations:</div>

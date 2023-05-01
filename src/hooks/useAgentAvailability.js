@@ -1,10 +1,12 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import AuthContext from "contexts/auth";
 import { getSignalRConnection } from "hooks/signalRConnection";
+import { isAgentAvilableAtom } from "../recoil/agent/atoms";
+import { useRecoilState } from "recoil";
 
-export const useAgentAvailability = (initial = false) => {
+export const useAgentAvailability = () => {
   const auth = useContext(AuthContext);
-  const [isAvailable, setIsAvailable] = useState(initial);
+  const [isAvailable, setIsAvailable] = useRecoilState(isAgentAvilableAtom);
 
   useEffect(() => {
     if (auth.isAuthenticated()) {

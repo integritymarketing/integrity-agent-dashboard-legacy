@@ -84,6 +84,7 @@ const PlanResults = ({
         planData={enrollingPlan}
         contact={contact}
         handleCloseModal={() => setModalOpen(false)}
+        effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
       />
       {cards}
     </>

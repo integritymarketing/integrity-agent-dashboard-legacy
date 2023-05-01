@@ -27,13 +27,12 @@ function MyButton({
   const statusText = isAvailable ? "online" : "offline";
 
   async function handleClick() {
+    // API call to get Updated Preferences from Account Page
     const response = await clientService.getAgentAvailability(
       user?.profile.agentid
     );
-    const { leadPreference, hasActiveCampaign } = response || {};
 
     if (
-      isAvailable ||
       (hasActiveCampaign && leadPreference?.leadCenter) ||
       leadPreference?.medicareEnroll
     ) {
@@ -41,8 +40,34 @@ function MyButton({
       if (!isCheckInUpdateModalDismissed) {
         setIsAvailabiltyModalVisible(true);
       }
-    } else {
+    }
+    // When Availabily is set to false and leadSource:leadCenter is false with active campaign then we restrict user from toggling and instead we shaow a notice
+    else if (
+      response?.hasActiveCampaign &&
+      !response?.leadPreference.leadCenter &&
+      !response?.leadPreference.medicareEnrollPurl
+    ) {
       handleDisable();
+    }
+    // When Availabily is set to false and leadSource:leadCenter is true with no active campaign then we restrict user from toggling and instead we shaow a notice
+    else if (
+      !response?.hasActiveCampaign &&
+      response?.leadPreference.leadCenter &&
+      !response?.leadPreference.medicareEnrollPurl
+    ) {
+      handleDisable();
+    }
+    // When Availabily is set to false and flags are also false then we restrict user from toggling and instead we shaow a notice
+    else if (
+      !response?.leadPreference.leadCenter &&
+      !response?.leadPreference.medicareEnrollPurl
+    ) {
+      handleDisable();
+    } else {
+      clickButton();
+      if (!isCheckInUpdateModalDismissed) {
+        setIsAvailabiltyModalVisible(true);
+      }
     }
   }
   const handleDisable = () => {

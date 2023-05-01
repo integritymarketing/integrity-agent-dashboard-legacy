@@ -44,6 +44,7 @@ export default function Dialog(props) {
     fullWidth,
     maxWidth = "xs",
     disabled = false,
+    titleWithIcon = true,
   } = props;
 
   return (
@@ -60,7 +61,9 @@ export default function Dialog(props) {
               display: "flex",
             }}
           >
-            <ActivitySubjectWithIcon activitySubject={title} />
+            {titleWithIcon && (
+              <ActivitySubjectWithIcon activitySubject={title} />
+            )}
             {title}
           </Box>
 

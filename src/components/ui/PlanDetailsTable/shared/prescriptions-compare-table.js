@@ -93,9 +93,11 @@ export function PrescriptionsCompareTable({
   }, [plans]);
 
   const isApiFailed =
-    prescriptions?.filter((drug) => drug.dosageDetails?.labelName)?.length > 0
+    (prescriptions?.filter((drug) => drug.dosageDetails?.labelName)?.length > 0
       ? false
-      : true;
+      : true) &&
+    prescriptions !== null &&
+    prescriptions?.length > 0;
 
   const { effectiveDate } = useParams();
   const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
