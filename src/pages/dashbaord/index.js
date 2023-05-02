@@ -246,7 +246,7 @@ export default function Dashbaord() {
 
               <div className="confirmed-applications-wrapper">
                 <div className="wrapper-body">
-                  <div className="header-text">Confirmed Applications*</div>
+                  <div className="header-text">Confirmed Applications</div>
                   <div className="application-count">
                     {dashboardData?.applicationCount} Applied
                   </div>
@@ -255,7 +255,7 @@ export default function Dashbaord() {
                       initialValue={DASHBOARD_SORT_OPTIONS[0].value}
                       onChange={handleSortDateRange}
                       options={DASHBOARD_SORT_OPTIONS}
-                      prefix="Range: "
+                      prefix={<div className="rangeText">Range:&nbsp;</div>}
                       showValueAlways={true}
                     />
                   </div>
