@@ -27,6 +27,7 @@ import AgentWelcomeDialog from "partials/agent-welcome-dialog";
 import { welcomeModalOpenAtom } from "recoil/agent/atoms";
 import { useRecoilState } from "recoil";
 import FooterBanners from "packages/FooterBanners";
+import PlanSnapShot from "components/PolicySnapShot";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -304,7 +305,10 @@ export default function Dashbaord() {
             </div>
             {!isMobile && <FooterBanners className="banners" type="column" />}
           </section>
+
           <section className="recent-activity-section">
+            <PlanSnapShot />
+
             <DashboardActivityTable
               realoadActivityData={loadActivityData}
               activityData={activityData}
