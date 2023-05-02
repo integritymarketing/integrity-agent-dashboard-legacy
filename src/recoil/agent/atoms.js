@@ -14,3 +14,8 @@ export const agentPhoneAtom = atom({
   key: "agentPhoneAtom",
   default: "",
 });
+
+export const isAgentAvilableAtom = atom({
+  key: "agentAvilableAtom",
+  default: false,
+});

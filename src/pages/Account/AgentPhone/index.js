@@ -17,9 +17,9 @@ const AgentPhone = ({ agentVirtualPhoneNumber, ...props }) => {
         id="transition-modal-description"
         text={formatTwiloNumber(agentVirtualPhoneNumber)}
       />
-      <div className={styles.buttonWrapper}>
+      {/* <div className={styles.buttonWrapper}>
         <button className={styles.button}>Request a New Number</button>
-      </div>
+      </div> */}
     </SectionContainer>
   );
 };

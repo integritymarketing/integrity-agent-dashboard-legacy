@@ -123,6 +123,7 @@ export default ({
     const agentFirstName = user?.firstName;
     const agentLastName = user?.lastName;
     const agentEmail = user?.email;
+    const roles = user?.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
     const zipCode = addresses[0]?.postalCode;
     const stateCode = addresses[0]?.stateCode;
@@ -146,6 +147,7 @@ export default ({
         countyFIPS,
         middleInitial: middleName === "" ? null : middleName,
         dateOfBirth: birthdate,
+        roles,
       };
       if (selectOption === "email") {
         const data = {

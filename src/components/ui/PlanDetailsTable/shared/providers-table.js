@@ -32,11 +32,13 @@ function getInNetwork(isCovered, isPlanNetworkAvailable) {
 
 export default ({ planData, isMobile }) => {
   const isApiFailed =
-    planData?.providers?.filter(
+    (planData?.providers?.filter(
       (provider) => provider.firstName && provider.lastName
     )?.length > 0
       ? false
-      : true;
+      : true) &&
+    planData?.providers !== null &&
+    planData?.providers?.length > 0;
 
   const columns = useMemo(
     () => [
