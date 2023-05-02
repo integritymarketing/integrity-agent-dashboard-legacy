@@ -34,6 +34,7 @@ import * as Sentry from "@sentry/react";
 import CallDetails from "./CallDetails";
 import ComparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
+import Arrow from "components/icons/down";
 
 const getActivitySubject = (activitySubject) => {
   switch (activitySubject) {
@@ -121,6 +122,8 @@ export default function DashboardActivityTable({
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [selectedCall, setSelectedCall] = useState(null);
   const [selectedLead, setSelectedLead] = useState();
+  const [isRecentActivityCollapsed, setIsRecentActivityCollapsed] =
+    useState(false);
 
   const userProfile = useUserProfile();
   const { npn } = userProfile;
@@ -425,48 +428,64 @@ export default function DashboardActivityTable({
   return (
     <>
       <div className={styles.headerWithFilter}>
-        <Heading2 className={styles.recentActivity} text="Recent Activity" />
-        <div className={styles.filterButton}>
-          <Filter
-            Icon={FilterIcon}
-            ActiveIcon={ActiveFilter}
-            heading={"Filter by Activity Type"}
-            open={filterToggle}
-            onToggle={setFilterToggle}
-            filtered={selectedFilterValues.length > 0 ? true : false}
-            content={
-              <FilterOptions
-                values={[...filterValues]}
-                multiSelect={true}
-                onApply={onFilterApply}
-                onReset={onResetFilter}
-              />
-            }
-          />
+        <div className={styles.title}>
+          <div
+            className={`${styles.icon} ${
+              isRecentActivityCollapsed ? styles.iconReverse : ""
+            }`}
+            onClick={() => setIsRecentActivityCollapsed((val) => !val)}
+          >
+            <Arrow color={"#0052CE"} />
+          </div>
+          <Heading2 className={styles.recentActivity} text="Recent Activity" />
         </div>
+        {!isRecentActivityCollapsed && (
+          <div className={styles.filterButton}>
+            <Filter
+              Icon={FilterIcon}
+              ActiveIcon={ActiveFilter}
+              heading={"Filter by Activity Type"}
+              open={filterToggle}
+              onToggle={setFilterToggle}
+              filtered={selectedFilterValues.length > 0 ? true : false}
+              content={
+                <FilterOptions
+                  values={[...filterValues]}
+                  multiSelect={true}
+                  onApply={onFilterApply}
+                  onReset={onResetFilter}
+                />
+              }
+            />
+          </div>
+        )}
       </div>
-      <Table
-        handleSort={handleSortUpdate}
-        initialState={{}}
-        data={filteredData}
-        columns={columns}
-        footer={
-          showMore ? (
-            <TextButton onClick={() => setPage(page + 1)}>Show more</TextButton>
-          ) : (
-            ""
-          )
-        }
-        fixedRows={callRecordings.map((unAssosiatedCallRecord, index) => (
-          <FixedRow
-            index={index}
-            onSelect={(call) => {
-              setSelectedCall(call);
-            }}
-            unAssosiatedCallRecord={unAssosiatedCallRecord}
-          />
-        ))}
-      />
+      {!isRecentActivityCollapsed && (
+        <Table
+          handleSort={handleSortUpdate}
+          initialState={{}}
+          data={filteredData}
+          columns={columns}
+          footer={
+            showMore ? (
+              <TextButton onClick={() => setPage(page + 1)}>
+                Show more
+              </TextButton>
+            ) : (
+              ""
+            )
+          }
+          fixedRows={callRecordings.map((unAssosiatedCallRecord, index) => (
+            <FixedRow
+              index={index}
+              onSelect={(call) => {
+                setSelectedCall(call);
+              }}
+              unAssosiatedCallRecord={unAssosiatedCallRecord}
+            />
+          ))}
+        />
+      )}
       {selectedActivity && (
         <ActivityDetails
           open={true}
