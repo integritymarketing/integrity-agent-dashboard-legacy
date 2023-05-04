@@ -9,8 +9,9 @@
     flex-direction: column;
   }
   .details-section {
-    max-width: 420px;
+    
     flex: 3;
+    flex-grow: 0;
     @media screen and (min-width: 320px) and (max-width: 480px) {
       background: #f1f5f9;
     }
@@ -140,11 +141,11 @@
     }
   }
   .recent-activity-section {
-    width: 70%;
+
     @media screen and (min-width: 480px) {
       margin: 40px 5% 0px 5%;
     }
-    flex: 1;
+    flex: 7;
     @media screen and (min-width: 320px) and (max-width: 480px) {
       background: #f1f5f9;
       width: 100%;
