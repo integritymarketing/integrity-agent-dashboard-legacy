@@ -153,7 +153,7 @@ export default ({
         countyFIPS,
         middleInitial: middleName === "" ? null : middleName,
         dateOfBirth: birthdate,
-        updatedRoles,
+        roles: updatedRoles,
       };
       if (selectOption === "email") {
         const data = {

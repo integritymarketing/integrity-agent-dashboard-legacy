@@ -143,7 +143,7 @@ export default ({
         agentEmail: agentEmail,
         documentationLinks: summaryBenfitURL(),
         starRatingsLink: planRating.toString(),
-        updatedRoles,
+        roles: updatedRoles,
       };
       if (selectOption === "email") {
         const data = {
