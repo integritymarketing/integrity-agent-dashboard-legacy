@@ -202,7 +202,7 @@ function CheckinPreferences({ npn }) {
 
           <div className={styles.innerSection}>
             <NotificationSection
-              title="MedicareEnroll"
+              title="PlanEnroll"
               onChange={handleMedicareEnroll}
               checked={leadPreference?.medicareEnrollPurl}
               icon={<LifeIcon />}
