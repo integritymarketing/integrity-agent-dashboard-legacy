@@ -67,11 +67,10 @@
         }
         .policyId {
           color: #002d72;
-          font-size: 20px;
-        }
-        .policyCarrier {
-          color: #002d72;
-          font-size: 20px;
+          font-size: 16px;
+          .text {
+            color: #434a51;
+          }
         }
       }
       .policyHolder {
@@ -88,6 +87,22 @@
       .policyStatus {
         color: #434a51;
         font-size: 16px;
+      }
+      .viewButton {
+        display: flex;
+        align-items: center;
+        width: 13%;
+        justify-content: flex-start;
+        padding: 0px 5px;
+        border-radius: 20px;
+        background-color: #deebfb;
+        .personIcon {
+          margin-top: 2px;
+        }
+        .text {
+          color: #434a51;
+          font-size: 16px;
+        }
       }
     }
   }

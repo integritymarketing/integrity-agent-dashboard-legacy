@@ -257,7 +257,6 @@ export default function Dashbaord() {
 
           <section className="recent-activity-section">
             <PlanSnapShot isMobile={isMobile} />
-            <PlanSnapShot isMobile={isMobile} />
 
             <DashboardActivityTable
               realoadActivityData={loadActivityData}
