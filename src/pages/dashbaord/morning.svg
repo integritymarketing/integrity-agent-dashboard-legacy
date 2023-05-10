@@ -1,30 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 421 242" style="enable-background:new 0 0 421 242;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_1_);}
-	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_00000000196045832253848620000004235253404956036501_);}
-</style>
-<g id="a">
-</g>
-<g id="b">
-	<g id="c">
-		<g>
-
-				<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="0" y1="105" x2="421" y2="105" gradientTransform="matrix(1 0 0 -1 0 226)">
-				<stop  offset="0" style="stop-color:#7593E7"/>
-				<stop  offset="1" style="stop-color:#88E3E5"/>
-			</linearGradient>
-			<path class="st0" d="M0,0v212.2C65.5,231.6,135.1,242,207.3,242s146.3-11.1,213.7-31.7V0H0z"/>
-
-				<linearGradient id="SVGID_00000167373013300662101360000018320814430935644074_" gradientUnits="userSpaceOnUse" x1="0" y1="105" x2="421" y2="105" gradientTransform="matrix(1 0 0 -1 0 226)">
-				<stop  offset="0" style="stop-color:#7593E7"/>
-				<stop  offset="1" style="stop-color:#88E3E5"/>
-			</linearGradient>
-			<path style="fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_00000167373013300662101360000018320814430935644074_);" d="
-				M0,0v212.2C65.5,231.6,135.1,242,207.3,242s146.3-11.1,213.7-31.7V0H0z"/>
-		</g>
-	</g>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="257" viewBox="0 0 400 257">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1" y1="0.5" x2="0" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#72d3e8"/>
+      <stop offset="1" stop-color="#2175f4"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_6958" data-name="Group 6958" transform="translate(16012 15794)">
+    <g id="Group_6954" data-name="Group 6954" transform="translate(463 78)">
+      <rect id="Rectangle_21010" data-name="Rectangle 21010" width="400" height="257" transform="translate(-16475 -15872)" fill="#f5f8fb"/>
+      <g id="Time_of_Day" data-name="Time of Day" transform="translate(-16475 -15872)">
+        <path id="Time_of_Day-2" data-name="Time of Day" d="M0,2175.656V1979H400v194.851a698.625,698.625,0,0,1-400,1.805Z" transform="translate(0 -1979)" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
 </svg>
