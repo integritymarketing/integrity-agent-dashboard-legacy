@@ -17,7 +17,7 @@ import "./index.scss";
 import Morning from "./morning.svg";
 import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
-
+import Arrow from "components/icons/down";
 import DashboardActivityTable from "./DashboardActivityTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import AgentWelcomeDialog from "partials/agent-welcome-dialog";
@@ -46,7 +46,7 @@ export default function Dashbaord() {
   const [fullResults, setFullResults] = useState([]);
   const [selectedFilterValues, setSelectedFilterValues] = useState([]);
   const [sort, setSort] = useState("Activities.CreateDate:desc");
-
+  const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(false);
   const [welcomeModalOpen, setWelcomeModalOpen] =
     useRecoilState(welcomeModalOpenAtom);
   const { stageSummaryData, loadStageSummaryData } =
@@ -214,7 +214,19 @@ export default function Dashbaord() {
               <div className="confirmed-applications-wrapper">
                 <div className="snapshot-wrapper">
                   <div className="title">
-                    <div className="titleText"> Client Snapshot </div>
+                    <div className="titleText">
+                      <div
+                        className={` arrowIcon ${
+                          isClientSnapshotOpen ? "iconReverse" : ""
+                        }`}
+                        onClick={() => {
+                          setClientSnapshotOpen(!isClientSnapshotOpen);
+                        }}
+                      >
+                        <Arrow color={"#0052CE"} />
+                      </div>{" "}
+                      Client Snapshot{" "}
+                    </div>
                     <Popover
                       openOn="hover"
                       icon={<Info />}
@@ -225,29 +237,32 @@ export default function Dashbaord() {
                       <Info />
                     </Popover>
                   </div>
-                  <div className="snapshot-data">
-                    {stageSummaryData &&
-                      stageSummaryData.map((d, index) => (
-                        <div
-                          className={`snapshot-item ${
-                            index > 0 ? "brTop" : ""
-                          }`}
-                          onClick={() =>
-                            navigateToContactListPage(d.leadStatusId)
-                          }
-                          key={index}
-                        >
-                          <div className="snapshot-name">
-                            {d?.statusName?.includes("Soa")
-                              ? d.statusName.replace("Soa", "SOA ")
-                              : d.statusName}
-                          </div>
-                          <div className="snapshot-count">
-                            {numberWithCommas(d.totalCount)}
-                          </div>
-                        </div>
-                      ))}
-                  </div>
+                  {(isClientSnapshotOpen && isMobile) ||
+                    (!isClientSnapshotOpen && !isMobile && (
+                      <div className="snapshot-data">
+                        {stageSummaryData &&
+                          stageSummaryData.map((d, index) => (
+                            <div
+                              className={`snapshot-item ${
+                                index > 0 ? "brTop" : ""
+                              }`}
+                              onClick={() =>
+                                navigateToContactListPage(d.leadStatusId)
+                              }
+                              key={index}
+                            >
+                              <div className="snapshot-name">
+                                {d?.statusName?.includes("Soa")
+                                  ? d.statusName.replace("Soa", "SOA ")
+                                  : d.statusName}
+                              </div>
+                              <div className="snapshot-count">
+                                {numberWithCommas(d.totalCount)}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

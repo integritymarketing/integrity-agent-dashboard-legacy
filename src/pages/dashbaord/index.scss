@@ -65,6 +65,8 @@
             }
 
             .titleText {
+              display: flex;
+              align-items: center;
               font-size: 24px;
               color: #002d72;
             }
@@ -141,4 +143,16 @@
 .banners {
   padding: 10px 35px;
   margin-top: 250px;
+}
+
+.arrowIcon {
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f1faff;
+    border-radius: 40px;
+  }
+}
+.iconReverse {
+  transform: rotate(180deg);
 }
