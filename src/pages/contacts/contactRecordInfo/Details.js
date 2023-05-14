@@ -137,7 +137,7 @@ export default forwardRef((props, ref) => {
     const frequencyOptions = FREQUENCY_OPTIONS.filter(
       (option) => option.value === dayofSupply
     );
-    const result = frequencyOptions[0].label;
+    const result = frequencyOptions[0]?.label;
     return result;
   };
 
