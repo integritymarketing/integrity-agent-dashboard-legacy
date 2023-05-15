@@ -64,7 +64,7 @@ export default function EditPrescription({
         .map((opt) => opt.value)[0];
       setDosagePackage(selectedPackage);
     }
-  }, [item, isOpen]);
+  }, [item, isOpen, selectedPackageID]);
 
   const onClose = (ev) => {
     setDosage();
