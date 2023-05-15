@@ -22,12 +22,18 @@ export default function EditPrescription({
       });
     }
   }, [isOpen]);
+  const {
+    drugName,
+    drugType,
+    labelName,
+    daysOfSupply,
+    userQuantity,
+    selectedPackageID,
+  } = item?.dosage ?? {};
 
-  const { drugName, drugType, labelName, metricQuantity, daysOfSupply } =
-    item?.dosage ?? {};
   const [dosage, setDosage] = useState();
   const [dosageOptions, setDosageOptions] = useState([]);
-  const [quantity, setQuantity] = useState(metricQuantity);
+  const [quantity, setQuantity] = useState(userQuantity);
   const [frequency, setfrequency] = useState(daysOfSupply);
   const [packageOptions, setPackageOptions] = useState([]);
   const [dosagePackage, setDosagePackage] = useState();
@@ -36,15 +42,15 @@ export default function EditPrescription({
 
   useEffect(() => {
     if (isOpen) {
-      setQuantity((q) => q || metricQuantity);
+      setQuantity((q) => q || userQuantity);
       setfrequency((f) => f || daysOfSupply);
     }
-  }, [metricQuantity, daysOfSupply, isOpen]);
+  }, [userQuantity, daysOfSupply, isOpen]);
 
   useEffect(() => {
-    if (item && isOpen) {
+    if (item) {
       const packageOptions = (item?.dosage?.packages || []).map((_package) => ({
-        label: `${_package.commonUserQuantity} ${_package.packageDescription}`,
+        label: `${_package.packageSize} ${_package.packageDescription}`,
         value: _package,
       }));
 
@@ -53,13 +59,12 @@ export default function EditPrescription({
       const selectedPackage = packageOptions
         .filter(
           (packageOption) =>
-            packageOption?.value?.packageId ===
-            item?.dosage?.selectedPackage?.packageId
+            packageOption?.value?.packageID === selectedPackageID
         )
         .map((opt) => opt.value)[0];
       setDosagePackage(selectedPackage);
     }
-  }, [item, isOpen]);
+  }, [item, isOpen, selectedPackageID]);
 
   const onClose = (ev) => {
     setDosage();
