@@ -15,13 +15,6 @@ export default function EditPrescription({
   item,
   onSave,
 }) {
-  useEffect(() => {
-    if (isOpen) {
-      analyticsService.fireEvent("event-modal-appear", {
-        modalName: "Edit Prescription",
-      });
-    }
-  }, [isOpen]);
   const {
     drugName,
     drugType,
@@ -34,7 +27,7 @@ export default function EditPrescription({
   const [dosage, setDosage] = useState();
   const [dosageOptions, setDosageOptions] = useState([]);
   const [quantity, setQuantity] = useState(userQuantity);
-  const [frequency, setfrequency] = useState(daysOfSupply);
+  const [frequency, setFrequency] = useState(daysOfSupply);
   const [packageOptions, setPackageOptions] = useState([]);
   const [dosagePackage, setDosagePackage] = useState();
   const [isMobile, setIsMobile] = useState(false);
@@ -42,8 +35,16 @@ export default function EditPrescription({
 
   useEffect(() => {
     if (isOpen) {
+      analyticsService.fireEvent("event-modal-appear", {
+        modalName: "Edit Prescription",
+      });
+    }
+  }, [isOpen]);
+  
+  useEffect(() => {
+    if (isOpen) {
       setQuantity((q) => q || userQuantity);
-      setfrequency((f) => f || daysOfSupply);
+      setFrequency((f) => f || daysOfSupply);
     }
   }, [userQuantity, daysOfSupply, isOpen]);
 
@@ -66,13 +67,31 @@ export default function EditPrescription({
     }
   }, [item, isOpen, selectedPackageID]);
 
+  useEffect(() => {
+    if (dosage) {
+      const { commonUserQuantity, commonDaysOfSupply } = dosage;
+      const packageOptions = (dosage?.packages || []).map((_package) => ({
+        label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
+        value: _package,
+      }));
+
+      setPackageOptions(packageOptions);
+      if (packageOptions.length === 1) {
+        setDosagePackage(packageOptions[0].value);
+      }
+      setQuantity(commonUserQuantity);
+      setFrequency(commonDaysOfSupply);
+
+    }
+  }, [dosage]);
+
   const onClose = (ev) => {
     setDosage();
     setQuantity();
     setDosageOptions();
     setPackageOptions();
     setDosagePackage();
-    setfrequency();
+    setFrequency();
     onCloseHandler(ev);
   };
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
@@ -185,7 +204,7 @@ export default function EditPrescription({
                     id="prescription-frequency"
                     options={FREQUENCY_OPTIONS}
                     placeholder="Frequency"
-                    onChange={(value) => setfrequency(value)}
+                    onChange={(value) => setFrequency(value)}
                   />
                 </div>
               </div>
