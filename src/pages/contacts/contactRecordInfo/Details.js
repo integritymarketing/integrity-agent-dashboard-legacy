@@ -143,19 +143,14 @@ export default forwardRef((props, ref) => {
 
   const PrescriptionRow = ({ item, className }) => {
     const { dosage, dosageDetails } = item;
-    const {
-      labelName,
-      daysOfSupply,
-      drugType,
-      selectedPackage,
-      metricQuantity,
-    } = dosage;
+    const { labelName, daysOfSupply, drugType, selectedPackage, userQuantity } =
+      dosage;
     const selectPackageDetails = selectedPackage
-      ? `${selectedPackage.commonUserQuantity} X ${
+      ? `${userQuantity} X ${
           selectedPackage.packageDisplayText
         } ${getFrequencyValue(daysOfSupply)}`
       : dosageDetails
-      ? `${metricQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(
+      ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(
           daysOfSupply
         )}`
       : "";

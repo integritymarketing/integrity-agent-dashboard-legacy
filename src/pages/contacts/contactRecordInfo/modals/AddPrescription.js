@@ -140,7 +140,7 @@ export default function AddPrescription({
         daysOfSupply: frequency,
         ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
         metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        selectedPackage: dosagePackage,
+        selectedPackage: null,
       });
       onClose();
     } finally {

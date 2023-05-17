@@ -48,18 +48,18 @@ export default function EditPrescription({
   }, [userQuantity, daysOfSupply, isOpen]);
 
   useEffect(() => {
-    if (item) {
-      const packageOptions = (item?.dosage?.packages || []).map((_package) => ({
-        label: `${_package.packageSize} ${_package.packageDescription}`,
-        value: _package,
-      }));
-
+    if (item && isOpen) {
+      const packageOptions = (item?.dosageDetails?.packages || []).map(
+        (_package) => ({
+          label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
+          value: _package,
+        })
+      );
       setPackageOptions(packageOptions);
-
       const selectedPackage = packageOptions
         .filter(
           (packageOption) =>
-            packageOption?.value?.packageID === selectedPackageID
+            packageOption?.value?.referenceNDC === item?.dosage?.ndc
         )
         .map((opt) => opt.value)[0];
       setDosagePackage(selectedPackage);
@@ -83,12 +83,11 @@ export default function EditPrescription({
         dosageRecordID: item?.dosage?.dosageRecordID,
         labelName: dosage?.labelName,
         dosage,
-        metricQuantity: +quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        daysOfSupply: +frequency,
-        selectedPackage:
-          dosagePackage?.packageId !== item?.dosage?.selectedPackage?.packageId
-            ? dosagePackage
-            : null,
+        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
+        daysOfSupply: frequency,
+        selectedPackage: null,
+        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+        quantity: quantity,
       });
       onClose();
     } finally {

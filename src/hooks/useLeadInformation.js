@@ -52,7 +52,6 @@ export default (leadId) => {
     try {
       const item = {
         ...rest,
-        ndc: dosage.referenceNDC,
         dosageID: dosage.dosageID,
       };
       await clientService.editPrescription(leadId, item);
