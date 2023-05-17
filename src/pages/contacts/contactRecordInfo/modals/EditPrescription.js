@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Media from "react-media";
 import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
@@ -40,7 +40,7 @@ export default function EditPrescription({
       });
     }
   }, [isOpen]);
-  
+
   useEffect(() => {
     if (isOpen) {
       setQuantity((q) => q || userQuantity);
@@ -68,22 +68,28 @@ export default function EditPrescription({
   }, [item, isOpen, selectedPackageID]);
 
   useEffect(() => {
-    if (dosage) {
-      const { commonUserQuantity, commonDaysOfSupply } = dosage;
+    if (dosage && isOpen) {
       const packageOptions = (dosage?.packages || []).map((_package) => ({
         label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
         value: _package,
       }));
 
       setPackageOptions(packageOptions);
+
+      const selectedPackage = packageOptions
+        .filter(
+          (packageOption) =>
+            packageOption?.value?.referenceNDC === item?.dosage?.ndc
+        )
+        .map((opt) => opt.value)[0];
       if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
+      } else {
+        setDosagePackage(selectedPackage);
       }
-      setQuantity(commonUserQuantity);
-      setFrequency(commonDaysOfSupply);
-
     }
-  }, [dosage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dosage, isOpen]);
 
   const onClose = (ev) => {
     setDosage();
@@ -133,6 +139,16 @@ export default function EditPrescription({
     drugName && isOpen && getDosages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drugName, isOpen]);
+
+  const isFormValid = useMemo(() => {
+    return Boolean(
+      drugName &&
+        quantity &&
+        frequency &&
+        dosage &&
+        (packageOptions.length > 0 ? dosagePackage : true)
+    );
+  }, [drugName, quantity, frequency, dosage, dosagePackage, packageOptions]);
 
   return (
     <div className="prescription--modal">
@@ -240,8 +256,7 @@ export default function EditPrescription({
             <Button
               label="Save Changes"
               onClick={handleSave}
-              /*disabled={!isFormValid}*/
-              disabled={isSaving}
+              disabled={!isFormValid || isSaving}
               data-gtm="button-cancel-update-prescription"
             />
           </div>
