@@ -25,6 +25,7 @@ import { welcomeModalOpenAtom } from "recoil/agent/atoms";
 import { useRecoilState } from "recoil";
 import FooterBanners from "packages/FooterBanners";
 import PlanSnapShot from "components/PolicySnapShot";
+import TaskList from "components/TaskList";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -215,16 +216,18 @@ export default function Dashbaord() {
                 <div className="snapshot-wrapper">
                   <div className="title">
                     <div className="titleText">
-                      <div
-                        className={` arrowIcon ${
-                          isClientSnapshotOpen ? "iconReverse" : ""
-                        }`}
-                        onClick={() => {
-                          setClientSnapshotOpen(!isClientSnapshotOpen);
-                        }}
-                      >
-                        <Arrow color={"#0052CE"} />
-                      </div>{" "}
+                      {isMobile && (
+                        <div
+                          className={` arrowIcon ${
+                            isClientSnapshotOpen ? "iconReverse" : ""
+                          }`}
+                          onClick={() => {
+                            setClientSnapshotOpen(!isClientSnapshotOpen);
+                          }}
+                        >
+                          <Arrow color={"#0052CE"} />
+                        </div>
+                      )}
                       Client Snapshot{" "}
                     </div>
                     <Popover
@@ -272,7 +275,7 @@ export default function Dashbaord() {
 
           <section className="recent-activity-section">
             <PlanSnapShot isMobile={isMobile} />
-
+            <TaskList isMobile={isMobile} />
             <DashboardActivityTable
               realoadActivityData={loadActivityData}
               activityData={activityData}
