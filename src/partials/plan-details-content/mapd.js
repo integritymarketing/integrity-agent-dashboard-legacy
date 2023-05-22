@@ -36,6 +36,19 @@ export default ({
     hasPreferredMailPharmacyNetwork,
     hasMailDrugBenefits,
   } = plan;
+
+  const formattedName = (str) => {
+    const capitalize = (word) => {
+      return word
+        .toLowerCase()
+        .replace(/\b[a-z]/g, (char) => char.toUpperCase());
+    };
+
+    return str.split(" ").map(capitalize).join(" ");
+  };
+
+  const policyHolderName = `${enrollData.consumerFirstName} ${enrollData.consumeLastName}`;
+
   return (
     <>
       <div className={`${styles["left"]}`}>
@@ -142,13 +155,19 @@ export default ({
             />
           ) : (
             <EnrollmentPlanCard
-              key={enrollData.policyId}
               currentYear={enrollData.currentYear}
-              submittedDate={enrollData.submittedDate}
+              submittedDate={enrollData.appSubmitDate}
               enrolledDate={enrollData.enrolledDate}
-              effectiveDate={enrollData.effectiveDate}
-              policyHolder={enrollData.policyHolder}
-              policyId={enrollData.policyId}
+              effectiveDate={enrollData.policyEffectiveDate}
+              policyId={enrollData.policyNumber}
+              policyHolder={formattedName(policyHolderName)}
+              planId={enrollData.plan}
+              agentNpn={enrollData.agentNpn}
+              carrier={enrollData.carrier}
+              consumerSource={enrollData.consumerSource}
+              hasPlanDetails={enrollData.hasPlanDetails}
+              policyStatus={enrollData.policyStatus}
+              confirmationNumber={enrollData.confirmationNumber}
               isEnrollPlansPage={isEnroll}
               onShareClick={onShareClick}
             />

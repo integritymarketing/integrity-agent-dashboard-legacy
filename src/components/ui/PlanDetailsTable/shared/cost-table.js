@@ -126,7 +126,7 @@ function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
 
 export default ({ planData }) => {
   const { effectiveDate } = useParams();
-  const [y, d] = effectiveDate.split("-");
+  const [y, d] = effectiveDate?.split("-");
   const effectiveStartDate = new Date(`${y}-${d}-15`);
 
   const columns = useMemo(

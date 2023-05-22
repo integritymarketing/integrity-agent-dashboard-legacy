@@ -8,6 +8,24 @@
 .headerWithFilter {
   display: flex;
   justify-content: space-between;
+
+  .title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .icon {
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f1faff;
+      border-radius: 40px;
+    }
+  }
+  .iconReverse {
+    transform: rotate(180deg);
+  }
 }
 
 .recentActivity {
@@ -16,7 +34,6 @@
   }
   font-size: 32px;
   font-weight: normal;
-  margin-bottom: 15px;
 }
 
 .filterButton {

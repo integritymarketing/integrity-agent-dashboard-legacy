@@ -96,6 +96,8 @@ export default function AddPrescription({
       setPackageOptions(packageOptions);
       if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
+      } else {
+        setDosagePackage(null);
       }
       setQuantity(commonUserQuantity);
       setFrequency(commonDaysOfSupply);
@@ -140,7 +142,7 @@ export default function AddPrescription({
         daysOfSupply: frequency,
         ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
         metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        selectedPackage: dosagePackage,
+        selectedPackage: null,
       });
       onClose();
     } finally {

@@ -14,6 +14,8 @@ import useToast from "hooks/useToast";
 import Heading2 from "packages/Heading2";
 import { Grid, Paper } from "@mui/material";
 import { useWindowSize } from "hooks/useWindowSize";
+import NonRTSBanner from "components/Non-RTS-Banner";
+import useRoles from "hooks/useRoles";
 
 const uniqValues = (array) => Array.from(new Set(array));
 
@@ -46,7 +48,8 @@ export default function ActiveSellingPermissionTable({ npn }) {
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
   const [error, setError] = useState(null);
-
+  const { isNonRTS_User } = useRoles();
+  console.log("JJJ", isNonRTS_User);
   useEffect(
     function () {
       if (!npn) return;
@@ -193,6 +196,23 @@ export default function ActiveSellingPermissionTable({ npn }) {
     );
   }
 
+  if (isNonRTS_User) {
+    return (
+      <Container className={styles.container}>
+        <div className={styles.headerContainerNonRTS}>
+          <Heading2
+            className={styles.heading}
+            text="Active Selling Permissions"
+          />
+        </div>
+
+        <div className={styles.nonRTS}>
+          <NonRTSBanner />
+        </div>
+      </Container>
+    );
+  }
+
   if (error) {
     return <div>Error fetching data</div>;
   }
@@ -208,6 +228,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
       onChangeTableState={handleChangeTable}
       filterOptions={filterOptions}
       mobile={windowWidth <= 784 ? true : false}
+      isNonRTS_User={isNonRTS_User}
     />
   );
 }
@@ -222,6 +243,7 @@ function Table({
   applyFilters,
   filterOptions,
   mobile,
+  isNonRTS_User,
 }) {
   const [pageSize, setPageSize] = useState(10);
   const [filters, setFilters] = useState({});
@@ -383,79 +405,91 @@ function Table({
           className={styles.heading}
           text="Active Selling Permissions"
         />
+
         <ActiveSellingPermissionFilter
           onSubmit={setFilters}
           filterOptions={filterOptions}
         />
       </div>
-      {mobile ? (
-        // Mobile View
-        renderMobileList()
+      {isNonRTS_User ? (
+        <NonRTSBanner />
       ) : (
-        // Desktop View
-        <div className={styles.tableWrapper}>
-          <table
-            data-gtm="contacts-list-wrapper"
-            className={styles.table}
-            {...getTableProps()}
-          >
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      className="text-left"
-                    >
-                      <div className={styles["tb-headers"]}>
-                        <span>{column.render("Header")}</span>
-                        <span className={styles.sortingIcon}>
-                          {column.isSorted ? (
-                            column.isSortedDesc ? (
-                              <SortDown />
-                            ) : (
-                              <SortUp />
-                            )
-                          ) : column.disableSortBy ? (
-                            ""
-                          ) : (
-                            <Sort />
+        <>
+          {mobile ? (
+            // Mobile View
+            renderMobileList()
+          ) : (
+            // Desktop View
+            <div className={styles.tableWrapper}>
+              <table
+                data-gtm="contacts-list-wrapper"
+                className={styles.table}
+                {...getTableProps()}
+              >
+                <thead>
+                  {headerGroups.map((headerGroup) => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((column) => (
+                        <th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps()
                           )}
-                        </span>
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()} className={styles["contact-table"]}>
-              {rows.map((row, i) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}>
-                          <div className={styles["tb-cell"]}>
-                            {cell.render("Cell")}
+                          className="text-left"
+                        >
+                          <div className={styles["tb-headers"]}>
+                            <span>{column.render("Header")}</span>
+                            <span className={styles.sortingIcon}>
+                              {column.isSorted ? (
+                                column.isSortedDesc ? (
+                                  <SortDown />
+                                ) : (
+                                  <SortUp />
+                                )
+                              ) : column.disableSortBy ? (
+                                ""
+                              ) : (
+                                <Sort />
+                              )}
+                            </span>
                           </div>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          {data.length > pageSize && (
-            <button onClick={handleSeeMore} className={styles.seeMore}>
-              See More
-            </button>
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+                </thead>
+                <tbody
+                  {...getTableBodyProps()}
+                  className={styles["contact-table"]}
+                >
+                  {rows.map((row, i) => {
+                    prepareRow(row);
+                    return (
+                      <tr {...row.getRowProps()}>
+                        {row.cells.map((cell) => {
+                          return (
+                            <td {...cell.getCellProps()}>
+                              <div className={styles["tb-cell"]}>
+                                {cell.render("Cell")}
+                              </div>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              {data.length > pageSize && (
+                <button onClick={handleSeeMore} className={styles.seeMore}>
+                  See More
+                </button>
+              )}
+              <div className={styles.paginationResultsDisplay}>
+                {`Showing ${rows.length} of ${data.length} Permissions`}
+              </div>
+            </div>
           )}
-          <div className={styles.paginationResultsDisplay}>
-            {`Showing ${rows.length} of ${data.length} Permissions`}
-          </div>
-        </div>
+        </>
       )}
     </Container>
   );

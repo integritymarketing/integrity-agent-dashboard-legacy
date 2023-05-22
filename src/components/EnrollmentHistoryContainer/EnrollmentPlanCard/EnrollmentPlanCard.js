@@ -6,7 +6,6 @@ import View from "./View.png";
 import Link from "./Link.png";
 import Media from "react-media";
 import Icon from "components/Icon";
-import { formatDate } from "utils/dates";
 import { Button } from "components/ui/Button";
 
 export default function EnrollmentPlanCard(props) {
@@ -20,19 +19,26 @@ export default function EnrollmentPlanCard(props) {
     leadId,
     isEnrollPlansPage,
     onShareClick,
+    policyStatus,
+    confirmationNumber,
   } = props;
 
   const history = useHistory();
   const location = useLocation();
+  const formattedPolicyStatus = policyStatus
+    ?.replace(/\s+/g, "-")
+    .toLowerCase();
 
   const navigateEnrollDetails = () => {
     history.push(
-      `/${leadId}/enroll/KT67CY2KMJ/${formatDate(effectiveDate, "yyyy-MM-01")}`
+      `/enrollmenthistory/${leadId}/${confirmationNumber}/${effectiveDate}`
     );
   };
 
   const navigateToEnrollmentLink = () => {
-    history.push(`/enrollment-link-to-contact`);
+    history.push(`/enrollment-link-to-contact`, {
+      state: props,
+    });
   };
 
   return (
@@ -45,9 +51,11 @@ export default function EnrollmentPlanCard(props) {
           !currentYear ? styles.isBordered : ""
         }`}
       >
-        {/* <div className={`${styles[status]} ${styles.status}`}>
-          <strong>Status:</strong> {status}
-        </div> */}
+        {currentYear && (
+          <div className={`${styles[formattedPolicyStatus]} ${styles.status}`}>
+            <strong>Status:</strong> {policyStatus}
+          </div>
+        )}
         <div
           className={`${!currentYear ? styles.previousYear : ""} ${
             styles.planDetails
@@ -91,34 +99,55 @@ export default function EnrollmentPlanCard(props) {
                 {(matches) =>
                   matches.small ? (
                     <>
-                      <div onClick={navigateEnrollDetails}>
-                        <IconWithText
-                          text="View"
-                          icon={
-                            <Icon
-                              altText="View"
-                              className={styles.iconPng}
-                              image={View}
-                            />
-                          }
-                          screensize="small"
-                        />
-                      </div>
+                      {currentYear && (
+                        <div onClick={navigateEnrollDetails}>
+                          <IconWithText
+                            text="View"
+                            icon={
+                              <Icon
+                                altText="View"
+                                className={styles.iconPng}
+                                image={View}
+                              />
+                            }
+                            screensize="small"
+                          />
+                        </div>
+                      )}
+                      {!location.pathname.includes(
+                        "enrollment-link-to-contact"
+                      ) && (
+                        <div onClick={navigateToEnrollmentLink}>
+                          <IconWithText
+                            text="Relink"
+                            icon={
+                              <Icon
+                                altText="Link"
+                                className={styles.iconPng}
+                                image={Link}
+                              />
+                            }
+                            screensize="small"
+                          />
+                        </div>
+                      )}
                     </>
                   ) : (
                     <>
-                      <div onClick={navigateEnrollDetails}>
-                        <IconWithText
-                          text="View"
-                          icon={
-                            <Icon
-                              altText="View"
-                              className={styles.iconPng}
-                              image={View}
-                            />
-                          }
-                        />
-                      </div>
+                      {currentYear && (
+                        <div onClick={navigateEnrollDetails}>
+                          <IconWithText
+                            text="View"
+                            icon={
+                              <Icon
+                                altText="View"
+                                className={styles.iconPng}
+                                image={View}
+                              />
+                            }
+                          />
+                        </div>
+                      )}
                       {!location.pathname.includes(
                         "enrollment-link-to-contact"
                       ) && (

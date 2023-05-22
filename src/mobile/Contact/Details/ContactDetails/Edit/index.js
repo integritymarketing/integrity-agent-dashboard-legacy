@@ -14,6 +14,7 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
+import DatePickerMUI from "components/DatePicker";
 import styles from "./styles.module.scss";
 
 const PrimaryContactTypes = [
@@ -354,18 +355,20 @@ export default (props) => {
             <div className={styles.detailsEdit}>
               <div className={styles.inputContainer}>
                 <div className={styles.label}>Birthdate</div>
-                <Textfield
-                  id="contact-birthdate"
-                  type="text"
-                  placeholder="MM/DD/YYYY"
-                  name="birthdate"
+                <DatePickerMUI
                   value={values.birthdate}
-                  maxLength={"10"}
-                  className="custom-w-px1"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.birthdate && errors.birthdate}
+                  disableFuture={true}
+                  onChange={(value) => {
+                    setFieldValue("birthdate", formatDate(value));
+                  }}
+                  isMobile={true}
                 />
+
+                {errors.birthdate && (
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">{errors.birthdate}</li>
+                  </ul>
+                )}
               </div>
 
               <div className={styles.inputContainer}>

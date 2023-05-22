@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Media from "react-media";
 import { Select } from "components/ui/Select";
 import Modal from "components/ui/modal";
@@ -15,6 +15,24 @@ export default function EditPrescription({
   item,
   onSave,
 }) {
+  const {
+    drugName,
+    drugType,
+    labelName,
+    daysOfSupply,
+    userQuantity,
+    selectedPackageID,
+  } = item?.dosage ?? {};
+
+  const [dosage, setDosage] = useState();
+  const [dosageOptions, setDosageOptions] = useState([]);
+  const [quantity, setQuantity] = useState(userQuantity);
+  const [frequency, setFrequency] = useState(daysOfSupply);
+  const [packageOptions, setPackageOptions] = useState([]);
+  const [dosagePackage, setDosagePackage] = useState();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       analyticsService.fireEvent("event-modal-appear", {
@@ -23,28 +41,36 @@ export default function EditPrescription({
     }
   }, [isOpen]);
 
-  const { drugName, drugType, labelName, metricQuantity, daysOfSupply } =
-    item?.dosage ?? {};
-  const [dosage, setDosage] = useState();
-  const [dosageOptions, setDosageOptions] = useState([]);
-  const [quantity, setQuantity] = useState(metricQuantity);
-  const [frequency, setfrequency] = useState(daysOfSupply);
-  const [packageOptions, setPackageOptions] = useState([]);
-  const [dosagePackage, setDosagePackage] = useState();
-  const [isMobile, setIsMobile] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-
   useEffect(() => {
     if (isOpen) {
-      setQuantity((q) => q || metricQuantity);
-      setfrequency((f) => f || daysOfSupply);
+      setQuantity((q) => q || userQuantity);
+      setFrequency((f) => f || daysOfSupply);
     }
-  }, [metricQuantity, daysOfSupply, isOpen]);
+  }, [userQuantity, daysOfSupply, isOpen]);
 
   useEffect(() => {
     if (item && isOpen) {
-      const packageOptions = (item?.dosage?.packages || []).map((_package) => ({
-        label: `${_package.commonUserQuantity} ${_package.packageDescription}`,
+      const packageOptions = (item?.dosageDetails?.packages || []).map(
+        (_package) => ({
+          label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
+          value: _package,
+        })
+      );
+      setPackageOptions(packageOptions);
+      const selectedPackage = packageOptions
+        .filter(
+          (packageOption) =>
+            packageOption?.value?.referenceNDC === item?.dosage?.ndc
+        )
+        .map((opt) => opt.value)[0];
+      setDosagePackage(selectedPackage);
+    }
+  }, [item, isOpen, selectedPackageID]);
+
+  useEffect(() => {
+    if (dosage && isOpen) {
+      const packageOptions = (dosage?.packages || []).map((_package) => ({
+        label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
         value: _package,
       }));
 
@@ -53,13 +79,17 @@ export default function EditPrescription({
       const selectedPackage = packageOptions
         .filter(
           (packageOption) =>
-            packageOption?.value?.packageId ===
-            item?.dosage?.selectedPackage?.packageId
+            packageOption?.value?.referenceNDC === item?.dosage?.ndc
         )
         .map((opt) => opt.value)[0];
-      setDosagePackage(selectedPackage);
+      if (packageOptions.length === 1) {
+        setDosagePackage(packageOptions[0].value);
+      } else {
+        setDosagePackage(selectedPackage);
+      }
     }
-  }, [item, isOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dosage, isOpen]);
 
   const onClose = (ev) => {
     setDosage();
@@ -67,7 +97,7 @@ export default function EditPrescription({
     setDosageOptions();
     setPackageOptions();
     setDosagePackage();
-    setfrequency();
+    setFrequency();
     onCloseHandler(ev);
   };
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
@@ -78,12 +108,11 @@ export default function EditPrescription({
         dosageRecordID: item?.dosage?.dosageRecordID,
         labelName: dosage?.labelName,
         dosage,
-        metricQuantity: +quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        daysOfSupply: +frequency,
-        selectedPackage:
-          dosagePackage?.packageId !== item?.dosage?.selectedPackage?.packageId
-            ? dosagePackage
-            : null,
+        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
+        daysOfSupply: frequency,
+        selectedPackage: null,
+        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+        quantity: quantity,
       });
       onClose();
     } finally {
@@ -110,6 +139,16 @@ export default function EditPrescription({
     drugName && isOpen && getDosages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drugName, isOpen]);
+
+  const isFormValid = useMemo(() => {
+    return Boolean(
+      drugName &&
+        quantity &&
+        frequency &&
+        dosage &&
+        (packageOptions.length > 0 ? dosagePackage : true)
+    );
+  }, [drugName, quantity, frequency, dosage, dosagePackage, packageOptions]);
 
   return (
     <div className="prescription--modal">
@@ -181,7 +220,7 @@ export default function EditPrescription({
                     id="prescription-frequency"
                     options={FREQUENCY_OPTIONS}
                     placeholder="Frequency"
-                    onChange={(value) => setfrequency(value)}
+                    onChange={(value) => setFrequency(value)}
                   />
                 </div>
               </div>
@@ -217,8 +256,7 @@ export default function EditPrescription({
             <Button
               label="Save Changes"
               onClick={handleSave}
-              /*disabled={!isFormValid}*/
-              disabled={isSaving}
+              disabled={!isFormValid || isSaving}
               data-gtm="button-cancel-update-prescription"
             />
           </div>

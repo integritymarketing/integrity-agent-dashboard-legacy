@@ -3,7 +3,6 @@
 .planCardContainer {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  max-width: 768px;
   width: 100%;
 }
 
@@ -30,7 +29,24 @@
       background-color: $white-1;
     }
 
+    &.submitted {
+      background-color: #fcf6b0;
+    }
+
     &.rejected {
+      background-color: #fbdede;
+    }
+
+    &.approved,
+    &.approved-upcoming {
+      background-color: #defbe6;
+    }
+
+    &.started {
+      background-color: #deebfb;
+    }
+
+    &.declined {
       background-color: #fbdede;
     }
   }
@@ -66,7 +82,6 @@
 
     .details {
       gap: 8px;
-     
       .planName {
         font-size: 24px;
         color: $dark-blue;
@@ -99,6 +114,8 @@
     }
 
     .dates {
+      position: relative;
+      top: 8px;
       .date {
         letter-spacing: 0.16px;
         color: $dark-blue;
@@ -115,22 +132,28 @@
       }
     }
 
-    .iconPng {
-      padding: 0;
-      height: 32px;
-      width: 32px;
+    @include small {
+      padding-top: 0.5rem;
+      order: 3;
     }
+  }
 
-    .links {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
+  .iconPng {
+    padding: 0;
+    height: 32px;
+    width: 32px;
+  }
 
-      @include small {
-        order: 2;
-        width: 14%;
-      }
+  .links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+
+    @include small {
+      order: 2;
+      width: 14%;
+      gap: 1rem;
     }
   }
 }
@@ -170,8 +193,8 @@
 }
 
 .shareBtn {
-@include small {
-  font-size: 20px;
-  width: max-content;
-}
+  @include small {
+    font-size: 20px;
+    width: max-content;
+  }
 }

@@ -2,41 +2,35 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import clientService from "services/clientsService";
-import callRecordingsService from "services/callRecordingsService";
+import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import styles from "./styles.module.scss";
-
-export default function PossibleMatches({ phone }) {
+export default function PossibleMatches({ phone, policyHolder, state }) {
   const [matches, setMatches] = useState([]);
-  const { callLogId, callFrom } = useParams();
+  const { callFrom } = useParams();
   const history = useHistory();
   const addToast = useToast();
-
   useEffect(() => {
     const getContacts = async () => {
-      if (phone) {
-        const number = phone.toString()?.slice(2, phone?.length);
-        try {
-          const response = await clientService.getList(
-            undefined,
-            undefined,
-            ["Activities.CreateDate:desc"],
-            number
+      try {
+        const response = await clientService.getList(
+          1,
+          25,
+          ["Activities.CreateDate:desc"],
+          policyHolder
+        );
+        if (response && response?.result.length > 0) {
+          const sorted = response?.result?.sort((a, b) =>
+            a.firstName.localeCompare(b.firstName)
           );
-
-          if (response && response?.result.length > 0) {
-            const sorted = response?.result?.sort((a, b) =>
-              a.firstName.localeCompare(b.firstName)
-            );
-            setMatches(sorted);
-          }
-        } catch (error) {
-          Sentry.captureException(error);
+          setMatches(sorted);
         }
+      } catch (error) {
+        Sentry.captureException(error);
       }
     };
     getContacts();
-  }, [phone]);
+  }, [phone, policyHolder]);
 
   const updatePrimaryContact = useCallback(
     (contact) => {
@@ -53,13 +47,44 @@ export default function PossibleMatches({ phone }) {
         if (!hasPhone) {
           await updatePrimaryContact(contact);
         }
-        if (callLogId) {
-          await callRecordingsService.assignsLeadToInboundCallRecord({
-            callLogId,
-            leadId: contact.leadsId,
-          });
+
+        const {
+          effectiveDate,
+          planId,
+          submittedDate,
+          policyId,
+          agentNpn,
+          carrier,
+          consumerSource,
+          policyStatus,
+          leadId,
+          hasPlanDetails,
+          confirmationNumber,
+          policyHolder,
+        } = state;
+
+        const updateBusinessBookPayload = {
+          agentNpn: agentNpn,
+          leadId: leadId,
+          policyNumber: policyId,
+          plan: planId,
+          carrier: carrier,
+          policyStatus: policyStatus,
+          consumerSource: consumerSource,
+          confirmationNumber: confirmationNumber,
+          consumerFirstName: policyHolder.split(" ")[0],
+          consumeLastName: policyHolder.split(" ")[1],
+          policyEffectiveDate: effectiveDate,
+          appSubmitDate: submittedDate,
+          hasPlanDetails: hasPlanDetails,
+        };
+
+        const response = await enrollPlansService.updateBookOfBusiness(
+          updateBusinessBookPayload
+        );
+        if (response) {
           addToast({
-            message: "Contact linked successfully",
+            message: "Contact linked succesfully",
           });
           history.push(`/contact/${contact.leadsId}`);
         }
@@ -70,7 +95,7 @@ export default function PossibleMatches({ phone }) {
         });
       }
     },
-    [history, callLogId, addToast, updatePrimaryContact]
+    [history, addToast, updatePrimaryContact, state]
   );
 
   if (matches?.length > 0) {

@@ -177,6 +177,12 @@
   display: flex;
   justify-content: space-between;
 }
+.headerContainerNonRTS {
+  display: flex;
+  justify-content: space-between;
+  box-shadow: inset 0px -1px 0px #cdd0d5;
+  padding: 20px 0px;
+}
 
 .sortingIcon {
   margin: 0 1rem;

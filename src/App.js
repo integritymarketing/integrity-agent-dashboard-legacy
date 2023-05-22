@@ -15,6 +15,7 @@ import ClientImportPage from "pages/ClientImportPage";
 import NotFoundPage from "pages/NotFound";
 import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
+import EnrollmentHistoryPage from "pages/EnrollmentHistoryPage";
 import PrivacyPage from "pages/PrivacyPage";
 import ContactDetailsPage from "pages/ContactDetails";
 import MaintenancePage from "pages/MaintenancePage";
@@ -152,6 +153,12 @@ const App = () => {
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute
                                       exact
+                                      path="/contact/:contactId/:sectionId"
+                                    >
+                                      <ContactRecordInfo />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute
+                                      exact
                                       path="/new/contact/:contactId"
                                     >
                                       <ContactDetailsPage />
@@ -180,10 +187,8 @@ const App = () => {
                                     <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
                                       <PlanDetailsPage />
                                     </AuthenticatedRoute>
-                                    <AuthenticatedRoute path="/:contactId/enroll/:planId/:effectiveDate">
-                                      <PlanDetailsPage
-                                        page={"enrollmentPlanPage"}
-                                      />
+                                    <AuthenticatedRoute path="/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate">
+                                      <EnrollmentHistoryPage />
                                     </AuthenticatedRoute>
                                     <Route path="/terms">
                                       <TermsPage />

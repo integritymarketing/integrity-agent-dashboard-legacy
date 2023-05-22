@@ -11,12 +11,12 @@ import { useHistory } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
 import useToast from "hooks/useToast";
-import callRecordingsService from "services/callRecordingsService";
 import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
 import Spinner from "components/ui/Spinner/index";
 import clientsService from "services/clientsService";
+import enrollPlansService from "services/enrollPlansService";
 
 const SearchInput = styled(OutlinedInput)(() => ({
   background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -33,26 +33,54 @@ const ContactListItemButton = ({
   leadId,
   callLogId,
   children,
+  state,
 }) => {
   const addToast = useToast();
   const history = useHistory();
-
   const updatePrimaryContact = useCallback(() => {
     return clientsService.updateLeadPhone(contact, callFrom);
   }, [contact, callFrom]);
 
   const onClickHandler = useCallback(async () => {
+    const {
+      effectiveDate,
+      planId,
+      submittedDate,
+      policyId,
+      agentNpn,
+      carrier,
+      consumerSource,
+      policyStatus,
+      leadId,
+      hasPlanDetails,
+      confirmationNumber,
+      policyHolder,
+    } = state;
     try {
       const reverseArray = contact?.phones?.reverse();
+      const updateBusinessBookPayload = {
+        agentNpn: agentNpn,
+        leadId: leadId,
+        policyNumber: policyId,
+        plan: planId,
+        carrier: carrier,
+        policyStatus: policyStatus,
+        consumerSource: consumerSource,
+        confirmationNumber: confirmationNumber,
+        consumerFirstName: policyHolder.split(" ")[0],
+        consumeLastName: policyHolder.split(" ")[1],
+        policyEffectiveDate: effectiveDate,
+        appSubmitDate: submittedDate,
+        hasPlanDetails: hasPlanDetails,
+      };
       const hasPhone = reverseArray[0]?.leadPhone;
       if (!hasPhone) {
         await updatePrimaryContact();
       }
-      if (callLogId) {
-        await callRecordingsService.assignsLeadToInboundCallRecord({
-          callLogId,
-          leadId,
-        });
+      const response = await enrollPlansService.updateBookOfBusiness(
+        updateBusinessBookPayload
+      );
+      if (response.status === 200) {
         addToast({
           message: "Contact linked succesfully",
         });
@@ -64,14 +92,7 @@ const ContactListItemButton = ({
         message: `${error.message}`,
       });
     }
-  }, [
-    history,
-    leadId,
-    callLogId,
-    addToast,
-    contact.phones,
-    updatePrimaryContact,
-  ]);
+  }, [history, addToast, contact.phones, updatePrimaryContact, state]);
 
   return (
     <div className={styles.contactName} onClick={onClickHandler}>
@@ -80,7 +101,12 @@ const ContactListItemButton = ({
   );
 };
 
-export default function ContactSearch({ contacts, onChange, isLoading }) {
+export default function ContactSearch({
+  contacts,
+  onChange,
+  isLoading,
+  state,
+}) {
   const { callLogId, callFrom } = useParams();
   const [searchStr, setSearchStr] = useState("");
 
@@ -106,6 +132,7 @@ export default function ContactSearch({ contacts, onChange, isLoading }) {
           callLogId={callLogId}
           contact={value}
           callFrom={callFrom}
+          state={state}
         >
           <ListItemText
             primary={

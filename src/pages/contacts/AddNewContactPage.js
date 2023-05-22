@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory, Link, useParams } from "react-router-dom";
+import { useHistory, Link, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -15,6 +15,7 @@ import clientService from "../../services/clientsService";
 import useToast from "../../hooks/useToast";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
+import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
@@ -22,6 +23,7 @@ import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
 import useQueryParams from "hooks/useQueryParams";
+import DatePickerMUI from "components/DatePicker";
 
 const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
@@ -52,7 +54,7 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   }
 };
 
-const NewContactForm = ({ callLogId }) => {
+const NewContactForm = ({ callLogId, firstName, lastName }) => {
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const [showAddress2, setShowAddress2] = useState(false);
@@ -95,8 +97,8 @@ const NewContactForm = ({ callLogId }) => {
   return (
     <Formik
       initialValues={{
-        firstName: "",
-        lastName: "",
+        firstName: firstName,
+        lastName: lastName,
         middleName: "",
         email: "",
         birthdate: "",
@@ -194,7 +196,7 @@ const NewContactForm = ({ callLogId }) => {
           analyticsService.fireEvent("event-form-submit", {
             formName: "New Contact",
           });
-          if (callLogId) {
+          if (callLogId !== "undefined" && callLogId) {
             await callRecordingsService.assignsLeadToInboundCallRecord({
               callLogId,
               leadId,
@@ -318,19 +320,21 @@ const NewContactForm = ({ callLogId }) => {
                 </ul>
               )}
               <div className="custom-w-186  contact-details-col1 mob-res-w-100">
-                <Textfield
-                  id="contact-birthdate"
-                  type="text"
-                  label="Date of Birth"
-                  placeholder="MM/DD/YYYY"
-                  name="birthdate"
+                <label className=" custom-label-state label">Birthdate</label>
+
+                <DatePickerMUI
                   value={values.birthdate}
-                  maxLength={"10"}
-                  className="custom-w-px1"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.birthdate && errors.birthdate}
+                  disableFuture={true}
+                  onChange={(value) => {
+                    setFieldValue("birthdate", formatDate(value));
+                  }}
                 />
+
+                {errors.birthdate && (
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">{errors.birthdate}</li>
+                  </ul>
+                )}
               </div>
             </fieldset>
             <div className="mt-3 mb-3 border-bottom border-bottom--light" />
@@ -656,6 +660,17 @@ const NewContactForm = ({ callLogId }) => {
 
 export default function AddNewContactPage() {
   const { callLogId } = useParams();
+  const { state } = useLocation();
+
+  const { policyHolder } = state?.state;
+  let firstName = "";
+  let lastName = "";
+
+  if (policyHolder) {
+    const splitName = policyHolder.split(" ");
+    firstName = splitName[0];
+    lastName = splitName[1];
+  }
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -677,7 +692,11 @@ export default function AddNewContactPage() {
           <ToastContextProvider>
             <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
             <div className="border-bottom border-bottom--light"></div>
-            <NewContactForm callLogId={callLogId} />
+            <NewContactForm
+              callLogId={callLogId}
+              firstName={firstName}
+              lastName={lastName}
+            />
           </ToastContextProvider>
         </Container>
       </div>

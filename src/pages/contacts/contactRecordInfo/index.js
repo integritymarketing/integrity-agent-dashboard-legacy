@@ -33,7 +33,7 @@ import Media from "react-media";
 import FooterBanners from "packages/FooterBanners";
 
 export default () => {
-  const { contactId: id } = useParams();
+  const { contactId: id, sectionId } = useParams();
   const { getLeadDetails, isLoading, leadDetails } = useContactDetails(id);
   const { state = {} } = useLocation();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
@@ -42,7 +42,7 @@ export default () => {
   const [reminders, setReminders] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [display, setDisplay] = useState("Overview");
+  const [display, setDisplay] = useState(sectionId);
   const [menuToggle, setMenuToggle] = useState(false);
   const [isEdit, setEdit] = useState(false);
   const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
@@ -85,6 +85,9 @@ export default () => {
 
   const getContactRecordInfo = useCallback(
     async (leadDetails) => {
+      if (!sectionId) {
+        setDisplay("overview");
+      }
       setLoading(true);
       if (leadDetails?.length === 0) {
         return;
@@ -140,7 +143,8 @@ export default () => {
 
   useEffect(() => {
     setLoading(isLoading);
-  }, [isLoading]);
+    history.push(`/contact/${id}/${display}`);
+  }, [isLoading, display, history, id]);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -148,7 +152,6 @@ export default () => {
     });
     getContactRecordInfo(leadDetails);
     setEdit(state.isEdit);
-    setDisplay(state.display || "Overview");
   }, [getContactRecordInfo, state.isEdit, state.display, leadDetails]);
 
   const handleRendering = () => {
@@ -156,21 +159,21 @@ export default () => {
       id,
       personalInfo,
       reminders,
-      setDisplay: (value) => setDisplay(value),
+      setDisplay,
       activities,
-      setEdit: (value) => setEdit(value),
+      setEdit,
       isEdit,
       getLeadDetails,
       isMobile: isMobile,
     };
     switch (display) {
-      case "Overview":
+      case "overview":
         return <Overview {...props} />;
-      case "Details":
+      case "details":
         return <Details {...props} getContactRecordInfo={getLeadDetails} />;
-      case "Scope Of Appointments":
+      case "scopeofappointments":
         return <ScopeOfAppointment {...props} />;
-      case "Preferences":
+      case "preferences":
         return <Preferences {...props} />;
       default:
         return <Overview {...props} />;
@@ -373,9 +376,9 @@ export default () => {
                     data-gtm="contact-record-menu-item"
                   >
                     <li
-                      className={display === "Overview" ? "active" : ""}
+                      className={display === "overview" ? "active" : ""}
                       onClick={() => {
-                        setDisplay("Overview");
+                        setDisplay("overview");
                       }}
                     >
                       <label className="icon-spacing">
@@ -385,11 +388,11 @@ export default () => {
                     </li>
                     <li
                       className={
-                        display === "Details" || display === "DetailsEdit"
+                        display === "details" || display === "DetailsEdit"
                           ? "active"
                           : ""
                       }
-                      onClick={() => setDisplay("Details")}
+                      onClick={() => setDisplay("details")}
                     >
                       <label className="icon-spacing">
                         <DetailsIcon />
@@ -398,9 +401,9 @@ export default () => {
                     </li>
                     <li
                       className={
-                        display === "Scope Of Appointments" ? "active" : ""
+                        display === "scopeofappointments" ? "active" : ""
                       }
-                      onClick={() => setDisplay("Scope Of Appointments")}
+                      onClick={() => setDisplay("scopeofappointments")}
                     >
                       <label className="icon-spacing">
                         <SOAicon />
@@ -408,8 +411,8 @@ export default () => {
                       <span>Scope Of Appointments</span>
                     </li>
                     <li
-                      className={display === "Preferences" ? "active" : ""}
-                      onClick={() => setDisplay("Preferences")}
+                      className={display === "preferences" ? "active" : ""}
+                      onClick={() => setDisplay("preferences")}
                     >
                       <label className="icon-spacing">
                         <PreferencesIcon />

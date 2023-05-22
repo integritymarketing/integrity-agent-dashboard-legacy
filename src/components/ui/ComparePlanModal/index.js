@@ -131,6 +131,12 @@ export default ({
     const urlPathName = window.location.pathname;
     const origin = window.location.origin;
     const planCompareUrl = `${origin}/customer${urlPathName}`;
+    let updatedRoles;
+    if (typeof roles === "string") {
+      updatedRoles = [roles];
+    } else {
+      updatedRoles = roles;
+    }
     try {
       let payload = {
         leadFirstName: firstName,
@@ -147,7 +153,7 @@ export default ({
         countyFIPS,
         middleInitial: middleName === "" ? null : middleName,
         dateOfBirth: birthdate,
-        roles,
+        roles: updatedRoles,
       };
       if (selectOption === "email") {
         const data = {
