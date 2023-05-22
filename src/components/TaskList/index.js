@@ -8,31 +8,31 @@ import styles from "./styles.module.scss";
 
 const mockData = [
   {
-    status: "Started",
+    status: "Requested Callbacks",
     bgColor: "#deebfb",
     count: "4",
   },
   {
-    status: "Applied",
+    status: "Reminders",
     bgColor: "#fcf6b0",
     count: "8",
   },
   {
-    status: "Issued",
+    status: "Unlinked Calls",
     bgColor: "#defbe6",
     count: "34",
   },
   {
-    status: "Declined",
+    status: "Unlinked Policies",
     bgColor: "#fbdede",
     count: "74",
   },
 ];
 
-export default function PlanSnapShot({ isMobile }) {
+export default function TaskList({ isMobile }) {
   return (
     <ContactSectionCard
-      title="Policy Snapshot"
+      title="Task List"
       className={styles.enrollmentPlanContainer}
       infoIcon={
         <Popover
