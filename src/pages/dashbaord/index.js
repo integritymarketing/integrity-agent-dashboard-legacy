@@ -226,7 +226,7 @@ export default function Dashbaord() {
       </Helmet>
       <GlobalNav page="dashboard" />
       <WithLoader isLoading={isLoading}>
-        <div className="dashbaord-page">
+        <div className="dashboard-page">
           <section className="details-section">
             <div className="greeting">
               <img

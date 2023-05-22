@@ -1,9 +1,10 @@
-.dashbaord-page {
+.dashboard-page {
   padding: 0px;
   margin: 0px;
   display: flex;
   align-self: flex-start;
   width: 100%;
+  background: #F4F8FB;
   @media screen and (min-width: 320px) and (max-width: 480px) {
     width: 100%;
     flex-direction: column;
