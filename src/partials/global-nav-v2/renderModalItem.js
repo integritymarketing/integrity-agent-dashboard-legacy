@@ -90,7 +90,7 @@ const CallCenterContent = ({
                       error={touched.phone && errors.phone}
                     />
                   )}
-                  {errors.phone && <div class="mb-3" />}
+                  {errors.phone && <div className="mb-3" />}
                   {!isEditingNumber && (
                     <div className="editPhone">
                       <span className="number">{values.phone}</span>

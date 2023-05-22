@@ -6,6 +6,7 @@ import AddPrescription from "./modals/AddPrescription";
 import EditPrescription from "./modals/EditPrescription";
 import AddPharmacy from "./modals/AddPharmacy";
 import useLeadInformation from "hooks/useLeadInformation";
+import useFeatureFlag from "hooks/useFeatureFlag";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
 import AddProvider from "./modals/AddProvider";
@@ -16,6 +17,7 @@ import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 import DetailsMobile from "mobile/Contact/Details/ContactDetails";
 import Media from "react-media";
+import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 
 export default forwardRef((props, ref) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
@@ -26,6 +28,7 @@ export default forwardRef((props, ref) => {
   const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const isMyFeatureEnabled = useFeatureFlag("REACT_APP_EROLLMENT_HISTORY_FLAG");
 
   const {
     pharmacies,
@@ -202,6 +205,11 @@ export default forwardRef((props, ref) => {
       <div className="contactdetailscard" ref={props.detailsRef}>
         {DetailsInfo()}
       </div>
+      {isMyFeatureEnabled && (
+        <section>
+          <EnrollmentHistoryContainer leadId={props.id} />
+        </section>
+      )}
       <div className="detailscard-container">
         {isOpen && (
           <AddProvider

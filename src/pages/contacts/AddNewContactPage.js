@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory, Link, useParams } from "react-router-dom";
+import { useHistory, Link, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -54,7 +54,7 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   }
 };
 
-const NewContactForm = ({ callLogId }) => {
+const NewContactForm = ({ callLogId, firstName, lastName }) => {
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const [showAddress2, setShowAddress2] = useState(false);
@@ -97,8 +97,8 @@ const NewContactForm = ({ callLogId }) => {
   return (
     <Formik
       initialValues={{
-        firstName: "",
-        lastName: "",
+        firstName: firstName,
+        lastName: lastName,
         middleName: "",
         email: "",
         birthdate: "",
@@ -196,7 +196,7 @@ const NewContactForm = ({ callLogId }) => {
           analyticsService.fireEvent("event-form-submit", {
             formName: "New Contact",
           });
-          if (callLogId) {
+          if (callLogId !== "undefined" && callLogId) {
             await callRecordingsService.assignsLeadToInboundCallRecord({
               callLogId,
               leadId,
@@ -660,6 +660,17 @@ const NewContactForm = ({ callLogId }) => {
 
 export default function AddNewContactPage() {
   const { callLogId } = useParams();
+  const { state } = useLocation();
+
+  const { policyHolder } = state?.state;
+  let firstName = "";
+  let lastName = "";
+
+  if (policyHolder) {
+    const splitName = policyHolder.split(" ");
+    firstName = splitName[0];
+    lastName = splitName[1];
+  }
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -681,7 +692,11 @@ export default function AddNewContactPage() {
           <ToastContextProvider>
             <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
             <div className="border-bottom border-bottom--light"></div>
-            <NewContactForm callLogId={callLogId} />
+            <NewContactForm
+              callLogId={callLogId}
+              firstName={firstName}
+              lastName={lastName}
+            />
           </ToastContextProvider>
         </Container>
       </div>

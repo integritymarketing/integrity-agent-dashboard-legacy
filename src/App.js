@@ -15,6 +15,7 @@ import ClientImportPage from "pages/ClientImportPage";
 import NotFoundPage from "pages/NotFound";
 import ErrorPage from "pages/ErrorPage";
 import TermsPage from "pages/TermsPage";
+import EnrollmentHistoryPage from "pages/EnrollmentHistoryPage";
 import PrivacyPage from "pages/PrivacyPage";
 import ContactDetailsPage from "pages/ContactDetails";
 import MaintenancePage from "pages/MaintenancePage";
@@ -52,6 +53,7 @@ import HelpPage from "pages/Help";
 import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
+import EnrollmentLinkToContact from "pages/EnrollmentLinkToContact";
 
 const App = () => {
   return (
@@ -116,6 +118,9 @@ const App = () => {
                                     <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom/:duration/:date">
                                       <LinkToContact />
                                     </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/enrollment-link-to-contact">
+                                      <EnrollmentLinkToContact />
+                                    </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/account">
                                       <AccountPage />
                                     </AuthenticatedRoute>
@@ -148,6 +153,12 @@ const App = () => {
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute
                                       exact
+                                      path="/contact/:contactId/:sectionId"
+                                    >
+                                      <ContactRecordInfo />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute
+                                      exact
                                       path="/new/contact/:contactId"
                                     >
                                       <ContactDetailsPage />
@@ -175,6 +186,9 @@ const App = () => {
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
                                       <PlanDetailsPage />
+                                    </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate">
+                                      <EnrollmentHistoryPage />
                                     </AuthenticatedRoute>
                                     <Route path="/terms">
                                       <TermsPage />

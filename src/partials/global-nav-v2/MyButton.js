@@ -32,9 +32,11 @@ function MyButton({
       user?.profile.agentid
     );
 
-    //  If the button is set to active we directly disable it without any further checkup
-    if (isAvailable) {
-      clickButton();
+    if (
+      (hasActiveCampaign && leadPreference?.leadCenter) ||
+      leadPreference?.medicareEnroll
+    ) {
+      typeof clickButton == "function" && clickButton();
       if (!isCheckInUpdateModalDismissed) {
         setIsAvailabiltyModalVisible(true);
       }

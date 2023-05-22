@@ -8,6 +8,7 @@ import MapdPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-be
 import MapdPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
+import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 
 export default ({
   plan,
@@ -16,6 +17,8 @@ export default ({
   onEnrollClick,
   onShareClick,
   pharmacies,
+  isEnroll,
+  enrollData,
 }) => {
   const costsRef = useRef(null);
   const providersRef = useRef(null);
@@ -33,6 +36,19 @@ export default ({
     hasPreferredMailPharmacyNetwork,
     hasMailDrugBenefits,
   } = plan;
+
+  const formattedName = (str) => {
+    const capitalize = (word) => {
+      return word
+        .toLowerCase()
+        .replace(/\b[a-z]/g, (char) => char.toUpperCase());
+    };
+
+    return str.split(" ").map(capitalize).join(" ");
+  };
+
+  const policyHolderName = `${enrollData.consumerFirstName} ${enrollData.consumeLastName}`;
+
   return (
     <>
       <div className={`${styles["left"]}`}>
@@ -130,12 +146,30 @@ export default ({
       </div>
       <div className={`${styles["main"]}`}>
         <div className={`${styles["card-container"]}`}>
-          {plan && (
+          {plan && !isEnroll ? (
             <CompactPlanCard
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}
               isMobile={isMobile}
+            />
+          ) : (
+            <EnrollmentPlanCard
+              currentYear={enrollData.currentYear}
+              submittedDate={enrollData.appSubmitDate}
+              enrolledDate={enrollData.enrolledDate}
+              effectiveDate={enrollData.policyEffectiveDate}
+              policyId={enrollData.policyNumber}
+              policyHolder={formattedName(policyHolderName)}
+              planId={enrollData.plan}
+              agentNpn={enrollData.agentNpn}
+              carrier={enrollData.carrier}
+              consumerSource={enrollData.consumerSource}
+              hasPlanDetails={enrollData.hasPlanDetails}
+              policyStatus={enrollData.policyStatus}
+              confirmationNumber={enrollData.confirmationNumber}
+              isEnrollPlansPage={isEnroll}
+              onShareClick={onShareClick}
             />
           )}
         </div>

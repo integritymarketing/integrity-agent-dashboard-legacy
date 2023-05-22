@@ -15,19 +15,23 @@ const MobileMenu = ({
 }) => {
   const DATA = [
     {
-      name: "Overview",
+      name: "overview",
+      displayName: "Overview",
       img: view,
     },
     {
-      name: "Details",
+      name: "details",
+      displayName: "Details",
       img: contact,
     },
     {
-      name: "Scope Of Appointments",
+      name: "scopeofappointments",
+      displayName: "Scope of Appointments",
       img: SOA,
     },
     {
-      name: "Preferences",
+      name: "preferences",
+      displayName: "Preferences",
       img: settings,
     },
   ];
@@ -47,7 +51,7 @@ const MobileMenu = ({
               src={selected.img}
             />
           </div>
-          <div className={styles.name}>{selected?.name}</div>
+          <div className={styles.name}>{selected?.displayName}</div>
         </div>
         <div className={styles.icon}>
           <DownArrow />
@@ -73,7 +77,7 @@ const MobileMenu = ({
                         src={item.img}
                       />
                     </div>
-                    <div className={styles.name}>{item.name}</div>
+                    <div className={styles.name}>{item.displayName}</div>
                   </div>
                 ))}
             </div>

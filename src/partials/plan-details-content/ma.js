@@ -5,8 +5,17 @@ import MaCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import MaProvidersTable from "components/ui/PlanDetailsTable/shared/providers-table";
 import MaPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
+import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 
-export default ({ plan, isMobile, styles, onEnrollClick, onShareClick }) => {
+export default ({
+  plan,
+  isMobile,
+  styles,
+  onEnrollClick,
+  onShareClick,
+  isEnroll,
+  enrollData,
+}) => {
   const costsRef = useRef(null);
   const providersRef = useRef(null);
   const planBenefitsRef = useRef(null);
@@ -52,12 +61,22 @@ export default ({ plan, isMobile, styles, onEnrollClick, onShareClick }) => {
       </div>
       <div className={`${styles["main"]}`}>
         <div className={`${styles["card-container"]}`}>
-          {plan && (
+          {plan && !isEnroll ? (
             <CompactPlanCard
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}
               isMobile={isMobile}
+            />
+          ) : (
+            <EnrollmentPlanCard
+              key={enrollData.policyId}
+              currentYear={enrollData.currentYear}
+              submittedDate={enrollData.submittedDate}
+              enrolledDate={enrollData.enrolledDate}
+              effectiveDate={enrollData.effectiveDate}
+              policyHolder={enrollData.policyHolder}
+              policyId={enrollData.policyId}
             />
           )}
         </div>
