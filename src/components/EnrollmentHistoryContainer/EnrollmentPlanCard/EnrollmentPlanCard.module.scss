@@ -30,23 +30,24 @@
     }
 
     &.submitted {
-      background-color: #FCF6B0;
+      background-color: #fcf6b0;
     }
-    
+
     &.rejected {
       background-color: #fbdede;
     }
 
-    &.approved, &.approved-upcoming {
-      background-color:#DEFBE6
+    &.approved,
+    &.approved-upcoming {
+      background-color: #defbe6;
     }
 
     &.started {
-      background-color: #DEEBFB;
+      background-color: #deebfb;
     }
 
     &.declined {
-      background-color: #FBDEDE;
+      background-color: #fbdede;
     }
   }
 
@@ -81,7 +82,6 @@
 
     .details {
       gap: 8px;
-
       .planName {
         font-size: 24px;
         color: $dark-blue;
@@ -132,32 +132,31 @@
       }
     }
 
-      @include small {
-        padding-top: 0.5rem;
-        order: 3;
-      }
-    }
-
-    .iconPng {
-      padding: 0;
-      height: 32px;
-      width: 32px;
-    }
-
-    .links {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-
-      @include small {
-        order: 2;
-        width: 14%;
-        gap: 1rem;
-      }
+    @include small {
+      padding-top: 0.5rem;
+      order: 3;
     }
   }
 
+  .iconPng {
+    padding: 0;
+    height: 32px;
+    width: 32px;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+
+    @include small {
+      order: 2;
+      width: 14%;
+      gap: 1rem;
+    }
+  }
+}
 
 .policyDetails {
   display: flex;

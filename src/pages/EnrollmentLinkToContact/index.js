@@ -42,7 +42,6 @@ export default function EnrollmentLinkToContact() {
       setIsLoading(false);
     }
   };
-
   const bannerContent = () => {
     return (
       <>

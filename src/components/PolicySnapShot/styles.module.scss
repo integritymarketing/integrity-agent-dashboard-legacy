@@ -1,0 +1,84 @@
+.policySnapshotContainer {
+  display: flex;
+  flex-direction: column;
+  .countCardsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .policyList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px 8px 0px 0px;
+    .policyCard {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      box-shadow: inset 0px -1px 0px #dfdedd;
+      .policyInfo {
+        .policyName {
+          color: #002d72;
+          font-size: 20px;
+        }
+        .policyId {
+          color: #002d72;
+          font-size: 16px;
+          .text {
+            color: #434a51;
+          }
+        }
+      }
+      .policyHolder {
+        .title {
+          color: #434a51;
+          font-size: 16px;
+        }
+        .name {
+          color: #0052ce;
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+      .policyStatus {
+        color: #434a51;
+        font-size: 16px;
+      }
+      .viewButton {
+        display: flex;
+        align-items: center;
+        width: 13%;
+        justify-content: flex-start;
+        padding: 0px 5px;
+        border-radius: 20px;
+        background-color: #deebfb;
+        .personIcon {
+          margin-top: 2px;
+        }
+        .text {
+          color: #434a51;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+.enrollmentPlanContainer {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.listFooter {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0px;
+  border-radius: 0px 0px 8px 8px;
+  color: #0052ce;
+  font-size: 16px;
+  font-weight: bold;
+}

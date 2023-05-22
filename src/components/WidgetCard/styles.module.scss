@@ -1,0 +1,42 @@
+.counterCard {
+  display: flex;
+  flex-direction: column;
+  width: 22%;
+
+  .countName {
+    font-size: 20px;
+    color: #002d72;
+  }
+  .countInfo {
+    display: flex;
+    align-items: center;
+    height: 88px;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 0px 8px 8px 0px;
+    cursor: pointer;
+    .countColour {
+      width: 10%;
+      height: 100%;
+      border-radius: 8px 0px 0px 8px;
+    }
+    .Started {
+      background-color: #deebfb;
+    }
+    .Applied {
+      background-color: #fcf6b0;
+    }
+    .Issued {
+      background-color: #defbe6;
+    }
+    .Declined {
+      background-color: #fbdede;
+    }
+    .count {
+      width: 90%;
+      text-align: center;
+      color: #002d72;
+      font-size: 48px;
+    }
+  }
+}

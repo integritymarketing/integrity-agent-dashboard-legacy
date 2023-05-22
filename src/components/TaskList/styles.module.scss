@@ -1,0 +1,14 @@
+.policySnapshotContainer {
+  display: flex;
+  flex-direction: column;
+  .countCardsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.enrollmentPlanContainer {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}

@@ -1,0 +1,56 @@
+.sortSelector {
+  width: 100%;
+  .sortButton {
+    background-color: #ffffff;
+    align-items: center;
+    display: flex;
+    border: 1px solid #717171;
+    justify-content: space-between;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #717171;
+    .icon {
+      padding: 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: #f1faff;
+        border-radius: 40px;
+      }
+    }
+    .iconReverse {
+      transform: rotate(180deg);
+    }
+  }
+  .options {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #00000029;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #ffffff;
+    position: absolute;
+    z-index: 999999;
+    .option {
+      display: flex;
+      align-items: center;
+      justify-content: 30%;
+      justify-content: space-between;
+      box-shadow: inset 0px -1px 0px #dfdedd;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #434a51;
+      cursor: pointer;
+      &:last-child {
+        box-shadow: unset;
+      }
+      &:hover {
+        background-color: #f1faff;
+      }
+      .mark {
+        margin-left: 40px;
+      }
+    }
+  }
+}
