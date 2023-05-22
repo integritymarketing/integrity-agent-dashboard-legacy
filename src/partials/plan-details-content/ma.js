@@ -20,6 +20,7 @@ export default ({
   const providersRef = useRef(null);
   const planBenefitsRef = useRef(null);
   const planDocumentsRef = useRef(null);
+
   return (
     <>
       <div className={`${styles["left"]}`}>
@@ -70,13 +71,13 @@ export default ({
             />
           ) : (
             <EnrollmentPlanCard
-              key={enrollData.policyId}
-              currentYear={enrollData.currentYear}
-              submittedDate={enrollData.submittedDate}
-              enrolledDate={enrollData.enrolledDate}
-              effectiveDate={enrollData.effectiveDate}
-              policyHolder={enrollData.policyHolder}
-              policyId={enrollData.policyId}
+              key={enrollData?.policyId}
+              currentYear={enrollData?.currentYear}
+              submittedDate={enrollData?.submittedDate}
+              enrolledDate={enrollData?.enrolledDate}
+              effectiveDate={enrollData?.effectiveDate}
+              policyHolder={enrollData?.policyHolder}
+              policyId={enrollData?.policyId}
             />
           )}
         </div>

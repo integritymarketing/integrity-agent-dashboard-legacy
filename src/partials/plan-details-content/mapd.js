@@ -47,7 +47,7 @@ export default ({
     return str.split(" ").map(capitalize).join(" ");
   };
 
-  const policyHolderName = `${enrollData.consumerFirstName} ${enrollData.consumeLastName}`;
+  const policyHolderName = `${enrollData?.consumerFirstName} ${enrollData?.consumeLastName}`;
 
   return (
     <>
@@ -155,19 +155,19 @@ export default ({
             />
           ) : (
             <EnrollmentPlanCard
-              currentYear={enrollData.currentYear}
-              submittedDate={enrollData.appSubmitDate}
-              enrolledDate={enrollData.enrolledDate}
-              effectiveDate={enrollData.policyEffectiveDate}
-              policyId={enrollData.policyNumber}
+              currentYear={enrollData?.currentYear}
+              submittedDate={enrollData?.appSubmitDate}
+              enrolledDate={enrollData?.enrolledDate}
+              effectiveDate={enrollData?.policyEffectiveDate}
+              policyId={enrollData?.policyNumber}
               policyHolder={formattedName(policyHolderName)}
-              planId={enrollData.plan}
-              agentNpn={enrollData.agentNpn}
-              carrier={enrollData.carrier}
-              consumerSource={enrollData.consumerSource}
-              hasPlanDetails={enrollData.hasPlanDetails}
-              policyStatus={enrollData.policyStatus}
-              confirmationNumber={enrollData.confirmationNumber}
+              planId={enrollData?.plan}
+              agentNpn={enrollData?.agentNpn}
+              carrier={enrollData?.carrier}
+              consumerSource={enrollData?.consumerSource}
+              hasPlanDetails={enrollData?.hasPlanDetails}
+              policyStatus={enrollData?.policyStatus}
+              confirmationNumber={enrollData?.confirmationNumber}
               isEnrollPlansPage={isEnroll}
               onShareClick={onShareClick}
             />

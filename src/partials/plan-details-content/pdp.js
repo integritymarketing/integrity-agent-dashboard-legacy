@@ -128,13 +128,13 @@ export default ({
             />
           ) : (
             <EnrollmentPlanCard
-              key={enrollData.policyId}
-              currentYear={enrollData.currentYear}
-              submittedDate={enrollData.submittedDate}
-              enrolledDate={enrollData.enrolledDate}
-              effectiveDate={enrollData.effectiveDate}
-              policyHolder={enrollData.policyHolder}
-              policyId={enrollData.policyId}
+              key={enrollData?.policyId}
+              currentYear={enrollData?.currentYear}
+              submittedDate={enrollData?.submittedDate}
+              enrolledDate={enrollData?.enrolledDate}
+              effectiveDate={enrollData?.effectiveDate}
+              policyHolder={enrollData?.policyHolder}
+              policyId={enrollData?.policyId}
             />
           )}
         </div>

@@ -662,12 +662,12 @@ export default function AddNewContactPage() {
   const { callLogId } = useParams();
   const { state } = useLocation();
 
-  const { policyHolder } = state?.state;
+  const { policyHolder } = state?.state ?? {};
   let firstName = "";
   let lastName = "";
 
   if (policyHolder) {
-    const splitName = policyHolder.split(" ");
+    const splitName = policyHolder?.split(" ");
     firstName = splitName[0];
     lastName = splitName[1];
   }
