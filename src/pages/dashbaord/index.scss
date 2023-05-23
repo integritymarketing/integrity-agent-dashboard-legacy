@@ -143,22 +143,82 @@
   padding: 10px 35px;
 }
 
-.mt-315 {
-  margin-top: 315px;
-}
-
-.arrowIcon {
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #f1faff;
-    border-radius: 40px;
+.unlink-card-container {
+  background: #DEEBFB 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  @media screen and (max-width: 480px) {
+    margin: 16px 12px 20px 15px;
   }
 }
-.iconReverse {
-  transform: rotate(180deg);
+
+.unlink-card{
+  border-bottom: 0.5px solid #A6BEDB;
+  padding: 18px 18px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: #DEEBFB 0% 0% no-repeat padding-box;
+  font-size: 14px !important;
 }
 
-.mt-280 {
-  margin-top: 280px;
+.unlink-card-download-btn > svg {
+  stroke: none;
+}
+
+.unlink-card-link-btn > svg {
+  stroke: none;
+  @media screen and (max-width: 480px) {
+    height: 28px !important;
+    width: 28px !important;
+    padding-left: 4px;
+  }
+}
+
+.unlink-card-download-btn{
+  border-radius: 25px !important;
+  padding: 6px 12px !important;
+  background-color: inherit !important;
+  @media screen and (max-width: 480px) {
+    border: 1px solid #0052ce !important;
+    border-radius: 50% !important;
+    padding: 9px 10px !important;
+  }
+}
+
+.unlink-card-download-btn > .label {
+  font-size: 14px !important;
+}
+
+.unlink-card-link-btn{
+  border-radius: 25px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  padding-right: 8px;
+  background-color: #ffffff !important;
+}
+
+.unlink-card-link-btn > .label{
+  font-size: 14px !important;
+  color: #434a51;
+}
+
+.date-time-duration-text{
+  color: #002D72;
+  padding-right: 8px;
+  font-weight: 600;
+}
+
+.show-more-card{
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  @media screen and (max-width: 480px) {
+    margin: 16px 12px 20px 15px;
+  }
+}
+
+.show-more-btn > span{
+  color: #0052CE;
+  font-weight: 600;
 }

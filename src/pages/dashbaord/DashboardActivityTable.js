@@ -35,7 +35,8 @@ import CallDetails from "./CallDetails";
 import ComparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
 import Arrow from "components/icons/down";
-
+import TabsCard from "components/TabsCard";
+import UnLinkedCalls from "./UnLinkedCalls";
 const getActivitySubject = (activitySubject) => {
   switch (activitySubject) {
     case "Scope of Appointment Sent":
@@ -111,12 +112,10 @@ export default function DashboardActivityTable({
 }) {
   const history = useHistory();
   const addToast = useToast();
-
   const callRecordings = useCallRecordings();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [filterToggle, setFilterToggle] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
-
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
@@ -124,10 +123,9 @@ export default function DashboardActivityTable({
   const [selectedLead, setSelectedLead] = useState();
   const [isRecentActivityCollapsed, setIsRecentActivityCollapsed] =
     useState(false);
-
+  const [isTabsCollapsed, setIsTabsCollapsed] = useState(false);
   const userProfile = useUserProfile();
   const { npn } = userProfile;
-
   useEffect(() => {
     setFilteredData([...activityData]);
   }, [activityData]);
@@ -427,6 +425,25 @@ export default function DashboardActivityTable({
 
   return (
     <>
+      <div className={styles.headerWithFilter}>
+        <div className={styles.title}>
+          <div
+            className={`${styles.icon} ${
+              isTabsCollapsed ? styles.iconReverse : ""
+            }`}
+            onClick={() => setIsTabsCollapsed((val) => !val)}
+          >
+            <Arrow color={"#0052CE"} />
+          </div>
+          <Heading2 className={styles.recentActivity} text="Task List" />
+        </div>
+      </div>
+      {!isTabsCollapsed && (
+        <>
+          <TabsCard />
+          <UnLinkedCalls />
+        </>
+      )}
       <div className={styles.headerWithFilter}>
         <div className={styles.title}>
           <div

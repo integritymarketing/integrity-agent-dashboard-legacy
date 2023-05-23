@@ -1,0 +1,115 @@
+@import "../../scss/globalDefines.scss";
+@import "../../styles/global.scss";
+
+.tabContainer {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  // background: $bluish-cyan;
+
+  @include tabletAndBelow {
+    padding-right: 5%;
+  }
+
+  @include mobileOnly {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .tab:nth-child(4n + 0) .tabContent::before {
+    background: #deebfb;
+  }
+  
+  .tab:nth-child(4n + 1) .tabContent::before {
+    background: #fcf6b0;
+  }
+  
+  .tab:nth-child(4n + 2) .tabContent::before {
+    background: #defbe6;
+  }
+  
+  .tab:nth-child(4n + 3) .tabContent::before {
+    background: #fbdede;
+  }
+  
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    .tabHeading {
+      color: $dark-blue;
+      padding-bottom: 8px;
+      text-align: center;
+      font: normal normal normal 20px/24px Lato;
+      letter-spacing: 0.2px;
+
+      @include mobileOnly {
+        font: normal normal normal 14px/16px Lato;
+        width: min-content;
+        letter-spacing: 0.14px;
+      }
+    }
+    
+    .tabContent {
+      display: flex;
+      width: 192px;
+      height: 88px;
+      background: white;
+      margin-bottom: 12px;
+      cursor: pointer;
+      box-shadow: 0px 0px 20px #002D721A;
+      border-radius: 6px;
+      align-items: center;
+
+      @include mobileOnly {
+        width: 72px;
+        height: 64px;
+      }
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        color: $dark-blue;
+        font-size: $size-48;
+        @include mobileOnly {
+          font: normal normal normal 24px/56px Lato-Regular;
+        }
+      }
+
+      &::before {
+        content: "";
+        width: 16px;
+        height: 88px;
+        display: block;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        position: absolute;
+
+        @include mobileOnly {
+          width: 8px;
+          height: 64px;
+        }
+      }
+
+      &.selected::after {
+        content: "";
+        display: block;
+        position: absolute;
+        margin-left: 84px;
+        margin-top: 100px;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 12px solid white;
+
+        @include mobileOnly {
+          margin-left: 27px;
+          margin-top: 76px;
+        }
+      }
+    }
+  } 
+}
