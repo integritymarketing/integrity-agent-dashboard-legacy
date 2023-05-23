@@ -2,6 +2,7 @@ import React from "react";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
 import Editicon from "components/icons/edit-details";
+import ContactSectionCard from "packages/ContactSectionCard";
 
 const notAvailable = "-";
 
@@ -44,23 +45,24 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     : "phone";
 
   return (
-    <>
-      <div
-        className="contactdetailscardheader responsive-d-none"
-        data-gtm="section-contact-details"
-      >
-        <h4>Contact Details</h4>
-        {!rest.isEdit && (
-          <button
-            className="send-btn"
-            data-gtm="button-edit-contact-details"
-            onClick={() => rest.setEdit(true)}
-          >
-            <Editicon />
-            <span className="edit-btn-text">Edit</span>
-          </button>
-        )}
-      </div>
+    <ContactSectionCard
+      title={"Contact Details"}
+      className={"enrollmentPlanContainer"}
+      actions={
+        <div className="editButton">
+          {!rest.isEdit && (
+            <button
+              className="send-btn"
+              data-gtm="button-edit-contact-details"
+              onClick={() => rest.setEdit(true)}
+            >
+              <Editicon />
+              <span className="edit-btn-text">Edit</span>
+            </button>
+          )}
+        </div>
+      }
+    >
       <div className="contactdetailscardbody">
         <div className="contactDetailsSection">
           <div className="contact-details-row mobile-responsive-row">
@@ -175,6 +177,6 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
           </div>
         </div>
       </div>
-    </>
+    </ContactSectionCard>
   );
 };

@@ -5,6 +5,7 @@ import Plus from "components/icons/plus";
 import { Button } from "components/ui/Button";
 import WithLoader from "components/ui/WithLoader";
 import DetailsTable from "../DetailsTable";
+import ContactSectionCard from "packages/ContactSectionCard";
 
 function DetailsCard({
   headerTitle,
@@ -39,12 +40,11 @@ function DetailsCard({
     headerTitle === "Pharmacies" && items.length > 0 ? true : false;
 
   return (
-    <div className="details-card" data-gtm={dataGtm}>
-      <div className="header">
-        {headerTitle && (
-          <h4 className="headerTitle">{displayTitleWithCount}</h4>
-        )}
-        {onAddClick && (
+    <ContactSectionCard
+      title={displayTitleWithCount}
+      className={"enrollmentPlanContainer"}
+      actions={
+        onAddClick && (
           <div className="actions">
             <Button
               icon={<Plus disabled={disableStatus} />}
@@ -55,8 +55,9 @@ function DetailsCard({
               type="tertiary"
             />
           </div>
-        )}
-      </div>
+        )
+      }
+    >
       <div className="card-body">
         {items.length === 0 && (
           <WithLoader isLoading={isLoading}>
@@ -84,7 +85,7 @@ function DetailsCard({
         )}
         {items.map(itemRender)}
       </div>
-    </div>
+    </ContactSectionCard>
   );
 }
 

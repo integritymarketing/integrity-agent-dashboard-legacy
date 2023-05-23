@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import styles from "./EnrollmentPlanCard.module.scss";
 import IconWithText from "packages/IconWithText";
@@ -7,6 +7,7 @@ import Link from "./Link.png";
 import Media from "react-media";
 import Icon from "components/Icon";
 import { Button } from "components/ui/Button";
+import SharePlan from "components/icons/sharePlan";
 
 export default function EnrollmentPlanCard(props) {
   const {
@@ -25,6 +26,8 @@ export default function EnrollmentPlanCard(props) {
 
   const history = useHistory();
   const location = useLocation();
+  const [isMobile, setIsMobile] = useState(false);
+
   const formattedPolicyStatus = policyStatus
     ?.replace(/\s+/g, "-")
     .toLowerCase();
@@ -43,6 +46,12 @@ export default function EnrollmentPlanCard(props) {
 
   return (
     <div className={styles.planCardContainer}>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       {/* <div className={styles.planHistory}>
         {currentYear ? "Current Plan" : "Previous Years"}
       </div> */}
@@ -81,13 +90,18 @@ export default function EnrollmentPlanCard(props) {
 
           {isEnrollPlansPage ? (
             <div>
-              {" "}
-              <Button
-                label="Share Plan"
-                onClick={() => onShareClick()}
-                type="secondary"
-                className={styles.shareBtn}
-              />{" "}
+              {isMobile ? (
+                <div onClick={() => onShareClick()}>
+                  <SharePlan />
+                </div>
+              ) : (
+                <Button
+                  label="Share Plan"
+                  onClick={() => onShareClick()}
+                  type="secondary"
+                  className={styles.shareBtn}
+                />
+              )}
             </div>
           ) : (
             <div className={styles.links}>
