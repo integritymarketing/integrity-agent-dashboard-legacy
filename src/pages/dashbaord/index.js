@@ -270,7 +270,7 @@ export default function Dashbaord() {
             </div>
 
             {!isMobile && (
-              <FooterBanners className="banners mt-250" type="column" />
+              <FooterBanners className="banners mt-315" type="column" />
             )}
           </section>
 

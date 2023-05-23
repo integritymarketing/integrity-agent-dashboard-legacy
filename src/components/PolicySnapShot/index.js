@@ -32,7 +32,7 @@ const mockData = [
 const TitleData =
   "Policy Snapshot shows the number of contacts that are in each stage for MedicareCENTER only.";
 
-export default function PlanSnapShot() {
+export default function PlanSnapShot({ isMobile }) {
   return (
     <ContactSectionCard
       title="Policy Snapshot"
@@ -46,7 +46,7 @@ export default function PlanSnapShot() {
             return <WidgetCard {...card} />;
           })}
         </div>
-        <PolicyList />
+        {!isMobile && <PolicyList />}
       </div>
     </ContactSectionCard>
   );
