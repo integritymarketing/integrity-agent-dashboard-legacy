@@ -23,6 +23,7 @@
   }
   .options {
     margin-top: 5px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     border: 1px solid #00000029;
@@ -31,6 +32,9 @@
     background-color: #ffffff;
     position: absolute;
     z-index: 999999;
+    @media (max-width: 768px) {
+      margin-left: -104px;
+    }
     .option {
       display: flex;
       align-items: center;

@@ -240,40 +240,45 @@ export default function Dashbaord() {
                       <Info />
                     </Popover>
                   </div>
-                  {(isClientSnapshotOpen && isMobile) ||
-                    (!isClientSnapshotOpen && !isMobile && (
-                      <div className="snapshot-data">
-                        {stageSummaryData &&
-                          stageSummaryData.map((d, index) => (
-                            <div
-                              className={`snapshot-item ${
-                                index > 0 ? "brTop" : ""
-                              }`}
-                              onClick={() =>
-                                navigateToContactListPage(d.leadStatusId)
-                              }
-                              key={index}
-                            >
-                              <div className="snapshot-name">
-                                {d?.statusName?.includes("Soa")
-                                  ? d.statusName.replace("Soa", "SOA ")
-                                  : d.statusName}
-                              </div>
-                              <div className="snapshot-count">
-                                {numberWithCommas(d.totalCount)}
-                              </div>
+                  {((isClientSnapshotOpen && isMobile) || !isMobile) && (
+                    <div className="snapshot-data">
+                      {stageSummaryData &&
+                        stageSummaryData.map((d, index) => (
+                          <div
+                            className={`snapshot-item ${
+                              index > 0 ? "brTop" : ""
+                            }`}
+                            onClick={() =>
+                              navigateToContactListPage(d.leadStatusId)
+                            }
+                            key={index}
+                          >
+                            <div className="snapshot-name">
+                              {d?.statusName?.includes("Soa")
+                                ? d.statusName.replace("Soa", "SOA ")
+                                : d.statusName}
                             </div>
-                          ))}
-                      </div>
-                    ))}
+                            <div className="snapshot-count">
+                              {numberWithCommas(d.totalCount)}
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            {!isMobile && <FooterBanners className="banners" type="column" />}
+            {!isMobile && (
+              <FooterBanners className="banners mt-250" type="column" />
+            )}
           </section>
 
-          <section className="recent-activity-section">
+          <section
+            className={`recent-activity-section ${
+              isMobile && isClientSnapshotOpen ? "mt-280" : ""
+            }`}
+          >
             <PlanSnapShot isMobile={isMobile} />
             <TaskList isMobile={isMobile} />
             <DashboardActivityTable

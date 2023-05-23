@@ -6,6 +6,10 @@
   .countName {
     font-size: 20px;
     color: #002d72;
+    height: 30px;
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
   }
   .countInfo {
     display: flex;

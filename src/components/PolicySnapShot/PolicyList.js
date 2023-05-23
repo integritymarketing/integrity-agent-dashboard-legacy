@@ -1,6 +1,6 @@
 import React from "react";
 import Person from "components/icons/personLatest";
-
+import PolicyStarted from "components/icons/policyStarted";
 import styles from "./styles.module.scss";
 
 const mockData = [
@@ -42,7 +42,13 @@ export default function PolicyList() {
                 <div className={styles.title}>Policy Holder</div>
                 <div className={styles.name}>{policy.policyHolder}</div>
               </div>
-              <div className={styles.policyStatus}>{policy.policyStatus}</div>
+
+              <div className={styles.status}>
+                <div className={styles.icon}>
+                  <PolicyStarted />
+                </div>
+                <div className={styles.text}>{policy.policyStatus}</div>
+              </div>
               <div className={styles.viewButton}>
                 <div className={styles.personIcon}>
                   <Person />

@@ -1,7 +1,5 @@
 import React from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
-import Info from "components/icons/info-blue";
-import Popover from "components/ui/Popover";
 import DateRangeSort from "../DateRangeSort";
 import WidgetCard from "../WidgetCard/card";
 import styles from "./styles.module.scss";
@@ -34,17 +32,6 @@ export default function TaskList({ isMobile }) {
     <ContactSectionCard
       title="Task List"
       className={styles.enrollmentPlanContainer}
-      infoIcon={
-        <Popover
-          openOn="hover"
-          icon={<Info />}
-          title={"Client Snapshot"}
-          description="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
-          positions={["right", "bottom"]}
-        >
-          <Info />
-        </Popover>
-      }
       actions={<DateRangeSort isMobile={isMobile} />}
     >
       <div className={styles.policySnapshotContainer}>

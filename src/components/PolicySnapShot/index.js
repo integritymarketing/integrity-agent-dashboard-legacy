@@ -1,9 +1,9 @@
 import React from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
-import Info from "components/icons/info-blue";
-import Popover from "components/ui/Popover";
+import TooltipMUI from "packages/ToolTip";
 import DateRangeSort from "../DateRangeSort";
 import WidgetCard from "../WidgetCard/card";
+import PolicyList from "./PolicyList";
 import styles from "./styles.module.scss";
 
 const mockData = [
@@ -29,23 +29,16 @@ const mockData = [
   },
 ];
 
-export default function PlanSnapShot({ isMobile }) {
+const TitleData =
+  "Policy Snapshot shows the number of contacts that are in each stage for MedicareCENTER only.";
+
+export default function PlanSnapShot() {
   return (
     <ContactSectionCard
       title="Policy Snapshot"
       className={styles.enrollmentPlanContainer}
-      infoIcon={
-        <Popover
-          openOn="hover"
-          icon={<Info />}
-          title={"Client Snapshot"}
-          description="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
-          positions={["right", "bottom"]}
-        >
-          <Info />
-        </Popover>
-      }
-      actions={<DateRangeSort isMobile={isMobile} />}
+      infoIcon={<TooltipMUI titleData={TitleData} />}
+      actions={<DateRangeSort />}
     >
       <div className={styles.policySnapshotContainer}>
         <div className={styles.countCardsContainer}>
@@ -53,6 +46,7 @@ export default function PlanSnapShot({ isMobile }) {
             return <WidgetCard {...card} />;
           })}
         </div>
+        <PolicyList />
       </div>
     </ContactSectionCard>
   );
