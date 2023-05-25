@@ -1,6 +1,7 @@
 @import "../../scss/globalDefines.scss";
 
 .cardHeader {
+  justify-content: space-between;
   align-items: center;
   border-radius: 8px 8px 0px 0px;
   box-shadow: inset 0px -1px 0px #c7ccd1;
@@ -12,6 +13,9 @@
     border-radius: 8px;
     box-shadow: none;
     padding: 0.5rem;
+  }
+  .iconWithTitle {
+    display: flex;
   }
   .icon {
     padding: 10px;

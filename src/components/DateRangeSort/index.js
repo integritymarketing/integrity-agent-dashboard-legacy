@@ -4,12 +4,20 @@ import Arrow from "components/icons/down";
 import { DASHBOARD_SORT_OPTIONS } from "../../constants";
 import CheckMark from "packages/ContactListFilterOptions/CheckMarkIcon/CheckMark";
 import Media from "react-media";
+import usePreferences from "hooks/usePreferences";
 import styles from "./styles.module.scss";
 
-export default function DateRangeSort() {
+export default function DateRangeSort({ preferencesKey }) {
+  const [value, setValue] = usePreferences("", preferencesKey);
+
   const [isOpen, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [select, setSelect] = useState("");
+  const [select, setSelect] = useState(value);
+
+  const handleSelect = (value) => {
+    setSelect(value);
+    setValue(value);
+  };
   return (
     <>
       <Media
@@ -50,12 +58,12 @@ export default function DateRangeSort() {
                 <div
                   key={`${option.label}`}
                   className={styles.option}
-                  onClick={() => setSelect(option.label)}
+                  onClick={() => handleSelect(option.value)}
                 >
                   <div>{option.label}</div>
 
                   <div className={styles.mark}>
-                    <CheckMark show={select === option.label} />
+                    <CheckMark show={select === option.value} />
                   </div>
                 </div>
               );

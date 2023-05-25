@@ -19,29 +19,27 @@
   .tab:nth-child(4n + 0) .tabContent::before {
     background: #deebfb;
   }
-  
+
   .tab:nth-child(4n + 1) .tabContent::before {
     background: #fcf6b0;
   }
-  
+
   .tab:nth-child(4n + 2) .tabContent::before {
     background: #defbe6;
   }
-  
+
   .tab:nth-child(4n + 3) .tabContent::before {
     background: #fbdede;
   }
-  
+
   .tab {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: flex-end;
 
     .tabHeading {
       color: $dark-blue;
       padding-bottom: 8px;
-      text-align: center;
       font: normal normal normal 20px/24px Lato;
       letter-spacing: 0.2px;
 
@@ -51,7 +49,7 @@
         letter-spacing: 0.14px;
       }
     }
-    
+
     .tabContent {
       display: flex;
       width: 192px;
@@ -59,7 +57,7 @@
       background: white;
       margin-bottom: 12px;
       cursor: pointer;
-      box-shadow: 0px 0px 20px #002D721A;
+      box-shadow: 0px 0px 20px #002d721a;
       border-radius: 6px;
       align-items: center;
 
@@ -111,5 +109,5 @@
         }
       }
     }
-  } 
+  }
 }

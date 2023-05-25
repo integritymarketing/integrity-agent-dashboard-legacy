@@ -1,29 +1,26 @@
 import React from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
 import DateRangeSort from "../DateRangeSort";
-import WidgetCard from "../WidgetCard/card";
 import styles from "./styles.module.scss";
+import TabsCard from "components/TabsCard";
+import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
 
-const mockData = [
+const DEFAULT_TABS = [
   {
-    status: "Requested Callbacks",
-    bgColor: "#deebfb",
-    count: "4",
+    heading: "Requested Callbacks",
+    value: 3,
   },
   {
-    status: "Reminders",
-    bgColor: "#fcf6b0",
-    count: "8",
+    heading: "Reminders",
+    value: 34,
   },
   {
-    status: "Unlinked Calls",
-    bgColor: "#defbe6",
-    count: "34",
+    heading: "Unlinked Calls",
+    value: 4,
   },
   {
-    status: "Unlinked Policies",
-    bgColor: "#fbdede",
-    count: "74",
+    heading: "Unlinked Policies",
+    value: 8,
   },
 ];
 
@@ -32,15 +29,13 @@ export default function TaskList({ isMobile }) {
     <ContactSectionCard
       title="Task List"
       className={styles.enrollmentPlanContainer}
-      actions={<DateRangeSort isMobile={isMobile} />}
+      actions={
+        <DateRangeSort isMobile={isMobile} preferencesKey={"taskList_sort"} />
+      }
+      preferencesKey={"taskList_collapse"}
     >
-      <div className={styles.policySnapshotContainer}>
-        <div className={styles.countCardsContainer}>
-          {mockData?.map((card) => {
-            return <WidgetCard {...card} />;
-          })}
-        </div>
-      </div>
+      <TabsCard tabs={DEFAULT_TABS} preferencesKey={"taskList_widget"} />
+      <UnLinkedCalls />
     </ContactSectionCard>
   );
 }
