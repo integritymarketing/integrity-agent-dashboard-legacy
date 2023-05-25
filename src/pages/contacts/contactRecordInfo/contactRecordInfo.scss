@@ -2333,25 +2333,16 @@ button {
   letter-spacing: 0.16px;
 }
 
-.editButton {
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--v2-royal-blue);
-  font-family: "Lato", sans-serif;
-  font-weight: 600;
-  width: 103px;
-  height: 40px;
+.iconWithTitle {
   display: flex;
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
 }
 
-.editButton .send-btn {
-  font-family: Lato;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 130%;
-  color: var(--v2-royal-blue);
+.editIcon {
+  margin-top: 2px;
+}
+.editText {
+  font-size: 16px;
+  font-weight: bold;
+  color: #0052ce;
 }

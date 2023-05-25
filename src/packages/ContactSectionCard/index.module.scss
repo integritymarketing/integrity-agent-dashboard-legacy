@@ -31,16 +31,14 @@
 }
 
 .actions {
-  width: 20%;
   align-items: flex-end;
-  margin-left: auto;
 }
 
 .heading {
   color: #002d72;
   font-size: 24px;
   letter-spacing: 0.24px;
-
+  margin-top: 6px;
   @include small {
     font-size: 20px;
     letter-spacing: 0.2px;

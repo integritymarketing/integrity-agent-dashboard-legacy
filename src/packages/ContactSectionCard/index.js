@@ -35,8 +35,8 @@ const ContactSectionCard = (props) => {
             <Arrow color={"#0052CE"} />
           </div>
           <h3 className={styles.heading}>{title}</h3>
+          {infoIcon && <div className={styles.infoIcon}>{infoIcon} </div>}
         </div>
-        {infoIcon && <div className={styles.infoIcon}>{infoIcon} </div>}
         {!(hideActionIfCollapse && isCollapsed) && (
           <div className={styles.actions}>{actions}</div>
         )}

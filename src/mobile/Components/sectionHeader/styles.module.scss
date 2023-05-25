@@ -26,3 +26,16 @@
     }
   }
 }
+
+.iconWithText {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .arrowIcon {
+    margin-right: 10px;
+  }
+  .iconReverse {
+    transform: rotate(180deg);
+  }
+}

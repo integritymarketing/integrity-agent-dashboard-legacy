@@ -91,7 +91,11 @@ export default function EnrollmentPlanCard(props) {
           {isEnrollPlansPage ? (
             <div>
               {isMobile ? (
-                <div onClick={() => onShareClick()}>
+                <div
+                  className={styles.shareBtnContainer}
+                  onClick={() => onShareClick()}
+                >
+                  <span className={styles.shareText}>Share</span>
                   <SharePlan />
                 </div>
               ) : (

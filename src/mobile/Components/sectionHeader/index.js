@@ -1,4 +1,5 @@
 import React from "react";
+import Arrow from "components/icons/down";
 import styles from "./styles.module.scss";
 
 const SectionHeaderMobile = ({
@@ -7,10 +8,25 @@ const SectionHeaderMobile = ({
   ActionIcon,
   callBack,
   showLeft = false,
+  isCollapse,
+  setIsCollapse,
+  collapseContent = false,
 }) => {
   return (
     <div className={styles.header}>
-      <div className={styles.title}>{title}</div>
+      <div className={styles.iconWithText}>
+        {collapseContent && (
+          <div
+            className={`${styles.arrowIcon} ${
+              isCollapse ? styles.iconReverse : ""
+            }`}
+            onClick={() => setIsCollapse()}
+          >
+            <Arrow color={"#0052CE"} />
+          </div>
+        )}
+        <div className={styles.title}>{title}</div>
+      </div>
       {actionTitle && showLeft ? (
         <div onClick={callBack} className={styles.action}>
           <div className={styles.actionTitle}>{actionTitle}</div>

@@ -49,18 +49,14 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
       title={"Contact Details"}
       className={"enrollmentPlanContainer"}
       actions={
-        <div className="editButton">
-          {!rest.isEdit && (
-            <button
-              className="send-btn"
-              data-gtm="button-edit-contact-details"
-              onClick={() => rest.setEdit(true)}
-            >
+        !rest.isEdit && (
+          <div className={"iconWithTitle"} onClick={() => rest.setEdit(true)}>
+            <div className={"editIcon"}>
               <Editicon />
-              <span className="edit-btn-text">Edit</span>
-            </button>
-          )}
-        </div>
+            </div>
+            <h3 className={"editText"}>Edit</h3>
+          </div>
+        )
       }
     >
       <div className="contactdetailscardbody">
