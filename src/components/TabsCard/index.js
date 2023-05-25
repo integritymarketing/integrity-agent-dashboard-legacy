@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 const TabsCard = ({
   tabs,
   selectedIndex = 2,
-  onTabChange = () => {},
+  handleTaskClick = () => {},
   preferencesKey,
 }) => {
   const [value, setValue] = usePreferences(null, preferencesKey);
@@ -14,7 +14,7 @@ const TabsCard = ({
 
   const onTabClick = (index, tab) => {
     setSelectedIndex(index);
-    onTabChange(index, tab);
+    handleTaskClick(tab.heading);
     setValue(index, preferencesKey);
   };
 

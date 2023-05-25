@@ -113,13 +113,11 @@ const UnLinkedCallCard = ({ callData }) => {
 };
 
 const UnLinkedCalls = () => {
-  console.log(mockData);
-
   return (
     <>
       <div className="unlink-card-container">
         {mockData.map((data) => {
-          return <UnLinkedCallCard callData={data} />;
+          return <UnLinkedCallCard key={data.contact} callData={data} />;
         })}
       </div>
       <div className="show-more-card">

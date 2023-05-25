@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
 import DateRangeSort from "../DateRangeSort";
 import styles from "./styles.module.scss";
@@ -25,6 +25,20 @@ const DEFAULT_TABS = [
 ];
 
 export default function TaskList({ isMobile }) {
+  const [showUnLinkedCalls, setShowUnLinkedCalls] = useState(false);
+
+  // we can pass card info here and accordingly set the show to true as per card
+  const handleTaskClick = (heading) => {
+    switch (heading) {
+      case "Unlinked Calls":
+        setShowUnLinkedCalls(true);
+        break;
+      default:
+        setShowUnLinkedCalls(false);
+        break;
+    }
+  };
+
   return (
     <ContactSectionCard
       title="Task List"
@@ -34,8 +48,12 @@ export default function TaskList({ isMobile }) {
       }
       preferencesKey={"taskList_collapse"}
     >
-      <TabsCard tabs={DEFAULT_TABS} preferencesKey={"taskList_widget"} />
-      <UnLinkedCalls />
+      <TabsCard
+        handleTaskClick={handleTaskClick}
+        tabs={DEFAULT_TABS}
+        preferencesKey={"taskList_widget"}
+      />
+      {showUnLinkedCalls && <UnLinkedCalls />}
     </ContactSectionCard>
   );
 }

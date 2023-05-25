@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Popover as TinyPopover, ArrowContainer } from "react-tiny-popover";
 import "./index.scss";
-
 export default function Popover({
   children,
   openOn,
@@ -25,6 +24,12 @@ export default function Popover({
   };
   const onClickOutside = () => {
     if (closeWhenClickOutside) {
+      setIsPopoverOpen(false);
+    }
+  };
+
+  const handlePopoverClose = () => {
+    if (openOn === "hover") {
       setIsPopoverOpen(false);
     }
   };
@@ -58,6 +63,7 @@ export default function Popover({
         className="popover-action-handler"
         onClick={handleOnClick}
         onMouseOver={handleOnHover}
+        onMouseLeave={handlePopoverClose}
       >
         {children}
       </div>

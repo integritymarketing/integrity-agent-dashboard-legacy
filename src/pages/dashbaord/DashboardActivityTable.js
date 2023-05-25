@@ -119,7 +119,6 @@ export default function DashboardActivityTable({
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [selectedCall, setSelectedCall] = useState(null);
   const [selectedLead, setSelectedLead] = useState();
-
   const userProfile = useUserProfile();
   const { npn } = userProfile;
   useEffect(() => {
