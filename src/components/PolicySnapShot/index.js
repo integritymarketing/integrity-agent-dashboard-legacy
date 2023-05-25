@@ -2,30 +2,29 @@ import React from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
 import TooltipMUI from "packages/ToolTip";
 import DateRangeSort from "../DateRangeSort";
-import WidgetCard from "../WidgetCard/card";
+import TabsCard from "components/TabsCard";
 import PolicyList from "./PolicyList";
-import styles from "./styles.module.scss";
 
-const mockData = [
+const DEFAULT_TABS = [
   {
-    status: "Started",
+    heading: "Started",
     bgColor: "#deebfb",
-    count: "4",
+    value: "4",
   },
   {
-    status: "Applied",
+    heading: "Applied",
     bgColor: "#fcf6b0",
-    count: "8",
+    value: "8",
   },
   {
-    status: "Issued",
+    heading: "Issued",
     bgColor: "#defbe6",
-    count: "34",
+    value: "34",
   },
   {
-    status: "Declined",
+    heading: "Declined",
     bgColor: "#fbdede",
-    count: "74",
+    value: "74",
   },
 ];
 
@@ -36,18 +35,13 @@ export default function PlanSnapShot({ isMobile }) {
   return (
     <ContactSectionCard
       title="Policy Snapshot"
-      className={styles.enrollmentPlanContainer}
+      className={"enrollmentPlanContainer"}
       infoIcon={<TooltipMUI titleData={TitleData} />}
-      actions={<DateRangeSort />}
+      actions={<DateRangeSort preferencesKey={"policySnapShot_sort"} />}
+      preferencesKey={"policySnapShot_collapse"}
     >
-      <div className={styles.policySnapshotContainer}>
-        <div className={styles.countCardsContainer}>
-          {mockData?.map((card) => {
-            return <WidgetCard {...card} />;
-          })}
-        </div>
-        {!isMobile && <PolicyList />}
-      </div>
+      <TabsCard tabs={DEFAULT_TABS} preferencesKey={"policySnapShot_widget"} />
+      <PolicyList />
     </ContactSectionCard>
   );
 }

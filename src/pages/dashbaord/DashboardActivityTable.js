@@ -13,7 +13,6 @@ import { TextButton } from "packages/Button";
 import Typography from "@mui/material/Typography";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import styles from "./DashboardActivityTable.module.scss";
-import Heading2 from "packages/Heading2";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
 import Filter from "packages/Filter/Filter";
@@ -34,9 +33,8 @@ import * as Sentry from "@sentry/react";
 import CallDetails from "./CallDetails";
 import ComparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
-import Arrow from "components/icons/down";
-import TabsCard from "components/TabsCard";
-import UnLinkedCalls from "./UnLinkedCalls";
+import ContactSectionCard from "packages/ContactSectionCard";
+
 const getActivitySubject = (activitySubject) => {
   switch (activitySubject) {
     case "Scope of Appointment Sent":
@@ -121,9 +119,7 @@ export default function DashboardActivityTable({
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [selectedCall, setSelectedCall] = useState(null);
   const [selectedLead, setSelectedLead] = useState();
-  const [isRecentActivityCollapsed, setIsRecentActivityCollapsed] =
-    useState(false);
-  const [isTabsCollapsed, setIsTabsCollapsed] = useState(false);
+
   const userProfile = useUserProfile();
   const { npn } = userProfile;
   useEffect(() => {
@@ -425,38 +421,10 @@ export default function DashboardActivityTable({
 
   return (
     <>
-      <div className={styles.headerWithFilter}>
-        <div className={styles.title}>
-          <div
-            className={`${styles.icon} ${
-              isTabsCollapsed ? styles.iconReverse : ""
-            }`}
-            onClick={() => setIsTabsCollapsed((val) => !val)}
-          >
-            <Arrow color={"#0052CE"} />
-          </div>
-          <Heading2 className={styles.recentActivity} text="Task List" />
-        </div>
-      </div>
-      {!isTabsCollapsed && (
-        <>
-          <TabsCard />
-          <UnLinkedCalls />
-        </>
-      )}
-      <div className={styles.headerWithFilter}>
-        <div className={styles.title}>
-          <div
-            className={`${styles.icon} ${
-              isRecentActivityCollapsed ? styles.iconReverse : ""
-            }`}
-            onClick={() => setIsRecentActivityCollapsed((val) => !val)}
-          >
-            <Arrow color={"#0052CE"} />
-          </div>
-          <Heading2 className={styles.recentActivity} text="Recent Activity" />
-        </div>
-        {!isRecentActivityCollapsed && (
+      <ContactSectionCard
+        title="Recent Activity"
+        className={styles.enrollmentPlanContainer}
+        actions={
           <div className={styles.filterButton}>
             <Filter
               Icon={FilterIcon}
@@ -475,9 +443,10 @@ export default function DashboardActivityTable({
               }
             />
           </div>
-        )}
-      </div>
-      {!isRecentActivityCollapsed && (
+        }
+        preferencesKey={"taskList_collapse"}
+        hideActionIfCollapse={true}
+      >
         <Table
           handleSort={handleSortUpdate}
           initialState={{}}
@@ -502,7 +471,7 @@ export default function DashboardActivityTable({
             />
           ))}
         />
-      )}
+      </ContactSectionCard>
       {selectedActivity && (
         <ActivityDetails
           open={true}

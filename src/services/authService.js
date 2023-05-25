@@ -146,7 +146,8 @@ class authService {
         level: "warning",
       });
       this.UserManager.clearStaleState();
-      localStorage.clear();
+      // The below line was commented to support saving prefernces into local storage
+      // localStorage.clear();
       throw new Error(error);
     }
   };
@@ -200,7 +201,7 @@ class authService {
   signoutRedirectCallback = () => {
     this.UserManager.signoutRedirectCallback().then(() => {
       this.UserManager.clearStaleState();
-      localStorage.clear();
+      // localStorage.clear();
       window.location.replace("/");
     });
   };

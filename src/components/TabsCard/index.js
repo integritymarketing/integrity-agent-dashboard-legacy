@@ -1,33 +1,21 @@
 import React, { useState } from "react";
+import usePreferences from "hooks/usePreferences";
 import styles from "./styles.module.scss";
-const DEFAULT_TABS = [
-  {
-    heading: "Requested Callbacks",
-    value: 3,
-  },
-  {
-    heading: "Reminders",
-    value: 34,
-  },
-  {
-    heading: "Unlinked Calls",
-    value: 4,
-  },
-  {
-    heading: "Unlinked Policies",
-    value: 8,
-  },
-];
+
 const TabsCard = ({
-  tabs = DEFAULT_TABS,
+  tabs,
   selectedIndex = 2,
   onTabChange = () => {},
+  preferencesKey,
 }) => {
-  const [setSelectedIndex] = useState(selectedIndex);
+  const [value, setValue] = usePreferences(null, preferencesKey);
+
+  const [index, setSelectedIndex] = useState(value);
 
   const onTabClick = (index, tab) => {
     setSelectedIndex(index);
     onTabChange(index, tab);
+    setValue(index, preferencesKey);
   };
 
   return (
@@ -40,7 +28,7 @@ const TabsCard = ({
             <div
               onClick={() => onTabClick(i, tab)}
               className={`${styles.tabContent} ${
-                i === selectedIndex ? styles.selected : ""
+                i === index ? styles.selected : ""
               }`}
             >
               <span className={styles.content}>{value}</span>

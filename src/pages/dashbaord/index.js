@@ -218,7 +218,7 @@ export default function Dashbaord() {
                     <div className="titleText">
                       {isMobile && (
                         <div
-                          className={` arrowIcon ${
+                          className={`arrowIcon ${
                             isClientSnapshotOpen ? "iconReverse" : ""
                           }`}
                           onClick={() => {
@@ -270,13 +270,13 @@ export default function Dashbaord() {
             </div>
 
             {!isMobile && (
-              <FooterBanners className="banners mt-315" type="column" />
+              <FooterBanners className="banners mt-330" type="column" />
             )}
           </section>
 
           <section
             className={`recent-activity-section ${
-              isMobile && isClientSnapshotOpen ? "mt-280" : ""
+              isMobile && isClientSnapshotOpen ? "mt-330" : ""
             }`}
           >
             <PlanSnapShot isMobile={isMobile} />

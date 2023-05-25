@@ -1,0 +1,88 @@
+.enrollmentPlanContainer {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.policy-card-container {
+  background: #deebfb 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  @media screen and (max-width: 480px) {
+    margin: 16px 12px 0px 15px;
+  }
+}
+
+.policy-card {
+  border-bottom: 0.5px solid #a6bedb;
+  padding: 18px 18px;
+
+  background: #ffffff 0% 0% no-repeat padding-box;
+  font-size: 14px !important;
+}
+
+.policy-card-container :first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.policy-card-download-btn > svg {
+  stroke: none;
+}
+
+.policy-card-link-btn > svg {
+  stroke: none;
+  @media screen and (max-width: 480px) {
+    height: 28px !important;
+    width: 28px !important;
+    padding-left: 4px;
+  }
+}
+
+.policy-card-download-btn {
+  border-radius: 25px !important;
+  padding: 6px 12px !important;
+  background-color: inherit !important;
+  @media screen and (max-width: 480px) {
+    border: 1px solid #0052ce !important;
+    border-radius: 50% !important;
+    padding: 9px 10px !important;
+  }
+}
+
+.policy-card-download-btn > .label {
+  font-size: 14px !important;
+}
+
+.policy-card-link-btn {
+  border-radius: 25px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  padding-right: 8px;
+  background-color: #deebfb !important;
+}
+
+.policy-card-link-btn > .label {
+  font-size: 14px !important;
+  color: #434a51;
+}
+
+.date-time-duration-text {
+  color: #002d72;
+  padding-right: 8px;
+  font-weight: 600;
+}
+
+.jumpList-card {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  border-radius: 0px 0px 8px 8px;
+  @media screen and (max-width: 480px) {
+    margin: 0px 12px 20px 15px;
+  }
+}
+
+.jumpList-btn > span {
+  color: #0052ce;
+  font-weight: 600;
+}

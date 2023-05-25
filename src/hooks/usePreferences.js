@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 /**
  * A hook to manage user preferences using the browser's localStorage
@@ -11,7 +11,7 @@ function usePreferences(defaultValue, key) {
   // initialize the state from localStorage or use the default value
   const [value, setValue] = useState(() => {
     const storedValue = window.localStorage.getItem(key);
-    if (storedValue !== null) {
+    if (storedValue) {
       return JSON.parse(storedValue);
     }
     window.localStorage.setItem(key, JSON.stringify(defaultValue));
