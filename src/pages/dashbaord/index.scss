@@ -202,8 +202,11 @@
 
 .unlink-card-link-btn {
   border-radius: 25px !important;
-  padding-top: 6px 6px 6px 8px !important;
+  padding: 6px 12px 6px 8px !important;
   background-color: #ffffff !important;
+  @media screen and (max-width: 480px) {
+    padding: 8px 10px 8px 6px !important;
+  }
 }
 
 .unlink-card-link-btn > .label {
@@ -225,11 +228,11 @@
   padding-top: 10px;
   border-radius: 0px 0px 8px 8px;
   @media screen and (max-width: 480px) {
-    margin: 0px 12px 20px 15px;
+    margin: 0px 12px 0px 15px;
   }
 }
 
-.show-more-btn > span {
+.show-more-btn > span{
   color: #0052ce;
   font-weight: 600;
 }

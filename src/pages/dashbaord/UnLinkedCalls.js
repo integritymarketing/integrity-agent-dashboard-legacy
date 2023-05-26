@@ -104,7 +104,6 @@ const UnLinkedCallCard = ({ callData }) => {
             className={"unlink-card-link-btn"}
             onClick={() => console.log("link to contact clicked")}
             type="tertiary"
-            style={isMobile ? { padding: "11px 6px" } : {}}
           />
         </Grid>
       </Grid>
