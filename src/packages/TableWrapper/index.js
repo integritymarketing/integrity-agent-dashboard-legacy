@@ -97,6 +97,9 @@ function Table(props) {
     fixedRows = [],
     handleSort,
   } = props;
+
+  const [isMobile, setIsMobile] = useState(false);
+
   // Use the state and functions returned from useTable to build the UI
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -106,11 +109,12 @@ function Table(props) {
     },
     useSortBy
   );
-  const [isMobile, setIsMobile] = useState(false);
 
   // Render the UI for table
   return (
-    <TableContainer>
+    <TableContainer 
+      sx={{ width: '94%', marginLeft: 'auto', marginRight: 'auto' }}
+    >
       <Media
         query={"(max-width: 500px)"}
         onChange={(isMobile) => {

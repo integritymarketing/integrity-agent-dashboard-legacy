@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useContext,
 } from "react";
+import Media from "react-media";
 import "./activitytable.scss";
 import Table from "../../packages/TableWrapper";
 import { useHistory } from "react-router-dom";
@@ -50,7 +51,6 @@ const getActivitySubject = (activitySubject) => {
       return activitySubject;
   }
 };
-
 const buttonTextByActivity = {
   "Incoming Call": "Link to Contact",
   "Call Recording": "Download",
@@ -119,6 +119,7 @@ export default function DashboardActivityTable({
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [selectedCall, setSelectedCall] = useState(null);
   const [selectedLead, setSelectedLead] = useState();
+  const [isMobile, setIsMobile] = useState(false);
   const userProfile = useUserProfile();
   const { npn } = userProfile;
   useEffect(() => {
@@ -345,6 +346,146 @@ export default function DashboardActivityTable({
     [history, showAddModal]
   );
 
+  const mobileColumns = useMemo(
+    () => [
+      {
+        id: "name",
+        Header: "Name",
+        accessor: (row) =>
+          `${row?.original?.firstName} ${row?.original?.lastName}`,
+        Cell: ({ row }) => (
+          <div className={styles.activityDataCell}>
+            <Typography
+              noWrap
+              fontWeight="bold"
+              fontSize="16px"
+              color="#0052CE"
+              onClick={(event) => {
+                event.stopPropagation();
+                history.push(`/contact/${row?.original?.leadsId}`);
+              }}
+            >
+              <strong>
+                {`${row?.original?.firstName} ${row?.original?.lastName}`}{" "}
+              </strong>
+            </Typography>
+          </div>
+        ),
+      },
+      {
+        id: "activity",
+        Header: "Activity",
+        accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
+        Cell: ({ row }) => (
+          <div className={styles.activityDataCell}>
+            <ActivitySubjectWithIcon
+              activitySubject={row?.original?.activities[0]?.activitySubject}
+            />
+            <Typography
+              color="#434A51"
+              fontSize={"16px"}
+              noWrap
+              onClick={() => {
+                handleTableRowClick(row?.original);
+              }}
+            >
+              {getActivitySubject(
+                row?.original?.activities[0]?.activitySubject
+              )}
+            </Typography>
+          </div>
+        ),
+      },
+      {
+        id: "date",
+        Header: "Date",
+        accessor: (row) =>
+          new Date(
+            row?.original?.activities[0]?.modifyDate
+              ? row?.original?.activities[0]?.modifyDate
+              : row?.original?.activities[0]?.createDate
+          ),
+        Cell: ({ row }) => {
+          let date = convertUTCDateToLocalDate(
+            row?.original?.activities[0]?.modifyDate
+              ? row?.original?.activities[0]?.modifyDate
+              : row?.original?.activities[0]?.createDate
+          );
+          return (
+            <Typography color="#434A51" fontSize="16px">
+              {dateFormatter(date, "MM/DD/yyyy")}
+            </Typography>
+          );
+        },
+      },
+      {
+        id: "inboundcall",
+        disableSortBy: true,
+        Header: "",
+        Cell: () => null,
+      },
+      {
+        id: "status",
+        disableSortBy: true,
+        Header: "",
+        Cell: ({ row }) => (
+          <>
+            {renderButtons(
+              row?.original?.activities[0],
+              row?.original?.leadsId,
+              handleClick
+            )}
+          </>
+        ),
+      },
+      {
+        Header: "",
+        id: "more",
+        disableSortBy: true,
+        accessor: "reminders",
+        Cell: ({ value, row }) => {
+          const options = MORE_ACTIONS.slice(0);
+
+          if (
+            row?.original?.addresses[0]?.postalCode &&
+            row?.original?.addresses[0]?.county &&
+            row?.original?.addresses[0]?.stateCode
+          ) {
+            options.splice(1, 0, PLAN_ACTION);
+          }
+          return (
+            <>
+              <ActionsDropdown
+                options={options}
+                id={row.original.leadsId}
+                onClick={handleDropdownActions(row.original)}
+              >
+                <MoreHorizOutlinedIcon />
+              </ActionsDropdown>
+              {showAddNewModal && (
+                <ShortReminder
+                  reminders={value || []}
+                  leadId={row.original.leadsId}
+                  showAddModal={showAddModal === row.original.leadsId}
+                  setShowAddModal={(value) => {
+                    setShowAddModal(value ? row.original.leadsId : null);
+                    if (!value) {
+                      setShowAddNewModal(false);
+                    }
+                  }}
+                  showAddNewModal={showAddNewModal}
+                  hideIcon={true}
+                />
+              )}
+            </>
+          );
+        },
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [history, showAddModal]
+  );
+
   const onFilterApply = (filterValues) => {
     setFilterValues([...filterValues]);
     let data = filterValues
@@ -420,6 +561,12 @@ export default function DashboardActivityTable({
 
   return (
     <>
+      <Media
+        query={"(max-width: 500px)"}
+        onChange={(isMobile) => {
+          setIsMobile(isMobile);
+        }}
+      />
       <ContactSectionCard
         title="Recent Activity"
         className={styles.enrollmentPlanContainer}
@@ -450,7 +597,7 @@ export default function DashboardActivityTable({
           handleSort={handleSortUpdate}
           initialState={{}}
           data={filteredData}
-          columns={columns}
+          columns={isMobile ? mobileColumns : columns}
           footer={
             showMore ? (
               <TextButton onClick={() => setPage(page + 1)}>
