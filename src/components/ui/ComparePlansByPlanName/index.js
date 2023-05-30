@@ -36,7 +36,7 @@ export default function ComparePlansByPlanName({
 
   const { isNonRTS_User } = useRoles();
   const isEmailNonRts = isEmail
-    ? agentInfo?.Roles.includes("NonRts")
+    ? agentInfo?.Roles?.includes("NonRts")
     : isNonRTS_User;
 
   useEffect(() => {
