@@ -8,8 +8,8 @@ const TabsCard = ({
   handleTaskClick = () => {},
   preferencesKey,
 }) => {
-  const [value, setValue] = usePreferences(null, preferencesKey);
-
+  const [value, setValue] = usePreferences(0, preferencesKey);
+  console.log("KKKK", value);
   const [index, setSelectedIndex] = useState(value);
 
   const onTabClick = (index, tab) => {

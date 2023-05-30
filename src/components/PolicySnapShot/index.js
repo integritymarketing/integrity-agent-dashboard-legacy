@@ -41,7 +41,7 @@ export default function PlanSnapShot({ isMobile }) {
       preferencesKey={"policySnapShot_collapse"}
     >
       <TabsCard tabs={DEFAULT_TABS} preferencesKey={"policySnapShot_widget"} />
-      <PolicyList />
+      {!isMobile && <PolicyList />}
     </ContactSectionCard>
   );
 }

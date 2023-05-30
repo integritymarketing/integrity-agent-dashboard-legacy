@@ -7,26 +7,26 @@ import PolicyStarted from "components/icons/policyStarted";
 import "./style.scss";
 const mockData = [
   {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
+    name: "Amber Smith",
+    reminder: "Call client to discuss plans shared.",
+    date: "04/20/23",
     policyHolder: "Anne Polsen",
     policyStatus: "Started",
   },
   {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
+    name: "Robert Paulson",
+    reminder: "Check on SOA.",
+    date: "08/20/23",
     policyHolder: "Anne Polsen",
     policyStatus: "Started",
   },
 ];
 
-const PolicyCard = ({ callData }) => {
+const RemindersCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   return (
-    <div className="policy-card">
+    <div className="reminder-card">
       <Media
         query={"(max-width: 500px)"}
         onChange={(isMobile) => {
@@ -34,30 +34,25 @@ const PolicyCard = ({ callData }) => {
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={6} md={4} sx={{ color: "#434A51" }}>
-          <p className="policy-name">{callData.policyName}</p>
-          <p>
-            <span className="policy-label">Policy Id:</span>
-            <span className="policy-info">{callData.policyId}</span>
-          </p>
-          <p>
-            <span className="policy-label">Policy Carrier:</span>{" "}
-            <span className="policy-info"> {callData.policyCarrier}</span>
-          </p>
+        <Grid item xs={6} alignSelf={"center"} md={3} sx={{ color: "#434A51" }}>
+          <p className="reminder-name">{callData.name}</p>
         </Grid>
+
         <Grid
           item
           xs={6}
-          md={2}
-          alignSelf={"center"}
+          md={3}
           sx={{
+            textAlign: "right",
             display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "flex-start",
           }}
         >
-          <div className="policy-info">Policy Holder</div>{" "}
-          <div className="policy-info-bold">{callData.policyHolder}</div>
+          <div className="startedIcon">
+            <PolicyStarted />
+          </div>
+          <div className="reminder-info">{callData.reminder}</div>
         </Grid>
         <Grid
           item
@@ -74,7 +69,7 @@ const PolicyCard = ({ callData }) => {
           <div className="startedIcon">
             <PolicyStarted />
           </div>
-          <div className="policy-info">{callData.policyStatus}</div>
+          <div className="reminder-info">{callData.date}</div>
         </Grid>
         <Grid
           item
@@ -91,7 +86,7 @@ const PolicyCard = ({ callData }) => {
           <Button
             icon={<Person />}
             label={"View Contact"}
-            className={"policy-card-link-btn"}
+            className={"reminder-card-link-btn"}
             onClick={() => console.log("View Contact Clicked")}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
@@ -102,14 +97,14 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = () => {
+const RemindersList = () => {
   console.log(mockData);
 
   return (
     <>
-      <div className="policy-card-container">
+      <div className="reminder-card-container">
         {mockData.map((data) => {
-          return <PolicyCard callData={data} />;
+          return <RemindersCard callData={data} />;
         })}
       </div>
       <div className="jumpList-card">
@@ -119,4 +114,4 @@ const PolicyList = () => {
   );
 };
 
-export default PolicyList;
+export default RemindersList;
