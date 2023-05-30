@@ -18,7 +18,7 @@ import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
 
 const uniqValues = (array) => Array.from(new Set(array));
-
+const NONRTS_DESCRIPTION = "Active selling permission data is currently unavailable for your account. This section will be updated once your carrier appointment information is in our files. Please contact your marketer if you have any questions."
 const mobileColumnFormat = {
   Carrier: {
     name: "Carrier",
@@ -207,7 +207,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
         </div>
 
         <div className={styles.nonRTS}>
-          <NonRTSBanner />
+          <NonRTSBanner description={NONRTS_DESCRIPTION} />
         </div>
       </Container>
     );
@@ -412,7 +412,7 @@ function Table({
         />
       </div>
       {isNonRTS_User ? (
-        <NonRTSBanner />
+        <NonRTSBanner description={NONRTS_DESCRIPTION}/>
       ) : (
         <>
           {mobile ? (
