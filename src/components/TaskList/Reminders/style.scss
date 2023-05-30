@@ -2,64 +2,46 @@
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
-.policy-card-container {
-  background: #deebfb 0% 0% no-repeat padding-box;
+.reminder-card-container {
+  background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 8px;
   @media screen and (max-width: 480px) {
     margin: 16px 12px 0px 15px;
   }
 }
 
-.policy-card {
+.reminder-card {
   border-bottom: 0.5px solid #dfdedd;
   padding: 18px 18px;
   background: #ffffff 0% 0% no-repeat padding-box;
   font-size: 14px;
 }
 
-.policy-card-container :first-child {
+.reminder-card-container :first-child {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
 
-.policy-card-link-btn {
+.reminder-card-link-btn {
   border-radius: 25px !important;
-  padding: 6px 30px 6px 10px !important;
+  padding: 5px 20px !important;
   background-color: #deebfb !important;
 }
 
-.policy-card-link-btn > .label {
+.reminder-card-link-btn > .label {
   font-size: 14px !important;
   color: #434a51 !important;
 }
 
-.date-time-duration-text {
-  color: #002d72;
-  padding-right: 8px;
-  font-weight: 600;
-}
-
-.policy-name {
-  color: #002d72;
-  font-size: 20px;
-}
-.policy-label {
-  color: #002d72;
-  font-size: 16px;
-  font-weight: 600;
-}
-.policy-info-bold {
-  color: #002d72;
+.reminder-name {
+  color: #000000;
   font-size: 16px;
   font-weight: bold;
 }
-.policy-info {
+
+.reminder-info {
   color: #434a51;
   font-size: 16px;
-}
-
-.startedIcon {
-  margin-top: 3px;
 }
 
 .jumpList-card {

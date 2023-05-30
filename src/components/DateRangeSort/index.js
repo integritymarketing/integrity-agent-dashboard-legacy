@@ -17,6 +17,7 @@ export default function DateRangeSort({ preferencesKey }) {
   const handleSelect = (value) => {
     setSelect(value);
     setValue(value);
+    setOpen(false);
   };
   return (
     <>

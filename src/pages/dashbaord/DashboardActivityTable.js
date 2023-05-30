@@ -590,7 +590,7 @@ export default function DashboardActivityTable({
             />
           </div>
         }
-        preferencesKey={"taskList_collapse"}
+        preferencesKey={"RecentActivity_collapse"}
         hideActionIfCollapse={true}
       >
         <Table

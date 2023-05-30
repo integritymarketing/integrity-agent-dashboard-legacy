@@ -2,7 +2,7 @@
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
-.policy-card-container {
+.up-card-container {
   background: #deebfb 0% 0% no-repeat padding-box;
   border-radius: 8px;
   @media screen and (max-width: 480px) {
@@ -10,58 +10,52 @@
   }
 }
 
-.policy-card {
-  border-bottom: 0.5px solid #dfdedd;
+.up-card {
+  border-bottom: 0.5px solid #a6bedb;
   padding: 18px 18px;
-  background: #ffffff 0% 0% no-repeat padding-box;
+  background: #deebfb 0% 0% no-repeat padding-box;
   font-size: 14px;
 }
 
-.policy-card-container :first-child {
+.up-card-container :first-child {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
 
-.policy-card-link-btn {
+.up-card-link-btn {
   border-radius: 25px !important;
-  padding: 6px 30px 6px 10px !important;
-  background-color: #deebfb !important;
+  padding: 5px 20px !important;
+  background-color: #ffffff !important;
 }
 
-.policy-card-link-btn > .label {
+.up-card-link-btn > .label {
   font-size: 14px !important;
   color: #434a51 !important;
 }
 
-.date-time-duration-text {
-  color: #002d72;
-  padding-right: 8px;
-  font-weight: 600;
-}
-
-.policy-name {
+.up-name {
   color: #002d72;
   font-size: 20px;
 }
-.policy-label {
+.up-label {
   color: #002d72;
   font-size: 16px;
   font-weight: 600;
 }
-.policy-info-bold {
+.up-label-bold {
   color: #002d72;
   font-size: 16px;
   font-weight: bold;
 }
-.policy-info {
+.up-info {
   color: #434a51;
   font-size: 16px;
 }
-
-.startedIcon {
-  margin-top: 3px;
+.up-info-bold {
+  color: #434a51;
+  font-size: 16px;
+  font-weight: bold;
 }
-
 .jumpList-card {
   background-color: #ffffff;
   display: flex;

@@ -4,6 +4,9 @@ import DateRangeSort from "../DateRangeSort";
 import styles from "./styles.module.scss";
 import TabsCard from "components/TabsCard";
 import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
+import UnlinkedPolicyList from "./UnlinkedPolicies";
+import RemindersList from "./Reminders";
+import usePreferences from "hooks/usePreferences";
 
 const DEFAULT_TABS = [
   {
@@ -25,17 +28,27 @@ const DEFAULT_TABS = [
 ];
 
 export default function TaskList({ isMobile }) {
-  const [showUnLinkedCalls, setShowUnLinkedCalls] = useState(false);
+  const [value] = usePreferences(0, "taskList_collapse");
+
+  const selectedName = DEFAULT_TABS[value]?.heading || "Requested Callbacks";
+
+  const [selectedWidgetName, setSelectedWidgetName] = useState(selectedName);
 
   // we can pass card info here and accordingly set the show to true as per card
   const handleTaskClick = (heading) => {
-    switch (heading) {
+    setSelectedWidgetName(heading);
+  };
+
+  const renderList = () => {
+    switch (selectedWidgetName) {
       case "Unlinked Calls":
-        setShowUnLinkedCalls(true);
-        break;
+        return <UnLinkedCalls />;
+      case "Unlinked Policies":
+        return <UnlinkedPolicyList />;
+      case "Reminders":
+        return <RemindersList />;
       default:
-        setShowUnLinkedCalls(false);
-        break;
+        return <UnlinkedPolicyList />;
     }
   };
 
@@ -53,7 +66,7 @@ export default function TaskList({ isMobile }) {
         tabs={DEFAULT_TABS}
         preferencesKey={"taskList_widget"}
       />
-      {showUnLinkedCalls && <UnLinkedCalls />}
+      {renderList()}
     </ContactSectionCard>
   );
 }
