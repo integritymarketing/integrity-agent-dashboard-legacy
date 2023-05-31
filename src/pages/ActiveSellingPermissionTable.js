@@ -416,10 +416,8 @@ function Table({
       ) : (
         <>
           {mobile ? (
-            // Mobile View
             renderMobileList()
           ) : (
-            // Desktop View
             <div className={styles.tableWrapper}>
               <table
                 data-gtm="contacts-list-wrapper"
