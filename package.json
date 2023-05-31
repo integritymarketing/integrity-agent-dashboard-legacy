@@ -74,7 +74,7 @@
   "scripts": {
     "start": "rescripts start",
     "start:auth": "cross-env REACT_APP_BUILD_TARGET=auth PORT=3001 BROWSER=none rescripts start",
-    "build": "npm test && rescripts build",
+    "build": "npm run test && rescripts build",
     "build:auth": "cross-env REACT_APP_BUILD_TARGET=auth rescripts build && mv build buildAuth",
     "test": "rescripts test --env=jest-environment-jsdom-sixteen",
     "eject": "rescripts eject",
