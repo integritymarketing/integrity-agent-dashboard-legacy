@@ -5,13 +5,15 @@
     align-items: center;
     display: flex;
     border: 1px solid #717171;
-    justify-content: space-between;
     border-radius: 4px;
     font-size: 16px;
     color: #717171;
+    position: relative;
     .icon {
       padding: 10px;
+      position: absolute;
       cursor: pointer;
+      right: 0;
       &:hover {
         background-color: #f1faff;
         border-radius: 40px;
@@ -32,11 +34,14 @@
     background-color: #ffffff;
     position: absolute;
     z-index: 999999;
+    margin-left: 8px;
     @media (max-width: 768px) {
-      margin-left: -104px;
+      margin-left: -190px;
+      width: 232px;
     }
     .option {
       display: flex;
+      position: relative;
       align-items: center;
       justify-content: 30%;
       justify-content: space-between;
@@ -53,7 +58,8 @@
         background-color: #f1faff;
       }
       .mark {
-        margin-left: 40px;
+        position: absolute;
+        right: 5px;
       }
     }
   }
