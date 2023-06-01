@@ -3,27 +3,64 @@ import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
-import PolicyStarted from "components/icons/policyStarted";
+import Started from "components/icons/BookofBusiness/policySnapshot/started";
+import Submitted from "components/icons/BookofBusiness/policySnapshot/submitted";
+import Pending from "components/icons/BookofBusiness/policySnapshot/pending";
+import UpComing from "components/icons/BookofBusiness/policySnapshot/upcoming";
+import Active from "components/icons/BookofBusiness/policySnapshot/active";
+import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
+import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
+import { useHistory } from "react-router-dom";
+
 import "./style.scss";
 const mockData = [
   {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
+    planName: "Humana HMO 2343",
+    policyNumber: "252456",
+    carrier: "Humana",
     policyHolder: "Anne Polsen",
     policyStatus: "Started",
+    leadId: 61773,
   },
   {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
+    planName: "Humana HMO 2343",
+    policyNumber: "252456",
+    carrier: "Humana",
+    policyHolder: "Anne Polsen",
+    policyStatus: "Pending",
+    leadId: 61773,
+  },
+  {
+    planName: "Humana HMO 2343",
+    policyNumber: "252456",
+    carrier: "Humana",
     policyHolder: "Anne Polsen",
     policyStatus: "Started",
+    leadId: 61773,
+  },
+  {
+    planName: "Humana HMO 2343",
+    policyNumber: "252456",
+    carrier: "Humana",
+    policyHolder: "Anne Polsen",
+    policyStatus: "Pending",
+    leadId: 61773,
   },
 ];
 
+const renderIcons = {
+  Started: <Started />,
+  Submitted: <Submitted />,
+  Pending: <Pending />,
+  UpComing: <UpComing />,
+  Active: <Active />,
+  InActive: <InActive />,
+  Declined: <Declined />,
+};
+
 const PolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const history = useHistory();
 
   return (
     <div className="policy-card">
@@ -35,14 +72,14 @@ const PolicyCard = ({ callData }) => {
       />
       <Grid container spacing={2}>
         <Grid item xs={6} md={4} sx={{ color: "#434A51" }}>
-          <p className="policy-name">{callData.policyName}</p>
+          <p className="policy-name">{callData.planName}</p>
           <p>
             <span className="policy-label">Policy Id:</span>
-            <span className="policy-info">{callData.policyId}</span>
+            <span className="policy-info">{callData.policyNumber}</span>
           </p>
           <p>
             <span className="policy-label">Policy Carrier:</span>{" "}
-            <span className="policy-info"> {callData.policyCarrier}</span>
+            <span className="policy-info"> {callData.carrier}</span>
           </p>
         </Grid>
         <Grid
@@ -72,7 +109,7 @@ const PolicyCard = ({ callData }) => {
           }}
         >
           <div className="startedIcon">
-            <PolicyStarted />
+            {renderIcons[callData.policyStatus]}
           </div>
           <div className="policy-info">{callData.policyStatus}</div>
         </Grid>
@@ -92,7 +129,7 @@ const PolicyCard = ({ callData }) => {
             icon={<Person />}
             label={"View Contact"}
             className={"policy-card-link-btn"}
-            onClick={() => console.log("View Contact Clicked")}
+            onClick={() => history.push(`/contact/${callData?.leadId}`)}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
           />
@@ -102,18 +139,33 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = () => {
-  console.log(mockData);
+const PolicyList = ({ policyList, leadIds }) => {
+  const history = useHistory();
+  const jumptoList = () => {
+    if (leadIds.length) {
+      window.localStorage.setItem("leadIds", JSON.stringify(leadIds));
+      goToContactPage();
+    }
+    return true;
+  };
 
+  const goToContactPage = () => {
+    history.push("/contacts/activePlans");
+  };
   return (
     <>
       <div className="policy-card-container">
-        {mockData.map((data) => {
+        {mockData?.map((data) => {
           return <PolicyCard callData={data} />;
         })}
       </div>
       <div className="jumpList-card">
-        <Button type="tertiary" label="Jump to List" className="jumpList-btn" />
+        <Button
+          type="tertiary"
+          label="Jump to List"
+          className="jumpList-btn"
+          onClick={jumptoList}
+        />
       </div>
     </>
   );
