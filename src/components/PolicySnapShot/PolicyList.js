@@ -125,7 +125,7 @@ const PolicyList = ({ policyList, leadIds }) => {
           return <PolicyCard callData={data} />;
         })}
       </div>
-      {policyList?.length > 0 && (
+      {policyList?.length > 5 && (
         <div className="jumpList-card">
           <Button
             type="tertiary"
