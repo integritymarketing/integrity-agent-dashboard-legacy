@@ -20,6 +20,15 @@ class EnrollPlansService {
     return response?.json();
   };
 
+  getPolicySnapShotCount = async (npn, dateRange) => {
+    const response = await this._clientAPIRequest(
+      `policycount/${npn}/${dateRange}`,
+      "GET"
+    );
+
+    return response?.json();
+  };
+
   updateBookOfBusiness = async (updateBookPayload) => {
     const response = await this._clientAPIRequest(
       "",

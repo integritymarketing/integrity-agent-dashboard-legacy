@@ -41,11 +41,11 @@ const PolicyCard = ({ callData }) => {
           <p className="policy-name">{callData.planName}</p>
           <p>
             <span className="policy-label">Policy Id:</span>
-            <span className="policy-info">{callData.policyNumber}</span>
+            <span className="policy-info ml-5">{callData.policyNumber}</span>
           </p>
           <p>
             <span className="policy-label">Policy Carrier:</span>{" "}
-            <span className="policy-info"> {callData.carrier}</span>
+            <span className="policy-info ml-5"> {callData.carrier}</span>
           </p>
         </Grid>
         <Grid
@@ -125,7 +125,7 @@ const PolicyList = ({ policyList, leadIds }) => {
           return <PolicyCard callData={data} />;
         })}
       </div>
-      {policyList?.length > 5 && (
+      {policyList?.length > 0 && (
         <div className="jumpList-card">
           <Button
             type="tertiary"

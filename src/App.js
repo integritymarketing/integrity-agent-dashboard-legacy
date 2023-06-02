@@ -133,7 +133,7 @@ const App = () => {
                                     <AuthenticatedRoute path="/contacts">
                                       <ContactsPage />
                                     </AuthenticatedRoute>
-                                    <AuthenticatedRoute path="/contacts/:key">
+                                    <AuthenticatedRoute path="/contacts/:filterKey">
                                       <ContactsPage />
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/contact/add-new/:callLogId">

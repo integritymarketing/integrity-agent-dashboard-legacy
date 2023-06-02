@@ -44,6 +44,7 @@ import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ContactSort from "components/icons/contact-sort";
 import { useActiveFilters } from "hooks/useActiveFilters";
+import GoBackNavbar from "components/BackButtonNavbar";
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
@@ -65,7 +66,7 @@ const DEFAULT_SORT = [
 ];
 
 export default () => {
-  const { key } = useParams();
+  const { filterKey } = useParams();
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(DEFAULT_SORT);
@@ -207,6 +208,9 @@ export default () => {
             <title>MedicareCENTER - Contacts</title>
           </Helmet>
           <GlobalNav />
+          {filterKey === "activePlans" && filteredLeadIdsLength > 0 && (
+            <GoBackNavbar />
+          )}
           <DeleteContactsModal
             open={isOpenDeleteContactsIdModal}
             count={selectedContacts.length}
@@ -277,8 +281,8 @@ export default () => {
                   <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
                     <div className={styles["duplicate-found"]}>
                       {filteredLeadIdsLength}{" "}
-                      {key === "activePlans" && "Active Plans"}
-                      {key === "activePlans" && "duplicates"}
+                      {filterKey === "activePlans" && "Active Plans"}
+                      {filterKey === "duplicates" && "duplicates"}
                       duplicates found
                     </div>
                     <button

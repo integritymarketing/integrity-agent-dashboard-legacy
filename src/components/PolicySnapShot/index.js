@@ -11,23 +11,23 @@ import usePreferences from "hooks/usePreferences";
 const DEFAULT_TABS = [
   {
     heading: "Started",
+    key: "started",
     bgColor: "#deebfb",
-    value: "4",
   },
   {
     heading: "Applied",
+    key: "applied",
     bgColor: "#fcf6b0",
-    value: "8",
   },
   {
     heading: "Issued",
+    key: "issued",
     bgColor: "#defbe6",
-    value: "34",
   },
   {
     heading: "Declined",
+    key: "declined",
     bgColor: "#fbdede",
-    value: "74",
   },
 ];
 
@@ -42,6 +42,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const [leadIds, setLeadIds] = useState([]);
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
+
+  const [tabs, setTabs] = useState([]);
 
   const addToast = useToast();
 
@@ -74,6 +76,29 @@ export default function PlanSnapShot({ isMobile, npn }) {
     fetchEnrollPlans();
   }, [addToast, statusIndex, dateRange, npn]);
 
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const data = await EnrollPlansService.getPolicySnapShotCount(
+          npn,
+          dateRange
+        );
+        const tabsCount = DEFAULT_TABS.map((tab) => {
+          return { ...tab, value: data[tab.key] };
+        });
+
+        setTabs([...tabsCount]);
+      } catch (error) {
+        addToast({
+          type: "error",
+          message: "Failed to get Policy Snapshot Count.",
+          time: 10000,
+        });
+      }
+    };
+    fetchCounts();
+  }, [addToast, dateRange, npn]);
+
   return (
     <ContactSectionCard
       title="Policy Snapshot"
@@ -89,7 +114,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       preferencesKey={"policySnapShot_collapse"}
     >
       <TabsCard
-        tabs={DEFAULT_TABS}
+        tabs={tabs}
         preferencesKey={"policySnapShot_widget"}
         statusIndex={statusIndex}
         setStatusIndex={setStatusIndex}
