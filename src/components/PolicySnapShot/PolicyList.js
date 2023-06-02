@@ -13,40 +13,6 @@ import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
 import { useHistory } from "react-router-dom";
 
 import "./style.scss";
-const mockData = [
-  {
-    planName: "Humana HMO 2343",
-    policyNumber: "252456",
-    carrier: "Humana",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-    leadId: 61773,
-  },
-  {
-    planName: "Humana HMO 2343",
-    policyNumber: "252456",
-    carrier: "Humana",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Pending",
-    leadId: 61773,
-  },
-  {
-    planName: "Humana HMO 2343",
-    policyNumber: "252456",
-    carrier: "Humana",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-    leadId: 61773,
-  },
-  {
-    planName: "Humana HMO 2343",
-    policyNumber: "252456",
-    carrier: "Humana",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Pending",
-    leadId: 61773,
-  },
-];
 
 const renderIcons = {
   Started: <Started />,
@@ -155,18 +121,20 @@ const PolicyList = ({ policyList, leadIds }) => {
   return (
     <>
       <div className="policy-card-container">
-        {mockData?.map((data) => {
+        {policyList?.map((data) => {
           return <PolicyCard callData={data} />;
         })}
       </div>
-      <div className="jumpList-card">
-        <Button
-          type="tertiary"
-          label="Jump to List"
-          className="jumpList-btn"
-          onClick={jumptoList}
-        />
-      </div>
+      {policyList?.length > 5 && (
+        <div className="jumpList-card">
+          <Button
+            type="tertiary"
+            label="Jump to List"
+            className="jumpList-btn"
+            onClick={jumptoList}
+          />
+        </div>
+      )}
     </>
   );
 };

@@ -12,7 +12,7 @@ export default function DateRangeSort({
   dateRange,
   setDateRange,
 }) {
-  const [setValue] = usePreferences(0, preferencesKey);
+  const [, setValue] = usePreferences(0, preferencesKey);
 
   const [isOpen, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -44,7 +44,7 @@ export default function DateRangeSort({
             <div>
               <DateRange />
             </div>
-            <div>Current Year to Date</div>
+            <div>{DASHBOARD_SORT_OPTIONS[dateRange]?.label}</div>
             <div
               className={`${styles.icon} ${isOpen ? styles.iconReverse : ""}`}
               onClick={() => {

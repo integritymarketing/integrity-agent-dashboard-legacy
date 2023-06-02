@@ -31,8 +31,6 @@ const DEFAULT_TABS = [
   },
 ];
 
-const mockLeadIds = [24399, 23816, 24510];
-
 const TitleData =
   "Policy Snapshot shows the number of contacts that are in each stage for MedicareCENTER only.";
 
@@ -56,9 +54,15 @@ export default function PlanSnapShot({ isMobile, npn }) {
           dateRange,
           status
         );
-        const list = items?.bookOfBusinessSummmaryRecords;
-        setpolicyList([...list]);
-        setLeadIds(items.leadIds ? items.leadIds : []);
+        if (items?.length > 0) {
+          const list = items[0]?.bookOfBusinessSummmaryRecords;
+          const ids = items[0]?.leadIds;
+          setpolicyList([...list]);
+          setLeadIds(ids);
+        } else {
+          setpolicyList([]);
+          setLeadIds([]);
+        }
       } catch (error) {
         addToast({
           type: "error",
@@ -90,9 +94,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         statusIndex={statusIndex}
         setStatusIndex={setStatusIndex}
       />
-      {!isMobile && (
-        <PolicyList policyList={policyList} leadIds={leadIds || mockLeadIds} />
-      )}
+      {!isMobile && <PolicyList policyList={policyList} leadIds={leadIds} />}
     </ContactSectionCard>
   );
 }
