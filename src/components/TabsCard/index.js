@@ -1,20 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import usePreferences from "hooks/usePreferences";
 import styles from "./styles.module.scss";
 
-const TabsCard = ({
-  tabs,
-  selectedIndex = 2,
-  handleTaskClick = () => {},
-  preferencesKey,
-}) => {
-  const [value, setValue] = usePreferences(0, preferencesKey);
-  console.log("KKKK", value);
-  const [index, setSelectedIndex] = useState(value);
+const TabsCard = ({ tabs, preferencesKey, statusIndex, setStatusIndex }) => {
+  const [, setValue] = usePreferences(0, preferencesKey);
 
   const onTabClick = (index, tab) => {
-    setSelectedIndex(index);
-    handleTaskClick(tab.heading);
+    setStatusIndex(index);
     setValue(index, preferencesKey);
   };
 
@@ -28,7 +20,7 @@ const TabsCard = ({
             <div
               onClick={() => onTabClick(i, tab)}
               className={`${styles.tabContent} ${
-                i === index ? styles.selected : ""
+                i === statusIndex ? styles.selected : ""
               }`}
             >
               <span className={styles.content}>{value}</span>

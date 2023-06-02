@@ -17,11 +17,11 @@ export const PLAN_SORT_OPTIONS = [
 ];
 
 export const DASHBOARD_SORT_OPTIONS = [
-  { label: "Current Year to Date", value: "current-year-to-date" },
-  { label: "Last Week", value: "last-week" },
-  { label: "Last Month", value: "last-month" },
-  { label: "Last Year", value: "last-year" },
-  { label: "All Time", value: "all-time" },
+  { label: "Current Year to Date", value: 0 },
+  { label: "Last Week", value: 1 },
+  { label: "Last Month", value: 2 },
+  { label: "Last Year", value: 3 },
+  { label: "All Time", value: 4 },
 ];
 
 export const PLAN_TYPE_ENUMS = {

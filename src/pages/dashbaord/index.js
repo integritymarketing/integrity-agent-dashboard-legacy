@@ -48,10 +48,13 @@ export default function Dashbaord() {
   const [selectedFilterValues, setSelectedFilterValues] = useState([]);
   const [sort, setSort] = useState("Activities.CreateDate:desc");
   const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(false);
+
   const [welcomeModalOpen, setWelcomeModalOpen] =
     useRecoilState(welcomeModalOpenAtom);
+
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
+
   const {
     agentInfomration: { leadPreference, agentID },
   } = useAgentInformationByID();
@@ -279,8 +282,8 @@ export default function Dashbaord() {
               isMobile && isClientSnapshotOpen ? "mt-330" : ""
             }`}
           >
-            <PlanSnapShot isMobile={isMobile} />
-            <TaskList isMobile={isMobile} />
+            <PlanSnapShot isMobile={isMobile} npn={user?.npn} />
+            <TaskList isMobile={isMobile} npn={user?.npn} />
             <DashboardActivityTable
               realoadActivityData={loadActivityData}
               activityData={activityData}

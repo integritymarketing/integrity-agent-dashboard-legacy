@@ -187,7 +187,7 @@ const getAndResetItemFromLocalStorage = (key, initialValue) => {
 function ContactsTable({
   searchString,
   sort,
-  duplicateIdsLength,
+  filteredLeadIdsLength,
   handleRowSelected,
   deleteCounter,
   handleGetAllLeadIds,
@@ -285,7 +285,7 @@ function ContactsTable({
         return;
       }
       setLoading(true);
-      const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
+      const leadIds = getAndResetItemFromLocalStorage("leadIds");
       const returnAll = isMobile && layout === "list";
       clientsService
         .getList(
@@ -293,7 +293,7 @@ function ContactsTable({
           pageSize,
           sort,
           searchString || null,
-          duplicateIds,
+          leadIds,
           applyFilters?.contactRecordType,
           applyFilters?.stages,
           applyFilters?.hasReminder,
@@ -329,7 +329,7 @@ function ContactsTable({
 
   useEffect(() => {
     fetchData(tableState);
-  }, [tableState, fetchData, duplicateIdsLength]);
+  }, [tableState, fetchData, filteredLeadIdsLength]);
 
   const navigateToPage = (leadId, page) => {
     history.push(`/${page}/${leadId}`);

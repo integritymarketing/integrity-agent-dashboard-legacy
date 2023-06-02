@@ -120,10 +120,7 @@ export default (props) => {
 
   const handleMultileDuplicates = () => {
     if (duplicateLeadIds.length) {
-      window.localStorage.setItem(
-        "duplicateLeadIds",
-        JSON.stringify(duplicateLeadIds)
-      );
+      window.localStorage.setItem("leadIds", JSON.stringify(duplicateLeadIds));
     }
     return true;
   };
@@ -662,7 +659,7 @@ export default (props) => {
                         </a>
                       ) : (
                         <Link
-                          to="/contacts"
+                          to="/contacts/duplicates"
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={handleMultileDuplicates}

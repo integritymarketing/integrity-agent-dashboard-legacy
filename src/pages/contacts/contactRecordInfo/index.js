@@ -191,10 +191,7 @@ export default () => {
 
   const handleMultileDuplicates = () => {
     if (duplicateLeadIds.length) {
-      window.localStorage.setItem(
-        "duplicateLeadIds",
-        JSON.stringify(duplicateLeadIds)
-      );
+      window.localStorage.setItem("leadIds", JSON.stringify(duplicateLeadIds));
     }
     return true;
   };

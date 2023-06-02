@@ -28,19 +28,19 @@ const DEFAULT_TABS = [
 ];
 
 export default function TaskList({ isMobile }) {
-  const [value] = usePreferences(0, "taskList_collapse");
+  const [dRange] = usePreferences(0, "taskList_sort");
+  const [index] = usePreferences(0, "taskList_widget");
 
-  const selectedName = DEFAULT_TABS[value]?.heading || "Requested Callbacks";
+  const [dateRange, setDateRange] = useState(dRange);
+  const [statusIndex, setStatusIndex] = useState(index);
 
-  const [selectedWidgetName, setSelectedWidgetName] = useState(selectedName);
+  const selectedName =
+    DEFAULT_TABS[statusIndex]?.heading || "Requested Callbacks";
 
   // we can pass card info here and accordingly set the show to true as per card
-  const handleTaskClick = (heading) => {
-    setSelectedWidgetName(heading);
-  };
 
   const renderList = () => {
-    switch (selectedWidgetName) {
+    switch (selectedName) {
       case "Unlinked Calls":
         return <UnLinkedCalls />;
       case "Unlinked Policies":
@@ -57,14 +57,20 @@ export default function TaskList({ isMobile }) {
       title="Task List"
       className={styles.enrollmentPlanContainer}
       actions={
-        <DateRangeSort isMobile={isMobile} preferencesKey={"taskList_sort"} />
+        <DateRangeSort
+          isMobile={isMobile}
+          preferencesKey={"taskList_sort"}
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+        />
       }
       preferencesKey={"taskList_collapse"}
     >
       <TabsCard
-        handleTaskClick={handleTaskClick}
         tabs={DEFAULT_TABS}
         preferencesKey={"taskList_widget"}
+        statusIndex={statusIndex}
+        setStatusIndex={setStatusIndex}
       />
       {renderList()}
     </ContactSectionCard>

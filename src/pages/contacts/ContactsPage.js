@@ -6,7 +6,9 @@ import {
   Switch,
   useHistory,
   useLocation,
+  useParams,
 } from "react-router-dom";
+
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
@@ -42,6 +44,7 @@ import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ContactSort from "components/icons/contact-sort";
 import { useActiveFilters } from "hooks/useActiveFilters";
+import GoBackNavbar from "components/BackButtonNavbar";
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
@@ -63,6 +66,7 @@ const DEFAULT_SORT = [
 ];
 
 export default () => {
+  const { filterKey } = useParams();
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(DEFAULT_SORT);
@@ -73,9 +77,8 @@ export default () => {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
   const [deleteCounter, setDeleteCounter] = useState(0);
-  const [duplicateIds, setDuplicateLeadIds] = useState(
-    geItemFromLocalStorage("duplicateLeadIds")
-  );
+
+  const [leadIds, setLeadIds] = useState(geItemFromLocalStorage("leadIds"));
   const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] =
     useState(false);
   const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] =
@@ -87,7 +90,7 @@ export default () => {
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
 
-  const duplicateIdsLength = duplicateIds?.length;
+  const filteredLeadIdsLength = leadIds?.length;
 
   useEffect(() => {
     setCurrentPage("Contacts Page");
@@ -125,9 +128,10 @@ export default () => {
     history.push("/contact/add-new");
   };
 
-  const clearDuplicateList = () => {
-    window.localStorage.removeItem("duplicateLeadIds");
-    setDuplicateLeadIds([]);
+  const clearFilteredLeadIds = () => {
+    window.localStorage.removeItem("leadIds");
+    setLeadIds([]);
+    history.push("/contacts");
   };
 
   const handleRowSelected = useCallback(
@@ -204,6 +208,9 @@ export default () => {
             <title>MedicareCENTER - Contacts</title>
           </Helmet>
           <GlobalNav />
+          {filterKey === "activePlans" && filteredLeadIdsLength > 0 && (
+            <GoBackNavbar />
+          )}
           <DeleteContactsModal
             open={isOpenDeleteContactsIdModal}
             count={selectedContacts.length}
@@ -270,13 +277,16 @@ export default () => {
                     document.getElementById("contacts-search").focus();
                   }}
                 />
-                {duplicateIdsLength > 0 && (
+                {filteredLeadIdsLength > 0 && (
                   <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
                     <div className={styles["duplicate-found"]}>
-                      {duplicateIdsLength} duplicates found
+                      {filteredLeadIdsLength}{" "}
+                      {filterKey === "activePlans" && "Active Plans"}
+                      {filterKey === "duplicates" && "duplicates"}
+                      duplicates found
                     </div>
                     <button
-                      onClick={clearDuplicateList}
+                      onClick={clearFilteredLeadIds}
                       className={styles["reset-close"]}
                     >
                       <RoundCloseIcon />
@@ -370,7 +380,7 @@ export default () => {
                   </Route>
                   <Route path="/contacts/list">
                     <ContactsTable
-                      duplicateIdsLength={duplicateIdsLength}
+                      filteredLeadIdsLength={filteredLeadIdsLength}
                       searchString={searchStringNew}
                       sort={sort}
                       handleRowSelected={handleRowSelected}

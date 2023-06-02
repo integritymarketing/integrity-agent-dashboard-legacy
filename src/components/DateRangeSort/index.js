@@ -7,15 +7,18 @@ import Media from "react-media";
 import usePreferences from "hooks/usePreferences";
 import styles from "./styles.module.scss";
 
-export default function DateRangeSort({ preferencesKey }) {
-  const [value, setValue] = usePreferences("", preferencesKey);
+export default function DateRangeSort({
+  preferencesKey,
+  dateRange,
+  setDateRange,
+}) {
+  const [, setValue] = usePreferences(0, preferencesKey);
 
   const [isOpen, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [select, setSelect] = useState(value);
 
   const handleSelect = (value) => {
-    setSelect(value);
+    setDateRange(value);
     setValue(value);
     setOpen(false);
   };
@@ -41,7 +44,7 @@ export default function DateRangeSort({ preferencesKey }) {
             <div>
               <DateRange />
             </div>
-            <div>Current Year to Date</div>
+            <div>{DASHBOARD_SORT_OPTIONS[dateRange]?.label}</div>
             <div
               className={`${styles.icon} ${isOpen ? styles.iconReverse : ""}`}
               onClick={() => {
@@ -64,7 +67,7 @@ export default function DateRangeSort({ preferencesKey }) {
                   <div>{option.label}</div>
 
                   <div className={styles.mark}>
-                    <CheckMark show={select === option.value} />
+                    <CheckMark show={dateRange === option.value} />
                   </div>
                 </div>
               );
