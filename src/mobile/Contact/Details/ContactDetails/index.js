@@ -20,6 +20,7 @@ const DetailsMobile = ({ isEdit, ...props }) => {
         setIsCollapse={() => setIsCollapse(!isCollapse)}
         isCollapse={isCollapse}
         collapseContent={true}
+        className={"shiftRight"}
       />
       {!isCollapse && (
         <div>{isEdit ? <Edit {...props} /> : <Info {...props} />}</div>

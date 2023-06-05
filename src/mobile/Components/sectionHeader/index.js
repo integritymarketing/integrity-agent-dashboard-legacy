@@ -11,10 +11,15 @@ const SectionHeaderMobile = ({
   isCollapse,
   setIsCollapse,
   collapseContent = false,
+  className = "",
 }) => {
   return (
     <div className={styles.header}>
-      <div className={styles.iconWithText}>
+      <div
+        className={`${styles.iconWithText} ${
+          className ? styles.shiftRight : ""
+        }`}
+      >
         {collapseContent && (
           <div
             className={`${styles.arrowIcon} ${
