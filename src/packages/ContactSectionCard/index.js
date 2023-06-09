@@ -24,7 +24,7 @@ const ContactSectionCard = (props) => {
 
   return (
     <section className={className}>
-      <div className={styles.cardHeader}>
+      <div className={styles.cardHeader} style={{boxShadow: isCollapsed ? 'inset 0px -1px 0px #c7ccd1': ''}}>
         <div className={styles.iconWithTitle}>
           <div
             className={`${styles.icon} ${
