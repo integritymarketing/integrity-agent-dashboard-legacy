@@ -6,7 +6,6 @@ import {
   Switch,
   useHistory,
   useLocation,
-  useParams,
 } from "react-router-dom";
 
 import Media from "react-media";
@@ -66,7 +65,6 @@ const DEFAULT_SORT = [
 ];
 
 export default () => {
-  const { filterKey } = useParams();
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(DEFAULT_SORT);
@@ -78,19 +76,31 @@ export default () => {
   const [isMobile, setIsMobile] = useState(false);
   const [deleteCounter, setDeleteCounter] = useState(0);
 
-  const [leadIds, setLeadIds] = useState(geItemFromLocalStorage("leadIds"));
+  const [duplicateIds, setDuplicateLeadIds] = useState(
+    geItemFromLocalStorage("duplicateLeadIds")
+  );
+
+  const [filterIds, setFilterLeadIds] = useState(
+    geItemFromLocalStorage("filterLeadIds")
+  );
+
+  const [filterInfo, setFilterInfo] = useState(
+    geItemFromLocalStorage("filterInfo")
+  );
   const [isOpenDeleteContactsIdModal, setIsOpenDeleteContactsModal] =
     useState(false);
   const [isOpenExportContactsIdModal, setIsOpenExportContactsModal] =
     useState(false);
   const [filterToggle, setFilterToggle] = useState(false);
   const [sortToggle, setSortToggle] = useState(false);
+
   const { active = false } = useActiveFilters();
 
   const { setCurrentPage } = useContext(BackNavContext);
   const addToast = useToast();
 
-  const filteredLeadIdsLength = leadIds?.length;
+  const duplicateIdsLength = duplicateIds?.length;
+  const filteredLeadIdsLength = filterIds?.length;
 
   useEffect(() => {
     setCurrentPage("Contacts Page");
@@ -128,9 +138,19 @@ export default () => {
     history.push("/contact/add-new");
   };
 
+  const clearDuplicateLeadIds = () => {
+    window.localStorage.removeItem("duplicateLeadIds");
+    setDuplicateLeadIds([]);
+    history.push("/contacts");
+  };
+
   const clearFilteredLeadIds = () => {
-    window.localStorage.removeItem("leadIds");
-    setLeadIds([]);
+    window.localStorage.removeItem("filterLeadIds");
+    window.localStorage.removeItem("filterKey");
+    window.localStorage.removeItem("filterInfo");
+
+    setFilterLeadIds([]);
+    setFilterInfo(null);
     history.push("/contacts");
   };
 
@@ -208,9 +228,7 @@ export default () => {
             <title>MedicareCENTER - Contacts</title>
           </Helmet>
           <GlobalNav />
-          {filterKey === "activePlans" && filteredLeadIdsLength > 0 && (
-            <GoBackNavbar />
-          )}
+          {filteredLeadIdsLength > 0 && <GoBackNavbar />}
           <DeleteContactsModal
             open={isOpenDeleteContactsIdModal}
             count={selectedContacts.length}
@@ -278,15 +296,33 @@ export default () => {
                   }}
                 />
                 {filteredLeadIdsLength > 0 && (
-                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                    <div className={styles["duplicate-found"]}>
-                      {filteredLeadIdsLength}{" "}
-                      {filterKey === "activePlans" && "Active Plans"}
-                      {filterKey === "duplicates" && "duplicates"}
-                      duplicates found
+                  <div className={`${styles["reset-partial-duplicates"]}`}>
+                    <div>
+                      <div
+                        style={{ backgroundColor: filterInfo.colorCode }}
+                        className={styles["statusColor"]}
+                      ></div>
+                      <div className={styles["duplicate-found"]}>
+                        {`${filteredLeadIdsLength}  ${filterInfo.status}
+                      Policies `}
+                      </div>
                     </div>
                     <button
                       onClick={clearFilteredLeadIds}
+                      className={styles["reset-close"]}
+                    >
+                      <RoundCloseIcon />
+                    </button>
+                  </div>
+                )}
+                {duplicateIdsLength > 0 && (
+                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                    <div className={styles["duplicate-found"]}>
+                      {duplicateIdsLength}
+                      duplicates found
+                    </div>
+                    <button
+                      onClick={clearDuplicateLeadIds}
                       className={styles["reset-close"]}
                     >
                       <RoundCloseIcon />

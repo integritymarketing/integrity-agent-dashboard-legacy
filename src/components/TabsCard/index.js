@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 const TabsCard = ({ tabs, preferencesKey, statusIndex, setStatusIndex }) => {
   const [, setValue] = usePreferences(0, preferencesKey);
 
-  const onTabClick = (index, tab) => {
+  const onTabClick = (index) => {
     setStatusIndex(index);
     setValue(index, preferencesKey);
   };
@@ -13,17 +13,21 @@ const TabsCard = ({ tabs, preferencesKey, statusIndex, setStatusIndex }) => {
   return (
     <div className={styles.tabContainer}>
       {tabs.map((tab, i) => {
-        const { heading, value } = tab;
+        const { policyCount, colorCode, policyStatus } = tab;
         return (
-          <div className={styles.tab} key={heading + i}>
-            <span className={styles.tabHeading}>{heading}</span>
+          <div className={styles.tab} key={policyStatus + i}>
+            <span className={styles.tabHeading}>{policyStatus}</span>
             <div
               onClick={() => onTabClick(i, tab)}
               className={`${styles.tabContent} ${
                 i === statusIndex ? styles.selected : ""
-              }`}
+              } `}
             >
-              <span className={styles.content}>{value}</span>
+              <span
+                style={{ backgroundColor: colorCode }}
+                className={styles.color}
+              ></span>
+              <span className={styles.content}>{policyCount}</span>
             </div>
           </div>
         );

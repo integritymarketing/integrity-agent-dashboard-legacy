@@ -10,20 +10,24 @@ import usePreferences from "hooks/usePreferences";
 
 const DEFAULT_TABS = [
   {
-    heading: "Requested Callbacks",
-    value: 3,
+    policyStatus: "Requested Callbacks",
+    policyCount: 3,
+    colorCode: "#deebfb",
   },
   {
-    heading: "Reminders",
-    value: 34,
+    policyStatus: "Reminders",
+    policyCount: 34,
+    colorCode: "#fcf6b0",
   },
   {
-    heading: "Unlinked Calls",
-    value: 4,
+    policyStatus: "Unlinked Calls",
+    policyCount: 4,
+    colorCode: "#defbe6",
   },
   {
-    heading: "Unlinked Policies",
-    value: 8,
+    policyStatus: "Unlinked Policies",
+    policyCount: 8,
+    colorCode: "#fbdede",
   },
 ];
 
@@ -35,7 +39,7 @@ export default function TaskList({ isMobile }) {
   const [statusIndex, setStatusIndex] = useState(index);
 
   const selectedName =
-    DEFAULT_TABS[statusIndex]?.heading || "Requested Callbacks";
+    DEFAULT_TABS[statusIndex]?.policyStatus || "Requested Callbacks";
 
   // we can pass card info here and accordingly set the show to true as per card
 
@@ -51,7 +55,6 @@ export default function TaskList({ isMobile }) {
         return <UnlinkedPolicyList />;
     }
   };
-
   return (
     <ContactSectionCard
       title="Task List"

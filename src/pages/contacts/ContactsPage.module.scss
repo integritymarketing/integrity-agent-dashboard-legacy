@@ -567,7 +567,7 @@ table {
     width: auto;
     min-height: auto;
   }
-
+  height: 20px;
   display: flex;
   align-items: center;
   min-height: 40px;
@@ -575,9 +575,7 @@ table {
   border: 1px solid #dfe5ef;
   box-sizing: border-box;
   border-radius: 4px;
-  margin-left: 16px;
   margin-top: 8px;
-  padding-left: 0px;
   font-size: 16px;
   line-height: 19px;
   color: #3d4553;
@@ -586,7 +584,10 @@ table {
   .duplicate-found {
     padding-left: 16px;
   }
-
+  .statusColor {
+    width: 10%;
+    height: 100%;
+  }
   .reset-close {
     display: flex;
     margin: 0px 12px;
