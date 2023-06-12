@@ -285,7 +285,14 @@ function ContactsTable({
         return;
       }
       setLoading(true);
-      const leadIds = getAndResetItemFromLocalStorage("leadIds");
+      const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
+      const filterLeadIds = getAndResetItemFromLocalStorage("filterLeadIds");
+      const leadIds = filterLeadIds
+        ? filterLeadIds
+        : duplicateIds
+        ? duplicateIds
+        : null;
+
       const returnAll = isMobile && layout === "list";
       clientsService
         .getList(

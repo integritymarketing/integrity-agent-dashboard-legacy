@@ -8,29 +8,6 @@ import EnrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 
-const DEFAULT_TABS = [
-  {
-    heading: "Started",
-    key: "started",
-    bgColor: "#deebfb",
-  },
-  {
-    heading: "Applied",
-    key: "applied",
-    bgColor: "#fcf6b0",
-  },
-  {
-    heading: "Issued",
-    key: "issued",
-    bgColor: "#defbe6",
-  },
-  {
-    heading: "Declined",
-    key: "declined",
-    bgColor: "#fbdede",
-  },
-];
-
 const TitleData =
   "Policy Snapshot shows the number of contacts that are in each stage for MedicareCENTER only.";
 
@@ -46,10 +23,11 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const [tabs, setTabs] = useState([]);
 
   const addToast = useToast();
+  const status = tabs[statusIndex]?.policyStatus || "Started";
+  const colorCode = tabs[statusIndex]?.colorCode || "";
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
-      let status = DEFAULT_TABS[statusIndex]?.heading || "Started";
       try {
         const items = await EnrollPlansService.getPolicySnapShotList(
           npn,
@@ -74,20 +52,17 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast, statusIndex, dateRange, npn]);
+  }, [addToast, statusIndex, dateRange, npn, status]);
 
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const data = await EnrollPlansService.getPolicySnapShotCount(
+        const tabsData = await EnrollPlansService.getPolicySnapShotCount(
           npn,
           dateRange
         );
-        const tabsCount = DEFAULT_TABS.map((tab) => {
-          return { ...tab, value: data[tab.key] };
-        });
 
-        setTabs([...tabsCount]);
+        setTabs([...tabsData]);
       } catch (error) {
         addToast({
           type: "error",
@@ -97,7 +72,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchCounts();
-  }, [addToast, dateRange, npn]);
+  }, [addToast, dateRange, npn, statusIndex]);
 
   return (
     <ContactSectionCard
@@ -119,7 +94,14 @@ export default function PlanSnapShot({ isMobile, npn }) {
         statusIndex={statusIndex}
         setStatusIndex={setStatusIndex}
       />
-      {!isMobile && <PolicyList policyList={policyList} leadIds={leadIds} />}
+      {!isMobile && (
+        <PolicyList
+          policyList={policyList}
+          leadIds={leadIds}
+          status={status}
+          colorCode={colorCode}
+        />
+      )}
     </ContactSectionCard>
   );
 }

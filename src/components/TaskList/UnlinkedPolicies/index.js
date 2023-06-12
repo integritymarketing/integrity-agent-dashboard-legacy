@@ -77,8 +77,6 @@ const UnlinkedPolicyCard = ({ callData }) => {
 };
 
 const UnlinkedPolicyList = () => {
-  console.log(mockData);
-
   return (
     <>
       <div className="up-card-container">

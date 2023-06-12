@@ -18,7 +18,8 @@ import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
 
 const uniqValues = (array) => Array.from(new Set(array));
-const NONRTS_DESCRIPTION = "Active selling permission data is currently unavailable for your account. This section will be updated once your carrier appointment information is in our files. Please contact your marketer if you have any questions."
+const NONRTS_DESCRIPTION =
+  "Active selling permission data is currently unavailable for your account. This section will be updated once your carrier appointment information is in our files. Please contact your marketer if you have any questions.";
 const mobileColumnFormat = {
   Carrier: {
     name: "Carrier",
@@ -49,7 +50,6 @@ export default function ActiveSellingPermissionTable({ npn }) {
   const [isLoading, setIsLoadings] = useState(true);
   const [error, setError] = useState(null);
   const { isNonRTS_User } = useRoles();
-  console.log("JJJ", isNonRTS_User);
   useEffect(
     function () {
       if (!npn) return;
@@ -412,7 +412,7 @@ function Table({
         />
       </div>
       {isNonRTS_User ? (
-        <NonRTSBanner description={NONRTS_DESCRIPTION}/>
+        <NonRTSBanner description={NONRTS_DESCRIPTION} />
       ) : (
         <>
           {mobile ? (

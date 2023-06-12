@@ -105,18 +105,20 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = ({ policyList, leadIds }) => {
+const PolicyList = ({ policyList, leadIds, status, colorCode }) => {
   const history = useHistory();
   const jumptoList = () => {
-    if (leadIds.length) {
-      window.localStorage.setItem("leadIds", JSON.stringify(leadIds));
+    if (leadIds.length > 0) {
+      const filterInfo = { status, colorCode };
+      window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
+      window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
       goToContactPage();
     }
     return true;
   };
 
   const goToContactPage = () => {
-    history.push("/contacts/activePlans");
+    history.push(`/contacts`);
   };
   return (
     <>
@@ -125,7 +127,7 @@ const PolicyList = ({ policyList, leadIds }) => {
           return <PolicyCard callData={data} />;
         })}
       </div>
-      {policyList?.length > 5 && (
+      {policyList?.length > 0 && (
         <div className="jumpList-card">
           <Button
             type="tertiary"

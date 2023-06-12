@@ -16,22 +16,6 @@
     padding-right: 5%;
   }
 
-  .tab:nth-child(4n + 0) .tabContent::before {
-    background: #deebfb;
-  }
-
-  .tab:nth-child(4n + 1) .tabContent::before {
-    background: #fcf6b0;
-  }
-
-  .tab:nth-child(4n + 2) .tabContent::before {
-    background: #defbe6;
-  }
-
-  .tab:nth-child(4n + 3) .tabContent::before {
-    background: #fbdede;
-  }
-
   .tab {
     display: flex;
     flex-direction: column;
@@ -78,7 +62,7 @@
         }
       }
 
-      &::before {
+      .color {
         content: "";
         width: 16px;
         height: 88px;
