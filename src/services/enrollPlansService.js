@@ -48,10 +48,8 @@ class EnrollPlansService {
       },
     };
 
-    const url = new URL(
-      `https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/${QUOTES_API_VERSION}/BookOfBusiness/` +
-        path
-    );
+    const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/` + path);
+
     url.search = new URLSearchParams(query).toString();
 
     if (body) {
