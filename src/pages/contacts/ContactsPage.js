@@ -295,7 +295,7 @@ export default () => {
                     document.getElementById("contacts-search").focus();
                   }}
                 />
-                {filteredLeadIdsLength > 0 && (
+                {!isMobile && filteredLeadIdsLength > 0 && (
                   <div className={`${styles["reset-partial-duplicates"]}`}>
                     <div className={`${styles["colorAndCount"]}`}>
                       <div
@@ -409,6 +409,26 @@ export default () => {
                   />
                 </div>
               </div>
+              {isMobile && filteredLeadIdsLength > 0 && (
+                <div className={`${styles["reset-partial-duplicates"]}`}>
+                  <div className={`${styles["colorAndCount"]}`}>
+                    <div
+                      style={{ backgroundColor: filterInfo.colorCode }}
+                      className={styles["statusColor"]}
+                    ></div>
+                    <div className={styles["duplicate-found"]}>
+                      {`${filteredLeadIdsLength}  ${filterInfo.status}
+                      Policies `}
+                    </div>
+                  </div>
+                  <button
+                    onClick={clearFilteredLeadIds}
+                    className={styles["reset-close"]}
+                  >
+                    <RoundCloseIcon />
+                  </button>
+                </div>
+              )}
               <div className={styles.tableWrapper}>
                 <Switch>
                   <Route exact path="/contacts">
