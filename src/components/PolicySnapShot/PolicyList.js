@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Media from "react-media";
 import Grid from "@mui/material/Grid";
+import TooltipMUI from "packages/ToolTip";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
 import Started from "components/icons/BookofBusiness/policySnapshot/started";
@@ -11,6 +12,7 @@ import Active from "components/icons/BookofBusiness/policySnapshot/active";
 import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
 import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
 import { useHistory } from "react-router-dom";
+import PolicyNoData from './policy-no-data.svg';
 
 import "./style.scss";
 
@@ -105,7 +107,7 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = ({ policyList, leadIds, status, colorCode }) => {
+const PolicyList = ({ policyList, leadIds, status, colorCode, isError }) => {
   const history = useHistory();
   const jumptoList = () => {
     if (leadIds.length > 0) {
@@ -123,9 +125,32 @@ const PolicyList = ({ policyList, leadIds, status, colorCode }) => {
   return (
     <>
       <div className="policy-card-container">
-        {policyList?.map((data) => {
-          return <PolicyCard callData={data} />;
-        })}
+        {isError ?
+          <div className="error-container">
+            <p className="error-text">Status Temporarily Unavailable</p>
+            <TooltipMUI titleData={"Pharmacy service partner is not returning current status. Please try again later."} />
+          </div>
+
+          :
+
+          (!isError && policyList?.length > 0) ? 
+
+          policyList?.map((data) => {
+            return <PolicyCard callData={data} />;
+          }) 
+
+          : 
+
+          <div className="no-data-container">
+            <div className="no-data-icon-container">
+              <img src={PolicyNoData} className="no-data-icon" alt="No policy Data" />
+            </div>
+            <div className="no-data-text-container">
+              <p className="no-data-text-heading">There is no policy information available for you at this time.</p>
+              <p className="no-data-text-desc">New policies will be displayed here once they are submitted. Please contact your marketer for more information.</p>
+            </div>
+          </div>
+        }
       </div>
       {policyList?.length > 0 && (
         <div className="jumpList-card">
