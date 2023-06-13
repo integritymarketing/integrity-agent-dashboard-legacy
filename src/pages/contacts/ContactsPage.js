@@ -297,7 +297,7 @@ export default () => {
                 />
                 {filteredLeadIdsLength > 0 && (
                   <div className={`${styles["reset-partial-duplicates"]}`}>
-                    <div>
+                    <div className={`${styles["colorAndCount"]}`}>
                       <div
                         style={{ backgroundColor: filterInfo.colorCode }}
                         className={styles["statusColor"]}
