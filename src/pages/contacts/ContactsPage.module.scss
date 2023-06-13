@@ -571,7 +571,7 @@ table {
   display: flex;
   align-items: center;
   min-height: 40px;
-  background: #ebeff6;
+  background: #ffffffbf;
   border: 1px solid #dfe5ef;
   box-sizing: border-box;
   border-radius: 4px;
@@ -584,8 +584,15 @@ table {
   .duplicate-found {
     padding-left: 16px;
   }
+
+  .colorAndCount {
+    align-items: center;
+    display: flex;
+    width: 20%;
+    height: 100%;
+  }
   .statusColor {
-    width: 10%;
+    width: 5%;
     height: 100%;
   }
   .reset-close {

@@ -12,22 +12,22 @@ const DEFAULT_TABS = [
   {
     policyStatus: "Requested Callbacks",
     policyCount: 3,
-    colorCode: "#deebfb",
+    colorCode: "#FBDEDE",
   },
   {
     policyStatus: "Reminders",
     policyCount: 34,
-    colorCode: "#fcf6b0",
+    colorCode: "#FEF8CB",
   },
   {
     policyStatus: "Unlinked Calls",
     policyCount: 4,
-    colorCode: "#defbe6",
+    colorCode: "#DEEBFB",
   },
   {
     policyStatus: "Unlinked Policies",
     policyCount: 8,
-    colorCode: "#fbdede",
+    colorCode: "#DEEBFB",
   },
 ];
 
