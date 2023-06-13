@@ -19,6 +19,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const [leadIds, setLeadIds] = useState([]);
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
+  const [isError, setIsError] = useState(false);
 
   const [tabs, setTabs] = useState([]);
 
@@ -28,6 +29,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
+      setIsError(false);
       try {
         const items = await EnrollPlansService.getPolicySnapShotList(
           npn,
@@ -44,6 +46,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
           setLeadIds([]);
         }
       } catch (error) {
+        setIsError(true);
         addToast({
           type: "error",
           message: "Failed to get Policy Snapshot List.",
@@ -64,6 +67,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
         setTabs([...tabsData]);
       } catch (error) {
+        console.log("Error in fetch policy count: ", error);
         addToast({
           type: "error",
           message: "Failed to get Policy Snapshot Count.",
@@ -73,6 +77,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
     };
     fetchCounts();
   }, [addToast, dateRange, npn, statusIndex]);
+
+  console.log("tabs: " ,tabs);
 
   return (
     <ContactSectionCard
@@ -94,12 +100,13 @@ export default function PlanSnapShot({ isMobile, npn }) {
         statusIndex={statusIndex}
         setStatusIndex={setStatusIndex}
       />
-      {!isMobile && (
+      {(
         <PolicyList
           policyList={policyList}
           leadIds={leadIds}
           status={status}
           colorCode={colorCode}
+          isError={isError}
         />
       )}
     </ContactSectionCard>
