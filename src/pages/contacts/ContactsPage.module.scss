@@ -559,14 +559,6 @@ table {
 }
 
 .reset-partial-duplicates {
-  @media (max-width: 480px) {
-    display: none;
-  }
-
-  @media (max-width: 768px) {
-    width: auto;
-    min-height: auto;
-  }
   height: 20px;
   display: flex;
   align-items: center;
@@ -590,6 +582,9 @@ table {
     display: flex;
     width: 20%;
     height: 100%;
+    @media (max-width: 768px) {
+      width: 50%;
+    }
   }
   .statusColor {
     width: 5%;
@@ -1310,6 +1305,7 @@ table {
 
 .contactBodyWrapper {
   background-color: #f4f8fb;
+  padding: 0px 10px;
 }
 
 .stageOption {
