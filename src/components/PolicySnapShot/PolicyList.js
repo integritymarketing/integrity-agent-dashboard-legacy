@@ -12,18 +12,18 @@ import Active from "components/icons/BookofBusiness/policySnapshot/active";
 import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
 import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
 import { useHistory } from "react-router-dom";
-import PolicyNoData from './policy-no-data.svg';
+import PolicyNoData from "./policy-no-data.svg";
 
 import "./style.scss";
 
 const renderIcons = {
-  Started: <Started />,
-  Submitted: <Submitted />,
-  Pending: <Pending />,
-  UpComing: <UpComing />,
-  Active: <Active />,
-  InActive: <InActive />,
-  Declined: <Declined />,
+  started: <Started />,
+  submitted: <Submitted />,
+  pending: <Pending />,
+  upComing: <UpComing />,
+  active: <Active />,
+  inActive: <InActive />,
+  declined: <Declined />,
 };
 
 const PolicyCard = ({ callData }) => {
@@ -42,11 +42,11 @@ const PolicyCard = ({ callData }) => {
         <Grid item xs={6} md={4} sx={{ color: "#434A51" }}>
           <p className="policy-name">{callData.planName}</p>
           <p>
-            <span className="policy-label">Policy Id:</span>
+            <span className="policy-label">Policy ID:</span>
             <span className="policy-info ml-5">{callData.policyNumber}</span>
           </p>
           <p>
-            <span className="policy-label">Policy Carrier:</span>{" "}
+            <span className="policy-label">Carrier:</span>{" "}
             <span className="policy-info ml-5"> {callData.carrier}</span>
           </p>
         </Grid>
@@ -107,50 +107,43 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = ({ policyList, leadIds, status, colorCode, isError }) => {
-  const history = useHistory();
-  const jumptoList = () => {
-    if (leadIds.length > 0) {
-      const filterInfo = { status, colorCode };
-      window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
-      window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
-      goToContactPage();
-    }
-    return true;
-  };
-
-  const goToContactPage = () => {
-    history.push(`/contacts`);
-  };
+const PolicyList = ({ policyList, isError, handleJumpList }) => {
   return (
     <>
       <div className="policy-card-container">
-        {isError ?
+        {isError ? (
           <div className="error-container">
             <p className="error-text">Status Temporarily Unavailable</p>
-            <TooltipMUI titleData={"Pharmacy service partner is not returning current status. Please try again later."} />
+            <TooltipMUI
+              titleData={
+                "Pharmacy service partner is not returning current status. Please try again later."
+              }
+            />
           </div>
-
-          :
-
-          (!isError && policyList?.length > 0) ? 
-
+        ) : !isError && policyList?.length > 0 ? (
           policyList?.map((data) => {
             return <PolicyCard callData={data} />;
-          }) 
-
-          : 
-
+          })
+        ) : (
           <div className="no-data-container">
             <div className="no-data-icon-container">
-              <img src={PolicyNoData} className="no-data-icon" alt="No policy Data" />
+              <img
+                src={PolicyNoData}
+                className="no-data-icon"
+                alt="No policy Data"
+              />
             </div>
             <div className="no-data-text-container">
-              <p className="no-data-text-heading">There is no policy information available for you at this time.</p>
-              <p className="no-data-text-desc">New policies will be displayed here once they are submitted. Please contact your marketer for more information.</p>
+              <p className="no-data-text-heading">
+                There is no policy information available for you at this time.
+              </p>
+              <p className="no-data-text-desc">
+                New policies will be displayed here once they are submitted.
+                Please contact your marketer for more information.
+              </p>
             </div>
           </div>
-        }
+        )}
       </div>
       {policyList?.length > 0 && (
         <div className="jumpList-card">
@@ -158,7 +151,7 @@ const PolicyList = ({ policyList, leadIds, status, colorCode, isError }) => {
             type="tertiary"
             label="Jump to List"
             className="jumpList-btn"
-            onClick={jumptoList}
+            onClick={handleJumpList}
           />
         </div>
       )}
