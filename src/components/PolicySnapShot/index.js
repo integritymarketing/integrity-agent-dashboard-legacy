@@ -28,7 +28,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const addToast = useToast();
 
   const status = tabs[statusIndex]?.policyStatus || "Started";
-  const colorCode = tabs[statusIndex]?.colorCode || "";
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
@@ -79,18 +78,23 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchCounts();
-  }, [addToast, dateRange, npn, statusIndex]);
+  }, [addToast, dateRange, npn]);
 
-  const handleWidgetSelection = (index) => {
+  const handleWidgetSelection = (index, policyCount) => {
     setStatusIndex(index);
-    if (isMobile) {
-      jumptoList();
+    if (isMobile && policyCount > 0) {
+      jumptoList(index);
     }
   };
 
-  const jumptoList = () => {
+  const jumptoList = (index) => {
     if (leadIds.length > 0) {
-      const filterInfo = { status, colorCode };
+      let status = tabs[index]?.policyStatus || "Started";
+      let colorCode = tabs[index]?.colorCode || "";
+      let policyCount = tabs[index]?.policyCount || "";
+
+      const filterInfo = { status, colorCode, policyCount };
+
       window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
       window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
       goToContactPage();
@@ -128,7 +132,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         tabs={tabs}
         preferencesKey={"policySnapShot_widget"}
         statusIndex={statusIndex}
-        setStatusIndex={handleWidgetSelection}
+        handleWidgetSelection={handleWidgetSelection}
         isMobile={isMobile}
         page="policySnapshot"
       />
@@ -136,7 +140,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         <PolicyList
           policyList={policyList}
           isError={isError}
-          handleJumpList={jumptoList}
+          handleJumpList={() => jumptoList(statusIndex)}
         />
       )}
     </ContactSectionCard>

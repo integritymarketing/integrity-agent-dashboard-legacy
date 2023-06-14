@@ -13,7 +13,7 @@ import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
 import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
 import { useHistory } from "react-router-dom";
 import PolicyNoData from "./policy-no-data.svg";
-
+import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import "./style.scss";
 
 const renderIcons = {
@@ -79,7 +79,9 @@ const PolicyCard = ({ callData }) => {
           <div className="startedIcon">
             {renderIcons[callData.policyStatus]}
           </div>
-          <div className="policy-info">{callData.policyStatus}</div>
+          <div className="policy-info">
+            {capitalizeFirstLetter(callData.policyStatus)}
+          </div>
         </Grid>
         <Grid
           item

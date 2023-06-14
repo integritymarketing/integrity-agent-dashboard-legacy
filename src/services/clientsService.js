@@ -1190,6 +1190,24 @@ export class ClientsService {
     );
     return response?.ok;
   };
+
+  getTaskList = async (npn, dateRange, status) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/tasks/${npn}/${dateRange}/${status}`,
+      "GET"
+    );
+
+    return response?.json();
+  };
+
+  getTaskListCount = async (npn, dateRange) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/taskcount/${npn}/${dateRange}`,
+      "GET"
+    );
+
+    return response?.json();
+  };
 }
 
 export default new ClientsService();
