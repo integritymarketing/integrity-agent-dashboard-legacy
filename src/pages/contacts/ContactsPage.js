@@ -303,7 +303,7 @@ export default () => {
                         className={styles["statusColor"]}
                       ></div>
                       <div className={styles["duplicate-found"]}>
-                        {`${filteredLeadIdsLength}  ${filterInfo.status}
+                        {`${filterInfo.policyCount}  ${filterInfo.status}
                       Policies `}
                       </div>
                     </div>
@@ -417,7 +417,7 @@ export default () => {
                       className={styles["statusColor"]}
                     ></div>
                     <div className={styles["duplicate-found"]}>
-                      {`${filteredLeadIdsLength}  ${filterInfo.status}
+                      {`${filterInfo.policyCount} ${filterInfo.status}
                       Policies `}
                     </div>
                   </div>

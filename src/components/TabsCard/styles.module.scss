@@ -14,7 +14,6 @@
   @include mobileOnly {
     padding-left: 5%;
     padding-right: 5%;
-    flex-direction: column;
   }
 
   .tab {
@@ -35,6 +34,12 @@
       }
     }
 
+    .isPS_widget {
+      @include mobileOnly {
+        width: 126px !important ;
+      }
+    }
+
     .tabContent {
       display: flex;
       width: 192px;
@@ -47,7 +52,7 @@
       align-items: center;
 
       @include mobileOnly {
-        width: 126px;
+        width: 72px;
         height: 64px;
       }
 
@@ -89,9 +94,12 @@
         border-top: 12px solid white;
 
         @include mobileOnly {
-          margin-left: 50px;
+          margin-left: 27px;
           margin-top: 76px;
         }
+      }
+      &.isPS_widget::after {
+        margin-left: 50px;
       }
     }
   }
@@ -101,4 +109,8 @@
   display: flex;
   justify-content: space-around;
   flex-direction: row;
+}
+
+.psMobile {
+  flex-direction: column !important;
 }

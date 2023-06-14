@@ -111,7 +111,7 @@ const UnLinkedCallCard = ({ callData }) => {
   );
 };
 
-const UnLinkedCalls = () => {
+const UnLinkedCalls = ({ taskList }) => {
   return (
     <>
       <div className="unlink-card-container">
