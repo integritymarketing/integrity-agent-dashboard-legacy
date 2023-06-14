@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
-import TooltipMUI from "packages/ToolTip";
+import { useHistory } from "react-router-dom";
 import DateRangeSort from "../DateRangeSort";
 import TabsCard from "components/TabsCard";
 import PolicyList from "./PolicyList";
 import EnrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
+import Info from "components/icons/info-blue";
+import Popover from "components/ui/Popover";
 
 const TitleData =
   "Policy Snapshot shows the number of contacts that are in each stage for MedicareCENTER only.";
@@ -20,10 +22,11 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
   const [isError, setIsError] = useState(false);
-
   const [tabs, setTabs] = useState([]);
 
+  const history = useHistory();
   const addToast = useToast();
+
   const status = tabs[statusIndex]?.policyStatus || "Started";
   const colorCode = tabs[statusIndex]?.colorCode || "";
 
@@ -78,13 +81,40 @@ export default function PlanSnapShot({ isMobile, npn }) {
     fetchCounts();
   }, [addToast, dateRange, npn, statusIndex]);
 
-  console.log("tabs: " ,tabs);
+  const handleWidgetSelection = (index) => {
+    setStatusIndex(index);
+    if (isMobile) {
+      jumptoList();
+    }
+  };
+
+  const jumptoList = () => {
+    if (leadIds.length > 0) {
+      const filterInfo = { status, colorCode };
+      window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
+      window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
+      goToContactPage();
+    }
+    return true;
+  };
+
+  const goToContactPage = () => {
+    history.push(`/contacts`);
+  };
 
   return (
     <ContactSectionCard
       title="Policy Snapshot"
       className={"enrollmentPlanContainer"}
-      infoIcon={<TooltipMUI titleData={TitleData} />}
+      infoIcon={
+        <Popover
+          openOn="hover"
+          description={TitleData}
+          positions={["right", "bottom"]}
+        >
+          <Info />
+        </Popover>
+      }
       actions={
         <DateRangeSort
           dateRange={dateRange}
@@ -98,15 +128,15 @@ export default function PlanSnapShot({ isMobile, npn }) {
         tabs={tabs}
         preferencesKey={"policySnapShot_widget"}
         statusIndex={statusIndex}
-        setStatusIndex={setStatusIndex}
+        setStatusIndex={handleWidgetSelection}
+        isMobile={isMobile}
+        page="policySnapshot"
       />
-      {(
+      {!isMobile && (
         <PolicyList
           policyList={policyList}
-          leadIds={leadIds}
-          status={status}
-          colorCode={colorCode}
           isError={isError}
+          handleJumpList={jumptoList}
         />
       )}
     </ContactSectionCard>

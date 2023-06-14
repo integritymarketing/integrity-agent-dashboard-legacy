@@ -273,13 +273,13 @@ export default function Dashbaord() {
             </div>
 
             {!isMobile && (
-              <FooterBanners className="banners mt-330" type="column" />
+              <FooterBanners className="banners mt-350" type="column" />
             )}
           </section>
 
           <section
             className={`recent-activity-section ${
-              isMobile && isClientSnapshotOpen ? "mt-330" : ""
+              isMobile && isClientSnapshotOpen ? "mt-350" : ""
             }`}
           >
             <PlanSnapShot isMobile={isMobile} npn={user?.npn} />

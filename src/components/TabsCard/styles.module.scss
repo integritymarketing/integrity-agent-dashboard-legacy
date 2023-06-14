@@ -14,6 +14,7 @@
   @include mobileOnly {
     padding-left: 5%;
     padding-right: 5%;
+    flex-direction: column;
   }
 
   .tab {
@@ -46,7 +47,7 @@
       align-items: center;
 
       @include mobileOnly {
-        width: 72px;
+        width: 126px;
         height: 64px;
       }
 
@@ -88,10 +89,16 @@
         border-top: 12px solid white;
 
         @include mobileOnly {
-          margin-left: 27px;
+          margin-left: 50px;
           margin-top: 76px;
         }
       }
     }
   }
+}
+
+.widgetRow {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
 }
