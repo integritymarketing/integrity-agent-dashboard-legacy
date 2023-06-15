@@ -1,46 +1,38 @@
 import React, { useState } from "react";
 import Media from "react-media";
 import Grid from "@mui/material/Grid";
-import { Button } from "components/ui/Button";
 import TooltipMUI from "packages/ToolTip";
+import { Button } from "components/ui/Button";
+import Person from "components/icons/personLatest";
 import Dialog from "packages/Dialog";
-import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
-import { ReactComponent as DownloadDashboard } from "./DownloadDashboard.svg";
-import NoUnlinkedCalls from 'images/no-unlinked-calls.svg';
+import PolicyStarted from "components/icons/policyStarted";
+import NoRequestedCallback from 'images/no-requested-callback.svg';
+import "./style.scss";
 
 // const mockData = [
 //   {
-//     date: "04/12/23",
-//     time: "2:30 pm",
-//     duration: "2:30 pm",
-//     contact: "546-555-0812",
+//     name: "Amber Smith",
+//     reminder: "Call client to discuss plans shared.",
+//     date: "04/20/23",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
 //   },
 //   {
-//     date: "04/28/23",
-//     time: "3:24 pm",
-//     duration: "5:43",
-//     contact: "866-555-3521",
-//   },
-//   {
-//     date: "05/06/23",
-//     time: "10:32 am",
-//     duration: "10:25",
-//     contact: "801-555-8542",
-//   },
-//   {
-//     date: "05/12/23",
-//     time: "2:30 am",
-//     duration: "0:45",
-//     contact: "645-555-5445",
+//     name: "Robert Paulson",
+//     reminder: "Check on SOA.",
+//     date: "08/20/23",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
 //   },
 // ];
+
 const mockData = [];
 
-const UnLinkedCallCard = ({ callData }) => {
+const RequestedCallbackCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   return (
-    <div className="unlink-card">
+    <div className="reminder-card">
       <Media
         query={"(max-width: 500px)"}
         onChange={(isMobile) => {
@@ -48,28 +40,25 @@ const UnLinkedCallCard = ({ callData }) => {
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={6} md={3} sx={{ color: "#434A51" }}>
-          <p>
-            <span className="date-time-duration-text">Date:</span>{" "}
-            {callData.date}
-          </p>
-          <p>
-            <span className="date-time-duration-text">Time:</span>{" "}
-            {callData.time}
-          </p>
-          <p>
-            <span className="date-time-duration-text">Duration:</span>{" "}
-            {callData.duration}
-          </p>
+        <Grid item xs={6} alignSelf={"center"} md={3} sx={{ color: "#434A51" }}>
+          <p className="reminder-name">{callData.name}</p>
         </Grid>
+
         <Grid
           item
           xs={6}
           md={3}
-          alignSelf={"center"}
-          sx={{ textAlign: "center", color: "#434A51" }}
+          sx={{
+            textAlign: "right",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
         >
-          <p>8789330638 </p>
+          <div className="startedIcon">
+            <PolicyStarted />
+          </div>
+          <div className="reminder-info">{callData.reminder}</div>
         </Grid>
         <Grid
           item
@@ -79,18 +68,14 @@ const UnLinkedCallCard = ({ callData }) => {
           sx={{
             textAlign: "right",
             display: "flex",
+            alignItems: "center",
             justifyContent: isMobile ? "flex-start" : "center",
           }}
         >
-          <Button
-            icon={<DownloadDashboard />}
-            iconOnly={isMobile}
-            label={isMobile ? "" : "Download"}
-            onClick={() => console.log("Download clicked")}
-            className={"unlink-card-download-btn"}
-            type="secondary"
-            style={isMobile ? { border: "none" } : {}}
-          />
+          <div className="startedIcon">
+            <PolicyStarted />
+          </div>
+          <div className="reminder-info">{callData.date}</div>
         </Grid>
         <Grid
           item
@@ -101,14 +86,16 @@ const UnLinkedCallCard = ({ callData }) => {
             textAlign: "right",
             display: "flex",
             justifyContent: "center",
+            width: "30%",
           }}
         >
           <Button
-            icon={<LinkContactCircle />}
-            label={"Link to contact"}
-            className={"unlink-card-link-btn"}
-            onClick={() => console.log("link to contact clicked")}
+            icon={<Person />}
+            label={"View Contact"}
+            className={"reminder-card-link-btn"}
+            onClick={() => console.log("View Contact Clicked")}
             type="tertiary"
+            style={isMobile ? { padding: "11px 6px" } : {}}
           />
         </Grid>
       </Grid>
@@ -116,10 +103,10 @@ const UnLinkedCallCard = ({ callData }) => {
   );
 };
 
-const UnLinkedCalls = ({ isError, taskList }) => {
+const RequestedCallback = ({ isError }) => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  
+
   if(isError) {
 
     return (
@@ -145,28 +132,29 @@ const UnLinkedCalls = ({ isError, taskList }) => {
 
       <div className="no-data-container">
             <div className="no-data-icon-container">
-              <img src={NoUnlinkedCalls} className="no-data-icon" alt="No policy Data" />
+              <img src={NoRequestedCallback} className="no-data-icon" alt="No policy Data" />
             </div>
             <div className="no-data-text-container">
-              <p className="no-data-text-heading">There are no unlinked calls at this time.</p>
+              <p className="no-data-text-heading">There are no requested callbacks at this time..</p>
               <p className="no-data-text-desc">To learn more about how you can receive leads through consumer callback requests, 
               <a href="/MedicareCENTER-Requested-Callbacks-Guide.pdf" className="click-here-link">click here.</a></p>
             </div>
           </div>
     )
   }
+
   return (
     <>
-      <div className="unlink-card-container">
+      <div className="reminder-card-container">
         {mockData.map((data) => {
-          return <UnLinkedCallCard key={data.contact} callData={data} />;
+          return <RequestedCallbackCard callData={data} />;
         })}
       </div>
-      <div className="show-more-card">
-        <Button type="tertiary" label="Show More" className="show-more-btn" />
+      <div className="jumpList-card">
+        <Button type="tertiary" label="Jump to List" className="jumpList-btn" />
       </div>
     </>
   );
 };
 
-export default UnLinkedCalls;
+export default RequestedCallback;

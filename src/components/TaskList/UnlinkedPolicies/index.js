@@ -1,26 +1,31 @@
 import React, { useState } from "react";
 import Media from "react-media";
 import Grid from "@mui/material/Grid";
+import TooltipMUI from "packages/ToolTip";
 import { Button } from "components/ui/Button";
+import Dialog from "packages/Dialog";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
+import NoUnlinkedPolicy from 'images/no-unlinked-policies.svg';
 
 import "./style.scss";
-const mockData = [
-  {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-  },
-  {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-  },
-];
+// const mockData = [
+//   {
+//     policyName: "Humana HMO 2343",
+//     policyId: "252456",
+//     policyCarrier: "Humana",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
+//   },
+//   {
+//     policyName: "Humana HMO 2343",
+//     policyId: "252456",
+//     policyCarrier: "Humana",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
+//   },
+// ];
+
+const mockData = [];
 
 const UnlinkedPolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -76,7 +81,45 @@ const UnlinkedPolicyCard = ({ callData }) => {
   );
 };
 
-const UnlinkedPolicyList = () => {
+const UnlinkedPolicyList = ({ isError }) => {
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  if(isError) {
+
+    return (
+        <div className="error-container">
+          <p className="error-text">Status Temporarily Unavailable</p>
+          <TooltipMUI 
+            titleData={"Service partner is not returning current status. Please try again later."}
+            onClick={() => setDialogOpen(true)}
+          />
+          <Dialog
+            title='ERROR'
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            titleWithIcon={false}
+          >
+            <p>Service partner is not returning current status. Please try again later.</p>
+          </Dialog>
+        </div>
+    );
+  } else if(mockData.length === 0) {
+
+    return (
+
+      <div className="no-data-container">
+            <div className="no-data-icon-container">
+              <img src={NoUnlinkedPolicy} className="no-data-icon" alt="No policy Data" />
+            </div>
+            <div className="no-data-text-container">
+              <p className="no-data-text-heading">There are no unlinked policies at this time.</p>
+              <p className="no-data-text-desc">To learn more about how you can receive leads through consumer callback requests, 
+              <a href="/MedicareCENTER-Requested-Callbacks-Guide.pdf" className="click-here-link">click here.</a></p>
+            </div>
+          </div>
+    )
+  }
   return (
     <>
       <div className="up-card-container">

@@ -31,7 +31,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
-      setIsError(false);
       try {
         const items = await EnrollPlansService.getPolicySnapShotList(
           npn,
@@ -136,13 +135,13 @@ export default function PlanSnapShot({ isMobile, npn }) {
         isMobile={isMobile}
         page="policySnapshot"
       />
-      {!isMobile && (
+      
         <PolicyList
           policyList={policyList}
           isError={isError}
           handleJumpList={() => jumptoList(statusIndex)}
         />
-      )}
+      
     </ContactSectionCard>
   );
 }
