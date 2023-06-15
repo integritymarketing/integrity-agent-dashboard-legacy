@@ -1,0 +1,68 @@
+.enrollmentPlanContainer {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.reminder-card-container {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  @media screen and (max-width: 480px) {
+    margin: 16px 12px 0px 15px;
+  }
+}
+
+.reminder-card {
+  border-bottom: 0.5px solid #dfdedd;
+  padding: 18px 18px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  font-size: 14px;
+}
+
+.reminder-card-container :first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.reminder-card-link-btn {
+  border-radius: 25px !important;
+  padding: 5px 20px !important;
+  background-color: #deebfb !important;
+}
+
+.reminder-card-link-btn > .label {
+  font-size: 14px !important;
+  color: #434a51 !important;
+}
+
+.reminder-name {
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.reminder-info {
+  color: #434a51;
+  font-size: 16px;
+}
+
+.jumpList-card {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  border-radius: 0px 0px 8px 8px;
+  @media screen and (max-width: 480px) {
+    margin: 0px 12px 20px 15px;
+  }
+}
+
+.jumpList-btn > span {
+  color: #0052ce;
+  font-weight: 600;
+}
+
+.click-here-link{
+  color: #0052CE;
+  display: block;
+  text-align: center;
+}

@@ -17,7 +17,7 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export default function BasicTooltip({ titleData, props }) {
+export default function BasicTooltip({ titleData, props, onClick }) {
   const [showTooltip, setShowTooltip] = useState(false);
   return (
     <BootstrapTooltip
@@ -27,6 +27,7 @@ export default function BasicTooltip({ titleData, props }) {
       onOpen={() => setShowTooltip(true)}
       onClose={() => setShowTooltip(false)}
       placement="right"
+      onClick={onClick}
     >
       <span>
         <Info />

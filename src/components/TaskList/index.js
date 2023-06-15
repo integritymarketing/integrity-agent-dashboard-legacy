@@ -6,6 +6,7 @@ import TabsCard from "components/TabsCard";
 import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
 import UnlinkedPolicyList from "./UnlinkedPolicies";
 import RemindersList from "./Reminders";
+import RequestedCallback from "./RequestedCallbacks";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import clientsService from "services/clientsService";
@@ -39,6 +40,7 @@ export default function TaskList({ isMobile, npn }) {
 
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
+  const [isError, setIsError] = useState(false);
 
   const [taskList, setTaskList] = useState([]);
   const [tabs, setTabs] = useState([]);
@@ -62,6 +64,7 @@ export default function TaskList({ isMobile, npn }) {
           setTaskList([]);
         }
       } catch (error) {
+        setIsError(true);
         addToast({
           type: "error",
           message: "Failed to get Task List.",
@@ -89,18 +92,24 @@ export default function TaskList({ isMobile, npn }) {
     fetchCounts();
   }, [addToast, dateRange, npn]);
 
+  const handleWidgetSelection = (index, policyCount) => {
+    setStatusIndex(index);
+  };
+
   // we can pass card info here and accordingly set the show to true as per card
 
   const renderList = () => {
     switch (selectedName) {
       case "Unlinked Calls":
-        return <UnLinkedCalls taskList={taskList} />;
+        return <UnLinkedCalls isError={isError}  taskList={taskList} />;
       case "Unlinked Policies":
-        return <UnlinkedPolicyList />;
+        return <UnlinkedPolicyList isError={isError} />;
       case "Reminders":
-        return <RemindersList />;
+        return <RemindersList isError={isError} />;
+      case "Requested Callbacks":
+        return <RequestedCallback isError={isError} />
       default:
-        return <UnlinkedPolicyList />;
+        return <UnlinkedPolicyList isError={isError} />;
     }
   };
 
@@ -124,6 +133,7 @@ export default function TaskList({ isMobile, npn }) {
         statusIndex={statusIndex}
         setStatusIndex={setStatusIndex}
         apiTabs={tabs}
+        handleWidgetSelection={handleWidgetSelection}
       />
       {renderList()}
     </ContactSectionCard>

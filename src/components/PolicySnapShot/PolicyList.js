@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import TooltipMUI from "packages/ToolTip";
+import Dialog from "packages/Dialog";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
 import Started from "components/icons/BookofBusiness/policySnapshot/started";
@@ -109,7 +110,15 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = ({ policyList, isError, handleJumpList }) => {
+const PolicyList = ({
+  policyList,
+  leadIds,
+  status,
+  colorCode,
+  isError,
+  handleJumpList,
+}) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <>
       <div className="policy-card-container">
@@ -118,9 +127,21 @@ const PolicyList = ({ policyList, isError, handleJumpList }) => {
             <p className="error-text">Status Temporarily Unavailable</p>
             <TooltipMUI
               titleData={
-                "Pharmacy service partner is not returning current status. Please try again later."
+                "Service partner is not returning current status. Please try again later."
               }
+              onClick={() => setDialogOpen(true)}
             />
+            <Dialog
+              title="ERROR"
+              open={dialogOpen}
+              onClose={() => setDialogOpen(false)}
+              titleWithIcon={false}
+            >
+              <p>
+                Service partner is not returning current status. Please try
+                again later.
+              </p>
+            </Dialog>
           </div>
         ) : !isError && policyList?.length > 0 ? (
           policyList?.map((data) => {

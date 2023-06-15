@@ -1,26 +1,32 @@
 import React, { useState } from "react";
 import Media from "react-media";
 import Grid from "@mui/material/Grid";
+import TooltipMUI from "packages/ToolTip";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
+import Dialog from "packages/Dialog";
 import PolicyStarted from "components/icons/policyStarted";
+import NoReminder from 'images/no-reminder.svg';
 import "./style.scss";
-const mockData = [
-  {
-    name: "Amber Smith",
-    reminder: "Call client to discuss plans shared.",
-    date: "04/20/23",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-  },
-  {
-    name: "Robert Paulson",
-    reminder: "Check on SOA.",
-    date: "08/20/23",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-  },
-];
+
+// const mockData = [
+//   {
+//     name: "Amber Smith",
+//     reminder: "Call client to discuss plans shared.",
+//     date: "04/20/23",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
+//   },
+//   {
+//     name: "Robert Paulson",
+//     reminder: "Check on SOA.",
+//     date: "08/20/23",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
+//   },
+// ];
+
+const mockData = [];
 
 const RemindersCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -97,8 +103,45 @@ const RemindersCard = ({ callData }) => {
   );
 };
 
-const RemindersList = () => {
-  console.log(mockData);
+const RemindersList = ({ isError }) => {
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  if(isError) {
+
+    return (
+        <div className="error-container">
+          <p className="error-text">Status Temporarily Unavailable</p>
+          <TooltipMUI 
+            titleData={"Service partner is not returning current status. Please try again later."} 
+            onClick={() => setDialogOpen(true)}
+          />
+          <Dialog
+            title='ERROR'
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            titleWithIcon={false}
+          >
+            <p>Service partner is not returning current status. Please try again later.</p>
+          </Dialog>
+        </div>
+    );
+  } else if(mockData.length === 0) {
+
+    return (
+
+      <div className="no-data-container">
+            <div className="no-data-icon-container">
+              <img src={NoReminder} className="no-data-icon" alt="No policy Data" />
+            </div>
+            <div className="no-data-text-container">
+              <p className="no-data-text-heading">There are no reminders to display at this time.</p>
+              <p className="no-data-text-desc">To learn more about how you can receive leads through consumer callback requests, 
+              <a href="/MedicareCENTER-Requested-Callbacks-Guide.pdf" className="click-here-link">click here.</a></p>
+            </div>
+          </div>
+    )
+  }
 
   return (
     <>
