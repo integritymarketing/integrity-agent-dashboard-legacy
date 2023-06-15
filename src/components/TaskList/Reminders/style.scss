@@ -29,7 +29,7 @@
 }
 
 .reminder-card-link-btn > .label {
-  font-size: 14px !important;
+  font-size: 16px !important;
   color: #434a51 !important;
 }
 
@@ -42,6 +42,10 @@
 .reminder-info {
   color: #434a51;
   font-size: 16px;
+  margin-left: 10px;
+}
+.overDue {
+  color: #f23b2f;
 }
 
 .jumpList-card {
@@ -59,4 +63,38 @@
 .jumpList-btn > span {
   color: #0052ce;
   font-weight: 600;
+}
+
+.roundIcon svg {
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+}
+
+.infoContainer {
+  color: #434a51;
+  @media screen and (max-width: 480px) {
+    flex-direction: column !important;
+  }
+}
+
+.reminder-mobile {
+  text-align: right;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  @media screen and (max-width: 480px) {
+    max-width: 100% !important;
+  }
+}
+
+.reminder-button-mobile {
+  text-align: right;
+  display: flex;
+  justify-content: center;
+  width: 30%;
+  @media screen and (max-width: 480px) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 }

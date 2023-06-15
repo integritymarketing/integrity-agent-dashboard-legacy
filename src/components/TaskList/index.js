@@ -92,22 +92,18 @@ export default function TaskList({ isMobile, npn }) {
     fetchCounts();
   }, [addToast, dateRange, npn]);
 
-  const handleWidgetSelection = (index, policyCount) => {
-    setStatusIndex(index);
-  };
-
   // we can pass card info here and accordingly set the show to true as per card
 
   const renderList = () => {
     switch (selectedName) {
       case "Unlinked Calls":
-        return <UnLinkedCalls isError={isError}  taskList={taskList} />;
+        return <UnLinkedCalls isError={isError} taskList={taskList} />;
       case "Unlinked Policies":
-        return <UnlinkedPolicyList isError={isError} />;
+        return <UnlinkedPolicyList isError={isError} taskList={taskList} />;
       case "Reminders":
         return <RemindersList isError={isError} />;
       case "Requested Callbacks":
-        return <RequestedCallback isError={isError} />
+        return <RequestedCallback isError={isError} />;
       default:
         return <UnlinkedPolicyList isError={isError} />;
     }
@@ -131,9 +127,8 @@ export default function TaskList({ isMobile, npn }) {
         tabs={DEFAULT_TABS}
         preferencesKey={"taskList_widget"}
         statusIndex={statusIndex}
-        setStatusIndex={setStatusIndex}
+        handleWidgetSelection={setStatusIndex}
         apiTabs={tabs}
-        handleWidgetSelection={handleWidgetSelection}
       />
       {renderList()}
     </ContactSectionCard>

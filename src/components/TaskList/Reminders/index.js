@@ -4,29 +4,31 @@ import Grid from "@mui/material/Grid";
 import TooltipMUI from "packages/ToolTip";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
+import ReminderIcon from "images/Reminder.svg";
+import Reminder_Overdue from "images/Reminder_Overdue.svg";
+import RoundCheck from "components/icons/round-check";
 import Dialog from "packages/Dialog";
-import PolicyStarted from "components/icons/policyStarted";
-import NoReminder from 'images/no-reminder.svg';
+import NoReminder from "images/no-reminder.svg";
 import "./style.scss";
 
-// const mockData = [
-//   {
-//     name: "Amber Smith",
-//     reminder: "Call client to discuss plans shared.",
-//     date: "04/20/23",
-//     policyHolder: "Anne Polsen",
-//     policyStatus: "Started",
-//   },
-//   {
-//     name: "Robert Paulson",
-//     reminder: "Check on SOA.",
-//     date: "08/20/23",
-//     policyHolder: "Anne Polsen",
-//     policyStatus: "Started",
-//   },
-// ];
-
-const mockData = [];
+const mockData = [
+  {
+    name: "Amber Smith",
+    reminder: "Call client to discuss plans shared.",
+    date: "04/20/23",
+    policyHolder: "Anne Polsen",
+    policyStatus: "Started",
+    isReminderDue: false,
+  },
+  {
+    name: "Robert Paulson",
+    reminder: "Check on SOA.",
+    date: "08/20/23",
+    policyHolder: "Anne Polsen",
+    policyStatus: "Started",
+    isReminderDue: true,
+  },
+];
 
 const RemindersCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -39,55 +41,107 @@ const RemindersCard = ({ callData }) => {
           setIsMobile(isMobile);
         }}
       />
-      <Grid container spacing={2}>
-        <Grid item xs={6} alignSelf={"center"} md={3} sx={{ color: "#434A51" }}>
-          <p className="reminder-name">{callData.name}</p>
-        </Grid>
+      <Grid container className={"infoContainer"} spacing={2}>
+        {!isMobile && (
+          <Grid item xs={6} alignSelf={"center"} md={3}>
+            <p className="reminder-name">{callData.name}</p>
+          </Grid>
+        )}
 
-        <Grid
-          item
-          xs={6}
-          md={3}
-          sx={{
-            textAlign: "right",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <div className="startedIcon">
-            <PolicyStarted />
+        {isMobile && (
+          <Grid
+            sx={{
+              textAlign: "right",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "10px 20px 0px 20px",
+            }}
+          >
+            <Grid
+              item
+              xs={6}
+              md={3}
+              sx={{
+                textAlign: "right",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
+              <p className="reminder-name">{callData.name}</p>
+            </Grid>{" "}
+            <Grid
+              item
+              xs={6}
+              md={3}
+              alignSelf={"center"}
+              sx={{
+                textAlign: "right",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <div className="startedIcon">
+                {callData?.isReminderDue ? (
+                  <img src={Reminder_Overdue} alt="rem_due" />
+                ) : (
+                  <img src={ReminderIcon} alt="rem_new" />
+                )}
+              </div>
+              <div
+                className={`reminder-info ${
+                  callData?.isReminderDue ? "overDue" : ""
+                }`}
+              >
+                {callData.date}
+              </div>
+            </Grid>
+          </Grid>
+        )}
+
+        <Grid item xs={6} md={3} className="reminder-mobile">
+          <div className="roundIcon">
+            <RoundCheck />
           </div>
           <div className="reminder-info">{callData.reminder}</div>
         </Grid>
+        {!isMobile && (
+          <Grid
+            item
+            xs={6}
+            md={3}
+            alignSelf={"center"}
+            sx={{
+              textAlign: "right",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: isMobile ? "flex-start" : "center",
+            }}
+          >
+            <div className="startedIcon">
+              {callData?.isReminderDue ? (
+                <img src={Reminder_Overdue} alt="rem_due" />
+              ) : (
+                <img src={ReminderIcon} alt="rem_new" />
+              )}
+            </div>
+            <div
+              className={`reminder-info ${
+                callData?.isReminderDue ? "overDue" : ""
+              }`}
+            >
+              {callData.date}
+            </div>
+          </Grid>
+        )}
         <Grid
           item
           xs={6}
           md={3}
           alignSelf={"center"}
-          sx={{
-            textAlign: "right",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: isMobile ? "flex-start" : "center",
-          }}
-        >
-          <div className="startedIcon">
-            <PolicyStarted />
-          </div>
-          <div className="reminder-info">{callData.date}</div>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          md={3}
-          alignSelf={"center"}
-          sx={{
-            textAlign: "right",
-            display: "flex",
-            justifyContent: "center",
-            width: "30%",
-          }}
+          className="reminder-button-mobile"
         >
           <Button
             icon={<Person />}
@@ -104,43 +158,54 @@ const RemindersCard = ({ callData }) => {
 };
 
 const RemindersList = ({ isError }) => {
-
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  if(isError) {
-
+  if (isError) {
     return (
-        <div className="error-container">
-          <p className="error-text">Status Temporarily Unavailable</p>
-          <TooltipMUI 
-            titleData={"Service partner is not returning current status. Please try again later."} 
-            onClick={() => setDialogOpen(true)}
-          />
-          <Dialog
-            title='ERROR'
-            open={dialogOpen}
-            onClose={() => setDialogOpen(false)}
-            titleWithIcon={false}
-          >
-            <p>Service partner is not returning current status. Please try again later.</p>
-          </Dialog>
-        </div>
+      <div className="error-container">
+        <p className="error-text">Status Temporarily Unavailable</p>
+        <TooltipMUI
+          titleData={
+            "Service partner is not returning current status. Please try again later."
+          }
+          onClick={() => setDialogOpen(true)}
+        />
+        <Dialog
+          title="ERROR"
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+          titleWithIcon={false}
+        >
+          <p>
+            Service partner is not returning current status. Please try again
+            later.
+          </p>
+        </Dialog>
+      </div>
     );
-  } else if(mockData.length === 0) {
-
+  } else if (mockData.length === 0) {
     return (
-
       <div className="no-data-container">
-            <div className="no-data-icon-container">
-              <img src={NoReminder} className="no-data-icon" alt="No policy Data" />
-            </div>
-            <div className="no-data-text-container">
-              <p className="no-data-text-heading">There are no reminders to display at this time.</p>
-              <p className="no-data-text-desc">To learn more about how you can receive leads through consumer callback requests, 
-              <a href="/MedicareCENTER-Requested-Callbacks-Guide.pdf" className="click-here-link">click here.</a></p>
-            </div>
-          </div>
-    )
+        <div className="no-data-icon-container">
+          <img src={NoReminder} className="no-data-icon" alt="No policy Data" />
+        </div>
+        <div className="no-data-text-container">
+          <p className="no-data-text-heading">
+            There are no reminders to display at this time.
+          </p>
+          <p className="no-data-text-desc">
+            To learn more about how you can receive leads through consumer
+            callback requests,
+            <a
+              href="/MedicareCENTER-Requested-Callbacks-Guide.pdf"
+              className="click-here-link"
+            >
+              click here.
+            </a>
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -151,7 +216,7 @@ const RemindersList = ({ isError }) => {
         })}
       </div>
       <div className="jumpList-card">
-        <Button type="tertiary" label="Jump to List" className="jumpList-btn" />
+        <Button type="tertiary" label="Show More" className="jumpList-btn" />
       </div>
     </>
   );
