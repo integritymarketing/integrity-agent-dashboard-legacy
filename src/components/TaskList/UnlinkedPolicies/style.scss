@@ -29,13 +29,14 @@
 }
 
 .up-card-link-btn > .label {
-  font-size: 14px !important;
+  font-size: 16px !important;
   color: #434a51 !important;
 }
 
 .up-name {
   color: #002d72;
   font-size: 20px;
+  margin-bottom: 10px;
 }
 .up-label {
   color: #002d72;
@@ -50,11 +51,15 @@
 .up-info {
   color: #434a51;
   font-size: 16px;
+  margin-left: 3px;
 }
 .up-info-bold {
   color: #434a51;
   font-size: 16px;
   font-weight: bold;
+  @media screen and (max-width: 480px) {
+    margin-left: 3px;
+  }
 }
 .jumpList-card {
   background-color: #ffffff;
@@ -71,4 +76,33 @@
 .jumpList-btn > span {
   color: #0052ce;
   font-weight: 600;
+}
+
+.infoContainer {
+  color: #434a51;
+  @media screen and (max-width: 480px) {
+    flex-direction: column !important;
+  }
+}
+.policy-mobile {
+  @media screen and (max-width: 480px) {
+    max-width: 100% !important;
+  }
+}
+
+.policy-holder-mobile {
+  @media screen and (max-width: 480px) {
+    display: flex;
+    max-width: 100% !important;
+  }
+}
+
+.policy-button-mobile {
+  text-align: right;
+  display: flex;
+  justify-content: center;
+  width: 30%;
+  @media screen and (max-width: 480px) {
+    width: 100% !important;
+  }
 }
