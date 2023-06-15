@@ -135,13 +135,14 @@ export default function PlanSnapShot({ isMobile, npn }) {
         isMobile={isMobile}
         page="policySnapshot"
       />
-      
+
+      {!isMobile && (
         <PolicyList
           policyList={policyList}
           isError={isError}
           handleJumpList={() => jumptoList(statusIndex)}
         />
-      
+      )}
     </ContactSectionCard>
   );
 }
