@@ -108,9 +108,15 @@ const RequestedCallback = () => {
           return <RequestedCallbackCard callData={data} />;
         })}
       </div>
-      <div className="jumpList-card">
-        <Button type="tertiary" label="Jump to List" className="jumpList-btn" />
-      </div>
+      {mockData.length > 5 && (
+        <div className="jumpList-card">
+          <Button
+            type="tertiary"
+            label="Jump to List"
+            className="jumpList-btn"
+          />
+        </div>
+      )}
     </>
   );
 };

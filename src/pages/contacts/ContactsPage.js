@@ -138,6 +138,16 @@ export default () => {
     history.push("/contact/add-new");
   };
 
+  useEffect(() => {
+    return () => {
+      window.localStorage.removeItem("filterLeadIds");
+      window.localStorage.removeItem("filterInfo");
+
+      setFilterLeadIds([]);
+      setFilterInfo(null);
+    };
+  }, []);
+
   const clearDuplicateLeadIds = () => {
     window.localStorage.removeItem("duplicateLeadIds");
     setDuplicateLeadIds([]);

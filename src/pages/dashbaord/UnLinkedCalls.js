@@ -121,9 +121,11 @@ const UnLinkedCalls = () => {
           return <UnLinkedCallCard key={data.contact} callData={data} />;
         })}
       </div>
-      <div className="show-more-card">
-        <Button type="tertiary" label="Show More" className="show-more-btn" />
-      </div>
+      {mockData?.length > 5 && (
+        <div className="show-more-card">
+          <Button type="tertiary" label="Show More" className="show-more-btn" />
+        </div>
+      )}
     </>
   );
 };
