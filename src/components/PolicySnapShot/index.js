@@ -9,6 +9,9 @@ import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
+import ErrorState from "components/ErrorState";
+import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
+import "./style.scss";
 
 const TitleData =
   "Policy Snapshot shows the number of contacts that are in each stage for MedicareCENTER only.";
@@ -89,10 +92,10 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const jumptoList = (index) => {
     if (leadIds.length > 0) {
       let status = tabs[index]?.policyStatus || "Started";
-      let colorCode = tabs[index]?.colorCode || "";
+      let policyStatusColor = tabs[index]?.policyStatusColor || "";
       let policyCount = tabs[index]?.policyCount || "";
 
-      const filterInfo = { status, colorCode, policyCount };
+      const filterInfo = { status, policyStatusColor, policyCount };
 
       window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
       window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
@@ -135,6 +138,17 @@ export default function PlanSnapShot({ isMobile, npn }) {
         isMobile={isMobile}
         page="policySnapshot"
       />
+
+      {(isError || policyList?.length === 0) && (
+        <ErrorState
+          isError={isError}
+          emptyList={policyList?.length > 0 ? false : true}
+          heading={`There is no policy information available for you at this time.`}
+          content={`New policies will be displayed here once they are submitted.
+          Please contact your marketer for more information.`}
+          icon={PolicyNoData}
+        />
+      )}
 
       {!isMobile && (
         <PolicyList

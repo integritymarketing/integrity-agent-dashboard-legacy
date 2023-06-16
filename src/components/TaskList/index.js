@@ -10,29 +10,56 @@ import RequestedCallback from "./RequestedCallbacks";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import clientsService from "services/clientsService";
+import ErrorState from "components/ErrorState";
+import NoReminder from "images/no-reminder.svg";
+import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
+import NoRequestedCallback from "images/no-requested-callback.svg";
+import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 
 const DEFAULT_TABS = [
   {
     policyStatus: "Requested Callbacks",
     policyCount: 3,
-    colorCode: "#FBDEDE",
+    policyStatusColor: "#FBDEDE",
   },
   {
     policyStatus: "Reminders",
     policyCount: 34,
-    colorCode: "#FEF8CB",
+    policyStatusColor: "#FEF8CB",
   },
   {
     policyStatus: "Unlinked Calls",
     policyCount: 4,
-    colorCode: "#DEEBFB",
+    policyStatusColor: "#DEEBFB",
   },
   {
     policyStatus: "Unlinked Policies",
     policyCount: 8,
-    colorCode: "#DEEBFB",
+    policyStatusColor: "#DEEBFB",
   },
 ];
+
+const getIcon = {
+  "Requested Callbacks": NoRequestedCallback,
+  Reminders: NoReminder,
+  "Unlinked Calls": NoUnlinkedCalls,
+  "Unlinked Policies": NoUnlinkedPolicy,
+};
+
+const getMoreInfo = {
+  "Requested Callbacks":
+    "about how you can receive leads through consumer callback requests.",
+  Reminders: "about how you can create reminders.",
+  "Unlinked Calls": "about unlinked calls.",
+  "Unlinked Policies": "about unlinked policies.",
+};
+
+const getLink = {
+  "Requested Callbacks": "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
+  Reminders: "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
+  "Unlinked Calls": "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
+  "Unlinked Policies": "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
+};
 
 export default function TaskList({ isMobile, npn }) {
   const [dRange] = usePreferences(0, "taskList_sort");
@@ -97,15 +124,15 @@ export default function TaskList({ isMobile, npn }) {
   const renderList = () => {
     switch (selectedName) {
       case "Unlinked Calls":
-        return <UnLinkedCalls isError={isError} taskList={taskList} />;
+        return <UnLinkedCalls taskList={taskList} />;
       case "Unlinked Policies":
-        return <UnlinkedPolicyList isError={isError} taskList={taskList} />;
+        return <UnlinkedPolicyList taskList={taskList} />;
       case "Reminders":
-        return <RemindersList isError={isError} />;
+        return <RemindersList />;
       case "Requested Callbacks":
-        return <RequestedCallback isError={isError} />;
+        return <RequestedCallback />;
       default:
-        return <UnlinkedPolicyList isError={isError} />;
+        return <UnlinkedPolicyList />;
     }
   };
 
@@ -130,7 +157,18 @@ export default function TaskList({ isMobile, npn }) {
         handleWidgetSelection={setStatusIndex}
         apiTabs={tabs}
       />
-      {renderList()}
+      {isError || taskList?.length === 0 ? (
+        <ErrorState
+          isError={isError}
+          emptyList={taskList?.length > 0 ? false : true}
+          heading={` There are no ${selectedName.toLowerCase()} at this time.`}
+          content={getMoreInfo[selectedName]}
+          icon={getIcon[selectedName]}
+          link={getLink[selectedName]}
+        />
+      ) : (
+        <>{renderList()}</>
+      )}
     </ContactSectionCard>
   );
 }

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Media from "react-media";
 import Grid from "@mui/material/Grid";
-import TooltipMUI from "packages/ToolTip";
-import Dialog from "packages/Dialog";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
 import Started from "components/icons/BookofBusiness/policySnapshot/started";
@@ -13,7 +11,6 @@ import Active from "components/icons/BookofBusiness/policySnapshot/active";
 import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
 import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
 import { useHistory } from "react-router-dom";
-import PolicyNoData from "./policy-no-data.svg";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import "./style.scss";
 
@@ -110,63 +107,14 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = ({
-  policyList,
-  leadIds,
-  status,
-  colorCode,
-  isError,
-  handleJumpList,
-}) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+const PolicyList = ({ policyList, handleJumpList }) => {
   return (
     <>
       <div className="policy-card-container">
-        {isError ? (
-          <div className="error-container">
-            <p className="error-text">Status Temporarily Unavailable</p>
-            <TooltipMUI
-              titleData={
-                "Service partner is not returning current status. Please try again later."
-              }
-              onClick={() => setDialogOpen(true)}
-            />
-            <Dialog
-              title="ERROR"
-              open={dialogOpen}
-              onClose={() => setDialogOpen(false)}
-              titleWithIcon={false}
-            >
-              <p>
-                Service partner is not returning current status. Please try
-                again later.
-              </p>
-            </Dialog>
-          </div>
-        ) : !isError && policyList?.length > 0 ? (
+        {policyList?.length > 0 &&
           policyList?.map((data) => {
             return <PolicyCard callData={data} />;
-          })
-        ) : (
-          <div className="no-data-container">
-            <div className="no-data-icon-container">
-              <img
-                src={PolicyNoData}
-                className="no-data-icon"
-                alt="No policy Data"
-              />
-            </div>
-            <div className="no-data-text-container">
-              <p className="no-data-text-heading">
-                There is no policy information available for you at this time.
-              </p>
-              <p className="no-data-text-desc">
-                New policies will be displayed here once they are submitted.
-                Please contact your marketer for more information.
-              </p>
-            </div>
-          </div>
-        )}
+          })}
       </div>
       {policyList?.length > 0 && (
         <div className="jumpList-card">

@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
-import TooltipMUI from "packages/ToolTip";
-import Dialog from "packages/Dialog";
 import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
 import { ReactComponent as DownloadDashboard } from "./DownloadDashboard.svg";
-import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 
 // const mockData = [
 //   {
@@ -116,60 +113,7 @@ const UnLinkedCallCard = ({ callData }) => {
   );
 };
 
-const UnLinkedCalls = ({ isError, taskList }) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  if (isError) {
-    return (
-      <div className="error-container">
-        <p className="error-text">Status Temporarily Unavailable</p>
-        <TooltipMUI
-          titleData={
-            "Service partner is not returning current status. Please try again later."
-          }
-          onClick={() => setDialogOpen(true)}
-        />
-        <Dialog
-          title="ERROR"
-          open={dialogOpen}
-          onClose={() => setDialogOpen(false)}
-          titleWithIcon={false}
-        >
-          <p>
-            Service partner is not returning current status. Please try again
-            later.
-          </p>
-        </Dialog>
-      </div>
-    );
-  } else if (mockData.length === 0) {
-    return (
-      <div className="no-data-container">
-        <div className="no-data-icon-container">
-          <img
-            src={NoUnlinkedCalls}
-            className="no-data-icon"
-            alt="No policy Data"
-          />
-        </div>
-        <div className="no-data-text-container">
-          <p className="no-data-text-heading">
-            There are no unlinked calls at this time.
-          </p>
-          <p className="no-data-text-desc">
-            To learn more about how you can receive leads through consumer
-            callback requests,
-            <a
-              href="/MedicareCENTER-Requested-Callbacks-Guide.pdf"
-              className="click-here-link"
-            >
-              click here.
-            </a>
-          </p>
-        </div>
-      </div>
-    );
-  }
+const UnLinkedCalls = () => {
   return (
     <>
       <div className="unlink-card-container">
