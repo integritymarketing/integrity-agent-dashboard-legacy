@@ -146,7 +146,6 @@ export default () => {
 
   const clearFilteredLeadIds = () => {
     window.localStorage.removeItem("filterLeadIds");
-    window.localStorage.removeItem("filterKey");
     window.localStorage.removeItem("filterInfo");
 
     setFilterLeadIds([]);
@@ -299,7 +298,9 @@ export default () => {
                   <div className={`${styles["reset-partial-duplicates"]}`}>
                     <div className={`${styles["colorAndCount"]}`}>
                       <div
-                        style={{ backgroundColor: filterInfo.colorCode }}
+                        style={{
+                          backgroundColor: filterInfo.policyStatusColor,
+                        }}
                         className={styles["statusColor"]}
                       ></div>
                       <div className={styles["duplicate-found"]}>
@@ -413,7 +414,7 @@ export default () => {
                 <div className={`${styles["reset-partial-duplicates"]}`}>
                   <div className={`${styles["colorAndCount"]}`}>
                     <div
-                      style={{ backgroundColor: filterInfo.colorCode }}
+                      style={{ backgroundColor: filterInfo.policyStatusColor }}
                       className={styles["statusColor"]}
                     ></div>
                     <div className={styles["duplicate-found"]}>

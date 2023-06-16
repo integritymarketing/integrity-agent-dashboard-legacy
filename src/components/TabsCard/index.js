@@ -3,7 +3,7 @@ import usePreferences from "hooks/usePreferences";
 import styles from "./styles.module.scss";
 
 const Widget = ({ index, tab, statusIndex, onTabClick, isPS_widget }) => {
-  const { policyCount, colorCode, policyStatus } = tab;
+  const { policyCount, policyStatusColor, policyStatus } = tab;
   return (
     <div className={styles.tab}>
       <span className={styles.tabHeading}>{policyStatus}</span>
@@ -14,7 +14,7 @@ const Widget = ({ index, tab, statusIndex, onTabClick, isPS_widget }) => {
         } ${isPS_widget ? styles.isPS_widget : ""} `}
       >
         <span
-          style={{ backgroundColor: colorCode }}
+          style={{ backgroundColor: policyStatusColor }}
           className={styles.color}
         ></span>
         <span className={styles.content}>{policyCount}</span>
