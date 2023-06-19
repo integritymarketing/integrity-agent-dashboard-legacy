@@ -48,17 +48,20 @@ const getIcon = {
 
 const getMoreInfo = {
   "Requested Callbacks":
-    "about how you can receive leads through consumer callback requests.",
-  Reminders: "about how you can create reminders.",
-  "Unlinked Calls": "about unlinked calls.",
-  "Unlinked Policies": "about unlinked policies.",
+    "To learn more about how you can receive leads through consumer callback requests,",
+  Reminders:
+    "To learn more about how you can receive leads through consumer callback requests.",
+  "Unlinked Calls":
+    "To learn more about how you can receive leads through consumer callback requests.",
+  "Unlinked Policies":
+    "To learn more about how you can receive leads through consumer callback requests.",
 };
 
 const getLink = {
   "Requested Callbacks": "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
-  Reminders: "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
-  "Unlinked Calls": "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
-  "Unlinked Policies": "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
+  Reminders: "/MedicareCENTER-Reminders-Guide.pdf",
+  "Unlinked Calls": "/MedicareCENTER-Unlinked-Calls-Guide.pdf",
+  "Unlinked Policies": "/MedicareCENTER-Unlinked-Policies-Guide.pdf",
 };
 
 export default function TaskList({ isMobile, npn }) {

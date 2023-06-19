@@ -253,3 +253,12 @@ export const callDuration = (dateLeft, dateRight) => {
     minutes > 9 ? minutes : "0" + minutes
   }:${seconds > 9 ? seconds : "0" + seconds}`;
 };
+
+export const formattedTime = (time) => {
+  const date = parse(time, 'HH:mm:ss', new Date());
+
+  // Format the Date object into a 12-hour time string
+  const convertedTime = format(date, 'h:mm aa');
+  return convertedTime;  
+
+}

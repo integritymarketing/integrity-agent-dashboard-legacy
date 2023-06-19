@@ -154,7 +154,8 @@ const RemindersCard = ({ callData }) => {
   );
 };
 
-const RemindersList = ({ isError }) => {
+const RemindersList = () => {
+
   return (
     <>
       <div className="reminder-card-container">
