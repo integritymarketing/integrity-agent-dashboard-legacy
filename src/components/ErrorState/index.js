@@ -38,12 +38,12 @@ const ErrorState = ({ isError, emptyList, icon, heading, content, link }) => {
           <div className="no-data-text-container">
             <p className="no-data-text-heading">{heading}</p>
             <p className="no-data-text-desc">
+              {content}
               {link && (
                 <a href={link} className="click-here-link">
-                  Learn More
+                  Click here
                 </a>
               )}
-              {content}
             </p>
           </div>
         </div>

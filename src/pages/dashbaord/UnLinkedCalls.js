@@ -1,39 +1,27 @@
 import React, { useState } from "react";
 import Media from "react-media";
+import { formattedTime } from "utils/dates";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
 import { ReactComponent as DownloadDashboard } from "./DownloadDashboard.svg";
 
-// const mockData = [
-//   {
-//     date: "04/12/23",
-//     time: "2:30 pm",
-//     duration: "2:30 pm",
-//     contact: "546-555-0812",
-//   },
-//   {
-//     date: "04/28/23",
-//     time: "3:24 pm",
-//     duration: "5:43",
-//     contact: "866-555-3521",
-//   },
-//   {
-//     date: "05/06/23",
-//     time: "10:32 am",
-//     duration: "10:25",
-//     contact: "801-555-8542",
-//   },
-//   {
-//     date: "05/12/23",
-//     time: "2:30 am",
-//     duration: "0:45",
-//     contact: "645-555-5445",
-//   },
-// ];
-const mockData = [];
+const formatPhone = (phoneNumber) => {
+  if (phoneNumber.startsWith("+")) {
+    phoneNumber = phoneNumber.slice(1);
+  }
 
-const UnLinkedCallCard = ({ callData }) => {
+  // split the phone number into parts
+  const areaCode = phoneNumber.slice(1, 4); // 801
+  const firstPart = phoneNumber.slice(4, 7); // 679
+  const secondPart = phoneNumber.slice(7); // 2276
+
+  // combine the parts into the final format
+  const formattedPhoneNumber = `(${areaCode})-${firstPart}-${secondPart}`;
+  return formattedPhoneNumber;
+};
+
+const UnLinkedCallCard = ({ task }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   return (
@@ -48,15 +36,15 @@ const UnLinkedCallCard = ({ callData }) => {
         <Grid item xs={6} md={3} sx={{ color: "#434A51" }}>
           <p>
             <span className="date-time-duration-text">Date:</span>{" "}
-            {callData.date}
+            {task?.taskDate?.split(" ")[0]}
           </p>
           <p>
             <span className="date-time-duration-text">Time:</span>{" "}
-            {callData.time}
+            {formattedTime(task?.taskDate?.split(" ")[1])}
           </p>
           <p>
             <span className="date-time-duration-text">Duration:</span>{" "}
-            {callData.duration}
+            {task?.duration}
           </p>
         </Grid>
         <Grid
@@ -66,7 +54,7 @@ const UnLinkedCallCard = ({ callData }) => {
           alignSelf={"center"}
           sx={{ textAlign: "center", color: "#434A51" }}
         >
-          <p>8789330638 </p>
+          <p>{formatPhone(task?.phoneNumber)}</p>
         </Grid>
         <Grid
           item
@@ -113,15 +101,15 @@ const UnLinkedCallCard = ({ callData }) => {
   );
 };
 
-const UnLinkedCalls = () => {
+const UnLinkedCalls = ({ taskList }) => {
   return (
     <>
       <div className="unlink-card-container">
-        {mockData.map((data) => {
-          return <UnLinkedCallCard key={data.contact} callData={data} />;
+        {taskList.map((data) => {
+          return <UnLinkedCallCard key={data.contact} task={data} />;
         })}
       </div>
-      {mockData?.length > 5 && (
+      {taskList?.length > 5 && (
         <div className="show-more-card">
           <Button type="tertiary" label="Show More" className="show-more-btn" />
         </div>

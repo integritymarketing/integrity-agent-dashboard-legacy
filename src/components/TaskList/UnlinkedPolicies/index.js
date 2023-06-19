@@ -3,8 +3,8 @@ import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
-
 import "./style.scss";
+
 const mockData = [
   {
     policyName: "Humana HMO 2343",
@@ -90,6 +90,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
 };
 
 const UnlinkedPolicyList = () => {
+
   return (
     <>
       <div className="up-card-container">

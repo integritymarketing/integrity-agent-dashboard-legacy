@@ -60,3 +60,11 @@
   color: #0052ce;
   font-weight: 600;
 }
+
+.click-here-link{
+  color: #0052CE;
+  display: block;
+  @media screen and (max-width: 480px) {
+    text-align: center;
+  }
+}
