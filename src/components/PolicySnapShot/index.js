@@ -30,7 +30,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const history = useHistory();
   const addToast = useToast();
 
-  const status = tabs[statusIndex]?.policyStatus || "Started";
+  const status = tabs[index]?.policyStatus || "Started";
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
@@ -59,7 +59,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast, statusIndex, dateRange, npn, status]);
+  }, [addToast, index, dateRange, npn, status]);
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -82,24 +82,53 @@ export default function PlanSnapShot({ isMobile, npn }) {
     fetchCounts();
   }, [addToast, dateRange, npn]);
 
-  const handleWidgetSelection = (index, policyCount) => {
+  const handleWidgetSelection = async (index, policyCount) => {
     setStatusIndex(index);
-    if (isMobile && policyCount > 0) {
-      jumptoList(index);
+    const status = tabs[index]?.policyStatus || "Started";
+
+    try {
+      const items = await EnrollPlansService.getPolicySnapShotList(
+        npn,
+        dateRange,
+        status
+      );
+      if (items?.length > 0) {
+        const list = items[0]?.bookOfBusinessSummmaryRecords;
+        const ids = items[0]?.leadIds;
+        setpolicyList([...list]);
+        setLeadIds(ids);
+        if (isMobile && ids?.length > 0 && policyCount > 0) {
+          jumptoListMobile(index);
+        }
+      } else {
+        setpolicyList([]);
+        setLeadIds([]);
+      }
+    } catch (error) {
+      setIsError(true);
+      addToast({
+        type: "error",
+        message: "Failed to get Policy Snapshot List.",
+        time: 10000,
+      });
     }
+  };
+
+  const jumptoListMobile = (index) => {
+    let status = tabs[index]?.policyStatus || "Started";
+    let policyStatusColor = tabs[index]?.policyStatusColor || "";
+    let policyCount = tabs[index]?.policyCount || "";
+
+    const filterInfo = { status, policyStatusColor, policyCount };
+
+    window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
+    window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
+    goToContactPage();
   };
 
   const jumptoList = (index) => {
     if (leadIds.length > 0) {
-      let status = tabs[index]?.policyStatus || "Started";
-      let policyStatusColor = tabs[index]?.policyStatusColor || "";
-      let policyCount = tabs[index]?.policyCount || "";
-
-      const filterInfo = { status, policyStatusColor, policyCount };
-
-      window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
-      window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
-      goToContactPage();
+      jumptoListMobile(index);
     }
     return true;
   };
