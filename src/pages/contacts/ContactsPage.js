@@ -237,7 +237,7 @@ export default () => {
             <title>MedicareCENTER - Contacts</title>
           </Helmet>
           <GlobalNav />
-          {filteredLeadIdsLength > 0 && <GoBackNavbar />}
+          {filterInfo?.policyCount > 0 && <GoBackNavbar />}
           <DeleteContactsModal
             open={isOpenDeleteContactsIdModal}
             count={selectedContacts.length}
@@ -304,7 +304,7 @@ export default () => {
                     document.getElementById("contacts-search").focus();
                   }}
                 />
-                {!isMobile && filteredLeadIdsLength > 0 && (
+                {!isMobile && filterInfo?.policyCount > 0 && (
                   <div className={`${styles["reset-partial-duplicates"]}`}>
                     <div className={`${styles["colorAndCount"]}`}>
                       <div
@@ -420,7 +420,7 @@ export default () => {
                   />
                 </div>
               </div>
-              {isMobile && filteredLeadIdsLength > 0 && (
+              {isMobile && filterInfo?.policyCount > 0 && (
                 <div className={`${styles["reset-partial-duplicates"]}`}>
                   <div className={`${styles["colorAndCount"]}`}>
                     <div
