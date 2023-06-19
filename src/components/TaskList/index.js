@@ -164,7 +164,11 @@ export default function TaskList({ isMobile, npn }) {
         <ErrorState
           isError={isError}
           emptyList={taskList?.length > 0 ? false : true}
-          heading={` There are no ${selectedName.toLowerCase()} at this time.`}
+          heading={
+            selectedName === "Reminders"
+              ? "There are no reminders to display at this time."
+              : `There are no ${selectedName.toLowerCase()} at this time.`
+          }
           content={getMoreInfo[selectedName]}
           icon={getIcon[selectedName]}
           link={getLink[selectedName]}
