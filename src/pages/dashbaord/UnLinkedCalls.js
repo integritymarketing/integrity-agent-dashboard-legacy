@@ -7,7 +7,7 @@ import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
 import { ReactComponent as DownloadDashboard } from "./DownloadDashboard.svg";
 
 const formatPhone = (phoneNumber) => {
-  if (phoneNumber.startsWith("+")) {
+  if (phoneNumber?.startsWith("+")) {
     phoneNumber = phoneNumber.slice(1);
   }
 
