@@ -12,24 +12,24 @@ import { isOverDue } from "utils/dates";
 
 import "./style.scss";
 
-const mockData = [
-  {
-    name: "Amber Smith",
-    reminder: "Call client to discuss plans shared.",
-    date: "04/20/23",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-    isReminderDue: false,
-  },
-  {
-    name: "Robert Paulson",
-    reminder: "Check on SOA.",
-    date: "08/20/23",
-    policyHolder: "Anne Polsen",
-    policyStatus: "Started",
-    isReminderDue: true,
-  },
-];
+// const mockData = [
+//   {
+//     name: "Amber Smith",
+//     reminder: "Call client to discuss plans shared.",
+//     date: "04/20/23",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
+//     isReminderDue: false,
+//   },
+//   {
+//     name: "Robert Paulson",
+//     reminder: "Check on SOA.",
+//     date: "08/20/23",
+//     policyHolder: "Anne Polsen",
+//     policyStatus: "Started",
+//     isReminderDue: true,
+//   },
+// ];
 
 const RemindersCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -169,7 +169,12 @@ const RemindersList = ({ taskList }) => {
       </div>
       {taskList.length > 5 && (
         <div className="jumpList-card">
-          <Button type="tertiary" label="Show More" className="jumpList-btn" />
+          <Button
+            type="tertiary"
+            onClick={() => alert("in progress")}
+            label="Show More"
+            className="jumpList-btn"
+          />
         </div>
       )}
     </>

@@ -3,27 +3,27 @@ import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
-import { callDuration } from "utils/dates";
+// import { callDuration } from "utils/dates";
 import "./style.scss";
 
-const mockData = [
-  {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
-    lastName: "Polsen",
-    firstName: "Anne",
-    policyStatus: "Started",
-  },
-  {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
-    lastName: "Polsen",
-    firstName: "Anne",
-    policyStatus: "Started",
-  },
-];
+// const mockData = [
+//   {
+//     policyName: "Humana HMO 2343",
+//     policyId: "252456",
+//     policyCarrier: "Humana",
+//     lastName: "Polsen",
+//     firstName: "Anne",
+//     policyStatus: "Started",
+//   },
+//   {
+//     policyName: "Humana HMO 2343",
+//     policyId: "252456",
+//     policyCarrier: "Humana",
+//     lastName: "Polsen",
+//     firstName: "Anne",
+//     policyStatus: "Started",
+//   },
+// ];
 
 const UnlinkedPolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -120,7 +120,12 @@ const UnlinkedPolicyList = ({ taskList }) => {
       </div>
       {taskList?.length > 5 && (
         <div className="jumpList-card">
-          <Button type="tertiary" label="Show More" className="jumpList-btn" />
+          <Button
+            type="tertiary"
+            onClick={() => alert("in progress")}
+            label="Show More"
+            className="jumpList-btn"
+          />
         </div>
       )}
     </>

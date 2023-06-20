@@ -112,7 +112,8 @@ const RequestedCallback = () => {
         <div className="jumpList-card">
           <Button
             type="tertiary"
-            label="Jump to List"
+            onClick={() => alert("in progress")}
+            label="Show More"
             className="jumpList-btn"
           />
         </div>

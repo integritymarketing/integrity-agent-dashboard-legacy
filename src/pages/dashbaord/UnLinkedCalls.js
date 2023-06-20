@@ -1,28 +1,24 @@
 import React, { useState } from "react";
 import Media from "react-media";
-import { formattedTime } from "utils/dates";
+import { dateFormatter } from "utils/dateFormatter";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
 import { ReactComponent as DownloadDashboard } from "./DownloadDashboard.svg";
-
-const formatPhone = (phoneNumber) => {
-  if (phoneNumber?.startsWith("+")) {
-    phoneNumber = phoneNumber.slice(1);
-  }
-
-  // split the phone number into parts
-  const areaCode = phoneNumber.slice(1, 4); // 801
-  const firstPart = phoneNumber.slice(4, 7); // 679
-  const secondPart = phoneNumber.slice(7); // 2276
-
-  // combine the parts into the final format
-  const formattedPhoneNumber = `(${areaCode})-${firstPart}-${secondPart}`;
-  return formattedPhoneNumber;
-};
+import { convertUTCDateToLocalDate } from "utils/dates";
+import { useHistory } from "react-router-dom";
+import { formatPhoneNumber } from "utils/phones";
 
 const UnLinkedCallCard = ({ task }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const history = useHistory();
+
+  const linkToContact = () => {
+    const date = convertUTCDateToLocalDate(task?.taskDate);
+    history.push(
+      `/link-to-contact/${task?.id}/${task?.phoneNumber}/${task?.duration}/${date}`
+    );
+  };
 
   return (
     <div className="unlink-card">
@@ -40,7 +36,7 @@ const UnLinkedCallCard = ({ task }) => {
           </p>
           <p>
             <span className="date-time-duration-text">Time:</span>{" "}
-            {formattedTime(task?.taskDate?.split(" ")[1])}
+            {dateFormatter(task?.taskDate, "MM/DD/yyyy")}
           </p>
           <p>
             <span className="date-time-duration-text">Duration:</span>{" "}
@@ -54,7 +50,7 @@ const UnLinkedCallCard = ({ task }) => {
           alignSelf={"center"}
           sx={{ textAlign: "center", color: "#434A51" }}
         >
-          <p>{formatPhone(task?.phoneNumber)}</p>
+          <p> {formatPhoneNumber(task?.phoneNumber, true)}</p>
         </Grid>
         <Grid
           item
@@ -76,6 +72,19 @@ const UnLinkedCallCard = ({ task }) => {
             type="secondary"
             style={isMobile ? { border: "none" } : {}}
           />
+
+          <Button
+            icon={<DownloadDashboard />}
+            iconOnly={isMobile}
+            label={isMobile ? "" : "Download"}
+            onClick={() => {
+              const recordingUrl = task?.recordingUrl;
+              const link = document.createElement("a");
+              link.href = recordingUrl;
+              link.download = "call_recording.mp3";
+              link.click();
+            }}
+          />
         </Grid>
         <Grid
           item
@@ -92,7 +101,7 @@ const UnLinkedCallCard = ({ task }) => {
             icon={<LinkContactCircle />}
             label={"Link to contact"}
             className={"unlink-card-link-btn"}
-            onClick={() => console.log("link to contact clicked")}
+            onClick={linkToContact}
             type="tertiary"
           />
         </Grid>
@@ -111,7 +120,12 @@ const UnLinkedCalls = ({ taskList }) => {
       </div>
       {taskList?.length > 5 && (
         <div className="show-more-card">
-          <Button type="tertiary" label="Show More" className="show-more-btn" />
+          <Button
+            type="tertiary"
+            onClick={() => alert("in progress")}
+            label="Show More"
+            className="show-more-btn"
+          />
         </div>
       )}
     </>
