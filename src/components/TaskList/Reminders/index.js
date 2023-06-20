@@ -43,7 +43,7 @@ const RemindersCard = ({ callData, refreshData }) => {
   const completeReminder = () => {
     let payload = {
       reminderId: callData?.id,
-      leadsId: callData?.leadId,
+      leadId: callData?.leadId,
       isComplete: true,
     };
 
