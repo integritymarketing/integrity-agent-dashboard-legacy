@@ -3,29 +3,50 @@ import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
+// import { callDuration } from "utils/dates";
 import "./style.scss";
 
-const mockData = [
-  {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
-    lastName: "Polsen",
-    firstName: "Anne",
-    policyStatus: "Started",
-  },
-  {
-    policyName: "Humana HMO 2343",
-    policyId: "252456",
-    policyCarrier: "Humana",
-    lastName: "Polsen",
-    firstName: "Anne",
-    policyStatus: "Started",
-  },
-];
+// const mockData = [
+//   {
+//     policyName: "Humana HMO 2343",
+//     policyId: "252456",
+//     policyCarrier: "Humana",
+//     lastName: "Polsen",
+//     firstName: "Anne",
+//     policyStatus: "Started",
+//   },
+//   {
+//     policyName: "Humana HMO 2343",
+//     policyId: "252456",
+//     policyCarrier: "Humana",
+//     lastName: "Polsen",
+//     firstName: "Anne",
+//     policyStatus: "Started",
+//   },
+// ];
 
 const UnlinkedPolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
+
+  const linkToContact = () => {
+    alert("in progress");
+    // const {
+    //   submittedDate,
+    //   enrolledDate,
+    //   effectiveDate,
+    //   policyHolder,
+    //   policyId,
+    //   currentYear = true,
+    //   leadId,
+    //   isEnrollPlansPage,
+    //   onShareClick,
+    //   policyStatus,
+    //   confirmationNumber,
+    // } = callData;
+    // history.push(`/enrollment-link-to-contact`, {
+    //   state: props,
+    // });
+  };
 
   return (
     <div className="up-card">
@@ -65,7 +86,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
             Policy Holder {isMobile ? ":" : ""}
           </div>
           <div className="up-info-bold">
-            {callData?.firstName + callData?.lastName}
+            {`${callData?.firstName}   ${callData?.lastName}`}
           </div>
         </Grid>
         <Grid
@@ -79,7 +100,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
             icon={<LinkContactCircle />}
             label={"Link to contact"}
             className={"unlink-card-link-btn"}
-            onClick={() => console.log("link to contact clicked")}
+            onClick={linkToContact}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
           />
@@ -89,18 +110,22 @@ const UnlinkedPolicyCard = ({ callData }) => {
   );
 };
 
-const UnlinkedPolicyList = () => {
-
+const UnlinkedPolicyList = ({ taskList }) => {
   return (
     <>
       <div className="up-card-container">
-        {mockData?.map((data) => {
+        {taskList?.map((data) => {
           return <UnlinkedPolicyCard callData={data} />;
         })}
       </div>
-      {mockData?.length > 5 && (
+      {taskList?.length > 5 && (
         <div className="jumpList-card">
-          <Button type="tertiary" label="Show More" className="jumpList-btn" />
+          <Button
+            type="tertiary"
+            onClick={() => alert("in progress")}
+            label="Show More"
+            className="jumpList-btn"
+          />
         </div>
       )}
     </>

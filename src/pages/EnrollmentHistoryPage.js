@@ -225,14 +225,14 @@ const plan = {
 };
 
 const API_URL = (confirmationNumber) =>
-  `${process.env.REACT_APP_ENROLLMENT_CONSUMER_API}/confirmationNumber/${confirmationNumber}`;
+  `https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0/Medicare/confirmationNumber/${confirmationNumber}`;
 
 const EnrollmentHistoryPage = () => {
   const { contactId, confirmationNumber } = useParams();
   const { data, loading, error } = useFetch(API_URL(confirmationNumber));
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  console.log("JJJ", contactId, data, error);
+  console.log("JJJ", contactId, data, error, confirmationNumber);
   let plan_data = plan?.medicareEnrollment?.planDetails;
 
   return (

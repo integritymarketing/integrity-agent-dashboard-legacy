@@ -38,14 +38,14 @@ const PolicyCard = ({ callData }) => {
       />
       <Grid container spacing={2}>
         <Grid item xs={6} md={4} sx={{ color: "#434A51" }}>
-          <p className="policy-name">{callData.planName}</p>
+          <p className="policy-name">{callData?.planName}</p>
           <p>
             <span className="policy-label">Policy ID:</span>
-            <span className="policy-info ml-5">{callData.policyNumber}</span>
+            <span className="policy-info ml-5">{callData?.policyNumber}</span>
           </p>
           <p>
             <span className="policy-label">Carrier:</span>{" "}
-            <span className="policy-info ml-5"> {callData.carrier}</span>
+            <span className="policy-info ml-5"> {callData?.carrier}</span>
           </p>
         </Grid>
         <Grid
@@ -60,7 +60,7 @@ const PolicyCard = ({ callData }) => {
           }}
         >
           <div className="policy-info">Policy Holder</div>{" "}
-          <div className="policy-info-bold">{callData.policyHolder}</div>
+          <div className="policy-info-bold">{callData?.policyHolder}</div>
         </Grid>
         <Grid
           item
@@ -75,10 +75,10 @@ const PolicyCard = ({ callData }) => {
           }}
         >
           <div className="startedIcon">
-            {renderIcons[callData.policyStatus]}
+            {renderIcons[callData?.policyStatus]}
           </div>
           <div className="policy-info">
-            {capitalizeFirstLetter(callData.policyStatus)}
+            {capitalizeFirstLetter(callData?.policyStatus)}
           </div>
         </Grid>
         <Grid
