@@ -45,7 +45,7 @@
   margin-left: 10px;
 }
 .overDue {
-  color: #f23b2f;
+  color: #f23b2f !important;
 }
 
 .jumpList-card {
@@ -69,6 +69,7 @@
   width: 20px;
   height: 20px;
   margin-top: 3px;
+  cursor: pointer;
 }
 
 .infoContainer {

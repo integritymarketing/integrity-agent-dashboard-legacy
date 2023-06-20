@@ -114,8 +114,8 @@ const UnlinkedPolicyList = ({ taskList }) => {
   return (
     <>
       <div className="up-card-container">
-        {taskList?.map((data) => {
-          return <UnlinkedPolicyCard callData={data} />;
+        {taskList?.map((data, i) => {
+          return i < 5 ? <UnlinkedPolicyCard callData={data} /> : null;
         })}
       </div>
       {taskList?.length > 5 && (

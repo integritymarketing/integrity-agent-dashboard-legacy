@@ -67,16 +67,6 @@ const UnLinkedCallCard = ({ task }) => {
             icon={<DownloadDashboard />}
             iconOnly={isMobile}
             label={isMobile ? "" : "Download"}
-            onClick={() => console.log("Download clicked")}
-            className={"unlink-card-download-btn"}
-            type="secondary"
-            style={isMobile ? { border: "none" } : {}}
-          />
-
-          <Button
-            icon={<DownloadDashboard />}
-            iconOnly={isMobile}
-            label={isMobile ? "" : "Download"}
             onClick={() => {
               const recordingUrl = task?.recordingUrl;
               const link = document.createElement("a");
@@ -84,8 +74,12 @@ const UnLinkedCallCard = ({ task }) => {
               link.download = "call_recording.mp3";
               link.click();
             }}
+            className={"unlink-card-download-btn"}
+            type="secondary"
+            style={isMobile ? { border: "none" } : {}}
           />
         </Grid>
+
         <Grid
           item
           xs={6}
