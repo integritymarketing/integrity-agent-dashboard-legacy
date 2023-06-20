@@ -9,7 +9,9 @@ import RoundCheck from "components/icons/round-check";
 import { dateFormatter } from "utils/dateFormatter";
 import { useHistory } from "react-router-dom";
 import { isOverDue } from "utils/dates";
-
+import clientsService from "services/clientsService";
+import * as Sentry from "@sentry/react";
+import useToast from "hooks/useToast";
 import "./style.scss";
 
 // const mockData = [
@@ -31,11 +33,34 @@ import "./style.scss";
 //   },
 // ];
 
-const RemindersCard = ({ callData }) => {
+const RemindersCard = ({ callData, refreshData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
+  const addToast = useToast();
 
   const isReminderDue = isOverDue(callData?.taskDate);
+
+  const completeReminder = () => {
+    let payload = {
+      reminderId: callData?.id,
+      leadsId: callData?.leadId,
+      isComplete: true,
+    };
+
+    clientsService
+      .updateReminder(payload)
+      .then((data) => {
+        addToast({
+          type: "success",
+          message: "Reminder successfully Updated.",
+          time: 3000,
+        });
+        refreshData();
+      })
+      .catch((e) => {
+        Sentry.captureException(e);
+      });
+  };
 
   return (
     <div className="reminder-card">
@@ -108,7 +133,7 @@ const RemindersCard = ({ callData }) => {
         )}
 
         <Grid item xs={6} md={3} className="reminder-mobile">
-          <div className="roundIcon">
+          <div className="roundIcon" onClick={completeReminder}>
             <RoundCheck />
           </div>
           <div className="reminder-info">{callData?.remindersNotes}</div>
@@ -159,12 +184,14 @@ const RemindersCard = ({ callData }) => {
   );
 };
 
-const RemindersList = ({ taskList }) => {
+const RemindersList = ({ taskList, refreshData }) => {
   return (
     <>
       <div className="reminder-card-container">
-        {taskList?.map((data) => {
-          return <RemindersCard callData={data} />;
+        {taskList?.map((data, i) => {
+          return i < 5 ? (
+            <RemindersCard callData={data} refreshData={refreshData} />
+          ) : null;
         })}
       </div>
       {taskList.length > 5 && (

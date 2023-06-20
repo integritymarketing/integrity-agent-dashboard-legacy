@@ -82,29 +82,31 @@ export default function TaskList({ isMobile, npn }) {
   const selectedName =
     DEFAULT_TABS[statusIndex]?.policyStatus || "Requested Callbacks";
 
-  useEffect(() => {
-    const fetchEnrollPlans = async () => {
-      try {
-        const data = await clientsService.getTaskList(
-          npn,
-          dateRange,
-          statusIndex
-        );
-        if (data?.taskSummmary?.length > 0) {
-          setTaskList([...data.taskSummmary]);
-        } else {
-          setTaskList([]);
-        }
-      } catch (error) {
-        setIsError(true);
-        addToast({
-          type: "error",
-          message: "Failed to get Task List.",
-          time: 10000,
-        });
+  const fetchEnrollPlans = async () => {
+    try {
+      const data = await clientsService.getTaskList(
+        npn,
+        dateRange,
+        statusIndex
+      );
+      if (data?.taskSummmary?.length > 0) {
+        setTaskList([...data.taskSummmary]);
+      } else {
+        setTaskList([]);
       }
-    };
+    } catch (error) {
+      setIsError(true);
+      addToast({
+        type: "error",
+        message: "Failed to get Task List.",
+        time: 10000,
+      });
+    }
+  };
+
+  useEffect(() => {
     fetchEnrollPlans();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast, statusIndex, dateRange, npn, selectedName]);
 
   useEffect(() => {
@@ -133,11 +135,20 @@ export default function TaskList({ isMobile, npn }) {
   const renderList = () => {
     switch (selectedName) {
       case "Unlinked Calls":
-        return <UnLinkedCalls taskList={taskList} />;
+        return (
+          <UnLinkedCalls taskList={taskList} refreshData={fetchEnrollPlans} />
+        );
       case "Unlinked Policies":
-        return <UnlinkedPolicyList taskList={taskList} />;
+        return (
+          <UnlinkedPolicyList
+            taskList={taskList}
+            refreshData={fetchEnrollPlans}
+          />
+        );
       case "Reminders":
-        return <RemindersList taskList={taskList} />;
+        return (
+          <RemindersList taskList={taskList} refreshData={fetchEnrollPlans} />
+        );
       case "Requested Callbacks":
         return <RequestedCallback />;
       default:
