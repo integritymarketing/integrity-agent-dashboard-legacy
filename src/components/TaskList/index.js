@@ -19,23 +19,25 @@ import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 const DEFAULT_TABS = [
   {
     policyStatus: "Requested Callbacks",
-    policyCount: 3,
+
     policyStatusColor: "#FBDEDE",
+    name: "reminders",
   },
   {
     policyStatus: "Reminders",
-    policyCount: 34,
     policyStatusColor: "#FEF8CB",
+    name: "requestedCallbacks",
   },
   {
     policyStatus: "Unlinked Calls",
-    policyCount: 4,
     policyStatusColor: "#DEEBFB",
+    name: "unLinkedPolicies",
   },
   {
     policyStatus: "Unlinked Policies",
-    policyCount: 8,
+
     policyStatusColor: "#DEEBFB",
+    name: "unlinkedCalls",
   },
 ];
 
@@ -109,7 +111,10 @@ export default function TaskList({ isMobile, npn }) {
     const fetchCounts = async () => {
       try {
         const tabsData = await clientsService.getTaskListCount(npn, dateRange);
-        setTabs(tabsData);
+        const data = DEFAULT_TABS.map((tab, i) => {
+          tab.policyCount = tabsData[tab.name];
+        });
+        setTabs([...data]);
       } catch (error) {
         console.log("Error in fetch Task List count: ", error);
         addToast({
@@ -131,7 +136,7 @@ export default function TaskList({ isMobile, npn }) {
       case "Unlinked Policies":
         return <UnlinkedPolicyList taskList={taskList} />;
       case "Reminders":
-        return <RemindersList />;
+        return <RemindersList taskList={taskList} />;
       case "Requested Callbacks":
         return <RequestedCallback />;
       default:
@@ -167,7 +172,7 @@ export default function TaskList({ isMobile, npn }) {
           heading={
             selectedName === "Reminders"
               ? "There are no reminders to display at this time."
-              : `There are no ${selectedName.toLowerCase()} at this time.`
+              : `There are no ${selectedName?.toLowerCase()} at this time.`
           }
           content={getMoreInfo[selectedName]}
           icon={getIcon[selectedName]}

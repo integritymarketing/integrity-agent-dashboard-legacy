@@ -30,7 +30,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const history = useHistory();
   const addToast = useToast();
 
-  const status = tabs[index]?.policyStatus || "Started";
+  const status = tabs[statusIndex]?.policyStatus || "Started";
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
@@ -127,7 +127,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
   };
 
   const jumptoList = (index) => {
-    if (leadIds.length > 0) {
+    if (leadIds?.length > 0) {
       jumptoListMobile(index);
     }
     return true;

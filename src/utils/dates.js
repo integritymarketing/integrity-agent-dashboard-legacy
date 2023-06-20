@@ -115,6 +115,17 @@ export const getOverDue = (value) => {
   } else return false;
 };
 
+export const isOverDue = (value) => {
+  let date = convertUTCDateToLocalDate(value);
+  let one = dateFormatter(new Date(), "MM/DD/yyyy");
+  let two = dateFormatter(date, "MM/DD/yyyy");
+
+  const result = differenceInDays(new Date(one), new Date(two));
+  if (result > 0) {
+    return true;
+  } else return false;
+};
+
 export const getFirstEffectiveDateOption = (years) => {
   let initialValue = new Date();
   initialValue.setDate(15); // setting the day of month here to the middle of the month, to avoid timezone issues.

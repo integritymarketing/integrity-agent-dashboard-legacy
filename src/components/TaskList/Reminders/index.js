@@ -6,6 +6,10 @@ import Person from "components/icons/personLatest";
 import ReminderIcon from "images/Reminder.svg";
 import Reminder_Overdue from "images/Reminder_Overdue.svg";
 import RoundCheck from "components/icons/round-check";
+import { dateFormatter } from "utils/dateFormatter";
+import { useHistory } from "react-router-dom";
+import { isOverDue } from "utils/dates";
+
 import "./style.scss";
 
 const mockData = [
@@ -29,6 +33,9 @@ const mockData = [
 
 const RemindersCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const history = useHistory();
+
+  const isReminderDue = isOverDue(callData?.taskDate);
 
   return (
     <div className="reminder-card">
@@ -41,7 +48,9 @@ const RemindersCard = ({ callData }) => {
       <Grid container className={"infoContainer"} spacing={2}>
         {!isMobile && (
           <Grid item xs={6} alignSelf={"center"} md={3}>
-            <p className="reminder-name">{callData.name}</p>
+            <p className="reminder-name">
+              {`${callData?.firstName}   ${callData?.lastName}`}
+            </p>
           </Grid>
         )}
 
@@ -66,7 +75,9 @@ const RemindersCard = ({ callData }) => {
                 justifyContent: "flex-start",
               }}
             >
-              <p className="reminder-name">{callData.name}</p>
+              <p className="reminder-name">
+                {`${callData?.firstName}   ${callData?.lastName}`}
+              </p>
             </Grid>{" "}
             <Grid
               item
@@ -81,18 +92,16 @@ const RemindersCard = ({ callData }) => {
               }}
             >
               <div className="startedIcon">
-                {callData?.isReminderDue ? (
+                {isReminderDue ? (
                   <img src={Reminder_Overdue} alt="rem_due" />
                 ) : (
                   <img src={ReminderIcon} alt="rem_new" />
                 )}
               </div>
               <div
-                className={`reminder-info ${
-                  callData?.isReminderDue ? "overDue" : ""
-                }`}
+                className={`reminder-info ${isReminderDue ? "overDue" : ""}`}
               >
-                {callData.date}
+                {dateFormatter(callData?.taskDate, "MM/DD/yyyy")}
               </div>
             </Grid>
           </Grid>
@@ -102,7 +111,7 @@ const RemindersCard = ({ callData }) => {
           <div className="roundIcon">
             <RoundCheck />
           </div>
-          <div className="reminder-info">{callData.reminder}</div>
+          <div className="reminder-info">{callData?.remindersNotes}</div>
         </Grid>
         {!isMobile && (
           <Grid
@@ -118,18 +127,14 @@ const RemindersCard = ({ callData }) => {
             }}
           >
             <div className="startedIcon">
-              {callData?.isReminderDue ? (
+              {isReminderDue ? (
                 <img src={Reminder_Overdue} alt="rem_due" />
               ) : (
                 <img src={ReminderIcon} alt="rem_new" />
               )}
             </div>
-            <div
-              className={`reminder-info ${
-                callData?.isReminderDue ? "overDue" : ""
-              }`}
-            >
-              {callData.date}
+            <div className={`reminder-info ${isReminderDue ? "overDue" : ""}`}>
+              {dateFormatter(callData?.taskDate, "MM/DD/yyyy")}
             </div>
           </Grid>
         )}
@@ -144,7 +149,7 @@ const RemindersCard = ({ callData }) => {
             icon={<Person />}
             label={"View Contact"}
             className={"reminder-card-link-btn"}
-            onClick={() => console.log("View Contact Clicked")}
+            onClick={() => history.push(`/contact/${callData?.leadId}`)}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
           />
@@ -154,16 +159,15 @@ const RemindersCard = ({ callData }) => {
   );
 };
 
-const RemindersList = () => {
-
+const RemindersList = ({ taskList }) => {
   return (
     <>
       <div className="reminder-card-container">
-        {mockData.map((data) => {
+        {taskList?.map((data) => {
           return <RemindersCard callData={data} />;
         })}
       </div>
-      {mockData.length > 5 && (
+      {taskList.length > 5 && (
         <div className="jumpList-card">
           <Button type="tertiary" label="Show More" className="jumpList-btn" />
         </div>
