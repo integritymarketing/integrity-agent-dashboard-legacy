@@ -3,7 +3,7 @@ import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
-// import { callDuration } from "utils/dates";
+import { useHistory } from "react-router-dom";
 import "./style.scss";
 
 // const mockData = [
@@ -27,25 +27,28 @@ import "./style.scss";
 
 const UnlinkedPolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const history = useHistory();
 
   const linkToContact = () => {
-    alert("in progress");
-    // const {
-    //   submittedDate,
-    //   enrolledDate,
-    //   effectiveDate,
-    //   policyHolder,
-    //   policyId,
-    //   currentYear = true,
-    //   leadId,
-    //   isEnrollPlansPage,
-    //   onShareClick,
-    //   policyStatus,
-    //   confirmationNumber,
-    // } = callData;
-    // history.push(`/enrollment-link-to-contact`, {
-    //   state: props,
-    // });
+    const data = {
+      agentNpn: "17138811",
+      leadId: "2288457",
+      policyNumber: "522914424",
+      plan: "1jzrm179w3",
+      carrier: null,
+      policyStatus: "submitted",
+      consumerSource: "Medicare Center",
+      confirmationNumber: "dVzSPUzwJV",
+      consumerFirstName: "arsenio",
+      consumeLastName: "assin",
+      policyEffectiveDate: "2023-12-11T00:00:00",
+      appSubmitDate: "2023-11-29T00:00:00",
+      hasPlanDetails: false,
+    };
+
+    history.push(`/enrollment-link-to-contact`, {
+      state: data,
+    });
   };
 
   return (
