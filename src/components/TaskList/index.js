@@ -48,13 +48,13 @@ const getIcon = {
 
 const getMoreInfo = {
   "Requested Callbacks":
-    "To learn more about how you can receive leads through consumer callback requests,",
+    "about how you can receive leads through consumer callback requests.",
   Reminders:
-    "To learn more about how you can receive leads through consumer callback requests.",
+    "about how you can create reminders.",
   "Unlinked Calls":
-    "To learn more about how you can receive leads through consumer callback requests.",
+    "about unlinked calls.",
   "Unlinked Policies":
-    "To learn more about how you can receive leads through consumer callback requests.",
+    "about unlinked policies.",
 };
 
 const getLink = {
