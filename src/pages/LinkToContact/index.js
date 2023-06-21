@@ -19,6 +19,7 @@ import Heading2 from "packages/Heading2";
 import PossibleMatches from "./PossibleMatches";
 import { dateFormatter } from "utils/dateFormatter";
 import CreateNewContact from "./CreateNewContact";
+import GoBackNavbar from "components/BackButtonNavbar";
 
 const IN_PROGRESS = "in-progress";
 
@@ -87,6 +88,7 @@ export default function LinkToContact() {
         <title>MedicareCENTER - Link to Contact</title>
       </Helmet>
       <GlobalNav />
+      <GoBackNavbar />
       <DashboardHeaderSection
         content={bannerContent()}
         justifyContent={"space-between"}
