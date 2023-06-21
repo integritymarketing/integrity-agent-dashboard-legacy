@@ -19,25 +19,23 @@ import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 const DEFAULT_TABS = [
   {
     policyStatus: "Requested Callbacks",
-
     policyStatusColor: "#FBDEDE",
-    name: "reminders",
+    name: "requestedCallbacks",
   },
   {
     policyStatus: "Reminders",
     policyStatusColor: "#FEF8CB",
-    name: "requestedCallbacks",
+    name: "reminders",
   },
   {
     policyStatus: "Unlinked Calls",
     policyStatusColor: "#DEEBFB",
-    name: "unLinkedPolicies",
+    name: "unlinkedCalls",
   },
   {
     policyStatus: "Unlinked Policies",
-
     policyStatusColor: "#DEEBFB",
-    name: "unlinkedCalls",
+    name: "unLinkedPolicies",
   },
 ];
 
@@ -104,51 +102,51 @@ export default function TaskList({ isMobile, npn }) {
     }
   };
 
+  const fetchCounts = async () => {
+    try {
+      const tabsData = await clientsService.getTaskListCount(npn, dateRange);
+      const data = DEFAULT_TABS.map((tab, i) => {
+        tab.policyCount = tabsData[tab.name];
+        return tab;
+      });
+      setTabs([...data]);
+    } catch (error) {
+      console.log("Error in fetch Task List count: ", error);
+      addToast({
+        type: "error",
+        message: "Failed to get Task List Count.",
+        time: 10000,
+      });
+    }
+  };
+
   useEffect(() => {
     fetchEnrollPlans();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast, statusIndex, dateRange, npn, selectedName]);
 
   useEffect(() => {
-    const fetchCounts = async () => {
-      try {
-        const tabsData = await clientsService.getTaskListCount(npn, dateRange);
-        const data = DEFAULT_TABS.map((tab, i) => {
-          tab.policyCount = tabsData[tab.name];
-          return tab;
-        });
-        setTabs([...data]);
-      } catch (error) {
-        console.log("Error in fetch Task List count: ", error);
-        addToast({
-          type: "error",
-          message: "Failed to get Task List Count.",
-          time: 10000,
-        });
-      }
-    };
     fetchCounts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast, dateRange, npn]);
+
+  const refreshData = () => {
+    fetchCounts();
+    fetchEnrollPlans();
+  };
 
   // we can pass card info here and accordingly set the show to true as per card
 
   const renderList = () => {
     switch (selectedName) {
       case "Unlinked Calls":
-        return (
-          <UnLinkedCalls taskList={taskList} refreshData={fetchEnrollPlans} />
-        );
+        return <UnLinkedCalls taskList={taskList} refreshData={refreshData} />;
       case "Unlinked Policies":
         return (
-          <UnlinkedPolicyList
-            taskList={taskList}
-            refreshData={fetchEnrollPlans}
-          />
+          <UnlinkedPolicyList taskList={taskList} refreshData={refreshData} />
         );
       case "Reminders":
-        return (
-          <RemindersList taskList={taskList} refreshData={fetchEnrollPlans} />
-        );
+        return <RemindersList taskList={taskList} refreshData={refreshData} />;
       case "Requested Callbacks":
         return <RequestedCallback />;
       default:
@@ -156,6 +154,7 @@ export default function TaskList({ isMobile, npn }) {
     }
   };
 
+  console.log("HHH", tabs);
   return (
     <ContactSectionCard
       title="Task List"
@@ -171,7 +170,7 @@ export default function TaskList({ isMobile, npn }) {
       preferencesKey={"taskList_collapse"}
     >
       <TabsCard
-        tabs={DEFAULT_TABS}
+        tabs={tabs}
         preferencesKey={"taskList_widget"}
         statusIndex={statusIndex}
         handleWidgetSelection={setStatusIndex}
