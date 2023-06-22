@@ -892,7 +892,8 @@ table {
   font-weight: bold;
   font-size: 10px;
   line-height: 24px;
-  width: 102px;
+  white-space: nowrap;
+  width: fit-content;
   height: 18px;
   display: flex;
   justify-content: center;
