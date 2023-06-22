@@ -381,7 +381,7 @@ function ContactsTable({
             return "--";
           }
           return (
-            <>
+            <div className={styles.contactPersonNameWrapper}>
               <Link
                 to={`/contact/${row.original.leadsId}`}
                 className={styles.contactPersonName}
@@ -391,7 +391,7 @@ function ContactsTable({
               {row.original.leadSource === "Import" && (
                 <div className={styles.visualIndicator}>MARKETING LEAD</div>
               )}
-            </>
+            </div>
           );
         },
       },
@@ -504,7 +504,7 @@ function ContactsTable({
             return "--";
           }
           return (
-            <>
+            <div className={styles.contactPersonNameWrapper}>
               <Link
                 to={`/contact/${row.original.leadsId}`}
                 className={styles.contactPersonName}
@@ -514,7 +514,7 @@ function ContactsTable({
               {row.original.leadSource === "Import" && (
                 <div className={styles.visualIndicator}>MARKETING LEAD</div>
               )}
-            </>
+            </div>
           );
         },
       },

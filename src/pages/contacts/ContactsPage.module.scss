@@ -144,6 +144,12 @@ table {
   color: var(--v2-dark-blue);
 }
 
+.contactPersonNameWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .contactPersonName {
   text-decoration: none;
   color: var(--v2-royal-blue);
