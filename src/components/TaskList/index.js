@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
 import DateRangeSort from "../DateRangeSort";
 import styles from "./styles.module.scss";
@@ -15,6 +15,7 @@ import NoReminder from "images/no-reminder.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
 import NoRequestedCallback from "images/no-requested-callback.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
+import { Button } from "components/ui/Button";
 
 const DEFAULT_TABS = [
   {
@@ -64,6 +65,8 @@ const getLink = {
   "Unlinked Policies": "/MedicareCENTER-Unlinked-Policies-Guide.pdf",
 };
 
+const PAGESIZE = 5;
+
 export default function TaskList({ isMobile, npn }) {
   const [dRange] = usePreferences(0, "taskList_sort");
   const [index] = usePreferences(0, "taskList_widget");
@@ -75,22 +78,33 @@ export default function TaskList({ isMobile, npn }) {
   const [taskList, setTaskList] = useState([]);
   const [tabs, setTabs] = useState([]);
 
+  const [page, setPage] = useState(1);
+  const [totalPageSize, setTotalPageSize] = useState(1);
+
   const addToast = useToast();
 
   const selectedName =
     DEFAULT_TABS[statusIndex]?.policyStatus || "Requested Callbacks";
+
+  const showMore = useMemo(() => {
+    return page < totalPageSize;
+  }, [page, totalPageSize]);
 
   const fetchEnrollPlans = async () => {
     try {
       const data = await clientsService.getTaskList(
         npn,
         dateRange,
-        statusIndex
+        statusIndex,
+        PAGESIZE,
+        page
       );
       if (data?.taskSummmary?.length > 0) {
         setTaskList([...data.taskSummmary]);
+        setTotalPageSize(data?.pageResult?.totalPages || 10);
       } else {
         setTaskList([]);
+        setTotalPageSize(data?.pageResult?.totalPages);
       }
     } catch (error) {
       setIsError(true);
@@ -123,7 +137,7 @@ export default function TaskList({ isMobile, npn }) {
   useEffect(() => {
     fetchEnrollPlans();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast, statusIndex, dateRange, npn, selectedName]);
+  }, [addToast, statusIndex, dateRange, npn, selectedName, page]);
 
   useEffect(() => {
     fetchCounts();
@@ -190,7 +204,19 @@ export default function TaskList({ isMobile, npn }) {
           link={getLink[selectedName]}
         />
       ) : (
-        <>{renderList()}</>
+        <>
+          {renderList()}
+          {showMore && (
+            <div className="jumpList-card">
+              <Button
+                type="tertiary"
+                onClick={() => setPage(page + 1)}
+                label="Show More"
+                className="jumpList-btn"
+              />
+            </div>
+          )}
+        </>
       )}
     </ContactSectionCard>
   );

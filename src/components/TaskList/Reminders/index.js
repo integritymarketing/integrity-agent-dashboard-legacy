@@ -136,7 +136,9 @@ const RemindersCard = ({ callData, refreshData }) => {
           <div className="roundIcon" onClick={completeReminder}>
             <RoundCheck />
           </div>
-          <div className="reminder-info">{callData?.remindersNotes}</div>
+          <div className="reminder-info" title={callData?.remindersNotes}>
+            {callData?.remindersNotes}
+          </div>
         </Grid>
         {!isMobile && (
           <Grid
@@ -194,16 +196,6 @@ const RemindersList = ({ taskList, refreshData }) => {
           ) : null;
         })}
       </div>
-      {taskList.length > 5 && (
-        <div className="jumpList-card">
-          <Button
-            type="tertiary"
-            onClick={() => alert("in progress")}
-            label="Show More"
-            className="jumpList-btn"
-          />
-        </div>
-      )}
     </>
   );
 };

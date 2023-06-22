@@ -112,16 +112,6 @@ const UnLinkedCalls = ({ taskList }) => {
           return <UnLinkedCallCard key={data.contact} task={data} />;
         })}
       </div>
-      {taskList?.length > 5 && (
-        <div className="show-more-card">
-          <Button
-            type="tertiary"
-            onClick={() => alert("in progress")}
-            label="Show More"
-            className="show-more-btn"
-          />
-        </div>
-      )}
     </>
   );
 };

@@ -44,6 +44,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
       policyEffectiveDate: "2023-12-11T00:00:00",
       appSubmitDate: "2023-11-29T00:00:00",
       hasPlanDetails: false,
+      page: "Dashboard",
     };
 
     history.push(`/enrollment-link-to-contact`, {
@@ -121,16 +122,6 @@ const UnlinkedPolicyList = ({ taskList }) => {
           return i < 5 ? <UnlinkedPolicyCard callData={data} /> : null;
         })}
       </div>
-      {taskList?.length > 5 && (
-        <div className="jumpList-card">
-          <Button
-            type="tertiary"
-            onClick={() => alert("in progress")}
-            label="Show More"
-            className="jumpList-btn"
-          />
-        </div>
-      )}
     </>
   );
 };

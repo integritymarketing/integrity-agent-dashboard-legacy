@@ -58,7 +58,11 @@ export default function EnrollmentLinkToContact() {
   };
 
   const handleBackToRoute = () => {
-    history.push(`/contact/${state?.leadId}/details`);
+    if (state?.page === "Contacts Details") {
+      history.push(`/contact/${state?.leadId}/details`);
+    } else if (state?.page === "Dashboard") {
+      history.push(`/dashboard`);
+    }
   };
 
   return (
@@ -68,7 +72,7 @@ export default function EnrollmentLinkToContact() {
       </Helmet>
       <GlobalNav />
       <GoBackNavbar
-        title="Back to Contacts Details"
+        title={`Back to ${state?.page}`}
         handleBackToRoute={handleBackToRoute}
       />
       <DashboardHeaderSection

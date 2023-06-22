@@ -71,13 +71,22 @@ export default ({
             />
           ) : (
             <EnrollmentPlanCard
-              key={enrollData?.policyId}
-              currentYear={enrollData?.currentYear}
-              submittedDate={enrollData?.submittedDate}
-              enrolledDate={enrollData?.enrolledDate}
-              effectiveDate={enrollData?.effectiveDate}
-              policyHolder={enrollData?.policyHolder}
-              policyId={enrollData?.policyId}
+              currentYear={false}
+              submittedDate={enrollData.appSubmitDate}
+              enrolledDate={enrollData.enrolledDate}
+              effectiveDate={enrollData.policyEffectiveDate}
+              policyId={enrollData.policyNumber}
+              policyHolder={`${enrollData.consumerFirstName} ${enrollData.consumeLastName}`}
+              leadId={enrollData.leadId}
+              planId={enrollData.plan}
+              agentNpn={enrollData.agentNpn}
+              carrier={enrollData.carrier}
+              consumerSource={enrollData.consumerSource}
+              hasPlanDetails={enrollData.hasPlanDetails}
+              policyStatus={enrollData.policyStatus}
+              confirmationNumber={enrollData.confirmationNumber}
+              isEnrollPlansPage={isEnroll}
+              onShareClick={onShareClick}
             />
           )}
         </div>
