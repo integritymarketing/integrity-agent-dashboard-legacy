@@ -43,6 +43,9 @@
   color: #434a51;
   font-size: 16px;
   margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
 }
 .overDue {
   color: #f23b2f !important;

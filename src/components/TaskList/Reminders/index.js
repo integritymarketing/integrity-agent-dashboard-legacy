@@ -194,16 +194,6 @@ const RemindersList = ({ taskList, refreshData }) => {
           ) : null;
         })}
       </div>
-      {taskList.length > 5 && (
-        <div className="jumpList-card">
-          <Button
-            type="tertiary"
-            onClick={() => alert("in progress")}
-            label="Show More"
-            className="jumpList-btn"
-          />
-        </div>
-      )}
     </>
   );
 };
