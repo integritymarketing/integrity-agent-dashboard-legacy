@@ -1191,7 +1191,7 @@ export class ClientsService {
     return response?.ok;
   };
 
-  getTaskList = async (npn, dateRange, status) => {
+  getTaskList = async (npn, dateRange, status, PageSize, page) => {
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/tasks/${npn}/${dateRange}/${status}`,
       "GET"

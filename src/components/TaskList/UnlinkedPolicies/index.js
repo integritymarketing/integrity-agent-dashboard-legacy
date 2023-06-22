@@ -44,6 +44,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
       policyEffectiveDate: "2023-12-11T00:00:00",
       appSubmitDate: "2023-11-29T00:00:00",
       hasPlanDetails: false,
+      page: "Dashboard",
     };
 
     history.push(`/enrollment-link-to-contact`, {

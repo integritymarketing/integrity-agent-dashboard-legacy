@@ -136,7 +136,9 @@ const RemindersCard = ({ callData, refreshData }) => {
           <div className="roundIcon" onClick={completeReminder}>
             <RoundCheck />
           </div>
-          <div className="reminder-info">{callData?.remindersNotes}</div>
+          <div className="reminder-info" title={callData?.remindersNotes}>
+            {callData?.remindersNotes}
+          </div>
         </Grid>
         {!isMobile && (
           <Grid

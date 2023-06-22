@@ -15,7 +15,7 @@ const data = [
     carrier: null,
     policyStatus: "submitted",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2023-12-11T00:00:00",
@@ -30,7 +30,7 @@ const data = [
     carrier: null,
     policyStatus: "started",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2023-12-11T00:00:00",
@@ -45,7 +45,7 @@ const data = [
     carrier: null,
     policyStatus: "Approved Upcoming",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2023-03-18T00:00:00",
@@ -60,7 +60,7 @@ const data = [
     carrier: null,
     policyStatus: "Declined",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2023-04-18T00:00:00",
@@ -75,7 +75,7 @@ const data = [
     carrier: null,
     policyStatus: "submitted",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2022-03-18T00:00:00",
@@ -90,7 +90,7 @@ const data = [
     carrier: null,
     policyStatus: "submitted",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2021-03-18T00:00:00",
@@ -105,7 +105,7 @@ const data = [
     carrier: null,
     policyStatus: "submitted",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2020-03-18T00:00:00",
@@ -120,7 +120,7 @@ const data = [
     carrier: null,
     policyStatus: "submitted",
     consumerSource: "Medicare Center",
-    confirmationNumber: "dVzSPUzwJV",
+    confirmationNumber: 123456,
     consumerFirstName: "arsenio",
     consumeLastName: "assin",
     policyEffectiveDate: "2019-03-18T00:00:00",
@@ -198,6 +198,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 hasPlanDetails={planData.hasPlanDetails}
                 policyStatus={planData.policyStatus}
                 confirmationNumber={planData.confirmationNumber}
+                page="Contacts Details"
               />
             );
           })}
@@ -221,6 +222,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 hasPlanDetails={planData.hasPlanDetails}
                 policyStatus={planData.policyStatus}
                 confirmationNumber={planData.confirmationNumber}
+                page="Contacts Details"
               />
             ))}
           </>

@@ -37,18 +37,6 @@ export default ({
     hasMailDrugBenefits,
   } = plan;
 
-  const formattedName = (str) => {
-    const capitalize = (word) => {
-      return word
-        .toLowerCase()
-        .replace(/\b[a-z]/g, (char) => char.toUpperCase());
-    };
-
-    return str.split(" ").map(capitalize).join(" ");
-  };
-
-  const policyHolderName = `${enrollData?.consumerFirstName} ${enrollData?.consumeLastName}`;
-
   return (
     <>
       <div className={`${styles["left"]}`}>
@@ -155,19 +143,20 @@ export default ({
             />
           ) : (
             <EnrollmentPlanCard
-              currentYear={enrollData?.currentYear}
-              submittedDate={enrollData?.appSubmitDate}
-              enrolledDate={enrollData?.enrolledDate}
-              effectiveDate={enrollData?.policyEffectiveDate}
-              policyId={enrollData?.policyNumber}
-              policyHolder={formattedName(policyHolderName)}
-              planId={enrollData?.plan}
-              agentNpn={enrollData?.agentNpn}
-              carrier={enrollData?.carrier}
-              consumerSource={enrollData?.consumerSource}
-              hasPlanDetails={enrollData?.hasPlanDetails}
-              policyStatus={enrollData?.policyStatus}
-              confirmationNumber={enrollData?.confirmationNumber}
+              currentYear={false}
+              submittedDate={enrollData.appSubmitDate}
+              enrolledDate={enrollData.enrolledDate}
+              effectiveDate={enrollData.policyEffectiveDate}
+              policyId={enrollData.policyNumber}
+              policyHolder={`${enrollData.consumerFirstName} ${enrollData.consumeLastName}`}
+              leadId={enrollData.leadId}
+              planId={enrollData.plan}
+              agentNpn={enrollData.agentNpn}
+              carrier={enrollData.carrier}
+              consumerSource={enrollData.consumerSource}
+              hasPlanDetails={enrollData.hasPlanDetails}
+              policyStatus={enrollData.policyStatus}
+              confirmationNumber={enrollData.confirmationNumber}
               isEnrollPlansPage={isEnroll}
               onShareClick={onShareClick}
             />
