@@ -36,7 +36,13 @@ export default ({ planData, isMobile }) => {
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
-
+  console.log(
+    "TESTING CALCULATIONS",
+    effectiveEndDate.getMonth(),
+    effectiveEndDate,
+    effectiveStartDate.getMonth(),
+    effectiveStartDate
+  );
   const isApiFailed =
     (planData?.planDrugCoverage?.filter((drug) => drug.labelName)?.length > 0
       ? false
