@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Media from "react-media";
 import { dateFormatter } from "utils/dateFormatter";
+import moment from "moment";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
@@ -36,7 +37,7 @@ const UnLinkedCallCard = ({ task }) => {
           </p>
           <p>
             <span className="date-time-duration-text">Time:</span>{" "}
-            {dateFormatter(task?.taskDate, "MM/DD/yyyy")}
+            {dateFormatter(task?.taskDate, "h:m A")}
           </p>
           <p>
             <span className="date-time-duration-text">Duration:</span>{" "}
@@ -105,10 +106,17 @@ const UnLinkedCallCard = ({ task }) => {
 };
 
 const UnLinkedCalls = ({ taskList }) => {
+
+  let sorted = taskList?.sort((a, b) => {
+    let dateA = moment(a.taskDate, 'MM/DD/YYYY hh:mm:ss');
+    let dateB = moment(b.taskDate, 'MM/DD/YYYY hh:mm:ss');
+    return dateA - dateB;
+});
+
   return (
     <>
       <div className="unlink-card-container">
-        {taskList.map((data) => {
+        {sorted.map((data) => {
           return <UnLinkedCallCard key={data.contact} task={data} />;
         })}
       </div>
