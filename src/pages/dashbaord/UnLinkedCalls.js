@@ -106,17 +106,16 @@ const UnLinkedCallCard = ({ task }) => {
 };
 
 const UnLinkedCalls = ({ taskList }) => {
-
-  let sorted = taskList?.sort((a, b) => {
-    let dateA = moment(a.taskDate, 'MM/DD/YYYY hh:mm:ss');
-    let dateB = moment(b.taskDate, 'MM/DD/YYYY hh:mm:ss');
-    return dateA - dateB;
-});
+  const sortedTasks = taskList.sort((a, b) =>
+    moment(b.taskDate, "MM/DD/YYYY HH:mm:ss").diff(
+      moment(a.taskDate, "MM/DD/YYYY HH:mm:ss")
+    )
+  );
 
   return (
     <>
       <div className="unlink-card-container">
-        {sorted.map((data) => {
+        {sortedTasks.map((data) => {
           return <UnLinkedCallCard key={data.contact} task={data} />;
         })}
       </div>
