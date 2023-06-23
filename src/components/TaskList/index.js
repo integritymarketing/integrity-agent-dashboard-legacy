@@ -97,8 +97,13 @@ export default function TaskList({ isMobile, npn }) {
         statusIndex
       );
       if (data?.taskSummmary?.length > 0) {
+        const sortedTasks = data?.taskSummmary?.sort((a, b) =>
+          moment(b.taskDate, "MM/DD/YYYY HH:mm:ss").diff(
+            moment(a.taskDate, "MM/DD/YYYY HH:mm:ss")
+          )
+        );
         setTotalPageSize(data.taskSummmary?.length / PAGESIZE);
-        setFullList([...data?.taskSummmary]);
+        setFullList([...sortedTasks]);
       } else {
         setTaskList([]);
         setTotalPageSize(data?.pageResult?.totalPages);
@@ -132,13 +137,8 @@ export default function TaskList({ isMobile, npn }) {
   };
 
   useEffect(() => {
-    const taskList = fullList?.filter((task, i) => i < page * PAGESIZE);
-    const sortedTasks = taskList.sort((a, b) =>
-      moment(b.taskDate, "MM/DD/YYYY HH:mm:ss").diff(
-        moment(a.taskDate, "MM/DD/YYYY HH:mm:ss")
-      )
-    );
-    setTaskList([...sortedTasks]);
+    const list = fullList?.filter((task, i) => i < page * PAGESIZE);
+    setTaskList([...list]);
   }, [page, fullList]);
 
   useEffect(() => {
