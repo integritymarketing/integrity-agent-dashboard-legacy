@@ -87,18 +87,16 @@ export default function TaskList({ isMobile, npn }) {
   }, [page, totalPageSize]);
 
   const fetchEnrollPlans = async () => {
+    setTotalPageSize(1);
+    setPage(1);
     try {
       const data = await clientsService.getTaskList(
         npn,
         dateRange,
-        statusIndex,
-        PAGESIZE,
-        page
+        statusIndex
       );
       if (data?.taskSummmary?.length > 0) {
         setTotalPageSize(data.taskSummmary?.length / PAGESIZE);
-        const list = data?.taskSummmary?.filter((task, i) => i < PAGESIZE);
-        setTaskList([...list]);
         setFullList([...data?.taskSummmary]);
       } else {
         setTaskList([]);
@@ -132,7 +130,7 @@ export default function TaskList({ isMobile, npn }) {
     }
   };
   useEffect(() => {
-    const list = fullList?.filter((task, i) => i <= page * PAGESIZE);
+    const list = fullList?.filter((task, i) => i < page * PAGESIZE);
     setTaskList([...list]);
   }, [page, fullList]);
 
