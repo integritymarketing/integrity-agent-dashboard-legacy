@@ -18,12 +18,14 @@ export default function AdditionalFilters({
   specialNeedsFilter,
   isNonRTS_User,
 }) {
+  const sortedCarriers = carriers?.sort((a, b) => a.localeCompare(b));
+
   return (
     <div className="effective-date-filter">
       <div className="header">Filters</div>
       <SubSection title="Carrier">
         <CheckboxGroup
-          checkboxes={carriers.map((carrier) => {
+          checkboxes={sortedCarriers.map((carrier) => {
             return {
               label: carrier,
               id: carrier,

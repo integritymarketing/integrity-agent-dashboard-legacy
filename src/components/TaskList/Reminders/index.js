@@ -14,25 +14,6 @@ import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import "./style.scss";
 
-// const mockData = [
-//   {
-//     name: "Amber Smith",
-//     reminder: "Call client to discuss plans shared.",
-//     date: "04/20/23",
-//     policyHolder: "Anne Polsen",
-//     policyStatus: "Started",
-//     isReminderDue: false,
-//   },
-//   {
-//     name: "Robert Paulson",
-//     reminder: "Check on SOA.",
-//     date: "08/20/23",
-//     policyHolder: "Anne Polsen",
-//     policyStatus: "Started",
-//     isReminderDue: true,
-//   },
-// ];
-
 const RemindersCard = ({ callData, refreshData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
@@ -194,9 +175,7 @@ const RemindersList = ({ taskList, refreshData }) => {
     <>
       <div className="reminder-card-container">
         {sorted?.map((data, i) => {
-          return i < 5 ? (
-            <RemindersCard callData={data} refreshData={refreshData} />
-          ) : null;
+          return <RemindersCard callData={data} refreshData={refreshData} />;
         })}
       </div>
     </>

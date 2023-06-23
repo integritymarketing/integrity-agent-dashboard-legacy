@@ -6,25 +6,6 @@ import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContact
 import { useHistory } from "react-router-dom";
 import "./style.scss";
 
-// const mockData = [
-//   {
-//     policyName: "Humana HMO 2343",
-//     policyId: "252456",
-//     policyCarrier: "Humana",
-//     lastName: "Polsen",
-//     firstName: "Anne",
-//     policyStatus: "Started",
-//   },
-//   {
-//     policyName: "Humana HMO 2343",
-//     policyId: "252456",
-//     policyCarrier: "Humana",
-//     lastName: "Polsen",
-//     firstName: "Anne",
-//     policyStatus: "Started",
-//   },
-// ];
-
 const UnlinkedPolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
@@ -119,7 +100,7 @@ const UnlinkedPolicyList = ({ taskList }) => {
     <>
       <div className="up-card-container">
         {taskList?.map((data, i) => {
-          return i < 5 ? <UnlinkedPolicyCard callData={data} /> : null;
+          return <UnlinkedPolicyCard callData={data} />;
         })}
       </div>
     </>

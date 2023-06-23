@@ -50,12 +50,9 @@ const getIcon = {
 const getMoreInfo = {
   "Requested Callbacks":
     "about how you can receive leads through consumer callback requests.",
-  Reminders:
-    "about how you can create reminders.",
-  "Unlinked Calls":
-    "about unlinked calls.",
-  "Unlinked Policies":
-    "about unlinked policies.",
+  Reminders: "about how you can create reminders.",
+  "Unlinked Calls": "about unlinked calls.",
+  "Unlinked Policies": "about unlinked policies.",
 };
 
 const getLink = {
@@ -74,10 +71,9 @@ export default function TaskList({ isMobile, npn }) {
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
   const [isError, setIsError] = useState(false);
-
+  const [fullList, setFullList] = useState([]);
   const [taskList, setTaskList] = useState([]);
   const [tabs, setTabs] = useState([]);
-
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
 
@@ -100,8 +96,10 @@ export default function TaskList({ isMobile, npn }) {
         page
       );
       if (data?.taskSummmary?.length > 0) {
-        setTaskList([...data.taskSummmary]);
-        setTotalPageSize(data?.pageResult?.totalPages || 10);
+        setTotalPageSize(data.taskSummmary?.length / PAGESIZE);
+        const list = data?.taskSummmary?.filter((task, i) => i < PAGESIZE);
+        setTaskList([...list]);
+        setFullList([...data?.taskSummmary]);
       } else {
         setTaskList([]);
         setTotalPageSize(data?.pageResult?.totalPages);
@@ -133,11 +131,15 @@ export default function TaskList({ isMobile, npn }) {
       });
     }
   };
+  useEffect(() => {
+    const list = fullList?.filter((task, i) => i <= page * PAGESIZE);
+    setTaskList([...list]);
+  }, [page, fullList]);
 
   useEffect(() => {
     fetchEnrollPlans();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast, statusIndex, dateRange, npn, selectedName, page]);
+  }, [addToast, statusIndex, dateRange, npn, selectedName]);
 
   useEffect(() => {
     fetchCounts();
@@ -168,7 +170,6 @@ export default function TaskList({ isMobile, npn }) {
     }
   };
 
-  console.log("HHH", tabs);
   return (
     <ContactSectionCard
       title="Task List"
