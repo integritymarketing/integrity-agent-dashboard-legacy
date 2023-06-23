@@ -16,6 +16,7 @@ import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
 import NoRequestedCallback from "images/no-requested-callback.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 import { Button } from "components/ui/Button";
+import moment from "moment";
 
 const DEFAULT_TABS = [
   {
@@ -129,9 +130,15 @@ export default function TaskList({ isMobile, npn }) {
       });
     }
   };
+
   useEffect(() => {
-    const list = fullList?.filter((task, i) => i < page * PAGESIZE);
-    setTaskList([...list]);
+    const taskList = fullList?.filter((task, i) => i < page * PAGESIZE);
+    const sortedTasks = taskList.sort((a, b) =>
+      moment(b.taskDate, "MM/DD/YYYY HH:mm:ss").diff(
+        moment(a.taskDate, "MM/DD/YYYY HH:mm:ss")
+      )
+    );
+    setTaskList([...sortedTasks]);
   }, [page, fullList]);
 
   useEffect(() => {
