@@ -168,13 +168,10 @@ const RemindersCard = ({ callData, refreshData }) => {
 };
 
 const RemindersList = ({ taskList, refreshData }) => {
-  let sorted = taskList?.sort((a, b) => {
-    return new Date(a.taskDate) - new Date(b.taskDate);
-  });
   return (
     <>
       <div className="reminder-card-container">
-        {sorted?.map((data, i) => {
+        {taskList?.map((data, i) => {
           return <RemindersCard callData={data} refreshData={refreshData} />;
         })}
       </div>

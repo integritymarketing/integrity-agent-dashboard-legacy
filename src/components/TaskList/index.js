@@ -137,8 +137,17 @@ export default function TaskList({ isMobile, npn }) {
   };
 
   useEffect(() => {
-    const list = fullList?.filter((task, i) => i < page * PAGESIZE);
-    setTaskList([...list]);
+    if (statusIndex === 1) {
+      let sortedList = fullList?.sort((a, b) => {
+        return new Date(a.taskDate) - new Date(b.taskDate);
+      });
+      const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
+      setTaskList([...list]);
+    } else {
+      const list = fullList?.filter((task, i) => i < page * PAGESIZE);
+      setTaskList([...list]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, fullList]);
 
   useEffect(() => {
