@@ -147,6 +147,7 @@ export default function TaskList({ isMobile, npn }) {
       const list = fullList?.filter((task, i) => i < page * PAGESIZE);
       setTaskList([...list]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, fullList]);
 
   useEffect(() => {
