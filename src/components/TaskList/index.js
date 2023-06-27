@@ -63,9 +63,9 @@ const getLink = {
   "Unlinked Policies": "/MedicareCENTER-Unlinked-Policies-Guide.pdf",
 };
 
-const PAGESIZE = 5;
-
 export default function TaskList({ isMobile, npn }) {
+  const PAGESIZE = isMobile ? 3 : 5;
+
   const [dRange] = usePreferences(0, "taskList_sort");
   const [index] = usePreferences(0, "taskList_widget");
 
