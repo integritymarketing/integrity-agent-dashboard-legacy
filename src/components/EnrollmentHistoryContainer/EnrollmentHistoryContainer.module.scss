@@ -1,9 +1,21 @@
-.enrollmentPlanContainer {
+.enrollmentPlanContainer_detailsPage {
   margin-top: 3rem;
   margin-bottom: 3rem;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
 
 .previousYearPlanTitle {
   color: #434a51;
   letter-spacing: 0.16px;
+}
+
+.no-items {
+  border: 1.5px solid #e6ecf2;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #64748b;
 }

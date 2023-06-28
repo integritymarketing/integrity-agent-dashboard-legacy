@@ -187,7 +187,8 @@ export default function TaskList({ isMobile, npn }) {
   return (
     <ContactSectionCard
       title="Task List"
-      className={styles.enrollmentPlanContainer}
+      className={styles.enrollmentPlanContainer_dashboard}
+      isDashboard={true}
       actions={
         <DateRangeSort
           isMobile={isMobile}

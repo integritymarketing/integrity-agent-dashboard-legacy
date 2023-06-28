@@ -570,6 +570,7 @@ export default function DashboardActivityTable({
       <ContactSectionCard
         title="Recent Activity"
         className={styles.enrollmentPlanContainer}
+        isDashboard={true}
         actions={
           <div className={styles.filterButton}>
             <Filter
