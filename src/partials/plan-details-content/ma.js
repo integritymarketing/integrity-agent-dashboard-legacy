@@ -15,6 +15,7 @@ export default ({
   onShareClick,
   isEnroll,
   enrollData,
+  isEmail = false,
 }) => {
   const costsRef = useRef(null);
   const providersRef = useRef(null);
@@ -87,6 +88,7 @@ export default ({
               confirmationNumber={enrollData.confirmationNumber}
               isEnrollPlansPage={isEnroll}
               onShareClick={onShareClick}
+              isEmail={isEmail}
             />
           )}
         </div>

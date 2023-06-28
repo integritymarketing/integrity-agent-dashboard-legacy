@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import useFetch from "hooks/useFetch";
 import styles from "./EnrollmentHistoryPage.module.scss";
 import WithLoader from "components/ui/WithLoader";
@@ -15,76 +15,49 @@ import { BackToTop } from "components/ui/BackToTop";
 import ContactFooter from "partials/global-footer";
 import GoBackNavbar from "components/BackButtonNavbar";
 import Media from "react-media";
-
-const enrollData = {
-  agentNpn: "17138811",
-  leadId: "2288457",
-  policyNumber: "522914424",
-  plan: "1jzrm179w3",
-  carrier: null,
-  policyStatus: "submitted",
-  consumerSource: "Medicare Center",
-  confirmationNumber: 123456,
-  consumerFirstName: "arsenio",
-  consumeLastName: "assin",
-  policyEffectiveDate: "2020-03-18T00:00:00",
-  appSubmitDate: "2023-02-18T00:00:00",
-  hasPlanDetails: false,
-};
+import useToast from "hooks/useToast";
+import clientsService from "services/clientsService";
+import * as Sentry from "@sentry/react";
 
 const API_URL = (confirmationNumber) =>
   `https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0/Medicare/confirmationNumber/${confirmationNumber}`;
 
-const EnrollmentHistoryPage = () => {
+const EnrollmentHistoryPage = (props) => {
   const { contactId, confirmationNumber } = useParams();
-  const { data, loading, error } = useFetch(API_URL(confirmationNumber));
-  // const { , loading, error } = useFetch(API_URL(confirmationNumber));
+  const location = useLocation();
+
+  const { state: enrollData } = location.state;
+
+  const { isComingFromEmail = false, footer = true } = props;
+
+  const addToast = useToast();
+  const { data, loading } = useFetch(API_URL(confirmationNumber));
 
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [contact, setContact] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  console.log("JJJ", contactId, data, error, confirmationNumber);
   let plan_data = data?.medicareEnrollment?.planDetails;
 
-  // const getContactAndPlanData = useCallback(async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const [contactData, pharmacies] = await Promise.all([
-  //       clientsService.getContactInfo(contactId),
-  //       clientsService.getLeadPharmacies(contactId),
-  //     ]);
-  //     const planData = await plansService.getPlan(
-  //       contactId,
-  //       planId,
-  //       contactData,
-  //       effectiveDate
-  //     );
-  //     setPharmacies(
-  //       pharmacies.reduce((dict, item) => {
-  //         dict[item["pharmacyID"]] = item;
-  //         return dict;
-  //       }, {})
-  //     );
-  //     if (!planData) {
-  //       addToast({
-  //         type: "error",
-  //         message: "There was an error loading the plan.",
-  //       });
-  //     }
-  //     setPlan(planData);
-  //     setContact(contactData);
-  //     analyticsService.fireEvent("event-content-load", {
-  //       pagePath: "/:contactId/plan/:planId",
-  //     });
-  //   } catch (e) {
-  //     Sentry.captureException(e);
-  //     addToast({
-  //       type: "error",
-  //       message: "There was an error loading the plan.",
-  //     });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }, [contactId, planId, addToast, effectiveDate]);
+  const getContactData = useCallback(async () => {
+    try {
+      const contactData = await clientsService.getContactInfo(contactId);
+
+      setContact(contactData);
+    } catch (e) {
+      Sentry.captureException(e);
+      addToast({
+        type: "error",
+        message: "There was an error loading the contact details.",
+      });
+    } finally {
+    }
+  }, [contactId, addToast]);
+
+  useEffect(() => {
+    if (!isComingFromEmail && contactId) {
+      getContactData();
+    }
+  }, [getContactData, isComingFromEmail, contactId]);
 
   return (
     <>
@@ -95,11 +68,16 @@ const EnrollmentHistoryPage = () => {
         }}
       />
       <div className={styles.enrollmentHistory}>
-        <SharePlanModal
-          modalOpen={shareModalOpen}
-          planData={plan_data}
-          handleCloseModal={() => setShareModalOpen(false)}
-        />
+        {shareModalOpen && !isComingFromEmail && (
+          <SharePlanModal
+            modalOpen={shareModalOpen}
+            planData={plan_data}
+            handleCloseModal={() => setShareModalOpen(false)}
+            contact={contact}
+            enrollmentId={data?.enrollmentId}
+            ispolicyShare={true}
+          />
+        )}
         <WithLoader isLoading={loading}>
           <Helmet>
             <title>MedicareCENTER - Enrollment History</title>
@@ -112,6 +90,7 @@ const EnrollmentHistoryPage = () => {
                 plan={plan_data}
                 enrollData={enrollData}
                 isEnroll={true}
+                isEmail={isComingFromEmail}
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
@@ -123,6 +102,7 @@ const EnrollmentHistoryPage = () => {
                 plan={plan_data}
                 enrollData={enrollData}
                 isEnroll={true}
+                isEmail={isComingFromEmail}
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
@@ -134,13 +114,15 @@ const EnrollmentHistoryPage = () => {
                 plan={plan_data}
                 enrollData={enrollData}
                 isEnroll={true}
+                isEmail={isComingFromEmail}
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
               />
             )}
           </Container>
-          <ContactFooter />
+          {footer && <ContactFooter />}
+
           <BackToTop />
         </WithLoader>
       </div>

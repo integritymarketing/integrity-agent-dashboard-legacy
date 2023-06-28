@@ -3,131 +3,7 @@ import ContactSectionCard from "../../packages/ContactSectionCard";
 import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
 import EnrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
-
 import styles from "./EnrollmentHistoryContainer.module.scss";
-
-const data = [
-  {
-    agentNpn: "17138811",
-    leadId: "2288457",
-    policyNumber: "522914424",
-    plan: "1jzrm179w3",
-    carrier: null,
-    policyStatus: "submitted",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2023-12-11T00:00:00",
-    appSubmitDate: "2023-11-29T00:00:00",
-    hasPlanDetails: false,
-  },
-  {
-    agentNpn: "17138811",
-    leadId: "2288457",
-    policyNumber: "522914424",
-    plan: "1jzrm179w3",
-    carrier: null,
-    policyStatus: "started",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2023-12-11T00:00:00",
-    appSubmitDate: "2023-11-29T00:00:00",
-    hasPlanDetails: false,
-  },
-  {
-    agentNpn: "17138811",
-    leadId: "2288457",
-    policyNumber: "522914424",
-    plan: "1jzrm179w3",
-    carrier: null,
-    policyStatus: "Approved Upcoming",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2023-03-18T00:00:00",
-    appSubmitDate: "2023-10-28T00:00:00",
-    hasPlanDetails: false,
-  },
-  {
-    agentNpn: "17238811",
-    leadId: "2281457",
-    policyNumber: "542914424",
-    plan: "1jzrm170w3",
-    carrier: null,
-    policyStatus: "Declined",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2023-04-18T00:00:00",
-    appSubmitDate: "2023-04-28T00:00:00",
-    hasPlanDetails: false,
-  },
-  {
-    agentNpn: "17138811",
-    leadId: "2288457",
-    policyNumber: "522914424",
-    plan: "1jzrm179w3",
-    carrier: null,
-    policyStatus: "submitted",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2022-03-18T00:00:00",
-    appSubmitDate: "2022-08-18T00:00:00",
-    hasPlanDetails: false,
-  },
-  {
-    agentNpn: "17138811",
-    leadId: "2288457",
-    policyNumber: "522914424",
-    plan: "1jzrm179w3",
-    carrier: null,
-    policyStatus: "submitted",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2021-03-18T00:00:00",
-    appSubmitDate: "2023-03-28T00:00:00",
-    hasPlanDetails: false,
-  },
-  {
-    agentNpn: "17138811",
-    leadId: "2288457",
-    policyNumber: "522914424",
-    plan: "1jzrm179w3",
-    carrier: null,
-    policyStatus: "submitted",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2020-03-18T00:00:00",
-    appSubmitDate: "2023-02-18T00:00:00",
-    hasPlanDetails: false,
-  },
-  {
-    agentNpn: "17138811",
-    leadId: "2288457",
-    policyNumber: "522914424",
-    plan: "1jzrm179w3",
-    carrier: null,
-    policyStatus: "submitted",
-    consumerSource: "Medicare Center",
-    confirmationNumber: 123456,
-    consumerFirstName: "arsenio",
-    consumeLastName: "assin",
-    policyEffectiveDate: "2019-03-18T00:00:00",
-    appSubmitDate: "2023-04-18T00:00:00",
-    hasPlanDetails: false,
-  },
-];
 
 export default function EnrollmentHistoryContainer({ leadId }) {
   const [enrollPlans, setEnrollPlans] = useState([]);
@@ -136,8 +12,8 @@ export default function EnrollmentHistoryContainer({ leadId }) {
   useEffect(() => {
     const fetchEnrollPlans = async () => {
       try {
-        const items = await EnrollPlansService.getEnrollPlans("2288457");
-        setEnrollPlans(data || items);
+        const items = await EnrollPlansService.getEnrollPlans(leadId);
+        setEnrollPlans(items);
       } catch (error) {
         addToast({
           type: "error",
@@ -147,7 +23,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast]);
+  }, [addToast, leadId]);
 
   function getCurrentYear(date) {
     return date ? new Date(date).getFullYear() : null;
@@ -199,6 +75,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 policyStatus={planData.policyStatus}
                 confirmationNumber={planData.confirmationNumber}
                 page="Contacts Details"
+                planName={planData.planName}
               />
             );
           })}
@@ -223,6 +100,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 policyStatus={planData.policyStatus}
                 confirmationNumber={planData.confirmationNumber}
                 page="Contacts Details"
+                planName={planData.planName}
               />
             ))}
           </>

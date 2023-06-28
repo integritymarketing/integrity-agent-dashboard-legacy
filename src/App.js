@@ -54,6 +54,7 @@ import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
 import LandingPage from "mobile/landing/LandingPage";
 import EnrollmentLinkToContact from "pages/EnrollmentLinkToContact";
+import PolicyCodePage from "pages/dashbaord/SharePolicy";
 
 const App = () => {
   return (
@@ -204,6 +205,9 @@ const App = () => {
                                     </Route>
                                     <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
                                       <ComparePlansCodePage />
+                                    </Route>
+                                    <Route path="/customer/policy/details/:confirmationNumber/:request/:token">
+                                      <PolicyCodePage />
                                     </Route>
                                     <Route path="/soa-confirmation-page/:firstName/:lastName">
                                       <SOAConfirmationPage />

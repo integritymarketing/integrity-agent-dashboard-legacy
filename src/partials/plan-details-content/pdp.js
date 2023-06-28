@@ -17,6 +17,7 @@ export default ({
   pharmacies,
   isEnroll,
   enrollData,
+  isEmail = false,
 }) => {
   const costsRef = useRef(null);
   const prescriptionsRef = useRef(null);
@@ -144,6 +145,7 @@ export default ({
               confirmationNumber={enrollData.confirmationNumber}
               isEnrollPlansPage={isEnroll}
               onShareClick={onShareClick}
+              isEmail={isEmail}
             />
           )}
         </div>

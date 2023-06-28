@@ -1,0 +1,50 @@
+@import "../../../scss/mixins.scss";
+
+.compare-plans-content {
+  padding-left: 2rem;
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    padding: 1rem;
+  }
+}
+
+.heading-title {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 23px;
+  color: var(--v2-royal-blue);
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    font-size: 24px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.compare-plans-code {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 4rem;
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    padding: 1rem;
+    margin-top: 4rem;
+  }
+}
+
+.greetings {
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 130%;
+  color: var(--v2-royal-blue);
+  padding-right: 32px;
+}
+
+.resend-code {
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 700;
+  color: #0052ce;
+}

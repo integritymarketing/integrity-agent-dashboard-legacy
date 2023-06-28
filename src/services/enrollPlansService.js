@@ -4,7 +4,11 @@ export const QUOTES_API_VERSION = "v1.0";
 
 class EnrollPlansService {
   getEnrollPlans = async (leadId) => {
-    const response = await this._clientAPIRequest(`lead/${leadId}`, "GET", {
+    const url = new URL(
+      `${process.env.REACT_APP_BOOKOFBUSINESS_API}/lead/${leadId}`
+    );
+
+    const response = await this._clientAPIRequest(url, "GET", {
       LeadId: leadId,
     });
 
@@ -12,33 +16,52 @@ class EnrollPlansService {
   };
 
   getPolicySnapShotList = async (npn, dateRange, status) => {
-    const response = await this._clientAPIRequest(
-      `summary/${npn}/${dateRange}/${status}`,
-      "GET"
+    const url = new URL(
+      `${process.env.REACT_APP_BOOKOFBUSINESS_API}/summary/${npn}/${dateRange}/${status}`
     );
+
+    const response = await this._clientAPIRequest(url, "GET");
 
     return response?.json();
   };
 
   getPolicySnapShotCount = async (npn, dateRange) => {
-    const response = await this._clientAPIRequest(
-      `policycount/${npn}/${dateRange}`,
-      "GET"
+    const url = new URL(
+      `${process.env.REACT_APP_BOOKOFBUSINESS_API}/policycount/${npn}/${dateRange}`
     );
+
+    const response = await this._clientAPIRequest(url, "GET");
 
     return response?.json();
   };
 
   updateBookOfBusiness = async (updateBookPayload) => {
+    const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}`);
+
     const response = await this._clientAPIRequest(
-      "",
+      url,
       "PUT",
       "",
       updateBookPayload
     );
     return response?.json();
   };
-  _clientAPIRequest = async (path, method = "GET", query, body, bearer) => {
+
+  sharePolicy = async (sharePolicyPayload) => {
+    const url = new URL(
+      `https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0/Medicare/ShareCurrentPlanSnapshot`
+    );
+
+    const response = await this._clientAPIRequest(
+      url,
+      "POST",
+      "",
+      sharePolicyPayload
+    );
+    return response?.json();
+  };
+
+  _clientAPIRequest = async (url, method = "GET", query, body, bearer) => {
     const user = await authService.getUser();
     const opts = {
       method,
@@ -47,8 +70,6 @@ class EnrollPlansService {
         "Content-Type": "application/json",
       },
     };
-
-    const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/` + path);
 
     url.search = new URLSearchParams(query).toString();
 

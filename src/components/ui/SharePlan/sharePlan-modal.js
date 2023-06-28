@@ -14,6 +14,7 @@ import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
+import EnrollPlansService from "services/enrollPlansService";
 import "./styles.scss";
 
 const EMAIL_MOBILE_LABELS = [
@@ -45,6 +46,8 @@ export default ({
   planData = {},
   handleCloseModal,
   contact = {},
+  enrollmentId,
+  ispolicyShare,
 }) => {
   const addToast = useToast();
   const auth = useContext(AuthContext);
@@ -52,10 +55,29 @@ export default ({
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
 
-  const { firstName, lastName, emails, phones, leadsId } = contact;
+  const {
+    firstName,
+    lastName,
+    emails,
+    phones,
+    leadsId,
+    birthdate,
+    agentNpn,
+    middleName,
+    addresses,
+  } = contact;
   const { planRating, id, documents } = planData;
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
+  const addressData = addresses?.length > 0 ? addresses[0] : null;
+  const countyFIPS =
+    addressData && addressData?.countyFIPS ? addressData?.countyFIPS : "";
+  const state =
+    addressData && addressData?.stateCode ? addressData?.stateCode : "";
+
+  const zipCode =
+    addressData && addressData.postalCode ? addressData?.postalCode : "";
+
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);
   const [formattedMobile, setFormattedMobile] = useState("");
@@ -127,6 +149,9 @@ export default ({
     const agentEmail = user?.email;
     const roles = user?.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
+    const urlPathName = window?.location?.pathname;
+    const origin = window?.location?.origin;
+    const shareCurrentPlanSnapshotUrl = `${origin}/customer${urlPathName}`;
     let updatedRoles;
     if (typeof roles === "string") {
       updatedRoles = [roles];
@@ -145,20 +170,46 @@ export default ({
         starRatingsLink: planRating.toString(),
         roles: updatedRoles,
       };
+      let sharepolicyData = {
+        leadFirstName: firstName,
+        leadLastName: lastName,
+        agentFirstName: agentFirstName,
+        agentLastName: agentLastName,
+        agentPhoneNumber: agentPhoneNumber,
+        agentEmail: agentEmail,
+        shareCurrentPlanSnapshotUrl,
+        roles: updatedRoles,
+        leadId: leadsId,
+        agentNpn,
+        zipCode,
+        state,
+        countyFIPS,
+        middleInitial: middleName,
+        dateOfBirth: birthdate,
+        EnrollmentId: enrollmentId,
+      };
       if (selectOption === "email") {
         const data = {
           ...payload,
           messageDestination: leadEmail,
           messageType: "email",
         };
-        await plansService.sendPlan(data, leadsId, id);
+        if (ispolicyShare) {
+          await EnrollPlansService.sharePolicy(sharepolicyData);
+        } else {
+          await plansService.sendPlan(data, leadsId, id);
+        }
       } else if (selectOption === "textMessage") {
         const data = {
           ...payload,
           messageDestination: leadPhone,
           messageType: "sms",
         };
-        await plansService.sendPlan(data, leadsId, id);
+        if (ispolicyShare) {
+          await EnrollPlansService.sharePolicy(sharepolicyData);
+        } else {
+          await plansService.sendPlan(data, leadsId, id);
+        }
       } else {
         if (selectLabel === "email") {
           const data = {
@@ -166,14 +217,22 @@ export default ({
             messageDestination: email,
             messageType: "email",
           };
-          await plansService.sendPlan(data, leadsId, id);
+          if (ispolicyShare) {
+            await EnrollPlansService.sharePolicy(sharepolicyData);
+          } else {
+            await plansService.sendPlan(data, leadsId, id);
+          }
         } else {
           const data = {
             ...payload,
             messageDestination: mobile,
             messageType: "sms",
           };
-          await plansService.sendPlan(data, leadsId, id);
+          if (ispolicyShare) {
+            await EnrollPlansService.sharePolicy(sharepolicyData);
+          } else {
+            await plansService.sendPlan(data, leadsId, id);
+          }
         }
       }
       addToast({
@@ -246,32 +305,36 @@ export default ({
                       How do you want to share this plan?
                     </div>
                     <div className="select-scope-radios">
-                      <Radio
-                        id="email"
-                        data-gtm="input-share-plans"
-                        htmlFor="email"
-                        label={`Email (${leadEmail})`}
-                        name="share-plan"
-                        value="email"
-                        checked={selectOption === "email"}
-                        onChange={(event) =>
-                          setSelectOption(event.currentTarget.value)
-                        }
-                      />
-                      <Radio
-                        id="textMessage"
-                        data-gtm="input-share-plans"
-                        htmlFor="textMessage"
-                        label={`Text Message (${__formatPhoneNumber(
-                          leadPhone
-                        )})`}
-                        name="share-plan"
-                        value="textMessage"
-                        checked={selectOption === "textMessage"}
-                        onChange={(event) =>
-                          setSelectOption(event.currentTarget.value)
-                        }
-                      />
+                      {leadEmail && (
+                        <Radio
+                          id="email"
+                          data-gtm="input-share-plans"
+                          htmlFor="email"
+                          label={`Email (${leadEmail})`}
+                          name="share-plan"
+                          value="email"
+                          checked={selectOption === "email"}
+                          onChange={(event) =>
+                            setSelectOption(event.currentTarget.value)
+                          }
+                        />
+                      )}
+                      {leadPhone && (
+                        <Radio
+                          id="textMessage"
+                          data-gtm="input-share-plans"
+                          htmlFor="textMessage"
+                          label={`Text Message (${__formatPhoneNumber(
+                            leadPhone
+                          )})`}
+                          name="share-plan"
+                          value="textMessage"
+                          checked={selectOption === "textMessage"}
+                          onChange={(event) =>
+                            setSelectOption(event.currentTarget.value)
+                          }
+                        />
+                      )}
                       <Radio
                         id="newEmailOrMobile"
                         data-gtm="input-share-plans"

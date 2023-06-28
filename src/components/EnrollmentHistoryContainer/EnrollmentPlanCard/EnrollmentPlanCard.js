@@ -22,6 +22,10 @@ export default function EnrollmentPlanCard(props) {
     onShareClick,
     policyStatus,
     confirmationNumber,
+    isEmail = false,
+    planName,
+    carrier,
+    planId,
   } = props;
 
   const history = useHistory();
@@ -35,6 +39,12 @@ export default function EnrollmentPlanCard(props) {
   const navigateEnrollDetails = () => {
     history.push(
       `/enrollmenthistory/${leadId}/${confirmationNumber}/${effectiveDate}`
+    );
+    history.push(
+      `/enrollmenthistory/${leadId}/${confirmationNumber}/${effectiveDate}`,
+      {
+        state: props,
+      }
     );
   };
 
@@ -72,13 +82,11 @@ export default function EnrollmentPlanCard(props) {
         >
           <div className={styles.detailAndDateContainer}>
             <div className={styles.details}>
-              <div className={styles.planName}>
-                Humana Gold Plus H5619-021 (HMO)
-              </div>
-              <div className={styles.planCompany}>Humana Advantage</div>
+              <div className={styles.planName}>{planName}</div>
+              <div className={styles.planCompany}>{carrier}</div>
               <div>
                 <strong className={styles.planId}>Plan ID:</strong>{" "}
-                <span>548512365</span>
+                <span>{planId}</span>
               </div>
             </div>
             <div className={styles.dates}>
@@ -87,106 +95,109 @@ export default function EnrollmentPlanCard(props) {
               <PlanDate type="Effective" date={effectiveDate} />
             </div>
           </div>
-
-          {isEnrollPlansPage ? (
-            <div>
-              {isMobile ? (
-                <div
-                  className={styles.shareBtnContainer}
-                  onClick={() => onShareClick()}
-                >
-                  <span className={styles.shareText}>Share</span>
-                  <SharePlan />
+          {!isEmail && (
+            <>
+              {isEnrollPlansPage ? (
+                <div>
+                  {isMobile ? (
+                    <div
+                      className={styles.shareBtnContainer}
+                      onClick={() => onShareClick()}
+                    >
+                      <span className={styles.shareText}>Share</span>
+                      <SharePlan />
+                    </div>
+                  ) : (
+                    <Button
+                      label="Share Plan"
+                      onClick={() => onShareClick()}
+                      type="secondary"
+                      className={styles.shareBtn}
+                    />
+                  )}
                 </div>
               ) : (
-                <Button
-                  label="Share Plan"
-                  onClick={() => onShareClick()}
-                  type="secondary"
-                  className={styles.shareBtn}
-                />
+                <div className={styles.links}>
+                  <Media
+                    queries={{
+                      small: "(max-width: 767px)",
+                    }}
+                  >
+                    {(matches) =>
+                      matches.small ? (
+                        <>
+                          {currentYear && (
+                            <div onClick={navigateEnrollDetails}>
+                              <IconWithText
+                                text="View"
+                                icon={
+                                  <Icon
+                                    altText="View"
+                                    className={styles.iconPng}
+                                    image={View}
+                                  />
+                                }
+                                screensize="small"
+                              />
+                            </div>
+                          )}
+                          {!location.pathname.includes(
+                            "enrollment-link-to-contact"
+                          ) && (
+                            <div onClick={navigateToEnrollmentLink}>
+                              <IconWithText
+                                text="Relink"
+                                icon={
+                                  <Icon
+                                    altText="Link"
+                                    className={styles.iconPng}
+                                    image={Link}
+                                  />
+                                }
+                                screensize="small"
+                              />
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {currentYear && (
+                            <div onClick={navigateEnrollDetails}>
+                              <IconWithText
+                                text="View"
+                                icon={
+                                  <Icon
+                                    altText="View"
+                                    className={styles.iconPng}
+                                    image={View}
+                                  />
+                                }
+                              />
+                            </div>
+                          )}
+                          {!location.pathname.includes(
+                            "enrollment-link-to-contact"
+                          ) && (
+                            <div onClick={navigateToEnrollmentLink}>
+                              <IconWithText
+                                text="Relink"
+                                icon={
+                                  <Icon
+                                    altText="Link"
+                                    className={styles.iconPng}
+                                    image={Link}
+                                  />
+                                }
+                              />
+                            </div>
+                          )}
+                        </>
+                      )
+                    }
+                  </Media>
+                </div>
               )}
-            </div>
-          ) : (
-            <div className={styles.links}>
-              <Media
-                queries={{
-                  small: "(max-width: 767px)",
-                }}
-              >
-                {(matches) =>
-                  matches.small ? (
-                    <>
-                      {currentYear && (
-                        <div onClick={navigateEnrollDetails}>
-                          <IconWithText
-                            text="View"
-                            icon={
-                              <Icon
-                                altText="View"
-                                className={styles.iconPng}
-                                image={View}
-                              />
-                            }
-                            screensize="small"
-                          />
-                        </div>
-                      )}
-                      {!location.pathname.includes(
-                        "enrollment-link-to-contact"
-                      ) && (
-                        <div onClick={navigateToEnrollmentLink}>
-                          <IconWithText
-                            text="Relink"
-                            icon={
-                              <Icon
-                                altText="Link"
-                                className={styles.iconPng}
-                                image={Link}
-                              />
-                            }
-                            screensize="small"
-                          />
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {currentYear && (
-                        <div onClick={navigateEnrollDetails}>
-                          <IconWithText
-                            text="View"
-                            icon={
-                              <Icon
-                                altText="View"
-                                className={styles.iconPng}
-                                image={View}
-                              />
-                            }
-                          />
-                        </div>
-                      )}
-                      {!location.pathname.includes(
-                        "enrollment-link-to-contact"
-                      ) && (
-                        <div onClick={navigateToEnrollmentLink}>
-                          <IconWithText
-                            text="Relink"
-                            icon={
-                              <Icon
-                                altText="Link"
-                                className={styles.iconPng}
-                                image={Link}
-                              />
-                            }
-                          />
-                        </div>
-                      )}
-                    </>
-                  )
-                }
-              </Media>
-            </div>
+            </>
           )}
         </div>
       </div>
