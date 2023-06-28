@@ -21,8 +21,6 @@ import { dateFormatter } from "utils/dateFormatter";
 import CreateNewContact from "./CreateNewContact";
 import GoBackNavbar from "components/BackButtonNavbar";
 
-const IN_PROGRESS = "in-progress";
-
 export default function LinkToContact() {
   const history = useHistory();
   const { callLogId, callFrom, duration, date } = useParams();
@@ -31,9 +29,6 @@ export default function LinkToContact() {
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const callRecordings = useCallRecordings();
-  const callStatusInProgress = callRecordings.find(
-    (callRecording) => callRecording.callStatus === IN_PROGRESS
-  );
 
   const getContacts = async (searchStr) => {
     setIsLoading(true);
@@ -78,7 +73,7 @@ export default function LinkToContact() {
     );
   };
 
-  const tags = callStatusInProgress?.callLogTags.map(
+  const tags = callRecordings?.callLogTags.map(
     (callLogTag) => callLogTag.tag.tagLabel
   );
 

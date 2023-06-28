@@ -18,7 +18,8 @@
     &.modal .modal__card.card {
       padding: 40px;
       .modal__exit.icon-btn {
-        right: auto;
+        right: auto !important;
+        top: -10px !important;
       }
       .modal__header {
         width: calc(100% - 40px);
