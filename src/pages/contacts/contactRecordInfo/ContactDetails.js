@@ -47,7 +47,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   return (
     <ContactSectionCard
       title={"Contact Details"}
-      className={"enrollmentPlanContainer"}
+      className={"enrollmentPlanContainer_detailsPage"}
       actions={
         !rest.isEdit && (
           <div className={"iconWithTitle"} onClick={() => rest.setEdit(true)}>

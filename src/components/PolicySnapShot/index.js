@@ -140,7 +140,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
   return (
     <ContactSectionCard
       title="Policy Snapshot"
-      className={"enrollmentPlanContainer"}
+      className={"enrollmentPlanContainer_dashboard"}
+      isDashboard={true}
       infoIcon={
         <Popover
           openOn="hover"

@@ -42,7 +42,7 @@ function DetailsCard({
   return (
     <ContactSectionCard
       title={displayTitleWithCount}
-      className={"enrollmentPlanContainer"}
+      className={"enrollmentPlanContainer_detailsPage"}
       actions={
         onAddClick && (
           <div className="actions">

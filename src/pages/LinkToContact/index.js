@@ -29,6 +29,11 @@ export default function LinkToContact() {
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const callRecordings = useCallRecordings();
+  const callsRecordingTags = callRecordings.filter((callRecording) => {
+    if (callRecording?.callLogId === parseInt(callLogId)) {
+      return callRecording?.callLogTags;
+    } else return null;
+  });
 
   const getContacts = async (searchStr) => {
     setIsLoading(true);
@@ -73,9 +78,11 @@ export default function LinkToContact() {
     );
   };
 
-  const tags = callRecordings?.callLogTags.map(
-    (callLogTag) => callLogTag.tag.tagLabel
-  );
+  const tags =
+    callsRecordingTags?.length > 0 &&
+    callsRecordingTags[0]?.callLogTags?.map(
+      (callLogTag) => callLogTag.tag.tagLabel
+    );
 
   return (
     <>

@@ -49,63 +49,67 @@ export default function EnrollmentHistoryContainer({ leadId }) {
   };
 
   return (
-    enrollPlans?.length > 0 && (
-      <ContactSectionCard
-        title="Plans"
-        className={styles.enrollmentPlanContainer}
-      >
-        {currentYearPlansData?.length > 0 &&
-          currentYearPlansData.map((planData, index) => {
-            const policyHolderName = `${planData.consumerFirstName} ${planData.consumeLastName}`;
-            return (
-              <EnrollmentPlanCard
-                key={`${planData.policyId + index.toString()}`}
-                currentYear={planData.currentYear}
-                submittedDate={planData.appSubmitDate}
-                enrolledDate={planData.enrolledDate}
-                effectiveDate={planData.policyEffectiveDate}
-                policyId={planData.policyNumber}
-                policyHolder={formattedName(policyHolderName)}
-                leadId={leadId}
-                planId={planData.plan}
-                agentNpn={planData.agentNpn}
-                carrier={planData.carrier}
-                consumerSource={planData.consumerSource}
-                hasPlanDetails={planData.hasPlanDetails}
-                policyStatus={planData.policyStatus}
-                confirmationNumber={planData.confirmationNumber}
-                page="Contacts Details"
-                planName={planData.planName}
-              />
-            );
-          })}
-        {previousYearPlansData?.length > 0 && (
-          <>
-            <div className={styles.previousYearPlanTitle}>Plan History</div>
-            {previousYearPlansData.map((planData, index) => (
-              <EnrollmentPlanCard
-                key={`${planData.policyId + index.toString()}`}
-                currentYear={false}
-                submittedDate={planData.appSubmitDate}
-                enrolledDate={planData.enrolledDate}
-                effectiveDate={planData.policyEffectiveDate}
-                policyId={planData.policyNumber}
-                policyHolder={`${planData.consumerFirstName} ${planData.consumeLastName}`}
-                leadId={leadId}
-                planId={planData.plan}
-                agentNpn={planData.agentNpn}
-                carrier={planData.carrier}
-                consumerSource={planData.consumerSource}
-                hasPlanDetails={planData.hasPlanDetails}
-                policyStatus={planData.policyStatus}
-                confirmationNumber={planData.confirmationNumber}
-                page="Contacts Details"
-                planName={planData.planName}
-              />
-            ))}
-          </>
-        )}
-      </ContactSectionCard>
-    )
+    <ContactSectionCard
+      title="Plans"
+      className={styles.enrollmentPlanContainer_detailsPage}
+    >
+      {enrollPlans?.length > 0 ? (
+        <>
+          {currentYearPlansData?.length > 0 &&
+            currentYearPlansData.map((planData, index) => {
+              const policyHolderName = `${planData.consumerFirstName} ${planData.consumeLastName}`;
+              return (
+                <EnrollmentPlanCard
+                  key={`${planData.policyId + index.toString()}`}
+                  currentYear={planData.currentYear}
+                  submittedDate={planData.appSubmitDate}
+                  enrolledDate={planData.enrolledDate}
+                  effectiveDate={planData.policyEffectiveDate}
+                  policyId={planData.policyNumber}
+                  policyHolder={formattedName(policyHolderName)}
+                  leadId={leadId}
+                  planId={planData.plan}
+                  agentNpn={planData.agentNpn}
+                  carrier={planData.carrier}
+                  consumerSource={planData.consumerSource}
+                  hasPlanDetails={planData.hasPlanDetails}
+                  policyStatus={planData.policyStatus}
+                  confirmationNumber={planData.confirmationNumber}
+                  page="Contacts Details"
+                  planName={planData.planName}
+                />
+              );
+            })}
+          {previousYearPlansData?.length > 0 && (
+            <>
+              <div className={styles.previousYearPlanTitle}>Plan History</div>
+              {previousYearPlansData.map((planData, index) => (
+                <EnrollmentPlanCard
+                  key={`${planData.policyId + index.toString()}`}
+                  currentYear={false}
+                  submittedDate={planData.appSubmitDate}
+                  enrolledDate={planData.enrolledDate}
+                  effectiveDate={planData.policyEffectiveDate}
+                  policyId={planData.policyNumber}
+                  policyHolder={`${planData.consumerFirstName} ${planData.consumeLastName}`}
+                  leadId={leadId}
+                  planId={planData.plan}
+                  agentNpn={planData.agentNpn}
+                  carrier={planData.carrier}
+                  consumerSource={planData.consumerSource}
+                  hasPlanDetails={planData.hasPlanDetails}
+                  policyStatus={planData.policyStatus}
+                  confirmationNumber={planData.confirmationNumber}
+                  page="Contacts Details"
+                  planName={planData.planName}
+                />
+              ))}
+            </>
+          )}
+        </>
+      ) : (
+        <div className="no-items">No Plans Available</div>
+      )}
+    </ContactSectionCard>
   );
 }

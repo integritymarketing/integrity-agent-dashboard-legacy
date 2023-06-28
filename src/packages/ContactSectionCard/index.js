@@ -13,6 +13,7 @@ const ContactSectionCard = (props) => {
     infoIcon,
     preferencesKey,
     hideActionIfCollapse = false,
+    isDashboard = false,
   } = props;
   const [value, setValue] = usePreferences(false, preferencesKey);
   const [isCollapsed, setCollapsed] = useState(value);
@@ -22,9 +23,17 @@ const ContactSectionCard = (props) => {
     setValue(!isCollapsed, preferencesKey);
   };
 
+  const cardBorderClassName =
+    (isDashboard && isCollapsed) || (!isDashboard && !isCollapsed)
+      ? "inset 0px -1px 0px #c7ccd1"
+      : "";
+
   return (
     <section className={className}>
-      <div className={styles.cardHeader} style={{boxShadow: isCollapsed ? 'inset 0px -1px 0px #c7ccd1': ''}}>
+      <div
+        className={styles.cardHeader}
+        style={{ boxShadow: cardBorderClassName }}
+      >
         <div className={styles.iconWithTitle}>
           <div
             className={`${styles.icon} ${

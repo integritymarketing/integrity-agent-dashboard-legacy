@@ -928,6 +928,7 @@
 
 .contactdetailscard {
   background: #ffffff;
+  border-radius: 8px;
 }
 .contactdetailscardheader {
   padding: 31px 37px 22px 30px;
@@ -2323,9 +2324,11 @@ button {
   height: 40px;
 }
 
-.enrollmentPlanContainer {
+.enrollmentPlanContainer_detailsPage {
   margin-top: 3rem;
   margin-bottom: 3rem;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
 
 .previousYearPlanTitle {
