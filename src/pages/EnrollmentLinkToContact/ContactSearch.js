@@ -31,7 +31,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
 const ContactListItemButton = ({
   contact,
   callFrom,
-  leadId,
+  leadId: selectedLeadId,
   callLogId,
   children,
   state,
@@ -83,7 +83,7 @@ const ContactListItemButton = ({
         addToast({
           message: "Contact linked succesfully",
         });
-        history.push(`/contact/${leadId}`);
+        history.push(`/contact/${selectedLeadId}`);
       }
     } catch (error) {
       addToast({
@@ -142,7 +142,7 @@ export default function ContactSearch({
           callFrom={callFrom}
           state={state}
           leadInfo={leadInfo}
-          setLeadInfo={setLeadInfo} // Passing setLeadInfo as a prop here
+          setLeadInfo={setLeadInfo}
         >
           <ListItemText
             primary={
