@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   InputAdornment,
   ListItem,
@@ -7,6 +7,7 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
+import * as Sentry from "@sentry/react";
 import { useHistory } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
@@ -34,44 +35,42 @@ const ContactListItemButton = ({
   callLogId,
   children,
   state,
+  leadInfo,
+  setLeadInfo, // Accessing setLeadInfo here
 }) => {
   const addToast = useToast();
   const history = useHistory();
+  useEffect(() => {
+    const getLeadInformation = async () => {
+      try {
+        const response = await clientsService.getContactInfo(state?.leadId);
+        if (response) {
+          setLeadInfo(response);
+        }
+      } catch (error) {
+        Sentry.captureException(error);
+      }
+    };
+
+    getLeadInformation();
+  }, [state, setLeadInfo]);
+
   const updatePrimaryContact = useCallback(() => {
     return clientsService.updateLeadPhone(contact, callFrom);
   }, [contact, callFrom]);
 
   const onClickHandler = useCallback(async () => {
-    const {
-      effectiveDate,
-      planId,
-      submittedDate,
-      policyId,
-      agentNpn,
-      carrier,
-      consumerSource,
-      policyStatus,
-      leadId,
-      hasPlanDetails,
-      confirmationNumber,
-      policyHolder,
-    } = state;
+    const { policyId, agentNpn, policyStatus, leadId, policyHolder } = state;
     try {
       const reverseArray = contact?.phones?.reverse();
       const updateBusinessBookPayload = {
         agentNpn: agentNpn,
         leadId: leadId,
         policyNumber: policyId,
-        plan: planId,
-        carrier: carrier,
-        policyStatus: policyStatus,
-        consumerSource: consumerSource,
-        confirmationNumber: confirmationNumber,
         consumerFirstName: policyHolder.split(" ")[0],
-        consumeLastName: policyHolder.split(" ")[1],
-        policyEffectiveDate: effectiveDate,
-        appSubmitDate: submittedDate,
-        hasPlanDetails: hasPlanDetails,
+        consumerLastName: policyHolder.split(" ")[1],
+        leadDate: leadInfo?.createDate,
+        leadStatus: policyStatus,
       };
       const hasPhone = reverseArray[0]?.leadPhone;
       if (!hasPhone) {
@@ -80,11 +79,11 @@ const ContactListItemButton = ({
       const response = await enrollPlansService.updateBookOfBusiness(
         updateBusinessBookPayload
       );
-      if (response.status === 200) {
+      if (response.leadId) {
         addToast({
           message: "Contact linked succesfully",
         });
-        history.push(`/contact/${leadId}`);
+        history.push(`/contact/${response.leadId}`);
       }
     } catch (error) {
       addToast({
@@ -92,7 +91,14 @@ const ContactListItemButton = ({
         message: `${error.message}`,
       });
     }
-  }, [history, addToast, contact.phones, updatePrimaryContact, state]);
+  }, [
+    history,
+    addToast,
+    contact.phones,
+    updatePrimaryContact,
+    state,
+    leadInfo,
+  ]);
 
   return (
     <div className={styles.contactName} onClick={onClickHandler}>
@@ -109,6 +115,7 @@ export default function ContactSearch({
 }) {
   const { callLogId, callFrom } = useParams();
   const [searchStr, setSearchStr] = useState("");
+  const [leadInfo, setLeadInfo] = useState();
 
   function renderRow(value, index) {
     const fullname = `${value.firstName} ${value.lastName}`;
@@ -133,6 +140,8 @@ export default function ContactSearch({
           contact={value}
           callFrom={callFrom}
           state={state}
+          leadInfo={leadInfo}
+          setLeadInfo={setLeadInfo} // Passing setLeadInfo as a prop here
         >
           <ListItemText
             primary={
