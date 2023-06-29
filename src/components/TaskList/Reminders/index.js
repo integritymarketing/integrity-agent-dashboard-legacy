@@ -36,7 +36,7 @@ const RemindersCard = ({ callData, refreshData }) => {
           message: "Reminder successfully Updated.",
           time: 3000,
         });
-        refreshData();
+        refreshData(callData?.id);
       })
       .catch((e) => {
         Sentry.captureException(e);

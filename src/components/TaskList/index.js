@@ -160,9 +160,12 @@ export default function TaskList({ isMobile, npn }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast, dateRange, npn]);
 
-  const refreshData = () => {
+  const refreshData = (id) => {
     fetchCounts();
-    fetchEnrollPlans();
+    if (id) {
+      const list = fullList?.filter((task) => task.id !== id);
+      setFullList([...list]);
+    }
   };
 
   // we can pass card info here and accordingly set the show to true as per card

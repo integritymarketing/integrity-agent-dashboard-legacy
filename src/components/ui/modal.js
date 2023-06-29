@@ -42,6 +42,14 @@ export default ({
     return () => document.body.classList.remove("disable-scroll");
   }, [open]);
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => (document.body.style.overflow = "unset");
+  }, [open]);
+  
   return (
     <div
       className={`modal ${open ? "modal--show" : "modal--hide"} ${
