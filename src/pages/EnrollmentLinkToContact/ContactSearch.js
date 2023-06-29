@@ -83,12 +83,13 @@ const ContactListItemButton = ({
         addToast({
           message: "Contact linked succesfully",
         });
-        history.push(`/contact/${response.leadId}`);
+        history.push(`/contact/${leadId}`);
       }
     } catch (error) {
       addToast({
         type: "error",
         message: `${error.message}`,
+        time: 7000,
       });
     }
   }, [
