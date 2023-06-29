@@ -31,7 +31,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
 const ContactListItemButton = ({
   contact,
   callFrom,
-  leadId: selectedLeadId,
+  selectedLeadId,
   callLogId,
   children,
   state,
@@ -99,6 +99,7 @@ const ContactListItemButton = ({
     updatePrimaryContact,
     state,
     leadInfo,
+    selectedLeadId,
   ]);
 
   return (
@@ -136,7 +137,7 @@ export default function ContactSearch({
       >
         <ListItemButton
           component={ContactListItemButton}
-          leadId={value.leadsId}
+          selectedLeadId={value.leadsId}
           callLogId={callLogId}
           contact={value}
           callFrom={callFrom}
