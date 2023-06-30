@@ -38,15 +38,6 @@ export default function EnrollmentHistoryContainer({ leadId }) {
   const previousYearPlansData = enrollPlans.filter(
     (planData) => getCurrentYear(planData.policyEffectiveDate) !== currentYear
   );
-  const formattedName = (str) => {
-    const capitalize = (word) => {
-      return word
-        .toLowerCase()
-        .replace(/\b[a-z]/g, (char) => char.toUpperCase());
-    };
-
-    return str.split(" ").map(capitalize).join(" ");
-  };
 
   return (
     <ContactSectionCard
@@ -61,14 +52,14 @@ export default function EnrollmentHistoryContainer({ leadId }) {
               return (
                 <EnrollmentPlanCard
                   key={`${planData.policyId + index.toString()}`}
-                  currentYear={planData.currentYear}
+                  currentYear={true}
                   submittedDate={planData.appSubmitDate}
                   enrolledDate={planData.enrolledDate}
                   effectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
-                  policyHolder={formattedName(policyHolderName)}
+                  policyHolder={policyHolderName}
                   leadId={leadId}
-                  planId={planData.plan}
+                  planId={planData.planId}
                   agentNpn={planData.agentNpn}
                   carrier={planData.carrier}
                   consumerSource={planData.consumerSource}
@@ -93,7 +84,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   policyId={planData.policyNumber}
                   policyHolder={`${planData.consumerFirstName} ${planData.consumeLastName}`}
                   leadId={leadId}
-                  planId={planData.plan}
+                  planId={planData.planId}
                   agentNpn={planData.agentNpn}
                   carrier={planData.carrier}
                   consumerSource={planData.consumerSource}

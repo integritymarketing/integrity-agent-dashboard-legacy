@@ -60,3 +60,11 @@ export const isEmptyObj = (obj) => {
   for (let i in obj) return false;
   return true;
 };
+
+export const formattedName = (str) => {
+  const capitalize = (word) => {
+    return word.toLowerCase().replace(/\b[a-z]/g, (char) => char.toUpperCase());
+  };
+
+  return str.split(" ").map(capitalize).join(" ");
+};

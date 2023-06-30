@@ -129,14 +129,14 @@ export default ({
             />
           ) : (
             <EnrollmentPlanCard
-              currentYear={false}
-              submittedDate={enrollData.appSubmitDate}
+              currentYear={enrollData.currentYear}
+              submittedDate={enrollData.submittedDate}
               enrolledDate={enrollData.enrolledDate}
-              effectiveDate={enrollData.policyEffectiveDate}
-              policyId={enrollData.policyNumber}
-              policyHolder={`${enrollData.consumerFirstName} ${enrollData.consumeLastName}`}
+              effectiveDate={enrollData.effectiveDate}
+              policyId={enrollData.policyId}
+              policyHolder={enrollData.policyHolder}
               leadId={enrollData.leadId}
-              planId={enrollData.plan}
+              planId={enrollData.planId}
               agentNpn={enrollData.agentNpn}
               carrier={enrollData.carrier}
               consumerSource={enrollData.consumerSource}
@@ -146,6 +146,7 @@ export default ({
               isEnrollPlansPage={isEnroll}
               onShareClick={onShareClick}
               isEmail={isEmail}
+              planName={enrollData.planName}
             />
           )}
         </div>

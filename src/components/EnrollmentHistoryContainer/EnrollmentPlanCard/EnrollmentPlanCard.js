@@ -8,6 +8,7 @@ import Media from "react-media";
 import Icon from "components/Icon";
 import { Button } from "components/ui/Button";
 import SharePlan from "components/icons/sharePlan";
+import { formattedName } from "utils/shared-utils/sharedUtility";
 
 export default function EnrollmentPlanCard(props) {
   const {
@@ -26,20 +27,20 @@ export default function EnrollmentPlanCard(props) {
     planName,
     carrier,
     planId,
+    hasPlanDetails,
   } = props;
 
   const history = useHistory();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
 
+  const holderName = formattedName(policyHolder);
+
   const formattedPolicyStatus = policyStatus
     ?.replace(/\s+/g, "-")
     .toLowerCase();
 
   const navigateEnrollDetails = () => {
-    history.push(
-      `/enrollmenthistory/${leadId}/${confirmationNumber}/${effectiveDate}`
-    );
     history.push(
       `/enrollmenthistory/${leadId}/${confirmationNumber}/${effectiveDate}`,
       {
@@ -126,7 +127,7 @@ export default function EnrollmentPlanCard(props) {
                     {(matches) =>
                       matches.small ? (
                         <>
-                          {currentYear && (
+                          {currentYear && hasPlanDetails && (
                             <div onClick={navigateEnrollDetails}>
                               <IconWithText
                                 text="View"
@@ -161,7 +162,7 @@ export default function EnrollmentPlanCard(props) {
                         </>
                       ) : (
                         <>
-                          {currentYear && (
+                          {currentYear && hasPlanDetails && (
                             <div onClick={navigateEnrollDetails}>
                               <IconWithText
                                 text="View"
@@ -207,7 +208,7 @@ export default function EnrollmentPlanCard(props) {
         }`}
       >
         <div className={styles.policyHolder}>
-          {renderPlanDetails("Policy Holder", policyHolder)}
+          {renderPlanDetails("Policy Holder", holderName)}
         </div>
         <div className={styles.policyId}>
           {renderPlanDetails("Policy ID", policyId)}
@@ -217,15 +218,12 @@ export default function EnrollmentPlanCard(props) {
   );
 
   function PlanDate({ type, date }) {
-    if (date) {
-      return (
-        <div className={styles.date}>
-          <strong>{type}: </strong>
-          <span>{date}</span>
-        </div>
-      );
-    }
-    return null;
+    return (
+      <div className={styles.date}>
+        <strong>{type}: </strong>
+        <span>{date}</span>
+      </div>
+    );
   }
 
   function renderPlanDetails(label, value) {
