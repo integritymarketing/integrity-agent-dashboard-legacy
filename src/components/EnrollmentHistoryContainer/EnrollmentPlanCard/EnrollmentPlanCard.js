@@ -15,6 +15,7 @@ export default function EnrollmentPlanCard(props) {
     submittedDate,
     enrolledDate,
     effectiveDate,
+    termedDate,
     policyHolder,
     policyId,
     currentYear = true,
@@ -34,7 +35,7 @@ export default function EnrollmentPlanCard(props) {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
 
-  const holderName = formattedName(policyHolder);
+  const holderName = policyHolder && formattedName(policyHolder);
 
   const formattedPolicyStatus = policyStatus
     ?.replace(/\s+/g, "-")
@@ -54,7 +55,6 @@ export default function EnrollmentPlanCard(props) {
       state: props,
     });
   };
-
   return (
     <div className={styles.planCardContainer}>
       <Media
@@ -91,9 +91,25 @@ export default function EnrollmentPlanCard(props) {
               </div>
             </div>
             <div className={styles.dates}>
-              <PlanDate type="Submitted" date={submittedDate} />
-              <PlanDate type="Enrolled" date={enrolledDate} />
-              <PlanDate type="Effective" date={effectiveDate} />
+              {currentYear ? (
+                <>
+                  <PlanDate type="Submitted" date={submittedDate} />
+
+                  {(policyStatus === "upcoming" ||
+                    policyStatus === "active") && (
+                    <>
+                      <PlanDate type="Effective" date={effectiveDate} />
+                      <PlanDate type="Enrolled" date={enrolledDate} />
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <PlanDate type="Effective" date={effectiveDate} />
+
+                  <PlanDate type="Termed" date={termedDate} />
+                </>
+              )}
             </div>
           </div>
           {!isEmail && (
@@ -127,7 +143,7 @@ export default function EnrollmentPlanCard(props) {
                     {(matches) =>
                       matches.small ? (
                         <>
-                          {currentYear && hasPlanDetails && (
+                          {hasPlanDetails && (
                             <div onClick={navigateEnrollDetails}>
                               <IconWithText
                                 text="View"
@@ -162,7 +178,7 @@ export default function EnrollmentPlanCard(props) {
                         </>
                       ) : (
                         <>
-                          {currentYear && hasPlanDetails && (
+                          {hasPlanDetails && (
                             <div onClick={navigateEnrollDetails}>
                               <IconWithText
                                 text="View"

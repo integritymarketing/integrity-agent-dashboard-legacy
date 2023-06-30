@@ -53,8 +53,7 @@
 
   .detailAndDateContainer {
     display: flex;
-    gap: 2rem;
-
+    gap: 10rem;
     @include small {
       display: flex;
       flex-direction: column;

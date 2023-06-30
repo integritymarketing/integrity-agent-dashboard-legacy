@@ -68,6 +68,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   confirmationNumber={planData.confirmationNumber}
                   page="Contacts Details"
                   planName={planData.planName}
+                  termedDate={planData.termedDate}
                 />
               );
             })}
@@ -93,6 +94,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   confirmationNumber={planData.confirmationNumber}
                   page="Contacts Details"
                   planName={planData.planName}
+                  termedDate={planData.termedDate}
                 />
               ))}
             </>
