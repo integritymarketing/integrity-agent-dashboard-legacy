@@ -86,15 +86,14 @@ export default function EnrollmentLinkToContact() {
           <EnrollmentPlanCard
             key={state.policyId}
             currentYear={state.currentYear}
-            submittedDate={state.submittedDate}
-            enrolledDate={state.enrolledDate}
-            effectiveDate={state.effectiveDate}
+            submittedDate={state.submittedDate || "12/05/2022"}
+            enrolledDate={state.enrolledDate || "11/12/22"}
+            effectiveDate={state.effectiveDate || "01/11/23"}
             policyId={state.policyId}
             policyHolder={state.policyHolder}
             leadId={state.leadId}
             planId={state.planId}
-            planName={state.planName}
-            carrier={state.carrier}
+            confirmationNumber={state.confirmationNumber}
           />
 
           <div className={styles.contactsContainer}>

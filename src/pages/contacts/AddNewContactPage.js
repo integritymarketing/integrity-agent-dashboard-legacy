@@ -54,7 +54,7 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   }
 };
 
-const NewContactForm = ({ callLogId, firstName, lastName }) => {
+const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const [showAddress2, setShowAddress2] = useState(false);
@@ -696,6 +696,7 @@ export default function AddNewContactPage() {
               callLogId={callLogId}
               firstName={firstName}
               lastName={lastName}
+              state={state}
             />
           </ToastContextProvider>
         </Container>
