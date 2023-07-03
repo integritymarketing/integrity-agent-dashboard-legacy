@@ -93,8 +93,7 @@ export default function EnrollmentLinkToContact() {
             policyHolder={state.policyHolder}
             leadId={state.leadId}
             planId={state.planId}
-            planName={state.planName}
-            carrier={state.carrier}
+            confirmationNumber={state.confirmationNumber}
           />
 
           <div className={styles.contactsContainer}>
