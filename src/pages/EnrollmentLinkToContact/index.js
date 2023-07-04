@@ -64,7 +64,7 @@ export default function EnrollmentLinkToContact() {
       history.push(`/dashboard`);
     }
   };
-
+  const policyHolderName = `${state?.consumerFirstName} ${state?.consumeLastName}`;
   return (
     <>
       <Helmet>
@@ -84,22 +84,30 @@ export default function EnrollmentLinkToContact() {
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
           <EnrollmentPlanCard
-            key={state.policyId}
-            currentYear={state.currentYear}
-            submittedDate={state.submittedDate}
-            enrolledDate={state.enrolledDate}
-            effectiveDate={state.effectiveDate}
-            policyId={state.policyId}
-            policyHolder={state.policyHolder}
-            leadId={state.leadId}
-            planId={state.planId}
-            confirmationNumber={state.confirmationNumber}
+            key={state?.policyId}
+            currentYear={state?.currentYear}
+            submittedDate={state?.appSubmitDate}
+            enrolledDate={state?.enrolledDate}
+            effectiveDate={state?.policyEffectiveDate}
+            policyId={state?.policyNumber}
+            policyHolder={policyHolderName}
+            leadId={state?.leadId}
+            planId={state?.planId}
+            agentNpn={state?.agentNpn}
+            carrier={state?.carrier}
+            consumerSource={state?.consumerSource}
+            hasPlanDetails={state?.hasPlanDetails}
+            policyStatus={state?.policyStatus}
+            confirmationNumber={state?.confirmationNumber}
+            page="Contacts Details"
+            planName={state?.planName}
+            termedDate={state?.termedDate}
           />
 
           <div className={styles.contactsContainer}>
             <PossibleMatches
               phone={callFrom}
-              policyHolder={state.policyHolder}
+              policyHolder={state?.policyHolder}
               state={state}
             />
 
