@@ -31,13 +31,17 @@ export default function EnrollmentHistoryContainer({ leadId }) {
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
-  const currentYearPlansData = enrollPlans.filter(
-    (planData) => getCurrentYear(planData.policyEffectiveDate) === currentYear
-  );
+  const currentYearPlansData = enrollPlans.filter((planData) => {
+    let policyDate = new Date(planData.policyEffectiveDate); // get the current date
+    policyDate.setDate(policyDate.getDate() + 1); // add 1 day
+    return getCurrentYear(policyDate) === currentYear;
+  });
 
-  const previousYearPlansData = enrollPlans.filter(
-    (planData) => getCurrentYear(planData.policyEffectiveDate) !== currentYear
-  );
+  const previousYearPlansData = enrollPlans.filter((planData) => {
+    let policyDate = new Date(planData.policyEffectiveDate); // get the current date
+    policyDate.setDate(policyDate.getDate() + 1); // add 1 day
+    return getCurrentYear(policyDate) !== currentYear;
+  });
 
   return (
     <ContactSectionCard
