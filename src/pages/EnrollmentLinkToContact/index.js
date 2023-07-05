@@ -52,7 +52,9 @@ export default function EnrollmentLinkToContact() {
 
   const goToAddNewContactsPage = () => {
     history.push(
-      `/contact/add-new/${callLogId}${callFrom ? "?callFrom=" + callFrom : ""}`,
+      `/contact/add-new/${callLogId || ""}${
+        callFrom ? "?callFrom=" + callFrom : ""
+      }`,
       { state: state }
     );
   };

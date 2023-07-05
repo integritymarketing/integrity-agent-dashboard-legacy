@@ -68,7 +68,7 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
   const history = useHistory();
   const addToast = useToast();
 
-  const getContactLink = (id) => `/contact/${id}`;
+  const getContactLink = (id) => `/contact/${id}/details`;
   const goToContactDetailPage = (id) => {
     if (duplicateLeadIds.length) {
       return history.push(
