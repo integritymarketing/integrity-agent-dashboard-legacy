@@ -64,7 +64,7 @@ export default function EnrollmentLinkToContact() {
       history.push(`/dashboard`);
     }
   };
-  const policyHolderName = `${state?.consumerFirstName} ${state?.consumeLastName}`;
+
   return (
     <>
       <Helmet>
@@ -89,8 +89,8 @@ export default function EnrollmentLinkToContact() {
             submittedDate={state?.appSubmitDate}
             enrolledDate={state?.enrolledDate}
             effectiveDate={state?.policyEffectiveDate}
-            policyId={state?.policyNumber}
-            policyHolder={policyHolderName}
+            policyId={state?.policyId}
+            policyHolder={state?.policyHolder}
             leadId={state?.leadId}
             planId={state?.planId}
             agentNpn={state?.agentNpn}
