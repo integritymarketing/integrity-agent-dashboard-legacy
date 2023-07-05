@@ -906,7 +906,7 @@ export class ClientsService {
       payload
     );
     if (response?.ok) {
-      return response;
+      return response?.json();
     }
   };
 
