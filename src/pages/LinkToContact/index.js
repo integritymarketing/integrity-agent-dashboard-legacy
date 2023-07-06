@@ -74,7 +74,9 @@ export default function LinkToContact() {
 
   const goToAddNewContactsPage = () => {
     history.push(
-      `/contact/add-new/${callLogId}${callFrom ? "?callFrom=" + callFrom : ""}`
+      `/contact/add-new/${callLogId || ""}${
+        callFrom ? "?callFrom=" + callFrom : ""
+      }`
     );
   };
 
