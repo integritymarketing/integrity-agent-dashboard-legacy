@@ -90,7 +90,7 @@ const TabsCard = ({
                 key={tab?.policyStatus + index}
                 statusIndex={statusIndex}
                 onTabClick={onTabClick}
-                index={tab?.value}
+                index={page === "policySnapshot" ? index : tab?.value}
                 tab={tab}
               />
             );
