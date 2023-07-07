@@ -24,6 +24,7 @@ import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
 import useQueryParams from "hooks/useQueryParams";
 import DatePickerMUI from "components/DatePicker";
+import enrollPlansService from "services/enrollPlansService";
 
 const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   if (Object.keys(errors).length) {
@@ -57,6 +58,7 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
 const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
+  const isRelink = get("relink") === "true";
   const [showAddress2, setShowAddress2] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
   const {
@@ -93,6 +95,39 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
   useEffect(() => {
     doFetch(""); // eslint-disable-next-line
   }, []);
+
+  const linkContact = async () => {
+    const {
+      state: { policyId, agentNpn, policyStatus, leadId, policyHolder },
+    } = state;
+    try {
+      const updateBusinessBookPayload = {
+        agentNpn: agentNpn,
+        leadId: leadId,
+        policyNumber: policyId,
+        consumerFirstName: policyHolder.split(" ")[0],
+        consumerLastName: policyHolder.split(" ")[1],
+        leadDate: new Date(),
+        leadStatus: policyStatus,
+      };
+      const response = await enrollPlansService.updateBookOfBusiness(
+        updateBusinessBookPayload
+      );
+      if (response.leadId) {
+        setTimeout(() => {
+          addToast({
+            message: "Contact linked successfully",
+          });
+        }, 2000);
+      }
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: `${error.message}`,
+        time: 4000,
+      });
+    }
+  };
 
   return (
     <Formik
@@ -205,10 +240,13 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
           addToast({
             message: "Contact added successfully",
           });
+          if (isRelink) {
+            await linkContact();
+          }
           setTimeout(() => {
             goToContactDetailPage(leadId);
             setSubmitting(false);
-          }, 3000);
+          }, 4000);
         } else if (response.status === 400) {
           const errMessage = await response.json();
           const duplicateLeadId = (errMessage.split(":")[1] || "").trim();

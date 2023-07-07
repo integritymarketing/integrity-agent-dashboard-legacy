@@ -51,12 +51,15 @@ export default function EnrollmentLinkToContact() {
   };
 
   const goToAddNewContactsPage = () => {
-    history.push(
-      `/contact/add-new/${callLogId || ""}${
-        callFrom ? "?callFrom=" + callFrom : ""
-      }`,
-      { state: state }
-    );
+    if (callLogId) {
+      history.push(
+        `/contact/add-new/${callLogId}?callFrom=${callFrom}&relink=true"
+        }`,
+        { state: state }
+      );
+    } else {
+      history.push(`/contact/add-new?relink=true`, { state: state });
+    }
   };
 
   const handleBackToRoute = () => {
