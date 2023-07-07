@@ -31,7 +31,8 @@ const TabsCard = ({
   page,
   isMobile,
 }) => {
-  const [, setValue] = usePreferences(0, preferencesKey);
+  const defaultIndex = page === "policySnapshot" ? 0 : 1;
+  const [, setValue] = usePreferences(defaultIndex, preferencesKey);
 
   const onTabClick = (index, policyCount) => {
     handleWidgetSelection(index, policyCount);
@@ -89,7 +90,7 @@ const TabsCard = ({
                 key={tab?.policyStatus + index}
                 statusIndex={statusIndex}
                 onTabClick={onTabClick}
-                index={index}
+                index={tab?.value}
                 tab={tab}
               />
             );

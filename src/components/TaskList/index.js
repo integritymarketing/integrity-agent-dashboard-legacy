@@ -20,24 +20,22 @@ import moment from "moment";
 
 const DEFAULT_TABS = [
   {
-    policyStatus: "Requested Callbacks",
-    policyStatusColor: "#FBDEDE",
-    name: "requestedCallbacks",
-  },
-  {
     policyStatus: "Reminders",
     policyStatusColor: "#FEF8CB",
     name: "reminders",
+    value: 1,
   },
   {
     policyStatus: "Unlinked Calls",
     policyStatusColor: "#DEEBFB",
     name: "unlinkedCalls",
+    value: 2,
   },
   {
     policyStatus: "Unlinked Policies",
     policyStatusColor: "#DEEBFB",
     name: "unLinkedPolicies",
+    value: 3,
   },
 ];
 
@@ -67,7 +65,7 @@ export default function TaskList({ isMobile, npn }) {
   const PAGESIZE = isMobile ? 3 : 5;
 
   const [dRange] = usePreferences(0, "taskList_sort");
-  const [index] = usePreferences(0, "taskList_widget");
+  const [index] = usePreferences(1, "taskList_widget");
 
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
@@ -81,7 +79,8 @@ export default function TaskList({ isMobile, npn }) {
   const addToast = useToast();
 
   const selectedName =
-    DEFAULT_TABS[statusIndex]?.policyStatus || "Requested Callbacks";
+    DEFAULT_TABS.find((tab) => tab.value === statusIndex)?.policyStatus ||
+    "Requested Callbacks";
 
   const showMore = useMemo(() => {
     return page < totalPageSize;

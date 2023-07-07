@@ -3,11 +3,11 @@ import React from "react";
 export default (props) => {
   return (
     <svg
-      id="View"
+      id="icon-Send"
       xmlns="http://www.w3.org/2000/svg"
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
     >
       <defs>
         <clipPath id="clip-path">
@@ -22,17 +22,15 @@ export default (props) => {
           />
         </clipPath>
       </defs>
-      <g id="IconBG">
-        <circle
-          id="Ellipse_299"
-          data-name="Ellipse 299"
-          cx="16"
-          cy="16"
-          r="16"
-          fill="#deebfb"
-        />
-      </g>
-      <g id="Group_3004" data-name="Group 3004" transform="translate(8 10)">
+      <rect
+        id="Rectangle_13666"
+        data-name="Rectangle 13666"
+        width="24"
+        height="24"
+        rx="4"
+        fill="rgba(255,255,255,0)"
+      />
+      <g id="Group_3004" data-name="Group 3004" transform="translate(4 6)">
         <g id="Group_3003" data-name="Group 3003" clip-path="url(#clip-path)">
           <path
             id="Path_3418"

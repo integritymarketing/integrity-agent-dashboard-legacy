@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import {
+  useParams,
+  useLocation,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -55,7 +60,7 @@ export default () => {
 
   const { setCurrentPage } = useContext(BackNavContext);
   const history = useHistory();
-
+  const { path } = useRouteMatch();
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,9 +147,12 @@ export default () => {
   );
 
   useEffect(() => {
-    setLoading(isLoading);
-    history.push(`/contact/${id}/${display}`);
-  }, [isLoading, display, history, id]);
+    if (path === `/contact/${id}`) {
+      setLoading(isLoading);
+      history.push(`/contact/${id}/${display}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history, id]);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {

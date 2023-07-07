@@ -4,7 +4,7 @@
 
 .toasts-wrapper {
   @media (max-width: 480px) {
-    left: calc(100vw - 400px);
+    left: calc(100vw - 355px);
   }
   position: fixed;
   top: 105px;
@@ -20,6 +20,9 @@
     align-items: center;
     width: 372px;
     border-radius: 4px;
+    @media (max-width: 480px) {
+      width: 350px;
+    }
     a {
       color: #0052ce;
       text-decoration: underline;
