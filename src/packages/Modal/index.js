@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import CloseIcon from "@mui/icons-material/Close";
@@ -40,10 +39,6 @@ export default function TModal({
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Fade in={open}>
           <div
