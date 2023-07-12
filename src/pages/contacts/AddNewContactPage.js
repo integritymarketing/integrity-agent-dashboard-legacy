@@ -366,6 +366,7 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
                   onChange={(value) => {
                     setFieldValue("birthdate", formatDate(value));
                   }}
+                  className={styles.disableDatePickerError}
                 />
 
                 {errors.birthdate && (

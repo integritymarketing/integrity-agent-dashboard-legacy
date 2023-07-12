@@ -1328,3 +1328,9 @@ table {
     margin: auto;
   }
 }
+
+.disableDatePickerError {
+  fieldset {
+    border-color: #e3e6ec !important;
+  }
+}
