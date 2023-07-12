@@ -3,7 +3,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-export default function DatePickerMUI({ disableFuture, value, onChange }) {
+export default function DatePickerMUI({ disableFuture, value, onChange, className }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DesktopDatePicker
@@ -12,6 +12,7 @@ export default function DatePickerMUI({ disableFuture, value, onChange }) {
         value={new Date(value)}
         onChange={onChange}
         format={"MM/dd/yyyy"}
+        className={className}
       />
     </LocalizationProvider>
   );
