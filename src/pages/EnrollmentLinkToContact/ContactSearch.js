@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
   InputAdornment,
   ListItem,
@@ -40,7 +40,12 @@ const ContactListItemButton = ({
 }) => {
   const addToast = useToast();
   const history = useHistory();
+  const firstRender = useRef(true);
   useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
     const getLeadInformation = async () => {
       try {
         const response = await clientsService.getContactInfo(state?.leadId);
