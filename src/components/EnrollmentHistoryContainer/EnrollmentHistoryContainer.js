@@ -73,6 +73,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   page="Contacts Details"
                   planName={planData.planName}
                   termedDate={planData.termedDate}
+                  policySourceId={planData.policySourceId}
                 />
               );
             })}

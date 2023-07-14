@@ -32,6 +32,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
       policyId: "27865885",
       submittedDate: null,
       termedDate: undefined,
+      policyStatusId: "10000000",
     };
 
     history.push(`/enrollment-link-to-contact`, {
