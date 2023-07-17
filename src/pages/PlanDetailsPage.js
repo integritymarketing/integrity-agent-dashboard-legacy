@@ -54,7 +54,6 @@ const PlanDetailsPage = () => {
         contactData,
         effectiveDate
       );
-      console.log("JJHJHJH", pharmacies);
       setPharmacies(
         pharmacies.reduce((dict, item) => {
           dict[item["pharmacyID"]] = item;
@@ -87,8 +86,6 @@ const PlanDetailsPage = () => {
   useEffect(() => {
     getContactAndPlanData();
   }, [getContactAndPlanData]);
-
-  console.log("JsdsdJHJHJH", pharmacies);
 
   return (
     <React.Fragment>
