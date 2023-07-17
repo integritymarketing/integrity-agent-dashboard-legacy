@@ -39,74 +39,75 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
     [callFrom]
   );
 
-  const onClickHandler = useCallback(
-    async (contact) => {
-      try {
-        const reverseArray = contact?.phones?.reverse();
-        const hasPhone = reverseArray[0]?.leadPhone;
-        if (!hasPhone) {
-          await updatePrimaryContact(contact);
-        }
-
-        const {
-          effectiveDate,
-          planId,
-          submittedDate,
-          policyId,
-          agentNpn,
-          carrier,
-          consumerSource,
-          policyStatus,
-          leadId,
-          hasPlanDetails,
-          confirmationNumber,
-          policyHolder,
-        } = state;
-
-        const updateBusinessBookPayload = {
-          agentNpn: agentNpn,
-          leadId: leadId,
-          policyNumber: policyId,
-          plan: planId,
-          carrier: carrier,
-          policyStatus: policyStatus,
-          consumerSource: consumerSource,
-          confirmationNumber: confirmationNumber,
-          consumerFirstName: policyHolder.split(" ")[0],
-          consumeLastName: policyHolder.split(" ")[1],
-          policyEffectiveDate: effectiveDate,
-          appSubmitDate: submittedDate,
-          hasPlanDetails: hasPlanDetails,
-          policySourceId: "10000000",
-          leadDate: contact.emails[0].createDate,
-          leadStatus: '',
-        };
-
-        const response = await enrollPlansService.updateBookOfBusiness(
-          updateBusinessBookPayload
-        );
-
-        if (response.agentNpn) {
-          addToast({
-            message: "Contact linked succesfully",
-          });
-          history.push(`/contact/${contact.leadsId}`);
-        }else {
-
-          addToast({
-            type: "error",
-            message: `${response}`,
-          });
-        }
-      } catch (error) {
+  const onClickHandler = useCallback(async (contact) => {
+    try {
+      const hasPhone = contact?.phones?.slice().reverse()[0]?.leadPhone;
+  
+      if (!hasPhone) {
+        await updatePrimaryContact(contact);
+      }
+  
+      const {
+        effectiveDate,
+        planId,
+        submittedDate,
+        policyId,
+        agentNpn,
+        carrier,
+        consumerSource,
+        policyStatus,
+        leadId,
+        hasPlanDetails,
+        confirmationNumber,
+        policyHolder,
+        policySourceId
+      } = state;
+  
+      const [consumerFirstName, consumerLastName] = policyHolder.split(" ");
+      const leadDate = contact.emails[0]?.createDate;
+  
+      const updateBusinessBookPayload = {
+        agentNpn,
+        leadId,
+        policyNumber: policyId,
+        plan: planId,
+        carrier,
+        policyStatus,
+        consumerSource,
+        confirmationNumber,
+        consumerFirstName,
+        consumerLastName,
+        policyEffectiveDate: effectiveDate,
+        appSubmitDate: submittedDate,
+        hasPlanDetails,
+        policySourceId,
+        leadDate,
+        leadStatus: '',
+      };
+  
+      const response = await enrollPlansService.updateBookOfBusiness(
+        updateBusinessBookPayload
+      );
+  
+      if (response.agentNpn) {
+        addToast({
+          message: "Contact linked successfully",
+        });
+        history.push(`/contact/${contact.leadsId}`);
+      } else {
         addToast({
           type: "error",
-          message: `${error.message}`,
+          message: `${response}`,
         });
       }
-    },
-    [history, addToast, updatePrimaryContact, state]
-  );
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: `${error.message}`,
+      });
+    }
+  }, [history, addToast, updatePrimaryContact, state]);
+  
 
   if (matches?.length > 0) {
     return (
