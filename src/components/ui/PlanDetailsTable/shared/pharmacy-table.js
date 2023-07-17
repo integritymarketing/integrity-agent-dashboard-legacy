@@ -30,14 +30,14 @@ function getInNetwork(pharmacyCost) {
   );
 }
 
-export default ({ planData, pharmacies, isMobile }) => {
+export default ({ planData, pharmacies, isMobile, pharmaciesList }) => {
   const isApiFailed =
-    (planData?.pharmacyCosts?.filter((pharmacy) => pharmacy.pharmacyID)
-      ?.length > 0
+    (pharmaciesList?.filter((pharmacy) => pharmacy.name)?.length > 0
       ? false
       : true) &&
-    planData?.pharmacyCosts !== null &&
-    planData?.pharmacyCosts?.length > 0;
+    pharmaciesList !== null &&
+    pharmaciesList?.length > 0;
+
   const columns = useMemo(
     () => [
       {
@@ -118,7 +118,7 @@ export default ({ planData, pharmacies, isMobile }) => {
 
   const rowData = [
     {
-      unAvailable: <APIFail title={"Pharmacy"} />,
+      unAvailable: <APIFail title={"Pharmacyffgd"} />,
     },
   ];
 

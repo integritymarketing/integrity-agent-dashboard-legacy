@@ -15,6 +15,7 @@ export default ({
   onEnrollClick,
   onShareClick,
   pharmacies,
+  pharmaciesList,
   isEnroll,
   enrollData,
   isEmail = false,
@@ -169,6 +170,7 @@ export default ({
               planData={plan}
               pharmacies={pharmacies}
               isMobile={isMobile}
+              pharmaciesList={pharmaciesList}
             />
           )}
         </div>

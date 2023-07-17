@@ -1488,7 +1488,7 @@ button {
     height: 40px;
   }
   .soa-list-body {
-    padding: 0 10px 26px !important;
+    padding: 26px!important;
   }
 
   .contactDetailsSection {
@@ -1850,36 +1850,36 @@ button {
 
 .scope-of-app-row {
   background: #ffffff;
-  border: 1px solid #dfe5ef;
+  border: 1px solid #C7CCD1;
   border-radius: 4px;
-  padding: 15px 23px 16px;
+  padding: 24px;
   margin-bottom: 16px;
 }
 .scope-of-app-row-section1 {
   margin-bottom: 18px;
 }
 .scope-of-app-row-section1 p {
-  color: #151e29;
-  font-weight: 600;
-  font-size: 14px;
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
   margin: 0;
 }
 .scope-of-app-row-section1 p > span {
-  color: #6a7279;
+  color: #434A51;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   margin-left: 10px;
 }
 .scope-of-app-row-section2 {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 .scope-of-app-row-section2 p {
-  color: #6a7279;
-  font-weight: 400;
-  font-size: 14px;
+  color: #434A51;
+  font-size: 16px;
   margin: 0;
+  overflow: auto;
+  word-wrap: break-word;
 }
 .completed-btn {
   width: 82.69px;
@@ -1922,8 +1922,8 @@ button {
   margin-bottom: 8px;
 }
 .show--more--btn {
-  color: #6a7279;
-
+  color: #0052CE;
+  font-weight: bold;
   font-size: 14px;
 }
 .scope-of-app-row-show-more {
@@ -2349,3 +2349,49 @@ button {
   font-weight: bold;
   color: #0052ce;
 }
+
+.soa-mobile-header{
+  display: flex;
+  flex-direction: column;
+  padding : 20px 26px;
+  box-shadow: inset 0px -1px 0px #C7CCD1;
+}
+
+.soa-header-text{
+  color: #002D72;
+  font-size: 24px;
+}
+
+
+.shareBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  .shareText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0052ce;
+    margin-right: 5px;
+  }
+}
+
+
+.soa-card-btn {
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 10px;
+  button{
+    width: 102px;
+    height: 32px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+
+
+ 

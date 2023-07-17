@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { formatDate } from "utils/dates.js";
 import { useHistory } from "react-router-dom";
+import { Button } from "components/ui/Button";
 
 export default ({
   linkCode,
@@ -54,29 +55,31 @@ export default ({
             </ul>
           )}
           {soa_status === "Sent" && (
-            <p>The scope of appointment has been sent to {soaDestination} </p>
+            <div>
+              The scope of appointment has been sent to {soaDestination}{" "}
+            </div>
           )}
           {soa_status === "Signed" && (
-            <p>The scope of appointment is for ready for review.</p>
+            <div>The scope of appointment is for ready for review.</div>
           )}
 
           {soa_status === "Signed" && (
-            <button
-              data-gtm="button-complete"
-              className="complete-btn"
-              onClick={navigateToConfirmSOA}
-            >
-              Complete
-            </button>
+            <div className="soa-card-btn">
+              <Button
+                label="Complete"
+                onClick={navigateToConfirmSOA}
+                type="primary"
+              />
+            </div>
           )}
           {soa_status === "Completed" && (
-            <button
-              data-gtm="button-view"
-              onClick={navigateToConfirmSOA}
-              className="view---btn"
-            >
-              View
-            </button>
+            <div className="soa-card-btn">
+              <Button
+                label="View"
+                onClick={navigateToConfirmSOA}
+                type="secondary"
+              />
+            </div>
           )}
         </div>
       </div>

@@ -32,6 +32,8 @@ const PlanDetailsPage = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pharmacies, setPharmacies] = useState();
+  const [pharmaciesList, setPharmaciesList] = useState();
+
   const [contact, setContact] = useState();
   const [plan, setPlan] = useState();
   const [modalOpen, setModalOpen] = useState();
@@ -58,6 +60,7 @@ const PlanDetailsPage = () => {
           return dict;
         }, {})
       );
+      setPharmaciesList(pharmacies);
       if (!planData) {
         addToast({
           type: "error",
@@ -141,6 +144,7 @@ const PlanDetailsPage = () => {
                   onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
+                  pharmaciesList={pharmaciesList}
                 />
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
@@ -151,6 +155,7 @@ const PlanDetailsPage = () => {
                   onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
+                  pharmaciesList={pharmaciesList}
                 />
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
