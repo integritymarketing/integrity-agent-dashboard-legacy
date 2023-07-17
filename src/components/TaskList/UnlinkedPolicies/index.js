@@ -10,33 +10,9 @@ const UnlinkedPolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
 
-  const linkToContact = () => {
-    const data = {
-      agentNpn: "17138811",
-      leadId: "2288457",
-      policyNumber: "522914424",
-      carrier: "Humana Insurance Company",
-      policyStatus: "submitted",
-      consumerSource: "Medicare Center",
-      confirmationNumber: "dVzSPUzwJV",
-      policyEffectiveDate: "2023-12-11T00:00:00",
-      appSubmitDate: "2023-11-29T00:00:00",
-      hasPlanDetails: false,
-      page: "Dashboard",
-      currentYear: true,
-      effectiveDate: "2023-01-01",
-      enrolledDate: null,
-      planId: "KTM60JWM81",
-      planName: "Humana Honor (PPO) H5216-128-000",
-      policyHolder: "Angelina Jameson",
-      policyId: "27865885",
-      submittedDate: null,
-      termedDate: undefined,
-      policyStatusId: "10000000",
-    };
-
+  const handleLinkToContact = () => {
     history.push(`/enrollment-link-to-contact`, {
-      state: data,
+      state: callData,
     });
   };
 
@@ -92,7 +68,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
             icon={<LinkContactCircle />}
             label={"Link to contact"}
             className={"unlink-card-link-btn"}
-            onClick={linkToContact}
+            onClick={handleLinkToContact}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
           />
