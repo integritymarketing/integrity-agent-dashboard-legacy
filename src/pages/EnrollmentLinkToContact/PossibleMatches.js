@@ -77,16 +77,26 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
           policyEffectiveDate: effectiveDate,
           appSubmitDate: submittedDate,
           hasPlanDetails: hasPlanDetails,
+          policySourceId: "10000000",
+          leadDate: contact.emails[0].createDate,
+          leadStatus: '',
         };
 
         const response = await enrollPlansService.updateBookOfBusiness(
           updateBusinessBookPayload
         );
-        if (response) {
+
+        if (response.agentNpn) {
           addToast({
             message: "Contact linked succesfully",
           });
           history.push(`/contact/${contact.leadsId}`);
+        }else {
+
+          addToast({
+            type: "error",
+            message: `${response}`,
+          });
         }
       } catch (error) {
         addToast({
