@@ -6,8 +6,9 @@ import ScopeSendIcon from "components/icons/scope-send";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import SOA_CARD from "./soaCard";
+import SharePlan from "components/icons/sharePlan";
 
-export default ({ setDisplay, ...rest }) => {
+export default ({ setDisplay, isMobile, ...rest }) => {
   const [soaList, setSoaList] = useState([]);
   const [showSize, setShowSize] = useState(5);
   const [hovered, setHovered] = useState(false);
@@ -53,19 +54,29 @@ export default ({ setDisplay, ...rest }) => {
 
   return (
     <div data-gtm="section-scope-of-appointment" className="contactdetailscard">
-      <div className="scope-details-card-header contactdetailscardheader">
-        <h4>Scope of Appointments</h4>
-        <button
-          data-gtm="button-send"
-          className="send-btn"
-          onClick={navigateToSOANew}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <ScopeSendIcon hover={hovered} />
-          <span>Send</span>
-        </button>
-      </div>
+      {isMobile ? (
+        <div className="soa-mobile-header">
+          <div className={"soa-header-text"}>Scope of Appointments </div>
+          <div className={"shareBtnContainer"} onClick={navigateToSOANew}>
+            <SharePlan />
+            <span className={"shareText"}>Send New</span>
+          </div>
+        </div>
+      ) : (
+        <div className="scope-details-card-header contactdetailscardheader">
+          <h4>Scope of Appointments</h4>
+          <button
+            data-gtm="button-send"
+            className="send-btn"
+            onClick={navigateToSOANew}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <ScopeSendIcon hover={hovered} />
+            <span>Send</span>
+          </button>
+        </div>
+      )}
       <div
         className="soa-list-body contactdetailscardbody"
         data-gtm="section-item"
