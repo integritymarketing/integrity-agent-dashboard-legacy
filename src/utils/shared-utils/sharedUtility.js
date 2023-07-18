@@ -68,3 +68,13 @@ export const formattedName = (str) => {
 
   return str.split(" ").map(capitalize).join(" ");
 };
+
+export const formatMBID = (mbid, showMBID) => {
+  if (!mbid) {
+    return null;
+  } else if (showMBID) {
+    return mbid;
+  } else {
+    return `****-****-${mbid.slice(-4)}`;
+  }
+};

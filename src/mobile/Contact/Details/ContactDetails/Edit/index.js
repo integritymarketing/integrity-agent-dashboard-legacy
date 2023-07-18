@@ -75,6 +75,9 @@ export default (props) => {
     leadsId,
     leadStatusId,
     notes,
+    medicareBeneficiaryID,
+    partA,
+    partB
   } = props.personalInfo;
 
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
@@ -135,6 +138,20 @@ export default (props) => {
     doFetch(postalCode); // eslint-disable-next-line
   }, []);
 
+  const formatMdiNumber = (value) => {
+    if(!value) return;
+    let formattedValue = value.replace(/-/g, "");
+    if (formattedValue.length > 4) {
+      formattedValue =
+        formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+    }
+    if (formattedValue.length > 8) {
+      formattedValue =
+        formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+    }
+    return formattedValue;
+  };
+
   return (
     <Formik
       initialValues={{
@@ -164,6 +181,9 @@ export default (props) => {
         leadStatusId,
         leadsId,
         notes,
+        medicareBeneficiaryID,
+        partA,
+        partB
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(
@@ -226,6 +246,11 @@ export default (props) => {
               name: "birthdate",
               validator: validationService.validateDateInput,
               args: ["Date of Birth", "MM/dd/yyyy"],
+            },
+            {
+              name: "medicareBeneficiaryID",
+              validator: validationService.validateMedicalBeneficiaryId,
+              args: ["Medicare Beneficiary ID Number"],
             },
           ],
           values
@@ -564,6 +589,47 @@ export default (props) => {
                   page={"editDetails"}
                 />
               </div>
+            </div>
+            <div className={styles.detailsEdit}>
+                <div className={styles.inputContainer}>
+                    <div className={styles.label}>Medicare Beneficiary ID Number</div>
+                    <Textfield
+                        id="mbi-number"
+                        type="text"
+                        maxLength={13}
+                        placeholder="MBI Number"
+                        name="medicareBeneficiaryID"
+                        value={formatMdiNumber(values.medicareBeneficiaryID)}
+                        onChange={handleChange}
+                        error={
+                          touched.medicareBeneficiaryID  &&
+                          errors.medicareBeneficiaryID
+                        }
+                      />
+                </div>
+                <div className={styles.inputContainer}>
+                    <div className={styles.label}>Part A Effective Date</div>
+
+                    <DatePickerMUI
+                      value={values.partA === null ? "" : values.partA}
+                      onChange={(value) => {
+                        setFieldValue("partA", formatDate(value));
+                      }}
+                      className={styles.disableDatePickerError}
+                    />
+                </div>
+                <div className={styles.inputContainer}>
+                      <div className={styles.label}>Part B Effective Date</div>
+
+                      <DatePickerMUI
+                        value={values.partB === null ? "" : values.partB}
+                        onChange={(value) => {
+                          setFieldValue("partB", formatDate(value));
+                        }}
+                        className={styles.disableDatePickerError}
+                      />
+                </div>
+
             </div>
             {duplicateLeadIds?.length > 0 && (
               <div className="duplicate  mb-1">

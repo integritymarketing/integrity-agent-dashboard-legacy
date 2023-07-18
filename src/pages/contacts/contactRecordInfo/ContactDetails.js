@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
 import Editicon from "components/icons/edit-details";
 import ContactSectionCard from "packages/ContactSectionCard";
+import PasswordRevealIcon from "components/icons/password-reveal";
+import PasswordHideIcon from "components/icons/password-hide";
+import { formatMBID } from "utils/shared-utils/sharedUtility";
 
 const notAvailable = "-";
-
 export default ({ setDisplay, personalInfo, ...rest }) => {
   let {
     firstName = "",
@@ -17,7 +19,11 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     addresses = [],
     contactPreferences,
     contactRecordType = "prospect",
+    medicareBeneficiaryID,
+    partA,
+    partB
   } = personalInfo;
+  const [ showMBID, setShowMBID ] = useState(false);
 
   emails = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
   const phoneData = phones.length > 0 ? phones[0] : null;
@@ -169,6 +175,36 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="custom-w-31 custom-w-25 contact-details-col1 mob-res-margin">
               <p className="contact-details-label">County</p>
               <span className="contact-details-name">{county}</span>
+            </div>
+          </div>
+          <div className="contact-details-row mobile-responsive-row">
+            <div className="contact-details-col1">
+              <p className="contact-details-label">Medicare Beneficiary ID Number</p>
+              <span className="contact-details-name">
+                {formatMBID(medicareBeneficiaryID, showMBID) || notAvailable}
+                <p 
+                  onClick={() => setShowMBID((prev) => !prev)}
+                  className="mbidShowHide"
+                >{ showMBID ? 
+                    <><PasswordRevealIcon className="mbi__icon" />Hide Id</> : 
+
+                    <><PasswordHideIcon className="mbi__icon" />Show Id</>
+                  
+                  }
+                </p>
+              </span>
+            </div>
+            <div className="custom-w-25 contact-details-col1">
+              <p className="contact-details-label">Part A Effective Date</p>
+              <span className="contact-details-name">
+                {partA? formatDate(partA) : "--"}
+              </span>
+            </div>
+            <div className="custom-w-25 contact-details-col1 mob-res-margin">
+              <p className="contact-details-label">Part A Effective Date</p>
+              <span className="contact-details-name">
+                {partB ? formatDate(partB) : "--"}
+              </span>
             </div>
           </div>
         </div>

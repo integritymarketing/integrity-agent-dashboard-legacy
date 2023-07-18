@@ -72,6 +72,9 @@ export default (props) => {
     leadsId,
     leadStatusId,
     notes,
+    medicareBeneficiaryID,
+    partA,
+    partB
   } = props.personalInfo;
 
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
@@ -132,6 +135,20 @@ export default (props) => {
     doFetch(postalCode); // eslint-disable-next-line
   }, []);
 
+  const formatMdiNumber = (value) => {
+    if(!value) return;
+    let formattedValue = value.replace(/-/g, "");
+    if (formattedValue.length > 4) {
+      formattedValue =
+        formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+    }
+    if (formattedValue.length > 8) {
+      formattedValue =
+        formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+    }
+    return formattedValue;
+  };
+
   return (
     <Formik
       initialValues={{
@@ -161,6 +178,9 @@ export default (props) => {
         leadStatusId,
         leadsId,
         notes,
+        medicareBeneficiaryID,
+        partA,
+        partB
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(
@@ -223,6 +243,11 @@ export default (props) => {
               name: "birthdate",
               validator: validationService.validateDateInput,
               args: ["Date of Birth", "MM/dd/yyyy"],
+            },
+            {
+              name: "medicareBeneficiaryID",
+              validator: validationService.validateMedicalBeneficiaryId,
+              args: ["Medicare Beneficiary ID Number"],
             },
           ],
           values
@@ -643,7 +668,53 @@ export default (props) => {
                       />
                     </div>
                   </div>
+                  <div className="mt-3 mb-3 border-bottom border-bottom--light" />
                 </div>
+                <div className="contact-details-row mobile-responsive-row">
+                    <div className="contact-details-col1 mob-res-w-100">
+                      <Textfield
+                        id="mbi-number"
+                        type="text"
+                        maxLength={13}
+                        label="Medicare Beneficiary ID Number"
+                        placeholder="MBI Number"
+                        name="medicareBeneficiaryID"
+                        value={formatMdiNumber(values.medicareBeneficiaryID)}
+                        onChange={handleChange}
+                        error={
+                          touched.medicareBeneficiaryID  &&
+                          errors.medicareBeneficiaryID
+                        }
+                      />
+                    </div>
+
+                    <div className="custom-w-186  contact-details-col1 mob-res-w-100">
+                      <label className=" custom-label-state label">
+                        Part A Effective Date
+                      </label>
+
+                      <DatePickerMUI
+                        value={values.partA === null ? "" : values.partA}
+                        onChange={(value) => {
+                          setFieldValue("partA", formatDate(value));
+                        }}
+                        className={styles.disableDatePickerError}
+                      />
+                    </div>
+                    <div className="custom-w-186  contact-details-col1 mob-res-w-100">
+                      <label className=" custom-label-state label">
+                        Part B Effective Date
+                      </label>
+
+                      <DatePickerMUI
+                        value={values.partB === null ? "" : values.partB}
+                        onChange={(value) => {
+                          setFieldValue("partB", formatDate(value));
+                        }}
+                        className={styles.disableDatePickerError}
+                      />
+                    </div>
+                  </div>
                 {duplicateLeadIds?.length > 0 && (
                   <div className="duplicate-lead mt-5 mb-4">
                     <div>

@@ -55,7 +55,13 @@ const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
   }
 };
 
-const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
+const NewContactForm = ({
+  callLogId,
+  firstName,
+  lastName,
+  state,
+  medicareBeneficiaryID = "",
+}) => {
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const isRelink = get("relink") === "true";
@@ -129,6 +135,19 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
     }
   };
 
+  const formatMdiNumber = (value) => {
+    let formattedValue = value.replace(/-/g, "");
+    if (formattedValue.length > 4) {
+      formattedValue =
+        formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+    }
+    if (formattedValue.length > 8) {
+      formattedValue =
+        formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+    }
+    return formattedValue;
+  };
+
   return (
     <Formik
       initialValues={{
@@ -150,6 +169,9 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
           county: "",
           countyFips: "",
         },
+        medicareBeneficiaryID,
+        partA: null,
+        partB: null,
         primaryCommunication: "",
         contactRecordType: "prospect",
       }}
@@ -216,6 +238,11 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
                 validationService.validateAddress,
               ]),
               args: ["City"],
+            },
+            {
+              name: "medicareBeneficiaryID",
+              validator: validationService.validateMedicalBeneficiaryId,
+              args: ["Medicare Beneficiary ID Number"],
             },
           ],
           values
@@ -304,6 +331,9 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
         ) {
           setFieldValue("address.stateCode", allStates[0].value);
         }
+        console.log(touched.medicareBeneficiaryID, 
+          submitCount,
+          errors.medicareBeneficiaryID)
         return (
           <Form className="form mt-3">
             <fieldset className="form__fields form__fields--constrained hide-input-err">
@@ -616,6 +646,58 @@ const NewContactForm = ({ callLogId, firstName, lastName, state }) => {
                   value="phone"
                 />
                 <label htmlFor="primary--phone">Primary Communication</label>
+              </div>
+            </fieldset>
+            <div className="mt-3 mb-3 border-bottom border-bottom--light" />
+            <fieldset className="form__fields">
+              <div style={{ width: "22.5rem" }}>
+                <Textfield
+                  id="mbi-number"
+                  type="text"
+                  maxLength={13}
+                  label="Medicare Beneficiary ID Number"
+                  placeholder="MBI Number"
+                  name="medicareBeneficiaryID"
+                  value={formatMdiNumber(values.medicareBeneficiaryID)}
+                  onChange={handleChange}
+                  error={
+                    (touched.medicareBeneficiaryID ||
+                    submitCount > 0) &&
+                    errors.medicareBeneficiaryID
+                  }
+                />
+              </div>
+
+              <div style={{ display: "flex" }}>
+                <div
+                  className="custom-w-186  contact-details-col1 mob-res-w-100"
+                  style={{ marginRight: "70px" }}
+                >
+                  <label className=" custom-label-state label">
+                    Part A Effective Date
+                  </label>
+
+                  <DatePickerMUI
+                    value={values.partA === null ? "" : values.partA}
+                    onChange={(value) => {
+                      setFieldValue("partA", formatDate(value));
+                    }}
+                    className={styles.disableDatePickerError}
+                  />
+                </div>
+                <div className="custom-w-186  contact-details-col1 mob-res-w-100">
+                  <label className=" custom-label-state label">
+                    Part B Effective Date
+                  </label>
+
+                  <DatePickerMUI
+                    value={values.partB === null ? "" : values.partB}
+                    onChange={(value) => {
+                      setFieldValue("partB", formatDate(value));
+                    }}
+                    className={styles.disableDatePickerError}
+                  />
+                </div>
               </div>
             </fieldset>
             {primaryCommunicationStatus && (

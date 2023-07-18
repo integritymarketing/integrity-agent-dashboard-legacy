@@ -63,6 +63,8 @@ const Textfield = ({
   isMobile = false,
   onClear = null,
   onReset = null,
+  minLength = null,
+  maxLength = null,
   ...inputProps
 }) => {
   let InputElement = multiline ? "textarea" : "input";
@@ -95,6 +97,8 @@ const Textfield = ({
     type: displayType,
     ref: inputEl,
     className: inputClassName,
+    minLength: minLength,
+    maxLength: maxLength,
     ...inputProps,
   };
   return (

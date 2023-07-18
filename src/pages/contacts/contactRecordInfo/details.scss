@@ -75,3 +75,21 @@
     }
   }
 }
+
+.mbidShowHide{
+  color: #0052CE !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  position: relative;
+  top: 5px;
+  left: 10px;
+  cursor: pointer;
+  @media (max-width: 480px) {
+    top: 0px;
+  }
+}
+
+.mbi__icon{
+  color: #0052CE;
+  margin-right: 5px;
+}

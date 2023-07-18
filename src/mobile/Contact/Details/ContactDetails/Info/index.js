@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { formatAddress } from "utils/address";
 import styles from "./styles.module.scss";
 import star from "images/icons-star.png";
 import { formatDate } from "utils/dates";
+import PasswordRevealIcon from "components/icons/password-reveal";
+import PasswordHideIcon from "components/icons/password-hide";
+import { formatMBID } from "utils/shared-utils/sharedUtility";
 
 const notAvailable = "-";
 
@@ -16,7 +19,11 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
     addresses = [],
     contactPreferences,
     contactRecordType = "prospect",
+    medicareBeneficiaryID,
+    partA,
+    partB
   } = personalInfo;
+  const [ showMBID, setShowMBID ] = useState(false);
 
   const email = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
   const phoneData = phones.length > 0 ? phones[0] : null;
@@ -75,6 +82,33 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
         <div className={styles.title}>Address</div>
         <div className={styles.link}>{formatAddress(addresses)}</div>
         <div className={styles.county}>County: {county}</div>
+      </div>
+
+      <div className={styles.content}>
+        <div className={styles.title}>Medicare Beneficiary ID Number</div>
+        <div className={styles.name}>
+                <p>
+                  {formatMBID(medicareBeneficiaryID, showMBID) || notAvailable}
+                  <span 
+                    onClick={() => setShowMBID((prev) => !prev)}
+                    className="mbidShowHide"
+                  >
+                    { showMBID ? 
+                    <><PasswordRevealIcon className="mbi__icon" />Hide ID</> : 
+                    <><PasswordHideIcon className="mbi__icon" />Show ID</>
+                    }
+                  </span>
+                </p>
+        </div>
+      </div>
+      <div className={styles.content}>
+        <div className={styles.title}>Part A Effective Date</div>
+        <div className={styles.name}>{partA? formatDate(partA) : "--"}</div>
+      </div>
+
+      <div className={styles.content}>
+        <div className={styles.title}>Part B Effective Date</div>
+        <div className={styles.name}>{partB? formatDate(partB) : "--"}</div>
       </div>
     </div>
   );

@@ -354,6 +354,9 @@ export class ClientsService {
       phoneId,
       leadAddressId,
       notes,
+      medicareBeneficiaryID,
+      partA,
+      partB
     } = contact;
     const reqData = {
       leadsId,
@@ -365,6 +368,9 @@ export class ClientsService {
       primaryCommunication,
       contactRecordType,
       notes,
+      medicareBeneficiaryID,
+      partA,
+      partB
     };
     reqData.emails = [];
     if (email !== null && email !== undefined) {
@@ -448,6 +454,9 @@ export class ClientsService {
       address,
       primaryCommunication,
       contactRecordType,
+      medicareBeneficiaryID,
+      partA,
+      partB,
     } = contact;
     const reqData = {
       leadsId: 0,
@@ -457,6 +466,9 @@ export class ClientsService {
       birthdate: birthdate ? formatServerDate(parseDate(birthdate)) : null,
       leadStatusId: 0,
       contactRecordType,
+      medicareBeneficiaryID,
+      partA,
+      partB,
     };
 
     if (primaryCommunication === "") {
