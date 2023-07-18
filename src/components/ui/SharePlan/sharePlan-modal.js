@@ -195,7 +195,12 @@ export default ({
           messageType: "email",
         };
         if (ispolicyShare) {
-          await EnrollPlansService.sharePolicy(sharepolicyData);
+          let policyData = {
+            ...sharepolicyData,
+            messageDestination: leadEmail,
+            messageType: "email",
+          };
+          await EnrollPlansService.sharePolicy(policyData);
         } else {
           await plansService.sendPlan(data, leadsId, id);
         }
@@ -205,8 +210,13 @@ export default ({
           messageDestination: leadPhone,
           messageType: "sms",
         };
+        let policyData = {
+          ...sharepolicyData,
+          messageDestination: leadPhone,
+          messageType: "sms",
+        };
         if (ispolicyShare) {
-          await EnrollPlansService.sharePolicy(sharepolicyData);
+          await EnrollPlansService.sharePolicy(policyData);
         } else {
           await plansService.sendPlan(data, leadsId, id);
         }
@@ -218,7 +228,12 @@ export default ({
             messageType: "email",
           };
           if (ispolicyShare) {
-            await EnrollPlansService.sharePolicy(sharepolicyData);
+            let policyData = {
+              ...sharepolicyData,
+              messageDestination: leadEmail,
+              messageType: "email",
+            };
+            await EnrollPlansService.sharePolicy(policyData);
           } else {
             await plansService.sendPlan(data, leadsId, id);
           }
@@ -228,8 +243,14 @@ export default ({
             messageDestination: mobile,
             messageType: "sms",
           };
+
           if (ispolicyShare) {
-            await EnrollPlansService.sharePolicy(sharepolicyData);
+           let policyData = {
+              ...sharepolicyData,
+              messageDestination: leadPhone,
+              messageType: "sms",
+            };
+            await EnrollPlansService.sharePolicy(policyData);
           } else {
             await plansService.sendPlan(data, leadsId, id);
           }
