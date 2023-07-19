@@ -230,7 +230,7 @@ export default ({
           if (ispolicyShare) {
             let policyData = {
               ...sharepolicyData,
-              messageDestination: leadEmail,
+              messageDestination: email,
               messageType: "email",
             };
             await EnrollPlansService.sharePolicy(policyData);
@@ -245,9 +245,9 @@ export default ({
           };
 
           if (ispolicyShare) {
-           let policyData = {
+            let policyData = {
               ...sharepolicyData,
-              messageDestination: leadPhone,
+              messageDestination: mobile,
               messageType: "sms",
             };
             await EnrollPlansService.sharePolicy(policyData);
