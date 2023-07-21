@@ -19,7 +19,10 @@ import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
-import { onlyAlphabets, formatMdiNumber } from "utils/shared-utils/sharedUtility";
+import {
+  onlyAlphabets,
+  formatMdiNumber,
+} from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
 import useQueryParams from "hooks/useQueryParams";
@@ -102,24 +105,25 @@ const NewContactForm = ({
     doFetch(""); // eslint-disable-next-line
   }, []);
 
-  const linkContact = async () => {
+  const linkContact = async (leadIdParam) => {
     const {
-      state: { policyId, agentNpn, policyStatus, leadId, policyHolder },
+      state: { policyId, agentNpn, policyStatus, firstName, lastName },
     } = state;
+
     try {
       const updateBusinessBookPayload = {
         agentNpn: agentNpn,
-        leadId: leadId,
+        leadId: leadIdParam.toString(),
         policyNumber: policyId,
-        consumerFirstName: policyHolder?.split(" ")[0],
-        consumerLastName: policyHolder?.split(" ")[1],
+        consumerFirstName: firstName,
+        consumerLastName: lastName,
         leadDate: new Date(),
         leadStatus: policyStatus,
       };
       const response = await enrollPlansService.updateBookOfBusiness(
         updateBusinessBookPayload
       );
-      if (response.leadId) {
+      if (response) {
         setTimeout(() => {
           addToast({
             message: "Contact linked successfully",
@@ -255,7 +259,7 @@ const NewContactForm = ({
             message: "Contact added successfully",
           });
           if (isRelink) {
-            await linkContact();
+            await linkContact(leadId);
           }
           setTimeout(() => {
             goToContactDetailPage(leadId);
