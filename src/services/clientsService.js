@@ -35,6 +35,11 @@ const getSortByRangeDates = (type) => {
   ];
 };
 
+const flattenMBI = (mbi) => {
+  if (!mbi) return null;
+  return mbi.replace(/-/g, "");
+};
+
 export class ClientsService {
   _clientAPIRequest = async (path, method = "GET", body) => {
     const user = await authService.getUser();
@@ -356,7 +361,7 @@ export class ClientsService {
       notes,
       medicareBeneficiaryID,
       partA,
-      partB
+      partB,
     } = contact;
     const reqData = {
       leadsId,
@@ -368,9 +373,9 @@ export class ClientsService {
       primaryCommunication,
       contactRecordType,
       notes,
-      medicareBeneficiaryID,
+      medicareBeneficiaryID: flattenMBI(medicareBeneficiaryID),
       partA,
-      partB
+      partB,
     };
     reqData.emails = [];
     if (email !== null && email !== undefined) {
@@ -466,7 +471,7 @@ export class ClientsService {
       birthdate: birthdate ? formatServerDate(parseDate(birthdate)) : null,
       leadStatusId: 0,
       contactRecordType,
-      medicareBeneficiaryID,
+      medicareBeneficiaryID: flattenMBI(medicareBeneficiaryID),
       partA,
       partB,
     };
