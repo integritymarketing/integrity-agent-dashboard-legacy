@@ -726,6 +726,7 @@ export default () => {
               setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
             }}
             setSessionData={setSessionData}
+            isMobile={isMobile}
           />
         </div>
       </ToastContextProvider>

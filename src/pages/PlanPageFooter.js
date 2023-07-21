@@ -14,6 +14,7 @@ export const PlanPageFooter = ({
   onRemove,
   effectiveDate,
   setSessionData,
+  isMobile,
 }) => {
   const history = useHistory();
   if (!plans || plans.length < 1) {
@@ -38,17 +39,27 @@ export const PlanPageFooter = ({
         } else
           return (
             <div className={styles["plans-list"]} data-gtm="plan-comparision">
-              <div className={styles["close"]} onClick={() => onRemove(plan)}>
-                {" "}
-                <Close />
-              </div>
+              {!isMobile && (
+                <>
+                  <div
+                    className={styles["close"]}
+                    onClick={() => onRemove(plan)}
+                  >
+                    <Close />
+                  </div>
 
-              <div className={styles["plans-logo"]}>
-                {" "}
-                <img src={LOGO_BASE_URL + plan.logoURL} alt="logo" />
-              </div>
+                  <div className={styles["plans-logo"]}>
+                    <img src={LOGO_BASE_URL + plan.logoURL} alt="logo" />
+                  </div>
+                </>
+              )}
 
               <div className={styles["plan-name"]}>{plan.planName}</div>
+              {isMobile && (
+                <div className={styles["close"]} onClick={() => onRemove(plan)}>
+                  <Close />
+                </div>
+              )}
             </div>
           );
       })}

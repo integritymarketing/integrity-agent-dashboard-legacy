@@ -55,7 +55,7 @@ export default ({
             </ul>
           )}
           {soa_status === "Sent" && (
-            <div>
+            <div className="text">
               The scope of appointment has been sent to {soaDestination}{" "}
             </div>
           )}

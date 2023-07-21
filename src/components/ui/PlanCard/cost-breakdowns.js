@@ -31,6 +31,7 @@ export default ({ planData, effectiveDate }) => {
       <div className={"cost-row"} key={key++}>
         <div>
           <div className={"label"}>{breakdown.label}</div>
+
           <div className={"filler"}></div>
           <div className={"currency"}>{currencyFormatter.format(value)}</div>
         </div>
