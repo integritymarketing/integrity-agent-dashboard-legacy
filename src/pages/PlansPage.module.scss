@@ -1,4 +1,7 @@
 .plans-page {
+  @media (max-width: 480px) {
+    background-color: #f4f8fb;
+  }
   .header {
     background-color: var(--v2-white);
     box-shadow: var(--shadow-default);
@@ -156,6 +159,9 @@
   align-items: center;
   bottom: 0;
   z-index: 1;
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 
   // button {
   //   @media (max-width: 767px) {
@@ -201,6 +207,14 @@
     min-height: 90px;
     padding: 10px 20px;
     position: relative;
+    @media (max-width: 480px) {
+      width: 90%;
+      min-width: unset;
+      max-width: unset;
+      min-height: unset;
+      margin: 20px 0px 0px 0px;
+      justify-content: space-between;
+    }
 
     & img {
       width: 47px;
@@ -209,6 +223,10 @@
       position: absolute;
       top: 5px;
       right: 10px;
+      @media (max-width: 480px) {
+        top: 13px;
+        right: 16px;
+      }
     }
 
     .plan-name {
@@ -218,6 +236,9 @@
       font-size: 16px;
       line-height: 130%;
       color: #202020;
+      @media (max-width: 480px) {
+        width: 90%;
+      }
     }
   }
 
@@ -244,6 +265,17 @@
   & Button {
     width: 115px;
     height: 48px;
+    @media (max-width: 480px) {
+      width: 90%;
+      margin: 20px 0px;
+    }
+    .label {
+      @media (max-width: 480px) {
+        font-size: 18px;
+        font-weight: 700;
+        color: #f8fafc;
+      }
+    }
   }
 }
 

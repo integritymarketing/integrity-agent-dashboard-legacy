@@ -19,7 +19,7 @@ export default function ContactRecordHeader({
     contact.lastName
   }`;
   const zip =
-    contact?.addresses.length > 0 ? contact?.addresses[0]?.postalCode : null;
+    contact?.addresses?.length > 0 ? contact?.addresses[0]?.postalCode : null;
   return (
     <div className="contactRecordHeader">
       <div className="back">

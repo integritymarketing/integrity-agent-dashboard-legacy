@@ -1873,13 +1873,12 @@ button {
 .scope-of-app-row-section2 {
   display: flex;
   justify-content: space-between;
+  margin: 0;
 }
-.scope-of-app-row-section2 p {
+.scope-of-app-row-section2 .text {
   color: #434A51;
   font-size: 16px;
-  margin: 0;
-  overflow: auto;
-  word-wrap: break-word;
+  word-break: break-all;
 }
 .completed-btn {
   width: 82.69px;

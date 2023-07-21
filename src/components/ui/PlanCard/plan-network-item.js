@@ -14,7 +14,7 @@ export default ({ name, address, inNetwork, isMobile }) => {
       </div>
       <div className={"text"}>
         <div className={"name"}>{name}</div>
-        {!isMobile && <div className={"address"}>{address}</div>}
+        <div className={"address"}>{address}</div>
       </div>
     </div>
   );

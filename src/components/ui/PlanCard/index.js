@@ -3,7 +3,8 @@ import Rating from "../Rating";
 import PlanNetworkItem from "./plan-network-item";
 import CostBreakdowns from "./cost-breakdowns";
 import { Button } from "../Button";
-import ArrowDown from "../../icons/arrow-down";
+import Arrow from "components/icons/down";
+
 import {
   capitalizeFirstLetter,
   formatUnderScorestring,
@@ -133,33 +134,36 @@ export default function PlanCard({
   return (
     <div className={"plan-card"}>
       <div className={`header ${isMobile ? "mobile" : ""}`}>
-        <div className={"compare-check hide-desktop"}>
-          <input
-            type="checkbox"
-            className={"compare-inpt"}
-            disabled={isCompareDisabled}
-            checked={isChecked}
-            onChange={(e) => onChangeCompare(e.target.checked)}
-          />
-          <span className={"compare-txt"}>Compare</span>{" "}
-        </div>
-        <div className={"plan-name"}>{planData.planName}</div>
+        <div className={"plan-name"}>{planData.planName} </div>
         {checkForImage && (
           <div className={"plan-logo"}>
-            <img src={LOGO_BASE_URL + logoURL} alt="logo" />
+            {isMobile && (
+              <div className={"rating-container"}>
+                <Rating value={planData.planRating} />
+              </div>
+            )}
+            <img src={LOGO_BASE_URL + logoURL} alt="logo" />{" "}
           </div>
         )}
       </div>
-      <div className={"sub-header"}>
-        <div className={"carrier-name cr-name-mbl"}>
-          {planData?.marketingName}
+      {planData?.marketingName && !isMobile && (
+        <div className={"sub-header"}>
+          <div className={"carrier-name cr-name-mbl"}>
+            {planData?.marketingName}
+          </div>
+          {!isMobile && (
+            <div className={"rating-container"}>
+              <Rating value={planData.planRating} />
+            </div>
+          )}
         </div>
-        <div className={"rating-container"}>
-          <Rating value={planData.planRating} />
-        </div>
-      </div>
+      )}
       <div className={`premiums ${isMobile ? "mobile" : ""}`}>
-        <div className="plan-monthly-costs">
+        <div
+          className={`plan-monthly-costs ${
+            !breakdownCollapsed && isMobile ? "plan-ms-open" : ""
+          }`}
+        >
           <div
             className={"monthly"}
             onClick={() => {
@@ -168,40 +172,46 @@ export default function PlanCard({
               } else return false;
             }}
           >
-            {!isMobile && <div className={"label"}>Monthly Plan Premium</div>}
+            {isMobile && <div className={"label"}>Monthly Plan Premium</div>}
             <div className={"currency"}>
               {currencyFormatter.format(planData.annualPlanPremium / 12)}
             </div>
-            {isMobile && (
+            {/* {isMobile && (
               <div className={"label"}>
                 <span className={"mnth-mbl"}>/month </span>
                 {planType === "MA" && <ArrowDown />}
               </div>
-            )}
+            )} */}
           </div>
 
           {planType !== "MA" && (
             <div
-              className={"monthly rx-drug"}
+              className={" rx-drug"}
               onClick={() => {
                 setBreakdownCollapsed(isMobile && !breakdownCollapsed);
               }}
             >
-              {!isMobile && (
-                <div className={"label"}>Est. Monthly RX Drug Cost</div>
-              )}
-              <div className={"currency"}>
-                {currencyFormatter.format(
-                  planData.estimatedAnnualDrugCostPartialYear /
-                    (12 - effectiveDate?.getMonth())
+              <div>
+                {isMobile && (
+                  <div className={"label"}>Est. Monthly RX Drug Cost</div>
                 )}
+                <div className={"currency"}>
+                  {currencyFormatter.format(
+                    planData.estimatedAnnualDrugCostPartialYear /
+                      (12 - effectiveDate?.getMonth())
+                  )}
+                </div>
               </div>
-              {isMobile && (
+              <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
+                {isMobile && <Arrow color={"#0052CE"} />}
+              </div>
+
+              {/* {isMobile && (
                 <div className={"label"}>
                   <span className={"mnth-mbl"}>/month </span>
                   <ArrowDown />
                 </div>
-              )}
+              )} */}
             </div>
           )}
         </div>
@@ -224,19 +234,20 @@ export default function PlanCard({
       </div>
       {((planData.providers !== null && planData.providers?.length > 0) ||
         (planData.pharmacyCosts !== null &&
-          planData.pharmacyCosts?.length > 0)) && (
-        <div className={`in-network ${isMobile ? "mobile" : ""}`}>
-          <div className={"label"}>Plan Coverage</div>
-          <div className={"items"}>
-            {getProviders(
-              planData.providers,
-              isMobile,
-              planData.isPlanNetworkAvailable
-            )}
-            {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+          planData.pharmacyCosts?.length > 0)) &&
+        !isMobile && (
+          <div className={`in-network ${isMobile ? "mobile" : ""}`}>
+            <div className={"label"}>Plan Coverage</div>
+            <div className={"items"}>
+              {getProviders(
+                planData.providers,
+                isMobile,
+                planData.isPlanNetworkAvailable
+              )}
+              {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       {getCoverageRecommendations(planData)?.length > 0 && (
         <div className={`coverage ${isMobile ? "mobile" : ""}`}>
           <div className={"label"}>Supplemental Coverage Recommendations:</div>
@@ -244,7 +255,7 @@ export default function PlanCard({
         </div>
       )}
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
-        <div className={"compare-check cmp-chk-mbl"}>
+        <div className={"compare-check "}>
           <input
             type="checkbox"
             className={"compare-inpt"}
