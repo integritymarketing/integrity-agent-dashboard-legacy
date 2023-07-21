@@ -12,7 +12,7 @@ const UnlinkedPolicyCard = ({ callData }) => {
 
   const handleLinkToContact = () => {
     history.push(`/enrollment-link-to-contact`, {
-      state: callData,
+      state: { ...callData, page: "Dashboard" },
     });
   };
 

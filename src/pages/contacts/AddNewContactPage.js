@@ -19,7 +19,7 @@ import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
-import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
+import { onlyAlphabets, formatMdiNumber } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
 import useQueryParams from "hooks/useQueryParams";
@@ -111,8 +111,8 @@ const NewContactForm = ({
         agentNpn: agentNpn,
         leadId: leadId,
         policyNumber: policyId,
-        consumerFirstName: policyHolder.split(" ")[0],
-        consumerLastName: policyHolder.split(" ")[1],
+        consumerFirstName: policyHolder?.split(" ")[0],
+        consumerLastName: policyHolder?.split(" ")[1],
         leadDate: new Date(),
         leadStatus: policyStatus,
       };
@@ -133,19 +133,6 @@ const NewContactForm = ({
         time: 4000,
       });
     }
-  };
-
-  const formatMdiNumber = (value) => {
-    let formattedValue = value.replace(/-/g, "");
-    if (formattedValue.length > 4) {
-      formattedValue =
-        formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
-    }
-    if (formattedValue.length > 8) {
-      formattedValue =
-        formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
-    }
-    return formattedValue;
   };
 
   return (
@@ -331,9 +318,6 @@ const NewContactForm = ({
         ) {
           setFieldValue("address.stateCode", allStates[0].value);
         }
-        console.log(touched.medicareBeneficiaryID, 
-          submitCount,
-          errors.medicareBeneficiaryID)
         return (
           <Form className="form mt-3">
             <fieldset className="form__fields form__fields--constrained hide-input-err">
@@ -661,8 +645,8 @@ const NewContactForm = ({
                   value={formatMdiNumber(values.medicareBeneficiaryID)}
                   onChange={handleChange}
                   error={
-                    (touched.medicareBeneficiaryID ||
-                    submitCount > 0) &&
+                    touched.medicareBeneficiaryID &&
+                    submitCount > 0 &&
                     errors.medicareBeneficiaryID
                   }
                 />
@@ -680,7 +664,7 @@ const NewContactForm = ({
                   <DatePickerMUI
                     value={values.partA === null ? "" : values.partA}
                     onChange={(value) => {
-                      setFieldValue("partA", formatDate(value));
+                      setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
                     }}
                     className={styles.disableDatePickerError}
                   />
@@ -693,7 +677,7 @@ const NewContactForm = ({
                   <DatePickerMUI
                     value={values.partB === null ? "" : values.partB}
                     onChange={(value) => {
-                      setFieldValue("partB", formatDate(value));
+                      setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
                     }}
                     className={styles.disableDatePickerError}
                   />

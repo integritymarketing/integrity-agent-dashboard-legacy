@@ -65,13 +65,14 @@ const ContactListItemButton = ({
   }, [contact, callFrom]);
 
   const onClickHandler = useCallback(async () => {
-    const {
+    let {
       policyId,
       agentNpn,
       policyStatus,
       leadId,
-      policyHolder,
       policyStatusId,
+      consumerFirstName,
+      consumerLastName
     } = state;
     try {
       const reverseArray = contact?.phones?.reverse();
@@ -79,8 +80,8 @@ const ContactListItemButton = ({
         agentNpn: agentNpn,
         leadId: leadId,
         policyNumber: policyId,
-        consumerFirstName: policyHolder.split(" ")[0],
-        consumerLastName: policyHolder.split(" ")[1],
+        consumerFirstName: consumerFirstName,
+        consumerLastName: consumerLastName,
         leadDate: leadInfo?.createDate || new Date(),
         leadStatus: policyStatus,
         policySourceId: policyStatusId,
@@ -92,7 +93,7 @@ const ContactListItemButton = ({
       const response = await enrollPlansService.updateBookOfBusiness(
         updateBusinessBookPayload
       );
-      if (response.leadId) {
+      if (response) {
         addToast({
           message: "Contact linked succesfully",
         });

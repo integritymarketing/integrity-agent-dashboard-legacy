@@ -132,13 +132,13 @@ class ValidationService {
   };
 
   validateMedicalBeneficiaryId = (mbiId) => {
+    if (!mbiId) return null;
     const formattedId = String(mbiId).replace(/-/g, ""); // Convert to string and remove existing hyphens
     const validPattern =
       /^[1-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y][0-9][0-9]$/;
     const isValid = validPattern.test(formattedId);
-    return (isValid || mbiId === '') ? null : "Invalid Medicare Number";
+    return isValid || mbiId === "" ? null : "Invalid Medicare Number";
   };
-  
 
   validatePhone = (phoneNumber, label = "Phone Number") => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, "");

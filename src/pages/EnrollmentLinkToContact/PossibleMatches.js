@@ -5,12 +5,18 @@ import clientService from "services/clientsService";
 import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import styles from "./styles.module.scss";
-export default function PossibleMatches({ phone, policyHolder, state }) {
+export default function PossibleMatches({
+  phone,
+  consumerFirstName,
+  consumerLastName,
+  state,
+}) {
   const [matches, setMatches] = useState([]);
   const { callFrom } = useParams();
   const history = useHistory();
   const addToast = useToast();
   useEffect(() => {
+    const policyHolder = `${consumerFirstName} ${consumerLastName}`;
     const getContacts = async () => {
       try {
         const response = await clientService.getList(
@@ -30,7 +36,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
       }
     };
     getContacts();
-  }, [phone, policyHolder]);
+  }, [phone, consumerFirstName, consumerLastName]);
 
   const updatePrimaryContact = useCallback(
     (contact) => {
@@ -39,75 +45,76 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
     [callFrom]
   );
 
-  const onClickHandler = useCallback(async (contact) => {
-    try {
-      const hasPhone = contact?.phones?.slice().reverse()[0]?.leadPhone;
-  
-      if (!hasPhone) {
-        await updatePrimaryContact(contact);
-      }
-  
-      const {
-        effectiveDate,
-        planId,
-        submittedDate,
-        policyId,
-        agentNpn,
-        carrier,
-        consumerSource,
-        policyStatus,
-        leadId,
-        hasPlanDetails,
-        confirmationNumber,
-        policyHolder,
-        policySourceId
-      } = state;
-  
-      const [consumerFirstName, consumerLastName] = policyHolder.split(" ");
-      const leadDate = contact.emails[0]?.createDate;
-  
-      const updateBusinessBookPayload = {
-        agentNpn,
-        leadId,
-        policyNumber: policyId,
-        plan: planId,
-        carrier,
-        policyStatus,
-        consumerSource,
-        confirmationNumber,
-        consumerFirstName,
-        consumerLastName,
-        policyEffectiveDate: effectiveDate,
-        appSubmitDate: submittedDate,
-        hasPlanDetails,
-        policySourceId,
-        leadDate,
-        leadStatus: '',
-      };
-  
-      const response = await enrollPlansService.updateBookOfBusiness(
-        updateBusinessBookPayload
-      );
-  
-      if (response.agentNpn) {
-        addToast({
-          message: "Contact linked successfully",
-        });
-        history.push(`/contact/${contact.leadsId}`);
-      } else {
+  const onClickHandler = useCallback(
+    async (contact) => {
+      try {
+        const hasPhone = contact?.phones?.slice().reverse()[0]?.leadPhone;
+        if (!hasPhone) {
+          await updatePrimaryContact(contact);
+        }
+
+        const {
+          effectiveDate,
+          planId,
+          submittedDate,
+          policyId,
+          agentNpn,
+          carrier,
+          consumerSource,
+          policyStatus,
+          leadId,
+          hasPlanDetails,
+          confirmationNumber,
+          consumerFirstName,
+          consumerLastName,
+          policySourceId,
+        } = state;
+
+        const leadDate = contact.emails[0]?.createDate;
+
+        const updateBusinessBookPayload = {
+          agentNpn,
+          leadId,
+          policyNumber: policyId,
+          plan: planId,
+          carrier,
+          policyStatus,
+          consumerSource,
+          confirmationNumber,
+          consumerFirstName,
+          consumerLastName,
+          policyEffectiveDate: effectiveDate,
+          appSubmitDate: submittedDate,
+          hasPlanDetails,
+          policySourceId,
+          leadDate,
+          leadStatus: "",
+        };
+
+        const response = await enrollPlansService.updateBookOfBusiness(
+          updateBusinessBookPayload
+        );
+
+        if (response.agentNpn) {
+          addToast({
+            message: "Contact linked successfully",
+          });
+          history.push(`/contact/${contact.leadsId}`);
+        } else {
+          addToast({
+            type: "error",
+            message: `${response}`,
+          });
+        }
+      } catch (error) {
         addToast({
           type: "error",
-          message: `${response}`,
+          message: `${error.message}`,
         });
       }
-    } catch (error) {
-      addToast({
-        type: "error",
-        message: `${error.message}`,
-      });
-    }
-  }, [history, addToast, updatePrimaryContact, state]);
-  
+    },
+    [history, addToast, updatePrimaryContact, state]
+  );
 
   if (matches?.length > 0) {
     return (
