@@ -107,14 +107,6 @@ export function PrescriptionsCompareTable({
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
 
-  console.log(
-    "TESTING CALCULATIONS",
-    effectiveEndDate.getMonth(),
-    effectiveEndDate,
-    effectiveStartDate.getMonth(),
-    effectiveStartDate
-  );
-
   const columns = useMemo(
     () => [
       {

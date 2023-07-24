@@ -36,13 +36,7 @@ export default ({ planData, isMobile }) => {
   const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
     month: "long",
   })} ${effectiveStartDate.getFullYear()} `;
-  console.log(
-    "TESTING CALCULATIONS",
-    effectiveEndDate.getMonth(),
-    effectiveEndDate,
-    effectiveStartDate.getMonth(),
-    effectiveStartDate
-  );
+
   const isApiFailed =
     (planData?.planDrugCoverage?.filter((drug) => drug.labelName)?.length > 0
       ? false
@@ -95,9 +89,7 @@ export default ({ planData, isMobile }) => {
 
   const data = [];
   if (pharmacyCost.monthlyCosts && Array.isArray(pharmacyCost.monthlyCosts)) {
-    var monthlyCostLength = pharmacyCost.monthlyCosts.length;
-    var startingMonth = monthlyCostLength - monthsRemaining;
-    for (var i = startingMonth - 1; i < pharmacyCost.monthlyCosts.length; i++) {
+    for (var i = 0; i < monthsRemaining; i++) {
       var monthlyCost = pharmacyCost.monthlyCosts[i];
       if (monthlyCost.costDetail && Array.isArray(monthlyCost.costDetail)) {
         for (var k = 0; k < monthlyCost.costDetail.length; k++) {
