@@ -24,7 +24,6 @@ import { BackToTop } from "components/ui/BackToTop";
 import ContactFooter from "partials/global-footer";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
-import GoBackNavbar from "components/BackButtonNavbar";
 
 const PlanDetailsPage = () => {
   const addToast = useToast();
@@ -115,7 +114,6 @@ const PlanDetailsPage = () => {
               <title>MedicareCENTER - Plans</title>
             </Helmet>
             <GlobalNav />
-            <GoBackNavbar />
 
             <div className={`${styles["header"]}`} style={{ height: "auto" }}>
               <Container>
