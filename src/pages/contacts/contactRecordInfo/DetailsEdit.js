@@ -696,7 +696,7 @@ export default (props) => {
                       <DatePickerMUI
                         value={values.partA === null ? "" : values.partA}
                         onChange={(value) => {
-                          setFieldValue("partA", formatDate(value));
+                          setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
                         }}
                         className={styles.disableDatePickerError}
                       />
@@ -709,7 +709,7 @@ export default (props) => {
                       <DatePickerMUI
                         value={values.partB === null ? "" : values.partB}
                         onChange={(value) => {
-                          setFieldValue("partB", formatDate(value));
+                          setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
                         }}
                         className={styles.disableDatePickerError}
                       />
