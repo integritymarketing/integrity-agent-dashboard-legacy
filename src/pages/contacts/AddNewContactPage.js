@@ -21,7 +21,7 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import {
   onlyAlphabets,
-  formatMdiNumber,
+  formatMbiNumber,
 } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
@@ -646,7 +646,7 @@ const NewContactForm = ({
                   label="Medicare Beneficiary ID Number"
                   placeholder="MBI Number"
                   name="medicareBeneficiaryID"
-                  value={formatMdiNumber(values.medicareBeneficiaryID)}
+                  value={formatMbiNumber(values.medicareBeneficiaryID)}
                   onChange={handleChange}
                   error={
                     touched.medicareBeneficiaryID &&

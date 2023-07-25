@@ -138,7 +138,7 @@ export default (props) => {
     doFetch(postalCode); // eslint-disable-next-line
   }, []);
 
-  const formatMdiNumber = (value) => {
+  const formatMbiNumber = (value) => {
     if(!value) return;
     let formattedValue = value.replace(/-/g, "");
     if (formattedValue.length > 4) {
@@ -599,7 +599,7 @@ export default (props) => {
                         maxLength={13}
                         placeholder="MBI Number"
                         name="medicareBeneficiaryID"
-                        value={formatMdiNumber(values.medicareBeneficiaryID)}
+                        value={formatMbiNumber(values.medicareBeneficiaryID)}
                         onChange={handleChange}
                         error={
                           touched.medicareBeneficiaryID  &&

@@ -79,7 +79,7 @@ export const formatMBID = (mbid, showMBID) => {
   }
 };
 
-export const formatMdiNumber = (value) => {
+export const formatMbiNumber = (value) => {
   if(!value) return null;
   let formattedValue = value.replace(/-/g, "");
   if (formattedValue.length > 4) {
