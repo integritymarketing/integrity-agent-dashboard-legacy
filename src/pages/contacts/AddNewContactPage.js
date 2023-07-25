@@ -642,7 +642,6 @@ const NewContactForm = ({
                 <Textfield
                   id="mbi-number"
                   type="text"
-                  maxLength={13}
                   label="Medicare Beneficiary ID Number"
                   placeholder="MBI Number"
                   name="medicareBeneficiaryID"
