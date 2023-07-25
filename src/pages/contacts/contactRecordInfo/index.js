@@ -91,7 +91,7 @@ export default () => {
   const getContactRecordInfo = useCallback(
     async (leadDetails) => {
       if (!sectionId) {
-        setDisplay("overview");
+        setDisplay("details");
       }
       setLoading(true);
       if (leadDetails?.length === 0) {

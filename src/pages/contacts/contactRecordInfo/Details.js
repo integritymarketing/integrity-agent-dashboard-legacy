@@ -2,7 +2,6 @@ import React, { useEffect, useState, forwardRef } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
-import AddPrescription from "./modals/AddPrescription";
 import EditPrescription from "./modals/EditPrescription";
 import AddPharmacy from "./modals/AddPharmacy";
 import useLeadInformation from "hooks/useLeadInformation";
@@ -10,6 +9,7 @@ import useFeatureFlag from "hooks/useFeatureFlag";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
 import AddProvider from "./modals/AddProvider";
+import PrescriptionModal from "components/Modal/PrescriptionModal";
 import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
@@ -221,11 +221,18 @@ export default forwardRef((props, ref) => {
           />
         )}
 
-        <AddPrescription
+        {/* <AddPrescription
           isOpen={isOpenPrescription}
           onClose={onCloseNewPrescription}
           onSave={addPrescription}
-        />
+        /> */}
+        {!isOpenPrescription && (
+          <PrescriptionModal
+            open={!isOpenPrescription}
+            onClose={() => onCloseNewPrescription(false)}
+            onSave={addPrescription}
+          />
+        )}
 
         <EditPrescription
           isOpen={isOpenEditPrescription}
