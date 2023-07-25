@@ -682,7 +682,7 @@ export default (props) => {
                       value={values.medicareBeneficiaryID}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        e.target.value = formatMdiNumber(e.target.value);
+                        e.target.value = formatMbiNumber(e.target.value);
                       }}
                       error={
                         touched.medicareBeneficiaryID &&
