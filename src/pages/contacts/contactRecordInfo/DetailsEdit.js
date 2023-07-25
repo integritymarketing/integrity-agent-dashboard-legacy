@@ -74,7 +74,7 @@ export default (props) => {
     notes,
     medicareBeneficiaryID,
     partA,
-    partB
+    partB,
   } = props.personalInfo;
 
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
@@ -136,7 +136,7 @@ export default (props) => {
   }, []);
 
   const formatMbiNumber = (value) => {
-    if(!value) return;
+    if (!value) return;
     let formattedValue = value.replace(/-/g, "");
     if (formattedValue.length > 4) {
       formattedValue =
@@ -180,7 +180,7 @@ export default (props) => {
         notes,
         medicareBeneficiaryID,
         partA,
-        partB
+        partB,
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(
@@ -671,53 +671,53 @@ export default (props) => {
                   <div className="mt-3 mb-3 border-bottom border-bottom--light" />
                 </div>
                 <div className="contact-details-row mobile-responsive-row">
-                    <div className="contact-details-col1 mob-res-w-100">
-                      <Textfield
-                        id="mbi-number"
-                        type="text"
-                        maxLength={13}
-                        label="Medicare Beneficiary ID Number"
-                        placeholder="MBI Number"
-                        name="medicareBeneficiaryID"
-                        value={formatMbiNumber(values.medicareBeneficiaryID)}
-                        onChange={handleChange}
-                        onBlur={e => {
-                          e.target.value = formatMbiNumber(e.target.value);
-                        }}
-                        error={
-                          touched.medicareBeneficiaryID  &&
-                          errors.medicareBeneficiaryID
-                        }
-                      />
-                    </div>
-
-                    <div className="custom-w-186  contact-details-col1 mob-res-w-100">
-                      <label className=" custom-label-state label">
-                        Part A Effective Date
-                      </label>
-
-                      <DatePickerMUI
-                        value={values.partA === null ? "" : values.partA}
-                        onChange={(value) => {
-                          setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
-                        }}
-                        className={styles.disableDatePickerError}
-                      />
-                    </div>
-                    <div className="custom-w-186  contact-details-col1 mob-res-w-100">
-                      <label className=" custom-label-state label">
-                        Part B Effective Date
-                      </label>
-
-                      <DatePickerMUI
-                        value={values.partB === null ? "" : values.partB}
-                        onChange={(value) => {
-                          setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
-                        }}
-                        className={styles.disableDatePickerError}
-                      />
-                    </div>
+                  <div className="contact-details-col1 mob-res-w-100">
+                    <Textfield
+                      id="mbi-number"
+                      type="text"
+                      maxLength={13}
+                      label="Medicare Beneficiary ID Number"
+                      placeholder="MBI Number"
+                      name="medicareBeneficiaryID"
+                      value={values.medicareBeneficiaryID}
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        e.target.value = formatMdiNumber(e.target.value);
+                      }}
+                      error={
+                        touched.medicareBeneficiaryID &&
+                        errors.medicareBeneficiaryID
+                      }
+                    />
                   </div>
+
+                  <div className="custom-w-186  contact-details-col1 mob-res-w-100">
+                    <label className=" custom-label-state label">
+                      Part A Effective Date
+                    </label>
+
+                    <DatePickerMUI
+                      value={values.partA === null ? "" : values.partA}
+                      onChange={(value) => {
+                        setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
+                      }}
+                      className={styles.disableDatePickerError}
+                    />
+                  </div>
+                  <div className="custom-w-186  contact-details-col1 mob-res-w-100">
+                    <label className=" custom-label-state label">
+                      Part B Effective Date
+                    </label>
+
+                    <DatePickerMUI
+                      value={values.partB === null ? "" : values.partB}
+                      onChange={(value) => {
+                        setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
+                      }}
+                      className={styles.disableDatePickerError}
+                    />
+                  </div>
+                </div>
                 {duplicateLeadIds?.length > 0 && (
                   <div className="duplicate-lead mt-5 mb-4">
                     <div>
