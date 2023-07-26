@@ -146,7 +146,7 @@ export default (props) => {
       formattedValue =
         formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
     }
-    return formattedValue;
+    return formattedValue.toUpperCase();
   };
 
   return (
@@ -675,15 +675,12 @@ export default (props) => {
                     <Textfield
                       id="mbi-number"
                       type="text"
-                      maxLength={13}
                       label="Medicare Beneficiary ID Number"
                       placeholder="MBI Number"
                       name="medicareBeneficiaryID"
-                      value={values.medicareBeneficiaryID}
+                      value={formatMbiNumber(values.medicareBeneficiaryID)}
                       onChange={handleChange}
-                      onBlur={(e) => {
-                        e.target.value = formatMbiNumber(e.target.value);
-                      }}
+                      onBlur={handleBlur}
                       error={
                         touched.medicareBeneficiaryID &&
                         errors.medicareBeneficiaryID

@@ -73,22 +73,20 @@ export const formatMBID = (mbid, showMBID) => {
   if (!mbid) {
     return null;
   } else if (showMBID) {
-    return mbid;
+    return formatMbiNumber(mbid);
   } else {
     return `****-****-${mbid.slice(-4)}`;
   }
 };
 
 export const formatMbiNumber = (value) => {
-  if(!value) return null;
+  if (!value) return null;
   let formattedValue = value.replace(/-/g, "");
   if (formattedValue.length > 4) {
-    formattedValue =
-      formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+    formattedValue = formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
   }
   if (formattedValue.length > 8) {
-    formattedValue =
-      formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+    formattedValue = formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
   }
-  return formattedValue;
+  return formattedValue.toUpperCase();
 };
