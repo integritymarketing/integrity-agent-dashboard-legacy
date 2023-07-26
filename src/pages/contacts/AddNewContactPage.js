@@ -648,11 +648,18 @@ const NewContactForm = ({
                   value={formatMbiNumber(values.medicareBeneficiaryID)}
                   onChange={handleChange}
                   error={
-                    touched.medicareBeneficiaryID &&
-                    submitCount > 0 &&
-                    errors.medicareBeneficiaryID
+                    touched?.medicareBeneficiaryID &&
+                    errors?.medicareBeneficiaryID
                   }
                 />
+
+                {errors?.medicareBeneficiaryID && (
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">
+                      {errors?.medicareBeneficiaryID}
+                    </li>
+                  </ul>
+                )}
               </div>
 
               <div style={{ display: "flex" }}>
@@ -665,7 +672,7 @@ const NewContactForm = ({
                   </label>
 
                   <DatePickerMUI
-                    value={values.partA === null ? "" : values.partA}
+                    value={values.partA}
                     onChange={(value) => {
                       setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
                     }}

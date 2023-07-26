@@ -596,6 +596,13 @@ export default (props) => {
                     errors.medicareBeneficiaryID
                   }
                 />
+                {errors?.medicareBeneficiaryID && (
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">
+                      {errors?.medicareBeneficiaryID}
+                    </li>
+                  </ul>
+                )}
               </div>
               <div className={styles.inputContainer}>
                 <div className={styles.label}>Part A Effective Date</div>
