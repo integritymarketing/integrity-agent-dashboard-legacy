@@ -686,6 +686,13 @@ export default (props) => {
                         errors.medicareBeneficiaryID
                       }
                     />
+                    {errors?.medicareBeneficiaryID && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">
+                          {errors?.medicareBeneficiaryID}
+                        </li>
+                      </ul>
+                    )}
                   </div>
 
                   <div className="custom-w-186  contact-details-col1 mob-res-w-100">
