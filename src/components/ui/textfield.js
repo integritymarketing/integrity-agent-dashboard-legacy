@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import ErrorIcon from "components/icons/error";
 import SuccessIcon from "components/icons/success";
 import PasswordRevealIcon from "components/icons/password-reveal";
 import PasswordHideIcon from "components/icons/password-hide";
 import DeleteIcon from "components/icons/cross";
 
+// https://react-day-picker.js.org/api/DayPickerInput
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 import dateFnsFormat from "date-fns/format";
@@ -62,28 +63,11 @@ const Textfield = ({
   isMobile = false,
   onClear = null,
   onReset = null,
-  minLength = null,
-  maxLength = null,
   ...inputProps
 }) => {
   let InputElement = multiline ? "textarea" : "input";
   const [passwordsVisible, setPasswordsVisible] = useState(false);
   const inputEl = useRef(null);
-  const [prevCursorPos, setPrevCursorPos] = useState(null);
-
-  useEffect(() => {
-    if (prevCursorPos !== null) {
-      inputEl.current.setSelectionRange(prevCursorPos, prevCursorPos);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Backspace" || e.key === "Delete") {
-      setPrevCursorPos(e.target.selectionStart - 1);
-    }
-  };
-
   const classes = [
     "form-input form-input--textfield",
     className,
@@ -111,12 +95,8 @@ const Textfield = ({
     type: displayType,
     ref: inputEl,
     className: inputClassName,
-    minLength,
-    maxLength,
-    onKeyDown: handleKeyDown,
     ...inputProps,
   };
-
   return (
     <div id={`${id}-wrapper`} className={classes} {...wrapperProps}>
       {label && (
