@@ -714,7 +714,7 @@ export default (props) => {
                     </label>
 
                     <DatePickerMUI
-                      value={values.partB === null ? "" : values.partB}
+                      value={values.partB}
                       onChange={(value) => {
                         setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
                       }}
