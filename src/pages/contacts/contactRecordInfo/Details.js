@@ -9,7 +9,7 @@ import useFeatureFlag from "hooks/useFeatureFlag";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
 import AddProvider from "./modals/AddProvider";
-import PrescriptionModal from "components/Modal/PrescriptionModal";
+import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";

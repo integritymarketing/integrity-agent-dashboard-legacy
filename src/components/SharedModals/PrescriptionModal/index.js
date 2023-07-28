@@ -1,66 +1,33 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  InputAdornment,
-  List,
-  ListItem,
-  ListItemText,
-  makeStyles,
-  Radio,
-  TextField,
-  Typography,
-  Box,
-} from "@material-ui/core";
-import Modal from "../Modal";
+import { Typography } from "@material-ui/core";
+import ErrorState from "./ErrorState";
+import Modal from "components/Modal";
 
-import SearchIcon from "../Icons/SearchIcon";
-import { Select } from "components/ui/Select";
-import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import clientService from "services/clientsService";
-
+import SearchPrescription from "./SearchPrescription";
+import PrescriptionList from "./PrescriptionList";
+import PrescriptionForm from "./PrescriptionForm";
 import "./style.scss";
 
-const useStyles = makeStyles((theme) => ({
-  primary: {
-    color: "#434A51",
-    fontFamily: "Lato",
-    fontSize: "16px",
-    letterSpacing: "0.16px",
-  },
-  radio: {
-    background: "transparent",
-    color: "#434A51",
-    "&.Mui-checked": {
-      color: "#4178FF",
-    },
-  },
-  secondary: {
-    color: "#717171",
-    fontFamily: "Lato",
-    fontSize: "14px",
-  },
-  customTypography: {
-    color: "#052A63",
-    fontSize: 16,
-    fontFamily: "Lato",
-    letterSpacing: "0.16px",
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  input: {
-    "&.MuiOutlinedInput-input": {
-      padding: "10px 14px",
-    },
-  },
-}));
-
 const transformPrescriptionOptions = (option) => {
-  const { drugName, drugType, drugID, referenceNDC } = option;
+  const {
+    drugName,
+    drugType,
+    drugID,
+    referenceNDC,
+    genericDrugID,
+    genericDrugType,
+    genericDrugName,
+  } = option;
   return {
     label: drugName,
     drugName,
     description: drugType,
     value: drugID,
     ndc: referenceNDC,
+    g_value: genericDrugID,
+    g_description: genericDrugType ? genericDrugType : "Generic",
+    g_label: genericDrugName,
   };
 };
 
@@ -78,11 +45,9 @@ export default function PrescriptionModal({
   onClose: onCloseHandler,
   open,
 }) {
-  const classes = useStyles();
-
-  const [drugName, setDrugName] = useState("");
+  const [selectedDrug, onDrugSelection] = useState("");
   const [searchString, setSearchString] = useState("");
-  const [drugNameOptions, setDrugNameOptions] = useState([]);
+  const [prescriptionList, setprescriptionList] = useState([]);
   const [dosageOptions, setDosageOptions] = useState([]);
   const [dosage, setDosage] = useState();
   const [quantity, setQuantity] = useState();
@@ -91,12 +56,17 @@ export default function PrescriptionModal({
   const [dosagePackage, setDosagePackage] = useState();
   const [isLoading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
 
   useEffect(() => {
     const getDosages = async () => {
+      debugger;
+
       setLoading(true);
       try {
-        const drugID = drugName?.value;
+        const drugID = selectedGenericDrug
+          ? selectedDrug?.g_value
+          : selectedDrug?.value;
         const results = await clientService.getDrugDetails(drugID);
         const dosageOptions = (results?.dosages || []).map((dosage) => ({
           label: frontTruncate(dosage.labelName, 34),
@@ -112,8 +82,8 @@ export default function PrescriptionModal({
         }, 100);
       }
     };
-    drugName && getDosages();
-  }, [drugName]);
+    selectedDrug && getDosages();
+  }, [selectedDrug, selectedGenericDrug]);
 
   useEffect(() => {
     if (dosage) {
@@ -136,14 +106,17 @@ export default function PrescriptionModal({
 
   const fetchOptions = async (event) => {
     const searchStr = event.target.value;
-    setDrugName(() => null);
+    onDrugSelection(null);
+    setSelectedGenericDrug(false);
     setSearchString(searchStr);
     if (searchStr && searchStr.length > 1) {
-      const drugNameOptions = await clientService.getDrugNames(searchStr);
-      const options = (drugNameOptions || []).map(transformPrescriptionOptions);
-      setDrugNameOptions(options);
+      const prescriptionList = await clientService.getDrugNames(searchStr);
+      const options = (prescriptionList || []).map(
+        transformPrescriptionOptions
+      );
+      setprescriptionList(options);
     } else {
-      setDrugNameOptions([]);
+      setprescriptionList([]);
     }
   };
 
@@ -169,17 +142,24 @@ export default function PrescriptionModal({
 
   const isFormValid = useMemo(() => {
     return Boolean(
-      drugName &&
+      selectedDrug &&
         quantity &&
         frequency &&
         dosage &&
         (packageOptions.length > 0 ? dosagePackage : true)
     );
-  }, [drugName, quantity, frequency, dosage, dosagePackage, packageOptions]);
+  }, [
+    selectedDrug,
+    quantity,
+    frequency,
+    dosage,
+    dosagePackage,
+    packageOptions,
+  ]);
 
   const onClose = (ev) => {
-    setDrugNameOptions([]);
-    setDrugName("");
+    setprescriptionList([]);
+    onDrugSelection("");
     setSearchString("");
     setDosage();
     setQuantity();
@@ -191,8 +171,9 @@ export default function PrescriptionModal({
   };
 
   const ERROR_STATE =
-    searchString?.length === 0 || drugNameOptions?.length === 0;
+    searchString?.length === 0 || prescriptionList?.length === 0;
 
+  console.log("HHHHH", selectedDrug);
   return (
     <Modal
       open={open}
@@ -203,173 +184,87 @@ export default function PrescriptionModal({
       input={searchString}
       actionButtonDisabled={!isFormValid || isSaving}
     >
-      {!drugName && !isLoading ? (
+      {!selectedDrug && !isLoading ? (
         <>
-          <Typography
-            style={{
-              color: "#052A63",
-              fontSize: 20,
-              fontFamily: "Lato",
-              letterSpacing: "0.2px",
-              marginTop: 12,
-            }}
-          >
-            Search for a Prescription
-          </Typography>
-          <TextField
-            margin="dense"
-            id="prescription"
-            type="text"
-            fullWidth
-            variant="outlined"
-            placeholder="Search"
-            value={searchString}
-            onChange={fetchOptions}
-            style={{
-              backgroundColor: "#FFFFFF",
-              border: "1px solid var(--gray-lt-dddddd)",
-              borderRadius: 4,
-              width: "100%",
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
+          <SearchPrescription
+            searchString={searchString}
+            prescriptionList={prescriptionList}
+            handleSearch={fetchOptions}
           />
 
-          <Typography
-            style={{
-              color: "#717171",
-              fontSize: 14,
-              fontFamily: "Lato, Italic",
-              letterSpacing: "0.14px",
-            }}
-          >
-            {drugNameOptions.length} Prescriptions found
-          </Typography>
-
           {ERROR_STATE ? (
-            <Typography
-              style={{
-                alignItems: "center",
-                backgroundColor: "#DDDDDD",
-                borderRadius: 8,
-                color: "#434A51",
-                display: "flex",
-                fontSize: 16,
-                fontFamily: "Lato",
-                height: "100px",
-                justifyContent: "center",
-                letterSpacing: "0.16px",
-                marginTop: 10,
-                padding: "20px",
-              }}
-            >
-              {searchString.length > 0 &&
-                drugNameOptions?.length === 0 &&
-                "Prescription not found, try a different search"}
-              {searchString?.length === 0 && "Search for a prescription"}
-            </Typography>
+            <ErrorState
+              searchString={searchString}
+              prescriptionList={prescriptionList}
+            />
           ) : (
-            <List>
-              {drugNameOptions.map((drug, index) => (
-                <ListItem
-                  key={index}
-                  button
-                  selected={drugName === drug}
-                  onClick={() => setDrugName(drug)}
-                >
-                  <Radio
-                    disableRipple
-                    checked={drugName === drug}
-                    onClick={() => setDrugName(drug)}
-                    classes={{ root: classes.radio, checked: classes.checked }}
-                  />
-                  <ListItemText
-                    primary={
-                      <span className={classes.primary}>{drug.label}</span>
-                    }
-                    secondary={
-                      <span className={classes.secondary}>
-                        {drug.description}
-                      </span>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
+            <PrescriptionList
+              prescriptionList={prescriptionList}
+              onDrugSelection={onDrugSelection}
+              selected={selectedDrug}
+            />
           )}
         </>
       ) : (
         <>
-          <List>
-            <ListItem button selected={true}>
-              <Radio
-                disableRipple
-                checked={true}
-                classes={{ root: classes.radio, checked: classes.checked }}
-              />
-              <ListItemText
-                primary={
-                  <span className={classes.primary}>{drugName.label}</span>
-                }
-                secondary={
-                  <span className={classes.secondary}>
-                    {drugName.description}
-                  </span>
-                }
-              />
-            </ListItem>
-          </List>
+          <PrescriptionList
+            prescriptionList={[{ ...selectedDrug }]}
+            onDrugSelection={() => setSelectedGenericDrug(false)}
+            selected={!selectedGenericDrug}
+          />
 
-          <Typography
-            style={{
-              color: "#052A63",
-              fontSize: 20,
-              fontFamily: "Lato",
-              letterSpacing: "0.2px",
-              marginTop: 20,
-            }}
-          >
-            Would you like to use the Generic Version?
-          </Typography>
-          <Typography
-            style={{
-              color: "#434A51",
-              fontSize: 16,
-              fontFamily: "Lato",
-              letterSpacing: "0.16px",
-              marginTop: 10,
-            }}
-          >
-            According to the FDA, this generic drug has the same quality,
-            strength, safety and active ingredient as the brand name drug.
-          </Typography>
+          {selectedDrug.g_value && selectedDrug?.description === "Brand" && (
+            <>
+              <Typography
+                style={{
+                  color: "#052A63",
+                  fontSize: 20,
+                  fontFamily: "Lato",
+                  letterSpacing: "0.2px",
+                  marginTop: 20,
+                }}
+              >
+                Would you like to use the Generic Version?
+              </Typography>
+              <Typography
+                style={{
+                  color: "#434A51",
+                  fontSize: 16,
+                  fontFamily: "Lato",
+                  letterSpacing: "0.16px",
+                  marginTop: 10,
+                }}
+              >
+                According to the FDA, this generic drug has the same quality,
+                strength, safety and active ingredient as the brand name drug.
+              </Typography>
 
-          <List>
-            <ListItem button selected={false}>
-              <Radio
-                disableRipple
-                checked={false}
-                classes={{ root: classes.radio, checked: classes.checked }}
+              <PrescriptionList
+                prescriptionList={[
+                  {
+                    ...selectedDrug,
+                    description: selectedDrug.g_description,
+                    label: selectedDrug.g_label,
+                  },
+                ]}
+                onDrugSelection={() => setSelectedGenericDrug(true)}
+                selected={selectedGenericDrug}
               />
-              <ListItemText
-                primary={
-                  <span className={classes.primary}>{drugName.label}</span>
-                }
-                secondary={
-                  <span className={classes.secondary}>
-                    {drugName.description}
-                  </span>
-                }
-              />
-            </ListItem>
-          </List>
-          <div className="inputGroup">
-            {/* Desktop layout */}
+            </>
+          )}
+          <PrescriptionForm
+            {...{
+              dosage,
+              quantity,
+              frequency,
+              dosageOptions,
+              handleQuantity,
+              setFrequency,
+              setDosage,
+            }}
+          />
+          {/* <div className="inputGroup">
+          
             <Box
               display={{ xs: "none", md: "flex" }}
               alignItems="center"
@@ -423,7 +318,7 @@ export default function PrescriptionModal({
               </Box>
             </Box>
 
-            {/* Mobile layout */}
+      
             <Box display={{ xs: "flex", md: "none" }} flexDirection="column">
               <Box sx={{ width: "100%" }}>
                 <Typography
@@ -480,7 +375,7 @@ export default function PrescriptionModal({
                 </Box>
               </Box>
             </Box>
-          </div>
+          </div> */}
         </>
       )}
     </Modal>

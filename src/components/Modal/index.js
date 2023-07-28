@@ -8,7 +8,7 @@ import {
   IconButton,
   makeStyles,
 } from "@material-ui/core";
-import ArrowForwardWithCirlce from "./Icons/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "./Icons/ArrowForwardWithCirlce";
 import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +21,19 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#4178FF",
       transform: "scale(1.1)",
+    },
+    "&.Mui-disabled": {
+      backgroundColor: "#B3C9FF",
+      color: "#FFFFFF",
+      cursor: "not-allowed",
+      "& svg #Icon_Arrow_path": {
+        // targeting the svg path by id
+        fill: "transparent", // changing the fill color
+      },
+      "& svg #Icon_circle_path": {
+        // targeting the svg path by id
+        fill: "#FFFFFF", // changing the fill color
+      },
     },
   },
   cancelButton: {
@@ -46,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#BBBBBB",
     },
   },
+
   footer: {
     backgroundColor: "#F1F1F1",
     borderRadius: "0px 0px 8px 8px",
@@ -114,7 +128,7 @@ export default function Modal({
           <Button
             onClick={onSave}
             className={classes.addButton}
-            endIcon={<ArrowForwardWithCirlce />}
+            endIcon={<ArrowForwardWithCircle />}
             disabled={actionButtonDisabled}
           >
             {actionButtonName}
@@ -124,16 +138,3 @@ export default function Modal({
     </div>
   );
 }
-
-// Modal.propTypes = {
-//   open: PropTypes.bool.isRequired,
-//   onClose: PropTypes.func.isRequired,
-//   title: PropTypes.string,
-//   callBack: PropTypes.func.isRequired,
-//   actionButtonName: PropTypes.string,
-// };
-
-// Modal.defaultProps = {
-//   title: "",
-//   actionButtonName: "",
-// };
