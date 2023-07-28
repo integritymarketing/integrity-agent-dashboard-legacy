@@ -10,18 +10,30 @@ export default function DatePickerMUI({
   onChange,
   className,
 }) {
+  const [lastValidDate, setLastValidDate] = React.useState(null);
+
+  React.useEffect(() => {
+    if (value && isValid(new Date(value))) {
+      setLastValidDate(value);
+    }
+  }, [value]);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DesktopDatePicker
         views={["year", "month", "day"]}
         disableFuture={disableFuture}
         value={
-          isValid(value) && typeof value === "string" ? new Date(value) : null
+          value
+            ? new Date(value)
+            : lastValidDate
+            ? new Date(lastValidDate)
+            : null
         }
         onChange={(newValue) => {
           if (!newValue || isNaN(newValue.getTime()) || !isValid(newValue)) {
-            // If new value is null or not a date, clear the value
-            onChange(null);
+            // If new value is null or not a date, keep the last valid date
+            onChange(null); // pass null to your onChange function
           } else {
             // Only call onChange if newValue is a valid date
             onChange(newValue);

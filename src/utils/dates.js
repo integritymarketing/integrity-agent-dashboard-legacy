@@ -28,6 +28,7 @@ export const isLiveByDate = (goLiveDate = "2022/10/15") => {
 };
 
 export const formatDate = (dateString, formatString = "MM/dd/yyyy") => {
+  if (dateString === null) return null;
   const date = new Date(dateString);
   return isNaN(date.getTime()) ? "" : format(date, formatString);
 };
@@ -266,10 +267,9 @@ export const callDuration = (dateLeft, dateRight) => {
 };
 
 export const formattedTime = (time) => {
-  const date = parse(time, 'HH:mm:ss', new Date());
+  const date = parse(time, "HH:mm:ss", new Date());
 
   // Format the Date object into a 12-hour time string
-  const convertedTime = format(date, 'h:mm aa');
-  return convertedTime;  
-
-}
+  const convertedTime = format(date, "h:mm aa");
+  return convertedTime;
+};
