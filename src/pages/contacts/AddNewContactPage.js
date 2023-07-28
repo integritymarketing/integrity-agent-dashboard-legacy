@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory, Link, useParams, useLocation } from "react-router-dom";
+import { parseISO } from "date-fns";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -81,11 +82,11 @@ const NewContactForm = ({
 
   const getContactLink = (id) => `/contact/${id}/details`;
   const goToContactDetailPage = (id) => {
-    if (duplicateLeadIds.length) {
-      return history.push(
-        getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
-      );
-    }
+    // if (duplicateLeadIds.length) {
+    //   return history.push(
+    //     getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
+    //   );
+    // }
     history.push(getContactLink(id));
   };
   const goToContactPage = () => {
@@ -690,6 +691,7 @@ const NewContactForm = ({
                       setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
                     }}
                     className={styles.disableDatePickerError}
+                    minDate={parseISO(values.partA)}
                   />
                 </div>
               </div>

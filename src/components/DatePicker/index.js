@@ -9,6 +9,7 @@ export default function DatePickerMUI({
   value,
   onChange,
   className,
+  minDate,
 }) {
   const [lastValidDate, setLastValidDate] = React.useState(null);
 
@@ -23,6 +24,7 @@ export default function DatePickerMUI({
       <DesktopDatePicker
         views={["year", "month", "day"]}
         disableFuture={disableFuture}
+        minDate={minDate}
         value={
           value
             ? new Date(value)

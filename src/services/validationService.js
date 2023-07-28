@@ -133,7 +133,7 @@ class ValidationService {
 
   validateMedicalBeneficiaryId = (mbiId) => {
     if (!mbiId) return null;
-    const formattedId = String(mbiId).replace(/-/g, ""); // Convert to string and remove existing hyphens
+    const formattedId = String(mbiId).toUpperCase().replace(/-/g, ""); // Convert to string and remove existing hyphens
     const validPattern =
       /^[1-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y][0-9][0-9]$/;
     const isValid = validPattern.test(formattedId);

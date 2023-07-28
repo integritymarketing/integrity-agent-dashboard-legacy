@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
+import { parseISO } from "date-fns";
 import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
 import Warning from "components/icons/warning";
@@ -718,6 +719,7 @@ export default (props) => {
                       onChange={(value) => {
                         setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
                       }}
+                      minDate={parseISO(values.partA)}
                       className={styles.disableDatePickerError}
                     />
                   </div>
