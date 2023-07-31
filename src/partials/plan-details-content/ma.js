@@ -90,6 +90,7 @@ export default ({
               onShareClick={onShareClick}
               isEmail={isEmail}
               planName={enrollData.planName}
+              policyStatusColor={enrollData.policyStatusColor}
             />
           )}
         </div>
