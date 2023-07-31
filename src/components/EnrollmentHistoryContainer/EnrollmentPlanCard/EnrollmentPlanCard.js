@@ -31,17 +31,16 @@ export default function EnrollmentPlanCard(props) {
     carrier,
     planId,
     hasPlanDetails,
+    policyStatusColor,
   } = props;
 
   const history = useHistory();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
 
-  const holderName = policyHolder ? formattedName(policyHolder) : formattedName(`${consumerFirstName} ${consumerLastName}`);
-
-  const formattedPolicyStatus = policyStatus
-    ?.replace(/\s+/g, "-")
-    .toLowerCase();
+  const holderName = policyHolder
+    ? formattedName(policyHolder)
+    : formattedName(`${consumerFirstName} ${consumerLastName}`);
 
   const navigateEnrollDetails = () => {
     history.push(
@@ -74,7 +73,10 @@ export default function EnrollmentPlanCard(props) {
         }`}
       >
         {currentYear && (
-          <div className={`${styles[formattedPolicyStatus]} ${styles.status}`}>
+          <div
+            className={styles.status}
+            style={{ backgroundColor: policyStatusColor }}
+          >
             <strong>Status:</strong> {policyStatus}
           </div>
         )}
