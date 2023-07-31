@@ -161,7 +161,7 @@ const NewContactForm = ({
           county: "",
           countyFips: "",
         },
-        medicareBeneficiaryID,
+        medicareBeneficiaryID: formatMbiNumber(medicareBeneficiaryID),
         partA: null,
         partB: null,
         primaryCommunication: "",
@@ -646,12 +646,15 @@ const NewContactForm = ({
                   label="Medicare Beneficiary ID Number"
                   placeholder="MBI Number"
                   name="medicareBeneficiaryID"
-                  value={formatMbiNumber(values.medicareBeneficiaryID)}
+                  value={values.medicareBeneficiaryID}
                   onChange={handleChange}
-                  error={
-                    touched?.medicareBeneficiaryID &&
-                    errors?.medicareBeneficiaryID
-                  }
+                  onBlur={(e) => {
+                    handleBlur(e);
+                    setFieldValue(
+                      "medicareBeneficiaryID",
+                      formatMbiNumber(values.medicareBeneficiaryID)
+                    );
+                  }}
                 />
 
                 {errors?.medicareBeneficiaryID && (

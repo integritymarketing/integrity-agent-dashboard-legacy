@@ -179,7 +179,7 @@ export default (props) => {
         leadStatusId,
         leadsId,
         notes,
-        medicareBeneficiaryID,
+        medicareBeneficiaryID: formatMbiNumber(medicareBeneficiaryID),
         partA,
         partB,
       }}
@@ -679,13 +679,15 @@ export default (props) => {
                       label="Medicare Beneficiary ID Number"
                       placeholder="MBI Number"
                       name="medicareBeneficiaryID"
-                      value={formatMbiNumber(values.medicareBeneficiaryID)}
+                      value={values.medicareBeneficiaryID}
                       onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={
-                        touched.medicareBeneficiaryID &&
-                        errors.medicareBeneficiaryID
-                      }
+                      onBlur={(e) => {
+                        handleBlur(e);
+                        setFieldValue(
+                          "medicareBeneficiaryID",
+                          formatMbiNumber(values.medicareBeneficiaryID)
+                        );
+                      }}
                     />
                     {errors?.medicareBeneficiaryID && (
                       <ul className="details-edit-custom-error-msg">
