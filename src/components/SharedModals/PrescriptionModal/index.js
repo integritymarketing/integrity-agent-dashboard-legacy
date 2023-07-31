@@ -1,0 +1,386 @@
+import React, { useState, useEffect, useMemo } from "react";
+import { Typography } from "@material-ui/core";
+import ErrorState from "./ErrorState";
+import Modal from "components/Modal";
+import PropTypes from "prop-types";
+import clientService from "services/clientsService";
+import SearchPrescription from "./SearchPrescription";
+import PrescriptionList from "./PrescriptionList";
+import PrescriptionForm from "./PrescriptionForm";
+import "./style.scss";
+
+const transformPrescriptionOptions = (option) => {
+  const {
+    drugName,
+    drugType,
+    drugID,
+    referenceNDC,
+    genericDrugID,
+    genericDrugType,
+    genericDrugName,
+  } = option;
+  return {
+    label: drugName,
+    drugName,
+    description: drugType,
+    value: drugID,
+    ndc: referenceNDC,
+    g_value: genericDrugID,
+    g_description: genericDrugType ? genericDrugType : "Generic",
+    g_label: genericDrugName,
+  };
+};
+
+const frontTruncate = (str, maxChars, replacement = "...") => {
+  if (str.length > maxChars) {
+    let value =
+      str.slice(0, 14) + replacement + str.slice(str.length - 13, str.length);
+    return value;
+  }
+  return str;
+};
+
+const PrescriptionModal = ({
+  onSave,
+  onClose: onCloseHandler,
+  open,
+  item,
+  isEdit,
+}) => {
+  const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
+    item?.dosage ?? {};
+
+  // Initializations
+  const [selectedDrug, onDrugSelection] = useState("");
+  const [searchString, setSearchString] = useState("");
+  const [prescriptionList, setprescriptionList] = useState([]);
+  const [dosageOptions, setDosageOptions] = useState([]);
+  const [dosage, setDosage] = useState();
+  const [quantity, setQuantity] = useState();
+  const [frequency, setFrequency] = useState();
+  const [packageOptions, setPackageOptions] = useState([]);
+  const [dosagePackage, setDosagePackage] = useState();
+  const [isLoading, setLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
+
+  useEffect(() => {
+    const getDosages = async () => {
+      setQuantity("");
+      setFrequency("");
+      setDosagePackage("");
+      setPackageOptions([]);
+      setLoading(true);
+      try {
+        const drugID = selectedGenericDrug
+          ? selectedDrug?.g_value
+          : selectedDrug?.value;
+        const results = await clientService.getDrugDetails(drugID);
+        const dosageOptions = (results?.dosages || []).map((dosage) => ({
+          label: frontTruncate(dosage.labelName, 34),
+          value: dosage,
+        }));
+        setDosageOptions(dosageOptions);
+
+        if (dosageOptions.length === 1) {
+          setDosage(dosageOptions[0].value);
+        } else if (isEdit) {
+          setDosage(
+            dosageOptions
+              .filter(
+                (dosageOption) => dosageOption?.value?.labelName === labelName
+              )
+              .map((opt) => opt.value)[0]
+          );
+        } else {
+          setDosage("");
+        }
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 100);
+      }
+    };
+    selectedDrug && getDosages();
+  }, [selectedDrug, selectedGenericDrug, isEdit, labelName]);
+
+  useEffect(() => {
+    if (open && isEdit) {
+      setQuantity((q) => q || userQuantity);
+      setFrequency((f) => f || daysOfSupply);
+    }
+  }, [userQuantity, daysOfSupply, open, isEdit]);
+
+  useEffect(() => {
+    if (item && open && isEdit) {
+      const { dosage } = item;
+      const {
+        drugName,
+        drugType,
+        drugID,
+        referenceNDC,
+        genericDrugID,
+        genericDrugType,
+        chemicalName,
+      } = dosage;
+
+      const selectedDrug = {
+        label: drugName,
+        drugName,
+        description: drugType,
+        value: drugID,
+        ndc: referenceNDC,
+        g_value: genericDrugID,
+        g_description: genericDrugType ? genericDrugType : "Generic",
+        g_label: chemicalName,
+      };
+      onDrugSelection(selectedDrug);
+
+      const packageOptions = (item?.dosageDetails?.packages || []).map(
+        (_package) => ({
+          label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
+          value: _package,
+        })
+      );
+      setPackageOptions(packageOptions);
+      const selectedPackage = packageOptions
+        .filter(
+          (packageOption) =>
+            packageOption?.value?.referenceNDC === item?.dosage?.ndc
+        )
+        .map((opt) => opt.value)[0];
+      setDosagePackage(selectedPackage);
+    }
+  }, [item, open, selectedPackageID, isEdit]);
+
+  useEffect(() => {
+    if (dosage) {
+      const { commonUserQuantity, commonDaysOfSupply } = dosage;
+      const packageOptions = (dosage?.packages || []).map((_package) => ({
+        label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
+        value: _package,
+      }));
+
+      setPackageOptions(packageOptions);
+
+      if (isEdit && selectedPackageID) {
+        const selectedPackage = packageOptions
+          .filter((packageOption) => packageOption?.value?.referenceNDC === ndc)
+          .map((opt) => opt.value)[0];
+        setDosagePackage(selectedPackage);
+      } else if (packageOptions.length === 1) {
+        setDosagePackage(packageOptions[0].value);
+      } else {
+        setDosagePackage(null);
+      }
+      setQuantity(commonUserQuantity);
+      setFrequency(commonDaysOfSupply);
+    }
+  }, [dosage, isEdit, selectedPackageID, ndc]);
+
+  const fetchOptions = async (event) => {
+    const searchStr = event.target.value;
+    onDrugSelection(null);
+    setSelectedGenericDrug(false);
+    setSearchString(searchStr);
+    if (searchStr && searchStr.length > 1) {
+      const prescriptionList = await clientService.getDrugNames(searchStr);
+      const options = (prescriptionList || []).map(
+        transformPrescriptionOptions
+      );
+      setprescriptionList(options);
+    } else {
+      setprescriptionList([]);
+    }
+  };
+
+  // Event Handlers
+
+  const handleQuantity = (e) => setQuantity(e.currentTarget.value);
+
+  const handleAddPrecscription = async () => {
+    setIsSaving(true);
+    try {
+      await onSave({
+        dosageRecordID: 0,
+        dosageID: dosage?.dosageID,
+        quantity: quantity,
+        daysOfSupply: frequency,
+        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
+        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+        selectedPackage: null,
+      });
+      onClose();
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleUpdatePrecscription = async () => {
+    setIsSaving(true);
+    try {
+      await onSave({
+        dosageRecordID: item?.dosage?.dosageRecordID,
+        labelName: dosage?.labelName,
+        dosage,
+        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
+        daysOfSupply: frequency,
+        selectedPackage: null,
+        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+        quantity: quantity,
+      });
+      onClose();
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const isFormValid = useMemo(() => {
+    return Boolean(
+      selectedDrug &&
+        quantity &&
+        frequency &&
+        dosage &&
+        (packageOptions.length > 0 ? dosagePackage : true)
+    );
+  }, [
+    selectedDrug,
+    quantity,
+    frequency,
+    dosage,
+    dosagePackage,
+    packageOptions,
+  ]);
+
+  const onClose = (ev) => {
+    setprescriptionList([]);
+    onDrugSelection("");
+    setSearchString("");
+    setDosage();
+    setQuantity();
+    setFrequency();
+    setDosageOptions([]);
+    setPackageOptions([]);
+    setDosagePackage();
+    onCloseHandler(ev);
+  };
+
+  const ERROR_STATE =
+    searchString?.length === 0 || prescriptionList?.length === 0;
+
+  return (
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={isEdit ? "Edit Prescription" : "Add Prescription"}
+      onSave={isEdit ? handleUpdatePrecscription : handleAddPrecscription}
+      actionButtonName={isEdit ? "Edit Prescription" : "Add Prescription"}
+      actionButtonDisabled={!isFormValid || isSaving}
+    >
+      {!selectedDrug && !isLoading ? (
+        <>
+          <SearchPrescription
+            searchString={searchString}
+            prescriptionList={prescriptionList}
+            handleSearch={fetchOptions}
+          />
+
+          {ERROR_STATE ? (
+            <ErrorState
+              searchString={searchString}
+              prescriptionList={prescriptionList}
+            />
+          ) : (
+            <PrescriptionList
+              prescriptionList={prescriptionList}
+              onDrugSelection={onDrugSelection}
+              selected={selectedDrug}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <PrescriptionList
+            prescriptionList={[{ ...selectedDrug }]}
+            onDrugSelection={() => setSelectedGenericDrug(false)}
+            selected={!selectedGenericDrug}
+          />
+
+          {selectedDrug.g_value && selectedDrug?.description === "Brand" ? (
+            <>
+              <Typography
+                style={{
+                  color: "#052A63",
+                  fontSize: 20,
+                  fontFamily: "Lato",
+                  letterSpacing: "0.2px",
+                  marginTop: 20,
+                }}
+              >
+                Would you like to use the Generic Version?
+              </Typography>
+              <Typography
+                style={{
+                  color: "#434A51",
+                  fontSize: 16,
+                  fontFamily: "Lato",
+                  letterSpacing: "0.16px",
+                  marginTop: 10,
+                }}
+              >
+                According to the FDA, this generic drug has the same quality,
+                strength, safety and active ingredient as the brand name drug.
+              </Typography>
+
+              <PrescriptionList
+                prescriptionList={[
+                  {
+                    ...selectedDrug,
+                    description: selectedDrug.g_description,
+                    label: selectedDrug.g_label,
+                  },
+                ]}
+                onDrugSelection={() => setSelectedGenericDrug(true)}
+                selected={selectedGenericDrug}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+          <PrescriptionForm
+            {...{
+              dosage,
+              quantity,
+              frequency,
+              dosageOptions,
+              handleQuantity,
+              setFrequency,
+              setDosage,
+              setDosagePackage,
+              dosagePackage,
+              packageOptions,
+            }}
+          />
+        </>
+      )}
+    </Modal>
+  );
+};
+
+PrescriptionModal.propTypes = {
+  onSave: PropTypes.func,
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  item: PropTypes.object,
+  isEdit: PropTypes.bool,
+};
+
+PrescriptionModal.defaultProps = {
+  onSave: () => {},
+  onClose: () => {},
+  open: false,
+  item: {},
+  isEdit: false,
+};
+
+export default PrescriptionModal;
