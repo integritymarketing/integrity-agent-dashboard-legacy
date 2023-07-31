@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory, Link, useParams, useLocation } from "react-router-dom";
+import { parseISO } from "date-fns";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -21,7 +22,7 @@ import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import {
   onlyAlphabets,
-  formatMdiNumber,
+  formatMbiNumber,
 } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
@@ -81,11 +82,11 @@ const NewContactForm = ({
 
   const getContactLink = (id) => `/contact/${id}/details`;
   const goToContactDetailPage = (id) => {
-    if (duplicateLeadIds.length) {
-      return history.push(
-        getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
-      );
-    }
+    // if (duplicateLeadIds.length) {
+    //   return history.push(
+    //     getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
+    //   );
+    // }
     history.push(getContactLink(id));
   };
   const goToContactPage = () => {
@@ -642,18 +643,24 @@ const NewContactForm = ({
                 <Textfield
                   id="mbi-number"
                   type="text"
-                  maxLength={13}
                   label="Medicare Beneficiary ID Number"
                   placeholder="MBI Number"
                   name="medicareBeneficiaryID"
-                  value={formatMdiNumber(values.medicareBeneficiaryID)}
+                  value={formatMbiNumber(values.medicareBeneficiaryID)}
                   onChange={handleChange}
                   error={
-                    touched.medicareBeneficiaryID &&
-                    submitCount > 0 &&
-                    errors.medicareBeneficiaryID
+                    touched?.medicareBeneficiaryID &&
+                    errors?.medicareBeneficiaryID
                   }
                 />
+
+                {errors?.medicareBeneficiaryID && (
+                  <ul className="details-edit-custom-error-msg">
+                    <li className="error-msg-red">
+                      {errors?.medicareBeneficiaryID}
+                    </li>
+                  </ul>
+                )}
               </div>
 
               <div style={{ display: "flex" }}>
@@ -666,7 +673,7 @@ const NewContactForm = ({
                   </label>
 
                   <DatePickerMUI
-                    value={values.partA === null ? "" : values.partA}
+                    value={values.partA}
                     onChange={(value) => {
                       setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
                     }}
@@ -684,6 +691,7 @@ const NewContactForm = ({
                       setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
                     }}
                     className={styles.disableDatePickerError}
+                    minDate={parseISO(values.partA)}
                   />
                 </div>
               </div>
