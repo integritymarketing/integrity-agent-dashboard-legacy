@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
-import ScrollNav from "components/ui/ScrollNav";
-import CompactPlanCard from "components/ui/PlanCard/compact";
+import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import MapdCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import MapdProvidersTable from "components/ui/PlanDetailsTable/shared/providers-table";
 import MapdPrescriptionsTable from "components/ui/PlanDetailsTable/shared/prescriptions-table";
@@ -9,6 +8,7 @@ import MapdPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-ta
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
+import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 
 export default ({
   plan,
@@ -42,7 +42,7 @@ export default ({
   return (
     <>
       <div className={`${styles["left"]}`}>
-        <ScrollNav
+        <PlanDetailsScrollNav
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
@@ -137,7 +137,7 @@ export default ({
       <div className={`${styles["main"]}`}>
         <div className={`${styles["card-container"]}`}>
           {plan && !isEnroll ? (
-            <CompactPlanCard
+            <CompactPlanCardNew
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}
@@ -213,15 +213,6 @@ export default ({
         <div ref={planDocumentsRef} className={`${styles["plan-documents"]}`}>
           <PlanDocumentsTable planData={plan} />
         </div>
-        {plan && isMobile && (
-          <CompactPlanCard
-            planData={plan}
-            onEnrollClick={onEnrollClick}
-            onShareClick={onShareClick}
-            isMobile={isMobile}
-            onlyButtons={isMobile}
-          />
-        )}
       </div>
     </>
   );

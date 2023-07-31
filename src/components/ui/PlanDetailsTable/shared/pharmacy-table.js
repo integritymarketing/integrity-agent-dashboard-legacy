@@ -1,8 +1,8 @@
 import InNetworkCheck from "components/icons/in-network-check";
 import OutNetworkX from "components/icons/out-network-x";
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
 import APIFail from "./APIFail/index";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 function getInNetwork(pharmacyCost) {
   if (pharmacyCost.isNetwork) {
@@ -124,10 +124,11 @@ export default ({ planData, pharmacies, isMobile, pharmaciesList }) => {
 
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={isApiFailed ? columnsData : columns}
         data={isApiFailed ? rowData : data}
         className="quotes"
+        header="Pharmacies"
       />
     </>
   );

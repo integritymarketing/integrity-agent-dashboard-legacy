@@ -39,12 +39,12 @@
     display: flex;
     justify-content: space-between;
     .plan-name {
-      font-weight: 600;
+      font-weight: normal;
       font-size: 24px;
       line-height: 130%;
       display: flex;
       align-items: center;
-      color: #002d72;
+      color: #052A63;
     }
 
     .hide-desktop {
@@ -71,13 +71,15 @@
     }
 
     .monthly-cost {
-      font-weight: 600;
+      font-weight: normal;
       font-size: 24px;
       line-height: 130%;
+      color: #052A63;
 
       .label {
         display: inline;
-        font-size: 16px;
+        font-size: 20px;
+        color: '#717171';
       }
     }
 
@@ -109,12 +111,13 @@
       }
     }
     .carrier-name {
-      font-weight: bold;
+      font-weight: normal;
       font-size: 16px;
       line-height: 130%;
-      color: #2b323b;
+      color: #434A51;
       padding-right: 16px;
       border-right: 1px solid #cbd5e1;
+      letter-spacing: 0.16px;
     }
 
     .rating-container {
@@ -370,8 +373,25 @@
     }
   }
 
+  .share-btn{
+    color: #4178FF !important;
+    border: none !important;
+    padding: 0;
+
+    &.mobile {
+      min-width: 0 !important;
+    }
+  }
+
   .overview-footer {
     justify-content: flex-end !important;
+  }
+
+  .enroll-btn {
+    border-radius: 20px;
+    background: #4178FF 0% 0% no-repeat padding-box;
+    width: 120px;
+    height: 40px;
   }
 
   .footer {
@@ -419,11 +439,20 @@
         background-color: initial;
         border-top: none;
         margin: 0px;
-        padding: 24px 16px;
-        flex-direction: column;
-        align-items: flex-start;
+        justify-content: space-between;
         border-top: 1px solid #cbd5e1;
+
+        &.monthly-cost-container {
+          background-color: #f1faff;
+          margin: 8px;
+
+          .monthly-cost {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+          }
       }
+    }
       .monthly-cost {
         display: flex;
         align-items: center;
@@ -437,6 +466,7 @@
           line-height: 42px;
           letter-spacing: 0em;
           text-align: left;
+          color: #002D72;
         }
         .label {
           font-size: 16px;
@@ -444,6 +474,7 @@
           line-height: 21px;
           letter-spacing: 0em;
           text-align: left;
+          color: #434a51;
         }
       }
     }
