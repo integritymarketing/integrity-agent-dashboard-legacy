@@ -8,7 +8,7 @@ import {
   IconButton,
   makeStyles,
 } from "@material-ui/core";
-import ArrowForwardWithCircle from "./Icons/ArrowForwardWithCirlce";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
       "& svg #Icon_circle_path": {
         // targeting the svg path by id
         fill: "#FFFFFF", // changing the fill color
+      },
+      "& svg #Icon_Add_path": {
+        // targeting the svg path by id
+        fill: "transparent", // changing the fill color
       },
     },
   },
@@ -85,6 +89,7 @@ export default function Modal({
   title,
   children,
   actionButtonDisabled,
+  endIcon,
 }) {
   const classes = useStyles();
 
@@ -127,7 +132,7 @@ export default function Modal({
           <Button
             onClick={onSave}
             className={classes.addButton}
-            endIcon={<ArrowForwardWithCircle />}
+            endIcon={endIcon}
             disabled={actionButtonDisabled}
           >
             {actionButtonName}

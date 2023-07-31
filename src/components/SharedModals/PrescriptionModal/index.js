@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
+import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
+import AddCircleOutline from "../Icons/AddCircleOutline";
 import { Typography } from "@material-ui/core";
 import ErrorState from "./ErrorState";
 import Modal from "components/Modal";
@@ -7,6 +9,7 @@ import clientService from "services/clientsService";
 import SearchPrescription from "./SearchPrescription";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
+
 import "./style.scss";
 
 const transformPrescriptionOptions = (option) => {
@@ -51,6 +54,7 @@ const PrescriptionModal = ({
     item?.dosage ?? {};
 
   // Initializations
+  const [searchselected, onSearchSelected] = useState("");
   const [selectedDrug, onDrugSelection] = useState("");
   const [searchString, setSearchString] = useState("");
   const [prescriptionList, setprescriptionList] = useState([]);
@@ -198,7 +202,7 @@ const PrescriptionModal = ({
 
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
 
-  const handleAddPrecscription = async () => {
+  const handleAddPrescription = async () => {
     setIsSaving(true);
     try {
       await onSave({
@@ -216,7 +220,7 @@ const PrescriptionModal = ({
     }
   };
 
-  const handleUpdatePrecscription = async () => {
+  const handleUpdatePrescription = async () => {
     setIsSaving(true);
     try {
       await onSave({
@@ -265,17 +269,26 @@ const PrescriptionModal = ({
     onCloseHandler(ev);
   };
 
+  const onAddSearchSelectedDrug = () => {
+    onDrugSelection(searchselected);
+  };
+
   const ERROR_STATE =
     searchString?.length === 0 || prescriptionList?.length === 0;
+
+  const addFunction = isFormValid
+    ? handleAddPrescription
+    : onAddSearchSelectedDrug;
 
   return (
     <Modal
       open={open}
       onClose={onClose}
       title={isEdit ? "Edit Prescription" : "Add Prescription"}
-      onSave={isEdit ? handleUpdatePrecscription : handleAddPrecscription}
+      onSave={isEdit ? handleUpdatePrescription : addFunction}
       actionButtonName={isEdit ? "Edit Prescription" : "Add Prescription"}
-      actionButtonDisabled={!isFormValid || isSaving}
+      actionButtonDisabled={(!isFormValid || isSaving) && !searchselected}
+      endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
     >
       {!selectedDrug && !isLoading ? (
         <>
@@ -293,8 +306,9 @@ const PrescriptionModal = ({
           ) : (
             <PrescriptionList
               prescriptionList={prescriptionList}
-              onDrugSelection={onDrugSelection}
-              selected={selectedDrug}
+              onDrugSelection={onSearchSelected}
+              selected={searchselected}
+              multiple={true}
             />
           )}
         </>
