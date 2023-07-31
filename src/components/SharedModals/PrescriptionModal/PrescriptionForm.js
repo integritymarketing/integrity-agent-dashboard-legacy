@@ -35,12 +35,15 @@ const PrescriptionForm = ({
   handleQuantity,
   frequency,
   setFrequency,
+  packageOptions,
+  dosagePackage,
+  setDosagePackage,
 }) => {
   const classes = useStyles();
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={5}>
+      <Grid item xs={12} md={6}>
         <Box>
           <Typography className={classes.customTypography}>Dosage</Typography>
           <Select
@@ -65,7 +68,7 @@ const PrescriptionForm = ({
           />
         </Box>
       </Grid>
-      <Grid item xs={8} md={5}>
+      <Grid item xs={8} md={4}>
         <Box>
           <Typography className={classes.customTypography}>
             Frequency
@@ -79,6 +82,22 @@ const PrescriptionForm = ({
           />
         </Box>
       </Grid>
+      {packageOptions?.length > 0 && (
+        <Grid item xs={8} md={5}>
+          <Box>
+            <Typography className={classes.customTypography}>
+              Packaging
+            </Typography>
+            <Select
+              providerModal={true}
+              initialValue={dosagePackage}
+              options={packageOptions}
+              placeholder="Packaging"
+              onChange={setDosagePackage}
+            />
+          </Box>
+        </Grid>
+      )}
     </Grid>
   );
 };

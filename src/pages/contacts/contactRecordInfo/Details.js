@@ -2,7 +2,6 @@ import React, { useEffect, useState, forwardRef } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
-import EditPrescription from "./modals/EditPrescription";
 import AddPharmacy from "./modals/AddPharmacy";
 import useLeadInformation from "hooks/useLeadInformation";
 import useFeatureFlag from "hooks/useFeatureFlag";
@@ -221,25 +220,24 @@ export default forwardRef((props, ref) => {
           />
         )}
 
-        {/* <AddPrescription
-          isOpen={isOpenPrescription}
-          onClose={onCloseNewPrescription}
-          onSave={addPrescription}
-        /> */}
-        {!isOpenPrescription && (
+        {isOpenPrescription && (
           <PrescriptionModal
-            open={!isOpenPrescription}
+            open={isOpenPrescription}
             onClose={() => onCloseNewPrescription(false)}
             onSave={addPrescription}
           />
         )}
 
-        <EditPrescription
-          isOpen={isOpenEditPrescription}
-          onClose={onCloseEditPrescription}
-          item={prescriptionToEdit}
-          onSave={editPrescription}
-        />
+        {isOpenEditPrescription && (
+          <PrescriptionModal
+            open={isOpenEditPrescription}
+            onClose={() => onCloseEditPrescription(false)}
+            item={prescriptionToEdit}
+            onSave={editPrescription}
+            isEdit={true}
+          />
+        )}
+
         {isOpenPharmacy && (
           <AddPharmacy
             isOpen={isOpenPharmacy}

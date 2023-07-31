@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Typography } from "@material-ui/core";
 import ErrorState from "./ErrorState";
 import Modal from "components/Modal";
-
+import PropTypes from "prop-types";
 import clientService from "services/clientsService";
 import SearchPrescription from "./SearchPrescription";
 import PrescriptionList from "./PrescriptionList";
@@ -40,11 +40,17 @@ const frontTruncate = (str, maxChars, replacement = "...") => {
   return str;
 };
 
-export default function PrescriptionModal({
+const PrescriptionModal = ({
   onSave,
   onClose: onCloseHandler,
   open,
-}) {
+  item,
+  isEdit,
+}) => {
+  const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
+    item?.dosage ?? {};
+
+  // Initializations
   const [selectedDrug, onDrugSelection] = useState("");
   const [searchString, setSearchString] = useState("");
   const [prescriptionList, setprescriptionList] = useState([]);
@@ -60,8 +66,10 @@ export default function PrescriptionModal({
 
   useEffect(() => {
     const getDosages = async () => {
-      debugger;
-
+      setQuantity("");
+      setFrequency("");
+      setDosagePackage("");
+      setPackageOptions([]);
       setLoading(true);
       try {
         const drugID = selectedGenericDrug
@@ -73,8 +81,19 @@ export default function PrescriptionModal({
           value: dosage,
         }));
         setDosageOptions(dosageOptions);
+
         if (dosageOptions.length === 1) {
           setDosage(dosageOptions[0].value);
+        } else if (isEdit) {
+          setDosage(
+            dosageOptions
+              .filter(
+                (dosageOption) => dosageOption?.value?.labelName === labelName
+              )
+              .map((opt) => opt.value)[0]
+          );
+        } else {
+          setDosage("");
         }
       } finally {
         setTimeout(() => {
@@ -83,7 +102,56 @@ export default function PrescriptionModal({
       }
     };
     selectedDrug && getDosages();
-  }, [selectedDrug, selectedGenericDrug]);
+  }, [selectedDrug, selectedGenericDrug, isEdit, labelName]);
+
+  useEffect(() => {
+    if (open && isEdit) {
+      setQuantity((q) => q || userQuantity);
+      setFrequency((f) => f || daysOfSupply);
+    }
+  }, [userQuantity, daysOfSupply, open, isEdit]);
+
+  useEffect(() => {
+    if (item && open && isEdit) {
+      const { dosage } = item;
+      const {
+        drugName,
+        drugType,
+        drugID,
+        referenceNDC,
+        genericDrugID,
+        genericDrugType,
+        chemicalName,
+      } = dosage;
+
+      const selectedDrug = {
+        label: drugName,
+        drugName,
+        description: drugType,
+        value: drugID,
+        ndc: referenceNDC,
+        g_value: genericDrugID,
+        g_description: genericDrugType ? genericDrugType : "Generic",
+        g_label: chemicalName,
+      };
+      onDrugSelection(selectedDrug);
+
+      const packageOptions = (item?.dosageDetails?.packages || []).map(
+        (_package) => ({
+          label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
+          value: _package,
+        })
+      );
+      setPackageOptions(packageOptions);
+      const selectedPackage = packageOptions
+        .filter(
+          (packageOption) =>
+            packageOption?.value?.referenceNDC === item?.dosage?.ndc
+        )
+        .map((opt) => opt.value)[0];
+      setDosagePackage(selectedPackage);
+    }
+  }, [item, open, selectedPackageID, isEdit]);
 
   useEffect(() => {
     if (dosage) {
@@ -94,7 +162,13 @@ export default function PrescriptionModal({
       }));
 
       setPackageOptions(packageOptions);
-      if (packageOptions.length === 1) {
+
+      if (isEdit && selectedPackageID) {
+        const selectedPackage = packageOptions
+          .filter((packageOption) => packageOption?.value?.referenceNDC === ndc)
+          .map((opt) => opt.value)[0];
+        setDosagePackage(selectedPackage);
+      } else if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
       } else {
         setDosagePackage(null);
@@ -102,7 +176,7 @@ export default function PrescriptionModal({
       setQuantity(commonUserQuantity);
       setFrequency(commonDaysOfSupply);
     }
-  }, [dosage]);
+  }, [dosage, isEdit, selectedPackageID, ndc]);
 
   const fetchOptions = async (event) => {
     const searchStr = event.target.value;
@@ -120,6 +194,8 @@ export default function PrescriptionModal({
     }
   };
 
+  // Event Handlers
+
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
 
   const handleAddPrecscription = async () => {
@@ -133,6 +209,25 @@ export default function PrescriptionModal({
         ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
         metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
         selectedPackage: null,
+      });
+      onClose();
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleUpdatePrecscription = async () => {
+    setIsSaving(true);
+    try {
+      await onSave({
+        dosageRecordID: item?.dosage?.dosageRecordID,
+        labelName: dosage?.labelName,
+        dosage,
+        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
+        daysOfSupply: frequency,
+        selectedPackage: null,
+        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+        quantity: quantity,
       });
       onClose();
     } finally {
@@ -173,15 +268,13 @@ export default function PrescriptionModal({
   const ERROR_STATE =
     searchString?.length === 0 || prescriptionList?.length === 0;
 
-  console.log("HHHHH", selectedDrug);
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title="Add Prescriptions"
-      onSave={handleAddPrecscription}
-      actionButtonName="Add Prescription"
-      input={searchString}
+      title={isEdit ? "Edit Prescription" : "Add Prescription"}
+      onSave={isEdit ? handleUpdatePrecscription : handleAddPrecscription}
+      actionButtonName={isEdit ? "Edit Prescription" : "Add Prescription"}
       actionButtonDisabled={!isFormValid || isSaving}
     >
       {!selectedDrug && !isLoading ? (
@@ -213,7 +306,7 @@ export default function PrescriptionModal({
             selected={!selectedGenericDrug}
           />
 
-          {selectedDrug.g_value && selectedDrug?.description === "Brand" && (
+          {selectedDrug.g_value && selectedDrug?.description === "Brand" ? (
             <>
               <Typography
                 style={{
@@ -251,6 +344,8 @@ export default function PrescriptionModal({
                 selected={selectedGenericDrug}
               />
             </>
+          ) : (
+            <></>
           )}
           <PrescriptionForm
             {...{
@@ -261,123 +356,31 @@ export default function PrescriptionModal({
               handleQuantity,
               setFrequency,
               setDosage,
+              setDosagePackage,
+              dosagePackage,
+              packageOptions,
             }}
           />
-          {/* <div className="inputGroup">
-          
-            <Box
-              display={{ xs: "none", md: "flex" }}
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Box sx={{ width: "45%" }}>
-                <Typography
-                  marginBottom={10}
-                  className={classes.customTypography}
-                >
-                  Dosage
-                </Typography>
-                <Select
-                  initialValue={dosage}
-                  providerModal={true}
-                  options={dosageOptions}
-                  placeholder="Dosage"
-                  onChange={setDosage}
-                />
-              </Box>
-              <Box sx={{ width: "10%" }}>
-                <Typography
-                  marginBottom={10}
-                  className={classes.customTypography}
-                >
-                  Quantity
-                </Typography>
-                <TextField
-                  id="Quantity"
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  value={quantity}
-                  onChange={handleQuantity}
-                />
-              </Box>
-              <Box sx={{ width: "35%" }}>
-                <Typography
-                  marginBottom={10}
-                  className={classes.customTypography}
-                >
-                  Frequency
-                </Typography>
-                <Select
-                  providerModal={true}
-                  initialValue={frequency}
-                  options={FREQUENCY_OPTIONS}
-                  placeholder="Frequency"
-                  onChange={setFrequency}
-                />
-              </Box>
-            </Box>
-
-      
-            <Box display={{ xs: "flex", md: "none" }} flexDirection="column">
-              <Box sx={{ width: "100%" }}>
-                <Typography
-                  marginBottom={10}
-                  className={classes.customTypography}
-                >
-                  Dosage
-                </Typography>
-                <Select
-                  initialValue={dosage}
-                  providerModal={true}
-                  options={dosageOptions}
-                  placeholder="Dosage"
-                  onChange={setDosage}
-                />
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Box sx={{ width: "25%" }}>
-                  <Typography
-                    marginBottom={10}
-                    className={classes.customTypography}
-                  >
-                    Quantity
-                  </Typography>
-                  <TextField
-                    id="Quantity"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    value={quantity}
-                    onChange={handleQuantity}
-                  />
-                </Box>
-                <Box sx={{ width: "70%" }}>
-                  <Typography
-                    marginBottom={10}
-                    className={classes.customTypography}
-                  >
-                    Frequency
-                  </Typography>
-                  <Select
-                    providerModal={true}
-                    initialValue={frequency}
-                    options={FREQUENCY_OPTIONS}
-                    placeholder="Frequency"
-                    onChange={setFrequency}
-                  />
-                </Box>
-              </Box>
-            </Box>
-          </div> */}
         </>
       )}
     </Modal>
   );
-}
+};
+
+PrescriptionModal.propTypes = {
+  onSave: PropTypes.func,
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  item: PropTypes.object,
+  isEdit: PropTypes.bool,
+};
+
+PrescriptionModal.defaultProps = {
+  onSave: () => {},
+  onClose: () => {},
+  open: false,
+  item: {},
+  isEdit: false,
+};
+
+export default PrescriptionModal;

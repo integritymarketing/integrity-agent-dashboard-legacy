@@ -9,13 +9,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 const usePrescriptionListStyles = makeStyles((theme) => ({
   // Style rules for the radio buttons
   radio: {
-    background: "transparent",
     color: "#434A51",
     "&.Mui-checked": {
       color: "#4178FF",
-    },
-    "&.Mui-checked:hover": {
-      backgroundColor: "transparent",
     },
   },
 
@@ -53,12 +49,14 @@ const usePrescriptionListStyles = makeStyles((theme) => ({
       borderBottomLeftRadius: 8,
       borderBottomRightRadius: 8,
     },
+    "&.MuiIconButton-colorSecondary:hover": {
+      backgroundColor: "transparent !important",
+    },
   },
 }));
 
 const PrescriptionList = ({ onDrugSelection, prescriptionList, selected }) => {
   const classes = usePrescriptionListStyles();
-  console.log("JJJJ", prescriptionList);
   const handleSelectionChange = useCallback(
     (drug) => {
       onDrugSelection(drug);

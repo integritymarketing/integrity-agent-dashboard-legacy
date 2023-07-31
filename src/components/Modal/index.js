@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4178FF",
     borderRadius: "20px",
     color: "#FFFFFF",
+    width: "172px",
     textTransform: "unset",
     transition: "transform 0.5s",
     "&:hover": {
@@ -42,12 +43,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     height: "40px",
     textTransform: "unset",
-    transition: "transform 0.5s",
     width: "104px",
     "&:hover": {
       backgroundColor: "#FFFFFF",
       borderRadius: "20px",
-      transform: "scale(1.1)",
     },
   },
   closeButton: {
