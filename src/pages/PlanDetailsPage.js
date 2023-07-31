@@ -5,7 +5,7 @@ import useToast from "hooks/useToast";
 import styles from "./PlanDetailsPage.module.scss";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { Button } from "components/ui/Button";
-import ArrowDown from "components/icons/arrow-down";
+import NewBackBtn from "images/new-back-btn.svg";
 import Media from "react-media";
 import WithLoader from "components/ui/WithLoader";
 import { Helmet } from "react-helmet-async";
@@ -24,6 +24,7 @@ import { BackToTop } from "components/ui/BackToTop";
 import ContactFooter from "partials/global-footer";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
+import CallScript from "components/icons/callScript";
 
 const PlanDetailsPage = () => {
   const addToast = useToast();
@@ -43,7 +44,7 @@ const PlanDetailsPage = () => {
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const [contactData, pharmacies] = await Promise.all([
+      let [contactData, pharmacies] = await Promise.all([
         clientsService.getContactInfo(contactId),
         clientsService.getLeadPharmacies(contactId),
       ]);
@@ -89,7 +90,7 @@ const PlanDetailsPage = () => {
   return (
     <React.Fragment>
       <ToastContextProvider>
-        <div className={`${styles["plan-details-page"]}`}>
+        <div className={`${styles["plan-details-page"]}`} style={isLoading? { background: '#ffffff' }: {}}>
           <Media
             query={"(max-width: 500px)"}
             onChange={(isMobile) => {
@@ -116,11 +117,11 @@ const PlanDetailsPage = () => {
             <GlobalNav />
 
             <div className={`${styles["header"]}`} style={{ height: "auto" }}>
-              <Container>
+              <Container className={`${styles["plan-details-container"]}`}>
                 <div className={`${styles["back"]}`}>
                   <Button
-                    icon={<ArrowDown />}
-                    label="Back to Plans List"
+                    icon={<img src={NewBackBtn} alt="Back" />}
+                    label={isMobile ? "Back" : "Back to Plans"}
                     onClick={() => {
                       window.location = `/plans/${contactId}?preserveSelected=true`;
                     }}
@@ -128,6 +129,8 @@ const PlanDetailsPage = () => {
                     className={`${styles["back-button"]}`}
                   />
                 </div>
+                <p className={`${styles["header-text"]}`}>Plan Details</p>
+                <p className={`${styles["header-callscript"]}`}>{isMobile ? <CallScript /> : null}</p>
               </Container>
             </div>
 

@@ -1,5 +1,5 @@
 import React, { forwardRef, useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -87,7 +87,11 @@ export default forwardRef(
 
     return (
       <div className={className} ref={ref}>
-        <PlanDetailsTable columns={columns} data={data} />
+        <PlanDetailsTableWithCollapse
+          columns={columns}
+          data={data}
+          header={header}
+        />
       </div>
     );
   }

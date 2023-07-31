@@ -2,6 +2,7 @@ import { PLAN_TYPE_ENUMS } from "../../../../constants";
 import React, { useMemo } from "react";
 import PlanDetailsTable from "..";
 import { useParams } from "react-router-dom";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -180,7 +181,11 @@ export default ({ planData }) => {
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} />
+      <PlanDetailsTableWithCollapse
+        columns={columns}
+        data={data}
+        header="Costs"
+      />
     </>
   );
 };

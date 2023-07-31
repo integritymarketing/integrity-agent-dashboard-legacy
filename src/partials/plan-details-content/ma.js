@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import ScrollNav from "components/ui/ScrollNav";
-import CompactPlanCard from "components/ui/PlanCard/compact";
 import MaCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import MaProvidersTable from "components/ui/PlanDetailsTable/shared/providers-table";
 import MaPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
+import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
+import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 
 export default ({
   plan,
@@ -25,7 +25,7 @@ export default ({
   return (
     <>
       <div className={`${styles["left"]}`}>
-        <ScrollNav
+        <PlanDetailsScrollNav
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
@@ -64,7 +64,7 @@ export default ({
       <div className={`${styles["main"]}`}>
         <div className={`${styles["card-container"]}`}>
           {plan && !isEnroll ? (
-            <CompactPlanCard
+            <CompactPlanCardNew
               planData={plan}
               onEnrollClick={onEnrollClick}
               onShareClick={onShareClick}

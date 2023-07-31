@@ -62,6 +62,7 @@ export const Select = ({
   error,
   containerHeight = 0,
   page = "",
+  selectClassName="",
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -220,7 +221,7 @@ export const Select = ({
       <div
         className={`select-container ${isOpen ? "opened" : "closed"} ${
           disabled ? "disabled" : ""
-        }`}
+        } ${selectClassName}`}
         style={heightStyle}
       >
         {inputBox}
