@@ -9,8 +9,14 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
+const getMonthShortName = (monthIndex) => {
+  const date = new Date();
+  date.setMonth(monthIndex);
+  return date.toLocaleString("en-US", { month: "short" });
+};
+
 function PremiumLabel() {
-  return <span className={"label"}>Premium</span>;
+  return <span className={"label"}>Plan Premium</span>;
 }
 
 const totalCostBasedOnPlantypes = (planData, effectiveStartDate) => {
@@ -50,76 +56,81 @@ function PremiumCell({ planData }) {
   return (
     <>
       <span className={"value"}>
-        <span className={"currency"}>
+        <span className={"currency-value-blue"}>
           {currencyFormatter.format(planData.annualPlanPremium / 12)}
         </span>
-        <span className={"per"}>/month</span>
-        <span className={"per-mobile"}>Monthly</span>
+        <span className={"value-subtext"}>/month</span>
       </span>
     </>
   );
 }
 
-function EstRxLabel() {
+function EstRxLabel({ effectiveMonth, effectiveYear }) {
   return (
     <>
-      <span className={"label"}>Estimated Yearly Rx Drug Cost</span>
+      <span className={"label"}>Total Estimated Cost</span>
       <span className={"subtext"}>
-        Estimate based on contacts prescriptions and selected pharmacy.
+        <i>
+          <span>Based on plan premium and drug costs</span>
+        </i>
+        <i>
+          <span>(Effective {effectiveMonth + " " + effectiveYear})</span>
+        </i>
       </span>
     </>
   );
 }
 
-function EstRxValue({ planData, effectiveStartDate, isFullYear = true }) {
-  const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
-    month: "long",
-  })} ${effectiveStartDate.getFullYear()} `;
-
+function EstRxValue({ planData, effectiveStartDate, monthNumber }) {
   return (
     <>
       <span className={"value"}>
-        <span className={"currency"}>
+        <span className={"currency-value-blue"}>
           {RXCostBasedOnPlantypes(planData, effectiveStartDate)}
         </span>
-        <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
-        <span className={"per-mobile"}>Yearly</span>
-      </span>
-      <span className={"subtext"}>
-        Estimated based on a {effectiveDateString}
-        effective date.
+        <i>
+          <span className={"value-subtext"}>
+            {getShortFormMonthSpan(monthNumber)}
+          </span>
+        </i>
       </span>
     </>
   );
 }
 
-function TotalEstLabel() {
+function TotalEstLabel({ drugsCount }) {
   return (
     <>
-      <span className={"label"}> Estimated Yearly Total Cost</span>
+      <span className={"label"}> Estimated Drug Cost</span>
       <span className={"subtext"}>
-        Estimate based on monthly premium and estimated Rx drug costs.
+        <i>Based on {drugsCount} drugs</i>
       </span>
     </>
   );
 }
 
-function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
-  const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
-    month: "long",
-  })} ${effectiveStartDate.getFullYear()} `;
+function getShortFormMonthSpan(monthNumber) {
+  const end = monthNumber !== 12 ? 11 : undefined;
+  const effectiveMonth = monthNumber ? monthNumber - 1 : undefined;
+  if (end === effectiveMonth) {
+    return getMonthShortName(effectiveMonth);
+  } else {
+    return getMonthShortName(effectiveMonth) + " - " + getMonthShortName(end);
+  }
+}
 
+function TotalEstValue({ planData, effectiveStartDate, monthNumber }) {
   return (
     <>
       <span className={"value"}>
-        <span className={"currency"}>
+        <span className={"currency-value-blue"}>
           {totalCostBasedOnPlantypes(planData, effectiveStartDate)}
         </span>
-        <span className={"per"}>{isFullYear ? "/year" : "/partial year"}</span>
-        <span className={"per-mobile"}>Yearly</span>
-      </span>
-      <span className={"subtext"}>
-        Estimated based on a {effectiveDateString} effective date.
+        <i>
+          <span className={"value-subtext"}>
+            {getShortFormMonthSpan(monthNumber)}
+          </span>
+        </i>
       </span>
     </>
   );
@@ -127,9 +138,22 @@ function TotalEstValue({ planData, effectiveStartDate, isFullYear = true }) {
 
 export default ({ planData }) => {
   const { effectiveDate } = useParams();
-  const [y, d] = effectiveDate?.split("-");
-  const effectiveStartDate = new Date(`${y}-${d}-15`);
-
+  const [y, m] = effectiveDate?.split("-");
+  const effectiveStartDate = new Date(`${y}-${m}-15`);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const columns = useMemo(
     () => [
       {
@@ -154,11 +178,16 @@ export default ({ planData }) => {
       value: <PremiumCell planData={planData} />,
     },
     {
-      label: <TotalEstLabel />,
+      label: (
+        <TotalEstLabel
+          drugsCount={planData.pharmacyCosts[0]?.drugCosts?.length || 0}
+        />
+      ),
       value: (
         <TotalEstValue
           planData={planData}
           effectiveStartDate={effectiveStartDate}
+          monthNumber={parseInt(m)}
         />
       ),
     },
@@ -169,11 +198,17 @@ export default ({ planData }) => {
     PLAN_TYPE_ENUMS[planData.planType] === "PDP"
   ) {
     data.push({
-      label: <EstRxLabel />,
+      label: (
+        <EstRxLabel
+          effectiveYear={y}
+          effectiveMonth={getMonthShortName(parseInt(m) - 1)}
+        />
+      ),
       value: (
         <EstRxValue
           planData={planData}
           effectiveStartDate={effectiveStartDate}
+          monthNumber={parseInt(m)}
         />
       ),
     });
@@ -184,13 +219,17 @@ export default ({ planData }) => {
       <PlanDetailsTableWithCollapse
         columns={columns}
         data={data}
+        planData={planData}
         header="Costs"
+        currencyFormatter={currencyFormatter}
+        monthNumber={m}
+        months={months}
       />
     </>
   );
 };
 
-export function CostCompareTable({ plans, isFullYear, effectiveDate }) {
+export function CostCompareTable({ plans, effectiveDate }) {
   const [y, m] = effectiveDate.split("-");
   const effectiveStartDate = new Date(`${y}-${m}-15`);
   const clonedPlans = useMemo(() => {
@@ -228,13 +267,18 @@ export function CostCompareTable({ plans, isFullYear, effectiveDate }) {
       }, {}),
     },
     {
-      label: <EstRxLabel />,
+      label: (
+        <EstRxLabel
+          effectiveYear={y}
+          effectiveMonth={getMonthShortName(parseInt(m) - 1)}
+        />
+      ),
       ...clonedPlans.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? (
           <EstRxValue
             planData={plan}
             effectiveStartDate={effectiveStartDate}
-            isFullYear={isFullYear}
+            monthNumber={parseInt(m)}
           />
         ) : (
           "-"
@@ -243,13 +287,17 @@ export function CostCompareTable({ plans, isFullYear, effectiveDate }) {
       }, {}),
     },
     {
-      label: <TotalEstLabel />,
+      label: (
+        <TotalEstLabel
+          drugsCount={clonedPlans.pharmacyCosts[0]?.drugCosts?.length || 0}
+        />
+      ),
       ...clonedPlans.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? (
           <TotalEstValue
             planData={plan}
             effectiveStartDate={effectiveStartDate}
-            isFullYear={isFullYear}
+            monthNumber={parseInt(m)}
           />
         ) : (
           "-"

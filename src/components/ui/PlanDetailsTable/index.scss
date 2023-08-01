@@ -2,17 +2,16 @@
   width: 100%;
   font-family: Lato;
   font-style: normal;
-  border: 1px solid #cbd5e1;
   box-sizing: border-box;
   border-radius: 8px;
   border-collapse: collapse;
   background-color: white;
-  thead {
+  .plan-details-thead {
     font-weight: 600;
     font-size: 24px;
     line-height: 130%;
     color: var(--v2-white);
-    height: 92px;
+    height: 56px;
 
     th {
       background: #002d72;
@@ -41,16 +40,24 @@
     }
   }
 
-  tbody {
+  .plan-details-tbody {
     tr {
-      height: 118px;
+      height: 96px;
       @media screen and (min-width: 320px) and (max-width: 480px) {
         width: 100% !important;
+      }
+      td:first-child {
+        width: 40%;
+      }
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        td:first-child {
+          width: 60%;
+        }
       }
     }
 
     tr:nth-child(even) {
-      background: #f1f5f9;
+      background: #F1FAFF;
     }
 
     td {
@@ -63,14 +70,23 @@
       padding-left: 25px;
       .label,
       .value {
-        font-weight: 600;
+        font-weight: 400;
         font-size: 18px;
         line-height: 150%;
-        color: #2b323b;
+        color: #052A63;
         display: block;
 
         .per {
           font-weight: normal;
+          font-size: 14px;
+        }
+        .value-subtext {
+          margin-left: 5px;
+          font-weight: normal;
+          font-size: 14px;
+        }
+        .currency-value-blue {
+          color: #052A63;
         }
         .per-mobile {
           font-weight: normal;
@@ -116,6 +132,8 @@
         font-size: 14px;
         line-height: 130%;
         color: #64748b;
+        display: flex;
+        flex-direction: column;
       }
 
       .in-network-label {
@@ -175,5 +193,183 @@
 .comp-tr {
   .comp-td:last-child {
     border-right: none;
+  }
+}
+
+.show-more-cost {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 48px;
+  width: 100%;
+
+  .show-more-cost-label {
+    margin: 11px;
+    color: #0052ce;
+  }
+}
+
+.cost-monthly-past {
+  .cost-monthly-bar {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.cost-monthly-table {
+  border: unset;
+  background-color: #F1FAFF;
+}
+
+.cost-monthly-prescriptions {
+  .cost-monthly-bar {
+    display: flex;
+    flex-direction: column;
+    min-height: 40px;
+    overflow: auto;
+    height: auto;
+    width: 100%;
+    .value {
+      color: #052A63;
+      font-weight: bold;
+    }
+    .final-value {
+      color: #4178ff;
+    }
+    .cost-monthly-header {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: space-between;
+      flex-direction: row;
+      width: 100%;
+      height: 40px;
+      border: 1px solid #cbd5e1;
+      padding-left: 16px;
+      padding-right: 16px;
+      cursor: pointer;
+
+      .cost-month-container {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: space-between;
+
+        div {
+          padding-left: 10px;
+        }
+      }
+    }
+
+    .cost-monthly-content {
+      display: none;
+      background-color: #F1FAFF;
+      padding: 16px 48px 0 24px;
+      .cost-monthly-thead {
+        height: 28px;
+        tr {
+          th {
+            background: unset;
+            color: #052A63;
+            font-family: Lato;
+            font-size: 14px;
+            letter-spacing: -0.14px;
+            padding-left: 0;
+          }
+          th:last-child {
+            text-align: right;
+          }
+        }
+        &:first-child {
+          height: 17px;
+        }
+      }
+
+      .cost-monthly-tbody {
+        tr {
+          height: 28px;
+          border-bottom: 1px solid #cbd5e1;
+          td {
+            padding-left: 0;
+            border-right: unset;
+          }
+          td:last-child {
+            text-align: right;
+          }
+        }
+        tr:nth-child(even) {
+          background-color: #F1FAFF;
+        }
+      }
+    }
+
+    &.active .cost-monthly-content {
+      display: block;
+    }
+
+    &.active .cost-monthly-prescription-total {
+      display: block;
+    }
+
+    .cost-monthly-prescription-total {
+      display: none;
+      background-color: #F1FAFF;
+      padding: 0 48px 24px 16px;
+      .total-line {
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+      .cost-total {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: flex-end;
+        flex-direction: row;
+        width: 100%;
+        height: 40px;
+        .total-line {
+          @media screen and (min-width: 320px) and (max-width: 480px) {
+            display: flex;
+            flex-direction: row;
+          }
+        }
+        .operator {
+          padding-left: 40px;
+          padding-right: 40px;
+          @media screen and (min-width: 320px) and (max-width: 480px) {
+            padding-left: 20px;
+            padding-right: 20px;
+          }
+        }
+        .total-label {
+          padding-right: 8px;
+        }
+
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          padding-bottom: 10px;
+          border-bottom: 1px solid #cbd5e1;
+        }
+      }
+    }
+  }
+}
+
+.plan-details-contact-section {
+  background-color: var(--v2-white);
+  tr {
+    td:first-child {
+      border-right: 1px solid #cbd5e1;
+    }
   }
 }
