@@ -161,13 +161,9 @@ class ValidationService {
   validateDateInput = (dateStr, label = "Date", format = "MM/dd/yyyy") => {
     if (dateStr && !isMatch(dateStr, format)) {
       return `${label} must use the format MM/DD/YYYY`;
-    } else if (
-      !dateStr ||
-      (dateStr && isAfter(new Date(dateStr), new Date()))
-    ) {
+    } else if (dateStr && isAfter(new Date(dateStr), new Date())) {
       return `${label} must be valid`;
     }
-
     return null;
   };
 
