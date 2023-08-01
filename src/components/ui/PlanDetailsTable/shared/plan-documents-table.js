@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 export default ({ planData }) => {
   const columns = useMemo(
@@ -36,7 +36,11 @@ export default ({ planData }) => {
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} />
+      <PlanDetailsTableWithCollapse
+        columns={columns}
+        data={data}
+        header="Plan Documents"
+      />
     </>
   );
 };

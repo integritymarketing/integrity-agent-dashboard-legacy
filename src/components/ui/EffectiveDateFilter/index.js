@@ -5,7 +5,7 @@ import moment from "moment";
 import "./index.scss";
 import "scss/_forms.scss";
 
-export default function EffectiveDateFilter({ years, initialValue, onChange }) {
+export default function EffectiveDateFilter({ years, initialValue, onChange, selectClassName="" }) {
   initialValue.setDate(15); // setting the day of month here to the middle of the month, to avoid timezone issues.
 
   const options = useMemo(() => {
@@ -95,6 +95,7 @@ export default function EffectiveDateFilter({ years, initialValue, onChange }) {
         onChange={(value) => onChange(new Date(value))}
         options={options}
         showValueAlways={true}
+        selectClassName={selectClassName}
       />
     </div>
   );

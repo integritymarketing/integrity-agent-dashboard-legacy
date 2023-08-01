@@ -188,7 +188,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
                   onClick={() => setShowMBID((prev) => !prev)}
                   className="mbidShowHide"
                 >
-                  {showMBID ? (
+                  {medicareBeneficiaryID && showMBID ? (
                     <>
                       <PasswordRevealIcon className="mbi__icon" />
                       Hide Id

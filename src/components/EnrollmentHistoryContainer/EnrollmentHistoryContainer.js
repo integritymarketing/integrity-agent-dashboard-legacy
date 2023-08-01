@@ -52,7 +52,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         <>
           {currentYearPlansData?.length > 0 &&
             currentYearPlansData.map((planData, index) => {
-              const policyHolderName = `${planData.consumerFirstName} ${planData.consumeLastName}`;
+              const policyHolderName = `${planData.consumerFirstName} ${planData.consumerLastName}`;
               return (
                 <EnrollmentPlanCard
                   key={`${planData.policyId + index.toString()}`}
@@ -74,6 +74,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   planName={planData.planName}
                   termedDate={planData.termedDate}
                   policySourceId={planData.policySourceId}
+                  policyStatusColor={planData.policyStatusColor}
                 />
               );
             })}
@@ -88,7 +89,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   enrolledDate={planData.enrolledDate}
                   effectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
-                  policyHolder={`${planData.consumerFirstName} ${planData.consumeLastName}`}
+                  policyHolder={`${planData.consumerFirstName} ${planData.consumerLastName}`}
                   leadId={leadId}
                   planId={planData.planId}
                   agentNpn={planData.agentNpn}
@@ -100,6 +101,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   page="Contacts Details"
                   planName={planData.planName}
                   termedDate={planData.termedDate}
+                  policyStatusColor={planData.policyStatusColor}
                 />
               ))}
             </>

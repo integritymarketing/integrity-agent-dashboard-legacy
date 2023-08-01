@@ -178,7 +178,7 @@ export default (props) => {
         leadStatusId,
         leadsId,
         notes,
-        medicareBeneficiaryID,
+        medicareBeneficiaryID: formatMbiNumber(medicareBeneficiaryID),
         partA,
         partB,
       }}
@@ -678,13 +678,15 @@ export default (props) => {
                       label="Medicare Beneficiary ID Number"
                       placeholder="MBI Number"
                       name="medicareBeneficiaryID"
-                      value={formatMbiNumber(values.medicareBeneficiaryID)}
+                      value={values.medicareBeneficiaryID}
                       onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={
-                        touched.medicareBeneficiaryID &&
-                        errors.medicareBeneficiaryID
-                      }
+                      onBlur={(e) => {
+                        handleBlur(e);
+                        setFieldValue(
+                          "medicareBeneficiaryID",
+                          formatMbiNumber(values.medicareBeneficiaryID)
+                        );
+                      }}
                     />
                     {errors?.medicareBeneficiaryID && (
                       <ul className="details-edit-custom-error-msg">
@@ -703,10 +705,15 @@ export default (props) => {
                     <DatePickerMUI
                       value={values.partA === null ? "" : values.partA}
                       onChange={(value) => {
-                        setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
+                        setFieldValue("partA", value);
                       }}
                       className={styles.disableDatePickerError}
                     />
+                    {errors.partA && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">{errors.partA}</li>
+                      </ul>
+                    )}
                   </div>
                   <div className="custom-w-186  contact-details-col1 mob-res-w-100">
                     <label className=" custom-label-state label">
@@ -716,10 +723,15 @@ export default (props) => {
                     <DatePickerMUI
                       value={values.partB === null ? "" : values.partB}
                       onChange={(value) => {
-                        setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
+                        setFieldValue("partB", value);
                       }}
                       className={styles.disableDatePickerError}
                     />
+                    {errors.partB && (
+                      <ul className="details-edit-custom-error-msg">
+                        <li className="error-msg-red">{errors.partB}</li>
+                      </ul>
+                    )}
                   </div>
                 </div>
                 {duplicateLeadIds?.length > 0 && (

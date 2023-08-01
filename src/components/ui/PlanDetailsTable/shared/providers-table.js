@@ -2,8 +2,8 @@ import InNetworkCheck from "components/icons/in-network-check";
 import OutNetworkX from "components/icons/out-network-x";
 import UnknownNetworkCheck from "components/icons/unknown-network-check";
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
 import APIFail from "./APIFail/index";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 function getInNetwork(isCovered, isPlanNetworkAvailable) {
   if (isPlanNetworkAvailable === false) {
@@ -135,10 +135,11 @@ export default ({ planData, isMobile }) => {
   ];
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={isApiFailed ? columnsData : columns}
         data={isApiFailed ? rowData : data}
         className="quotes"
+        header="Providers"
       />
     </>
   );

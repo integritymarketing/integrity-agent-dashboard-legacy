@@ -93,7 +93,7 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
                     onClick={() => setShowMBID((prev) => !prev)}
                     className="mbidShowHide"
                   >
-                    { showMBID ? 
+                    {medicareBeneficiaryID && showMBID ? 
                     <><PasswordRevealIcon className="mbi__icon" />Hide ID</> : 
                     <><PasswordHideIcon className="mbi__icon" />Show ID</>
                     }

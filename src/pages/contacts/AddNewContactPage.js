@@ -160,7 +160,7 @@ const NewContactForm = ({
           county: "",
           countyFips: "",
         },
-        medicareBeneficiaryID,
+        medicareBeneficiaryID: formatMbiNumber(medicareBeneficiaryID),
         partA: null,
         partB: null,
         primaryCommunication: "",
@@ -645,12 +645,15 @@ const NewContactForm = ({
                   label="Medicare Beneficiary ID Number"
                   placeholder="MBI Number"
                   name="medicareBeneficiaryID"
-                  value={formatMbiNumber(values.medicareBeneficiaryID)}
+                  value={values.medicareBeneficiaryID}
                   onChange={handleChange}
-                  error={
-                    touched?.medicareBeneficiaryID &&
-                    errors?.medicareBeneficiaryID
-                  }
+                  onBlur={(e) => {
+                    handleBlur(e);
+                    setFieldValue(
+                      "medicareBeneficiaryID",
+                      formatMbiNumber(values.medicareBeneficiaryID)
+                    );
+                  }}
                 />
 
                 {errors?.medicareBeneficiaryID && (
@@ -674,7 +677,7 @@ const NewContactForm = ({
                   <DatePickerMUI
                     value={values.partA}
                     onChange={(value) => {
-                      setFieldValue("partA", formatDate(value, "yyyy-MM-dd"));
+                      setFieldValue("partA", value);
                     }}
                     className={styles.disableDatePickerError}
                   />
@@ -687,7 +690,7 @@ const NewContactForm = ({
                   <DatePickerMUI
                     value={values.partB === null ? "" : values.partB}
                     onChange={(value) => {
-                      setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
+                      setFieldValue("partB", value);
                     }}
                     className={styles.disableDatePickerError}
                   />

@@ -3,8 +3,8 @@ import OutNetworkX from "components/icons/out-network-x";
 import { useParams } from "react-router-dom";
 import { parseDate } from "utils/dates";
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
 import APIFail from "./APIFail/index";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -146,10 +146,11 @@ export default ({ planData, isMobile }) => {
 
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={isApiFailed ? columnsData : columns}
         data={isApiFailed ? rowData : data}
         className="quotes"
+        header="Prescriptions"
       />
     </>
   );
