@@ -21,9 +21,9 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
     contactRecordType = "prospect",
     medicareBeneficiaryID,
     partA,
-    partB
+    partB,
   } = personalInfo;
-  const [ showMBID, setShowMBID ] = useState(false);
+  const [showMBID, setShowMBID] = useState(false);
 
   const email = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
   const phoneData = phones.length > 0 ? phones[0] : null;
@@ -86,29 +86,38 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
 
       <div className={styles.content}>
         <div className={styles.title}>Medicare Beneficiary ID Number</div>
-        <div className={styles.name}>
-                <p>
-                  {formatMBID(medicareBeneficiaryID, showMBID) || notAvailable}
-                  <span 
-                    onClick={() => setShowMBID((prev) => !prev)}
-                    className="mbidShowHide"
-                  >
-                    {medicareBeneficiaryID && showMBID ? 
-                    <><PasswordRevealIcon className="mbi__icon" />Hide ID</> : 
-                    <><PasswordHideIcon className="mbi__icon" />Show ID</>
-                    }
-                  </span>
-                </p>
-        </div>
+        {medicareBeneficiaryID && (
+          <div className={styles.name}>
+            <p>
+              {formatMBID(medicareBeneficiaryID, showMBID) || notAvailable}
+              <span
+                onClick={() => setShowMBID((prev) => !prev)}
+                className="mbidShowHide"
+              >
+                {showMBID ? (
+                  <>
+                    <PasswordRevealIcon className="mbi__icon" />
+                    Hide ID
+                  </>
+                ) : (
+                  <>
+                    <PasswordHideIcon className="mbi__icon" />
+                    Show ID
+                  </>
+                )}
+              </span>
+            </p>
+          </div>
+        )}
       </div>
       <div className={styles.content}>
         <div className={styles.title}>Part A Effective Date</div>
-        <div className={styles.name}>{partA? formatDate(partA) : "--"}</div>
+        <div className={styles.name}>{partA ? formatDate(partA) : "--"}</div>
       </div>
 
       <div className={styles.content}>
         <div className={styles.title}>Part B Effective Date</div>
-        <div className={styles.name}>{partB? formatDate(partB) : "--"}</div>
+        <div className={styles.name}>{partB ? formatDate(partB) : "--"}</div>
       </div>
     </div>
   );

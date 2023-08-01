@@ -182,25 +182,28 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
               <p className="contact-details-label">
                 Medicare Beneficiary ID Number
               </p>
+              {medicareBeneficiaryID &&
               <span className="contact-details-name">
                 {formatMBID(medicareBeneficiaryID, showMBID) || notAvailable}
                 <p
                   onClick={() => setShowMBID((prev) => !prev)}
                   className="mbidShowHide"
                 >
-                  {medicareBeneficiaryID && showMBID ? (
-                    <>
-                      <PasswordRevealIcon className="mbi__icon" />
-                      Hide Id
-                    </>
-                  ) : (
-                    <>
-                      <PasswordHideIcon className="mbi__icon" />
-                      Show Id
-                    </>
-                  )}
+                  
+                    (showMBID ? (
+                      <>
+                        <PasswordRevealIcon className="mbi__icon" />
+                        Hide Id
+                      </>
+                    ) : (
+                      <>
+                        <PasswordHideIcon className="mbi__icon" />
+                        Show Id
+                      </>
+                    ))
                 </p>
               </span>
+              }
             </div>
             <div className="custom-w-25 contact-details-col1">
               <p className="contact-details-label">Part A Effective Date</p>
