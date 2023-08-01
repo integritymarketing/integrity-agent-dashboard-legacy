@@ -67,6 +67,7 @@ const PrescriptionModal = ({
   const [isLoading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
+  const [initialValues, setInitialValues] = useState({});
 
   useEffect(() => {
     const getDosages = async () => {
@@ -89,13 +90,13 @@ const PrescriptionModal = ({
         if (dosageOptions.length === 1) {
           setDosage(dosageOptions[0].value);
         } else if (isEdit) {
-          setDosage(
-            dosageOptions
-              .filter(
-                (dosageOption) => dosageOption?.value?.labelName === labelName
-              )
-              .map((opt) => opt.value)[0]
-          );
+          const dosageInfo = dosageOptions
+            .filter(
+              (dosageOption) => dosageOption?.value?.labelName === labelName
+            )
+            .map((opt) => opt.value)[0];
+          setDosage(dosageInfo);
+          setInitialValues((data) => ({ ...data, dosage: dosageInfo }));
         } else {
           setDosage("");
         }
@@ -107,13 +108,6 @@ const PrescriptionModal = ({
     };
     selectedDrug && getDosages();
   }, [selectedDrug, selectedGenericDrug, isEdit, labelName]);
-
-  useEffect(() => {
-    if (open && isEdit) {
-      setQuantity((q) => q || userQuantity);
-      setFrequency((f) => f || daysOfSupply);
-    }
-  }, [userQuantity, daysOfSupply, open, isEdit]);
 
   useEffect(() => {
     if (item && open && isEdit) {
@@ -140,20 +134,20 @@ const PrescriptionModal = ({
       };
       onDrugSelection(selectedDrug);
 
-      const packageOptions = (item?.dosageDetails?.packages || []).map(
-        (_package) => ({
-          label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
-          value: _package,
-        })
-      );
-      setPackageOptions(packageOptions);
-      const selectedPackage = packageOptions
-        .filter(
-          (packageOption) =>
-            packageOption?.value?.referenceNDC === item?.dosage?.ndc
-        )
-        .map((opt) => opt.value)[0];
-      setDosagePackage(selectedPackage);
+      // const packageOptions = (item?.dosageDetails?.packages || []).map(
+      //   (_package) => ({
+      //     label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
+      //     value: _package,
+      //   })
+      // );
+      // setPackageOptions(packageOptions);
+      // const selectedPackage = packageOptions
+      //   .filter(
+      //     (packageOption) =>
+      //       packageOption?.value?.referenceNDC === item?.dosage?.ndc
+      //   )
+      //   .map((opt) => opt.value)[0];
+      // setDosagePackage(selectedPackage);
     }
   }, [item, open, selectedPackageID, isEdit]);
 
@@ -172,15 +166,25 @@ const PrescriptionModal = ({
           .filter((packageOption) => packageOption?.value?.referenceNDC === ndc)
           .map((opt) => opt.value)[0];
         setDosagePackage(selectedPackage);
+        setQuantity(userQuantity);
+        setFrequency(daysOfSupply);
+        setInitialValues((data) => ({
+          ...data,
+          dosagePackage: selectedPackage,
+          quantity: userQuantity,
+          frequency: daysOfSupply,
+        }));
       } else if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
+        setQuantity(commonUserQuantity);
+        setFrequency(commonDaysOfSupply);
       } else {
         setDosagePackage(null);
+        setQuantity(commonUserQuantity);
+        setFrequency(commonDaysOfSupply);
       }
-      setQuantity(commonUserQuantity);
-      setFrequency(commonDaysOfSupply);
     }
-  }, [dosage, isEdit, selectedPackageID, ndc]);
+  }, [dosage, isEdit, selectedPackageID, ndc, daysOfSupply, userQuantity]);
 
   const fetchOptions = async (event) => {
     const searchStr = event.target.value;
@@ -256,6 +260,17 @@ const PrescriptionModal = ({
     packageOptions,
   ]);
 
+  const isUpdated = () => {
+    return (
+      initialValues.quantity !== parseInt(quantity) ||
+      initialValues.frequency !== frequency ||
+      initialValues.dosagePackage !== dosagePackage ||
+      initialValues.dosage !== dosage
+    );
+  };
+
+  const validUpdate = isUpdated();
+
   const onClose = (ev) => {
     setprescriptionList([]);
     onDrugSelection("");
@@ -280,6 +295,20 @@ const PrescriptionModal = ({
     ? handleAddPrescription
     : onAddSearchSelectedDrug;
 
+  const disabled = isEdit
+    ? !validUpdate || !isFormValid || isSaving
+    : selectedDrug
+    ? !isFormValid || isSaving
+    : false;
+
+  console.log(
+    "HHHH",
+    typeof initialValues.quantity,
+    typeof quantity,
+    frequency,
+    validUpdate
+  );
+
   return (
     <Modal
       open={open}
@@ -287,7 +316,7 @@ const PrescriptionModal = ({
       title={isEdit ? "Edit Prescription" : "Add Prescription"}
       onSave={isEdit ? handleUpdatePrescription : addFunction}
       actionButtonName={isEdit ? "Edit Prescription" : "Add Prescription"}
-      actionButtonDisabled={(!isFormValid || isSaving) && !searchselected}
+      actionButtonDisabled={disabled}
       endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
     >
       {!selectedDrug && !isLoading ? (

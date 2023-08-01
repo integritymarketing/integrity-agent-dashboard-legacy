@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory, Link, useParams, useLocation } from "react-router-dom";
-import { parseISO } from "date-fns";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -691,7 +690,6 @@ const NewContactForm = ({
                       setFieldValue("partB", formatDate(value, "yyyy-MM-dd"));
                     }}
                     className={styles.disableDatePickerError}
-                    minDate={parseISO(values.partA)}
                   />
                 </div>
               </div>

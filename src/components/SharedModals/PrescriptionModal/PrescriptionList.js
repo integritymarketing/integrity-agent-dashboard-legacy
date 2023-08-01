@@ -73,7 +73,7 @@ const PrescriptionList = ({
     (drug) => {
       return multiple ? drug.label === selected.label : selected;
     },
-    [selected]
+    [selected, multiple]
   );
 
   const renderedPrescriptionList = useMemo(
@@ -100,7 +100,7 @@ const PrescriptionList = ({
           />
         </ListItem>
       )),
-    [prescriptionList, selected, handleSelectionChange, classes]
+    [prescriptionList, handleSelectionChange, classes, verifySelected]
   );
 
   return <List className={classes.listRoot}>{renderedPrescriptionList}</List>;
