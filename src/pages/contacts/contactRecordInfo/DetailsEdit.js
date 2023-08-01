@@ -11,7 +11,7 @@ import styles from "../ContactsPage.module.scss";
 import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
-import { formatDate } from "utils/dates";
+import { formatDate, formatServerDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
@@ -706,7 +706,7 @@ export default (props) => {
                     <DatePickerMUI
                       value={values.partA === null ? "" : values.partA}
                       onChange={(value) => {
-                        setFieldValue("partA", formatDate(value));
+                        setFieldValue("partA", value);
                       }}
                       className={styles.disableDatePickerError}
                     />
@@ -724,7 +724,7 @@ export default (props) => {
                     <DatePickerMUI
                       value={values.partB === null ? "" : values.partB}
                       onChange={(value) => {
-                        setFieldValue("partB", formatDate(value));
+                        setFieldValue("partB", value);
                       }}
                       minDate={parseISO(values.partA)}
                       className={styles.disableDatePickerError}
