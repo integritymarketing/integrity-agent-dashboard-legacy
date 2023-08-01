@@ -301,14 +301,6 @@ const PrescriptionModal = ({
     ? !isFormValid || isSaving
     : false;
 
-  console.log(
-    "HHHH",
-    typeof initialValues.quantity,
-    typeof quantity,
-    frequency,
-    validUpdate
-  );
-
   return (
     <Modal
       open={open}
