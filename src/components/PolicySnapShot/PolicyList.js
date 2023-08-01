@@ -28,7 +28,9 @@ const PolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
 
-  const policyStatus = capitalizeFirstLetter(callData?.policyStatus);
+  const policyStatus = callData?.policyStatus
+    ? capitalizeFirstLetter(callData?.policyStatus)
+    : "";
 
   return (
     <div className="policy-card">
