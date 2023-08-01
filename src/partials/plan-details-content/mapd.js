@@ -52,15 +52,15 @@ export default ({
             },
             {
               id: "costs",
-              label: "Costs",
-            },
-            {
-              id: "providers",
-              label: "Providers",
+              label: "Estimated Costs",
             },
             {
               id: "prescriptions",
               label: "Prescriptions",
+            },
+            {
+              id: "providers",
+              label: "Providers",
             },
             {
               id: "pharmacy",
@@ -112,8 +112,8 @@ export default ({
           ]}
           ref={{
             costs: costsRef,
-            providers: providersRef,
             prescriptions: prescriptionsRef,
+            providers: providersRef,
             pharmacy: pharmacyRef,
             planBenefits: planBenefitsRef,
             pharmacyCoverage: pharmacyCoverageRef,
@@ -176,9 +176,6 @@ export default ({
             />
           )}
         </div>
-        <div ref={providersRef} className={`${styles["provider-details"]}`}>
-          {plan && <MapdProvidersTable isMobile={isMobile} planData={plan} />}
-        </div>
         <div
           ref={prescriptionsRef}
           className={`${styles["prescription-details"]}`}
@@ -186,6 +183,9 @@ export default ({
           {plan && (
             <MapdPrescriptionsTable isMobile={isMobile} planData={plan} />
           )}
+        </div>
+        <div ref={providersRef} className={`${styles["provider-details"]}`}>
+          {plan && <MapdProvidersTable isMobile={isMobile} planData={plan} />}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
           {plan && (

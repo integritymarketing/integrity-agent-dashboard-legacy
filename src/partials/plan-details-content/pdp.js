@@ -47,7 +47,7 @@ export default ({
             },
             {
               id: "costs",
-              label: "Costs",
+              label: "Estimated Costs",
             },
             {
               id: "prescriptions",

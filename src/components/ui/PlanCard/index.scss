@@ -392,6 +392,11 @@
     background: #4178FF 0% 0% no-repeat padding-box;
     width: 120px;
     height: 40px;
+    font-style: Lato;
+    img {
+      position: relative;
+      left: 15px;
+    }
   }
 
   .footer {

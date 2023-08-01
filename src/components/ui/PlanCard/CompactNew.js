@@ -3,7 +3,7 @@ import Rating from "../Rating";
 import { Button } from "../Button";
 import Popover from "components/ui/Popover";
 import NewShareIcon from "images/new-share-icon.svg";
-import ArrowPoint from "images/arrow-point.svg";
+import EnrollBack from 'images/enroll-btn-back.svg';
 import Info from "components/icons/info-blue";
 import useRoles from "hooks/useRoles";
 import "./index.scss";
@@ -59,7 +59,7 @@ const CompactPlanCardNew = ({
         <Button
           label={"Enroll"}
           onClick={() => onEnrollClick(planData.id)}
-          icon={<img src={ArrowPoint} alt="enroll" />}
+          icon={<img src={EnrollBack} alt="enroll" />}
           className={"enroll-btn"}
           iconPosition={"right"}
         />
