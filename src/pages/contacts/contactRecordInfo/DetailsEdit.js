@@ -11,7 +11,7 @@ import styles from "../ContactsPage.module.scss";
 import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
-import { formatDate, formatServerDate } from "utils/dates";
+import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
