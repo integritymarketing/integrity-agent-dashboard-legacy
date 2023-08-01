@@ -962,9 +962,6 @@
 .contactdetailscardheader button:hover {
   background: #f5f7fa;
   border: 1px solid #dfe5ef;
-  span {
-    color: var(--v2-royal-blue);
-  }
 }
 
 .deleteTextAreaText:hover,
@@ -1488,7 +1485,7 @@ button {
     height: 40px;
   }
   .soa-list-body {
-    padding: 26px!important;
+    padding: 26px !important;
   }
 
   .contactDetailsSection {
@@ -1850,7 +1847,7 @@ button {
 
 .scope-of-app-row {
   background: #ffffff;
-  border: 1px solid #C7CCD1;
+  border: 1px solid #c7ccd1;
   border-radius: 4px;
   padding: 24px;
   margin-bottom: 16px;
@@ -1865,7 +1862,7 @@ button {
   margin: 0;
 }
 .scope-of-app-row-section1 p > span {
-  color: #434A51;
+  color: #434a51;
   font-weight: 400;
   font-size: 16px;
   margin-left: 10px;
@@ -1876,7 +1873,7 @@ button {
   margin: 0;
 }
 .scope-of-app-row-section2 .text {
-  color: #434A51;
+  color: #434a51;
   font-size: 16px;
   word-break: break-all;
 }
@@ -1921,7 +1918,7 @@ button {
   margin-bottom: 8px;
 }
 .show--more--btn {
-  color: #0052CE;
+  color: #0052ce;
   font-weight: bold;
   font-size: 14px;
 }
@@ -2349,18 +2346,17 @@ button {
   color: #0052ce;
 }
 
-.soa-mobile-header{
+.soa-mobile-header {
   display: flex;
   flex-direction: column;
-  padding : 20px 26px;
-  box-shadow: inset 0px -1px 0px #C7CCD1;
+  padding: 20px 26px;
+  box-shadow: inset 0px -1px 0px #c7ccd1;
 }
 
-.soa-header-text{
-  color: #002D72;
+.soa-header-text {
+  color: #002d72;
   font-size: 24px;
 }
-
 
 .shareBtnContainer {
   display: flex;
@@ -2375,22 +2371,16 @@ button {
   }
 }
 
-
 .soa-card-btn {
-
   display: flex;
   align-items: center;
   justify-content: flex-end;
   width: 100%;
   margin-top: 10px;
-  button{
+  button {
     width: 102px;
     height: 32px;
     font-size: 16px;
     font-weight: bold;
   }
 }
-
-
-
- 
