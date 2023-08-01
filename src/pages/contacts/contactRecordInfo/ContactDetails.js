@@ -7,7 +7,7 @@ import PasswordRevealIcon from "components/icons/password-reveal";
 import PasswordHideIcon from "components/icons/password-hide";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
 
-const notAvailable = "-";
+const NOT_AVAILABLE = "-";
 export default ({ setDisplay, personalInfo, ...rest }) => {
   let {
     firstName = "",
@@ -25,7 +25,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
   } = personalInfo;
   const [showMBID, setShowMBID] = useState(false);
 
-  emails = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
+  emails = emails?.length > 0 ? emails[0]?.leadEmail : NOT_AVAILABLE;
   const phoneData = phones.length > 0 ? phones[0] : null;
   const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
   const phoneLabel =
@@ -44,7 +44,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     addressData && addressData.postalCode ? addressData.postalCode : "";
 
   const county =
-    addressData && addressData.county ? addressData.county : notAvailable;
+    addressData && addressData.county ? addressData.county : NOT_AVAILABLE;
 
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
@@ -71,26 +71,26 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="contact-details-col1">
               <p className="contact-details-label">First Name</p>
               <span className="contact-details-name">
-                {firstName || notAvailable}
+                {firstName || NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-25 contact-details-col1">
               <p className="contact-details-label">Middle Initial</p>
               <span className="contact-details-name">
-                {middleName || notAvailable}
+                {middleName || NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-25 contact-details-col1 mob-res-margin">
               <p className="contact-details-label">Last Name</p>
               <span className="contact-details-name">
-                {lastName || notAvailable}
+                {lastName || NOT_AVAILABLE}
               </span>
             </div>
 
             <div className="responsive-display contact-details-col1">
               <p className="contact-details-label">Date of Birth</p>
               <span className="mob-mb-24 contact-details-name">
-                {birthdate ? formatDate(birthdate) : "--"}
+                {birthdate ? formatDate(birthdate) : NOT_AVAILABLE}
               </span>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="responsive-d-none contact-details-col1">
               <p className="contact-details-label">Date of Birth</p>
               <span className="mob-mb-24 contact-details-name">
-                {birthdate ? formatDate(birthdate) : "--"}
+                {birthdate ? formatDate(birthdate) : NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-59 custom-w-25 contact-details-col1">
@@ -122,7 +122,7 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
               <div className="w-50 custom-w-25 contact-details-col1">
                 <p className="contact-details-label">Phone Number</p>
                 <span className="contact-details-name">
-                  {phones ? formatPhoneNumber(phone) : notAvailable}
+                  {phones ? formatPhoneNumber(phone) : NOT_AVAILABLE}
                 </span>
                 {isPrimary === "phone" && (
                   <span className="primary-communication-label">
@@ -143,13 +143,13 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="contact-details-col1">
               <p className="contact-details-label">Address</p>
               <span className="mob-mb-24 contact-details-name">
-                {address1 || notAvailable}
+                {address1 || NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-59 custom-w-25 contact-details-col1">
               <p className="contact-details-label">Address2</p>
               <span className="contact-details-name">
-                {address2 || notAvailable}
+                {address2 || NOT_AVAILABLE}
               </span>
             </div>
           </div>
@@ -157,19 +157,19 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
             <div className="custom-w-53 contact-details-col1">
               <p className="contact-details-label">City</p>
               <span className="contact-details-name">
-                {city || notAvailable}
+                {city || NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-22 custom-w-25 contact-details-col1">
               <p className="contact-details-label">ZIP</p>
               <span className="contact-details-name">
-                {postalCode || notAvailable}
+                {postalCode || NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-20 custom-w-25 contact-details-col1 mob-res-margin">
               <p className="contact-details-label">State</p>
               <span className="contact-details-name">
-                {stateCode || notAvailable}
+                {stateCode || NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-31 custom-w-25 contact-details-col1 mob-res-margin">
@@ -182,15 +182,14 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
               <p className="contact-details-label">
                 Medicare Beneficiary ID Number
               </p>
-              {medicareBeneficiaryID &&
-              <span className="contact-details-name">
-                {formatMBID(medicareBeneficiaryID, showMBID) || notAvailable}
-                <p
-                  onClick={() => setShowMBID((prev) => !prev)}
-                  className="mbidShowHide"
-                >
-                  
-                    (showMBID ? (
+              {medicareBeneficiaryID ? (
+                <span className="contact-details-name">
+                  {formatMBID(medicareBeneficiaryID, showMBID) || NOT_AVAILABLE}
+                  <p
+                    onClick={() => setShowMBID((prev) => !prev)}
+                    className="mbidShowHide"
+                  >
+                    {showMBID ? (
                       <>
                         <PasswordRevealIcon className="mbi__icon" />
                         Hide Id
@@ -200,21 +199,23 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
                         <PasswordHideIcon className="mbi__icon" />
                         Show Id
                       </>
-                    ))
-                </p>
-              </span>
-              }
+                    )}
+                  </p>
+                </span>
+              ) : (
+                NOT_AVAILABLE
+              )}
             </div>
             <div className="custom-w-25 contact-details-col1">
               <p className="contact-details-label">Part A Effective Date</p>
               <span className="contact-details-name">
-                {partA ? formatDate(partA) : "--"}
+                {partA ? formatDate(partA) : NOT_AVAILABLE}
               </span>
             </div>
             <div className="custom-w-25 contact-details-col1 mob-res-margin">
               <p className="contact-details-label">Part B Effective Date</p>
               <span className="contact-details-name">
-                {partB ? formatDate(partB) : "--"}
+                {partB ? formatDate(partB) : NOT_AVAILABLE}
               </span>
             </div>
           </div>
