@@ -10,48 +10,29 @@ export default () => {
       height="24"
       viewBox="0 0 24 24"
     >
-      <g id="Arrow_Point" data-name="Arrow Point">
+      <g id="Add">
         <g id="Button_-_BG" data-name="Button - BG">
           <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0" />
         </g>
-        <g
-          id="Group_7197"
-          data-name="Group 7197"
-          transform="translate(-294 -632)"
-        >
+        <g id="icon" transform="translate(0.5 0.5)">
           <line
-            id="Line_1152"
-            data-name="Line 1152"
-            x1="4.5"
-            y2="4.5"
-            transform="translate(312 649) rotate(180)"
+            id="Line_653"
+            data-name="Line 653"
+            y2="10"
+            transform="translate(11.5 6.5)"
             fill="none"
             stroke="#fff"
             stroke-linecap="round"
-            stroke-linejoin="round"
             stroke-width="1"
           />
           <line
-            id="Line_1153"
-            data-name="Line 1153"
-            x1="4.5"
-            y1="4.5"
-            transform="translate(312 644.5) rotate(180)"
+            id="Line_654"
+            data-name="Line 654"
+            x2="10"
+            transform="translate(6.5 11.5)"
             fill="none"
             stroke="#fff"
             stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-          />
-          <line
-            id="Line_1154"
-            data-name="Line 1154"
-            x2="12"
-            transform="translate(312 644.5) rotate(180)"
-            fill="none"
-            stroke="#fff"
-            stroke-linecap="round"
-            stroke-linejoin="round"
             stroke-width="1"
           />
         </g>
@@ -63,9 +44,9 @@ export default () => {
         stroke-linecap="round"
       >
         <path
-          id="Icon_Arrow_path"
           d="M12,0A12,12,0,1,1,0,12,12,12,0,0,1,12,0Z"
           stroke="none"
+          id="Icon_Add_path"
         />
         <path
           id="Icon_circle_path"

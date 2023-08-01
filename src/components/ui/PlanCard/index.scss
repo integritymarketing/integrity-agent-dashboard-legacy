@@ -44,7 +44,7 @@
       line-height: 130%;
       display: flex;
       align-items: center;
-      color: #052A63;
+      color: #052a63;
     }
 
     .hide-desktop {
@@ -74,12 +74,12 @@
       font-weight: normal;
       font-size: 24px;
       line-height: 130%;
-      color: #052A63;
+      color: #052a63;
 
       .label {
         display: inline;
         font-size: 20px;
-        color: '#717171';
+        color: "#717171";
       }
     }
 
@@ -114,7 +114,7 @@
       font-weight: normal;
       font-size: 16px;
       line-height: 130%;
-      color: #434A51;
+      color: #434a51;
       padding-right: 16px;
       border-right: 1px solid #cbd5e1;
       letter-spacing: 0.16px;
@@ -373,8 +373,8 @@
     }
   }
 
-  .share-btn{
-    color: #4178FF !important;
+  .share-btn {
+    color: #4178ff !important;
     border: none !important;
     padding: 0;
 
@@ -389,7 +389,7 @@
 
   .enroll-btn {
     border-radius: 20px;
-    background: #4178FF 0% 0% no-repeat padding-box;
+    background: #4178ff 0% 0% no-repeat padding-box;
     width: 120px;
     height: 40px;
     font-style: Lato;
@@ -431,33 +431,15 @@
     }
 
     &.mobile {
-      margin: 0 -23px;
-      padding-right: 0px;
-      padding-top: 0px;
-      padding-left: 0px;
-      background: #f2f9ff;
-      height: 115px;
-      align-items: center;
       padding: 17px 23px;
-      border-radius: 0px 0px 8px 8px;
-      @media (max-width: 480px) {
-        background-color: initial;
-        border-top: none;
-        margin: 0px;
-        justify-content: space-between;
-        border-top: 1px solid #cbd5e1;
+      background-color: initial;
+      border-top: none;
+      margin: 0px;
+      justify-content: space-between;
+      border-top: 1px solid #cbd5e1;
+      flex-direction: column;
+      align-items: flex-start;
 
-        &.monthly-cost-container {
-          background-color: #f1faff;
-          margin: 8px;
-
-          .monthly-cost {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 4px;
-          }
-      }
-    }
       .monthly-cost {
         display: flex;
         align-items: center;
@@ -471,7 +453,7 @@
           line-height: 42px;
           letter-spacing: 0em;
           text-align: left;
-          color: #002D72;
+          color: #002d72;
         }
         .label {
           font-size: 16px;
@@ -538,6 +520,9 @@
   border-top: 1px solid #cbd5e1;
   margin-bottom: 16px;
   font-size: 16px;
+  @media (max-width: 480px) {
+    padding: 17px 23px;
+  }
   .label {
     font-weight: bold;
     color: #000000;

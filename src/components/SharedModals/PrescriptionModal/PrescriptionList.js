@@ -55,7 +55,12 @@ const usePrescriptionListStyles = makeStyles((theme) => ({
   },
 }));
 
-const PrescriptionList = ({ onDrugSelection, prescriptionList, selected }) => {
+const PrescriptionList = ({
+  onDrugSelection,
+  prescriptionList,
+  selected,
+  multiple,
+}) => {
   const classes = usePrescriptionListStyles();
   const handleSelectionChange = useCallback(
     (drug) => {
@@ -64,20 +69,27 @@ const PrescriptionList = ({ onDrugSelection, prescriptionList, selected }) => {
     [onDrugSelection]
   );
 
+  const verifySelected = useCallback(
+    (drug) => {
+      return multiple ? drug.label === selected.label : selected;
+    },
+    [selected, multiple]
+  );
+
   const renderedPrescriptionList = useMemo(
     () =>
       prescriptionList.map((drug, index) => (
         <ListItem
           key={index}
           button
-          selected={selected}
+          selected={verifySelected(drug)}
           onClick={() => handleSelectionChange(drug)}
           classes={{ root: classes.listItem }}
         >
           <Radio
             disableRipple
             onClick={() => handleSelectionChange(drug)}
-            checked={selected}
+            checked={verifySelected(drug)}
             classes={{ root: classes.radio }}
           />
           <ListItemText
@@ -88,7 +100,7 @@ const PrescriptionList = ({ onDrugSelection, prescriptionList, selected }) => {
           />
         </ListItem>
       )),
-    [prescriptionList, selected, handleSelectionChange, classes]
+    [prescriptionList, handleSelectionChange, classes, verifySelected]
   );
 
   return <List className={classes.listRoot}>{renderedPrescriptionList}</List>;

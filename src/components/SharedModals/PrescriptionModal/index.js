@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
+import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
+import AddCircleOutline from "../Icons/AddCircleOutline";
 import { Typography } from "@material-ui/core";
 import ErrorState from "./ErrorState";
 import Modal from "components/Modal";
@@ -7,6 +9,7 @@ import clientService from "services/clientsService";
 import SearchPrescription from "./SearchPrescription";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
+
 import "./style.scss";
 
 const transformPrescriptionOptions = (option) => {
@@ -51,6 +54,7 @@ const PrescriptionModal = ({
     item?.dosage ?? {};
 
   // Initializations
+  const [searchselected, onSearchSelected] = useState("");
   const [selectedDrug, onDrugSelection] = useState("");
   const [searchString, setSearchString] = useState("");
   const [prescriptionList, setprescriptionList] = useState([]);
@@ -63,6 +67,7 @@ const PrescriptionModal = ({
   const [isLoading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
+  const [initialValues, setInitialValues] = useState({});
 
   useEffect(() => {
     const getDosages = async () => {
@@ -85,13 +90,13 @@ const PrescriptionModal = ({
         if (dosageOptions.length === 1) {
           setDosage(dosageOptions[0].value);
         } else if (isEdit) {
-          setDosage(
-            dosageOptions
-              .filter(
-                (dosageOption) => dosageOption?.value?.labelName === labelName
-              )
-              .map((opt) => opt.value)[0]
-          );
+          const dosageInfo = dosageOptions
+            .filter(
+              (dosageOption) => dosageOption?.value?.labelName === labelName
+            )
+            .map((opt) => opt.value)[0];
+          setDosage(dosageInfo);
+          setInitialValues((data) => ({ ...data, dosage: dosageInfo }));
         } else {
           setDosage("");
         }
@@ -103,13 +108,6 @@ const PrescriptionModal = ({
     };
     selectedDrug && getDosages();
   }, [selectedDrug, selectedGenericDrug, isEdit, labelName]);
-
-  useEffect(() => {
-    if (open && isEdit) {
-      setQuantity((q) => q || userQuantity);
-      setFrequency((f) => f || daysOfSupply);
-    }
-  }, [userQuantity, daysOfSupply, open, isEdit]);
 
   useEffect(() => {
     if (item && open && isEdit) {
@@ -136,20 +134,20 @@ const PrescriptionModal = ({
       };
       onDrugSelection(selectedDrug);
 
-      const packageOptions = (item?.dosageDetails?.packages || []).map(
-        (_package) => ({
-          label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
-          value: _package,
-        })
-      );
-      setPackageOptions(packageOptions);
-      const selectedPackage = packageOptions
-        .filter(
-          (packageOption) =>
-            packageOption?.value?.referenceNDC === item?.dosage?.ndc
-        )
-        .map((opt) => opt.value)[0];
-      setDosagePackage(selectedPackage);
+      // const packageOptions = (item?.dosageDetails?.packages || []).map(
+      //   (_package) => ({
+      //     label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
+      //     value: _package,
+      //   })
+      // );
+      // setPackageOptions(packageOptions);
+      // const selectedPackage = packageOptions
+      //   .filter(
+      //     (packageOption) =>
+      //       packageOption?.value?.referenceNDC === item?.dosage?.ndc
+      //   )
+      //   .map((opt) => opt.value)[0];
+      // setDosagePackage(selectedPackage);
     }
   }, [item, open, selectedPackageID, isEdit]);
 
@@ -168,15 +166,25 @@ const PrescriptionModal = ({
           .filter((packageOption) => packageOption?.value?.referenceNDC === ndc)
           .map((opt) => opt.value)[0];
         setDosagePackage(selectedPackage);
+        setQuantity(userQuantity);
+        setFrequency(daysOfSupply);
+        setInitialValues((data) => ({
+          ...data,
+          dosagePackage: selectedPackage,
+          quantity: userQuantity,
+          frequency: daysOfSupply,
+        }));
       } else if (packageOptions.length === 1) {
         setDosagePackage(packageOptions[0].value);
+        setQuantity(commonUserQuantity);
+        setFrequency(commonDaysOfSupply);
       } else {
         setDosagePackage(null);
+        setQuantity(commonUserQuantity);
+        setFrequency(commonDaysOfSupply);
       }
-      setQuantity(commonUserQuantity);
-      setFrequency(commonDaysOfSupply);
     }
-  }, [dosage, isEdit, selectedPackageID, ndc]);
+  }, [dosage, isEdit, selectedPackageID, ndc, daysOfSupply, userQuantity]);
 
   const fetchOptions = async (event) => {
     const searchStr = event.target.value;
@@ -198,7 +206,7 @@ const PrescriptionModal = ({
 
   const handleQuantity = (e) => setQuantity(e.currentTarget.value);
 
-  const handleAddPrecscription = async () => {
+  const handleAddPrescription = async () => {
     setIsSaving(true);
     try {
       await onSave({
@@ -216,7 +224,7 @@ const PrescriptionModal = ({
     }
   };
 
-  const handleUpdatePrecscription = async () => {
+  const handleUpdatePrescription = async () => {
     setIsSaving(true);
     try {
       await onSave({
@@ -252,6 +260,17 @@ const PrescriptionModal = ({
     packageOptions,
   ]);
 
+  const isUpdated = () => {
+    return (
+      initialValues.quantity !== parseInt(quantity) ||
+      initialValues.frequency !== frequency ||
+      initialValues.dosagePackage !== dosagePackage ||
+      initialValues.dosage !== dosage
+    );
+  };
+
+  const validUpdate = isUpdated();
+
   const onClose = (ev) => {
     setprescriptionList([]);
     onDrugSelection("");
@@ -265,17 +284,32 @@ const PrescriptionModal = ({
     onCloseHandler(ev);
   };
 
+  const onAddSearchSelectedDrug = () => {
+    onDrugSelection(searchselected);
+  };
+
   const ERROR_STATE =
     searchString?.length === 0 || prescriptionList?.length === 0;
+
+  const addFunction = isFormValid
+    ? handleAddPrescription
+    : onAddSearchSelectedDrug;
+
+  const disabled = isEdit
+    ? !validUpdate || !isFormValid || isSaving
+    : selectedDrug
+    ? !isFormValid || isSaving
+    : false;
 
   return (
     <Modal
       open={open}
       onClose={onClose}
       title={isEdit ? "Edit Prescription" : "Add Prescription"}
-      onSave={isEdit ? handleUpdatePrecscription : handleAddPrecscription}
+      onSave={isEdit ? handleUpdatePrescription : addFunction}
       actionButtonName={isEdit ? "Edit Prescription" : "Add Prescription"}
-      actionButtonDisabled={!isFormValid || isSaving}
+      actionButtonDisabled={disabled}
+      endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
     >
       {!selectedDrug && !isLoading ? (
         <>
@@ -293,8 +327,9 @@ const PrescriptionModal = ({
           ) : (
             <PrescriptionList
               prescriptionList={prescriptionList}
-              onDrugSelection={onDrugSelection}
-              selected={selectedDrug}
+              onDrugSelection={onSearchSelected}
+              selected={searchselected}
+              multiple={true}
             />
           )}
         </>
