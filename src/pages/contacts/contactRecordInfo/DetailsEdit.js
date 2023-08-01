@@ -706,7 +706,7 @@ export default (props) => {
                     <DatePickerMUI
                       value={values.partA === null ? "" : values.partA}
                       onChange={(value) => {
-                        setFieldValue("partA", formatDate(value));
+                        setFieldValue("partA", value);
                       }}
                       className={styles.disableDatePickerError}
                     />
@@ -724,7 +724,7 @@ export default (props) => {
                     <DatePickerMUI
                       value={values.partB === null ? "" : values.partB}
                       onChange={(value) => {
-                        setFieldValue("partB", formatDate(value));
+                        setFieldValue("partB", value);
                       }}
                       minDate={parseISO(values.partA)}
                       className={styles.disableDatePickerError}
