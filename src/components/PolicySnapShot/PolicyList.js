@@ -15,18 +15,20 @@ import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import "./style.scss";
 
 const renderIcons = {
-  started: <Started />,
-  submitted: <Submitted />,
-  pending: <Pending />,
-  upComing: <UpComing />,
-  active: <Active />,
-  inActive: <InActive />,
-  declined: <Declined />,
+  Started: <Started />,
+  Submitted: <Submitted />,
+  Pending: <Pending />,
+  UpComing: <UpComing />,
+  Active: <Active />,
+  InActive: <InActive />,
+  Declined: <Declined />,
 };
 
 const PolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
+
+  const policyStatus = capitalizeFirstLetter(callData?.policyStatus);
 
   return (
     <div className="policy-card">
@@ -74,12 +76,8 @@ const PolicyCard = ({ callData }) => {
             justifyContent: isMobile ? "flex-start" : "center",
           }}
         >
-          <div className="startedIcon">
-            {renderIcons[callData?.policyStatus]}
-          </div>
-          <div className="policy-info">
-            {capitalizeFirstLetter(callData?.policyStatus)}
-          </div>
+          <div className="startedIcon">{renderIcons[policyStatus]}</div>
+          <div className="policy-info">{policyStatus}</div>
         </Grid>
         <Grid
           item
