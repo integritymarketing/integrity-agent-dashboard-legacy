@@ -82,7 +82,7 @@ export default (props) => {
     partA,
     partB,
   } = props.personalInfo;
-
+  console.log("testing");
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
