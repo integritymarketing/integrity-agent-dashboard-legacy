@@ -63,6 +63,8 @@ const NewContactForm = ({
   firstName,
   lastName,
   state,
+  partA = "",
+  partB = "",
   medicareBeneficiaryID = "",
 }) => {
   const { get } = useQueryParams();
@@ -160,9 +162,11 @@ const NewContactForm = ({
           county: "",
           countyFips: "",
         },
-        medicareBeneficiaryID: formatMbiNumber(medicareBeneficiaryID),
-        partA: null,
-        partB: null,
+        medicareBeneficiaryID: medicareBeneficiaryID
+          ? formatMbiNumber(medicareBeneficiaryID)
+          : "",
+        partA: partA ?? "",
+        partB: partB ?? "",
         primaryCommunication: "",
         contactRecordType: "prospect",
       }}

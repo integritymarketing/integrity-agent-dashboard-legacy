@@ -78,9 +78,9 @@ export default (props) => {
     leadsId,
     leadStatusId,
     notes,
-    medicareBeneficiaryID,
-    partA,
-    partB,
+    medicareBeneficiaryID = "",
+    partA = "",
+    partB = "",
   } = props.personalInfo;
 
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
@@ -170,9 +170,11 @@ export default (props) => {
         leadStatusId,
         leadsId,
         notes,
-        medicareBeneficiaryID: formatMbiNumber(medicareBeneficiaryID),
-        partA,
-        partB,
+        medicareBeneficiaryID: medicareBeneficiaryID
+          ? formatMbiNumber(medicareBeneficiaryID)
+          : "",
+        partA: partA ?? "",
+        partB: partB ?? "",
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(

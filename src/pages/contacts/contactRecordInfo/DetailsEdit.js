@@ -178,9 +178,11 @@ export default (props) => {
         leadStatusId,
         leadsId,
         notes,
-        medicareBeneficiaryID: formatMbiNumber(medicareBeneficiaryID),
-        partA,
-        partB,
+        medicareBeneficiaryID: medicareBeneficiaryID
+          ? formatMbiNumber(medicareBeneficiaryID)
+          : "",
+        partA: partA ?? "",
+        partB: partB ?? "",
       }}
       validate={async (values) => {
         const errors = validationService.validateMultiple(
