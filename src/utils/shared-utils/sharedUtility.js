@@ -80,7 +80,7 @@ export const formatMBID = (mbid, showMBID) => {
 };
 
 export const formatMbiNumber = (value) => {
-  if (!value) return null;
+  if (!value) return "";
   let formattedValue = value.replace(/-/g, "");
   if (formattedValue.length > 4) {
     formattedValue = formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
