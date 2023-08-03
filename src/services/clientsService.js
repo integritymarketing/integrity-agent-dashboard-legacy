@@ -373,9 +373,9 @@ export class ClientsService {
       primaryCommunication,
       contactRecordType,
       notes,
-      medicareBeneficiaryID: flattenMBI(medicareBeneficiaryID),
-      partA: partA ? formatServerDate(partA) : null,
-      partB: partB ? formatServerDate(partB) : null,
+      medicareBeneficiaryID: medicareBeneficiaryID ? flattenMBI(medicareBeneficiaryID) : "",
+      partA: partA ? formatServerDate(partA) : "",
+      partB: partB ? formatServerDate(partB) : "",
     };
     reqData.emails = [];
     if (email !== null && email !== undefined) {
