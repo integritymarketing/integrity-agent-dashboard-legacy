@@ -10,6 +10,7 @@ import UpComing from "components/icons/BookofBusiness/policySnapshot/upcoming";
 import Active from "components/icons/BookofBusiness/policySnapshot/active";
 import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
 import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
+import Terminated from "components/icons/BookofBusiness/policySnapshot/terminated";
 import { useHistory } from "react-router-dom";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import "./style.scss";
@@ -18,10 +19,11 @@ const renderIcons = {
   Started: <Started />,
   Submitted: <Submitted />,
   Pending: <Pending />,
-  UpComing: <UpComing />,
+  Upcoming: <UpComing />,
   Active: <Active />,
   InActive: <InActive />,
   Declined: <Declined />,
+  Terminated: <Terminated />,
 };
 
 const PolicyCard = ({ callData }) => {
