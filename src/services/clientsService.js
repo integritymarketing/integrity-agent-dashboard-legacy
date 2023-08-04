@@ -1019,28 +1019,38 @@ export class ClientsService {
   };
 
   updateLeadPhone = async (contact, leadPhone) => {
+    const requestData = {
+      leadsId: contact.leadsId,
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      birthdate: contact.birthdate,
+      leadStatusId: contact.leadStatusId,
+      primaryCommunication: contact.primaryCommunication,
+      contactRecordType: contact.contactRecordType,
+      notes: contact.notes,
+      emails: contact.emails,
+      phones: [
+        {
+          phoneId: 0,
+          leadPhone: leadPhone?.replace("+1", ""),
+          phoneLabel: "mobile",
+        },
+      ],
+      addresses: contact.addresses,
+    }
+    if (contact.medicareBeneficiaryID) {
+      requestData.medicareBeneficiaryID = contact.medicareBeneficiaryID;
+    }
+    if (contact.partA) {
+      requestData.partA = contact.partA;
+    }
+    if (contact.partB) {
+      requestData.partB = contact.partB;
+    }
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
       "PUT",
-      {
-        leadsId: contact.leadsId,
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        birthdate: contact.birthdate,
-        leadStatusId: contact.leadStatusId,
-        primaryCommunication: contact.primaryCommunication,
-        contactRecordType: contact.contactRecordType,
-        notes: contact.notes,
-        emails: contact.emails,
-        phones: [
-          {
-            phoneId: 0,
-            leadPhone: leadPhone?.replace("+1", ""),
-            phoneLabel: "mobile",
-          },
-        ],
-        addresses: contact.addresses,
-      }
+      requestData
     );
     if (!response?.ok) {
       throw new Error("Cannot update contact");
