@@ -10,14 +10,17 @@ import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 import CheckIcon from "components/icons/v2-check";
+import useFetch from "hooks/useFetch";
 
 export default () => {
   const history = useHistory();
   const loading = useLoading();
   const [username, setUsername] = useState();
   const [apiErrors, setApiErrors] = useState([]);
+  const {
+    Post: forgotUsername,
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotusername`);
 
   if (username) {
     return (
@@ -107,7 +110,7 @@ export default () => {
               setApiErrors([]);
               loading.begin();
 
-              const response = await authService.forgotUsername(values);
+              const response = await forgotUsername(values);
 
               setSubmitting(false);
               loading.end();

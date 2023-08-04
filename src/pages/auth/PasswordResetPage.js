@@ -10,8 +10,8 @@ import { useHistory } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import useQueryParams from "hooks/useQueryParams";
-import authService from "services/authService";
 import Box from "@mui/material/Box";
+import useFetch from "hooks/useFetch";
 
 // NOTE that there are instances of both username + npn in this file (they are the same thing)
 // this is to handle compatibility with identity server in the short term
@@ -22,16 +22,22 @@ export default () => {
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
+  const {
+    Post: resetpassword,
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
+  const {
+    Post: validatePasswordResetToken,
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/validateresetpasswordtoken`, true, true);
 
   useEffect(() => {
     const checkIfValidToken = async () => {
-      const response = await authService.validatePasswordResetToken({
+      await validatePasswordResetToken({
         username: params.get("npn"),
         token: params.get("token"),
         email: params.get("email"),
       });
 
-      return response.status >= 200 && response.status < 300;
+      return true;
     };
     const validateTokenOrRedirect = async () => {
       let isValidToken = await checkIfValidToken();
@@ -76,7 +82,7 @@ export default () => {
               onSubmit={async (values, { setErrors, setSubmitting }) => {
                 setSubmitting(true);
                 loading.begin();
-                const response = await authService.resetPassword({
+                const response = await resetpassword({
                   ...values,
                   Username: params.get("npn"),
                   Token: params.get("token"),

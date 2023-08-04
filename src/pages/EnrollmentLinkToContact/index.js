@@ -10,11 +10,12 @@ import { Helmet } from "react-helmet-async";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import PossibleMatches from "./PossibleMatches";
 import CreateNewContact from "./CreateNewContact";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import GoBackNavbar from "components/BackButtonNavbar";
 
 export default function EnrollmentLinkToContact() {
+  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const location = useLocation();
   const { state } = location.state;

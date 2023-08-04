@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useMemo } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 import FooterButtons from "packages/FooterButtons";
 import StageStatusContext from "contexts/stageStatus";
@@ -11,6 +11,7 @@ import TagsByCategory from "./Tags";
 import { useActiveFilters } from "hooks/useActiveFilters";
 
 export default function ContactListFilterOptions({ close, layout }) {
+  const { clientsService } = useClientServiceContext();
   const [filterType, setFilterType] = useState("Stage");
   const [reminder, setReminder] = useState("");
   const [stages, setStages] = useState([]);
@@ -42,14 +43,14 @@ export default function ContactListFilterOptions({ close, layout }) {
   useEffect(() => {
     const getTags = async () => {
       try {
-        const res = await clientService.getAllTagsByGroups();
+        const res = await clientsService.getAllTagsByGroups();
         setTagsList([...res]);
       } catch (error) {
         Sentry.captureException(error);
       }
     };
     getTags();
-  }, []);
+  }, [clientsService]);
 
   const selectStage = (id) => {
     let isExist = stages?.findIndex((statusId) => statusId === id);

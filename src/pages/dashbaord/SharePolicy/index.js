@@ -8,7 +8,7 @@ import Header from "partials/blue-header";
 import Footer from "partials/email-footer";
 import ResendCode from "partials/resend-code";
 import WelcomeEmailUser from "partials/welcome-email-user";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import EnrollmentHistoryPage from "pages/EnrollmentHistoryPage";
 import useToast from "hooks/useToast";
 import "./sharepolicy.scss";
@@ -21,12 +21,13 @@ function PolicyCodePage() {
   const [isValid, setIsValid] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [resendCode, setResendCode] = useState(false);
+  const { plansService } = useClientServiceContext();
 
   useEffect(() => {
     plansService.getPassCodeToken(token).then((response) => setCode(response));
     const result = JSON.parse(window.atob(request));
     setAgentInfo(result);
-  }, [token, request]);
+  }, [token, request, plansService]);
 
   const handleVerificationCode = (event) => {
     setVerificationCode(event.target.value);

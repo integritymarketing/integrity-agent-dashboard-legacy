@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { Select } from "components/ui/Select";
 import Checkbox from "components/ui/Checkbox";
 import Textfield from "components/ui/textfield";
@@ -24,6 +24,7 @@ import { formValidator } from "./FormValidator";
 import "./index.scss";
 
 export default () => {
+  const { clientsService } = useClientServiceContext();
   const { linkCode } = useParams();
   const history = useHistory();
   const addToast = useToast();
@@ -37,7 +38,7 @@ export default () => {
     const getStatus = async () => {
       setLoading(true);
       try {
-        const data = await clientService.getSoaStatusByLinkCode(linkCode);
+        const data = await clientsService.getSoaStatusByLinkCode(linkCode);
         setSOAStatus(data);
       } catch (err) {
         addToast({
@@ -133,7 +134,7 @@ export default () => {
               }
             : {};
           const response =
-            await clientService.saveSoaInformationForLeadByLinkCode(
+            await clientsService.saveSoaInformationForLeadByLinkCode(
               {
                 leadSection: {
                   products: Object.keys(products),

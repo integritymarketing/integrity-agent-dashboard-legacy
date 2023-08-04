@@ -4,16 +4,17 @@ import { Helmet } from "react-helmet-async";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import authService from "services/authService";
 import analyticsService from "services/analyticsService";
 import CheckIcon from "components/icons/v2-check";
 import ResendButtonWithModal from "partials/resend-email";
-
-const resendForgotPassword = async (params) => {
-  return authService.requestPasswordReset(params);
-};
+import useFetch from "hooks/useFetch";
 
 export default () => {
+  const {
+    Post: requestPasswordReset,
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
+
+
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/login/forgot-NPN/confirmation/",
@@ -37,7 +38,7 @@ export default () => {
             data-gtm="reesend-forgot-password-email"
           >
             <ResendButtonWithModal
-              resendFn={resendForgotPassword}
+              resendFn={requestPasswordReset}
               btnClass={analyticsService.clickClass("forgot-resendnow")}
             />
           </div>

@@ -1,20 +1,26 @@
 import React from "react";
-import authService from "services/authService";
+import usePortalUrl from "hooks/usePortalUrl";
 import useClientId from "hooks/auth/useClientId";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Button } from "packages/Button";
 
-const defaultButton = () => {
+const DefaultButton = () => {
+  const portalUrl = usePortalUrl();
+
+  const handleRedirectAndRestartLoginFlow = () => {
+    window.location = portalUrl + "/signin";
+  };
+
   return (
-    <Button size="large" onClick={authService.redirectAndRestartLoginFlow}>
+    <Button size="large" onClick={handleRedirectAndRestartLoginFlow}>
       Back to Login
     </Button>
   );
 };
 
-export default ({ footer, title, body = null, button = defaultButton() }) => {
+const ConfirmationPage = ({ footer, title, body = null, button = <DefaultButton /> }) => {
   const clientId = useClientId();
 
   return (
@@ -30,3 +36,5 @@ export default ({ footer, title, body = null, button = defaultButton() }) => {
     </div>
   );
 };
+
+export default ConfirmationPage;

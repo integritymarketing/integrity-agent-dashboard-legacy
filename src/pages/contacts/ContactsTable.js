@@ -9,7 +9,7 @@ import { useTable, usePagination, useRowSelect } from "react-table";
 import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import styles from "./ContactsPage.module.scss";
 import Spinner from "components/ui/Spinner/index";
 import StageSelect from "./contactRecordInfo/StageSelect";
@@ -194,6 +194,7 @@ function ContactsTable({
   isMobile,
   layout,
 }) {
+  const { clientsService } = useClientServiceContext();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
@@ -273,7 +274,15 @@ function ContactsTable({
         onCloseCallback: clearContext,
       });
     }
-  }, [deleteLeadId, addToast, leadName, setDeleteLeadId, setLeadName, history]);
+  }, [
+    deleteLeadId,
+    addToast,
+    leadName,
+    setDeleteLeadId,
+    setLeadName,
+    history,
+    clientsService,
+  ]);
 
   useEffect(() => {
     deleteContact();
@@ -327,7 +336,7 @@ function ContactsTable({
           setLoading(false);
         });
     },
-    [applyFilters, handleGetAllLeadIds, isMobile, layout]
+    [applyFilters, handleGetAllLeadIds, isMobile, layout, clientsService]
   );
 
   const handleRefresh = useCallback(() => {

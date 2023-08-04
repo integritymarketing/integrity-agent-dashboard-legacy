@@ -6,7 +6,7 @@ import Media from "react-media";
 import GlobalNav from "partials/global-nav-v2";
 import FocusedNav from "partials/focused-nav";
 import Container from "components/ui/container";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import ContactRecordHeader from "components/ui/ContactRecordHeader";
 import { Select } from "components/ui/Select";
 import WithLoader from "components/ui/WithLoader";
@@ -14,7 +14,6 @@ import styles from "./PlansPage.module.scss";
 import SortIcon from "components/icons/sort";
 import { PLAN_SORT_OPTIONS } from "../constants";
 import EffectiveDateFilter from "components/ui/EffectiveDateFilter";
-import plansService from "services/plansService";
 import { getFirstEffectiveDateOption } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
@@ -120,6 +119,7 @@ function useQuery() {
 }
 
 export default () => {
+  const { clientsService, plansService } = useClientServiceContext();
   const { contactId: id } = useParams();
   const query = useQuery();
   const showSelected = query && query.get("preserveSelected");
@@ -200,7 +200,8 @@ export default () => {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, clientsService]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [planType, setPlanType] = useState(
     (showSelected ? initialPlanType : null) ||
@@ -349,7 +350,7 @@ export default () => {
         setPlansLoading(false);
       }
     }
-  }, [contact, effectiveDate, planType, myAppointedPlans]);
+  }, [contact, effectiveDate, planType, myAppointedPlans, plansService]);
 
   const pageSize = 10;
 

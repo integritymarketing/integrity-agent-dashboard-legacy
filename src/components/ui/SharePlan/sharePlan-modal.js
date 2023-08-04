@@ -4,7 +4,6 @@ import { debounce } from "debounce";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
 import AuthContext from "contexts/auth";
-import plansService from "services/plansService";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
 import CheckboxGroup from "components/ui/CheckboxGroup";
@@ -14,7 +13,7 @@ import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
-import EnrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import "./styles.scss";
 
 const EMAIL_MOBILE_LABELS = [
@@ -54,6 +53,8 @@ export default ({
   const {
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
+
+  const { enrollPlansService, plansService } = useClientServiceContext();
 
   const {
     firstName,
@@ -200,7 +201,7 @@ export default ({
             messageDestination: leadEmail,
             messageType: "email",
           };
-          await EnrollPlansService.sharePolicy(policyData);
+          await enrollPlansService.sharePolicy(policyData);
         } else {
           await plansService.sendPlan(data, leadsId, id);
         }
@@ -216,7 +217,7 @@ export default ({
           messageType: "sms",
         };
         if (ispolicyShare) {
-          await EnrollPlansService.sharePolicy(policyData);
+          await enrollPlansService.sharePolicy(policyData);
         } else {
           await plansService.sendPlan(data, leadsId, id);
         }
@@ -233,7 +234,7 @@ export default ({
               messageDestination: email,
               messageType: "email",
             };
-            await EnrollPlansService.sharePolicy(policyData);
+            await enrollPlansService.sharePolicy(policyData);
           } else {
             await plansService.sendPlan(data, leadsId, id);
           }
@@ -250,7 +251,7 @@ export default ({
               messageDestination: mobile,
               messageType: "sms",
             };
-            await EnrollPlansService.sharePolicy(policyData);
+            await enrollPlansService.sharePolicy(policyData);
           } else {
             await plansService.sendPlan(data, leadsId, id);
           }

@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
@@ -74,6 +74,8 @@ export default ({
   const [errors, setErrors] = useState("");
   const [hasFocus, setFocus] = useState(false);
   const [user, setUser] = useState({});
+
+  const { plansService } = useClientServiceContext();
 
   useEffect(() => {
     const getData = async () => {

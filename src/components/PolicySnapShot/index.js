@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import DateRangeSort from "../DateRangeSort";
 import TabsCard from "components/TabsCard";
 import PolicyList from "./PolicyList";
-import EnrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import Info from "components/icons/info-blue";
@@ -29,13 +29,14 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
   const history = useHistory();
   const addToast = useToast();
+  const { enrollPlansService } = useClientServiceContext();
 
   const status = tabs[statusIndex]?.policyStatus || "Started";
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
       try {
-        const items = await EnrollPlansService.getPolicySnapShotList(
+        const items = await enrollPlansService.getPolicySnapShotList(
           npn,
           dateRange,
           status
@@ -59,12 +60,12 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast, index, dateRange, npn, status]);
+  }, [addToast, index, dateRange, npn, status, enrollPlansService]);
 
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const tabsData = await EnrollPlansService.getPolicySnapShotCount(
+        const tabsData = await enrollPlansService.getPolicySnapShotCount(
           npn,
           dateRange
         );
@@ -80,14 +81,14 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchCounts();
-  }, [addToast, dateRange, npn]);
+  }, [addToast, dateRange, npn, enrollPlansService]);
 
   const handleWidgetSelection = async (index, policyCount) => {
     setStatusIndex(index);
     const status = tabs[index]?.policyStatus || "Started";
 
     try {
-      const items = await EnrollPlansService.getPolicySnapShotList(
+      const items = await enrollPlansService.getPolicySnapShotList(
         npn,
         dateRange,
         status

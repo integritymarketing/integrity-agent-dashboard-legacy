@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import ArrowDown from "components/icons/arrow-down";
 import GlobalNav from "partials/global-nav-v2";
 import Container from "components/ui/container";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./PlansPage.module.scss";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
@@ -23,36 +23,9 @@ import { PharmacyCoverageCompareTable } from "components/ui/PlanDetailsTable/sha
 import ComparePlanModal from "components/ui/ComparePlanModal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
 import { RetailPharmacyCoverage } from "components/ui/PlanDetailsTable/shared/retail-pharmacy-coverage-compare-table";
-import plansService from "services/plansService";
-import ComparePlansService from "services/comparePlansService";
-
-function getAllPlanDetails({
-  planIds,
-  contactId,
-  contactData,
-  effectiveDate,
-  isComingFromEmail,
-  agentNPN,
-  agentInfo,
-}) {
-  return Promise.all(
-    planIds
-      .filter(Boolean)
-      .map((planId) =>
-        !isComingFromEmail
-          ? plansService.getPlan(contactId, planId, contactData, effectiveDate)
-          : ComparePlansService.getPlan(
-              contactId,
-              planId,
-              agentInfo,
-              effectiveDate,
-              agentNPN
-            )
-      )
-  );
-}
 
 export default (props) => {
+  const { clientsService, plansService, comparePlansService } = useClientServiceContext();
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
   const { isComingFromEmail, agentInfo = {} } = props;
   const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;
@@ -65,6 +38,40 @@ export default (props) => {
   const [pharmacies, setPharmacies] = useState([]);
   const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
   const [contactData, setContactData] = useState({});
+
+  const getAllPlanDetails = useCallback(
+    async (
+      planIds,
+      contactId,
+      contactData,
+      effectiveDate,
+      isComingFromEmail,
+      agentNPN,
+      agentInfo
+    ) => {
+      return Promise.all(
+        planIds
+          .filter(Boolean)
+          .map((planId) =>
+            !isComingFromEmail
+              ? plansService.getPlan(
+                  contactId,
+                  planId,
+                  contactData,
+                  effectiveDate
+                )
+              : comparePlansService.getPlan(
+                  contactId,
+                  planId,
+                  agentInfo,
+                  effectiveDate,
+                  agentNPN
+                )
+          )
+      );
+    },
+    [plansService]
+  );
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -93,8 +100,8 @@ export default (props) => {
             clientsService.getLeadPharmacies(id),
           ])
         : await Promise.all([
-            ComparePlansService.getLeadPrescriptions(id, agentInfo?.AgentNpn),
-            ComparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn),
+          comparePlansService.getLeadPrescriptions(id, agentInfo?.AgentNpn),
+          comparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn),
           ]);
       setPrescriptions(prescriptionData);
       setPharmacies(pharmacyData || []);

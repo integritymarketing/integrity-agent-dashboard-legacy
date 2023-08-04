@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -7,7 +7,6 @@ import Warning from "components/icons/warning";
 import { Select } from "components/ui/Select";
 import validationService from "services/validationService";
 import styles from "../ContactsPage.module.scss";
-import clientService from "../../../services/clientsService";
 import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
@@ -17,46 +16,7 @@ import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import DatePickerMUI from "components/DatePicker";
-
-const isDuplicateContact = async (
-  values,
-  setDuplicateLeadIds,
-  errors = {},
-  leadsId
-) => {
-  if (Object.keys(errors).length) {
-    return {
-      ...errors,
-      isExactDuplicate: true,
-    };
-  } else {
-    const response = await clientService.getDuplicateContact(values);
-    if (response.ok) {
-      const resMessage = await response.json();
-      const duplicateLeadIds = resMessage.duplicateLeadIds.filter(
-        (id) => leadsId !== id
-      );
-
-      if (duplicateLeadIds.length > 0) {
-        if (resMessage.isExactDuplicate) {
-          return {
-            firstName: "Duplicate Contact",
-            lastName: "Duplicate Contact",
-            isExactDuplicate: true,
-          };
-        } else {
-          setDuplicateLeadIds(duplicateLeadIds || []);
-        }
-      }
-      return errors;
-    } else {
-      // TODO: handle errors
-      return {
-        isExactDuplicate: true,
-      };
-    }
-  }
-};
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 export default (props) => {
   let {
@@ -110,6 +70,7 @@ export default (props) => {
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
   const history = useHistory();
+  const { clientService } = useClientServiceContext();
 
   const getContactLink = (id) => `/contact/${id}`;
   const goToContactDetailPage = (id) => {
@@ -120,6 +81,44 @@ export default (props) => {
     }
     history.push(getContactLink(id));
   };
+
+  const isDuplicateContact = useCallback(
+    async (values, setDuplicateLeadIds, errors = {}, leadsId) => {
+      if (Object.keys(errors).length) {
+        return {
+          ...errors,
+          isExactDuplicate: true,
+        };
+      } else {
+        const response = await clientService.getDuplicateContact(values);
+        if (response.ok) {
+          const resMessage = await response.json();
+          const duplicateLeadIds = resMessage.duplicateLeadIds.filter(
+            (id) => leadsId !== id
+          );
+
+          if (duplicateLeadIds.length > 0) {
+            if (resMessage.isExactDuplicate) {
+              return {
+                firstName: "Duplicate Contact",
+                lastName: "Duplicate Contact",
+                isExactDuplicate: true,
+              };
+            } else {
+              setDuplicateLeadIds(duplicateLeadIds || []);
+            }
+          }
+          return errors;
+        } else {
+          // TODO: handle errors
+          return {
+            isExactDuplicate: true,
+          };
+        }
+      }
+    },
+    [clientService]
+  );
 
   const handleMultileDuplicates = () => {
     if (duplicateLeadIds.length) {

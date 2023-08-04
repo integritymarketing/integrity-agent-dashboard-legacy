@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useHistory, Link, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
@@ -11,7 +11,7 @@ import validationService from "services/validationService";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import styles from "./ContactsPage.module.scss";
-import clientService from "../../services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "../../hooks/useToast";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
@@ -27,36 +27,6 @@ import CountyContext from "contexts/counties";
 import callRecordingsService from "services/callRecordingsService";
 import useQueryParams from "hooks/useQueryParams";
 import DatePickerMUI from "components/DatePicker";
-import enrollPlansService from "services/enrollPlansService";
-
-const isDuplicateContact = async (values, setDuplicateLeadIds, errors = {}) => {
-  if (Object.keys(errors).length) {
-    return {
-      ...errors,
-      isExactDuplicate: true,
-    };
-  } else {
-    const response = await clientService.getDuplicateContact(values);
-    if (response.ok) {
-      const resMessage = await response.json();
-      if (resMessage.isExactDuplicate) {
-        return {
-          firstName: "Duplicate Contact",
-          lastName: "Duplicate Contact",
-          isExactDuplicate: true,
-        };
-      } else {
-        setDuplicateLeadIds(resMessage.duplicateLeadIds || []);
-      }
-      return errors;
-    } else {
-      // TODO: handle errors
-      return {
-        isExactDuplicate: true,
-      };
-    }
-  }
-};
 
 const NewContactForm = ({
   callLogId,
@@ -67,6 +37,7 @@ const NewContactForm = ({
   partB = "",
   medicareBeneficiaryID = "",
 }) => {
+  const { clientsService, enrollPlansService } = useClientServiceContext();
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const isRelink = get("relink") === "true";
@@ -80,6 +51,38 @@ const NewContactForm = ({
 
   const history = useHistory();
   const addToast = useToast();
+
+  const isDuplicateContact = useCallback(
+    async (values, setDuplicateLeadIds, errors = {}) => {
+      if (Object.keys(errors).length) {
+        return {
+          ...errors,
+          isExactDuplicate: true,
+        };
+      } else {
+        const response = await clientsService.getDuplicateContact(values);
+        if (response.ok) {
+          const resMessage = await response.json();
+          if (resMessage.isExactDuplicate) {
+            return {
+              firstName: "Duplicate Contact",
+              lastName: "Duplicate Contact",
+              isExactDuplicate: true,
+            };
+          } else {
+            setDuplicateLeadIds(resMessage.duplicateLeadIds || []);
+          }
+          return errors;
+        } else {
+          // TODO: handle errors
+          return {
+            isExactDuplicate: true,
+          };
+        }
+      }
+    },
+    [clientsService]
+  );
 
   const getContactLink = (id) => `/contact/${id}/details`;
   const goToContactDetailPage = (id) => {
@@ -246,7 +249,7 @@ const NewContactForm = ({
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
-        let response = await clientService.addNewContact(values);
+        let response = await clientsService.addNewContact(values);
         if (response.ok) {
           const resMessage = await response.json();
           const leadId = resMessage.leadsId;

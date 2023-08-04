@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useCallback } from "react";
 import * as Sentry from "@sentry/react";
 import Modal from "components/ui/modal";
 import { formatPhoneNumber } from "utils/phones";
 import { Button } from "components/ui/Button";
 import useToast from "hooks/useToast";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 export default ({ agentInfo, modalOpen, close, token, request }) => {
   const addToast = useToast();
+  const { plansService } = useClientServiceContext();
   const { AgentPhoneNumber, AgentFirstName, AgentLastName, AgentEmail } =
     agentInfo;
 
-  const handleResendCode = async () => {
+  const handleResendCode = useCallback(async () => {
     const data = {
       token,
       request,
@@ -29,7 +30,7 @@ export default ({ agentInfo, modalOpen, close, token, request }) => {
       });
     } finally {
     }
-  };
+  }, [addToast, plansService, request, token]);
 
   return (
     <>

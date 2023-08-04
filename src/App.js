@@ -7,8 +7,8 @@ import { theme } from "./theme";
 import { ThemeProvider } from "@mui/material/styles";
 import Media from "react-media";
 import TrafficDirector from "components/functional/traffic-director";
-import AuthContext from "contexts/auth";
-import authService from "services/authService";
+import {ClientServiceContextProvider} from "services/clientServiceProvider";
+import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
 import ResourcesPage from "pages/ResourcesPage";
 import AccountPage from "pages/AccountPage";
 import ClientImportPage from "pages/ClientImportPage";
@@ -59,7 +59,8 @@ import PolicyCodePage from "pages/dashbaord/SharePolicy";
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <AuthContext.Provider value={authService}>
+      <Auth0ProviderWithHistory>
+        <ClientServiceContextProvider>
         <RecoilRoot>
           <Suspense fallback={<div></div>}>
             <ParallaxProvider>
@@ -264,7 +265,8 @@ const App = () => {
             </ParallaxProvider>
           </Suspense>
         </RecoilRoot>
-      </AuthContext.Provider>
+        </ClientServiceContextProvider>
+      </Auth0ProviderWithHistory>
     </ThemeProvider>
   );
 };

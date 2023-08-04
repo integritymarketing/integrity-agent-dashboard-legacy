@@ -2,19 +2,34 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useClientId from "hooks/auth/useClientId";
 import useQueryParams from "hooks/useQueryParams";
-import authService from "services/authService";
 import validationService from "services/validationService";
+
+const confirmEmailAPI = async (values) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/confirmemail`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        npn: values.npn,
+        token: values.token,
+        ClientId: values.ClientId,
+      }),
+    }
+  );
+  return response;
+};
 
 export default () => {
   const history = useHistory();
   const params = useQueryParams();
   const clientId = useClientId();
 
-  // TODO v2: Does this need to change from npn to email?
-
   useEffect(() => {
     const handleComfirmEmail = async () => {
-      return authService.confirmEmail({
+      return confirmEmailAPI({
         npn: params.get("npn"),
         token: params.get("token"),
         ClientId: clientId,

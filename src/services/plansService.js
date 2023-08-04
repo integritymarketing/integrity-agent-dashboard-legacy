@@ -1,8 +1,10 @@
-import authService from "services/authService";
-
 export const QUOTES_API_VERSION = "v1.0";
 
-class PlansService {
+export class PlansService {
+  constructor(getAccessToken) {
+    this.getAccessToken = getAccessToken;
+  }
+
   getPlans = async (leadId, plansFilter) => {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/Plan`,
@@ -100,11 +102,11 @@ class PlansService {
   };
 
   _clientAPIRequest = async (path, method = "GET", query, body, bearer) => {
-    const user = await authService.getUser();
+    const accessToken = await this.getAccessToken();
     const opts = {
       method,
       headers: {
-        Authorization: "Bearer " + user.access_token,
+        Authorization: "Bearer " + accessToken,
         "Content-Type": "application/json",
       },
     };
@@ -141,5 +143,3 @@ class PlansService {
     return fetch(path, opts);
   };
 }
-
-export default new PlansService();

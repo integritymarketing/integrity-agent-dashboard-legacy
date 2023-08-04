@@ -8,7 +8,6 @@ import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 import AuthContext from "contexts/auth";
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
@@ -18,6 +17,7 @@ import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
 import { Button } from "packages/Button";
+import useFetch from "hooks/useFetch";
 
 export default () => {
   const loading = useLoading();
@@ -25,6 +25,13 @@ export default () => {
   const params = useQueryParams();
   const auth = useContext(AuthContext);
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
+  const {
+    Post: loginUser,
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`);
+  
+  const {
+    Post: loginUserWithClinetID,
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`);
 
   useEffect(() => {
     const params1 = new URLSearchParams(
@@ -65,7 +72,7 @@ export default () => {
           returnUrl: params.get("ReturnUrl"),
           isExternal: true,
         };
-        const response = await authService.loginUserWithClinetID(
+        const response = await loginUserWithClinetID(
           userDetail,
           true
         );
@@ -161,7 +168,7 @@ export default () => {
                 setSubmitting(true);
                 loading.begin();
                 values.returnUrl = params.get("ReturnUrl");
-                const response = await authService.loginUser(values);
+                const response = await loginUser(values);
                 postLogin(response, { setErrors, setSubmitting }, values);
               }}
             >

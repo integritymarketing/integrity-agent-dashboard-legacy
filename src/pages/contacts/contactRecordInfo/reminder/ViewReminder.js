@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import ShowDate from "./ShowDate";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 import { getForDistance, getOverDue } from "utils/dates";
 
 export default ({ reminder, leadId, getLeadDetails, isMobile }) => {
+  const { clientsService } = useClientServiceContext();
   const { reminderNote = "", isComplete = false, reminderId } = reminder;
   const inputRef = useRef(null);
 

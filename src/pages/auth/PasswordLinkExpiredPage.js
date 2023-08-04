@@ -2,17 +2,32 @@ import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
-import authService from "services/authService";
+import usePortalUrl from "hooks/usePortalUrl";
 
-export default () => {
+const requestPasswordReset = async (npn) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        npn,
+      }),
+    }
+  );
+  return response;
+};
+
+const PasswordResetExpiredPage = () => {
   const history = useHistory();
-  const params = useQueryParams();
+  const queryParams = useQueryParams();
+  const portalUrl = usePortalUrl();
 
-  // TODO v2: update from NPN to email
   const handleResendForgotPasswordEmail = async () => {
-    const npn = params.get("npn");
-
-    const response = await authService.requestPasswordReset({ npn });
+    const npn = queryParams.get("npn");
+    const response = await requestPasswordReset(npn);
 
     if (response.status >= 200 && response.status < 300) {
       history.push(`password-reset-sent?npn=${npn}`);
@@ -25,13 +40,17 @@ export default () => {
     }
   };
 
+  const handleRedirectAndRestartLoginFlow = () => {
+    window.location = portalUrl + "/signin";
+  };
+
   return (
     <BaseConfirmationPage
       footer={
         <div className="mt-2 text-body">
           <button
             className="link link--force-underline"
-            onClick={authService.redirectAndRestartLoginFlow}
+            onClick={handleRedirectAndRestartLoginFlow}
           >
             Want to try a different email address?
           </button>
@@ -51,3 +70,5 @@ export default () => {
     />
   );
 };
+
+export default PasswordResetExpiredPage;

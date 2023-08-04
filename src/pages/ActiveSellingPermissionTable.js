@@ -5,7 +5,6 @@ import { useSortBy, useTable } from "react-table";
 import analyticsService from "services/analyticsService";
 import styles from "./ActiveSellingPermissionTable.module.scss";
 import ActiveSellingPermissionFilter from "./ActiveSellingPermissionFilter";
-import clientService from "services/clientsService";
 import Sort from "components/icons/sort-arrow";
 import SortUp from "components/icons/sort-arrow-up";
 import SortDown from "components/icons/sort-arrow-down";
@@ -16,6 +15,7 @@ import { Grid, Paper } from "@mui/material";
 import { useWindowSize } from "hooks/useWindowSize";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 const uniqValues = (array) => Array.from(new Set(array));
 const NONRTS_DESCRIPTION =
@@ -44,18 +44,20 @@ const mobileColumnFormat = {
 };
 
 export default function ActiveSellingPermissionTable({ npn }) {
+  const { clientsService } = useClientServiceContext();
   const { width: windowWidth } = useWindowSize();
   const addToast = useToast();
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
   const [error, setError] = useState(null);
   const { isNonRTS_User } = useRoles();
+
   useEffect(
     function () {
       if (!npn) return;
 
       setIsLoadings(true);
-      clientService
+      clientsService
         .getAgents(npn)
         .then((resp) => {
           setIsLoadings(false);
@@ -73,7 +75,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [npn]
+    [npn, clientsService]
   );
 
   const uniqAgenets = useMemo(() => {

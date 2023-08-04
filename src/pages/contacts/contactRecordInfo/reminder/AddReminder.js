@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ShowDate from "./ShowDate";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 
@@ -14,6 +14,7 @@ export default ({
   const [reminderNote, setReminderNote] = useState("");
   const [reminderDate, setReminderDate] = useState(null);
   const addToast = useToast();
+  const { clientsService } = useClientServiceContext();
 
   const saveReminder = async () => {
     const payload = {

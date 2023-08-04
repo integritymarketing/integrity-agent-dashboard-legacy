@@ -12,7 +12,7 @@ import { Select } from "components/ui/Select";
 import BackNavContext from "contexts/backNavProvider";
 import ContactContext from "contexts/contacts";
 import AuthContext from "contexts/auth";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import "./index.scss";
@@ -41,6 +41,7 @@ const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default () => {
+  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const { leadId } = useParams();
   const auth = useContext(AuthContext);
@@ -58,7 +59,7 @@ export default () => {
   useEffect(() => {
     const getContactInfo = async () => {
       try {
-        const data = await clientService.getContactInfo(leadId);
+        const data = await clientsService.getContactInfo(leadId);
         setNewSoaContactDetails(data);
       } catch (err) {
         addToast({
@@ -136,14 +137,14 @@ export default () => {
           messageDestination: leadEmail,
           messageType: "email",
         };
-        await clientService.sendSoaInformation(data, leadsId);
+        await clientsService.sendSoaInformation(data, leadsId);
       } else if (selectOption === "textMessage") {
         const data = {
           ...payload,
           messageDestination: leadPhone,
           messageType: "sms",
         };
-        await clientService.sendSoaInformation(data, leadsId);
+        await clientsService.sendSoaInformation(data, leadsId);
       } else {
         if (selectLabel === "email") {
           const data = {
@@ -151,14 +152,14 @@ export default () => {
             messageDestination: email,
             messageType: "email",
           };
-          await clientService.sendSoaInformation(data, leadsId);
+          await clientsService.sendSoaInformation(data, leadsId);
         } else {
           const data = {
             ...payload,
             messageDestination: mobile,
             messageType: "sms",
           };
-          await clientService.sendSoaInformation(data, leadsId);
+          await clientsService.sendSoaInformation(data, leadsId);
         }
       }
       history.goBack();

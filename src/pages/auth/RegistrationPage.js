@@ -7,7 +7,6 @@ import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
 import useToast from "../../hooks/useToast";
 import Styles from "./AuthPages.module.scss";
@@ -23,6 +22,28 @@ import { Button, TextButton } from "packages/Button";
 import "./mobileStyle.scss";
 
 const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
+
+const registerUser = async (values) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_AUTH_REGISTRATION_URL}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ClientId: values.ClientId,
+        FirstName: values.FirstName,
+        LastName: values.LastName,
+        NPN: values.NPN,
+        Phone: values.Phone,
+        Email: values.Email,
+        Password: values.Password,
+      }),
+    }
+  );
+  return response;
+};
 
 export default () => {
   const history = useHistory();
@@ -123,8 +144,7 @@ export default () => {
               });
               formattedValues["ClientId"] = clientId;
 
-              const response = await authService.registerUser(formattedValues);
-
+              const response = await registerUser(formattedValues);
               setSubmitting(false);
               loading.end();
 

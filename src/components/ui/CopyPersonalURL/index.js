@@ -3,13 +3,14 @@ import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import { Button } from "components/ui/Button";
 import Link from "components/icons/link";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import styles from "./index.module.scss";
 
 const PERSONAL_URL_DATA =
   "Send your personalized link to the client to get them started with shopping for plans. Don't worry, you will get credit if the consumer enrolls in any of these plans.";
 
 export default function CopyPersonalURL(props) {
+  const { clientsService } = useClientServiceContext();
   const { agentnpn } = props;
   const [purlCode, setPurlCode] = useState(null);
   const addToast = useToast();
@@ -17,9 +18,9 @@ export default function CopyPersonalURL(props) {
   const getAgentPurlCodeWithNPN = useCallback(async () => {
     const URL = process.env.REACT_APP_MEDICARE_ENROLL;
     try {
-      let data = await clientService.getAgentPurlCodeByNPN(agentnpn);
+      let data = await clientsService.getAgentPurlCodeByNPN(agentnpn);
       if (!data) {
-        data = await clientService.createAgentPurlCode({
+        data = await clientsService.createAgentPurlCode({
           agentNpn: agentnpn,
         });
       }
@@ -32,7 +33,7 @@ export default function CopyPersonalURL(props) {
       });
       Sentry.captureException(error);
     }
-  }, [agentnpn, addToast]);
+  }, [agentnpn, addToast, clientsService]);
 
   useEffect(() => {
     getAgentPurlCodeWithNPN();

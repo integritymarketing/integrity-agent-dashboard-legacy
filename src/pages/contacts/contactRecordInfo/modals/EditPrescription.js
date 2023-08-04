@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import analyticsService from "services/analyticsService";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import "./modals.scss";
 
 export default function EditPrescription({
@@ -23,7 +23,7 @@ export default function EditPrescription({
     userQuantity,
     selectedPackageID,
   } = item?.dosage ?? {};
-
+  const { clientsService } = useClientServiceContext();
   const [dosage, setDosage] = useState();
   const [dosageOptions, setDosageOptions] = useState([]);
   const [quantity, setQuantity] = useState(userQuantity);
@@ -122,7 +122,7 @@ export default function EditPrescription({
 
   useEffect(() => {
     const getDosages = async () => {
-      const results = await clientService.getDrugDetails(item?.dosage?.drugID);
+      const results = await clientsService.getDrugDetails(item?.dosage?.drugID);
       const dosageOptions = (results?.dosages || []).map((dosage) => ({
         label: dosage.labelName,
         value: dosage,

@@ -1,32 +1,52 @@
-import React from "react";
+import React, { useCallback } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
-import authService from "services/authService";
 import useClientId from "hooks/auth/useClientId";
+import useFetch from "hooks/useFetch";
+import usePortalUrl from "hooks/usePortalUrl";
 
-export default () => {
+const ConfirmationPage = () => {
   const history = useHistory();
-  const params = useQueryParams();
+  const queryParams = useQueryParams();
   const clientId = useClientId();
+  const portalUrl = usePortalUrl();
 
-  const handleResendComfirmEmail = async () => {
-    const npn = params.get("npn");
+  const npn = queryParams.get("npn");
 
-    const response = await authService.sendConfirmationEmail({
-      npn,
-      ClientId: clientId,
-    });
+  const { Post: sendConfirmationEmail } = useFetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL_V3}/resendconfirmemail`,
+    true
+  );
 
-    if (response.status >= 200 && response.status < 300) {
-      history.push(`registration-email-sent?npn=${npn}`);
-    } else {
+  const handleResendConfirmEmail = useCallback(async () => {
+    try {
+      const response = await sendConfirmationEmail({
+        npn,
+        ClientId: clientId,
+      });
+
+      if (response.status >= 200 && response.status < 300) {
+        history.push(`registration-email-sent?npn=${npn}`);
+      } else {
+        history.push(
+          `sorry?message=${encodeURIComponent(
+            "We could not send a new confirmation email at this time."
+          )}`
+        );
+      }
+    } catch (error) {
+      console.error("Error sending confirmation email:", error);
       history.push(
         `sorry?message=${encodeURIComponent(
-          "We could not send a new confirmation email at this time."
+          "An error occurred while resending the confirmation email."
         )}`
       );
     }
+  }, [sendConfirmationEmail, npn, clientId, history]);
+
+  const handleRedirectAndRestartLoginFlow = () => {
+    window.location = portalUrl + "/signin";
   };
 
   return (
@@ -35,7 +55,7 @@ export default () => {
         <div className="mt-2 text-body">
           <button
             className="link link--force-underline"
-            onClick={authService.redirectAndRestartLoginFlow}
+            onClick={handleRedirectAndRestartLoginFlow}
           >
             Want to try a different email address?
           </button>
@@ -47,7 +67,7 @@ export default () => {
         <button
           type="button"
           className="btn-v2"
-          onClick={handleResendComfirmEmail}
+          onClick={handleResendConfirmEmail}
         >
           Resend Email
         </button>
@@ -55,3 +75,5 @@ export default () => {
     />
   );
 };
+
+export default ConfirmationPage;

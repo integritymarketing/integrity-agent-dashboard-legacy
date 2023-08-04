@@ -1,8 +1,11 @@
-import authService from "services/authService";
-
 export const QUOTES_API_VERSION = "v1.0";
 
-class EnrollPlansService {
+export class EnrollPlansService {
+
+  constructor(getAccessToken) {
+    this.getAccessToken = getAccessToken;
+  }
+  
   getEnrollPlans = async (leadId) => {
     const url = new URL(
       `${process.env.REACT_APP_BOOKOFBUSINESS_API}/lead/${leadId}`
@@ -61,12 +64,12 @@ class EnrollPlansService {
     return response?.json();
   };
 
-  _clientAPIRequest = async (url, method = "GET", query, body, bearer) => {
-    const user = await authService.getUser();
+  _clientAPIRequest = async (url, method = "GET", query, body) => {
+    const accessToken = await this.getAccessToken();
     const opts = {
       method,
       headers: {
-        Authorization: "Bearer " + user.access_token,
+        Authorization: "Bearer " + accessToken,
         "Content-Type": "application/json",
       },
     };
@@ -80,5 +83,3 @@ class EnrollPlansService {
     return fetch(url.toString(), opts);
   };
 }
-
-export default new EnrollPlansService();

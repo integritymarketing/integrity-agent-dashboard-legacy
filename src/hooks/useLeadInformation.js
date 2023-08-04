@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 
 export default (leadId) => {
+  const { clientsService } = useClientServiceContext();
   const [pharmacies, setPharmacies] = useState([]);
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
@@ -14,8 +15,8 @@ export default (leadId) => {
     const getData = async () => {
       try {
         await Promise.all([
-          clientService.getLeadPrescriptions(leadId).then(setPrescriptions),
-          clientService.getLeadPharmacies(leadId).then(setPharmacies),
+          clientsService.getLeadPrescriptions(leadId).then(setPrescriptions),
+          clientsService.getLeadPharmacies(leadId).then(setPharmacies),
         ]);
       } catch (err) {
         Sentry.captureException(err);
@@ -24,7 +25,14 @@ export default (leadId) => {
       }
     };
     getData();
-  }, [setPharmacies, setProviders, setPrescriptions, setIsLoading, leadId]);
+  }, [
+    setPharmacies,
+    setProviders,
+    setPrescriptions,
+    setIsLoading,
+    leadId,
+    clientsService,
+  ]);
 
   const addPrescription = async (item) => {
     const itemObject = {
@@ -34,8 +42,8 @@ export default (leadId) => {
       selectedPackage: null,
     };
     try {
-      await clientService.createPrescription(leadId, itemObject);
-      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      await clientsService.createPrescription(leadId, itemObject);
+      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
         message: "Prescription Added",
       });
@@ -54,11 +62,11 @@ export default (leadId) => {
         ...rest,
         dosageID: dosage.dosageID,
       };
-      await clientService.editPrescription(leadId, item);
+      await clientsService.editPrescription(leadId, item);
       addToast({
         message: "Prescription updated successfully",
       });
-      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
     } catch (err) {
       Sentry.captureException(err);
       addToast({
@@ -70,11 +78,11 @@ export default (leadId) => {
 
   const deletePrescription = async (item) => {
     try {
-      await clientService.deletePrescription(
+      await clientsService.deletePrescription(
         leadId,
         item?.dosage?.dosageRecordID
       );
-      await clientService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
       addToast({
         type: "success",
         message: "Prescription deleted",
@@ -94,8 +102,8 @@ export default (leadId) => {
 
   const addPharmacy = async (item) => {
     try {
-      await clientService.createPharmacy(leadId, item);
-      await clientService.getLeadPharmacies(leadId).then(setPharmacies);
+      await clientsService.createPharmacy(leadId, item);
+      await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
       addToast({
         message: "Pharmacy Added",
         time: 10000,
@@ -111,8 +119,8 @@ export default (leadId) => {
 
   const deletePharmacy = async (item) => {
     try {
-      await clientService.deletePharmacy(leadId, item.pharmacyRecordID);
-      await clientService.getLeadPharmacies(leadId).then(setPharmacies);
+      await clientsService.deletePharmacy(leadId, item.pharmacyRecordID);
+      await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
       addToast({
         message: "Pharmacy Deleted",
         time: 10000,

@@ -30,7 +30,7 @@ import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import ContactsTable from "./ContactsTable";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
@@ -65,6 +65,7 @@ const DEFAULT_SORT = [
 ];
 
 export default () => {
+  const { clientsService } = useClientServiceContext();
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(DEFAULT_SORT);

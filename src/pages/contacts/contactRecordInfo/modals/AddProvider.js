@@ -3,7 +3,7 @@ import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import Pagination from "components/ui/Pagination/pagination";
 import { Button } from "components/ui/Button";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
 import Media from "react-media";
@@ -27,6 +27,7 @@ export default function AddProvider({
   leadId,
   leadProviders,
 }) {
+  const { clientsService } = useClientServiceContext();
   const [zipCode, setZipCode] = useState(personalInfo.addresses[0]?.postalCode);
   const [searchText, setSearchText] = useState("");
   const [radius, setRadius] = useState(10);
@@ -77,7 +78,7 @@ export default function AddProvider({
         setError(e);
         Sentry.captureException(e);
       });
-  }, [perPage, currentPage, searchText, zipCode, radius]);
+  }, [perPage, currentPage, searchText, zipCode, radius, clientsService]);
 
   const deleteExistingProvider = async (provider, npi, addressId) => {
     try {

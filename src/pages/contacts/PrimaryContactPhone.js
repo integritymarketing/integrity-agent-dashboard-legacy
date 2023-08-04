@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useContext, useState } from "react";
 import * as Sentry from "@sentry/react";
 import { formatPhoneNumber } from "utils/phones";
 import callRecordingsService from "services/callRecordingsService";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import AuthContext from "contexts/auth";
 import styles from "./ContactsPage.module.scss";
 import useToast from "hooks/useToast";
@@ -10,6 +10,7 @@ import { CallScriptModal } from "packages/CallScriptModal";
 import useUserProfile from "hooks/useUserProfile";
 
 export default function PrimaryContactPhone({ phone, leadsId }) {
+  const { clientsService } = useClientServiceContext();
   const auth = useContext(AuthContext);
   const userProfile = useUserProfile();
   const addToast = useToast();

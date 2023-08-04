@@ -8,8 +8,8 @@ import useFeatureFlag from "hooks/useFeatureFlag";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
 import AddProvider from "./modals/AddProvider";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
-import clientsService from "services/clientsService";
 import useToast from "./../../../hooks/useToast";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DeleteLeadModal from "./DeleteLeadModal";
@@ -18,7 +18,8 @@ import DetailsMobile from "mobile/Contact/Details/ContactDetails";
 import Media from "react-media";
 import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 
-export default forwardRef((props, ref) => {
+export default forwardRef((props) => {
+  const { clientsService } = useClientServiceContext();
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
@@ -129,7 +130,7 @@ export default forwardRef((props, ref) => {
         error,
       });
     }
-  }, [props.id]);
+  }, [props.id, clientsService]);
 
   useEffect(() => {
     fetchProviders();

@@ -1,21 +1,22 @@
-import { useState, useEffect, useContext, useCallback } from "react";
-import AuthContext from "contexts/auth";
-import callRecordingsService from "services/callRecordingsService";
+import { useState, useEffect, useCallback } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import {useCallRecordingsService} from "services/callRecordingsService";
 
 export default () => {
-  const auth = useContext(AuthContext);
+  const auth = useAuth0();
   const [agentInfomration, setAgentInfomration] = useState({});
+  const callRecordingsService = useCallRecordingsService();
 
   const getAgentAvailability = useCallback(async () => {
-    const user = await auth.getUser();
-    const { agentid } = user.profile;
+    const user = await auth.user;
+    const { agentid } = user;
     const response = await callRecordingsService.getAgentAvailability(agentid);
     setAgentInfomration({ ...response });
-  }, [setAgentInfomration, auth]);
+  }, [setAgentInfomration, auth, callRecordingsService]);
 
   useEffect(() => {
-    getAgentAvailability();
-  }, [getAgentAvailability]);
+    callRecordingsService && getAgentAvailability();
+  }, [getAgentAvailability, callRecordingsService]);
 
   return {
     agentInfomration,

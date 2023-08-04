@@ -1,4 +1,3 @@
-import authService from "services/authService";
 import { parseDate, formatServerDate } from "utils/dates";
 import moment from "moment";
 
@@ -41,12 +40,15 @@ const flattenMBI = (mbi) => {
 };
 
 export class ClientsService {
+  constructor(getAccessToken) {
+    this.getAccessToken = getAccessToken;
+  }
   _clientAPIRequest = async (path, method = "GET", body) => {
-    const user = await authService.getUser();
+    const accessToken = await this.getAccessToken();
     const opts = {
       method,
       headers: {
-        Authorization: "Bearer " + user.access_token,
+        Authorization: "Bearer " + accessToken,
         "Content-Type": "application/json",
       },
     };

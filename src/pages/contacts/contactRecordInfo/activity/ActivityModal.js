@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "components/ui/modal";
 import SuccessIcon from "components/icons/success-note";
 import useToast from "../../../../hooks/useToast";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 
 export default ({

@@ -27,12 +27,11 @@ import FixedRow from "./FixedRow";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ActivityDetails from "pages/ContactDetails/ActivityDetails";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
 import CallDetails from "./CallDetails";
-import ComparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
 import ContactSectionCard from "packages/ContactSectionCard";
 
@@ -108,6 +107,7 @@ export default function DashboardActivityTable({
   setSort,
   sort,
 }) {
+  const { clientsService, comparePlansService } = useClientServiceContext();
   const history = useHistory();
   const addToast = useToast();
   const callRecordings = useCallRecordings();
@@ -175,7 +175,7 @@ export default function DashboardActivityTable({
           window.open(activityInteractionURL, "_blank");
           break;
         case "Application Submitted":
-          let link = await ComparePlansService?.getPdfSource(
+          let link = await comparePlansService?.getPdfSource(
             activityInteractionURL,
             npn
           );
@@ -192,7 +192,7 @@ export default function DashboardActivityTable({
           break;
       }
     },
-    [history, npn]
+    [history, npn, comparePlansService]
   );
 
   const handleTableRowClick = useCallback(
@@ -528,7 +528,13 @@ export default function DashboardActivityTable({
         Sentry.captureException(e);
       }
     },
-    [setSelectedActivity, addToast, selectedLead, realoadActivityData]
+    [
+      setSelectedActivity,
+      addToast,
+      selectedLead,
+      realoadActivityData,
+      clientsService,
+    ]
   );
 
   const handleSortUpdate = (value) => {

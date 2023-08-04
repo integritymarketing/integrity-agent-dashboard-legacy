@@ -6,10 +6,11 @@ import SuccessIcon from "components/icons/success-note";
 import BellIcon from "components/icons/bell-note";
 import { getForDistance } from "utils/dates";
 import LimitedCharacters from "./limitedCharacters";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "../../../../hooks/useToast";
 
 export default ({ activities, leadId, getLeadDetails }) => {
+  const { clientsService } = useClientServiceContext();
   const [activityModalStatus, setActivityModalStatus] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [activityData, setActivityData] = useState({});

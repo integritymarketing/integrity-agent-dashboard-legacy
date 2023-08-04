@@ -1,9 +1,10 @@
 import state from "./state";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { useEffect, useState, useCallback } from "react";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 const useContactDetails = (leadId) => {
+  const { clientsService } = useClientServiceContext();
   const setLeadId = useSetRecoilState(state.atoms.contactLeadIdAtom);
   const [leadDetails, setLeadDetails] = useRecoilState(
     state.atoms.contactLeadDetailsAtom
@@ -22,7 +23,7 @@ const useContactDetails = (leadId) => {
     } finally {
       setIsLoading(false);
     }
-  }, [leadId, setLeadDetails, setIsLoading]);
+  }, [leadId, setLeadDetails, setIsLoading, clientsService]);
 
   useEffect(() => {
     setLeadId(leadId);

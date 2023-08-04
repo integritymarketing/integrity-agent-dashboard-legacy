@@ -5,7 +5,7 @@ import styles from "./ContactsPage.module.scss";
 import Modal from "components/ui/modal";
 import Radio from "components/ui/Radio";
 import { Button } from "components/ui/Button";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 
 const headers = [
@@ -22,6 +22,7 @@ const headers = [
 ];
 
 export default ({ open, close, contacts, allLeads }) => {
+  const { clientsService } = useClientServiceContext();
   const addToast = useToast();
   const csvLinkRef = useRef();
   const [selectedOption, setSelectOption] = useState("selectedContacts");

@@ -61,8 +61,8 @@ class authService {
       cookies.set("sunfire_client_id", isAgentMobileSunfire);
     }
     return {
-      authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
-      client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
+      authority: "https://auth-dev.integritymarketinggroup.com/",
+      client_id: "qTzobG6UcoTRxoQx28ehi1wQQaWLo4wu",
       response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
       scope: process.env.REACT_APP_AUTH_SCOPES,
       redirect_uri: portal_url + "/signin-oidc",
@@ -99,7 +99,7 @@ class authService {
       opts.body = JSON.stringify(body);
     }
 
-    let url = `${process.env.REACT_APP_AUTH_AUTHORITY_URL}`;
+    let url = `https://dev-sales-platform.us.auth0.com`;
     if (isExtranlLogin) {
       url = `${url}/external${path}`;
     } else {
@@ -165,7 +165,7 @@ class authService {
   isAuthenticated = () => {
     const oidcStorage = JSON.parse(
       localStorage.getItem(
-        `oidc.user:${process.env.REACT_APP_AUTH_AUTHORITY_URL}:${process.env.REACT_APP_AUTH_CLIENT_ID}`
+        `oidc.user:https://dev-sales-platform.us.auth0.com:qTzobG6UcoTRxoQx28ehi1wQQaWLo4wu`
       )
     );
     return !!oidcStorage && !!oidcStorage.id_token;

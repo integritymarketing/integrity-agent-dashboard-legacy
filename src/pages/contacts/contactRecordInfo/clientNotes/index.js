@@ -1,12 +1,13 @@
 import React, { useState, Fragment } from "react";
 import * as Sentry from "@sentry/react";
 import { Button } from "components/ui/Button";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import "./client-notes.scss";
 import useToast from "../../../../hooks/useToast";
 import EditIcon from "components/icons/icon-edit";
 
 export default function ClientNotes(props) {
+  const { clientsService } = useClientServiceContext();
   const [isEdit, setIsEdit] = useState(false);
   const [isSaving, setIsSaving] = useState(true);
   const [value, setValue] = useState(props.personalInfo.notes || "");

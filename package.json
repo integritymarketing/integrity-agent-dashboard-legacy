@@ -3,6 +3,7 @@
   "version": "2.1.5",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^2.1.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@integritymarketing/ui-button-components": "0.0.9",

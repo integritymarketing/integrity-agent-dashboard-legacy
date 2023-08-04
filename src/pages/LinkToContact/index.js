@@ -7,7 +7,7 @@ import GlobalNav from "partials/global-nav-v2";
 import Heading3 from "packages/Heading3";
 import React, { useState } from "react";
 import Tags from "packages/Tags/Tags";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import styles from "./styles.module.scss";
 import { CallScriptModal } from "packages/CallScriptModal";
 import { Helmet } from "react-helmet-async";
@@ -22,6 +22,7 @@ import CreateNewContact from "./CreateNewContact";
 import GoBackNavbar from "components/BackButtonNavbar";
 
 export default function LinkToContact() {
+  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const { callLogId, callFrom, duration, date } = useParams();
 
@@ -38,7 +39,7 @@ export default function LinkToContact() {
   const getContacts = async (searchStr) => {
     setIsLoading(true);
     try {
-      const response = await clientService.getList(
+      const response = await clientsService.getList(
         undefined,
         undefined,
         ["Activities.CreateDate:desc"],

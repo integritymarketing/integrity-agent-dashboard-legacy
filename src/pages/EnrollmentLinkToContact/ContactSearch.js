@@ -16,8 +16,7 @@ import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
 import Spinner from "components/ui/Spinner/index";
-import clientsService from "services/clientsService";
-import enrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 const SearchInput = styled(OutlinedInput)(() => ({
   background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -38,6 +37,7 @@ const ContactListItemButton = ({
   leadInfo,
   setLeadInfo, // Accessing setLeadInfo here
 }) => {
+  const { clientsService, enrollPlansService } = useClientServiceContext();
   const addToast = useToast();
   const history = useHistory();
   const firstRender = useRef(true);
@@ -58,11 +58,11 @@ const ContactListItemButton = ({
     };
 
     getLeadInformation();
-  }, [state, setLeadInfo]);
+  }, [state, setLeadInfo, clientsService]);
 
   const updatePrimaryContact = useCallback(() => {
     return clientsService.updateLeadPhone(contact, callFrom);
-  }, [contact, callFrom]);
+  }, [contact, callFrom, clientsService]);
 
   const onClickHandler = useCallback(async () => {
     let { policyId, agentNpn, policyStatus, policyStatusId } = state;
@@ -106,6 +106,7 @@ const ContactListItemButton = ({
     state,
     leadInfo,
     selectedLeadId,
+    enrollPlansService,
     contact.firstName,
     contact.lastName,
     contact.leadsId,

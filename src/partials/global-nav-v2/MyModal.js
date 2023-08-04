@@ -26,7 +26,7 @@ export default function BasicModal({
   phone,
   virtualNumber,
   updateAgentAvailability,
-  user,
+  agentid,
   leadPreference,
   updateAgentPreferences,
   callForwardNumber,
@@ -34,7 +34,6 @@ export default function BasicModal({
   checkInPreference = false,
   hideModalHeader = false,
 }) {
-  const { agentid = "" } = user || {};
   const [activeModal, setActiveModal] = useState("main");
   const showAsModal =
     !checkInPreference || activeModal !== "main" ? true : false;

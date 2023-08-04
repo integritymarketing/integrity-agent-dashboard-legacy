@@ -10,7 +10,7 @@ import {
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import styles from "../ContactsPage.module.scss";
 import "./contactRecordInfo.scss";
 import OverviewIcon from "components/icons/home";
@@ -38,6 +38,7 @@ import Media from "react-media";
 import FooterBanners from "packages/FooterBanners";
 
 export default () => {
+  const { clientsService } = useClientServiceContext();
   const { contactId: id, sectionId } = useParams();
   const { getLeadDetails, isLoading, leadDetails } = useContactDetails(id);
   const { state = {} } = useLocation();

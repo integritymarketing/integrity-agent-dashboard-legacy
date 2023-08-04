@@ -5,9 +5,8 @@ import "./myButton.scss";
 import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
 import { useEffect } from "react";
 import Notice from "./microComponent/Notice";
-import clientService from "services/clientsService";
-import AuthContext from "contexts/auth";
-import { useContext } from "react";
+import { useClientServiceContext } from "services/clientServiceProvider";
+import useUserProfile from "hooks/useUserProfile";
 
 function MyButton({
   clickButton,
@@ -16,9 +15,9 @@ function MyButton({
   leadPreference,
   hasActiveCampaign,
 }) {
-  const auth = useContext(AuthContext);
-  const [user, setUser] = useState();
-
+  const { clientsService } = useClientServiceContext();
+  const userProfile = useUserProfile();
+  const { agentid } = userProfile;
   const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] =
     useState(true);
   const [isAvailabiltyModalVisible, setIsAvailabiltyModalVisible] =
@@ -27,10 +26,7 @@ function MyButton({
   const statusText = isAvailable ? "online" : "offline";
 
   async function handleClick() {
-    // API call to get Updated Preferences from Account Page
-    const response = await clientService.getAgentAvailability(
-      user?.profile.agentid
-    );
+    const response = await clientsService.getAgentAvailability(agentid);
 
     if (
       (hasActiveCampaign && leadPreference?.leadCenter) ||
@@ -77,21 +73,15 @@ function MyButton({
     setIsCheckInUpdateModalDismissed(true);
     setIsAvailabiltyModalVisible(false);
     let data = {
-      agentID: user?.profile.agentid,
+      agentID: agentid,
       leadPreference: {
         ...leadPreference,
         isCheckInUpdateModalDismissed: true,
       },
     };
-    clientService.updateAgentPreferences(data);
+    clientsService.updateAgentPreferences(data);
   };
-  async function fetchUser() {
-    setUser(await auth.getUser());
-  }
-  useEffect(() => {
-    fetchUser();
-    // eslint-disable-next-line
-  }, [auth]);
+
   useEffect(() => {
     setIsCheckInUpdateModalDismissed(
       leadPreference.isCheckInUpdateModalDismissed || true
@@ -108,6 +98,7 @@ function MyButton({
       setIsAvailabiltyModalVisible(false);
     }
   }, [leadPreference, isCheckInUpdateModalDismissed, page]);
+
   return (
     <>
       <div id="myButton" className="myButtonWrapper">

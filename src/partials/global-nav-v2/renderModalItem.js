@@ -14,7 +14,7 @@ import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import { formatPhoneNumber } from "utils/phones";
 import Editicon from "components/icons/edit-details";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 
@@ -26,6 +26,7 @@ const CallCenterContent = ({
   callForwardNumber,
   getAgentAvailability,
 }) => {
+  const { clientsService } = useClientServiceContext();
   const addToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
   const phoneNumber = callForwardNumber || phone;
@@ -47,7 +48,7 @@ const CallCenterContent = ({
           const phone = values.phone.replace(/[()\s-]/g, "");
           setSubmitting(true);
           try {
-            await clientService.updateAgentCallForwardingNumber({
+            await clientsService.updateAgentCallForwardingNumber({
               callForwardNumber: `${phone}`,
               agentID: agentId,
             });

@@ -1,13 +1,18 @@
 import React, { useEffect } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import useQueryParams from "hooks/useQueryParams";
-import authService from "services/authService";
+import useFetch from "hooks/useFetch";
 
 export default () => {
+  const {
+    Put: getServerError,
+    response
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/error`);
   const params = useQueryParams();
 
   const fetchError = async () => {
-    const response = await authService.getServerError(params.get("errorId"));
+    const errorId = params.get("errorId");
+    await getServerError.put(`?errorId=${errorId}`);
     return response.text();
   };
 

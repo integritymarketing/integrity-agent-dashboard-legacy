@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 
@@ -17,6 +17,7 @@ const SORT_BY_ORDER = {
 };
 
 export const StageSummaryProvider = (props) => {
+  const { clientsService } = useClientServiceContext();
   const [stageSummaryData, setStageSummaryData] = useState([]);
   const addToast = useToast();
 

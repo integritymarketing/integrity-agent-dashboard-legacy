@@ -8,20 +8,20 @@ import EnrollClientBanner from "partials/enroll-clients-banner";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import analyticsService from "services/analyticsService";
 import validationService from "services/validationService";
-import authService from "services/authService";
+import { useAuth0 } from "@auth0/auth0-react";
 import useLoading from "hooks/useLoading";
 
-const handleCSGSSO = async (history, loading) => {
+const handleCSGSSO = async (history, loading, getAccessTokenSilently) => {
   loading.begin(0);
 
-  let user = await authService.getUser();
+  let userAccessToken = await getAccessTokenSilently();
 
   const response = await fetch(
     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`,
     {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + user.access_token,
+        Authorization: "Bearer " + userAccessToken,
         "Content-Type": "application/json",
       },
       credentials: "include",
@@ -48,6 +48,7 @@ const handleCSGSSO = async (history, loading) => {
 export default () => {
   const history = useHistory();
   const loading = useLoading();
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -157,7 +158,7 @@ export default () => {
                       data-gtm="hp-category-wrapper-item-button"
                       type="button"
                       onClick={() => {
-                        handleCSGSSO(history, loading);
+                        handleCSGSSO(history, loading, getAccessTokenSilently);
                       }}
                       className={`btn--invert cta-button ${analyticsService.clickClass(
                         "medicaresupplement-button"

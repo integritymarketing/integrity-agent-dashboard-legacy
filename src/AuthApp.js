@@ -26,17 +26,19 @@ import ContactSupportInvalidNPN from "pages/auth/ContactSupportInvalidNPN";
 import UpdateMobileApp from "pages/auth/UpdateMobileApp";
 import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
-import authService from "services/authService";
-import AuthContext from "contexts/auth";
+import usePortalUrl from "hooks/usePortalUrl";
 import { theme } from "./theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 const AuthApp = () => {
+  const portalUrl = usePortalUrl();
+  const handleRedirectAndRestartLoginFlow = () => {
+    window.location = portalUrl + "/signin";
+  };
   return (
     <ThemeProvider theme={theme}>
       <HelmetProvider>
-        <AuthContext.Provider value={authService}>
           <ToastContextProvider>
             <Router>
               <Helmet>
@@ -107,10 +109,7 @@ const AuthApp = () => {
                   </Route>
                   <Route
                     path="*"
-                    component={() => {
-                      authService.redirectAndRestartLoginFlow();
-                      return null;
-                    }}
+                    component={handleRedirectAndRestartLoginFlow}
                   />
                 </Switch>
               </div>
@@ -119,7 +118,6 @@ const AuthApp = () => {
               <AuthClientUrl />
             </Router>
           </ToastContextProvider>
-        </AuthContext.Provider>
       </HelmetProvider>
     </ThemeProvider>
   );

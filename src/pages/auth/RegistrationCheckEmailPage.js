@@ -3,18 +3,20 @@ import { Helmet } from "react-helmet-async";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import ResendButtonWithModal from "partials/resend-email";
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
 import InfoIcon from "components/icons/info";
 import useClientId from "hooks/auth/useClientId";
+import useFetch from "hooks/useFetch";
 
-const resendComfirmEmail = async (params) => {
-  return authService.sendConfirmationEmail(params);
-};
-
-export default () => {
+const ConfirmationPage = () => {
   const clientId = useClientId();
-  const params = useQueryParams();
+  const queryParams = useQueryParams();
+  const { Post: resendConfirmationEmail } = useFetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL_V3}/resendconfirmemail`,
+    true
+  );
+
+  const isModeError = queryParams.get("mode") === "error";
 
   return (
     <React.Fragment>
@@ -24,18 +26,16 @@ export default () => {
       <BaseConfirmationPage
         footer={
           <ResendButtonWithModal
-            resendFn={resendComfirmEmail}
+            resendFn={resendConfirmationEmail}
             btnClass={analyticsService.clickClass("registration-resendnow")}
           />
         }
         title={
-          params.get("mode") !== "error"
-            ? "Confirm your account"
-            : "Something’s not right"
+          isModeError ? "Something’s not right" : "Confirm your account"
         }
         body={
           <React.Fragment>
-            {params.get("mode") === "error" && (
+            {isModeError && (
               <p className="mb-2 mt-2">
                 Your account’s email address hasn’t been confirmed. Complete the
                 steps below before logging in or changing your password:
@@ -45,8 +45,7 @@ export default () => {
             <div className="pt-1 pb-1 pr-1 pl-1 mb-2 confirm-notification">
               <InfoIcon />
               <p>
-                Please confirm your account within <strong> 72 hours </strong>{" "}
-                to complete registration.
+                Please confirm your account within <strong>72 hours</strong> to complete registration.
               </p>
             </div>
             <ol className="number-list text-body pt-3">
@@ -95,3 +94,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ConfirmationPage;

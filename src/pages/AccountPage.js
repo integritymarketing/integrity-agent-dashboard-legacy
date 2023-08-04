@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 import ResourceSection from "components/ui/resourcesCard";
@@ -11,14 +11,12 @@ import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
-import authService from "services/authService";
 import analyticsService from "services/analyticsService";
 import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { isEmptyObj } from "utils/shared-utils/sharedUtility";
-import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import styles from "./AccountPage.module.scss";
@@ -37,11 +35,14 @@ import LifeIcon from "components/icons/life";
 import Dialog from "packages/Dialog";
 import { isAgentAvilableAtom } from "recoil/agent/atoms";
 import { useRecoilValue } from "recoil";
+import useFetch from "hooks/useFetch";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function CheckinPreferences({ npn }) {
-  const auth = useContext(AuthContext);
+  const { clientsService } = useClientServiceContext();
+  const userProfile = useUserProfile();
+  const { agentid } = userProfile;
   const addToast = useToast();
-  const [user, setUser] = useState({});
   const [phone, setPhone] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
   const [leadPreference, setLeadPreference] = useState({});
@@ -54,16 +55,12 @@ function CheckinPreferences({ npn }) {
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      const user = await auth.getUser();
-      const { agentid } = user?.profile;
       getAgentAvailability(agentid);
-      setUser(user?.profile);
     };
-    if (auth.isAuthenticated()) {
-      loadAsyncData();
-    }
+    loadAsyncData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth, phoneAtom]);
+  }, [phoneAtom, agentid]);
 
   const getAgentAvailability = async (agentid) => {
     if (!agentid) {
@@ -71,7 +68,7 @@ function CheckinPreferences({ npn }) {
     }
     try {
       setLoading(true);
-      const response = await clientService.getAgentAvailability(agentid);
+      const response = await clientsService.getAgentAvailability(agentid);
       const {
         phone,
         agentVirtualPhoneNumber,
@@ -81,7 +78,7 @@ function CheckinPreferences({ npn }) {
       } = response || {};
       setHasActiveCampaign(hasActiveCampaign);
       if (!agentVirtualPhoneNumber) {
-        await clientService.genarateAgentTwiloNumber(agentid);
+        await clientsService.genarateAgentTwiloNumber(agentid);
       }
       if (!leadPreference?.isAgentMobilePopUpDismissed) {
         setWelcomeModalOpen(true);
@@ -100,7 +97,7 @@ function CheckinPreferences({ npn }) {
 
   const updateAgentPreferences = async (data) => {
     try {
-      const response = await clientService.updateAgentPreferences(data);
+      const response = await clientsService.updateAgentPreferences(data);
 
       if (response?.leadPreference) {
         setLeadPreference({ ...response.leadPreference });
@@ -118,7 +115,7 @@ function CheckinPreferences({ npn }) {
   const handleLeadCenter = async () => {
     setShowAvilabilityDialog(false);
     let data = {
-      agentID: user?.agentid,
+      agentID: agentid,
       leadPreference: {
         ...leadPreference,
         leadCenter: !leadPreference?.leadCenter,
@@ -130,8 +127,8 @@ function CheckinPreferences({ npn }) {
       leadPreference?.leadCenter &&
       !leadPreference?.medicareEnrollPurl
     ) {
-      await clientService.updateAgentAvailability({
-        agentID: user?.agentid,
+      await clientsService.updateAgentAvailability({
+        agentID: agentid,
         availability: false,
       });
       setShowAvilabilityDialog(true);
@@ -141,7 +138,7 @@ function CheckinPreferences({ npn }) {
   const handleMedicareEnroll = async () => {
     setShowAvilabilityDialog(false);
     let data = {
-      agentID: user?.agentid,
+      agentID: agentid,
       leadPreference: {
         ...leadPreference,
         medicareEnrollPurl: !leadPreference?.medicareEnrollPurl,
@@ -153,8 +150,8 @@ function CheckinPreferences({ npn }) {
       leadPreference?.medicareEnrollPurl &&
       !(leadPreference?.leadCenter && hasActiveCampaign)
     ) {
-      await clientService.updateAgentAvailability({
-        agentID: user?.agentid,
+      await clientsService.updateAgentAvailability({
+        agentID: agentid,
         availability: false,
       });
       setShowAvilabilityDialog(true);
@@ -178,7 +175,7 @@ function CheckinPreferences({ npn }) {
       <div>
         <CallCenterContent
           phone={phone}
-          agentId={user?.agentid}
+          agentId={agentid}
           callForwardNumber={callForwardNumber}
           getAgentAvailability={getAgentAvailability}
         />
@@ -230,6 +227,7 @@ const CallCenterContent = ({
   callForwardNumber,
   getAgentAvailability,
 }) => {
+  const { clientsService } = useClientServiceContext();
   const addToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
   const phoneNumber = callForwardNumber || phone;
@@ -251,8 +249,8 @@ const CallCenterContent = ({
           const phone = values.phone.replace(/[()\s-]/g, "");
           setSubmitting(true);
           try {
-            await clientService.updateAgentCallForwardingNumber({
-              callForwardNumber: `${phone}`,
+            await clientsService.updateAgentCallForwardingNumber({
+              callForwardNumber: phone,
               agentID: agentId,
             });
             getAgentAvailability(agentId);
@@ -427,6 +425,7 @@ const formatPhoneNumber = (phoneNumberString) => {
 };
 
 export default () => {
+  const {  getAuthTokenSilently } = useAuth0();
   const [isMobile, setIsMobile] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const { show: showMessage } = useFlashMessage();
@@ -436,6 +435,12 @@ export default () => {
   const {
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
+  const {
+    Put: updateAccount,
+  } = useFetch(`${process.env.REACT_APP_AUTH_UPDATE_ACCOUNT_URL}`);
+  const {
+    Put: updateAccountPassword,
+  } = useFetch(`${process.env.REACT_APP_AUTH_UPDATE_PASSWORD_URL}`);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -475,7 +480,7 @@ export default () => {
           <SubHeaderMobile title={"Account"} />
         )}
 
-        {userProfile.id && (
+        {userProfile.agentid && (
           <Container className="mt-scale-2">
             <div className={styles.accountPageContainer}>
               <div className={styles.sectionOne}>
@@ -556,15 +561,12 @@ export default () => {
                               : "",
                           });
 
-                          let response =
-                            await authService.updateAccountMetadata(
-                              formattedValues
-                            );
+                          let response = await updateAccount(formattedValues, true);
                           if (response.status >= 200 && response.status < 300) {
                             analyticsService.fireEvent("event-form-submit", {
                               formName: "update-account",
                             });
-                            await authService.signinSilent();
+                            await getAuthTokenSilently();
 
                             setSubmitting(false);
                             loading.end();
@@ -574,9 +576,6 @@ export default () => {
                             });
                           } else {
                             loading.end();
-                            if (response.status === 401) {
-                              authService.handleExpiredToken();
-                            } else {
                               const errorsArr = await response.json();
                               analyticsService.fireEvent(
                                 "event-form-submit-invalid",
@@ -591,7 +590,6 @@ export default () => {
                                   )
                                 )
                               );
-                            }
                           }
                         }}
                       >
@@ -726,10 +724,7 @@ export default () => {
                       ) => {
                         setSubmitting(true);
                         loading.begin(0);
-
-                        let response = await authService.updateAccountPassword(
-                          values
-                        );
+                        let response = await updateAccountPassword(values, true);
                         if (response.status >= 200 && response.status < 300) {
                           setSubmitting(false);
                           loading.end();
@@ -742,9 +737,6 @@ export default () => {
                           );
                         } else {
                           loading.end();
-                          if (response.status === 401) {
-                            authService.handleExpiredToken();
-                          } else {
                             const errorsArr = await response.json();
                             setErrors(
                               validationService.formikErrorsFor(
@@ -753,7 +745,6 @@ export default () => {
                                 )
                               )
                             );
-                          }
                         }
                       }}
                     >

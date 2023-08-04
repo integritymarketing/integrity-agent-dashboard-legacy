@@ -9,7 +9,6 @@ import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 import Heading2 from "packages/Heading2";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
@@ -17,14 +16,18 @@ import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
 import { Button } from "packages/Button";
 import Styles from "./AuthPages.module.scss";
+import useFetch from "hooks/useFetch";
+
 
 export default () => {
   const history = useHistory();
   const loading = useLoading();
   const clientId = useClientId();
   const params = useQueryParams();
-
   const mobileAppLogin = Boolean(params.get("mobileAppLogin"));
+  const {
+    Post: requestPasswordReset,
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -65,7 +68,7 @@ export default () => {
               loading.begin();
 
               values["ClientId"] = clientId;
-              const response = await authService.requestPasswordReset(values);
+              const response = await requestPasswordReset(values, true);
               setSubmitting(false);
               loading.end();
               if (response.status >= 200 && response.status < 300) {

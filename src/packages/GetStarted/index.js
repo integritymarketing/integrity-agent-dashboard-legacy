@@ -12,7 +12,7 @@ import Heading2 from "packages/Heading2";
 import PlayStore from "components/icons/playstore";
 import AppStore from "components/icons/appstore";
 import styles from "./styles.module.scss";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { formatPhoneNumber } from "utils/phones";
 import useToast from "hooks/useToast";
@@ -35,6 +35,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 }));
 
 export default function GetStarted(props) {
+  const { clientsService } = useClientServiceContext();
   const leadPreference = props.leadPreference;
   const history = useHistory();
   const [show, setShow] = useState(true);
@@ -59,7 +60,7 @@ export default function GetStarted(props) {
           isAgentMobileBannerDismissed: true,
         },
       };
-      await clientService.updateAgentPreferences(payload);
+      await clientsService.updateAgentPreferences(payload);
     } catch (error) {
       addToast({
         type: "error",

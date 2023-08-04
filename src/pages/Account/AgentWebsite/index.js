@@ -2,7 +2,7 @@ import React from "react";
 import SectionContainer from "mobile/Components/SectionContainer";
 import CopyPersonalURL from "components/ui/CopyPersonalURL";
 
-const AgentWebsite = ({ npn, ...props }) => {
+const AgentWebsite = ({ npn }) => {
   return (
     <div className={"mt-4"}>
       <SectionContainer title={"Agent Website"}>

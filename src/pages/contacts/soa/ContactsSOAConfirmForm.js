@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import NavBarWithBack from "partials/back-nav";
 import * as Sentry from "@sentry/react";
 import BackNavContext from "contexts/backNavProvider";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import dateFnsFormat from "date-fns/format";
 import ReminderIcon from "stories/assets/reminder.svg";
 import "./contactsSoa.scss";
@@ -51,6 +51,7 @@ const Col = ({ children, fullWidth = false }) => {
 };
 
 const ContactsSOAConfirmForm = () => {
+  const { clientsService } = useClientServiceContext();
   const { contactId, linkCode } = useParams();
   const { previousPage } = useContext(BackNavContext);
   const [soaConfirmData, setSoaConfirmData] = useState(null);
@@ -65,7 +66,7 @@ const ContactsSOAConfirmForm = () => {
   }, [contactId, linkCode]);
 
   const getSoaByLinkCode = async () => {
-    await clientService
+    await clientsService
       .getSoaByLinkCode(contactId, linkCode)
       .then((data) => {
         setSoaConfirmData(data);
@@ -109,7 +110,7 @@ const ContactsSOAConfirmForm = () => {
       agentSection: formValues,
     };
     try {
-      const response = await clientService.saveSOAInformation(
+      const response = await clientsService.saveSOAInformation(
         linkCode,
         payload
       );

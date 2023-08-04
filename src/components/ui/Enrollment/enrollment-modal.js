@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import * as Sentry from "@sentry/react";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
 import CompactPlanCard from "../PlanCard/compact";
@@ -17,6 +17,7 @@ export default ({
 }) => {
   const [option, setOption] = useState("");
   const addToast = useToast();
+  const { plansService } = useClientServiceContext();
 
   const enroll = useCallback(async () => {
     try {
@@ -61,7 +62,15 @@ export default ({
     } finally {
       handleCloseModal();
     }
-  }, [planData, contact, addToast, option, handleCloseModal, effectiveDate]);
+  }, [
+    planData,
+    contact,
+    addToast,
+    option,
+    handleCloseModal,
+    effectiveDate,
+    plansService,
+  ]);
 
   return (
     <React.Fragment>

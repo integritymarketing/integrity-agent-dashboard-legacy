@@ -1,10 +1,11 @@
 import React, { createContext, useState } from "react";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { STATES } from "utils/address";
 
 const CountyContext = createContext();
 
 export const CountyProvider = (props) => {
+  const { clientsService } = useClientServiceContext();
   const [allCounties, setAllCounties] = useState([]);
   const [allStates, setAllStates] = useState([]);
 

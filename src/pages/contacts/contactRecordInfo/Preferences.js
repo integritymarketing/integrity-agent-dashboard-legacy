@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "../../../hooks/useToast";
 import Spinner from "components/ui/Spinner/index";
 import analyticsService from "services/analyticsService";
@@ -8,6 +8,7 @@ import { useWindowSize } from "hooks/useWindowSize";
 import styles from "./preferences.module.scss";
 
 export default (props) => {
+  const { clientsService } = useClientServiceContext();
   const { width: windowWidth } = useWindowSize();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -41,7 +42,7 @@ export default (props) => {
           time: 3000,
         });
       });
-  }, [props.id, addToast]);
+  }, [props.id, addToast, clientsService]);
 
   if (isLoading) {
     return <Spinner />;

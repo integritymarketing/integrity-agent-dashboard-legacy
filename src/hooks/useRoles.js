@@ -1,6 +1,5 @@
-import { useCallback } from "react";
-import { useEffect, useState } from "react";
-import authService from "services/authService";
+import { useEffect, useState, useCallback } from "react";
+import useUserProfile from "hooks/useUserProfile";
 
 export const Roles = {
   Agent: "Agent",
@@ -8,18 +7,18 @@ export const Roles = {
 };
 
 export default () => {
+  const userProfile = useUserProfile();
   const [roles, setRoles] = useState(new Map());
 
   useEffect(() => {
     const fetchRoles = async () => {
-      const { access_token } = await authService.getUser();
-      const data = authService.parseJwt(access_token);
-      const roles = typeof data.roles === "string" ? [data.roles] : data.roles;
-      const rolesMap = new Map((roles || []).map((role) => [role, role]));
+      const { roles } = userProfile || {};
+      const userRoles = typeof roles === "string" ? [roles] : roles;
+      const rolesMap = new Map((userRoles || []).map((role) => [role, role]));
       setRoles(rolesMap);
     };
     fetchRoles();
-  }, []);
+  }, [userProfile]);
 
   const isAdmin = useCallback(() => {
     return roles.size === 0;

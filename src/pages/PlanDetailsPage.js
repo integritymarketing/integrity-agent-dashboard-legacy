@@ -11,8 +11,7 @@ import WithLoader from "components/ui/WithLoader";
 import { Helmet } from "react-helmet-async";
 import GlobalNav from "partials/global-nav-v2";
 import Container from "components/ui/container";
-import clientsService from "services/clientsService";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import MapdContent from "partials/plan-details-content/mapd";
 import MaContent from "partials/plan-details-content/ma";
 import PdpContent from "partials/plan-details-content/pdp";
@@ -27,6 +26,7 @@ import useRoles from "hooks/useRoles";
 import CallScript from "components/icons/callScript";
 
 const PlanDetailsPage = () => {
+  const { clientsService, plansService } = useClientServiceContext();
   const addToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
   const [isMobile, setIsMobile] = useState(false);
@@ -81,7 +81,14 @@ const PlanDetailsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [contactId, planId, addToast, effectiveDate]);
+  }, [
+    contactId,
+    planId,
+    addToast,
+    effectiveDate,
+    clientsService,
+    plansService,
+  ]);
 
   useEffect(() => {
     getContactAndPlanData();

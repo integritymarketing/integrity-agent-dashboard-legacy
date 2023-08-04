@@ -11,7 +11,7 @@ import styles from "./Activities.module.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import { useRecoilState } from "recoil";
 import state from "./state";
-import ComparePlansService from "services/comparePlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useUserProfile from "hooks/useUserProfile";
 
 const initialState = {
@@ -103,6 +103,7 @@ export default function ActivitiesTable({
   setEditActivity,
   isMobile,
 }) {
+  const { comparePlansService } = useClientServiceContext();
   const history = useHistory();
   const [fullList, setFullList] = useState([]);
 
@@ -141,7 +142,7 @@ export default function ActivitiesTable({
           window.open(activityInteractionURL, "_blank");
           break;
         case "Application Submitted":
-          let link = await ComparePlansService?.getPdfSource(
+          let link = await comparePlansService?.getPdfSource(
             activityInteractionURL,
             npn
           );
@@ -157,7 +158,7 @@ export default function ActivitiesTable({
           break;
       }
     },
-    [history, leadId, npn]
+    [history, leadId, npn, comparePlansService]
   );
 
   const webColumns = useMemo(

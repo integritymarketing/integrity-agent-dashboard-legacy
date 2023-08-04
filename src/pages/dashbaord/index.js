@@ -5,7 +5,7 @@ import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
@@ -34,6 +34,7 @@ function numberWithCommas(number) {
 const PAGESIZE = 10;
 
 export default function Dashbaord() {
+  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const auth = useContext(AuthContext);
   const addToast = useToast();
@@ -74,7 +75,7 @@ export default function Dashbaord() {
 
   useEffect(() => {
     const getFullData = async () => {
-      const response = await clientService.getDashboardData(
+      const response = await clientsService.getDashboardData(
         "Activities.CreateDate:desc",
         null,
         null,
@@ -113,7 +114,7 @@ export default function Dashbaord() {
       setIsLoading(true);
     }
     try {
-      const response = await clientService.getDashboardData(
+      const response = await clientsService.getDashboardData(
         sort,
         page,
         PAGESIZE,
@@ -171,7 +172,7 @@ export default function Dashbaord() {
           isAgentMobilePopUpDismissed: true,
         },
       };
-      await clientService.updateAgentPreferences(payload);
+      await clientsService.updateAgentPreferences(payload);
     } catch (error) {
       addToast({
         type: "error",

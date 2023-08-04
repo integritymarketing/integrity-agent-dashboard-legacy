@@ -9,7 +9,7 @@ import RemindersList from "./Reminders";
 import RequestedCallback from "./RequestedCallbacks";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import ErrorState from "components/ErrorState";
 import NoReminder from "images/no-reminder.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
@@ -75,7 +75,7 @@ export default function TaskList({ isMobile, npn }) {
   const [tabs, setTabs] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
-
+  const { clientsService } = useClientServiceContext();
   const addToast = useToast();
 
   const selectedName =

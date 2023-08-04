@@ -1,8 +1,12 @@
-import authService from "services/authService";
-
 export const QUOTES_API_VERSION = "v1.0";
 
-class ComparePlansService {
+export class ComparePlansService {
+
+  constructor(getAccessToken, userProfile) {
+    this.getAccessToken = getAccessToken;
+    this.userProfile = userProfile;
+  }
+
   getLeadPharmacies = async (leadId, agentNPN) => {
     const response = await this._clientPublicAPIRequest1(
       `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
@@ -83,20 +87,18 @@ class ComparePlansService {
   };
 
   getPdfSource = async (URL, agentNPN) => {
-    const user = await authService.getUser();
+    const user = this.userProfile;
+    const userToken = await this.getAccessToken();
     const response = await this._clientPublicAPIRequest(
       URL,
       "GET",
       null,
       undefined,
       {
-        AgentNPN: agentNPN || user?.profile.npn,
-        Authorization: "Bearer " + user.access_token,
+        AgentNPN: agentNPN || user?.npn,
+        Authorization: "Bearer " + userToken,
       }
     );
-    console.log("MOBILE TESTING ....:", response);
     return response.blob();
   };
 }
-
-export default new ComparePlansService();

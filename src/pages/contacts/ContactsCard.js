@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import Container from "components/ui/container";
 import Pagination from "components/ui/Pagination/pagination";
 import Card from "components/ui/card";
@@ -35,7 +35,6 @@ const useClientCardInfo = (client) => {
 
 const ClientCard = ({ client, onRefresh }) => {
   const { displayName, stage, reminders } = useClientCardInfo(client);
-
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
 
@@ -116,6 +115,7 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
 
   const [applyFilters, setApplyFilters] = useState({});
   const location = useLocation();
+  const { clientsService } = useClientServiceContext();
 
   const queryParams = new URLSearchParams(location.search);
 
@@ -172,7 +172,7 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
           setLoading(false);
         });
     },
-    []
+    [clientsService]
   );
 
   const handleRefresh = () => {

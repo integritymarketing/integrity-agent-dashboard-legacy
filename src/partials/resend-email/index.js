@@ -31,11 +31,10 @@ export default ({ resendFn, btnClass = "" }) => {
           className={`link link--force-underline ${btnClass}`}
           onClick={async () => {
             const clientId = useClientId();
-
-            let response = await resendFn({
+            const response = await resendFn({
               Username: params.get("npn"),
               ClientId: clientId,
-            });
+            }, true);
             if (response.status >= 200 && response.status < 300) {
               setEmailSent(true);
             } else {

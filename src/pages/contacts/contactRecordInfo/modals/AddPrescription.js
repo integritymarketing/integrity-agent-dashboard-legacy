@@ -7,7 +7,7 @@ import Textfield from "components/ui/textfield";
 import CloseIcon from "components/icons/close";
 import Options from "utils/Options";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import analyticsService from "services/analyticsService";
 import "./modals.scss";
 import Styles from "./AddPrescription.module.scss";
@@ -41,6 +41,7 @@ export default function AddPrescription({
   onClose: onCloseHandler,
   onSave,
 }) {
+  const { clientsService } = useClientServiceContext();
   const [drugName, setDrugName] = useState("");
   const [searchString, setSearchString] = useState("");
   const [drugNameOptions, setDrugNameOptions] = useState([]);
@@ -67,7 +68,7 @@ export default function AddPrescription({
       setLoading(true);
       try {
         const drugID = drugName?.value;
-        const results = await clientService.getDrugDetails(drugID);
+        const results = await clientsService.getDrugDetails(drugID);
         const dosageOptions = (results?.dosages || []).map((dosage) => ({
           label: frontTruncate(dosage.labelName, 34),
           value: dosage,
@@ -83,7 +84,7 @@ export default function AddPrescription({
       }
     };
     drugName && getDosages();
-  }, [drugName]);
+  }, [drugName, clientsService]);
 
   useEffect(() => {
     if (dosage) {
@@ -109,7 +110,7 @@ export default function AddPrescription({
     setDrugName(() => null);
     setSearchString(searchStr);
     if (searchStr && searchStr.length > 1) {
-      const drugNameOptions = await clientService.getDrugNames(searchStr);
+      const drugNameOptions = await clientsService.getDrugNames(searchStr);
       const options = (drugNameOptions || []).map(transformPrescriptionOptions);
       setDrugNameOptions(options);
     } else {
