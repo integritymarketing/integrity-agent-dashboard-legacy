@@ -49,7 +49,10 @@ export default ({ planData }) => {
       data.push({
         label: <span className={"label"}>{dataField.name}</span>,
         value: (
-          <div dangerouslySetInnerHTML={{ __html: dataField.description }} />
+          <div
+            className="description"
+            dangerouslySetInnerHTML={{ __html: dataField.description }}
+          />
         ),
       });
     });
@@ -62,6 +65,7 @@ export default ({ planData }) => {
         data={data}
         className="plan-benfits"
         header="Plan Benefits"
+        compareTable={true}
       />
     </>
   );

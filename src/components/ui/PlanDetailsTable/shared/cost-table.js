@@ -224,6 +224,7 @@ export default ({ planData }) => {
         currencyFormatter={currencyFormatter}
         monthNumber={m}
         months={months}
+        compareTable={true}
       />
     </>
   );
@@ -309,7 +310,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} compareTable={true} />
+      <PlanDetailsTable columns={columns} data={data} />
     </>
   );
 }

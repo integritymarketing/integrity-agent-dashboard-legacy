@@ -50,6 +50,7 @@ export default ({ planData }) => {
         columns={columns}
         data={data}
         header="Pharmacy Coverage"
+        compareTable={true}
       />
     </>
   );

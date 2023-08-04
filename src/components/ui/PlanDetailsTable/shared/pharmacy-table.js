@@ -1,33 +1,11 @@
-import InNetworkCheck from "components/icons/in-network-check";
-import OutNetworkX from "components/icons/out-network-x";
 import React, { useMemo } from "react";
 import APIFail from "./APIFail/index";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
+import InNetworkIcon from "components/icons/inNetwork";
+import OutNetworkIcon from "../Icons/outNetwork";
 
 function getInNetwork(pharmacyCost) {
-  if (pharmacyCost.isNetwork) {
-    if (pharmacyCost.isPreferred) {
-      return (
-        <>
-          <InNetworkCheck />
-          <span className={"in-network-label"}>In Network Preferred</span>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <InNetworkCheck />
-          <span className={"in-network-label"}>In Network</span>
-        </>
-      );
-    }
-  }
-  return (
-    <>
-      <OutNetworkX />
-      <span className={"in-network-label"}>Out of Network</span>
-    </>
-  );
+  return pharmacyCost.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
 }
 
 export default ({ planData, pharmacies, isMobile, pharmaciesList }) => {
@@ -60,10 +38,6 @@ export default ({ planData, pharmacies, isMobile, pharmaciesList }) => {
                   accessor: "address",
                 },
               ]),
-          {
-            hideHeader: true,
-            accessor: "inNetwork",
-          },
         ],
       },
     ],
@@ -78,19 +52,23 @@ export default ({ planData, pharmacies, isMobile, pharmaciesList }) => {
         const row = {
           name: <span className={"label"}>{pharmacy.name}</span>,
           address: (
-            <span className={"subtext"}>
-              {pharmacy.address1 +
-                "\n" +
-                pharmacy.address2 +
-                "\n" +
-                pharmacy.city +
-                " " +
-                pharmacy.state +
-                " " +
-                pharmacy.zip}
-            </span>
+            <>
+              <div className={"address"}>
+                <span className="networkIcon">
+                  {getInNetwork(pharmacyCost)}
+                </span>
+                {pharmacy.address1 +
+                  "\n" +
+                  pharmacy.address2 +
+                  "\n" +
+                  pharmacy.city +
+                  " " +
+                  pharmacy.state +
+                  " " +
+                  pharmacy.zip}
+              </div>
+            </>
           ),
-          inNetwork: getInNetwork(pharmacyCost),
         };
         data.push({
           ...row,
