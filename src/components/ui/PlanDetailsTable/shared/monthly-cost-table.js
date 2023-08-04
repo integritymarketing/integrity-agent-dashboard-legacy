@@ -8,7 +8,6 @@ export function MonthlyCostTable({
   months,
   monthNumber,
   currencyFormatter,
-  isShowMore,
 }) {
   const effectiveMonthlyCosts =
     planData && planData.pharmacyCosts?.length > 0
@@ -45,11 +44,9 @@ export function MonthlyCostTable({
           <div className="cost-monthly-header">
             <div className="cost-month-container">
               {expandedMonths[mc.monthID] ? (
-                <div style={{ transform: "rotate(180deg)" }}>
-                  <ArrowDown />
-                </div>
-              ) : (
                 <ArrowDown />
+              ) : (
+                <ArrowDown style={{ transform: "rotate(270deg)" }} />
               )}
               <div>
                 {" "}
@@ -58,7 +55,8 @@ export function MonthlyCostTable({
             </div>
             {!isMobile && (
               <div>
-                <span className={"value"}>Phase:</span> {mc.costPhases}
+                <span className={"value"}>Phase:</span>{" "}
+                <span className="costPhases">{mc.costPhases}</span>
               </div>
             )}
             <div className={"value"}>
@@ -146,35 +144,29 @@ export function MonthlyCostTable({
           setIsMobile(isMobile);
         }}
       />
-      {isShowMore && (
-        <>
-          <div className="show-more-cost">
-            {showMore ? (
-              <div style={{ transform: "rotate(180deg)" }}>
-                <ArrowDown />
-              </div>
-            ) : (
-              <ArrowDown />
-            )}
-            <button
-              className="show-more-cost-label"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowMore(!showMore);
-              }}
-            >
-              {isMobile ? "Monthly Costs" : "Show More"}
-            </button>
+      <div className="show-more-cost">
+        {showMore ? (
+          <div style={{ transform: "rotate(180deg)" }}>
+            <ArrowDown />
           </div>
-          {showMore && (
-            <div className="cost-monthly-past">{showPastMonthBar()}</div>
-          )}
-          {showMore && (
-            <div className="cost-monthly-prescriptions">
-              {showMonthlyBars()}
-            </div>
-          )}
-        </>
+        ) : (
+          <ArrowDown />
+        )}
+        <button
+          className="show-more-cost-label"
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowMore(!showMore);
+          }}
+        >
+          {isMobile ? "Monthly Costs" : "Show More"}
+        </button>
+      </div>
+      {showMore && (
+        <div className="cost-monthly-past">{showPastMonthBar()}</div>
+      )}
+      {showMore && (
+        <div className="cost-monthly-prescriptions">{showMonthlyBars()}</div>
       )}
     </>
   );

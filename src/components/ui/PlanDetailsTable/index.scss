@@ -210,7 +210,7 @@
 
   .show-more-cost-label {
     margin: 11px;
-    color: #0052ce;
+    color: #4178FF;
   }
 }
 
@@ -265,12 +265,17 @@
         display: flex;
         align-items: center;
         text-align: center;
-        justify-content: space-between;
+        justify-content: flex-start;
+        width: 100px;
 
         div {
           padding-left: 10px;
         }
       }
+    }
+    .costPhases {
+      color: #717171;
+      font-size: 14px;
     }
 
     .cost-monthly-content {

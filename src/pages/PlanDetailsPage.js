@@ -97,7 +97,10 @@ const PlanDetailsPage = () => {
   return (
     <React.Fragment>
       <ToastContextProvider>
-        <div className={`${styles["plan-details-page"]}`} style={isLoading? { background: '#ffffff' }: {}}>
+        <div
+          className={`${styles["plan-details-page"]}`}
+          style={isLoading ? { background: "#ffffff" } : {}}
+        >
           <Media
             query={"(max-width: 500px)"}
             onChange={(isMobile) => {
@@ -137,7 +140,9 @@ const PlanDetailsPage = () => {
                   />
                 </div>
                 <p className={`${styles["header-text"]}`}>Plan Details</p>
-                <p className={`${styles["header-callscript"]}`}>{isMobile ? <CallScript /> : null}</p>
+                <p className={`${styles["header-callscript"]}`}>
+                  {isMobile ? <CallScript /> : null}
+                </p>
               </Container>
             </div>
 

@@ -167,6 +167,7 @@ export default ({
             />
           )}
         </div>
+        {/* <PrescriptionTable isMobile={isMobile} /> */}
         <div ref={costsRef} className={`${styles["costs"]}`}>
           {plan && (
             <MapdCostTable
