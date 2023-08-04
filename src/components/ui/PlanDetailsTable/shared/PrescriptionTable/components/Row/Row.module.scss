@@ -1,0 +1,87 @@
+.container {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+
+    &:nth-child(odd) {
+        background-color: #F1FAFF;
+    }
+
+    .left {
+        width: 40%;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        border-right: 1px solid #ddd;
+        padding-left: 24px;
+
+        .data {
+            gap: 3px;
+            display: flex;
+            flex-direction: column;
+
+            .type{
+                font-size: 14px;
+            }
+            .name{
+                font-size: 16px;
+            }
+            .dose{
+                font-style: italic;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .right {
+        flex-grow: 1;
+        flex-direction: column;
+        display: flex;
+
+        .top {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+
+            .cell {
+                flex-grow: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #434A51;
+                border-right: 1px solid #ddd;
+                height: 48px;
+            }
+        }
+
+        .bottom{
+            height: 32px;
+            justify-content: flex-start;
+            align-items: center;
+            color: #717171;
+            padding: 7px 16px;
+            font-size: 14px;
+        }
+    }
+
+    .secondaryColor {
+        color: #717171;
+    }
+
+    .primaryColor {
+        color: #052A63;
+    }
+}
+
+.mbContainer {
+    flex-direction: column;
+
+    .mbLeft {
+        width: 100%;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        border-right: 1px solid #ddd;
+        padding: 14px;
+        padding-left: 16px;
+    }
+}
