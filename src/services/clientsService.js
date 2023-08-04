@@ -373,10 +373,16 @@ export class ClientsService {
       primaryCommunication,
       contactRecordType,
       notes,
-      medicareBeneficiaryID: medicareBeneficiaryID ? flattenMBI(medicareBeneficiaryID) : "",
-      partA: partA ? formatServerDate(partA) : "",
-      partB: partB ? formatServerDate(partB) : "",
     };
+    if (medicareBeneficiaryID) {
+      reqData.medicareBeneficiaryID = flattenMBI(medicareBeneficiaryID);
+    }
+    if (partA) {
+      reqData.partA = formatServerDate(partA);
+    }
+    if (partB) {
+      reqData.partB = formatServerDate(partB);
+    }
     reqData.emails = [];
     if (email !== null && email !== undefined) {
       reqData.emails = [
