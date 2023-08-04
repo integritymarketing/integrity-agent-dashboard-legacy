@@ -40,6 +40,7 @@ export default ({ planData }) => {
         columns={columns}
         data={data}
         header="Plan Documents"
+        compareTable={true}
       />
     </>
   );

@@ -57,23 +57,23 @@
     }
 
     tr:nth-child(even) {
-      background: #F1FAFF;
+      background: #f1faff;
     }
 
     td {
       @media screen and (min-width: 320px) and (max-width: 480px) {
         word-break: initial;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        padding: 16px;
         width: 50%;
       }
       padding-left: 25px;
       .label,
       .value {
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 150%;
-        color: #052A63;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        color: #052a63;
+        letter-spacing: 0.2px;
         display: block;
 
         .per {
@@ -86,7 +86,7 @@
           font-size: 14px;
         }
         .currency-value-blue {
-          color: #052A63;
+          color: #052a63;
         }
         .per-mobile {
           font-weight: normal;
@@ -106,8 +106,9 @@
 
       .link {
         font-weight: 600;
-        font-size: 18px;
+        font-size: 16px;
         line-height: 150%;
+        color: #4178ff;
         @media screen and (min-width: 320px) and (max-width: 480px) {
           word-break: break-word;
         }
@@ -122,7 +123,10 @@
           margin-right: 4px;
         }
         .supply {
-          line-height: 180%;
+          letter-spacing: -0.14px;
+          font-style: italic;
+          font-size: 14px;
+          color: #717171;
         }
       }
 
@@ -187,12 +191,12 @@
 }
 
 .comp-td {
-  border-right: 1.5px dashed #64748b;
+  border-right: 1px solid #cbd5e1 !important;
 }
 
 .comp-tr {
   .comp-td:last-child {
-    border-right: none;
+    border-right: 1px solid #cbd5e1 !important;
   }
 }
 
@@ -226,7 +230,7 @@
 
 .cost-monthly-table {
   border: unset;
-  background-color: #F1FAFF;
+  background-color: #f1faff;
 }
 
 .cost-monthly-prescriptions {
@@ -238,7 +242,7 @@
     height: auto;
     width: 100%;
     .value {
-      color: #052A63;
+      color: #052a63;
       font-weight: bold;
     }
     .final-value {
@@ -271,14 +275,14 @@
 
     .cost-monthly-content {
       display: none;
-      background-color: #F1FAFF;
+      background-color: #f1faff;
       padding: 16px 48px 0 24px;
       .cost-monthly-thead {
         height: 28px;
         tr {
           th {
             background: unset;
-            color: #052A63;
+            color: #052a63;
             font-family: Lato;
             font-size: 14px;
             letter-spacing: -0.14px;
@@ -306,7 +310,7 @@
           }
         }
         tr:nth-child(even) {
-          background-color: #F1FAFF;
+          background-color: #f1faff;
         }
       }
     }
@@ -321,7 +325,7 @@
 
     .cost-monthly-prescription-total {
       display: none;
-      background-color: #F1FAFF;
+      background-color: #f1faff;
       padding: 0 48px 24px 16px;
       .total-line {
         @media screen and (min-width: 320px) and (max-width: 480px) {
@@ -365,11 +369,28 @@
   }
 }
 
-.plan-details-contact-section {
-  background-color: var(--v2-white);
-  tr {
-    td:first-child {
-      border-right: 1px solid #cbd5e1;
-    }
+.networkIcon {
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
+.address {
+  align-items: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 130%;
+  color: #717171;
+  display: flex;
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    padding: 16px;
+    margin-top: 16px;
+    background-color: #f1faff;
   }
+}
+
+.description {
+  font-size: 14px;
+  color: #717171;
+  letter-spacing: -0.14px;
 }

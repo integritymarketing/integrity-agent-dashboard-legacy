@@ -91,6 +91,7 @@ export default forwardRef(
           columns={columns}
           data={data}
           header={header}
+          compareTable={true}
         />
       </div>
     );
