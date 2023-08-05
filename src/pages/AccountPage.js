@@ -36,12 +36,10 @@ import Dialog from "packages/Dialog";
 import { isAgentAvailableAtom } from "recoil/agent/atoms";
 import { useRecoilValue } from "recoil";
 import useFetch from "hooks/useFetch";
-import { useAuth0 } from "@auth0/auth0-react";
 
 function CheckinPreferences({ npn }) {
   const { clientsService } = useClientServiceContext();
-  const userProfile = useUserProfile();
-  const { agentid } = userProfile;
+  const { agentId } = useUserProfile();
   const addToast = useToast();
   const [phone, setPhone] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
@@ -55,20 +53,20 @@ function CheckinPreferences({ npn }) {
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      getAgentAvailability(agentid);
+      getAgentAvailability(agentId);
     };
     loadAsyncData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phoneAtom, agentid]);
+  }, [phoneAtom, agentId]);
 
-  const getAgentAvailability = async (agentid) => {
-    if (!agentid) {
+  const getAgentAvailability = async (agentId) => {
+    if (!agentId) {
       return;
     }
     try {
       setLoading(true);
-      const response = await clientsService.getAgentAvailability(agentid);
+      const response = await clientsService.getAgentAvailability(agentId);
       const {
         phone,
         agentVirtualPhoneNumber,
@@ -78,7 +76,7 @@ function CheckinPreferences({ npn }) {
       } = response || {};
       setHasActiveCampaign(hasActiveCampaign);
       if (!agentVirtualPhoneNumber) {
-        await clientsService.genarateAgentTwiloNumber(agentid);
+        await clientsService.genarateAgentTwiloNumber(agentId);
       }
       if (!leadPreference?.isAgentMobilePopUpDismissed) {
         setWelcomeModalOpen(true);
@@ -115,7 +113,7 @@ function CheckinPreferences({ npn }) {
   const handleLeadCenter = async () => {
     setShowAvilabilityDialog(false);
     let data = {
-      agentID: agentid,
+      agentID: agentId,
       leadPreference: {
         ...leadPreference,
         leadCenter: !leadPreference?.leadCenter,
@@ -128,7 +126,7 @@ function CheckinPreferences({ npn }) {
       !leadPreference?.medicareEnrollPurl
     ) {
       await clientsService.updateAgentAvailability({
-        agentID: agentid,
+        agentID: agentId,
         availability: false,
       });
       setShowAvilabilityDialog(true);
@@ -138,7 +136,7 @@ function CheckinPreferences({ npn }) {
   const handleMedicareEnroll = async () => {
     setShowAvilabilityDialog(false);
     let data = {
-      agentID: agentid,
+      agentID: agentId,
       leadPreference: {
         ...leadPreference,
         medicareEnrollPurl: !leadPreference?.medicareEnrollPurl,
@@ -151,7 +149,7 @@ function CheckinPreferences({ npn }) {
       !(leadPreference?.leadCenter && hasActiveCampaign)
     ) {
       await clientsService.updateAgentAvailability({
-        agentID: agentid,
+        agentID: agentId,
         availability: false,
       });
       setShowAvilabilityDialog(true);
@@ -175,7 +173,7 @@ function CheckinPreferences({ npn }) {
       <div>
         <CallCenterContent
           phone={phone}
-          agentId={agentid}
+          agentId={agentId}
           callForwardNumber={callForwardNumber}
           getAgentAvailability={getAgentAvailability}
         />
@@ -425,7 +423,6 @@ const formatPhoneNumber = (phoneNumberString) => {
 };
 
 export default () => {
-  const { getAuthTokenSilently } = useAuth0();
   const [isMobile, setIsMobile] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const { show: showMessage } = useFlashMessage();
@@ -569,7 +566,6 @@ export default () => {
                             analyticsService.fireEvent("event-form-submit", {
                               formName: "update-account",
                             });
-                            await getAuthTokenSilently();
 
                             setSubmitting(false);
                             loading.end();
