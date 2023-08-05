@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -11,7 +12,6 @@ import useQueryParams from "hooks/useQueryParams";
 import useToast from "../../hooks/useToast";
 import Styles from "./AuthPages.module.scss";
 import * as Sentry from "@sentry/react";
-import AuthContext from "../../contexts/auth";
 import useFlashMessage from "../../hooks/useFlashMessage";
 import Heading2 from "packages/Heading2";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
@@ -50,8 +50,8 @@ export default () => {
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
+  const { loginWithRedirect } = useAuth0();
   const addToast = useToast();
-  const auth = useContext(AuthContext);
   const { show: showMessage } = useFlashMessage();
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
@@ -64,8 +64,9 @@ export default () => {
 
   async function login() {
     try {
-      auth.signinRedirect();
-    } catch (e) {
+      await loginWithRedirect({
+        redirectUri: window.location.origin + "/dashboard",
+      })} catch (e) {
       Sentry.captureException(e);
       console.error("sign in error: ", e);
       showMessage("Unable to sign in at this time.", { type: "error" });

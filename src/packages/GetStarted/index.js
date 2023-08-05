@@ -1,7 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import AuthContext from "contexts/auth";
 import Box from "@mui/material/Box";
 import Modal from "packages/Modal";
 import { Button, Divider } from "@mui/material";
@@ -40,21 +39,16 @@ export default function GetStarted(props) {
   const history = useHistory();
   const [show, setShow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const auth = useContext(AuthContext);
   const addToast = useToast();
   const {
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
-  const userProfile = useUserProfile();
-  const { npn } = userProfile;
+  const { npn, agentId } = useUserProfile();
 
   const handleCloseModal = async () => {
-    const user = await auth.getUser();
-    const { agentid } = user.profile;
     try {
       const payload = {
-        agentId: agentid,
+        agentId,
         leadPreference: {
           ...leadPreference,
           isAgentMobileBannerDismissed: true,

@@ -29,7 +29,8 @@ import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
 
 export default (props) => {
-  const { clientsService, plansService, comparePlansService } = useClientServiceContext();
+  const { clientsService, plansService, comparePlansService } =
+    useClientServiceContext();
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
   const { isComingFromEmail, agentInfo = {}, footer = true } = props;
   const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;
@@ -45,39 +46,36 @@ export default (props) => {
 
   const { isNonRTS_User } = useRoles();
 
-  const getAllPlanDetails = useCallback(
-    async (
-      planIds,
-      contactId,
-      contactData,
-      effectiveDate,
-      isComingFromEmail,
-      agentNPN,
-      agentInfo
-    ) => {
-      return Promise.all(
-        planIds
-          .filter(Boolean)
-          .map((planId) =>
-            !isComingFromEmail
-              ? plansService.getPlan(
-                  contactId,
-                  planId,
-                  contactData,
-                  effectiveDate
-                )
-              : comparePlansService.getPlan(
-                  contactId,
-                  planId,
-                  agentInfo,
-                  effectiveDate,
-                  agentNPN
-                )
-          )
-      );
-    },
-    [plansService, comparePlansService]
-  );
+  function getAllPlanDetails({
+    planIds,
+    contactId,
+    contactData,
+    effectiveDate,
+    isComingFromEmail,
+    agentNPN,
+    agentInfo,
+  }) {
+    return Promise.all(
+      planIds
+        .filter(Boolean)
+        .map((planId) =>
+          !isComingFromEmail
+            ? plansService.getPlan(
+                contactId,
+                planId,
+                contactData,
+                effectiveDate
+              )
+            : comparePlansService.getPlan(
+                contactId,
+                planId,
+                agentInfo,
+                effectiveDate,
+                agentNPN
+              )
+        )
+    );
+  }
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -106,8 +104,8 @@ export default (props) => {
             clientsService.getLeadPharmacies(id),
           ])
         : await Promise.all([
-          comparePlansService.getLeadPrescriptions(id, agentInfo?.AgentNpn),
-          comparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn),
+            comparePlansService.getLeadPrescriptions(id, agentInfo?.AgentNpn),
+            comparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn),
           ]);
       setPrescriptions(prescriptionData);
       setPharmacies(pharmacyData || []);
@@ -129,8 +127,8 @@ export default (props) => {
   }, [planIds, results]);
 
   useEffect(() => {
-    getContactRecordInfo();
-  }, [getContactRecordInfo]);
+    id && getContactRecordInfo();
+  }, [getContactRecordInfo, id]);
 
   const handleRemovePlan = (planId) => {
     setComparePlans((prevPlans) => {

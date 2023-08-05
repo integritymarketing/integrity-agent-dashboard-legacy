@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
@@ -8,7 +8,6 @@ import useLoading from "hooks/useLoading";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import analyticsService from "services/analyticsService";
-import AuthContext from "contexts/auth";
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
 import Heading2 from "packages/Heading2";
@@ -23,15 +22,14 @@ export default () => {
   const loading = useLoading();
   const history = useHistory();
   const params = useQueryParams();
-  const auth = useContext(AuthContext);
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
-  const {
-    Post: loginUser,
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`);
-  
-  const {
-    Post: loginUserWithClinetID,
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`);
+  const { Post: loginUser } = useFetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`
+  );
+
+  const { Post: loginUserWithClinetID } = useFetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`
+  );
 
   useEffect(() => {
     const params1 = new URLSearchParams(
@@ -72,11 +70,8 @@ export default () => {
           returnUrl: params.get("ReturnUrl"),
           isExternal: true,
         };
-        const response = await loginUserWithClinetID(
-          userDetail,
-          true
-        );
-        postLogin(response, {}, userDetail, auth);
+        const response = await loginUserWithClinetID(userDetail, true);
+        postLogin(response, {}, userDetail);
       } else {
         analyticsService.fireEvent("event-content-load", {
           pagePath: "/login/",
@@ -87,12 +82,7 @@ export default () => {
     checkForExtrnalLogin();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const postLogin = async (
-    response,
-    { setErrors, setSubmitting },
-    payload,
-    auth
-  ) => {
+  const postLogin = async (response, { setErrors, setSubmitting }, payload) => {
     // a 500 server error occurs when invalid OIDC query string params
     // are present (eg missing ReturnUrl).
     // catch 500 and send to final error page.

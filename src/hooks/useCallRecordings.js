@@ -1,26 +1,26 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import callRecordingsService from "services/callRecordingsService";
 import { getSignalRConnection } from "hooks/signalRConnection";
-import AuthContext from "contexts/auth";
+import useUserProfile from "hooks/useUserProfile";
 
 export default function useCallRecordings() {
   const [callRecordings, setCallRecordings] = useState([]);
-  const auth = useContext(AuthContext);
+  const { agentId } = useUserProfile();
 
   useEffect(() => {
     async function fetchCallRecordings() {
       try {
-        let response =
-          await callRecordingsService.getAllCallRecordingsByAgent();
+        const recordings = await callRecordingsService.getAllCallRecordingsByAgent();
 
-        if (response.length > 0) {
-          response = response.sort(
+        if (recordings.length > 0) {
+          const sortedRecordings = recordings.sort(
             (a, b) => new Date(b.callStartTime) - new Date(a.callStartTime)
           );
+          setCallRecordings(sortedRecordings);
+        } else {
+          setCallRecordings([]);
         }
-
-        setCallRecordings(response);
       } catch (error) {
         Sentry.captureException(error);
       }
@@ -28,20 +28,18 @@ export default function useCallRecordings() {
 
     fetchCallRecordings();
 
-    if (auth.isAuthenticated()) {
-      const connection = getSignalRConnection(auth.userProfile?.agentid);
+    const connection = getSignalRConnection(agentId);
 
-      function handleActiveCall(status) {
-        setTimeout(fetchCallRecordings, status ? 5000 : 15000);
-      }
-
-      connection.on("ActiveCall", handleActiveCall);
-
-      return () => {
-        connection.off("ActiveCall", handleActiveCall);
-      };
+    function handleActiveCall(status) {
+      setTimeout(fetchCallRecordings, status ? 5000 : 15000);
     }
-  }, [setCallRecordings, auth]);
+
+    connection.on("ActiveCall", handleActiveCall);
+
+    return () => {
+      connection.off("ActiveCall", handleActiveCall);
+    };
+  }, [agentId]);
 
   return callRecordings;
 }

@@ -10,7 +10,6 @@ import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
 import { greetings } from "utils/greetings";
-import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
@@ -26,6 +25,7 @@ import { useRecoilState } from "recoil";
 import FooterBanners from "packages/FooterBanners";
 import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
+import useUserProfile from "hooks/useUserProfile";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -36,12 +36,11 @@ const PAGESIZE = 10;
 export default function Dashbaord() {
   const { clientsService } = useClientServiceContext();
   const history = useHistory();
-  const auth = useContext(AuthContext);
   const addToast = useToast();
+  const userProfile = useUserProfile();
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [activityData, setActivityData] = useState([]);
-  const [user, setUser] = useState({});
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
   const [filterValues, setFilterValues] = useState([]);
@@ -59,19 +58,6 @@ export default function Dashbaord() {
   const {
     agentInfomration: { leadPreference, agentID },
   } = useAgentInformationByID();
-
-  useEffect(() => {
-    const loadAsyncData = async () => {
-      try {
-        const user = await auth.getUser();
-        setUser(user.profile);
-      } catch (error) {
-        Sentry.captureException(error);
-      }
-    };
-
-    loadAsyncData();
-  }, [auth, leadPreference]);
 
   useEffect(() => {
     const getFullData = async () => {
@@ -213,7 +199,7 @@ export default function Dashbaord() {
               />
               <div className="greet-user">
                 <div className="greet-session">Good {greetings()},</div>
-                <div className="greet-name">{user.firstName}</div>
+                <div className="greet-name">{userProfile.firstName}</div>
               </div>
 
               <div className="confirmed-applications-wrapper">
@@ -283,8 +269,8 @@ export default function Dashbaord() {
               isMobile && isClientSnapshotOpen ? "mt-350" : ""
             }`}
           >
-            <PlanSnapShot isMobile={isMobile} npn={user?.npn} />
-            <TaskList isMobile={isMobile} npn={user?.npn} />
+            <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />
+            <TaskList isMobile={isMobile} npn={userProfile?.npn} />
             <DashboardActivityTable
               realoadActivityData={loadActivityData}
               activityData={activityData}

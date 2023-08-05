@@ -1,21 +1,24 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import * as Sentry from "@sentry/react";
-import AuthContext from "contexts/auth";
 import useFlashMessage from "hooks/useFlashMessage";
 
-export default (props) => {
-  const auth = useContext(AuthContext);
+const LoginButton = ({ ...otherProps }) => {
+  const { loginWithRedirect } = useAuth0();
   const { show: showMessage } = useFlashMessage();
 
-  const login = async () => {
+  const handleLogin = async () => {
     try {
-      await auth.signinRedirect();
-    } catch (e) {
-      Sentry.captureException(e);
-      console.error("sign in error: ", e);
+      await loginWithRedirect({
+        redirectUri: `${window.location.origin}/dashboard`,
+      });
+    } catch (error) {
+      Sentry.captureException(error);
       showMessage("Unable to sign in at this time.", { type: "error" });
     }
   };
 
-  return <button type="button" onClick={login} {...props}></button>;
+  return <button type="button" onClick={handleLogin} {...otherProps}></button>;
 };
+
+export default LoginButton;

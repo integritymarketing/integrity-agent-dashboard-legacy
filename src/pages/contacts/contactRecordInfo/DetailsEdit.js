@@ -70,7 +70,7 @@ export default (props) => {
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
   const history = useHistory();
-  const { clientService } = useClientServiceContext();
+  const { clientsService } = useClientServiceContext();
 
   const getContactLink = (id) => `/contact/${id}`;
   const goToContactDetailPage = (id) => {
@@ -90,7 +90,7 @@ export default (props) => {
           isExactDuplicate: true,
         };
       } else {
-        const response = await clientService.getDuplicateContact(values);
+        const response = await clientsService.getDuplicateContact(values);
         if (response.ok) {
           const resMessage = await response.json();
           const duplicateLeadIds = resMessage.duplicateLeadIds.filter(
@@ -117,7 +117,7 @@ export default (props) => {
         }
       }
     },
-    [clientService]
+    [clientsService]
   );
 
   const handleMultileDuplicates = () => {
@@ -262,7 +262,7 @@ export default (props) => {
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
-        let response = await clientService.updateLead(values);
+        let response = await clientsService.updateLead(values);
         if (response.ok) {
           props.getContactRecordInfo();
           if (props.successNavigationRoute) {

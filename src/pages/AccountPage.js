@@ -33,7 +33,7 @@ import Mobile from "partials/global-nav-v2/Mobile.svg";
 import HealthIcon from "components/icons/health";
 import LifeIcon from "components/icons/life";
 import Dialog from "packages/Dialog";
-import { isAgentAvilableAtom } from "recoil/agent/atoms";
+import { isAgentAvailableAtom } from "recoil/agent/atoms";
 import { useRecoilValue } from "recoil";
 import useFetch from "hooks/useFetch";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -51,7 +51,7 @@ function CheckinPreferences({ npn }) {
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [phoneAtom] = useRecoilState(agentPhoneAtom);
   const [showAvilabilityDialog, setShowAvilabilityDialog] = useState(false);
-  const isAgentAvilable = useRecoilValue(isAgentAvilableAtom);
+  const isAgentAvilable = useRecoilValue(isAgentAvailableAtom);
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -425,7 +425,7 @@ const formatPhoneNumber = (phoneNumberString) => {
 };
 
 export default () => {
-  const {  getAuthTokenSilently } = useAuth0();
+  const { getAuthTokenSilently } = useAuth0();
   const [isMobile, setIsMobile] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const { show: showMessage } = useFlashMessage();
@@ -435,12 +435,12 @@ export default () => {
   const {
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
-  const {
-    Put: updateAccount,
-  } = useFetch(`${process.env.REACT_APP_AUTH_UPDATE_ACCOUNT_URL}`);
-  const {
-    Put: updateAccountPassword,
-  } = useFetch(`${process.env.REACT_APP_AUTH_UPDATE_PASSWORD_URL}`);
+  const { Put: updateAccount } = useFetch(
+    `${process.env.REACT_APP_AUTH_UPDATE_ACCOUNT_URL}`
+  );
+  const { Put: updateAccountPassword } = useFetch(
+    `${process.env.REACT_APP_AUTH_UPDATE_PASSWORD_URL}`
+  );
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -480,7 +480,7 @@ export default () => {
           <SubHeaderMobile title={"Account"} />
         )}
 
-        {userProfile.agentid && (
+        {userProfile.agentId && (
           <Container className="mt-scale-2">
             <div className={styles.accountPageContainer}>
               <div className={styles.sectionOne}>
@@ -561,7 +561,10 @@ export default () => {
                               : "",
                           });
 
-                          let response = await updateAccount(formattedValues, true);
+                          let response = await updateAccount(
+                            formattedValues,
+                            true
+                          );
                           if (response.status >= 200 && response.status < 300) {
                             analyticsService.fireEvent("event-form-submit", {
                               formName: "update-account",
@@ -576,20 +579,20 @@ export default () => {
                             });
                           } else {
                             loading.end();
-                              const errorsArr = await response.json();
-                              analyticsService.fireEvent(
-                                "event-form-submit-invalid",
-                                {
-                                  formName: "update-account",
-                                }
-                              );
-                              setErrors(
-                                validationService.formikErrorsFor(
-                                  validationService.standardizeValidationKeys(
-                                    errorsArr
-                                  )
+                            const errorsArr = await response.json();
+                            analyticsService.fireEvent(
+                              "event-form-submit-invalid",
+                              {
+                                formName: "update-account",
+                              }
+                            );
+                            setErrors(
+                              validationService.formikErrorsFor(
+                                validationService.standardizeValidationKeys(
+                                  errorsArr
                                 )
-                              );
+                              )
+                            );
                           }
                         }}
                       >
@@ -724,7 +727,10 @@ export default () => {
                       ) => {
                         setSubmitting(true);
                         loading.begin(0);
-                        let response = await updateAccountPassword(values, true);
+                        let response = await updateAccountPassword(
+                          values,
+                          true
+                        );
                         if (response.status >= 200 && response.status < 300) {
                           setSubmitting(false);
                           loading.end();
@@ -737,14 +743,14 @@ export default () => {
                           );
                         } else {
                           loading.end();
-                            const errorsArr = await response.json();
-                            setErrors(
-                              validationService.formikErrorsFor(
-                                validationService.standardizeValidationKeys(
-                                  errorsArr
-                                )
+                          const errorsArr = await response.json();
+                          setErrors(
+                            validationService.formikErrorsFor(
+                              validationService.standardizeValidationKeys(
+                                errorsArr
                               )
-                            );
+                            )
+                          );
                         }
                       }}
                     >

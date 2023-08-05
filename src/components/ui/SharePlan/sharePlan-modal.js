@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useEffect, useContext } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
-import AuthContext from "contexts/auth";
+import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
 import CheckboxGroup from "components/ui/CheckboxGroup";
@@ -49,7 +49,6 @@ export default ({
   ispolicyShare,
 }) => {
   const addToast = useToast();
-  const auth = useContext(AuthContext);
   const {
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
@@ -84,18 +83,10 @@ export default ({
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
-  const [user, setUser] = useState({});
   const [hasFocus, setFocus] = useState(false);
   const [isDocumentsSelected, setIsDocumentsSelected] = useState(false);
   const [selectedDocuments, setSelectedDocuments] = useState([]);
-
-  useEffect(() => {
-    const getData = async () => {
-      const user = await auth.getUser();
-      setUser(user.profile);
-    };
-    getData();
-  }, [auth, modalOpen]);
+  const userProfile = useUserProfile();
 
   useEffect(() => {
     if (modalOpen) {
@@ -137,7 +128,6 @@ export default ({
     setEmail("");
     setErrors("");
     setFormattedMobile("");
-    setUser({});
     setSelectLabel("email");
     handleCloseModal();
     setIsDocumentsSelected(false);
@@ -145,10 +135,10 @@ export default ({
   };
 
   const enroll = async () => {
-    const agentFirstName = user?.firstName;
-    const agentLastName = user?.lastName;
-    const agentEmail = user?.email;
-    const roles = user?.roles ?? "";
+    const agentFirstName = userProfile?.firstName;
+    const agentLastName = userProfile?.lastName;
+    const agentEmail = userProfile?.email;
+    const roles = userProfile?.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
     const urlPathName = window?.location?.pathname;
     const origin = window?.location?.origin;

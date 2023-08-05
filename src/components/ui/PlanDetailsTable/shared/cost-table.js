@@ -262,7 +262,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
   const data = [
     {
       label: <PremiumLabel />,
-      ...clonedPlans.reduce((acc, plan, index) => {
+      ...clonedPlans?.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? <PremiumCell planData={plan} /> : "-";
         return acc;
       }, {}),
@@ -274,7 +274,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
           effectiveMonth={getMonthShortName(parseInt(m) - 1)}
         />
       ),
-      ...clonedPlans.reduce((acc, plan, index) => {
+      ...clonedPlans?.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? (
           <EstRxValue
             planData={plan}
@@ -290,10 +290,14 @@ export function CostCompareTable({ plans, effectiveDate }) {
     {
       label: (
         <TotalEstLabel
-          drugsCount={clonedPlans.pharmacyCosts[0]?.drugCosts?.length || 0}
+          drugsCount={
+            (clonedPlans?.pharmacyCosts?.length > 0 &&
+              clonedPlans?.pharmacyCosts[0]?.drugCosts?.length) ||
+            0
+          }
         />
       ),
-      ...clonedPlans.reduce((acc, plan, index) => {
+      ...clonedPlans?.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? (
           <TotalEstValue
             planData={plan}

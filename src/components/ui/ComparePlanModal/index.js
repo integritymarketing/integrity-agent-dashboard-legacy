@@ -1,10 +1,9 @@
-import React, { useState, useMemo, useEffect, useContext } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
-import AuthContext from "contexts/auth";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
@@ -13,6 +12,7 @@ import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
+import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
 
 const EMAIL_MOBILE_LABELS = [
@@ -50,7 +50,7 @@ export default ({
   contactData,
 }) => {
   const addToast = useToast();
-  const auth = useContext(AuthContext);
+  const userProfile = useUserProfile();
   const {
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
@@ -73,17 +73,7 @@ export default ({
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
   const [hasFocus, setFocus] = useState(false);
-  const [user, setUser] = useState({});
-
   const { plansService } = useClientServiceContext();
-
-  useEffect(() => {
-    const getData = async () => {
-      const user = await auth.getUser();
-      setUser(user.profile);
-    };
-    getData();
-  }, [auth, modalOpen]);
 
   useEffect(() => {
     if (modalOpen) {
@@ -117,15 +107,14 @@ export default ({
     setEmail("");
     setErrors("");
     setFormattedMobile("");
-    setUser({});
     setSelectLabel("email");
     handleCloseModal();
   };
   const handleShareComparePlans = async () => {
-    const agentFirstName = user?.firstName;
-    const agentLastName = user?.lastName;
-    const agentEmail = user?.email;
-    const roles = user?.roles ?? "";
+    const agentFirstName = userProfile.firstName;
+    const agentLastName = userProfile.lastName;
+    const agentEmail = userProfile.email;
+    const roles = userProfile.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
     const zipCode = addresses[0]?.postalCode;
     const stateCode = addresses[0]?.stateCode;

@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import AuthContext from "contexts/auth";
+import { useAuth0 } from "@auth0/auth0-react";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import Heading1 from "packages/Heading1";
 
 const LoginLink = (props) => {
-  const auth = useContext(AuthContext);
-
+  const { loginWithRedirect } = useAuth0();
   const login = () => {
-    auth.signinRedirect();
+    loginWithRedirect({
+      redirectUri: window.location.origin + "/dashboard",
+    });
   };
 
   return (
@@ -23,19 +24,21 @@ const LoginLink = (props) => {
   );
 };
 
-export default () => {
-  const auth = useContext(AuthContext);
+const Authentication = () => {
+  const { loginWithRedirect } = useAuth0();
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    auth.signinRedirect();
+    loginWithRedirect({
+      redirectUri: window.location.origin + "/dashboard",
+    });
 
     // if there is an issue w/ automatic redirect, render backup fragment
     // with button to allow user to manually start flow
-    setTimeout(function () {
+    setTimeout(() => {
       setError(true);
     }, 3000);
-  }, [auth]);
+  }, [loginWithRedirect]);
 
   return (
     <Grid className="content-frame v2" direction={"column"} container>
@@ -51,3 +54,5 @@ export default () => {
     </Grid>
   );
 };
+
+export default Authentication;

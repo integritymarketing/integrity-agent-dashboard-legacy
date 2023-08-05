@@ -1,8 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 
-export default () => {
-  const auth = useAuth0();
+const useUserProfile = () => {
+  const { user } = useAuth0();
+  
   const [userProfile, setUserProfile] = useState({
     fullName: "",
     firstName: "",
@@ -10,21 +11,21 @@ export default () => {
     npn: "",
     email: "",
     phone: "",
-    agentid: "",
+    agentId: "",
     roles: [],
   });
 
   useEffect(() => {
-    if (auth.user) {
+    if (user) {
       const {
         given_name: firstName,
         family_name: lastName,
         npn,
         email,
         phone,
-        agentid,
+        agentid: agentId,
         user_roles: roles,
-      } = auth.user;
+      } = user;
 
       const fullName = `${firstName} ${lastName}`;
 
@@ -35,11 +36,13 @@ export default () => {
         npn,
         email,
         phone,
-        agentid,
+        agentId,
         roles
       });
     }
-  }, [auth.user]);
+  }, [user]);
 
   return userProfile;
 };
+
+export default useUserProfile;

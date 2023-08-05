@@ -5,10 +5,10 @@ import { Typography } from "@material-ui/core";
 import ErrorState from "./ErrorState";
 import Modal from "components/Modal";
 import PropTypes from "prop-types";
-import clientService from "services/clientsService";
 import SearchPrescription from "./SearchPrescription";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import "./style.scss";
 
@@ -53,6 +53,8 @@ const PrescriptionModal = ({
   const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
     item?.dosage ?? {};
 
+  const { clientsService } = useClientServiceContext();
+
   // Initializations
   const [searchselected, onSearchSelected] = useState("");
   const [selectedDrug, onDrugSelection] = useState("");
@@ -80,7 +82,7 @@ const PrescriptionModal = ({
         const drugID = selectedGenericDrug
           ? selectedDrug?.g_value
           : selectedDrug?.value;
-        const results = await clientService.getDrugDetails(drugID);
+        const results = await clientsService.getDrugDetails(drugID);
         const dosageOptions = (results?.dosages || []).map((dosage) => ({
           label: frontTruncate(dosage.labelName, 34),
           value: dosage,
@@ -107,7 +109,7 @@ const PrescriptionModal = ({
       }
     };
     selectedDrug && getDosages();
-  }, [selectedDrug, selectedGenericDrug, isEdit, labelName]);
+  }, [selectedDrug, selectedGenericDrug, isEdit, labelName, clientsService]);
 
   useEffect(() => {
     if (item && open && isEdit) {
@@ -192,7 +194,7 @@ const PrescriptionModal = ({
     setSelectedGenericDrug(false);
     setSearchString(searchStr);
     if (searchStr && searchStr.length > 1) {
-      const prescriptionList = await clientService.getDrugNames(searchStr);
+      const prescriptionList = await clientsService.getDrugNames(searchStr);
       const options = (prescriptionList || []).map(
         transformPrescriptionOptions
       );

@@ -11,10 +11,10 @@ import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 import BackNavContext from "contexts/backNavProvider";
 import ContactContext from "contexts/contacts";
-import AuthContext from "contexts/auth";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
+import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
@@ -44,16 +44,15 @@ export default () => {
   const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const { leadId } = useParams();
-  const auth = useContext(AuthContext);
   const addToast = useToast();
   const { newSoaContactDetails, setNewSoaContactDetails } =
     useContext(ContactContext);
   const { previousPage, setCurrentPage } = useContext(BackNavContext);
+  const agentUserProfile = useUserProfile();
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
-  const [user, setUser] = useState({});
   const [errors, setErrors] = useState("");
 
   useEffect(() => {
@@ -85,21 +84,13 @@ export default () => {
     phones,
     leadsId,
   } = newSoaContactDetails;
-  const agentFirstName = user?.firstName;
-  const agentLastName = user?.lastName;
-  const agentEmail = user?.email;
-  const agentPhoneNumber = user?.phone;
-  const npnNumber = user?.npn;
+  const agentFirstName = agentUserProfile?.firstName;
+  const agentLastName = agentUserProfile?.lastName;
+  const agentEmail = agentUserProfile?.email;
+  const agentPhoneNumber = agentUserProfile?.phone;
+  const npnNumber = agentUserProfile?.npn;
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
-
-  useEffect(() => {
-    const getData = async () => {
-      const user = await auth.getUser();
-      setUser(user.profile);
-    };
-    getData();
-  }, [auth]);
 
   const validateEmail = (email) => {
     if (emailRegex.test(email)) {
