@@ -3,7 +3,7 @@ import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import useQueryParams from "hooks/useQueryParams";
 import useFetch from "hooks/useFetch";
 
-export default () => {
+const ServerErrorPage = () => {
   const {
     Put: getServerError,
     response
@@ -30,3 +30,5 @@ export default () => {
     />
   );
 };
+
+export default ServerErrorPage;

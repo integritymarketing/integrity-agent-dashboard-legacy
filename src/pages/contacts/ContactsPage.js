@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, { useCallback, useEffect, useState, useContext, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Redirect,
@@ -108,14 +108,7 @@ const ContactsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const debouncedSetSearchString = useCallback(
-    () => {
-      const debounced = debounce(setSearchStringNew, 500);
-      return (...args) => debounced(...args);
-    },
-    [setSearchStringNew]
-  );
-  
+  const debouncedSetSearchString = useRef(debounce(setSearchStringNew, 500)).current;
 
   useEffect(() => {
     debouncedSetSearchString(searchString);
@@ -228,6 +221,10 @@ const ContactsPage = () => {
     setIsOpenExportContactsModal(false);
   };
 
+  const handleContactSearch = (event) => {
+    setSearchString(event.target.value);
+  };
+
   return (
     <React.Fragment>
       <Media
@@ -296,15 +293,13 @@ const ContactsPage = () => {
                   placeholder="Search "
                   name="search"
                   className={styles.searchInput}
-                  onChange={(event) => {
-                    setSearchString(event.currentTarget.value || null);
-                  }}
+                  onChange={handleContactSearch}
                   onBlur={() => {
                     analyticsService.fireEvent("event-search");
                     return null;
                   }}
                   isMobile={isMobile}
-                  onClear={(e) => {
+                  onClear={() => {
                     setSearchString("");
                     document.getElementById("contacts-search").focus();
                   }}

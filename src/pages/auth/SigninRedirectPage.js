@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useAuth0 } from "@auth0/auth0-react";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
@@ -8,36 +8,38 @@ import Heading1 from "packages/Heading1";
 
 const LoginLink = (props) => {
   const { loginWithRedirect } = useAuth0();
-  const login = () => {
+
+  const handleLogin = useCallback(() => {
     loginWithRedirect({
       redirectUri: window.location.origin + "/dashboard",
     });
-  };
+  }, [loginWithRedirect]);
 
   return (
     <>
       <div className="text-body text-body--large mb-3">
         Unable to login automatically.
       </div>
-      <button onClick={login} {...props}></button>
+      <button onClick={handleLogin} {...props}></button>
     </>
   );
 };
 
 const SigninRedirectPage = () => {
   const { loginWithRedirect } = useAuth0();
-  const [error, setError] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   useEffect(() => {
     loginWithRedirect({
       redirectUri: window.location.origin + "/dashboard",
     });
 
-    // if there is an issue w/ automatic redirect, render backup fragment
-    // with button to allow user to manually start flow
-    setTimeout(() => {
-      setError(true);
+    const timer = setTimeout(() => {
+      setLoginError(true);
     }, 3000);
+
+    return () => clearTimeout(timer); 
+
   }, [loginWithRedirect]);
 
   return (
@@ -45,10 +47,10 @@ const SigninRedirectPage = () => {
       <HeaderUnAuthenticated />
       <ContainerUnAuthenticated>
         <Heading1 className="hdg hdg--2 mb-2" text="Agent Login" />
-        {!error && (
+        {!loginError && (
           <p className="text-body mt-2">Attempting automatic login...</p>
         )}
-        {error && <LoginLink className="btn-v2">Go to Login portal</LoginLink>}
+        {loginError && <LoginLink className="btn-v2">Go to Login portal</LoginLink>}
       </ContainerUnAuthenticated>
       <FooterUnAuthenticated />
     </Grid>

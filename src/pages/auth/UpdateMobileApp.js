@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
@@ -9,22 +9,21 @@ import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
 import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 
-export default () => {
+const UpdateMobileApp = () => {
   const device = useDeviceInfo();
-  const updateMobile = () => {
+
+  const updateMobile = useCallback(() => {
     if (device === DEVICES.ANDROID) {
-      window.open(
-        "https://play.google.com/store/apps/details?id=com.medicarecenter"
-      );
-    }
-    if (device === DEVICES.IOS) {
+      window.open("https://play.google.com/store/apps/details?id=com.medicarecenter");
+    } else if (device === DEVICES.IOS) {
       window.open("https://apps.apple.com/us/app/medicarecenter/id1623328763");
     }
-  };
+  }, [device]);
+
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Mobiile App Update</title>
+        <title>MedicareCENTER - Mobile App Update</title>
       </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
@@ -47,3 +46,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default UpdateMobileApp;
