@@ -23,6 +23,7 @@
   REACT_APP_AUTH_SCOPES="openid profile email IdentityServerApi LeadsAPI_Full phone roles QuoteService_Full NotificationService_Full AgentService_Full EnrollmentService_Full"
   REACT_APP_AUTH_RESPONSE_TYPE="code"
   REACT_APP_RESOURCES_URL="https://learningcenter.tawebhost.com"
+  CI = "false"
 
 # custom prebuild plugin to set version number ENV var from package.json
 [[plugins]]

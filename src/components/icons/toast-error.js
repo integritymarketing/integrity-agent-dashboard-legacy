@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const ToastError = (props) => {
   return (
     <svg
       width="28"
@@ -33,3 +33,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default ToastError;

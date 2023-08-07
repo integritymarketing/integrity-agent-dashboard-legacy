@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const PersonLatestIcon = () => {
   return (
     <svg
       id="Contact"
@@ -46,3 +46,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default PersonLatestIcon;

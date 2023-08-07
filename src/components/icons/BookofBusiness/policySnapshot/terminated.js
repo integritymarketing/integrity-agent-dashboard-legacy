@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => {
+const PolicyTerminatedIcon = () => {
   return (
     <svg
       id="Policy-Terminated"
@@ -76,3 +76,5 @@ export default () => {
     </svg>
   );
 };
+
+export default PolicyTerminatedIcon;

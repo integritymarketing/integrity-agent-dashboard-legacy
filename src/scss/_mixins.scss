@@ -1,22 +1,24 @@
+@use "sass:math";
+
 @function _get-clamp-val($smallest, $largest) {
   $calc: calc(
-    #{$smallest / 16}rem + #{$largest - $smallest} * ((100vw - 375px) / #{768 -
+    #{math.div($smallest, 16)}rem + #{$largest - $smallest} * ((100vw - 375px) / #{768 -
           375})
   );
   @return clamp(
-    #{min($smallest, $largest) / 16}rem,
+    #{math.div(min($smallest, $largest), 16)}rem,
     #{$calc},
-    #{max($largest, $smallest) / 16}rem
+    #{math.div(max($largest, $smallest), 16)}rem
   );
 }
 
 @mixin clamp-property($propertyname, $smallest, $largest) {
   $clamped: _get-clamp-val($smallest, $largest);
   & {
-    #{$propertyname}: #{$smallest / 16}rem;
+    #{$propertyname}: #{math.div($smallest, 16)}rem;
 
     @media (min-width: 768px) {
-      #{$propertyname}: #{$largest / 16}rem;
+      #{$propertyname}: #{math.div($largest, 16)}rem;
     }
   }
   @supports #{"(" + $propertyname + ": " + $clamped + ")"} {

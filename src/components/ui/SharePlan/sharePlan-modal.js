@@ -40,7 +40,7 @@ export const __formatPhoneNumber = (phoneNumberString) => {
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export default ({
+const SharePlanModal = ({
   modalOpen,
   planData = {},
   handleCloseModal,
@@ -374,7 +374,7 @@ export default ({
                         {selectLabel === "email" && (
                           <div className="email-mobile-section">
                             <input
-                              autocomplete="on"
+                              autoComplete="on"
                               type="text"
                               data-gtm="input-share-plans"
                               onFocus={() => setFocus(true)}
@@ -485,3 +485,5 @@ export default ({
     </Media>
   );
 };
+
+export default SharePlanModal;

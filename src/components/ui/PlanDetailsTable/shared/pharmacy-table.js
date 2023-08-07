@@ -8,7 +8,7 @@ function getInNetwork(pharmacyCost) {
   return pharmacyCost.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
 }
 
-export default ({ planData, pharmacies, isMobile, pharmaciesList }) => {
+const PharmacyTable = ({ planData, pharmacies, isMobile, pharmaciesList }) => {
   const isApiFailed =
     (pharmaciesList?.filter((pharmacy) => pharmacy.name)?.length > 0
       ? false
@@ -111,3 +111,5 @@ export default ({ planData, pharmacies, isMobile, pharmaciesList }) => {
     </>
   );
 };
+
+export default PharmacyTable;

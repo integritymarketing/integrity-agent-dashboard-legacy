@@ -6,7 +6,7 @@ import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 import analyticsService from "services/analyticsService";
 
-export default ({
+const ReminderModal = ({
   reminderModalStatus,
   setReminderModalStatus,
   getContactRecordInfo,
@@ -167,3 +167,5 @@ export default ({
     </div>
   );
 };
+
+export default ReminderModal;

@@ -6,7 +6,7 @@ export const Roles = {
   NonRts: "NonRts",
 };
 
-export default () => {
+const useRoles = () => {
   const userProfile = useUserProfile();
   const [roles, setRoles] = useState(new Map());
 
@@ -48,3 +48,5 @@ export default () => {
     isNonRTS_User,
   };
 };
+
+export default useRoles;

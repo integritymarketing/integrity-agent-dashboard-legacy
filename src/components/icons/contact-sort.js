@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const ContactSortIcon = (props) => {
   return (
     <svg
       width="30"
@@ -51,3 +51,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default ContactSortIcon;

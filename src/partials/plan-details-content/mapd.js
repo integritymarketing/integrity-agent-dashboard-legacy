@@ -10,7 +10,7 @@ import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 
-export default ({
+const MapdDetailsContent = ({
   plan,
   isMobile,
   styles,
@@ -219,3 +219,5 @@ export default ({
     </>
   );
 };
+
+export default MapdDetailsContent;

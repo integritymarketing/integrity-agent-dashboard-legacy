@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const V2ExpandIcon = (props) => {
   return (
     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
@@ -12,3 +12,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default V2ExpandIcon;

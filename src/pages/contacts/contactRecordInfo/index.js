@@ -37,7 +37,7 @@ import MobileMenu from "mobile/Contact/OverView/Menu";
 import Media from "react-media";
 import FooterBanners from "packages/FooterBanners";
 
-export default () => {
+const ContactRecordInfoDetails = () => {
   const { clientsService } = useClientServiceContext();
   const { contactId: id, sectionId } = useParams();
   const { getLeadDetails, isLoading, leadDetails } = useContactDetails(id);
@@ -221,7 +221,30 @@ export default () => {
     }
   };
 
-  const fetchCounties = async (zipcode) => {
+  const fetchCounty = useCallback(async (zipcode) => {
+    const counties = (await clientsService.getCounties(zipcode)) || [];
+  
+    const all_Counties = counties.map((county) => ({
+      value: county.countyName,
+      label: county.countyName,
+      key: county.countyFIPS,
+    }));
+  
+    const uniqueStatesSet = new Set(counties.map((county) => county.state));
+    const uniqueStates = [...uniqueStatesSet];
+  
+    const all_States = uniqueStates.map((state) => {
+      const stateNameObj = STATES.find((s) => s.value === state);
+      return {
+        label: stateNameObj?.label,
+        value: state,
+      };
+    });
+  
+    return { all_Counties, all_States };
+  }, [clientsService]);
+
+  const fetchCounties = useCallback(async (zipcode) => {
     if (zipcode) {
       const countiesList = await fetchCounty(zipcode);
       if (countiesList) {
@@ -234,34 +257,23 @@ export default () => {
         setSubmitEnable(false);
       }
     }
-  };
+  }, [fetchCounty, setAllCounties, setAllStates, setSubmitEnable]);
+  
 
-  const debounceZipFn = useCallback(debounce(fetchCounties, 1000), []);
+  const debounceZipFn = useCallback(
+    () => {
+      const debouncedFetch = debounce(fetchCounties, 1000);
+      return (...args) => debouncedFetch(...args);
+    },
+    [fetchCounties]
+  );
+  
 
   const handleZipCode = (zipcode) => {
-    //setZipCode(zipcode);
     setSubmitEnable(true);
     debounceZipFn(zipcode);
   };
-
-  const fetchCounty = async (zipcode) => {
-    const counties = (await clientsService.getCounties(zipcode)) || [];
-    const all_Counties = counties?.map((county) => ({
-      value: county.countyName,
-      label: county.countyName,
-      key: county.countyFIPS,
-    }));
-    let uniqueStates = [...new Set(counties?.map((a) => a.state))];
-    const all_States = uniqueStates?.map((state) => {
-      let stateName = STATES.filter((a) => a.value === state);
-      return {
-        label: stateName[0]?.label,
-        value: state,
-      };
-    });
-    return { all_Counties, all_States };
-  };
-
+  
   const updateCounty = async (county, fip, zip, state) => {
     await clientsService
       .updateLeadCounty(personalInfo, county, fip, zip, state)
@@ -469,3 +481,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ContactRecordInfoDetails;

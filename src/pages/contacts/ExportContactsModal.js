@@ -21,7 +21,7 @@ const headers = [
   { label: "Client Notes", key: "notes" },
 ];
 
-export default ({ open, close, contacts, allLeads }) => {
+const ExportsContactsModal = ({ open, close, contacts, allLeads }) => {
   const { clientsService } = useClientServiceContext();
   const addToast = useToast();
   const csvLinkRef = useRef();
@@ -105,3 +105,5 @@ export default ({ open, close, contacts, allLeads }) => {
     </Modal>
   );
 };
+
+export default ExportsContactsModal;

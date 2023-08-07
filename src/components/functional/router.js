@@ -5,7 +5,7 @@ import ScrollToTop from "components/functional/scroll-to-top";
 import { FlashProvider } from "contexts/flash";
 import FlashMessage from "partials/flash-message";
 
-export default ({ children, ...props }) => (
+const AppRouter = ({ children, ...props }) => (
   <Router {...props}>
     <TrackPageviews />
     <ScrollToTop />
@@ -15,3 +15,5 @@ export default ({ children, ...props }) => (
     </FlashProvider>
   </Router>
 );
+
+export default AppRouter;

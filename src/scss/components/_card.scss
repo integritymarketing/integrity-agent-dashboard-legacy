@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .card-grid {
   > * {
     width: 100%;
@@ -35,7 +37,7 @@
     padding: 1.5rem;
   }
   @media (min-width: 768px) {
-    padding: (30 / 16) * 1rem;
+    padding: math.div(30, 16) * 1rem;
   }
 
   &--page {
@@ -82,7 +84,7 @@
 .card__title {
   display: flex;
   font-size: 1.25rem;
-  line-height: (24 / 20);
+  line-height: (24 * 0.05);
   font-weight: 700;
   margin-bottom: 1.5rem;
 }

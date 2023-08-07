@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => {
+const SearchIcon = () => {
   return (
     <svg
       id="Search"
@@ -22,3 +22,5 @@ export default () => {
     </svg>
   );
 };
+
+export default SearchIcon;

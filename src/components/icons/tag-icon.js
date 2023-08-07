@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const TagIcon = (props) => {
   return (
     <svg
       id="Icon_Tag"
@@ -48,3 +48,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default TagIcon;

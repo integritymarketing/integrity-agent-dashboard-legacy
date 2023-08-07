@@ -4,7 +4,7 @@ import "./index.scss";
 import ScrollNav from "../ScrollNav";
 import analyticsService from "services/analyticsService";
 
-export default (props) => {
+const ContactEdit = (props) => {
   const [isEdit, setIsEdit] = useState(props.initialEdit);
   const detailsRef = useRef(null);
   const providersRef = useRef(null);
@@ -66,3 +66,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default ContactEdit;

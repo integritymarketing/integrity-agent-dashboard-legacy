@@ -116,7 +116,7 @@ const defaultFilters = {
   PlanYear: {},
 };
 
-export default ({ onSubmit, filterOptions }) => {
+const ActiveSellingPermissionFilter = ({ onSubmit, filterOptions }) => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Carrier");
 
@@ -267,3 +267,5 @@ export default ({ onSubmit, filterOptions }) => {
     </div>
   );
 };
+
+export default ActiveSellingPermissionFilter;

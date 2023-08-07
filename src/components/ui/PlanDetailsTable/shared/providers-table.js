@@ -30,7 +30,7 @@ function getInNetwork(isCovered, isPlanNetworkAvailable) {
   );
 }
 
-export default ({ planData, isMobile }) => {
+const ProviderTable =  ({ planData, isMobile }) => {
   const isApiFailed =
     (planData?.providers?.filter(
       (provider) => provider.firstName && provider.lastName
@@ -144,3 +144,5 @@ export default ({ planData, isMobile }) => {
     </>
   );
 };
+
+export default ProviderTable;

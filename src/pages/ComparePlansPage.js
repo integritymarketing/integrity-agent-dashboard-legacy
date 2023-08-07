@@ -28,7 +28,7 @@ import WelcomeEmailUser from "partials/welcome-email-user";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
 
-export default (props) => {
+const ComparePlansPage = (props) => {
   const { clientsService, plansService, comparePlansService } =
     useClientServiceContext();
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -265,3 +265,5 @@ export default (props) => {
     </>
   );
 };
+
+export default ComparePlansPage;

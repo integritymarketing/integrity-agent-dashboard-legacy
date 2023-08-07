@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const TrashbinIcon = (props) => {
   return (
     <svg
       id="a"
@@ -28,3 +28,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default TrashbinIcon;

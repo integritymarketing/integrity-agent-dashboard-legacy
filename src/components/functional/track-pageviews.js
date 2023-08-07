@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import analyticsService from "services/analyticsService";
 
-export default () => {
+const TrackPageviews = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -14,3 +14,5 @@ export default () => {
 
   return null;
 };
+
+export default TrackPageviews;

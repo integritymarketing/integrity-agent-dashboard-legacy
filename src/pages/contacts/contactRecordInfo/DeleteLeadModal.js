@@ -4,12 +4,11 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import DeleteLeadContext from "contexts/deleteLead";
 import { useHistory } from "react-router-dom";
 
-export default ({
+const DeleteLeadModal = ({
   leadsId,
   leadName,
   setDeleteModalStatus,
   deleteModalStatus,
-  ...props
 }) => {
   const { clientsService } = useClientServiceContext();
   const { setDeleteLeadId, setLeadName } = useContext(DeleteLeadContext);
@@ -24,15 +23,6 @@ export default ({
 
   return (
     <div className="customform">
-      {/* <div className="deletecontactsection">
-        <button
-          className="del-btn"
-          data-gtm="buttonn-delete-contact"
-          onClick={() => setDeleteModalStatus(true)}
-        >
-          Delete Contact
-        </button>
-      </div> */}
       <Modal open={deleteModalStatus} labeledById="dialog_contact_label">
         <div className="customDeletepopup">
           <h3>Delete Contact</h3>
@@ -50,3 +40,5 @@ export default ({
     </div>
   );
 };
+
+export default DeleteLeadModal;

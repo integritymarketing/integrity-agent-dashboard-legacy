@@ -43,7 +43,7 @@ const isTrainingHub = (resource) => {
   return resource.name === "MedicareCENTER's Video Training Hub" ? true : false;
 };
 
-export default () => {
+const ResourcesPage = () => {
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/learning-center/",
@@ -199,3 +199,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ResourcesPage;

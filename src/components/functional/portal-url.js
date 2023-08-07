@@ -5,10 +5,9 @@ const { parse } = require("tldts");
 // The purpose of this component is to tell the common authentication form
 // which portal the auth request came from when in the same domain.
 
-export default () => {
-  const cookies = new Cookies();
-
+const PortalUrl = () => {
   useEffect(() => {
+    const cookies = new Cookies();
     let portal_url = cookies.get("portal_url");
 
     // set a session cookie for the auth forms to use to determine app context
@@ -18,7 +17,9 @@ export default () => {
         domain: domain_parts.domain || domain_parts.hostname, // use the domain in deployed environments, or hostname if 'localhost'
       });
     }
-  }, [cookies]);
+  }, []);
 
   return null;
 };
+
+export default PortalUrl;

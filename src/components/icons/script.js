@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const ScriptIcon = () => {
   return (
     <svg
       id="icon-Script-S"
@@ -103,3 +103,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default ScriptIcon;

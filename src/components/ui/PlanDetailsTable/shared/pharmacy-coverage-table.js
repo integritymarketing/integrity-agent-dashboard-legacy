@@ -6,7 +6,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-export default ({ planData }) => {
+const PharmacyCoverageTable = ({ planData }) => {
   const columns = useMemo(
     () => [
       {
@@ -55,3 +55,5 @@ export default ({ planData }) => {
     </>
   );
 };
+
+export default PharmacyCoverageTable;

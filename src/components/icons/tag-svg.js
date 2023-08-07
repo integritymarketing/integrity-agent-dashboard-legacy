@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const TagSvg = (props) => {
   return (
     <svg
       id="Tag-Sm"
@@ -59,3 +59,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default TagSvg;

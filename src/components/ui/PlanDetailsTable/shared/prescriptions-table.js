@@ -26,7 +26,7 @@ function getCoveredCheck(isCovered) {
     </>
   );
 }
-export default ({ planData, isMobile }) => {
+const PrescriptionTable = ({ planData, isMobile }) => {
   const { effectiveDate } = useParams();
   const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
   const effectiveEndDate = new Date(effectiveStartDate);
@@ -155,3 +155,5 @@ export default ({ planData, isMobile }) => {
     </>
   );
 };
+
+export default PrescriptionTable;

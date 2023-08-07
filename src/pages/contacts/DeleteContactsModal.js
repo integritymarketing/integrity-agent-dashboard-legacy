@@ -3,7 +3,7 @@ import styles from "./ContactsPage.module.scss";
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
 
-export default ({ open, close, count, onConfirm }) => {
+const DeleteContactsModal = ({ open, close, count, onConfirm }) => {
   const isContacts = count > 1;
   return (
     <Modal
@@ -27,3 +27,5 @@ export default ({ open, close, count, onConfirm }) => {
     </Modal>
   );
 };
+
+export default DeleteContactsModal;

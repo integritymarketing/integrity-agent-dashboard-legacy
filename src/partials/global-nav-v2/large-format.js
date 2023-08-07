@@ -7,7 +7,7 @@ import "./index.scss";
 
 const nonRTS_DisableLinks = ["LeadCENTER", "MedicareAPP", "MedicareLINK"];
 
-export default ({ navOpen, setNavOpen, primary, secondary }) => {
+const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
 
   const history = useHistory();
@@ -105,3 +105,5 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
     </ul>
   );
 };
+
+export default LargeFormatNav;

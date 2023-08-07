@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const MoreIcon = (props) => {
   return (
     <svg
       width="30"
@@ -33,3 +33,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default MoreIcon;

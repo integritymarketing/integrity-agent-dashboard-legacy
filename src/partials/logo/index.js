@@ -6,7 +6,7 @@ import footerLogo from "../../images/medicare-center.png";
 import Logo from "./MedicareCENTER-Main.svg";
 import "./index.scss";
 
-export default ({ id, color = "#fff", ...props }) => {
+const LogoComponent = ({ id, color = "#fff", ...props }) => {
   const clientId = useClientId();
   if (clientId === "ILSClient") {
     return (
@@ -23,3 +23,5 @@ export default ({ id, color = "#fff", ...props }) => {
 
   return <img src={Logo} alt="mainLogo" className={"mainLogo"} />;
 };
+
+export default LogoComponent;

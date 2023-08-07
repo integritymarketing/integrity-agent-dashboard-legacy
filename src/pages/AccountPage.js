@@ -422,7 +422,7 @@ const formatPhoneNumber = (phoneNumberString) => {
   return null;
 };
 
-export default () => {
+const AccountPage = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const { show: showMessage } = useFlashMessage();
@@ -879,3 +879,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default AccountPage;

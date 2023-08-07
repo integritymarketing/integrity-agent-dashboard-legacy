@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/react";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 
-export default (leadId) => {
+const useLeadInformation = (leadId) => {
   const { clientsService } = useClientServiceContext();
   const [pharmacies, setPharmacies] = useState([]);
   const [providers, setProviders] = useState([]);
@@ -149,3 +149,5 @@ export default (leadId) => {
     deletePharmacy,
   };
 };
+
+export default useLeadInformation;

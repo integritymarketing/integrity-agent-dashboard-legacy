@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const WarningIcon = (props) => {
   return (
     <svg
       width="15"
@@ -18,3 +18,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default WarningIcon;

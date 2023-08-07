@@ -7,7 +7,7 @@ import ToggleSwitch from "components/ui/switch";
 import { useWindowSize } from "hooks/useWindowSize";
 import styles from "./preferences.module.scss";
 
-export default (props) => {
+const CommunicationPreferences = (props) => {
   const { clientsService } = useClientServiceContext();
   const { width: windowWidth } = useWindowSize();
   const [isLoading, setIsLoading] = useState(false);
@@ -365,3 +365,5 @@ export default (props) => {
     </>
   );
 };
+
+export default CommunicationPreferences;

@@ -8,7 +8,7 @@ function getHeader(column) {
   }
 }
 
-export default ({ columns, data, compareTable, className, theadClassName, tbodyClassName}) => {
+const PlanDetailsTable = ({ columns, data, compareTable, className, theadClassName, tbodyClassName}) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -27,7 +27,7 @@ export default ({ columns, data, compareTable, className, theadClassName, tbodyC
           ))}
         </thead>
         <tbody {...getTableBodyProps()} className={`${tbodyClassName} plan-details-tbody`}>
-          {rows.map((row, i) => {
+          {rows.map((row) => {
             prepareRow(row);
             return (
               <tr
@@ -52,3 +52,5 @@ export default ({ columns, data, compareTable, className, theadClassName, tbodyC
     </>
   );
 };
+
+export default PlanDetailsTable;

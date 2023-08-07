@@ -7,7 +7,7 @@ import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import useRoles from "hooks/useRoles";
 const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLink"];
 
-export default ({ navOpen, setNavOpen, primary, secondary }) => {
+const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
 
   const { isNonRTS_User } = useRoles();
@@ -110,3 +110,5 @@ export default ({ navOpen, setNavOpen, primary, secondary }) => {
     </React.Fragment>
   );
 };
+
+export default SmallFormatNav;

@@ -1245,4 +1245,6 @@ export class ClientsService {
   };
 }
 
-export default new ClientsService();
+const clientsServiceInstance = new ClientsService();
+
+export default clientsServiceInstance;

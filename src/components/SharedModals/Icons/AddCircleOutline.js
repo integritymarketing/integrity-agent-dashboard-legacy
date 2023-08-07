@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => {
+const AddCircleOutline = () => {
   return (
     <svg
       id="Circle_Icon"
@@ -22,8 +22,8 @@ export default () => {
             transform="translate(11.5 6.5)"
             fill="none"
             stroke="#fff"
-            stroke-linecap="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeWidth="1"
           />
           <line
             id="Line_654"
@@ -32,8 +32,8 @@ export default () => {
             transform="translate(6.5 11.5)"
             fill="none"
             stroke="#fff"
-            stroke-linecap="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeWidth="1"
           />
         </g>
       </g>
@@ -41,7 +41,7 @@ export default () => {
         id="Path_21294"
         data-name="Path 21294"
         fill="none"
-        stroke-linecap="round"
+        strokeLinecap="round"
       >
         <path
           d="M12,0A12,12,0,1,1,0,12,12,12,0,0,1,12,0Z"
@@ -58,3 +58,5 @@ export default () => {
     </svg>
   );
 };
+
+export default AddCircleOutline;

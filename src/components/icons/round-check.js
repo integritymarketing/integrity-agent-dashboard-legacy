@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const RoundCheckIcon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +17,7 @@ export default (props) => {
             height="7"
             fill="none"
             stroke="#0052ce"
-            stroke-width="1"
+            strokeWidth="1"
           />
         </clipPath>
       </defs>
@@ -28,13 +28,13 @@ export default (props) => {
           transform="translate(123 18)"
           fill="#fff"
           stroke="#0052ce"
-          stroke-width="1"
+          strokeWidth="1"
         >
           <circle cx="8" cy="8" r="8" stroke="none" />
           <circle cx="8" cy="8" r="7.5" fill="none" />
         </g>
         <g id="icon-Check" transform="translate(127 23)">
-          <g id="Group_1635" data-name="Group 1635" clip-path="url(#clip-path)">
+          <g id="Group_1635" data-name="Group 1635" clipPath="url(#clip-path)">
             <path
               id="Path_2482"
               data-name="Path 2482"
@@ -42,9 +42,9 @@ export default (props) => {
               transform="translate(0.342 0.375)"
               fill="none"
               stroke="#0052ce"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1"
             />
           </g>
         </g>
@@ -52,3 +52,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default RoundCheckIcon;

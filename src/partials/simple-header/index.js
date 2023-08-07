@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "partials/logo";
 import "./index.scss";
+import Logo from "partials/logo";
 
-export default (mobileAppLogin) => {
+const SimpleHeader = (mobileAppLogin) => {
   return (
     <header className="simple-header">
       <h1 className="simple-header__title">
@@ -25,3 +25,5 @@ export default (mobileAppLogin) => {
     </header>
   );
 };
+
+export default SimpleHeader;

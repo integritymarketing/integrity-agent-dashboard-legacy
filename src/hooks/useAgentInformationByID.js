@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {useCallRecordingsService} from "services/callRecordingsService";
 
-export default () => {
+const useAgentInformationByID = () => {
   const auth = useAuth0();
   const [agentInfomration, setAgentInfomration] = useState({});
   const callRecordingsService = useCallRecordingsService();
@@ -23,3 +23,5 @@ export default () => {
     getAgentAvailability,
   };
 };
+
+export default useAgentInformationByID;

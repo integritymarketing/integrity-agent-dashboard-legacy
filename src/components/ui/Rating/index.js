@@ -60,7 +60,7 @@ function getStars(rating) {
   return stars;
 }
 
-export default ({ value }) => {
+const Rating = ({ value }) => {
   if (value === 0) {
     return (
       <div className={"zero-rating rating"}>
@@ -72,3 +72,5 @@ export default ({ value }) => {
     return <div className={"rating"}>{getStars(value)}</div>;
   }
 };
+
+export default Rating;

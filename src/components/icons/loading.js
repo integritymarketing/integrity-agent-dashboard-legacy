@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const LoadingIcon = (props) => {
   return (
     <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" {...props}>
       <circle
@@ -16,3 +16,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default LoadingIcon;

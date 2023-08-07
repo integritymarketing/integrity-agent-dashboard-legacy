@@ -9,7 +9,7 @@ import analyticsService from "services/analyticsService";
 import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisposition";
 import stageSummaryContext from "contexts/stageSummary";
 
-export default ({ value, original, onRefresh }) => {
+const StageSelect = ({ value, original, onRefresh }) => {
   const { clientsService } = useClientServiceContext();
   const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
@@ -116,3 +116,5 @@ export default ({ value, original, onRefresh }) => {
     </React.Fragment>
   );
 };
+
+export default StageSelect;

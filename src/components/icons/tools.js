@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const ToolsIcon = (props) => {
   return (
     <svg
       width="20"
@@ -16,3 +16,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default ToolsIcon;

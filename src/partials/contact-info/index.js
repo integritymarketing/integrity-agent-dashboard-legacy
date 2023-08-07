@@ -1,6 +1,6 @@
 import React from "react";
 
-export default ({ className = "", testId, ...props }) => {
+const ContactInfo = ({ className = "", testId, ...props }) => {
   return (
     <React.Fragment>
       <h2
@@ -33,3 +33,5 @@ export default ({ className = "", testId, ...props }) => {
     </React.Fragment>
   );
 };
+
+export default ContactInfo;

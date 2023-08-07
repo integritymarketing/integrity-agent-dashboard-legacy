@@ -2,11 +2,11 @@ import React from "react";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
 
-function getNetworkIcon(inNetwork) {
+const getNetworkIcon = (inNetwork) => {
   return inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
-}
+};
 
-export default ({ name, address, inNetwork, isMobile }) => {
+const PlanNetworkItem = ({ name, address, inNetwork }) => {
   return (
     <div className={"network-item"}>
       <div className={inNetwork ? "netIcon" : ""}>
@@ -19,3 +19,5 @@ export default ({ name, address, inNetwork, isMobile }) => {
     </div>
   );
 };
+
+export default PlanNetworkItem;

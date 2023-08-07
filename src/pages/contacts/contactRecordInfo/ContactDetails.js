@@ -8,7 +8,8 @@ import PasswordHideIcon from "components/icons/password-hide";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
 
 const NOT_AVAILABLE = "-";
-export default ({ setDisplay, personalInfo, ...rest }) => {
+
+const ContactDetails = ({ setDisplay, personalInfo, ...rest }) => {
   let {
     firstName = "",
     middleName = "",
@@ -224,3 +225,5 @@ export default ({ setDisplay, personalInfo, ...rest }) => {
     </ContactSectionCard>
   );
 };
+
+export default ContactDetails;

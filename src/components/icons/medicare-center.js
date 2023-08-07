@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const MedicareCenterIcon = () => {
   return (
     <svg
       width="208"
@@ -18,3 +18,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default MedicareCenterIcon;

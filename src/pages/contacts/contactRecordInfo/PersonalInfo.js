@@ -546,7 +546,7 @@ function TagsIcon({
   );
 }
 
-export default ({
+const PersonalInformationCard = ({
   personalInfo,
   isEdit,
   setEdit,
@@ -721,3 +721,5 @@ export default ({
     </div>
   );
 };
+
+export default PersonalInformationCard;

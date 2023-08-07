@@ -64,7 +64,7 @@ const DEFAULT_SORT = [
   "createDate:desc",
 ];
 
-export default () => {
+const ContactsPage = () => {
   const { clientsService } = useClientServiceContext();
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
@@ -109,9 +109,13 @@ export default () => {
   }, []);
 
   const debouncedSetSearchString = useCallback(
-    debounce(setSearchStringNew, 500),
-    []
+    () => {
+      const debounced = debounce(setSearchStringNew, 500);
+      return (...args) => debounced(...args);
+    },
+    [setSearchStringNew]
   );
+  
 
   useEffect(() => {
     debouncedSetSearchString(searchString);
@@ -482,3 +486,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ContactsPage;

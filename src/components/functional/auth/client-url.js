@@ -1,14 +1,9 @@
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
 import useQueryParams from "hooks/useQueryParams";
-const { parse } = require("tldts");
+import { parse } from "tldts";
 
-// The purpose of this component is to inform the common authentication form
-// which client URL the auth originated from
-// client_url is primarily used when dealing w/ third party domains (and portal_url is not an option.)
-
-export default () => {
-  const cookies = new Cookies();
+const ClientUrl = () => {
   const params = useQueryParams();
 
   let client_url;
@@ -31,6 +26,7 @@ export default () => {
   }
 
   useEffect(() => {
+    const cookies = new Cookies();
     let session_client_url = cookies.get("client_url");
 
     // set a session cookie for the auth forms to track return url
@@ -38,7 +34,9 @@ export default () => {
     if (client_url && client_url !== session_client_url) {
       cookies.set("client_url", client_url);
     }
-  }, [cookies, client_url]);
+  }, [client_url]);
 
   return null;
 };
+
+export default ClientUrl;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
 import AddCircleOutline from "../Icons/AddCircleOutline";
-import { Typography } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
 import ErrorState from "./ErrorState";
 import Modal from "components/Modal";
 import PropTypes from "prop-types";

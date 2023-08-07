@@ -3,7 +3,7 @@ import { formatDate } from "utils/dates.js";
 import { useHistory } from "react-router-dom";
 import { Button } from "components/ui/Button";
 
-export default ({
+const SoaCard = ({
   linkCode,
   status,
   statusDate,
@@ -86,3 +86,5 @@ export default ({
     </>
   );
 };
+
+export default SoaCard;

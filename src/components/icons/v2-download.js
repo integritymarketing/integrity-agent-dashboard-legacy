@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const V2DownloadIcon = (props) => {
   return (
     <svg width="14" height="17" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g fill="none" fillRule="evenodd">
@@ -12,3 +12,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default V2DownloadIcon;

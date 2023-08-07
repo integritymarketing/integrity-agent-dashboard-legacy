@@ -1,12 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  makeStyles,
-  TextField,
-  Typography,
-  Box,
-  Grid,
-} from "@material-ui/core";
+import { makeStyles } from '@mui/styles';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 import { Select } from "components/ui/Select";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import "./style.scss";

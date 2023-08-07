@@ -49,4 +49,5 @@ export function AuthenticatedRoute({ children, ...rest }) {
   return <Route {...rest}>{children}</Route>;
 }
 
-export default { AuthenticatedRoute, UnauthenticatedRoute };
+const authRoutes = { AuthenticatedRoute, UnauthenticatedRoute };
+export default authRoutes;

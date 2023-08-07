@@ -2,7 +2,7 @@ import React from "react";
 import "./index.scss";
 import FooterLogo from "./image.svg";
 
-export default () => {
+const EmailFooter = () => {
   const currentDate = new Date().getFullYear();
   return (
     <footer className="footer-unauthenticated">
@@ -13,3 +13,5 @@ export default () => {
     </footer>
   );
 };
+
+export default EmailFooter;

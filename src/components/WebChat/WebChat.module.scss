@@ -1,0 +1,98 @@
+@import "../../scss/globalDefines.scss";
+
+.container {
+  .chatIconWrapper {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 1.5rem;
+    z-index: 9999;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    gap: 0.5rem;
+    border-radius: 64px;
+    background-color: #052a63;
+    align-items: center;
+    justify-content: flex-end;
+    width: 3.5rem;
+    height: 3.5rem;
+
+    &:hover {
+      width: 10.75rem;
+      .chatIconText {
+        opacity: 1;
+      }
+    }
+    .chatIconText {
+      position: absolute;
+      right: 3.75rem;
+      transition: all 0.3s linear;
+      white-space: nowrap;
+      opacity: 0;
+      color: white;
+      margin-left: 0.5rem;
+    }
+    .chatIcon {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+  }
+
+  .chatSidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 32rem;
+    background-color: #052a63;
+    right: -100%;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    z-index: 9999;
+    flex-direction: column;
+
+    @include small {
+      width: 100vw;
+    }
+
+    &.active {
+      right: 0;
+      @include small {
+        :global(.webchat__send-box) {
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          left: 0;
+        }
+      }
+    }
+
+    .header {
+      position: relative;
+      flex-direction: column;
+      color: white;
+      background-color: #052a63;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      font-size: 1.25rem;
+      padding-bottom: 2rem;
+
+      @include small {
+        padding: 1rem;
+        padding-top: 0;
+      }
+
+      .hideIcon {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+    }
+  }
+}

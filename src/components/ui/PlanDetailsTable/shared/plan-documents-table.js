@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
-export default ({ planData }) => {
+const PlanDocumentsTable = ({ planData }) => {
   const columns = useMemo(
     () => [
       {
@@ -45,3 +45,5 @@ export default ({ planData }) => {
     </>
   );
 };
+
+export default PlanDocumentsTable;

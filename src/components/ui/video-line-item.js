@@ -3,7 +3,7 @@ import VideoModal from "components/ui/video-modal";
 import LineItem from "components/ui/line-item";
 import ComputerIcon from "components/icons/computer";
 
-export default ({ resource }) => {
+const VideoLineItem = ({ resource }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleCloseModal = () => setModalOpen(false);
@@ -34,3 +34,5 @@ export default ({ resource }) => {
     </li>
   );
 };
+
+export default VideoLineItem;

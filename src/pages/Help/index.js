@@ -10,9 +10,9 @@ import Paragraph from "packages/Paragraph";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { Helmet } from "react-helmet-async";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 
-export default () => {
+const HelpPage = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   return (
@@ -78,3 +78,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default HelpPage;

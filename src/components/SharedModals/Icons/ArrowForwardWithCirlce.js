@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => {
+const ArrowForwardWithCircle = () => {
   return (
     <svg
       id="Circle_Icon"
@@ -77,3 +77,5 @@ export default () => {
     </svg>
   );
 };
+
+export default ArrowForwardWithCircle;

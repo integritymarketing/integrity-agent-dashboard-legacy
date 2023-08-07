@@ -1,6 +1,6 @@
 import React from "react";
 
-export default ({ color, ...props }) => {
+const DownIcon = ({ color, ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,3 +23,5 @@ export default ({ color, ...props }) => {
     </svg>
   );
 };
+
+export default DownIcon;

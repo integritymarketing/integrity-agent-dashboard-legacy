@@ -25,7 +25,7 @@ const useHelpLinkWithModal = () => {
   ];
 };
 
-export default () => {
+const NotFound = () => {
   const [HelpLink, HelpModal] = useHelpLinkWithModal();
   const history = useHistory();
   return (
@@ -50,3 +50,5 @@ export default () => {
     </div>
   );
 };
+
+export default NotFound;

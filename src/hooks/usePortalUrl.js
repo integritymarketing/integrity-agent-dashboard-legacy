@@ -1,7 +1,7 @@
 import Cookies from "universal-cookie";
 import useClientId from "hooks/auth/useClientId";
 
-export default () => {
+const usePortalUrl = () => {
   const cookies = new Cookies();
   const clientId = useClientId();
 
@@ -17,3 +17,5 @@ export default () => {
     );
   }
 };
+
+export default usePortalUrl;

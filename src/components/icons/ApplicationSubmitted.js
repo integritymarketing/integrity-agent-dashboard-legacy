@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const ApplicationSubmittedIcon = () => {
   return (
     <svg
       id="Application_Updated"
@@ -93,3 +93,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default ApplicationSubmittedIcon;

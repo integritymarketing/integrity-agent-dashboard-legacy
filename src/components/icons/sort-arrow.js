@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const SortArrow = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,3 +19,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default SortArrow;

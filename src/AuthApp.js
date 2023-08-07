@@ -28,7 +28,7 @@ import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
 import usePortalUrl from "hooks/usePortalUrl";
 import { theme } from "./theme";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from '@mui/material/styles';
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 const AuthApp = () => {

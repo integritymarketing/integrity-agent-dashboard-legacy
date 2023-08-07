@@ -118,7 +118,7 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-export default () => {
+const PlansPage = () => {
   const { clientsService, plansService } = useClientServiceContext();
   const { contactId: id } = useParams();
   const query = useQuery();
@@ -734,3 +734,5 @@ export default () => {
     </>
   );
 };
+
+export default PlansPage;

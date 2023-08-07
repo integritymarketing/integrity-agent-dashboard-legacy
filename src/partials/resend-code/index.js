@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import useToast from "hooks/useToast";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-export default ({ agentInfo, modalOpen, close, token, request }) => {
+const ResendCodeModal = ({ agentInfo, modalOpen, close, token, request }) => {
   const addToast = useToast();
   const { plansService } = useClientServiceContext();
   const { AgentPhoneNumber, AgentFirstName, AgentLastName, AgentEmail } =
@@ -80,3 +80,5 @@ export default ({ agentInfo, modalOpen, close, token, request }) => {
     </>
   );
 };
+
+export default ResendCodeModal;

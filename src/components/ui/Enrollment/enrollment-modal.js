@@ -8,7 +8,7 @@ import Radio from "components/ui/Radio";
 import "./styles.scss";
 import { Button } from "../Button";
 
-export default ({
+const EnrollmentModal = ({
   modalOpen,
   planData,
   handleCloseModal,
@@ -123,3 +123,5 @@ export default ({
     </React.Fragment>
   );
 };
+
+export default EnrollmentModal;

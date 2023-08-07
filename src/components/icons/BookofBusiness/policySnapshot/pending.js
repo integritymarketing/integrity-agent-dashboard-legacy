@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => {
+const PendingIcon = () => {
   return (
     <svg
       id="Policy-Pending"
@@ -70,3 +70,5 @@ export default () => {
     </svg>
   );
 };
+
+export default PendingIcon;

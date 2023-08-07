@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "components/icons/medicare-center";
 import "./index.scss";
 
-export default () => {
+const BlueNavWithIcon = () => {
   return (
     <>
       <div className="blue-nav-header">
@@ -13,3 +13,5 @@ export default () => {
     </>
   );
 };
+
+export default BlueNavWithIcon;

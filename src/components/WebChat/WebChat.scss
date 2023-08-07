@@ -1,0 +1,69 @@
+@import "../../scss/globalDefines.scss";
+
+#webchat {
+  .webchat__basic-transcript__filler {
+    flex: unset;
+    height: 1rem;
+  }
+
+  .webchat__stacked-layout {
+    margin: 0;
+  }
+
+  .webchat__bubble__content {
+    padding: 0.5rem;
+  }
+
+  .webchat__bubble {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 1.25rem;
+  }
+
+  .webchat__bubble--from-user {
+    border-radius: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .webchat__stacked-layout__status {
+    margin: 0.25rem 0.5rem;
+  }
+
+  .webchat__send-box-text-box__input {
+    border-radius: 5rem;
+    background-color: #375582;
+    padding: 0 2rem;
+    height: 4rem;
+    margin: 0 1rem;
+    font-size: 1.4rem;
+
+    @include small {
+      height: 2.75rem;
+      padding: 0 1.25rem;
+    }
+  }
+
+  .webchat__icon-button {
+    position: absolute;
+    right: 0;
+    bottom: 3rem;
+
+    @include small {
+      bottom: 1.65rem;
+    }
+  }
+
+  .webchat__send-box__main {
+    @include small {
+      min-height: 80px;
+    }
+  }
+
+  .webchat__send-icon {
+    background-image: url('https://cdn.iconfinder.com/data/family/previews/preview/font-awesome-regular.png'); /* Replace with the URL or path of your custom send icon */
+    background-size: contain;
+    width: 28; /* Set the width of the icon */
+    height: 28; /* Set the height of the icon */
+  }
+}

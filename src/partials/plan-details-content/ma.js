@@ -7,7 +7,7 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 
-export default ({
+const MaDetailsContent = ({
   plan,
   isMobile,
   styles,
@@ -112,3 +112,5 @@ export default ({
     </>
   );
 };
+
+export default MaDetailsContent;

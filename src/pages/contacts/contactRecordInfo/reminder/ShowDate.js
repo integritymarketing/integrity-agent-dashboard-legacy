@@ -4,7 +4,7 @@ import "react-day-picker/lib/style.css";
 import ReminderIcon from "../../../../stories/assets/reminder.svg";
 import format from "date-fns/format";
 
-export default ({
+const ShowDate = ({
   date,
   setDate,
   placeholder,
@@ -53,3 +53,5 @@ export default ({
     </span>
   );
 };
+
+export default ShowDate;

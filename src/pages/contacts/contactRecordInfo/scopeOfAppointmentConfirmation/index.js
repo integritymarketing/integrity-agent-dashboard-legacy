@@ -23,7 +23,7 @@ import analyticsService from "services/analyticsService";
 import { formValidator } from "./FormValidator";
 import "./index.scss";
 
-export default () => {
+const ScopeOfAppointmentConfirmation = () => {
   const { clientsService } = useClientServiceContext();
   const { linkCode } = useParams();
   const history = useHistory();
@@ -1033,3 +1033,5 @@ export default () => {
     </WithLoader>
   );
 };
+
+export default ScopeOfAppointmentConfirmation;

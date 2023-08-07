@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .btn {
   display: inline-block;
   color: var(--invert-text-color);
@@ -7,11 +9,11 @@
   font-weight: 700;
   line-height: 1.5;
   padding: calc(0.5em - 2px) 1.25em;
-  border-radius: (20/16) * 1em;
+  border-radius: math.div(20, 16) * 1em;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease,
     box-shadow 0.2s ease;
-  min-width: (140 / 16) * 1rem;
+  min-width: math.div(140, 16) * 1rem;
   text-decoration: none;
   text-align: center;
   text-transform: uppercase;

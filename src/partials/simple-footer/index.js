@@ -3,7 +3,7 @@ import "./index.scss";
 import usePortalUrl from "hooks/usePortalUrl";
 import MCLogo from "images/mc-logo.svg";
 
-export default ({ className = "", mobileAppLogin, loginPage, ...props }) => {
+const SimpleFooter = ({ className = "", mobileAppLogin, loginPage, ...props }) => {
   const portalUrl = usePortalUrl();
   return (
     <footer className={`simple-footer ${className}`} {...props}>
@@ -50,3 +50,5 @@ export default ({ className = "", mobileAppLogin, loginPage, ...props }) => {
     </footer>
   );
 };
+
+export default SimpleFooter;

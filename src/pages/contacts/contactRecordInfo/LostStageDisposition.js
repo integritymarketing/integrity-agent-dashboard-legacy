@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import Modal from "components/ui/modal";
 import "./lostStageDisposition.scss";
 
-export default ({
+const LostStageDisposition = ({
   subStatuses = [],
   open,
   onClose: handleCloseModal,
@@ -69,3 +69,5 @@ export default ({
     </div>
   );
 };
+
+export default LostStageDisposition;

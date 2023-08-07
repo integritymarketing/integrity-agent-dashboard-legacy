@@ -38,7 +38,7 @@ const getMessageForCode = (code) => {
   }
 };
 
-export default () => {
+const ErrorPage = () => {
   const [HelpLink, HelpModal] = useHelpLinkWithModal();
   const params = useQueryParams();
   const errorMessage = getMessageForCode(params.get("code"));
@@ -71,3 +71,5 @@ export default () => {
     </div>
   );
 };
+
+export default ErrorPage;

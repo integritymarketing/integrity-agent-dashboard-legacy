@@ -16,7 +16,6 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { formatPhoneNumber } from "utils/phones";
 import useToast from "hooks/useToast";
 import phonesImage from "images/signup-phones.png";
-import authService from "services/authService";
 import useUserProfile from "hooks/useUserProfile";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/system";
@@ -43,7 +42,7 @@ export default function GetStarted(props) {
   const {
     agentInfomration: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
-  const { npn, agentId } = useUserProfile();
+  const { agentId } = useUserProfile();
 
   const handleCloseModal = async () => {
     try {
@@ -129,7 +128,7 @@ export default function GetStarted(props) {
           }
         ></Paragraph>
         <Button
-          onClick={() => authService.handleOpenLeadsCenter(npn)}
+          onClick={() => {}}
           variant="contained"
           sx={{ my: "0.5rem" }}
           size={"small"}

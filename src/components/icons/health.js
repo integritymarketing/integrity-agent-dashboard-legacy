@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => {
+const HealthIcon = () => {
   return (
     <svg
       id="Health"
@@ -44,3 +44,5 @@ export default () => {
     </svg>
   );
 };
+
+export default HealthIcon;

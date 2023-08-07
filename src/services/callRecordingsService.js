@@ -41,4 +41,6 @@ export const useCallRecordingsService = () => {
   return useClientServiceWithToken(CallRecordingsService)
 }
 
-export default new CallRecordingsService();
+const callRecordingsServiceInstance = new CallRecordingsService();
+
+export default callRecordingsServiceInstance;

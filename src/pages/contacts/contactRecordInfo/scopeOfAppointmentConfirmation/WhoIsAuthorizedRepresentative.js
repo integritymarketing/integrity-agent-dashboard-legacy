@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import analyticsService from "services/analyticsService";
 import "./index.scss";
 
-export default ({ isOpen, onClose }) => {
+const WhoIsAuthorizedRepresentative = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       analyticsService.fireEvent("event-modal-appear", {
@@ -44,3 +44,5 @@ export default ({ isOpen, onClose }) => {
     </div>
   );
 };
+
+export default WhoIsAuthorizedRepresentative;

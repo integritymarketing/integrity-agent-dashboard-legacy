@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const RoundCloseIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,7 @@ export default (props) => {
           transform="translate(128 24)"
           fill="#fff"
           stroke="#e15241"
-          stroke-width="1"
+          strokeWidth="1"
         >
           <circle cx="8" cy="8" r="8" stroke="none" />
           <circle cx="8" cy="8" r="7.5" fill="none" />
@@ -32,8 +32,8 @@ export default (props) => {
             transform="translate(1093 341)"
             fill="none"
             stroke="#e15241"
-            stroke-linecap="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeWidth="1"
           />
           <line
             id="Line_654"
@@ -43,11 +43,13 @@ export default (props) => {
             transform="translate(1088.513 344.513)"
             fill="none"
             stroke="#e15241"
-            stroke-linecap="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeWidth="1"
           />
         </g>
       </g>
     </svg>
   );
 };
+
+export default RoundCloseIcon;

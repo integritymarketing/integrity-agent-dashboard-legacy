@@ -1,10 +1,10 @@
 import React, { useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Radio from "@material-ui/core/Radio";
-import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles } from "@mui/styles";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Radio from "@mui/material/Radio";
+import ListItemText from "@mui/material/ListItemText";
 
 const usePrescriptionListStyles = makeStyles((theme) => ({
   // Style rules for the radio buttons

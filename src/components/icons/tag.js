@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const TagIcon = (props) => {
   return (
     <svg
       width={"16px"}
@@ -26,3 +26,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default TagIcon;

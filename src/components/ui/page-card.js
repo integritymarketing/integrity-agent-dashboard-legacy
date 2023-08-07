@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "components/ui/card";
 
-export default ({
+const PageCard = ({
   className = "",
   children,
   link = null,
@@ -24,3 +24,5 @@ export default ({
     </Card>
   );
 };
+
+export default PageCard;

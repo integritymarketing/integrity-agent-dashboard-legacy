@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const BtnExpand = () => {
   return (
     <svg
       id="btn-Expand"
@@ -25,8 +25,8 @@ export default (props) => {
           transform="translate(11 5)"
           fill="none"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeWidth="1"
         />
         <line
           id="Line_654"
@@ -35,10 +35,12 @@ export default (props) => {
           transform="translate(5 11)"
           fill="none"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeWidth="1"
         />
       </g>
     </svg>
   );
 };
+
+export default BtnExpand;

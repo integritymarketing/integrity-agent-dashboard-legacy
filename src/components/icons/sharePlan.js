@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const SharePlanIcon = (props) => {
   return (
     <svg
       id="icon-Send"
@@ -48,3 +48,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default SharePlanIcon;

@@ -84,7 +84,7 @@ export const ShortReminder = ({
   );
 };
 
-export default ({ reminder }) => {
+const Reminder = ({ reminder }) => {
   const { reminderDate } = reminder;
   return (
     <div className="reminderCardSection2">
@@ -106,3 +106,5 @@ export default ({ reminder }) => {
     </div>
   );
 };
+
+export default Reminder;

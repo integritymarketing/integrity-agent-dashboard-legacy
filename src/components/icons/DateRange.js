@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const DateRangeIcon = () => {
   return (
     <svg
       id="DateRange"
@@ -149,3 +149,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default DateRangeIcon;

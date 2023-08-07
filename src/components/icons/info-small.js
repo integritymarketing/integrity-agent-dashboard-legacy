@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const InfoSmallIcon = () => {
   return (
     <svg
       width="14"
@@ -18,3 +18,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default InfoSmallIcon;

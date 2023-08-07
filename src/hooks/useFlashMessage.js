@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import FlashContext from "contexts/flash";
 
-export default () => {
+const useFlashMessage = () => {
   const [messageState, setMessageState] = useContext(FlashContext);
 
   return {
@@ -11,3 +11,5 @@ export default () => {
     dismiss: () => setMessageState({ ...messageState, isVisible: false }),
   };
 };
+
+export default useFlashMessage;

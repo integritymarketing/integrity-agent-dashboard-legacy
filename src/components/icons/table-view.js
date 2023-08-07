@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const TableViewIcon = (props) => {
   return (
     <svg
       width="35"
@@ -54,3 +54,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default TableViewIcon;

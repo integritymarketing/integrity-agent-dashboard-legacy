@@ -1,6 +1,6 @@
 import React from "react";
 
-export default ({ hover }) => {
+const ScopeSendIcon = ({ hover }) => {
   const stroke = hover ? "#0052CE" : "#6A7279";
   return (
     <svg
@@ -25,3 +25,5 @@ export default ({ hover }) => {
     </svg>
   );
 };
+
+export default ScopeSendIcon;

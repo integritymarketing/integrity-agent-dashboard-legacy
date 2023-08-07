@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const CardViewIcon = () => {
   return (
     <svg
       width="30"
@@ -17,3 +17,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default CardViewIcon;

@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  InputAdornment,
-  makeStyles,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import Typography from "@mui/material/Typography";
 
 import SearchIcon from "../Icons/SearchIcon";
 

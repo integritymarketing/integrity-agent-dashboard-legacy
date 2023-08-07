@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const CloseIcon = (props) => {
   const { width = "16px", height = "16px", color = "#313336" } = props;
   return (
     <svg
@@ -28,3 +28,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default CloseIcon;

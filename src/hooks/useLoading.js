@@ -4,7 +4,7 @@ import LoadingIcon from "components/icons/loading";
 
 let timeout = null;
 
-export default () => {
+const useLoading = () => {
   const { show, dismiss } = useFlashMessage();
 
   return {
@@ -32,3 +32,5 @@ export default () => {
     },
   };
 };
+
+export default useLoading;

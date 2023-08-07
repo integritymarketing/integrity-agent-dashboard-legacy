@@ -4,7 +4,7 @@ import "./index.scss";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 import { MonthlyCostTable } from "./shared/monthly-cost-table";
 
-export default ({
+const PlanDetailsTableWithCollapse = ({
   columns,
   data,
   planData,
@@ -38,7 +38,7 @@ export default ({
             {...getTableBodyProps()}
             className={`${tbodyClassName} plan-details-tbody`}
           >
-            {rows.map((row, i) => {
+            {rows.map((row) => {
               prepareRow(row);
               return (
                 <tr
@@ -71,3 +71,5 @@ export default ({
     </>
   );
 };
+
+export default PlanDetailsTableWithCollapse;

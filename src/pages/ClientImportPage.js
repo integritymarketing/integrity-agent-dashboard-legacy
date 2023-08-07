@@ -1,16 +1,15 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-
+import { useHistory } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import LeadImporter from "partials/lead-importer";
-import { useHistory } from "react-router-dom";
 import { Button } from "components/ui/Button";
 
 import styles from "./ClientImportPage.module.scss";
 
-export default () => {
+const ClientImportPage = () => {
   const history = useHistory();
 
   const goToContactsPage = () => {
@@ -68,3 +67,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ClientImportPage;

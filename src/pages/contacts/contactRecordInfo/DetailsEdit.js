@@ -18,7 +18,7 @@ import CountyContext from "contexts/counties";
 import DatePickerMUI from "components/DatePicker";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-export default (props) => {
+const DetailsEditContact = (props) => {
   let {
     firstName = "",
     middleName = "",
@@ -795,3 +795,5 @@ export default (props) => {
     </Formik>
   );
 };
+
+export default DetailsEditContact;

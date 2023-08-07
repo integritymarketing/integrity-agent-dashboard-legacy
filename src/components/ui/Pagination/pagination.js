@@ -51,7 +51,7 @@ const ResetPageSize = ({ size, resetSize }) => {
   );
 };
 
-export default ({
+const Pagination = ({
   totalPages = 5,
   totalResults,
   currentPage = 1,
@@ -189,3 +189,5 @@ export default ({
     </Media>
   );
 };
+
+export default Pagination;

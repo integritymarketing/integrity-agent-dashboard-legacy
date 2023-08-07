@@ -1,7 +1,7 @@
 import Modal from "components/ui/modal";
 import React from "react";
 
-export default ({
+const VideoModal = ({
   modalOpen,
   handleCloseModal,
   videoUrl,
@@ -35,3 +35,5 @@ export default ({
     </React.Fragment>
   );
 };
+
+export default VideoModal;

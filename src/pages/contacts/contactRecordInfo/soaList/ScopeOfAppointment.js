@@ -8,7 +8,7 @@ import * as Sentry from "@sentry/react";
 import SOA_CARD from "./soaCard";
 import SharePlan from "components/icons/sharePlan";
 
-export default ({ setDisplay, isMobile, ...rest }) => {
+const ScopeOfAppointment = ({ setDisplay, isMobile, ...rest }) => {
   const [soaList, setSoaList] = useState([]);
   const [showSize, setShowSize] = useState(5);
   const [hovered, setHovered] = useState(false);
@@ -112,3 +112,5 @@ export default ({ setDisplay, isMobile, ...rest }) => {
     </div>
   );
 };
+
+export default ScopeOfAppointment;

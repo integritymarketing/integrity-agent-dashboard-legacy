@@ -24,7 +24,7 @@ const LoginLink = (props) => {
   );
 };
 
-const Authentication = () => {
+const SigninRedirectPage = () => {
   const { loginWithRedirect } = useAuth0();
   const [error, setError] = useState(false);
 
@@ -55,4 +55,4 @@ const Authentication = () => {
   );
 };
 
-export default Authentication;
+export default SigninRedirectPage;

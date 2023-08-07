@@ -5,7 +5,7 @@ import CollapseIcon from "components/icons/v2-collapse";
 
 const identity = (x) => x;
 
-export default ({ header, sections = [], ...props }) => {
+const ExpandableContent = ({ header, sections = [] }) => {
   const { hash = "#" } = useLocation();
   const initialSection = hash.substr(1);
 
@@ -70,3 +70,5 @@ export default ({ header, sections = [], ...props }) => {
     </React.Fragment>
   );
 };
+
+export default ExpandableContent;

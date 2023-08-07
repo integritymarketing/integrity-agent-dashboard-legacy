@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const HamburgerIcon = (props) => {
   return (
     <svg width="18" height="12" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g fill="none" fillRule="evenodd">
@@ -12,3 +12,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default HamburgerIcon;

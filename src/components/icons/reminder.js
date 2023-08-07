@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const ReminderIcon = () => {
   return (
     <svg
       width="17"
@@ -36,3 +36,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default ReminderIcon;

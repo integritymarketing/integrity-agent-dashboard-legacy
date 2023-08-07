@@ -1,6 +1,6 @@
 import React from "react";
 
-export default ({ disabled }) => {
+const PlusIcon = ({ disabled }) => {
   const stroke = disabled ? "#94A3B8" : "#0052CE";
   return (
     <svg
@@ -27,3 +27,5 @@ export default ({ disabled }) => {
     </svg>
   );
 };
+
+export default PlusIcon;

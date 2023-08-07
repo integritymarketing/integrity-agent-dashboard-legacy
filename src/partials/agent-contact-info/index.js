@@ -3,7 +3,7 @@ import Modal from "components/ui/modal";
 import { formatPhoneNumber } from "utils/phones";
 import "./index.scss";
 
-export default ({ open, close, agentInfo }) => {
+const AgentContactInfo = ({ open, close, agentInfo }) => {
   const { AgentFirstName, AgentLastName, AgentPhoneNumber, AgentEmail } =
     agentInfo;
   const phone = formatPhoneNumber(AgentPhoneNumber, true);
@@ -45,3 +45,5 @@ export default ({ open, close, agentInfo }) => {
     </Modal>
   );
 };
+
+export default AgentContactInfo;

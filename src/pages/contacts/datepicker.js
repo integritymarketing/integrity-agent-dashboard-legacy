@@ -1,16 +1,16 @@
 import React from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
-import { DateUtils } from "react-day-picker";
 import ReminderIcon from "components/icons/reminder";
 import dateFnsFormat from "date-fns/format";
 import dateFnsParse from "date-fns/parse";
+import isDate from "date-fns/isDate";
 
 const FORMAT = "MM/dd";
 
 function parseDate(str, format, locale) {
   const parsed = dateFnsParse(str, format, new Date(), { locale });
-  if (DateUtils.isDate(parsed)) {
+  if (isDate(parsed)) {
     return parsed;
   }
   return undefined;
@@ -20,7 +20,7 @@ function formatDate(date, format, locale) {
   return dateFnsFormat(date, format, { locale });
 }
 
-export default ({
+const DatePicker = ({
   date,
   format,
   onAddNew,
@@ -55,3 +55,5 @@ export default ({
     />
   );
 };
+
+export default DatePicker;

@@ -136,7 +136,7 @@ function TotalEstValue({ planData, effectiveStartDate, monthNumber }) {
   );
 }
 
-export default ({ planData }) => {
+const CostTable = ({ planData }) => {
   const { effectiveDate } = useParams();
   const [y, m] = effectiveDate?.split("-");
   const effectiveStartDate = new Date(`${y}-${m}-15`);
@@ -229,6 +229,8 @@ export default ({ planData }) => {
     </>
   );
 };
+
+export default CostTable;
 
 export function CostCompareTable({ plans, effectiveDate }) {
   const [y, m] = effectiveDate.split("-");

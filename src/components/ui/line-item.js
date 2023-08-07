@@ -1,7 +1,7 @@
 import React from "react";
 import ArrowRightIcon from "components/icons/arrow-right";
 
-export default ({
+const LineItem = ({
   icon = null,
   actionIcon = <ArrowRightIcon />,
   children = null,
@@ -30,3 +30,5 @@ export default ({
     </a>
   );
 };
+
+export default LineItem;

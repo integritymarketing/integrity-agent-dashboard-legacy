@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
+import "./index.scss";
+
 import * as Sentry from "@sentry/react";
 import { Link, useHistory } from "react-router-dom";
 import Media from "react-media";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
-import Logo from "partials/logo";
-import MyButton from "./MyButton";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import Logout from "./Logout.svg";
 import Account from "./Account.svg";
 import NeedHelp from "./Needhelp.svg";
 import { useClientServiceContext } from "services/clientServiceProvider";
-import "./index.scss";
+import MyButton from "./MyButton";
+import Logo from "partials/logo";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import GetStarted from "packages/GetStarted";
@@ -108,7 +109,7 @@ const SiteNotification = ({
   return null;
 };
 
-export default ({ menuHidden = false, className = "", page, ...props }) => {
+const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
   const { clientsService } = useClientServiceContext();
   const auth = useAuth0();
   const addToast = useToast();
@@ -487,3 +488,5 @@ export default ({ menuHidden = false, className = "", page, ...props }) => {
     </>
   );
 };
+
+export default GlobalNav;

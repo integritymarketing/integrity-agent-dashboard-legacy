@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
+import PropTypes from 'prop-types';
 import { useLocation } from "react-router-dom";
 import useFlashMessage from "hooks/useFlashMessage";
 import ExitIcon from "components/icons/exit";
 
-export default () => {
+const FlashMessage = () => {
   const {
     message,
     dismissable = true,
@@ -12,7 +13,10 @@ export default () => {
     dismiss,
   } = useFlashMessage();
   const { pathname } = useLocation();
-  useEffect(dismiss, [pathname]);
+
+  useEffect(() => {
+    dismiss();
+  }, [pathname, dismiss]);
 
   return (
     <div
@@ -35,3 +39,18 @@ export default () => {
     </div>
   );
 };
+
+FlashMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+  dismissable: PropTypes.bool,
+  type: PropTypes.string,
+  isVisible: PropTypes.bool.isRequired,
+  dismiss: PropTypes.func.isRequired,
+};
+
+FlashMessage.defaultProps = {
+  dismissable: true,
+  type: "neutral",
+};
+
+export default FlashMessage;

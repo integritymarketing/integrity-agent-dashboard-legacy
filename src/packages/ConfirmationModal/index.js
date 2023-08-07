@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "components/ui/modal";
 
-export default ({ open, title, message, cancelHandler, submitHandler }) => {
+const ConfirmationModal = ({ open, title, message, cancelHandler, submitHandler }) => {
   return (
     <Modal open={open} labeledById="dialog_contact_label">
       <div className="customDeletepopup">
@@ -19,3 +19,5 @@ export default ({ open, title, message, cancelHandler, submitHandler }) => {
     </Modal>
   );
 };
+
+export default ConfirmationModal;

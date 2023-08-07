@@ -1,4 +1,4 @@
-export default {
+const planTypeMap = {
   MAPD: [
     {
       label: "Medical Deductible",
@@ -65,3 +65,5 @@ export default {
     },
   ],
 };
+
+export default planTypeMap;

@@ -3,7 +3,7 @@ import "./index.scss";
 import Logo from "./image.svg";
 import AgentContactInfo from "partials/agent-contact-info";
 
-export default ({ agentInfo }) => {
+const BlueHeader = ({ agentInfo }) => {
   const [helpModal, setHelpModal] = useState(false);
 
   const handleCloseHelpModal = () => {
@@ -24,3 +24,5 @@ export default ({ agentInfo }) => {
     </header>
   );
 };
+
+export default BlueHeader;

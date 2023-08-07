@@ -1,6 +1,6 @@
 import React from "react";
 
-export default ({ fill = "#0052CE", ...props }) => {
+const ArrowDownIcon = ({ fill = "#0052CE", ...props }) => {
   return (
     <svg width="12" height="9" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g fill="none" fillRule="evenodd">
@@ -12,3 +12,5 @@ export default ({ fill = "#0052CE", ...props }) => {
     </svg>
   );
 };
+
+export default ArrowDownIcon;

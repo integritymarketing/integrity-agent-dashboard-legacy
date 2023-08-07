@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import { makeStyles, Typography } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import { makeStyles } from "@mui/styles"; 
 
 const useStyles = makeStyles(() => ({
   textContainer: {

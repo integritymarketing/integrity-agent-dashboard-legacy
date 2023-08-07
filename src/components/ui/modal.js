@@ -3,7 +3,7 @@ import ExitIcon from "components/icons/exit";
 import PageCard from "components/ui/page-card";
 import Container from "components/ui/container";
 
-export default ({
+const Modal = ({
   header,
   open = false,
   wide = false,
@@ -112,3 +112,5 @@ export default ({
     </div>
   );
 };
+
+export default Modal;

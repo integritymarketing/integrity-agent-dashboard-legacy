@@ -7,7 +7,7 @@ import analyticsService from "services/analyticsService";
 import usePortalUrl from "hooks/usePortalUrl";
 import { MobileFooter } from "mobile/MobileFooter";
 
-export default ({ className = "", hideMedicareIcon, ...props }) => {
+const GlobalFooter = ({ className = "", hideMedicareIcon, ...props }) => {
   const portalUrl = usePortalUrl();
   const hideMedicareTag = !hideMedicareIcon;
   const [isMobile, setIsMobile] = useState(false);
@@ -103,3 +103,5 @@ export default ({ className = "", hideMedicareIcon, ...props }) => {
     </>
   );
 };
+
+export default GlobalFooter;

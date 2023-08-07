@@ -1,60 +1,61 @@
-import React, { Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import Router from "components/functional/router";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { RecoilRoot } from "recoil";
 import { theme } from "./theme";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from '@mui/material/styles';
 import Media from "react-media";
 import TrafficDirector from "components/functional/traffic-director";
 import {ClientServiceContextProvider} from "services/clientServiceProvider";
 import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
-import ResourcesPage from "pages/ResourcesPage";
-import AccountPage from "pages/AccountPage";
-import ClientImportPage from "pages/ClientImportPage";
-import NotFoundPage from "pages/NotFound";
-import ErrorPage from "pages/ErrorPage";
-import TermsPage from "pages/TermsPage";
-import EnrollmentHistoryPage from "pages/EnrollmentHistoryPage";
-import PrivacyPage from "pages/PrivacyPage";
-import ContactDetailsPage from "pages/ContactDetails";
-import MaintenancePage from "pages/MaintenancePage";
-import PlansPage from "pages/PlansPage";
-import LeadCenterRedirect from "pages/LeadCenterRedirect";
-import Dashboard from "pages/dashbaord";
-import ComparePlansPage from "pages/ComparePlansPage";
-import ComparePlansCodePage from "pages/ComparePlansCodePage";
-import LinkToContact from "pages/LinkToContact";
-import NewScopeOfAppointment from "pages/contacts/contactRecordInfo/newScopeOfAppointment";
-import SOAConfirmationPage from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage";
-import SOAConfirmationForm from "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation";
-import PortalUrl from "components/functional/portal-url";
-import AuthSigninRedirectPage from "pages/auth/SigninRedirectPage";
-import AuthSigninCallback from "components/functional/auth-signin-callback";
-import AuthSignoutCallback from "components/functional/auth-signout-callback";
-import AuthSilentCallback from "components/functional/auth-silent-callback";
-import ContactsPage from "pages/contacts/ContactsPage";
-import AddNewContactPage from "pages/contacts/AddNewContactPage";
-import ContactRecordInfo from "pages/contacts/contactRecordInfo";
-import ContactsSOAConfirmForm from "pages/contacts/soa/ContactsSOAConfirmForm";
+
 import {
   AuthenticatedRoute,
   UnauthenticatedRoute,
 } from "components/functional/auth-routes";
+
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { CountyProvider } from "contexts/counties";
 import { ContactsProvider } from "contexts/contacts";
 import { BackNavProvider } from "contexts/backNavProvider";
 import { StageSummaryProvider } from "contexts/stageSummary";
-import PlanDetailsPage from "pages/PlanDetailsPage";
-import RedirectLoadingPage from "pages/RedirectLoading";
-import HelpPage from "pages/Help";
-import Welcome from "pages/welcome";
 import { ParallaxProvider } from "react-scroll-parallax";
-import LandingPage from "mobile/landing/LandingPage";
-import EnrollmentLinkToContact from "pages/EnrollmentLinkToContact";
-import PolicyCodePage from "pages/dashbaord/SharePolicy";
+
+const AccountPage = lazy(() => import("pages/AccountPage"));
+const AddNewContactPage = lazy(() => import("pages/contacts/AddNewContactPage"));
+const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));
+const ClientImportPage = lazy(() => import("pages/ClientImportPage"));
+const ComparePlansCodePage = lazy(() => import("pages/ComparePlansCodePage"));
+const ComparePlansPage = lazy(() => import("pages/ComparePlansPage"));
+const ContactDetailsPage = lazy(() => import("pages/ContactDetails"));
+const ContactRecordInfo = lazy(() => import("pages/contacts/contactRecordInfo"));
+const ContactsPage = lazy(() => import("pages/contacts/ContactsPage"));
+const ContactsSOAConfirmForm = lazy(() => import("pages/contacts/soa/ContactsSOAConfirmForm"));
+const Dashboard = lazy(() => import("pages/dashbaord"));
+const EnrollmentHistoryPage = lazy(() => import("pages/EnrollmentHistoryPage"));
+const EnrollmentLinkToContact = lazy(() => import("pages/EnrollmentLinkToContact"));
+const ErrorPage = lazy(() => import("pages/ErrorPage"));
+const HelpPage = lazy(() => import("pages/Help"));
+const LandingPage = lazy(() => import("mobile/landing/LandingPage"));
+const LeadCenterRedirect = lazy(() => import("pages/LeadCenterRedirect"));
+const LinkToContact = lazy(() => import("pages/LinkToContact"));
+const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
+const NewScopeOfAppointment = lazy(() => import("pages/contacts/contactRecordInfo/newScopeOfAppointment"));
+const NotFoundPage = lazy(() => import("pages/NotFound"));
+const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
+const PlansPage = lazy(() => import("pages/PlansPage"));
+const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
+const PortalUrl = lazy(() => import("components/functional/portal-url"));
+const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
+const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
+const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
+const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
+const SOAConfirmationPage = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"));
+const TermsPage = lazy(() => import("pages/TermsPage"));
+const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
+const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
   return (
@@ -218,26 +219,6 @@ const App = () => {
                                       path="/signin"
                                       component={AuthSigninRedirectPage}
                                     />
-                                    <Route
-                                      path="/signin-oidc-silent"
-                                      component={AuthSilentCallback}
-                                    />
-                                    <Route
-                                      path="/signin-oidc-silent"
-                                      component={AuthSilentCallback}
-                                    />
-                                    <Route
-                                      path="/signin-oidc"
-                                      component={AuthSigninCallback}
-                                    />
-                                    <Route
-                                      path="/signin-oidc-sunfire-mobile"
-                                      component={AuthSigninCallback}
-                                    />
-                                    <Route
-                                      path="/signout-oidc"
-                                      component={AuthSignoutCallback}
-                                    />
                                     <Route path="/maintenance">
                                       <Redirect to="/" />
                                     </Route>
@@ -252,6 +233,7 @@ const App = () => {
                                     </Route>
                                   </Switch>
                                 )}
+                                <WebChatComponent/>
                               </div>
                               <PortalUrl />
                             </Router>

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const InputClearIcon = (props) => {
   return (
     <svg
       width="16"
@@ -26,3 +26,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default InputClearIcon;

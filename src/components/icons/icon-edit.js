@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const IconEdit = (props) => {
   return (
     <svg
       id="icon-Edit"
@@ -47,3 +47,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default IconEdit;

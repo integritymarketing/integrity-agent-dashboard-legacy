@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import Back from "components/icons/back";
 import "./index.scss";
 
-export default ({ title = "", leadId }) => {
+const BackNav = ({ title = "", leadId }) => {
   const history = useHistory();
   const noTitle = title === "Back to ";
   const goBack = () => {
@@ -28,3 +28,5 @@ export default ({ title = "", leadId }) => {
     </div>
   );
 };
+
+export default BackNav;

@@ -1,7 +1,7 @@
 import React from "react";
 import BaseLegalPage from "pages/BaseLegalPage";
 
-export default () => {
+const PrivacyPage = () => {
   return (
     <BaseLegalPage title="Privacy Policy">
       <p className="text-body text-body--large mb-4">
@@ -99,3 +99,5 @@ export default () => {
     </BaseLegalPage>
   );
 };
+
+export default PrivacyPage;

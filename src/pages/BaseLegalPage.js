@@ -3,7 +3,7 @@ import Container from "components/ui/container";
 import GlobalNavV2 from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 
-export default ({ children, title, ...props }) => {
+const BaseLegalPage = ({ children, title, ...props }) => {
   return (
     <div className="content-frame" {...props}>
       <div className="bg-photo text-invert">
@@ -24,3 +24,5 @@ export default ({ children, title, ...props }) => {
     </div>
   );
 };
+
+export default BaseLegalPage;

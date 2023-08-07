@@ -1,4 +1,4 @@
-export default (paramString = window.location.search) => {
+const useQueryParams = (paramString = window.location.search) => {
   const searchParams = new URLSearchParams(paramString);
 
   return {
@@ -7,3 +7,5 @@ export default (paramString = window.location.search) => {
     },
   };
 };
+
+export default useQueryParams;

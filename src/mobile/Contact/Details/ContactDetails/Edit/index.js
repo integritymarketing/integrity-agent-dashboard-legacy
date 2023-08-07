@@ -25,7 +25,7 @@ const PrimaryContactTypes = [
   { value: "phone", label: "Phone" },
 ];
 
-export default (props) => {
+const EditDetails =  (props) => {
   let {
     firstName = "",
     middleName = "",
@@ -682,3 +682,5 @@ export default (props) => {
     </Formik>
   );
 };
+
+export default EditDetails;

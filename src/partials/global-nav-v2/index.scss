@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../../scss/mixins";
 
 .global-nav-v2 {
@@ -34,7 +36,7 @@
   }
 
   &__links > ul {
-    line-height: (24 / 16);
+    line-height: math.div(24, 16);
   }
 
   &__mobile-trigger {
@@ -145,7 +147,7 @@
 
   &__link {
     font-size: 20px;
-    line-height: (24/20);
+    line-height: (24*0.05);
     font-family: "Lato";
   }
 

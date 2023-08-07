@@ -4,7 +4,7 @@ import ArrowDown from "components/icons/arrow-down";
 import "./index.scss";
 import Container from "components/ui/container";
 
-export default ({ backText, onBackClick }) => {
+const FocusedNav = ({ backText, onBackClick }) => {
   return (
     <div className={"focused-nav"}>
       <Container>
@@ -20,3 +20,5 @@ export default ({ backText, onBackClick }) => {
     </div>
   );
 };
+
+export default FocusedNav;

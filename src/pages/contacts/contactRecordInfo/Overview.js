@@ -3,7 +3,7 @@ import Reminders from "./reminder";
 import ClientNotes from "./clientNotes";
 import Activities from "pages/ContactDetails/Activities";
 
-export default ({
+const Overview = ({
   personalInfo,
   reminders = [],
   getLeadDetails,
@@ -30,3 +30,5 @@ export default ({
     </>
   );
 };
+
+export default Overview;

@@ -4,12 +4,11 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 
-export default ({
+const AddReminder = ({
   reminderModalStatus,
   setReminderModalStatus,
   getLeadDetails,
   leadId,
-  ...props
 }) => {
   const [reminderNote, setReminderNote] = useState("");
   const [reminderDate, setReminderDate] = useState(null);
@@ -24,7 +23,7 @@ export default ({
     };
     clientsService
       .createReminder(payload)
-      .then((data) => {
+      .then(() => {
         addToast({
           type: "success",
           message: "Reminder successfully added.",
@@ -82,3 +81,5 @@ export default ({
     </div>
   );
 };
+
+export default AddReminder;

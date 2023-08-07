@@ -7,7 +7,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-export default ({ planData, effectiveDate }) => {
+const CostBreakdowns = ({ planData, effectiveDate }) => {
   const rows = [];
   const planTypeBreakdowns =
     planTypeValueMap[PLAN_TYPE_ENUMS[planData.planType]];
@@ -41,3 +41,5 @@ export default ({ planData, effectiveDate }) => {
   }
   return rows;
 };
+
+export default CostBreakdowns;
