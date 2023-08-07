@@ -46,7 +46,7 @@ export function MonthlyCostTable({
               {expandedMonths[mc.monthID] ? (
                 <ArrowDown />
               ) : (
-                <ArrowDown style={{ transform: "rotate(270deg)" }} />
+                <ArrowDown className="cost-arrow-side" />
               )}
               <div>
                 {" "}

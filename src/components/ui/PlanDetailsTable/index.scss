@@ -272,6 +272,10 @@
           padding-left: 10px;
         }
       }
+
+      .cost-arrow-side {
+        transform: rotate(270deg);
+      }
     }
     .costPhases {
       color: #717171;

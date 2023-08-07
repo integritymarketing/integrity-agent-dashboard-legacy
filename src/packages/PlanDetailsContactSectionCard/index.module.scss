@@ -51,6 +51,7 @@
 
   @include small {
     background: none;
+    overflow-x: scroll;
   }
 }
 
