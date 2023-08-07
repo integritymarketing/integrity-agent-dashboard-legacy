@@ -233,7 +233,7 @@ const App = () => {
                                     </Route>
                                   </Switch>
                                 )}
-                                <WebChatComponent/>
+                                {false && <WebChatComponent/>}
                               </div>
                               <PortalUrl />
                             </Router>
