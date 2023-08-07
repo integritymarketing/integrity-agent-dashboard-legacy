@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import callRecordingsService from "services/callRecordingsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { getSignalRConnection } from "hooks/signalRConnection";
 import useUserProfile from "hooks/useUserProfile";
 
 export default function useCallRecordings() {
+  const { callRecordingsService } = useClientServiceContext();
   const [callRecordings, setCallRecordings] = useState([]);
   const { agentId } = useUserProfile();
 
@@ -39,7 +40,7 @@ export default function useCallRecordings() {
     return () => {
       connection.off("ActiveCall", handleActiveCall);
     };
-  }, [agentId]);
+  }, [agentId, callRecordingsService]);
 
   return callRecordings;
 }

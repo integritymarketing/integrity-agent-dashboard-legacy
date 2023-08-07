@@ -3,6 +3,7 @@ import { ClientsService } from "./clientsService";
 import { PlansService } from "./plansService";
 import { ComparePlansService } from "./comparePlansService";
 import { EnrollPlansService } from "./enrollPlansService";
+import { CallRecordingsService } from "./callRecordingsService";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const ClientServiceContext = createContext({
@@ -10,6 +11,7 @@ const ClientServiceContext = createContext({
   plansService: null,
   comparePlansService: null,
   enrollPlansService: null,
+  callRecordingsService: null,
 });
 
 export function useClientServiceContext() {
@@ -39,9 +41,14 @@ export function ClientServiceContextProvider({ children }) {
     [getAccessTokenSilently, user]
   );
 
+  const callRecordingsService = useMemo(
+    () => new CallRecordingsService(getAccessTokenSilently),
+    [getAccessTokenSilently]
+  );
+
   return (
     <ClientServiceContext.Provider
-      value={{ clientsService, plansService, enrollPlansService, comparePlansService }}
+      value={{ clientsService, plansService, enrollPlansService, comparePlansService, callRecordingsService }}
     >
       {children}
     </ClientServiceContext.Provider>
