@@ -11,7 +11,6 @@ import { useHistory } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
 import useToast from "hooks/useToast";
-import callRecordingsService from "services/callRecordingsService";
 import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
@@ -34,7 +33,7 @@ const ContactListItemButton = ({
   callLogId,
   children,
 }) => {
-  const { clientsService } = useClientServiceContext();
+  const { clientsService, callRecordingsService } = useClientServiceContext();
   const addToast = useToast();
   const history = useHistory();
 
@@ -72,6 +71,7 @@ const ContactListItemButton = ({
     addToast,
     contact.phones,
     updatePrimaryContact,
+    callRecordingsService,
   ]);
 
   return (

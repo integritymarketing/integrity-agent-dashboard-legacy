@@ -24,7 +24,6 @@ import {
   formatMbiNumber,
 } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
-import callRecordingsService from "services/callRecordingsService";
 import useQueryParams from "hooks/useQueryParams";
 import DatePickerMUI from "components/DatePicker";
 
@@ -37,7 +36,7 @@ const NewContactForm = ({
   partB = "",
   medicareBeneficiaryID = "",
 }) => {
-  const { clientsService, enrollPlansService } = useClientServiceContext();
+  const { clientsService, enrollPlansService, callRecordingsService } = useClientServiceContext();
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const isRelink = get("relink") === "true";
