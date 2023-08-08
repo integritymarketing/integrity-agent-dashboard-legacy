@@ -6,6 +6,14 @@
     height: 1rem;
   }
 
+  .webchat__basic-transcript {
+    max-height: calc(100vh - 330px);
+
+    @include small {
+      max-height: calc(100vh - 230px);
+    }
+  }
+
   .webchat__stacked-layout {
     margin: 0;
   }

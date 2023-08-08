@@ -59,12 +59,21 @@
 
     &.active {
       right: 0;
+
+      :global(.webchat__send-box) {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 32rem;
+      }
+      
       @include small {
         :global(.webchat__send-box) {
           position: fixed;
           bottom: 0;
           right: 0;
           left: 0;
+          width: 100vw;
         }
       }
     }
