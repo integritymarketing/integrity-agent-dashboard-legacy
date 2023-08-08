@@ -8,6 +8,7 @@ export function MonthlyCostTable({
   months,
   monthNumber,
   currencyFormatter,
+  isShowMore,
 }) {
   const effectiveMonthlyCosts =
     planData && planData.pharmacyCosts?.length > 0
@@ -144,29 +145,33 @@ export function MonthlyCostTable({
           setIsMobile(isMobile);
         }}
       />
-      <div className="show-more-cost">
-        {showMore ? (
-          <div style={{ transform: "rotate(180deg)" }}>
-            <ArrowDown />
+      {isShowMore && (
+        <>
+          <div className="show-more-cost">
+            {showMore ? (
+              <ArrowDown className="cost-arrow-side" />
+            ) : (
+              <ArrowDown />
+            )}
+            <button
+              className="show-more-cost-label"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMore(!showMore);
+              }}
+            >
+              {isMobile ? "Monthly Costs" : "Show More"}
+            </button>
           </div>
-        ) : (
-          <ArrowDown />
-        )}
-        <button
-          className="show-more-cost-label"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowMore(!showMore);
-          }}
-        >
-          {isMobile ? "Monthly Costs" : "Show More"}
-        </button>
-      </div>
-      {showMore && (
-        <div className="cost-monthly-past">{showPastMonthBar()}</div>
-      )}
-      {showMore && (
-        <div className="cost-monthly-prescriptions">{showMonthlyBars()}</div>
+          {showMore && (
+            <div className="cost-monthly-past">{showPastMonthBar()}</div>
+          )}
+          {showMore && (
+            <div className="cost-monthly-prescriptions">
+              {showMonthlyBars()}
+            </div>
+          )}
+        </>
       )}
     </>
   );
