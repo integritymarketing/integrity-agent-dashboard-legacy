@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
-import ReactWebChat, { createDirectLine } from "botframework-webchat";
+import ReactWebChat, {
+  createDirectLine,
+  createStore,
+} from "botframework-webchat";
 import styles from "./WebChat.module.scss";
 import ChatIcon from "./chat-icon.gif";
 import HideIcon from "./hide-icon.png";
 import cx from "classnames";
 import "./WebChat.scss";
+import useUserProfile from "hooks/useUserProfile";
 
 const WebChatComponent = () => {
+  const { agentId, fullName } = useUserProfile();
   const [directLineToken, setDirectLineToken] = useState(null);
 
   const [isChatActive, setIsChatActive] = useState(false);
@@ -72,6 +77,28 @@ const WebChatComponent = () => {
     audioRef.current.play();
   };
 
+  const store = useMemo(
+    () =>
+      createStore({}, ({ dispatch }) => (next) => async (action) => {
+
+        if (action.type === "DIRECT_LINE/CONNECT_FULFILLED") {
+          dispatch({
+            type: "WEB_CHAT/SEND_EVENT",
+            payload: {
+              name: "webchat/join",
+              value: {
+                marketerName: fullName,
+                marketerId: agentId,
+                appId: "MedicareCenter",
+              },
+            },
+          });
+        }
+        return next(action);
+      }),
+    [agentId, fullName]
+  );
+
   return (
     <div className={styles.container}>
       <div
@@ -90,6 +117,7 @@ const WebChatComponent = () => {
         </div>
         {directLineToken && (
           <ReactWebChat
+            store={store}
             directLine={directLine}
             styleOptions={styleOptions}
             overrideLocalizedStrings={overrideLocalizedStrings}

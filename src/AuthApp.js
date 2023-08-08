@@ -1,35 +1,34 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import Router from "components/functional/router";
 import { Route, Switch } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-// the following routes (beginning w/ Server*) are configured in IdentityServer
-// and are redirected to for each common auth situation
-import ServerLoginPage from "pages/auth/ServerLoginPage";
-import ServerLogoutPage from "pages/auth/ServerLogoutPage";
-import ServerErrorPage from "pages/auth/ServerErrorPage";
-import RegistrationPage from "pages/auth/RegistrationPage";
-import RegistrationConfirmEmailPage from "pages/auth/RegistrationConfirmEmailPage";
-import RegistrationConfirmLinkExpiredPage from "pages/auth/RegistrationConfirmLinkExpiredPage";
-import RegistrationCheckEmailPage from "pages/auth/RegistrationCheckEmailPage";
-import RegistrationCompletedPage from "pages/auth/RegistrationCompletedPage";
-import ForgotPasswordPage from "pages/auth/ForgotPasswordPage";
-import ForgotPasswordSentPage from "pages/auth/ForgotPasswordSentPage";
-import PasswordResetPage from "pages/auth/PasswordResetPage";
-import PasswordLinkExpiredPage from "pages/auth/PasswordLinkExpiredPage";
-import PasswordUpdatedPage from "pages/auth/PasswordUpdatedPage";
-import FinalErrorPage from "pages/auth/FinalErrorPage";
-import NewEmailPage from "pages/auth/NewEmailPage";
-import EmailUpdatedPage from "pages/auth/EmailUpdatedPage";
-import ContactSupport from "pages/auth/ContactSupport";
-import ContactSupportInvalidNPN from "pages/auth/ContactSupportInvalidNPN";
-import UpdateMobileApp from "pages/auth/UpdateMobileApp";
 import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
 import usePortalUrl from "hooks/usePortalUrl";
 import { theme } from "./theme";
 import { ThemeProvider } from '@mui/material/styles';
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+
+const ServerLoginPage = lazy(() => import("pages/auth/ServerLoginPage"));
+const ServerLogoutPage = lazy(() => import("pages/auth/ServerLogoutPage"));
+const ServerErrorPage = lazy(() => import("pages/auth/ServerErrorPage"));
+const RegistrationPage = lazy(() => import("pages/auth/RegistrationPage"));
+const RegistrationConfirmEmailPage = lazy(() => import("pages/auth/RegistrationConfirmEmailPage"));
+const RegistrationConfirmLinkExpiredPage = lazy(() => import("pages/auth/RegistrationConfirmLinkExpiredPage"));
+const RegistrationCheckEmailPage = lazy(() => import("pages/auth/RegistrationCheckEmailPage"));
+const RegistrationCompletedPage = lazy(() => import("pages/auth/RegistrationCompletedPage"));
+const ForgotPasswordPage = lazy(() => import("pages/auth/ForgotPasswordPage"));
+const ForgotPasswordSentPage = lazy(() => import("pages/auth/ForgotPasswordSentPage"));
+const PasswordResetPage = lazy(() => import("pages/auth/PasswordResetPage"));
+const PasswordLinkExpiredPage = lazy(() => import("pages/auth/PasswordLinkExpiredPage"));
+const PasswordUpdatedPage = lazy(() => import("pages/auth/PasswordUpdatedPage"));
+const FinalErrorPage = lazy(() => import("pages/auth/FinalErrorPage"));
+const NewEmailPage = lazy(() => import("pages/auth/NewEmailPage"));
+const EmailUpdatedPage = lazy(() => import("pages/auth/EmailUpdatedPage"));
+const ContactSupport = lazy(() => import("pages/auth/ContactSupport"));
+const ContactSupportInvalidNPN = lazy(() => import("pages/auth/ContactSupportInvalidNPN"));
+const UpdateMobileApp = lazy(() => import("pages/auth/UpdateMobileApp"));
 
 const AuthApp = () => {
   const portalUrl = usePortalUrl();
@@ -45,77 +44,40 @@ const AuthApp = () => {
                 <title>MedicareCENTER</title>
               </Helmet>
               <div className="content-frame">
-                <Switch>
-                  <Route exact path="/login">
-                    <ServerLoginPage />
-                  </Route>
-                  <Route exact path="/logout">
-                    <ServerLogoutPage />
-                  </Route>
-                  <Route exact path="/error">
-                    <ServerErrorPage />
-                  </Route>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Switch>
+                    <Route exact path="/login" component={ServerLoginPage} />
+                    <Route exact path="/logout" component={ServerLogoutPage} />
+                    <Route exact path="/error" component={ServerErrorPage} />
 
-                  <Route exact path="/register">
-                    <RegistrationPage />
-                  </Route>
-                  <Route exact path="/registration-email-sent">
-                    <RegistrationCheckEmailPage />
-                  </Route>
-                  <Route exact path="/confirm-email">
-                    <RegistrationConfirmEmailPage />
-                  </Route>
-                  <Route exact path="/confirm-link-expired">
-                    <RegistrationConfirmLinkExpiredPage />
-                  </Route>
-                  <Route exact path="/registration-complete">
-                    <RegistrationCompletedPage />
-                  </Route>
+                    <Route exact path="/register" component={RegistrationPage} />
+                    <Route exact path="/registration-email-sent" component={RegistrationCheckEmailPage} />
+                    <Route exact path="/confirm-email" component={RegistrationConfirmEmailPage} />
+                    <Route exact path="/confirm-link-expired" component={RegistrationConfirmLinkExpiredPage} />
+                    <Route exact path="/registration-complete" component={RegistrationCompletedPage} />
 
-                  <Route exact path="/forgot-password">
-                    <ForgotPasswordPage />
-                  </Route>
-                  <Route exact path="/password-reset-sent">
-                    <ForgotPasswordSentPage />
-                  </Route>
-                  <Route exact path="/reset-password">
-                    <PasswordResetPage />
-                  </Route>
-                  <Route exact path="/password-link-expired">
-                    <PasswordLinkExpiredPage />
-                  </Route>
-                  <Route exact path="/password-updated">
-                    <PasswordUpdatedPage />
-                  </Route>
-                  <Route exact path="/sorry">
-                    <FinalErrorPage />
-                  </Route>
-                  <Route exact path="/update-email">
-                    <NewEmailPage />
-                  </Route>
-                  <Route exact path="/email-updated">
-                    <EmailUpdatedPage />
-                  </Route>
+                    <Route exact path="/forgot-password" component={ForgotPasswordPage} />
+                    <Route exact path="/password-reset-sent" component={ForgotPasswordSentPage} />
+                    <Route exact path="/reset-password" component={PasswordResetPage} />
+                    <Route exact path="/password-link-expired" component={PasswordLinkExpiredPage} />
+                    <Route exact path="/password-updated" component={PasswordUpdatedPage} />
+                    <Route exact path="/sorry" component={FinalErrorPage} />
+                    <Route exact path="/update-email" component={NewEmailPage} />
+                    <Route exact path="/email-updated" component={EmailUpdatedPage} />
 
-                  <Route exact path="/contact-support">
-                    <ContactSupport />
-                  </Route>
+                    <Route exact path="/contact-support" component={ContactSupport} />
 
-                  <Route exact path="/contact-support-invalid-npn/:npnId">
-                    <ContactSupportInvalidNPN />
-                  </Route>
-                  <Route exact path="/mobile-app-update">
-                    <UpdateMobileApp />
-                  </Route>
-                  <Route
-                    path="*"
-                    component={handleRedirectAndRestartLoginFlow}
-                  />
-                </Switch>
+                    <Route exact path="/contact-support-invalid-npn/:npnId" component={ContactSupportInvalidNPN} />
+                    <Route exact path="/mobile-app-update" component={UpdateMobileApp} />
+                    <Route path="*" component={handleRedirectAndRestartLoginFlow} />
+                  </Switch>
+                </Suspense>
               </div>
 
-              <AuthClientId />
-              <AuthClientUrl />
+              <Suspense fallback={<div>Loading...</div>}>
+                <AuthClientId />
+                <AuthClientUrl />
+              </Suspense>
             </Router>
           </ToastContextProvider>
       </HelmetProvider>

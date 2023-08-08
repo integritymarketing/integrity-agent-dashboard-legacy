@@ -45,7 +45,7 @@ const registerUser = async (values) => {
   return response;
 };
 
-export default () => {
+const RegistrationPage = () => {
   const history = useHistory();
   const loading = useLoading();
   const params = useQueryParams();
@@ -65,7 +65,7 @@ export default () => {
   async function login() {
     try {
       await loginWithRedirect({
-        redirectUri: window.location.origin + "/dashboard",
+        redirectUri: process.env.REACT_APP_PORTAL_URL,
       })} catch (e) {
       Sentry.captureException(e);
       console.error("sign in error: ", e);
@@ -380,3 +380,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default RegistrationPage;

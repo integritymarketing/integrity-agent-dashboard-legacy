@@ -9,7 +9,7 @@ import CheckIcon from "components/icons/v2-check";
 import ResendButtonWithModal from "partials/resend-email";
 import useFetch from "hooks/useFetch";
 
-export default () => {
+const ForgotPasswordSentPage = () => {
   const {
     Post: requestPasswordReset,
   } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
@@ -48,3 +48,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ForgotPasswordSentPage;

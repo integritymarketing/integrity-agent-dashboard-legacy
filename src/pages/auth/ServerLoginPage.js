@@ -18,7 +18,7 @@ import { Box } from "@mui/material";
 import { Button } from "packages/Button";
 import useFetch from "hooks/useFetch";
 
-export default () => {
+const ServerLoginPage = () => {
   const loading = useLoading();
   const history = useHistory();
   const params = useQueryParams();
@@ -275,3 +275,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ServerLoginPage;
