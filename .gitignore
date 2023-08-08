@@ -24,8 +24,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# npm errors
+npm ERR!*
+
 # Local Netlify folder
 .netlify
 
 # ignore vs-code configs
 /.vscode
+*.code-workspace
+
+# Yarn lockfile
+yarn.lock
