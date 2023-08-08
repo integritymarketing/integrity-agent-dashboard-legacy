@@ -1,14 +1,15 @@
 export const LEADS_API_VERSION = "v2.0";
 
-export class CallRecordingsService  {
-
+export class CallRecordingsService {
   constructor(getAccessToken) {
     this.getAccessToken = getAccessToken;
   }
 
   getAllCallRecordingsByAgent = async () => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/Records?UnAssistedCallRecordingsOnly=true`
+      `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/Records`,
+      "GET",
+      { UnAssistedCallRecordingsOnly: true }
     );
     const data = await response.json();
     return data;
@@ -44,17 +45,18 @@ export class CallRecordingsService  {
     const opts = {
       method,
       headers: {
-        Authorization: "Bearer " + accessToken,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
     };
 
-    url.search = new URLSearchParams(query).toString();
+    const urlObject = new URL(url);
+    urlObject.search = new URLSearchParams(query)?.toString();
 
     if (body) {
       opts.body = JSON.stringify(body);
     }
 
-    return fetch(url.toString(), opts);
+    return fetch(urlObject.toString(), opts);
   };
 }

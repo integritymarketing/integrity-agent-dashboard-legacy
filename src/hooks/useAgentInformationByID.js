@@ -4,17 +4,17 @@ import useUserProfile from "./useUserProfile";
 
 const useAgentInformationByID = () => {
   const { agentId } = useUserProfile();
-  const { callRecordingsService } = useClientServiceContext();
+  const { clientsService } = useClientServiceContext();
   const [agentInfomration, setAgentInfomration] = useState({});
 
   const getAgentAvailability = useCallback(async () => {
-    const response = await callRecordingsService.getAgentAvailability(agentId);
+    const response = await clientsService.getAgentAvailability(agentId);
     setAgentInfomration({ ...response });
-  }, [setAgentInfomration, callRecordingsService, agentId]);
+  }, [setAgentInfomration, clientsService, agentId]);
 
   useEffect(() => {
-    callRecordingsService && getAgentAvailability();
-  }, [getAgentAvailability, callRecordingsService]);
+    clientsService && getAgentAvailability();
+  }, [getAgentAvailability, clientsService]);
 
   return {
     agentInfomration,
