@@ -65,7 +65,7 @@ const RegistrationPage = () => {
   async function login() {
     try {
       await loginWithRedirect({
-        redirectUri: process.env.REACT_APP_PORTAL_URL,
+        redirectUri: `${process.env.REACT_APP_PORTAL_URL}/dashboard`,
       })} catch (e) {
       Sentry.captureException(e);
       console.error("sign in error: ", e);
