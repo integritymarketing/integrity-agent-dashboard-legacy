@@ -1,7 +1,7 @@
 import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
-export default () => {
+const RegistrationCompletedPage = () => {
   return (
     <BaseConfirmationPage
       title="You’re all set"
@@ -9,3 +9,4 @@ export default () => {
     />
   );
 };
+export default RegistrationCompletedPage;

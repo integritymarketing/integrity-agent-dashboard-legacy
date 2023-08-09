@@ -5,7 +5,7 @@ export const DEVICES = {
   IOS: "IOS",
 };
 
-export default () => {
+const useDeviceInfo = () => {
   const [deviceInfo, setDeviceInfo] = useState("");
 
   useEffect(() => {
@@ -32,3 +32,5 @@ export default () => {
 
   return deviceInfo;
 };
+
+export default useDeviceInfo;

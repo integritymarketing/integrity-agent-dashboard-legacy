@@ -18,16 +18,16 @@ import { Button } from "packages/Button";
 import Styles from "./AuthPages.module.scss";
 import useFetch from "hooks/useFetch";
 
-
-export default () => {
+const ForgotPasswordpage = () => {
   const history = useHistory();
   const loading = useLoading();
   const clientId = useClientId();
   const params = useQueryParams();
   const mobileAppLogin = Boolean(params.get("mobileAppLogin"));
-  const {
-    Post: requestPasswordReset,
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true);
+  const { Post: requestPasswordReset } = useFetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`,
+    true
+  );
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -172,3 +172,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default ForgotPasswordpage;

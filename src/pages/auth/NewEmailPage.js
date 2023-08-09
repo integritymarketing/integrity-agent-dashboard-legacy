@@ -6,7 +6,7 @@ import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 
-export default () => {
+const NewEmailPage = () => {
   return (
     <div className="content-frame v2">
       <HeaderUnAuthenticated />
@@ -94,3 +94,5 @@ export default () => {
     </div>
   );
 };
+
+export default NewEmailPage;
