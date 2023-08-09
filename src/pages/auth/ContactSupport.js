@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet-async";
 import MailIcon from "components/icons/v2-mail";
 import PhoneIcon from "components/icons/v2-phone";
 
-export default () => {
+const ContactSupport = () => {
   return (
     <>
       <Helmet>
@@ -44,3 +44,5 @@ export default () => {
     </>
   );
 };
+
+export default ContactSupport;

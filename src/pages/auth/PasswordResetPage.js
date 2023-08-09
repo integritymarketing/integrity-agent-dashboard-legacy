@@ -17,17 +17,21 @@ import useFetch from "hooks/useFetch";
 // this is to handle compatibility with identity server in the short term
 // before we fully transition to 'Username' for everything
 
-export default () => {
+const PasswordResetPage = () => {
   const history = useHistory();
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
-  const {
-    Post: resetpassword,
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
-  const {
-    Post: validatePasswordResetToken,
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/validateresetpasswordtoken`, true, true);
+  const { Post: resetpassword } = useFetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`,
+    true,
+    true
+  );
+  const { Post: validatePasswordResetToken } = useFetch(
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/validateresetpasswordtoken`,
+    true,
+    true
+  );
 
   useEffect(() => {
     const checkIfValidToken = async () => {
@@ -180,3 +184,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default PasswordResetPage;

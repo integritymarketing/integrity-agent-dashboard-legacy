@@ -5,8 +5,7 @@ import useQueryParams from "hooks/useQueryParams";
 // The purpose of this component is to inform the common authentication form
 // which client ID (and ultimately which application the auth originated from)
 
-export default () => {
-  const cookies = new Cookies();
+const ClientId = () => {
   const params = useQueryParams();
 
   let client_id;
@@ -20,6 +19,7 @@ export default () => {
   }
 
   useEffect(() => {
+    const cookies = new Cookies();
     let session_client_id = cookies.get("client_id");
 
     // set a session cookie for the auth forms to use
@@ -27,7 +27,9 @@ export default () => {
     if (client_id && client_id !== session_client_id) {
       cookies.set("client_id", client_id);
     }
-  }, [cookies, client_id]);
+  }, [client_id]);
 
   return null;
 };
+
+export default ClientId;

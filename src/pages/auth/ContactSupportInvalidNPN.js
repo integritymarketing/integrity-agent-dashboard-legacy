@@ -7,7 +7,7 @@ import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import MailIcon from "components/icons/v2-mail";
 import PhoneIcon from "components/icons/v2-phone";
 
-export default () => {
+const ContactSupportInvalidNPN = () => {
   const { npnId } = useParams();
   const history = useHistory();
   const goToForgotPassword = () => {
@@ -59,3 +59,5 @@ export default () => {
     </>
   );
 };
+
+export default ContactSupportInvalidNPN;
