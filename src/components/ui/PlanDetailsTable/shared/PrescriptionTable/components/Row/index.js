@@ -28,7 +28,7 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
 
   const getRestrictionData = () => {
     if (hasQuantityLimit || hasStepTherapy || hasPriorAuthorization) {
-      return `${quantityLimitAmount} / ${quantityLimitDays}`;
+      return `${quantityLimitAmount} \ ${quantityLimitDays}`;
     }
   };
 
@@ -55,41 +55,43 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
 
   const getDoseQuantity = (labelName) => {
     const { dosage } = prescriptions?.find(
-      (prescription) => labelName === prescription.dosage.labelName
+      (prescription) => labelName === prescription?.dosage?.labelName
     );
     if (dosage) {
-      if (dosage.selectedPackage) {
-        return `${dosage.userQuantity} X ${dosage.selectedPackage.packageDisplayText} per month`;
+      if (dosage?.selectedPackage) {
+        return `${dosage?.userQuantity} X ${dosage?.selectedPackage?.packageDisplayText} per month`;
       }
-      return `${dosage.userQuantity} tablets per ${getNumberInText(
-        Math.floor(dosage.daysOfSupply / 30)
+      return `${dosage?.userQuantity} tablets per ${getNumberInText(
+        Math?.floor(dosage?.daysOfSupply / 30)
       )} month`;
     }
   };
 
   return (
     <>
-      {drugDetails.map((drugDetails, i) => {
+      {drugDetails?.map((drugDetails, i) => {
         return (
           <div
             key={i}
-            className={`${styles.container} ${
-              isMobile ? styles.mbContainer : ""
+            className={`${styles?.container} ${
+              isMobile ? styles?.mbContainer : ""
             }`}
           >
-            <div className={`${styles.left} ${isMobile ? styles.mbLeft : ""}`}>
+            <div
+              className={`${styles?.left} ${isMobile ? styles?.mbLeft : ""}`}
+            >
               <div style={{ width: "24px" }}>
                 {isCovered ? <InNetworkIcon /> : <OutNetworkIcon />}
               </div>
-              <div className={styles.data}>
-                <div className={`${styles.secondaryColor} ${styles.type}`}>
-                  {drugDetails.tierDescription || "Non-Preferred Drug"}
+              <div className={styles?.data}>
+                <div className={`${styles?.secondaryColor} ${styles?.type}`}>
+                  {drugDetails?.tierDescription || "Non-Preferred Drug"}
                 </div>
-                <div className={`${styles.primaryColor} ${styles.name}`}>
-                  {drugDetails.labelName}
+                <div className={`${styles?.primaryColor} ${styles?.name}`}>
+                  {drugDetails?.labelName}
                 </div>
-                <div className={`${styles.secondaryColor} ${styles.dose}`}>
-                  {getDoseQuantity(drugDetails.labelName)}
+                <div className={`${styles?.secondaryColor} ${styles?.dose}`}>
+                  {getDoseQuantity(drugDetails?.labelName)}
                 </div>
               </div>
             </div>
@@ -97,14 +99,14 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
               {isMobile && <Header isRow={true} isMobile={true} />}
               <div className={styles.top}>
                 <div className={styles.cell}>
-                  ${drugDetails.deductible || "0.00"}
+                  ${drugDetails?.deductible || "0.00"}
                 </div>
                 <div className={styles.cell}>
-                  ${drugDetails.beforeGap || "0.00"}
+                  ${drugDetails?.beforeGap || "0.00"}
                 </div>
-                <div className={styles.cell}>${drugDetails.gap || "0.00"}</div>
+                <div className={styles.cell}>${drugDetails?.gap || "0.00"}</div>
                 <div className={styles.cell}>
-                  ${drugDetails.afterGap || "0.00"}
+                  ${drugDetails?.afterGap || "0.00"}
                 </div>
               </div>
               <div className={styles.bottom}>
