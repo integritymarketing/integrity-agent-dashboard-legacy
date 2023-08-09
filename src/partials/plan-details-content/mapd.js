@@ -2,15 +2,16 @@ import React, { useRef } from "react";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import MapdCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import MapdProvidersTable from "components/ui/PlanDetailsTable/shared/providers-table";
-import MapdPrescriptionsTable from "components/ui/PlanDetailsTable/shared/prescriptions-table";
 import MapdPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
 import MapdPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
+import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 
 const MapdDetailsContent = ({
+  prescriptions,
   plan,
   isMobile,
   styles,
@@ -167,7 +168,6 @@ const MapdDetailsContent = ({
             />
           )}
         </div>
-        {/* <PrescriptionTable isMobile={isMobile} /> */}
         <div ref={costsRef} className={`${styles["costs"]}`}>
           {plan && (
             <MapdCostTable
@@ -182,7 +182,13 @@ const MapdDetailsContent = ({
           className={`${styles["prescription-details"]}`}
         >
           {plan && (
-            <MapdPrescriptionsTable isMobile={isMobile} planData={plan} />
+            <PrescriptionTable
+              prescriptions={prescriptions}
+              planData={plan}
+              isMobile={isMobile}
+              planDrugCoverage={plan?.planDrugCoverage}
+              drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+            />
           )}
         </div>
         <div ref={providersRef} className={`${styles["provider-details"]}`}>

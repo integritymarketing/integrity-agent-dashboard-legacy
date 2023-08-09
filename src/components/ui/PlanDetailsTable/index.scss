@@ -233,6 +233,42 @@
   background-color: #f1faff;
 }
 
+.value {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #052a63;
+  letter-spacing: 0.2px;
+  display: block;
+
+  .per {
+    font-weight: normal;
+    font-size: 14px;
+  }
+  .value-subtext {
+    margin-left: 5px;
+    font-weight: normal;
+    font-size: 14px;
+  }
+  .currency-value-blue {
+    color: #052a63;
+  }
+  .per-mobile {
+    font-weight: normal;
+    display: none;
+  }
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    .per {
+      display: none;
+    }
+    .per-mobile {
+      display: block;
+    }
+  }
+}
+
 .cost-monthly-prescriptions {
   .cost-monthly-bar {
     display: flex;

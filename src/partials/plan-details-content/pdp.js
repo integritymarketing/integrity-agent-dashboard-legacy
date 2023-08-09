@@ -1,14 +1,15 @@
 import React, { useRef } from "react";
 import PdpCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
-import PdpPrescriptionsTable from "components/ui/PlanDetailsTable/shared/prescriptions-table";
 import PdpPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
+import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 
 const PdpDetailsContent = ({
+  prescriptions,
   plan,
   isMobile,
   styles,
@@ -162,7 +163,13 @@ const PdpDetailsContent = ({
           className={`${styles["prescription-details"]}`}
         >
           {plan && (
-            <PdpPrescriptionsTable planData={plan} isMobile={isMobile} />
+            <PrescriptionTable
+              prescriptions={prescriptions}
+              planData={plan}
+              isMobile={isMobile}
+              planDrugCoverage={plan?.planDrugCoverage}
+              drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+            />
           )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>

@@ -6,8 +6,10 @@ import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-docum
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
+import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 
 const MaDetailsContent = ({
+  prescriptions,
   plan,
   isMobile,
   styles,
@@ -18,6 +20,7 @@ const MaDetailsContent = ({
   isEmail = false,
 }) => {
   const costsRef = useRef(null);
+  const prescriptionsRef = useRef(null);
   const providersRef = useRef(null);
   const planBenefitsRef = useRef(null);
   const planDocumentsRef = useRef(null);
@@ -55,6 +58,7 @@ const MaDetailsContent = ({
           ]}
           ref={{
             costs: costsRef,
+            prescriptions: prescriptionsRef,
             providers: providersRef,
             planBenefits: planBenefitsRef,
             planDocuments: planDocumentsRef,
@@ -99,6 +103,18 @@ const MaDetailsContent = ({
             <MaCostTable isMobile={isMobile} planData={plan} planType="MA" />
           )}
         </div>
+        <div ref={prescriptionsRef}>
+          {plan && (
+            <PrescriptionTable
+              prescriptions={prescriptions}
+              planData={plan}
+              isMobile={isMobile}
+              planDrugCoverage={plan?.planDrugCoverage}
+              drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+            />
+          )}
+        </div>
+
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
           {plan && <MaProvidersTable isMobile={isMobile} planData={plan} />}
         </div>

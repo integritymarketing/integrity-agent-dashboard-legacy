@@ -6,7 +6,23 @@ import Row from "./components/Row";
 import Footer from "./components/Footer";
 import Edit from "./components/Edit";
 
-function PrescriptionTable({ isMobile }) {
+function PrescriptionTable({
+  prescriptions,
+  isMobile,
+  planDrugCoverage,
+  drugCosts,
+  planData,
+}) {
+  const data = (planDrugCoverage || []).map((planDrug, i) => {
+    return {
+      ...planDrug,
+      ...(drugCosts || [])[i],
+    };
+  });
+
+  const coveredDrugs = data.filter((item) => item.tierNumber > 0);
+  const nonCoveredDrugs = data.filter((item) => item.tierNumber === 0);
+
   return (
     <PlanDetailsContactSectionCard
       title="Prescriptions"
@@ -14,11 +30,33 @@ function PrescriptionTable({ isMobile }) {
       preferencesKey={"costTemp_collapse"}
       actions={<Edit />}
     >
-      <Header isMobile={isMobile} />
-      <Row isMobile={isMobile} />
-      <Header nonPrescribed={true} isMobile={isMobile} />
-      <Row isMobile={isMobile} />
-      <Footer isMobile={isMobile} />
+      {coveredDrugs.length > 0 && (
+        <>
+          <Header isMobile={isMobile} isCovered />
+          <Row
+            isMobile={isMobile}
+            drugDetails={coveredDrugs}
+            isCovered
+            prescriptions={prescriptions}
+          />
+        </>
+      )}
+
+      {nonCoveredDrugs.length > 0 && (
+        <>
+          <Header isMobile={isMobile} />
+          <Row
+            isMobile={isMobile}
+            drugDetails={nonCoveredDrugs}
+            prescriptions={prescriptions}
+          />
+        </>
+      )}
+      <Footer
+        isMobile={isMobile}
+        planData={planData}
+        count={coveredDrugs?.length + nonCoveredDrugs?.length}
+      />
     </PlanDetailsContactSectionCard>
   );
 }
