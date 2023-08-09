@@ -17,11 +17,9 @@ const columnHeaderTitle2 = [
   "Catastrophic",
 ];
 
-function Header({ nonPrescribed, isMobile, isRow }) {
-  const titles = nonPrescribed ? columnHeaderTitle2 : columnHeaderTitle;
-  const rowTitles = isRow ? columnHeaderTitle.slice(1) : columnHeaderTitle;
-
-  console.log(rowTitles);
+function Header({ isCovered, isMobile, isRow }) {
+  const titles = isCovered ? columnHeaderTitle : columnHeaderTitle2;
+  const rowTitles = isRow ? titles.slice(1) : titles;
 
   if (isMobile && !isRow) {
     return (

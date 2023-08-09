@@ -119,7 +119,7 @@ function getShortFormMonthSpan(monthNumber) {
   }
 }
 
-function TotalEstValue({ planData, effectiveStartDate, monthNumber }) {
+export function TotalEstValue({ planData, effectiveStartDate, monthNumber }) {
   return (
     <>
       <span className={"value"}>

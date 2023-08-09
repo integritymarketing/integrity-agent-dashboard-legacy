@@ -29,13 +29,13 @@
     .title{
         color: #052A63;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 12px;
         display: flex;
-        flex-grow: 1;
-        justify-content: flex-start;
+        justify-content: center;
+        width: 25%;
 
         &:first-child {
-            width: 100px;
+            width: fit-content;
         }
     }
 }

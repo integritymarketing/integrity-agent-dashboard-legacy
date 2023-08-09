@@ -60,6 +60,13 @@
             color: #717171;
             padding: 7px 16px;
             font-size: 14px;
+            display: flex;
+            gap: 3px;
+
+            .label {
+                color: #4178FF;
+                font-size: 14px;
+            }
         }
     }
 

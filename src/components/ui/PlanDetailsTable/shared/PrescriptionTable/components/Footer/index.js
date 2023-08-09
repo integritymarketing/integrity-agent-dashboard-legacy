@@ -1,7 +1,11 @@
 import React from "react";
 import styles from "./Footer.module.scss";
+import { TotalEstValue } from "../../../cost-table";
 
-function Footer({ isMobile }) {
+function Footer({ isMobile, planData, count }) {
+  const [y, m] = planData?.effectiveStartDate?.split("-") || [0, 0];
+  const effectiveStartDate = new Date(`${y}-${m}-15`);
+
   return (
     <div
       className={`${styles.container} ${
@@ -15,18 +19,15 @@ function Footer({ isMobile }) {
         <div
           className={`${styles.subTitle} ${isMobile ? styles.mbSubTitle : ""}`}
         >
-          Based on 4 drugs
+          Based on {count} drugs
         </div>
       </div>
       <div className={`${styles.right} ${isMobile ? styles.mbRight : ""}`}>
-        <div className={`${styles.title} ${isMobile ? styles.mbTitle : ""}`}>
-          $1370
-        </div>
-        <div
-          className={`${styles.subTitle} ${isMobile ? styles.mbSubTitle : ""}`}
-        >
-          Aug-dec
-        </div>
+        <TotalEstValue
+          planData={planData}
+          effectiveStartDate={effectiveStartDate}
+          monthNumber={parseInt(m)}
+        />
       </div>
     </div>
   );

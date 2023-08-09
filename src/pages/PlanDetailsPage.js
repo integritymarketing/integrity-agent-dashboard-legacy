@@ -36,6 +36,7 @@ const PlanDetailsPage = () => {
 
   const [contact, setContact] = useState();
   const [plan, setPlan] = useState();
+  const [prescriptions, setPrescriptions] = useState();
   const [modalOpen, setModalOpen] = useState();
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
@@ -44,9 +45,10 @@ const PlanDetailsPage = () => {
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
     try {
-      let [contactData, pharmacies] = await Promise.all([
+      let [contactData, pharmacies, prescriptions] = await Promise.all([
         clientsService.getContactInfo(contactId),
         clientsService.getLeadPharmacies(contactId),
+        clientsService.getLeadPrescriptions(contactId),
       ]);
       const planData = await plansService.getPlan(
         contactId,
@@ -69,6 +71,7 @@ const PlanDetailsPage = () => {
       }
       setPlan(planData);
       setContact(contactData);
+      setPrescriptions(prescriptions);
       analyticsService.fireEvent("event-content-load", {
         pagePath: "/:contactId/plan/:planId",
       });
@@ -158,10 +161,12 @@ const PlanDetailsPage = () => {
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                   pharmaciesList={pharmaciesList}
+                  prescriptions={prescriptions}
                 />
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
                 <PdpContent
+                  prescriptions={prescriptions}
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
@@ -173,6 +178,7 @@ const PlanDetailsPage = () => {
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
                 <MaContent
+                  prescriptions={prescriptions}
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
