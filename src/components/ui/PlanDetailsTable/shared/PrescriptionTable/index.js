@@ -1,6 +1,5 @@
 import React from "react";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
-import styles from "./prescription-table.module.scss";
 import Header from "./components/Header";
 import Row from "./components/Row";
 import Footer from "./components/Footer";
