@@ -77,20 +77,18 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
               isMobile ? styles?.mbContainer : ""
             }`}
           >
-            <div
-              className={`${styles?.left} ${isMobile ? styles?.mbLeft : ""}`}
-            >
+            <div className={`${styles.left} ${isMobile ? styles?.mbLeft : ""}`}>
               <div style={{ width: "24px" }}>
                 {isCovered ? <InNetworkIcon /> : <OutNetworkIcon />}
               </div>
-              <div className={styles?.data}>
-                <div className={`${styles?.secondaryColor} ${styles?.type}`}>
+              <div className={styles.data}>
+                <div className={`${styles.secondaryColor} ${styles.type}`}>
                   {drugDetails?.tierDescription || "Non-Preferred Drug"}
                 </div>
-                <div className={`${styles?.primaryColor} ${styles?.name}`}>
+                <div className={`${styles.primaryColor} ${styles?.name}`}>
                   {drugDetails?.labelName}
                 </div>
-                <div className={`${styles?.secondaryColor} ${styles?.dose}`}>
+                <div className={`${styles.secondaryColor} ${styles?.dose}`}>
                   {getDoseQuantity(drugDetails?.labelName)}
                 </div>
               </div>
