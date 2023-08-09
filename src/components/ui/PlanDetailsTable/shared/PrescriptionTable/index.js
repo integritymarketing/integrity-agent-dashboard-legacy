@@ -19,8 +19,8 @@ function PrescriptionTable({
     };
   });
 
-  const coveredDrugs = data.filter((item) => item.tierNumber > 0);
-  const nonCoveredDrugs = data.filter((item) => item.tierNumber === 0);
+  const coveredDrugs = data?.filter((item) => item?.tierNumber > 0);
+  const nonCoveredDrugs = data?.filter((item) => item?.tierNumber === 0);
 
   return (
     <PlanDetailsContactSectionCard
@@ -29,7 +29,7 @@ function PrescriptionTable({
       preferencesKey={"costTemp_collapse"}
       actions={<Edit />}
     >
-      {coveredDrugs.length > 0 && (
+      {coveredDrugs?.length > 0 && (
         <>
           <Header isMobile={isMobile} isCovered />
           <Row
@@ -41,7 +41,7 @@ function PrescriptionTable({
         </>
       )}
 
-      {nonCoveredDrugs.length > 0 && (
+      {nonCoveredDrugs?.length > 0 && (
         <>
           <Header isMobile={isMobile} />
           <Row
