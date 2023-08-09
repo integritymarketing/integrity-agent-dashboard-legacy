@@ -221,59 +221,60 @@ const ContactRecordInfoDetails = () => {
     }
   };
 
-  const fetchCounty = useCallback(async (zipcode) => {
-    const counties = (await clientsService.getCounties(zipcode)) || [];
-  
-    const all_Counties = counties.map((county) => ({
-      value: county.countyName,
-      label: county.countyName,
-      key: county.countyFIPS,
-    }));
-  
-    const uniqueStatesSet = new Set(counties.map((county) => county.state));
-    const uniqueStates = [...uniqueStatesSet];
-  
-    const all_States = uniqueStates.map((state) => {
-      const stateNameObj = STATES.find((s) => s.value === state);
-      return {
-        label: stateNameObj?.label,
-        value: state,
-      };
-    });
-  
-    return { all_Counties, all_States };
-  }, [clientsService]);
+  const fetchCounty = useCallback(
+    async (zipcode) => {
+      const counties = (await clientsService.getCounties(zipcode)) || [];
 
-  const fetchCounties = useCallback(async (zipcode) => {
-    if (zipcode) {
-      const countiesList = await fetchCounty(zipcode);
-      if (countiesList) {
-        setAllCounties([...(countiesList?.all_Counties || [])]);
-        setAllStates([...(countiesList?.all_States || [])]);
-        setSubmitEnable(false);
-      } else {
-        setAllCounties([]);
-        setAllStates([]);
-        setSubmitEnable(false);
-      }
-    }
-  }, [fetchCounty, setAllCounties, setAllStates, setSubmitEnable]);
-  
+      const all_Counties = counties.map((county) => ({
+        value: county.countyName,
+        label: county.countyName,
+        key: county.countyFIPS,
+      }));
 
-  const debounceZipFn = useCallback(
-    () => {
-      const debouncedFetch = debounce(fetchCounties, 1000);
-      return (...args) => debouncedFetch(...args);
+      const uniqueStatesSet = new Set(counties.map((county) => county.state));
+      const uniqueStates = [...uniqueStatesSet];
+
+      const all_States = uniqueStates.map((state) => {
+        const stateNameObj = STATES.find((s) => s.value === state);
+        return {
+          label: stateNameObj?.label,
+          value: state,
+        };
+      });
+
+      return { all_Counties, all_States };
     },
-    [fetchCounties]
+    [clientsService]
   );
-  
+
+  const fetchCounties = useCallback(
+    async (zipcode) => {
+      if (zipcode) {
+        const countiesList = await fetchCounty(zipcode);
+        if (countiesList) {
+          setAllCounties([...(countiesList?.all_Counties || [])]);
+          setAllStates([...(countiesList?.all_States || [])]);
+          setSubmitEnable(false);
+        } else {
+          setAllCounties([]);
+          setAllStates([]);
+          setSubmitEnable(false);
+        }
+      }
+    },
+    [fetchCounty, setAllCounties, setAllStates, setSubmitEnable]
+  );
+
+  const debounceZipFn = useCallback(() => {
+    const debouncedFetch = debounce(fetchCounties, 1000);
+    return (...args) => debouncedFetch(...args);
+  }, [fetchCounties]);
 
   const handleZipCode = (zipcode) => {
     setSubmitEnable(true);
     debounceZipFn(zipcode);
   };
-  
+
   const updateCounty = async (county, fip, zip, state) => {
     await clientsService
       .updateLeadCounty(personalInfo, county, fip, zip, state)

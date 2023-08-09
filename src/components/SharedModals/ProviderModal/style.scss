@@ -10,7 +10,7 @@
 }
 
 .MuiListItemButton-root {
-  background-color: #dddddd !important;
+  background-color: #f1f1f1 !important;
   height: 56px;
   box-shadow: inset 0px -1px 0px #cccccc;
 }
@@ -20,6 +20,10 @@
 }
 .MuiListItemButton-root:hover {
   background-color: #f1faff !important;
+}
+
+.inputGroup {
+  margin-top: 10px;
 }
 
 .MuiOutlinedInput-input {

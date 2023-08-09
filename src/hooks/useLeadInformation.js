@@ -11,12 +11,22 @@ const useLeadInformation = (leadId) => {
   const [isLoading, setIsLoading] = useState(true);
   const addToast = useToast();
 
+  const handleGetProviders = (data) => {
+    if (data?.providers?.length > 0) {
+      setProviders(data?.providers);
+    } else {
+      setProviders([]);
+    }
+  };
+
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true);
       try {
         await Promise.all([
           clientsService.getLeadPrescriptions(leadId).then(setPrescriptions),
           clientsService.getLeadPharmacies(leadId).then(setPharmacies),
+          clientsService.getLeadProviders(leadId).then(handleGetProviders),
         ]);
       } catch (err) {
         Sentry.captureException(err);
@@ -25,16 +35,10 @@ const useLeadInformation = (leadId) => {
       }
     };
     getData();
-  }, [
-    setPharmacies,
-    setProviders,
-    setPrescriptions,
-    setIsLoading,
-    leadId,
-    clientsService,
-  ]);
+  }, [setPharmacies, setPrescriptions, setIsLoading, leadId, clientsService]);
 
   const addPrescription = async (item) => {
+    setIsLoading(true);
     const itemObject = {
       ...(item?.dosage ?? item),
       dosageRecordID: 0,
@@ -53,10 +57,13 @@ const useLeadInformation = (leadId) => {
         type: "error",
         message: "Failed to add prescription",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const editPrescription = async ({ dosage = {}, ...rest }) => {
+    setIsLoading(true);
     try {
       const item = {
         ...rest,
@@ -73,10 +80,13 @@ const useLeadInformation = (leadId) => {
         type: "error",
         message: "Failed to updated prescription",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const deletePrescription = async (item) => {
+    setIsLoading(true);
     try {
       await clientsService.deletePrescription(
         leadId,
@@ -97,10 +107,13 @@ const useLeadInformation = (leadId) => {
         type: "error",
         message: "Failed to delete prescription",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const addPharmacy = async (item) => {
+    setIsLoading(true);
     try {
       await clientsService.createPharmacy(leadId, item);
       await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
@@ -114,10 +127,13 @@ const useLeadInformation = (leadId) => {
         type: "error",
         message: "Failed to add pharmacy",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const deletePharmacy = async (item) => {
+    setIsLoading(true);
     try {
       await clientsService.deletePharmacy(leadId, item.pharmacyRecordID);
       await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
@@ -134,6 +150,58 @@ const useLeadInformation = (leadId) => {
         type: "error",
         message: "Failed to delete pharmacy",
       });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const addProvider = async (addressId, leadId, npi, providerName) => {
+    setIsLoading(true);
+    const request = [
+      {
+        npi: npi?.toString(),
+        addressId: addressId,
+        isPrimary: false,
+      },
+    ];
+    try {
+      await clientsService.createLeadProvider(leadId, request);
+      await clientsService.getLeadProviders(leadId).then(handleGetProviders);
+      addToast({
+        message: providerName + " added to the list. ",
+        time: 10000,
+      });
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to add Provider",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteProvider = async (addressId, leadId, npi, providerName) => {
+    setIsLoading(true);
+    try {
+      await clientsService.deleteProvider(addressId, leadId, npi);
+      await clientsService.getLeadProviders(leadId).then(handleGetProviders);
+      addToast({
+        message: "Provider Deleted",
+        time: 10000,
+        link: "UNDO",
+        onClickHandler: () => addProvider(addressId, leadId, npi, providerName),
+        closeToastRequired: true,
+      });
+    } catch (err) {
+      Sentry.captureException(err);
+      addToast({
+        type: "error",
+        message: "Failed to delete pharmacy",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -147,6 +215,8 @@ const useLeadInformation = (leadId) => {
     editPrescription,
     deletePrescription,
     deletePharmacy,
+    addProvider,
+    deleteProvider,
   };
 };
 

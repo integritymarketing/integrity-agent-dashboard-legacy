@@ -5,6 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import makeStyles from "@mui/styles/makeStyles";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -13,12 +14,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4178FF",
     borderRadius: "20px",
     color: "#FFFFFF",
-    width: "172px",
-    textTransform: "unset",
-    transition: "transform 0.5s",
+    padding: "20px 16px;",
+    textTransform: "capitalize",
     "&:hover": {
       backgroundColor: "#4178FF",
-      transform: "scale(1.1)",
     },
     "&.Mui-disabled": {
       backgroundColor: "#B3C9FF",
@@ -38,16 +37,20 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  buttonIcon: {
+    marginTop: "10px",
+  },
   cancelButton: {
     color: "#4178FF",
     fontSize: "16px",
     fontWeight: "600",
     height: "40px",
     textTransform: "unset",
-    width: "104px",
+    padding: "10px 15px",
     "&:hover": {
       backgroundColor: "#FFFFFF",
       borderRadius: "20px",
+      boxShadow: "inset 0px -1px 0px #CCCCCC",
     },
   },
   closeButton: {
@@ -55,16 +58,36 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
     marginBottom: "5px",
     padding: "0px",
+    transform: "rotate(0deg)",
+    transition: "transform 1s",
     "&:hover": {
       backgroundColor: "#BBBBBB",
+      transition: "transform 1s",
+      transform: "rotate(90deg)",
     },
   },
-
+  deleteContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+    backgroundColor: "#F1F1F1",
+    borderTop: "1px solid #CCCCCC",
+    width: "90%",
+  },
   footer: {
+    backgroundColor: "#F1F1F1",
+    display: "flex",
+    flexDirection: "column",
+  },
+
+  footerButtons: {
     backgroundColor: "#F1F1F1",
     borderRadius: "0px 0px 8px 8px",
     justifyContent: "space-between",
     padding: "20px 24px",
+    width: "100%",
+    display: "flex",
   },
 
   title: {
@@ -87,6 +110,9 @@ export default function Modal({
   children,
   actionButtonDisabled,
   endIcon,
+  modalName,
+  isDelete,
+  onDelete,
 }) {
   const classes = useStyles();
 
@@ -123,17 +149,26 @@ export default function Modal({
           {children}
         </DialogContent>
         <DialogActions className={classes.footer}>
-          <Button onClick={onClose} className={classes.cancelButton}>
-            Cancel
-          </Button>
-          <Button
-            onClick={onSave}
-            className={classes.addButton}
-            endIcon={endIcon}
-            disabled={actionButtonDisabled}
-          >
-            {actionButtonName}
-          </Button>
+          <Box className={classes.footerButtons}>
+            <Button onClick={onClose} className={classes.cancelButton}>
+              Cancel
+            </Button>
+            <Button
+              onClick={onSave}
+              className={classes.addButton}
+              endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
+              disabled={actionButtonDisabled}
+            >
+              {actionButtonName}
+            </Button>
+          </Box>
+          {isDelete && (
+            <Box className={classes.deleteContainer}>
+              <Button onClick={onDelete} className={classes.cancelButton}>
+                Delete {modalName}
+              </Button>
+            </Box>
+          )}
         </DialogActions>
       </Dialog>
     </div>

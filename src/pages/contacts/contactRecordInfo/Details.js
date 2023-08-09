@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, { useState, forwardRef } from "react";
 import EditForm from "./DetailsEdit";
 import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
@@ -7,20 +7,21 @@ import useLeadInformation from "hooks/useLeadInformation";
 import useFeatureFlag from "hooks/useFeatureFlag";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
-import AddProvider from "./modals/AddProvider";
-import { useClientServiceContext } from "services/clientServiceProvider";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
-import useToast from "./../../../hooks/useToast";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
 import DetailsMobile from "mobile/Contact/Details/ContactDetails";
 import Media from "react-media";
 import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
+import ProviderModal from "components/SharedModals/ProviderModal";
+import WithLoader from "components/ui/WithLoader";
+import IconButton from "components/IconButton";
+import EditIcon from "components/icons/icon-edit";
 
 export default forwardRef((props) => {
-  const { clientsService } = useClientServiceContext();
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
@@ -28,18 +29,25 @@ export default forwardRef((props) => {
   const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [providerEditFlag, setProviderEditFlag] = useState(false);
+  const [providerToEdit, setProviderToEdit] = useState({});
+
   const isMyFeatureEnabled = useFeatureFlag("REACT_APP_EROLLMENT_HISTORY_FLAG");
 
   const {
     pharmacies,
     prescriptions,
+    providers,
     isLoading,
     addPharmacy,
     addPrescription,
     editPrescription,
     deletePrescription,
     deletePharmacy,
+    addProvider,
+    deleteProvider,
   } = useLeadInformation(props.id);
+
   const onAddNewPrescription = () => setIsOpenPrescription(true);
   const onCloseNewPrescription = () => setIsOpenPrescription(false);
   const onEditPrescription = (item) => {
@@ -50,91 +58,6 @@ export default forwardRef((props) => {
   const onAddNewPharmacy = () => setIsOpenPharmacy(true);
   const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
   const onAddNewProvider = () => setIsOpen(true);
-
-  const [leadProviders, setLeadProviders] = useState({
-    items: {},
-    isLoading: true,
-    error: null,
-  });
-
-  const onClose = (opts) => {
-    setIsOpen(false);
-    if (opts && opts.refresh) {
-      fetchProviders();
-    }
-  };
-  const addToast = useToast();
-
-  async function handleUndo(provider) {
-    const request = [
-      {
-        npi: provider.NPI.toString(),
-        addressId: provider.addresses[0]?.id,
-        isPrimary: false,
-      },
-    ];
-    await fetchProviders();
-    try {
-      await clientsService.createLeadProvider(props.id, request);
-      fetchProviders();
-      addToast({
-        type: "success",
-        message: provider.presentationName + " added back to the list. ",
-        time: 10000,
-        onClickHandler: () => handleUndo(provider),
-      });
-    } catch (e) {
-      addToast({
-        type: "error",
-        message: "Error, update unsuccessful.",
-        time: 10000,
-      });
-    }
-  }
-  async function handleDeleteProvider(provider) {
-    try {
-      await clientsService.deleteProvider(
-        provider?.addresses?.[0]?.id,
-        props.id,
-        provider.npi || provider.NPI
-      );
-      fetchProviders();
-      addToast({
-        type: "success",
-        message: provider.presentationName + " deleted from Providers. ",
-        time: 10000,
-        link: "Undo",
-        onClickHandler: () => handleUndo(provider),
-      });
-    } catch (e) {
-      addToast({
-        type: "error",
-        message: "Error, delete unsuccessful.",
-        time: 10000,
-      });
-    }
-  }
-  const fetchProviders = React.useCallback(async () => {
-    setLeadProviders((prev) => ({ ...prev, isLoading: false }));
-    try {
-      const items = await clientsService.getLeadProviders(props.id);
-      setLeadProviders({
-        items,
-        isLoading: false,
-        error: null,
-      });
-    } catch (error) {
-      setLeadProviders({
-        items: [],
-        isLoading: false,
-        error,
-      });
-    }
-  }, [props.id, clientsService]);
-
-  useEffect(() => {
-    fetchProviders();
-  }, [fetchProviders]);
 
   const getFrequencyValue = (dayofSupply) => {
     const frequencyOptions = FREQUENCY_OPTIONS.filter(
@@ -212,12 +135,20 @@ export default forwardRef((props) => {
       )}
       <div className="detailscard-container">
         {isOpen && (
-          <AddProvider
-            isOpen={isOpen}
-            onClose={onClose}
+          <ProviderModal
+            open={isOpen}
+            onClose={() => {
+              setIsOpen(false);
+              setProviderEditFlag(false);
+              setProviderToEdit({});
+            }}
+            onSave={addProvider}
+            onDelete={deleteProvider}
             personalInfo={props.personalInfo}
             leadId={props.id}
-            leadProviders={leadProviders?.items?.providers || []}
+            leadProviders={providers}
+            selected={providerToEdit}
+            isEdit={providerEditFlag}
           />
         )}
 
@@ -252,56 +183,61 @@ export default forwardRef((props) => {
             dataGtm="section-provider"
             headerTitle="Providers"
             onAddClick={onAddNewProvider}
-            items={leadProviders?.items?.providers || []}
+            items={providers || []}
             provider={true}
+            isLoading={isLoading}
             itemRender={(item, index) => {
               return (
                 <div key={index} className="provider-container">
-                  <div className="provider-content">
-                    <div className="pr-h2 pr-title-mble">
-                      {item?.specialty}
-                      {item?.title ? ` / ${item?.title}` : ""}
+                  <WithLoader isLoading={isLoading}>
+                    <div className="provider-content">
+                      <div className="pr-h2 pr-title-mble">
+                        {item?.specialty}
+                        {item?.title ? ` / ${item?.title}` : ""}
+                      </div>
+                      <div className="pr-h1">{item?.presentationName}</div>
+                      <div className="pr-h2">{item?.email}</div>
                     </div>
-                    <div className="pr-h1">{item?.presentationName}</div>
-                    <div className="pr-h2">{item?.email}</div>
-                  </div>
-                  <div className="provider-content">
-                    <div className="pr-h1 pr-phone-mble">
-                      {formatPhoneNumber(item.phone)}
+                    <div className="provider-content">
+                      <div className="pr-h1 pr-phone-mble">
+                        {formatPhoneNumber(item.phone)}
+                      </div>
+                      <div className="pr-h2">
+                        {`${
+                          item?.addresses[0]?.streetLine1
+                            ? item?.addresses[0]?.streetLine1 + ","
+                            : ""
+                        }`}
+                        &nbsp;
+                      </div>
+                      <div className="pr-h2">
+                        {`${
+                          item?.addresses[0]?.city
+                            ? item?.addresses[0]?.city + ","
+                            : ""
+                        }`}
+                        &nbsp;
+                        {`${
+                          item?.addresses[0]?.stateCode
+                            ? item?.addresses[0]?.stateCode + ","
+                            : ""
+                        }`}
+                        &nbsp;
+                        {item?.addresses[0]?.zipCode}
+                      </div>
                     </div>
-                    <div className="pr-h2">
-                      {`${
-                        item?.addresses[0]?.streetLine1
-                          ? item?.addresses[0]?.streetLine1 + ","
-                          : ""
-                      }`}
-                      &nbsp;
-                    </div>
-                    <div className="pr-h2">
-                      {`${
-                        item?.addresses[0]?.city
-                          ? item?.addresses[0]?.city + ","
-                          : ""
-                      }`}
-                      &nbsp;
-                      {`${
-                        item?.addresses[0]?.stateCode
-                          ? item?.addresses[0]?.stateCode + ","
-                          : ""
-                      }`}
-                      &nbsp;
-                      {item?.addresses[0]?.zipCode}
-                    </div>
-                  </div>
-                  <div>
-                    <span
-                      role="button"
-                      className="button-delete-provider"
-                      onClick={() => handleDeleteProvider(item)}
-                    >
-                      Delete
-                    </span>
-                  </div>
+
+                    <IconButton
+                      label="Edit"
+                      // onClick={() => {
+                      //   setProviderEditFlag(true);
+                      //   setProviderToEdit(item);
+                      //   setIsOpen(true);
+                      // }}
+                      onClick={() => {}}
+                      icon={<EditIcon />}
+                    />
+                  </WithLoader>
                 </div>
               );
             }}

@@ -1,8 +1,8 @@
 import React, { useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@mui/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
 import Radio from "@mui/material/Radio";
 import ListItemText from "@mui/material/ListItemText";
 
@@ -78,10 +78,9 @@ const PrescriptionList = ({
 
   const renderedPrescriptionList = useMemo(
     () =>
-      prescriptionList.map((drug, index) => (
-        <ListItem
-          key={index}
-          button
+      prescriptionList.map((drug) => (
+        <ListItemButton
+          key={drug.label}
           selected={verifySelected(drug)}
           onClick={() => handleSelectionChange(drug)}
           classes={{ root: classes.listItem }}
@@ -98,7 +97,7 @@ const PrescriptionList = ({
               <span className={classes.secondaryText}>{drug.description}</span>
             }
           />
-        </ListItem>
+        </ListItemButton>
       )),
     [prescriptionList, handleSelectionChange, classes, verifySelected]
   );

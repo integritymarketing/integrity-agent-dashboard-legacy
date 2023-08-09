@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@mui/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     width: "100%",
   },
-  prescriptionText: {
+  countText: {
     color: "#717171",
     fontSize: 14,
     fontFamily: "Lato, Italic",
@@ -32,16 +32,14 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchPrescription({
   searchString,
   handleSearch,
-  prescriptionList,
+  list,
 }) {
   const classes = useStyles();
 
-  const title = "Search for a Prescription";
-  const prescriptionCountText = `${prescriptionList?.length} Prescriptions found`;
+  const countText = `${list?.length} Prescriptions found`;
 
   return (
     <>
-      <Typography className={classes.searchTitle}>{title}</Typography>
       <TextField
         margin="dense"
         id="prescription"
@@ -61,9 +59,7 @@ export default function SearchPrescription({
         }}
       />
 
-      <Typography className={classes.prescriptionText}>
-        {prescriptionCountText}
-      </Typography>
+      <Typography className={classes.countText}>{countText}</Typography>
     </>
   );
 }
@@ -71,11 +67,11 @@ export default function SearchPrescription({
 SearchPrescription.propTypes = {
   searchString: PropTypes.string.isRequired,
   handleSearch: PropTypes.func.isRequired,
-  prescriptionList: PropTypes.array.isRequired,
+  list: PropTypes.array.isRequired,
 };
 
 SearchPrescription.defaultProps = {
   searchString: "",
   handleSearch: () => {},
-  prescriptionList: [],
+  list: [],
 };
