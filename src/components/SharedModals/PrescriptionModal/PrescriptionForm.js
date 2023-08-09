@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from '@mui/styles';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import makeStyles from "@mui/styles/makeStyles";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 import { Select } from "components/ui/Select";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import "./style.scss";
@@ -17,11 +17,6 @@ const useStyles = makeStyles(() => ({
     letterSpacing: "0.16px",
     fontWeight: "bold",
     marginBottom: 10,
-  },
-  input: {
-    "&.MuiOutlinedInput-input": {
-      padding: "10px 14px",
-    },
   },
 }));
 

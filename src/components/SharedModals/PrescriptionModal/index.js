@@ -2,10 +2,11 @@ import React, { useState, useEffect, useMemo } from "react";
 import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import Typography from "@mui/material/Typography";
-import ErrorState from "./ErrorState";
+import ErrorState from "../SharedComponents/ErrorState";
 import Modal from "components/Modal";
 import PropTypes from "prop-types";
-import SearchPrescription from "./SearchPrescription";
+import SearchInput from "../SharedComponents/SearchInput";
+import SearchLabel from "../SharedComponents/SearchLabel";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
 import { useClientServiceContext } from "services/clientServiceProvider";
@@ -135,21 +136,6 @@ const PrescriptionModal = ({
         g_label: chemicalName,
       };
       onDrugSelection(selectedDrug);
-
-      // const packageOptions = (item?.dosageDetails?.packages || []).map(
-      //   (_package) => ({
-      //     label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
-      //     value: _package,
-      //   })
-      // );
-      // setPackageOptions(packageOptions);
-      // const selectedPackage = packageOptions
-      //   .filter(
-      //     (packageOption) =>
-      //       packageOption?.value?.referenceNDC === item?.dosage?.ndc
-      //   )
-      //   .map((opt) => opt.value)[0];
-      // setDosagePackage(selectedPackage);
     }
   }, [item, open, selectedPackageID, isEdit]);
 
@@ -301,21 +287,25 @@ const PrescriptionModal = ({
     ? !validUpdate || !isFormValid || isSaving
     : selectedDrug
     ? !isFormValid || isSaving
+    : !searchselected
+    ? true
     : false;
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title={isEdit ? "Edit Prescription" : "Add Prescription"}
+      title={isEdit ? "Update Prescription" : "Add Prescriptions"}
       onSave={isEdit ? handleUpdatePrescription : addFunction}
-      actionButtonName={isEdit ? "Edit Prescription" : "Add Prescription"}
+      actionButtonName={isEdit ? "Update Prescription" : "Add Prescription"}
       actionButtonDisabled={disabled}
       endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
+      modalName="Prescription"
     >
       {!selectedDrug && !isLoading ? (
         <>
-          <SearchPrescription
+          <SearchLabel title={"Search for a Prescription"} />
+          <SearchInput
             searchString={searchString}
             prescriptionList={prescriptionList}
             handleSearch={fetchOptions}
@@ -324,7 +314,8 @@ const PrescriptionModal = ({
           {ERROR_STATE ? (
             <ErrorState
               searchString={searchString}
-              prescriptionList={prescriptionList}
+              list={prescriptionList}
+              title={"Prescription"}
             />
           ) : (
             <PrescriptionList

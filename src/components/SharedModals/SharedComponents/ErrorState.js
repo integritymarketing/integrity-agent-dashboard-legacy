@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
-import { makeStyles } from "@mui/styles"; 
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles(() => ({
   textContainer: {
@@ -20,31 +20,45 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const getComponentProps = ({ searchString = "", prescriptionList = [] }) => ({
+const getComponentProps = ({
+  searchString = "",
+  list = [],
+  title = "",
+  defaultMessage,
+}) => ({
   searchString,
-  prescriptionList,
+  list,
+  title,
+  defaultMessage,
 });
 
 const ErrorState = (props) => {
-  const { searchString, prescriptionList } = getComponentProps(props);
+  const { searchString, list, title, defaultMessage } =
+    getComponentProps(props);
   const classes = useStyles();
   const message = useMemo(() => {
-    if (searchString && prescriptionList.length === 0)
-      return "Prescription not found, try a different search";
-    if (!searchString) return "Search for a prescription";
-  }, [searchString, prescriptionList]);
+    if (searchString && list.length === 0)
+      return `${title} not found, try a different search`;
+    if (!searchString) return `Search for a ${title}`;
+  }, [searchString, list, title]);
 
-  return <Typography className={classes.textContainer}>{message}</Typography>;
+  return (
+    <Typography className={classes.textContainer}>
+      {defaultMessage ? defaultMessage : message}
+    </Typography>
+  );
 };
 
 ErrorState.propTypes = {
   searchString: PropTypes.string,
-  prescriptionList: PropTypes.array,
+  list: PropTypes.array,
+  title: PropTypes.string,
 };
 
 ErrorState.defaultProps = {
   searchString: "",
-  prescriptionList: [],
+  list: [],
+  title: "",
 };
 
 export default ErrorState;

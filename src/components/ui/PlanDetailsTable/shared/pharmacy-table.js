@@ -19,7 +19,7 @@ const PharmacyTable = ({ planData, pharmacies, isMobile, pharmaciesList }) => {
   const columns = useMemo(
     () => [
       {
-        Header: "Pharmacies",
+        Header: "Pharmacy",
         columns: [
           ...(isMobile
             ? [
@@ -84,7 +84,7 @@ const PharmacyTable = ({ planData, pharmacies, isMobile, pharmaciesList }) => {
   }
   const columnsData = [
     {
-      Header: "Pharmacies",
+      Header: "Pharmacy",
       columns: [
         {
           hideHeader: true,
@@ -96,7 +96,7 @@ const PharmacyTable = ({ planData, pharmacies, isMobile, pharmaciesList }) => {
 
   const rowData = [
     {
-      unAvailable: <APIFail title={"Pharmacyffgd"} />,
+      unAvailable: <APIFail title={"Pharmacy"} />,
     },
   ];
 
@@ -106,7 +106,7 @@ const PharmacyTable = ({ planData, pharmacies, isMobile, pharmaciesList }) => {
         columns={isApiFailed ? columnsData : columns}
         data={isApiFailed ? rowData : data}
         className="quotes"
-        header="Pharmacies"
+        header="Pharmacy"
       />
     </>
   );
