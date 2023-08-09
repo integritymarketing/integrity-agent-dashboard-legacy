@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const Phone = (props) => {
   return (
     <svg
       width="21"
@@ -17,3 +17,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default Phone;

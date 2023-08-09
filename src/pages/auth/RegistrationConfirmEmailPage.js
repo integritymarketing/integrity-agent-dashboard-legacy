@@ -22,7 +22,7 @@ const confirmEmailAPI = async (values) => {
   return response;
 };
 
-export default () => {
+const RegistrationConfirmEmailPage = () => {
   const history = useHistory();
   const params = useQueryParams();
   const clientId = useClientId();
@@ -62,3 +62,5 @@ export default () => {
 
   return "";
 };
+
+export default RegistrationConfirmEmailPage;

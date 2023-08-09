@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import useClientId from "hooks/auth/useClientId";
 
-export default ({ resendFn, btnClass = "" }) => {
+const ResendEmail = ({ resendFn, btnClass = "" }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const params = useQueryParams();
+  const clientId = useClientId();
 
   if (emailError) {
     return (
@@ -30,11 +31,13 @@ export default ({ resendFn, btnClass = "" }) => {
           type="button"
           className={`link link--force-underline ${btnClass}`}
           onClick={async () => {
-            const clientId = useClientId();
-            const response = await resendFn({
-              Username: params.get("npn"),
-              ClientId: clientId,
-            }, true);
+            const response = await resendFn(
+              {
+                Username: params.get("npn"),
+                ClientId: clientId,
+              },
+              true
+            );
             if (response.status >= 200 && response.status < 300) {
               setEmailSent(true);
             } else {
@@ -60,3 +63,5 @@ export default ({ resendFn, btnClass = "" }) => {
     </React.Fragment>
   );
 };
+
+export default ResendEmail;

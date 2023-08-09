@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 
-export default () => {
+const PasswordUpdatePage = () => {
   return (
     <React.Fragment>
       <Helmet>
@@ -15,3 +15,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default PasswordUpdatePage;
