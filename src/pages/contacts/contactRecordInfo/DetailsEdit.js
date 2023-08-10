@@ -327,10 +327,11 @@ const DetailsEditContact = (props) => {
 
               <div className="top-button-group responsive-d-none">
                 <Button
-                  className="edit-contact-details-cancel-btn contact-details-cancel cancel-btn btn mr-2 ml-10"
+                  className="contact-details-cancel cancel-btn btn"
                   data-gtm="new-contact-cancel-button"
                   label="Cancel"
                   onClick={() => props.setEdit(false)}
+                  type="secondary"
                 />
                 <Button
                   className={`contact-details-submit submit-btn btn ${
