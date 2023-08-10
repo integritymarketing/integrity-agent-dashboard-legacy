@@ -40,23 +40,19 @@ export class CallRecordingsService {
     throw new Error(response?.statusText);
   };
 
-  _clientAPIRequest = async (url, method = "GET", query, body) => {
+  _clientAPIRequest = async (path, method = "GET", body) => {
     const accessToken = await this.getAccessToken();
     const opts = {
       method,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: "Bearer " + accessToken,
         "Content-Type": "application/json",
       },
     };
-
-    const urlObject = new URL(url);
-    urlObject.search = new URLSearchParams(query)?.toString();
-
     if (body) {
       opts.body = JSON.stringify(body);
     }
 
-    return fetch(urlObject.toString(), opts);
+    return fetch(path, opts);
   };
 }
