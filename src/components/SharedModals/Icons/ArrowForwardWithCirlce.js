@@ -27,9 +27,9 @@ const ArrowForwardWithCircle = () => {
             transform="translate(312 649) rotate(180)"
             fill="none"
             stroke="#fff"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1153"
@@ -39,9 +39,9 @@ const ArrowForwardWithCircle = () => {
             transform="translate(312 644.5) rotate(180)"
             fill="none"
             stroke="#fff"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1154"
@@ -50,9 +50,9 @@ const ArrowForwardWithCircle = () => {
             transform="translate(312 644.5) rotate(180)"
             fill="none"
             stroke="#fff"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>
@@ -60,7 +60,7 @@ const ArrowForwardWithCircle = () => {
         id="Path_21294"
         data-name="Path 21294"
         fill="none"
-        stroke-linecap="round"
+        strokeLinecap="round"
       >
         <path
           id="Icon_Arrow_path"

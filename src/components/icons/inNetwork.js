@@ -34,7 +34,7 @@ const InNetworkIcon = (props) => {
         />
 
         <g id="Group_1746" data-name="Group 1746">
-          <g id="Group_1745" data-name="Group 1745" clip-path="url(#clip-path)">
+          <g id="Group_1745" data-name="Group 1745" clipPath="url(#clip-path)">
             <path
               id="Path_2572"
               data-name="Path 2572"

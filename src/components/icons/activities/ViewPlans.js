@@ -30,7 +30,7 @@ const VIEWPLANS = (props) => (
       />
     </g>
     <g id="Group_3326" data-name="Group 3326" transform="translate(8 8)">
-      <g id="Group_3325" data-name="Group 3325" clip-path="url(#clip-path)">
+      <g id="Group_3325" data-name="Group 3325" clipPath="url(#clip-path)">
         <path
           id="Path_3517"
           data-name="Path 3517"

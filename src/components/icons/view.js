@@ -31,16 +31,16 @@ export default ({ size = 32 }) => {
         />
       </g>
       <g id="Group_3326" data-name="Group 3326" transform="translate(8 8)">
-        <g id="Group_3325" data-name="Group 3325" clip-path="url(#clip-path)">
+        <g id="Group_3325" data-name="Group 3325" clipPath="url(#clip-path)">
           <path
             id="Path_3517"
             data-name="Path 3517"
             d="M14.2,8.652v5.657A1.191,1.191,0,0,1,13.005,15.5H1.691A1.191,1.191,0,0,1,.5,14.309V2.995A1.191,1.191,0,0,1,1.691,1.8H7.348"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1047"
@@ -49,9 +49,9 @@ export default ({ size = 32 }) => {
             transform="translate(11.587 0.5)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1048"
@@ -60,9 +60,9 @@ export default ({ size = 32 }) => {
             transform="translate(15.5 0.5)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1049"
@@ -72,9 +72,9 @@ export default ({ size = 32 }) => {
             transform="translate(8.326 0.5)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>

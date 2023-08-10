@@ -24,8 +24,8 @@ export default (props) => {
         transform="translate(12.5 4.5)"
         fill="none"
         stroke="#0052ce"
-        stroke-linecap="round"
-        stroke-width="1"
+        strokeLinecap="round"
+        strokeWidth="1"
       />
       <line
         id="Line_654"
@@ -34,8 +34,8 @@ export default (props) => {
         transform="translate(4.5 12.5)"
         fill="none"
         stroke="#0052ce"
-        stroke-linecap="round"
-        stroke-width="1"
+        strokeLinecap="round"
+        strokeWidth="1"
       />
     </svg>
   );

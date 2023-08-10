@@ -18,7 +18,7 @@ const SharePlanIcon = (props) => {
             height="11.334"
             fill="none"
             stroke="#0052ce"
-            stroke-width="1"
+            strokeWidth="1"
           />
         </clipPath>
       </defs>
@@ -31,7 +31,7 @@ const SharePlanIcon = (props) => {
         fill="rgba(255,255,255,0)"
       />
       <g id="Group_3004" data-name="Group 3004" transform="translate(4 6)">
-        <g id="Group_3003" data-name="Group 3003" clip-path="url(#clip-path)">
+        <g id="Group_3003" data-name="Group 3003" clipPath="url(#clip-path)">
           <path
             id="Path_3418"
             data-name="Path 3418"
@@ -39,9 +39,9 @@ const SharePlanIcon = (props) => {
             transform="translate(-0.167 -0.167)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>

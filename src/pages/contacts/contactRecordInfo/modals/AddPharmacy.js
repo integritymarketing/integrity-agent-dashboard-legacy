@@ -146,7 +146,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
         // Mobile Version
         <div className={Styles.modalContainer}>
           <div className={Styles.modal}>
-            <div class={Styles.modalHeader}>
+            <div className={Styles.modalHeader}>
               <h2>Add Pharmacy</h2>
               <button onClick={onClose}>
                 <svg
@@ -165,7 +165,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                 </svg>
               </button>
             </div>
-            <div class={Styles.modalBody}>
+            <div className={Styles.modalBody}>
               <div className="dialog--container">
                 <div className="dialog--body pharmacy-modal-container">
                   <div className="large-view">

@@ -293,7 +293,7 @@ const ComparePlanModal = ({
                     {selectLabel === "email" && (
                       <div className="email-mobile-section">
                         <input
-                          autocomplete="on"
+                          autoComplete="on"
                           type="text"
                           data-gtm="input-share-plans"
                           onFocus={() => setFocus(true)}

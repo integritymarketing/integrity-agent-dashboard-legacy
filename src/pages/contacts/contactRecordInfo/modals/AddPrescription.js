@@ -179,7 +179,7 @@ export default function AddPrescription({
         // Mobile Version
         <div className={Styles.modalContainer}>
           <div className={Styles.modal}>
-            <div class={Styles.modalHeader}>
+            <div className={Styles.modalHeader}>
               <h2>Add Prescription</h2>
               <button onClick={onClose}>
                 <svg
@@ -198,7 +198,7 @@ export default function AddPrescription({
                 </svg>
               </button>
             </div>
-            <div class={Styles.modalBody}>
+            <div className={Styles.modalBody}>
               <div className="dialog--container">
                 <div className="dialog--body">
                   {drugName && (

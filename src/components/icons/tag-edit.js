@@ -30,16 +30,16 @@ export default (props) => {
         fill="rgba(255,255,255,0)"
       />
       <g id="Group_1496" data-name="Group 1496" transform="translate(5 4)">
-        <g id="Group_1495" data-name="Group 1495" clip-path="url(#clip-path)">
+        <g id="Group_1495" data-name="Group 1495" clipPath="url(#clip-path)">
           <path
             id="Path_2177"
             data-name="Path 2177"
             d="M3.837,4.413H.51L4.5.5V3.761A.659.659,0,0,1,3.837,4.413Z"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.01"
           />
           <path
             id="Path_2178"
@@ -47,9 +47,9 @@ export default (props) => {
             d="M13.151,9.672v5.176a.659.659,0,0,1-.665.652H1.175a.659.659,0,0,1-.665-.652V5.759"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.01"
           />
           <path
             id="Path_2179"
@@ -57,9 +57,9 @@ export default (props) => {
             d="M5.832.5h6.654a.659.659,0,0,1,.665.652V4.413"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.01"
           />
           <path
             id="Path_2180"
@@ -67,9 +67,9 @@ export default (props) => {
             d="M8.844,12.4,6.257,13.552l1.176-2.536,5.645-5.534L14.49,6.865Z"
             fill="#fff"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.01"
           />
           <line
             id="Line_581"
@@ -79,9 +79,9 @@ export default (props) => {
             transform="translate(11.967 6.565)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.01"
           />
           <line
             id="Line_582"
@@ -91,9 +91,9 @@ export default (props) => {
             transform="translate(7.429 11.013)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.01"
           />
         </g>
       </g>

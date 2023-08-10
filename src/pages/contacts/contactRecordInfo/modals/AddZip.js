@@ -36,7 +36,7 @@ export default function AddZip({
       {isOpen && (
         <div className={Styles.modalContainer}>
           <div className={Styles.modal}>
-            <div class={Styles.modalHeader}>
+            <div className={Styles.modalHeader}>
               <h2>Complete Zip Code</h2>
               <button onClick={onClose}>
                 <svg
@@ -55,7 +55,7 @@ export default function AddZip({
                 </svg>
               </button>
             </div>
-            <div class={Styles.modalBody}>
+            <div className={Styles.modalBody}>
               <p className={Styles.subText}>
                 Please enter zip code to see plan details and pricing.
               </p>

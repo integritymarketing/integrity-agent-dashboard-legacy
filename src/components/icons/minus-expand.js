@@ -29,8 +29,8 @@ export default (props) => {
           transform="translate(1047.5 1084.5)"
           fill="none"
           stroke="#0052ce"
-          stroke-linecap="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeWidth="1"
         />
       </g>
     </svg>

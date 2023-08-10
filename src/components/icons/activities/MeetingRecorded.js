@@ -35,12 +35,12 @@ const MeetingRecorded = () => (
         transform="translate(-0.565)"
         fill="none"
         stroke="#0052ce"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
       />
       <g id="Group_3516" data-name="Group 3516">
-        <g id="Group_3515" data-name="Group 3515" clip-path="url(#clip-path)">
+        <g id="Group_3515" data-name="Group 3515" clipPath="url(#clip-path)">
           <rect
             id="Rectangle_20948"
             data-name="Rectangle 20948"
@@ -50,9 +50,9 @@ const MeetingRecorded = () => (
             transform="translate(0.501 2.253)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1080"
@@ -61,9 +61,9 @@ const MeetingRecorded = () => (
             transform="translate(0.5 6.172)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1081"
@@ -72,9 +72,9 @@ const MeetingRecorded = () => (
             transform="translate(5.007 0.5)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1082"
@@ -83,9 +83,9 @@ const MeetingRecorded = () => (
             transform="translate(11.583 0.5)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>

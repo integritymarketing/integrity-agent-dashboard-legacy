@@ -32,7 +32,7 @@ const DateRangeIcon = () => {
         <rect x="0.5" y="0.5" width="39" height="39" rx="3.5" fill="none" />
       </g>
       <g id="Group_6881" data-name="Group 6881" transform="translate(8 8)">
-        <g id="Group_6880" data-name="Group 6880" clip-path="url(#clip-path)">
+        <g id="Group_6880" data-name="Group 6880" clipPath="url(#clip-path)">
           <path
             id="Path_21288"
             data-name="Path 21288"

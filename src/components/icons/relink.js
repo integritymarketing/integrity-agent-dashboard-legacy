@@ -18,7 +18,7 @@ export default () => {
             height="17"
             fill="none"
             stroke="#0052ce"
-            stroke-width="1"
+            strokeWidth="1"
           />
         </clipPath>
       </defs>
@@ -33,16 +33,16 @@ export default () => {
         />
       </g>
       <g id="Group_3219" data-name="Group 3219" transform="translate(8 8)">
-        <g id="Group_3218" data-name="Group 3218" clip-path="url(#clip-path)">
+        <g id="Group_3218" data-name="Group 3218" clipPath="url(#clip-path)">
           <path
             id="Path_3506"
             data-name="Path 3506"
             d="M9.53,7.47h0a2.467,2.467,0,0,1,0-3.488l2.76-2.76A2.466,2.466,0,1,1,15.778,4.71l-2.76,2.76A2.467,2.467,0,0,1,9.53,7.47Z"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <path
             id="Path_3507"
@@ -50,9 +50,9 @@ export default () => {
             d="M1.222,15.778h0a2.467,2.467,0,0,1,0-3.488l2.76-2.76A2.466,2.466,0,0,1,7.47,13.018l-2.76,2.76A2.467,2.467,0,0,1,1.222,15.778Z"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
           <line
             id="Line_1041"
@@ -62,9 +62,9 @@ export default () => {
             transform="translate(6.167 5.733)"
             fill="none"
             stroke="#0052ce"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>

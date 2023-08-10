@@ -18,7 +18,7 @@ const InNetworkIcon = (props) => {
         transform="translate(4 4)"
         fill="#fff"
         stroke="#f44236"
-        stroke-width="1"
+        strokeWidth="1"
       >
         <circle cx="8" cy="8" r="8" stroke="none" />
         <circle cx="8" cy="8" r="7.5" fill="none" />
@@ -35,8 +35,8 @@ const InNetworkIcon = (props) => {
           transform="translate(340.343 414.343) rotate(45)"
           fill="none"
           stroke="#f44236"
-          stroke-linecap="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeWidth="1"
         />
       </g>
     </svg>
