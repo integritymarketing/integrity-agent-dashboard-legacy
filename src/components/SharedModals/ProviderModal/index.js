@@ -170,7 +170,7 @@ const ProviderModal = ({
 
   const isFormValid = useMemo(() => {
     return Boolean(
-      zipCode?.length !== 5 && radius && selectAddressId && selectedProvider
+      zipCode?.length === 5 && radius && selectAddressId && selectedProvider
     );
   }, [selectedProvider, zipCode, radius, selectAddressId]);
 
@@ -179,14 +179,6 @@ const ProviderModal = ({
       ? true
       : searchString?.length === 0 || providerList?.length === 0
     : false;
-
-  // const disabled = isEdit
-  //   ? !validUpdate || !isFormValid || isSaving
-  //   : selectedProvider
-  //   ? !isFormValid || isSaving
-  //   : !searchselected
-  //   ? true
-  //   : false;
 
   const disabled = isEdit ? !selectAddressId : !isFormValid;
 
