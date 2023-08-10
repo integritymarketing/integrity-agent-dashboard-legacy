@@ -265,10 +265,7 @@ const ContactRecordInfoDetails = () => {
     [fetchCounty, setAllCounties, setAllStates, setSubmitEnable]
   );
 
-  const debounceZipFn = useCallback(() => {
-    const debouncedFetch = debounce(fetchCounties, 1000);
-    return (...args) => debouncedFetch(...args);
-  }, [fetchCounties]);
+  const debounceZipFn = useCallback(debounce(fetchCounties, 1000), []);
 
   const handleZipCode = (zipcode) => {
     setSubmitEnable(true);

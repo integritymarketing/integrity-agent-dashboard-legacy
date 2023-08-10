@@ -28,7 +28,7 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
 
   const getRestrictionData = () => {
     if (hasQuantityLimit || hasStepTherapy || hasPriorAuthorization) {
-      return `${quantityLimitAmount} \ ${quantityLimitDays}`;
+      return `${quantityLimitAmount} \\ ${quantityLimitDays}`;
     }
   };
 
