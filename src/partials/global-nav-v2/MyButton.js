@@ -73,7 +73,7 @@ function MyButton({
     setIsCheckInUpdateModalDismissed(true);
     setIsAvailabiltyModalVisible(false);
     let data = {
-      agentID: agentid,
+      agentID: agentId,
       leadPreference: {
         ...leadPreference,
         isCheckInUpdateModalDismissed: true,
