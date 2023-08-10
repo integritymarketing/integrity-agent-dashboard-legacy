@@ -23,7 +23,7 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
     }
   };
 
-  const getAgentByAgentId = async function (agentId) {
+  const getAgentByAgentId = async function () {
     try {
       const data = await clientsService.getAgentByAgentId(agentId);
       return data;
@@ -41,7 +41,7 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
       try {
         const agentData = await getAgentAvailability();
         if (!agentData?.callForwardNumber) {
-          const agentDataById = await getAgentByAgentId(agentData?.agentID);
+          const agentDataById = await getAgentByAgentId();
           agentCallForwardingNumber = agentDataById.callForwardNumber;
         }
         const formattedPhoneNumber =

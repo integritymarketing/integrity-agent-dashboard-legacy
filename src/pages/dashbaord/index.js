@@ -152,7 +152,7 @@ export default function Dashbaord() {
   const handleConfirm = async () => {
     try {
       const payload = {
-        agentId: agentID,
+        agentId: agentID || userProfile?.agentId,
         leadPreference: {
           ...leadPreference,
           isAgentMobilePopUpDismissed: true,
