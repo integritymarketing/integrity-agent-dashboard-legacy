@@ -17,7 +17,7 @@ function MyButton({
 }) {
   const { clientsService } = useClientServiceContext();
   const userProfile = useUserProfile();
-  const { agentid } = userProfile;
+  const { agentId } = userProfile;
   const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] =
     useState(true);
   const [isAvailabiltyModalVisible, setIsAvailabiltyModalVisible] =
@@ -26,7 +26,7 @@ function MyButton({
   const statusText = isAvailable ? "online" : "offline";
 
   async function handleClick() {
-    const response = await clientsService.getAgentAvailability(agentid);
+    const response = await clientsService.getAgentAvailability(agentId);
 
     if (
       (hasActiveCampaign && leadPreference?.leadCenter) ||

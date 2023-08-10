@@ -377,8 +377,8 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      const {agentid} = userProfile || {};
-      getAgentAvailability(agentid);
+      const {agentId} = userProfile || {};
+      getAgentAvailability(agentId);
       //setUser(user.profile);
     };
     if (auth.isAuthenticated) {
@@ -392,9 +392,9 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
   if (!loading && auth.isAuthenticated && userProfile && !userProfile.phone) {
     showPhoneNotification = true;
   }
-  const {agentid} = userProfile || {};
+  const {agentId} = userProfile || {};
   function clickButton() {
-    updateAgentAvailability({ agentID: agentid, availability: !isAvailable });
+    updateAgentAvailability({ agentID: agentId, availability: !isAvailable });
   }
 
   const showMaintenaceNotification =
