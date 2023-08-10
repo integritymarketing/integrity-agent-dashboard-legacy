@@ -207,6 +207,7 @@
   justify-content: center;
   height: 48px;
   width: 100%;
+  border-top: 1px solid #DDDDDD;
 
   .show-more-cost-label {
     margin: 11px;
@@ -268,18 +269,21 @@
     }
   }
 }
-
+.plan-details-contact-section{
+  background-color: #FFFFFF;
+}
 .cost-monthly-prescriptions {
   .cost-monthly-bar {
     display: flex;
     flex-direction: column;
     min-height: 40px;
-    overflow: auto;
+    overflow: hidden;
     height: auto;
     width: 100%;
     .value {
       color: #052a63;
       font-weight: bold;
+      font-size: 14px;
     }
     .final-value {
       color: #4178ff;
@@ -297,6 +301,11 @@
       padding-right: 16px;
       cursor: pointer;
 
+      .cost-phases{
+        display: flex;
+        align-items: center;
+      }
+
       .cost-month-container {
         display: flex;
         align-items: center;
@@ -307,6 +316,8 @@
         div {
           padding-left: 10px;
         }
+
+       
       }
 
       .cost-arrow-side {

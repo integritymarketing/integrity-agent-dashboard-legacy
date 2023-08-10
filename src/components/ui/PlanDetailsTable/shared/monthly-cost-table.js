@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import ArrowDown from "../../../icons/arrow-down";
 import PlanDetailsTable from "../index";
 import Media from "react-media";
@@ -35,6 +36,7 @@ export function MonthlyCostTable({
       return (
         <div
           className={className}
+          key={months[mc.monthID]}
           onClick={(e) => {
             e.stopPropagation();
             const newExpandedMonths = { ...expandedMonths };
@@ -55,7 +57,7 @@ export function MonthlyCostTable({
               </div>
             </div>
             {!isMobile && (
-              <div>
+              <div className="cost-phases">
                 <span className={"value"}>Phase:</span>{" "}
                 <span className="costPhases">{mc.costPhases}</span>
               </div>
@@ -176,3 +178,12 @@ export function MonthlyCostTable({
     </>
   );
 }
+MonthlyCostTable.propTypes = {
+  planData: PropTypes.object,
+  months: PropTypes.array,
+  monthNumber: PropTypes.number,
+  currencyFormatter: PropTypes.object,
+  isShowMore: PropTypes.bool,
+};
+
+export default MonthlyCostTable;
