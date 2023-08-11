@@ -27,7 +27,7 @@ function PrescriptionTable({
       title="Prescriptions"
       isDashboard={true}
       preferencesKey={"costTemp_collapse"}
-      actions={<Edit />}
+      {...(data?.length && { actions: <Edit /> })}
     >
       {coveredDrugs?.length > 0 && (
         <>
