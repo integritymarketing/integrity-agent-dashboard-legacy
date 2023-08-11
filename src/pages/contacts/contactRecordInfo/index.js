@@ -264,7 +264,7 @@ const ContactRecordInfoDetails = () => {
     },
     [fetchCounty, setAllCounties, setAllStates, setSubmitEnable]
   );
-
+  //eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceZipFn = useCallback(debounce(fetchCounties, 1000), []);
 
   const handleZipCode = (zipcode) => {

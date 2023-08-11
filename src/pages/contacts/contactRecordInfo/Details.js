@@ -11,6 +11,7 @@ import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import DeleteLeadModal from "./DeleteLeadModal";
 import "./details.scss";
+import "./contactRecordInfo.scss";
 import DetailsMobile from "mobile/Contact/Details/ContactDetails";
 import Media from "react-media";
 import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";

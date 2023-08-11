@@ -49,7 +49,7 @@ export class CallRecordingsService {
         "Content-Type": "application/json",
       },
     };
-    if (body) {
+    if (method !== "GET" && method !== "HEAD" && body) {
       opts.body = JSON.stringify(body);
     }
 
