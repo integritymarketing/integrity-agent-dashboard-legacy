@@ -5,15 +5,12 @@ import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
 
 function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
-  const {
-    hasQuantityLimit,
-    hasStepTherapy,
-    hasPriorAuthorization,
-    quantityLimitAmount,
-    quantityLimitDays,
-  } = drugDetails || {};
-
-  const getRestrictionLabel = () => {
+  const getRestrictionLabel = (drugDetail) => {
+    if (!drugDetail) {
+      return;
+    }
+    const { hasQuantityLimit, hasStepTherapy, hasPriorAuthorization } =
+      drugDetail;
     if (hasQuantityLimit) {
       return "Quantity Limit";
     }
@@ -26,28 +23,40 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
     return "None";
   };
 
-  const getRestrictionData = () => {
+  const getRestrictionData = (drugDetail) => {
+    if (!drugDetail) {
+      return;
+    }
+    const {
+      hasQuantityLimit,
+      hasStepTherapy,
+      hasPriorAuthorization,
+      quantityLimitAmount,
+      quantityLimitDays,
+    } = drugDetail;
     if (hasQuantityLimit || hasStepTherapy || hasPriorAuthorization) {
-      return `${quantityLimitAmount} \\ ${quantityLimitDays}`;
+      if (!hasPriorAuthorization) {
+        return `${quantityLimitAmount} / ${quantityLimitDays} days`;
+      }
     }
   };
-
-  const restrictionValue = getRestrictionLabel();
 
   const getNumberInText = (number) => {
     switch (number) {
       case 1:
-        return "one";
+        return "one month";
       case 2:
-        return "two";
+        return "two months";
       case 3:
-        return "three";
+        return "three months";
       case 4:
-        return "four";
+        return "four months";
       case 5:
-        return "five";
+        return "five months";
       case 6:
-        return "six";
+        return "six months";
+      case 12:
+        return "year";
       default:
         return "";
     }
@@ -58,18 +67,19 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
       (prescription) => labelName === prescription?.dosage?.labelName
     );
     if (dosage) {
+      const duration = getNumberInText(Math?.floor(dosage?.daysOfSupply / 30));
       if (dosage?.selectedPackage) {
-        return `${dosage?.userQuantity} X ${dosage?.selectedPackage?.packageDisplayText} per month`;
+        return `${dosage?.userQuantity} X ${dosage?.selectedPackage?.packageDisplayText} per ${duration}`;
       }
-      return `${dosage?.userQuantity} tablets per ${getNumberInText(
-        Math?.floor(dosage?.daysOfSupply / 30)
-      )} month`;
+      return `${dosage?.userQuantity} tablets per ${duration}`;
     }
   };
 
   return (
     <>
-      {drugDetails?.map((drugDetails, i) => {
+      {drugDetails?.map((drugDetail, i) => {
+        const restrictionValue = getRestrictionLabel(drugDetail || {});
+
         return (
           <div
             key={i}
@@ -83,13 +93,13 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
               </div>
               <div className={styles.data}>
                 <div className={`${styles.secondaryColor} ${styles.type}`}>
-                  {drugDetails?.tierDescription || "Non-Preferred Drug"}
+                  {drugDetail?.tierDescription || "Non-Preferred Drug"}
                 </div>
                 <div className={`${styles.primaryColor} ${styles?.name}`}>
-                  {drugDetails?.labelName}
+                  {drugDetail?.labelName}
                 </div>
                 <div className={`${styles.secondaryColor} ${styles?.dose}`}>
-                  {getDoseQuantity(drugDetails?.labelName)}
+                  {getDoseQuantity(drugDetail?.labelName)}
                 </div>
               </div>
             </div>
@@ -97,14 +107,14 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
               {isMobile && <Header isRow={true} isMobile={true} />}
               <div className={styles.top}>
                 <div className={styles.cell}>
-                  ${drugDetails?.deductible || "0.00"}
+                  ${drugDetail?.deductible || "0.00"}
                 </div>
                 <div className={styles.cell}>
-                  ${drugDetails?.beforeGap || "0.00"}
+                  ${drugDetail?.beforeGap || "0.00"}
                 </div>
-                <div className={styles.cell}>${drugDetails?.gap || "0.00"}</div>
+                <div className={styles.cell}>${drugDetail?.gap || "0.00"}</div>
                 <div className={styles.cell}>
-                  ${drugDetails?.afterGap || "0.00"}
+                  ${drugDetail?.afterGap || "0.00"}
                 </div>
               </div>
               <div className={styles.bottom}>
@@ -114,9 +124,9 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
                     restrictionValue === "None" ? "" : styles.label
                   }`}
                 >
-                  {getRestrictionLabel()}
+                  {restrictionValue}
                 </span>
-                <span>{getRestrictionData()}</span>
+                <span>{getRestrictionData(drugDetail || {})}</span>
               </div>
             </div>
           </div>
