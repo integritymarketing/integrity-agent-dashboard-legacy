@@ -1,12 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./Footer.module.scss";
 import { TotalEstValue } from "../../../cost-table";
 import { useParams } from "react-router-dom";
 
-function Footer({ isMobile, planData, count }) {
+const Footer = ({ isMobile, planData, count }) => {
   const { effectiveDate } = useParams();
-  const [y, m] = effectiveDate?.split("-") || [0, 0];
-  const effectiveStartDate = new Date(`${y}-${m}-15`);
+  const [year, month] = effectiveDate?.split("-") || [0, 0];
+  const effectiveStartDate = new Date(`${year}-${month}-15`);
 
   return (
     <div
@@ -28,11 +29,17 @@ function Footer({ isMobile, planData, count }) {
         <TotalEstValue
           planData={planData}
           effectiveStartDate={effectiveStartDate}
-          monthNumber={parseInt(m)}
+          monthNumber={parseInt(month)}
         />
       </div>
     </div>
   );
-}
+};
+
+Footer.propTypes = {
+  isMobile: PropTypes.bool.isRequired,
+  planData: PropTypes.array.isRequired,
+  count: PropTypes.number.isRequired,
+};
 
 export default Footer;
