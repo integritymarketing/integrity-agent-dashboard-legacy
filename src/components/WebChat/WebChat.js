@@ -100,7 +100,7 @@ const WebChatComponent = () => {
         }
         return next(action);
       }),
-    [agentId, fullName]
+    [agentId, fullName, accessToken]
   );
 
   return (
