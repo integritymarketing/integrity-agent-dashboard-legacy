@@ -3,6 +3,7 @@ import ReactWebChat, {
   createDirectLine,
   createStore,
 } from "botframework-webchat";
+import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./WebChat.module.scss";
 import ChatIcon from "./chat-icon.gif";
 import HideIcon from "./hide-icon.png";
@@ -11,12 +12,12 @@ import "./WebChat.scss";
 import useUserProfile from "hooks/useUserProfile";
 
 const WebChatComponent = () => {
+  const { getAccessTokenSilently } = useAuth0();
   const { agentId, fullName } = useUserProfile();
   const [directLineToken, setDirectLineToken] = useState(null);
-
   const [isChatActive, setIsChatActive] = useState(false);
-
   const audioRef = useRef(null);
+  const accessToken = getAccessTokenSilently();
 
   useEffect(() => {
     const fetchDirectLineToken = async () => {
@@ -80,16 +81,19 @@ const WebChatComponent = () => {
   const store = useMemo(
     () =>
       createStore({}, ({ dispatch }) => (next) => async (action) => {
-
         if (action.type === "DIRECT_LINE/CONNECT_FULFILLED") {
           dispatch({
             type: "WEB_CHAT/SEND_EVENT",
             payload: {
               name: "webchat/join",
               value: {
+                language: "en-US",
                 marketerName: fullName,
                 marketerId: agentId,
-                appId: "MedicareCenter",
+                authorization: `Bearer ${accessToken}`,
+                host: "dev",
+                hostUrl: "https://askintegrity-dev.azure-api.net",
+                appId: "mcweb",
               },
             },
           });

@@ -22,6 +22,7 @@ import { ContactsProvider } from "contexts/contacts";
 import { BackNavProvider } from "contexts/backNavProvider";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import { ParallaxProvider } from "react-scroll-parallax";
+import { WebChatComponent } from "components/WebChat/WebChat";
 
 const AccountPage = lazy(() => import("pages/AccountPage"));
 const AddNewContactPage = lazy(() => import("pages/contacts/AddNewContactPage"));
@@ -54,7 +55,6 @@ const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
 const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
 const SOAConfirmationPage = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"));
 const TermsPage = lazy(() => import("pages/TermsPage"));
-const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
