@@ -66,6 +66,10 @@
             .label {
                 color: #4178FF;
                 font-size: 14px;
+
+             &+span {
+                font-style: italic;
+             }
             }
         }
     }
