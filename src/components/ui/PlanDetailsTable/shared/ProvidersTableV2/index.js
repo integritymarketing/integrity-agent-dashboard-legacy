@@ -15,7 +15,7 @@ const ProvidersTableV2 = ({ isMobile, providers }) => {
       actions={<Edit />}
     >
       <div className={styles.container}>
-        {providers.map((provider, index) => {
+        {providers?.map((provider, index) => {
           const {
             subspecialty,
             firstName,
