@@ -3,7 +3,7 @@ import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCar
 import Header from "./components/Header";
 import Row from "./components/Row";
 import Footer from "./components/Footer";
-import Edit from "./components/Edit";
+import Edit from "components/Edit";
 
 function PrescriptionTable({
   prescriptions,
@@ -26,8 +26,8 @@ function PrescriptionTable({
     <PlanDetailsContactSectionCard
       title="Prescriptions"
       isDashboard={true}
-      preferencesKey={"costTemp_collapse"}
-      {...(data?.length && { actions: <Edit /> })}
+      preferencesKey={"prescriptionss_collapse"}
+      actions={<Edit />}
     >
       {coveredDrugs?.length > 0 && (
         <>

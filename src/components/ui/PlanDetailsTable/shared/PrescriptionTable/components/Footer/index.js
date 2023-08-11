@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./Footer.module.scss";
 import { TotalEstValue } from "../../../cost-table";
+import { useParams } from "react-router-dom";
 
 function Footer({ isMobile, planData, count }) {
-  const [y, m] = planData?.effectiveStartDate?.split("-") || [0, 0];
+  const { effectiveDate } = useParams();
+  const [y, m] = effectiveDate?.split("-") || [0, 0];
   const effectiveStartDate = new Date(`${y}-${m}-15`);
 
   return (
