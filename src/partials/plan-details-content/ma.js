@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import MaCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
-import MaProvidersTable from "components/ui/PlanDetailsTable/shared/providers-table";
 import MaPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
+import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 
 const MaDetailsContent = ({
   prescriptions,
@@ -116,7 +116,9 @@ const MaDetailsContent = ({
         </div>
 
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
-          {plan && <MaProvidersTable isMobile={isMobile} planData={plan} />}
+          {plan && (
+            <ProvidersTableV2 isMobile={isMobile} providers={plan.providers} />
+          )}
         </div>
         <div ref={planBenefitsRef} className={`${styles["plan-benefits"]}`}>
           {plan && <MaPlanBenefitsTable isMobile={isMobile} planData={plan} />}

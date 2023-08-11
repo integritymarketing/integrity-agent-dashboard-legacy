@@ -1,0 +1,46 @@
+.container {
+    font-size: 14px;
+    background-color: white;
+    .row{
+        display: flex;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid #DDDDDD;
+        align-items: center;
+
+        .rowLeft{
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            width: 50%;
+            word-wrap: break-word;
+
+            .title1{
+                color: #717171;
+            }
+            .title2{
+                color: #052A63;
+                font-size: 20px;
+            }
+            .title3{
+                color: #4178FF;
+                margin-top: 6px;
+            }
+        }
+        .rowMiddle{
+            display: flex;
+            gap: 5px;
+            width: 50%;
+            align-items: center;
+
+            .address{
+                color: #717171;
+            }
+        }
+        .rowRight{
+            .edit{
+                color: #4178FF;
+            }
+        }
+    }
+}
