@@ -7,12 +7,23 @@ import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
 
 const ProvidersTableV2 = ({ isMobile, providers }) => {
+  function formatPhoneNumber(phoneNumber) {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return null;
+  }
+
   return (
     <PlanDetailsContactSectionCard
       title="Providers"
       isDashboard={true}
       preferencesKey="providers_collapse"
-      actions={<Edit />}
+      {...(providers?.length && { actions: <Edit /> })}
     >
       <div className={styles.container}>
         {providers?.map((provider, index) => {
@@ -35,22 +46,42 @@ const ProvidersTableV2 = ({ isMobile, providers }) => {
           const fullName = [firstName, middleName, lastName]
             .filter(Boolean)
             .join(" ");
-          const fullAddress = [streetLine1, streetLine2, city, state, zipCode]
+          const addressDetail1 = [streetLine1, streetLine2]
+            .filter(Boolean)
+            .join(" ");
+          const addressDetail2 = [city, state, zipCode]
             .filter(Boolean)
             .join(", ");
 
           return (
-            <div key={index} className={styles.row}>
+            <div
+              key={index}
+              className={isMobile ? styles.rowMobile : styles.row}
+            >
               <div className={styles.rowLeft}>
                 <div className={styles.subspecialty}>{subspecialty}</div>
                 <div className={styles.name}>{fullName}</div>
                 <div className={styles.phoneNumbers}>
-                  {phoneNumbers?.join(", ")} {/* Added null check */}
+                  {phoneNumbers
+                    .map((phn) => formatPhoneNumber(phn))
+                    ?.join(", ")}
                 </div>
               </div>
+              {isMobile ? (
+                <div className={styles.label}>Selected Location</div>
+              ) : null}
               <div className={styles.rowMiddle}>
                 {inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
-                <div className={styles.address}>{fullAddress}</div>
+                {isMobile ? (
+                  <div className={styles.addresses}>
+                    <div className={styles.address}>{addressDetail1}</div>
+                    <div className={styles.address}>{addressDetail2}</div>
+                  </div>
+                ) : (
+                  <div
+                    className={styles.address}
+                  >{`${addressDetail1} ${addressDetail2}`}</div>
+                )}
               </div>
             </div>
           );

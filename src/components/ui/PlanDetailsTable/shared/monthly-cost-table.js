@@ -59,7 +59,9 @@ export function MonthlyCostTable({
             {!isMobile && (
               <div className="cost-phases">
                 <span className={"value"}>Phase:</span>{" "}
-                <span className="costPhases">{mc.costPhases}</span>
+                <span className="costPhases">
+                  {mc.costPhases.toLowerCase()}
+                </span>
               </div>
             )}
             <div className={"value"}>
@@ -96,7 +98,8 @@ export function MonthlyCostTable({
     return (
       <div className="cost-monthly-bar">
         <div>
-          {start + previous} <i>{"Effective " + months[monthNumber - 1]}</i>
+          {start + previous}{" "}
+          <span className="date">{"Effective " + months[monthNumber - 1]}</span>
         </div>
         <div>{currencyFormatter.format(0)}</div>
       </div>
@@ -149,19 +152,19 @@ export function MonthlyCostTable({
       />
       {isShowMore && (
         <>
-          <div className="show-more-cost">
+          <div
+            className="show-more-cost"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMore(!showMore);
+            }}
+          >
             {showMore ? (
               <ArrowDown className="cost-arrow-side" />
             ) : (
               <ArrowDown />
             )}
-            <button
-              className="show-more-cost-label"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowMore(!showMore);
-              }}
-            >
+            <button className="show-more-cost-label">
               {isMobile ? "Monthly Costs" : "Show More"}
             </button>
           </div>
