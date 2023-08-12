@@ -25,32 +25,32 @@ const ProvidersTableV2 = ({ isMobile, providers }) => {
             inNetwork,
           } = provider;
           const {
-            phoneNumbers,
+            phoneNumbers, // Extract phoneNumbers from address
             streetLine1,
             streetLine2,
             city,
             state,
             zipCode,
           } = address;
-          const name = [firstName, middleName, lastName]
+          const fullName = [firstName, middleName, lastName]
             .filter(Boolean)
             .join(" ");
-          const addressDetail = [streetLine1, streetLine2, city, state, zipCode]
+          const fullAddress = [streetLine1, streetLine2, city, state, zipCode]
             .filter(Boolean)
-            .join(" ");
+            .join(", ");
 
           return (
             <div key={index} className={styles.row}>
               <div className={styles.rowLeft}>
                 <div className={styles.subspecialty}>{subspecialty}</div>
-                <div className={styles.name}>{name}</div>
+                <div className={styles.name}>{fullName}</div>
                 <div className={styles.phoneNumbers}>
-                  {phoneNumbers.join(", ")}
+                  {phoneNumbers?.join(", ")} {/* Added null check */}
                 </div>
               </div>
               <div className={styles.rowMiddle}>
                 {inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
-                <div className={styles.address}>{addressDetail}</div>
+                <div className={styles.address}>{fullAddress}</div>
               </div>
             </div>
           );
