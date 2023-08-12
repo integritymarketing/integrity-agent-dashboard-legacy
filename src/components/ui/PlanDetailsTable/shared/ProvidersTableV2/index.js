@@ -36,7 +36,7 @@ const ProvidersTableV2 = ({ isMobile, providers }) => {
             inNetwork,
           } = provider;
           const {
-            phoneNumbers, // Extract phoneNumbers from address
+            phoneNumbers,
             streetLine1,
             streetLine2,
             city,
@@ -63,7 +63,7 @@ const ProvidersTableV2 = ({ isMobile, providers }) => {
                 <div className={styles.name}>{fullName}</div>
                 <div className={styles.phoneNumbers}>
                   {phoneNumbers
-                    .map((phn) => formatPhoneNumber(phn))
+                    ?.map((phn) => formatPhoneNumber(phn))
                     ?.join(", ")}
                 </div>
               </div>
