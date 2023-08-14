@@ -63,6 +63,13 @@ const drugsPrice = (res1, res2) => {
     ? -1
     : 0;
 };
+const pocketAsc = (res1, res2) => {
+  return res1.maximumOutOfPocketCost < res2.maximumOutOfPocketCost
+    ? -1
+    : res1.maximumOutOfPocketCost > res2.maximumOutOfPocketCost
+    ? 1
+    : 0;
+};
 const getSortFunction = (sort) => {
   if (sort === PLAN_SORT_OPTIONS[1].value) {
     return premDsc;
@@ -72,6 +79,9 @@ const getSortFunction = (sort) => {
   }
   if (sort === PLAN_SORT_OPTIONS[3].value) {
     return drugsPrice;
+  }
+  if (sort === PLAN_SORT_OPTIONS[4].value) {
+    return pocketAsc;
   } else {
     return premAsc;
   }
@@ -598,6 +608,7 @@ const PlansPage = () => {
                       <div className={`${styles["filter-section"]}`}>
                         {effectiveDate && (
                           <AdditionalFilters
+                            planType={planType}
                             onChange={() => {}}
                             toggleAppointedPlans={toggleAppointedPlans}
                             carriers={carrierList}

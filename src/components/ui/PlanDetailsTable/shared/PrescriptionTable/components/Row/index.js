@@ -11,16 +11,20 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
     }
     const { hasQuantityLimit, hasStepTherapy, hasPriorAuthorization } =
       drugDetail;
-    if (hasQuantityLimit) {
-      return "Quantity Limit";
-    }
-    if (hasStepTherapy) {
-      return "Step Therapy";
+    let value = [];
+    if (!hasQuantityLimit && !hasStepTherapy && !hasPriorAuthorization) {
+      return "None";
     }
     if (hasPriorAuthorization) {
-      return "Prior Authorization";
+      value.push("Prior Authorization");
     }
-    return "None";
+    if (hasStepTherapy) {
+      value.push("Step Therapy");
+    }
+    if (hasQuantityLimit) {
+      value.push("Quantity Limit");
+    }
+    return value.join(", ");
   };
 
   const getRestrictionData = (drugDetail) => {
@@ -35,9 +39,7 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
       quantityLimitDays,
     } = drugDetail;
     if (hasQuantityLimit || hasStepTherapy || hasPriorAuthorization) {
-      if (!hasPriorAuthorization) {
-        return `${quantityLimitAmount} / ${quantityLimitDays} days`;
-      }
+      return `${quantityLimitAmount} / ${quantityLimitDays} days`;
     }
   };
 

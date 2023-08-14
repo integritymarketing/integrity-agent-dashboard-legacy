@@ -17,8 +17,39 @@ export default function AdditionalFilters({
   rebatesFilter,
   specialNeedsFilter,
   isNonRTS_User,
+  planType,
 }) {
   const sortedCarriers = carriers?.sort((a, b) => a.localeCompare(b));
+
+  const isMa = planType === 4;
+
+  const commonOptions = [
+    {
+      label: "My appointed plans",
+      id: "appointed",
+      checked: myAppointedPlans,
+      value: "appointed",
+      onChange: toggleAppointedPlans,
+      disabled: isNonRTS_User ? true : false,
+    },
+    {
+      label: "Special needs",
+      id: "specialNeeds",
+      checked: specialNeedsFilter,
+      value: "needs",
+      onChange: toggleNeeds,
+    },
+  ];
+
+  if (!isMa) {
+    commonOptions.push({
+      label: "Includes Part B rebates",
+      id: "rebates",
+      checked: rebatesFilter,
+      value: "rebate",
+      onChange: toggleRebates,
+    });
+  }
 
   return (
     <div className="effective-date-filter">
@@ -60,32 +91,7 @@ export default function AdditionalFilters({
         />
       </SubSection>
       <SubSection title="Additional Filters">
-        <CheckboxGroup
-          checkboxes={[
-            {
-              label: "My appointed plans",
-              id: "appointed",
-              checked: myAppointedPlans,
-              value: "appointed",
-              onChange: toggleAppointedPlans,
-              disabled: isNonRTS_User ? true : false,
-            },
-            {
-              label: "Special needs",
-              id: "specialNeeds",
-              checked: specialNeedsFilter,
-              value: "needs",
-              onChange: toggleNeeds,
-            },
-            {
-              label: "Includes Part B rebates",
-              id: "rebates",
-              checked: rebatesFilter,
-              value: "rebate",
-              onChange: toggleRebates,
-            },
-          ]}
-        />
+        <CheckboxGroup checkboxes={commonOptions} />
       </SubSection>
     </div>
   );
