@@ -20,6 +20,7 @@ const PdpDetailsContent = ({
   isEnroll,
   enrollData,
   isEmail = false,
+  refresh,
 }) => {
   const costsRef = useRef(null);
   const prescriptionsRef = useRef(null);
@@ -169,6 +170,7 @@ const PdpDetailsContent = ({
               isMobile={isMobile}
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+              refresh={refresh}
             />
           )}
         </div>
@@ -179,6 +181,7 @@ const PdpDetailsContent = ({
               pharmacies={pharmacies}
               isMobile={isMobile}
               pharmaciesList={pharmaciesList}
+              refresh={refresh}
             />
           )}
         </div>

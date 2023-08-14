@@ -18,6 +18,7 @@ const MaDetailsContent = ({
   isEnroll,
   enrollData,
   isEmail = false,
+  refresh,
 }) => {
   const costsRef = useRef(null);
   const prescriptionsRef = useRef(null);
@@ -111,13 +112,18 @@ const MaDetailsContent = ({
               isMobile={isMobile}
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+              refresh={refresh}
             />
           )}
         </div>
 
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
           {plan && (
-            <ProvidersTableV2 isMobile={isMobile} providers={plan.providers} />
+            <ProvidersTableV2
+              isMobile={isMobile}
+              providers={plan.providers}
+              refresh={refresh}
+            />
           )}
         </div>
         <div ref={planBenefitsRef} className={`${styles["plan-benefits"]}`}>

@@ -9,8 +9,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     fontWeight: "600",
     height: "40px",
-    textTransform: "unset",
+    textTransform: "unset !important",
     padding: "6px 15px",
+    cursor: "pointer",
     "&:hover": {
       borderRadius: "20px",
       boxShadow: "0px 0px 0px 1px #CCCCCC",

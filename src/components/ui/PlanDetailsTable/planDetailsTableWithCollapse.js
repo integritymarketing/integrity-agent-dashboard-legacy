@@ -15,6 +15,7 @@ const PlanDetailsTableWithCollapse = ({
   className,
   header,
   tbodyClassName,
+  actions,
 }) => {
   const { getTableProps, getTableBodyProps, rows, prepareRow } = useTable({
     columns,
@@ -29,6 +30,7 @@ const PlanDetailsTableWithCollapse = ({
         className={"plan-details-contact-section"}
         isDashboard={true}
         preferencesKey={"costTemp_collapse"}
+        actions={actions}
       >
         <table
           {...getTableProps()}

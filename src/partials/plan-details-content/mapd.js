@@ -22,6 +22,7 @@ const MapdDetailsContent = ({
   isEnroll,
   enrollData,
   isEmail = false,
+  refresh,
 }) => {
   const costsRef = useRef(null);
   const providersRef = useRef(null);
@@ -188,12 +189,17 @@ const MapdDetailsContent = ({
               isMobile={isMobile}
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+              refresh={refresh}
             />
           )}
         </div>
         <div ref={providersRef} className={`${styles["provider-details"]}`}>
           {plan && (
-            <ProvidersTableV2 isMobile={isMobile} providers={plan.providers} />
+            <ProvidersTableV2
+              isMobile={isMobile}
+              providers={plan.providers}
+              refresh={refresh}
+            />
           )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
@@ -203,6 +209,7 @@ const MapdDetailsContent = ({
               planData={plan}
               pharmacies={pharmacies}
               pharmaciesList={pharmaciesList}
+              refresh={refresh}
             />
           )}
         </div>

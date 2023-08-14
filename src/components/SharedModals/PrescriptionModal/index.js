@@ -304,7 +304,7 @@ const PrescriptionModal = ({
     >
       {!selectedDrug && !isLoading ? (
         <>
-          <SearchLabel title={"Search for a Prescription"} />
+          <SearchLabel label={"Search for a Prescription"} />
           <SearchInput
             searchString={searchString}
             prescriptionList={prescriptionList}
