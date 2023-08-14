@@ -60,7 +60,7 @@ const useStyles = makeStyles(() => ({
 const ProviderModal = ({
   open,
   onClose,
-  personalInfo,
+  userZipCode,
   leadId,
   leadProviders,
   onDelete,
@@ -72,7 +72,7 @@ const ProviderModal = ({
   const classes = useStyles();
   const { clientsService } = useClientServiceContext();
 
-  const [zipCode, setZipCode] = useState(personalInfo.addresses[0]?.postalCode);
+  const [zipCode, setZipCode] = useState(userZipCode);
   const [searchString, setSearchString] = useState("");
   const [radius, setRadius] = useState(10);
 
@@ -187,7 +187,7 @@ const ProviderModal = ({
       open={open}
       onClose={onClose}
       title={isEdit ? "Update Provider" : "Add Provider"}
-      onSave={isEdit ? handleSaveProvider : handleSaveProvider}
+      onSave={handleSaveProvider}
       actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
       isDelete={isEdit}
       modalName={"Provider"}
@@ -198,7 +198,7 @@ const ProviderModal = ({
       }
     >
       <SearchLabel
-        title={
+        label={
           isEdit ? "Add or change provider location" : "Search for a Provider"
         }
       />

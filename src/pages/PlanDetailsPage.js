@@ -162,6 +162,7 @@ const PlanDetailsPage = () => {
                   pharmacies={pharmacies}
                   pharmaciesList={pharmaciesList}
                   prescriptions={prescriptions}
+                  refresh={getContactAndPlanData}
                 />
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
@@ -174,6 +175,7 @@ const PlanDetailsPage = () => {
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
                   pharmaciesList={pharmaciesList}
+                  refresh={getContactAndPlanData}
                 />
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
@@ -184,6 +186,7 @@ const PlanDetailsPage = () => {
                   isMobile={isMobile}
                   onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
+                  refresh={getContactAndPlanData}
                 />
               )}
             </Container>

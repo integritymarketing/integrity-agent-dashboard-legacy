@@ -145,7 +145,7 @@ export default forwardRef((props) => {
             }}
             onSave={addProvider}
             onDelete={deleteProvider}
-            personalInfo={props.personalInfo}
+            userZipCode={props?.personalInfo?.addresses[0]?.postalCode}
             leadId={props.id}
             leadProviders={providers}
             selected={providerToEdit}
@@ -230,12 +230,11 @@ export default forwardRef((props) => {
 
                     <IconButton
                       label="Edit"
-                      // onClick={() => {
-                      //   setProviderEditFlag(true);
-                      //   setProviderToEdit(item);
-                      //   setIsOpen(true);
-                      // }}
-                      onClick={() => {}}
+                      onClick={() => {
+                        setProviderEditFlag(true);
+                        setProviderToEdit(item);
+                        setIsOpen(true);
+                      }}
                       icon={<EditIcon />}
                     />
                   </WithLoader>
