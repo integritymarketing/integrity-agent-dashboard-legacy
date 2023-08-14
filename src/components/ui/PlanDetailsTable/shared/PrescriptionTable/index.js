@@ -41,14 +41,14 @@ const PrescriptionTable = ({
       )}
 
       {nonCoveredDrugs?.length > 0 && (
-        <>
+        <div>
           <Header isMobile={isMobile} />
           <Row
             isMobile={isMobile}
             drugDetails={nonCoveredDrugs}
             prescriptions={prescriptions}
           />
-        </>
+        </div>
       )}
       <Footer
         isMobile={isMobile}

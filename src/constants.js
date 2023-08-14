@@ -14,6 +14,7 @@ export const PLAN_SORT_OPTIONS = [
   { label: "Premium Highest to Lowest", value: "premium-desc" },
   { label: "Highest Star Rating", value: "rating-desc" },
   { label: "Lowest Estimated Drug Cost", value: "drugs-asc" },
+  { label: "Lowest Out of Pocket Max", value: "pocket-asc" },
 ];
 
 export const DASHBOARD_SORT_OPTIONS = [
