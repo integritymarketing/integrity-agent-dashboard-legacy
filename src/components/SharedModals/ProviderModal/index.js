@@ -142,20 +142,20 @@ const ProviderModal = ({
   };
 
   const handleSaveProvider = async () => {
-    let isExist =
-      leadProviders?.filter((each) => each?.NPI === selectedProvider?.NPI)[0] ||
-      null;
-    if (isExist) {
-      await handleDeleteProvider();
-    } else {
-      await onSave(
-        selectedProvider?.addresses[0]?.id,
-        leadId,
-        selectedProvider?.NPI,
-        selectedProvider?.presentationName
-      );
-      onClose();
-    }
+    // let isExist =
+    //   leadProviders?.filter((each) => each?.NPI === selectedProvider?.NPI)[0] ||
+    //   null;
+    // if (isExist) {
+    //   await handleDeleteProvider();
+    // } else {
+    await onSave(
+      selectedProvider?.addresses[0]?.id,
+      leadId,
+      selectedProvider?.NPI,
+      selectedProvider?.presentationName
+    );
+    onClose();
+    // }
   };
 
   const handleDeleteProvider = () => {

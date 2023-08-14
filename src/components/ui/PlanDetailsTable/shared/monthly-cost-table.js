@@ -184,7 +184,7 @@ export function MonthlyCostTable({
 MonthlyCostTable.propTypes = {
   planData: PropTypes.object,
   months: PropTypes.array,
-  monthNumber: PropTypes.number,
+  monthNumber: PropTypes.string,
   currencyFormatter: PropTypes.object,
   isShowMore: PropTypes.bool,
 };

@@ -12,6 +12,7 @@ import ProviderModal from "components/SharedModals/ProviderModal";
 import * as Sentry from "@sentry/react";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
+// import { getProviderPhone } from "utils/primaryContact";
 
 const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
   const { clientsService } = useClientServiceContext();
@@ -48,16 +49,16 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
     }
   };
 
-  function formatPhoneNumber(phoneNumber) {
-    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  // function formatPhoneNumber(phoneNumber) {
+  //   const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+  //   const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
 
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
+  //   if (match) {
+  //     return `(${match[1]}) ${match[2]}-${match[3]}`;
+  //   }
 
-    return null;
-  }
+  //   return null;
+  // }
 
   const isEdit = providers?.length > 0 ? true : false;
 
@@ -82,19 +83,26 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
               firstName,
               middleName,
               lastName,
-              address,
+              // addresses,
               inNetwork,
             } = provider;
-            const { streetLine1, streetLine2, city, state, zipCode } = address;
+            // const {
+            //   streetLine1 = "",
+            //   streetLine2 = "",
+            //   city = "",
+            //   state = "",
+            //   zipCode = "",
+            //   phoneNumbers = [],
+            // } = addresses[0];
             const fullName = [firstName, middleName, lastName]
               .filter(Boolean)
               .join(" ");
-            const addressDetail1 = [streetLine1, streetLine2]
-              .filter(Boolean)
-              .join(" ");
-            const addressDetail2 = [city, state, zipCode]
-              .filter(Boolean)
-              .join(", ");
+            // const addressDetail1 = [streetLine1, streetLine2]
+            //   .filter(Boolean)
+            //   .join(" ");
+            // const addressDetail2 = [city, state, zipCode]
+            //   .filter(Boolean)
+            //   .join(", ");
 
             return (
               <div
@@ -104,18 +112,16 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
                 <div className={styles.rowLeft}>
                   <div className={styles.subspecialty}>{subspecialty}</div>
                   <div className={styles.name}>{fullName}</div>
-                  <div className={styles.phoneNumbers}>
-                    {address?.phoneNumbers
-                      ?.map((phn) => formatPhoneNumber(phn))
-                      ?.join(", ")}
-                  </div>
+                  {/* <div className={styles.phoneNumbers}>
+                    {getProviderPhone(addresses)}
+                  </div> */}
                 </div>
-                {isMobile ? (
+                {/* {isMobile ? (
                   <div className={styles.label}>Selected Location</div>
-                ) : null}
+                ) : null} */}
                 <div className={styles.rowMiddle}>
                   {inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
-                  {isMobile ? (
+                  {/* {isMobile ? (
                     <div className={styles.addresses}>
                       <div className={styles.address}>{addressDetail1}</div>
                       <div className={styles.address}>{addressDetail2}</div>
@@ -124,7 +130,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
                     <div
                       className={styles.address}
                     >{`${addressDetail1} ${addressDetail2}`}</div>
-                  )}
+                  )} */}
                 </div>
               </div>
             );

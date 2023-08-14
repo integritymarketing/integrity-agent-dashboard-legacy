@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import Notice from "./microComponent/Notice";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import useUserProfile from "hooks/useUserProfile";
-import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 function MyButton({
   clickButton,
@@ -17,11 +16,6 @@ function MyButton({
   hasActiveCampaign,
 }) {
   const { clientsService } = useClientServiceContext();
-  const {
-    agentInformation: {
-      leadPreference: { leadCenter, medicareEnrollPurl, medicareEnroll },
-    },
-  } = useAgentInformationByID();
   const userProfile = useUserProfile();
   const { agentId } = userProfile;
   const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] =
@@ -32,7 +26,12 @@ function MyButton({
   const statusText = isAvailable ? "online" : "offline";
 
   async function handleClick() {
-    if ((hasActiveCampaign && leadCenter) || medicareEnroll) {
+    const response = await clientsService.getAgentAvailability(agentId);
+
+    if (
+      (hasActiveCampaign && leadPreference?.leadCenter) ||
+      leadPreference?.medicareEnroll
+    ) {
       typeof clickButton == "function" && clickButton();
       if (!isCheckInUpdateModalDismissed) {
         setIsAvailabiltyModalVisible(true);
@@ -40,18 +39,25 @@ function MyButton({
     }
     // When Availabily is set to false and leadSource:leadCenter is false with active campaign then we restrict user from toggling and instead we shaow a notice
     else if (
-      hasActiveCampaign &&
-      !leadPreference.leadCenter &&
-      !leadPreference.medicareEnrollPurl
+      response?.hasActiveCampaign &&
+      !response?.leadPreference.leadCenter &&
+      !response?.leadPreference.medicareEnrollPurl
     ) {
       handleDisable();
     }
     // When Availabily is set to false and leadSource:leadCenter is true with no active campaign then we restrict user from toggling and instead we shaow a notice
-    else if (!hasActiveCampaign && leadCenter && !medicareEnrollPurl) {
+    else if (
+      !response?.hasActiveCampaign &&
+      response?.leadPreference.leadCenter &&
+      !response?.leadPreference.medicareEnrollPurl
+    ) {
       handleDisable();
     }
     // When Availabily is set to false and flags are also false then we restrict user from toggling and instead we shaow a notice
-    else if (!leadCenter && !medicareEnrollPurl) {
+    else if (
+      !response?.leadPreference.leadCenter &&
+      !response?.leadPreference.medicareEnrollPurl
+    ) {
       handleDisable();
     } else {
       clickButton();

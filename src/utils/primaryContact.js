@@ -13,3 +13,12 @@ export const getPrimaryContact = (clientInfo) => {
     );
   } else return "N/A";
 };
+
+export const getProviderPhone = (addresses) => {
+  if (!addresses || !addresses.length > 0) return "";
+
+  const phoneNumbers = addresses[0]?.phoneNumbers;
+  if (!phoneNumbers || !phoneNumbers.length > 0) return "";
+
+  return phoneNumbers[0] || "";
+};
