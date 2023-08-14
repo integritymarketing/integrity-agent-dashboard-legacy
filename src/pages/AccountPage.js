@@ -430,7 +430,7 @@ const AccountPage = () => {
   const userProfile = useUserProfile();
   const { firstName, lastName, npn, email, phone } = userProfile;
   const {
-    agentInfomration: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
   const { Put: updateAccount } = useFetch(
     `${process.env.REACT_APP_AUTH_UPDATE_ACCOUNT_URL}`

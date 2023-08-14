@@ -40,7 +40,7 @@ export default function GetStarted(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const addToast = useToast();
   const {
-    agentInfomration: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
   const { agentId } = useUserProfile();
 

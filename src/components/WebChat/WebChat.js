@@ -26,7 +26,7 @@ const WebChatComponent = () => {
       });
       try {
         const response = await fetch(
-          "https://integrity-bot-service-dev.azurewebsites.net/directline/token",
+          "https://ask-integrity-bot-svc-dev.azurewebsites.net/directline/token",
           { method: "POST", body: params }
         );
         if (response.ok) {
@@ -90,7 +90,7 @@ const WebChatComponent = () => {
                 language: "en-US",
                 marketerName: fullName,
                 marketerId: agentId,
-                authorization: `Bearer ${accessToken}`,
+                authorization: `Bearer ${await accessToken}`,
                 host: "dev",
                 hostUrl: "https://askintegrity-dev.azure-api.net",
                 appId: "mcweb",

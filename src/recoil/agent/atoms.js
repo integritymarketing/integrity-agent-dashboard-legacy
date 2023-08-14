@@ -19,3 +19,8 @@ export const isAgentAvailableAtom = atom({
   key: "agentAvilableAtom",
   default: false,
 });
+
+export const clientServiceAtom = atom({
+  key: "clientServiceAtom",
+  default: null,
+});

@@ -52,7 +52,7 @@ const ComparePlanModal = ({
   const addToast = useToast();
   const userProfile = useUserProfile();
   const {
-    agentInfomration: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
   const {
     firstName,

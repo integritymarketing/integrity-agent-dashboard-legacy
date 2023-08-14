@@ -1,14 +1,12 @@
 import { selector } from "recoil";
-import { agentIdAtom } from "./atoms";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import { agentIdAtom, clientServiceAtom } from "./atoms";
 import * as Sentry from "@sentry/react";
 
-const { clientsService } = useClientServiceContext();
-
-export const agentInfomration = selector({
-  key: "agentInfomration",
+export const agentInformationSelector = selector({
+  key: "agentInformationSelector",
   get: async ({ get }) => {
     const agentId = get(agentIdAtom);
+    const clientsService = get(clientServiceAtom);
     if (!agentId) return {};
     try {
       const result = await clientsService.getAgentAvailability(agentId);

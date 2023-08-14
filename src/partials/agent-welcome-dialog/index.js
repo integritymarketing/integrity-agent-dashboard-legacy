@@ -15,7 +15,7 @@ import styles from "./styles.module.scss";
 export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
   const history = useHistory();
   const {
-    agentInfomration: { agentFirstName, agentVirtualPhoneNumber },
+    agentInformation: { agentFirstName, agentVirtualPhoneNumber },
     getAgentAvailability,
   } = useAgentInformationByID();
 

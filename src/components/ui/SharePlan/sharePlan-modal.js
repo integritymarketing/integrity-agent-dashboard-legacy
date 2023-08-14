@@ -50,7 +50,7 @@ const SharePlanModal = ({
 }) => {
   const addToast = useToast();
   const {
-    agentInfomration: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
 
   const { enrollPlansService, plansService } = useClientServiceContext();

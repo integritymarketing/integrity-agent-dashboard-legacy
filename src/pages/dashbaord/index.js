@@ -56,7 +56,7 @@ export default function Dashbaord() {
     useContext(stageSummaryContext);
 
   const {
-    agentInfomration: { leadPreference, agentID },
+    agentInformation: { leadPreference, agentID },
   } = useAgentInformationByID();
 
   useEffect(() => {
