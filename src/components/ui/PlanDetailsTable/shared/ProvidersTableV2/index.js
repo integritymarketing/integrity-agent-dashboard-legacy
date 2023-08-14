@@ -85,14 +85,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
               address,
               inNetwork,
             } = provider;
-            const {
-              phoneNumbers,
-              streetLine1,
-              streetLine2,
-              city,
-              state,
-              zipCode,
-            } = address;
+            const { streetLine1, streetLine2, city, state, zipCode } = address;
             const fullName = [firstName, middleName, lastName]
               .filter(Boolean)
               .join(" ");
@@ -112,7 +105,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
                   <div className={styles.subspecialty}>{subspecialty}</div>
                   <div className={styles.name}>{fullName}</div>
                   <div className={styles.phoneNumbers}>
-                    {phoneNumbers
+                    {address?.phoneNumbers
                       ?.map((phn) => formatPhoneNumber(phn))
                       ?.join(", ")}
                   </div>
@@ -137,19 +130,19 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
             );
           })}
         </div>
+        {isOpen && (
+          <ProviderModal
+            open={isOpen}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            onSave={addProvider}
+            userZipCode={leadDetails?.addresses[0]?.postalCode}
+            leadId={contactId}
+            leadProviders={providers}
+          />
+        )}
       </PlanDetailsContactSectionCard>
-      {isOpen && (
-        <ProviderModal
-          open={isOpen}
-          onClose={() => {
-            setIsOpen(false);
-          }}
-          onSave={addProvider}
-          userZipCode={leadDetails?.addresses[0]?.postalCode}
-          leadId={contactId}
-          leadProviders={providers}
-        />
-      )}
     </>
   );
 };
