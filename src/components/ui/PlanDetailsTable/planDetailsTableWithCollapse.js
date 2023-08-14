@@ -40,16 +40,18 @@ const PlanDetailsTableWithCollapse = ({
             {...getTableBodyProps()}
             className={`${tbodyClassName} plan-details-tbody`}
           >
-            {rows.map((row) => {
+            {rows.map((row, rowIndex) => {
               prepareRow(row);
               return (
                 <tr
+                  key={`${header}-row-${rowIndex}`}
                   {...row.getRowProps()}
                   className={`${compareTable && "comp-tr"}`}
                 >
-                  {row.cells.map((cell) => {
+                  {row.cells.map((cell, cellIndex) => {
                     return (
                       <td
+                        key={`${header}-cell-${cellIndex}`}
                         {...cell.getCellProps()}
                         className={`${compareTable && "comp-td"}`}
                       >

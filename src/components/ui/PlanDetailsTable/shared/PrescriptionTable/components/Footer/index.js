@@ -38,7 +38,7 @@ const Footer = ({ isMobile, planData, count }) => {
 
 Footer.propTypes = {
   isMobile: PropTypes.bool.isRequired,
-  planData: PropTypes.array.isRequired,
+  planData: PropTypes.object.isRequired,
   count: PropTypes.number.isRequired,
 };
 
