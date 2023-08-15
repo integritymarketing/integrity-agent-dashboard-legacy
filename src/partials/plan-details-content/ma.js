@@ -5,7 +5,6 @@ import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-docum
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
-import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 
 const MaDetailsContent = ({
@@ -102,18 +101,6 @@ const MaDetailsContent = ({
         <div ref={costsRef} className={`${styles["costs"]}`}>
           {plan && (
             <MaCostTable isMobile={isMobile} planData={plan} planType="MA" />
-          )}
-        </div>
-        <div ref={prescriptionsRef}>
-          {plan && (
-            <PrescriptionTable
-              prescriptions={prescriptions}
-              planData={plan}
-              isMobile={isMobile}
-              planDrugCoverage={plan?.planDrugCoverage}
-              drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
-              refresh={refresh}
-            />
           )}
         </div>
 

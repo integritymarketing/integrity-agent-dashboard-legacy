@@ -1,30 +1,17 @@
 import React from "react";
 import styles from "./header.module.scss";
 
-const columnHeaderTitle = [
-  "Covered Prescriptions",
-  "Deductible",
-  "Copay",
-  "Gap",
-  "Catastrophic",
-];
-
-const columnHeaderTitle2 = [
-  "Non-covered Prescriptions",
-  "Deductible",
-  "Copay",
-  "Gap",
-  "Catastrophic",
-];
+const commonColumns = ["Deductible", "Copay", "Gap", "Catastrophic"];
 
 function Header({ isCovered, isMobile, isRow }) {
-  const titles = isCovered ? columnHeaderTitle : columnHeaderTitle2;
-  const rowTitles = isRow ? titles.slice(1) : titles;
+  const title = isCovered
+    ? "Covered Prescriptions"
+    : "Non-covered Prescriptions";
 
   if (isMobile && !isRow) {
     return (
       <div className={styles.mbContainer}>
-        <div className={styles.title}>{titles[0]}</div>
+        <div className={styles.title}>{title}</div>
       </div>
     );
   }
@@ -33,16 +20,23 @@ function Header({ isCovered, isMobile, isRow }) {
     <div
       className={`${styles.container} ${isMobile ? styles.mbContainer : ""}`}
     >
-      {rowTitles.map((title) => {
-        return (
-          <div
-            key={title}
-            className={`${styles.title} ${isRow ? styles.mbTitle : ""}`}
-          >
-            {title}
-          </div>
-        );
-      })}
+      {!isMobile && (
+        <div className={`${styles.heading} ${isRow ? styles.mbTitle : ""}`}>
+          {title}
+        </div>
+      )}
+      <div className={styles.columns}>
+        {commonColumns.map((title) => {
+          return (
+            <div
+              key={title}
+              className={`${styles.title} ${isRow ? styles.mbTitle : ""}`}
+            >
+              {title}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -50,6 +50,10 @@
                 color: #434A51;
                 border-right: 1px solid #ddd;
                 height: 48px;
+
+                &:last-child {
+                    border-right: 1px solid transparent;
+                }
             }
         }
 

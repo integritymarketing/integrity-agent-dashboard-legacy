@@ -31,15 +31,10 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
     if (!drugDetail) {
       return;
     }
-    const {
-      hasQuantityLimit,
-      hasStepTherapy,
-      hasPriorAuthorization,
-      quantityLimitAmount,
-      quantityLimitDays,
-    } = drugDetail;
-    if (hasQuantityLimit || hasStepTherapy || hasPriorAuthorization) {
-      return `${quantityLimitAmount} / ${quantityLimitDays} days`;
+    const { hasQuantityLimit, quantityLimitAmount, quantityLimitDays } =
+      drugDetail;
+    if (hasQuantityLimit) {
+      return ` - ${quantityLimitAmount} / ${quantityLimitDays} days`;
     }
   };
 
@@ -109,14 +104,16 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
               {isMobile && <Header isRow={true} isMobile={true} />}
               <div className={styles.top}>
                 <div className={styles.cell}>
-                  ${drugDetail?.deductible || "0.00"}
+                  ${drugDetail?.deductible.toFixed(2) || "0.00"}
                 </div>
                 <div className={styles.cell}>
-                  ${drugDetail?.beforeGap || "0.00"}
+                  ${drugDetail?.beforeGap.toFixed(2) || "0.00"}
                 </div>
-                <div className={styles.cell}>${drugDetail?.gap || "0.00"}</div>
                 <div className={styles.cell}>
-                  ${drugDetail?.afterGap || "0.00"}
+                  ${drugDetail?.gap.toFixed(2) || "0.00"}
+                </div>
+                <div className={styles.cell}>
+                  ${drugDetail?.afterGap.toFixed(2) || "0.00"}
                 </div>
               </div>
               <div className={styles.bottom}>
