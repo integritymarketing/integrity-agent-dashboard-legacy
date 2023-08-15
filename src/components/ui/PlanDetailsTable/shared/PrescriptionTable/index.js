@@ -21,12 +21,13 @@ const PrescriptionTable = ({
   const coveredDrugs = data.filter((item) => item.tierNumber > 0);
   const nonCoveredDrugs = data.filter((item) => item.tierNumber === 0);
 
+  const hasData = data?.length > 0;
   return (
     <PlanDetailsContactSectionCard
       title="Prescriptions"
       isDashboard={true}
       preferencesKey={"prescriptions_collapse"}
-      actions={<Edit />}
+      {...(hasData && { actions: <Edit /> })}
     >
       {coveredDrugs?.length > 0 && (
         <>
@@ -50,11 +51,13 @@ const PrescriptionTable = ({
           />
         </div>
       )}
-      <Footer
-        isMobile={isMobile}
-        planData={planData}
-        count={coveredDrugs?.length + nonCoveredDrugs?.length}
-      />
+      {hasData && (
+        <Footer
+          isMobile={isMobile}
+          planData={planData}
+          count={coveredDrugs?.length + nonCoveredDrugs?.length}
+        />
+      )}
     </PlanDetailsContactSectionCard>
   );
 };
