@@ -11,6 +11,10 @@ import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
 
 const useStyles = makeStyles({
+  addressContainer: {
+    display: "flex",
+    alignItems: "center",
+  },
   address: {
     color: "#717171",
     fontSize: "14px",
@@ -46,7 +50,7 @@ const RenderProviders = ({
 
       <Box>
         {item?.addresses?.map((address, index) => (
-          <Box>
+          <Box className={classes.addressContainer}>
             {isPlanPage && item?.inNetwork ? (
               <InNetworkIcon />
             ) : (

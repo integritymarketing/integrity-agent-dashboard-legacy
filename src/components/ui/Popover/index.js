@@ -9,6 +9,7 @@ export default function Popover({
   footer,
   description,
   closeWhenClickOutside,
+  isPolicyList,
   ...rest
 }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -48,7 +49,9 @@ export default function Popover({
           className="popover-arrow-container"
           arrowClassName="popover-arrow"
         >
-          <div className="popover-content">
+          <div
+            className={`popover-content ${isPolicyList ? "customSize" : ""}`}
+          >
             <div className="popover-title">
               {icon}
               {title}
