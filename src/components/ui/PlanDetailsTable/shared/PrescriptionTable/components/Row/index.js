@@ -3,6 +3,7 @@ import styles from "./Row.module.scss";
 import Header from "../Header";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
+import { currencyFormatter } from "../../../cost-table";
 
 function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
   const getRestrictionLabel = (drugDetail) => {
@@ -104,16 +105,16 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
               {isMobile && <Header isRow={true} isMobile={true} />}
               <div className={styles.top}>
                 <div className={styles.cell}>
-                  ${drugDetail?.deductible.toFixed(2) || "0.00"}
+                  {currencyFormatter.format(drugDetail?.deductible || 0)}
                 </div>
                 <div className={styles.cell}>
-                  ${drugDetail?.beforeGap.toFixed(2) || "0.00"}
+                  {currencyFormatter.format(drugDetail?.beforeGap || 0)}
                 </div>
                 <div className={styles.cell}>
-                  ${drugDetail?.gap.toFixed(2) || "0.00"}
+                  {currencyFormatter.format(drugDetail?.gap || 0)}
                 </div>
                 <div className={styles.cell}>
-                  ${drugDetail?.afterGap.toFixed(2) || "0.00"}
+                  {currencyFormatter.format(drugDetail?.afterGap || 0)}
                 </div>
               </div>
               <div className={styles.bottom}>
