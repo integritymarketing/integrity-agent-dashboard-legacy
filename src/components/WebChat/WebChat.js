@@ -17,7 +17,6 @@ const WebChatComponent = () => {
   const [directLineToken, setDirectLineToken] = useState(null);
   const [isChatActive, setIsChatActive] = useState(false);
   const audioRef = useRef(null);
-  const accessToken = getAccessTokenSilently();
 
   useEffect(() => {
     const fetchDirectLineToken = async () => {
@@ -82,6 +81,7 @@ const WebChatComponent = () => {
     () =>
       createStore({}, ({ dispatch }) => (next) => async (action) => {
         if (action.type === "DIRECT_LINE/CONNECT_FULFILLED") {
+          const accessToken = await getAccessTokenSilently();
           dispatch({
             type: "WEB_CHAT/SEND_EVENT",
             payload: {
@@ -90,7 +90,7 @@ const WebChatComponent = () => {
                 language: "en-US",
                 marketerName: fullName,
                 marketerId: agentId,
-                authorization: `Bearer ${await accessToken}`,
+                authorization: `Bearer ${accessToken}`,
                 host: "dev",
                 hostUrl: "https://askintegrity-dev.azure-api.net",
                 appId: "mcweb",
@@ -100,7 +100,7 @@ const WebChatComponent = () => {
         }
         return next(action);
       }),
-    [agentId, fullName, accessToken]
+    [agentId, fullName, getAccessTokenSilently]
   );
 
   return (
