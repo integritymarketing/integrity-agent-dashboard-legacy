@@ -35,3 +35,11 @@
     }
   }
 }
+
+.customSize {
+  max-width: 620px;
+  height: 110px;
+  @media screen and (max-width: 480px) {
+    height: 150px;
+  }
+}

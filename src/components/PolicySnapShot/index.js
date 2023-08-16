@@ -14,7 +14,7 @@ import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
 import "./style.scss";
 
 const TitleData =
-  "Policy Snapshot shows the number of contacts that are in each stage for MedicareCENTER only.";
+  "View your policies by status. Policy status is imported directly from carriers and the availability of status and other policy information may vary by carrier. For the most complete and up-to-date policy information, submit your applications through Contact Management Quote & eApp. Please visit our Learning Center to view the list of carriers whose policies are available in Policy Snapshot or find out more about Policy Management.";
 
 export default function PlanSnapShot({ isMobile, npn }) {
   const [index] = usePreferences(0, "policySnapShot_widget");
@@ -146,6 +146,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       infoIcon={
         <Popover
           openOn="hover"
+          isPolicyList={true}
           description={TitleData}
           positions={["right", "bottom"]}
         >
