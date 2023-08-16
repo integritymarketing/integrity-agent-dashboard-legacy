@@ -17,8 +17,7 @@ import Media from "react-media";
 import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import WithLoader from "components/ui/WithLoader";
-import IconButton from "components/IconButton";
-import EditIcon from "components/icons/icon-edit";
+import RenderProviders from "components/ui/ProvidersList";
 
 export default forwardRef((props) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
@@ -189,53 +188,13 @@ export default forwardRef((props) => {
             isLoading={isLoading}
             itemRender={(item, index) => {
               return (
-                <div key={index} className="provider-container">
+                <div key={item?.NPI} className="provider-container">
                   <WithLoader isLoading={isLoading}>
-                    <div className="provider-content">
-                      <div className="pr-h2 pr-title-mble">
-                        {item?.specialty}
-                        {item?.title ? ` / ${item?.title}` : ""}
-                      </div>
-                      <div className="pr-h1">{item?.presentationName}</div>
-                      <div className="pr-h2">{item?.email}</div>
-                    </div>
-                    <div className="provider-content">
-                      <div className="pr-h1 pr-phone-mble">
-                        {formatPhoneNumber(item.phone)}
-                      </div>
-                      <div className="pr-h2">
-                        {`${
-                          item?.addresses[0]?.streetLine1
-                            ? item?.addresses[0]?.streetLine1 + ","
-                            : ""
-                        }`}
-                        &nbsp;
-                      </div>
-                      <div className="pr-h2">
-                        {`${
-                          item?.addresses[0]?.city
-                            ? item?.addresses[0]?.city + ","
-                            : ""
-                        }`}
-                        &nbsp;
-                        {`${
-                          item?.addresses[0]?.stateCode
-                            ? item?.addresses[0]?.stateCode + ","
-                            : ""
-                        }`}
-                        &nbsp;
-                        {item?.addresses[0]?.zipCode}
-                      </div>
-                    </div>
-
-                    <IconButton
-                      label="Edit"
-                      onClick={() => {
-                        setProviderEditFlag(true);
-                        setProviderToEdit(item);
-                        setIsOpen(true);
-                      }}
-                      icon={<EditIcon />}
+                    <RenderProviders
+                      item={item}
+                      setIsOpen={setIsOpen}
+                      setProviderEditFlag={setProviderEditFlag}
+                      setProviderToEdit={setProviderToEdit}
                     />
                   </WithLoader>
                 </div>

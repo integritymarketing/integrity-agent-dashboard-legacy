@@ -61,8 +61,6 @@ const ProviderModal = ({
   open,
   onClose,
   userZipCode,
-  leadId,
-  leadProviders,
   onDelete,
   onSave,
   isEdit,
@@ -80,7 +78,7 @@ const ProviderModal = ({
   const [results, setResults] = useState();
 
   const [selectedProvider, setSelectedProvider] = useState(null);
-  const [selectAddressId, setSelectAddressId] = useState(null);
+  const [selectAddressIds, setSelectAddressIds] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
@@ -127,7 +125,7 @@ const ProviderModal = ({
   useEffect(() => {
     if (isEdit && selected) {
       setSelectedProvider(selected);
-      setSelectAddressId(selected?.addresses[0]?.id);
+      setSelectAddressIds(selected?.addresses?.map((address) => address.id));
     }
   }, [isEdit, selected]);
 
@@ -142,27 +140,23 @@ const ProviderModal = ({
   };
 
   const handleSaveProvider = async () => {
-    // let isExist =
-    //   leadProviders?.filter((each) => each?.NPI === selectedProvider?.NPI)[0] ||
-    //   null;
-    // if (isExist) {
-    //   await handleDeleteProvider();
-    // } else {
-    await onSave(
-      selectedProvider?.addresses[0]?.id,
-      leadId,
-      selectedProvider?.NPI,
-      selectedProvider?.presentationName
-    );
     onClose();
-    // }
+
+    const requestPayload = selectAddressIds.map((addressId) => {
+      return {
+        npi: selectedProvider?.NPI?.toString(),
+        addressId: addressId,
+        isPrimary: false,
+      };
+    });
+
+    await onSave(requestPayload, selectedProvider?.presentationName);
   };
 
   const handleDeleteProvider = () => {
     onClose();
     onDelete(
-      selectAddressId,
-      leadId,
+      selectAddressIds[0],
       selectedProvider?.NPI,
       selectedProvider?.presentationName
     );
@@ -170,9 +164,12 @@ const ProviderModal = ({
 
   const isFormValid = useMemo(() => {
     return Boolean(
-      zipCode?.length === 5 && radius && selectAddressId && selectedProvider
+      zipCode?.length === 5 &&
+        radius &&
+        selectAddressIds?.length > 0 &&
+        selectedProvider
     );
-  }, [selectedProvider, zipCode, radius, selectAddressId]);
+  }, [selectedProvider, zipCode, radius, selectAddressIds]);
 
   const ERROR_STATE = !isEdit
     ? zipCode?.length !== 5
@@ -180,7 +177,7 @@ const ProviderModal = ({
       : searchString?.length === 0 || providerList?.length === 0
     : false;
 
-  const disabled = isEdit ? !selectAddressId : !isFormValid;
+  const disabled = isEdit ? !selectAddressIds?.length > 0 : !isFormValid;
 
   return (
     <Modal
@@ -245,6 +242,7 @@ const ProviderModal = ({
               setSearchString(e.target.value);
               setCurrentPage(1);
             }}
+            label={"Providers"}
           />
         </>
       )}
@@ -267,9 +265,10 @@ const ProviderModal = ({
               <ProviderList
                 list={providerList}
                 onProviderSelection={setSelectedProvider}
-                selectAddressId={selectAddressId}
-                setSelectAddressId={setSelectAddressId}
+                selectAddressIds={selectAddressIds}
+                setSelectAddressIds={setSelectAddressIds}
                 selectedProvider={selectedProvider}
+                isEdit={isEdit}
               />
               {zipCode && totalPages > 1 && (
                 <Box className={classes.pagination}>
