@@ -309,6 +309,7 @@ const PrescriptionModal = ({
             searchString={searchString}
             list={prescriptionList}
             handleSearch={fetchOptions}
+            label={"Prescriptions"}
           />
 
           {ERROR_STATE ? (

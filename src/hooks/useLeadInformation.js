@@ -155,15 +155,9 @@ const useLeadInformation = (leadId) => {
     }
   };
 
-  const addProvider = async (addressId, leadId, npi, providerName) => {
+  const addProvider = async (request, providerName) => {
     setIsLoading(true);
-    const request = [
-      {
-        npi: npi?.toString(),
-        addressId: addressId,
-        isPrimary: false,
-      },
-    ];
+
     try {
       await clientsService.createLeadProvider(leadId, request);
       await clientsService.getLeadProviders(leadId).then(handleGetProviders);
@@ -182,8 +176,15 @@ const useLeadInformation = (leadId) => {
     }
   };
 
-  const deleteProvider = async (addressId, leadId, npi, providerName) => {
+  const deleteProvider = async (addressId, npi, providerName) => {
     setIsLoading(true);
+    const request = [
+      {
+        npi: npi?.toString(),
+        addressId: addressId,
+        isPrimary: false,
+      },
+    ];
     try {
       await clientsService.deleteProvider(addressId, leadId, npi);
       await clientsService.getLeadProviders(leadId).then(handleGetProviders);
@@ -191,7 +192,7 @@ const useLeadInformation = (leadId) => {
         message: "Provider Deleted",
         time: 10000,
         link: "UNDO",
-        onClickHandler: () => addProvider(addressId, leadId, npi, providerName),
+        onClickHandler: () => addProvider(request, providerName),
         closeToastRequired: true,
       });
     } catch (err) {
