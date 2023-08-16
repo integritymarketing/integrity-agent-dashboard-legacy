@@ -14,7 +14,7 @@ export function MonthlyCostTable({
   const effectiveMonthlyCosts =
     planData && planData.pharmacyCosts?.length > 0
       ? planData.pharmacyCosts[0].monthlyCosts?.filter(
-          (mc) => mc.monthID >= parseInt(monthNumber) - 1
+          (mc) => mc.monthID <= 12 - parseInt(monthNumber)
         )
       : [];
   const [expandedMonths, setExpandedMonths] = useState({});
@@ -53,7 +53,10 @@ export function MonthlyCostTable({
               )}
               <div>
                 {" "}
-                <span className={"final-value"}> {months[mc.monthID]}</span>
+                <span className={"final-value"}>
+                  {" "}
+                  {months[mc.monthID + parseInt(monthNumber) - 1]}
+                </span>
               </div>
             </div>
             {!isMobile && (
