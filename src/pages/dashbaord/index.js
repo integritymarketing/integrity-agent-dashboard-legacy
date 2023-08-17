@@ -55,9 +55,13 @@ export default function Dashbaord() {
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
 
-  const {
-    agentInformation: { leadPreference, agentID },
-  } = useAgentInformationByID();
+  // const {
+  //   agentInformation: { leadPreference, agentID },
+  // } = useAgentInformationByID();
+
+  const { agentInformation } = useAgentInformationByID();
+  const leadPreference = agentInformation?.leadPreference;
+  const agentID = agentInformation?.agentID;
 
   useEffect(() => {
     const getFullData = async () => {
