@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Arrow from "components/icons/down";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
@@ -105,42 +105,44 @@ const Address = ({
   addresses,
   provider,
   setSelectedProvider,
-  setSelectAddressId,
-  selectAddressId,
-  selectedProvider,
+  setSelectAddressIds,
+  selectAddressIds,
 }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
 
   const handleSelectAddress = (address) => {
-    // if (
-    //   selectAddressId === address?.id &&
-    //   selectedProvider?.NPI === provider?.NPI
-    // ) {
-    //   setSelectedProvider(null);
-    //   setSelectAddressId(null);
-    // } else {
-    //   setSelectedProvider(provider);
-    //   setSelectAddressId(address?.id);
-    // }
-    setSelectedProvider(provider);
-    setSelectAddressId(address?.id);
+    const isAddressExist = selectAddressIds?.includes(address?.id);
+
+    if (selectAddressIds?.length > 0) {
+      if (isAddressExist) {
+        if (selectAddressIds?.length === 1) setSelectedProvider(null);
+        setSelectAddressIds(
+          selectAddressIds.filter((addressId) => addressId !== address?.id)
+        );
+      } else {
+        setSelectAddressIds([...selectAddressIds, address?.id]);
+      }
+    } else {
+      setSelectAddressIds([address?.id]);
+      setSelectedProvider(provider);
+    }
   };
 
   return (
     <List>
-      {addresses?.map((address, index) => (
+      {addresses?.map((address) => (
         <ListItemButton
           key={address?.id}
           className={`${classes.listItem}, ${
             isMultiple ? classes.isMultiple : classes.isSingle
           }`}
-          selected={selectAddressId === address?.id}
+          selected={selectAddressIds?.includes(address?.id)}
         >
           <Checkbox
             className={classes.checkbox}
             onClick={() => handleSelectAddress(address)}
-            checked={selectAddressId === address?.id}
+            checked={selectAddressIds?.includes(address?.id)}
           />
           <Typography className={classes.addressText}>
             <div>
@@ -169,16 +171,19 @@ const Address = ({
 const ProviderCard = ({
   list,
   onProviderSelection,
-  selectAddressId,
-  setSelectAddressId,
-  selectedProvider,
+  selectAddressIds,
+  setSelectAddressIds,
+  isEdit,
 }) => {
   const classes = useStyles();
   const [isOpen, setOpenToggle] = useState(false);
 
-  // destructuring properties from provider object
+  useEffect(() => {
+    if (isEdit && selectAddressIds?.length > 1) {
+      setOpenToggle(true);
+    }
+  }, [isEdit, selectAddressIds]);
 
-  console.log("kk", list);
   return (
     <div className={classes.list}>
       {list?.map((provider, index) => {
@@ -205,9 +210,8 @@ const ProviderCard = ({
               addresses={initialAddresses}
               provider={provider}
               setSelectedProvider={onProviderSelection}
-              setSelectAddressId={setSelectAddressId}
-              selectAddressId={selectAddressId}
-              selectedProvider={selectedProvider}
+              setSelectAddressIds={setSelectAddressIds}
+              selectAddressIds={selectAddressIds}
             />
 
             {additionalAddresses?.length > 0 && (
@@ -228,9 +232,8 @@ const ProviderCard = ({
                     addresses={additionalAddresses}
                     provider={provider}
                     setSelectedProvider={onProviderSelection}
-                    setSelectAddressId={setSelectAddressId}
-                    selectAddressId={selectAddressId}
-                    selectedProvider={selectedProvider}
+                    setSelectAddressIds={setSelectAddressIds}
+                    selectAddressIds={selectAddressIds}
                   />
                 )}
               </>

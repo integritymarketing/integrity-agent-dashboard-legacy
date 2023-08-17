@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 import styles from "./ProvidersTableV2.module.scss";
-import InNetworkIcon from "components/icons/inNetwork";
-import OutNetworkIcon from "components/icons/outNetwork";
 import { useParams } from "react-router-dom";
 import IconButton from "components/IconButton";
 import EditIcon from "components/icons/icon-edit";
@@ -12,7 +10,7 @@ import ProviderModal from "components/SharedModals/ProviderModal";
 import * as Sentry from "@sentry/react";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
-// import { getProviderPhone } from "utils/primaryContact";
+import RenderProviders from "components/ui/ProvidersList";
 
 const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
   const { clientsService } = useClientServiceContext();
@@ -22,6 +20,8 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
   const addToast = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [providerEditFlag, setProviderEditFlag] = useState(false);
+  const [providerToEdit, setProviderToEdit] = useState({});
 
   const onAddNewProvider = () => setIsOpen(true);
 
@@ -49,17 +49,6 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
     }
   };
 
-  // function formatPhoneNumber(phoneNumber) {
-  //   const cleaned = ("" + phoneNumber).replace(/\D/g, "");
-  //   const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-
-  //   if (match) {
-  //     return `(${match[1]}) ${match[2]}-${match[3]}`;
-  //   }
-
-  //   return null;
-  // }
-
   const isEdit = providers?.length > 0 ? true : false;
 
   return (
@@ -78,60 +67,18 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
       >
         <div className={styles.container}>
           {providers?.map((provider, index) => {
-            const {
-              subspecialty,
-              firstName,
-              middleName,
-              lastName,
-              // addresses,
-              inNetwork,
-            } = provider;
-            // const {
-            //   streetLine1 = "",
-            //   streetLine2 = "",
-            //   city = "",
-            //   state = "",
-            //   zipCode = "",
-            //   phoneNumbers = [],
-            // } = addresses[0];
-            const fullName = [firstName, middleName, lastName]
-              .filter(Boolean)
-              .join(" ");
-            // const addressDetail1 = [streetLine1, streetLine2]
-            //   .filter(Boolean)
-            //   .join(" ");
-            // const addressDetail2 = [city, state, zipCode]
-            //   .filter(Boolean)
-            //   .join(", ");
-
             return (
               <div
-                key={index}
-                className={isMobile ? styles.rowMobile : styles.row}
+                className={styles.providerContainer}
+                key={`Provider-plansPage-${index}`}
               >
-                <div className={styles.rowLeft}>
-                  <div className={styles.subspecialty}>{subspecialty}</div>
-                  <div className={styles.name}>{fullName}</div>
-                  {/* <div className={styles.phoneNumbers}>
-                    {getProviderPhone(addresses)}
-                  </div> */}
-                </div>
-                {/* {isMobile ? (
-                  <div className={styles.label}>Selected Location</div>
-                ) : null} */}
-                <div className={styles.rowMiddle}>
-                  {inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
-                  {/* {isMobile ? (
-                    <div className={styles.addresses}>
-                      <div className={styles.address}>{addressDetail1}</div>
-                      <div className={styles.address}>{addressDetail2}</div>
-                    </div>
-                  ) : (
-                    <div
-                      className={styles.address}
-                    >{`${addressDetail1} ${addressDetail2}`}</div>
-                  )} */}
-                </div>
+                <RenderProviders
+                  item={provider}
+                  setIsOpen={setIsOpen}
+                  setProviderEditFlag={setProviderEditFlag}
+                  setProviderToEdit={setProviderToEdit}
+                  isPlanPage={true}
+                />
               </div>
             );
           })}
@@ -146,6 +93,8 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
             userZipCode={leadDetails?.addresses[0]?.postalCode}
             leadId={contactId}
             leadProviders={providers}
+            selected={providerToEdit}
+            isEdit={providerEditFlag}
           />
         )}
       </PlanDetailsContactSectionCard>

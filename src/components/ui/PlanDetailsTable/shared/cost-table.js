@@ -4,7 +4,7 @@ import PlanDetailsTable from "..";
 import { useParams } from "react-router-dom";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
+export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
@@ -110,12 +110,10 @@ function TotalEstLabel({ drugsCount }) {
 }
 
 function getShortFormMonthSpan(monthNumber) {
-  const end = monthNumber !== 12 ? 11 : undefined;
-  const effectiveMonth = monthNumber ? monthNumber - 1 : undefined;
-  if (end === effectiveMonth) {
-    return getMonthShortName(effectiveMonth);
+  if (monthNumber === 12) {
+    return getMonthShortName(monthNumber - 1);
   } else {
-    return getMonthShortName(effectiveMonth) + " - " + getMonthShortName(end);
+    return getMonthShortName(monthNumber - 1) + " - " + getMonthShortName(11);
   }
 }
 

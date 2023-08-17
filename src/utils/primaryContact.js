@@ -15,10 +15,10 @@ export const getPrimaryContact = (clientInfo) => {
 };
 
 export const getProviderPhone = (addresses) => {
-  if (!addresses || !addresses.length > 0) return "";
+  if (!addresses || addresses.length === 0) return "";
 
   const phoneNumbers = addresses[0]?.phoneNumbers;
-  if (!phoneNumbers || !phoneNumbers.length > 0) return "";
+  if (!phoneNumbers || phoneNumbers.length === 0) return "";
 
   return phoneNumbers[0] || "";
 };

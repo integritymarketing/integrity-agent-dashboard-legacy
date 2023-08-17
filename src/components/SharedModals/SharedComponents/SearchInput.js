@@ -33,10 +33,11 @@ export default function SearchPrescription({
   searchString,
   handleSearch,
   list,
+  label,
 }) {
   const classes = useStyles();
 
-  const countText = `${list?.length} Prescriptions found`;
+  const countText = `${list?.length} ${label} found`;
 
   return (
     <>
