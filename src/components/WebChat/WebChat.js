@@ -16,7 +16,8 @@ const WebChatComponent = () => {
   const { agentId, fullName } = useUserProfile();
   const [directLineToken, setDirectLineToken] = useState(null);
   const [isChatActive, setIsChatActive] = useState(false);
-  const audioRef = useRef(null);
+  const audioRefOpen = useRef(null);
+  const audioRefClose = useRef(null);
 
   useEffect(() => {
     const fetchDirectLineToken = async () => {
@@ -74,7 +75,12 @@ const WebChatComponent = () => {
 
   const openChat = () => {
     setIsChatActive(true);
-    audioRef.current.play();
+    audioRefOpen.current.play();
+  };
+
+  const closeChat = () => {
+    setIsChatActive(false);
+    audioRefClose.current.play();
   };
 
   const store = useMemo(
@@ -113,7 +119,7 @@ const WebChatComponent = () => {
           <img src={ChatIcon} alt="Chat Icon" />
           <p className={styles.headerText}>Ask Integrity</p>
           <img
-            onClick={() => setIsChatActive(false)}
+            onClick={closeChat}
             className={styles.hideIcon}
             src={HideIcon}
             alt="Hide Icon"
@@ -134,7 +140,8 @@ const WebChatComponent = () => {
           <img className={styles.chatIcon} src={ChatIcon} alt="Chat Icon" />
         </div>
       )}
-      <audio ref={audioRef} src="./sound.mov" />
+      <audio ref={audioRefOpen} src="./open.mp3" />
+      <audio ref={audioRefClose} src="./close.mp3" />
     </div>
   );
 };

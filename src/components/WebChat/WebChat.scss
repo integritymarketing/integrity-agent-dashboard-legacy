@@ -7,7 +7,7 @@
   }
 
   .webchat__basic-transcript {
-    max-height: calc(100vh - 330px);
+    max-height: calc(100vh - 345px);
 
     @include small {
       max-height: calc(100vh - 230px);
@@ -26,12 +26,15 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     font-size: 1.25rem;
+    margin-right: 2rem;
   }
 
   .webchat__bubble--from-user {
     border-radius: 0;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    margin-right: 0;
+    margin-left: 2rem;
   }
 
   .webchat__stacked-layout__status {
@@ -69,9 +72,33 @@
   }
 
   .webchat__send-icon {
-    background-image: url('https://cdn.iconfinder.com/data/family/previews/preview/font-awesome-regular.png'); /* Replace with the URL or path of your custom send icon */
+    background-image: url("https://cdn.iconfinder.com/data/family/previews/preview/font-awesome-regular.png"); /* Replace with the URL or path of your custom send icon */
     background-size: contain;
     width: 28; /* Set the width of the icon */
     height: 28; /* Set the height of the icon */
+  }
+
+  .webchat__stacked-layout__attachment {
+    margin: 0 12px;
+    border: 10px solid #375582;
+    border-radius: 10px;
+
+    .webchat__bubble__content {
+      background-color: #49648C;
+
+      .ac-textBlock {
+        color: #ffffff !important;
+      }
+
+      .ac-horizontal-separator {
+        margin-left: -22px !important;
+        margin-right: -22px !important;
+      }
+
+      // a { 
+      //   text-decoration: none;
+      //   pointer-events: none;
+      // }
+    }
   }
 }
