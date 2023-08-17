@@ -10,6 +10,8 @@ import HideIcon from "./hide-icon.png";
 import cx from "classnames";
 import "./WebChat.scss";
 import useUserProfile from "hooks/useUserProfile";
+import openAudio from './open.mp3';
+import closeAudio from './close.mp3';
 
 const WebChatComponent = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -75,12 +77,18 @@ const WebChatComponent = () => {
 
   const openChat = () => {
     setIsChatActive(true);
-    audioRefOpen.current.play();
+    if (audioRefOpen.current) {
+      audioRefOpen.current.play().catch((error) => {
+        console.error("Error playing open audio:", error);
+      });;
+    }
   };
-
+  
   const closeChat = () => {
     setIsChatActive(false);
-    audioRefClose.current.play();
+    if (audioRefClose.current) {
+      audioRefClose.current.play();
+    }
   };
 
   const store = useMemo(
@@ -140,8 +148,8 @@ const WebChatComponent = () => {
           <img className={styles.chatIcon} src={ChatIcon} alt="Chat Icon" />
         </div>
       )}
-      <audio ref={audioRefOpen} src="./open.mp3" />
-      <audio ref={audioRefClose} src="./close.mp3" />
+      <audio ref={audioRefOpen} src={openAudio} />
+      <audio ref={audioRefClose} src={closeAudio} />
     </div>
   );
 };
