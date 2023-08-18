@@ -33,6 +33,13 @@ export function MonthlyCostTable({
       const className = expandedMonths[mc.monthID]
         ? "cost-monthly-bar active"
         : "cost-monthly-bar";
+      const totalDrugCost =
+        mc?.costDetail?.reduce((acc, curr) => {
+          return curr.memberCost + acc;
+        }, 0) || 0;
+      const premium = planData.annualPlanPremium / 12;
+      const totalEstimatedCost = totalDrugCost + premium;
+
       return (
         <div
           className={className}
@@ -63,14 +70,14 @@ export function MonthlyCostTable({
               <div className="cost-phases">
                 <span className={"value"}>Phase:</span>{" "}
                 <span className="costPhases">
-                  {mc.costPhases.toLowerCase()}
+                  {mc.costPhases === "0"
+                    ? ""
+                    : mc.costPhases.toLowerCase() || ""}
                 </span>
               </div>
             )}
             <div className={"value"}>
-              {currencyFormatter.format(
-                planData.annualPlanPremium / 12 + mc.totalMonthlyCost
-              )}
+              {currencyFormatter.format(totalEstimatedCost)}
             </div>
           </div>
           <div className="cost-monthly-content">
@@ -87,7 +94,7 @@ export function MonthlyCostTable({
             />
           </div>
           <div className="cost-monthly-prescription-total">
-            {showMonthlyTotalBar(mc.totalMonthlyCost)}
+            {showMonthlyTotalBar(totalDrugCost, totalEstimatedCost)}
           </div>
         </div>
       );
@@ -109,18 +116,16 @@ export function MonthlyCostTable({
     );
   };
 
-  const showMonthlyTotalBar = (totalMonthlyCost) => {
+  const showMonthlyTotalBar = (totalDrugCost, totalEstimatedCost) => {
     const finalTotal = (
       <div className={"total-line"}>
         <span className={"total-label"}>Total Monthly Estimated Cost:</span>{" "}
         <span className={"value"}>
-          {" " +
-            currencyFormatter.format(
-              planData.annualPlanPremium / 12 + totalMonthlyCost
-            )}
+          {" " + currencyFormatter.format(totalEstimatedCost)}
         </span>
       </div>
     );
+
     return (
       <>
         <div className="cost-total">
@@ -134,7 +139,7 @@ export function MonthlyCostTable({
           <div className={"total-line"}>
             <span className={"total-label"}>Drug Cost</span>{" "}
             <span className={"value"}>
-              {" " + currencyFormatter.format(totalMonthlyCost)}
+              {" " + currencyFormatter.format(totalDrugCost || 0)}
             </span>
           </div>
           {isMobile ? <></> : <span className={"operator value"}>=</span>}

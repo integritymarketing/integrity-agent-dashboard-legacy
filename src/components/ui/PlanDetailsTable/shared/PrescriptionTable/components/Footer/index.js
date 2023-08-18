@@ -8,7 +8,20 @@ const Footer = ({ isMobile, planData, count }) => {
   const { effectiveDate } = useParams();
   const [year, month] = effectiveDate?.split("-") || [0, 0];
   const effectiveStartDate = new Date(`${year}-${month}-15`);
-
+  const effectiveMonthlyCosts =
+    planData && planData.pharmacyCosts?.length > 0
+      ? planData.pharmacyCosts[0].monthlyCosts?.filter(
+          (mc) => mc.monthID <= 12 - parseInt(month)
+        )
+      : [];
+  const totalDrugCost = effectiveMonthlyCosts?.reduce((acc, curr) => {
+    return (
+      acc +
+      (curr?.costDetail?.reduce((acc, curr) => {
+        return acc + curr.memberCost;
+      }, 0) || 0)
+    );
+  }, 0);
   return (
     <div
       className={`${styles.container} ${
@@ -30,6 +43,7 @@ const Footer = ({ isMobile, planData, count }) => {
           planData={planData}
           effectiveStartDate={effectiveStartDate}
           monthNumber={parseInt(month)}
+          totalCost={totalDrugCost}
         />
       </div>
     </div>
