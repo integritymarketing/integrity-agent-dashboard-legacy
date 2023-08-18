@@ -71,12 +71,12 @@
     }
   }
 
-  .webchat__send-icon {
-    background-image: url("https://cdn.iconfinder.com/data/family/previews/preview/font-awesome-regular.png"); /* Replace with the URL or path of your custom send icon */
-    background-size: contain;
-    width: 28; /* Set the width of the icon */
-    height: 28; /* Set the height of the icon */
-  }
+  // .webchat__send-icon {
+  //   background-image: url("./send.png"); 
+  //   background-size: contain;
+  //   width: 28; /* Set the width of the icon */
+  //   height: 28; /* Set the height of the icon */
+  // }
 
   .webchat__stacked-layout__attachment {
     margin: 0 12px;

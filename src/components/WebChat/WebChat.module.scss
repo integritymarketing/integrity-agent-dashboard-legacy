@@ -45,13 +45,17 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 32rem;
+    width: 28rem;
     background-color: #052a63;
     right: -100%;
     transition: 0.3s ease-in-out;
     display: flex;
     z-index: 9999;
     flex-direction: column;
+
+    @include medium {
+      width: 24rem;
+    }
 
     @include small {
       width: 100vw;
@@ -64,7 +68,11 @@
         position: absolute;
         bottom: 0;
         right: 0;
-        width: 32rem;
+        width: 28rem;
+
+        @include medium {
+          width: 24rem;
+        }
       }
       
       @include small {
