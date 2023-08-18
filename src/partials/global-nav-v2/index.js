@@ -39,10 +39,8 @@ const handleCSGSSO = async (history, loading, getAccessToken) => {
     {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      credentials: "include",
     }
   );
 
@@ -202,8 +200,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
                 type: "button",
                 onClick: () => {
                   window.open(
-                    'https://ae-api-dev.integritymarketinggroup.com/ae-identity-service' +
-                      "/external/SamlLogin/2023",
+                    `${process.env.REACT_APP_AUTH0_DOMAIN}/samlp/Mm1Sflg9Ww4VSsbb3RO70huD2xmjaCXb`,
                     "_blank"
                   );
                 },
@@ -276,8 +273,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
                 type: "button",
                 onClick: () => {
                   window.open(
-                    'https://ae-api-dev.integritymarketinggroup.com/ae-identity-service' +
-                      "/external/SamlLogin/2023",
+                    `${process.env.REACT_APP_AUTH0_DOMAIN}/samlp/Mm1Sflg9Ww4VSsbb3RO70huD2xmjaCXb`,
                     "_blank"
                   );
                 },

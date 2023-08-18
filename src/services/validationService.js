@@ -224,6 +224,8 @@ class ValidationService {
     errorsArr.forEach((el) => {
       if (el.hasOwnProperty("Key")) {
         formikErrors[el["Key"]] = el["Value"];
+      } else if (el.hasOwnProperty("key")) {
+        formikErrors[el["key"]] = el["value"];
       }
     });
     return formikErrors;

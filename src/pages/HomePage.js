@@ -21,10 +21,8 @@ const handleCSGSSO = async (history, loading, getAccessTokenSilently) => {
     {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
-      credentials: "include",
     }
   );
 
