@@ -19,14 +19,12 @@ function PremiumLabel() {
   return <span className={"label"}>Plan Premium</span>;
 }
 
-const totalCostBasedOnPlantypes = (planData, effectiveStartDate) => {
+const totalCostBasedOnPlantypes = (planData, effectiveStartDate, totalCost) => {
   const type = PLAN_TYPE_ENUMS[planData.planType];
   switch (type) {
     case "PDP":
     case "MAPD":
-      return currencyFormatter.format(
-        planData.estimatedAnnualDrugCostPartialYear
-      );
+      return currencyFormatter.format(totalCost);
     case "MA":
       return currencyFormatter.format(
         planData.medicalPremium * (12 - effectiveStartDate.getMonth())
@@ -117,12 +115,17 @@ function getShortFormMonthSpan(monthNumber) {
   }
 }
 
-export function TotalEstValue({ planData, effectiveStartDate, monthNumber }) {
+export function TotalEstValue({
+  planData,
+  effectiveStartDate,
+  monthNumber,
+  totalCost,
+}) {
   return (
     <>
       <span className={"value"}>
         <span className={"currency-value-blue"}>
-          {totalCostBasedOnPlantypes(planData, effectiveStartDate)}
+          {totalCostBasedOnPlantypes(planData, effectiveStartDate, totalCost)}
         </span>
         <i>
           <span className={"value-subtext"}>
@@ -152,6 +155,21 @@ const CostTable = ({ planData }) => {
     "November",
     "December",
   ];
+  const effectiveMonthlyCosts =
+    planData && planData.pharmacyCosts?.length > 0
+      ? planData.pharmacyCosts[0].monthlyCosts?.filter(
+          (mc) => mc.monthID <= 12 - parseInt(m)
+        )
+      : [];
+  const totalDrugCost = effectiveMonthlyCosts?.reduce((acc, curr) => {
+    return (
+      acc +
+      (curr?.costDetail?.reduce((acc, curr) => {
+        return acc + curr.memberCost;
+      }, 0) || 0)
+    );
+  }, 0);
+
   const columns = useMemo(
     () => [
       {
@@ -186,6 +204,7 @@ const CostTable = ({ planData }) => {
           planData={planData}
           effectiveStartDate={effectiveStartDate}
           monthNumber={parseInt(m)}
+          totalCost={totalDrugCost}
         />
       ),
     },
