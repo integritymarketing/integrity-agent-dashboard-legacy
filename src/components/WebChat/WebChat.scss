@@ -7,7 +7,7 @@
   }
 
   .webchat__basic-transcript {
-    max-height: calc(100vh - 345px);
+    max-height: calc(100vh - 355px);
 
     @include small {
       max-height: calc(100vh - 230px);
@@ -71,13 +71,6 @@
     }
   }
 
-  // .webchat__send-icon {
-  //   background-image: url("./send.png"); 
-  //   background-size: contain;
-  //   width: 28; /* Set the width of the icon */
-  //   height: 28; /* Set the height of the icon */
-  // }
-
   .webchat__stacked-layout__attachment {
     margin: 0 12px;
     border: 10px solid #375582;
@@ -102,3 +95,9 @@
     }
   }
 }
+//  .webchat__send-icon {
+//     background-image: url("./send.png"); 
+//     background-size: contain;
+//     width: 28; 
+//     height: 28;
+//   }
