@@ -95,9 +95,11 @@
     }
   }
 }
-//  .webchat__send-icon {
-//     background-image: url("./send.png"); 
-//     background-size: contain;
-//     width: 28; 
-//     height: 28;
-//   }
+ .webchat__send-icon {
+    background-image: url("./send.png"); 
+    background-size: contain;
+
+    path {
+      display: none;
+    }
+  }
