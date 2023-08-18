@@ -14,14 +14,14 @@ import useLoading from "hooks/useLoading";
 const handleCSGSSO = async (history, loading, getAccessTokenSilently) => {
   loading.begin(0);
 
-  let userAccessToken = await getAccessTokenSilently();
+  const token = await getAccessTokenSilently();
 
   const response = await fetch(
-    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`,
+    `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Account/CSGLogin`,
     {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + userAccessToken,
+        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
       credentials: "include",

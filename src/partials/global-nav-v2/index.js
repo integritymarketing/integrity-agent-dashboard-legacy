@@ -32,15 +32,14 @@ import  useUserProfile from "hooks/useUserProfile";
 
 const handleCSGSSO = async (history, loading, getAccessToken) => {
   loading.begin(0);
-
-  let userAccessToken = await getAccessToken();
+  const token = await getAccessToken();
 
   const response = await fetch(
-    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`,
+    `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Account/CSGLogin`,
     {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + userAccessToken,
+        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
       credentials: "include",
@@ -300,7 +299,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
               props: {
                 type: "button",
                 onClick: () => {
-                  handleCSGSSO(history, loadingHook);
+                  handleCSGSSO(history, loadingHook, auth.getAccessTokenSilently);
                 },
               },
               label: "CSG APP",
