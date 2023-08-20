@@ -25,7 +25,7 @@ import "./index.scss";
 
 const ScopeOfAppointmentConfirmation = () => {
   const { clientsService } = useClientServiceContext();
-  const { linkCode } = useParams();
+  const { linkCode, token } = useParams();
   const history = useHistory();
   const addToast = useToast();
   const medicareOverviewSectionEl = useRef(null);
@@ -33,6 +33,19 @@ const ScopeOfAppointmentConfirmation = () => {
   const [soaStatus, setSOAStatus] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [openAuthorizedHelpModal, setOpenAuthorizedHelpModal] = useState(false);
+  const [leadInfo, setLeadInfo] = useState({
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    phone: "",
+    address: {
+      address1: "",
+      address2: "",
+      city: "",
+      stateCode: "",
+      postalCode: "",
+    },
+  });
 
   useEffect(() => {
     const getStatus = async () => {
@@ -56,6 +69,34 @@ const ScopeOfAppointmentConfirmation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkCode]);
 
+  useEffect(() => {
+    const tokenObject = JSON.parse(window.atob(token));
+    const {
+      FirstName,
+      LastName,
+      MiddleName,
+      phone,
+      Address1,
+      Address2,
+      City,
+      State,
+      ZIP,
+    } = tokenObject;
+    setLeadInfo({
+      firstName: FirstName,
+      lastName: LastName,
+      middleName: MiddleName,
+      phone,
+      address: {
+        address1: Address1,
+        address2: Address2,
+        city: City,
+        stateCode: State,
+        postalCode: ZIP,
+      },
+    });
+  }, [token]);
+
   const showMedicareOverview = () => {
     medicareOverviewSectionEl.current.scrollIntoView({
       behavior: "smooth",
@@ -72,17 +113,7 @@ const ScopeOfAppointmentConfirmation = () => {
   const confirmationForm = (
     <Formik
       initialValues={{
-        firstName: "",
-        lastName: "",
-        middleName: "",
-        phone: "",
-        address: {
-          address1: "",
-          address2: "",
-          city: "",
-          stateCode: "",
-          postalCode: "",
-        },
+        ...leadInfo,
         hasAuthorizedRepresentative: false,
         authorizedRepresentative: {
           firstName: "",

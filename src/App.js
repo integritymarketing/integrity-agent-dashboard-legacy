@@ -220,7 +220,7 @@ const App = () => {
                                       <Route path="/privacy">
                                         <PrivacyPage />
                                       </Route>
-                                      <Route path="/soa-confirmation-form/:linkCode">
+                                      <Route path="/soa-confirmation-form/:linkCode/:token">
                                         <SOAConfirmationForm />
                                       </Route>
                                       <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
