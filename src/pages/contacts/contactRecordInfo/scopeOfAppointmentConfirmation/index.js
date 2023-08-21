@@ -83,6 +83,7 @@ const ScopeOfAppointmentConfirmation = () => {
       ZIP,
     } = tokenObject;
     setLeadInfo({
+      ...leadInfo,
       firstName: FirstName,
       lastName: LastName,
       middleName: MiddleName,
@@ -95,6 +96,7 @@ const ScopeOfAppointmentConfirmation = () => {
         postalCode: ZIP,
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const showMedicareOverview = () => {
