@@ -10,7 +10,7 @@ import SearchLabel from "../SharedComponents/SearchLabel";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
 import { useClientServiceContext } from "services/clientServiceProvider";
-
+import CustomFooter from "components/Modal/CustomFooter";
 import "./style.scss";
 
 const transformPrescriptionOptions = (option) => {
@@ -50,6 +50,7 @@ const PrescriptionModal = ({
   open,
   item,
   isEdit,
+  onDelete,
 }) => {
   const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
     item?.dosage ?? {};
@@ -231,6 +232,11 @@ const PrescriptionModal = ({
     }
   };
 
+  const handleDeletePrescription = () => {
+    onClose();
+    onDelete(item);
+  };
+
   const isFormValid = useMemo(() => {
     return Boolean(
       selectedDrug &&
@@ -301,6 +307,14 @@ const PrescriptionModal = ({
       actionButtonDisabled={disabled}
       endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
       modalName="Prescription"
+      customFooter={
+        isEdit && (
+          <CustomFooter
+            buttonName={"Delete Prescription"}
+            onClick={handleDeletePrescription}
+          />
+        )
+      }
     >
       {!selectedDrug && !isLoading ? (
         <>

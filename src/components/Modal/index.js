@@ -66,15 +66,7 @@ const useStyles = makeStyles((theme) => ({
       transform: "rotate(90deg)",
     },
   },
-  deleteContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "20px",
-    backgroundColor: "#F1F1F1",
-    borderTop: "1px solid #CCCCCC",
-    width: "90%",
-  },
+
   footer: {
     backgroundColor: "#F1F1F1",
     display: "flex",
@@ -110,9 +102,8 @@ export default function Modal({
   children,
   actionButtonDisabled,
   endIcon,
-  modalName,
-  isDelete,
-  onDelete,
+  hideFooter = false,
+  customFooter,
 }) {
   const classes = useStyles();
 
@@ -149,26 +140,22 @@ export default function Modal({
           {children}
         </DialogContent>
         <DialogActions className={classes.footer}>
-          <Box className={classes.footerButtons}>
-            <Button onClick={onClose} className={classes.cancelButton}>
-              Cancel
-            </Button>
-            <Button
-              onClick={onSave}
-              className={classes.addButton}
-              endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
-              disabled={actionButtonDisabled}
-            >
-              {actionButtonName}
-            </Button>
-          </Box>
-          {isDelete && (
-            <Box className={classes.deleteContainer}>
-              <Button onClick={onDelete} className={classes.cancelButton}>
-                Delete {modalName}
+          {!hideFooter && (
+            <Box className={classes.footerButtons}>
+              <Button onClick={onClose} className={classes.cancelButton}>
+                Cancel
+              </Button>
+              <Button
+                onClick={onSave}
+                className={classes.addButton}
+                endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
+                disabled={actionButtonDisabled}
+              >
+                {actionButtonName}
               </Button>
             </Box>
           )}
+          {customFooter && customFooter}
         </DialogActions>
       </Dialog>
     </div>

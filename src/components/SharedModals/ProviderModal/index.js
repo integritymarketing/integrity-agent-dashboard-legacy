@@ -16,7 +16,7 @@ import ProviderList from "./ProviderList";
 import * as Sentry from "@sentry/react";
 import Spinner from "components/ui/Spinner";
 import Pagination from "components/ui/Pagination/pagination";
-
+import CustomFooter from "components/Modal/CustomFooter";
 import "./style.scss";
 
 const DISTANCE_OPTIONS = [
@@ -186,9 +186,14 @@ const ProviderModal = ({
       title={isEdit ? "Update Provider" : "Add Provider"}
       onSave={handleSaveProvider}
       actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
-      isDelete={isEdit}
-      modalName={"Provider"}
-      onDelete={handleDeleteProvider}
+      customFooter={
+        isEdit && (
+          <CustomFooter
+            buttonName={"Delete Provider"}
+            onClick={handleDeleteProvider}
+          />
+        )
+      }
       actionButtonDisabled={disabled}
       endIcon={
         selectedProvider ? <AddCircleOutline /> : <ArrowForwardWithCirlce />

@@ -167,6 +167,7 @@ export default forwardRef((props) => {
             item={prescriptionToEdit}
             onSave={editPrescription}
             isEdit={true}
+            onDelete={deletePrescription}
           />
         )}
 

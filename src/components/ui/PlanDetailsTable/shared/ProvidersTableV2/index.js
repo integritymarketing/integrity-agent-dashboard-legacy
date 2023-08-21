@@ -25,16 +25,9 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
 
   const onAddNewProvider = () => setIsOpen(true);
 
-  const addProvider = async (addressId, leadId, npi, providerName) => {
-    const request = [
-      {
-        npi: npi?.toString(),
-        addressId: addressId,
-        isPrimary: false,
-      },
-    ];
+  const addProvider = async (request, providerName) => {
     try {
-      await clientsService.createLeadProvider(leadId, request);
+      await clientsService.createLeadProvider(contactId, request);
       await refresh();
       addToast({
         message: providerName + " added to the list. ",
