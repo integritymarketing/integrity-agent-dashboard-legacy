@@ -35,7 +35,7 @@ const Footer = ({ isMobile, planData, count }) => {
         <div
           className={`${styles.subTitle} ${isMobile ? styles.mbSubTitle : ""}`}
         >
-          Based on {count} drugs
+          Based on {count} drugs plus monthly drug premium
         </div>
       </div>
       <div className={`${styles.right} ${isMobile ? styles.mbRight : ""}`}>

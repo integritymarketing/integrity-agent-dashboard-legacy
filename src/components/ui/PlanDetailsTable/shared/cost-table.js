@@ -24,7 +24,10 @@ const totalCostBasedOnPlantypes = (planData, effectiveStartDate, totalCost) => {
   switch (type) {
     case "PDP":
     case "MAPD":
-      return currencyFormatter.format(totalCost);
+      return currencyFormatter.format(
+        planData.estimatedAnnualDrugCostPartialYear
+      );
+    // return currencyFormatter.format(totalCost);
     case "MA":
       return currencyFormatter.format(
         planData.medicalPremium * (12 - effectiveStartDate.getMonth())
@@ -101,7 +104,7 @@ function TotalEstLabel({ drugsCount }) {
     <>
       <span className={"label"}> Estimated Drug Cost</span>
       <span className={"subtext"}>
-        <i>Based on {drugsCount} drugs</i>
+        <i>Based on {drugsCount} drugs plus monthly drug premium</i>
       </span>
     </>
   );
