@@ -70,9 +70,17 @@ const ContactsSOAConfirmForm = () => {
       .getSoaByLinkCode(contactId, linkCode)
       .then((data) => {
         setSoaConfirmData(data);
+        const agent_data = data?.agentSection;
         if (data?.status === "Completed") {
-          const agent_data = data?.agentSection;
           setFormData(agent_data);
+        }
+        if (data?.status === "Need Agent Signature") {
+          setFormValues({
+            ...formValues,
+            firstName: agent_data?.firstName,
+            lastName: agent_data?.lastName,
+            phoneNumber: agent_data?.phoneNumber,
+          });
         }
       })
       .catch((e) => {

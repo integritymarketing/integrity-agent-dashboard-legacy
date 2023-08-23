@@ -149,6 +149,9 @@ const ScopeOfAppointmentConfirmation = () => {
             acceptedSOA,
           } = values;
           const { agentSection } = soaStatus;
+          const checkedProducts = Object.keys(products).filter(
+            (key) => products[key] === true
+          );
           const authorizedRepresentativeData = hasAuthorizedRepresentative
             ? {
                 authorizedRepresentative: {
@@ -170,7 +173,7 @@ const ScopeOfAppointmentConfirmation = () => {
             await clientsService.saveSoaInformationForLeadByLinkCode(
               {
                 leadSection: {
-                  products: Object.keys(products),
+                  products: checkedProducts,
                   beneficiary: {
                     firstName,
                     middleName,
