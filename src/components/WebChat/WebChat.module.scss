@@ -97,6 +97,8 @@
       padding: 1.5rem;
       font-size: 1.25rem;
       padding-bottom: 2rem;
+      z-index: 9;
+      box-shadow: 2px 12px 8px 0px #072a6396;
 
       @include small {
         padding: 1rem;

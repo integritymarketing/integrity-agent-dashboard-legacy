@@ -25,7 +25,7 @@
   .webchat__bubble {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin-right: 2rem;
   }
 
@@ -48,10 +48,12 @@
     height: 4rem;
     margin: 0 1rem;
     font-size: 1.4rem;
+    padding-right: 52px;
 
     @include small {
       height: 2.75rem;
       padding: 0 1.25rem;
+      padding-right: 56px;
     }
   }
 
@@ -77,7 +79,7 @@
     border-radius: 10px;
 
     .webchat__bubble__content {
-      background-color: #49648C;
+      background-color: #49648c;
 
       .ac-textBlock {
         color: #ffffff !important;
@@ -88,18 +90,45 @@
         margin-right: -22px !important;
       }
 
-      // a { 
-      //   text-decoration: none;
-      //   pointer-events: none;
-      // }
+      a {
+        text-decoration: none;
+        pointer-events: none;
+      }
     }
   }
-}
- .webchat__send-icon {
-    background-image: url("./send.png"); 
+
+  .webchat__adaptive-card-renderer {
+    .ac-textBlock {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-size: 1rem;
+    }
+  }
+
+  .webchat__send-icon {
+    background-image: url("./send.png");
     background-size: contain;
 
     path {
       display: none;
     }
   }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #052a63;
+    border: 2px solid #375582;
+    border-radius: 10px;
+  }
+}
