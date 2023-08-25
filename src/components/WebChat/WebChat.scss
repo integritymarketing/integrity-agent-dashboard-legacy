@@ -131,4 +131,25 @@
     border: 2px solid #375582;
     border-radius: 10px;
   }
+
+  .webchat__bubble:has(#mcContactSummaryButtonsCard) {
+    border: none;
+
+    .webchat__bubble__content {
+      background: transparent;
+    }
+    
+    #mcContactSummaryButtonsCard button {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-weight: normal;
+      transition-duration: 100ms;
+
+      &:hover{ 
+        background: #4178FF;
+        border-radius: 50px;
+      }
+    }
+  }
 }

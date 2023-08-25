@@ -111,6 +111,46 @@ const WebChatComponent = () => {
               },
             },
           });
+        } else if (action.type === 'DIRECT_LINE/POST_ACTIVITY') {
+          const accessToken = await getAccessTokenSilently();
+          if (action.payload.activity.type === 'message') {
+            let message = action.payload.activity.text ? action.payload.activity.text : action.payload.activity.value.dropDownInfo;
+            let activityValue = action.payload.activity.value;
+            if (!message) {
+              message = activityValue ? activityValue.text : message;
+              action.payload.activity.text = message;
+            }
+            let channelData = action.payload.activity.channelData;
+            let data = [];
+            if (channelData) {
+              channelData.authToken = `Bearer ${accessToken}`;
+              channelData.data = data;
+              action.payload.activity.channelData = channelData;
+            } else {
+              action.payload.activity.channelData = {
+                authToken: `Bearer ${accessToken}`,
+                data: data
+              };
+            }
+            if (activityValue != null) {
+              action.payload.activity.channelData.postBack = false;
+            }
+            if (activityValue != null && activityValue.name === 'mc_Contact_Selected') {
+              return dispatch({
+                type: 'WEB_CHAT/SEND_EVENT',
+                payload: {
+                  name: activityValue.name,
+                  value: {
+                    data: activityValue,
+                    appId: 'mcweb'
+                  }
+                }
+              });
+            } else if (activityValue != null && activityValue.name === 'mc_View_Contact') {
+              const leadId = activityValue.leadId;
+              window.open(`${window.location.origin}/contact/${leadId}`);
+            }
+          }
         }
         return next(action);
       }),
