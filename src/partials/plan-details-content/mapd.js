@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import MapdCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import MapdPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
-import MapdPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-table";
+import MapdPharmacyTable from "components/ui/PlanDetailsTable/shared/PharmacyTable/pharmacy-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
@@ -11,6 +11,7 @@ import PrescriptionTable from "components/ui/PlanDetailsTable/shared/Prescriptio
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 
 const MapdDetailsContent = ({
+  contact,
   prescriptions,
   plan,
   isMobile,
@@ -205,6 +206,7 @@ const MapdDetailsContent = ({
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
           {plan && (
             <MapdPharmacyTable
+              contact={contact}
               isMobile={isMobile}
               planData={plan}
               pharmacies={pharmacies}

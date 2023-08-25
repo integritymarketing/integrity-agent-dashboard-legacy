@@ -45,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
     fontWeight: "600",
     height: "40px",
-    textTransform: "unset",
     padding: "10px 15px",
+    textTransform: "capitalize !important",
+
     "&:hover": {
       backgroundColor: "#FFFFFF",
       borderRadius: "20px",
@@ -74,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F1F1F1",
     borderTop: "1px solid #CCCCCC",
     width: "90%",
+    textTransform: "capitalize",
   },
   footer: {
     backgroundColor: "#F1F1F1",
@@ -105,6 +107,7 @@ export default function Modal({
   actionButtonName,
   onSave,
   onClose,
+  onCancel,
   open,
   title,
   children,
@@ -150,17 +153,21 @@ export default function Modal({
         </DialogContent>
         <DialogActions className={classes.footer}>
           <Box className={classes.footerButtons}>
-            <Button onClick={onClose} className={classes.cancelButton}>
-              Cancel
-            </Button>
-            <Button
-              onClick={onSave}
-              className={classes.addButton}
-              endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
-              disabled={actionButtonDisabled}
-            >
-              {actionButtonName}
-            </Button>
+            {onCancel && (
+              <Button onClick={onClose} className={classes.cancelButton}>
+                Cancel
+              </Button>
+            )}
+            {actionButtonName && (
+              <Button
+                onClick={onSave}
+                className={classes.addButton}
+                endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
+                disabled={actionButtonDisabled}
+              >
+                {actionButtonName}
+              </Button>
+            )}
           </Box>
           {isDelete && (
             <Box className={classes.deleteContainer}>

@@ -154,6 +154,7 @@ const PlanDetailsPage = () => {
             <Container className={`${styles["body"]}`}>
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (
                 <MapdContent
+                  contact={contact}
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}

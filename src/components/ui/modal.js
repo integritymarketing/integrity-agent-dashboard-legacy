@@ -49,7 +49,7 @@ const Modal = ({
 
     return () => (document.body.style.overflow = "unset");
   }, [open]);
-  
+
   return (
     <div
       className={`modal ${open ? "modal--show" : "modal--hide"} ${
@@ -77,6 +77,7 @@ const Modal = ({
             <div className="p_header">
               {header && (
                 <h2
+                  style={{ color: "#052A63" }}
                   id="dialog_help_label"
                   className="hdg hdg--2 mb-1 mble-title"
                 >
