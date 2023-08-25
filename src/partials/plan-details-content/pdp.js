@@ -7,6 +7,7 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
+import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 
 const PdpDetailsContent = ({
   prescriptions,
@@ -23,6 +24,7 @@ const PdpDetailsContent = ({
   refresh,
 }) => {
   const costsRef = useRef(null);
+  const providersRef = useRef(null);
   const prescriptionsRef = useRef(null);
   const pharmacyRef = useRef(null);
   const pharmacyCoverageRef = useRef(null);
@@ -54,6 +56,10 @@ const PdpDetailsContent = ({
             {
               id: "prescriptions",
               label: "Prescriptions",
+            },
+            {
+              id: "providers",
+              label: "Providers",
             },
             {
               id: "pharmacy",
@@ -103,6 +109,7 @@ const PdpDetailsContent = ({
             costs: costsRef,
             prescriptions: prescriptionsRef,
             pharmacy: pharmacyRef,
+            providers: providersRef,
             pharmacyCoverage: pharmacyCoverageRef,
             planDocuments: planDocumentsRef,
             standardRetailPharmacyCoverage: standardRetailPharmacyCoverageRef,
@@ -170,6 +177,15 @@ const PdpDetailsContent = ({
               isMobile={isMobile}
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+              refresh={refresh}
+            />
+          )}
+        </div>
+        <div ref={providersRef} className={`${styles["provider-details"]}`}>
+          {plan && (
+            <ProvidersTableV2
+              isMobile={isMobile}
+              providers={plan.providers}
               refresh={refresh}
             />
           )}
