@@ -16,6 +16,8 @@ const PrescriptionTable = ({
   drugCosts,
   planData,
 }) => {
+  console.log("PrescriptionTable prescriptions", prescriptions);
+
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
@@ -114,6 +116,7 @@ const PrescriptionTable = ({
           onClose={() => setCoverageModal(false)}
           prescriptions={prescriptions}
           // onSave={addPrescription}
+          planName={planData?.planName}
         />
       )}
     </PlanDetailsContactSectionCard>

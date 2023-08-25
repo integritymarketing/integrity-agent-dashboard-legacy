@@ -71,7 +71,7 @@ const PrescriptionList = ({
 
   const verifySelected = useCallback(
     (drug) => {
-      return multiple ? drug.label === selected.label : selected;
+      return multiple ? drug?.label === selected?.label : selected;
     },
     [selected, multiple]
   );
