@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./updateView.module.scss";
 
 function UpdateView({ data }) {
-  if (!data) return;
+  if (!data) return null;
 
   const address = [
     data.address1,

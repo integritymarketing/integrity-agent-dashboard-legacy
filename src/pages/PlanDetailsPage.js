@@ -168,6 +168,7 @@ const PlanDetailsPage = () => {
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
                 <PdpContent
+                  contact={contact}
                   prescriptions={prescriptions}
                   plan={plan}
                   styles={styles}

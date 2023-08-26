@@ -66,7 +66,6 @@ const PharmacyTable = ({
   );
   const data = [];
 
-  const pharmacy = pharmacies?.[planData?.pharmacyCosts[0]?.pharmacyID];
   if (
     pharmaciesData &&
     planData.pharmacyCosts &&
@@ -158,11 +157,12 @@ const PharmacyTable = ({
           isDelete={isEdit}
           modalName={"Pharmacy"}
           onDelete={() => {
-            deletePharmacy(pharmacy);
+            deletePharmacy(pharmaciesData?.[0]);
             setOpen(!open);
+            setOpenAddModal(true);
           }}
         >
-          <UpdateView data={pharmacy} />
+          <UpdateView data={pharmaciesData?.[0]} />
         </Modal>
       )}
       {!isEdit && (
