@@ -63,14 +63,14 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
           confirmationNumber,
           policyHolder,
           sourceId,
-          linkingType
+          linkingType,
         } = state;
 
         const leadDate = contact.emails[0]?.createDate;
 
         const updateBusinessBookPayload = {
           agentNpn,
-          leadId: contact?.leadId.toString(),
+          leadId: contact?.leadsId?.toString(),
           policyNumber: policyId,
           plan: planId,
           carrier,
@@ -91,7 +91,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
           updateBusinessBookPayload
         );
 
-        if (response.agentNpn) {
+        if (response) {
           addToast({
             message: "Contact linked successfully",
           });
