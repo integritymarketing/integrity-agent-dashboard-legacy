@@ -96,8 +96,6 @@ export default function EnrollmentLinkToContact() {
             enrolledDate={state?.enrolledDate}
             effectiveDate={state?.policyEffectiveDate}
             policyId={state?.policyId}
-            consumerFirstName={state?.firstName}
-            consumerLastName={state?.lastName}
             leadId={state?.leadId}
             planId={state?.planId}
             agentNpn={state?.agentNpn}
@@ -110,13 +108,13 @@ export default function EnrollmentLinkToContact() {
             planName={state?.planName}
             termedDate={state?.termedDate}
             policyStatusColor={state?.policyStatusColor}
+            policyHolder={state?.policyHolder}
           />
 
           <div className={styles.contactsContainer}>
             <PossibleMatches
               phone={callFrom}
-              consumerFirstName={state?.firstName}
-              consumerLastName={state?.lastName}
+              policyHolder={state?.policyHolder}
               state={state}
             />
 
