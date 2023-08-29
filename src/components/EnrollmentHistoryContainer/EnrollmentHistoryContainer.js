@@ -32,7 +32,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
-  const currentYearPlansData = enrollPlans.filter((planData) => {
+  const currentYearPlansData = enrollPlans?.filter((planData) => {
     let policyDate = new Date(planData.policyEffectiveDate); // get the current date
     policyDate.setDate(policyDate.getDate() + 1); // add 1 day
     return getCurrentYear(policyDate) === currentYear;
@@ -44,6 +44,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     return getCurrentYear(policyDate) !== currentYear;
   });
 
+  if (!enrollPlans || enrollPlans?.length === 0) return null;
   return (
     <ContactSectionCard
       title="Plans"
@@ -74,7 +75,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   page="Contacts Details"
                   planName={planData.planName}
                   termedDate={planData.termedDate}
-                  policySourceId={planData.policySourceId}
+                  sourceId={planData.sourceId}
                   policyStatusColor={planData.policyStatusColor}
                 />
               );
@@ -103,6 +104,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   planName={planData.planName}
                   termedDate={planData.termedDate}
                   policyStatusColor={planData.policyStatusColor}
+                  sourceId={planData.sourceId}
                 />
               ))}
             </>

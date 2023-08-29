@@ -164,21 +164,22 @@ export default function EnrollmentPlanCard(props) {
                           )}
                           {!location.pathname.includes(
                             "enrollment-link-to-contact"
-                          ) && (
-                            <div onClick={navigateToEnrollmentLink}>
-                              <IconWithText
-                                text="Relink"
-                                icon={
-                                  <Icon
-                                    altText="Link"
-                                    className={styles.iconPng}
-                                    image={Link}
-                                  />
-                                }
-                                screensize="small"
-                              />
-                            </div>
-                          )}
+                          ) &&
+                            policyStatus !== "Started" && (
+                              <div onClick={navigateToEnrollmentLink}>
+                                <IconWithText
+                                  text="Relink"
+                                  icon={
+                                    <Icon
+                                      altText="Link"
+                                      className={styles.iconPng}
+                                      image={Link}
+                                    />
+                                  }
+                                  screensize="small"
+                                />
+                              </div>
+                            )}
                         </>
                       ) : (
                         <>
@@ -198,20 +199,21 @@ export default function EnrollmentPlanCard(props) {
                           )}
                           {!location.pathname.includes(
                             "enrollment-link-to-contact"
-                          ) && (
-                            <div onClick={navigateToEnrollmentLink}>
-                              <IconWithText
-                                text="Relink"
-                                icon={
-                                  <Icon
-                                    altText="Link"
-                                    className={styles.iconPng}
-                                    image={Link}
-                                  />
-                                }
-                              />
-                            </div>
-                          )}
+                          ) &&
+                            policyStatus !== "Started" && (
+                              <div onClick={navigateToEnrollmentLink}>
+                                <IconWithText
+                                  text="Relink"
+                                  icon={
+                                    <Icon
+                                      altText="Link"
+                                      className={styles.iconPng}
+                                      image={Link}
+                                    />
+                                  }
+                                />
+                              </div>
+                            )}
                         </>
                       )
                     }

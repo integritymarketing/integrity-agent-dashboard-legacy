@@ -1,11 +1,10 @@
 export const QUOTES_API_VERSION = "v1.0";
 
 export class EnrollPlansService {
-
   constructor(getAccessToken) {
     this.getAccessToken = getAccessToken;
   }
-  
+
   getEnrollPlans = async (leadId) => {
     const url = new URL(
       `${process.env.REACT_APP_BOOKOFBUSINESS_API}/lead/${leadId}`
@@ -35,6 +34,15 @@ export class EnrollPlansService {
 
     const response = await this._clientAPIRequest(url, "GET");
 
+    return response?.json();
+  };
+
+  getBookOfBusinessBySourceId = async (npn, id) => {
+    const url = new URL(
+      `${process.env.REACT_APP_BOOKOFBUSINESS_API}/${npn}/SourceId/${id}`
+    );
+
+    const response = await this._clientAPIRequest(url, "GET");
     return response?.json();
   };
 

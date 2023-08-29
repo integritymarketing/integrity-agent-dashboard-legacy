@@ -4,16 +4,38 @@ import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
 import { useHistory } from "react-router-dom";
+import { useClientServiceContext } from "services/clientServiceProvider";
+import useToast from "hooks/useToast";
 import "./style.scss";
 
-const UnlinkedPolicyCard = ({ callData }) => {
+const UnlinkedPolicyCard = ({ callData, npn }) => {
+  const { enrollPlansService } = useClientServiceContext();
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
+  const addToast = useToast();
 
-  const handleLinkToContact = () => {
-    history.push(`/enrollment-link-to-contact`, {
-      state: { ...callData, page: "Dashboard" },
-    });
+  const handleLinkToContact = async () => {
+    try {
+      const data = await enrollPlansService.getBookOfBusinessBySourceId(
+        npn,
+        callData?.sourceId
+      );
+      if (data) {
+        history.push(`/enrollment-link-to-contact`, {
+          state: { ...data, page: "Dashboard" },
+        });
+      } else {
+        history.push(`/enrollment-link-to-contact`, {
+          state: { ...callData, page: "Dashboard" },
+        });
+      }
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to get enroll plan info.",
+        time: 10000,
+      });
+    }
   };
 
   return (
@@ -78,12 +100,12 @@ const UnlinkedPolicyCard = ({ callData }) => {
   );
 };
 
-const UnlinkedPolicyList = ({ taskList }) => {
+const UnlinkedPolicyList = ({ taskList, npn }) => {
   return (
     <>
       <div className="up-card-container">
         {taskList?.map((data, i) => {
-          return <UnlinkedPolicyCard callData={data} />;
+          return <UnlinkedPolicyCard callData={data} npn={npn} />;
         })}
       </div>
     </>
