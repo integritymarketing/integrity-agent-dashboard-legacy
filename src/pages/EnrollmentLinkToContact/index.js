@@ -109,6 +109,7 @@ export default function EnrollmentLinkToContact() {
             termedDate={state?.termedDate}
             policyStatusColor={state?.policyStatusColor}
             policyHolder={state?.policyHolder}
+            linkingType={state?.linkingType}
           />
 
           <div className={styles.contactsContainer}>
