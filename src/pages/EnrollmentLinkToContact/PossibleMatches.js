@@ -64,13 +64,14 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
           confirmationNumber,
           policyHolder,
           sourceId,
+          linkingType
         } = state;
 
         const leadDate = contact.emails[0]?.createDate;
 
         const updateBusinessBookPayload = {
           agentNpn,
-          leadId,
+          leadId: String(leadId),
           policyNumber: policyId,
           plan: planId,
           carrier,
@@ -84,6 +85,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
           sourceId,
           leadDate,
           leadStatus: "",
+          linkingType,
         };
 
         const response = await enrollPlansService.updateBookOfBusiness(

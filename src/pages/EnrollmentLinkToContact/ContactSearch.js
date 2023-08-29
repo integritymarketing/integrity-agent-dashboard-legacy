@@ -65,7 +65,7 @@ const ContactListItemButton = ({
   }, [contact, callFrom, clientsService]);
 
   const onClickHandler = useCallback(async () => {
-    let { policyId, agentNpn, policyStatus, sourceId } = state;
+    let { policyId, agentNpn, policyStatus, sourceId, linkingType } = state;
     try {
       const reverseArray = contact?.phones?.reverse();
       const updateBusinessBookPayload = {
@@ -77,6 +77,7 @@ const ContactListItemButton = ({
         leadDate: leadInfo?.createDate || new Date(),
         leadStatus: policyStatus,
         sourceId: sourceId,
+        linkingType: linkingType,
       };
       const hasPhone = reverseArray[0]?.leadPhone;
       if (!hasPhone) {

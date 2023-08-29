@@ -111,7 +111,7 @@ const NewContactForm = ({
 
   const linkContact = async (leadIdParam) => {
     const {
-      state: { policyId, agentNpn, policyStatus, firstName, lastName },
+      state: { policyId, agentNpn, policyStatus, firstName, lastName, linkingType },
     } = state;
 
     try {
@@ -123,6 +123,7 @@ const NewContactForm = ({
         consumerLastName: lastName,
         leadDate: new Date(),
         leadStatus: policyStatus,
+        linkingType: linkingType,
       };
       const response = await enrollPlansService.updateBookOfBusiness(
         updateBusinessBookPayload
