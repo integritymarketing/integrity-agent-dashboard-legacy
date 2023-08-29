@@ -70,7 +70,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
 
         const updateBusinessBookPayload = {
           agentNpn,
-          leadId,
+          leadId: contact.leadsId,
           policyNumber: policyId,
           plan: planId,
           carrier,

@@ -36,7 +36,8 @@ const NewContactForm = ({
   partB = "",
   medicareBeneficiaryID = "",
 }) => {
-  const { clientsService, enrollPlansService, callRecordingsService } = useClientServiceContext();
+  const { clientsService, enrollPlansService, callRecordingsService } =
+    useClientServiceContext();
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const isRelink = get("relink") === "true";
