@@ -1,6 +1,4 @@
 import React from "react";
-import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
-import AddCircleOutline from "../Icons/AddCircleOutline";
 import Typography from "@mui/material/Typography";
 import Modal from "components/Modal";
 import List from "@mui/material/List";

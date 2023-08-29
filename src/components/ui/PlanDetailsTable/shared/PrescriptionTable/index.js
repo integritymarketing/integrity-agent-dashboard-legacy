@@ -16,8 +16,6 @@ const PrescriptionTable = ({
   drugCosts,
   planData,
 }) => {
-  console.log("PrescriptionTable prescriptions", prescriptions);
-
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
@@ -47,6 +45,7 @@ const PrescriptionTable = ({
       setCoverageModal(true);
     } else {
       onAddNewPrescription();
+      onEditPrescription({}); // to be removed while working
     }
   };
   return (
