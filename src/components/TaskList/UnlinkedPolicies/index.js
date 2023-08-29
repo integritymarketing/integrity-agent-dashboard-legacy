@@ -22,11 +22,19 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
       );
       if (data) {
         history.push(`/enrollment-link-to-contact`, {
-          state: { ...data, page: "Dashboard" },
+          state: {
+            ...data,
+            page: "Dashboard",
+            policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
+          },
         });
       } else {
         history.push(`/enrollment-link-to-contact`, {
-          state: { ...callData, page: "Dashboard" },
+          state: {
+            ...callData,
+            page: "Dashboard",
+            policyHolder: `${callData.firstName} ${callData.lastName}`,
+          },
         });
       }
     } catch (error) {
