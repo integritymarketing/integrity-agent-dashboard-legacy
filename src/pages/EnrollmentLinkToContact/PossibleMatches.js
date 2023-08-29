@@ -59,7 +59,6 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
           carrier,
           consumerSource,
           policyStatus,
-          leadId,
           hasPlanDetails,
           confirmationNumber,
           policyHolder,
@@ -71,7 +70,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
 
         const updateBusinessBookPayload = {
           agentNpn,
-          leadId: contact.leadId.toString(),
+          leadId: contact?.leadId.toString(),
           policyNumber: policyId,
           plan: planId,
           carrier,
