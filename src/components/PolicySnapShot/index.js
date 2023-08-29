@@ -148,7 +148,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
           openOn="hover"
           isPolicyList={true}
           description={TitleData}
-          positions={["right", "bottom"]}
+          positions={isMobile ? ["bottom"] : ["right", "bottom"]}
         >
           <Info />
         </Popover>
