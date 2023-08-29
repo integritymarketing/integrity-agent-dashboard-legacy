@@ -5,7 +5,7 @@ import ReactWebChat, {
 } from "botframework-webchat";
 import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./WebChat.module.scss";
-import ChatIcon from "./chat-icon.gif";
+import ChatIcon from "./askintegrity-logo.png";
 import HideIcon from "./hide-icon.png";
 import cx from "classnames";
 import "./WebChat.scss";
@@ -51,6 +51,7 @@ const WebChatComponent = () => {
   );
 
   const styleOptions = {
+    autoScrollSnapOnPage: true,
     backgroundColor: "#1D3E71",
     bubbleBackground: "#375582",
     bubbleFromUserBackground: "#375582",
@@ -61,7 +62,7 @@ const WebChatComponent = () => {
     sendBoxBackground: "#052A63",
     sendBoxButtonColor: "#fff",
     sendBoxTextColor: "#fff",
-    sendBoxHeight: 125,
+    sendBoxHeight: 80,
     hideUploadButton: true,
     sendBoxPlaceholderColor: "#ffffffcc",
     sendBoxButtonShadeColorOnActive: "transparent",
