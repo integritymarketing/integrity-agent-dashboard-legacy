@@ -161,7 +161,7 @@ export default function EnrollmentPlanCard(props) {
                           {!location.pathname.includes(
                             "enrollment-link-to-contact"
                           ) &&
-                            policyStatus !== "Started" && (
+                            policyStatus !== "started" && (
                               <div onClick={navigateToEnrollmentLink}>
                                 <IconWithText
                                   text="Relink"
@@ -196,7 +196,7 @@ export default function EnrollmentPlanCard(props) {
                           {!location.pathname.includes(
                             "enrollment-link-to-contact"
                           ) &&
-                            policyStatus !== "Started" && (
+                            policyStatus !== "started" && (
                               <div onClick={navigateToEnrollmentLink}>
                                 <IconWithText
                                   text="Relink"

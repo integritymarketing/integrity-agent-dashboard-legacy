@@ -8,18 +8,20 @@ const Widget = ({
   statusIndex,
   onTabClick,
   isPS_widget,
-  tabCount,
+  isPS_widgetOne,
 }) => {
   const { policyCount, policyStatusColor, policyStatus } = tab;
-  const tabWidth = 100 / tabCount - 0.5;
+
   return (
-    <div className={styles.tab} style={{ width: `${tabWidth}%` }}>
+    <div className={styles.tab}>
       <span className={styles.tabHeading}>{policyStatus}</span>
       <div
         onClick={() => onTabClick(index, policyCount)}
         className={`${styles.tabContent} ${
           index === statusIndex ? styles.selected : ""
-        } ${isPS_widget ? styles.isPS_widget : ""} `}
+        } ${isPS_widget ? styles.isPS_widget : ""} ${
+          isPS_widgetOne ? styles.isPS_widgetOne : ""
+        }`}
       >
         <span
           style={{ backgroundColor: policyStatusColor }}
@@ -59,7 +61,7 @@ const TabsCard = ({
         <>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index < 2) {
+              if (index < 1) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}
@@ -67,8 +69,7 @@ const TabsCard = ({
                     onTabClick={onTabClick}
                     index={index}
                     tab={tab}
-                    isPS_widget={true}
-                    tabCount={tabs.length}
+                    isPS_widgetOne={true}
                   />
                 );
               } else return null;
@@ -76,7 +77,7 @@ const TabsCard = ({
           </div>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index > 1) {
+              if (index > 0) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}
@@ -85,7 +86,6 @@ const TabsCard = ({
                     index={index}
                     tab={tab}
                     isPS_widget={true}
-                    tabCount={tabs.length}
                   />
                 );
               } else return null;
