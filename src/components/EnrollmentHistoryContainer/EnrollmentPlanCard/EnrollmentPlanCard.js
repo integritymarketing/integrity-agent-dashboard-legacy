@@ -17,8 +17,6 @@ export default function EnrollmentPlanCard(props) {
     effectiveDate,
     termedDate,
     policyHolder,
-    consumerFirstName,
-    consumerLastName,
     policyId,
     currentYear = true,
     leadId,
@@ -38,9 +36,7 @@ export default function EnrollmentPlanCard(props) {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
 
-  const holderName = policyHolder
-    ? formattedName(policyHolder)
-    : formattedName(`${consumerFirstName} ${consumerLastName}`);
+  const holderName = policyHolder ? formattedName(policyHolder) : "";
 
   const navigateEnrollDetails = () => {
     history.push(

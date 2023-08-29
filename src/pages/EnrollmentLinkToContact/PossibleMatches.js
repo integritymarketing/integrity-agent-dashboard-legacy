@@ -5,12 +5,7 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 import styles from "./styles.module.scss";
 
-export default function PossibleMatches({
-  phone,
-  consumerFirstName,
-  consumerLastName,
-  state,
-}) {
+export default function PossibleMatches({ phone, policyHolder, state }) {
   const { clientsService } = useClientServiceContext();
   const [matches, setMatches] = useState([]);
   const { callFrom } = useParams();
@@ -19,7 +14,6 @@ export default function PossibleMatches({
   const { enrollPlansService } = useClientServiceContext();
 
   useEffect(() => {
-    const policyHolder = `${consumerFirstName} ${consumerLastName}`;
     const getContacts = async () => {
       try {
         const response = await clientsService.getList(
@@ -39,7 +33,7 @@ export default function PossibleMatches({
       }
     };
     getContacts();
-  }, [phone, consumerFirstName, consumerLastName, clientsService]);
+  }, [phone, policyHolder, clientsService]);
 
   const updatePrimaryContact = useCallback(
     (contact) => {
@@ -68,8 +62,7 @@ export default function PossibleMatches({
           leadId,
           hasPlanDetails,
           confirmationNumber,
-          consumerFirstName,
-          consumerLastName,
+          policyHolder,
           sourceId,
         } = state;
 
@@ -84,8 +77,7 @@ export default function PossibleMatches({
           policyStatus,
           consumerSource,
           confirmationNumber,
-          consumerFirstName,
-          consumerLastName,
+          policyHolder,
           policyEffectiveDate: effectiveDate,
           appSubmitDate: submittedDate,
           hasPlanDetails,
