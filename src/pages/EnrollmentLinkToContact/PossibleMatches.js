@@ -70,7 +70,7 @@ export default function PossibleMatches({
           confirmationNumber,
           consumerFirstName,
           consumerLastName,
-          policySourceId,
+          sourceId,
         } = state;
 
         const leadDate = contact.emails[0]?.createDate;
@@ -89,7 +89,7 @@ export default function PossibleMatches({
           policyEffectiveDate: effectiveDate,
           appSubmitDate: submittedDate,
           hasPlanDetails,
-          policySourceId,
+          sourceId,
           leadDate,
           leadStatus: "",
         };

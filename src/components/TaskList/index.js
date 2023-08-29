@@ -175,14 +175,24 @@ export default function TaskList({ isMobile, npn }) {
         return <UnLinkedCalls taskList={taskList} refreshData={refreshData} />;
       case "Unlinked Policies":
         return (
-          <UnlinkedPolicyList taskList={taskList} refreshData={refreshData} />
+          <UnlinkedPolicyList
+            taskList={taskList}
+            npn={npn}
+            refreshData={refreshData}
+          />
         );
       case "Reminders":
         return <RemindersList taskList={taskList} refreshData={refreshData} />;
       case "Requested Callbacks":
         return <RequestedCallback />;
       default:
-        return <UnlinkedPolicyList />;
+        return (
+          <UnlinkedPolicyList
+            taskList={taskList}
+            npn={npn}
+            refreshData={refreshData}
+          />
+        );
     }
   };
 
