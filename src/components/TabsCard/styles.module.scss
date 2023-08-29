@@ -40,10 +40,10 @@
       @include mobileOnly {
         width: 130px !important ;
       }
-      .isPS_widgetOne {
-        @include mobileOnly {
-          width: 296px !important ;
-        }
+    }
+    .isPS_widgetOne {
+      @include mobileOnly {
+        width: 296px !important ;
       }
     }
 
