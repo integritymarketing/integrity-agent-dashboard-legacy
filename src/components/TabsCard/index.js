@@ -2,10 +2,18 @@ import React from "react";
 import usePreferences from "hooks/usePreferences";
 import styles from "./styles.module.scss";
 
-const Widget = ({ index, tab, statusIndex, onTabClick, isPS_widget }) => {
+const Widget = ({
+  index,
+  tab,
+  statusIndex,
+  onTabClick,
+  isPS_widget,
+  tabCount,
+}) => {
   const { policyCount, policyStatusColor, policyStatus } = tab;
+  const tabWidth = 100 / tabCount - 0.5;
   return (
-    <div className={styles.tab}>
+    <div className={styles.tab} style={{ width: `${tabWidth}%` }}>
       <span className={styles.tabHeading}>{policyStatus}</span>
       <div
         onClick={() => onTabClick(index, policyCount)}
@@ -60,6 +68,7 @@ const TabsCard = ({
                     index={index}
                     tab={tab}
                     isPS_widget={true}
+                    tabCount={tabs.length}
                   />
                 );
               } else return null;
@@ -76,6 +85,7 @@ const TabsCard = ({
                     index={index}
                     tab={tab}
                     isPS_widget={true}
+                    tabCount={tabs.length}
                   />
                 );
               } else return null;
@@ -92,6 +102,7 @@ const TabsCard = ({
                 onTabClick={onTabClick}
                 index={page === "policySnapshot" ? index : tab?.value}
                 tab={tab}
+                tabCount={tabs.length}
               />
             );
           })}
