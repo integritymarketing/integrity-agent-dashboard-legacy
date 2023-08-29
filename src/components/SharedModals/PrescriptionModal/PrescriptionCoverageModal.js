@@ -6,6 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import makeStyles from "@mui/styles/makeStyles";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
+import CustomFooter from "components/Modal/CustomFooter";
 import "./style.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -118,7 +119,12 @@ const PrescriptionCoverageModal = ({
       open={open}
       onClose={onClose}
       title={"Prescription Coverage"}
-      customFooter={<div> + ADD NEW </div>}
+      customFooter={
+        <CustomFooter
+          buttonName={"Add Provider"}
+          // onClick={handleDeleteProvider}
+        />
+      }
       hideFooter={true}
     >
       <>

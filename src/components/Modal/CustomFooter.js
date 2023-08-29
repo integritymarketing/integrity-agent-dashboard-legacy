@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
-  cancelButton: {
+  customButton: {
     color: "#4178FF",
     fontSize: "16px",
     fontWeight: "600",
@@ -40,7 +40,7 @@ export default function CustomFooter({ buttonName, onClick, icon }) {
       <Button
         onClick={onClick}
         endIcon={icon ? <span className={classes.buttonIcon}>{icon}</span> : ""}
-        className={classes.cancelButton}
+        className={classes.customButton}
       >
         {buttonName}
       </Button>
