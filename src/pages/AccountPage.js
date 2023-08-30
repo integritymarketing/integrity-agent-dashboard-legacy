@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 import ResourceSection from "components/ui/resourcesCard";
@@ -594,7 +594,7 @@ const AccountPage = () => {
                                 )
                               )
                             );
-                          }
+                          }}
                         }}
                       >
                         {({
