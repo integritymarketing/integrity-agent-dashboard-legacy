@@ -7,10 +7,7 @@ import useToast from "hooks/useToast";
 import styles from "./styles.module.scss";
 
 export default function PossibleMatches({
-  phone,
-  consumerFirstName,
-  consumerLastName,
-  state,
+  phone, policyHolder, state
 }) {
 
   const [matches, setMatches] = useState([]);
@@ -38,7 +35,7 @@ export default function PossibleMatches({
       }
     };
     getContacts();
-  }, [phone, consumerFirstName, consumerLastName]);
+  }, [phone, policyHolder, state]);
 
 
   const updatePrimaryContact = useCallback(

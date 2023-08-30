@@ -1,12 +1,14 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
-import Back from "components/icons/back";
-import "./index.scss";
+import Back from 'components/icons/back';
+import './index.scss';
 
-const BackNav = ({ title = "", leadId }) => {
+const BackNav = ({ title = '', leadId }) => {
   const history = useHistory();
-  const noTitle = title === "Back to ";
+  const noTitle = title === 'Back to ';
+  
   const goBack = () => {
     if (noTitle) {
       history.push(`/contact/${leadId}`);
@@ -14,6 +16,7 @@ const BackNav = ({ title = "", leadId }) => {
       history.goBack();
     }
   };
+
   return (
     <div className="back-nav-header">
       <div className="nav-wrapper">
@@ -22,11 +25,20 @@ const BackNav = ({ title = "", leadId }) => {
         </div>
         <div onClick={goBack} className="back-title">
           {title}
-          {noTitle ? "Contact Details Page" : ""}
+          {noTitle ? 'Contact Details Page' : ''}
         </div>
       </div>
     </div>
   );
+};
+
+BackNav.propTypes = {
+  title: PropTypes.string,
+  leadId: PropTypes.string.isRequired,
+};
+
+BackNav.defaultProps = {
+  title: '',
 };
 
 export default BackNav;

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import "./index.scss";
-import Logo from "./image.svg";
-import AgentContactInfo from "partials/agent-contact-info";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import './index.scss';
+import Logo from './image.svg';
+import AgentContactInfo from 'partials/agent-contact-info';
 
 const BlueHeader = ({ agentInfo }) => {
   const [helpModal, setHelpModal] = useState(false);
@@ -23,6 +24,10 @@ const BlueHeader = ({ agentInfo }) => {
       </div>
     </header>
   );
+};
+
+BlueHeader.propTypes = {
+  agentInfo: PropTypes.object.isRequired,
 };
 
 export default BlueHeader;

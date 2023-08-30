@@ -1,6 +1,6 @@
-import React from "react";
-import "./index.scss";
-import FooterLogo from "./image.svg";
+import React from 'react';
+import './index.scss';
+import FooterLogo from './image.svg';
 
 const EmailFooter = () => {
   const currentDate = new Date().getFullYear();
@@ -8,7 +8,7 @@ const EmailFooter = () => {
     <footer className="footer-unauthenticated">
       <img className="logo" src={FooterLogo} alt="Medicare Center" />
       <div className="copyright pb-1">
-        ©{currentDate} Integrity, All rights reserved.
+        &copy;{currentDate} Integrity, All rights reserved.
       </div>
     </footer>
   );

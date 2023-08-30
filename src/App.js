@@ -1,87 +1,63 @@
+// External Libraries
 import React, { lazy, Suspense } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { AuthenticatedRoute, UnauthenticatedRoute } from "components/functional/auth-routes";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { ParallaxProvider } from "react-scroll-parallax";
 import { RecoilRoot } from "recoil";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Media from "react-media";
-import {
-  AuthenticatedRoute,
-  UnauthenticatedRoute,
-} from "components/functional/auth-routes";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import { DeleteLeadProvider } from "contexts/deleteLead";
-import { CountyProvider } from "contexts/counties";
-import { ContactsProvider } from "contexts/contacts";
-import { BackNavProvider } from "contexts/backNavProvider";
-import { StageSummaryProvider } from "contexts/stageSummary";
-import { ParallaxProvider } from "react-scroll-parallax";
+
+// Context Providers
 import AuthContext from "contexts/auth";
+import { BackNavProvider } from "contexts/backNavProvider";
+import { ContactsProvider } from "contexts/contacts";
+import { CountyProvider } from "contexts/counties";
+import { DeleteLeadProvider } from "contexts/deleteLead";
+import { StageSummaryProvider } from "contexts/stageSummary";
+import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+
+// Services
 import authService from "services/authService";
+
+// Components and Pages
 import { theme } from "./theme";
-
-const Router = lazy(() => import("components/functional/router"));
-
-const TrafficDirector = lazy(() =>
-  import("components/functional/traffic-director")
-);
-const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
-const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
 const AccountPage = lazy(() => import("pages/AccountPage"));
+const AddNewContactPage = lazy(() => import("pages/contacts/AddNewContactPage"));
+const AuthSigninCallback = lazy(() => import("components/functional/auth-signin-callback"));
+const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));
+const AuthSignoutCallback = lazy(() => import("components/functional/auth-signout-callback"));
+const AuthSilentCallback = lazy(() => import("components/functional/auth-silent-callback"));
 const ClientImportPage = lazy(() => import("pages/ClientImportPage"));
-const NotFoundPage = lazy(() => import("pages/NotFound"));
-const ErrorPage = lazy(() => import("pages/ErrorPage"));
-const TermsPage = lazy(() => import("pages/TermsPage"));
-const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
-const ContactDetailsPage = lazy(() => import("pages/ContactDetails"));
-const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
-const PlansPage = lazy(() => import("pages/PlansPage"));
-const LeadCenterRedirect = lazy(() => import("pages/LeadCenterRedirect"));
-const Dashboard = lazy(() => import("pages/dashbaord"));
-const ComparePlansPage = lazy(() => import("pages/ComparePlansPage"));
 const ComparePlansCodePage = lazy(() => import("pages/ComparePlansCodePage"));
-const LinkToContact = lazy(() => import("pages/LinkToContact"));
-const NewScopeOfAppointment = lazy(() =>
-  import("pages/contacts/contactRecordInfo/newScopeOfAppointment")
-);
-const SOAConfirmationPage = lazy(() =>
-  import(
-    "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"
-  )
-);
-const SOAConfirmationForm = lazy(() =>
-  import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation")
-);
-const PortalUrl = lazy(() => import("components/functional/portal-url"));
-const AuthSigninRedirectPage = lazy(() =>
-  import("pages/auth/SigninRedirectPage")
-);
-const AuthSigninCallback = lazy(() =>
-  import("components/functional/auth-signin-callback")
-);
-const AuthSignoutCallback = lazy(() =>
-  import("components/functional/auth-signout-callback")
-);
-const AuthSilentCallback = lazy(() =>
-  import("components/functional/auth-silent-callback")
-);
+const ComparePlansPage = lazy(() => import("pages/ComparePlansPage"));
+const ContactDetailsPage = lazy(() => import("pages/ContactDetails"));
+const ContactRecordInfo = lazy(() => import("pages/contacts/contactRecordInfo"));
 const ContactsPage = lazy(() => import("pages/contacts/ContactsPage"));
-const AddNewContactPage = lazy(() =>
-  import("pages/contacts/AddNewContactPage")
-);
-const ContactRecordInfo = lazy(() =>
-  import("pages/contacts/contactRecordInfo")
-);
-const ContactsSOAConfirmForm = lazy(() =>
-  import("pages/contacts/soa/ContactsSOAConfirmForm")
-);
-const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
-const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
+const ContactsSOAConfirmForm = lazy(() => import("pages/contacts/soa/ContactsSOAConfirmForm"));
+const Dashboard = lazy(() => import("pages/dashbaord"));
+const EnrollmentLinkToContact = lazy(() => import("pages/EnrollmentLinkToContact"));
+const ErrorPage = lazy(() => import("pages/ErrorPage"));
 const HelpPage = lazy(() => import("pages/Help"));
-const Welcome = lazy(() => import("pages/welcome"));
 const LandingPage = lazy(() => import("mobile/landing/LandingPage"));
-const EnrollmentLinkToContact = lazy(() =>
-  import("pages/EnrollmentLinkToContact")
-);
+const LeadCenterRedirect = lazy(() => import("pages/LeadCenterRedirect"));
+const LinkToContact = lazy(() => import("pages/LinkToContact"));
+const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
+const NewScopeOfAppointment = lazy(() => import("pages/contacts/contactRecordInfo/newScopeOfAppointment"));
+const NotFoundPage = lazy(() => import("pages/NotFound"));
+const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
+const PlansPage = lazy(() => import("pages/PlansPage"));
+const PortalUrl = lazy(() => import("components/functional/portal-url"));
+const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
+const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
+const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
+const Router = lazy(() => import("components/functional/router"));
+const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
+const SOAConfirmationPage = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"));
+const TermsPage = lazy(() => import("pages/TermsPage"));
+const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
+const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
+const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
   return (
