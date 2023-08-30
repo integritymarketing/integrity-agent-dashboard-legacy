@@ -437,7 +437,7 @@ const AccountPage = () => {
     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`
   );
   const { Put: updateAccountPassword } = useFetch(
-    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/updatepassword`
   );
 
   useEffect(() => {
