@@ -12,10 +12,11 @@ import Styles from "./AddPharmacy.module.scss";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
 import Pagination from "components/ui/Pagination/pagination";
 import { Checkbox } from "@mui/material";
+import SearchIcon from "components/icons/search2";
 
 export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [zipCode, setZipCode] = useState(
-    personalInfo?.addresses[0]?.postalCode
+    personalInfo?.addresses?.[0]?.postalCode
   );
   const [radius, setRadius] = useState(5);
 
@@ -190,17 +191,40 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       <div className="pr-search-section">
                         <label className="pr-title">
                           Pharmacy Name
-                          <input
-                            type="text"
-                            className={"pr-search-input"}
-                            value={pharmacyName}
-                            disabled={zipCodeError}
-                            placeholder="Enter name"
-                            onChange={(e) => {
-                              setPharmacyName(e?.currentTarget?.value);
-                              setCurrentPage(1);
+                          <div
+                            onClick={() => {
+                              const element = document.querySelector(
+                                ".search-input-container"
+                              );
+                              element.classList.add("outlineDiv");
+                              element.focus();
                             }}
-                          />
+                            onBlur={() => {
+                              const element = document.querySelector(
+                                ".search-input-container"
+                              );
+                              element.classList.remove("outlineDiv");
+                            }}
+                            className="search-input-container"
+                            style={{
+                              background: zipCodeError ? "#f1f5f9" : "#fff",
+                            }}
+                          >
+                            <div className="search-icon">
+                              <SearchIcon />
+                            </div>
+                            <input
+                              type="text"
+                              className={"pr-search-input"}
+                              value={pharmacyName}
+                              disabled={zipCodeError}
+                              placeholder="Search"
+                              onChange={(e) => {
+                                setPharmacyName(e?.currentTarget?.value);
+                                setCurrentPage(1);
+                              }}
+                            />
+                          </div>
                         </label>
                       </div>
                       <div className="pr-address-section">
@@ -313,17 +337,40 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       <label className="pr-title">
                         Pharmacy Name
                         <br />
-                        <input
-                          className={"pr-search-input"}
-                          type="text"
-                          value={pharmacyName}
-                          disabled={zipCodeError}
-                          placeholder="Enter name"
-                          onChange={(e) => {
-                            setPharmacyName(e?.target?.value);
-                            setCurrentPage(1);
+                        <div
+                          onClick={() => {
+                            const element = document.querySelector(
+                              ".search-input-container"
+                            );
+                            element.classList.add("outlineDiv");
+                            element.focus();
                           }}
-                        />
+                          onBlur={() => {
+                            const element = document.querySelector(
+                              ".search-input-container"
+                            );
+                            element.classList.remove("outlineDiv");
+                          }}
+                          className="search-input-container"
+                          style={{
+                            background: zipCodeError ? "#f1f5f9" : "#fff",
+                          }}
+                        >
+                          <div className="search-icon">
+                            <SearchIcon />
+                          </div>
+                          <input
+                            type="text"
+                            className={"pr-search-input"}
+                            value={pharmacyName}
+                            disabled={zipCodeError}
+                            placeholder="Search"
+                            onChange={(e) => {
+                              setPharmacyName(e?.currentTarget?.value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </div>
                       </label>
                     </div>
                   </div>
@@ -331,8 +378,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <div className="pr-search-result">
                     {totalCount ? (
                       <>
-                        <b>{totalCount || 0} Pharmacies</b> found within{" "}
-                        {radius}
+                        {totalCount || 0} Pharmacies found within {radius}
                         &nbsp;miles
                       </>
                     ) : null}
@@ -544,17 +590,41 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <div className="pr-search-section">
                     <label className="pr-title">
                       <div>Pharmacy Name</div>
-                      <input
-                        type="text"
-                        className={"pr-search-input"}
-                        value={pharmacyName}
-                        disabled={zipCodeError}
-                        placeholder="Search"
-                        onChange={(e) => {
-                          setPharmacyName(e?.currentTarget?.value);
-                          setCurrentPage(1);
+
+                      <div
+                        onClick={() => {
+                          const element = document.querySelector(
+                            ".search-input-container"
+                          );
+                          element.classList.add("outlineDiv");
+                          element.focus();
                         }}
-                      />
+                        onBlur={() => {
+                          const element = document.querySelector(
+                            ".search-input-container"
+                          );
+                          element.classList.remove("outlineDiv");
+                        }}
+                        className="search-input-container"
+                        style={{
+                          background: zipCodeError ? "#f1f5f9" : "#fff",
+                        }}
+                      >
+                        <div className="search-icon">
+                          <SearchIcon />
+                        </div>
+                        <input
+                          type="text"
+                          className={"pr-search-input"}
+                          value={pharmacyName}
+                          disabled={zipCodeError}
+                          placeholder="Search"
+                          onChange={(e) => {
+                            setPharmacyName(e?.currentTarget?.value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </div>
                     </label>
                   </div>
                 </div>
@@ -612,17 +682,40 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <label className="pr-title">
                     Pharmacy Name
                     <br />
-                    <input
-                      className={"pr-search-input"}
-                      type="text"
-                      value={pharmacyName}
-                      disabled={zipCodeError}
-                      placeholder="Enter name"
-                      onChange={(e) => {
-                        setPharmacyName(e?.target?.value);
-                        setCurrentPage(1);
+                    <div
+                      onClick={() => {
+                        const element = document.querySelector(
+                          ".search-input-container"
+                        );
+                        element.classList.add("outlineDiv");
+                        element.focus();
                       }}
-                    />
+                      onBlur={() => {
+                        const element = document.querySelector(
+                          ".search-input-container"
+                        );
+                        element.classList.remove("outlineDiv");
+                      }}
+                      className="search-input-container"
+                      style={{
+                        background: zipCodeError ? "#f1f5f9" : "#fff",
+                      }}
+                    >
+                      <div className="search-icon">
+                        <SearchIcon />
+                      </div>
+                      <input
+                        type="text"
+                        className={"pr-search-input"}
+                        value={pharmacyName}
+                        disabled={zipCodeError}
+                        placeholder="Search"
+                        onChange={(e) => {
+                          setPharmacyName(e?.currentTarget?.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </div>
                   </label>
                 </div>
                 <div className="pr-address-section">
