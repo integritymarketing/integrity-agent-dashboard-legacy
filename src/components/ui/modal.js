@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import ExitIcon from "components/icons/exit";
 import PageCard from "components/ui/page-card";
 import Container from "components/ui/container";
+import CrossIcon from "components/icons/cross2";
 
 const Modal = ({
   header,
@@ -86,7 +87,7 @@ const Modal = ({
               )}
               {onClose && (
                 <button className={`close-icon`} onClick={onClose}>
-                  <ExitIcon color="#0052CE" />
+                  <CrossIcon />
                   <span className="visually-hidden">Close modal window</span>
                 </button>
               )}
