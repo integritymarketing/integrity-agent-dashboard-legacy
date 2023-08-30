@@ -148,13 +148,31 @@
       display: initial;
       .pr-search-section {
         margin-top: 24px;
-        .pr-search-input {
+        width: 100%;
+        .search-input-container {
+          display: flex;
+          align-items: center;
           width: 100%;
           padding: 10px;
-
-          &:focus, &:active {
-            outline: 2px solid #0052CE;
+          height: 42px;
+          margin-top: 5px;
+          border: 1px solid #cbd5e1;
+          border-radius: 4px;
+          &.outlineDiv {
+              outline: 2px solid #0052CE;
           }
+          input {
+            border: none;
+            height: 40px;
+            outline: none;
+          }
+        }
+        .search-icon {
+          margin-right: 10px;
+          margin-top: 7px;
+        }
+        .pr-search-input {
+          width: 100%;
         }
       }
     }
@@ -196,12 +214,32 @@
     .pr-search-section {
       width: 100%;
 
-      .pr-search-input {
+      .search-input-container {
+        display: flex;
+        align-items: center;
         width: 100%;
         padding: 10px;
-        &:focus, &:active {
-          outline: 2px solid #0052CE;
+        height: 42px;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+
+        &.outlineDiv {
+            outline: 2px solid #0052CE;
         }
+        input {
+          border: none;
+          height: 40px;
+          outline: none;
+        }
+      }
+
+      .search-icon {
+        margin-right: 10px;
+        margin-top: 7px;
+      }
+
+      .pr-search-input {
+        width: 100%;
       }
     }
 
@@ -253,7 +291,7 @@
     @media (max-width: 480px) {
       font-size: 16px;
       line-height: 130%;
-      color: #64748b;
+      color: #052A63;
       & input {
         margin-top: 4px;
       }
@@ -373,9 +411,10 @@
 /*provider Modal container css end*/
 
 .modal__footer {
-  border-top: 1px solid #e6ecf2;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   top: -80px;
-  background-color: white;
+  background-color: #f1f1f1;
   width: 112.2%;
   display: flex;
   align-items: center;

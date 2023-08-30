@@ -16,7 +16,7 @@
   max-width: 90vw;
   max-height: 90vh;
   border-radius: 8px;
-  background-color: #f4f8fb;
+  background-color: #f1f1f1;
   box-shadow: 0px 0px 6px #00000029;
   display: flex;
   flex-direction: column;
@@ -41,6 +41,10 @@
   background-color: #ffffff;
   padding: 24px;
   display: flex;
+
+  h2 {
+  color: #052A63;
+  }
 }
 .modalBody {
   border-bottom-left-radius: 8px;
