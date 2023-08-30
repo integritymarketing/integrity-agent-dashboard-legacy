@@ -94,7 +94,7 @@ export default function EnrollmentLinkToContact() {
             currentYear={state?.currentYear}
             submittedDate={state?.appSubmitDate || state?.submittedDate}
             enrolledDate={state?.enrolledDate}
-            effectiveDate={state?.policyEffectiveDate}
+            policyEffectiveDate={state?.policyEffectiveDate}
             policyId={state?.policyId}
             leadId={state?.leadId}
             planId={state?.planId}

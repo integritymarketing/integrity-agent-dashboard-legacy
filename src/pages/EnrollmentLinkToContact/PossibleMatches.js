@@ -51,7 +51,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
         }
 
         const {
-          effectiveDate,
+          policyEffectiveDate,
           planId,
           submittedDate,
           policyId,
@@ -78,7 +78,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
           consumerSource,
           confirmationNumber,
           policyHolder,
-          policyEffectiveDate: effectiveDate,
+          policyEffectiveDate,
           appSubmitDate: submittedDate,
           hasPlanDetails,
           sourceId,
