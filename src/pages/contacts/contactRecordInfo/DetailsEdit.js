@@ -16,7 +16,7 @@ import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
 import DatePickerMUI from "components/DatePicker";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 
 const DetailsEditContact = (props) => {
   let {
@@ -70,7 +70,6 @@ const DetailsEditContact = (props) => {
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
   const history = useHistory();
-  const { clientsService } = useClientServiceContext();
 
   const getContactLink = (id) => `/contact/${id}`;
   const goToContactDetailPage = (id) => {
@@ -117,7 +116,7 @@ const DetailsEditContact = (props) => {
         }
       }
     },
-    [clientsService]
+    []
   );
 
   const handleMultileDuplicates = () => {

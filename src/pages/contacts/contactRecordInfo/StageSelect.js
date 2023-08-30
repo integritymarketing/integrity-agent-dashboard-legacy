@@ -2,15 +2,14 @@ import React, { useContext, useState, useMemo, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
 import { Select } from "components/ui/Select";
-import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "../../../hooks/useToast";
+import clientsService from "services/clientsService";
 import StageStatusContext from "contexts/stageStatus";
 import analyticsService from "services/analyticsService";
 import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisposition";
 import stageSummaryContext from "contexts/stageSummary";
 
 const StageSelect = ({ value, original, onRefresh }) => {
-  const { clientsService } = useClientServiceContext();
   const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
 

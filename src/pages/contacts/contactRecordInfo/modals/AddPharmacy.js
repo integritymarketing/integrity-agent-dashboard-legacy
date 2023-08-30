@@ -4,7 +4,7 @@ import { Select } from "components/ui/Select";
 import { Button } from "components/ui/Button";
 import Media from "react-media";
 import "./pharmacy-modal.scss";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
 import * as Sentry from "@sentry/react";
@@ -32,7 +32,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [totalCount, setTotalCount] = useState(0);
   const totalPages = results ? Math.ceil(totalCount / perPage) : 0;
   const [isMobile, setIsMobile] = useState(false);
-  const { clientsService } = useClientServiceContext();
 
   useEffect(() => {
     if (isOpen) {
@@ -66,7 +65,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       .catch((e) => {
         Sentry.captureException(e);
       });
-  }, [zipCode, pharmacyAddress, clientsService]);
+  }, [zipCode, pharmacyAddress]);
 
   useEffect(() => {
     if (!zipCode || zipCode?.length !== 5) {
@@ -116,7 +115,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     latLng,
     zipCode,
     radius,
-    clientsService,
   ]);
 
   const handleAddPharmacy = async () => {

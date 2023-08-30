@@ -8,13 +8,11 @@ import EditIcon from "components/icons/icon-edit";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import * as Sentry from "@sentry/react";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import useToast from "hooks/useToast";
 import RenderProviders from "components/ui/ProvidersList";
 
 const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
-  const { clientsService } = useClientServiceContext();
-
   const { contactId } = useParams();
   const { leadDetails } = useContactDetails(contactId);
   const addToast = useToast();

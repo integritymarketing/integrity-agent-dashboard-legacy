@@ -7,7 +7,7 @@ import Textfield from "components/ui/textfield";
 import CloseIcon from "components/icons/close";
 import Options from "utils/Options";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import "./modals.scss";
 import Styles from "./AddPrescription.module.scss";
@@ -41,7 +41,6 @@ export default function AddPrescription({
   onClose: onCloseHandler,
   onSave,
 }) {
-  const { clientsService } = useClientServiceContext();
   const [drugName, setDrugName] = useState("");
   const [searchString, setSearchString] = useState("");
   const [drugNameOptions, setDrugNameOptions] = useState([]);
@@ -84,7 +83,7 @@ export default function AddPrescription({
       }
     };
     drugName && getDosages();
-  }, [drugName, clientsService]);
+  }, [drugName]);
 
   useEffect(() => {
     if (dosage) {

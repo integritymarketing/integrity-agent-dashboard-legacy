@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
+import clientsService from "services/clientsService";
 
 const useLeadInformation = (leadId) => {
-  const { clientsService } = useClientServiceContext();
   const [pharmacies, setPharmacies] = useState([]);
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
@@ -35,7 +34,7 @@ const useLeadInformation = (leadId) => {
       }
     };
     getData();
-  }, [setPharmacies, setPrescriptions, setIsLoading, leadId, clientsService]);
+  }, [setPharmacies, setPrescriptions, setIsLoading, leadId]);
 
   const addPrescription = async (item) => {
     setIsLoading(true);

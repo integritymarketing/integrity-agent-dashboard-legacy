@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Modal from "components/ui/modal";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import DeleteLeadContext from "contexts/deleteLead";
 import { useHistory } from "react-router-dom";
 
@@ -10,7 +10,6 @@ const DeleteLeadModal = ({
   setDeleteModalStatus,
   deleteModalStatus,
 }) => {
-  const { clientsService } = useClientServiceContext();
   const { setDeleteLeadId, setLeadName } = useContext(DeleteLeadContext);
   const history = useHistory();
 

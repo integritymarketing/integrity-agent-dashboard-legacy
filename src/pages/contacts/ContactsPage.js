@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useContext, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+} from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Redirect,
@@ -30,7 +36,7 @@ import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import ContactsTable from "./ContactsTable";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
@@ -65,7 +71,6 @@ const DEFAULT_SORT = [
 ];
 
 const ContactsPage = () => {
-  const { clientsService } = useClientServiceContext();
   const [searchString, setSearchString] = useState(null);
   const [searchStringNew, setSearchStringNew] = useState(searchString);
   const [sort, setSort] = useState(DEFAULT_SORT);
@@ -108,7 +113,9 @@ const ContactsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const debouncedSetSearchString = useRef(debounce(setSearchStringNew, 500)).current;
+  const debouncedSetSearchString = useRef(
+    debounce(setSearchStringNew, 500)
+  ).current;
 
   useEffect(() => {
     debouncedSetSearchString(searchString);

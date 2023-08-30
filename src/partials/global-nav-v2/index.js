@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
-import "./index.scss";
-
+import React, { useContext, useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import { Link, useHistory } from "react-router-dom";
+import AuthContext from "contexts/auth";
 import Media from "react-media";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
+import Logo from "partials/logo";
+import MyButton from "./MyButton";
 import Modal from "components/ui/modal";
 import ContactInfo from "partials/contact-info";
 import Logout from "./Logout.svg";
 import Account from "./Account.svg";
 import NeedHelp from "./Needhelp.svg";
-import { useClientServiceContext } from "services/clientServiceProvider";
-import MyButton from "./MyButton";
-import Logo from "partials/logo";
+import clientService from "services/clientsService";
+import "./index.scss";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
+import authService from "services/authService";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import { welcomeModalOpenAtom } from "recoil/agent/atoms";
@@ -27,20 +28,21 @@ import MobileHome from "./assets/icons-Home.svg";
 import MobileContacts from "./assets/icons-Contacts.svg";
 import MobileLogout from "./assets/icons-Logout.svg";
 import MobileAccount from "./assets/icons-Account.svg";
-import { useAuth0 } from "@auth0/auth0-react";
-import  useUserProfile from "hooks/useUserProfile";
 
-const handleCSGSSO = async (history, loading, getAccessToken) => {
+const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
-  const token = await getAccessToken();
+
+  let user = await authService.getUser();
 
   const response = await fetch(
-    `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Account/CSGLogin`,
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`,
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: "Bearer " + user.access_token,
+        "Content-Type": "application/json",
       },
+      credentials: "include",
     }
   );
 
@@ -106,9 +108,13 @@ const SiteNotification = ({
   return null;
 };
 
-const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
-  const { clientsService } = useClientServiceContext();
-  const auth = useAuth0();
+const GlobalNavV2 = ({
+  menuHidden = false,
+  className = "",
+  page,
+  ...props
+}) => {
+  const auth = useContext(AuthContext);
   const addToast = useToast();
   const history = useHistory();
   const loadingHook = useLoading();
@@ -116,16 +122,16 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
   const [navOpen, setNavOpen] = useState(false);
   const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
-  const [isAvailable, setIsAvailable] = useAgentAvailability(false);
+  const [user, setUser] = useState({});
+  const [isAvailable, setIsAvailable] = useAgentAvailability();
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
-  const userProfile = useUserProfile();
   const mobileMenuProps = Object.assign(
     {
       navOpen,
       setNavOpen,
     },
-    auth.isAuthenticated && !menuHidden
+    auth.isAuthenticated() && !menuHidden
       ? {
           primary: [
             {
@@ -156,12 +162,9 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
               component: "button",
               props: {
                 type: "button",
-                onClick: () => auth.logout({logoutParams: { 
-                  returnTo: window.location.origin
-                }
-                }),
+                onClick: () => auth.logout(),
               },
-              label: "Sign out",
+              label: "Sign Out",
               img: MobileLogout,
             },
           ],
@@ -179,7 +182,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
               props: {
                 type: "button",
                 onClick: () => {
-                  handleCSGSSO(history, loadingHook, auth.getAccessTokenSilently);
+                  handleCSGSSO(history, loadingHook);
                 },
               },
               label: "CSG App",
@@ -200,7 +203,8 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
                 type: "button",
                 onClick: () => {
                   window.open(
-                    `${process.env.REACT_APP_AUTH0_DOMAIN}/samlp/Mm1Sflg9Ww4VSsbb3RO70huD2xmjaCXb`,
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2023",
                     "_blank"
                   );
                 },
@@ -220,7 +224,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
       navOpen,
       setNavOpen,
     },
-    auth.isAuthenticated && !menuHidden
+    auth.isAuthenticated() && !menuHidden
       ? {
           primary: [
             {
@@ -273,7 +277,8 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
                 type: "button",
                 onClick: () => {
                   window.open(
-                    `${process.env.REACT_APP_AUTH0_DOMAIN}/samlp/Mm1Sflg9Ww4VSsbb3RO70huD2xmjaCXb`,
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2023",
                     "_blank"
                   );
                 },
@@ -295,7 +300,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
               props: {
                 type: "button",
                 onClick: () => {
-                  handleCSGSSO(history, loadingHook, auth.getAccessTokenSilently);
+                  handleCSGSSO(history, loadingHook);
                 },
               },
               label: "CSG APP",
@@ -312,10 +317,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
               component: "button",
               props: {
                 type: "button",
-                onClick: () => auth.logout({logoutParams: { 
-                  returnTo: window.location.origin
-                }
-                }),
+                onClick: () => auth.logout(),
               },
               label: "Sign Out",
               img: Logout,
@@ -335,11 +337,11 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
     }
     try {
       setLoading(true);
-      const response = await clientsService.getAgentAvailability(agentid);
+      const response = await clientService.getAgentAvailability(agentid);
       const { isAvailable, agentVirtualPhoneNumber, leadPreference } =
         response || {};
       if (!agentVirtualPhoneNumber && isDashboardLocation) {
-        setTimeout(() => clientsService.genarateAgentTwiloNumber(agentid), 5000);
+        setTimeout(() => clientService.genarateAgentTwiloNumber(agentid), 5000);
       }
       if (!leadPreference?.isAgentMobilePopUpDismissed) {
         setWelcomeModalOpen(true);
@@ -356,7 +358,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
 
   const updateAgentAvailability = async (data) => {
     try {
-      let response = await clientsService.updateAgentAvailability(data);
+      let response = await clientService.updateAgentAvailability(data);
       if (response.ok) {
         getAgentAvailability(data.agentID);
       }
@@ -372,24 +374,26 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      const {agentId} = userProfile || {};
-      getAgentAvailability(agentId);
-      //setUser(user.profile);
+      const user = await auth.getUser();
+      const { agentid } = user.profile;
+      getAgentAvailability(agentid);
+      setUser(user.profile);
     };
-    if (auth.isAuthenticated) {
+    if (auth.isAuthenticated()) {
       loadAsyncData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth, userProfile]);
+  }, [auth]);
 
   let showPhoneNotification = false;
 
-  if (!loading && auth.isAuthenticated && userProfile && !userProfile.phone) {
+  if (!loading && auth.isAuthenticated() && user && !user.phone) {
     showPhoneNotification = true;
   }
-  const {agentId} = userProfile || {};
+  const { agentid = "" } = user || {};
+  
   function clickButton() {
-    updateAgentAvailability({ agentID: agentId, availability: !isAvailable });
+    updateAgentAvailability({ agentID: agentid, availability: !isAvailable });
   }
 
   const showMaintenaceNotification =
@@ -432,12 +436,12 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
             "nav-logo"
           )}`}
         >
-          <Link to={auth.isAuthenticated ? "/dashboard" : "/welcome"}>
+          <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
             <Logo aria-hidden="true" />
             <span className="visually-hidden">Medicare Center</span>
           </Link>
         </h1>
-        {auth.isAuthenticated && !menuHidden && (
+        {auth.isAuthenticated() && !menuHidden && (
           <nav className="global-nav-v2__links">
             <h2 className="visually-hidden">Main Navigation</h2>
             {/*
@@ -468,7 +472,7 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
           </nav>
         )}
       </header>
-      {auth.isAuthenticated && !menuHidden && (
+      {auth.isAuthenticated() && !menuHidden && (
         <InboundCallBanner agentInformation={agentInfo} />
       )}
       <Modal
@@ -484,4 +488,4 @@ const GlobalNav = ({ menuHidden = false, className = "", page, ...props }) => {
   );
 };
 
-export default GlobalNav;
+export default GlobalNavV2;

@@ -25,7 +25,8 @@ import { ShortReminder } from "pages/contacts/contactRecordInfo/reminder/Reminde
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ActivityDetails from "pages/ContactDetails/ActivityDetails";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import comparePlansService from "services/comparePlansService";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
@@ -105,7 +106,6 @@ export default function DashboardActivityTable({
   setSort,
   sort,
 }) {
-  const { clientsService, comparePlansService } = useClientServiceContext();
   const history = useHistory();
   const addToast = useToast();
   const { setNewSoaContactDetails } = useContext(ContactContext);
@@ -189,7 +189,7 @@ export default function DashboardActivityTable({
           break;
       }
     },
-    [history, npn, comparePlansService]
+    [history, npn]
   );
 
   const handleTableRowClick = useCallback(
@@ -525,13 +525,7 @@ export default function DashboardActivityTable({
         Sentry.captureException(e);
       }
     },
-    [
-      setSelectedActivity,
-      addToast,
-      selectedLead,
-      realoadActivityData,
-      clientsService,
-    ]
+    [setSelectedActivity, addToast, selectedLead, realoadActivityData]
   );
 
   const handleSortUpdate = (value) => {

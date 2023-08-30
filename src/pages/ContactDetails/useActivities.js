@@ -2,12 +2,11 @@ import state from "./state";
 import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
 
 const useActivities = ({ getLeadDetails }) => {
-  const { clientsService } = useClientServiceContext();
   const addToast = useToast();
   const { contactId: leadsId } = useParams();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
@@ -108,7 +107,7 @@ const useActivities = ({ getLeadDetails }) => {
           addErrorToast("There was an error while saving your activity");
         });
     },
-    [getLeadDetails, addToast, leadsId, setOpen, addErrorToast, clientsService]
+    [getLeadDetails, addToast, leadsId, setOpen, addErrorToast]
   );
 
   const handleDeleteActivity = useCallback(
@@ -126,7 +125,7 @@ const useActivities = ({ getLeadDetails }) => {
         addErrorToast("There was an error while deleting your activity");
       }
     },
-    [getLeadDetails, addToast, addErrorToast, clientsService]
+    [getLeadDetails, addToast, addErrorToast]
   );
 
   const handleEditActivity = useCallback(
@@ -151,14 +150,7 @@ const useActivities = ({ getLeadDetails }) => {
         addErrorToast("There was an error while updating your activity");
       }
     },
-    [
-      getLeadDetails,
-      leadsId,
-      addToast,
-      addErrorToast,
-      setSelectedActivity,
-      clientsService,
-    ]
+    [getLeadDetails, leadsId, addToast, addErrorToast, setSelectedActivity]
   );
 
   const handleAddActivtyNotes = useCallback(
@@ -185,14 +177,7 @@ const useActivities = ({ getLeadDetails }) => {
         addErrorToast("There was an error while updating your activity");
       }
     },
-    [
-      getLeadDetails,
-      setSelectedActivity,
-      addToast,
-      leadsId,
-      addErrorToast,
-      clientsService,
-    ]
+    [getLeadDetails, setSelectedActivity, addToast, leadsId, addErrorToast]
   );
 
   const toggleFilterMenu = useCallback(() => {

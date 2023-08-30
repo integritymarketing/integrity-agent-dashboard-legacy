@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "packages/Button";
 import { useHistory } from "react-router-dom";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import comparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
 
 const buttonTextByActivity = {
@@ -18,7 +18,6 @@ const buttonTextByActivity = {
 };
 
 export default function ActivityButtonText(props) {
-  const { comparePlansService } = useClientServiceContext();
   const { activityTypeName, activityInteractionURL, activitySubject } =
     props.activity;
   const { leadsId } = props;

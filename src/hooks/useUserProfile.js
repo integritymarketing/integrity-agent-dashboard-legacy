@@ -1,9 +1,9 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { useState, useEffect } from "react";
+import AuthContext from "contexts/auth";
+import { useState, useEffect, useContext } from "react";
 
 const useUserProfile = () => {
-  const { user } = useAuth0();
-  
+  const auth = useContext(AuthContext);
+
   const [userProfile, setUserProfile] = useState({
     fullName: "",
     firstName: "",
@@ -16,31 +16,17 @@ const useUserProfile = () => {
   });
 
   useEffect(() => {
-    if (user) {
-      const {
-        given_name: firstName,
-        family_name: lastName,
-        npn,
-        email,
-        phone,
-        agentid: agentId,
-        user_roles: roles,
-      } = user;
-
+    if (auth?.userProfile) {
+      const { firstName, lastName } = auth?.userProfile;
       const fullName = `${firstName} ${lastName}`;
 
       setUserProfile({
-        fullName,
-        firstName,
-        lastName,
-        npn,
-        email,
-        phone,
-        agentId,
-        roles
+        ...auth.userProfile,
+        fullName: fullName,
+        agentId: auth.userProfile?.agentid,
       });
     }
-  }, [user]);
+  }, [auth]);
 
   return userProfile;
 };

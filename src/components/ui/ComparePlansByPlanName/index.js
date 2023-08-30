@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import plansService from "services/plansService";
 import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import useRoles from "hooks/useRoles";
@@ -32,7 +33,6 @@ export default function ComparePlansByPlanName({
   const [userData, setUserData] = useState(contactData);
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
-  const { clientsService, plansService } = useClientServiceContext();
   const { isNonRTS_User } = useRoles();
 
   const isEmailNonRts = isEmail
@@ -47,7 +47,7 @@ export default function ComparePlansByPlanName({
       };
       getContactInfo();
     }
-  }, [id, userData, clientsService]);
+  }, [id, userData]);
 
   const handleOnClick = (plan) => {
     setEnrollingPlan(plan);

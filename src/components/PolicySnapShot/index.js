@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import DateRangeSort from "../DateRangeSort";
 import TabsCard from "components/TabsCard";
 import PolicyList from "./PolicyList";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import Info from "components/icons/info-blue";
@@ -29,7 +29,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
   const history = useHistory();
   const addToast = useToast();
-  const { enrollPlansService } = useClientServiceContext();
 
   const status = tabs[statusIndex]?.policyStatus || "Started";
 
@@ -60,7 +59,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast, index, dateRange, npn, status, enrollPlansService]);
+  }, [addToast, index, dateRange, npn, status]);
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -81,7 +80,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchCounts();
-  }, [addToast, dateRange, npn, enrollPlansService]);
+  }, [addToast, dateRange, npn]);
 
   const handleWidgetSelection = async (index, policyCount) => {
     setStatusIndex(index);

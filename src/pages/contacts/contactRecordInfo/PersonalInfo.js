@@ -16,7 +16,7 @@ import TagEdit from "images/tag-edit.svg";
 import { CallScriptModal } from "packages/CallScriptModal";
 import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
 import { Popover as TinyPopover } from "react-tiny-popover";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import Check from "components/icons/check-blue";
 import { Button } from "components/ui/Button";
@@ -35,7 +35,6 @@ function TagsIcon({
   deleteTagFlag,
   setDeleteTagFlag,
 }) {
-  const { clientsService } = useClientServiceContext();
   const [tagModalOpen, setTagModalOpen] = useState(false);
   const [tagsByCategory, setTagsByCategory] = useState([]);
   const initialState = leadTags?.map((st) => st.tag.tagId) || [];

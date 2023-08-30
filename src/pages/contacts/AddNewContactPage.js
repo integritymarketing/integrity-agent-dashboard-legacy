@@ -11,7 +11,9 @@ import validationService from "services/validationService";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import styles from "./ContactsPage.module.scss";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import enrollPlansService from "services/enrollPlansService";
+import callRecordingsService from "services/callRecordingsService";
 import useToast from "../../hooks/useToast";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
@@ -36,8 +38,6 @@ const NewContactForm = ({
   partB = "",
   medicareBeneficiaryID = "",
 }) => {
-  const { clientsService, enrollPlansService, callRecordingsService } =
-    useClientServiceContext();
   const { get } = useQueryParams();
   const callFrom = get("callFrom");
   const isRelink = get("relink") === "true";
@@ -81,7 +81,7 @@ const NewContactForm = ({
         }
       }
     },
-    [clientsService]
+    []
   );
 
   const getContactLink = (id) => `/contact/${id}/details`;

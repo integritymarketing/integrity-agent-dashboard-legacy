@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import ContactSectionCard from "../../packages/ContactSectionCard";
 import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import styles from "./EnrollmentHistoryContainer.module.scss";
 
 export default function EnrollmentHistoryContainer({ leadId }) {
   const [enrollPlans, setEnrollPlans] = useState([]);
   const addToast = useToast();
-  const { enrollPlansService } = useClientServiceContext();
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
@@ -24,7 +23,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast, leadId, enrollPlansService]);
+  }, [addToast, leadId]);
 
   function getCurrentYear(date) {
     return date ? new Date(date).getFullYear() : null;

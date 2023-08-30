@@ -1,9 +1,8 @@
+import authService from "services/authService";
+
 export const QUOTES_API_VERSION = "v1.0";
 
 export class EnrollPlansService {
-  constructor(getAccessToken) {
-    this.getAccessToken = getAccessToken;
-  }
 
   getEnrollPlans = async (leadId) => {
     const url = new URL(
@@ -73,11 +72,11 @@ export class EnrollPlansService {
   };
 
   _clientAPIRequest = async (url, method = "GET", query, body) => {
-    const accessToken = await this.getAccessToken();
+    const user = await authService.getUser();
     const opts = {
       method,
       headers: {
-        Authorization: "Bearer " + accessToken,
+        Authorization: "Bearer " + user.access_token,
         "Content-Type": "application/json",
       },
     };
@@ -91,3 +90,7 @@ export class EnrollPlansService {
     return fetch(url.toString(), opts);
   };
 }
+
+const EnrollPlansServiceInstance = new EnrollPlansService();
+
+export default EnrollPlansServiceInstance;

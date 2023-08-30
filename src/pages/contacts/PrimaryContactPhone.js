@@ -1,14 +1,14 @@
 import React, { useMemo, useCallback, useState } from "react";
 import * as Sentry from "@sentry/react";
 import { formatPhoneNumber } from "utils/phones";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import callRecordingsService from "services/callRecordingsService";
 import styles from "./ContactsPage.module.scss";
 import useToast from "hooks/useToast";
 import { CallScriptModal } from "packages/CallScriptModal";
 import useUserProfile from "hooks/useUserProfile";
 
 export default function PrimaryContactPhone({ phone, leadsId }) {
-  const { clientsService, callRecordingsService } = useClientServiceContext();
   const userProfile = useUserProfile();
   const addToast = useToast();
   const [modalOpen, setModalOpen] = useState(false);

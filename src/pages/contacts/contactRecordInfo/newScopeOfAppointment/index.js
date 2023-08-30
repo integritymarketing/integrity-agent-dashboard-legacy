@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 import BackNavContext from "contexts/backNavProvider";
 import ContactContext from "contexts/contacts";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import useUserProfile from "hooks/useUserProfile";
@@ -41,7 +41,6 @@ const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const NewScopeOfAppointment = () => {
-  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const { leadId } = useParams();
   const addToast = useToast();

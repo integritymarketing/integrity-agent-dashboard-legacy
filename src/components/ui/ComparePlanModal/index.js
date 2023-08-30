@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/react";
 import { debounce } from "debounce";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import plansService from "services/plansService";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
@@ -73,7 +73,6 @@ const ComparePlanModal = ({
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
   const [hasFocus, setFocus] = useState(false);
-  const { plansService } = useClientServiceContext();
 
   useEffect(() => {
     if (modalOpen) {

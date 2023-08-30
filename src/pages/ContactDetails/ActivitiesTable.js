@@ -11,7 +11,7 @@ import styles from "./Activities.module.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import { useRecoilState } from "recoil";
 import state from "./state";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import comparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
 
 const initialState = {
@@ -103,7 +103,6 @@ export default function ActivitiesTable({
   setEditActivity,
   isMobile,
 }) {
-  const { comparePlansService } = useClientServiceContext();
   const history = useHistory();
   const [fullList, setFullList] = useState([]);
 
@@ -158,7 +157,7 @@ export default function ActivitiesTable({
           break;
       }
     },
-    [history, leadId, npn, comparePlansService]
+    [history, leadId, npn]
   );
 
   const webColumns = useMemo(

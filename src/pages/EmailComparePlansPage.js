@@ -7,7 +7,9 @@ import { Button } from "components/ui/Button";
 import ArrowDown from "components/icons/arrow-down";
 import GlobalNav from "partials/global-nav-v2";
 import Container from "components/ui/container";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import comparePlansService from "services/comparePlansService";
+import plansService from "services/plansService";
+import clientsService from "services/clientsService";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./PlansPage.module.scss";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
@@ -25,8 +27,6 @@ import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
 import { RetailPharmacyCoverage } from "components/ui/PlanDetailsTable/shared/retail-pharmacy-coverage-compare-table";
 
 export default (props) => {
-  const { clientsService, plansService, comparePlansService } =
-    useClientServiceContext();
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
   const { isComingFromEmail, agentInfo = {} } = props;
   const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;

@@ -7,7 +7,7 @@ import GlobalNav from "partials/global-nav-v2";
 import Heading3 from "packages/Heading3";
 import React, { useState } from "react";
 import Tags from "packages/Tags/Tags";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import styles from "./styles.module.scss";
 import { CallScriptModal } from "packages/CallScriptModal";
 import { Helmet } from "react-helmet-async";
@@ -22,7 +22,6 @@ import CreateNewContact from "./CreateNewContact";
 import GoBackNavbar from "components/BackButtonNavbar";
 
 export default function LinkToContact() {
-  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const { callLogId, callFrom, duration, date } = useParams();
 

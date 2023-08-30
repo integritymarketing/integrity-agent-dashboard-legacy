@@ -4,11 +4,10 @@ import Modal from "components/ui/modal";
 import { formatPhoneNumber } from "utils/phones";
 import { Button } from "components/ui/Button";
 import useToast from "hooks/useToast";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import plansService from "services/plansService";
 
 const ResendCodeModal = ({ agentInfo, modalOpen, close, token, request }) => {
   const addToast = useToast();
-  const { plansService } = useClientServiceContext();
   const { AgentPhoneNumber, AgentFirstName, AgentLastName, AgentEmail } =
     agentInfo;
 
@@ -30,7 +29,7 @@ const ResendCodeModal = ({ agentInfo, modalOpen, close, token, request }) => {
       });
     } finally {
     }
-  }, [addToast, plansService, request, token]);
+  }, [addToast, request, token]);
 
   return (
     <>

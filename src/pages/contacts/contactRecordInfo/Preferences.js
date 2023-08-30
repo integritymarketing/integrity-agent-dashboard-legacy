@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import useToast from "../../../hooks/useToast";
 import Spinner from "components/ui/Spinner/index";
 import analyticsService from "services/analyticsService";
@@ -8,7 +8,6 @@ import { useWindowSize } from "hooks/useWindowSize";
 import styles from "./preferences.module.scss";
 
 const CommunicationPreferences = (props) => {
-  const { clientsService } = useClientServiceContext();
   const { width: windowWidth } = useWindowSize();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -42,7 +41,7 @@ const CommunicationPreferences = (props) => {
           time: 3000,
         });
       });
-  }, [props.id, addToast, clientsService]);
+  }, [props.id, addToast]);
 
   if (isLoading) {
     return <Spinner />;

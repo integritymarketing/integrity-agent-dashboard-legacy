@@ -2,13 +2,13 @@ import React, { lazy, Suspense } from "react";
 import Router from "components/functional/router";
 import { Route, Switch } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-
+import authService from "services/authService";
+import AuthContext from "contexts/auth";
+import { theme } from "./theme";
+import { ThemeProvider } from "@mui/material/styles";
+import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
-import usePortalUrl from "hooks/usePortalUrl";
-import { theme } from "./theme";
-import { ThemeProvider } from '@mui/material/styles';
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 
 const ServerLoginPage = lazy(() => import("pages/auth/ServerLoginPage"));
 const ServerLogoutPage = lazy(() => import("pages/auth/ServerLogoutPage"));
@@ -31,13 +31,10 @@ const ContactSupportInvalidNPN = lazy(() => import("pages/auth/ContactSupportInv
 const UpdateMobileApp = lazy(() => import("pages/auth/UpdateMobileApp"));
 
 const AuthApp = () => {
-  const portalUrl = usePortalUrl();
-  const handleRedirectAndRestartLoginFlow = () => {
-    window.location = portalUrl + "/signin";
-  };
   return (
     <ThemeProvider theme={theme}>
       <HelmetProvider>
+        <AuthContext.Provider value={authService}>
           <ToastContextProvider>
             <Router>
               <Helmet>
@@ -49,13 +46,11 @@ const AuthApp = () => {
                     <Route exact path="/login" component={ServerLoginPage} />
                     <Route exact path="/logout" component={ServerLogoutPage} />
                     <Route exact path="/error" component={ServerErrorPage} />
-
                     <Route exact path="/register" component={RegistrationPage} />
                     <Route exact path="/registration-email-sent" component={RegistrationCheckEmailPage} />
                     <Route exact path="/confirm-email" component={RegistrationConfirmEmailPage} />
                     <Route exact path="/confirm-link-expired" component={RegistrationConfirmLinkExpiredPage} />
                     <Route exact path="/registration-complete" component={RegistrationCompletedPage} />
-
                     <Route exact path="/forgot-password" component={ForgotPasswordPage} />
                     <Route exact path="/password-reset-sent" component={ForgotPasswordSentPage} />
                     <Route exact path="/reset-password" component={PasswordResetPage} />
@@ -64,22 +59,24 @@ const AuthApp = () => {
                     <Route exact path="/sorry" component={FinalErrorPage} />
                     <Route exact path="/update-email" component={NewEmailPage} />
                     <Route exact path="/email-updated" component={EmailUpdatedPage} />
-
                     <Route exact path="/contact-support" component={ContactSupport} />
-
                     <Route exact path="/contact-support-invalid-npn/:npnId" component={ContactSupportInvalidNPN} />
                     <Route exact path="/mobile-app-update" component={UpdateMobileApp} />
-                    <Route path="*" component={handleRedirectAndRestartLoginFlow} />
+                    <Route
+                      path="*"
+                      component={() => {
+                        authService.redirectAndRestartLoginFlow();
+                        return null;
+                      }}
+                    />
                   </Switch>
                 </Suspense>
               </div>
-
-              <Suspense fallback={<div>Loading...</div>}>
-                <AuthClientId />
-                <AuthClientUrl />
-              </Suspense>
+              <AuthClientId />
+              <AuthClientUrl />
             </Router>
           </ToastContextProvider>
+        </AuthContext.Provider>
       </HelmetProvider>
     </ThemeProvider>
   );

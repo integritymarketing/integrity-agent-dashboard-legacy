@@ -3,7 +3,6 @@ import ReactWebChat, {
   createDirectLine,
   createStore,
 } from "botframework-webchat";
-import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./WebChat.module.scss";
 import ChatIcon from "./askintegrity-logo.png";
 import HideIcon from "./hide-icon.png";
@@ -12,9 +11,9 @@ import "./WebChat.scss";
 import useUserProfile from "hooks/useUserProfile";
 import openAudio from "./open.mp3";
 import closeAudio from "./close.mp3";
+import authService from "services/authService";
 
 const WebChatComponent = () => {
-  const { getAccessTokenSilently } = useAuth0();
   const { agentId, fullName } = useUserProfile();
   const [directLineToken, setDirectLineToken] = useState(null);
   const [isChatActive, setIsChatActive] = useState(false);
@@ -96,7 +95,7 @@ const WebChatComponent = () => {
     () =>
       createStore({}, ({ dispatch }) => (next) => async (action) => {
         if (action.type === "DIRECT_LINE/CONNECT_FULFILLED") {
-          const accessToken = await getAccessTokenSilently();
+          const accessToken = await authService.getUser();
           dispatch({
             type: "WEB_CHAT/SEND_EVENT",
             payload: {
@@ -105,7 +104,7 @@ const WebChatComponent = () => {
                 language: "en-US",
                 marketerName: fullName,
                 marketerId: agentId,
-                authorization: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken.access_token}`,
                 host: "dev",
                 hostUrl: process.env.REACT_APP_HOST_URL,
                 appId: "mcweb",
@@ -113,7 +112,7 @@ const WebChatComponent = () => {
             },
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
-          const accessToken = await getAccessTokenSilently();
+          const accessToken = await authService.getUser();
           if (action.payload.activity.type === "message") {
             let message = action.payload.activity.text
               ? action.payload.activity.text
@@ -126,12 +125,12 @@ const WebChatComponent = () => {
             let channelData = action.payload.activity.channelData;
             let data = [];
             if (channelData) {
-              channelData.authToken = `Bearer ${accessToken}`;
+              channelData.authToken = `Bearer ${accessToken.access_token}`;
               channelData.data = data;
               action.payload.activity.channelData = channelData;
             } else {
               action.payload.activity.channelData = {
-                authToken: `Bearer ${accessToken}`,
+                authToken: `Bearer ${accessToken.access_token}`,
                 data: data,
               };
             }
@@ -163,7 +162,7 @@ const WebChatComponent = () => {
         }
         return next(action);
       }),
-    [agentId, fullName, getAccessTokenSilently]
+    [agentId, fullName]
   );
 
   return (

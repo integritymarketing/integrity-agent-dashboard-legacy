@@ -9,7 +9,7 @@ import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 
 import "./style.scss";
 
@@ -53,8 +53,6 @@ const PrescriptionModal = ({
 }) => {
   const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
     item?.dosage ?? {};
-
-  const { clientsService } = useClientServiceContext();
 
   // Initializations
   const [searchselected, onSearchSelected] = useState("");
@@ -110,7 +108,7 @@ const PrescriptionModal = ({
       }
     };
     selectedDrug && getDosages();
-  }, [selectedDrug, selectedGenericDrug, isEdit, labelName, clientsService]);
+  }, [selectedDrug, selectedGenericDrug, isEdit, labelName]);
 
   useEffect(() => {
     if (item && open && isEdit) {

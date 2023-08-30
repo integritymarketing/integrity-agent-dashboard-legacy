@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { Importer, ImporterField } from "react-csv-importer";
 
 import { useHistory } from "react-router-dom";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import LeadImporterStatusContainer from "partials/lead-importer/status-container";
 import { formatPhoneNumber } from "utils/phones";
 import { getResourceUrl } from "pages/ResourcesPage";
@@ -16,7 +16,6 @@ const prepareRowForImport = (row) => {
 };
 
 const LeadImporter = () => {
-  const { clientsService } = useClientServiceContext();
   const scrollToRef = useRef();
   const history = useHistory();
   const [importErrors, setImportErrors] = useState([]);
@@ -68,8 +67,8 @@ const LeadImporter = () => {
                 );
                 handleImportError(data.uploadErrorResponse);
               } else {
-                  handleImportError((data || {}).uploadErrorResponse || data);
-                }
+                handleImportError((data || {}).uploadErrorResponse || data);
+              }
             } catch (e) {
               console.log({ e });
               handleImportError(`An internal error has occurred.`);

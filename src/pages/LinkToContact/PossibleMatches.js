@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import callRecordingsService from "services/callRecordingsService";
 import useToast from "hooks/useToast";
 import styles from "./styles.module.scss";
 
 export default function PossibleMatches({ phone }) {
-  const { clientsService, callRecordingsService } = useClientServiceContext();
   const [matches, setMatches] = useState([]);
   const { callLogId, callFrom } = useParams();
   const history = useHistory();
@@ -34,13 +34,13 @@ export default function PossibleMatches({ phone }) {
       }
     };
     getContacts();
-  }, [phone, clientsService]);
+  }, [phone]);
 
   const updatePrimaryContact = useCallback(
     (contact) => {
       return clientsService.updateLeadPhone(contact, callFrom);
     },
-    [callFrom, clientsService]
+    [callFrom]
   );
 
   const onClickHandler = useCallback(
@@ -68,7 +68,7 @@ export default function PossibleMatches({ phone }) {
         });
       }
     },
-    [history, callLogId, addToast, updatePrimaryContact,  callRecordingsService]
+    [history, callLogId, addToast, updatePrimaryContact]
   );
 
   if (matches?.length > 0) {

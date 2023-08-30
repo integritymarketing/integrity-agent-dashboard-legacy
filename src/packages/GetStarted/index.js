@@ -11,7 +11,7 @@ import Heading2 from "packages/Heading2";
 import PlayStore from "components/icons/playstore";
 import AppStore from "components/icons/appstore";
 import styles from "./styles.module.scss";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { formatPhoneNumber } from "utils/phones";
 import useToast from "hooks/useToast";
@@ -33,7 +33,6 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 }));
 
 export default function GetStarted(props) {
-  const { clientsService } = useClientServiceContext();
   const leadPreference = props.leadPreference;
   const history = useHistory();
   const [show, setShow] = useState(true);

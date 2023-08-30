@@ -4,12 +4,11 @@ import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
 import { useHistory } from "react-router-dom";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import "./style.scss";
 
 const UnlinkedPolicyCard = ({ callData, npn }) => {
-  const { enrollPlansService } = useClientServiceContext();
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
   const addToast = useToast();

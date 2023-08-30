@@ -6,7 +6,7 @@ import Textfield from "components/ui/textfield";
 import Warning from "components/icons/warning";
 import { Select } from "components/ui/Select";
 import validationService from "services/validationService";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import useToast from "hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
@@ -25,7 +25,7 @@ const PrimaryContactTypes = [
   { value: "phone", label: "Phone" },
 ];
 
-const EditDetails =  (props) => {
+const EditDetails = (props) => {
   let {
     firstName = "",
     middleName = "",
@@ -44,7 +44,6 @@ const EditDetails =  (props) => {
     partB = "",
   } = props.personalInfo;
 
-  const { clientsService } = useClientServiceContext();
   let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
@@ -114,7 +113,7 @@ const EditDetails =  (props) => {
         }
       }
     },
-    [clientsService]
+    []
   );
 
   const getContactLink = (id) => `/contact/${id}`;

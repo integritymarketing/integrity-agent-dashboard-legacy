@@ -5,7 +5,7 @@ import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
@@ -34,7 +34,6 @@ function numberWithCommas(number) {
 const PAGESIZE = 10;
 
 export default function Dashbaord() {
-  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const addToast = useToast();
   const userProfile = useUserProfile();

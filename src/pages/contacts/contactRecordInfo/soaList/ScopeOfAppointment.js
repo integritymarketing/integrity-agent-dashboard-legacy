@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import ContactContext from "contexts/contacts";
 import BackNavContext from "contexts/backNavProvider";
 import ScopeSendIcon from "components/icons/scope-send";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import SOA_CARD from "./soaCard";
 import SharePlan from "components/icons/sharePlan";
@@ -15,7 +15,6 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, ...rest }) => {
   const history = useHistory();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const { setCurrentPage } = useContext(BackNavContext);
-  const { clientsService } = useClientServiceContext();
 
   const contact = { ...rest?.personalInfo };
 
