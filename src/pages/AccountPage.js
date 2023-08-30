@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "components/ui/container";
 import ResourceSection from "components/ui/resourcesCard";
@@ -35,10 +35,10 @@ import LifeIcon from "components/icons/life";
 import Dialog from "packages/Dialog";
 import useFetch from "hooks/useFetch";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
+import authService from "services/authService";
 
 function CheckinPreferences({ npn }) {
   const { agentId } = useUserProfile();
-  console.log("agentId", agentId);
   const addToast = useToast();
   const [phone, setPhone] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
@@ -568,6 +568,7 @@ const AccountPage = () => {
                               formName: "update-account",
                             });
 
+                            await authService.signinSilent();
                             setSubmitting(false);
                             loading.end();
 
@@ -576,6 +577,9 @@ const AccountPage = () => {
                             });
                           } else {
                             loading.end();
+                            if (response.status === 401) {
+                              authService.handleExpiredToken();
+                            } else {
                             const errorsArr = await response.json();
                             analyticsService.fireEvent(
                               "event-form-submit-invalid",
