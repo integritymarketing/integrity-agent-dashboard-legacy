@@ -33,14 +33,14 @@ export default function EnrollmentHistoryContainer({ leadId }) {
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   const currentYearPlansData = enrollPlans?.filter((planData) => {
-    let policyDate = new Date(planData.policyEffectiveDate); // get the current date
-    policyDate.setDate(policyDate.getDate() + 1); // add 1 day
+    let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
+    policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
     return getCurrentYear(policyDate) === currentYear;
   });
 
-  const previousYearPlansData = enrollPlans.filter((planData) => {
-    let policyDate = new Date(planData.policyEffectiveDate); // get the current date
-    policyDate.setDate(policyDate.getDate() + 1); // add 1 day
+  const previousYearPlansData = enrollPlans?.filter((planData) => {
+    let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
+    policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
     return getCurrentYear(policyDate) !== currentYear;
   });
 
@@ -61,7 +61,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   currentYear={true}
                   submittedDate={planData.appSubmitDate}
                   enrolledDate={planData.enrolledDate}
-                  effectiveDate={planData.policyEffectiveDate}
+                  policyEffectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
                   policyHolder={policyHolderName}
                   leadId={leadId}
@@ -77,6 +77,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   termedDate={planData.termedDate}
                   sourceId={planData.sourceId}
                   policyStatusColor={planData.policyStatusColor}
+                  linkingType={planData.linkingType}
                 />
               );
             })}
@@ -89,7 +90,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   currentYear={false}
                   submittedDate={planData.appSubmitDate}
                   enrolledDate={planData.enrolledDate}
-                  effectiveDate={planData.policyEffectiveDate}
+                  policyEffectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
                   policyHolder={`${planData.consumerFirstName} ${planData.consumerLastName}`}
                   leadId={leadId}
@@ -105,6 +106,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   termedDate={planData.termedDate}
                   policyStatusColor={planData.policyStatusColor}
                   sourceId={planData.sourceId}
+                  linkingType={planData.linkingType}
                 />
               ))}
             </>

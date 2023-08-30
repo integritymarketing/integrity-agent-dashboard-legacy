@@ -14,7 +14,7 @@ export default function EnrollmentPlanCard(props) {
   const {
     submittedDate,
     enrolledDate,
-    effectiveDate,
+    policyEffectiveDate,
     termedDate,
     policyHolder,
     policyId,
@@ -40,7 +40,7 @@ export default function EnrollmentPlanCard(props) {
 
   const navigateEnrollDetails = () => {
     history.push(
-      `/enrollmenthistory/${leadId}/${confirmationNumber}/${effectiveDate}`,
+      `/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`,
       {
         state: props,
       }
@@ -98,14 +98,14 @@ export default function EnrollmentPlanCard(props) {
                   {(policyStatus === "upcoming" ||
                     policyStatus === "active") && (
                     <>
-                      <PlanDate type="Effective" date={effectiveDate} />
+                      <PlanDate type="Effective" date={policyEffectiveDate} />
                       <PlanDate type="Enrolled" date={enrolledDate} />
                     </>
                   )}
                 </>
               ) : (
                 <>
-                  <PlanDate type="Effective" date={effectiveDate} />
+                  <PlanDate type="Effective" date={policyEffectiveDate} />
 
                   <PlanDate type="Termed" date={termedDate} />
                 </>
