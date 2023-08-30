@@ -79,6 +79,9 @@ const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const HelpPage = lazy(() => import("pages/Help"));
 const Welcome = lazy(() => import("pages/welcome"));
 const LandingPage = lazy(() => import("mobile/landing/LandingPage"));
+const EnrollmentLinkToContact = lazy(() =>
+  import("pages/EnrollmentLinkToContact")
+);
 
 const App = () => {
   return (
@@ -143,6 +146,9 @@ const App = () => {
                                     <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom/:duration/:date">
                                       <LinkToContact />
                                     </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/enrollment-link-to-contact">
+                                        <EnrollmentLinkToContact />
+                                      </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/account">
                                       <AccountPage />
                                     </AuthenticatedRoute>
