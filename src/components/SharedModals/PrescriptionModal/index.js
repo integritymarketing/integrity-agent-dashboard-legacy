@@ -51,6 +51,7 @@ const PrescriptionModal = ({
   item,
   isEdit,
   onDelete,
+  refresh,
 }) => {
   const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
     item?.dosage ?? {};
@@ -198,15 +199,20 @@ const PrescriptionModal = ({
   const handleAddPrescription = async () => {
     setIsSaving(true);
     try {
-      await onSave({
-        dosageRecordID: 0,
-        dosageID: dosage?.dosageID,
-        quantity: quantity,
-        daysOfSupply: frequency,
-        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
-        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        selectedPackage: null,
-      });
+      await onSave(
+        {
+          dosageRecordID: 0,
+          dosageID: dosage?.dosageID,
+          quantity: quantity,
+          daysOfSupply: frequency,
+          ndc: dosagePackage
+            ? dosagePackage?.referenceNDC
+            : dosage?.referenceNDC,
+          metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+          selectedPackage: null,
+        },
+        refresh
+      );
       onClose();
     } finally {
       setIsSaving(false);
@@ -216,16 +222,21 @@ const PrescriptionModal = ({
   const handleUpdatePrescription = async () => {
     setIsSaving(true);
     try {
-      await onSave({
-        dosageRecordID: item?.dosage?.dosageRecordID,
-        labelName: dosage?.labelName,
-        dosage,
-        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
-        daysOfSupply: frequency,
-        selectedPackage: null,
-        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        quantity: quantity,
-      });
+      await onSave(
+        {
+          dosageRecordID: item?.dosage?.dosageRecordID,
+          labelName: dosage?.labelName,
+          dosage,
+          ndc: dosagePackage
+            ? dosagePackage?.referenceNDC
+            : dosage?.referenceNDC,
+          daysOfSupply: frequency,
+          selectedPackage: null,
+          metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+          quantity: quantity,
+        },
+        refresh
+      );
       onClose();
     } finally {
       setIsSaving(false);
@@ -234,7 +245,7 @@ const PrescriptionModal = ({
 
   const handleDeletePrescription = () => {
     onClose();
-    onDelete(item);
+    onDelete(item, refresh);
   };
 
   const isFormValid = useMemo(() => {

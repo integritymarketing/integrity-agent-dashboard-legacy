@@ -8,6 +8,9 @@ import IconButton from "components/IconButton";
 import EditIcon from "components/icons/icon-edit";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import PrescriptionCoverageModal from "components/SharedModals/PrescriptionModal/PrescriptionCoverageModal";
+import Plus from "components/icons/plus";
+import useLeadInformation from "hooks/useLeadInformation";
+import { useParams } from "react-router-dom";
 
 const PrescriptionTable = ({
   prescriptions,
@@ -15,7 +18,13 @@ const PrescriptionTable = ({
   planDrugCoverage,
   drugCosts,
   planData,
+  refresh,
 }) => {
+  const { contactId } = useParams();
+
+  const { addPrescription, editPrescription, deletePrescription } =
+    useLeadInformation(contactId);
+
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
@@ -45,7 +54,6 @@ const PrescriptionTable = ({
       setCoverageModal(true);
     } else {
       onAddNewPrescription();
-      onEditPrescription({}); // to be removed while working
     }
   };
   return (
@@ -57,7 +65,7 @@ const PrescriptionTable = ({
         <IconButton
           label={isEdit ? "Edit" : "Add"}
           onClick={handleAddEdit}
-          icon={isEdit ? <EditIcon /> : null}
+          icon={isEdit ? <EditIcon /> : <Plus />}
         />
       }
     >
@@ -69,6 +77,7 @@ const PrescriptionTable = ({
             drugDetails={coveredDrugs}
             isCovered
             prescriptions={prescriptions}
+            onEditPrescription={onEditPrescription}
           />
         </>
       )}
@@ -95,7 +104,8 @@ const PrescriptionTable = ({
           open={isOpenPrescription}
           onClose={() => onCloseNewPrescription(false)}
           prescriptions={prescriptions}
-          // onSave={addPrescription}
+          onSave={addPrescription}
+          refresh={refresh}
         />
       )}
 
@@ -104,8 +114,10 @@ const PrescriptionTable = ({
           open={isOpenEditPrescription}
           onClose={() => onCloseEditPrescription(false)}
           item={prescriptionToEdit}
-          // onSave={editPrescription}
+          onSave={editPrescription}
           isEdit={true}
+          onDelete={deletePrescription}
+          refresh={refresh}
         />
       )}
 
@@ -114,8 +126,8 @@ const PrescriptionTable = ({
           open={coverageModal}
           onClose={() => setCoverageModal(false)}
           prescriptions={prescriptions}
-          // onSave={addPrescription}
           planName={planData?.planName}
+          refresh={refresh}
         />
       )}
     </PlanDetailsContactSectionCard>

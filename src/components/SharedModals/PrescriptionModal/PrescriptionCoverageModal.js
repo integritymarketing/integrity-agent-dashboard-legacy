@@ -7,6 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import makeStyles from "@mui/styles/makeStyles";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import CustomFooter from "components/Modal/CustomFooter";
+import Plus from "components/icons/plus";
 import "./style.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -123,6 +124,7 @@ const PrescriptionCoverageModal = ({
         <CustomFooter
           buttonName={"Add Provider"}
           // onClick={handleDeleteProvider}
+          icon={<Plus />}
         />
       }
       hideFooter={true}
