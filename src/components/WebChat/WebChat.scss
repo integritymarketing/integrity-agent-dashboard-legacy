@@ -158,8 +158,8 @@
   }
 
   #mcContactSummaryButtonsCard{
-    display: flex;
-    flex-direction: row-reverse;
+    display: flex !important;
+    flex-direction: row-reverse !important;
     align-items: stretch;
     gap: 0.5rem;
 
