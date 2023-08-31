@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import ReactWebChat, {
   createDirectLine,
   createStore,
@@ -91,6 +91,10 @@ const WebChatComponent = () => {
     }
   };
 
+  const goToContactDetailPage = useCallback((leadId) => {
+    window.open(`${window.location.origin}/contact/${leadId}`, "_blank");
+  }, []);
+
   const store = useMemo(
     () =>
       createStore({}, ({ dispatch }) => (next) => async (action) => {
@@ -159,10 +163,21 @@ const WebChatComponent = () => {
               window.open(`${window.location.origin}/contact/${leadId}`);
             }
           }
+        } else if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
+          if (action.payload.activity.type === "event") {
+            let activityValue = action.payload.activity.value;
+            if (
+              activityValue !== null &&
+              action.payload.activity.name === "mc_View_Contact"
+            ) {
+              const leadId = activityValue.leadId;
+              goToContactDetailPage(leadId);
+            }
+          }
         }
         return next(action);
       }),
-    [agentId, fullName]
+    [agentId, fullName, goToContactDetailPage]
   );
 
   return (
