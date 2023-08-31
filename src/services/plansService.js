@@ -21,7 +21,9 @@ export class PlansService {
         zip: contactData.addresses[0].postalCode,
         fips: contactData.addresses[0].countyFips,
         effectiveDate,
-      }
+      },
+      null,
+      "v2.0"
     );
 
     return response?.json();
@@ -99,7 +101,7 @@ export class PlansService {
     return response?.json();
   };
 
-  _clientAPIRequest = async (path, method = "GET", query, body, bearer) => {
+  _clientAPIRequest = async (path, method = "GET", query, body, version) => {
     const user = await authService.getUser();
 
     const opts = {
@@ -111,7 +113,9 @@ export class PlansService {
     };
 
     const url = new URL(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/` + path
+      `${process.env.REACT_APP_QUOTE_URL}/api/${
+        version ? version : QUOTES_API_VERSION
+      }/` + path
     );
     url.search = new URLSearchParams(query).toString();
 

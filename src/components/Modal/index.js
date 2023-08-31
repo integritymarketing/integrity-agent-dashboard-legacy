@@ -67,16 +67,6 @@ const useStyles = makeStyles((theme) => ({
       transform: "rotate(90deg)",
     },
   },
-  deleteContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "20px",
-    backgroundColor: "#F1F1F1",
-    borderTop: "1px solid #CCCCCC",
-    width: "90%",
-    textTransform: "capitalize",
-  },
   footer: {
     backgroundColor: "#F1F1F1",
     display: "flex",
@@ -113,9 +103,8 @@ export default function Modal({
   children,
   actionButtonDisabled,
   endIcon,
-  modalName,
-  isDelete,
-  onDelete,
+  hideFooter = false,
+  customFooter,
 }) {
   const classes = useStyles();
 
@@ -152,13 +141,11 @@ export default function Modal({
           {children}
         </DialogContent>
         <DialogActions className={classes.footer}>
-          <Box className={classes.footerButtons}>
-            {onCancel && (
+          {!hideFooter && (
+            <Box className={classes.footerButtons}>
               <Button onClick={onClose} className={classes.cancelButton}>
                 Cancel
               </Button>
-            )}
-            {actionButtonName && (
               <Button
                 onClick={onSave}
                 className={classes.addButton}
@@ -167,15 +154,9 @@ export default function Modal({
               >
                 {actionButtonName}
               </Button>
-            )}
-          </Box>
-          {isDelete && (
-            <Box className={classes.deleteContainer}>
-              <Button onClick={onDelete} className={classes.cancelButton}>
-                Delete {modalName}
-              </Button>
             </Box>
           )}
+          {customFooter && customFooter}
         </DialogActions>
       </Dialog>
     </div>

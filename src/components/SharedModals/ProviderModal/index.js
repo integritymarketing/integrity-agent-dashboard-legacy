@@ -16,7 +16,7 @@ import ProviderList from "./ProviderList";
 import * as Sentry from "@sentry/react";
 import Spinner from "components/ui/Spinner";
 import Pagination from "components/ui/Pagination/pagination";
-
+import CustomFooter from "components/Modal/CustomFooter";
 import "./style.scss";
 
 const DISTANCE_OPTIONS = [
@@ -65,6 +65,7 @@ const ProviderModal = ({
   onSave,
   isEdit,
   selected,
+  refresh,
 }) => {
   // Initializations
   const classes = useStyles();
@@ -141,16 +142,44 @@ const ProviderModal = ({
       };
     });
 
-    await onSave(requestPayload, selectedProvider?.presentationName);
+    await onSave(requestPayload, selectedProvider?.presentationName, refresh);
+  };
+
+  const handleEditProvider = async () => {
+    let completeAddressArray = selectedProvider?.addresses;
+
+    const getFilteredAddressIds = (completeData, partialData) =>
+      completeData.filter(
+        (completeAddress) =>
+          !partialData.some((partialId) => completeAddress.id === partialId)
+      );
+
+    const filteredAddressIds = getFilteredAddressIds(
+      completeAddressArray,
+      selectAddressIds
+    );
+
+    const requestPayload = filteredAddressIds.map((address) => {
+      return {
+        npi: selectedProvider?.NPI?.toString(),
+        addressId: address?.id,
+        isPrimary: false,
+      };
+    });
+    onClose();
+    onDelete(requestPayload, selectedProvider?.presentationName, refresh);
   };
 
   const handleDeleteProvider = () => {
+    const requestPayload = selectAddressIds.map((addressId) => {
+      return {
+        npi: selectedProvider?.NPI?.toString(),
+        addressId: addressId,
+        isPrimary: false,
+      };
+    });
     onClose();
-    onDelete(
-      selectAddressIds[0],
-      selectedProvider?.NPI,
-      selectedProvider?.presentationName
-    );
+    onDelete(requestPayload, selectedProvider?.presentationName, refresh);
   };
 
   const isFormValid = useMemo(() => {
@@ -175,11 +204,16 @@ const ProviderModal = ({
       open={open}
       onClose={onClose}
       title={isEdit ? "Update Provider" : "Add Provider"}
-      onSave={handleSaveProvider}
+      onSave={isEdit ? handleEditProvider : handleSaveProvider}
       actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
-      isDelete={isEdit}
-      modalName={"Provider"}
-      onDelete={handleDeleteProvider}
+      customFooter={
+        isEdit && (
+          <CustomFooter
+            buttonName={"Delete Provider"}
+            onClick={handleDeleteProvider}
+          />
+        )
+      }
       actionButtonDisabled={disabled}
       endIcon={
         selectedProvider ? <AddCircleOutline /> : <ArrowForwardWithCirlce />

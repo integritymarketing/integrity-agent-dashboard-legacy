@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 import Header from "./components/Header";
 import Row from "./components/Row";
 import Footer from "./components/Footer";
-import Edit from "components/Edit";
+import IconButton from "components/IconButton";
+import EditIcon from "components/icons/icon-edit";
+import PrescriptionModal from "components/SharedModals/PrescriptionModal";
+import PrescriptionCoverageModal from "components/SharedModals/PrescriptionModal/PrescriptionCoverageModal";
+import Plus from "components/icons/plus";
+import useLeadInformation from "hooks/useLeadInformation";
+import { useParams } from "react-router-dom";
 
 const PrescriptionTable = ({
   prescriptions,
@@ -12,7 +18,26 @@ const PrescriptionTable = ({
   planDrugCoverage,
   drugCosts,
   planData,
+  refresh,
 }) => {
+  const { contactId } = useParams();
+
+  const { addPrescription, editPrescription, deletePrescription } =
+    useLeadInformation(contactId);
+
+  const [isOpenPrescription, setIsOpenPrescription] = useState(false);
+  const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
+  const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
+  const [coverageModal, setCoverageModal] = useState(false);
+
+  const onAddNewPrescription = () => setIsOpenPrescription(true);
+  const onCloseNewPrescription = () => setIsOpenPrescription(false);
+  const onEditPrescription = (item) => {
+    setIsOpenEditPrescription(true);
+    setPrescriptionToEdit(item);
+  };
+  const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
+
   const data = (planDrugCoverage || []).map((planDrug, i) => ({
     ...planDrug,
     ...(drugCosts || [])[i],
@@ -22,12 +47,27 @@ const PrescriptionTable = ({
   const nonCoveredDrugs = data.filter((item) => item.tierNumber === 0);
 
   const hasData = data?.length > 0;
+  const isEdit = prescriptions?.length > 0 ? true : false;
+
+  const handleAddEdit = () => {
+    if (isEdit) {
+      setCoverageModal(true);
+    } else {
+      onAddNewPrescription();
+    }
+  };
   return (
     <PlanDetailsContactSectionCard
       title="Prescriptions"
       isDashboard={true}
       preferencesKey={"prescriptions_collapse"}
-      {...(hasData && { actions: <Edit /> })}
+      actions={
+        <IconButton
+          label={isEdit ? "Edit" : "Add"}
+          onClick={handleAddEdit}
+          icon={isEdit ? <EditIcon /> : <Plus />}
+        />
+      }
     >
       {coveredDrugs?.length > 0 && (
         <>
@@ -37,6 +77,7 @@ const PrescriptionTable = ({
             drugDetails={coveredDrugs}
             isCovered
             prescriptions={prescriptions}
+            onEditPrescription={onEditPrescription}
           />
         </>
       )}
@@ -56,6 +97,37 @@ const PrescriptionTable = ({
           isMobile={isMobile}
           planData={planData}
           count={coveredDrugs?.length + nonCoveredDrugs?.length}
+        />
+      )}
+      {isOpenPrescription && (
+        <PrescriptionModal
+          open={isOpenPrescription}
+          onClose={() => onCloseNewPrescription(false)}
+          prescriptions={prescriptions}
+          onSave={addPrescription}
+          refresh={refresh}
+        />
+      )}
+
+      {isOpenEditPrescription && (
+        <PrescriptionModal
+          open={isOpenEditPrescription}
+          onClose={() => onCloseEditPrescription(false)}
+          item={prescriptionToEdit}
+          onSave={editPrescription}
+          isEdit={true}
+          onDelete={deletePrescription}
+          refresh={refresh}
+        />
+      )}
+
+      {coverageModal && (
+        <PrescriptionCoverageModal
+          open={coverageModal}
+          onClose={() => setCoverageModal(false)}
+          prescriptions={prescriptions}
+          planName={planData?.planName}
+          refresh={refresh}
         />
       )}
     </PlanDetailsContactSectionCard>

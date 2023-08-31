@@ -7,45 +7,20 @@ import IconButton from "components/IconButton";
 import EditIcon from "components/icons/icon-edit";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import ProviderModal from "components/SharedModals/ProviderModal";
-import * as Sentry from "@sentry/react";
-import clientsService from "services/clientsService";
-import useToast from "hooks/useToast";
 import RenderProviders from "components/ui/ProvidersList";
+import useLeadInformation from "hooks/useLeadInformation";
+import Plus from "components/icons/plus";
 
 const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
   const { contactId } = useParams();
   const { leadDetails } = useContactDetails(contactId);
-  const addToast = useToast();
+  const { addProvider, deleteProvider } = useLeadInformation(contactId);
 
   const [isOpen, setIsOpen] = useState(false);
   const [providerEditFlag, setProviderEditFlag] = useState(false);
   const [providerToEdit, setProviderToEdit] = useState({});
 
   const onAddNewProvider = () => setIsOpen(true);
-
-  const addProvider = async (addressId, leadId, npi, providerName) => {
-    const request = [
-      {
-        npi: npi?.toString(),
-        addressId: addressId,
-        isPrimary: false,
-      },
-    ];
-    try {
-      await clientsService.createLeadProvider(leadId, request);
-      await refresh();
-      addToast({
-        message: providerName + " added to the list. ",
-        time: 10000,
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Failed to add Provider",
-      });
-    }
-  };
 
   const isEdit = providers?.length > 0 ? true : false;
 
@@ -59,7 +34,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
           <IconButton
             label={isEdit ? "Edit" : "Add"}
             onClick={onAddNewProvider}
-            icon={isEdit ? <EditIcon /> : null}
+            icon={isEdit ? <EditIcon /> : <Plus />}
           />
         }
       >
@@ -81,18 +56,23 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
             );
           })}
         </div>
+
         {isOpen && (
           <ProviderModal
             open={isOpen}
             onClose={() => {
+              setProviderEditFlag(false);
+              setProviderToEdit({});
               setIsOpen(false);
             }}
             onSave={addProvider}
             userZipCode={leadDetails?.addresses[0]?.postalCode}
             leadId={contactId}
+            onDelete={deleteProvider}
             leadProviders={providers}
             selected={providerToEdit}
             isEdit={providerEditFlag}
+            refresh={refresh}
           />
         )}
       </PlanDetailsContactSectionCard>

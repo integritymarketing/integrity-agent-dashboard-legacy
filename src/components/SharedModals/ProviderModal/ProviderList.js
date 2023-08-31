@@ -107,6 +107,7 @@ const Address = ({
   setSelectedProvider,
   setSelectAddressIds,
   selectAddressIds,
+  selectedProvider,
 }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
@@ -114,7 +115,10 @@ const Address = ({
   const handleSelectAddress = (address) => {
     const isAddressExist = selectAddressIds?.includes(address?.id);
 
-    if (selectAddressIds?.length > 0) {
+    if (
+      selectAddressIds?.length > 0 &&
+      selectedProvider?.NPI === provider?.NPI
+    ) {
       if (isAddressExist) {
         if (selectAddressIds?.length === 1) setSelectedProvider(null);
         setSelectAddressIds(
@@ -131,39 +135,45 @@ const Address = ({
 
   return (
     <List>
-      {addresses?.map((address) => (
-        <ListItemButton
-          key={address?.id}
-          className={`${classes.listItem}, ${
-            isMultiple ? classes.isMultiple : classes.isSingle
-          }`}
-          selected={selectAddressIds?.includes(address?.id)}
-        >
-          <Checkbox
-            className={classes.checkbox}
-            onClick={() => handleSelectAddress(address)}
-            checked={selectAddressIds?.includes(address?.id)}
-          />
-          <Typography className={classes.addressText}>
-            <div>
+      {addresses?.map((address) => {
+        const isChecked =
+          selectAddressIds?.includes(address?.id) &&
+          selectedProvider?.NPI === provider?.NPI;
+
+        return (
+          <ListItemButton
+            key={address?.id}
+            className={`${classes.listItem}, ${
+              isMultiple ? classes.isMultiple : classes.isSingle
+            }`}
+            selected={isChecked}
+          >
+            <Checkbox
+              className={classes.checkbox}
+              onClick={() => handleSelectAddress(address)}
+              checked={isChecked}
+            />
+            <Typography className={classes.addressText}>
               <div>
-                {address
-                  ? [address?.streetLine1, address?.streetLine2]
-                      .filter(Boolean)
-                      .join(",")
-                  : null}
+                <div>
+                  {address
+                    ? [address?.streetLine1, address?.streetLine2]
+                        .filter(Boolean)
+                        .join(",")
+                    : null}
+                </div>
+                <div>
+                  {address
+                    ? [address?.city, address?.state, address?.zipCode]
+                        .filter(Boolean)
+                        .join(",")
+                    : null}
+                </div>
               </div>
-              <div>
-                {address
-                  ? [address?.city, address?.state, address?.zipCode]
-                      .filter(Boolean)
-                      .join(",")
-                  : null}
-              </div>
-            </div>
-          </Typography>
-        </ListItemButton>
-      ))}
+            </Typography>
+          </ListItemButton>
+        );
+      })}
     </List>
   );
 };
@@ -174,6 +184,7 @@ const ProviderCard = ({
   selectAddressIds,
   setSelectAddressIds,
   isEdit,
+  selectedProvider,
 }) => {
   const classes = useStyles();
   const [isOpen, setOpenToggle] = useState(false);
@@ -212,6 +223,7 @@ const ProviderCard = ({
               setSelectedProvider={onProviderSelection}
               setSelectAddressIds={setSelectAddressIds}
               selectAddressIds={selectAddressIds}
+              selectedProvider={selectedProvider}
             />
 
             {additionalAddresses?.length > 0 && (
@@ -234,6 +246,7 @@ const ProviderCard = ({
                     setSelectedProvider={onProviderSelection}
                     setSelectAddressIds={setSelectAddressIds}
                     selectAddressIds={selectAddressIds}
+                    selectedProvider={selectedProvider}
                   />
                 )}
               </>

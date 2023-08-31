@@ -20,7 +20,6 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
    * Fetches data from the API endpoint using the specified HTTP method and request body
    */
 
-  console.log("JJJJ", url);
   const fetchData = useCallback(
     async ({ method = "GET", body, returnHttpResponse = false }) => {
       try {

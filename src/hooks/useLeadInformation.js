@@ -36,7 +36,7 @@ const useLeadInformation = (leadId) => {
     getData();
   }, [setPharmacies, setPrescriptions, setIsLoading, leadId]);
 
-  const addPrescription = async (item) => {
+  const addPrescription = async (item, refresh) => {
     setIsLoading(true);
     const itemObject = {
       ...(item?.dosage ?? item),
@@ -47,6 +47,7 @@ const useLeadInformation = (leadId) => {
     try {
       await clientsService.createPrescription(leadId, itemObject);
       await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      refresh && (await refresh());
       addToast({
         message: "Prescription Added",
       });
@@ -61,7 +62,7 @@ const useLeadInformation = (leadId) => {
     }
   };
 
-  const editPrescription = async ({ dosage = {}, ...rest }) => {
+  const editPrescription = async ({ dosage = {}, ...rest }, refresh) => {
     setIsLoading(true);
     try {
       const item = {
@@ -73,6 +74,7 @@ const useLeadInformation = (leadId) => {
         message: "Prescription updated successfully",
       });
       await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      refresh && (await refresh());
     } catch (err) {
       Sentry.captureException(err);
       addToast({
@@ -84,7 +86,7 @@ const useLeadInformation = (leadId) => {
     }
   };
 
-  const deletePrescription = async (item) => {
+  const deletePrescription = async (item, refresh) => {
     setIsLoading(true);
     try {
       await clientsService.deletePrescription(
@@ -92,12 +94,13 @@ const useLeadInformation = (leadId) => {
         item?.dosage?.dosageRecordID
       );
       await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      refresh && (await refresh());
       addToast({
         type: "success",
         message: "Prescription deleted",
         time: 10000,
         link: "UNDO",
-        onClickHandler: () => addPrescription(item),
+        onClickHandler: () => addPrescription(item, refresh),
         closeToastRequired: true,
       });
     } catch (err) {
@@ -154,12 +157,12 @@ const useLeadInformation = (leadId) => {
     }
   };
 
-  const addProvider = async (request, providerName) => {
+  const addProvider = async (request, providerName, refresh) => {
     setIsLoading(true);
-
     try {
       await clientsService.createLeadProvider(leadId, request);
       await clientsService.getLeadProviders(leadId).then(handleGetProviders);
+      refresh && (await refresh());
       addToast({
         message: providerName + " added to the list. ",
         time: 10000,
@@ -175,23 +178,18 @@ const useLeadInformation = (leadId) => {
     }
   };
 
-  const deleteProvider = async (addressId, npi, providerName) => {
+  const deleteProvider = async (payload, providerName, refresh) => {
     setIsLoading(true);
-    const request = [
-      {
-        npi: npi?.toString(),
-        addressId: addressId,
-        isPrimary: false,
-      },
-    ];
+
     try {
-      await clientsService.deleteProvider(addressId, leadId, npi);
+      await clientsService.deleteProvider(payload, leadId);
       await clientsService.getLeadProviders(leadId).then(handleGetProviders);
+      refresh && (await refresh());
       addToast({
         message: "Provider Deleted",
         time: 10000,
         link: "UNDO",
-        onClickHandler: () => addProvider(request, providerName),
+        onClickHandler: () => addProvider(payload, providerName, refresh),
         closeToastRequired: true,
       });
     } catch (err) {

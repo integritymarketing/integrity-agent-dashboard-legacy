@@ -10,6 +10,7 @@ import SearchLabel from "../SharedComponents/SearchLabel";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
 import clientsService from "services/clientsService";
+import CustomFooter from "components/Modal/CustomFooter";
 
 import "./style.scss";
 
@@ -50,6 +51,8 @@ const PrescriptionModal = ({
   open,
   item,
   isEdit,
+  onDelete,
+  refresh,
 }) => {
   const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
     item?.dosage ?? {};
@@ -195,15 +198,20 @@ const PrescriptionModal = ({
   const handleAddPrescription = async () => {
     setIsSaving(true);
     try {
-      await onSave({
-        dosageRecordID: 0,
-        dosageID: dosage?.dosageID,
-        quantity: quantity,
-        daysOfSupply: frequency,
-        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
-        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        selectedPackage: null,
-      });
+      await onSave(
+        {
+          dosageRecordID: 0,
+          dosageID: dosage?.dosageID,
+          quantity: quantity,
+          daysOfSupply: frequency,
+          ndc: dosagePackage
+            ? dosagePackage?.referenceNDC
+            : dosage?.referenceNDC,
+          metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+          selectedPackage: null,
+        },
+        refresh
+      );
       onClose();
     } finally {
       setIsSaving(false);
@@ -213,20 +221,30 @@ const PrescriptionModal = ({
   const handleUpdatePrescription = async () => {
     setIsSaving(true);
     try {
-      await onSave({
-        dosageRecordID: item?.dosage?.dosageRecordID,
-        labelName: dosage?.labelName,
-        dosage,
-        ndc: dosagePackage ? dosagePackage?.referenceNDC : dosage?.referenceNDC,
-        daysOfSupply: frequency,
-        selectedPackage: null,
-        metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
-        quantity: quantity,
-      });
+      await onSave(
+        {
+          dosageRecordID: item?.dosage?.dosageRecordID,
+          labelName: dosage?.labelName,
+          dosage,
+          ndc: dosagePackage
+            ? dosagePackage?.referenceNDC
+            : dosage?.referenceNDC,
+          daysOfSupply: frequency,
+          selectedPackage: null,
+          metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
+          quantity: quantity,
+        },
+        refresh
+      );
       onClose();
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleDeletePrescription = () => {
+    onClose();
+    onDelete(item, refresh);
   };
 
   const isFormValid = useMemo(() => {
@@ -299,6 +317,14 @@ const PrescriptionModal = ({
       actionButtonDisabled={disabled}
       endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
       modalName="Prescription"
+      customFooter={
+        isEdit && (
+          <CustomFooter
+            buttonName={"Delete Prescription"}
+            onClick={handleDeletePrescription}
+          />
+        )
+      }
     >
       {!selectedDrug && !isLoading ? (
         <>
