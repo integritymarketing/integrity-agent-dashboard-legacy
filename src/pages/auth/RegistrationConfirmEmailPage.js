@@ -6,7 +6,7 @@ import validationService from "services/validationService";
 
 const confirmEmailAPI = async (values) => {
   const response = await fetch(
-    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/confirmemail`,
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/confirmemail`,
     {
       method: "POST",
       headers: {

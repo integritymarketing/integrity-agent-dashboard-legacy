@@ -6,7 +6,7 @@ import usePortalUrl from "hooks/usePortalUrl";
 
 const requestPasswordReset = async (npn) => {
   const response = await fetch(
-    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`,
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/fapi/v2.0/account/orgotpassword`,
     {
       method: "POST",
       headers: {

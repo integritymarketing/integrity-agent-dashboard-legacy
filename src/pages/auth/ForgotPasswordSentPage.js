@@ -12,7 +12,7 @@ import useFetch from "hooks/useFetch";
 const ForgotPasswordSentPage = () => {
   const {
     Post: requestPasswordReset,
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/forgotpassword`, true, true);
 
 
   useEffect(() => {

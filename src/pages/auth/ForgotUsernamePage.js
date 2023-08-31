@@ -20,7 +20,7 @@ export default () => {
   const [apiErrors, setApiErrors] = useState([]);
   const {
     Post: forgotUsername,
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotusername`);
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/forgotusername`);
 
   if (username) {
     return (

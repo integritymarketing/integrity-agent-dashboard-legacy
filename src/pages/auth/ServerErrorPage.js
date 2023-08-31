@@ -7,7 +7,7 @@ const ServerErrorPage = () => {
   const {
     Put: getServerError,
     response
-  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/error`);
+  } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/error`);
   const params = useQueryParams();
 
   const fetchError = async () => {
