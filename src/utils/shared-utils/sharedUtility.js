@@ -75,7 +75,7 @@ export const formatMBID = (mbid, showMBID) => {
   } else if (showMBID) {
     return formatMbiNumber(mbid);
   } else {
-    return `****-****-${mbid.slice(-4)}`;
+    return `****-***-${mbid.slice(-4)}`;
   }
 };
 
