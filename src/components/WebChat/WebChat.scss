@@ -22,19 +22,18 @@
     padding: 0.5rem;
   }
 
-  .webchat__bubble {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    font-size: 1rem;
-    margin-right: 2rem;
-  }
-
   .webchat__bubble--from-user {
-    border-radius: 0;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    margin-right: 0;
-    margin-left: 2rem;
+    margin-right: 0 !important;
+    margin-left: 2rem !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+
+    .webchat__bubble__content {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      border-top-left-radius: 10px !important;
+      border-bottom-left-radius: 10px !important;
+    }
   }
 
   .webchat__stacked-layout__status {
@@ -73,13 +72,14 @@
     }
   }
 
-  .webchat__stacked-layout__attachment {
+  .webchat__stacked-layout__attachment:has(#mcWelcomeCard) {
     margin: 0 12px;
     border: 10px solid #375582;
     border-radius: 10px;
 
     .webchat__bubble__content {
       background-color: #49648c;
+      border-radius: 2px;
 
       .ac-textBlock {
         color: #ffffff !important;
@@ -119,6 +119,26 @@
     }
   }
 
+  .webchat__bubble,
+  #mcContactSummaryCard {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 1rem;
+    margin-right: 2rem;
+    margin-left: 0;
+    border: 0;
+
+    .webchat__bubble__content {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      background-color: #375582;
+    }
+  }
+
+  #mcContactSummaryButtonsCard {
+    padding: 0 !important;
+  }
+
   /* width */
   ::-webkit-scrollbar {
     width: 10px;
@@ -136,30 +156,49 @@
     border-radius: 10px;
   }
 
-  .webchat__bubble:has(#mcContactSummaryButtonsCard) {
+  .webchat__bubble:has(
+      #mcContactSummaryButtonsCard,
+      #mcCallSummaryButtonsCard
+    ) {
     border: none;
+    margin-right: 0 !important;
 
     .webchat__bubble__content {
       background: transparent;
     }
-    
-    #mcContactSummaryButtonsCard button {
-      background: transparent;
-      border: none;
-      color: #ffffff;
-      font-weight: normal;
-      transition-duration: 100ms;
 
-      &:hover{ 
-        background: #4178FF;
-        border-radius: 50px;
+    #mcContactSummaryButtonsCard,
+    #mcCallSummaryButtonsCard {
+      button {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-weight: normal;
+        transition-duration: 100ms;
+
+        &:hover {
+          background: #4178ff;
+          border-radius: 50px;
+        }
+
+        &:first-child {
+          background-color: #4178ff;
+          border-radius: 50px;
+          flex-direction: row-reverse;
+          gap: 4px;
+
+          &:hover {
+            gap: 0.8rem;
+          }
+        }
       }
     }
   }
 
-  .ac-actionSet{
+  .ac-actionSet {
     display: flex !important;
     flex-direction: row-reverse !important;
+    justify-content: center !important;
     align-items: stretch;
     gap: 0.5rem;
 
