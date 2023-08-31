@@ -25,7 +25,6 @@ const PasswordResetPage = () => {
   const { Post: resetpassword } = useFetch(
     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/resetpassword`,
     true,
-    true
   );
   const { Post: validatePasswordResetToken } = useFetch(
     `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/validateresetpasswordtoken`,
