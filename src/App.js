@@ -1,6 +1,9 @@
 // External Libraries
 import React, { lazy, Suspense } from "react";
-import { AuthenticatedRoute, UnauthenticatedRoute } from "components/functional/auth-routes";
+import {
+  AuthenticatedRoute,
+  UnauthenticatedRoute,
+} from "components/functional/auth-routes";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ParallaxProvider } from "react-scroll-parallax";
 import { RecoilRoot } from "recoil";
@@ -23,27 +26,46 @@ import authService from "services/authService";
 // Components and Pages
 import { theme } from "./theme";
 const AccountPage = lazy(() => import("pages/AccountPage"));
-const AddNewContactPage = lazy(() => import("pages/contacts/AddNewContactPage"));
-const AuthSigninCallback = lazy(() => import("components/functional/auth-signin-callback"));
-const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));
-const AuthSignoutCallback = lazy(() => import("components/functional/auth-signout-callback"));
-const AuthSilentCallback = lazy(() => import("components/functional/auth-silent-callback"));
+const AddNewContactPage = lazy(() =>
+  import("pages/contacts/AddNewContactPage")
+);
+const AuthSigninCallback = lazy(() =>
+  import("components/functional/auth-signin-callback")
+);
+const AuthSigninRedirectPage = lazy(() =>
+  import("pages/auth/SigninRedirectPage")
+);
+const AuthSignoutCallback = lazy(() =>
+  import("components/functional/auth-signout-callback")
+);
+const AuthSilentCallback = lazy(() =>
+  import("components/functional/auth-silent-callback")
+);
 const ClientImportPage = lazy(() => import("pages/ClientImportPage"));
 const ComparePlansCodePage = lazy(() => import("pages/ComparePlansCodePage"));
 const ComparePlansPage = lazy(() => import("pages/ComparePlansPage"));
 const ContactDetailsPage = lazy(() => import("pages/ContactDetails"));
-const ContactRecordInfo = lazy(() => import("pages/contacts/contactRecordInfo"));
+const ContactRecordInfo = lazy(() =>
+  import("pages/contacts/contactRecordInfo")
+);
 const ContactsPage = lazy(() => import("pages/contacts/ContactsPage"));
-const ContactsSOAConfirmForm = lazy(() => import("pages/contacts/soa/ContactsSOAConfirmForm"));
+const ContactsSOAConfirmForm = lazy(() =>
+  import("pages/contacts/soa/ContactsSOAConfirmForm")
+);
 const Dashboard = lazy(() => import("pages/dashbaord"));
-const EnrollmentLinkToContact = lazy(() => import("pages/EnrollmentLinkToContact"));
+const EnrollmentHistoryPage = lazy(() => import("pages/EnrollmentHistoryPage"));
+const EnrollmentLinkToContact = lazy(() =>
+  import("pages/EnrollmentLinkToContact")
+);
 const ErrorPage = lazy(() => import("pages/ErrorPage"));
 const HelpPage = lazy(() => import("pages/Help"));
 const LandingPage = lazy(() => import("mobile/landing/LandingPage"));
 const LeadCenterRedirect = lazy(() => import("pages/LeadCenterRedirect"));
 const LinkToContact = lazy(() => import("pages/LinkToContact"));
 const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
-const NewScopeOfAppointment = lazy(() => import("pages/contacts/contactRecordInfo/newScopeOfAppointment"));
+const NewScopeOfAppointment = lazy(() =>
+  import("pages/contacts/contactRecordInfo/newScopeOfAppointment")
+);
 const NotFoundPage = lazy(() => import("pages/NotFound"));
 const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
 const PlansPage = lazy(() => import("pages/PlansPage"));
@@ -52,10 +74,18 @@ const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
 const Router = lazy(() => import("components/functional/router"));
-const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
-const SOAConfirmationPage = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"));
+const SOAConfirmationForm = lazy(() =>
+  import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation")
+);
+const SOAConfirmationPage = lazy(() =>
+  import(
+    "pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"
+  )
+);
 const TermsPage = lazy(() => import("pages/TermsPage"));
-const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
+const TrafficDirector = lazy(() =>
+  import("components/functional/traffic-director")
+);
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const Welcome = lazy(() => import("pages/welcome"));
 
@@ -122,9 +152,12 @@ const App = () => {
                                     <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom/:duration/:date">
                                       <LinkToContact />
                                     </AuthenticatedRoute>
+                                    <AuthenticatedRoute path="/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate">
+                                      <EnrollmentHistoryPage />
+                                    </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/enrollment-link-to-contact">
-                                        <EnrollmentLinkToContact />
-                                      </AuthenticatedRoute>
+                                      <EnrollmentLinkToContact />
+                                    </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/account">
                                       <AccountPage />
                                     </AuthenticatedRoute>
