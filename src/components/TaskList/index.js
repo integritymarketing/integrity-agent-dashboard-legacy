@@ -21,7 +21,7 @@ import moment from "moment";
 const DEFAULT_TABS = [
   {
     policyStatus: "Reminders",
-    policyStatusColor: "#DDDDDD",
+    policyStatusColor: "#4178FF",
     name: "reminders",
     value: 1,
   },
@@ -33,7 +33,7 @@ const DEFAULT_TABS = [
   },
   {
     policyStatus: "Unlinked Policies",
-    policyStatusColor: "#DCD2BE",
+    policyStatusColor: "#DEEBFB",
     name: "unLinkedPolicies",
     value: 3,
   },
