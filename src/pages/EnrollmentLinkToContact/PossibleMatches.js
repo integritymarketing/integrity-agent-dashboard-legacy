@@ -1,25 +1,21 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import styles from "./styles.module.scss";
 
 export default function PossibleMatches({
-  phone,
-  consumerFirstName,
-  consumerLastName,
-  state,
+  phone, policyHolder, state
 }) {
-  const { clientsService } = useClientServiceContext();
+
   const [matches, setMatches] = useState([]);
   const { callFrom } = useParams();
   const history = useHistory();
   const addToast = useToast();
-  const { enrollPlansService } = useClientServiceContext();
 
   useEffect(() => {
-    const policyHolder = `${consumerFirstName} ${consumerLastName}`;
     const getContacts = async () => {
       try {
         const response = await clientsService.getList(
@@ -39,13 +35,14 @@ export default function PossibleMatches({
       }
     };
     getContacts();
-  }, [phone, consumerFirstName, consumerLastName, clientsService]);
+  }, [phone, policyHolder, state]);
+
 
   const updatePrimaryContact = useCallback(
     (contact) => {
       return clientsService.updateLeadPhone(contact, callFrom);
     },
-    [callFrom, clientsService]
+    [callFrom]
   );
 
   const onClickHandler = useCallback(
@@ -57,7 +54,7 @@ export default function PossibleMatches({
         }
 
         const {
-          effectiveDate,
+          policyEffectiveDate,
           planId,
           submittedDate,
           policyId,
@@ -65,40 +62,39 @@ export default function PossibleMatches({
           carrier,
           consumerSource,
           policyStatus,
-          leadId,
           hasPlanDetails,
           confirmationNumber,
-          consumerFirstName,
-          consumerLastName,
-          policySourceId,
+          policyHolder,
+          sourceId,
+          linkingType,
         } = state;
 
         const leadDate = contact.emails[0]?.createDate;
 
         const updateBusinessBookPayload = {
           agentNpn,
-          leadId,
+          leadId: contact?.leadsId?.toString(),
           policyNumber: policyId,
           plan: planId,
           carrier,
           policyStatus,
           consumerSource,
           confirmationNumber,
-          consumerFirstName,
-          consumerLastName,
-          policyEffectiveDate: effectiveDate,
+          policyHolder,
+          policyEffectiveDate,
           appSubmitDate: submittedDate,
           hasPlanDetails,
-          policySourceId,
+          sourceId,
           leadDate,
           leadStatus: "",
+          linkingType,
         };
 
         const response = await enrollPlansService.updateBookOfBusiness(
           updateBusinessBookPayload
         );
 
-        if (response.agentNpn) {
+        if (response) {
           addToast({
             message: "Contact linked successfully",
           });
@@ -116,7 +112,7 @@ export default function PossibleMatches({
         });
       }
     },
-    [history, addToast, updatePrimaryContact, state, enrollPlansService]
+    [history, addToast, updatePrimaryContact, state]
   );
 
   if (matches?.length > 0) {

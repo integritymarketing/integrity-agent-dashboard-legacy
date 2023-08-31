@@ -5,7 +5,7 @@ import "./myButton.scss";
 import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
 import { useEffect } from "react";
 import Notice from "./microComponent/Notice";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import useUserProfile from "hooks/useUserProfile";
 
 function MyButton({
@@ -15,7 +15,6 @@ function MyButton({
   leadPreference,
   hasActiveCampaign,
 }) {
-  const { clientsService } = useClientServiceContext();
   const userProfile = useUserProfile();
   const { agentId } = userProfile;
   const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] =
@@ -28,15 +27,13 @@ function MyButton({
   async function handleClick() {
     const response = await clientsService.getAgentAvailability(agentId);
 
-    if (
-      (hasActiveCampaign && leadPreference?.leadCenter) ||
-      leadPreference?.medicareEnroll
-    ) {
-      typeof clickButton == "function" && clickButton();
+    if (isAvailable) {
+      clickButton();
       if (!isCheckInUpdateModalDismissed) {
         setIsAvailabiltyModalVisible(true);
       }
     }
+
     // When Availabily is set to false and leadSource:leadCenter is false with active campaign then we restrict user from toggling and instead we shaow a notice
     else if (
       response?.hasActiveCampaign &&

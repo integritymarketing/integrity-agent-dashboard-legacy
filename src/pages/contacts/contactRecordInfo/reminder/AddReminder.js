@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import ShowDate from "./ShowDate";
-import { useClientServiceContext } from "services/clientServiceProvider";
-import * as Sentry from "@sentry/react";
-import useToast from "../../../../hooks/useToast";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import ShowDate from './ShowDate';
+import clientsService from 'services/clientsService';
+import * as Sentry from '@sentry/react';
+import useToast from '../../../../hooks/useToast';
 
 const AddReminder = ({
   reminderModalStatus,
@@ -10,10 +11,9 @@ const AddReminder = ({
   getLeadDetails,
   leadId,
 }) => {
-  const [reminderNote, setReminderNote] = useState("");
+  const [reminderNote, setReminderNote] = useState('');
   const [reminderDate, setReminderDate] = useState(null);
   const addToast = useToast();
-  const { clientsService } = useClientServiceContext();
 
   const saveReminder = async () => {
     const payload = {
@@ -21,27 +21,25 @@ const AddReminder = ({
       reminderDate,
       leadsId: leadId,
     };
-    clientsService
-      .createReminder(payload)
-      .then(() => {
-        addToast({
-          type: "success",
-          message: "Reminder successfully added.",
-          time: 3000,
-        });
-        setReminderNote("");
-        setReminderDate(new Date());
-        setReminderModalStatus();
-        getLeadDetails();
-      })
-      .catch((e) => {
-        Sentry.captureException(e);
+    try {
+      await clientsService.createReminder(payload);
+      addToast({
+        type: 'success',
+        message: 'Reminder successfully added.',
+        time: 3000,
       });
+      setReminderNote('');
+      setReminderDate(new Date());
+      setReminderModalStatus();
+      getLeadDetails();
+    } catch (e) {
+      Sentry.captureException(e);
+    }
   };
 
   return (
-    <div className="reminderCardSection2">
-      <div className="reminderCardSection2row1">
+    <div className="reminder-card-section-2">
+      <div className="reminder-card-section-2-row-1">
         <ShowDate
           date={reminderDate}
           placeholder="Date"
@@ -49,20 +47,19 @@ const AddReminder = ({
         />
       </div>
       <div>
-        <div className="reminderCardSection2row2left">
+        <div className="reminder-card-section-2-row-2-left">
           <textarea
             value={reminderNote}
             placeholder="Please Enter Here.."
-            className="normalText"
-            style={{ height: "auto" }}
+            className="normal-text"
             rows="3"
             onChange={(e) => setReminderNote(e.target.value)}
           ></textarea>
         </div>
       </div>
-      <div className="reminderCardSection2row2">
+      <div className="reminder-card-section-2-row-2">
         <div />
-        <div className="remindercardsectioncancelsavebtn reminderCardSection2row2right">
+        <div className="reminder-card-section-cancel-save-btn reminder-card-section-2-row-2-right">
           <button
             className="reminder-cancel-btn"
             onClick={() => setReminderModalStatus()}
@@ -80,6 +77,13 @@ const AddReminder = ({
       </div>
     </div>
   );
+};
+
+AddReminder.propTypes = {
+  reminderModalStatus: PropTypes.bool.isRequired,
+  setReminderModalStatus: PropTypes.func.isRequired,
+  getLeadDetails: PropTypes.func.isRequired,
+  leadId: PropTypes.string.isRequired,
 };
 
 export default AddReminder;

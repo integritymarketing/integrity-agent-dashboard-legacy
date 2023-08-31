@@ -35,6 +35,7 @@
     .chatIcon {
       width: 3.5rem;
       height: 3.5rem;
+      margin-top: 4px;
       border-radius: 50%;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       cursor: pointer;
@@ -97,6 +98,8 @@
       padding: 1.5rem;
       font-size: 1.25rem;
       padding-bottom: 2rem;
+      z-index: 9;
+      box-shadow: 2px 12px 8px 0px #072a6396;
 
       @include small {
         padding: 1rem;

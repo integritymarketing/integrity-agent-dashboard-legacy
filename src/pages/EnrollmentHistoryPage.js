@@ -16,7 +16,7 @@ import ContactFooter from "partials/global-footer";
 import GoBackNavbar from "components/BackButtonNavbar";
 import Media from "react-media";
 import useToast from "hooks/useToast";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 
 const API_URL = (confirmationNumber) =>
@@ -36,7 +36,6 @@ const EnrollmentHistoryPage = (props) => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [contact, setContact] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const { clientsService } = useClientServiceContext();
 
   let plan_data = data?.medicareEnrollment?.planDetails;
 
@@ -53,7 +52,7 @@ const EnrollmentHistoryPage = (props) => {
       });
     } finally {
     }
-  }, [contactId, addToast, clientsService]);
+  }, [contactId, addToast]);
 
   useEffect(() => {
     if (!isComingFromEmail && contactId) {

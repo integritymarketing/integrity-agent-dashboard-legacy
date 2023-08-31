@@ -1,12 +1,14 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import "./index.scss";
 import usePortalUrl from "hooks/usePortalUrl";
 import MCLogo from "images/mc-logo.svg";
 
-const SimpleFooter = ({ className = "", mobileAppLogin, loginPage, ...props }) => {
+const SimpleFooter = ({ className = "", mobileAppLogin }) => {
   const portalUrl = usePortalUrl();
+
   return (
-    <footer className={`simple-footer ${className}`} {...props}>
+    <footer className={`simple-footer ${className}`}>
       <div className="simple-footer__content sf-text-center">
         <nav className="simple-footer__links">
           <ul className="divided-hlist">
@@ -36,19 +38,24 @@ const SimpleFooter = ({ className = "", mobileAppLogin, loginPage, ...props }) =
         </nav>
         <small className="simple-footer__legal">
           <span className="integrity-logo">
-            <img
-              src={MCLogo}
-              alt="Medicare Center Logo"
-              className="mc-img"
-            ></img>
+            <img src={MCLogo} alt="Medicare Center Logo" className="mc-img" />
           </span>
           <br />
-          <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span>{" "}
-          <span>All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span> <span>All rights reserved.</span>
         </small>
       </div>
     </footer>
   );
+};
+
+SimpleFooter.propTypes = {
+  className: PropTypes.string,
+  mobileAppLogin: PropTypes.bool,
+};
+
+SimpleFooter.defaultProps = {
+  className: "",
+  mobileAppLogin: false,
 };
 
 export default SimpleFooter;

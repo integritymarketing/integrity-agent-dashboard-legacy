@@ -1,12 +1,14 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const ContactInfo = ({ className = "", testId, ...props }) => {
+const ContactInfo = ({ className = '', testId, ...props }) => {
   return (
-    <React.Fragment>
+    <>
       <h2
         id="dialog_help_label"
-        className="hdg hdg--2 mb-1"
+        className={`hdg hdg--2 mb-1 ${className}`}
         data-testid={`${testId}-title`}
+        {...props}
       >
         Contact Support
       </h2>
@@ -30,8 +32,17 @@ const ContactInfo = ({ className = "", testId, ...props }) => {
           support@medicarecenter.com
         </a>
       </p>
-    </React.Fragment>
+    </>
   );
+};
+
+ContactInfo.propTypes = {
+  className: PropTypes.string,
+  testId: PropTypes.string.isRequired,
+};
+
+ContactInfo.defaultProps = {
+  className: '',
 };
 
 export default ContactInfo;

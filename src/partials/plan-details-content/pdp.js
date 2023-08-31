@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import PdpCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
-import PdpPharmacyTable from "components/ui/PlanDetailsTable/shared/pharmacy-table";
+import PdpPharmacyTable from "components/ui/PlanDetailsTable/shared/PharmacyTable/pharmacy-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
 import PlanDetailsPharmacyCoverageContent from "./pharmacy-coverage-content";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
@@ -9,6 +9,7 @@ import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 
 const PdpDetailsContent = ({
+  contact,
   prescriptions,
   plan,
   isMobile,
@@ -177,6 +178,7 @@ const PdpDetailsContent = ({
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
           {plan && (
             <PdpPharmacyTable
+              contact={contact}
               planData={plan}
               pharmacies={pharmacies}
               isMobile={isMobile}

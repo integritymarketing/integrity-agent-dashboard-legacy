@@ -15,7 +15,7 @@ import { Grid, Paper } from "@mui/material";
 import { useWindowSize } from "hooks/useWindowSize";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 
 const uniqValues = (array) => Array.from(new Set(array));
 const NONRTS_DESCRIPTION =
@@ -44,7 +44,6 @@ const mobileColumnFormat = {
 };
 
 export default function ActiveSellingPermissionTable({ npn }) {
-  const { clientsService } = useClientServiceContext();
   const { width: windowWidth } = useWindowSize();
   const addToast = useToast();
   const [agents, setAgents] = useState([]);
@@ -75,7 +74,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [npn, clientsService]
+    [npn]
   );
 
   const uniqAgenets = useMemo(() => {

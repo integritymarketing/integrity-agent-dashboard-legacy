@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-between;
   padding-bottom: 10px;
+  gap: 20px;
   // background: $bluish-cyan;
 
   @include tabletAndBelow {
@@ -37,14 +38,19 @@
 
     .isPS_widget {
       @include mobileOnly {
-        width: 126px !important ;
+        width: 130px !important ;
+      }
+    }
+    .isPS_widgetOne {
+      @include mobileOnly {
+        width: 296px !important ;
       }
     }
 
     .tabContent {
       display: flex;
-      width: 192px;
       height: 88px;
+      width: 192px;
       background: white;
       margin-bottom: 12px;
       cursor: pointer;
@@ -100,6 +106,9 @@
         }
       }
       &.isPS_widget::after {
+        display: none;
+      }
+      &.isPS_widgetOne::after {
         display: none;
       }
     }

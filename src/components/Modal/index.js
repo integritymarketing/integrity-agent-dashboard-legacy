@@ -45,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
     fontWeight: "600",
     height: "40px",
-    textTransform: "unset",
     padding: "10px 15px",
+    textTransform: "capitalize !important",
+
     "&:hover": {
       backgroundColor: "#FFFFFF",
       borderRadius: "20px",
@@ -66,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
       transform: "rotate(90deg)",
     },
   },
-
   footer: {
     backgroundColor: "#F1F1F1",
     display: "flex",
@@ -97,6 +97,7 @@ export default function Modal({
   actionButtonName,
   onSave,
   onClose,
+  onCancel,
   open,
   title,
   children,

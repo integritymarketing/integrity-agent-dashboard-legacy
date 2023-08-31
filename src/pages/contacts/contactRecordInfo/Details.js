@@ -16,7 +16,6 @@ import DetailsMobile from "mobile/Contact/Details/ContactDetails";
 import Media from "react-media";
 import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 import ProviderModal from "components/SharedModals/ProviderModal";
-import WithLoader from "components/ui/WithLoader";
 import RenderProviders from "components/ui/ProvidersList";
 
 export default forwardRef((props) => {
@@ -190,14 +189,12 @@ export default forwardRef((props) => {
             itemRender={(item, index) => {
               return (
                 <div key={item?.NPI} className="provider-container">
-                  <WithLoader isLoading={isLoading}>
-                    <RenderProviders
-                      item={item}
-                      setIsOpen={setIsOpen}
-                      setProviderEditFlag={setProviderEditFlag}
-                      setProviderToEdit={setProviderToEdit}
-                    />
-                  </WithLoader>
+                  <RenderProviders
+                    item={item}
+                    setIsOpen={setIsOpen}
+                    setProviderEditFlag={setProviderEditFlag}
+                    setProviderToEdit={setProviderToEdit}
+                  />
                 </div>
               );
             }}

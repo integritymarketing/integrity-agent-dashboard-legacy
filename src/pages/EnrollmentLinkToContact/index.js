@@ -10,12 +10,11 @@ import { Helmet } from "react-helmet-async";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import PossibleMatches from "./PossibleMatches";
 import CreateNewContact from "./CreateNewContact";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
 import GoBackNavbar from "components/BackButtonNavbar";
 
 export default function EnrollmentLinkToContact() {
-  const { clientsService } = useClientServiceContext();
   const history = useHistory();
   const location = useLocation();
   const { state } = location.state;
@@ -92,12 +91,10 @@ export default function EnrollmentLinkToContact() {
           <EnrollmentPlanCard
             key={state?.policyId}
             currentYear={state?.currentYear}
-            submittedDate={state?.appSubmitDate}
+            submittedDate={state?.appSubmitDate || state?.submittedDate}
             enrolledDate={state?.enrolledDate}
-            effectiveDate={state?.policyEffectiveDate}
+            policyEffectiveDate={state?.policyEffectiveDate}
             policyId={state?.policyId}
-            consumerFirstName={state?.firstName}
-            consumerLastName={state?.lastName}
             leadId={state?.leadId}
             planId={state?.planId}
             agentNpn={state?.agentNpn}
@@ -110,13 +107,14 @@ export default function EnrollmentLinkToContact() {
             planName={state?.planName}
             termedDate={state?.termedDate}
             policyStatusColor={state?.policyStatusColor}
+            policyHolder={state?.policyHolder}
+            linkingType={state?.linkingType}
           />
 
           <div className={styles.contactsContainer}>
             <PossibleMatches
               phone={callFrom}
-              consumerFirstName={state?.firstName}
-              consumerLastName={state?.lastName}
+              policyHolder={state?.policyHolder}
               state={state}
             />
 

@@ -1,52 +1,57 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Redirect, useLocation } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import AuthContext from "contexts/auth";
 
 export function UnauthenticatedRoute({ children, ...rest }) {
-  const { isAuthenticated, isLoading } = useAuth0();
-  const location = useLocation();
-
-  if (isLoading) {
-    return null;
-  }
+  const auth = useContext(AuthContext);
 
   return (
-    <Route {...rest}>
-      {!isAuthenticated ? (
-        children
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/dashboard",
-            state: { from: location },
-          }}
-        />
-      )}
-    </Route>
+    <Route
+      {...rest}
+      render={({ location }) =>
+        !auth.isAuthenticated() ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
   );
 }
 
 export function AuthenticatedRoute({ children, ...rest }) {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const auth = useContext(AuthContext);
   const location = useLocation();
 
-  if (isLoading) {
-    return null;
-  }
-
-  if (!isAuthenticated) {
+  // if not authenticated, store the path the user originally requested
+  // and later return them to after auth success and user loaded
+  // see authService() line 19
+  if (!auth.isAuthenticated()) {
     localStorage.setItem("redirectUri", location.pathname);
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-          state: { from: location },
-        }}
-      />
-    );
   }
 
-  return <Route {...rest}>{children}</Route>;
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth.isAuthenticated() ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
 }
 
 const authRoutes = { AuthenticatedRoute, UnauthenticatedRoute };

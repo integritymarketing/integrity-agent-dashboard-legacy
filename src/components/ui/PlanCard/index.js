@@ -172,7 +172,7 @@ export default function PlanCard({
               } else return false;
             }}
           >
-            {isMobile && <div className={"label"}>Monthly Plan Premium</div>}
+            <div className={"label"}>Monthly Plan Premium</div>
             <div className={"currency"}>
               {currencyFormatter.format(planData.annualPlanPremium / 12)}
             </div>
@@ -192,9 +192,7 @@ export default function PlanCard({
               }}
             >
               <div>
-                {isMobile && (
-                  <div className={"label"}>Est. Monthly RX Drug Cost</div>
-                )}
+                <div className={"label"}>Est. Monthly RX Drug Cost</div>
                 <div className={"currency"}>
                   {currencyFormatter.format(
                     planData.estimatedAnnualDrugCostPartialYear /

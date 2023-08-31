@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import makeStyles from "@mui/styles/makeStyles";
 import ErrorState from "../SharedComponents/ErrorState";
 import Modal from "components/Modal";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
 import { Select } from "components/ui/Select";
@@ -69,7 +69,6 @@ const ProviderModal = ({
 }) => {
   // Initializations
   const classes = useStyles();
-  const { clientsService } = useClientServiceContext();
 
   const [zipCode, setZipCode] = useState(userZipCode);
   const [searchString, setSearchString] = useState("");
@@ -113,15 +112,7 @@ const ProviderModal = ({
         setIsLoading(false);
         Sentry.captureException(e);
       });
-  }, [
-    perPage,
-    currentPage,
-    searchString,
-    zipCode,
-    radius,
-    clientsService,
-    isEdit,
-  ]);
+  }, [perPage, currentPage, searchString, zipCode, radius, isEdit]);
 
   useEffect(() => {
     if (isEdit && selected) {

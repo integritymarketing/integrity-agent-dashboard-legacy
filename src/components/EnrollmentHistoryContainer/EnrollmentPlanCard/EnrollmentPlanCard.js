@@ -14,11 +14,9 @@ export default function EnrollmentPlanCard(props) {
   const {
     submittedDate,
     enrolledDate,
-    effectiveDate,
+    policyEffectiveDate,
     termedDate,
     policyHolder,
-    consumerFirstName,
-    consumerLastName,
     policyId,
     currentYear = true,
     leadId,
@@ -38,13 +36,11 @@ export default function EnrollmentPlanCard(props) {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
 
-  const holderName = policyHolder
-    ? formattedName(policyHolder)
-    : formattedName(`${consumerFirstName} ${consumerLastName}`);
+  const holderName = policyHolder ? formattedName(policyHolder) : "";
 
   const navigateEnrollDetails = () => {
     history.push(
-      `/enrollmenthistory/${leadId}/${confirmationNumber}/${effectiveDate}`,
+      `/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`,
       {
         state: props,
       }
@@ -102,14 +98,14 @@ export default function EnrollmentPlanCard(props) {
                   {(policyStatus === "upcoming" ||
                     policyStatus === "active") && (
                     <>
-                      <PlanDate type="Effective" date={effectiveDate} />
+                      <PlanDate type="Effective" date={policyEffectiveDate} />
                       <PlanDate type="Enrolled" date={enrolledDate} />
                     </>
                   )}
                 </>
               ) : (
                 <>
-                  <PlanDate type="Effective" date={effectiveDate} />
+                  <PlanDate type="Effective" date={policyEffectiveDate} />
 
                   <PlanDate type="Termed" date={termedDate} />
                 </>
@@ -164,21 +160,22 @@ export default function EnrollmentPlanCard(props) {
                           )}
                           {!location.pathname.includes(
                             "enrollment-link-to-contact"
-                          ) && (
-                            <div onClick={navigateToEnrollmentLink}>
-                              <IconWithText
-                                text="Relink"
-                                icon={
-                                  <Icon
-                                    altText="Link"
-                                    className={styles.iconPng}
-                                    image={Link}
-                                  />
-                                }
-                                screensize="small"
-                              />
-                            </div>
-                          )}
+                          ) &&
+                            policyStatus !== "started" && (
+                              <div onClick={navigateToEnrollmentLink}>
+                                <IconWithText
+                                  text="Relink"
+                                  icon={
+                                    <Icon
+                                      altText="Link"
+                                      className={styles.iconPng}
+                                      image={Link}
+                                    />
+                                  }
+                                  screensize="small"
+                                />
+                              </div>
+                            )}
                         </>
                       ) : (
                         <>
@@ -198,20 +195,21 @@ export default function EnrollmentPlanCard(props) {
                           )}
                           {!location.pathname.includes(
                             "enrollment-link-to-contact"
-                          ) && (
-                            <div onClick={navigateToEnrollmentLink}>
-                              <IconWithText
-                                text="Relink"
-                                icon={
-                                  <Icon
-                                    altText="Link"
-                                    className={styles.iconPng}
-                                    image={Link}
-                                  />
-                                }
-                              />
-                            </div>
-                          )}
+                          ) &&
+                            policyStatus !== "started" && (
+                              <div onClick={navigateToEnrollmentLink}>
+                                <IconWithText
+                                  text="Relink"
+                                  icon={
+                                    <Icon
+                                      altText="Link"
+                                      className={styles.iconPng}
+                                      image={Link}
+                                    />
+                                  }
+                                />
+                              </div>
+                            )}
                         </>
                       )
                     }

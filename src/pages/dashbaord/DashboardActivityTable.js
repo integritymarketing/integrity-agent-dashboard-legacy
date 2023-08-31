@@ -22,12 +22,11 @@ import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
 import ActionsDropdown from "components/ui/ActionsDropdown";
 import ContactContext from "contexts/contacts";
 import { ShortReminder } from "pages/contacts/contactRecordInfo/reminder/Reminder";
-import useCallRecordings from "hooks/useCallRecordings";
-import FixedRow from "./FixedRow";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import ActivityDetails from "pages/ContactDetails/ActivityDetails";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import comparePlansService from "services/comparePlansService";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
@@ -107,10 +106,8 @@ export default function DashboardActivityTable({
   setSort,
   sort,
 }) {
-  const { clientsService, comparePlansService } = useClientServiceContext();
   const history = useHistory();
   const addToast = useToast();
-  const callRecordings = useCallRecordings();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [filterToggle, setFilterToggle] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
@@ -192,7 +189,7 @@ export default function DashboardActivityTable({
           break;
       }
     },
-    [history, npn, comparePlansService]
+    [history, npn]
   );
 
   const handleTableRowClick = useCallback(
@@ -528,13 +525,7 @@ export default function DashboardActivityTable({
         Sentry.captureException(e);
       }
     },
-    [
-      setSelectedActivity,
-      addToast,
-      selectedLead,
-      realoadActivityData,
-      clientsService,
-    ]
+    [setSelectedActivity, addToast, selectedLead, realoadActivityData]
   );
 
   const handleSortUpdate = (value) => {
@@ -614,15 +605,6 @@ export default function DashboardActivityTable({
               ""
             )
           }
-          fixedRows={callRecordings.map((unAssosiatedCallRecord, index) => (
-            <FixedRow
-              index={index}
-              onSelect={(call) => {
-                setSelectedCall(call);
-              }}
-              unAssosiatedCallRecord={unAssosiatedCallRecord}
-            />
-          ))}
         />
       </ContactSectionCard>
       {selectedActivity && (

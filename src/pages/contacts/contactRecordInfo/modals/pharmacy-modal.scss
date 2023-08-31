@@ -48,9 +48,12 @@
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
+    width: 100%;
+    justify-content: space-between;
 
     @media (max-width: 480px) {
-      margin-top: 25px;
+      margin: 25px 0;
+      padding-right: 10px;
       display: flex;
       justify-content: space-between;
       width: 100%;
@@ -59,14 +62,17 @@
     .pr-cancl {
       & button {
         margin-right: 10px;
-        background: #f1f5f9;
-        border: 1px solid #cbd5e1;
+        background: transparent;
         box-sizing: border-box;
+        border: none;
         border-radius: 4px;
-        color: #0052ce;
+        color: #4178FF;
         font-family: Lato;
+        &:hover {
+          background: #fff;
+        }
         @media (max-width: 480px) {
-          width: 159px;
+          width: fit-content;
         }
         @media (max-width: 320px) {
           width: auto;
@@ -76,14 +82,12 @@
 
     .pr-add {
       & button {
-        background: #e6ecf2;
-        border-radius: 4px;
-        background: #0052ce;
-        border-radius: 4px;
+        border-radius: 50px;
+        background: #4178FF;
         color: #f8fafc;
         font-family: Lato;
         @media (max-width: 480px) {
-          width: 159px;
+          width: fit-content;
         }
         @media (max-width: 320px) {
           width: auto;
@@ -114,6 +118,13 @@
 .pharmacy-modal-container {
   margin: 0px;
   padding-bottom: 50px;
+
+  .pr-header-title {
+    color: #052A63;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
   @media (max-width: 480px) {
     padding-bottom: 0px;
   }
@@ -137,9 +148,31 @@
       display: initial;
       .pr-search-section {
         margin-top: 24px;
-        .pr-search-input {
+        width: 100%;
+        .search-input-container {
+          display: flex;
+          align-items: center;
           width: 100%;
           padding: 10px;
+          height: 42px;
+          margin-top: 5px;
+          border: 1px solid #cbd5e1;
+          border-radius: 4px;
+          &.outlineDiv {
+              outline: 2px solid #0052CE;
+          }
+          input {
+            border: none;
+            height: 40px;
+            outline: none;
+          }
+        }
+        .search-icon {
+          margin-right: 10px;
+          margin-top: 7px;
+        }
+        .pr-search-input {
+          width: 100%;
         }
       }
     }
@@ -147,8 +180,14 @@
 
   .pr-header-container {
     display: flex;
+    flex-direction: column;
+
+    .pr-input {
+      display: flex;
+    }
 
     @media (max-width: 480px) {
+      flex-direction: row;
       justify-content: space-between;
     }
 
@@ -161,37 +200,68 @@
       .zip-input {
         width: 81px;
         padding: 10px;
+
+        &:focus, &:active {
+          outline: 2px solid #0052CE;
+        }
+
         @media (max-width: 480px) {
-          width: auto;
+          width: 100%;
         }
       }
     }
 
     .pr-search-section {
-      width: 21%;
-      margin-left: 18px;
+      width: 100%;
+
+      .search-input-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 10px;
+        height: 42px;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+
+        &.outlineDiv {
+            outline: 2px solid #0052CE;
+        }
+        input {
+          border: none;
+          height: 40px;
+          outline: none;
+        }
+      }
+
+      .search-icon {
+        margin-right: 10px;
+        margin-top: 7px;
+      }
 
       .pr-search-input {
-        width: 119px;
-        padding: 10px;
+        width: 100%;
       }
     }
 
     .pr-address-section {
-      width: 34%;
+      width: 100%;
       margin-left: 15px;
 
       .pr-search-input {
-        width: 196px;
+        width: 100%;
         padding: 10px;
+        height: 40px;
+        &:focus, &:active {
+          outline: 2px solid #0052CE;
+        }
       }
     }
 
     .miles-section {
-      margin-left: 18px;
+      margin-left: 6px;
       width: 20%;
       @media (max-width: 480px) {
-        width: auto;
+        width: 50%;
       }
 
       .select-container {
@@ -213,15 +283,15 @@
   .pr-title {
     font-family: Lato;
     font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
+    font-weight: bold;
+    font-size: 16px;
     line-height: 150%;
-    color: #515e6f;
+    color: #052A63;
 
     @media (max-width: 480px) {
       font-size: 16px;
       line-height: 130%;
-      color: #64748b;
+      color: #052A63;
       & input {
         margin-top: 4px;
       }
@@ -259,15 +329,18 @@
     padding: 20px 0px;
   }
 
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
   .provider-result-container {
+    background: #ddd;
+    border-radius: 8px;
     @media screen and (max-width: 768px) {
       max-height: 105px;
       overflow-y: auto;
     }
-    :nth-child(1) {
-      padding-top: 0px !important;
-    }
-
     .provider-result-content {
       line-height: 130%;
       padding: 16px 0px;
@@ -280,7 +353,7 @@
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
-        color: #313336;
+        color: #052A63;
         line-height: 28px;
       }
 
@@ -289,7 +362,7 @@
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
-        color: #64748b;
+        color: #434A51;
       }
 
       .provider-content-section {
@@ -303,15 +376,16 @@
       }
 
       &.selected > .provider-content-section > .pr-h1 {
-        color: #0052ce;
+        color: #052A63;
       }
     }
 
-    .provider-result-content:hover {
-      background-color: #f1f5f9;
-      .provider-content-section > .pr-h1 {
-        color: #0052ce;
-      }
+    .provider-content-section {
+      padding: 10px 0;
+    }
+
+    .provider-content-section > .pr-h1 {
+        color: #052A63;
     }
 
     .pr-search-box {
@@ -337,13 +411,14 @@
 /*provider Modal container css end*/
 
 .modal__footer {
-  border-top: 1px solid #e6ecf2;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   top: -80px;
-  background-color: white;
+  background-color: #f1f1f1;
   width: 112.2%;
   display: flex;
   align-items: center;
-  padding: 16px 3.438rem;
+  padding: 16px 20px;
 
   @media (max-width: 768px) {
     width: 100%;

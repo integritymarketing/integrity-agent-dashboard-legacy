@@ -113,7 +113,6 @@ const Address = ({
   const isMultiple = addresses?.length > 1;
 
   const handleSelectAddress = (address) => {
-    debugger;
     const isAddressExist = selectAddressIds?.includes(address?.id);
 
     if (

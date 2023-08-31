@@ -1,19 +1,18 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import AuthContext from "contexts/auth";
 
 const RedirectToAppropriateRoute = () => {
   const history = useHistory();
-  const { isAuthenticated } = useAuth0();
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      history.replace("/dashboard");
+    if (auth.isAuthenticated()) {
+      history.replace("dashboard");
     } else {
-      history.replace("/welcome");
+      history.replace("welcome");
     }
-  }, [isAuthenticated, history]);
-
+  });
   return null;
 };
 

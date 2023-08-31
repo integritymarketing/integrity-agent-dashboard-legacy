@@ -5,13 +5,10 @@ import "./index.scss";
 import AuthApp from "./AuthApp";
 import * as serviceWorker from "./serviceWorker";
 import "focus-visible";
-import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0ProviderWithHistory>
     <AuthApp />
-    </Auth0ProviderWithHistory>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -8,7 +8,9 @@ import ArrowDown from "components/icons/arrow-down";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import Container from "components/ui/container";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import comparePlansService from "services/comparePlansService";
+import plansService from "services/plansService";
+import clientsService from "services/clientsService";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./PlansPage.module.scss";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
@@ -29,8 +31,6 @@ import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
 
 const ComparePlansPage = (props) => {
-  const { clientsService, plansService, comparePlansService } =
-    useClientServiceContext();
   const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
   const { isComingFromEmail, agentInfo = {}, footer = true } = props;
   const isFullYear = parseInt(effectiveDate?.split("-")?.[1], 10) < 2;

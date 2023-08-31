@@ -16,7 +16,7 @@ import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { isEmptyObj } from "utils/shared-utils/sharedUtility";
 import useToast from "hooks/useToast";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import { welcomeModalOpenAtom, agentPhoneAtom } from "recoil/agent/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import styles from "./AccountPage.module.scss";
@@ -33,12 +33,11 @@ import Mobile from "partials/global-nav-v2/Mobile.svg";
 import HealthIcon from "components/icons/health";
 import LifeIcon from "components/icons/life";
 import Dialog from "packages/Dialog";
-import { isAgentAvailableAtom } from "recoil/agent/atoms";
-import { useRecoilValue } from "recoil";
 import useFetch from "hooks/useFetch";
+import { useAgentAvailability } from "hooks/useAgentAvailability";
+import authService from "services/authService";
 
 function CheckinPreferences({ npn }) {
-  const { clientsService } = useClientServiceContext();
   const { agentId } = useUserProfile();
   const addToast = useToast();
   const [phone, setPhone] = useState("");
@@ -49,7 +48,8 @@ function CheckinPreferences({ npn }) {
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [phoneAtom] = useRecoilState(agentPhoneAtom);
   const [showAvilabilityDialog, setShowAvilabilityDialog] = useState(false);
-  const isAgentAvilable = useRecoilValue(isAgentAvailableAtom);
+
+  const [isAvailable, setIsAvailable] = useAgentAvailability();
 
   useEffect(() => {
     const loadAsyncData = async () => {
@@ -121,7 +121,7 @@ function CheckinPreferences({ npn }) {
     };
     await updateAgentPreferences(data);
     if (
-      isAgentAvilable &&
+      isAvailable &&
       leadPreference?.leadCenter &&
       !leadPreference?.medicareEnrollPurl
     ) {
@@ -129,6 +129,7 @@ function CheckinPreferences({ npn }) {
         agentID: agentId,
         availability: false,
       });
+      setIsAvailable(false);
       setShowAvilabilityDialog(true);
     }
   };
@@ -144,7 +145,7 @@ function CheckinPreferences({ npn }) {
     };
     await updateAgentPreferences(data);
     if (
-      isAgentAvilable &&
+      isAvailable &&
       leadPreference?.medicareEnrollPurl &&
       !(leadPreference?.leadCenter && hasActiveCampaign)
     ) {
@@ -152,6 +153,7 @@ function CheckinPreferences({ npn }) {
         agentID: agentId,
         availability: false,
       });
+      setIsAvailable(false);
       setShowAvilabilityDialog(true);
     }
   };
@@ -225,7 +227,6 @@ const CallCenterContent = ({
   callForwardNumber,
   getAgentAvailability,
 }) => {
-  const { clientsService } = useClientServiceContext();
   const addToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
   const phoneNumber = callForwardNumber || phone;
@@ -433,10 +434,10 @@ const AccountPage = () => {
     agentInformation: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
   const { Put: updateAccount } = useFetch(
-    `${process.env.REACT_APP_AUTH_UPDATE_ACCOUNT_URL}`
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`
   );
   const { Put: updateAccountPassword } = useFetch(
-    `${process.env.REACT_APP_AUTH_UPDATE_PASSWORD_URL}`
+    `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/updatepassword`
   );
 
   useEffect(() => {
@@ -567,6 +568,7 @@ const AccountPage = () => {
                               formName: "update-account",
                             });
 
+                            await authService.signinSilent();
                             setSubmitting(false);
                             loading.end();
 
@@ -575,6 +577,9 @@ const AccountPage = () => {
                             });
                           } else {
                             loading.end();
+                            if (response.status === 401) {
+                              authService.handleExpiredToken();
+                            } else {
                             const errorsArr = await response.json();
                             analyticsService.fireEvent(
                               "event-form-submit-invalid",
@@ -589,7 +594,7 @@ const AccountPage = () => {
                                 )
                               )
                             );
-                          }
+                          }}
                         }}
                       >
                         {({

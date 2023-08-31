@@ -10,7 +10,7 @@ import {
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import styles from "../ContactsPage.module.scss";
 import "./contactRecordInfo.scss";
 import OverviewIcon from "components/icons/home";
@@ -38,7 +38,6 @@ import Media from "react-media";
 import FooterBanners from "packages/FooterBanners";
 
 const ContactRecordInfoDetails = () => {
-  const { clientsService } = useClientServiceContext();
   const { contactId: id, sectionId } = useParams();
   const { getLeadDetails, isLoading, leadDetails } = useContactDetails(id);
   const { state = {} } = useLocation();
@@ -221,31 +220,28 @@ const ContactRecordInfoDetails = () => {
     }
   };
 
-  const fetchCounty = useCallback(
-    async (zipcode) => {
-      const counties = (await clientsService.getCounties(zipcode)) || [];
+  const fetchCounty = useCallback(async (zipcode) => {
+    const counties = (await clientsService.getCounties(zipcode)) || [];
 
-      const all_Counties = counties.map((county) => ({
-        value: county.countyName,
-        label: county.countyName,
-        key: county.countyFIPS,
-      }));
+    const all_Counties = counties.map((county) => ({
+      value: county.countyName,
+      label: county.countyName,
+      key: county.countyFIPS,
+    }));
 
-      const uniqueStatesSet = new Set(counties.map((county) => county.state));
-      const uniqueStates = [...uniqueStatesSet];
+    const uniqueStatesSet = new Set(counties.map((county) => county.state));
+    const uniqueStates = [...uniqueStatesSet];
 
-      const all_States = uniqueStates.map((state) => {
-        const stateNameObj = STATES.find((s) => s.value === state);
-        return {
-          label: stateNameObj?.label,
-          value: state,
-        };
-      });
+    const all_States = uniqueStates.map((state) => {
+      const stateNameObj = STATES.find((s) => s.value === state);
+      return {
+        label: stateNameObj?.label,
+        value: state,
+      };
+    });
 
-      return { all_Counties, all_States };
-    },
-    [clientsService]
-  );
+    return { all_Counties, all_States };
+  }, []);
 
   const fetchCounties = useCallback(
     async (zipcode) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "components/ui/modal";
 import ShowDate from "./ShowDate";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import useToast from "../../../../hooks/useToast";
 import analyticsService from "services/analyticsService";
@@ -31,7 +31,6 @@ const ReminderModal = ({
 
   const isEdit = reminder && reminder.reminderId;
   const addToast = useToast();
-  const { clientsService } = useClientServiceContext();
 
   const saveReminder = async () => {
     const payload = {

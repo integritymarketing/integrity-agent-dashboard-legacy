@@ -2,8 +2,16 @@ import React from "react";
 import usePreferences from "hooks/usePreferences";
 import styles from "./styles.module.scss";
 
-const Widget = ({ index, tab, statusIndex, onTabClick, isPS_widget }) => {
+const Widget = ({
+  index,
+  tab,
+  statusIndex,
+  onTabClick,
+  isPS_widget,
+  isPS_widgetOne,
+}) => {
   const { policyCount, policyStatusColor, policyStatus } = tab;
+
   return (
     <div className={styles.tab}>
       <span className={styles.tabHeading}>{policyStatus}</span>
@@ -11,7 +19,9 @@ const Widget = ({ index, tab, statusIndex, onTabClick, isPS_widget }) => {
         onClick={() => onTabClick(index, policyCount)}
         className={`${styles.tabContent} ${
           index === statusIndex ? styles.selected : ""
-        } ${isPS_widget ? styles.isPS_widget : ""} `}
+        } ${isPS_widget ? styles.isPS_widget : ""} ${
+          isPS_widgetOne ? styles.isPS_widgetOne : ""
+        }`}
       >
         <span
           style={{ backgroundColor: policyStatusColor }}
@@ -51,7 +61,7 @@ const TabsCard = ({
         <>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index < 2) {
+              if (index < 1) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}
@@ -59,7 +69,7 @@ const TabsCard = ({
                     onTabClick={onTabClick}
                     index={index}
                     tab={tab}
-                    isPS_widget={true}
+                    isPS_widgetOne={true}
                   />
                 );
               } else return null;
@@ -67,7 +77,7 @@ const TabsCard = ({
           </div>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index > 1) {
+              if (index > 0) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}
@@ -92,6 +102,7 @@ const TabsCard = ({
                 onTabClick={onTabClick}
                 index={page === "policySnapshot" ? index : tab?.value}
                 tab={tab}
+                tabCount={tabs.length}
               />
             );
           })}

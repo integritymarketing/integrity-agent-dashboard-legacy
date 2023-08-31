@@ -16,8 +16,8 @@ import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
 import Spinner from "components/ui/Spinner/index";
-import { useClientServiceContext } from "services/clientServiceProvider";
-
+import clientsService from "services/clientsService";
+import enrollPlansService from "services/enrollPlansService";
 const SearchInput = styled(OutlinedInput)(() => ({
   background: "#FFFFFF 0% 0% no-repeat padding-box",
   borderRadius: "4px",
@@ -37,7 +37,6 @@ const ContactListItemButton = ({
   leadInfo,
   setLeadInfo, // Accessing setLeadInfo here
 }) => {
-  const { clientsService, enrollPlansService } = useClientServiceContext();
   const addToast = useToast();
   const history = useHistory();
   const firstRender = useRef(true);
@@ -58,14 +57,14 @@ const ContactListItemButton = ({
     };
 
     getLeadInformation();
-  }, [state, setLeadInfo, clientsService]);
+  }, [state, setLeadInfo]);
 
   const updatePrimaryContact = useCallback(() => {
     return clientsService.updateLeadPhone(contact, callFrom);
-  }, [contact, callFrom, clientsService]);
+  }, [contact, callFrom]);
 
   const onClickHandler = useCallback(async () => {
-    let { policyId, agentNpn, policyStatus, policyStatusId } = state;
+    let { policyId, agentNpn, policyStatus, sourceId, linkingType } = state;
     try {
       const reverseArray = contact?.phones?.reverse();
       const updateBusinessBookPayload = {
@@ -76,7 +75,8 @@ const ContactListItemButton = ({
         consumerLastName: contact?.lastName,
         leadDate: leadInfo?.createDate || new Date(),
         leadStatus: policyStatus,
-        policySourceId: policyStatusId,
+        sourceId: sourceId,
+        linkingType: linkingType,
       };
       const hasPhone = reverseArray[0]?.leadPhone;
       if (!hasPhone) {
@@ -106,7 +106,6 @@ const ContactListItemButton = ({
     state,
     leadInfo,
     selectedLeadId,
-    enrollPlansService,
     contact.firstName,
     contact.lastName,
     contact.leadsId,

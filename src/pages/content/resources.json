@@ -1,6 +1,6 @@
 {
   "featured": [
-    "MedicareCENTER Call Recording User Guide",
+    "MedicareCENTER Policy Management User Guide",
     "MedicareCENTER Training Schedule",
     "MedicareCENTER's Video Training Hub"
   ],
@@ -180,6 +180,12 @@
       "description": "Multiple enrollment options at your fingertips. Choose the app (MedicareAPP, MedicareLINK, CSG APP or Integrated Contact Management) that works best for your client needs.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Enrollment-Options.pdf"
+    },
+    {
+      "name": "MedicareCENTER Policy Management User Guide",
+      "description": "Find out how to track and manage your clients' MAPD applications and enrollments.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-Policy-Management-Guide.pdf"
     },
     {
       "name": "CSO's Medicare Supplement e-App Guide",

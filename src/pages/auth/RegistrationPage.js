@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -8,10 +7,12 @@ import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
+import authService from "services/authService";
 import useQueryParams from "hooks/useQueryParams";
 import useToast from "../../hooks/useToast";
 import Styles from "./AuthPages.module.scss";
 import * as Sentry from "@sentry/react";
+import AuthContext from "../../contexts/auth";
 import useFlashMessage from "../../hooks/useFlashMessage";
 import Heading2 from "packages/Heading2";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
@@ -23,35 +24,13 @@ import "./mobileStyle.scss";
 
 const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
 
-const registerUser = async (values) => {
-  const response = await fetch(
-    `${process.env.REACT_APP_AUTH_REGISTRATION_URL}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ClientId: values.ClientId,
-        FirstName: values.FirstName,
-        LastName: values.LastName,
-        NPN: values.NPN,
-        Phone: values.Phone,
-        Email: values.Email,
-        Password: values.Password,
-      }),
-    }
-  );
-  return response;
-};
-
 const RegistrationPage = () => {
   const history = useHistory();
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
-  const { loginWithRedirect } = useAuth0();
   const addToast = useToast();
+  const auth = useContext(AuthContext);
   const { show: showMessage } = useFlashMessage();
   const [hasNPN] = useState(params.get("npn"));
   const [hasEmail] = useState(params.get("email"));
@@ -64,9 +43,8 @@ const RegistrationPage = () => {
 
   async function login() {
     try {
-      await loginWithRedirect({
-        redirectUri: `${process.env.REACT_APP_PORTAL_URL}/dashboard`,
-      })} catch (e) {
+      auth.signinRedirect();
+    } catch (e) {
       Sentry.captureException(e);
       console.error("sign in error: ", e);
       showMessage("Unable to sign in at this time.", { type: "error" });
@@ -145,7 +123,8 @@ const RegistrationPage = () => {
               });
               formattedValues["ClientId"] = clientId;
 
-              const response = await registerUser(formattedValues);
+              const response = await authService.registerUser(formattedValues);
+
               setSubmitting(false);
               loading.end();
 
@@ -157,12 +136,10 @@ const RegistrationPage = () => {
               } else {
                 const errorsArr = await response.json();
                 const errMsg =
-                  errorsArr[0]?.value ||
+                  errorsArr[0]?.Value ||
                   errorsArr[0]?.FirstName[0]?.FirstName[0] ||
                   errorsArr[0]?.LastName[0]?.LastName[0] ||
                   errorsArr[0]?.NPN[1]?.NPN[1] ||
-                  errorsArr[0]?.firstName[0]?.firstName[0] ||
-                  errorsArr[0]?.lastName[0]?.lastName[0] ||
                   null;
                 if (errMsg) {
                   addToast({

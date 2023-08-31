@@ -3,18 +3,17 @@ import ReactWebChat, {
   createDirectLine,
   createStore,
 } from "botframework-webchat";
-import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./WebChat.module.scss";
-import ChatIcon from "./chat-icon.gif";
+import ChatIcon from "./askintegrity-logo.png";
 import HideIcon from "./hide-icon.png";
 import cx from "classnames";
 import "./WebChat.scss";
 import useUserProfile from "hooks/useUserProfile";
-import openAudio from './open.mp3';
-import closeAudio from './close.mp3';
+import openAudio from "./open.mp3";
+import closeAudio from "./close.mp3";
+import authService from "services/authService";
 
 const WebChatComponent = () => {
-  const { getAccessTokenSilently } = useAuth0();
   const { agentId, fullName } = useUserProfile();
   const [directLineToken, setDirectLineToken] = useState(null);
   const [isChatActive, setIsChatActive] = useState(false);
@@ -27,10 +26,10 @@ const WebChatComponent = () => {
         marketerId: 1178,
       });
       try {
-        const response = await fetch(
-          process.env.REACT_APP_DIRECT_LINE,
-          { method: "POST", body: params }
-        );
+        const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
+          method: "POST",
+          body: params,
+        });
         if (response.ok) {
           const data = await response.json();
           setDirectLineToken(data.token);
@@ -51,6 +50,7 @@ const WebChatComponent = () => {
   );
 
   const styleOptions = {
+    autoScrollSnapOnPage: true,
     backgroundColor: "#1D3E71",
     bubbleBackground: "#375582",
     bubbleFromUserBackground: "#375582",
@@ -61,7 +61,7 @@ const WebChatComponent = () => {
     sendBoxBackground: "#052A63",
     sendBoxButtonColor: "#fff",
     sendBoxTextColor: "#fff",
-    sendBoxHeight: 125,
+    sendBoxHeight: 80,
     hideUploadButton: true,
     sendBoxPlaceholderColor: "#ffffffcc",
     sendBoxButtonShadeColorOnActive: "transparent",
@@ -80,10 +80,10 @@ const WebChatComponent = () => {
     if (audioRefOpen.current) {
       audioRefOpen.current.play().catch((error) => {
         console.error("Error playing open audio:", error);
-      });;
+      });
     }
   };
-  
+
   const closeChat = () => {
     setIsChatActive(false);
     if (audioRefClose.current) {
@@ -95,7 +95,7 @@ const WebChatComponent = () => {
     () =>
       createStore({}, ({ dispatch }) => (next) => async (action) => {
         if (action.type === "DIRECT_LINE/CONNECT_FULFILLED") {
-          const accessToken = await getAccessTokenSilently();
+          const accessToken = await authService.getUser();
           dispatch({
             type: "WEB_CHAT/SEND_EVENT",
             payload: {
@@ -104,17 +104,65 @@ const WebChatComponent = () => {
                 language: "en-US",
                 marketerName: fullName,
                 marketerId: agentId,
-                authorization: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken.access_token}`,
                 host: "dev",
                 hostUrl: process.env.REACT_APP_HOST_URL,
                 appId: "mcweb",
               },
             },
           });
+        } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
+          const accessToken = await authService.getUser();
+          if (action.payload.activity.type === "message") {
+            let message = action.payload.activity.text
+              ? action.payload.activity.text
+              : action.payload.activity.value.dropDownInfo;
+            let activityValue = action.payload.activity.value;
+            if (!message) {
+              message = activityValue ? activityValue.text : message;
+              action.payload.activity.text = message;
+            }
+            let channelData = action.payload.activity.channelData;
+            let data = [];
+            if (channelData) {
+              channelData.authToken = `Bearer ${accessToken.access_token}`;
+              channelData.data = data;
+              action.payload.activity.channelData = channelData;
+            } else {
+              action.payload.activity.channelData = {
+                authToken: `Bearer ${accessToken.access_token}`,
+                data: data,
+              };
+            }
+            if (activityValue != null) {
+              action.payload.activity.channelData.postBack = false;
+            }
+            if (
+              activityValue != null &&
+              activityValue.name === "mc_Contact_Selected"
+            ) {
+              return dispatch({
+                type: "WEB_CHAT/SEND_EVENT",
+                payload: {
+                  name: activityValue.name,
+                  value: {
+                    data: activityValue,
+                    appId: "mcweb",
+                  },
+                },
+              });
+            }
+          } else if (action.payload.activity.type === "event") {
+            let activityValue = action.payload.activity.value;
+            if (action.payload.activity.name === "mc_View_Contact") {
+              const leadId = activityValue.leadId;
+              window.open(`${window.location.origin}/contact/${leadId}`);
+            }
+          }
         }
         return next(action);
       }),
-    [agentId, fullName, getAccessTokenSilently]
+    [agentId, fullName]
   );
 
   return (

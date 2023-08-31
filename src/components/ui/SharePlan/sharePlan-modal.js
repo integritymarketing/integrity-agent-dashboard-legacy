@@ -13,7 +13,8 @@ import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import plansService from "services/plansService";
+import enrollPlansService from "services/enrollPlansService";
 import "./styles.scss";
 
 const EMAIL_MOBILE_LABELS = [
@@ -52,8 +53,6 @@ const SharePlanModal = ({
   const {
     agentInformation: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
-
-  const { enrollPlansService, plansService } = useClientServiceContext();
 
   const {
     firstName,

@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import ContactSectionCard from "../../packages/ContactSectionCard";
 import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import styles from "./EnrollmentHistoryContainer.module.scss";
 
 export default function EnrollmentHistoryContainer({ leadId }) {
   const [enrollPlans, setEnrollPlans] = useState([]);
   const addToast = useToast();
-  const { enrollPlansService } = useClientServiceContext();
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
@@ -24,7 +23,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast, leadId, enrollPlansService]);
+  }, [addToast, leadId]);
 
   function getCurrentYear(date) {
     return date ? new Date(date).getFullYear() : null;
@@ -32,18 +31,19 @@ export default function EnrollmentHistoryContainer({ leadId }) {
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
-  const currentYearPlansData = enrollPlans.filter((planData) => {
-    let policyDate = new Date(planData.policyEffectiveDate); // get the current date
-    policyDate.setDate(policyDate.getDate() + 1); // add 1 day
+  const currentYearPlansData = enrollPlans?.filter((planData) => {
+    let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
+    policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
     return getCurrentYear(policyDate) === currentYear;
   });
 
-  const previousYearPlansData = enrollPlans.filter((planData) => {
-    let policyDate = new Date(planData.policyEffectiveDate); // get the current date
-    policyDate.setDate(policyDate.getDate() + 1); // add 1 day
+  const previousYearPlansData = enrollPlans?.filter((planData) => {
+    let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
+    policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
     return getCurrentYear(policyDate) !== currentYear;
   });
 
+  if (!enrollPlans || enrollPlans?.length === 0) return null;
   return (
     <ContactSectionCard
       title="Plans"
@@ -60,7 +60,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   currentYear={true}
                   submittedDate={planData.appSubmitDate}
                   enrolledDate={planData.enrolledDate}
-                  effectiveDate={planData.policyEffectiveDate}
+                  policyEffectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
                   policyHolder={policyHolderName}
                   leadId={leadId}
@@ -74,8 +74,9 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   page="Contacts Details"
                   planName={planData.planName}
                   termedDate={planData.termedDate}
-                  policySourceId={planData.policySourceId}
+                  sourceId={planData.sourceId}
                   policyStatusColor={planData.policyStatusColor}
+                  linkingType={planData.linkingType}
                 />
               );
             })}
@@ -88,7 +89,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   currentYear={false}
                   submittedDate={planData.appSubmitDate}
                   enrolledDate={planData.enrolledDate}
-                  effectiveDate={planData.policyEffectiveDate}
+                  policyEffectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
                   policyHolder={`${planData.consumerFirstName} ${planData.consumerLastName}`}
                   leadId={leadId}
@@ -103,6 +104,8 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                   planName={planData.planName}
                   termedDate={planData.termedDate}
                   policyStatusColor={planData.policyStatusColor}
+                  sourceId={planData.sourceId}
+                  linkingType={planData.linkingType}
                 />
               ))}
             </>

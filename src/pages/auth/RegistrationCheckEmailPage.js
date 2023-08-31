@@ -12,7 +12,7 @@ const ConfirmationPage = () => {
   const clientId = useClientId();
   const queryParams = useQueryParams();
   const { Post: resendConfirmationEmail } = useFetch(
-    `${process.env.REACT_APP_AUTH_AUTHORITY_URL_V3}/resendconfirmemail`,
+    `${process.env.REACT_APP_AGENTS_URL}/resendconfirmemail`,
     true
   );
 

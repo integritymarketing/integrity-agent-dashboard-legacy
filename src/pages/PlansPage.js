@@ -6,7 +6,8 @@ import Media from "react-media";
 import GlobalNav from "partials/global-nav-v2";
 import FocusedNav from "partials/focused-nav";
 import Container from "components/ui/container";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import plansService from "services/plansService";
 import ContactRecordHeader from "components/ui/ContactRecordHeader";
 import { Select } from "components/ui/Select";
 import WithLoader from "components/ui/WithLoader";
@@ -129,7 +130,6 @@ function useQuery() {
 }
 
 const PlansPage = () => {
-  const { clientsService, plansService } = useClientServiceContext();
   const { contactId: id } = useParams();
   const query = useQuery();
   const showSelected = query && query.get("preserveSelected");
@@ -210,7 +210,7 @@ const PlansPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [id, clientsService]);
+  }, [id]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [planType, setPlanType] = useState(
@@ -360,7 +360,7 @@ const PlansPage = () => {
         setPlansLoading(false);
       }
     }
-  }, [contact, effectiveDate, planType, myAppointedPlans, plansService]);
+  }, [contact, effectiveDate, planType, myAppointedPlans]);
 
   const pageSize = 10;
 

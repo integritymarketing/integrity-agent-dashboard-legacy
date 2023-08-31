@@ -59,8 +59,8 @@ function DetailsCard({
       }
     >
       <div className="card-body">
-        {items.length === 0 && (
-          <WithLoader isLoading={isLoading}>
+        <WithLoader isLoading={isLoading}>
+          {items.length === 0 && (
             <div className="no-items">
               <span>This contact has no {title}.&nbsp;</span>
               <button
@@ -72,18 +72,18 @@ function DetailsCard({
                 Add a {`${titleToAdd}`}
               </button>
             </div>
-          </WithLoader>
-        )}
-        {items.length > 0 && !provider && (
-          <DetailsTable
-            items={items}
-            Row={Row}
-            onDelete={onDelete}
-            onEdit={onEdit}
-            headerTitle={headerTitle}
-          />
-        )}
-        {items.map(itemRender)}
+          )}
+          {items.length > 0 && !provider && (
+            <DetailsTable
+              items={items}
+              Row={Row}
+              onDelete={onDelete}
+              onEdit={onEdit}
+              headerTitle={headerTitle}
+            />
+          )}
+          {items.map(itemRender)}
+        </WithLoader>
       </div>
     </ContactSectionCard>
   );

@@ -1,4 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import authService from "services/authService";
 import { useState, useCallback } from "react";
 import * as Sentry from "@sentry/react";
 
@@ -12,7 +12,6 @@ import * as Sentry from "@sentry/react";
  */
 
 const useFetch = (url, isPublic = false, noResponse = false) => {
-  const { getAccessTokenSilently } = useAuth0();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,13 +19,15 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
   /**
    * Fetches data from the API endpoint using the specified HTTP method and request body
    */
-  const fetchData = useCallback(async ({method = 'GET', body, returnHttpResponse = false}) => {
+
+  const fetchData = useCallback(
+    async ({ method = "GET", body, returnHttpResponse = false }) => {
       try {
         const options = { method };
         if (!isPublic) {
-          const accessToken = await getAccessTokenSilently();
-          if (accessToken) {
-            options.headers = { Authorization: `Bearer ${accessToken}` };
+          const user = await authService.getUser();
+          if (user) {
+            options.headers = { Authorization: `Bearer ${user?.access_token}` };
           }
         }
         if (body) {
@@ -43,7 +44,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
         }
 
         let json = null;
-        if (!noResponse) { 
+        if (!noResponse) {
           json = await response.json();
         }
         setData(json);
@@ -54,25 +55,25 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
         setError(error);
         setLoading(false);
       }
-  }, [url, getAccessTokenSilently, isPublic, noResponse]);
-
+    },
+    [url, isPublic, noResponse]
+  );
 
   const Get = (body, returnHttpResponse) => {
-    return fetchData({method:'GET', body, returnHttpResponse});
+    return fetchData({ method: "GET", body, returnHttpResponse });
   };
 
   const Post = (body, returnHttpResponse) => {
-    return fetchData({method:'POST', body, returnHttpResponse});
-  };
-  
-  const Put = (body, returnHttpResponse) => {
-    return fetchData({method:'PUT', body, returnHttpResponse});
-  };
-  
-  const Delete = (body, returnHttpResponse) => {
-    return fetchData({method:'DELETE', body, returnHttpResponse});
+    return fetchData({ method: "POST", body, returnHttpResponse });
   };
 
+  const Put = (body, returnHttpResponse) => {
+    return fetchData({ method: "PUT", body, returnHttpResponse });
+  };
+
+  const Delete = (body, returnHttpResponse) => {
+    return fetchData({ method: "DELETE", body, returnHttpResponse });
+  };
 
   return { data, loading, error, Put, Post, Delete, Get };
 };

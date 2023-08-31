@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import Container from "components/ui/container";
 import Pagination from "components/ui/Pagination/pagination";
 import Card from "components/ui/card";
@@ -115,7 +115,6 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
 
   const [applyFilters, setApplyFilters] = useState({});
   const location = useLocation();
-  const { clientsService } = useClientServiceContext();
 
   const queryParams = new URLSearchParams(location.search);
 
@@ -172,7 +171,7 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
           setLoading(false);
         });
     },
-    [clientsService]
+    []
   );
 
   const handleRefresh = () => {

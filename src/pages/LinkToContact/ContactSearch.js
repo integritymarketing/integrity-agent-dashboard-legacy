@@ -15,7 +15,8 @@ import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
 import Spinner from "components/ui/Spinner/index";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
+import callRecordingsService from "services/callRecordingsService";
 
 const SearchInput = styled(OutlinedInput)(() => ({
   background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -33,13 +34,12 @@ const ContactListItemButton = ({
   callLogId,
   children,
 }) => {
-  const { clientsService, callRecordingsService } = useClientServiceContext();
   const addToast = useToast();
   const history = useHistory();
 
   const updatePrimaryContact = useCallback(() => {
     return clientsService.updateLeadPhone(contact, callFrom);
-  }, [contact, callFrom, clientsService]);
+  }, [contact, callFrom]);
 
   const onClickHandler = useCallback(async () => {
     try {
@@ -71,7 +71,6 @@ const ContactListItemButton = ({
     addToast,
     contact.phones,
     updatePrimaryContact,
-    callRecordingsService,
   ]);
 
   return (

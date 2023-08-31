@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 
 const StageStatusContext = createContext({
   message: "",
@@ -7,7 +7,6 @@ const StageStatusContext = createContext({
 });
 
 export const StageStatusProvider = (props) => {
-  const { clientsService } = useClientServiceContext();
   const [allStatuses, setAllStatuses] = useState([]);
   const statusOptions = useMemo(() => {
     return allStatuses.map((status) => ({
@@ -33,7 +32,7 @@ export const StageStatusProvider = (props) => {
       setAllStatuses(statuses);
     };
     doFetch();
-  }, [clientsService]);
+  }, []);
 
   return (
     <StageStatusContext.Provider

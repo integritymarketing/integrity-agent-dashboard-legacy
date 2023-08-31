@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from 'prop-types';
 import Modal from "components/ui/modal";
 import { Button } from "components/ui/Button";
 import analyticsService from "services/analyticsService";
@@ -43,6 +44,11 @@ const WhoIsAuthorizedRepresentative = ({ isOpen, onClose }) => {
       </Modal>
     </div>
   );
+};
+
+WhoIsAuthorizedRepresentative.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default WhoIsAuthorizedRepresentative;

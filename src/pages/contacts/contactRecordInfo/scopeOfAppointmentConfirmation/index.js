@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import { Select } from "components/ui/Select";
 import Checkbox from "components/ui/Checkbox";
 import Textfield from "components/ui/textfield";
@@ -24,7 +24,6 @@ import { formValidator } from "./FormValidator";
 import "./index.scss";
 
 const ScopeOfAppointmentConfirmation = () => {
-  const { clientsService } = useClientServiceContext();
   const { linkCode, token } = useParams();
   const history = useHistory();
   const addToast = useToast();
@@ -149,6 +148,9 @@ const ScopeOfAppointmentConfirmation = () => {
             acceptedSOA,
           } = values;
           const { agentSection } = soaStatus;
+          const checkedProducts = Object.keys(products).filter(
+            (key) => products[key] === true
+          );
           const authorizedRepresentativeData = hasAuthorizedRepresentative
             ? {
                 authorizedRepresentative: {
@@ -170,7 +172,7 @@ const ScopeOfAppointmentConfirmation = () => {
             await clientsService.saveSoaInformationForLeadByLinkCode(
               {
                 leadSection: {
-                  products: Object.keys(products),
+                  products: checkedProducts,
                   beneficiary: {
                     firstName,
                     middleName,

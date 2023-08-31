@@ -9,7 +9,7 @@ import RemindersList from "./Reminders";
 import RequestedCallback from "./RequestedCallbacks";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import ErrorState from "components/ErrorState";
 import NoReminder from "images/no-reminder.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
@@ -21,7 +21,7 @@ import moment from "moment";
 const DEFAULT_TABS = [
   {
     policyStatus: "Reminders",
-    policyStatusColor: "#FEF8CB",
+    policyStatusColor: "#4178FF",
     name: "reminders",
     value: 1,
   },
@@ -75,7 +75,6 @@ export default function TaskList({ isMobile, npn }) {
   const [tabs, setTabs] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
-  const { clientsService } = useClientServiceContext();
   const addToast = useToast();
 
   const selectedName =
@@ -175,14 +174,24 @@ export default function TaskList({ isMobile, npn }) {
         return <UnLinkedCalls taskList={taskList} refreshData={refreshData} />;
       case "Unlinked Policies":
         return (
-          <UnlinkedPolicyList taskList={taskList} refreshData={refreshData} />
+          <UnlinkedPolicyList
+            taskList={taskList}
+            npn={npn}
+            refreshData={refreshData}
+          />
         );
       case "Reminders":
         return <RemindersList taskList={taskList} refreshData={refreshData} />;
       case "Requested Callbacks":
         return <RequestedCallback />;
       default:
-        return <UnlinkedPolicyList />;
+        return (
+          <UnlinkedPolicyList
+            taskList={taskList}
+            npn={npn}
+            refreshData={refreshData}
+          />
+        );
     }
   };
 

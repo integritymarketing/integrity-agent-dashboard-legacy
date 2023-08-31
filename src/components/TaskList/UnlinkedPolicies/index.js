@@ -4,16 +4,45 @@ import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
 import { useHistory } from "react-router-dom";
+import enrollPlansService from "services/enrollPlansService";
+import useToast from "hooks/useToast";
 import "./style.scss";
 
-const UnlinkedPolicyCard = ({ callData }) => {
+const UnlinkedPolicyCard = ({ callData, npn }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
+  const addToast = useToast();
 
-  const handleLinkToContact = () => {
-    history.push(`/enrollment-link-to-contact`, {
-      state: { ...callData, page: "Dashboard" },
-    });
+  const handleLinkToContact = async () => {
+    try {
+      const data = await enrollPlansService.getBookOfBusinessBySourceId(
+        npn,
+        callData?.sourceId
+      );
+      if (data) {
+        history.push(`/enrollment-link-to-contact`, {
+          state: {
+            ...data,
+            page: "Dashboard",
+            policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
+          },
+        });
+      } else {
+        history.push(`/enrollment-link-to-contact`, {
+          state: {
+            ...callData,
+            page: "Dashboard",
+            policyHolder: `${callData.firstName} ${callData.lastName}`,
+          },
+        });
+      }
+    } catch (error) {
+      addToast({
+        type: "error",
+        message: "Failed to get enroll plan info.",
+        time: 10000,
+      });
+    }
   };
 
   return (
@@ -78,12 +107,12 @@ const UnlinkedPolicyCard = ({ callData }) => {
   );
 };
 
-const UnlinkedPolicyList = ({ taskList }) => {
+const UnlinkedPolicyList = ({ taskList, npn }) => {
   return (
     <>
       <div className="up-card-container">
         {taskList?.map((data, i) => {
-          return <UnlinkedPolicyCard callData={data} />;
+          return <UnlinkedPolicyCard callData={data} npn={npn} />;
         })}
       </div>
     </>

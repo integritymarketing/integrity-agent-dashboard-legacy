@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
-import Pagination from "components/ui/Pagination/pagination";
-import ExitIcon from "components/icons/exit";
 import { Button } from "components/ui/Button";
 import Media from "react-media";
 import "./pharmacy-modal.scss";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
 import * as Sentry from "@sentry/react";
 import Styles from "./AddPharmacy.module.scss";
+import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
+import Pagination from "components/ui/Pagination/pagination";
+import { Checkbox } from "@mui/material";
+import SearchIcon from "components/icons/search2";
 
 export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [zipCode, setZipCode] = useState(
-    personalInfo?.addresses[0]?.postalCode
+    personalInfo?.addresses?.[0]?.postalCode
   );
   const [radius, setRadius] = useState(5);
 
@@ -27,11 +29,10 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   const [results, setResults] = useState([]);
   const [selectedPharmacy, setSelectedPharmacy] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage] = useState(10);
+  const [perPage] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
   const totalPages = results ? Math.ceil(totalCount / perPage) : 0;
   const [isMobile, setIsMobile] = useState(false);
-  const { clientsService } = useClientServiceContext();
 
   useEffect(() => {
     if (isOpen) {
@@ -65,7 +66,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
       .catch((e) => {
         Sentry.captureException(e);
       });
-  }, [zipCode, pharmacyAddress, clientsService]);
+  }, [zipCode, pharmacyAddress]);
 
   useEffect(() => {
     if (!zipCode || zipCode?.length !== 5) {
@@ -115,7 +116,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     latLng,
     zipCode,
     radius,
-    clientsService,
   ]);
 
   const handleAddPharmacy = async () => {
@@ -191,22 +191,45 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       <div className="pr-search-section">
                         <label className="pr-title">
                           Pharmacy Name
-                          <input
-                            type="text"
-                            className={"pr-search-input"}
-                            value={pharmacyName}
-                            disabled={zipCodeError}
-                            placeholder="Enter name"
-                            onChange={(e) => {
-                              setPharmacyName(e?.currentTarget?.value);
-                              setCurrentPage(1);
+                          <div
+                            onClick={() => {
+                              const element = document.querySelector(
+                                ".search-input-container"
+                              );
+                              element.classList.add("outlineDiv");
+                              element.focus();
                             }}
-                          />
+                            onBlur={() => {
+                              const element = document.querySelector(
+                                ".search-input-container"
+                              );
+                              element.classList.remove("outlineDiv");
+                            }}
+                            className="search-input-container"
+                            style={{
+                              background: zipCodeError ? "#f1f5f9" : "#fff",
+                            }}
+                          >
+                            <div className="search-icon">
+                              <SearchIcon />
+                            </div>
+                            <input
+                              type="text"
+                              className={"pr-search-input"}
+                              value={pharmacyName}
+                              disabled={zipCodeError}
+                              placeholder="Search"
+                              onChange={(e) => {
+                                setPharmacyName(e?.currentTarget?.value);
+                                setCurrentPage(1);
+                              }}
+                            />
+                          </div>
                         </label>
                       </div>
                       <div className="pr-address-section">
                         <label className="pr-title">
-                          Pharmacy Address
+                          Address
                           <input
                             type="text"
                             className="pr-search-input"
@@ -240,6 +263,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                         </label>
                       </div>
                     </div>
+
                     {zipCodeError && (
                       <span className="validation-msg">Invalid ZIP Code</span>
                     )}
@@ -294,24 +318,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
 
                     <div className="pr-search-section">
                       <label className="pr-title">
-                        Pharmacy Name
-                        <br />
-                        <input
-                          className={"pr-search-input"}
-                          type="text"
-                          value={pharmacyName}
-                          disabled={zipCodeError}
-                          placeholder="Enter name"
-                          onChange={(e) => {
-                            setPharmacyName(e?.target?.value);
-                            setCurrentPage(1);
-                          }}
-                        />
-                      </label>
-                    </div>
-                    <div className="pr-search-section">
-                      <label className="pr-title">
-                        Pharmacy Address
+                        Address
                         <br />
                         <input
                           className="pr-search-input"
@@ -326,13 +333,52 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                         />
                       </label>
                     </div>
+                    <div className="pr-search-section">
+                      <label className="pr-title">
+                        Pharmacy Name
+                        <br />
+                        <div
+                          onClick={() => {
+                            const element = document.querySelector(
+                              ".search-input-container"
+                            );
+                            element.classList.add("outlineDiv");
+                            element.focus();
+                          }}
+                          onBlur={() => {
+                            const element = document.querySelector(
+                              ".search-input-container"
+                            );
+                            element.classList.remove("outlineDiv");
+                          }}
+                          className="search-input-container"
+                          style={{
+                            background: zipCodeError ? "#f1f5f9" : "#fff",
+                          }}
+                        >
+                          <div className="search-icon">
+                            <SearchIcon />
+                          </div>
+                          <input
+                            type="text"
+                            className={"pr-search-input"}
+                            value={pharmacyName}
+                            disabled={zipCodeError}
+                            placeholder="Search"
+                            onChange={(e) => {
+                              setPharmacyName(e?.currentTarget?.value);
+                              setCurrentPage(1);
+                            }}
+                          />
+                        </div>
+                      </label>
+                    </div>
                   </div>
 
                   <div className="pr-search-result">
                     {totalCount ? (
                       <>
-                        <b>{totalCount || 0} Pharmacies</b> found within{" "}
-                        {radius}
+                        {totalCount || 0} Pharmacies found within {radius}
                         &nbsp;miles
                       </>
                     ) : null}
@@ -343,87 +389,107 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       <Spinner />
                     </div>
                   ) : (
-                    <div className="provider-result-container">
-                      {error && (
-                        <div className="pr-search-box">
-                          Error fetching Providers
-                        </div>
-                      )}
-                      {zipCode &&
-                        results?.map((item) => (
-                          <div
-                            key={`${item?.pharmacyID}-pharmacy`}
-                            className={`provider-result-content ${
-                              selectedPharmacy?.pharmacyID === item?.pharmacyID
-                                ? "selected"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              setSelectedPharmacy(item);
-                            }}
-                          >
-                            <div className="provider-content-section">
-                              <div className="pr-h1">{item?.name}</div>
-                              <div className="pr-h2">
-                                {item?.address1}
-                                {item.address2 ? " " + item.address2 : ""},{" "}
-                                {item?.city}, {item?.state}
-                              </div>
-                            </div>
-                            {selectedPharmacy?.pharmacyID ===
-                              item?.pharmacyID && (
-                              <div
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedPharmacy(null);
-                                }}
-                                className="icon-btn deselect-pr"
-                              >
-                                <ExitIcon />
-                              </div>
-                            )}
+                    <div>
+                      <div className="provider-result-container">
+                        {error && (
+                          <div className="pr-search-box">
+                            Error fetching Providers
                           </div>
-                        ))}
-
-                      {!isLoading && (
-                        <>
-                          {zipCodeError && (
-                            <div className="pr-search-box">
-                              Fix errors before searching
+                        )}
+                        {zipCode &&
+                          results?.map((item) => (
+                            <div
+                              key={`${item?.pharmacyID}-pharmacy`}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background:
+                                  selectedPharmacy === item
+                                    ? "#f1faff"
+                                    : "inherit",
+                              }}
+                            >
+                              <Checkbox
+                                onClick={() => {
+                                  setSelectedPharmacy(item);
+                                }}
+                                checked={selectedPharmacy === item}
+                              />
+                              <div className="provider-content-section">
+                                <div className="pr-h1">{item?.name}</div>
+                                <div className="pr-h2">
+                                  {item?.address1}
+                                  {item.address2
+                                    ? " " + item.address2
+                                    : ""}, {item?.city}, {item?.state}
+                                </div>
+                              </div>
                             </div>
-                          )}
-                          {!error &&
-                            zipCode &&
-                            zipCode?.length === 5 &&
-                            results?.length === 0 && (
+                          ))}
+
+                        {!isLoading && (
+                          <>
+                            {zipCodeError && (
                               <div className="pr-search-box">
-                                No Pharmacies found under the current search
-                                criteria
+                                Fix errors before searching
                               </div>
                             )}
-                        </>
-                      )}
+                            {!error &&
+                              zipCode &&
+                              zipCode?.length === 5 &&
+                              results?.length === 0 && (
+                                <div className="pr-search-box">
+                                  No Pharmacies found under the current search
+                                  criteria
+                                </div>
+                              )}
+                          </>
+                        )}
+                      </div>
+                      <div className="pagination-container">
+                        {zipCode && totalPages > 1 ? (
+                          <Pagination
+                            providerPagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            totalResults={totalCount}
+                            pageSize={perPage}
+                            onPageChange={(pageIndex) =>
+                              setCurrentPage(pageIndex)
+                            }
+                          />
+                        ) : (
+                          <div />
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
             </div>
-            <div className={Styles.buttonWrapper}>
-              <button
-                className={Styles.cancel}
-                onClick={onClose}
-                data-gtm="button-add"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAddPharmacy}
-                className={Styles.submit}
-                disabled={!selectedPharmacy}
-                data-gtm="button-cancel"
-              >
-                Add Pharmacy
-              </button>
+            <div className="dialog--actions-pr">
+              <div className="buttons-wrapper">
+                <div className="pr-cancl">
+                  <Button
+                    label="Cancel"
+                    onClick={onClose}
+                    style={{ marginRight: 10 }}
+                    data-gtm="button-save"
+                  />
+                </div>
+                <div className="pr-add">
+                  <Button
+                    style={
+                      selectedPharmacy ? null : { opacity: 0.5, cursor: "none" }
+                    }
+                    label="Add Pharmacy"
+                    onClick={handleAddPharmacy}
+                    data-gtm="button-cancel"
+                    icon={<ArrowForwardWithCircle />}
+                    iconPosition="right"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -436,112 +502,129 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
           labeledById="dialog_add_provider"
           providerModal={true}
           footer={
-            isMobile ? null : (
-              <div className="dialog--actions-pr">
-                {zipCode && totalPages > 1 ? (
-                  <Pagination
-                    providerPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    totalResults={totalCount}
-                    pageSize={perPage}
-                    onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
+            <div className="dialog--actions-pr">
+              <div className="buttons-wrapper">
+                <div className="pr-cancl">
+                  <Button
+                    label="Cancel"
+                    onClick={onClose}
+                    style={{ marginRight: 10 }}
+                    data-gtm="button-save"
                   />
-                ) : (
-                  <div />
-                )}
-                <div className="buttons-wrapper">
-                  <div className="pr-cancl">
-                    <Button
-                      label="Cancel"
-                      onClick={onClose}
-                      style={{ marginRight: 10 }}
-                      data-gtm="button-save"
-                    />
-                  </div>
-                  <div className="pr-add">
-                    {" "}
-                    <Button
-                      disabled={!selectedPharmacy}
-                      label="Add Pharmacy"
-                      onClick={handleAddPharmacy}
-                      data-gtm="button-cancel"
-                    />
-                  </div>
+                </div>
+                <div className="pr-add">
+                  <Button
+                    style={
+                      selectedPharmacy ? null : { opacity: 0.5, cursor: "none" }
+                    }
+                    label="Add Pharmacy"
+                    onClick={handleAddPharmacy}
+                    data-gtm="button-cancel"
+                    icon={<ArrowForwardWithCircle />}
+                    iconPosition="right"
+                  />
                 </div>
               </div>
-            )
+            </div>
           }
         >
           <div className="dialog--container">
             <div className="dialog--body pharmacy-modal-container">
               <div className="large-view">
+                <div className="pr-header-title">Search for a Pharmacy</div>
+
                 <div className="pr-header-container">
-                  <div className="zip-section">
-                    <label className="pr-title">
-                      ZIP Code
-                      <input
-                        type="text"
-                        placeholder="Zip"
-                        value={zipCode}
-                        maxLength="5"
-                        className={`${zipCodeError ? "error" : ""} zip-input`}
-                        onChange={(e) => {
-                          setZipCode(e.target.value);
-                          setCurrentPage(1);
-                        }}
-                      />
-                    </label>
+                  <div className="pr-input">
+                    <div className="zip-section">
+                      <label className="pr-title">
+                        ZIP Code
+                        <input
+                          type="text"
+                          placeholder="Zip"
+                          value={zipCode}
+                          maxLength="5"
+                          className={`${zipCodeError ? "error" : ""} zip-input`}
+                          onChange={(e) => {
+                            setZipCode(e.target.value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </label>
+                    </div>
+                    <div className="miles-section">
+                      <label className="pr-title">
+                        Distance
+                        <Select
+                          placeholder="select"
+                          options={[
+                            { value: 5, label: "5 miles" },
+                            { value: 10, label: "10 miles" },
+                            { value: 25, label: "25 miles" },
+                            { value: 50, label: "50 miles" },
+                          ]}
+                          initialValue={radius}
+                          onChange={(value) => {
+                            setRadius(value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </label>
+                    </div>
+                    <div className="pr-address-section">
+                      <label className="pr-title">
+                        <div>Address</div>
+                        <input
+                          type="text"
+                          className="pr-search-input"
+                          value={pharmacyAddress}
+                          disabled={zipCodeError}
+                          placeholder="Enter address"
+                          onChange={(e) => {
+                            setPharmacyAddress(e.currentTarget.value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </label>
+                    </div>
                   </div>
                   <div className="pr-search-section">
                     <label className="pr-title">
-                      Pharmacy Name
-                      <input
-                        type="text"
-                        className={"pr-search-input"}
-                        value={pharmacyName}
-                        disabled={zipCodeError}
-                        placeholder="Enter name"
-                        onChange={(e) => {
-                          setPharmacyName(e?.currentTarget?.value);
-                          setCurrentPage(1);
+                      <div>Pharmacy Name</div>
+
+                      <div
+                        onClick={() => {
+                          const element = document.querySelector(
+                            ".search-input-container"
+                          );
+                          element.classList.add("outlineDiv");
+                          element.focus();
                         }}
-                      />
-                    </label>
-                  </div>
-                  <div className="pr-address-section">
-                    <label className="pr-title">
-                      Pharmacy Address
-                      <input
-                        type="text"
-                        className="pr-search-input"
-                        value={pharmacyAddress}
-                        disabled={zipCodeError}
-                        placeholder="Enter address"
-                        onChange={(e) => {
-                          setPharmacyAddress(e.currentTarget.value);
-                          setCurrentPage(1);
+                        onBlur={() => {
+                          const element = document.querySelector(
+                            ".search-input-container"
+                          );
+                          element.classList.remove("outlineDiv");
                         }}
-                      />
-                    </label>
-                  </div>
-                  <div className="miles-section">
-                    <label className="pr-title">
-                      Distance
-                      <Select
-                        placeholder="select"
-                        options={[
-                          { value: 5, label: "5 miles" },
-                          { value: 10, label: "10 miles" },
-                          { value: 25, label: "25 miles" },
-                          { value: 50, label: "50 miles" },
-                        ]}
-                        initialValue={radius}
-                        onChange={(value) => {
-                          setRadius(value);
-                          setCurrentPage(1);
+                        className="search-input-container"
+                        style={{
+                          background: zipCodeError ? "#f1f5f9" : "#fff",
                         }}
-                      />
+                      >
+                        <div className="search-icon">
+                          <SearchIcon />
+                        </div>
+                        <input
+                          type="text"
+                          className={"pr-search-input"}
+                          value={pharmacyName}
+                          disabled={zipCodeError}
+                          placeholder="Search"
+                          onChange={(e) => {
+                            setPharmacyName(e?.currentTarget?.value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </div>
                     </label>
                   </div>
                 </div>
@@ -599,22 +682,45 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <label className="pr-title">
                     Pharmacy Name
                     <br />
-                    <input
-                      className={"pr-search-input"}
-                      type="text"
-                      value={pharmacyName}
-                      disabled={zipCodeError}
-                      placeholder="Enter name"
-                      onChange={(e) => {
-                        setPharmacyName(e?.target?.value);
-                        setCurrentPage(1);
+                    <div
+                      onClick={() => {
+                        const element = document.querySelector(
+                          ".search-input-container"
+                        );
+                        element.classList.add("outlineDiv");
+                        element.focus();
                       }}
-                    />
+                      onBlur={() => {
+                        const element = document.querySelector(
+                          ".search-input-container"
+                        );
+                        element.classList.remove("outlineDiv");
+                      }}
+                      className="search-input-container"
+                      style={{
+                        background: zipCodeError ? "#f1f5f9" : "#fff",
+                      }}
+                    >
+                      <div className="search-icon">
+                        <SearchIcon />
+                      </div>
+                      <input
+                        type="text"
+                        className={"pr-search-input"}
+                        value={pharmacyName}
+                        disabled={zipCodeError}
+                        placeholder="Search"
+                        onChange={(e) => {
+                          setPharmacyName(e?.currentTarget?.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </div>
                   </label>
                 </div>
-                <div className="pr-search-section">
+                <div className="pr-address-section">
                   <label className="pr-title">
-                    Pharmacy Address
+                    Address
                     <br />
                     <input
                       className="pr-search-input"
@@ -634,7 +740,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
               <div className="pr-search-result">
                 {totalCount ? (
                   <>
-                    <b>{totalCount || 0} Pharmacies</b> found within {radius}
+                    {totalCount || 0} Pharmacies found within {radius}
                     &nbsp;miles
                   </>
                 ) : null}
@@ -645,64 +751,80 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <Spinner />
                 </div>
               ) : (
-                <div className="provider-result-container">
-                  {error && (
-                    <div className="pr-search-box">
-                      Error fetching Providers
-                    </div>
-                  )}
-                  {zipCode &&
-                    results?.map((item) => (
-                      <div
-                        key={`${item?.pharmacyID}-pharmacy`}
-                        className={`provider-result-content ${
-                          selectedPharmacy?.pharmacyID === item?.pharmacyID
-                            ? "selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          setSelectedPharmacy(item);
-                        }}
-                      >
-                        <div className="provider-content-section">
-                          <div className="pr-h1">{item?.name}</div>
-                          <div className="pr-h2">
-                            {item?.address1}
-                            {item.address2 ? " " + item.address2 : ""},{" "}
-                            {item?.city}, {item?.state}
-                          </div>
-                        </div>
-                        {selectedPharmacy?.pharmacyID === item?.pharmacyID && (
-                          <div
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedPharmacy(null);
-                            }}
-                            className="icon-btn deselect-pr"
-                          >
-                            <ExitIcon />
-                          </div>
-                        )}
+                <div>
+                  <div className="provider-result-container">
+                    {error && (
+                      <div className="pr-search-box">
+                        Error fetching Providers
                       </div>
-                    ))}
-
-                  {!isLoading && (
-                    <>
-                      {zipCodeError && (
-                        <div className="pr-search-box">
-                          Fix errors before searching
+                    )}
+                    {zipCode &&
+                      results?.map((item) => (
+                        <div
+                          key={`${item?.pharmacyID}-pharmacy`}
+                          className="provider-result-content"
+                          style={{
+                            background:
+                              selectedPharmacy === item ? "#f1faff" : "inherit",
+                          }}
+                        >
+                          <div className="provider-content-section">
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Checkbox
+                                onClick={() => {
+                                  setSelectedPharmacy(item);
+                                }}
+                                checked={selectedPharmacy === item}
+                              />
+                              <div>
+                                <div className="pr-h1">{item?.name}</div>
+                                <div className="pr-h2">
+                                  {item?.address1}
+                                  {item.address2
+                                    ? " " + item.address2
+                                    : ""}, {item?.city}, {item?.state}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      )}
-                      {!error &&
-                        zipCode &&
-                        zipCode?.length === 5 &&
-                        results?.length === 0 && (
+                      ))}
+
+                    {!isLoading && (
+                      <>
+                        {zipCodeError && (
                           <div className="pr-search-box">
-                            No Pharmacies found under the current search
-                            criteria
+                            Fix errors before searching
                           </div>
                         )}
-                    </>
+                        {!error &&
+                          zipCode &&
+                          zipCode?.length === 5 &&
+                          results?.length === 0 && (
+                            <div className="pr-search-box no-result-container">
+                              No Pharmacies found under the current search
+                              criteria
+                            </div>
+                          )}
+                      </>
+                    )}
+                  </div>
+                  {zipCode && totalPages > 1 ? (
+                    <Pagination
+                      providerPagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      totalResults={totalCount}
+                      pageSize={perPage}
+                      onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
+                    />
+                  ) : (
+                    <div />
                   )}
                 </div>
               )}

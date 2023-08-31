@@ -9,7 +9,7 @@ import RoundCheck from "components/icons/round-check";
 import { dateFormatter } from "utils/dateFormatter";
 import { useHistory } from "react-router-dom";
 import { isOverDue } from "utils/dates";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import "./style.scss";
@@ -18,7 +18,6 @@ const RemindersCard = ({ callData, refreshData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
   const addToast = useToast();
-  const { clientsService } = useClientServiceContext();
 
   const isReminderDue = isOverDue(callData?.taskDate);
 

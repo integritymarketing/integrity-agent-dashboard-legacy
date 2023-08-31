@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import callRecordingsService from "services/callRecordingsService";
 import { getSignalRConnection } from "hooks/signalRConnection";
 import useUserProfile from "hooks/useUserProfile";
 
 export default function useCallRecordings() {
-  const { callRecordingsService } = useClientServiceContext();
   const [callRecordings, setCallRecordings] = useState([]);
   const { agentId } = useUserProfile();
 
   useEffect(() => {
     async function fetchCallRecordings() {
       try {
-        const recordings = await callRecordingsService.getAllCallRecordingsByAgent();
+        const recordings =
+          await callRecordingsService.getAllCallRecordingsByAgent();
 
         if (recordings.length > 0) {
           const sortedRecordings = recordings.sort(
@@ -40,7 +40,7 @@ export default function useCallRecordings() {
     return () => {
       connection.off("ActiveCall", handleActiveCall);
     };
-  }, [agentId, callRecordingsService]);
+  }, [agentId]);
 
   return callRecordings;
 }

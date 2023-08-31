@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import ExitIcon from "components/icons/exit";
 import PageCard from "components/ui/page-card";
 import Container from "components/ui/container";
+import CrossIcon from "components/icons/cross2";
 
 const Modal = ({
   header,
@@ -49,7 +50,7 @@ const Modal = ({
 
     return () => (document.body.style.overflow = "unset");
   }, [open]);
-  
+
   return (
     <div
       className={`modal ${open ? "modal--show" : "modal--hide"} ${
@@ -77,6 +78,7 @@ const Modal = ({
             <div className="p_header">
               {header && (
                 <h2
+                  style={{ color: "#052A63" }}
                   id="dialog_help_label"
                   className="hdg hdg--2 mb-1 mble-title"
                 >
@@ -85,7 +87,7 @@ const Modal = ({
               )}
               {onClose && (
                 <button className={`close-icon`} onClick={onClose}>
-                  <ExitIcon color="#0052CE" />
+                  <CrossIcon />
                   <span className="visually-hidden">Close modal window</span>
                 </button>
               )}
