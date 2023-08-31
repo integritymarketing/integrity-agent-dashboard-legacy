@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import ReactWebChat, { createDirectLine, createStore } from 'botframework-webchat';
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 import cx from 'classnames';
 import styles from './WebChat.module.scss';
 import './WebChat.scss';
 import useUserProfile from 'hooks/useUserProfile';
-import useToast from "hooks/useToast";
+import useToast from 'hooks/useToast';
 import authService from 'services/authService';
 import ChatIcon from './askintegrity-logo.png';
 import HideIcon from './hide-icon.png';
@@ -19,39 +19,40 @@ const WebChatComponent = () => {
   const [isChatActive, setIsChatActive] = useState(false);
   const audioRefOpen = useRef(null);
   const audioRefClose = useRef(null);
-  const chatRef = useRef(null); 
+  const chatRef = useRef(null);
 
-  useEffect(() => {
-    const fetchDirectLineToken = async () => {
-      try {
-        const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
-          method: 'POST',
-          body: JSON.stringify({ marketerId: agentId }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setDirectLineToken(data.token);
-        }
-      } catch (error) {
-        Sentry.captureException(error);
-      addToast({
-        type: "error",
-        message: "Error fetching Direct Line token.",
+  const fetchDirectLineToken = useCallback(async () => {
+    try {
+      const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
+        method: 'POST',
+        body: JSON.stringify({ marketerId: agentId }),
       });
-        console.error('Error fetching Direct Line token', error);
-      }
-    };
 
-    fetchDirectLineToken();
+      if (response.ok) {
+        const data = await response.json();
+        setDirectLineToken(data.token);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      addToast({
+        type: 'error',
+        message: 'Error fetching Direct Line token.',
+      });
+    }
   }, [agentId, addToast]);
 
+  useEffect(() => {
+    fetchDirectLineToken();
+  }, [fetchDirectLineToken]);
+
   const closeChat = useCallback(() => {
-    setIsChatActive(false);
-    if (audioRefClose.current) {
-      audioRefClose.current.play();
+    if (isChatActive) {
+      setIsChatActive(false);
+      if (audioRefClose.current) {
+        audioRefClose.current.play();
+      }
     }
-  }, []);
+  }, [isChatActive]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -61,7 +62,7 @@ const WebChatComponent = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
