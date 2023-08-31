@@ -23,7 +23,7 @@ const WebChatComponent = () => {
   useEffect(() => {
     const fetchDirectLineToken = async () => {
       const params = JSON.stringify({
-        marketerId: 1178,
+        marketerId: agentId,
       });
       try {
         const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
