@@ -1,48 +1,71 @@
-import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
-import ReactWebChat, {
-  createDirectLine,
-  createStore,
-} from "botframework-webchat";
-import styles from "./WebChat.module.scss";
-import ChatIcon from "./askintegrity-logo.png";
-import HideIcon from "./hide-icon.png";
-import cx from "classnames";
-import "./WebChat.scss";
-import useUserProfile from "hooks/useUserProfile";
-import openAudio from "./open.mp3";
-import closeAudio from "./close.mp3";
-import authService from "services/authService";
+import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
+import ReactWebChat, { createDirectLine, createStore } from 'botframework-webchat';
+import * as Sentry from "@sentry/react";
+import cx from 'classnames';
+import styles from './WebChat.module.scss';
+import './WebChat.scss';
+import useUserProfile from 'hooks/useUserProfile';
+import useToast from "hooks/useToast";
+import authService from 'services/authService';
+import ChatIcon from './askintegrity-logo.png';
+import HideIcon from './hide-icon.png';
+import openAudio from './open.mp3';
+import closeAudio from './close.mp3';
 
 const WebChatComponent = () => {
   const { agentId, fullName } = useUserProfile();
+  const addToast = useToast();
   const [directLineToken, setDirectLineToken] = useState(null);
   const [isChatActive, setIsChatActive] = useState(false);
   const audioRefOpen = useRef(null);
   const audioRefClose = useRef(null);
+  const chatRef = useRef(null); 
 
   useEffect(() => {
     const fetchDirectLineToken = async () => {
-      const params = JSON.stringify({
-        marketerId: agentId,
-      });
       try {
         const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
-          method: "POST",
-          body: params,
+          method: 'POST',
+          body: JSON.stringify({ marketerId: agentId }),
         });
+
         if (response.ok) {
           const data = await response.json();
           setDirectLineToken(data.token);
-        } else {
-          console.error("Failed to fetch Direct Line token");
         }
       } catch (error) {
-        console.error("Error fetching Direct Line token", error);
+        Sentry.captureException(error);
+      addToast({
+        type: "error",
+        message: "Error fetching Direct Line token.",
+      });
+        console.error('Error fetching Direct Line token', error);
       }
     };
 
     fetchDirectLineToken();
+  }, [agentId, addToast]);
+
+  const closeChat = useCallback(() => {
+    setIsChatActive(false);
+    if (audioRefClose.current) {
+      audioRefClose.current.play();
+    }
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (chatRef.current && !chatRef.current.contains(event.target)) {
+        closeChat();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [closeChat]);
 
   const directLine = useMemo(
     () => createDirectLine({ token: directLineToken }),
@@ -81,13 +104,6 @@ const WebChatComponent = () => {
       audioRefOpen.current.play().catch((error) => {
         console.error("Error playing open audio:", error);
       });
-    }
-  };
-
-  const closeChat = () => {
-    setIsChatActive(false);
-    if (audioRefClose.current) {
-      audioRefClose.current.play();
     }
   };
 
@@ -181,7 +197,7 @@ const WebChatComponent = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={chatRef}>
       <div
         id="webchat"
         className={cx(styles.chatSidebar, { [styles.active]: isChatActive })}
