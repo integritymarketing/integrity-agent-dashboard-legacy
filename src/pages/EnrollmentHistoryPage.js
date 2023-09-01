@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import useFetch from "hooks/useFetch";
 import styles from "./EnrollmentHistoryPage.module.scss";
 import WithLoader from "components/ui/WithLoader";
@@ -25,7 +25,6 @@ const API_URL = (confirmationNumber) =>
 const EnrollmentHistoryPage = (props) => {
   const { contactId, confirmationNumber } = useParams();
   const location = useLocation();
-  const history = useHistory();
 
   const enrollData = location?.state?.state || {};
 
@@ -33,7 +32,8 @@ const EnrollmentHistoryPage = (props) => {
 
   const addToast = useToast();
   const { Get: fetchEnrollByConfirmationNumber } = useFetch(
-    API_URL(confirmationNumber, true)
+    API_URL(confirmationNumber),
+    true
   );
 
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -48,16 +48,18 @@ const EnrollmentHistoryPage = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       if (confirmationNumber) {
-        const response = await fetchEnrollByConfirmationNumber();
-        if (response.status >= 200 && response.status < 300) {
+        debugger;
+        try {
+          const response = await fetchEnrollByConfirmationNumber();
           setdata(response);
           setLoading(false);
-        } else if (!response?.status || response.status === 400) {
+        } catch (error) {
+          Sentry.captureException(error);
+          setLoading(false);
           addToast({
             type: "error",
             message: "There was an error loading the enrollment details.",
           });
-          history.push(`/contact/${contactId}`);
         }
       }
     };

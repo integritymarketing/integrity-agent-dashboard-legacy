@@ -14,7 +14,10 @@ const Widget = ({
   const { policyCount, policyStatusColor, policyStatus } = tab;
   const tabWidth = 100 / tabCount - 0.5;
   return (
-    <div className={styles.tab} style={{ width: `${tabWidth}%` }}>
+    <div
+      className={styles.tab}
+      style={{ width: `${!isPS_widgetOne ? `${tabWidth}%` : "unset"}` }}
+    >
       <span className={styles.tabHeading}>{policyStatus}</span>
       <div
         onClick={() => onTabClick(index, policyCount)}
