@@ -20,7 +20,7 @@ import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 
 const API_URL = (confirmationNumber) =>
-  `https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0/Medicare/confirmationNumber/${confirmationNumber}`;
+  `${process.env.REACT_APP_ENROLLMENT_CONSUMER_API}/confirmationNumber/${confirmationNumber}`;
 
 const EnrollmentHistoryPage = (props) => {
   const { contactId, confirmationNumber } = useParams();
