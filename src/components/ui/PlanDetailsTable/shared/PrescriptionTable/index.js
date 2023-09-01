@@ -4,11 +4,11 @@ import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCar
 import Header from "./components/Header";
 import Row from "./components/Row";
 import Footer from "./components/Footer";
-import IconButton from "components/IconButton";
-import EditIcon from "components/icons/icon-edit";
+// import IconButton from "components/IconButton";
+// import EditIcon from "components/icons/icon-edit";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import PrescriptionCoverageModal from "components/SharedModals/PrescriptionModal/PrescriptionCoverageModal";
-import Plus from "components/icons/plus";
+// import Plus from "components/icons/plus";
 import useLeadInformation from "hooks/useLeadInformation";
 import { useParams } from "react-router-dom";
 
@@ -61,13 +61,13 @@ const PrescriptionTable = ({
       title="Prescriptions"
       isDashboard={true}
       preferencesKey={"prescriptions_collapse"}
-      actions={
-        <IconButton
-          label={isEdit ? "Edit" : "Add"}
-          onClick={handleAddEdit}
-          icon={isEdit ? <EditIcon /> : <Plus />}
-        />
-      }
+      // actions={
+      //   <IconButton
+      //     label={isEdit ? "Edit" : "Add"}
+      //     onClick={handleAddEdit}
+      //     icon={isEdit ? <EditIcon /> : <Plus />}
+      //   />
+      // }
     >
       {coveredDrugs?.length > 0 && (
         <>
