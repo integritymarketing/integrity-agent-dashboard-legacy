@@ -42,8 +42,6 @@ export default function Dashbaord() {
   const [activityData, setActivityData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
-  const [filterValues, setFilterValues] = useState([]);
-  const [fullResults, setFullResults] = useState([]);
   const [selectedFilterValues, setSelectedFilterValues] = useState([]);
   const [sort, setSort] = useState("Activities.CreateDate:desc");
   const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(false);
@@ -54,30 +52,9 @@ export default function Dashbaord() {
   const { stageSummaryData, loadStageSummaryData } =
     useContext(stageSummaryContext);
 
-  // const {
-  //   agentInformation: { leadPreference, agentID },
-  // } = useAgentInformationByID();
-
   const { agentInformation } = useAgentInformationByID();
   const leadPreference = agentInformation?.leadPreference;
   const agentID = agentInformation?.agentID;
-
-  useEffect(() => {
-    const getFullData = async () => {
-      const response = await clientsService.getDashboardData(
-        "Activities.CreateDate:desc",
-        null,
-        null,
-        null,
-        true
-      );
-      setFullResults(response.result);
-      getFilterValues(response.result);
-    };
-    getFullData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     loadActivityData();
@@ -98,7 +75,6 @@ export default function Dashbaord() {
   }, []);
 
   const loadActivityData = async () => {
-    let returnAll = false;
     if (activityData?.length === 0) {
       setIsLoading(true);
     }
@@ -108,7 +84,7 @@ export default function Dashbaord() {
         page,
         PAGESIZE,
         selectedFilterValues,
-        returnAll
+        false
       );
       if (page > 1) {
         setActivityData([...activityData, ...response.result]);
@@ -125,27 +101,6 @@ export default function Dashbaord() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const getFilterValues = (values) => {
-    const allValues = (values || [])
-      .filter((row) => {
-        return row.activities && row.activities.length > 0;
-      })
-      .map((row) => {
-        return row.activities[0]?.activitySubject;
-      });
-
-    let returnData = [...new Set(allValues)].map((name) => {
-      return {
-        name,
-        selected: false,
-      };
-    });
-    let sortedData = returnData?.sort((a, b) =>
-      a?.name?.localeCompare(b?.name)
-    );
-    setFilterValues([...sortedData]);
   };
 
   const navigateToContactListPage = (id) => {
@@ -282,9 +237,6 @@ export default function Dashbaord() {
               showMore={showMore}
               setSelectedFilterValues={setSelectedFilterValues}
               selectedFilterValues={selectedFilterValues}
-              fullResults={fullResults}
-              filterValues={filterValues}
-              setFilterValues={setFilterValues}
               setSort={(value) => {
                 setSort(value);
                 setPage(1);
