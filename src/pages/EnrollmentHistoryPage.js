@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import useFetch from "hooks/useFetch";
 import styles from "./EnrollmentHistoryPage.module.scss";
 import WithLoader from "components/ui/WithLoader";
@@ -25,19 +25,46 @@ const API_URL = (confirmationNumber) =>
 const EnrollmentHistoryPage = (props) => {
   const { contactId, confirmationNumber } = useParams();
   const location = useLocation();
+  const history = useHistory();
 
-  const { state: enrollData } = location.state;
+  const enrollData = location?.state?.state || {};
 
   const { isComingFromEmail = false, footer = true } = props;
 
   const addToast = useToast();
-  const { data, loading } = useFetch(API_URL(confirmationNumber));
+  const { Get: fetchEnrollByConfirmationNumber } = useFetch(
+    API_URL(confirmationNumber, true)
+  );
 
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [contact, setContact] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  const [data, setdata] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   let plan_data = data?.medicareEnrollment?.planDetails;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (confirmationNumber) {
+        const response = await fetchEnrollByConfirmationNumber();
+        if (response.status >= 200 && response.status < 300) {
+          setdata(response);
+          setLoading(false);
+        }
+        if (!response?.status || response.status === 400) {
+          addToast({
+            type: "error",
+            message: "There was an error loading the enrollment details.",
+          });
+          history.push(`/contact/${contactId}`);
+        }
+      }
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmationNumber]);
 
   const getContactData = useCallback(async () => {
     try {

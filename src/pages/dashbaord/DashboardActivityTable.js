@@ -62,6 +62,25 @@ const buttonTextByActivity = {
   "Meeting Recorded": "Download",
 };
 
+const FILTER_OPTIONS = [
+  { name: "Application Submitted", selected: false },
+  { name: "Call Recording", selected: false },
+  { name: "Contact Created", selected: false },
+  { name: "Contact Updated", selected: false },
+  { name: "Contact Imported", selected: false },
+  { name: "Reminder Added", selected: false },
+  { name: "Reminder Complete", selected: false },
+  { name: "Contact's new call log created", selected: false },
+  { name: "Incoming Call", selected: false },
+  { name: "Incoming Call Recorded", selected: false },
+  { name: "Meeting Recorded", selected: false },
+  { name: "Outbound Call Recorded", selected: false },
+  { name: "Plan Shared", selected: false },
+  { name: "Scope of Appointment Sent", selected: false },
+  { name: "Scope of Appointment Completed", selected: false },
+  { name: "Scope of Appointment Signed", selected: false },
+  { name: "Stage Change", selected: false },
+];
 const renderButtons = (activity, leadsId, handleClick) => {
   if (!activity) return false;
   const {
@@ -101,8 +120,6 @@ export default function DashboardActivityTable({
   showMore,
   setSelectedFilterValues,
   selectedFilterValues,
-  setFilterValues,
-  filterValues,
   setSort,
   sort,
 }) {
@@ -117,6 +134,7 @@ export default function DashboardActivityTable({
   const [selectedCall, setSelectedCall] = useState(null);
   const [selectedLead, setSelectedLead] = useState();
   const [isMobile, setIsMobile] = useState(false);
+  const [filterValues, setFilterValues] = useState(FILTER_OPTIONS);
   const userProfile = useUserProfile();
   const { npn } = userProfile;
   useEffect(() => {
@@ -483,12 +501,11 @@ export default function DashboardActivityTable({
     [history, showAddModal]
   );
 
-  const onFilterApply = (filterValues) => {
-    setFilterValues([...filterValues]);
-    let data = filterValues
+  const onFilterApply = (selectedValues) => {
+    setFilterValues([...selectedValues]);
+    let data = selectedValues
       .filter((item) => item.selected)
       .map((item) => item.name);
-
     setSelectedFilterValues([...data]);
     setPage(1);
     setFilterToggle(false);

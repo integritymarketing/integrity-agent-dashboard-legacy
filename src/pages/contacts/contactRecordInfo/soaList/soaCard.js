@@ -57,10 +57,11 @@ const SoaCard = ({
           {soa_status === "Sent" && (
             <div className="text">
               The scope of appointment has been sent to {soaDestination}{" "}
+              soaDestination
             </div>
           )}
           {soa_status === "Signed" && (
-            <div>The scope of appointment is for ready for review.</div>
+            <div>The scope of appointment is ready for review.</div>
           )}
 
           {soa_status === "Signed" && (
