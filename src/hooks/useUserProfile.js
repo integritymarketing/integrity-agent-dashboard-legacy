@@ -26,7 +26,7 @@ const useUserProfile = () => {
         agentId: auth.userProfile?.agentid,
       });
     }
-  }, [auth]);
+  }, [auth.userProfile]);
 
   return userProfile;
 };
