@@ -8,6 +8,7 @@ const Widget = ({
   statusIndex,
   onTabClick,
   isPS_widget,
+  isPS_widgetOne,
   tabCount,
 }) => {
   const { policyCount, policyStatusColor, policyStatus } = tab;
@@ -19,7 +20,9 @@ const Widget = ({
         onClick={() => onTabClick(index, policyCount)}
         className={`${styles.tabContent} ${
           index === statusIndex ? styles.selected : ""
-        } ${isPS_widget ? styles.isPS_widget : ""} `}
+        } ${isPS_widget ? styles.isPS_widget : ""} ${
+          isPS_widgetOne ? styles.isPS_widgetOne : ""
+        }`}
       >
         <span
           style={{ backgroundColor: policyStatusColor }}
@@ -59,7 +62,7 @@ const TabsCard = ({
         <>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index < 2) {
+              if (index < 1) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}
@@ -69,6 +72,7 @@ const TabsCard = ({
                     tab={tab}
                     isPS_widget={true}
                     tabCount={tabs.length}
+                    isPS_widgetOne={true}
                   />
                 );
               } else return null;
@@ -76,7 +80,7 @@ const TabsCard = ({
           </div>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index > 1) {
+              if (index > 0) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}

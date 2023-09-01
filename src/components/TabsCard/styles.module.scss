@@ -38,7 +38,12 @@
 
     .isPS_widget {
       @include mobileOnly {
-        width: 126px !important ;
+        width: 130px !important ;
+      }
+    }
+    .isPS_widgetOne {
+      @include mobileOnly {
+        width: 296px !important ;
       }
     }
 
@@ -103,6 +108,9 @@
         }
       }
       &.isPS_widget::after {
+        display: none;
+      }
+      &.isPS_widgetOne::after {
         display: none;
       }
     }
