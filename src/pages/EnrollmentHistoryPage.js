@@ -52,8 +52,7 @@ const EnrollmentHistoryPage = (props) => {
         if (response.status >= 200 && response.status < 300) {
           setdata(response);
           setLoading(false);
-        }
-        if (!response?.status || response.status === 400) {
+        } else if (!response?.status || response.status === 400) {
           addToast({
             type: "error",
             message: "There was an error loading the enrollment details.",
