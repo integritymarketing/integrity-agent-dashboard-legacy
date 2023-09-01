@@ -77,12 +77,14 @@ function MyButton({
       },
     };
     clientsService.updateAgentPreferences(data);
+    document.body.style.overflow = "auto";
   };
 
   useEffect(() => {
     setIsCheckInUpdateModalDismissed(
       leadPreference.isCheckInUpdateModalDismissed || true
     );
+
     if (
       leadPreference.isCheckInUpdateModalDismissed !== undefined &&
       leadPreference.isCheckInUpdateModalDismissed === false &&
@@ -120,6 +122,7 @@ function MyButton({
       {isAvailabiltyModalVisible && (
         <AvailabilityOverlay
           hideModal={() => {
+            document.body.style.overflow = "auto";
             setIsAvailabiltyModalVisible(false);
           }}
           onDismissed={onDismissed}
