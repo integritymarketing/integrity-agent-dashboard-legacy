@@ -257,6 +257,9 @@ const App = () => {
                                     <Route path="/soa-confirmation-form/:linkCode/:token">
                                       <SOAConfirmationForm />
                                     </Route>
+                                    <Route path="/customer/enrollmenthistory/:contactId/compare/:planIds/:effectiveDate/:request/:token">
+                                      <ComparePlansCodePage />
+                                    </Route>
                                     <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
                                       <ComparePlansCodePage />
                                     </Route>
