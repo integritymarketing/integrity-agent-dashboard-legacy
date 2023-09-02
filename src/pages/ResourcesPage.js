@@ -43,6 +43,12 @@ const isTrainingHub = (resource) => {
   return resource.name === "MedicareCENTER's Video Training Hub" ? true : false;
 };
 
+const isFeaturedDescriptionChange = (resourceName) => {
+  return resourceName === "MedicareCENTER Policy Management User Guide"
+    ? true
+    : false;
+};
+
 const ResourcesPage = () => {
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -86,7 +92,9 @@ const ResourcesPage = () => {
                         </div>
                         <div className="mt-1">
                           <p className="text-secondary">
-                            {resource.description}
+                            {isFeaturedDescriptionChange(resource.name)
+                              ? "Learn how to manage your clients' current plans and plan history."
+                              : resource.description}
                           </p>
                         </div>
                         <div
