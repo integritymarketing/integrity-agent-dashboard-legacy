@@ -453,7 +453,7 @@ const SharePlanModal = ({
                   </div>
                 )}
                 <div className={"footer"}>
-                  {isDocumentsSelected ? (
+                  {isDocumentsSelected || ispolicyShare ? (
                     <Button
                       label="Share"
                       data-gtm="button-share"
