@@ -3,7 +3,6 @@ import APIFail from "../APIFail/index";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "../../Icons/outNetwork";
-// import Edit from "components/Edit";
 import Modal from "components/Modal";
 import UpdateView from "./components/UpdateView/updateView";
 import useLeadInformation from "hooks/useLeadInformation";
@@ -17,7 +16,7 @@ function getInNetwork(pharmacyCost) {
 const PharmacyTable = ({
   contact,
   planData,
-  // pharmacies,
+  pharmacies,
   isMobile,
   pharmaciesList,
 }) => {
