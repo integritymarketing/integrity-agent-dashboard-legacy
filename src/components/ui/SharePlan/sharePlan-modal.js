@@ -47,7 +47,7 @@ const SharePlanModal = ({
   handleCloseModal,
   contact = {},
   enrollmentId,
-  ispolicyShare,
+  ispolicyShare = false,
 }) => {
   const addToast = useToast();
   const {
@@ -310,7 +310,7 @@ const SharePlanModal = ({
                   </h2>
                 </div>
                 {planData && <CompactPlanCard planData={planData} />}
-                {isDocumentsSelected ? (
+                {isDocumentsSelected || ispolicyShare ? (
                   <>
                     <div className={"shareplan-label"}>
                       How do you want to share this plan?
