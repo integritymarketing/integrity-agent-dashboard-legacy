@@ -25,30 +25,23 @@ const API_URL = (confirmationNumber) =>
 const EnrollmentHistoryPage = (props) => {
   const { contactId, confirmationNumber } = useParams();
   const location = useLocation();
-
   const enrollData = location?.state?.state || {};
-
   const { isComingFromEmail = false, footer = true } = props;
-
   const addToast = useToast();
   const { Get: fetchEnrollByConfirmationNumber } = useFetch(
     API_URL(confirmationNumber),
     true
   );
-
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [contact, setContact] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-
   const [data, setdata] = useState(null);
   const [loading, setLoading] = useState(false);
-
   let plan_data = data?.medicareEnrollment?.planDetails;
 
   useEffect(() => {
     const fetchData = async () => {
       if (confirmationNumber) {
-        debugger;
         try {
           const response = await fetchEnrollByConfirmationNumber();
           setdata(response);
