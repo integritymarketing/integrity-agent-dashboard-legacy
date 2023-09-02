@@ -22,7 +22,7 @@ export const MobileFooter = () => {
           rel="noopener noreferrer"
           className={styles.textContent}
         >
-          Terms of Use
+          Terms of Use kkkk
         </a>
         <Typography className={styles.textContent} px={"1rem"}>
           |
