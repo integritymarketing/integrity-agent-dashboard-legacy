@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import './index.scss';
-import { Link } from 'react-router-dom';
-import Logo from 'partials/logo';
-import Media from 'react-media';
-import analyticsService from 'services/analyticsService';
-import usePortalUrl from 'hooks/usePortalUrl';
-import { MobileFooter } from 'mobile/MobileFooter';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import "./index.scss";
+import { Link } from "react-router-dom";
+import Logo from "partials/logo";
+import Media from "react-media";
+import analyticsService from "services/analyticsService";
+import usePortalUrl from "hooks/usePortalUrl";
+import { MobileFooter } from "mobile/MobileFooter";
 
-const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
+const GlobalFooter = ({
+  className = "",
+  hideMedicareIcon = false,
+  ...props
+}) => {
   const portalUrl = usePortalUrl();
   const [isMobile, setIsMobile] = useState(false);
 
   return (
     <>
       <Media
-        query={'(max-width: 500px)'}
+        query={"(max-width: 500px)"}
         onChange={(isMobile) => {
           setIsMobile(isMobile);
         }}
@@ -29,7 +33,7 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
           {...props}
         >
           <div className="global-footer__content sf-text-center">
-            {hideMedicareIcon && (
+            {!hideMedicareIcon && (
               <Link to="/">
                 <span className="visually-hidden">Medicare Center</span>
                 <Logo aria-hidden="true" id="footerLogo" />
@@ -40,7 +44,7 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
               <ul className="divided-hlist">
                 <Media
                   queries={{
-                    small: '(max-width: 767px)',
+                    small: "(max-width: 767px)",
                   }}
                 >
                   {(matches) =>
@@ -50,7 +54,7 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
                           <Link
                             to="/help"
                             className={`link link--inherit ${analyticsService.clickClass(
-                              'help-footer'
+                              "help-footer"
                             )}`}
                           >
                             Need Help?
@@ -60,7 +64,7 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
                           <Link
                             to="/learning-center"
                             className={`link link--inherit ${analyticsService.clickClass(
-                              'learningcenter-footer'
+                              "learningcenter-footer"
                             )}`}
                           >
                             Learning Center
@@ -72,7 +76,7 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
                 </Media>
                 <li>
                   <a
-                    href={`${portalUrl || ''}/terms`}
+                    href={`${portalUrl || ""}/terms`}
                     rel="noopener noreferrer"
                     className="link link--inherit"
                   >
@@ -81,7 +85,7 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
                 </li>
                 <li>
                   <a
-                    href={`${portalUrl || ''}/privacy`}
+                    href={`${portalUrl || ""}/privacy`}
                     rel="noopener noreferrer"
                     className="link link--inherit"
                   >
@@ -91,7 +95,8 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
               </ul>
             </nav>
             <small className="global-footer__legal mt-4">
-              <span>&copy; {new Date().getFullYear()}</span> <span>Integrity.</span> <span>All rights reserved.</span>
+              <span>&copy; {new Date().getFullYear()}</span>{" "}
+              <span>Integrity.</span> <span>All rights reserved.</span>
             </small>
           </div>
         </footer>
@@ -102,7 +107,7 @@ const GlobalFooter = ({ className = '', hideMedicareIcon, ...props }) => {
 
 GlobalFooter.propTypes = {
   className: PropTypes.string,
-  hideMedicareIcon: PropTypes.bool
+  hideMedicareIcon: PropTypes.bool,
 };
 
 export default GlobalFooter;

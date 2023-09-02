@@ -4,8 +4,8 @@
   min-height: 8rem;
   max-height: 10rem;
   background: $white;
-  padding-left: 136px;
-  padding-right: 136px;
+  // padding-left: 136px; need to test before removing
+  // padding-right: 136px;
 
   @include small {
     height: 9rem;

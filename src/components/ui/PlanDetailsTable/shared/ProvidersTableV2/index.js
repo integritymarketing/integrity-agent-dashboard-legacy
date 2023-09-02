@@ -3,13 +3,10 @@ import PropTypes from "prop-types";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 import styles from "./ProvidersTableV2.module.scss";
 import { useParams } from "react-router-dom";
-import IconButton from "components/IconButton";
-import EditIcon from "components/icons/icon-edit";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import RenderProviders from "components/ui/ProvidersList";
 import useLeadInformation from "hooks/useLeadInformation";
-import Plus from "components/icons/plus";
 
 const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
   const { contactId } = useParams();
@@ -20,23 +17,12 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
   const [providerEditFlag, setProviderEditFlag] = useState(false);
   const [providerToEdit, setProviderToEdit] = useState({});
 
-  const onAddNewProvider = () => setIsOpen(true);
-
-  const isEdit = providers?.length > 0 ? true : false;
-
   return (
     <>
       <PlanDetailsContactSectionCard
         title="Providers"
         isDashboard={true}
         preferencesKey="providers_collapse"
-        actions={
-          <IconButton
-            label={isEdit ? "Edit" : "Add"}
-            onClick={onAddNewProvider}
-            icon={isEdit ? <EditIcon /> : <Plus />}
-          />
-        }
       >
         <div className={styles.container}>
           {providers?.map((provider, index) => {

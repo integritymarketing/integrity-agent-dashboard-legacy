@@ -133,18 +133,6 @@ const PharmacyTable = ({
         data={isApiFailed ? rowData : data}
         className="quotes"
         header="Pharmacy"
-        //   actions={
-        // //     <Edit
-        // //       label={data.length ? "Edit" : "Add"}
-        // //       onClick={() => {
-        // //         if (isEdit) {
-        // //           setOpen(true);
-        // //         } else {
-        // //           setOpenAddModal(true);
-        // //         }
-        // //       }}
-        // //     />
-        // //   }
       />
       {isEdit && (
         <Modal

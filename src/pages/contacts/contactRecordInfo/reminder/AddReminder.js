@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import ShowDate from './ShowDate';
-import clientsService from 'services/clientsService';
-import * as Sentry from '@sentry/react';
-import useToast from '../../../../hooks/useToast';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import ShowDate from "./ShowDate";
+import clientsService from "services/clientsService";
+import * as Sentry from "@sentry/react";
+import useToast from "../../../../hooks/useToast";
 
 const AddReminder = ({
   reminderModalStatus,
@@ -11,7 +11,7 @@ const AddReminder = ({
   getLeadDetails,
   leadId,
 }) => {
-  const [reminderNote, setReminderNote] = useState('');
+  const [reminderNote, setReminderNote] = useState("");
   const [reminderDate, setReminderDate] = useState(null);
   const addToast = useToast();
 
@@ -24,11 +24,11 @@ const AddReminder = ({
     try {
       await clientsService.createReminder(payload);
       addToast({
-        type: 'success',
-        message: 'Reminder successfully added.',
+        type: "success",
+        message: "Reminder successfully added.",
         time: 3000,
       });
-      setReminderNote('');
+      setReminderNote("");
       setReminderDate(new Date());
       setReminderModalStatus();
       getLeadDetails();
@@ -38,8 +38,8 @@ const AddReminder = ({
   };
 
   return (
-    <div className="reminder-card-section-2">
-      <div className="reminder-card-section-2-row-1">
+    <div className="reminderCardSection2">
+      <div className="reminderCardSection2row1">
         <ShowDate
           date={reminderDate}
           placeholder="Date"
@@ -47,19 +47,19 @@ const AddReminder = ({
         />
       </div>
       <div>
-        <div className="reminder-card-section-2-row-2-left">
+        <div className="reminderCardSection2row2left">
           <textarea
             value={reminderNote}
             placeholder="Please Enter Here.."
-            className="normal-text"
+            className="normalText"
             rows="3"
             onChange={(e) => setReminderNote(e.target.value)}
           ></textarea>
         </div>
       </div>
-      <div className="reminder-card-section-2-row-2">
+      <div className="reminderCardSection2row2">
         <div />
-        <div className="reminder-card-section-cancel-save-btn reminder-card-section-2-row-2-right">
+        <div className="remindercardsectioncancelsavebtn reminderCardSection2row2right">
           <button
             className="reminder-cancel-btn"
             onClick={() => setReminderModalStatus()}

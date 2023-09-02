@@ -251,6 +251,7 @@ export default function Dashbaord() {
           handleConfirm={handleConfirm}
           close={() => {
             setWelcomeModalOpen(false);
+            setTimeout(() => (document.body.style.overflow = "auto"), 1000);
           }}
         />
       </WithLoader>

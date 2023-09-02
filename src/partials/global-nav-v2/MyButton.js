@@ -8,13 +8,7 @@ import Notice from "./microComponent/Notice";
 import clientsService from "services/clientsService";
 import useUserProfile from "hooks/useUserProfile";
 
-function MyButton({
-  clickButton,
-  isAvailable,
-  page,
-  leadPreference,
-  hasActiveCampaign,
-}) {
+function MyButton({ clickButton, isAvailable, page, leadPreference }) {
   const userProfile = useUserProfile();
   const { agentId } = userProfile;
   const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] =
