@@ -1,10 +1,10 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import EditIcon from "components/icons/icon-edit";
+// import EditIcon from "components/icons/icon-edit";
 import { formatPhoneNumber } from "utils/phones";
 import makeStyles from "@mui/styles/makeStyles";
-import IconButton from "components/IconButton";
+// import IconButton from "components/IconButton";
 import ProviderPersonalInfo from "./ProviderPersonalInfo";
 import { getProviderPhone } from "utils/primaryContact";
 import InNetworkIcon from "components/icons/inNetwork";
@@ -63,7 +63,8 @@ const RenderProviders = ({
           </Box>
         ))}
       </Box>
-      <Box>
+      {/*   USE THIS WHILE WE ARE WORKING ON GLOBAL MODALS */}
+      {/* <Box>
         <IconButton
           label="Edit"
           onClick={() => {
@@ -73,7 +74,7 @@ const RenderProviders = ({
           }}
           icon={<EditIcon />}
         />
-      </Box>
+      </Box> */}
     </>
   );
 };

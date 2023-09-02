@@ -42,7 +42,6 @@ const AuthSilentCallback = lazy(() =>
   import("components/functional/auth-silent-callback")
 );
 const ClientImportPage = lazy(() => import("pages/ClientImportPage"));
-const ComparePlansCodePage = lazy(() => import("pages/ComparePlansCodePage"));
 const ComparePlansPage = lazy(() => import("pages/ComparePlansPage"));
 const ContactDetailsPage = lazy(() => import("pages/ContactDetails"));
 const ContactRecordInfo = lazy(() =>
@@ -88,6 +87,7 @@ const TrafficDirector = lazy(() =>
 );
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const Welcome = lazy(() => import("pages/welcome"));
+const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
 
 const App = () => {
   return (
@@ -258,10 +258,10 @@ const App = () => {
                                       <SOAConfirmationForm />
                                     </Route>
                                     <Route path="/customer/enrollmenthistory/:contactId/compare/:planIds/:effectiveDate/:request/:token">
-                                      <ComparePlansCodePage />
+                                      <PolicyCodePage />
                                     </Route>
                                     <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
-                                      <ComparePlansCodePage />
+                                      <PolicyCodePage />
                                     </Route>
                                     <Route path="/soa-confirmation-page/:firstName/:lastName">
                                       <SOAConfirmationPage />

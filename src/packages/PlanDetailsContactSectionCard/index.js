@@ -7,12 +7,12 @@ import usePreferences from "hooks/usePreferences";
 const PlanDetailsContactSectionCard = (props) => {
   const {
     title,
-    actions,
+    // actions,
     children,
     className = "",
     infoIcon,
     preferencesKey,
-    hideActionIfCollapse = false,
+    // hideActionIfCollapse = false,
     isDashboard = false,
   } = props;
   const [value, setValue] = usePreferences(false, preferencesKey);
@@ -46,9 +46,13 @@ const PlanDetailsContactSectionCard = (props) => {
           <h3 className={styles.heading}>{title}</h3>
           {infoIcon && <div className={styles.infoIcon}>{infoIcon} </div>}
         </div>
+
+        {/*   USE THIS WHILE WE ARE WORKING ON GLOBAL MODALS */}
+
+        {/* 
         {!(hideActionIfCollapse && isCollapsed) && (
           <div className={styles.actions}>{actions}</div>
-        )}
+        )} */}
       </div>
       {!isCollapsed && <div className={styles.content}>{children}</div>}
     </section>
