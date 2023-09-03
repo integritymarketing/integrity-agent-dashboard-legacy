@@ -13,7 +13,8 @@ function getNavElements(
   sectionRefs,
   activeSectionID,
   setActiveSectionID,
-  setIsScrolling
+  setIsScrolling,
+  isEnroll = false
 ) {
   const rows = [];
   var key = 0;
@@ -25,6 +26,9 @@ function getNavElements(
         </div>
       );
     } else {
+      if (isEnroll && section.label === 'Pharmacy') {
+        continue;
+      }
       const ref = sectionRefs[section.id];
       rows.push(
         <li

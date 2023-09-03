@@ -49,6 +49,7 @@ const MapdDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
+          isEnroll={isEnroll}
           sections={[
             {
               header: "Overview",
