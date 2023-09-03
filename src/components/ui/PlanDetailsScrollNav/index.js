@@ -14,7 +14,7 @@ function getNavElements(
   activeSectionID,
   setActiveSectionID,
   setIsScrolling,
-  isEnroll = false
+  hidePharmacy = false
 ) {
   const rows = [];
   var key = 0;
@@ -26,7 +26,7 @@ function getNavElements(
         </div>
       );
     } else {
-      if (isEnroll && section.label === 'Pharmacy') {
+      if (hidePharmacy && section.label === 'Pharmacy') {
         continue;
       }
       const ref = sectionRefs[section.id];

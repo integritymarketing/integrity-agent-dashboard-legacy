@@ -24,6 +24,7 @@ const MapdDetailsContent = ({
   enrollData,
   isEmail = false,
   refresh,
+  hidePharmacy = false,
 }) => {
   const costsRef = useRef(null);
   const providersRef = useRef(null);
@@ -49,7 +50,7 @@ const MapdDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
-          isEnroll={isEnroll}
+          hidePharmacy={true}
           sections={[
             {
               header: "Overview",
