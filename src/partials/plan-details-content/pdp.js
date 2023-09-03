@@ -24,7 +24,7 @@ const PdpDetailsContent = ({
   isEmail = false,
   refresh,
 }) => {
-  const { state } = useLocation();
+  const location = useLocation();
   const costsRef = useRef(null);
   const prescriptionsRef = useRef(null);
   const pharmacyRef = useRef(null);
@@ -46,7 +46,7 @@ const PdpDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
-          hidePharmacy={state.page === "enrollmenthistory"}
+          hidePharmacy={location.pathname === "enrollmenthistory"}
           sections={[
             {
               header: "Overview",
