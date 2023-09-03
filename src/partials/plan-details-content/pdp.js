@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useLocation } from "react-router-dom";
 import PdpCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import PdpPharmacyTable from "components/ui/PlanDetailsTable/shared/PharmacyTable/pharmacy-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
@@ -23,6 +24,7 @@ const PdpDetailsContent = ({
   isEmail = false,
   refresh,
 }) => {
+  const { state } = useLocation();
   const costsRef = useRef(null);
   const prescriptionsRef = useRef(null);
   const pharmacyRef = useRef(null);
@@ -44,6 +46,7 @@ const PdpDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
+          hidePharmacy={state.page === "enrollmenthistory"}
           sections={[
             {
               header: "Overview",
