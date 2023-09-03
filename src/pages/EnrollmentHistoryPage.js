@@ -116,7 +116,7 @@ const EnrollmentHistoryPage = (props) => {
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
-                pharmacies={plan_data?.pharmacyCosts}
+                //pharmacies={plan_data?.pharmacyCosts}
               />
             )}
             {plan_data && PLAN_TYPE_ENUMS[plan_data.planType] === "PDP" && (
@@ -128,7 +128,7 @@ const EnrollmentHistoryPage = (props) => {
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
-                pharmacies={plan_data?.pharmacyCosts}
+                //pharmacies={plan_data?.pharmacyCosts}
               />
             )}
             {plan_data && PLAN_TYPE_ENUMS[plan_data.planType] === "MA" && (
