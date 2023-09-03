@@ -59,7 +59,7 @@ export class EnrollPlansService {
 
   sharePolicy = async (sharePolicyPayload) => {
     const url = new URL(
-      `https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0/Medicare/ShareCurrentPlanSnapshot`
+      `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/ShareCurrentPlanSnapshot`
     );
 
     const response = await this._clientAPIRequest(
