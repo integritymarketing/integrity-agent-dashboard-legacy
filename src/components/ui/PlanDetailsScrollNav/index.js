@@ -14,7 +14,7 @@ function getNavElements(
   activeSectionID,
   setActiveSectionID,
   setIsScrolling,
-  isEnroll
+  hidePharmacy
 ) {
   const rows = [];
   var key = 0;
@@ -26,7 +26,7 @@ function getNavElements(
         </div>
       );
     } else {
-      if (isEnroll && section.label === 'Pharmacy') {
+      if (hidePharmacy && section.label === 'Pharmacy') {
         continue;
       }
       const ref = sectionRefs[section.id];
@@ -57,7 +57,7 @@ const CURRENT_PLAN_YEAR =
 const EFFECTIVE_YEARS_SUPPORTED = [CURRENT_PLAN_YEAR];
 
 export default forwardRef(
-  ({ initialSectionID, sections, scrollToInitialSection = true, isEnroll  = false}, refs) => {
+  ({ initialSectionID, sections, scrollToInitialSection = true, hidePharmacy  = false}, refs) => {
     const initialeffDate = getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
     const [activeSectionID, setActiveSectionID] = useState(initialSectionID);
     const [effectiveDate,] = useState(initialeffDate);
@@ -68,7 +68,7 @@ export default forwardRef(
       activeSectionID,
       setActiveSectionID,
       setIsScrolling,
-      isEnroll
+      hidePharmacy
     );
 
     useEffect(() => {

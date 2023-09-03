@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useLocation } from "react-router-dom";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import MapdCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import MapdPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
@@ -25,6 +26,7 @@ const MapdDetailsContent = ({
   isEmail = false,
   refresh,
 }) => {
+  const { state } = useLocation();
   const costsRef = useRef(null);
   const providersRef = useRef(null);
   const prescriptionsRef = useRef(null);
@@ -49,7 +51,7 @@ const MapdDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
-          isEnroll={isEnroll}
+          hidePharmacy={state.page === "enrollmenthistory"}
           sections={[
             {
               header: "Overview",
