@@ -18,7 +18,7 @@ const PdpDetailsContent = ({
   onShareClick,
   pharmacies,
   pharmaciesList,
-  isEnroll,
+  isEnroll = false,
   enrollData,
   isEmail = false,
   refresh,
@@ -176,7 +176,7 @@ const PdpDetailsContent = ({
           )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
-          {plan && (
+          {plan &&!isEnroll && (
             <PdpPharmacyTable
               contact={contact}
               planData={plan}

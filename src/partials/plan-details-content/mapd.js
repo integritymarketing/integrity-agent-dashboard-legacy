@@ -20,7 +20,7 @@ const MapdDetailsContent = ({
   onShareClick,
   pharmacies,
   pharmaciesList,
-  isEnroll,
+  isEnroll = false,
   enrollData,
   isEmail = false,
   refresh,
@@ -204,7 +204,7 @@ const MapdDetailsContent = ({
           )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
-          {plan && (
+          {plan &&!isEnroll && (
             <MapdPharmacyTable
               contact={contact}
               isMobile={isMobile}
