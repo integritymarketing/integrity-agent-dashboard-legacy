@@ -46,7 +46,7 @@ const PdpDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
-          hidePharmacy={location.pathname === "enrollmenthistory"}
+          hidePharmacy={location.pathname.includes('/enrollmenthistory/')}
           sections={[
             {
               header: "Overview",
