@@ -94,8 +94,7 @@ const EnrollmentHistoryPage = ({
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast, confirmationNumber]);
+  }, [addToast, confirmationNumber, fetchEnrollByConfirmationNumber]);
 
   const getContactData = useCallback(async () => {
     try {
