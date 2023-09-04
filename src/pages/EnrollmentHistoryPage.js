@@ -81,8 +81,8 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
         }
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast, confirmationNumber]);
 
   const getContactData = useCallback(async () => {
