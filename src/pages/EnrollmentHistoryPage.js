@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import useFetch from "hooks/useFetch";
 import styles from "./EnrollmentHistoryPage.module.scss";
@@ -27,8 +27,10 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
   const { contactId : paramContactId, confirmationNumber  } = useParams();
   const location = useLocation();
   const addToast = useToast();
-  const memoizedUrl = useMemo(() => API_URL(confirmationNumber), [confirmationNumber]);
-  const { Get: fetchEnrollByConfirmationNumber } = useFetch(memoizedUrl, true);  
+  const { Get: fetchEnrollByConfirmationNumber } = useFetch(
+    API_URL(confirmationNumber),
+    true
+  );
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [contact, setContact] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -79,9 +81,9 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
         }
       }
     };
-  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchData();
-  }, [addToast, confirmationNumber, fetchEnrollByConfirmationNumber]);
+  }, [addToast, confirmationNumber]);
 
   const getContactData = useCallback(async () => {
     try {
