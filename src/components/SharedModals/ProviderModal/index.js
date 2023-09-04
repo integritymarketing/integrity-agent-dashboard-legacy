@@ -171,15 +171,14 @@ const ProviderModal = ({
   };
 
   const handleDeleteProvider = () => {
-    const requestPayload = selectAddressIds.map((addressId) => {
+    const requestPayload = selected?.addresses?.map((address) => {
       return {
         npi: selectedProvider?.NPI?.toString(),
-        addressId: addressId,
         isPrimary: false,
       };
     });
     onClose();
-    onDelete(requestPayload, selectedProvider?.presentationName, refresh);
+    onDelete(requestPayload, selectedProvider?.presentationName, refresh, true);
   };
 
   const isFormValid = useMemo(() => {
@@ -197,13 +196,19 @@ const ProviderModal = ({
       : searchString?.length === 0 || providerList?.length === 0
     : false;
 
-  const disabled = isEdit ? !selectAddressIds?.length > 0 : !isFormValid;
+  const isUpdated = useMemo(() => {
+    return selected?.addresses?.length !== selectAddressIds?.length;
+  }, [selected, selectAddressIds]);
+
+  const disabled = isEdit
+    ? !selectAddressIds?.length > 0 || !isUpdated
+    : !isFormValid;
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title={isEdit ? "Update Provider" : "Add Provider"}
+      title={isEdit ? "Update Provider" : "Add Providers"}
       onSave={isEdit ? handleEditProvider : handleSaveProvider}
       actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
       customFooter={
@@ -283,7 +288,9 @@ const ProviderModal = ({
               searchString={searchString}
               list={providerList}
               title={"Provider"}
-              defaultMessage={"zipcode must be 5 digits"}
+              defaultMessage={
+                zipCode?.length !== 5 ? "zipcode must be 5 digits" : null
+              }
             />
           ) : (
             <>

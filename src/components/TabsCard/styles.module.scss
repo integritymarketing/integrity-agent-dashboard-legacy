@@ -13,8 +13,8 @@
   }
 
   @include mobileOnly {
-    padding-left: 5%;
-    padding-right: 5%;
+    padding: 20px;
+    width: 100%;
   }
 
   .tab {
@@ -22,8 +22,11 @@
     flex-direction: column;
     justify-content: flex-end;
 
+    @include mobileOnly {
+      width: 45%;
+    }
+
     .tabHeading {
-      margin: auto;
       color: $dark-blue;
       padding-bottom: 8px;
       font: normal normal normal 20px/24px Lato;
@@ -38,12 +41,12 @@
 
     .isPS_widget {
       @include mobileOnly {
-        width: 130px !important ;
+        width: 100% !important ;
       }
     }
     .isPS_widgetOne {
       @include mobileOnly {
-        width: 286px !important ;
+        width: 100% !important ;
       }
     }
 
@@ -59,7 +62,6 @@
       position: relative;
 
       @include mobileOnly {
-        width: 72px;
         height: 64px;
       }
       @include desktopOnly {
@@ -96,7 +98,7 @@
         content: "";
         display: block;
         position: absolute;
-        left: 50%;
+        left: 48%;
         margin-top: 100px;
         transform: translate(-6px, 0);
         border-left: 12px solid transparent;
@@ -105,6 +107,7 @@
 
         @include mobileOnly {
           margin-top: 76px;
+          left: 45%;
         }
       }
       &.isPS_widget::after {
@@ -119,7 +122,7 @@
 
 .widgetRow {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: row;
 }
 

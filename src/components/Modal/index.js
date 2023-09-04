@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     backgroundColor: "#FFFFFF",
     borderRadius: "8px 8px 0px 0px",
-    boxShadow: "inset 0px -1px 0px var(--gray-mid-cccccc)",
+    boxShadow: "inset 0px -1px 0px #CCCCCC",
     color: "#052A63",
     fontFamily: "Lato",
     fontSize: "32px",
