@@ -48,6 +48,7 @@ const SharePlanModal = ({
   contact = {},
   enrollmentId,
   ispolicyShare = false,
+  enrollData = {}
 }) => {
   const addToast = useToast();
   const {
@@ -177,6 +178,7 @@ const SharePlanModal = ({
         middleInitial: middleName,
         dateOfBirth: birthdate,
         EnrollmentId: enrollmentId,
+        enrollData: enrollData
       };
       if (selectOption === "email") {
         const data = {

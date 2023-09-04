@@ -22,11 +22,10 @@ import * as Sentry from "@sentry/react";
 const API_URL = (confirmationNumber) =>
   `${process.env.REACT_APP_ENROLLMENT_CONSUMER_API}/confirmationNumber/${confirmationNumber}`;
 
-const EnrollmentHistoryPage = (props) => {
-  const { contactId, confirmationNumber } = useParams();
+const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, footer = true }) => {
+  const { contactId: propLeadId, EnrollData: propEnrollData, LeadFirstName, LeadLastName } = agentInfo;
+  const { contactId : paramContactId, confirmationNumber  } = useParams();
   const location = useLocation();
-  const enrollData = location?.state?.state || {};
-  const { isComingFromEmail = false, footer = true } = props;
   const addToast = useToast();
   const { Get: fetchEnrollByConfirmationNumber } = useFetch(
     API_URL(confirmationNumber),
@@ -37,7 +36,32 @@ const EnrollmentHistoryPage = (props) => {
   const [isMobile, setIsMobile] = useState(false);
   const [data, setdata] = useState(null);
   const [loading, setLoading] = useState(false);
+  const finalContactId = paramContactId || propLeadId;
   let plan_data = data?.medicareEnrollment?.planDetails;
+  const isCurrentYear = (dateString) => {
+    const inputDate = new Date(dateString);
+    const inputYear = inputDate.getFullYear();
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    return inputYear === currentYear;
+  };
+  const buildEnrollData = useCallback((enrollData) => {
+    if (!enrollData) {
+      return {}; 
+    }
+    const lowerCasedEnrollData = Object.fromEntries(
+      Object.entries(enrollData).map(([key, value]) => [key.charAt(0).toLowerCase() + key.slice(1), value])
+    );
+  
+    return {
+      ...lowerCasedEnrollData,
+      currentYear: isCurrentYear(lowerCasedEnrollData?.policyEffectiveDate),
+      policyHolder: `${LeadFirstName} ${LeadLastName}`,
+      submittedDate: lowerCasedEnrollData?.appSubmitDate,
+    };
+  }, [LeadFirstName, LeadLastName]);
+  const processedEnrollData = buildEnrollData(propEnrollData);
+  const enrollData = location?.state?.state || processedEnrollData || {};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,12 +81,11 @@ const EnrollmentHistoryPage = (props) => {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [confirmationNumber]);
+  }, [addToast, confirmationNumber, fetchEnrollByConfirmationNumber]);
 
   const getContactData = useCallback(async () => {
     try {
-      const contactData = await clientsService.getContactInfo(contactId);
+      const contactData = await clientsService.getContactInfo(finalContactId);
 
       setContact(contactData);
     } catch (e) {
@@ -73,13 +96,13 @@ const EnrollmentHistoryPage = (props) => {
       });
     } finally {
     }
-  }, [contactId, addToast]);
+  }, [finalContactId, addToast]);
 
   useEffect(() => {
-    if (!isComingFromEmail && contactId) {
+    if (!isComingFromEmail && finalContactId) {
       getContactData();
     }
-  }, [getContactData, isComingFromEmail, contactId]);
+  }, [getContactData, isComingFromEmail, finalContactId]);
 
   return (
     <>
@@ -98,6 +121,7 @@ const EnrollmentHistoryPage = (props) => {
             contact={contact}
             enrollmentId={data?.enrollmentId}
             ispolicyShare={true}
+            enrollData={enrollData}
           />
         )}
         <WithLoader isLoading={loading}>
@@ -105,7 +129,7 @@ const EnrollmentHistoryPage = (props) => {
             <title>MedicareCENTER - Enrollment History</title>
           </Helmet>
           <GlobalNav />
-          <GoBackNavbar />
+          {!isComingFromEmail && <GoBackNavbar />}
           <Container className={styles.body}>
             {plan_data && PLAN_TYPE_ENUMS[plan_data.planType] === "MAPD" && (
               <MapdContent
@@ -144,7 +168,6 @@ const EnrollmentHistoryPage = (props) => {
             )}
           </Container>
           {footer && <ContactFooter />}
-
           <BackToTop />
         </WithLoader>
       </div>
