@@ -19,16 +19,22 @@ import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 
-const API_URL = (confirmationNumber) =>
-  `${process.env.REACT_APP_ENROLLMENT_CONSUMER_API}/confirmationNumber/${confirmationNumber}`;
-
-const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, footer = true }) => {
-  const { contactId: propLeadId, EnrollData: propEnrollData, LeadFirstName, LeadLastName } = agentInfo;
-  const { contactId : paramContactId, confirmationNumber  } = useParams();
+const EnrollmentHistoryPage = ({
+  agentInfo = {},
+  isComingFromEmail = false,
+  footer = true,
+}) => {
+  const {
+    contactId: propLeadId,
+    EnrollData: propEnrollData,
+    LeadFirstName,
+    LeadLastName,
+  } = agentInfo;
+  const { contactId: paramContactId, confirmationNumber } = useParams();
   const location = useLocation();
   const addToast = useToast();
   const { Get: fetchEnrollByConfirmationNumber } = useFetch(
-    API_URL(confirmationNumber),
+    `${process.env.REACT_APP_ENROLLMENT_CONSUMER_API}/confirmationNumber/${confirmationNumber}`,
     true
   );
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -45,21 +51,27 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
     const currentYear = currentDate.getFullYear();
     return inputYear === currentYear;
   };
-  const buildEnrollData = useCallback((enrollData) => {
-    if (!enrollData) {
-      return {}; 
-    }
-    const lowerCasedEnrollData = Object.fromEntries(
-      Object.entries(enrollData).map(([key, value]) => [key.charAt(0).toLowerCase() + key.slice(1), value])
-    );
-  
-    return {
-      ...lowerCasedEnrollData,
-      currentYear: isCurrentYear(lowerCasedEnrollData?.policyEffectiveDate),
-      policyHolder: `${LeadFirstName} ${LeadLastName}`,
-      submittedDate: lowerCasedEnrollData?.appSubmitDate,
-    };
-  }, [LeadFirstName, LeadLastName]);
+  const buildEnrollData = useCallback(
+    (enrollData) => {
+      if (!enrollData) {
+        return {};
+      }
+      const lowerCasedEnrollData = Object.fromEntries(
+        Object.entries(enrollData).map(([key, value]) => [
+          key.charAt(0).toLowerCase() + key.slice(1),
+          value,
+        ])
+      );
+
+      return {
+        ...lowerCasedEnrollData,
+        currentYear: isCurrentYear(lowerCasedEnrollData?.policyEffectiveDate),
+        policyHolder: `${LeadFirstName} ${LeadLastName}`,
+        submittedDate: lowerCasedEnrollData?.appSubmitDate,
+      };
+    },
+    [LeadFirstName, LeadLastName]
+  );
   const processedEnrollData = buildEnrollData(propEnrollData);
   const enrollData = location?.state?.state || processedEnrollData || {};
 
@@ -82,7 +94,7 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
       }
     };
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast, confirmationNumber]);
 
   const getContactData = useCallback(async () => {
@@ -130,7 +142,7 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
           <Helmet>
             <title>MedicareCENTER - Enrollment History</title>
           </Helmet>
-          <GlobalNav />
+          {!isComingFromEmail && <GlobalNav />}
           {!isComingFromEmail && <GoBackNavbar />}
           <Container className={styles.body}>
             {plan_data && PLAN_TYPE_ENUMS[plan_data.planType] === "MAPD" && (
