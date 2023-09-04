@@ -1,5 +1,5 @@
 import authService from "services/authService";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import * as Sentry from "@sentry/react";
 
 /**
@@ -15,7 +15,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const memoizedUrl = useMemo(() => url, [url]);
   /**
    * Fetches data from the API endpoint using the specified HTTP method and request body
    */
@@ -37,7 +37,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
           };
           options.body = JSON.stringify(body);
         }
-        const response = await fetch(url, options);
+        const response = await fetch(memoizedUrl, options);
 
         if (returnHttpResponse) {
           return response;
@@ -56,7 +56,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
         setLoading(false);
       }
     },
-    [url, isPublic, noResponse]
+    [memoizedUrl, isPublic, noResponse]
   );
 
   const Get = (body, returnHttpResponse) => {
