@@ -12,11 +12,12 @@ const Widget = ({
   tabCount,
 }) => {
   const { policyCount, policyStatusColor, policyStatus } = tab;
-  const tabWidth = 100 / tabCount - 0.5;
+  const tabWidth = isPS_widget ? "45%" : 100 / tabCount - 0.5;
+
   return (
     <div
       className={styles.tab}
-      style={{ width: `${!isPS_widgetOne ? `${tabWidth}%` : "unset"}` }}
+      style={{ width: `${!isPS_widgetOne ? `${tabWidth}%` : "100%"}` }}
     >
       <span className={styles.tabHeading}>{policyStatus}</span>
       <div

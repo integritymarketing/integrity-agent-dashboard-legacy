@@ -178,7 +178,7 @@ const useLeadInformation = (leadId) => {
     }
   };
 
-  const deleteProvider = async (payload, providerName, refresh) => {
+  const deleteProvider = async (payload, providerName, refresh, isDelete) => {
     setIsLoading(true);
 
     try {
@@ -196,7 +196,7 @@ const useLeadInformation = (leadId) => {
       Sentry.captureException(err);
       addToast({
         type: "error",
-        message: "Failed to delete pharmacy",
+        message: `Failed to ${isDelete ? "delete" : "update"} Provider`,
       });
     } finally {
       setIsLoading(false);
