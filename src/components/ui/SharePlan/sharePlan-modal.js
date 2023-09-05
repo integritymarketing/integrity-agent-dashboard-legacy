@@ -178,7 +178,8 @@ const SharePlanModal = ({
         middleInitial: middleName,
         dateOfBirth: birthdate,
         EnrollmentId: enrollmentId,
-        enrollData: enrollData
+        enrollData: enrollData,
+        appSubmitDate: enrollData?.submittedDate
       };
       if (selectOption === "email") {
         const data = {
