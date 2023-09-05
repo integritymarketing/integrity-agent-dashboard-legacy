@@ -24,7 +24,7 @@ import { formValidator } from "./FormValidator";
 import "./index.scss";
 
 const ScopeOfAppointmentConfirmation = () => {
-  const { linkCode, token } = useParams();
+  const { linkCode } = useParams();
   const history = useHistory();
   const addToast = useToast();
   const medicareOverviewSectionEl = useRef(null);
@@ -52,6 +52,44 @@ const ScopeOfAppointmentConfirmation = () => {
       try {
         const data = await clientsService.getSoaStatusByLinkCode(linkCode);
         setSOAStatus(data);
+
+        const leadObject = data?.leadSection?.beneficiary || null;
+        const products = data?.leadSection?.products || [];
+
+        if (products?.length > 0) {
+          const convertedObject = Object.fromEntries(
+            products?.map((item) => [item, true])
+          );
+          setProducts(convertedObject);
+        }
+
+        if (leadObject) {
+          const {
+            firstName,
+            lastName,
+            middleName,
+            phone,
+            address1,
+            address2,
+            city,
+            state,
+            zip,
+          } = leadObject;
+          setLeadInfo({
+            ...leadInfo,
+            firstName,
+            lastName,
+            middleName,
+            phone,
+            address: {
+              address1,
+              address2,
+              city,
+              stateCode: state,
+              postalCode: zip,
+            },
+          });
+        }
       } catch (err) {
         addToast({
           type: "error",
@@ -67,36 +105,6 @@ const ScopeOfAppointmentConfirmation = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkCode]);
-
-  useEffect(() => {
-    const tokenObject = JSON.parse(window.atob(token));
-    const {
-      FirstName,
-      LastName,
-      MiddleName,
-      phone,
-      Address1,
-      Address2,
-      City,
-      State,
-      ZIP,
-    } = tokenObject;
-    setLeadInfo({
-      ...leadInfo,
-      firstName: FirstName,
-      lastName: LastName,
-      middleName: MiddleName,
-      phone,
-      address: {
-        address1: Address1,
-        address2: Address2,
-        city: City,
-        stateCode: State,
-        postalCode: ZIP,
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
 
   const showMedicareOverview = () => {
     medicareOverviewSectionEl.current.scrollIntoView({
@@ -256,29 +264,29 @@ const ScopeOfAppointmentConfirmation = () => {
                         <Checkbox
                           className="pt-2"
                           label={"Medicare Advantage (Part C)"}
-                          value="Medicare Advantage (Part C)"
-                          checked={products["Medicare Advantage (Part C)"]}
+                          value="MedicareAdvantage"
+                          checked={products["MedicareAdvantage"]}
                           onChange={handlePlanTypes}
                         />
                         <Checkbox
                           className="pt-2"
                           label={"Medicare Supplement (Medigap)"}
-                          value="Medicare Supplement (Medigap)"
-                          checked={products["Medicare Supplement (Medigap)"]}
+                          value="MedicareSupplement"
+                          checked={products["MedicareSupplement"]}
                           onChange={handlePlanTypes}
                         />
                         <Checkbox
                           className="pt-2"
                           label={"Medicare Prescription (Part D)"}
-                          value="Medicare Prescription (Part D)"
-                          checked={products["Medicare Prescription (Part D)"]}
+                          value="MedicarePrescriptionDrug"
+                          checked={products["MedicarePrescriptionDrug"]}
                           onChange={handlePlanTypes}
                         />
                         <Checkbox
                           className="pt-2"
                           label={"Ancillary Products"}
-                          value="Ancillary Products"
-                          checked={products["Ancillary Products"]}
+                          value="AncilaryProducts"
+                          checked={products["AncilaryProducts"]}
                           onChange={handlePlanTypes}
                         />
                       </div>
