@@ -5,8 +5,6 @@ import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "../../Icons/outNetwork";
 import Modal from "components/Modal";
 import UpdateView from "./components/UpdateView/updateView";
-import useLeadInformation from "hooks/useLeadInformation";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
 
 function getInNetwork(pharmacyCost) {
@@ -18,23 +16,26 @@ const PharmacyTable = ({
   planData,
   pharmacies,
   isMobile,
-  pharmaciesList,
+  addPharmacy,
+  deletePharmacy,
 }) => {
   const [open, setOpen] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
-  const { contactId } = useParams();
-  const {
-    pharmacies: pharmaciesData,
-    deletePharmacy,
-    addPharmacy,
-  } = useLeadInformation(contactId);
+
+  const pharmaciesList =
+    pharmacies?.length > 0
+      ? pharmacies?.reduce((dict, item) => {
+          dict[item["pharmacyID"]] = item;
+          return dict;
+        }, {})
+      : [];
 
   const isApiFailed =
-    (pharmaciesList?.filter((pharmacy) => pharmacy.name)?.length > 0
-      ? false
-      : true) &&
     pharmaciesList !== null &&
-    pharmaciesList?.length > 0;
+    pharmaciesList?.length > 0 &&
+    (pharmaciesList?.filter((pharmacy) => pharmacy?.name)?.length > 0
+      ? false
+      : true);
 
   const columns = useMemo(
     () => [
@@ -66,30 +67,30 @@ const PharmacyTable = ({
   const data = [];
 
   if (
-    pharmaciesData &&
-    planData.pharmacyCosts &&
-    Array.isArray(planData.pharmacyCosts)
+    pharmacies &&
+    planData?.pharmacyCosts &&
+    Array.isArray(planData?.pharmacyCosts)
   ) {
-    planData.pharmacyCosts.forEach((pharmacyCost) => {
-      const pharmacy = pharmaciesData[0];
+    planData?.pharmacyCosts?.forEach((pharmacyCost) => {
+      const pharmacy = pharmacies[0];
       if (pharmacy) {
         const row = {
-          name: <span className={"label"}>{pharmacy.name}</span>,
+          name: <span className={"label"}>{pharmacy?.name}</span>,
           address: (
             <>
               <div className={"address"}>
                 <span className="networkIcon">
                   {getInNetwork(pharmacyCost)}
                 </span>
-                {pharmacy.address1 +
+                {pharmacy?.address1 +
                   "\n" +
-                  pharmacy.address2 +
+                  pharmacy?.address2 +
                   "\n" +
-                  pharmacy.city +
+                  pharmacy?.city +
                   " " +
-                  pharmacy.state +
+                  pharmacy?.state +
                   " " +
-                  pharmacy.zip}
+                  pharmacy?.zip}
               </div>
             </>
           ),
@@ -98,8 +99,8 @@ const PharmacyTable = ({
           ...row,
           name_address: (
             <>
-              <div>{row.name}</div>
-              <div>{row.address}</div>
+              <div>{row?.name}</div>
+              <div>{row?.address}</div>
             </>
           ),
         });
@@ -124,7 +125,7 @@ const PharmacyTable = ({
     },
   ];
 
-  const isEdit = pharmaciesData?.length > 0;
+  const isEdit = pharmacies?.length > 0;
 
   return (
     <>
@@ -144,12 +145,12 @@ const PharmacyTable = ({
           isDelete={isEdit}
           modalName={"Pharmacy"}
           onDelete={() => {
-            deletePharmacy(pharmaciesData?.[0]);
+            deletePharmacy(pharmacies?.[0]);
             setOpen(!open);
             setOpenAddModal(true);
           }}
         >
-          <UpdateView data={pharmaciesData?.[0]} />
+          <UpdateView data={pharmacies?.[0]} />
         </Modal>
       )}
       {!isEdit && (

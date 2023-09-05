@@ -20,11 +20,17 @@ const MapdDetailsContent = ({
   onEnrollClick,
   onShareClick,
   pharmacies,
-  pharmaciesList,
   isEnroll = false,
   enrollData,
   isEmail = false,
   refresh,
+  addProvider,
+  deleteProvider,
+  addPrescription,
+  editPrescription,
+  deletePrescription,
+  addPharmacy,
+  deletePharmacy,
 }) => {
   const location = useLocation();
   const costsRef = useRef(null);
@@ -51,7 +57,7 @@ const MapdDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
-          hidePharmacy={location.pathname.includes('/enrollmenthistory/')}
+          hidePharmacy={location.pathname.includes("/enrollmenthistory/")}
           sections={[
             {
               header: "Overview",
@@ -194,6 +200,9 @@ const MapdDetailsContent = ({
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
               refresh={refresh}
+              addPrescription={addPrescription}
+              editPrescription={editPrescription}
+              deletePrescription={deletePrescription}
             />
           )}
         </div>
@@ -202,19 +211,22 @@ const MapdDetailsContent = ({
             <ProvidersTableV2
               isMobile={isMobile}
               providers={plan.providers}
+              addProvider={addProvider}
+              deleteProvider={deleteProvider}
               refresh={refresh}
             />
           )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
-          {plan &&!isEnroll && (
+          {plan && !isEnroll && (
             <MapdPharmacyTable
               contact={contact}
               isMobile={isMobile}
               planData={plan}
               pharmacies={pharmacies}
-              pharmaciesList={pharmaciesList}
               refresh={refresh}
+              addPharmacy={addPharmacy}
+              deletePharmacy={deletePharmacy}
             />
           )}
         </div>
