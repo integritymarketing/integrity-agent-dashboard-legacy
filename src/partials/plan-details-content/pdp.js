@@ -18,11 +18,15 @@ const PdpDetailsContent = ({
   onEnrollClick,
   onShareClick,
   pharmacies,
-  pharmaciesList,
   isEnroll = false,
   enrollData,
   isEmail = false,
   refresh,
+  addPrescription,
+  editPrescription,
+  deletePrescription,
+  addPharmacy,
+  deletePharmacy,
 }) => {
   const location = useLocation();
   const costsRef = useRef(null);
@@ -46,7 +50,7 @@ const PdpDetailsContent = ({
           initialSectionID="costs"
           scrollToInitialSection={false}
           isMobile={isMobile}
-          hidePharmacy={location.pathname.includes('/enrollmenthistory/')}
+          hidePharmacy={location.pathname.includes("/enrollmenthistory/")}
           sections={[
             {
               header: "Overview",
@@ -175,18 +179,22 @@ const PdpDetailsContent = ({
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
               refresh={refresh}
+              addPrescription={addPrescription}
+              editPrescription={editPrescription}
+              deletePrescription={deletePrescription}
             />
           )}
         </div>
         <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
-          {plan &&!isEnroll && (
+          {plan && !isEnroll && (
             <PdpPharmacyTable
               contact={contact}
               planData={plan}
               pharmacies={pharmacies}
               isMobile={isMobile}
-              pharmaciesList={pharmaciesList}
               refresh={refresh}
+              addPharmacy={addPharmacy}
+              deletePharmacy={deletePharmacy}
             />
           )}
         </div>

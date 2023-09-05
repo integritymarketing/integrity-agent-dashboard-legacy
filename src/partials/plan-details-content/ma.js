@@ -8,7 +8,6 @@ import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 
 const MaDetailsContent = ({
-  prescriptions,
   plan,
   isMobile,
   styles,
@@ -17,6 +16,8 @@ const MaDetailsContent = ({
   isEnroll,
   enrollData,
   isEmail = false,
+  addProvider,
+  deleteProvider,
   refresh,
 }) => {
   const costsRef = useRef(null);
@@ -110,6 +111,8 @@ const MaDetailsContent = ({
               isMobile={isMobile}
               providers={plan.providers}
               refresh={refresh}
+              addProvider={addProvider}
+              deleteProvider={deleteProvider}
             />
           )}
         </div>

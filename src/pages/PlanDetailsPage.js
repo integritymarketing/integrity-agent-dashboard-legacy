@@ -25,44 +25,52 @@ import ContactFooter from "partials/global-footer";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
 import CallScript from "components/icons/callScript";
+import useLeadInformation from "hooks/useLeadInformation";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
 
 const PlanDetailsPage = () => {
   const addToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
+  const { leadDetails } = useContactDetails(contactId);
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [pharmacies, setPharmacies] = useState();
-  const [pharmaciesList, setPharmaciesList] = useState();
 
-  const [contact, setContact] = useState();
+  const [contact, setContact] = useState(leadDetails);
   const [plan, setPlan] = useState();
-  const [prescriptions, setPrescriptions] = useState();
   const [modalOpen, setModalOpen] = useState();
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
+  const {
+    pharmacies,
+    prescriptions,
+    isLoading: isLoad,
+    addPrescription,
+    editPrescription,
+    deletePrescription,
+    addProvider,
+    deleteProvider,
+    addPharmacy,
+    deletePharmacy,
+  } = useLeadInformation(contactId);
+
   const { isNonRTS_User } = useRoles();
+
+  useEffect(() => {
+    setIsLoading(isLoad);
+  }, [isLoad]);
 
   const getContactAndPlanData = useCallback(async () => {
     setIsLoading(true);
     try {
-      let [contactData, pharmacies, prescriptions] = await Promise.all([
-        clientsService.getContactInfo(contactId),
-        clientsService.getLeadPharmacies(contactId),
-        clientsService.getLeadPrescriptions(contactId),
-      ]);
+      let contactData = await clientsService.getContactInfo(contactId);
+
       const planData = await plansService.getPlan(
         contactId,
         planId,
         contactData,
         effectiveDate
       );
-      setPharmacies(
-        pharmacies.reduce((dict, item) => {
-          dict[item["pharmacyID"]] = item;
-          return dict;
-        }, {})
-      );
-      setPharmaciesList(pharmacies);
+
       if (!planData) {
         addToast({
           type: "error",
@@ -71,7 +79,6 @@ const PlanDetailsPage = () => {
       }
       setPlan(planData);
       setContact(contactData);
-      setPrescriptions(prescriptions);
       analyticsService.fireEvent("event-content-load", {
         pagePath: "/:contactId/plan/:planId",
       });
@@ -154,9 +161,15 @@ const PlanDetailsPage = () => {
                   onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
-                  pharmaciesList={pharmaciesList}
                   prescriptions={prescriptions}
                   refresh={getContactAndPlanData}
+                  addProvider={addProvider}
+                  deleteProvider={deleteProvider}
+                  addPrescription={addPrescription}
+                  editPrescription={editPrescription}
+                  deletePrescription={deletePrescription}
+                  addPharmacy={addPharmacy}
+                  deletePharmacy={deletePharmacy}
                 />
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
@@ -169,19 +182,24 @@ const PlanDetailsPage = () => {
                   onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   pharmacies={pharmacies}
-                  pharmaciesList={pharmaciesList}
                   refresh={getContactAndPlanData}
+                  addPrescription={addPrescription}
+                  editPrescription={editPrescription}
+                  deletePrescription={deletePrescription}
+                  addPharmacy={addPharmacy}
+                  deletePharmacy={deletePharmacy}
                 />
               )}
               {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
                 <MaContent
-                  prescriptions={prescriptions}
                   plan={plan}
                   styles={styles}
                   isMobile={isMobile}
                   onShareClick={() => setShareModalOpen(true)}
                   onEnrollClick={() => setModalOpen(true)}
                   refresh={getContactAndPlanData}
+                  addProvider={addProvider}
+                  deleteProvider={deleteProvider}
                 />
               )}
             </Container>

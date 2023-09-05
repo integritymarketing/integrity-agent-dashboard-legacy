@@ -6,8 +6,6 @@ import Row from "./components/Row";
 import Footer from "./components/Footer";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import PrescriptionCoverageModal from "components/SharedModals/PrescriptionModal/PrescriptionCoverageModal";
-import useLeadInformation from "hooks/useLeadInformation";
-import { useParams } from "react-router-dom";
 
 const PrescriptionTable = ({
   prescriptions,
@@ -16,12 +14,10 @@ const PrescriptionTable = ({
   drugCosts,
   planData,
   refresh,
+  addPrescription,
+  editPrescription,
+  deletePrescription,
 }) => {
-  const { contactId } = useParams();
-
-  const { addPrescription, editPrescription, deletePrescription } =
-    useLeadInformation(contactId);
-
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);

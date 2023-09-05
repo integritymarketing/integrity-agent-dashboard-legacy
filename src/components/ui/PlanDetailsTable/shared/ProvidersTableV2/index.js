@@ -6,12 +6,16 @@ import { useParams } from "react-router-dom";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import RenderProviders from "components/ui/ProvidersList";
-import useLeadInformation from "hooks/useLeadInformation";
 
-const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
+const ProvidersTableV2 = ({
+  isMobile,
+  providers,
+  refresh,
+  addProvider,
+  deleteProvider,
+}) => {
   const { contactId } = useParams();
   const { leadDetails } = useContactDetails(contactId);
-  const { addProvider, deleteProvider } = useLeadInformation(contactId);
 
   const [isOpen, setIsOpen] = useState(false);
   const [providerEditFlag, setProviderEditFlag] = useState(false);
