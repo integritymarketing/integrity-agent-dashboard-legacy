@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Modal({
   actionButtonName,
   onSave,
+  contentStyle,
   onClose,
   onCancel,
   open,
@@ -137,7 +138,9 @@ export default function Modal({
             </IconButton>
           </div>
         </DialogTitle>
-        <DialogContent style={{ backgroundColor: "#F1F1F1" }}>
+        <DialogContent
+          style={{ backgroundColor: "#F1F1F1", ...(contentStyle || {}) }}
+        >
           {children}
         </DialogContent>
         <DialogActions className={classes.footer}>

@@ -1,21 +1,30 @@
-import React, { useContext, useEffect, useState, useCallback, useMemo } from "react";
-import PropTypes from 'prop-types';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import ContactContext from "contexts/contacts";
-import BackNavContext from "contexts/backNavProvider";
-import ScopeSendIcon from "components/icons/scope-send";
+import ShareIcon from "components/icons/share2";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import SOA_CARD from "./soaCard";
-import SharePlan from "components/icons/sharePlan";
+import { Button } from "components/ui/Button";
+import ArrowDownIcon from "components/icons/arrow-down";
+import Modal from "components/Modal";
+import NewScopeOfAppointment from "../newScopeOfAppointment";
 
 const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
+  const MINIMUM_SHOW_SIZE = 3;
+  const [openModal, setOpenModal] = useState(false);
   const [soaList, setSoaList] = useState([]);
-  const [showSize, setShowSize] = useState(5);
-  const [hovered, setHovered] = useState(false);
+  const [showSize, setShowSize] = useState(MINIMUM_SHOW_SIZE);
   const history = useHistory();
   const { setNewSoaContactDetails } = useContext(ContactContext);
-  const { setCurrentPage } = useContext(BackNavContext);
+  const [showMore, setShowMore] = useState(false);
 
   const contact = useMemo(() => ({ ...personalInfo }), [personalInfo]);
 
@@ -36,10 +45,6 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
   }, [id]);
 
   useEffect(() => {
-    setCurrentPage("Contact Detail Page");
-  }, [setCurrentPage]);
-
-  useEffect(() => {
     setNewSoaContactDetails(contact);
   }, [setNewSoaContactDetails, contact]);
 
@@ -49,27 +54,50 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
 
   return (
     <div data-gtm="section-scope-of-appointment" className="contactdetailscard">
+      <Modal
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+        hideFooter
+        contentStyle={{ padding: "0" }}
+        title={"Send Scope Of Appointment"}
+      >
+        <NewScopeOfAppointment
+          leadId={id}
+          onCloseModal={() => {
+            setOpenModal(false);
+          }}
+        />
+      </Modal>
+
       {isMobile ? (
         <div className="soa-mobile-header">
           <div className={"soa-header-text"}>Scope of Appointments </div>
-          <div className={"shareBtnContainer"} onClick={navigateToSOANew}>
-            <SharePlan />
+          <div
+            className={"shareBtnContainer"}
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          >
             <span className={"shareText"}>Send New</span>
+            <ShareIcon />
           </div>
         </div>
       ) : (
         <div className="scope-details-card-header contactdetailscardheader">
           <h4>Scope of Appointments</h4>
-          <button
-            data-gtm="button-send"
-            className="send-btn"
-            onClick={navigateToSOANew}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-          >
-            <ScopeSendIcon hover={hovered} />
-            <span>Send</span>
-          </button>
+          <div className="send-btn2">
+            <Button
+              label="Send New"
+              onClick={() => {
+                setOpenModal(true);
+              }}
+              type="secondary"
+              icon={<ShareIcon />}
+              iconPosition="right"
+            />
+          </div>
         </div>
       )}
       <div
@@ -92,14 +120,35 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
           </div>
         )}
 
-        <div className="scope-of-app-row-show-more">
-          {showSize < soaList?.length && (
-            <button
-              className="show--more--btn"
-              onClick={() => setShowSize(showSize + 5)}
-            >
-              Show More
-            </button>
+        <div
+          className="scope-of-app-row-show-more"
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log("showmore");
+            setShowMore(!showMore);
+          }}
+        >
+          {soaList?.length > MINIMUM_SHOW_SIZE && (
+            <div>
+              {showMore ? (
+                <ArrowDownIcon className="cost-arrow-side" />
+              ) : (
+                <ArrowDownIcon />
+              )}
+              <button
+                className="show--more--btn"
+                onClick={() => {
+                  console.log("called");
+                  if (!showMore) {
+                    setShowSize(soaList?.length);
+                  } else {
+                    setShowSize(MINIMUM_SHOW_SIZE);
+                  }
+                }}
+              >
+                Show More
+              </button>
+            </div>
           )}
         </div>
       </div>
