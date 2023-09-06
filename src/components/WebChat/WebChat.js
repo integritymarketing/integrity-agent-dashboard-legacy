@@ -197,6 +197,12 @@ const WebChatComponent = () => {
     [npn, fullName, goToContactDetailPage]
   );
 
+  const clearChat = () => {
+    const container = document.querySelector(".webchat__basic-transcript__transcript");
+    container.innerHTML = "";
+    fetchDirectLineToken();
+  }
+
   return (
     <div className={styles.container} ref={chatRef}>
       <div
@@ -204,7 +210,7 @@ const WebChatComponent = () => {
         className={cx(styles.chatSidebar, { [styles.active]: isChatActive })}
       >
         <div className={styles.header}>
-          <img src={ChatIcon} alt="Chat Icon" />
+          <img onClick={clearChat} src={ChatIcon} alt="Chat Icon" />
           <p className={styles.headerText}>Ask Integrity</p>
           <img
             onClick={closeChat}

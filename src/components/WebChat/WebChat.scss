@@ -15,6 +15,10 @@
     height: 1rem;
   }
 
+  div[role=button] {
+    cursor: pointer
+  }
+
   .webchat__basic-transcript {
     max-height: calc(100vh - 250px);
 
@@ -216,5 +220,10 @@
       background: #4178ff;
       border-radius: 50px;
     }
+  }
+
+  a {
+    text-decoration: none;
+    pointer-events: none;
   }
 }
