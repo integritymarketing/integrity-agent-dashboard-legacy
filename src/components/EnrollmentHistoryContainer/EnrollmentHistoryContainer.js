@@ -58,7 +58,11 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 <EnrollmentPlanCard
                   key={`${planData.policyId + index.toString()}`}
                   currentYear={true}
-                  submittedDate={planData.submitDate}
+                  submittedDate={
+                    planData.submitDate
+                      ? planData.submitDate
+                      : "Not Provided by Carrier"
+                  }
                   enrolledDate={planData.enrolledDate}
                   policyEffectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
@@ -87,7 +91,11 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 <EnrollmentPlanCard
                   key={`${planData.policyId + index.toString()}`}
                   currentYear={false}
-                  submittedDate={planData.appSubmitDate}
+                  submittedDate={
+                    planData.submitDate
+                      ? planData.submitDate
+                      : "Not Provided by Carrier"
+                  }
                   enrolledDate={planData.enrolledDate}
                   policyEffectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
