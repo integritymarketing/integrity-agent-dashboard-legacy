@@ -66,6 +66,7 @@ const ProviderModal = ({
   isEdit,
   selected,
   refresh,
+  leadProviders,
 }) => {
   // Initializations
   const classes = useStyles();
@@ -80,11 +81,12 @@ const ProviderModal = ({
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectAddressIds, setSelectAddressIds] = useState([]);
 
+  const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
   const providerList = isEdit ? [{ ...selected }] : results?.providers;
-  const totalPages = results ? Math.ceil(results.total / perPage) : 0;
+  const totalPages = results ? Math.ceil(total / perPage) : 0;
 
   // useEffects
 
@@ -107,6 +109,7 @@ const ProviderModal = ({
       .then((resp) => {
         setIsLoading(false);
         setResults(resp);
+        setTotal(resp?.total);
       })
       .catch((e) => {
         setIsLoading(false);
@@ -132,43 +135,66 @@ const ProviderModal = ({
   };
 
   const handleSaveProvider = async () => {
-    onClose();
+    let isExist =
+      leadProviders?.filter((each) => each?.NPI === selectedProvider?.NPI)[0] ||
+      null;
+    if (isExist) {
+      await handleDeleteProvider();
+    } else {
+      let requestPayload = [
+        {
+          npi: selectedProvider?.NPI?.toString(),
+          addressId: selectAddressIds[0],
+          isPrimary: false,
+        },
+      ];
 
-    const requestPayload = selectAddressIds.map((addressId) => {
-      return {
-        npi: selectedProvider?.NPI?.toString(),
-        addressId: addressId,
-        isPrimary: false,
-      };
-    });
+      await onSave(requestPayload, selectedProvider?.presentationName, refresh);
 
-    await onSave(requestPayload, selectedProvider?.presentationName, refresh);
+      onClose();
+    }
   };
 
-  const handleEditProvider = async () => {
-    let completeAddressArray = selectedProvider?.addresses;
+  // Use for multi select addresses of same provider //
 
-    const getFilteredAddressIds = (completeData, partialData) =>
-      completeData.filter(
-        (completeAddress) =>
-          !partialData.some((partialId) => completeAddress.id === partialId)
-      );
+  // const handleSaveMultiLocationProviders = async () => {
+  //   onClose();
 
-    const filteredAddressIds = getFilteredAddressIds(
-      completeAddressArray,
-      selectAddressIds
-    );
+  //   const requestPayload = selectAddressIds?.map((addressId) => {
+  //     return {
+  //       npi: selectedProvider?.NPI?.toString(),
+  //       addressId: addressId,
+  //       isPrimary: false,
+  //     };
+  //   });
 
-    const requestPayload = filteredAddressIds.map((address) => {
-      return {
-        npi: selectedProvider?.NPI?.toString(),
-        addressId: address?.id,
-        isPrimary: false,
-      };
-    });
-    onClose();
-    onDelete(requestPayload, selectedProvider?.presentationName, refresh);
-  };
+  //   await onSave(requestPayload, selectedProvider?.presentationName, refresh);
+  // };
+
+  // const handleEditMultiLocationProvider = async () => {
+  //   let completeAddressArray = selectedProvider?.addresses;
+
+  //   const getFilteredAddressIds = (completeData, partialData) =>
+  //     completeData?.filter(
+  //       (completeAddress) =>
+  //         !partialData?.some((partialId) => completeAddress?.id === partialId)
+  //     );
+
+  //   const filteredAddressIds = getFilteredAddressIds(
+  //     completeAddressArray,
+  //     selectAddressIds
+  //   );
+
+  //   const requestPayload = filteredAddressIds?.map((address) => {
+  //     return {
+  //       npi: selectedProvider?.NPI?.toString(),
+  //       addressId: address?.id,
+  //       isPrimary: false,
+  //     };
+  //   });
+  //   onClose();
+  //   onDelete(requestPayload, selectedProvider?.presentationName, refresh);
+  // };
 
   const handleDeleteProvider = () => {
     const requestPayload = selected?.addresses?.map((address) => {
@@ -200,16 +226,20 @@ const ProviderModal = ({
     return selected?.addresses?.length !== selectAddressIds?.length;
   }, [selected, selectAddressIds]);
 
-  const disabled = isEdit
-    ? !selectAddressIds?.length > 0 || !isUpdated
-    : !isFormValid;
+  // Use for multi select addresses of same provider //
+
+  // const disabled = isEdit
+  //   ? !selectAddressIds?.length > 0 || !isUpdated
+  //   : !isFormValid;
+
+  const disabled = isEdit ? !isUpdated : !isFormValid;
 
   return (
     <Modal
       open={open}
       onClose={onClose}
       title={isEdit ? "Update Provider" : "Add Providers"}
-      onSave={isEdit ? handleEditProvider : handleSaveProvider}
+      onSave={handleSaveProvider}
       actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
       customFooter={
         isEdit && (
@@ -267,7 +297,7 @@ const ProviderModal = ({
           </Grid>
           <SearchInput
             searchString={searchString}
-            list={providerList}
+            total={total}
             handleSearch={(e) => {
               setSearchString(e.target.value);
               setCurrentPage(1);
@@ -302,12 +332,12 @@ const ProviderModal = ({
                 selectedProvider={selectedProvider}
                 isEdit={isEdit}
               />
-              {zipCode && totalPages > 1 && (
+              {zipCode && totalPages >= 1 && (
                 <Box className={classes.pagination}>
                   <Pagination
                     providerPagination
                     currentPage={currentPage}
-                    totalPages={totalPages - 1}
+                    totalPages={totalPages}
                     totalResults={results?.total}
                     pageSize={perPage}
                     onPageChange={(pageIndex) => setCurrentPage(pageIndex)}

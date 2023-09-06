@@ -91,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "32px",
     letterSpacing: "0.32px",
   },
+  paperScrollPaper: {
+    overflowY: "visible", // Remove the overflow-y: auto; by setting it to "visible"
+  },
 }));
 
 export default function Modal({
@@ -118,6 +121,9 @@ export default function Modal({
         fullWidth
         style={{
           borderRadius: 8,
+        }}
+        PaperProps={{
+          className: classes.paperScrollPaper,
         }}
       >
         <DialogTitle disableTypography className={classes.title}>
