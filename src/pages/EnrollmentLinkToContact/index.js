@@ -91,7 +91,7 @@ export default function EnrollmentLinkToContact() {
           <EnrollmentPlanCard
             key={state?.policyId}
             currentYear={state?.currentYear}
-            submittedDate={state?.appSubmitDate || state?.submittedDate}
+            submittedDate={state?.submitDate || "Not Provided by Carrier"}
             enrolledDate={state?.enrolledDate}
             policyEffectiveDate={state?.policyEffectiveDate}
             policyId={state?.policyId}

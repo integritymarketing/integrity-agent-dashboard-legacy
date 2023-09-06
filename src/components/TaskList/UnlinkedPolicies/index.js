@@ -62,10 +62,12 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
           className="policy-mobile"
         >
           <p className="up-name">{callData?.planName}</p>
-          <p>
-            <span className="up-label">Policy ID:</span>
-            <span className="up-info">{callData?.policyNumber}</span>
-          </p>
+          {callData?.policyNumber && (
+            <p>
+              <span className="up-label">Policy ID:</span>
+              <span className="up-info">{callData?.policyNumber}</span>
+            </p>
+          )}
           <p>
             <span className="up-label">Carrier:</span>
             <span className="up-info"> {callData?.policyCarrier}</span>

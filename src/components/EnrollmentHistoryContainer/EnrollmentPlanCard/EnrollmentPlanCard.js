@@ -228,9 +228,11 @@ export default function EnrollmentPlanCard(props) {
         <div className={styles.policyHolder}>
           {renderPlanDetails("Policy Holder", holderName)}
         </div>
-        <div className={styles.policyId}>
-          {renderPlanDetails("Policy ID", policyId)}
-        </div>
+        {policyId && (
+          <div className={styles.policyId}>
+            {renderPlanDetails("Policy ID", policyId)}
+          </div>
+        )}
       </div>
     </div>
   );
