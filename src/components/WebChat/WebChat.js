@@ -13,7 +13,7 @@ import openAudio from './open.mp3';
 import closeAudio from './close.mp3';
 
 const WebChatComponent = () => {
-  const { agentId, fullName } = useUserProfile();
+  const { npn, fullName } = useUserProfile();
   const addToast = useToast();
   const [directLineToken, setDirectLineToken] = useState(null);
   const [isChatActive, setIsChatActive] = useState(false);
@@ -25,7 +25,7 @@ const WebChatComponent = () => {
     try {
       const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
         method: 'POST',
-        body: JSON.stringify({ marketerId: agentId }),
+        body: JSON.stringify({ marketerId: npn }),
       });
 
       if (response.ok) {
@@ -39,7 +39,7 @@ const WebChatComponent = () => {
         message: 'Error fetching Direct Line token.',
       });
     }
-  }, [agentId, addToast]);
+  }, [npn, addToast]);
 
   useEffect(() => {
     fetchDirectLineToken();
@@ -124,7 +124,7 @@ const WebChatComponent = () => {
               value: {
                 language: "en-US",
                 marketerName: fullName,
-                marketerId: agentId,
+                marketerId: npn,
                 authorization: `Bearer ${accessToken.access_token}`,
                 host: "dev",
                 hostUrl: process.env.REACT_APP_HOST_URL,
@@ -194,7 +194,7 @@ const WebChatComponent = () => {
         }
         return next(action);
       }),
-    [agentId, fullName, goToContactDetailPage]
+    [npn, fullName, goToContactDetailPage]
   );
 
   return (

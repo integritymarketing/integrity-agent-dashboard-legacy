@@ -1,67 +1,58 @@
-import React, { useState, useMemo } from "react";
-import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
-import useCallRecordings from "hooks/useCallRecordings";
-import { useHistory } from "react-router-dom";
-import Heading4 from "packages/Heading4";
-import { Typography } from "@mui/material";
-import Tags from "packages/Tags/Tags";
-import { CallScriptModal } from "packages/CallScriptModal";
-import { formatPhoneNumber } from "utils/phones";
-import IconWithText from "packages/IconWithText";
-import Link from "images/link-svg.svg";
-import CallScript from "components/icons/script";
-import styles from "./styles.module.scss";
-import { convertUTCDateToLocalDate, callDuration } from "utils/dates";
+import React, { useState, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
-const IN_PROGRESS = "in-progress";
+import DashboardHeaderSection from 'pages/dashbaord/DashboardHeaderSection';
+import useCallRecordings from 'hooks/useCallRecordings';
+import Heading4 from 'packages/Heading4';
+import Tags from 'packages/Tags/Tags';
+import { CallScriptModal } from 'packages/CallScriptModal';
+import IconWithText from 'packages/IconWithText';
+
+import { formatPhoneNumber } from 'utils/phones';
+import { convertUTCDateToLocalDate, callDuration } from 'utils/dates';
+
+import styles from './styles.module.scss';
+
+import LinkIcon from 'images/link-svg.svg';
+import CallScriptIcon from 'components/icons/script';
+
+const IN_PROGRESS = 'in-progress';
 
 export default function InboundCallBanner() {
   const history = useHistory();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const callRecordings = useCallRecordings();
 
-  const callStatusInProgress = useMemo(
-    () =>
-      callRecordings.find(
-        (callRecording) => callRecording.callStatus === IN_PROGRESS
-      ),
+  const activeCallStatus = useMemo(
+    () => callRecordings.find(record => record.callStatus === IN_PROGRESS),
     [callRecordings]
   );
 
   const navigateToLinkToContact = () => {
-    const { callLogId, from, callStartTime, recordingStartTime, callEndTime } =
-      callStatusInProgress;
-    let duration = callDuration(recordingStartTime, callEndTime);
-    const date = convertUTCDateToLocalDate(callStartTime);
+    const { callLogId, from, callStartTime, recordingStartTime, callEndTime } = activeCallStatus;
+    const duration = callDuration(recordingStartTime, callEndTime);
+    const localDate = convertUTCDateToLocalDate(callStartTime);
 
-    history.push(`/link-to-contact/${callLogId}/${from}/${duration}/${date}`);
+    history.push(`/link-to-contact/${callLogId}/${from}/${duration}/${localDate}`);
   };
 
-  const bannerContent = () => {
-    const tags = callStatusInProgress?.callLogTags.map(
-      (callLogTag) => callLogTag.tag.tagLabel
-    );
+  const renderBannerContent = () => {
+    const tags = activeCallStatus?.callLogTags.map(tag => tag.tag.tagLabel);
 
     return (
       <>
         <div className={styles.inboundCallWrapper}>
           <Heading4 text="Incoming Call: " />
-          <Typography color="#434A51" sx={{ mx: 1 }} variant={"subtitle1"}>
-            {formatPhoneNumber(callStatusInProgress?.from, true)}{" "}
+          <Typography color="#434A51" sx={{ mx: 1 }} variant="subtitle1">
+            {formatPhoneNumber(activeCallStatus?.from, true)}
           </Typography>
         </div>
-        <div
-          onClick={() => {
-            setModalOpen(true);
-          }}
-        >
-          <IconWithText text="Call Script" icon={<CallScript />} />
+        <div onClick={() => setModalOpen(true)}>
+          <IconWithText text="Call Script" icon={<CallScriptIcon />} />
         </div>
         <div onClick={navigateToLinkToContact}>
-          <IconWithText
-            text="Link to Contact"
-            icon={<img src={Link} alt="Link to Contact" />}
-          />
+          <IconWithText text="Link to Contact" icon={<img src={LinkIcon} alt="Link to Contact" />} />
         </div>
         {tags?.length > 0 && <Tags className="header-tag" words={tags} />}
       </>
@@ -70,14 +61,10 @@ export default function InboundCallBanner() {
 
   return (
     <>
-      {callStatusInProgress && (
-        <DashboardHeaderSection content={bannerContent()} />
-      )}
+      {activeCallStatus && <DashboardHeaderSection content={renderBannerContent()} />}
       <CallScriptModal
-        modalOpen={modalOpen}
-        handleClose={() => {
-          setModalOpen(false);
-        }}
+        modalOpen={isModalOpen}
+        handleClose={() => setModalOpen(false)}
       />
     </>
   );
