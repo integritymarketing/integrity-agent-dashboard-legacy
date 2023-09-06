@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchPrescription({
   searchString,
   handleSearch,
-  list,
   label,
+  total,
 }) {
   const classes = useStyles();
 
-  const countText = `${list?.length} ${label} found`;
+  const countText = `${total} ${label} found`;
 
   return (
     <>
@@ -68,7 +68,6 @@ export default function SearchPrescription({
 SearchPrescription.propTypes = {
   searchString: PropTypes.string.isRequired,
   handleSearch: PropTypes.func.isRequired,
-  list: PropTypes.array.isRequired,
 };
 
 SearchPrescription.defaultProps = {
