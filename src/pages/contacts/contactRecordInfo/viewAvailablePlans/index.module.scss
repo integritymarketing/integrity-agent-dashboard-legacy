@@ -1,0 +1,56 @@
+@import "../../../../scss/globalDefines.scss";
+
+.viewAvailablePlans {
+  width: 24rem;
+  position: fixed;
+  bottom: 0;
+  right: 1rem;
+  background-color: #052a63;
+  display: flex;
+  flex-direction: column;
+  z-index: 9999999;
+  color: #ffffff;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  max-height: 75vh;
+
+  @include small {
+    width: 100vw;
+    height: 75vh;
+    right: 0;
+  }
+
+  & > .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+
+    img {
+      width: 3.5rem;
+      height: 3.5rem;
+      margin-top: -1.5rem;
+    }
+  }
+
+  .content {
+    overflow: auto;
+  }
+
+    /* width */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+  
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #052a63;
+      border: 2px solid #375582;
+      border-radius: 10px;
+    }
+}

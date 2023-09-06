@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+} from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
 import {
@@ -36,6 +42,11 @@ import { debounce } from "debounce";
 import MobileMenu from "mobile/Contact/OverView/Menu";
 import Media from "react-media";
 import FooterBanners from "packages/FooterBanners";
+import ViewAvailablePlans from "./viewAvailablePlans";
+import { useOnClickOutside } from "hooks/useOnClickOutside";
+import closeAudio from "../../../components/WebChat/close.mp3";
+import { useRecoilValue } from "recoil";
+import { addProviderModalAtom } from "recoil/providerInsights/atom.js";
 
 const ContactRecordInfoDetails = () => {
   const { contactId: id, sectionId } = useParams();
@@ -57,10 +68,16 @@ const ContactRecordInfoDetails = () => {
   const [countyError, setCountyError] = useState(false);
   const [submitEnable, setSubmitEnable] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
+  const [showViewAvailablePlans, setShowViewAvailablePlans] = useState(false);
+  const [prescriptions, setPrescriptions] = useState([]);
+  const [providers, setProviders] = useState([]);
   const { setCurrentPage } = useContext(BackNavContext);
   const history = useHistory();
   const { path } = useRouteMatch();
+  const showViewAvailablePlansRef = useRef(showViewAvailablePlans);
+  const audioRefClose = useRef(null);
+  const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
+
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -294,6 +311,44 @@ const ContactRecordInfoDetails = () => {
     }
   };
 
+  useOnClickOutside(showViewAvailablePlansRef, () => {
+    if (isAddProviderModalOpen === false) {
+      setShowViewAvailablePlans(false);
+      playCloseAudio();
+    }
+  });
+
+  const playCloseAudio = () => {
+    if (audioRefClose.current) {
+      audioRefClose.current.play().catch((error) => {
+        console.error("Error playing open audio:", error);
+      });
+    }
+  };
+
+  const handleViewAvailablePlans = async () => {
+    const { leadsId, shouldHideSpecialistPrompt } = personalInfo;
+    try {
+      const [prescriptions, { providers }] = await Promise.all([
+        clientsService.getLeadPrescriptions(leadsId),
+        clientsService.getLeadProviders(leadsId),
+      ]);
+      if (
+        prescriptions?.length > 3 &&
+        providers?.length > 0 &&
+        !shouldHideSpecialistPrompt
+      ) {
+        setPrescriptions(prescriptions);
+        setProviders(providers);
+        setShowViewAvailablePlans(true);
+      } else {
+        history.push(`/plans/${id}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleViewPlans = () => {
     const postalCode = personalInfo?.addresses?.[0]?.postalCode;
     const stateCode = personalInfo?.addresses?.[0]?.stateCode;
@@ -303,8 +358,9 @@ const ContactRecordInfoDetails = () => {
     if (postalCode && stateCode && county && countyFips) {
       return (
         <Button
+          disabled={showViewAvailablePlans}
           label="View Available Plans"
-          onClick={() => history.push(`/plans/${id}`)}
+          onClick={handleViewAvailablePlans}
           type="primary"
         />
       );
@@ -318,6 +374,10 @@ const ContactRecordInfoDetails = () => {
         />
       );
   };
+  const { firstName, lastName, birthdate, leadsId } = personalInfo;
+  const toSentenceCase = (name) =>
+    name?.charAt(0).toUpperCase() + name?.slice(1).toLowerCase();
+  const fullName = `${toSentenceCase(firstName)} ${toSentenceCase(lastName)}`;
 
   return (
     <React.Fragment>
@@ -334,6 +394,22 @@ const ContactRecordInfoDetails = () => {
               <title>MedicareCENTER - Contacts</title>
             </Helmet>
             <GlobalNav />
+            <audio ref={audioRefClose} src={closeAudio} />
+            {showViewAvailablePlans && (
+              <>
+                <ViewAvailablePlans
+                  providers={providers}
+                  prescriptions={prescriptions}
+                  fullName={fullName}
+                  birthdate={birthdate}
+                  leadsId={leadsId}
+                  showViewAvailablePlansRef={showViewAvailablePlansRef}
+                  showViewAvailablePlans={showViewAvailablePlans}
+                  personalInfo={personalInfo}
+                  refreshAvailablePlans={handleViewAvailablePlans}
+                />
+              </>
+            )}
             {duplicateLeadIds.length === 1 && (
               <section className={`${styles["duplicate-contact-link"]} pl-1`}>
                 <Warning />
