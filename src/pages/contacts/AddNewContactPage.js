@@ -114,6 +114,8 @@ const NewContactForm = ({
     const {
       state: {
         policyId,
+        policyNumber,
+        sourceId,
         agentNpn,
         policyStatus,
         firstName,
@@ -126,12 +128,13 @@ const NewContactForm = ({
       const updateBusinessBookPayload = {
         agentNpn: agentNpn,
         leadId: leadIdParam.toString(),
-        policyNumber: policyId,
+        policyNumber: policyId || policyNumber,
         consumerFirstName: firstName,
         consumerLastName: lastName,
         leadDate: new Date(),
         leadStatus: policyStatus,
         linkingType: linkingType,
+        sourceId,
       };
       const response = await enrollPlansService.updateBookOfBusiness(
         updateBusinessBookPayload

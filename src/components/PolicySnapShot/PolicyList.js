@@ -109,7 +109,7 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = ({ policyList, handleJumpList }) => {
+const PolicyList = ({ policyCount, policyList, handleJumpList }) => {
   return (
     <>
       <div className="policy-card-container">
@@ -118,7 +118,7 @@ const PolicyList = ({ policyList, handleJumpList }) => {
             return <PolicyCard callData={data} />;
           })}
       </div>
-      {policyList?.length > 0 && (
+      {policyCount > 5 && (
         <div className="jumpList-card">
           <Button
             type="tertiary"

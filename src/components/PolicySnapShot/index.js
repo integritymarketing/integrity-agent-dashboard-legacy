@@ -115,9 +115,9 @@ export default function PlanSnapShot({ isMobile, npn }) {
   };
 
   const jumptoListMobile = (index) => {
-    let status = tabs[index]?.policyStatus || "Started";
-    let policyStatusColor = tabs[index]?.policyStatusColor || "";
-    let policyCount = tabs[index]?.policyCount || "";
+    const status = tabs[index]?.policyStatus || "Started";
+    const policyStatusColor = tabs[index]?.policyStatusColor || "";
+    const policyCount = tabs[index]?.policyCount || "";
 
     const filterInfo = { status, policyStatusColor, policyCount };
 
@@ -184,6 +184,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       {!isMobile && (
         <PolicyList
           policyList={policyList}
+          policyCount={tabs?.[statusIndex]?.policyCount ?? 0}
           isError={isError}
           handleJumpList={() => jumptoList(statusIndex)}
         />

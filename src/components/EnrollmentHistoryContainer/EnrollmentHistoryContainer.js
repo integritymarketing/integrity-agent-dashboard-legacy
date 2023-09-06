@@ -58,7 +58,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 <EnrollmentPlanCard
                   key={`${planData.policyId + index.toString()}`}
                   currentYear={true}
-                  submittedDate={planData.appSubmitDate}
+                  submittedDate={planData.submitDate}
                   enrolledDate={planData.enrolledDate}
                   policyEffectiveDate={planData.policyEffectiveDate}
                   policyId={planData.policyNumber}
