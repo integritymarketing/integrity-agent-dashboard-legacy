@@ -112,7 +112,14 @@ const NewContactForm = ({
 
   const linkContact = async (leadIdParam) => {
     const {
-      state: { policyId, agentNpn, policyStatus, firstName, lastName, linkingType },
+      state: {
+        policyId,
+        agentNpn,
+        policyStatus,
+        firstName,
+        lastName,
+        linkingType,
+      },
     } = state;
 
     try {
@@ -134,7 +141,7 @@ const NewContactForm = ({
           addToast({
             message: "Contact linked successfully",
           });
-        }, 2000);
+        }, 4000);
       }
     } catch (error) {
       addToast({
