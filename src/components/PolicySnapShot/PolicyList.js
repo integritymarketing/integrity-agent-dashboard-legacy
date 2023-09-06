@@ -45,10 +45,12 @@ const PolicyCard = ({ callData }) => {
       <Grid container spacing={2}>
         <Grid item xs={6} md={4} sx={{ color: "#434A51" }}>
           <p className="policy-name">{callData?.planName}</p>
-          <p>
-            <span className="policy-label">Policy ID:</span>
-            <span className="policy-info ml-5">{callData?.policyNumber}</span>
-          </p>
+          {callData?.policyNumber && (
+            <p>
+              <span className="policy-label">Policy ID:</span>
+              <span className="policy-info ml-5">{callData?.policyNumber}</span>
+            </p>
+          )}
           <p>
             <span className="policy-label">Carrier:</span>{" "}
             <span className="policy-info ml-5"> {callData?.carrier}</span>

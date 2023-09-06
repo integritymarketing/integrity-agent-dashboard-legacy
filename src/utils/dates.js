@@ -16,10 +16,6 @@ export const parseDate = (dateString, format = "MM/dd/yyyy") => {
   return parse(dateString, format, new Date());
 };
 
-export const convertToLocalDateTime = (dateString) => {
-  return moment.utc(dateString).local();
-};
-
 export const formatServerDate = (dateString) => {
   const date = new Date(dateString);
   return format(date, "yyyy-MM-dd");

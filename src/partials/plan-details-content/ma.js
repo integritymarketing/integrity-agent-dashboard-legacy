@@ -78,7 +78,7 @@ const MaDetailsContent = ({
           ) : (
             <EnrollmentPlanCard
               currentYear={enrollData.currentYear}
-              submittedDate={enrollData.submittedDate}
+              submittedDate={enrollData.submitDate || "Not Provided by Carrier"}
               enrolledDate={enrollData.enrolledDate}
               policyEffectiveDate={enrollData.policyEffectiveDate}
               policyId={enrollData.policyId}

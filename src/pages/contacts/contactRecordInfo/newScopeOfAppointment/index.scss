@@ -1,13 +1,11 @@
 .new-sop-page {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-
   .new-scope-card {
     display: flex;
-    height: fit-content;
-    width: fit-content;
-    margin-top: 16px;
+    min-height: 450px;
+    width: 730px;
+    margin: 55px 0px 308px 0px;
     .scope-title {
       font-size: 32px;
       display: flex;
@@ -29,15 +27,11 @@
       display: flex;
       flex-direction: column;
       .select-scope-heading {
-        color: #434A51;
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         letter-spacing: 0em;
         text-align: left;
-      }
-      .pb-10 {
-        padding-bottom: 10px;
       }
     }
     .new-email-or-mobile {
@@ -75,6 +69,7 @@
       color: #2b323b;
       margin-bottom: 5px;
     }
+
     .validation-msg {
       font-family: Lato;
       font-style: normal;
@@ -83,33 +78,18 @@
       line-height: 130%;
       color: #cf3c28;
     }
+    .send-button {
+      padding-top: 50px;
+      @media screen and (min-width: 320px) and (max-width: 480px) {
+        width: 100%;
+      }
+    }
     @media screen and (min-width: 320px) and (max-width: 480px) {
-      margin-top: 8px !important;
+      justify-content: space-between;
       width: 100%;
       margin: 0px;
       border: none;
-      height: fit-content;
-    }
-  }
-  .send-button {
-    display: flex;
-    justify-content: flex-end;
-    position: sticky;
-    bottom: 0px;
-    z-index: 1;
-    background: #f1f1f1;
-    bottom: -34px;
-    padding: 15px 0 0;
-
-    button.button {
-      border-radius: 50px;
-      background: #4178FF;
-      color: #f8fafc;
-    }
-
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      width: 100%;
-      bottom: -20px;
+      height: calc(100vh - 92px);
     }
   }
 }

@@ -38,8 +38,13 @@ const ErrorState = ({ isError, emptyList, icon, heading, content, link }) => {
           <div className="no-data-text-container">
             <p className="no-data-text-heading">{heading}</p>
             <p className="no-data-text-desc">
-            {link && (
-                <a href={link} className="click-here-link">
+              {link && (
+                <a
+                  href={`${process.env.REACT_APP_RESOURCES_URL}/${link}`}
+                  className="click-here-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Learn More
                 </a>
               )}
