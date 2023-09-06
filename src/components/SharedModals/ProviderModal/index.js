@@ -81,11 +81,12 @@ const ProviderModal = ({
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectAddressIds, setSelectAddressIds] = useState([]);
 
+  const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
   const providerList = isEdit ? [{ ...selected }] : results?.providers;
-  const totalPages = results ? Math.ceil(results.total / perPage) : 0;
+  const totalPages = results ? Math.ceil(total / perPage) : 0;
 
   // useEffects
 
@@ -108,6 +109,7 @@ const ProviderModal = ({
       .then((resp) => {
         setIsLoading(false);
         setResults(resp);
+        setTotal(resp?.total);
       })
       .catch((e) => {
         setIsLoading(false);
@@ -295,7 +297,7 @@ const ProviderModal = ({
           </Grid>
           <SearchInput
             searchString={searchString}
-            list={providerList}
+            total={total}
             handleSearch={(e) => {
               setSearchString(e.target.value);
               setCurrentPage(1);
@@ -330,12 +332,12 @@ const ProviderModal = ({
                 selectedProvider={selectedProvider}
                 isEdit={isEdit}
               />
-              {zipCode && totalPages > 1 && (
+              {zipCode && totalPages >= 1 && (
                 <Box className={classes.pagination}>
                   <Pagination
                     providerPagination
                     currentPage={currentPage}
-                    totalPages={totalPages - 1}
+                    totalPages={totalPages}
                     totalResults={results?.total}
                     pageSize={perPage}
                     onPageChange={(pageIndex) => setCurrentPage(pageIndex)}

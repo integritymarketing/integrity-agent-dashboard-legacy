@@ -331,7 +331,7 @@ const PrescriptionModal = ({
           <SearchLabel label={"Search for a Prescription"} />
           <SearchInput
             searchString={searchString}
-            list={prescriptionList}
+            total={prescriptionList?.length > 0 ? prescriptionList?.length : 0}
             handleSearch={fetchOptions}
             label={"Prescriptions"}
           />
