@@ -1,6 +1,11 @@
 @import "../../scss/globalDefines.scss";
 
 #webchat {
+  div {
+    font-size: 1rem !important;
+    font-weight: normal !important;
+  }
+
   .webchat__basic-transcript__filler {
     flex: unset;
     height: 1rem;
