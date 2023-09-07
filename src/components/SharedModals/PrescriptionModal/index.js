@@ -54,8 +54,7 @@ const PrescriptionModal = ({
   onDelete,
   refresh,
 }) => {
-  const { labelName, daysOfSupply, userQuantity, selectedPackageID, ndc } =
-    item?.dosage ?? {};
+  const { labelName, daysOfSupply, userQuantity, ndc } = item?.dosage ?? {};
 
   // Initializations
   const [searchselected, onSearchSelected] = useState("");
@@ -64,8 +63,8 @@ const PrescriptionModal = ({
   const [prescriptionList, setprescriptionList] = useState([]);
   const [dosageOptions, setDosageOptions] = useState([]);
   const [dosage, setDosage] = useState();
-  const [quantity, setQuantity] = useState();
-  const [frequency, setFrequency] = useState();
+  const [quantity, setQuantity] = useState(userQuantity);
+  const [frequency, setFrequency] = useState(daysOfSupply);
   const [packageOptions, setPackageOptions] = useState([]);
   const [dosagePackage, setDosagePackage] = useState();
   const [isLoading, setLoading] = useState(false);
@@ -75,8 +74,6 @@ const PrescriptionModal = ({
 
   useEffect(() => {
     const getDosages = async () => {
-      setQuantity("");
-      setFrequency("");
       setDosagePackage("");
       setPackageOptions([]);
       setLoading(true);
@@ -90,8 +87,7 @@ const PrescriptionModal = ({
           value: dosage,
         }));
         setDosageOptions(dosageOptions);
-
-        if (dosageOptions.length === 1) {
+        if (dosageOptions.length === 1 && !isEdit) {
           setDosage(dosageOptions[0].value);
         } else if (isEdit) {
           const dosageInfo = dosageOptions
@@ -138,7 +134,7 @@ const PrescriptionModal = ({
       };
       onDrugSelection(selectedDrug);
     }
-  }, [item, open, selectedPackageID, isEdit]);
+  }, [item, open, isEdit]);
 
   useEffect(() => {
     if (dosage) {
@@ -150,13 +146,12 @@ const PrescriptionModal = ({
 
       setPackageOptions(packageOptions);
 
-      if (isEdit && selectedPackageID) {
+      if (isEdit) {
         const selectedPackage = packageOptions
           .filter((packageOption) => packageOption?.value?.referenceNDC === ndc)
           .map((opt) => opt.value)[0];
         setDosagePackage(selectedPackage);
-        setQuantity(userQuantity);
-        setFrequency(daysOfSupply);
+
         setInitialValues((data) => ({
           ...data,
           dosagePackage: selectedPackage,
@@ -173,7 +168,7 @@ const PrescriptionModal = ({
         setFrequency(commonDaysOfSupply);
       }
     }
-  }, [dosage, isEdit, selectedPackageID, ndc, daysOfSupply, userQuantity]);
+  }, [dosage, isEdit, ndc, daysOfSupply, userQuantity]);
 
   const fetchOptions = async (event) => {
     const searchStr = event.target.value;
@@ -272,6 +267,12 @@ const PrescriptionModal = ({
       initialValues.dosage !== dosage
     );
   };
+  console.log(
+    "disabled",
+    initialValues.dosage,
+
+    dosage
+  );
 
   const validUpdate = isUpdated();
 
