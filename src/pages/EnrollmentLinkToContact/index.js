@@ -21,6 +21,7 @@ export default function EnrollmentLinkToContact() {
   const { callLogId, callFrom } = useParams();
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const policy = state?.policyNumber || state?.policyId;
 
   const getContacts = async (searchStr) => {
     setIsLoading(true);
@@ -93,7 +94,7 @@ export default function EnrollmentLinkToContact() {
             submittedDate={state?.submitDate || "Not Provided by Carrier"}
             enrolledDate={state?.enrolledDate}
             policyEffectiveDate={state?.policyEffectiveDate}
-            policyId={state?.policyId}
+            policyId={policy}
             leadId={state?.leadId}
             planId={state?.planId}
             agentNpn={state?.agentNpn}
