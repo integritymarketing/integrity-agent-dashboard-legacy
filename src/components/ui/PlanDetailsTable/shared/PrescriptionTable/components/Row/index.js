@@ -6,6 +6,11 @@ import OutNetworkIcon from "components/icons/outNetwork";
 import { currencyFormatter } from "../../../cost-table";
 
 function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
+  const findPrescriptionByLabelName = (labelName) => {
+    return prescriptions?.find(
+      (prescription) => labelName === prescription?.dosage?.labelName
+    );
+  };
   const getRestrictionLabel = (drugDetail) => {
     if (!drugDetail) {
       return;
@@ -61,16 +66,17 @@ function Row({ isMobile, drugDetails, isCovered, prescriptions }) {
   };
 
   const getDoseQuantity = (labelName) => {
-    const { dosage } = prescriptions?.find(
-      (prescription) => labelName === prescription?.dosage?.labelName
-    );
-    if (dosage) {
-      const duration = getNumberInText(Math?.floor(dosage?.daysOfSupply / 30));
-      if (dosage?.selectedPackage) {
-        return `${dosage?.userQuantity} X ${dosage?.selectedPackage?.packageDisplayText} per ${duration}`;
-      }
-      return `${dosage?.userQuantity} tablets per ${duration}`;
+    const prescription = findPrescriptionByLabelName(labelName);
+    if (!prescription || !prescription.dosage) {
+      return;
     }
+    const { dosage } = prescription;
+    const duration = getNumberInText(Math.floor(dosage.daysOfSupply / 30));
+    if (dosage.selectedPackage) {
+      return `${dosage.userQuantity} X ${dosage.selectedPackage.packageDisplayText} per ${duration}`;
+    }
+
+    return `${dosage.userQuantity} tablets per ${duration}`;
   };
 
   return (
