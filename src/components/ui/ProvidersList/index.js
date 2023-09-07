@@ -29,7 +29,7 @@ const RenderProviders = ({
   isPlanPage = false,
 }) => {
   const classes = useStyles();
-  const { firstName, lastName, middleName, specialty, title } = provider;
+  const { firstName, lastName, middleName, specialty, title } = provider || {};
 
   const providerName = [firstName, middleName, lastName]
     .filter(Boolean)

@@ -94,7 +94,7 @@ export default function EnrollmentLinkToContact() {
             submittedDate={state?.submitDate || "Not Provided by Carrier"}
             enrolledDate={state?.enrolledDate}
             policyEffectiveDate={state?.policyEffectiveDate}
-            policyId={state?.policyId}
+            policyId={state?.policyNumber}
             leadId={state?.leadId}
             planId={state?.planId}
             agentNpn={state?.agentNpn}

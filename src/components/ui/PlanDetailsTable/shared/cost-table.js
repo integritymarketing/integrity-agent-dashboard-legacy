@@ -199,7 +199,7 @@ const CostTable = ({ planData }) => {
     {
       label: (
         <TotalEstLabel
-          drugsCount={planData.pharmacyCosts[0]?.drugCosts?.length || 0}
+          drugsCount={planData?.pharmacyCosts?.[0]?.drugCosts?.length || 0}
         />
       ),
       value: (
