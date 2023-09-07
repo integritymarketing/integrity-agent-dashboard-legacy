@@ -186,11 +186,11 @@ export default forwardRef((props) => {
             items={providers || []}
             provider={true}
             isLoading={isLoading}
-            itemRender={(item, index) => {
+            itemRender={(item) => {
               return (
                 <div key={item?.NPI} className="provider-container">
                   <RenderProviders
-                    item={item}
+                    provider={item}
                     setIsOpen={setIsOpen}
                     setProviderEditFlag={setProviderEditFlag}
                     setProviderToEdit={setProviderToEdit}
