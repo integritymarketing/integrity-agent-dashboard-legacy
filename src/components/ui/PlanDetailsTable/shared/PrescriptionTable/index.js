@@ -5,7 +5,10 @@ import Header from "./components/Header";
 import Row from "./components/Row";
 import Footer from "./components/Footer";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
-import PrescriptionCoverageModal from "components/SharedModals/PrescriptionModal/PrescriptionCoverageModal";
+import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCoverageModal/PrescriptionCoverageModal";
+import IconButton from "components/IconButton";
+import EditIcon from "components/icons/icon-edit";
+import Plus from "components/icons/plus";
 
 const PrescriptionTable = ({
   prescriptions,
@@ -23,8 +26,10 @@ const PrescriptionTable = ({
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
   const [coverageModal, setCoverageModal] = useState(false);
 
+  const onAddNewPrescription = () => setIsOpenPrescription(true);
   const onCloseNewPrescription = () => setIsOpenPrescription(false);
   const onEditPrescription = (item) => {
+    setCoverageModal(false);
     setIsOpenEditPrescription(true);
     setPrescriptionToEdit(item);
   };
@@ -39,12 +44,28 @@ const PrescriptionTable = ({
   const nonCoveredDrugs = data.filter((item) => item.tierNumber === 0);
 
   const hasData = data?.length > 0;
+  const isEdit = prescriptions?.length > 0 ? true : false;
+
+  const handleAddEdit = () => {
+    if (isEdit) {
+      setCoverageModal(true);
+    } else {
+      onAddNewPrescription();
+    }
+  };
 
   return (
     <PlanDetailsContactSectionCard
       title="Prescriptions"
       isDashboard={true}
       preferencesKey={"prescriptions_collapse"}
+      actions={
+        <IconButton
+          label={isEdit ? "Edit" : "Add"}
+          onClick={handleAddEdit}
+          icon={isEdit ? <EditIcon /> : <Plus />}
+        />
+      }
     >
       {coveredDrugs?.length > 0 && (
         <>
@@ -105,6 +126,12 @@ const PrescriptionTable = ({
           prescriptions={prescriptions}
           planName={planData?.planName}
           refresh={refresh}
+          coveredDrugs={coveredDrugs}
+          addNew={() => {
+            setCoverageModal(false);
+            onAddNewPrescription();
+          }}
+          onEditPrescription={onEditPrescription}
         />
       )}
     </PlanDetailsContactSectionCard>

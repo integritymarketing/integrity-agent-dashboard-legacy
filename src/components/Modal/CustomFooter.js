@@ -5,6 +5,9 @@ import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   customButton: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     color: "#4178FF",
     fontSize: "16px",
     fontWeight: "600",
@@ -24,11 +27,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: "20px",
     backgroundColor: "#F1F1F1",
-    borderTop: "1px solid #CCCCCC",
     width: "90%",
-  },
-  buttonIcon: {
-    marginTop: "10px",
   },
 }));
 

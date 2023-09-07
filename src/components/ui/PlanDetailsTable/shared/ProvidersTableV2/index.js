@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
+import IconButton from "components/IconButton";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
-import styles from "./ProvidersTableV2.module.scss";
+import EditIcon from "components/icons/icon-edit";
+import Plus from "components/icons/plus";
 import { useParams } from "react-router-dom";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import RenderProviders from "components/ui/ProvidersList";
+import styles from "./ProvidersTableV2.module.scss";
 
 const ProvidersTableV2 = ({
   isMobile,
@@ -16,52 +19,65 @@ const ProvidersTableV2 = ({
 }) => {
   const { contactId } = useParams();
   const { leadDetails } = useContactDetails(contactId);
-  const [isOpen, setIsOpen] = useState(false);
-  const [providerEditFlag, setProviderEditFlag] = useState(false);
-  const [providerToEdit, setProviderToEdit] = useState({});
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditingProvider, setIsEditingProvider] = useState(false);
+  const [providerToEdit, setProviderToEdit] = useState(null);
+
+  const handleAddNewProvider = () => setIsModalOpen(true);
+
+  const shouldShowEditIcon = useMemo(
+    () => Boolean(providers?.length),
+    [providers]
+  );
 
   return (
     <>
       <PlanDetailsContactSectionCard
         title="Providers"
-        isDashboard={true}
+        isDashboard
         preferencesKey="providers_collapse"
+        actions={
+          <IconButton
+            label={shouldShowEditIcon ? "Edit" : "Add"}
+            onClick={handleAddNewProvider}
+            icon={shouldShowEditIcon ? <EditIcon /> : <Plus />}
+          />
+        }
       >
         <div className={styles.container}>
-          {providers?.map((provider, index) => {
-            return (
-              <div
-                className={styles.providerContainer}
-                key={`Provider-plansPage-${index}`}
-              >
-                <RenderProviders
-                  item={provider}
-                  setIsOpen={setIsOpen}
-                  setProviderEditFlag={setProviderEditFlag}
-                  setProviderToEdit={setProviderToEdit}
-                  isPlanPage={true}
-                />
-              </div>
-            );
-          })}
+          {providers?.map((provider, index) => (
+            <div
+              className={styles.providerContainer}
+              key={`Provider-plansPage-${index}`}
+            >
+              <RenderProviders
+                key={`provider-${index}`}
+                provider={provider}
+                setIsModalOpen={setIsModalOpen}
+                setIsEditingProvider={setIsEditingProvider}
+                setProviderToEdit={setProviderToEdit}
+                isPlanPage
+              />
+            </div>
+          ))}
         </div>
-
-        {isOpen && (
+        {isModalOpen && (
           <ProviderModal
-            open={isOpen}
+            open={isModalOpen}
             onClose={() => {
-              setProviderEditFlag(false);
-              setProviderToEdit({});
-              setIsOpen(false);
+              setIsModalOpen(false);
+              setIsEditingProvider(false);
+              setProviderToEdit(null);
             }}
             onSave={addProvider}
-            userZipCode={leadDetails?.addresses[0]?.postalCode}
-            leadId={contactId}
+            userZipCode={leadDetails?.addresses?.[0]?.postalCode}
+            contactId={contactId}
             onDelete={deleteProvider}
-            leadProviders={providers}
-            selected={providerToEdit}
-            isEdit={providerEditFlag}
-            refresh={refresh}
+            existingProviders={providers}
+            selectedProvider={providerToEdit}
+            isEditing={isEditingProvider}
+            refreshData={refresh}
           />
         )}
       </PlanDetailsContactSectionCard>
@@ -70,23 +86,11 @@ const ProvidersTableV2 = ({
 };
 
 ProvidersTableV2.propTypes = {
-  providers: PropTypes.arrayOf(
-    PropTypes.shape({
-      subspecialty: PropTypes.string,
-      firstName: PropTypes.string,
-      middleName: PropTypes.string,
-      lastName: PropTypes.string,
-      address: PropTypes.shape({
-        phoneNumbers: PropTypes.arrayOf(PropTypes.string),
-        streetLine1: PropTypes.string,
-        streetLine2: PropTypes.string,
-        city: PropTypes.string,
-        state: PropTypes.string,
-        zipCode: PropTypes.string,
-      }),
-      inNetwork: PropTypes.bool,
-    })
-  ),
+  isMobile: PropTypes.bool.isRequired,
+  providers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  refresh: PropTypes.func.isRequired,
+  addProvider: PropTypes.func.isRequired,
+  deleteProvider: PropTypes.func.isRequired,
 };
 
 export default ProvidersTableV2;

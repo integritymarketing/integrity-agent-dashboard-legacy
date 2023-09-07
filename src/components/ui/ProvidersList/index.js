@@ -22,14 +22,14 @@ const useStyles = makeStyles({
 });
 
 const RenderProviders = ({
-  item,
+  provider,
   setProviderEditFlag,
   setProviderToEdit,
   setIsOpen,
   isPlanPage = false,
 }) => {
   const classes = useStyles();
-  const { firstName, lastName, middleName, specialty, title } = item;
+  const { firstName, lastName, middleName, specialty, title } = provider;
 
   const providerName = [firstName, middleName, lastName]
     .filter(Boolean)
@@ -40,43 +40,40 @@ const RenderProviders = ({
       <ProviderPersonalInfo
         specialty={specialty}
         title={title}
-        name={isPlanPage ? providerName : item?.presentationName}
+        name={isPlanPage ? providerName : provider?.presentationName}
         phone={
           isPlanPage
-            ? getProviderPhone(item?.address)
-            : formatPhoneNumber(item?.phone)
+            ? getProviderPhone(provider?.address)
+            : formatPhoneNumber(provider?.phone)
         }
       />
 
       <Box>
-        {item?.addresses?.map((address, index) => (
+        {provider?.addresses?.map((address, index) => (
           <Box className={classes.addressContainer}>
-            {isPlanPage && item?.inNetwork ? (
+            {isPlanPage && provider?.inNetwork ? (
               <InNetworkIcon />
             ) : (
               <OutNetworkIcon />
             )}
             <Typography key={index} variant="body2" className={classes.address}>
-              {address.streetLine1}, {address.city}, {address.state},{" "}
+              {address.streetLine1}, {address.city}, {address.state},
               {address.zipCode}
             </Typography>
           </Box>
         ))}
       </Box>
-      {/*   USE THIS WHILE WE ARE WORKING ON GLOBAL MODALS */}
 
       <Box>
-        {!isPlanPage && (
-          <IconButton
-            label="Edit"
-            onClick={() => {
-              setProviderEditFlag(true);
-              setProviderToEdit(item);
-              setIsOpen(true);
-            }}
-            icon={<EditIcon />}
-          />
-        )}
+        <IconButton
+          label="Edit"
+          onClick={() => {
+            setProviderEditFlag(true);
+            setProviderToEdit(provider);
+            setIsOpen(true);
+          }}
+          icon={<EditIcon />}
+        />
       </Box>
     </>
   );

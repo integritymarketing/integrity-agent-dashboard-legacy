@@ -1,14 +1,21 @@
 import React from "react";
-import Typography from "@mui/material/Typography";
-import Modal from "components/Modal";
+import Box from "@mui/material/Box";
+import EditIcon from "components/icons/icon-edit";
+import InNetworkIcon from "components/icons/inNetwork";
+import OutNetworkIcon from "components/icons/outNetwork";
+import IconButton from "components/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import makeStyles from "@mui/styles/makeStyles";
+import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
+import Modal from "components/Modal";
 import CustomFooter from "components/Modal/CustomFooter";
 import Plus from "components/icons/plus";
-import "./style.scss";
+
+import "../PrescriptionModal/style.scss";
 
 const useStyles = makeStyles((theme) => ({
   listRoot: {
@@ -23,8 +30,14 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     backgroundColor: "#FFFFFF",
-    height: 72,
+    height: 80,
     boxShadow: "inset 0px -1px 0px #DDDDDD;",
+  },
+  network: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
   },
   drugType: {
     color: "#717171",
@@ -37,7 +50,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 24,
     fontFamily: "Lato",
     letterSpacing: "0.24px",
-    marginTop: 20,
+    marginTop: 30,
+  },
+  details: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   labelName: {
     color: "#052A63",
@@ -51,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Lato",
     letterSpacing: "0.24px",
   },
+  editIcon: {
+    marginLeft: "auto",
+  },
 }));
 
 const getFrequencyValue = (dayofSupply) => {
@@ -61,12 +82,18 @@ const getFrequencyValue = (dayofSupply) => {
   return result;
 };
 
-const PrescriptionRow = ({ item }) => {
+const PrescriptionRow = ({ item, coveredDrugs, onEditPrescription }) => {
   const classes = useStyles();
 
   const { dosage, dosageDetails } = item;
-  const { labelName, daysOfSupply, drugType, selectedPackage, userQuantity } =
-    dosage;
+  const {
+    labelName,
+    daysOfSupply,
+    drugType,
+    selectedPackage,
+    userQuantity,
+    ndc,
+  } = dosage;
   const selectPackageDetails = selectedPackage
     ? `${userQuantity} X ${
         selectedPackage.packageDisplayText
@@ -77,12 +104,19 @@ const PrescriptionRow = ({ item }) => {
       )}`
     : "";
 
+  const isNetwork = coveredDrugs?.some(
+    (item) => ndc === item?.ndc && item?.networkTier === "In Network"
+  );
+
   return (
     <ListItem className={classes.listItem}>
+      <Box className={classes.network}>
+        {isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
+      </Box>
       <ListItemText
         primary={drugType}
         secondary={
-          <>
+          <Box className={classes.details}>
             <Typography
               component="span"
               variant="body2"
@@ -97,13 +131,19 @@ const PrescriptionRow = ({ item }) => {
             >
               {selectPackageDetails}
             </Typography>
-          </>
+          </Box>
         }
         classes={{
           primary: classes.drugType,
-          secondary: "prescription-coverage-modal__row__secondary",
         }}
       />
+      <Box className={classes.editIcon}>
+        <IconButton
+          label="Edit"
+          onClick={() => onEditPrescription(item)}
+          icon={<EditIcon />}
+        ></IconButton>
+      </Box>
     </ListItem>
   );
 };
@@ -113,8 +153,12 @@ const PrescriptionCoverageModal = ({
   onClose,
   open,
   planName,
+  coveredDrugs,
+  addNew,
+  onEditPrescription,
 }) => {
   const classes = useStyles();
+
   return (
     <Modal
       open={open}
@@ -123,7 +167,7 @@ const PrescriptionCoverageModal = ({
       customFooter={
         <CustomFooter
           buttonName={"Add Provider"}
-          // onClick={handleDeleteProvider}
+          onClick={addNew}
           icon={<Plus />}
         />
       }
@@ -133,11 +177,25 @@ const PrescriptionCoverageModal = ({
         <Typography className={classes.planName}>{planName}</Typography>
         <List className={classes.listRoot}>
           {prescriptions.map((item, index) => (
-            <PrescriptionRow key={index} item={item} />
+            <PrescriptionRow
+              key={index}
+              item={item}
+              coveredDrugs={coveredDrugs}
+              onEditPrescription={onEditPrescription}
+            />
           ))}
         </List>
       </>
     </Modal>
   );
 };
+
+PrescriptionCoverageModal.propTypes = {
+  prescriptions: PropTypes.array.isRequired,
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  planName: PropTypes.string.isRequired,
+  coveredDrugs: PropTypes.array,
+};
+
 export default PrescriptionCoverageModal;

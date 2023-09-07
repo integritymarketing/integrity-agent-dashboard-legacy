@@ -76,6 +76,8 @@ const useStyles = makeStyles((theme) => ({
   footerButtons: {
     backgroundColor: "#F1F1F1",
     borderRadius: "0px 0px 8px 8px",
+    borderBotom: "1px solid #CCCCCC",
+
     justifyContent: "space-between",
     padding: "20px 24px",
     width: "100%",

@@ -1,16 +1,25 @@
-import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
-import ReactWebChat, { createDirectLine, createStore } from 'botframework-webchat';
-import * as Sentry from '@sentry/react';
-import cx from 'classnames';
-import styles from './WebChat.module.scss';
-import './WebChat.scss';
-import useUserProfile from 'hooks/useUserProfile';
-import useToast from 'hooks/useToast';
-import authService from 'services/authService';
-import ChatIcon from './askintegrity-logo.png';
-import HideIcon from './hide-icon.png';
-import openAudio from './open.mp3';
-import closeAudio from './close.mp3';
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
+import ReactWebChat, {
+  createDirectLine,
+  createStore,
+} from "botframework-webchat";
+import * as Sentry from "@sentry/react";
+import cx from "classnames";
+import styles from "./WebChat.module.scss";
+import "./WebChat.scss";
+import useUserProfile from "hooks/useUserProfile";
+import useToast from "hooks/useToast";
+import authService from "services/authService";
+import ChatIcon from "./askintegrity-logo.png";
+import HideIcon from "./hide-icon.png";
+import openAudio from "./open.mp3";
+import closeAudio from "./close.mp3";
 
 const WebChatComponent = () => {
   const { npn, fullName } = useUserProfile();
@@ -24,7 +33,7 @@ const WebChatComponent = () => {
   const fetchDirectLineToken = useCallback(async () => {
     try {
       const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ marketerId: npn }),
       });
 
@@ -35,8 +44,8 @@ const WebChatComponent = () => {
     } catch (error) {
       Sentry.captureException(error);
       addToast({
-        type: 'error',
-        message: 'Error fetching Direct Line token.',
+        type: "error",
+        message: "Error fetching Direct Line token.",
       });
     }
   }, [npn, addToast]);
@@ -61,10 +70,10 @@ const WebChatComponent = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [closeChat]);
 
@@ -158,9 +167,14 @@ const WebChatComponent = () => {
             if (activityValue != null) {
               action.payload.activity.channelData.postBack = false;
             }
-            if(activityValue != null && (activityValue.name === 'mc_View_Call_Summary' || activityValue.name == 'mc_View_Transcript')) {
+            if (
+              activityValue != null &&
+              (activityValue.name === "mc_View_Call_Summary" ||
+                activityValue.name === "mc_View_Transcript")
+            ) {
               action.payload.activity.channelData.postBack = true;
             }
+
             if (
               activityValue != null &&
               activityValue.name === "mc_Contact_Selected"
@@ -201,10 +215,12 @@ const WebChatComponent = () => {
   );
 
   const clearChat = () => {
-    const container = document.querySelector(".webchat__basic-transcript__transcript");
+    const container = document.querySelector(
+      ".webchat__basic-transcript__transcript"
+    );
     container.innerHTML = "";
     fetchDirectLineToken();
-  }
+  };
 
   return (
     <div className={styles.container} ref={chatRef}>

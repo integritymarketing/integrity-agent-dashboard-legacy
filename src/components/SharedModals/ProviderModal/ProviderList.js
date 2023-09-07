@@ -112,37 +112,25 @@ const Address = ({
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
 
-  // Use for multi select addresses of same provider //
-
-  // const handleMultiSelectAddresses = (address) => {
-  //   const isAddressExist = selectAddressIds?.includes(address?.id);
-
-  //   if (
-  //     selectAddressIds?.length > 0 &&
-  //     selectedProvider?.NPI === provider?.NPI
-  //   ) {
-  //     if (isAddressExist) {
-  //       if (selectAddressIds?.length === 1) setSelectedProvider(null);
-  //       setSelectAddressIds(
-  //         selectAddressIds.filter((addressId) => addressId !== address?.id)
-  //       );
-  //     } else {
-  //       setSelectAddressIds([...selectAddressIds, address?.id]);
-  //     }
-  //   } else {
-  //     setSelectAddressIds([address?.id]);
-  //     setSelectedProvider(provider);
-  //   }
-  // };
-
   const handleSelectAddress = (address) => {
     const isAddressExist = selectAddressIds?.includes(address?.id);
-    if (isAddressExist) {
-      setSelectAddressIds([]);
+
+    if (
+      selectAddressIds?.length > 0 &&
+      selectedProvider?.NPI === provider?.NPI
+    ) {
+      if (isAddressExist) {
+        if (selectAddressIds?.length === 1) setSelectedProvider(null);
+        setSelectAddressIds(
+          selectAddressIds.filter((addressId) => addressId !== address?.id)
+        );
+      } else {
+        setSelectAddressIds([...selectAddressIds, address?.id]);
+      }
     } else {
       setSelectAddressIds([address?.id]);
+      setSelectedProvider(provider);
     }
-    setSelectedProvider(provider);
   };
 
   return (

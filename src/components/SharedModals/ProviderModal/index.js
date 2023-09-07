@@ -135,66 +135,43 @@ const ProviderModal = ({
   };
 
   const handleSaveProvider = async () => {
-    let isExist =
-      leadProviders?.filter((each) => each?.NPI === selectedProvider?.NPI)[0] ||
-      null;
-    if (isExist) {
-      await handleDeleteProvider();
-    } else {
-      let requestPayload = [
-        {
-          npi: selectedProvider?.NPI?.toString(),
-          addressId: selectAddressIds[0],
-          isPrimary: false,
-        },
-      ];
+    onClose();
 
-      await onSave(requestPayload, selectedProvider?.presentationName, refresh);
+    const requestPayload = selectAddressIds?.map((addressId) => {
+      return {
+        npi: selectedProvider?.NPI?.toString(),
+        addressId: addressId,
+        isPrimary: false,
+      };
+    });
 
-      onClose();
-    }
+    await onSave(requestPayload, selectedProvider?.presentationName, refresh);
   };
 
-  // Use for multi select addresses of same provider //
+  const handleEditProvider = async () => {
+    let completeAddressArray = selectedProvider?.addresses;
 
-  // const handleSaveMultiLocationProviders = async () => {
-  //   onClose();
+    const getFilteredAddressIds = (completeData, partialData) =>
+      completeData?.filter(
+        (completeAddress) =>
+          !partialData?.some((partialId) => completeAddress?.id === partialId)
+      );
 
-  //   const requestPayload = selectAddressIds?.map((addressId) => {
-  //     return {
-  //       npi: selectedProvider?.NPI?.toString(),
-  //       addressId: addressId,
-  //       isPrimary: false,
-  //     };
-  //   });
+    const filteredAddressIds = getFilteredAddressIds(
+      completeAddressArray,
+      selectAddressIds
+    );
 
-  //   await onSave(requestPayload, selectedProvider?.presentationName, refresh);
-  // };
-
-  // const handleEditMultiLocationProvider = async () => {
-  //   let completeAddressArray = selectedProvider?.addresses;
-
-  //   const getFilteredAddressIds = (completeData, partialData) =>
-  //     completeData?.filter(
-  //       (completeAddress) =>
-  //         !partialData?.some((partialId) => completeAddress?.id === partialId)
-  //     );
-
-  //   const filteredAddressIds = getFilteredAddressIds(
-  //     completeAddressArray,
-  //     selectAddressIds
-  //   );
-
-  //   const requestPayload = filteredAddressIds?.map((address) => {
-  //     return {
-  //       npi: selectedProvider?.NPI?.toString(),
-  //       addressId: address?.id,
-  //       isPrimary: false,
-  //     };
-  //   });
-  //   onClose();
-  //   onDelete(requestPayload, selectedProvider?.presentationName, refresh);
-  // };
+    const requestPayload = filteredAddressIds?.map((address) => {
+      return {
+        npi: selectedProvider?.NPI?.toString(),
+        addressId: address?.id,
+        isPrimary: false,
+      };
+    });
+    onClose();
+    onDelete(requestPayload, selectedProvider?.presentationName, refresh);
+  };
 
   const handleDeleteProvider = () => {
     const requestPayload = selected?.addresses?.map((address) => {
@@ -226,20 +203,16 @@ const ProviderModal = ({
     return selected?.addresses?.length !== selectAddressIds?.length;
   }, [selected, selectAddressIds]);
 
-  // Use for multi select addresses of same provider //
-
-  // const disabled = isEdit
-  //   ? !selectAddressIds?.length > 0 || !isUpdated
-  //   : !isFormValid;
-
-  const disabled = isEdit ? !isUpdated : !isFormValid;
+  const disabled = isEdit
+    ? !selectAddressIds?.length > 0 || !isUpdated
+    : !isFormValid;
 
   return (
     <Modal
       open={open}
       onClose={onClose}
       title={isEdit ? "Update Provider" : "Add Providers"}
-      onSave={handleSaveProvider}
+      onSave={isEdit ? handleEditProvider : handleSaveProvider}
       actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
       customFooter={
         isEdit && (
