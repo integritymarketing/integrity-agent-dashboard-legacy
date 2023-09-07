@@ -17,8 +17,15 @@ import NoRequestedCallback from "images/no-requested-callback.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 import { Button } from "components/ui/Button";
 import moment from "moment";
+import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
 
 const DEFAULT_TABS = [
+  {
+    policyStatus: "SOA 48-hour Rule",
+    policyStatusColor: "#4178FF",
+    name: "soa48HoursRule",
+    value: 4,
+  },
   {
     policyStatus: "Reminders",
     policyStatusColor: "#4178FF",
@@ -182,6 +189,8 @@ export default function TaskList({ isMobile, npn }) {
         );
       case "Reminders":
         return <RemindersList taskList={taskList} refreshData={refreshData} />;
+      case "SOA 48-hour Rule":
+        return <Soa48HoursRule taskList={taskList} refreshData={refreshData} />;
       case "Requested Callbacks":
         return <RequestedCallback />;
       default:
