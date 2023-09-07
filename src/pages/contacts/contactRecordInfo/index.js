@@ -334,7 +334,7 @@ const ContactRecordInfoDetails = () => {
         clientsService.getLeadProviders(leadsId),
       ]);
       if (
-        prescriptions?.length > 3 &&
+        prescriptions?.length > 0 &&
         providers?.length > 0 &&
         !shouldHideSpecialistPrompt
       ) {

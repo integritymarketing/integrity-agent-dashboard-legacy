@@ -58,10 +58,10 @@ const ProviderInsights = ({
           <img src={ButtonCircleIcon} alt="right-arrow" />
         </button>
       </div>
-      <div className={styles.separator} />
+      {/* <div className={styles.separator} />
       <div className={styles.footer}>
         <input type="checkbox" /> <p>Hide Provider Insights</p>
-      </div>
+      </div> */}
     </div>
   );
 };

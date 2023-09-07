@@ -15,7 +15,7 @@ const ReviewProviders = ({
   birthdate,
   prescriptions,
   providers,
-  leadId,
+  leadsId,
   personalInfo,
   refreshAvailablePlans,
 }) => {
@@ -24,10 +24,10 @@ const ReviewProviders = ({
   const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
   const { data, Post: postSpecialists } = useFetch(
-    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${leadId}?api-version=1.0`
+    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${leadsId}?api-version=1.0`
   );
   const { Post: postAddProvider } = useFetch(
-    `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadId}/Provider`
+    `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadsId}/Provider`
   );
 
   const toggleProviderCollapse = useCallback(() => {
@@ -35,8 +35,8 @@ const ReviewProviders = ({
   }, []);
 
   const viewPlans = useCallback(() => {
-    history.push(`/plans/${leadId}`);
-  }, [history, leadId]);
+    history.push(`/plans/${leadsId}`);
+  }, [history, leadsId]);
 
   const openAddProviderModal = useCallback(() => {
     setModalOpen(true);
@@ -98,36 +98,42 @@ const ReviewProviders = ({
           </div>
         )}
       </div>
-      <div className={styles.potentialSpecialists}>
-        <div className={styles.header}>
-          <p className={styles.title}>Potential Specialists</p>
-          <p>
-            Your Contact may potentially see a specialist for the following
-            prescriptions. These prescriptions may also be prescribed by their
-            primary care physician.
-          </p>
-        </div>
-        <div className={styles.prescriptions}>
-          {data?.rXToSpecialistsResults?.map((result, index) => (
-            <div key={index} className={styles.prescription}>
-              <div className={styles.header}>
-                <div className={styles.title}>Prescription</div>
-                <div className={styles.value}>
-                  {toTitleCase(result.drugName)}
+      {data?.rXToSpecialistsResults?.length > 0 && (
+        <div className={styles.potentialSpecialists}>
+          <div className={styles.header}>
+            <p className={styles.title}>Potential Specialists</p>
+            <p>
+              Your Contact may potentially see a specialist for the following
+              prescriptions. These prescriptions may also be prescribed by their
+              primary care physician.
+            </p>
+          </div>
+          <div className={styles.prescriptions}>
+            {data?.rXToSpecialistsResults?.map((result, index) => (
+              <div
+                onClick={openAddProviderModal}
+                key={index}
+                className={styles.prescription}
+              >
+                <div className={styles.header}>
+                  <div className={styles.title}>Prescription</div>
+                  <div className={styles.value}>
+                    {toTitleCase(result.drugName)}
+                  </div>
+                </div>
+                <div className={styles.content}>
+                  {result.specialties?.map((specialty, sIndex) => (
+                    <div key={sIndex} className={styles.type}>
+                      <p>{toTitleCase(specialty)}</p>
+                      <img src={ButtonCircle} alt="button-circle" />
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className={styles.content}>
-                {result.specialties?.map((specialty, sIndex) => (
-                  <div key={sIndex} className={styles.type}>
-                    <p>{toTitleCase(specialty)}</p>
-                    <img src={ButtonCircle} alt="button-circle" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.actions}>
         <button onClick={viewPlans} className={styles.secondary}>
           View Plans
@@ -145,7 +151,7 @@ const ReviewProviders = ({
           }}
           onSave={handleSaveProvider}
           userZipCode={userZipCode}
-          leadId={leadId}
+          leadId={leadsId}
         />
       )}
     </div>
@@ -169,7 +175,7 @@ ReviewProviders.propTypes = {
       specialty: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
-  leadId: PropTypes.string.isRequired,
+  leadsId: PropTypes.string.isRequired,
   personalInfo: PropTypes.shape({
     addresses: PropTypes.arrayOf(
       PropTypes.shape({
