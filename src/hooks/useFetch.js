@@ -59,21 +59,21 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
     [url, isPublic, noResponse]
   );
 
-  const Get = (body, returnHttpResponse) => {
+  const Get = useCallback((body, returnHttpResponse) => {
     return fetchData({ method: "GET", body, returnHttpResponse });
-  };
+  }, [fetchData]);
 
-  const Post = (body, returnHttpResponse) => {
+  const Post = useCallback((body, returnHttpResponse) => {
     return fetchData({ method: "POST", body, returnHttpResponse });
-  };
+  }, [fetchData]);
 
-  const Put = (body, returnHttpResponse) => {
+  const Put = useCallback((body, returnHttpResponse) => {
     return fetchData({ method: "PUT", body, returnHttpResponse });
-  };
+  }, [fetchData]);
 
-  const Delete = (body, returnHttpResponse) => {
+  const Delete = useCallback((body, returnHttpResponse) => {
     return fetchData({ method: "DELETE", body, returnHttpResponse });
-  };
+  }, [fetchData]);
 
   return { data, loading, error, Put, Post, Delete, Get };
 };

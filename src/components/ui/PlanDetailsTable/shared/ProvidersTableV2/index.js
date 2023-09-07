@@ -16,7 +16,6 @@ const ProvidersTableV2 = ({
 }) => {
   const { contactId } = useParams();
   const { leadDetails } = useContactDetails(contactId);
-
   const [isOpen, setIsOpen] = useState(false);
   const [providerEditFlag, setProviderEditFlag] = useState(false);
   const [providerToEdit, setProviderToEdit] = useState({});
@@ -71,7 +70,6 @@ const ProvidersTableV2 = ({
 };
 
 ProvidersTableV2.propTypes = {
-  isMobile: PropTypes.bool,
   providers: PropTypes.arrayOf(
     PropTypes.shape({
       subspecialty: PropTypes.string,

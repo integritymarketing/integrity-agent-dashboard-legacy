@@ -1,0 +1,57 @@
+.providerInsights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 4rem;
+
+  .chatBubble {
+    display: flex;
+    flex-direction: column;
+    background-color: #375582;
+    gap: 0.5rem;
+    padding: 1rem;
+    margin-right: 1rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+
+    .title {
+      font-size: 1.2rem;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 2rem;
+
+    button {
+      color: #ffffff;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+    }
+
+    .primary {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #4178ff;
+    }
+  }
+
+  .separator {
+    width: 90%;
+    height: 1px;
+    background-color: #ffffff90;
+  }
+
+  .footer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    p {
+      margin-top: -2px;
+    }
+  }
+}

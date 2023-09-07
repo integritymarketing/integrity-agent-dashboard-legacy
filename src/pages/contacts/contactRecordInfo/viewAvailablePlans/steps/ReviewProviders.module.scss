@@ -1,0 +1,154 @@
+.reviewProviders {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 4rem;
+
+  .chatBubble {
+    display: flex;
+    flex-direction: column;
+    background-color: #375582;
+    gap: 0.5rem;
+    padding: 1rem;
+    margin-right: 1rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+
+    .title {
+      font-size: 1.2rem;
+    }
+  }
+
+  .currentProviders {
+    padding: 0 1rem;
+    width: 100%;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 1.25rem;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+        margin-top: 0.2rem;
+        transition-duration: 0.3s;
+
+        &.collapsed {
+          transform: rotate(-90deg);
+        }
+      }
+    }
+
+    .providersList {
+      background-color: #49648c;
+      padding: 0.25rem;
+      border: 0.5rem solid #375582;
+      border-radius: 0.5rem;
+
+      .provider {
+        padding: 0.25rem 0;
+        border-bottom: 1px solid #ffffff80;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .title {
+          font-style: italic;
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .potentialSpecialists {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0 1rem;
+
+    .header {
+      align-items: flex-start;
+
+      .title {
+        font-size: 1.25rem;
+      }
+    }
+
+    .prescriptions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .prescription {
+        display: flex;
+        flex-direction: column;
+        background-color: #375582;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        gap: 0.5rem;
+
+        .header {
+          .title {
+            font-style: italic;
+            font-size: 0.75rem;
+          }
+        }
+
+        .content {
+          background-color: #49648c;
+          border-radius: 0.25rem;
+
+          .type {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid #ffffff80;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            img {
+              cursor: pointer;
+              background-color: #4178ff;
+              border-radius: 100%;
+              padding: 0.25rem;
+              width: 1.5rem;
+              height: 1.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 2rem;
+
+    button {
+      color: #ffffff;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+    }
+
+    .primary {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #4178ff;
+    }
+  }
+
+  .providerCollapsed {
+    border-radius: 0px 8px 8px 0px;
+    border-top: 1px solid #375582;
+  }
+}
