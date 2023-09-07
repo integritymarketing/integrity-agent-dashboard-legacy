@@ -171,7 +171,8 @@
 
   .webchat__bubble:has(
       #mcContactSummaryButtonsCard,
-      #mcCallSummaryButtonsCard
+      #mcCallSummaryButtonsCard,
+      #mcViewContactButtonsCard
     ) {
     border: none;
     margin-right: 0 !important;
@@ -181,13 +182,15 @@
     }
 
     #mcContactSummaryButtonsCard,
-    #mcCallSummaryButtonsCard {
+    #mcCallSummaryButtonsCard,
+    #mcViewContactButtonsCard {
       button {
         background: transparent;
         border: none;
         color: #ffffff;
         font-weight: normal;
         transition-duration: 100ms;
+        max-width: 50%;
 
         &:hover {
           background: #4178ff;
@@ -214,16 +217,15 @@
     justify-content: center !important;
     align-items: stretch;
     gap: 0.5rem;
-
-    button:first-child {
-      display: flex;
-      background: #4178ff;
-      border-radius: 50px;
-    }
   }
 
   a {
     text-decoration: none;
     pointer-events: none;
+  }
+
+  #mcContactListCard .ac-columnSet .ac-container div:first-child {
+    font-size: 24px !important;
+    letter-spacing: 0.2px;
   }
 }
