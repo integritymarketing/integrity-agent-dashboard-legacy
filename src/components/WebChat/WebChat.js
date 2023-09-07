@@ -158,6 +158,9 @@ const WebChatComponent = () => {
             if (activityValue != null) {
               action.payload.activity.channelData.postBack = false;
             }
+            if(activityValue != null && (activityValue.name === 'mc_View_Call_Summary' || activityValue.name == 'mc_View_Transcript')) {
+              action.payload.activity.channelData.postBack = true;
+            }
             if (
               activityValue != null &&
               activityValue.name === "mc_Contact_Selected"
