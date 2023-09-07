@@ -19,7 +19,6 @@ export default function EnrollmentLinkToContact() {
   const location = useLocation();
   const { state } = location.state;
   const { callLogId, callFrom } = useParams();
-
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -94,7 +93,7 @@ export default function EnrollmentLinkToContact() {
             submittedDate={state?.submitDate || "Not Provided by Carrier"}
             enrolledDate={state?.enrolledDate}
             policyEffectiveDate={state?.policyEffectiveDate}
-            policyId={state?.policyNumber}
+            policyId={state?.policyId}
             leadId={state?.leadId}
             planId={state?.planId}
             agentNpn={state?.agentNpn}
