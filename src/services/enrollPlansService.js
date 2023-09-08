@@ -58,10 +58,11 @@ export class EnrollPlansService {
   };
 
   enroll = async (leadId, planId, data) => {
+    debugger
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
       "POST",
-      {},
+      "",
       data
     );
 
@@ -91,15 +92,17 @@ export class EnrollPlansService {
         "Content-Type": "application/json",
       },
     };
-
-    url.search = new URLSearchParams(query).toString();
-
+    // Convert the URL string to a URL object
+    const urlObject = new URL(url);
+    urlObject.search = new URLSearchParams(query).toString();
+    
     if (body) {
       opts.body = JSON.stringify(body);
     }
-
-    return fetch(url.toString(), opts);
+  
+    return fetch(urlObject.toString(), opts);
   };
+  
 }
 
 const EnrollPlansServiceInstance = new EnrollPlansService();
