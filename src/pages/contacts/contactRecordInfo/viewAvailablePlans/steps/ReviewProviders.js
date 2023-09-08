@@ -52,7 +52,7 @@ const ReviewProviders = ({
           addition to a Primary Care Physician.
         </p>
         <p>
-          Would you like to review <strong>{fullName}</strong> providers?
+          Would you like to review <strong>{fullName}'s</strong> providers?
         </p>
       </div>
       <div className={styles.currentProviders}>
