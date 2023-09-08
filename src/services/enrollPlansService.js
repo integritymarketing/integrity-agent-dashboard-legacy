@@ -68,6 +68,17 @@ export class EnrollPlansService {
     return response?.json();
   };
 
+  enrollConsumer = async (leadId, planId, data) => {
+    const response = await this._clientPublicAPIRequest(
+      `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
+      "POST",
+      "",
+      data
+    );
+
+    return response?.json();
+  };
+
   sharePolicy = async (sharePolicyPayload) => {
     const url = new URL(
       `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/ShareCurrentPlanSnapshot`
@@ -100,6 +111,26 @@ export class EnrollPlansService {
     }
   
     return fetch(urlObject.toString(), opts);
+  };
+
+  _clientPublicAPIRequest = async (
+    path,
+    method = "GET",
+    body,
+    headers = {}
+  ) => {
+    const opts = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    };
+    if (body) {
+      opts.body = JSON.stringify(body);
+    }
+
+    return fetch(path, opts);
   };
   
 }
