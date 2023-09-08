@@ -196,20 +196,12 @@ const App = () => {
                                       path="/contact/:contactId"
                                     >
                                       <ContactRecordInfo />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute
                                       exact
                                       path="/contact/:contactId/:sectionId"
                                     >
                                       <ContactRecordInfo />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute
                                       exact

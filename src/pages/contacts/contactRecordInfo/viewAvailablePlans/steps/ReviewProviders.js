@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -12,20 +12,16 @@ import styles from "./ReviewProviders.module.scss";
 
 const ReviewProviders = ({
   fullName,
-  birthdate,
-  prescriptions,
   providers,
   leadsId,
   personalInfo,
   refreshAvailablePlans,
+  rXToSpecialists,
 }) => {
   const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
   const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
-  const { data, Post: postSpecialists } = useFetch(
-    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${leadsId}?api-version=1.0`
-  );
   const { Post: postAddProvider } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadsId}/Provider`
   );
@@ -46,21 +42,6 @@ const ReviewProviders = ({
     await postAddProvider(payload);
     await refreshAvailablePlans?.();
   };
-
-  useEffect(() => {
-    const payload = {
-      birthDate: birthdate,
-      rxDetails: prescriptions?.map(({ dosage: { ndc, drugName } }) => ({
-        ndc,
-        drugName,
-      })),
-      providerDetails: providers?.map(({ presentationName, specialty }) => ({
-        providerName: presentationName,
-        providerSpecialty: specialty,
-      })),
-    };
-    postSpecialists(payload);
-  }, [postSpecialists, birthdate, prescriptions, providers]);
 
   return (
     <div className={styles.reviewProviders}>
@@ -98,7 +79,7 @@ const ReviewProviders = ({
           </div>
         )}
       </div>
-      {data?.rXToSpecialistsResults?.length > 0 && (
+      {rXToSpecialists?.rXToSpecialistsResults?.length > 0 && (
         <div className={styles.potentialSpecialists}>
           <div className={styles.header}>
             <p className={styles.title}>Potential Specialists</p>
@@ -109,7 +90,7 @@ const ReviewProviders = ({
             </p>
           </div>
           <div className={styles.prescriptions}>
-            {data?.rXToSpecialistsResults?.map((result, index) => (
+            {rXToSpecialists?.rXToSpecialistsResults?.map((result, index) => (
               <div
                 onClick={openAddProviderModal}
                 key={index}
@@ -160,20 +141,11 @@ const ReviewProviders = ({
 
 ReviewProviders.propTypes = {
   fullName: PropTypes.string.isRequired,
-  birthdate: PropTypes.string.isRequired,
-  prescriptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      dosage: PropTypes.shape({
-        ndc: PropTypes.string.isRequired,
-        drugName: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired
-  ).isRequired,
   providers: PropTypes.arrayOf(
     PropTypes.shape({
       presentationName: PropTypes.string.isRequired,
       specialty: PropTypes.string.isRequired,
-    }).isRequired
+    })
   ).isRequired,
   leadsId: PropTypes.string.isRequired,
   personalInfo: PropTypes.shape({
@@ -184,6 +156,14 @@ ReviewProviders.propTypes = {
     ),
   }),
   refreshAvailablePlans: PropTypes.func,
+  rXToSpecialists: PropTypes.shape({
+    rXToSpecialistsResults: PropTypes.arrayOf(
+      PropTypes.shape({
+        drugName: PropTypes.string.isRequired,
+        specialties: PropTypes.arrayOf(PropTypes.string).isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
 };
 
 export default ReviewProviders;
