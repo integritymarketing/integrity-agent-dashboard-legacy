@@ -58,7 +58,6 @@ export class EnrollPlansService {
   };
 
   enroll = async (leadId, planId, data) => {
-    debugger
     const response = await this._clientAPIRequest(
       `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
       "POST",
