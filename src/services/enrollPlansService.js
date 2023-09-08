@@ -57,6 +57,17 @@ export class EnrollPlansService {
     return response?.json();
   };
 
+  enroll = async (leadId, planId, data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
+      "POST",
+      {},
+      data
+    );
+
+    return response?.json();
+  };
+
   sharePolicy = async (sharePolicyPayload) => {
     const url = new URL(
       `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/ShareCurrentPlanSnapshot`

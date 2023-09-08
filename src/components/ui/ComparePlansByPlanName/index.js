@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
-import plansService from "services/plansService";
+import enrollPlansService from "services/enrollPlansService";
 import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import useRoles from "hooks/useRoles";
@@ -56,7 +56,7 @@ export default function ComparePlansByPlanName({
 
   const handleBenificiaryClick = useCallback(async (plan) => {
     try {
-      const enrolled = await plansService.enrollConsumerView(
+      const enrolled = await enrollPlansService.enrollConsumerView(
         id,
         plan.id,
         {
