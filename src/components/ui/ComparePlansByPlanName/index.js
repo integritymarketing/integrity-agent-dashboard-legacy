@@ -56,7 +56,7 @@ export default function ComparePlansByPlanName({
 
   const handleBenificiaryClick = useCallback(async (plan) => {
     try {
-      const enrolled = await enrollPlansService.enrollConsumerView(
+      const enrolled = await enrollPlansService.enroll(
         id,
         plan.id,
         {
