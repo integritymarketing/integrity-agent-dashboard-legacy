@@ -39,7 +39,7 @@ const useRoles = () => {
   );
 
   const isNonRTS_User =
-    hasRole(Roles.nonRts) && process.env.REACT_APP_NON_RTS_FLAG === "show";
+    hasRole(Roles.nonRts);
 
   return {
     isAdmin,
