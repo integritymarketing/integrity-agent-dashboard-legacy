@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
+// Custom Hooks
+import { useLeadInformation } from "hooks/useLeadInformation";
 import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import Typography from "@mui/material/Typography";
@@ -46,14 +48,14 @@ const frontTruncate = (str, maxChars, replacement = "...") => {
 };
 
 const PrescriptionModal = ({
-  onSave,
   onClose: onCloseHandler,
   open,
   item,
   isEdit,
-  onDelete,
   refresh,
 }) => {
+  const { addPrescription, editPrescription, deletePrescription } =
+    useLeadInformation();
   const { labelName, daysOfSupply, userQuantity, ndc } = item?.dosage ?? {};
 
   // Initializations
@@ -193,7 +195,7 @@ const PrescriptionModal = ({
   const handleAddPrescription = async () => {
     setIsSaving(true);
     try {
-      await onSave(
+      await addPrescription(
         {
           dosageRecordID: 0,
           dosageID: dosage?.dosageID,
@@ -216,7 +218,7 @@ const PrescriptionModal = ({
   const handleUpdatePrescription = async () => {
     setIsSaving(true);
     try {
-      await onSave(
+      await editPrescription(
         {
           dosageRecordID: item?.dosage?.dosageRecordID,
           labelName: dosage?.labelName,
@@ -239,7 +241,7 @@ const PrescriptionModal = ({
 
   const handleDeletePrescription = () => {
     onClose();
-    onDelete(item, refresh);
+    deletePrescription(item, refresh);
   };
 
   const isFormValid = useMemo(() => {

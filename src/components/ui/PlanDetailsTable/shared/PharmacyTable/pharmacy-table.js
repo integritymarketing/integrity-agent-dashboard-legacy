@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useLeadInformation } from "hooks/useLeadInformation";
 import APIFail from "../APIFail/index";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
 import InNetworkIcon from "components/icons/inNetwork";
@@ -11,14 +12,8 @@ function getInNetwork(pharmacyCost) {
   return pharmacyCost.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
 }
 
-const PharmacyTable = ({
-  contact,
-  planData,
-  pharmacies,
-  isMobile,
-  addPharmacy,
-  deletePharmacy,
-}) => {
+const PharmacyTable = ({ contact, planData, isMobile }) => {
+  const { pharmacies, deletePharmacy } = useLeadInformation();
   const [open, setOpen] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
 
@@ -158,10 +153,6 @@ const PharmacyTable = ({
           isOpen={openAddModal}
           onClose={() => setOpenAddModal(false)}
           personalInfo={contact}
-          onSave={(item) => {
-            addPharmacy(item);
-            setOpenAddModal(false);
-          }}
         />
       )}
     </>

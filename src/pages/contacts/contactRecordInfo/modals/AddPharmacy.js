@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLeadInformation } from "hooks/useLeadInformation";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import { Button } from "components/ui/Button";
@@ -14,7 +15,8 @@ import Pagination from "components/ui/Pagination/pagination";
 import { Checkbox } from "@mui/material";
 import SearchIcon from "components/icons/search2";
 
-export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
+export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
+  const { addPharmacy } = useLeadInformation();
   const [zipCode, setZipCode] = useState(
     personalInfo?.addresses?.[0]?.postalCode
   );
@@ -119,7 +121,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
   ]);
 
   const handleAddPharmacy = async () => {
-    await onSave({
+    await addPharmacy({
       pharmacyID: selectedPharmacy.pharmacyID,
       name: selectedPharmacy.name,
       address1: selectedPharmacy.address1,

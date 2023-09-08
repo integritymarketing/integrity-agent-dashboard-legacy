@@ -1,24 +1,45 @@
 import React, { useState, forwardRef } from "react";
-import EditForm from "./DetailsEdit";
-import ContactDetails from "./ContactDetails";
-import DetailsCard from "components/ui/DetailsCard";
-import AddPharmacy from "./modals/AddPharmacy";
-import useLeadInformation from "hooks/useLeadInformation";
-import CellData from "components/ui/DetailsTable/CellData";
-import { formatPhoneNumber } from "utils/phones";
-import PrescriptionModal from "components/SharedModals/PrescriptionModal";
+import PropTypes from "prop-types";
+import Media from "react-media";
+
+// Custom Hooks
+import { useLeadInformation } from "hooks/useLeadInformation";
+
+// Constants
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
+
+// Utils
+import { formatPhoneNumber } from "utils/phones";
+
+// UI Components
+import CellData from "components/ui/DetailsTable/CellData";
+import DetailsCard from "components/ui/DetailsCard";
+import ProviderModal from "components/SharedModals/ProviderModal";
+import PrescriptionModal from "components/SharedModals/PrescriptionModal";
+import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 import DeleteLeadModal from "./DeleteLeadModal";
+// Local Components
+import AddPharmacy from "./modals/AddPharmacy";
+import ContactDetails from "./ContactDetails";
+import EditForm from "./DetailsEdit";
+import RenderProviders from "components/ui/ProvidersList";
+import DetailsMobile from "mobile/Contact/Details/ContactDetails";
+
+// Styles
 import "./details.scss";
 import "./contactRecordInfo.scss";
-import DetailsMobile from "mobile/Contact/Details/ContactDetails";
-import Media from "react-media";
-import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
-import ProviderModal from "components/SharedModals/ProviderModal";
-import RenderProviders from "components/ui/ProvidersList";
 
-export default forwardRef((props) => {
-  let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
+const DetailsComponent = forwardRef((props, ref) => {
+  const {
+    personalInfo,
+    id,
+    isEdit,
+    detailsRef,
+    providersRef,
+    prescriptionRef,
+    pharmacyRef,
+  } = props;
+  const { firstName = "", middleName = "", lastName = "" } = personalInfo ?? {};
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
@@ -31,18 +52,17 @@ export default forwardRef((props) => {
   const [providerToEdit, setProviderToEdit] = useState({});
 
   const {
-    pharmacies,
-    prescriptions,
-    providers,
-    isLoading,
-    addPharmacy,
-    addPrescription,
-    editPrescription,
+    pharmacies = [],
+    pharmacyLoading,
+    providers = [],
+    providerLoading,
+    prescriptions = [],
+    prescriptionLoading,
     deletePrescription,
     deletePharmacy,
-    addProvider,
-    deleteProvider,
-  } = useLeadInformation(props.id);
+  } = useLeadInformation();
+
+  console.log("KKKK", pharmacies, prescriptions, providers);
 
   const onAddNewPrescription = () => setIsOpenPrescription(true);
   const onCloseNewPrescription = () => setIsOpenPrescription(false);
@@ -105,7 +125,7 @@ export default forwardRef((props) => {
     if (isMobile) {
       return <DetailsMobile {...props} />;
     } else {
-      if (props.isEdit) {
+      if (isEdit) {
         return <EditForm {...props} />;
       } else {
         return <ContactDetails {...props} />;
@@ -121,12 +141,12 @@ export default forwardRef((props) => {
           setIsMobile(isMobile);
         }}
       />
-      <div className="contactdetailscard" ref={props.detailsRef}>
+      <div className="contactdetailscard" ref={detailsRef}>
         {DetailsInfo()}
       </div>
-        <section>
-          <EnrollmentHistoryContainer leadId={props.id} />
-        </section>
+      <section>
+        <EnrollmentHistoryContainer leadId={id} />
+      </section>
       <div className="detailscard-container">
         {isOpen && (
           <ProviderModal
@@ -136,11 +156,8 @@ export default forwardRef((props) => {
               setProviderEditFlag(false);
               setProviderToEdit({});
             }}
-            onSave={addProvider}
-            onDelete={deleteProvider}
             userZipCode={props?.personalInfo?.addresses[0]?.postalCode}
-            leadId={props.id}
-            leadProviders={providers}
+            leadId={id}
             selected={providerToEdit}
             isEdit={providerEditFlag}
           />
@@ -150,7 +167,6 @@ export default forwardRef((props) => {
           <PrescriptionModal
             open={isOpenPrescription}
             onClose={() => onCloseNewPrescription(false)}
-            onSave={addPrescription}
           />
         )}
 
@@ -159,9 +175,7 @@ export default forwardRef((props) => {
             open={isOpenEditPrescription}
             onClose={() => onCloseEditPrescription(false)}
             item={prescriptionToEdit}
-            onSave={editPrescription}
             isEdit={true}
-            onDelete={deletePrescription}
           />
         )}
 
@@ -169,18 +183,17 @@ export default forwardRef((props) => {
           <AddPharmacy
             isOpen={isOpenPharmacy}
             onClose={onCloseNewPharmacy}
-            personalInfo={props.personalInfo}
-            onSave={addPharmacy}
+            personalInfo={personalInfo}
           />
         )}
-        <div ref={props.providersRef}>
+        <div ref={providersRef}>
           <DetailsCard
             dataGtm="section-provider"
             headerTitle="Providers"
             onAddClick={onAddNewProvider}
             items={providers || []}
             provider={true}
-            isLoading={isLoading}
+            isLoading={providerLoading}
             itemRender={(item) => {
               return (
                 <div key={item?.NPI} className="provider-container">
@@ -195,7 +208,7 @@ export default forwardRef((props) => {
             }}
           />
         </div>
-        <div ref={props.prescriptionRef}>
+        <div ref={prescriptionRef}>
           <DetailsCard
             dataGtm="section-prescription"
             headerTitle="Prescriptions"
@@ -204,10 +217,10 @@ export default forwardRef((props) => {
             Row={PrescriptionRow}
             onDelete={deletePrescription}
             onEdit={onEditPrescription}
-            isLoading={isLoading}
+            isLoading={prescriptionLoading}
           />
         </div>
-        <div ref={props.pharmacyRef}>
+        <div ref={pharmacyRef}>
           <DetailsCard
             dataGtm="section-pharmacies"
             headerTitle="Pharmacies"
@@ -215,7 +228,7 @@ export default forwardRef((props) => {
             items={pharmacies}
             Row={PharamaciesRow}
             onDelete={deletePharmacy}
-            isLoading={isLoading}
+            isLoading={pharmacyLoading}
           />
         </div>
         <div className="deletecontactsection">
@@ -239,3 +252,15 @@ export default forwardRef((props) => {
     </>
   );
 });
+
+DetailsComponent.propTypes = {
+  personalInfo: PropTypes.object,
+  id: PropTypes.string,
+  isEdit: PropTypes.bool,
+  detailsRef: PropTypes.object,
+  providersRef: PropTypes.object,
+  prescriptionRef: PropTypes.object,
+  pharmacyRef: PropTypes.object,
+};
+
+export default DetailsComponent;

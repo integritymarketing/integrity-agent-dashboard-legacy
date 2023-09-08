@@ -1,213 +1,211 @@
-import { useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import * as Sentry from "@sentry/react";
+import PropTypes from "prop-types";
+
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
 
-const useLeadInformation = (leadId) => {
+const LeadInformationContext = createContext();
+
+const performAsyncOperation = async (
+  operation,
+  setLoading,
+  onSuccess,
+  onError
+) => {
+  setLoading(true);
+  try {
+    const data = await operation();
+    onSuccess(data);
+  } catch (err) {
+    Sentry.captureException(err);
+    onError(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const useLeadInformation = () => {
+  return useContext(LeadInformationContext);
+};
+
+export const LeadInformationProvider = ({ children, leadId }) => {
   const [pharmacies, setPharmacies] = useState([]);
+  const [pharmacyLoading, setPharmacyLoading] = useState(false);
+
   const [providers, setProviders] = useState([]);
+  const [providerLoading, setProviderLoading] = useState(false);
+
   const [prescriptions, setPrescriptions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [prescriptionLoading, setPrescriptionLoading] = useState(false);
+
   const addToast = useToast();
 
-  const handleGetProviders = (data) => {
-    if (data?.providers?.length > 0) {
-      setProviders(data?.providers);
-    } else {
-      setProviders([]);
-    }
-  };
+  const fetchPrescriptions = useCallback(() => {
+    const operation = () => clientsService.getLeadPrescriptions(leadId);
+    performAsyncOperation(operation, setPrescriptionLoading, setPrescriptions);
+  }, [leadId]);
+
+  const fetchPharmacies = useCallback(() => {
+    const operation = () => clientsService.getLeadPharmacies(leadId);
+    performAsyncOperation(operation, setPharmacyLoading, setPharmacies);
+  }, [leadId]);
+
+  const fetchProviders = useCallback(() => {
+    const operation = () => clientsService.getLeadProviders(leadId);
+    performAsyncOperation(operation, setProviderLoading, (data) =>
+      setProviders(data?.providers || [])
+    );
+  }, [leadId]);
 
   useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      try {
-        await Promise.all([
-          clientsService.getLeadPrescriptions(leadId).then(setPrescriptions),
-          clientsService.getLeadPharmacies(leadId).then(setPharmacies),
-          clientsService.getLeadProviders(leadId).then(handleGetProviders),
-        ]);
-      } catch (err) {
-        Sentry.captureException(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getData();
-  }, [setPharmacies, setPrescriptions, setIsLoading, leadId]);
+    fetchPrescriptions();
+    fetchPharmacies();
+    fetchProviders();
+  }, [fetchPrescriptions, fetchPharmacies, fetchProviders]);
 
-  const addPrescription = async (item, refresh) => {
-    setIsLoading(true);
+  // You can create similar functions for add, update, delete for Prescriptions, Pharmacies, and Providers
+  const addPrescription = (item, refresh) => {
     const itemObject = {
       ...(item?.dosage ?? item),
       dosageRecordID: 0,
       packages: null,
       selectedPackage: null,
     };
-    try {
-      await clientsService.createPrescription(leadId, itemObject);
-      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
-      refresh && (await refresh());
-      addToast({
-        message: "Prescription Added",
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Failed to add prescription",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    performAsyncOperation(
+      () => clientsService.createPrescription(leadId, itemObject),
+      setPrescriptionLoading,
+      async () => {
+        await fetchPrescriptions();
+        refresh && (await refresh());
+        addToast({ message: "Prescription Added" });
+      },
+      (err) =>
+        addToast({ type: "error", message: "Failed to add prescription" })
+    );
   };
 
-  const editPrescription = async ({ dosage = {}, ...rest }, refresh) => {
-    setIsLoading(true);
-    try {
-      const item = {
-        ...rest,
-        dosageID: dosage.dosageID,
-      };
-      await clientsService.editPrescription(leadId, item);
-      addToast({
-        message: "Prescription updated successfully",
-      });
-      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
-      refresh && (await refresh());
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Failed to updated prescription",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const editPrescription = (prescriptionData, refresh) => {
+    const { dosage, ...rest } = prescriptionData;
+    const updatedData = {
+      ...rest,
+      dosageID: dosage.dosageID,
+    };
+
+    performAsyncOperation(
+      () => clientsService.updatePrescription(leadId, updatedData),
+      setPrescriptionLoading,
+      async () => {
+        await fetchPrescriptions();
+        refresh && (await refresh());
+        addToast({ message: "Prescription Updated" });
+      },
+      (err) =>
+        addToast({ type: "error", message: "Failed to update prescription" })
+    );
   };
 
-  const deletePrescription = async (item, refresh) => {
-    setIsLoading(true);
-    try {
-      await clientsService.deletePrescription(
-        leadId,
-        item?.dosage?.dosageRecordID
-      );
-      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
-      refresh && (await refresh());
-      addToast({
-        type: "success",
-        message: "Prescription deleted",
-        time: 10000,
-        link: "UNDO",
-        onClickHandler: () => addPrescription(item, refresh),
-        closeToastRequired: true,
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Failed to delete prescription",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const deletePrescription = async (prescriptionData, refresh) => {
+    const dosageRecordID = prescriptionData?.dosage?.dosageRecordID;
+    await performAsyncOperation(
+      () => clientsService.deletePrescription(leadId, dosageRecordID),
+      setPrescriptionLoading,
+      async () => {
+        await fetchPrescriptions();
+        refresh && (await refresh());
+        addToast({
+          type: "success",
+          message: "Prescription deleted",
+          time: 10000,
+          link: "UNDO",
+          onClickHandler: () => addPrescription(prescriptionData, refresh),
+          closeToastRequired: true,
+        });
+      },
+      (err) =>
+        addToast({ type: "error", message: "Failed to delete prescription" })
+    );
   };
 
-  const addPharmacy = async (item) => {
-    setIsLoading(true);
-    try {
-      await clientsService.createPharmacy(leadId, item);
-      await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
-      addToast({
-        message: "Pharmacy Added",
-        time: 10000,
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Failed to add pharmacy",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const addPharmacy = (pharmacy) => {
+    performAsyncOperation(
+      () => clientsService.createPharmacy(leadId, pharmacy),
+      setPharmacyLoading,
+      async () => {
+        await fetchPharmacies();
+        addToast({ message: "Pharmacy Added" });
+      },
+      (err) => addToast({ type: "error", message: "Failed to add pharmacy" })
+    );
   };
 
-  const deletePharmacy = async (item) => {
-    setIsLoading(true);
-    try {
-      await clientsService.deletePharmacy(leadId, item.pharmacyRecordID);
-      await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
-      addToast({
-        message: "Pharmacy Deleted",
-        time: 10000,
-        link: "UNDO",
-        onClickHandler: () => addPharmacy(item),
-        closeToastRequired: true,
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Failed to delete pharmacy",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const deletePharmacy = (pharmacy) => {
+    const pharmacyId = pharmacy?.pharmacyRecordID;
+    performAsyncOperation(
+      () => clientsService.deletePharmacy(leadId, pharmacyId),
+      setPharmacyLoading,
+      async () => {
+        await fetchPharmacies();
+        addToast({
+          message: "Pharmacy Deleted",
+          time: 10000,
+          link: "UNDO",
+          onClickHandler: () => addPharmacy(pharmacy),
+          closeToastRequired: true,
+        });
+      },
+      (err) => addToast({ type: "error", message: "Failed to delete pharmacy" })
+    );
   };
 
-  const addProvider = async (request, providerName, refresh) => {
-    setIsLoading(true);
-    try {
-      await clientsService.createLeadProvider(leadId, request);
-      await clientsService.getLeadProviders(leadId).then(handleGetProviders);
-      refresh && (await refresh());
-      addToast({
-        message: providerName + " added to the list. ",
-        time: 10000,
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: "Failed to add Provider",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const addProvider = (request, providerName, refresh) => {
+    performAsyncOperation(
+      () => clientsService.createLeadProvider(leadId, request),
+      setProviderLoading,
+      async () => {
+        await fetchProviders();
+        refresh && (await refresh());
+        addToast({ message: `${providerName} added to the list.` });
+      },
+      (err) => addToast({ type: "error", message: "Failed to add Provider" })
+    );
   };
 
-  const deleteProvider = async (payload, providerName, refresh, isDelete) => {
-    setIsLoading(true);
-
-    try {
-      await clientsService.deleteProvider(payload, leadId);
-      await clientsService.getLeadProviders(leadId).then(handleGetProviders);
-      refresh && (await refresh());
-      addToast({
-        message: "Provider Deleted",
-        time: 10000,
-        link: "UNDO",
-        onClickHandler: () => addProvider(payload, providerName, refresh),
-        closeToastRequired: true,
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
-        type: "error",
-        message: `Failed to ${isDelete ? "delete" : "update"} Provider`,
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const deleteProvider = (payload, providerName, refresh, isDelete) => {
+    performAsyncOperation(
+      () => clientsService.deleteProvider(payload, leadId),
+      setProviderLoading,
+      async () => {
+        await fetchProviders();
+        refresh && (await refresh());
+        addToast({
+          message: "Provider Deleted",
+          link: "UNDO",
+          onClickHandler: () => addProvider(payload, providerName, refresh),
+          closeToastRequired: true,
+        });
+      },
+      (err) =>
+        addToast({
+          type: "error",
+          message: `Failed to ${isDelete ? "delete" : "update"} Provider`,
+        })
+    );
   };
 
-  return {
+  const value = {
     pharmacies,
+    pharmacyLoading,
     providers,
+    providerLoading,
     prescriptions,
-    isLoading,
+    prescriptionLoading,
     addPharmacy,
     addPrescription,
     editPrescription,
@@ -216,6 +214,17 @@ const useLeadInformation = (leadId) => {
     addProvider,
     deleteProvider,
   };
+
+  return (
+    <LeadInformationContext.Provider value={value}>
+      {children}
+    </LeadInformationContext.Provider>
+  );
 };
 
-export default useLeadInformation;
+LeadInformationProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+  leadId: PropTypes.string.isRequired,
+};
+
+export default LeadInformationProvider;

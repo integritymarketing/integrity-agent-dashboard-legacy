@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
+
+// Custom Hooks
+import { useLeadInformation } from "hooks/useLeadInformation";
+
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
 import Typography from "@mui/material/Typography";
@@ -61,13 +65,12 @@ const ProviderModal = ({
   open,
   onClose,
   userZipCode,
-  onDelete,
-  onSave,
   isEdit,
   selected,
   refresh,
-  leadProviders,
 }) => {
+  const { addProvider, deleteProvider } = useLeadInformation();
+
   // Initializations
   const classes = useStyles();
 
@@ -145,7 +148,11 @@ const ProviderModal = ({
       };
     });
 
-    await onSave(requestPayload, selectedProvider?.presentationName, refresh);
+    await addProvider(
+      requestPayload,
+      selectedProvider?.presentationName,
+      refresh
+    );
   };
 
   const handleEditProvider = async () => {
@@ -170,7 +177,7 @@ const ProviderModal = ({
       };
     });
     onClose();
-    onDelete(requestPayload, selectedProvider?.presentationName, refresh);
+    deleteProvider(requestPayload, selectedProvider?.presentationName, refresh);
   };
 
   const handleDeleteProvider = () => {
@@ -181,7 +188,12 @@ const ProviderModal = ({
       };
     });
     onClose();
-    onDelete(requestPayload, selectedProvider?.presentationName, refresh, true);
+    deleteProvider(
+      requestPayload,
+      selectedProvider?.presentationName,
+      refresh,
+      true
+    );
   };
 
   const isFormValid = useMemo(() => {

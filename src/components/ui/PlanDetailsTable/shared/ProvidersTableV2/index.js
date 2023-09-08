@@ -10,13 +10,7 @@ import ProviderModal from "components/SharedModals/ProviderModal";
 import RenderProviders from "components/ui/ProvidersList";
 import styles from "./ProvidersTableV2.module.scss";
 
-const ProvidersTableV2 = ({
-  isMobile,
-  providers,
-  refresh,
-  addProvider,
-  deleteProvider,
-}) => {
+const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
   const { contactId } = useParams();
   const { leadDetails } = useContactDetails(contactId);
 
@@ -70,14 +64,12 @@ const ProvidersTableV2 = ({
               setIsEditingProvider(false);
               setProviderToEdit(null);
             }}
-            onSave={addProvider}
             userZipCode={leadDetails?.addresses?.[0]?.postalCode}
             contactId={contactId}
-            onDelete={deleteProvider}
             existingProviders={providers}
             selectedProvider={providerToEdit}
             isEditing={isEditingProvider}
-            refreshData={refresh}
+            refresh={refresh}
           />
         )}
       </PlanDetailsContactSectionCard>

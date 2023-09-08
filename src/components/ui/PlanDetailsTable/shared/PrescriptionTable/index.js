@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLeadInformation } from "hooks/useLeadInformation";
 import PropTypes from "prop-types";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 import Header from "./components/Header";
@@ -11,16 +12,14 @@ import EditIcon from "components/icons/icon-edit";
 import Plus from "components/icons/plus";
 
 const PrescriptionTable = ({
-  prescriptions,
   isMobile,
   planDrugCoverage,
   drugCosts,
   planData,
   refresh,
-  addPrescription,
-  editPrescription,
-  deletePrescription,
 }) => {
+  const { prescriptions } = useLeadInformation();
+
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
@@ -102,7 +101,6 @@ const PrescriptionTable = ({
           open={isOpenPrescription}
           onClose={() => onCloseNewPrescription(false)}
           prescriptions={prescriptions}
-          onSave={addPrescription}
           refresh={refresh}
         />
       )}
@@ -112,9 +110,7 @@ const PrescriptionTable = ({
           open={isOpenEditPrescription}
           onClose={() => onCloseEditPrescription(false)}
           item={prescriptionToEdit}
-          onSave={editPrescription}
           isEdit={true}
-          onDelete={deletePrescription}
           refresh={refresh}
         />
       )}

@@ -16,8 +16,8 @@ const MaDetailsContent = ({
   isEnroll,
   enrollData,
   isEmail = false,
-  addProvider,
-  deleteProvider,
+  // addProvider,
+  // deleteProvider,
   refresh,
 }) => {
   const costsRef = useRef(null);
@@ -111,8 +111,8 @@ const MaDetailsContent = ({
               isMobile={isMobile}
               providers={plan.providers}
               refresh={refresh}
-              addProvider={addProvider}
-              deleteProvider={deleteProvider}
+              // addProvider={addProvider}
+              // deleteProvider={deleteProvider}
             />
           )}
         </div>
