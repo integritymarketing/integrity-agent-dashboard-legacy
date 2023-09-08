@@ -2,13 +2,10 @@ import React from "react";
 import styles from "./Soa48HoursRule.module.scss";
 import { formatDate, convertToLocalDateTime } from "utils/dates";
 import { Button } from "components/ui/Button";
-import { useHistory } from "react-router-dom";
+
 // import OpenIcon from "components/icons/open";
 
 function Soa48HoursRule({ taskList }) {
-  console.log(taskList);
-  const history = useHistory();
-
   const getDateTime = (dateString) => {
     const localDateTime = convertToLocalDateTime(dateString);
     const date = formatDate(localDateTime, "MM/dd/yyyy");
