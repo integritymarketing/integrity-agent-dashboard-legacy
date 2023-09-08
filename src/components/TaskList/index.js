@@ -55,10 +55,10 @@ const getMoreInfo = {
 };
 
 const getLink = {
-  "Requested Callbacks": "/MedicareCENTER-Requested-Callbacks-Guide.pdf",
-  Reminders: "/MedicareCENTER-Reminders-Guide.pdf",
-  "Unlinked Calls": "/MedicareCENTER-Unlinked-Calls-Guide.pdf",
-  "Unlinked Policies": "/MedicareCENTER-Unlinked-Policies-Guide.pdf",
+  "Requested Callbacks": "MedicareCENTER-Requested-Callbacks-Guide.pdf",
+  Reminders: "MedicareCENTER-Reminders-Guide.pdf",
+  "Unlinked Calls": "MedicareCENTER-Unlinked-Calls-Guide.pdf",
+  "Unlinked Policies": "MedicareCENTER-Unlinked-Policies-Guide.pdf",
 };
 
 export default function TaskList({ isMobile, npn }) {
