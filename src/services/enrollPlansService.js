@@ -3,7 +3,6 @@ import authService from "services/authService";
 export const QUOTES_API_VERSION = "v1.0";
 
 export class EnrollPlansService {
-
   getEnrollPlans = async (leadId) => {
     const url = new URL(
       `${process.env.REACT_APP_BOOKOFBUSINESS_API}/lead/${leadId}`
@@ -68,12 +67,14 @@ export class EnrollPlansService {
     return response?.json();
   };
 
-  enrollConsumer = async (leadId, planId, data) => {
+  enrollConsumer = async (leadId, planId, data, agentNPN) => {
     const response = await this._clientPublicAPIRequest(
       `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
       "POST",
-      "",
-      data
+      data,
+      {
+        AgentNPN: agentNPN,
+      }
     );
 
     return response?.json();
@@ -105,11 +106,11 @@ export class EnrollPlansService {
     // Convert the URL string to a URL object
     const urlObject = new URL(url);
     urlObject.search = new URLSearchParams(query).toString();
-    
+
     if (body) {
       opts.body = JSON.stringify(body);
     }
-  
+
     return fetch(urlObject.toString(), opts);
   };
 
@@ -132,7 +133,6 @@ export class EnrollPlansService {
 
     return fetch(path, opts);
   };
-  
 }
 
 const EnrollPlansServiceInstance = new EnrollPlansService();
