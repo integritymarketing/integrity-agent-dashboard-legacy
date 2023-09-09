@@ -12,7 +12,7 @@ function Track({ onCheckChange }) {
         outbound lead activities must wait 48 hours between the beneficiary’s
         SoA signature and the sales meeting.
       </p>
-      <div>
+      <div className={checked ? styles.checkboxContainer : ""}>
         <Checkbox
           onClick={() => {
             const check = !checked;
