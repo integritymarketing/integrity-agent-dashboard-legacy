@@ -45,8 +45,13 @@ import FooterBanners from "packages/FooterBanners";
 import ViewAvailablePlans from "./viewAvailablePlans";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
 import closeAudio from "../../../components/WebChat/close.mp3";
-import { useRecoilValue } from "recoil";
-import { addProviderModalAtom } from "recoil/providerInsights/atom.js";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  addProviderModalAtom,
+  showViewAvailablePlansAtom,
+} from "recoil/providerInsights/atom.js";
+import useFetch from "hooks/useFetch";
+import WebChatComponent from "components/WebChat/WebChat";
 
 const ContactRecordInfoDetails = () => {
   const { contactId: id, sectionId } = useParams();
@@ -63,12 +68,15 @@ const ContactRecordInfoDetails = () => {
   const [isEdit, setEdit] = useState(false);
   const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
   const [allCounties, setAllCounties] = useState([]);
+  const [rXToSpecialists, setRXToSpecialists] = useState([]);
   const [allStates, setAllStates] = useState([]);
   const [county, setCounty] = useState("");
   const [countyError, setCountyError] = useState(false);
   const [submitEnable, setSubmitEnable] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showViewAvailablePlans, setShowViewAvailablePlans] = useState(false);
+  const [showViewAvailablePlans, setShowViewAvailablePlans] = useRecoilState(
+    showViewAvailablePlansAtom
+  );
   const [prescriptions, setPrescriptions] = useState([]);
   const [providers, setProviders] = useState([]);
   const { setCurrentPage } = useContext(BackNavContext);
@@ -77,6 +85,10 @@ const ContactRecordInfoDetails = () => {
   const showViewAvailablePlansRef = useRef(showViewAvailablePlans);
   const audioRefClose = useRef(null);
   const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
+  const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
+  const { Post: postSpecialists } = useFetch(
+    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
+  );
 
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
@@ -327,20 +339,36 @@ const ContactRecordInfoDetails = () => {
   };
 
   const handleViewAvailablePlans = async () => {
-    const { leadsId, shouldHideSpecialistPrompt } = personalInfo;
+    const { leadsId, birthdate, shouldHideSpecialistPrompt } = personalInfo;
     try {
       const [prescriptions, { providers }] = await Promise.all([
         clientsService.getLeadPrescriptions(leadsId),
         clientsService.getLeadProviders(leadsId),
       ]);
-      if (
-        prescriptions?.length > 3 &&
+      const payload = {
+        birthDate: birthdate,
+        rxDetails: prescriptions?.map(({ dosage: { ndc, drugName } }) => ({
+          ndc,
+          drugName,
+        })),
+        providerDetails: providers?.map(({ presentationName, specialty }) => ({
+          providerName: presentationName,
+          providerSpecialty: specialty,
+        })),
+      };
+      const data = await postSpecialists(payload);
+      const shouldShowSpecialistPrompt =
+        prescriptions?.length > 0 &&
         providers?.length > 0 &&
-        !shouldHideSpecialistPrompt
-      ) {
+        !shouldHideSpecialistPrompt &&
+        data?.shouldShow;
+
+      if (shouldShowSpecialistPrompt) {
         setPrescriptions(prescriptions);
         setProviders(providers);
+        setMenuToggle(false);
         setShowViewAvailablePlans(true);
+        setRXToSpecialists(data);
       } else {
         history.push(`/plans/${id}`);
       }
@@ -407,6 +435,7 @@ const ContactRecordInfoDetails = () => {
                   showViewAvailablePlans={showViewAvailablePlans}
                   personalInfo={personalInfo}
                   refreshAvailablePlans={handleViewAvailablePlans}
+                  rXToSpecialists={rXToSpecialists}
                 />
               </>
             )}
@@ -460,6 +489,7 @@ const ContactRecordInfoDetails = () => {
                     display={display}
                     setMenuToggle={setMenuToggle}
                     menuToggle={menuToggle}
+                    showViewAvailablePlans={showViewAvailablePlans}
                   />
                 ) : (
                   <ul
@@ -548,6 +578,9 @@ const ContactRecordInfoDetails = () => {
         countyError={countyError}
         submitEnable={submitEnable}
       />
+      {process.env.REACT_APP_ASK_INTEGRITY_FLAG && !shouldShowAskIntegrity && (
+        <WebChatComponent />
+      )}
     </React.Fragment>
   );
 };

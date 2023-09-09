@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -12,22 +12,18 @@ import styles from "./ReviewProviders.module.scss";
 
 const ReviewProviders = ({
   fullName,
-  birthdate,
-  prescriptions,
   providers,
-  leadId,
+  leadsId,
   personalInfo,
   refreshAvailablePlans,
+  rXToSpecialists,
 }) => {
   const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
   const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
-  const { data, Post: postSpecialists } = useFetch(
-    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${leadId}?api-version=1.0`
-  );
   const { Post: postAddProvider } = useFetch(
-    `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadId}/Provider`
+    `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadsId}/Provider`
   );
 
   const toggleProviderCollapse = useCallback(() => {
@@ -35,8 +31,8 @@ const ReviewProviders = ({
   }, []);
 
   const viewPlans = useCallback(() => {
-    history.push(`/plans/${leadId}`);
-  }, [history, leadId]);
+    history.push(`/plans/${leadsId}`);
+  }, [history, leadsId]);
 
   const openAddProviderModal = useCallback(() => {
     setModalOpen(true);
@@ -47,21 +43,6 @@ const ReviewProviders = ({
     await refreshAvailablePlans?.();
   };
 
-  useEffect(() => {
-    const payload = {
-      birthDate: birthdate,
-      rxDetails: prescriptions?.map(({ dosage: { ndc, drugName } }) => ({
-        ndc,
-        drugName,
-      })),
-      providerDetails: providers?.map(({ presentationName, specialty }) => ({
-        providerName: presentationName,
-        providerSpecialty: specialty,
-      })),
-    };
-    postSpecialists(payload);
-  }, [postSpecialists, birthdate, prescriptions, providers]);
-
   return (
     <div className={styles.reviewProviders}>
       <div className={styles.chatBubble}>
@@ -71,7 +52,7 @@ const ReviewProviders = ({
           addition to a Primary Care Physician.
         </p>
         <p>
-          Would you like to review <strong>{fullName}</strong> providers?
+          Would you like to review <strong>{fullName}'s</strong> providers?
         </p>
       </div>
       <div className={styles.currentProviders}>
@@ -98,36 +79,42 @@ const ReviewProviders = ({
           </div>
         )}
       </div>
-      <div className={styles.potentialSpecialists}>
-        <div className={styles.header}>
-          <p className={styles.title}>Potential Specialists</p>
-          <p>
-            Your Contact may potentially see a specialist for the following
-            prescriptions. These prescriptions may also be prescribed by their
-            primary care physician.
-          </p>
-        </div>
-        <div className={styles.prescriptions}>
-          {data?.rXToSpecialistsResults?.map((result, index) => (
-            <div key={index} className={styles.prescription}>
-              <div className={styles.header}>
-                <div className={styles.title}>Prescription</div>
-                <div className={styles.value}>
-                  {toTitleCase(result.drugName)}
+      {rXToSpecialists?.rXToSpecialistsResults?.length > 0 && (
+        <div className={styles.potentialSpecialists}>
+          <div className={styles.header}>
+            <p className={styles.title}>Potential Specialists</p>
+            <p>
+              Your Contact may potentially see a specialist for the following
+              prescriptions. These prescriptions may also be prescribed by their
+              primary care physician.
+            </p>
+          </div>
+          <div className={styles.prescriptions}>
+            {rXToSpecialists?.rXToSpecialistsResults?.map((result, index) => (
+              <div
+                onClick={openAddProviderModal}
+                key={index}
+                className={styles.prescription}
+              >
+                <div className={styles.header}>
+                  <div className={styles.title}>Prescription</div>
+                  <div className={styles.value}>
+                    {toTitleCase(result.drugName)}
+                  </div>
+                </div>
+                <div className={styles.content}>
+                  {result.specialties?.map((specialty, sIndex) => (
+                    <div key={sIndex} className={styles.type}>
+                      <p>{toTitleCase(specialty)}</p>
+                      <img src={ButtonCircle} alt="button-circle" />
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className={styles.content}>
-                {result.specialties?.map((specialty, sIndex) => (
-                  <div key={sIndex} className={styles.type}>
-                    <p>{toTitleCase(specialty)}</p>
-                    <img src={ButtonCircle} alt="button-circle" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.actions}>
         <button onClick={viewPlans} className={styles.secondary}>
           View Plans
@@ -145,7 +132,7 @@ const ReviewProviders = ({
           }}
           onSave={handleSaveProvider}
           userZipCode={userZipCode}
-          leadId={leadId}
+          leadId={leadsId}
         />
       )}
     </div>
@@ -154,22 +141,13 @@ const ReviewProviders = ({
 
 ReviewProviders.propTypes = {
   fullName: PropTypes.string.isRequired,
-  birthdate: PropTypes.string.isRequired,
-  prescriptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      dosage: PropTypes.shape({
-        ndc: PropTypes.string.isRequired,
-        drugName: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired
-  ).isRequired,
   providers: PropTypes.arrayOf(
     PropTypes.shape({
       presentationName: PropTypes.string.isRequired,
       specialty: PropTypes.string.isRequired,
-    }).isRequired
+    })
   ).isRequired,
-  leadId: PropTypes.string.isRequired,
+  leadsId: PropTypes.string.isRequired,
   personalInfo: PropTypes.shape({
     addresses: PropTypes.arrayOf(
       PropTypes.shape({
@@ -178,6 +156,14 @@ ReviewProviders.propTypes = {
     ),
   }),
   refreshAvailablePlans: PropTypes.func,
+  rXToSpecialists: PropTypes.shape({
+    rXToSpecialistsResults: PropTypes.arrayOf(
+      PropTypes.shape({
+        drugName: PropTypes.string.isRequired,
+        specialties: PropTypes.arrayOf(PropTypes.string).isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
 };
 
 export default ReviewProviders;

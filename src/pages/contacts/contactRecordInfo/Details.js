@@ -4,7 +4,6 @@ import ContactDetails from "./ContactDetails";
 import DetailsCard from "components/ui/DetailsCard";
 import AddPharmacy from "./modals/AddPharmacy";
 import useLeadInformation from "hooks/useLeadInformation";
-import useFeatureFlag from "hooks/useFeatureFlag";
 import CellData from "components/ui/DetailsTable/CellData";
 import { formatPhoneNumber } from "utils/phones";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
@@ -30,8 +29,6 @@ export default forwardRef((props) => {
   const [isMobile, setIsMobile] = useState(false);
   const [providerEditFlag, setProviderEditFlag] = useState(false);
   const [providerToEdit, setProviderToEdit] = useState({});
-
-  const isMyFeatureEnabled = useFeatureFlag("REACT_APP_EROLLMENT_HISTORY_FLAG");
 
   const {
     pharmacies,
@@ -127,11 +124,9 @@ export default forwardRef((props) => {
       <div className="contactdetailscard" ref={props.detailsRef}>
         {DetailsInfo()}
       </div>
-      {isMyFeatureEnabled && (
         <section>
           <EnrollmentHistoryContainer leadId={props.id} />
         </section>
-      )}
       <div className="detailscard-container">
         {isOpen && (
           <ProviderModal
@@ -186,11 +181,11 @@ export default forwardRef((props) => {
             items={providers || []}
             provider={true}
             isLoading={isLoading}
-            itemRender={(item, index) => {
+            itemRender={(item) => {
               return (
                 <div key={item?.NPI} className="provider-container">
                   <RenderProviders
-                    item={item}
+                    provider={item}
                     setIsOpen={setIsOpen}
                     setProviderEditFlag={setProviderEditFlag}
                     setProviderToEdit={setProviderToEdit}

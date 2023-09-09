@@ -4,6 +4,7 @@
   div {
     font-size: 1rem !important;
     font-weight: normal !important;
+    font-family: "Lato", sans-serif !important;
   }
 
   .webchat__basic-transcript__activity-indicator {
@@ -25,6 +26,10 @@
     @include small {
       max-height: calc(100vh - 230px);
     }
+  }
+
+  .webchat__basic-transcript__focus-indicator {
+    display: none !important;
   }
 
   .webchat__stacked-layout {
@@ -101,6 +106,7 @@
       .ac-horizontal-separator {
         margin-left: -22px !important;
         margin-right: -22px !important;
+        border-bottom-color: #889BB5 !important;
       }
 
       a {
@@ -169,10 +175,9 @@
     border-radius: 10px;
   }
 
-  .webchat__bubble:has(
-      #mcContactSummaryButtonsCard,
-      #mcCallSummaryButtonsCard
-    ) {
+  .webchat__bubble:has(#mcContactSummaryButtonsCard,
+    #mcCallSummaryButtonsCard,
+    #mcViewContactButtonsCard) {
     border: none;
     margin-right: 0 !important;
 
@@ -181,13 +186,15 @@
     }
 
     #mcContactSummaryButtonsCard,
-    #mcCallSummaryButtonsCard {
+    #mcCallSummaryButtonsCard,
+    #mcViewContactButtonsCard {
       button {
         background: transparent;
         border: none;
         color: #ffffff;
         font-weight: normal;
         transition-duration: 100ms;
+        max-width: 50%;
 
         &:hover {
           background: #4178ff;
@@ -214,16 +221,19 @@
     justify-content: center !important;
     align-items: stretch;
     gap: 0.5rem;
-
-    button:first-child {
-      display: flex;
-      background: #4178ff;
-      border-radius: 50px;
-    }
   }
 
   a {
     text-decoration: none;
     pointer-events: none;
+  }
+
+  #mcContactListCard .ac-columnSet .ac-container {
+    gap: 4px;
+
+    div:first-child {
+      font-size: 20px !important;
+      letter-spacing: 0.2px;
+    }
   }
 }

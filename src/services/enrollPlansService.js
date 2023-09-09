@@ -3,7 +3,6 @@ import authService from "services/authService";
 export const QUOTES_API_VERSION = "v1.0";
 
 export class EnrollPlansService {
-
   getEnrollPlans = async (leadId) => {
     const url = new URL(
       `${process.env.REACT_APP_BOOKOFBUSINESS_API}/lead/${leadId}`
@@ -57,6 +56,30 @@ export class EnrollPlansService {
     return response?.json();
   };
 
+  enroll = async (leadId, planId, data) => {
+    const response = await this._clientAPIRequest(
+      `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
+      "POST",
+      "",
+      data
+    );
+
+    return response?.json();
+  };
+
+  enrollConsumer = async (leadId, planId, data, agentNPN) => {
+    const response = await this._clientPublicAPIRequest(
+      `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
+      "POST",
+      data,
+      {
+        AgentNPN: agentNPN,
+      }
+    );
+
+    return response?.json();
+  };
+
   sharePolicy = async (sharePolicyPayload) => {
     const url = new URL(
       `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/ShareCurrentPlanSnapshot`
@@ -80,14 +103,35 @@ export class EnrollPlansService {
         "Content-Type": "application/json",
       },
     };
-
-    url.search = new URLSearchParams(query).toString();
+    // Convert the URL string to a URL object
+    const urlObject = new URL(url);
+    urlObject.search = new URLSearchParams(query).toString();
 
     if (body) {
       opts.body = JSON.stringify(body);
     }
 
-    return fetch(url.toString(), opts);
+    return fetch(urlObject.toString(), opts);
+  };
+
+  _clientPublicAPIRequest = async (
+    path,
+    method = "GET",
+    body,
+    headers = {}
+  ) => {
+    const opts = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    };
+    if (body) {
+      opts.body = JSON.stringify(body);
+    }
+
+    return fetch(path, opts);
   };
 }
 

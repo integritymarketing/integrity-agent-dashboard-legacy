@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
-import plansService from "services/plansService";
+import enrollPlansService from "services/enrollPlansService";
 import CompactPlanCard from "../PlanCard/compact";
 import Radio from "components/ui/Radio";
 import "./styles.scss";
@@ -20,7 +20,7 @@ const EnrollmentModal = ({
 
   const enroll = useCallback(async () => {
     try {
-      const enrolled = await plansService.enroll(contact.leadsId, planData.id, {
+      const enrolled = await enrollPlansService.enroll(contact.leadsId, planData.id, {
         enrollRequest: {
           firstName: contact?.firstName,
           middleInitial:

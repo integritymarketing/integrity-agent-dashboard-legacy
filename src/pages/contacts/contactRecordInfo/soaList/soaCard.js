@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
-import { formatDate } from "utils/dates.js";
+import { formatDate, convertToLocalDateTime } from "utils/dates.js";
 import { useHistory } from "react-router-dom";
 import { Button } from "components/ui/Button";
+import OpenIcon from "components/icons/open";
 
 const SoaCard = ({
   linkCode,
@@ -36,12 +37,18 @@ const SoaCard = ({
     history.push(`/contact/${rest?.id}/soa-confirm/${linkCode}`);
   }, [history, rest.id, linkCode]);
 
+  const localDateTime = convertToLocalDateTime(statusDate);
+
   return (
     <>
       <div className="scope-of-app-row">
         <div className="scope-of-app-row-section1">
           <p className={soa_status === "Completed" ? "completed-text" : ""}>
-            {getStatus()} <span>{formatDate(statusDate)}</span>
+            {getStatus()}{" "}
+            <span>
+              {formatDate(localDateTime, "MM/dd/yyyy")} at{" "}
+              {formatDate(localDateTime, "hh:mm a").toLowerCase()}
+            </span>
           </p>
         </div>
         <div
@@ -51,17 +58,32 @@ const SoaCard = ({
         >
           {soa_status === "Completed" && (
             <ul>
-              {soa_products && soa_products.map((item) => <li>{item}</li>)}
+              {soa_products &&
+                soa_products.map((item) => <li className="li-item">{item}</li>)}
             </ul>
           )}
           {soa_status === "Sent" && (
             <div className="text">
-              The scope of appointment has been sent to {soaDestination}{" "}
-              soaDestination
+              The scope of appointment has been sent to{" "}
+              <span style={{ color: "#4178FF" }}>{soaDestination}</span>{" "}
             </div>
           )}
           {soa_status === "Signed" && (
-            <div>The scope of appointment is ready for review.</div>
+            <div
+              className={` ${
+                soa_status === "Signed" ? "completed-text-row" : ""
+              }`}
+            >
+              <div style={{ marginBottom: "16px" }}>
+                The scope of appointment is ready for review.
+              </div>
+              <ul>
+                {soa_products &&
+                  soa_products.map((item) => (
+                    <li className="li-item">{item}</li>
+                  ))}
+              </ul>
+            </div>
           )}
 
           {soa_status === "Signed" && (
@@ -70,6 +92,8 @@ const SoaCard = ({
                 label="Complete"
                 onClick={navigateToConfirmSOA}
                 type="primary"
+                icon={<OpenIcon />}
+                iconPosition="right"
               />
             </div>
           )}
@@ -79,6 +103,8 @@ const SoaCard = ({
                 label="View"
                 onClick={navigateToConfirmSOA}
                 type="secondary"
+                icon={<OpenIcon />}
+                iconPosition="right"
               />
             </div>
           )}

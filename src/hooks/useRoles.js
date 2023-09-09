@@ -3,7 +3,7 @@ import useUserProfile from "hooks/useUserProfile";
 
 export const Roles = {
   Agent: "Agent",
-  NonRts: "NonRts",
+  nonRts: "nonRts",
 };
 
 const useRoles = () => {
@@ -39,7 +39,7 @@ const useRoles = () => {
   );
 
   const isNonRTS_User =
-    hasRole(Roles.NonRts) && process.env.REACT_APP_NON_RTS_FLAG === "show";
+    hasRole(Roles.nonRts);
 
   return {
     isAdmin,

@@ -47,6 +47,7 @@ const ContactDetailsPage = lazy(() => import("pages/ContactDetails"));
 const ContactRecordInfo = lazy(() =>
   import("pages/contacts/contactRecordInfo")
 );
+const ComparePlansCodePage = lazy(() => import("pages/ComparePlansCodePage"));
 const ContactsPage = lazy(() => import("pages/contacts/ContactsPage"));
 const ContactsSOAConfirmForm = lazy(() =>
   import("pages/contacts/soa/ContactsSOAConfirmForm")
@@ -195,20 +196,12 @@ const App = () => {
                                       path="/contact/:contactId"
                                     >
                                       <ContactRecordInfo />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute
                                       exact
                                       path="/contact/:contactId/:sectionId"
                                     >
                                       <ContactRecordInfo />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute
                                       exact
@@ -261,7 +254,7 @@ const App = () => {
                                       <PolicyCodePage />
                                     </Route>
                                     <Route path="/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token">
-                                      <PolicyCodePage />
+                                      <ComparePlansCodePage />
                                     </Route>
                                     <Route path="/soa-confirmation-page/:firstName/:lastName">
                                       <SOAConfirmationPage />
