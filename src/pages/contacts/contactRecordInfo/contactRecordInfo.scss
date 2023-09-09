@@ -1508,6 +1508,9 @@ button {
   .scope-of-app-row-section2 {
     flex-direction: column;
   }
+  .li-item {
+   white-space: row;
+  }
   .complete-btn {
     width: 35% !important;
     margin-top: 27px;
@@ -1856,13 +1859,13 @@ button {
   margin-bottom: 18px;
 }
 .scope-of-app-row-section1 p {
-  color: #000000;
+  color: #052A63;
   font-weight: bold;
   font-size: 16px;
   margin: 0;
 }
 .scope-of-app-row-section1 p > span {
-  color: #434a51;
+  color: #434A51;
   font-weight: 400;
   font-size: 16px;
   margin-left: 10px;
@@ -1905,9 +1908,10 @@ button {
   font-weight: 700;
 }
 .completed-text {
-  color: #357a2f !important;
+  color: #052A63 !important;
 }
 .completed-text-row {
+  width: 80%;
   align-items: flex-end;
 }
 .completed-text-row ul {
@@ -1916,9 +1920,10 @@ button {
 }
 .completed-text-row ul li {
   margin-bottom: 8px;
+  white-space: nowrap;
 }
 .show--more--btn {
-  color: #0052ce;
+  color: #4178FF;
   font-weight: bold;
   font-size: 14px;
 }
@@ -1927,6 +1932,16 @@ button {
   align-items: center;
   text-align: center;
   justify-content: center;
+  cursor: pointer;
+  div {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+    .cost-arrow-side {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .contactdetailscardheader .send-btn .edit-btn-text {
@@ -2371,16 +2386,38 @@ button {
   }
 }
 
+.send-btn2 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 10px;
+
+  .button.button--secondary.icon-right    {
+    border-radius: 50px;
+    background: fff;
+    color: #4178FF;
+    font-family: Lato;
+    height: 32px;
+    padding: 20px;
+    border: none;
+    width: 150px;
+ }
+
+}
 .soa-card-btn {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   width: 100%;
   margin-top: 10px;
-  button {
-    width: 102px;
+
+  .button.icon-right    {
+    border-radius: 50px;
+    background: #4178FF;
+    color: #f8fafc;
+    font-family: Lato;
     height: 32px;
-    font-size: 16px;
-    font-weight: bold;
-  }
+    padding: 20px;
+ }
 }
