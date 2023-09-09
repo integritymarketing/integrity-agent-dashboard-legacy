@@ -77,6 +77,15 @@ const WebChatComponent = () => {
     };
   }, [closeChat]);
 
+  useEffect(() => {
+    if (isChatActive) {
+      document.body.style.overflowY = 'hidden';
+    }
+    return () => {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [isChatActive]);
+
   const directLine = useMemo(
     () => createDirectLine({ token: directLineToken }),
     [directLineToken]
