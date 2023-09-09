@@ -86,7 +86,7 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
         </div>
       ) : (
         <div className="scope-details-card-header contactdetailscardheader">
-          <h4 style={{ width: "80%" }}>Scope of Appointments</h4>
+          <h4>Scope of Appointments</h4>
           <div className="send-btn2">
             <Button
               label="Send New"

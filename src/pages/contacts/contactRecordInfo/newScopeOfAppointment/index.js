@@ -207,9 +207,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                       <Radio
                         id="email"
                         htmlFor="email"
-                        className={`${
-                          selectOption === "email" ? "highlight " : ""
-                        } pb-10 radio-label`}
+                        className="pb-10"
                         label={getRadioElement("Email", leadEmail)}
                         name="new-soa"
                         value="email"
@@ -223,9 +221,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                       <Radio
                         id="textMessage"
                         htmlFor="textMessage"
-                        className={`${
-                          selectOption === "textMessage" ? "highlight " : ""
-                        } pb-10 radio-label`}
+                        className="pb-10"
                         label={getRadioElement(
                           "Text Message",
                           __formatPhoneNumber(leadPhone)
@@ -241,10 +237,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                     <Radio
                       id="newEmailOrMobile"
                       htmlFor="newEmailOrMobile"
-                      className={`${
-                        selectOption === "newEmailOrMObile" ? "highlight " : ""
-                      } pb-10 radio-label`}
-                      label="New Email Or Mobile Number"
+                      className="pb-10"
+                      label="New email or mobile number"
                       name="new-soa"
                       value="newEmailOrMObile"
                       checked={selectOption === "newEmailOrMObile"}
@@ -313,16 +307,12 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
             </Card>
             <div
               className="send-button"
-              style={{ pointerEvents: idFormNotValid ? "none" : "initial" }}
+              style={{ pointerEvents: idFormNotValid ? "none" : "default" }}
             >
               <Button
                 fullWidth={matches.mobile}
-                label="Send SOA"
-                icon={
-                  <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
-                    <ArrowForwardWithCircle />
-                  </span>
-                }
+                label="Send"
+                icon={<ArrowForwardWithCircle />}
                 iconPosition="right"
                 onClick={!idFormNotValid && handleSend}
                 data-gtm="button-send"
