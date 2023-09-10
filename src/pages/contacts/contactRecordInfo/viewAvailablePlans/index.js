@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Sentry from "@sentry/react";
+import useAnalytics from "hooks/useAnalytics";
 import IntrigityIcon from "./icons/ask-integrity.png";
 import { StepComponent, STEPS } from "./steps";
 import styles from "./index.module.scss";
@@ -9,14 +10,27 @@ import openAudio from "../../../../components/WebChat/open.mp3";
 const ViewAvailablePlans = (props) => {
   const [activeStep, setActiveStep] = useState(STEPS.PROVIDER_INSIGHTS);
   const audioRefOpen = useRef(null);
+  const { fireEvent } = useAnalytics();
 
   useEffect(() => {
+    fireEvent("AI - Provider Review Displayed", {
+      flow: "Rx to Specialist",
+      leadid: props.leadsId,
+      provider_count: props?.providers?.length,
+      prescription_count: props?.prescriptions?.length,
+    });
     if (audioRefOpen.current) {
       audioRefOpen.current.play().catch((error) => {
         Sentry.captureException(error);
       });
     }
-  }, [audioRefOpen]);
+  }, [
+    audioRefOpen,
+    fireEvent,
+    props.leadsId,
+    props?.prescriptions?.length,
+    props?.providers?.length,
+  ]);
 
   useEffect(() => {
     if (props.showViewAvailablePlans) {

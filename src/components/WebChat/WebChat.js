@@ -15,6 +15,7 @@ import styles from "./WebChat.module.scss";
 import "./WebChat.scss";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
+import useAnalytics from "hooks/useAnalytics";
 import authService from "services/authService";
 import ChatIcon from "./askintegrity-logo.png";
 import HideIcon from "./hide-icon.png";
@@ -29,6 +30,7 @@ const WebChatComponent = () => {
   const audioRefOpen = useRef(null);
   const audioRefClose = useRef(null);
   const chatRef = useRef(null);
+  const { fireEvent } = useAnalytics();
 
   const fetchDirectLineToken = useCallback(async () => {
     try {
@@ -58,6 +60,7 @@ const WebChatComponent = () => {
     const container = document.querySelector(
       ".webchat__basic-transcript__transcript"
     );
+    if (!container) return;
     container.innerHTML = "";
     fetchDirectLineToken();
   }, [fetchDirectLineToken]);
@@ -127,6 +130,7 @@ const WebChatComponent = () => {
   };
 
   const openChat = () => {
+    fireEvent("AI - Ask Integrity Global Icon Clicked");
     setIsChatActive(true);
     if (audioRefOpen.current) {
       audioRefOpen.current.play().catch((error) => {
@@ -164,8 +168,17 @@ const WebChatComponent = () => {
             },
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
+          if(action?.payload?.activity?.value) {
+            fireEvent("AI - Ask Integrity CTA Clicked", {
+              leadid: action?.payload?.activity?.value?.leadId,
+              cta_name: action?.payload?.activity?.value?.name,
+              intent_name:action?.payload?.activity?.value?.dialogId,
+            });
+          }
+          console.log("#########3", action);
           const accessToken = await authService.getUser();
           if (action.payload.activity.type === "message") {
+            fireEvent("AI - Input Sent", { input_type: "text" });
             let message = action.payload.activity.text
               ? action.payload.activity.text
               : action.payload.activity.value.dropDownInfo;
@@ -220,6 +233,7 @@ const WebChatComponent = () => {
             }
           }
         } else if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
+          console.log("######2", action);
           if (action.payload.activity.type === "event") {
             let activityValue = action.payload.activity.value;
             if (
@@ -233,7 +247,7 @@ const WebChatComponent = () => {
         }
         return next(action);
       }),
-    [npn, fullName, goToContactDetailPage]
+    [fullName, npn, fireEvent, goToContactDetailPage]
   );
 
   return (

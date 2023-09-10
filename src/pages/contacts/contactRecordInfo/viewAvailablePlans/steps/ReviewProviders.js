@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useFetch from "hooks/useFetch";
+import useAnalytics from "hooks/useAnalytics";
 import { toTitleCase } from "utils/toTitleCase";
 import { addProviderModalAtom } from "recoil/providerInsights/atom.js";
 import ProviderModal from "components/SharedModals/ProviderModal";
@@ -15,9 +16,9 @@ const ReviewProviders = ({
   providers,
   leadsId,
   personalInfo,
-  refreshAvailablePlans,
   rXToSpecialists,
   setShowViewAvailablePlans,
+  prescriptions
 }) => {
   const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
@@ -26,6 +27,16 @@ const ReviewProviders = ({
   const { Post: postAddProvider } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadsId}/Provider`
   );
+  const { fireEvent } = useAnalytics();
+
+  useEffect(() => {
+    fireEvent("AI - Provider Review Displayed", {
+      leadid: leadsId,
+      flow: "Rx to Specialist",
+      provider_count: providers?.length,
+      prescription_count: prescriptions?.length,
+    });
+  }, [fireEvent, leadsId, prescriptions, providers?.length]);
 
   const toggleProviderCollapse = useCallback(() => {
     setProvidersCollapsed((prevState) => !prevState);
@@ -42,7 +53,11 @@ const ReviewProviders = ({
 
   const handleSaveProvider = async (payload) => {
     await postAddProvider(payload);
-    await refreshAvailablePlans?.();
+    fireEvent("AI - Provider added", {
+      leadid: leadsId,
+      npi: payload[0].npi,
+    });
+    
   };
 
   return (
@@ -157,7 +172,6 @@ ReviewProviders.propTypes = {
       })
     ),
   }),
-  refreshAvailablePlans: PropTypes.func,
   rXToSpecialists: PropTypes.shape({
     rXToSpecialistsResults: PropTypes.arrayOf(
       PropTypes.shape({

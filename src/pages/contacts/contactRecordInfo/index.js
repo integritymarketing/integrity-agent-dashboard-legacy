@@ -582,7 +582,18 @@ const ContactRecordInfoDetails = () => {
       {process.env.REACT_APP_ASK_INTEGRITY_FLAG && !shouldShowAskIntegrity && (
         <WebChatComponent />
       )}
-      {!isLoading && !loading && <ReviewProviders />}
+      {!isLoading && !loading && (
+        <ReviewProviders
+          providers={providers}
+          prescriptions={prescriptions}
+          fullName={fullName}
+          birthdate={birthdate}
+          leadsId={leadsId}
+          personalInfo={personalInfo}
+          rXToSpecialists={rXToSpecialists}
+          setShowViewAvailablePlans={setShowViewAvailablePlans}
+        />
+      )}
     </React.Fragment>
   );
 };
