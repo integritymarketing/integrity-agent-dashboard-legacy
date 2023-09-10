@@ -205,7 +205,8 @@ const WebChatComponent = () => {
             if (
               activityValue != null &&
               (activityValue.name === "mc_View_Call_Summary" ||
-                activityValue.name === "mc_View_Transcript")
+                activityValue.name === "mc_View_Transcript" ||
+              activityValue.name === "mc_View_Contact")
             ) {
               action.payload.activity.channelData.postBack = true;
             }
