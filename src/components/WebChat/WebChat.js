@@ -53,15 +53,16 @@ const WebChatComponent = () => {
   }, [npn, addToast]);
 
   useEffect(() => {
-    fetchDirectLineToken();
-  }, [fetchDirectLineToken]);
+    if (isChatActive) {
+      fetchDirectLineToken();
+    }
+  }, [fetchDirectLineToken, isChatActive]);
 
   const clearChat = useCallback(() => {
-    const container = document.querySelector(
-      ".webchat__basic-transcript__transcript"
-    );
-    if (!container) return;
-    container.innerHTML = "";
+    const chatContainer = document.querySelector('.webchat__basic-transcript__transcript');
+    if (chatContainer) {
+      chatContainer.innerHTML = '';
+    }
     fetchDirectLineToken();
   }, [fetchDirectLineToken]);
 
@@ -291,7 +292,7 @@ const WebChatComponent = () => {
           />
         )}
       </div>
-      {directLineToken && !isChatActive && (
+      {!isChatActive && (
         <div onClick={openChat} className={styles.chatIconWrapper}>
           <p className={styles.chatIconText}>Ask Integrity</p>
           <img className={styles.chatIcon} src={ChatIcon} alt="Chat Icon" />
