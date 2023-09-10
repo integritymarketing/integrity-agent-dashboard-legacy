@@ -155,7 +155,9 @@
     }
   }
 
-  #mcContactSummaryButtonsCard, #mcWelcomeCard, #mcContactListCard {
+  #mcContactSummaryButtonsCard,
+  #mcWelcomeCard,
+  #mcContactListCard {
     padding: 0 !important;
   }
 
@@ -242,10 +244,8 @@
     }
   }
 
-  .webchat__bubble__content {
-    p {
-      font-size: 1rem;
-      font-family: "Lato", sans-serif;
-    }
+  .webchat__bubble__content>p {
+    font-size: 1rem;
+    font-family: "Lato", sans-serif !important;
   }
 }
