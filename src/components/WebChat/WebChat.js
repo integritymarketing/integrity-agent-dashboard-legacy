@@ -123,6 +123,21 @@ const WebChatComponent = () => {
     sendBoxButtonShadeColorOnHover: "transparent",
     timestampColor: "#fff",
     sendBoxBorderTop: 0,
+    fontTypes: {
+      default: {
+        fontFamily: "'Lato', sans-serif",
+        fontSizes: {
+          small: 12,
+          default: 16,
+          medium: 16,
+          large: 24,
+          extraLarge: 26
+        }
+      }
+    },
+    spacing: {
+      small: 2
+    }
   };
 
   const overrideLocalizedStrings = {

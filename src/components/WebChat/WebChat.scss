@@ -155,7 +155,7 @@
     }
   }
 
-  #mcContactSummaryButtonsCard {
+  #mcContactSummaryButtonsCard, #mcWelcomeCard, #mcContactListCard {
     padding: 0 !important;
   }
 
@@ -239,6 +239,14 @@
     div:first-child {
       font-size: 20px !important;
       letter-spacing: 0.2px;
+    }
+  }
+
+  .webchat__bubble__content {
+    p {
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      font-family: "Lato", sans-serif !important;
     }
   }
 }
