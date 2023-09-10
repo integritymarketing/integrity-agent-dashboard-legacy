@@ -59,6 +59,7 @@ const getMoreInfo = {
   Reminders: "about how you can create reminders.",
   "Unlinked Calls": "about unlinked calls.",
   "Unlinked Policies": "about unlinked policies.",
+  "SOA 48-hour rule": "about SOA 48-hour rule.",
 };
 
 const getLink = {
@@ -190,7 +191,13 @@ export default function TaskList({ isMobile, npn }) {
       case "Reminders":
         return <RemindersList taskList={taskList} refreshData={refreshData} />;
       case "SOA 48-hour Rule":
-        return <Soa48HoursRule taskList={taskList} refreshData={refreshData} />;
+        return (
+          <Soa48HoursRule
+            isMobile={isMobile}
+            taskList={[...(taskList || [])].reverse()}
+            refreshData={refreshData}
+          />
+        );
       case "Requested Callbacks":
         return <RequestedCallback />;
       default:
@@ -201,6 +208,19 @@ export default function TaskList({ isMobile, npn }) {
             refreshData={refreshData}
           />
         );
+    }
+  };
+
+  const getErrorHeading = () => {
+    switch (selectedName) {
+      case "Reminders": {
+        return "There are no reminders to display at this time.";
+      }
+      case "SOA 48-hour Rule": {
+        return "You do not have any SOA 48-Hour Rule tasks for this date range.";
+      }
+      default:
+        return `There are no ${selectedName?.toLowerCase()} at this time.`;
     }
   };
 
@@ -230,11 +250,7 @@ export default function TaskList({ isMobile, npn }) {
         <ErrorState
           isError={isError}
           emptyList={taskList?.length > 0 ? false : true}
-          heading={
-            selectedName === "Reminders"
-              ? "There are no reminders to display at this time."
-              : `There are no ${selectedName?.toLowerCase()} at this time.`
-          }
+          heading={getErrorHeading()}
           content={getMoreInfo[selectedName]}
           icon={getIcon[selectedName]}
           link={getLink[selectedName]}
