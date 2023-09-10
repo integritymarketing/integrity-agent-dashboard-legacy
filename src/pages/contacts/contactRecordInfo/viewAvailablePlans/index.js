@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import * as Sentry from "@sentry/react";
 import IntrigityIcon from "./icons/ask-integrity.png";
 import { StepComponent, STEPS } from "./steps";
 import styles from "./index.module.scss";
@@ -12,10 +13,19 @@ const ViewAvailablePlans = (props) => {
   useEffect(() => {
     if (audioRefOpen.current) {
       audioRefOpen.current.play().catch((error) => {
-        console.error("Error playing open audio:", error);
+        Sentry.captureException(error);
       });
     }
   }, [audioRefOpen]);
+
+  useEffect(() => {
+    if (props.showViewAvailablePlans) {
+      document.body.style.overflowY = "hidden";
+    }
+    return () => {
+      document.body.style.overflowY = "auto";
+    };
+  }, [props.showViewAvailablePlans]);
 
   return (
     <div
@@ -42,7 +52,7 @@ ViewAvailablePlans.propTypes = {
   prescriptions: PropTypes.array,
   providers: PropTypes.array,
   fullName: PropTypes.string,
-  birthdaty: PropTypes.string,
+  showViewAvailablePlans: PropTypes.bool.isRequired,
 };
 
 export default ViewAvailablePlans;

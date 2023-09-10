@@ -17,6 +17,7 @@ const ReviewProviders = ({
   personalInfo,
   refreshAvailablePlans,
   rXToSpecialists,
+  setShowViewAvailablePlans,
 }) => {
   const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
@@ -36,7 +37,8 @@ const ReviewProviders = ({
 
   const openAddProviderModal = useCallback(() => {
     setModalOpen(true);
-  }, [setModalOpen]);
+    setShowViewAvailablePlans(false);
+  }, [setModalOpen, setShowViewAvailablePlans]);
 
   const handleSaveProvider = async (payload) => {
     await postAddProvider(payload);

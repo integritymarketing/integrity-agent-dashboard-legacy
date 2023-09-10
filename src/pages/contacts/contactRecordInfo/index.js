@@ -52,6 +52,7 @@ import {
 } from "recoil/providerInsights/atom.js";
 import useFetch from "hooks/useFetch";
 import WebChatComponent from "components/WebChat/WebChat";
+import ReviewProviders from "./viewAvailablePlans/steps/ReviewProviders";
 
 const ContactRecordInfoDetails = () => {
   const { contactId: id, sectionId } = useParams();
@@ -362,7 +363,6 @@ const ContactRecordInfoDetails = () => {
         providers?.length > 0 &&
         !shouldHideSpecialistPrompt &&
         data?.shouldShow;
-
       if (shouldShowSpecialistPrompt) {
         setPrescriptions(prescriptions);
         setProviders(providers);
@@ -436,6 +436,7 @@ const ContactRecordInfoDetails = () => {
                   personalInfo={personalInfo}
                   refreshAvailablePlans={handleViewAvailablePlans}
                   rXToSpecialists={rXToSpecialists}
+                  setShowViewAvailablePlans={setShowViewAvailablePlans}
                 />
               </>
             )}
@@ -581,6 +582,7 @@ const ContactRecordInfoDetails = () => {
       {process.env.REACT_APP_ASK_INTEGRITY_FLAG && !shouldShowAskIntegrity && (
         <WebChatComponent />
       )}
+      {!isLoading && !loading && <ReviewProviders />}
     </React.Fragment>
   );
 };

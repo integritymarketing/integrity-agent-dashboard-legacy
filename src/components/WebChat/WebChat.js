@@ -54,14 +54,23 @@ const WebChatComponent = () => {
     fetchDirectLineToken();
   }, [fetchDirectLineToken]);
 
+  const clearChat = useCallback(() => {
+    const container = document.querySelector(
+      ".webchat__basic-transcript__transcript"
+    );
+    container.innerHTML = "";
+    fetchDirectLineToken();
+  }, [fetchDirectLineToken]);
+
   const closeChat = useCallback(() => {
+    clearChat();
     if (isChatActive) {
       setIsChatActive(false);
       if (audioRefClose.current) {
         audioRefClose.current.play();
       }
     }
-  }, [isChatActive]);
+  }, [clearChat, isChatActive]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -79,11 +88,11 @@ const WebChatComponent = () => {
 
   useEffect(() => {
     if (isChatActive) {
-      document.body.style.overflowY = 'hidden';
+      document.body.style.overflowY = "hidden";
     }
     return () => {
-      document.body.style.overflowY = 'auto';
-    }
+      document.body.style.overflowY = "auto";
+    };
   }, [isChatActive]);
 
   const directLine = useMemo(
@@ -126,9 +135,13 @@ const WebChatComponent = () => {
     }
   };
 
-  const goToContactDetailPage = useCallback((leadId) => {
-    window.open(`${window.location.origin}/contact/${leadId}`, "_blank");
-  }, []);
+  const goToContactDetailPage = useCallback(
+    (leadId) => {
+      window.location.href = `${window.location.origin}/contact/${leadId}`;
+      clearChat();
+    },
+    [clearChat]
+  );
 
   const store = useMemo(
     () =>
@@ -222,14 +235,6 @@ const WebChatComponent = () => {
       }),
     [npn, fullName, goToContactDetailPage]
   );
-
-  const clearChat = () => {
-    const container = document.querySelector(
-      ".webchat__basic-transcript__transcript"
-    );
-    container.innerHTML = "";
-    fetchDirectLineToken();
-  };
 
   return (
     <div className={styles.container} ref={chatRef}>
