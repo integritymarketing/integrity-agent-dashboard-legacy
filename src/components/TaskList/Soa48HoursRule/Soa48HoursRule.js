@@ -30,30 +30,30 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
 
   return (
     <div className={styles.container}>
-      {taskList.map((item) => (
+      {taskList?.map((item) => (
         <div className={styles.item} key={item.id}>
           <div className={styles.section}>
             <div className={styles.title1}>
-              Soa sent {getDateTime(item.sentDate).date} to
+              Soa sent {getDateTime(item?.sentDate).date} to
             </div>
             <div className={styles.title2}>
-              {`${item.firstName} ${item.lastName}`}
+              {item ? `${item.firstName || ""} ${item.lastName || ""}` : ""}
             </div>
             <div className={styles.title3}>
-              {item.phoneNumber || item.sentTo}
+              {item ? item.phoneNumber || item.sentTo : ""}
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.dateContainer}>
               <div className={styles.title4}>Date Signed: </div>
               <div className={styles.title1}>
-                {getDateTime(item.signedDate).date}
+                {getDateTime(item?.signedDate).date}
               </div>
             </div>
             <div className={styles.dateContainer}>
               <div className={styles.title4}>Time Signed: </div>
               <div className={styles.title1}>
-                {getDateTime(item.signedDate).time}
+                {getDateTime(item?.signedDate).time}
               </div>
             </div>
           </div>
@@ -61,11 +61,11 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
             <div className={styles.title4}>Contact After</div>
             <div className={styles.dateContainer}>
               <div className={styles.dateItem}>
-                {getDateTime(item.contactAfterDate).date}
+                {getDateTime(item?.contactAfterDate).date}
               </div>
               <div className={styles.title1}>at</div>
               <div className={styles.dateItem}>
-                {getDateTime(item.contactAfterDate).time}
+                {getDateTime(item?.contactAfterDate).time}
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
           >
             <Button
               className={`${styles.completeBtn} ${
-                isWithinTwoDays(item.contactAfterDate) ? styles.disabled : ""
+                isWithinTwoDays(item?.contactAfterDate) ? styles.disabled : ""
               }`}
               label={isMobile ? "" : "Complete"}
               onClick={() => navigateToConfirmSOA(item)}
