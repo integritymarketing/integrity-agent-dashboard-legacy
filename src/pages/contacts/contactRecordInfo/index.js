@@ -377,6 +377,10 @@ const ContactRecordInfoDetails = () => {
     }
   };
 
+  const handleRefreshContactInfo = async () => {
+    await getLeadDetails();
+  };
+
   const handleViewPlans = () => {
     const postalCode = personalInfo?.addresses?.[0]?.postalCode;
     const stateCode = personalInfo?.addresses?.[0]?.stateCode;
@@ -592,6 +596,7 @@ const ContactRecordInfoDetails = () => {
           personalInfo={personalInfo}
           rXToSpecialists={rXToSpecialists}
           setShowViewAvailablePlans={setShowViewAvailablePlans}
+          refreshContactInfo={handleRefreshContactInfo}
         />
       )}
     </React.Fragment>
