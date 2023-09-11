@@ -90,7 +90,7 @@ const ContactRecordInfoDetails = () => {
   const { Post: postSpecialists } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
   );
-
+    
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -582,7 +582,7 @@ const ContactRecordInfoDetails = () => {
       {process.env.REACT_APP_ASK_INTEGRITY_FLAG && !shouldShowAskIntegrity && (
         <WebChatComponent />
       )}
-      {!isLoading && !loading && (
+      {!isLoading && !loading && isAddProviderModalOpen && (
         <ReviewProviders
           providers={providers}
           prescriptions={prescriptions}

@@ -52,19 +52,13 @@ const WebChatComponent = () => {
     }
   }, [npn, addToast]);
 
-  useEffect(() => {
-    if (isChatActive) {
-      fetchDirectLineToken();
-    }
-  }, [fetchDirectLineToken, isChatActive]);
-
-  const clearChat = useCallback(() => {
-    const chatContainer = document.querySelector('.webchat__basic-transcript__transcript');
-    if (chatContainer) {
-      chatContainer.innerHTML = '';
-    }
-    fetchDirectLineToken();
-  }, [fetchDirectLineToken]);
+  const clearChat = useCallback(async() => {
+    const container = document.querySelector(
+      ".webchat__basic-transcript__transcript"
+    );
+    if (!container) return;
+    container.innerHTML = "";
+  }, []);
 
   const closeChat = useCallback(() => {
     clearChat();
@@ -145,15 +139,16 @@ const WebChatComponent = () => {
     TEXT_INPUT_PLACEHOLDER: "Ask Integrity",
   };
 
-  const openChat = () => {
-    fireEvent("AI - Ask Integrity Global Icon Clicked");
+  const openChat = useCallback(async () => {
+    fireEvent('AI - Ask Integrity Global Icon Clicked');
     setIsChatActive(true);
     if (audioRefOpen.current) {
       audioRefOpen.current.play().catch((error) => {
-        console.error("Error playing open audio:", error);
+        Sentry.captureException(error);
       });
     }
-  };
+    await fetchDirectLineToken();
+  }, [fireEvent, fetchDirectLineToken]);
 
   const goToContactDetailPage = useCallback(
     (leadId) => {
