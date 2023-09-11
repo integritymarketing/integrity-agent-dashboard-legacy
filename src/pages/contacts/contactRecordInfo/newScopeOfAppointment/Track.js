@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Track.module.scss";
-import { Checkbox } from "@mui/material";
+import CheckedIcon from "components/icons/CheckedIcon";
 
 function Track({ onCheckChange }) {
   const [checked, setChecked] = useState(false);
@@ -12,15 +12,19 @@ function Track({ onCheckChange }) {
         outbound lead activities must wait 48 hours between the beneficiary’s
         SoA signature and the sales meeting.
       </p>
-      <div>
-        <Checkbox
+      <div
+        className={`${styles.check} ${checked ? styles.checkboxContainer : ""}`}
+      >
+        <span
           onClick={() => {
             const check = !checked;
             setChecked(check);
             onCheckChange(check);
           }}
-          checked={checked}
-        />
+        >
+          {checked ? <CheckedIcon /> : <span className={styles.uncheck} />}
+        </span>
+
         <span>Track 48-hour Waiting Period</span>
       </div>
     </div>
