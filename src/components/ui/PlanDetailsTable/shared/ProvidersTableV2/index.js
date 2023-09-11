@@ -25,6 +25,13 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
     [providers]
   );
 
+  const closeAllModalsAndRefresh = () => {
+    setIsModalOpen(false);
+    setIsEditingProvider(false);
+    setProviderToEdit(null);
+    refresh();
+  };
+
   return (
     <>
       <PlanDetailsContactSectionCard
@@ -69,7 +76,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh }) => {
             existingProviders={providers}
             selectedProvider={providerToEdit}
             isEditing={isEditingProvider}
-            refresh={refresh}
+            refresh={closeAllModalsAndRefresh}
           />
         )}
       </PlanDetailsContactSectionCard>
@@ -81,8 +88,6 @@ ProvidersTableV2.propTypes = {
   isMobile: PropTypes.bool.isRequired,
   providers: PropTypes.arrayOf(PropTypes.object).isRequired,
   refresh: PropTypes.func.isRequired,
-  addProvider: PropTypes.func.isRequired,
-  deleteProvider: PropTypes.func.isRequired,
 };
 
 export default ProvidersTableV2;

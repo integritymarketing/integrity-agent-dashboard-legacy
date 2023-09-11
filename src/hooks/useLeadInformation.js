@@ -26,6 +26,7 @@ const performAsyncOperation = async (
   } catch (err) {
     Sentry.captureException(err);
     onError(err);
+    console.error("Failed to delete the provider", err);
   } finally {
     setLoading(false);
   }
@@ -71,14 +72,14 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   }, [fetchPrescriptions, fetchPharmacies, fetchProviders]);
 
   // You can create similar functions for add, update, delete for Prescriptions, Pharmacies, and Providers
-  const addPrescription = (item, refresh) => {
+  const addPrescription = async (item, refresh) => {
     const itemObject = {
       ...(item?.dosage ?? item),
       dosageRecordID: 0,
       packages: null,
       selectedPackage: null,
     };
-    performAsyncOperation(
+    await performAsyncOperation(
       () => clientsService.createPrescription(leadId, itemObject),
       setPrescriptionLoading,
       async () => {
@@ -91,14 +92,14 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     );
   };
 
-  const editPrescription = (prescriptionData, refresh) => {
+  const editPrescription = async (prescriptionData, refresh) => {
     const { dosage, ...rest } = prescriptionData;
     const updatedData = {
       ...rest,
       dosageID: dosage.dosageID,
     };
 
-    performAsyncOperation(
+    await performAsyncOperation(
       () => clientsService.updatePrescription(leadId, updatedData),
       setPrescriptionLoading,
       async () => {
@@ -106,8 +107,10 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         refresh && (await refresh());
         addToast({ message: "Prescription Updated" });
       },
-      (err) =>
-        addToast({ type: "error", message: "Failed to update prescription" })
+      (err) => {
+        addToast({ type: "error", message: "Failed to update prescription" });
+        console.error("Failed to delete the provider", err);
+      }
     );
   };
 
@@ -133,8 +136,8 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     );
   };
 
-  const addPharmacy = (pharmacy) => {
-    performAsyncOperation(
+  const addPharmacy = async (pharmacy) => {
+    await performAsyncOperation(
       () => clientsService.createPharmacy(leadId, pharmacy),
       setPharmacyLoading,
       async () => {
@@ -145,9 +148,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     );
   };
 
-  const deletePharmacy = (pharmacy) => {
+  const deletePharmacy = async (pharmacy) => {
     const pharmacyId = pharmacy?.pharmacyRecordID;
-    performAsyncOperation(
+    await performAsyncOperation(
       () => clientsService.deletePharmacy(leadId, pharmacyId),
       setPharmacyLoading,
       async () => {
@@ -164,8 +167,8 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     );
   };
 
-  const addProvider = (request, providerName, refresh) => {
-    performAsyncOperation(
+  const addProvider = async (request, providerName, refresh) => {
+    await performAsyncOperation(
       () => clientsService.createLeadProvider(leadId, request),
       setProviderLoading,
       async () => {
@@ -177,8 +180,8 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     );
   };
 
-  const deleteProvider = (payload, providerName, refresh, isDelete) => {
-    performAsyncOperation(
+  const deleteProvider = async (payload, providerName, refresh, isDelete) => {
+    await performAsyncOperation(
       () => clientsService.deleteProvider(payload, leadId),
       setProviderLoading,
       async () => {

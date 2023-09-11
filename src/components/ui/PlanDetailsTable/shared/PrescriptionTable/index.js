@@ -53,6 +53,13 @@ const PrescriptionTable = ({
     }
   };
 
+  const closeAllModalsAndRefresh = () => {
+    onCloseNewPrescription(false);
+    onCloseEditPrescription(false);
+    setCoverageModal(false);
+    refresh();
+  };
+
   return (
     <PlanDetailsContactSectionCard
       title="Prescriptions"
@@ -101,7 +108,7 @@ const PrescriptionTable = ({
           open={isOpenPrescription}
           onClose={() => onCloseNewPrescription(false)}
           prescriptions={prescriptions}
-          refresh={refresh}
+          refresh={closeAllModalsAndRefresh}
         />
       )}
 
@@ -111,7 +118,7 @@ const PrescriptionTable = ({
           onClose={() => onCloseEditPrescription(false)}
           item={prescriptionToEdit}
           isEdit={true}
-          refresh={refresh}
+          refresh={closeAllModalsAndRefresh}
         />
       )}
 
@@ -121,7 +128,7 @@ const PrescriptionTable = ({
           onClose={() => setCoverageModal(false)}
           prescriptions={prescriptions}
           planName={planData?.planName}
-          refresh={refresh}
+          refresh={closeAllModalsAndRefresh}
           coveredDrugs={coveredDrugs}
           addNew={() => {
             setCoverageModal(false);
