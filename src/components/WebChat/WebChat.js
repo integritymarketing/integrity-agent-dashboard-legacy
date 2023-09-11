@@ -189,6 +189,7 @@ const WebChatComponent = () => {
             },
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
+          console.log("$$$$$$$$$$$$$$$$$$$$$", action);
           if (action?.payload?.activity?.value) {
             fireEvent("AI - Ask Integrity CTA Clicked", {
               leadid: action?.payload?.activity?.value?.leadId,
@@ -196,10 +197,15 @@ const WebChatComponent = () => {
               intent_name: action?.payload?.activity?.value?.data?.dialogId,
             });
           }
-          fireEvent("AI - Ask Integrity Playback Received", {
-            leadid: action?.payload?.activity?.value?.leadId,
-            message_card_id: action?.payload?.activity?.value?.data?.dialogId,
-          });
+          if (
+            action?.payload?.activity?.name !== "webchat/join" &&
+            action?.payload?.activity?.value?.data?.dialogId
+          ) {
+            fireEvent("AI - Ask Integrity Playback Received", {
+              leadid: action?.payload?.activity?.value?.leadId,
+              message_card_id: action?.payload?.activity?.value?.data?.dialogId,
+            });
+          }
           const accessToken = await authService.getUser();
           if (action.payload.activity.type === "message") {
             fireEvent("AI - Input Sent", { input_type: "text" });
@@ -258,6 +264,7 @@ const WebChatComponent = () => {
             }
           }
         } else if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
+          console.log("#########################", action);
           if (action.payload.activity.type === "event") {
             let activityValue = action.payload.activity.value;
             if (
