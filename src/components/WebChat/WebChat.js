@@ -203,12 +203,12 @@ const WebChatComponent = () => {
             },
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
-          console.log("$$$$$$$$$$$$$$$$$$$$$", action);
           if (action?.payload?.activity?.value) {
             fireEvent("AI - Ask Integrity CTA Clicked", {
               leadid: action?.payload?.activity?.value?.leadId,
               cta_name: action?.payload?.activity?.value?.name,
               intent_name: action?.payload?.activity?.value?.data?.dialogId,
+              message_card_id: action?.payload?.activity?.value?.data?.dialogId,
             });
           }
           if (
@@ -278,7 +278,6 @@ const WebChatComponent = () => {
             }
           }
         } else if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
-          console.log("#########################", action);
           if (action.payload.activity.type === "event") {
             let activityValue = action.payload.activity.value;
             if (
