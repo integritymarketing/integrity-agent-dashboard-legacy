@@ -53,11 +53,6 @@ const ReviewProviders = ({
 
   const handleSaveProvider = async (payload) => {
     await postAddProvider(payload);
-    fireEvent("AI - Provider added", {
-      leadid: leadsId,
-      npi: payload[0].npi,
-    });
-    
   };
 
   return (

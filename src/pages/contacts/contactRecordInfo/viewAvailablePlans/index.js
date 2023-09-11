@@ -13,7 +13,7 @@ const ViewAvailablePlans = (props) => {
   const { fireEvent } = useAnalytics();
 
   useEffect(() => {
-    fireEvent("AI - Provider Review Displayed", {
+    fireEvent("AI - Ask Integrity Prompt Displayed", {
       flow: "Rx to Specialist",
       leadid: props.leadsId,
       provider_count: props?.providers?.length,
