@@ -277,3 +277,8 @@ export const formattedTime = (time) => {
   const convertedTime = format(date, "h:mm aa");
   return convertedTime;
 };
+
+export const getHoursDiffBetweenTwoDays = (endDate, startDate) => {
+  var duration = moment.duration(moment(startDate).diff(moment(endDate)));
+  return duration.asHours();
+};

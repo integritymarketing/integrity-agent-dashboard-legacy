@@ -32,9 +32,11 @@ const ErrorState = ({ isError, emptyList, icon, heading, content, link }) => {
       )}
       {!isError && emptyList && (
         <div className="no-data-container">
-          <div className="no-data-icon-container">
-            <img src={icon} className="no-data-icon" alt={heading} />
-          </div>
+          {icon && (
+            <div className="no-data-icon-container">
+              <img src={icon} className="no-data-icon" alt={heading} />
+            </div>
+          )}
           <div className="no-data-text-container">
             <p className="no-data-text-heading">{heading}</p>
             <p className="no-data-text-desc">
