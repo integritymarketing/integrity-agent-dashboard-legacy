@@ -17,7 +17,7 @@ import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
 import authService from "services/authService";
-import ChatIcon from "./askintegrity-logo.png";
+import ChatIcon from "./askintegrity-logo.jpg";
 import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
 import closeAudio from "./close.mp3";
@@ -52,7 +52,17 @@ const WebChatComponent = () => {
     }
   }, [npn, addToast]);
 
-  const clearChat = useCallback(async() => {
+  const clearChatAndFetchToken = useCallback(async () => {
+    const container = document.querySelector(
+      ".webchat__basic-transcript__transcript"
+    );
+    if (container) {
+      container.innerHTML = "";
+    }
+    await fetchDirectLineToken();
+  }, [fetchDirectLineToken]);
+
+  const clearChat = useCallback(async () => {
     const container = document.querySelector(
       ".webchat__basic-transcript__transcript"
     );
@@ -126,13 +136,13 @@ const WebChatComponent = () => {
           default: 16,
           medium: 16,
           large: 24,
-          extraLarge: 26
-        }
-      }
+          extraLarge: 26,
+        },
+      },
     },
     spacing: {
-      small: 2
-    }
+      small: 2,
+    },
   };
 
   const overrideLocalizedStrings = {
@@ -140,7 +150,7 @@ const WebChatComponent = () => {
   };
 
   const openChat = useCallback(async () => {
-    fireEvent('AI - Ask Integrity Global Icon Clicked');
+    fireEvent("AI - Ask Integrity Global Icon Clicked");
     setIsChatActive(true);
     if (audioRefOpen.current) {
       audioRefOpen.current.play().catch((error) => {
@@ -179,14 +189,17 @@ const WebChatComponent = () => {
             },
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
-          if(action?.payload?.activity?.value) {
+          if (action?.payload?.activity?.value) {
             fireEvent("AI - Ask Integrity CTA Clicked", {
               leadid: action?.payload?.activity?.value?.leadId,
               cta_name: action?.payload?.activity?.value?.name,
-              intent_name:action?.payload?.activity?.value?.dialogId,
+              intent_name: action?.payload?.activity?.value?.data?.dialogId,
             });
           }
-          console.log("#########3", action);
+          fireEvent("AI - Ask Integrity Playback Received", {
+            leadid: action?.payload?.activity?.value?.leadId,
+            message_card_id: action?.payload?.activity?.value?.data?.dialogId,
+          });
           const accessToken = await authService.getUser();
           if (action.payload.activity.type === "message") {
             fireEvent("AI - Input Sent", { input_type: "text" });
@@ -217,7 +230,7 @@ const WebChatComponent = () => {
               activityValue != null &&
               (activityValue.name === "mc_View_Call_Summary" ||
                 activityValue.name === "mc_View_Transcript" ||
-              activityValue.name === "mc_View_Contact")
+                activityValue.name === "mc_View_Contact")
             ) {
               action.payload.activity.channelData.postBack = true;
             }
@@ -245,7 +258,6 @@ const WebChatComponent = () => {
             }
           }
         } else if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
-          console.log("######2", action);
           if (action.payload.activity.type === "event") {
             let activityValue = action.payload.activity.value;
             if (
@@ -269,7 +281,12 @@ const WebChatComponent = () => {
         className={cx(styles.chatSidebar, { [styles.active]: isChatActive })}
       >
         <div className={styles.header}>
-          <img onClick={clearChat} src={ChatIcon} alt="Chat Icon" />
+          <img
+            className={styles.logoIcon}
+            onClick={clearChatAndFetchToken}
+            src={ChatIcon}
+            alt="Chat Icon"
+          />
           <p className={styles.headerText}>Ask Integrity</p>
           <img
             onClick={closeChat}
