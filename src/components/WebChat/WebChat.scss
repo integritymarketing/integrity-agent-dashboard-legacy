@@ -204,7 +204,7 @@
           border-radius: 50px;
         }
 
-        &:first-child {
+        &:last-child {
           background-color: #4178ff;
           border-radius: 50px;
           flex-direction: row-reverse;
@@ -220,7 +220,7 @@
 
   .ac-actionSet {
     display: flex !important;
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     justify-content: center !important;
     align-items: stretch;
     gap: 0.5rem;
