@@ -92,7 +92,7 @@ export default function TaskList({ isMobile, npn }) {
     DEFAULT_TABS.find((tab) => tab.value === statusIndex)?.policyStatus ||
     "SOA 48-hour rule";
 
-  const showMore = page < totalPageSize ? true : false;
+  const showMore = page < totalPageSize;
 
   const fetchEnrollPlans = async () => {
     setIsLoading(true);
