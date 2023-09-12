@@ -97,13 +97,15 @@ const WebChatComponent = () => {
   useEffect(() => {
     if (isChatActive) {
       const intervalId = setInterval(() => {
-        const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
+        const inputElement = document.querySelector(
+          '[data-id="webchat-sendbox-input"]'
+        );
         if (inputElement) {
-          inputElement.setAttribute('maxLength', '100');
-          clearInterval(intervalId); 
+          inputElement.setAttribute("maxLength", "100");
+          clearInterval(intervalId);
         }
-      }, 500); 
-  
+      }, 500);
+
       return () => clearInterval(intervalId);
     }
   }, [isChatActive]);
@@ -185,6 +187,9 @@ const WebChatComponent = () => {
   const store = useMemo(
     () =>
       createStore({}, ({ dispatch }) => (next) => async (action) => {
+        if (action.type === "WEB_CHAT/SUBMIT_SEND_BOX") {
+          fireEvent("AI - Ask Integrity Input Sent", { input_type: "text" });
+        }
         if (action.type === "DIRECT_LINE/CONNECT_FULFILLED") {
           const accessToken = await authService.getUser();
           dispatch({
@@ -222,7 +227,6 @@ const WebChatComponent = () => {
           }
           const accessToken = await authService.getUser();
           if (action.payload.activity.type === "message") {
-            fireEvent("AI - Ask Integrity Input Sent", { input_type: "text" });
             let message = action.payload.activity.text
               ? action.payload.activity.text
               : action.payload.activity.value.dropDownInfo;
