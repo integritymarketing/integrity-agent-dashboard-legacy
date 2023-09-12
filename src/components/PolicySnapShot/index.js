@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
 import { useHistory } from "react-router-dom";
 import DateRangeSort from "../DateRangeSort";
@@ -11,16 +11,19 @@ import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 import ErrorState from "components/ErrorState";
 import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
+import WithLoader from "components/ui/WithLoader";
 import "./style.scss";
 
 const TitleData =
   "View your policies by status. Policy status is imported directly from carriers and the availability of status and other policy information may vary by carrier. For the most complete and up-to-date policy information, submit your applications through Contact Management Quote & eApp. Please visit our Learning Center to view the list of carriers whose policies are available in Policy Snapshot or find out more about Policy Management.";
 
 export default function PlanSnapShot({ isMobile, npn }) {
+  // Getting the index and date range from Session storage to auto select the widget and date range //
   const [index] = usePreferences(0, "policySnapShot_widget");
   const [dRange] = usePreferences(0, "policySnapShot_sort");
 
-  const [policyList, setpolicyList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [policyList, setPolicyList] = useState([]);
   const [leadIds, setLeadIds] = useState([]);
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
@@ -30,25 +33,25 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const history = useHistory();
   const addToast = useToast();
 
-  const status = tabs[statusIndex]?.policyStatus || "Started";
+  const status = tabs[index]?.policyStatus;
 
-  useEffect(() => {
-    const fetchEnrollPlans = async () => {
+  const fetchPolicySnapshotList = useCallback(
+    async (statusToFetch) => {
+      // If status is undefined, don't hit the fetch call //
+      if (!statusToFetch) return;
+      setIsLoading(true);
+
       try {
         const items = await enrollPlansService.getPolicySnapShotList(
           npn,
           dateRange,
-          status
+          statusToFetch
         );
-        if (items?.length > 0) {
-          const list = items[0]?.bookOfBusinessSummmaryRecords;
-          const ids = items[0]?.leadIds;
-          setpolicyList([...list]);
-          setLeadIds(ids);
-        } else {
-          setpolicyList([]);
-          setLeadIds([]);
-        }
+        const list = items[0]?.bookOfBusinessSummmaryRecords;
+        const ids = items[0]?.leadIds;
+
+        setPolicyList(list || []);
+        setLeadIds(ids || []);
       } catch (error) {
         setIsError(true);
         addToast({
@@ -56,10 +59,32 @@ export default function PlanSnapShot({ isMobile, npn }) {
           message: "Failed to get Policy Snapshot List.",
           time: 10000,
         });
+      } finally {
+        setIsLoading(false);
       }
-    };
-    fetchEnrollPlans();
-  }, [addToast, index, dateRange, npn, status]);
+    },
+    [addToast, dateRange, npn]
+  );
+
+  useEffect(() => {
+    fetchPolicySnapshotList(status);
+  }, [fetchPolicySnapshotList, status]);
+
+  const handleWidgetSelection = useCallback(
+    async (newIndex, policyCount) => {
+      setStatusIndex(newIndex);
+      const newStatus = tabs[newIndex]?.policyStatus || "Declined";
+
+      // Fetch the policy list for the selected widget //
+      await fetchPolicySnapshotList(newStatus);
+
+      // If mobile, when clicking on the widget, it should take you to the contact list page //
+      if (isMobile && leadIds?.length > 0 && policyCount > 0) {
+        jumptoListMobile(newIndex);
+      }
+    },
+    [fetchPolicySnapshotList, leadIds, tabs, isMobile]
+  );
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -82,40 +107,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
     fetchCounts();
   }, [addToast, dateRange, npn]);
 
-  const handleWidgetSelection = async (index, policyCount) => {
-    setStatusIndex(index);
-    const status = tabs[index]?.policyStatus || "Started";
-
-    try {
-      const items = await enrollPlansService.getPolicySnapShotList(
-        npn,
-        dateRange,
-        status
-      );
-      if (items?.length > 0) {
-        const list = items[0]?.bookOfBusinessSummmaryRecords;
-        const ids = items[0]?.leadIds;
-        setpolicyList([...list]);
-        setLeadIds(ids);
-        if (isMobile && ids?.length > 0 && policyCount > 0) {
-          jumptoListMobile(index);
-        }
-      } else {
-        setpolicyList([]);
-        setLeadIds([]);
-      }
-    } catch (error) {
-      setIsError(true);
-      addToast({
-        type: "error",
-        message: "Failed to get Policy Snapshot List.",
-        time: 10000,
-      });
-    }
-  };
-
   const jumptoListMobile = (index) => {
-    const status = tabs[index]?.policyStatus || "Started";
+    const status = tabs[index]?.policyStatus || "Declined";
     const policyStatusColor = tabs[index]?.policyStatusColor || "";
     const policyCount = tabs[index]?.policyCount || "";
 
@@ -170,25 +163,27 @@ export default function PlanSnapShot({ isMobile, npn }) {
         page="policySnapshot"
       />
 
-      {(isError || policyList?.length === 0) && (
-        <ErrorState
-          isError={isError}
-          emptyList={policyList?.length > 0 ? false : true}
-          heading={`There is no policy information available for you at this time.`}
-          content={`New policies will be displayed here once they are submitted.
+      <WithLoader isLoading={isLoading}>
+        {(isError || policyList?.length === 0) && (
+          <ErrorState
+            isError={isError}
+            emptyList={policyList?.length > 0 ? false : true}
+            heading={`There is no policy information available for you at this time.`}
+            content={`New policies will be displayed here once they are submitted.
           Please contact your marketer for more information.`}
-          icon={PolicyNoData}
-        />
-      )}
+            icon={PolicyNoData}
+          />
+        )}
 
-      {!isMobile && (
-        <PolicyList
-          policyList={policyList}
-          policyCount={tabs?.[statusIndex]?.policyCount ?? 0}
-          isError={isError}
-          handleJumpList={() => jumptoList(statusIndex)}
-        />
-      )}
+        {!isMobile && (
+          <PolicyList
+            policyList={policyList}
+            policyCount={tabs?.[statusIndex]?.policyCount ?? 0}
+            isError={isError}
+            handleJumpList={() => jumptoList(statusIndex)}
+          />
+        )}
+      </WithLoader>
     </ContactSectionCard>
   );
 }
