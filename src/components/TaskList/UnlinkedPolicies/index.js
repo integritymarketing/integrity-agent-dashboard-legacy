@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import Media from "react-media";
+import React, { useState, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import Grid from "@mui/material/Grid";
+import Media from "react-media";
+import PropTypes from "prop-types";
+
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
-import { useHistory } from "react-router-dom";
 import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
+
 import "./style.scss";
 
 const UnlinkedPolicyCard = ({ callData, npn }) => {
@@ -13,29 +16,27 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
   const history = useHistory();
   const addToast = useToast();
 
-  const handleLinkToContact = async () => {
+  const handleLinkToContact = useCallback(async () => {
     try {
       const data = await enrollPlansService.getBookOfBusinessBySourceId(
         npn,
         callData?.sourceId
       );
-      if (data) {
-        history.push(`/enrollment-link-to-contact`, {
-          state: {
+      // If policy data coming from API is null, then we have to pass the existing policy data to the next page
+      const stateData = data
+        ? {
             ...data,
             page: "Dashboard",
             policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
-          },
-        });
-      } else {
-        history.push(`/enrollment-link-to-contact`, {
-          state: {
+          }
+        : {
             ...callData,
             page: "Dashboard",
             policyHolder: `${callData.firstName} ${callData.lastName}`,
-          },
-        });
-      }
+          };
+
+      // Redirect to Enrollment Link to Contact page, passing the policy data.
+      history.push("/enrollment-link-to-contact", { state: stateData });
     } catch (error) {
       addToast({
         type: "error",
@@ -43,7 +44,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
         time: 10000,
       });
     }
-  };
+  }, [addToast, callData, history, npn]);
 
   return (
     <div className="up-card">
@@ -109,16 +110,30 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
   );
 };
 
+UnlinkedPolicyCard.propTypes = {
+  callData: PropTypes.object,
+  npn: PropTypes.string,
+};
+
 const UnlinkedPolicyList = ({ taskList, npn }) => {
+  // Sort the taskList, sort by last name in ascending order
+  const sortedPolicyList = [...taskList]?.sort((a, b) => {
+    return a.lastName?.localeCompare(b.lastName);
+  });
   return (
     <>
       <div className="up-card-container">
-        {taskList?.map((data, i) => {
+        {sortedPolicyList?.map((data, i) => {
           return <UnlinkedPolicyCard callData={data} npn={npn} />;
         })}
       </div>
     </>
   );
+};
+
+UnlinkedPolicyList.propTypes = {
+  taskList: PropTypes.array,
+  npn: PropTypes.string,
 };
 
 export default UnlinkedPolicyList;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
 import DateRangeSort from "../DateRangeSort";
 import styles from "./styles.module.scss";
@@ -17,6 +17,7 @@ import NoRequestedCallback from "images/no-requested-callback.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 import { Button } from "components/ui/Button";
 import moment from "moment";
+import WithLoader from "components/ui/WithLoader";
 import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
 
 const DEFAULT_TABS = [
@@ -75,6 +76,8 @@ export default function TaskList({ isMobile, npn }) {
   const [dRange] = usePreferences(0, "taskList_sort");
   const [index] = usePreferences(1, "taskList_widget");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [dateRange, setDateRange] = useState(dRange);
   const [statusIndex, setStatusIndex] = useState(index);
   const [isError, setIsError] = useState(false);
@@ -87,13 +90,12 @@ export default function TaskList({ isMobile, npn }) {
 
   const selectedName =
     DEFAULT_TABS.find((tab) => tab.value === statusIndex)?.policyStatus ||
-    "Requested Callbacks";
+    "SOA 48-hour rule";
 
-  const showMore = useMemo(() => {
-    return page < totalPageSize;
-  }, [page, totalPageSize]);
+  const showMore = page < totalPageSize;
 
   const fetchEnrollPlans = async () => {
+    setIsLoading(true);
     setTotalPageSize(1);
     setPage(1);
     try {
@@ -121,6 +123,8 @@ export default function TaskList({ isMobile, npn }) {
         message: "Failed to get Task List.",
         time: 10000,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -128,7 +132,8 @@ export default function TaskList({ isMobile, npn }) {
     try {
       const tabsData = await clientsService.getTaskListCount(npn, dateRange);
       const data = DEFAULT_TABS.map((tab, i) => {
-        tab.policyCount = tabsData[tab.name];
+        const task = tabsData[tab.name];
+        tab.policyCount = task?.count || 0;
         return tab;
       });
       setTabs([...data]);
@@ -144,9 +149,11 @@ export default function TaskList({ isMobile, npn }) {
 
   useEffect(() => {
     if (statusIndex === 1) {
-      let sortedList = fullList?.sort((a, b) => {
-        return new Date(a.taskDate) - new Date(b.taskDate);
-      });
+      let sortedList = fullList?.sort((a, b) =>
+        moment(b.taskDate, "MM/DD/YYYY HH:mm:ss").diff(
+          moment(a.taskDate, "MM/DD/YYYY HH:mm:ss")
+        )
+      );
       const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
       setTaskList([...list]);
     } else {
@@ -198,8 +205,6 @@ export default function TaskList({ isMobile, npn }) {
             refreshData={refreshData}
           />
         );
-      case "Requested Callbacks":
-        return <RequestedCallback />;
       default:
         return (
           <UnlinkedPolicyList
@@ -246,30 +251,32 @@ export default function TaskList({ isMobile, npn }) {
         handleWidgetSelection={setStatusIndex}
         apiTabs={tabs}
       />
-      {isError || taskList?.length === 0 ? (
-        <ErrorState
-          isError={isError}
-          emptyList={taskList?.length > 0 ? false : true}
-          heading={getErrorHeading()}
-          content={getMoreInfo[selectedName]}
-          icon={getIcon[selectedName]}
-          link={getLink[selectedName]}
-        />
-      ) : (
-        <>
-          {renderList()}
-          {showMore && (
-            <div className="jumpList-card">
-              <Button
-                type="tertiary"
-                onClick={() => setPage(page + 1)}
-                label="Show More"
-                className="jumpList-btn"
-              />
-            </div>
-          )}
-        </>
-      )}
+      <WithLoader isLoading={isLoading}>
+        {isError || taskList?.length === 0 ? (
+          <ErrorState
+            isError={isError}
+            emptyList={taskList?.length > 0 ? false : true}
+            heading={getErrorHeading()}
+            content={getMoreInfo[selectedName]}
+            icon={getIcon[selectedName]}
+            link={getLink[selectedName]}
+          />
+        ) : (
+          <>
+            {renderList()}
+            {showMore && (
+              <div className="jumpList-card">
+                <Button
+                  type="tertiary"
+                  onClick={() => setPage(page + 1)}
+                  label="Show More"
+                  className="jumpList-btn"
+                />
+              </div>
+            )}
+          </>
+        )}
+      </WithLoader>
     </ContactSectionCard>
   );
 }
