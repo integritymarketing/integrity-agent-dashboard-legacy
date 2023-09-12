@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
  *
  * @param {any} defaultValue - The default value for the preference
  * @param {string} key - The key under which the preference is stored in sessionStorage
+ * @returns {Array} - An array containing the value and a function to update it
  */
 function usePreferences(defaultValue, key) {
   // initialize the state from sessionStorage or use the default value

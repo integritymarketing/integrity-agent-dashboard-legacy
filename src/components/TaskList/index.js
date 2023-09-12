@@ -132,7 +132,8 @@ export default function TaskList({ isMobile, npn }) {
     try {
       const tabsData = await clientsService.getTaskListCount(npn, dateRange);
       const data = DEFAULT_TABS.map((tab, i) => {
-        tab.policyCount = tabsData[tab.name];
+        const task = tabsData[tab.name];
+        tab.policyCount = task?.count || 0;
         return tab;
       });
       setTabs([...data]);
