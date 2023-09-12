@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -29,14 +29,18 @@ const ReviewProviders = ({
   const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
   const { fireEvent } = useAnalytics();
+  const hasFiredEvent = useRef(false);
 
   useEffect(() => {
-    fireEvent("AI - Provider Review Displayed", {
-      leadid: leadsId,
-      flow: "Rx to Specialist",
-      provider_count: providers?.length,
-      prescription_count: prescriptions?.length,
-    });
+    if (!hasFiredEvent.current) {
+      fireEvent("AI - Provider Review Displayed", {
+        leadid: leadsId,
+        flow: "Rx to Specialist",
+        provider_count: providers?.length,
+        prescription_count: prescriptions?.length,
+      });
+      hasFiredEvent.current = true;
+    }
   }, [fireEvent, leadsId, prescriptions, providers?.length]);
 
   const toggleProviderCollapse = useCallback(() => {
