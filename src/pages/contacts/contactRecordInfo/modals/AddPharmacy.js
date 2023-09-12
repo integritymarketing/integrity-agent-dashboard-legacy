@@ -118,6 +118,12 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     radius,
   ]);
 
+  const renderEmptyContainer = () => {
+    if (!zipCode) {
+      return <div className={Styles.emptyContainer}>Search for a pharmacy</div>;
+    }
+  };
+
   const handleAddPharmacy = async () => {
     await onSave({
       pharmacyID: selectedPharmacy.pharmacyID,
@@ -132,7 +138,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     onClose();
   };
 
-  const zipCodeError = !zipCode || zipCode?.length < 5 ? true : false;
+  const zipCodeError =
+    zipCode?.length > 0 && zipCode?.length < 5 ? true : false;
 
   return (
     <div>
@@ -377,11 +384,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
 
                   <div className="pr-search-result">
                     {totalCount ? (
-                      <>
-                        {totalCount || 0} Pharmacies found within {radius}
-                        &nbsp;miles
-                      </>
+                      <>{totalCount || 0} Pharmacies found</>
                     ) : null}
+                    {renderEmptyContainer()}
                   </div>
 
                   {isLoading ? (
@@ -411,7 +416,11 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                             >
                               <Checkbox
                                 onClick={() => {
-                                  setSelectedPharmacy(item);
+                                  if (item === selectedPharmacy) {
+                                    setSelectedPharmacy(null);
+                                  } else {
+                                    setSelectedPharmacy(item);
+                                  }
                                 }}
                                 checked={selectedPharmacy === item}
                               />
@@ -738,12 +747,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
               </div>
 
               <div className="pr-search-result">
-                {totalCount ? (
-                  <>
-                    {totalCount || 0} Pharmacies found within {radius}
-                    &nbsp;miles
-                  </>
-                ) : null}
+                {totalCount ? <>{totalCount || 0} Pharmacies found</> : null}
+                {renderEmptyContainer()}
               </div>
 
               {isLoading ? (
@@ -777,7 +782,11 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                             >
                               <Checkbox
                                 onClick={() => {
-                                  setSelectedPharmacy(item);
+                                  if (item === selectedPharmacy) {
+                                    setSelectedPharmacy(null);
+                                  } else {
+                                    setSelectedPharmacy(item);
+                                  }
                                 }}
                                 checked={selectedPharmacy === item}
                               />

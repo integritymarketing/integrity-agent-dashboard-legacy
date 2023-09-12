@@ -21,7 +21,10 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
   };
 
   const navigateToConfirmSOA = (item) => {
-    history.push(`/contact/${item?.leadId}/soa-confirm/${item?.soaLinkCode}`);
+    history.push({
+      pathname: `/contact/${item?.leadId}/soa-confirm/${item?.soaLinkCode}`,
+      state: { from: "Dashboard" },
+    });
     refreshData(item?.id);
   };
 

@@ -12,6 +12,14 @@
   bottom: 0;
   background-color: #051d43b3;
 }
+.emptyContainer {
+  height: 150px;
+  background: #DDDDDD;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .modal {
   max-width: 90vw;
   max-height: 90vh;
