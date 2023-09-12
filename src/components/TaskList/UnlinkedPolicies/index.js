@@ -116,13 +116,8 @@ UnlinkedPolicyCard.propTypes = {
 };
 
 const UnlinkedPolicyList = ({ taskList, npn }) => {
-  // Sort the taskList, so that the most recent policy is on top and if the effective date is the same, sort by last name in ascending order
-  const sortedPolicyList = [...taskList].sort((a, b) => {
-    // Sort by Effective Date in descending order
-    if (new Date(a.effectiveDate) < new Date(b.effectiveDate)) return 1;
-    if (new Date(a.effectiveDate) > new Date(b.effectiveDate)) return -1;
-
-    // If Effective Date is the same, sort by Last Name in ascending order
+  // Sort the taskList, sort by last name in ascending order
+  const sortedPolicyList = [...taskList]?.sort((a, b) => {
     return a.lastName?.localeCompare(b.lastName);
   });
   return (
