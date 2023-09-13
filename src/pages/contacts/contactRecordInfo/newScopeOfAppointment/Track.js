@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Track.module.scss";
 import CheckedIcon from "components/icons/CheckedIcon";
+import UnCheckedIcon from "components/icons/unChecked";
 
 function Track({ onCheckChange }) {
   const [checked, setChecked] = useState(false);
@@ -23,7 +24,7 @@ function Track({ onCheckChange }) {
             onCheckChange(check);
           }}
         >
-          {checked ? <CheckedIcon /> : <span className={styles.uncheck} />}
+          {checked ? <CheckedIcon /> : <UnCheckedIcon />}
         </span>
 
         <span>Track 48-hour Waiting Period</span>
