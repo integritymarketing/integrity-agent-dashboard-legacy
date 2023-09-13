@@ -208,7 +208,13 @@ const WebChatComponent = () => {
             },
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
-          if (action?.payload?.activity?.value) {
+          if(action?.meta === "imBack")  {
+            fireEvent("AI - Ask Integrity Playback Received", {
+              intent_name: action?.payload?.activity?.text,
+              message_card_id: action?.payload?.activity?.text,
+            });
+          }
+          if (action?.payload?.activity?.value?.leadId) {
             fireEvent("AI - Ask Integrity CTA Clicked", {
               leadid: action?.payload?.activity?.value?.leadId,
               cta_name: action?.payload?.activity?.value?.name,
