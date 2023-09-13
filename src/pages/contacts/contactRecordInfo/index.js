@@ -597,6 +597,7 @@ const ContactRecordInfoDetails = () => {
           rXToSpecialists={rXToSpecialists}
           setShowViewAvailablePlans={setShowViewAvailablePlans}
           refreshContactInfo={handleRefreshContactInfo}
+          isAddProviderModalOpen={isAddProviderModalOpen}
         />
       )}
     </React.Fragment>

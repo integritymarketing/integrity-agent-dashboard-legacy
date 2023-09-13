@@ -221,7 +221,7 @@ const WebChatComponent = () => {
             action?.payload?.activity?.value?.data?.dialogId
           ) {
             fireEvent("AI - Ask Integrity Playback Received", {
-              leadid: action?.payload?.activity?.value?.leadId,
+              leadid: action?.payload?.activity?.value?.data?.leadId,
               message_card_id: action?.payload?.activity?.value?.data?.dialogId,
             });
           }

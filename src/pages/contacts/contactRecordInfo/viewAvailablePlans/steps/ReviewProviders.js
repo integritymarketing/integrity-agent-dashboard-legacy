@@ -20,28 +20,31 @@ const ReviewProviders = ({
   setShowViewAvailablePlans,
   prescriptions,
   refreshContactInfo,
+  isAddProviderModalOpen = false,
 }) => {
-  const {
-    addProvider,
-  } = useLeadInformation(leadsId);
+  const { addProvider } = useLeadInformation(leadsId);
   const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
   const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
   const { fireEvent } = useAnalytics();
-  const hasFiredEvent = useRef(false);
 
   useEffect(() => {
-    if (!hasFiredEvent.current) {
+    if (!isAddProviderModalOpen) {
       fireEvent("AI - Provider Review Displayed", {
         leadid: leadsId,
         flow: "Rx to Specialist",
         provider_count: providers?.length,
         prescription_count: prescriptions?.length,
       });
-      hasFiredEvent.current = true;
     }
-  }, [fireEvent, leadsId, prescriptions, providers?.length]);
+  }, [
+    fireEvent,
+    isAddProviderModalOpen,
+    leadsId,
+    prescriptions,
+    providers?.length,
+  ]);
 
   const toggleProviderCollapse = useCallback(() => {
     setProvidersCollapsed((prevState) => !prevState);
