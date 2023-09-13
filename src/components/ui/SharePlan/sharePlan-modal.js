@@ -16,11 +16,15 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import plansService from "services/plansService";
 import enrollPlansService from "services/enrollPlansService";
 import "./styles.scss";
+import { disableTextMessage } from "utilities/appConfig";
+import SMSNotification from "components/SMSNotification";
 
-const EMAIL_MOBILE_LABELS = [
-  { value: "email", label: "Email" },
-  { value: "mobile", label: "Mobile" },
-];
+const EMAIL_MOBILE_LABELS = disableTextMessage
+  ? [{ value: "email", label: "Email" }]
+  : [
+      { value: "email", label: "Email" },
+      { value: "mobile", label: "Mobile" },
+    ];
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -48,7 +52,7 @@ const SharePlanModal = ({
   contact = {},
   enrollmentId,
   ispolicyShare = false,
-  enrollData = {}
+  enrollData = {},
 }) => {
   const addToast = useToast();
   const {
@@ -179,7 +183,7 @@ const SharePlanModal = ({
         dateOfBirth: birthdate,
         EnrollmentId: enrollmentId,
         enrollData: enrollData,
-        appSubmitDate: enrollData?.submittedDate
+        appSubmitDate: enrollData?.submittedDate,
       };
       if (selectOption === "email") {
         const data = {
@@ -333,7 +337,7 @@ const SharePlanModal = ({
                           }
                         />
                       )}
-                      {leadPhone && (
+                      {leadPhone && !disableTextMessage && (
                         <Radio
                           id="textMessage"
                           data-gtm="input-share-plans"
@@ -353,7 +357,11 @@ const SharePlanModal = ({
                         id="newEmailOrMobile"
                         data-gtm="input-share-plans"
                         htmlFor="newEmailOrMobile"
-                        label="New email or mobile number"
+                        label={
+                          disableTextMessage
+                            ? "New email"
+                            : "New email or mobile number"
+                        }
                         name="share-plan"
                         value="newEmailOrMObile"
                         checked={selectOption === "newEmailOrMObile"}
@@ -427,6 +435,7 @@ const SharePlanModal = ({
                         )}
                       </div>
                     )}
+                    <SMSNotification />
                   </>
                 ) : (
                   <div className="document-wrapper">

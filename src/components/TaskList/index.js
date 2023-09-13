@@ -6,7 +6,6 @@ import TabsCard from "components/TabsCard";
 import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
 import UnlinkedPolicyList from "./UnlinkedPolicies";
 import RemindersList from "./Reminders";
-import RequestedCallback from "./RequestedCallbacks";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import clientsService from "services/clientsService";
