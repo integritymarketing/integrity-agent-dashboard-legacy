@@ -209,7 +209,7 @@ const WebChatComponent = () => {
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
           console.log("inside post activity", action);
-          if(action?.meta === "imBack")  {
+          if (action?.meta === "imBack") {
             console.log("inside intents", action);
             fireEvent("AI - Ask Integrity Playback Received", {
               intent_name: action?.payload?.activity?.text,
@@ -266,7 +266,7 @@ const WebChatComponent = () => {
                 activityValue.name === "mc_View_Transcript" ||
                 activityValue.name === "mc_View_Contact")
             ) {
-              console.log("inside text ", action)
+              console.log("inside text ", action);
               action.payload.activity.channelData.postBack = true;
             }
 
@@ -293,10 +293,13 @@ const WebChatComponent = () => {
             }
           }
         } else if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
-          if(action?.payload?.activity?.attachments?.[0]) {
+          if (action?.payload?.activity?.attachments?.[0]) {
             fireEvent("AI - Ask Integrity Playback Received", {
-              leadid: action?.payload?.attachments?.[0]?.content?.actions?.[0]?.data?.leadId,
-              message_card_id: action?.payload?.attachments?.[0]?.content?.id,
+              leadid:
+                action?.payload?.activity?.attachments?.[0]?.content
+                  ?.actions?.[0]?.data?.leadId,
+              message_card_id:
+                action?.payload?.activity?.attachments?.[0]?.content?.id,
             });
           }
           if (action.payload.activity.type === "event") {
