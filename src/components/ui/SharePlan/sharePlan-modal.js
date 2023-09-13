@@ -16,15 +16,11 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import plansService from "services/plansService";
 import enrollPlansService from "services/enrollPlansService";
 import "./styles.scss";
-import { disableTextMessage } from "utilities/appConfig";
+import {
+  disableTextMessage,
+  getCommunicationOptions,
+} from "utilities/appConfig";
 import SMSNotification from "components/SMSNotification";
-
-const EMAIL_MOBILE_LABELS = disableTextMessage
-  ? [{ value: "email", label: "Email" }]
-  : [
-      { value: "email", label: "Email" },
-      { value: "mobile", label: "Mobile" },
-    ];
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -374,7 +370,7 @@ const SharePlanModal = ({
                       <div className="new-email-or-mobile">
                         <Select
                           className="mr-2"
-                          options={EMAIL_MOBILE_LABELS}
+                          options={getCommunicationOptions()}
                           style={{ width: "140px" }}
                           initialValue={selectLabel}
                           providerModal={true}

@@ -114,7 +114,12 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
         {(!soaList || soaList.length === 0) && (
           <div className="no-items">
             <span>This contact has no scope of appointments.&nbsp;</span>
-            <button className="link" onClick={navigateToSOANew}>
+            <button
+              className="link"
+              onClick={() => {
+                setOpenModal(true);
+              }}
+            >
               Send a scope of appointment
             </button>
           </div>

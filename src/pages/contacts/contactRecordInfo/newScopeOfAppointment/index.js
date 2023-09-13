@@ -18,7 +18,10 @@ import "./index.scss";
 import Track from "./Track";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
 import SMSNotification from "components/SMSNotification";
-import { disableTextMessage } from "utilities/appConfig";
+import {
+  disableTextMessage,
+  getCommunicationOptions,
+} from "utilities/appConfig";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -36,12 +39,6 @@ export const __formatPhoneNumber = (phoneNumberString) => {
   return originalInput;
 };
 
-const EMAIL_MOBILE_LABELS = disableTextMessage
-  ? [{ value: "email", label: "Email" }]
-  : [
-      { value: "email", label: "Email" },
-      { value: "mobile", label: "Mobile" },
-    ];
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -263,7 +260,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                     <div className="new-email-or-mobile">
                       <Select
                         className="mr-2"
-                        options={EMAIL_MOBILE_LABELS}
+                        options={getCommunicationOptions()}
                         style={{ width: "140px" }}
                         initialValue={selectLabel}
                         providerModal={true}
