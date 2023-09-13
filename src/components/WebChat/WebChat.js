@@ -208,13 +208,16 @@ const WebChatComponent = () => {
             },
           });
         } else if (action.type === "DIRECT_LINE/POST_ACTIVITY") {
+          console.log("inside post activity", action);
           if(action?.meta === "imBack")  {
+            console.log("inside intents", action);
             fireEvent("AI - Ask Integrity Playback Received", {
               intent_name: action?.payload?.activity?.text,
               message_card_id: action?.payload?.activity?.text,
             });
           }
           if (action?.payload?.activity?.value?.leadId) {
+            console.log("inside AI - Ask Integrity CTA Clicked", action);
             fireEvent("AI - Ask Integrity CTA Clicked", {
               leadid: action?.payload?.activity?.value?.leadId,
               cta_name: action?.payload?.activity?.value?.name,
@@ -226,6 +229,7 @@ const WebChatComponent = () => {
             action?.payload?.activity?.name !== "webchat/join" &&
             action?.payload?.activity?.value?.data?.dialogId
           ) {
+            console.log("inside AI - Ask Integrity Playback Received", action);
             fireEvent("AI - Ask Integrity Playback Received", {
               leadid: action?.payload?.activity?.value?.data?.leadId,
               message_card_id: action?.payload?.activity?.value?.data?.dialogId,
@@ -262,6 +266,7 @@ const WebChatComponent = () => {
                 activityValue.name === "mc_View_Transcript" ||
                 activityValue.name === "mc_View_Contact")
             ) {
+              console.log("inside text ", action)
               action.payload.activity.channelData.postBack = true;
             }
 
@@ -288,6 +293,12 @@ const WebChatComponent = () => {
             }
           }
         } else if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
+          if(action?.payload?.activity?.attachments?.[0]) {
+            fireEvent("AI - Ask Integrity Playback Received", {
+              leadid: action?.payload?.attachments?.[0]?.content?.actions?.[0]?.data?.leadId,
+              message_card_id: action?.payload?.attachments?.[0]?.content?.id,
+            });
+          }
           if (action.payload.activity.type === "event") {
             let activityValue = action.payload.activity.value;
             if (
