@@ -14,11 +14,11 @@ import { formatPhoneNumber } from "utils/phones";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
-
-const EMAIL_MOBILE_LABELS = [
-  { value: "email", label: "Email" },
-  { value: "mobile", label: "Mobile" },
-];
+import {
+  disableTextMessage,
+  getCommunicationOptions,
+} from "utilities/appConfig";
+import SMSNotification from "components/SMSNotification";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -253,23 +253,29 @@ const ComparePlanModal = ({
                       setSelectOption(event.currentTarget.value)
                     }
                   />
-                  <Radio
-                    id="textMessage"
-                    data-gtm="input-share-plans"
-                    htmlFor="textMessage"
-                    label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
-                    name="share-plan"
-                    value="textMessage"
-                    checked={selectOption === "textMessage"}
-                    onChange={(event) =>
-                      setSelectOption(event.currentTarget.value)
-                    }
-                  />
+                  {!disableTextMessage && (
+                    <Radio
+                      id="textMessage"
+                      data-gtm="input-share-plans"
+                      htmlFor="textMessage"
+                      label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
+                      name="share-plan"
+                      value="textMessage"
+                      checked={selectOption === "textMessage"}
+                      onChange={(event) =>
+                        setSelectOption(event.currentTarget.value)
+                      }
+                    />
+                  )}
                   <Radio
                     id="newEmailOrMobile"
                     data-gtm="input-share-plans"
                     htmlFor="newEmailOrMobile"
-                    label="New email or mobile number"
+                    label={
+                      disableTextMessage
+                        ? "New email"
+                        : "New email or mobile number"
+                    }
                     name="share-plan"
                     value="newEmailOrMObile"
                     checked={selectOption === "newEmailOrMObile"}
@@ -282,7 +288,7 @@ const ComparePlanModal = ({
                   <div className="new-email-or-mobile">
                     <Select
                       className="mr-2"
-                      options={EMAIL_MOBILE_LABELS}
+                      options={getCommunicationOptions()}
                       style={{ width: "140px" }}
                       initialValue={selectLabel}
                       providerModal={true}
@@ -341,6 +347,7 @@ const ComparePlanModal = ({
                     )}
                   </div>
                 )}
+                <SMSNotification />
                 <div className={"footer"}>
                   <Button
                     label="Share"

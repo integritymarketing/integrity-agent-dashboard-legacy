@@ -7,6 +7,7 @@ function Track({ onCheckChange }) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.heading}>48 Hour SOA Rule</div>
       <p className={styles.content}>
         Under CMS 2024 regulations, agents who contact beneficiaries through
         outbound lead activities must wait 48 hours between the beneficiary’s

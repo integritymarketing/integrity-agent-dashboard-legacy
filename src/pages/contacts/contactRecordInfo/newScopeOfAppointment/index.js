@@ -17,6 +17,11 @@ import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
 import Track from "./Track";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
+import SMSNotification from "components/SMSNotification";
+import {
+  disableTextMessage,
+  getCommunicationOptions,
+} from "utilities/appConfig";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -34,10 +39,6 @@ export const __formatPhoneNumber = (phoneNumberString) => {
   return originalInput;
 };
 
-const EMAIL_MOBILE_LABELS = [
-  { value: "email", label: "Email" },
-  { value: "mobile", label: "Mobile" },
-];
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -219,7 +220,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                         }
                       />
                     )}
-                    {leadPhone && (
+                    {leadPhone && !disableTextMessage && (
                       <Radio
                         id="textMessage"
                         htmlFor="textMessage"
@@ -244,7 +245,11 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                       className={`${
                         selectOption === "newEmailOrMObile" ? "highlight " : ""
                       } pb-10 radio-label`}
-                      label="New Email Or Mobile Number"
+                      label={
+                        disableTextMessage
+                          ? "New Email"
+                          : "New Email Or Mobile Number"
+                      }
                       name="new-soa"
                       value="newEmailOrMObile"
                       checked={selectOption === "newEmailOrMObile"}
@@ -255,7 +260,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                     <div className="new-email-or-mobile">
                       <Select
                         className="mr-2"
-                        options={EMAIL_MOBILE_LABELS}
+                        options={getCommunicationOptions()}
                         style={{ width: "140px" }}
                         initialValue={selectLabel}
                         providerModal={true}
@@ -309,6 +314,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                   )}
                 </section>
               </div>
+              <SMSNotification />
               <Track onCheckChange={setIsTracking} />
             </Card>
             <div
