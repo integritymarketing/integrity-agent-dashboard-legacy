@@ -119,10 +119,10 @@
 
         .datepicker-input {
           width: 95px;
-        }
-
-        .cal {
-          width: 100px;
+          padding-left: 26px;
+          &+svg {
+            display: none;
+          }
         }
       }
     }

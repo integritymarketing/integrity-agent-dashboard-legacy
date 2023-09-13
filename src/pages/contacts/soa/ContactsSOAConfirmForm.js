@@ -516,13 +516,13 @@ const ContactsSOAConfirmForm = () => {
                     <img
                       style={{
                         position: "absolute",
-                        top: "5px",
+                        top: "3px",
                         left: "5px",
                         zIndex: 2,
                       }}
                       src={ReminderIcon}
                       alt=""
-                      height="20"
+                      height="17"
                       className="mr-1"
                     />
                     <Datepicker
