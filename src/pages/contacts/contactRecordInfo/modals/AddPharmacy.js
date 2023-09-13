@@ -138,8 +138,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
     onClose();
   };
 
-  const zipCodeError =
-    zipCode?.length > 0 && zipCode?.length < 5 ? true : false;
+  const zipCodeError = zipCode?.length > 0 && zipCode?.length < 5;
 
   return (
     <div>
@@ -416,11 +415,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                             >
                               <Checkbox
                                 onClick={() => {
-                                  if (item === selectedPharmacy) {
-                                    setSelectedPharmacy(null);
-                                  } else {
-                                    setSelectedPharmacy(item);
-                                  }
+                                  setSelectedPharmacy(
+                                    item === selectedPharmacy ? null : item
+                                  );
                                 }}
                                 checked={selectedPharmacy === item}
                               />
@@ -747,7 +744,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
               </div>
 
               <div className="pr-search-result">
-                {totalCount ? <>{totalCount || 0} Pharmacies found</> : null}
+                {totalCount && <>{totalCount} Pharmacies found</>}
                 {renderEmptyContainer()}
               </div>
 
@@ -782,11 +779,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                             >
                               <Checkbox
                                 onClick={() => {
-                                  if (item === selectedPharmacy) {
-                                    setSelectedPharmacy(null);
-                                  } else {
-                                    setSelectedPharmacy(item);
-                                  }
+                                  setSelectedPharmacy(
+                                    item === selectedPharmacy ? null : item
+                                  );
                                 }}
                                 checked={selectedPharmacy === item}
                               />
