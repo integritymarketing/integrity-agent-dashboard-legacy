@@ -212,8 +212,8 @@ const WebChatComponent = () => {
             fireEvent("AI - Ask Integrity CTA Clicked", {
               leadid: action?.payload?.activity?.value?.leadId,
               cta_name: action?.payload?.activity?.value?.name,
-              intent_name: action?.payload?.activity?.value?.data?.dialogId,
-              message_card_id: action?.payload?.activity?.value?.data?.dialogId,
+              intent_name: action?.payload?.activity?.value?.dialogId,
+              message_card_id: action?.payload?.activity?.value?.dialogId,
             });
           }
           if (
