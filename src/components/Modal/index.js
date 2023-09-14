@@ -115,7 +115,7 @@ export default function Modal({
   endIcon,
   hideFooter = false,
   customFooter,
-  customHeight,
+  customModalHeight = "auto",
 }) {
   const classes = useStyles();
 
@@ -130,9 +130,10 @@ export default function Modal({
           borderRadius: 8,
         }}
         PaperProps={{
-          className: customHeight
-            ? classes.customHeight
-            : classes.paperScrollPaper,
+          style: {
+            height: customModalHeight,
+            overflowY: "visible",
+          },
         }}
       >
         <DialogTitle disableTypography className={classes.title}>
