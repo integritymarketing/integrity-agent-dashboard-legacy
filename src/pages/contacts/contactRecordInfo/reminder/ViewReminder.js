@@ -113,6 +113,7 @@ const ViewReminder = ({ reminder, leadId, getLeadDetails, isMobile }) => {
           <div className="reminderCardSection2row2left">
             {isEdit ? (
               <textarea
+                maxLength={256}
                 ref={inputRef}
                 value={updatedReminder}
                 placeholder="Please Enter Here.."

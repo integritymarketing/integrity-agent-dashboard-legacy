@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import Row from "./components/Row";
 import Footer from "./components/Footer";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
-import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCoverageModal/PrescriptionCoverageModal";
+import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCoverageModal";
 import IconButton from "components/IconButton";
 import EditIcon from "components/icons/icon-edit";
 import Plus from "components/icons/plus";

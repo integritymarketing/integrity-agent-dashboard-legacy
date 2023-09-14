@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    gap: 8px;
+    border-top:1px solid #ddd;
+    padding-top: 16px;
+    flex-direction: column;
+    position: relative;
+    color: #434A51;
+    font-size: 14px;
+    margin-top: 16px;
+}
+.checkboxContainer {
+    background-color: #F1FAFF;
+    width: fit-content;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-right: 10px;
+
+    span {
+        display: flex;
+    }
+}
+
+.uncheck {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #4178ff;
+    border-radius: 2px;
+    display: inline-block;
+}

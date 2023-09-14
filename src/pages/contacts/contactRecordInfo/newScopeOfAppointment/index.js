@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
-import NavBarWithBack from "partials/back-nav";
 import Container from "components/ui/container";
 import Card from "components/ui/card";
 import Radio from "components/ui/Radio";
@@ -16,6 +15,8 @@ import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
+import Track from "./Track";
+import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -40,16 +41,15 @@ const EMAIL_MOBILE_LABELS = [
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const NewScopeOfAppointment = () => {
-  const history = useHistory();
-  const { leadId } = useParams();
+const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const addToast = useToast();
   const { newSoaContactDetails, setNewSoaContactDetails } =
     useContext(ContactContext);
-  const { previousPage, setCurrentPage } = useContext(BackNavContext);
+  const { setCurrentPage } = useContext(BackNavContext);
   const agentUserProfile = useUserProfile();
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);
+  const [isTracking, setIsTracking] = useState(false);
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
@@ -120,6 +120,7 @@ const NewScopeOfAppointment = () => {
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
         agentNpn: npnNumber,
+        isTracking48HoursWaitingPeroid: isTracking,
       };
       if (selectOption === "email") {
         const data = {
@@ -152,7 +153,7 @@ const NewScopeOfAppointment = () => {
           await clientsService.sendSoaInformation(data, leadsId);
         }
       }
-      history.goBack();
+      onCloseModal();
       addToast({
         message: "Scope of Appointment sent",
       });
@@ -176,6 +177,16 @@ const NewScopeOfAppointment = () => {
     }
     return !selectOption;
   }, [selectOption, selectLabel, mobile, email]);
+
+  const getRadioElement = (key, value) => {
+    return (
+      <div>
+        <span style={{ color: "#052A63", fontWeight: "bold" }}>{key}: </span>{" "}
+        <span style={{ color: "#434A51" }}>{value}</span>
+      </div>
+    );
+  };
+
   return (
     <Media
       queries={{
@@ -184,43 +195,56 @@ const NewScopeOfAppointment = () => {
     >
       {(matches) => (
         <>
-          <NavBarWithBack title={`Back to ${previousPage}`} leadId={leadId} />
           <Container className="new-sop-page">
             <Card className="new-scope-card">
               <div>
-                <h3 className="scope-title">
-                  Send {firstName} {lastName} a new Scope of Appointment
-                </h3>
                 <section className="select-scope-wrapper">
-                  <div className="select-scope-heading pb-3">
+                  <div className="select-scope-heading pb-10">
                     Please select where you would like to send the SOA:
                   </div>
                   <div className="select-scope-radios">
-                    <Radio
-                      id="email"
-                      htmlFor="email"
-                      className="pb-3"
-                      label={`Email (${leadEmail})`}
-                      name="new-soa"
-                      value="email"
-                      checked={selectOption === "email"}
-                      onChange={(event) => setSelectOption(event.target.value)}
-                    />
-                    <Radio
-                      id="textMessage"
-                      htmlFor="textMessage"
-                      className="pb-3"
-                      label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
-                      name="new-soa"
-                      value="textMessage"
-                      checked={selectOption === "textMessage"}
-                      onChange={(event) => setSelectOption(event.target.value)}
-                    />
+                    {leadEmail && (
+                      <Radio
+                        id="email"
+                        htmlFor="email"
+                        className={`${
+                          selectOption === "email" ? "highlight " : ""
+                        } pb-10 radio-label`}
+                        label={getRadioElement("Email", leadEmail)}
+                        name="new-soa"
+                        value="email"
+                        checked={selectOption === "email"}
+                        onChange={(event) =>
+                          setSelectOption(event.target.value)
+                        }
+                      />
+                    )}
+                    {leadPhone && (
+                      <Radio
+                        id="textMessage"
+                        htmlFor="textMessage"
+                        className={`${
+                          selectOption === "textMessage" ? "highlight " : ""
+                        } pb-10 radio-label`}
+                        label={getRadioElement(
+                          "Text Message",
+                          __formatPhoneNumber(leadPhone)
+                        )}
+                        name="new-soa"
+                        value="textMessage"
+                        checked={selectOption === "textMessage"}
+                        onChange={(event) =>
+                          setSelectOption(event.target.value)
+                        }
+                      />
+                    )}
                     <Radio
                       id="newEmailOrMobile"
                       htmlFor="newEmailOrMobile"
-                      className="pb-3"
-                      label="New email or mobile number"
+                      className={`${
+                        selectOption === "newEmailOrMObile" ? "highlight " : ""
+                      } pb-10 radio-label`}
+                      label="New Email Or Mobile Number"
                       name="new-soa"
                       value="newEmailOrMObile"
                       checked={selectOption === "newEmailOrMObile"}
@@ -285,21 +309,35 @@ const NewScopeOfAppointment = () => {
                   )}
                 </section>
               </div>
-              <div className="send-button">
-                <Button
-                  disabled={idFormNotValid}
-                  fullWidth={matches.mobile}
-                  label="Send"
-                  onClick={handleSend}
-                  data-gtm="button-send"
-                />
-              </div>
+              <Track onCheckChange={setIsTracking} />
             </Card>
+            <div
+              className="send-button"
+              style={{ pointerEvents: idFormNotValid ? "none" : "initial" }}
+            >
+              <Button
+                fullWidth={matches.mobile}
+                label="Send SOA"
+                icon={
+                  <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
+                    <ArrowForwardWithCircle />
+                  </span>
+                }
+                iconPosition="right"
+                onClick={!idFormNotValid && handleSend}
+                data-gtm="button-send"
+              />
+            </div>
           </Container>
         </>
       )}
     </Media>
   );
+};
+
+NewScopeOfAppointment.propTypes = {
+  leadId: PropTypes.string.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
 };
 
 export default NewScopeOfAppointment;

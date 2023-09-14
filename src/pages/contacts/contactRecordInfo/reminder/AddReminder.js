@@ -49,6 +49,7 @@ const AddReminder = ({
       <div>
         <div className="reminderCardSection2row2left">
           <textarea
+            maxLength={256}
             value={reminderNote}
             placeholder="Please Enter Here.."
             className="normalText"

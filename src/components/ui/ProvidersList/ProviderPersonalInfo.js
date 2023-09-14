@@ -5,6 +5,12 @@ import { formatPhoneNumber } from "utils/phones";
 import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles({
+  infoColumn: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    width: "40%",
+  },
   specialty: {
     color: "#717171",
     fontSize: "14px",
@@ -24,7 +30,7 @@ const ProviderPersonalInfo = ({ specialty, title, phone, name }) => {
 
   return (
     <>
-      <Box>
+      <Box className={classes.infoColumn}>
         <Typography variant="body1" className={classes.specialty}>
           {specialty} {title ? `/ ${title}` : ""}
         </Typography>

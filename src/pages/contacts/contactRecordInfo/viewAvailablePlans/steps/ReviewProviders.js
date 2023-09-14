@@ -1,11 +1,12 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import useFetch from "hooks/useFetch";
+import useAnalytics from "hooks/useAnalytics";
 import { toTitleCase } from "utils/toTitleCase";
 import { addProviderModalAtom } from "recoil/providerInsights/atom.js";
 import ProviderModal from "components/SharedModals/ProviderModal";
+import useLeadInformation from "hooks/useLeadInformation";
 import ArrowDown from "../icons/arrow-down.png";
 import ButtonCircle from "../icons/button-circle.png";
 import styles from "./ReviewProviders.module.scss";
@@ -15,16 +16,35 @@ const ReviewProviders = ({
   providers,
   leadsId,
   personalInfo,
-  refreshAvailablePlans,
   rXToSpecialists,
+  setShowViewAvailablePlans,
+  prescriptions,
+  refreshContactInfo,
+  isAddProviderModalOpen = false,
 }) => {
+  const { addProvider } = useLeadInformation(leadsId);
   const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
   const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
-  const { Post: postAddProvider } = useFetch(
-    `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadsId}/Provider`
-  );
+  const { fireEvent } = useAnalytics();
+
+  useEffect(() => {
+    if (!isAddProviderModalOpen) {
+      fireEvent("AI - Provider Review Displayed", {
+        leadid: leadsId,
+        flow: "Rx to Specialist",
+        provider_count: providers?.length,
+        prescription_count: prescriptions?.length,
+      });
+    }
+  }, [
+    fireEvent,
+    isAddProviderModalOpen,
+    leadsId,
+    prescriptions,
+    providers?.length,
+  ]);
 
   const toggleProviderCollapse = useCallback(() => {
     setProvidersCollapsed((prevState) => !prevState);
@@ -36,12 +56,8 @@ const ReviewProviders = ({
 
   const openAddProviderModal = useCallback(() => {
     setModalOpen(true);
-  }, [setModalOpen]);
-
-  const handleSaveProvider = async (payload) => {
-    await postAddProvider(payload);
-    await refreshAvailablePlans?.();
-  };
+    setShowViewAvailablePlans(false);
+  }, [setModalOpen, setShowViewAvailablePlans]);
 
   return (
     <div className={styles.reviewProviders}>
@@ -130,9 +146,10 @@ const ReviewProviders = ({
           onClose={() => {
             setModalOpen(false);
           }}
-          onSave={handleSaveProvider}
+          onSave={addProvider}
           userZipCode={userZipCode}
           leadId={leadsId}
+          refresh={refreshContactInfo}
         />
       )}
     </div>
@@ -155,7 +172,6 @@ ReviewProviders.propTypes = {
       })
     ),
   }),
-  refreshAvailablePlans: PropTypes.func,
   rXToSpecialists: PropTypes.shape({
     rXToSpecialistsResults: PropTypes.arrayOf(
       PropTypes.shape({

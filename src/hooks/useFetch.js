@@ -21,7 +21,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
    */
 
   const fetchData = useCallback(
-    async ({ method = "GET", body, returnHttpResponse = false }) => {
+    async ({ method = "GET", body, returnHttpResponse = false, id }) => {
       try {
         const options = { method };
         if (!isPublic) {
@@ -30,6 +30,9 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
             options.headers = { Authorization: `Bearer ${user?.access_token}` };
           }
         }
+
+        const fullUrl = id ? `${url}/${id}` : url;
+
         if (body) {
           options.headers = {
             ...options.headers,
@@ -37,7 +40,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
           };
           options.body = JSON.stringify(body);
         }
-        const response = await fetch(url, options);
+        const response = await fetch(fullUrl, options);
 
         if (returnHttpResponse) {
           return response;
@@ -59,21 +62,33 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
     [url, isPublic, noResponse]
   );
 
-  const Get = useCallback((body, returnHttpResponse) => {
-    return fetchData({ method: "GET", body, returnHttpResponse });
-  }, [fetchData]);
+  const Get = useCallback(
+    (body, returnHttpResponse) => {
+      return fetchData({ method: "GET", body, returnHttpResponse });
+    },
+    [fetchData]
+  );
 
-  const Post = useCallback((body, returnHttpResponse) => {
-    return fetchData({ method: "POST", body, returnHttpResponse });
-  }, [fetchData]);
+  const Post = useCallback(
+    (body, returnHttpResponse) => {
+      return fetchData({ method: "POST", body, returnHttpResponse });
+    },
+    [fetchData]
+  );
 
-  const Put = useCallback((body, returnHttpResponse) => {
-    return fetchData({ method: "PUT", body, returnHttpResponse });
-  }, [fetchData]);
+  const Put = useCallback(
+    (body, returnHttpResponse) => {
+      return fetchData({ method: "PUT", body, returnHttpResponse });
+    },
+    [fetchData]
+  );
 
-  const Delete = useCallback((body, returnHttpResponse) => {
-    return fetchData({ method: "DELETE", body, returnHttpResponse });
-  }, [fetchData]);
+  const Delete = useCallback(
+    (body, returnHttpResponse, id) => {
+      return fetchData({ method: "DELETE", body, returnHttpResponse, id });
+    },
+    [fetchData]
+  );
 
   return { data, loading, error, Put, Post, Delete, Get };
 };

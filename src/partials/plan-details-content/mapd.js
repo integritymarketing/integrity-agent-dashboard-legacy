@@ -199,6 +199,7 @@ const MapdDetailsContent = ({
               isMobile={isMobile}
               refresh={refresh}
               providers={plan?.providers}
+              planName={plan?.planName}
             />
           )}
         </div>

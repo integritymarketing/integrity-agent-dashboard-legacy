@@ -10,8 +10,11 @@ import PropTypes from "prop-types";
 
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
+import useFetch from "hooks/useFetch";
+import { QUOTES_API_VERSION } from "services/clientsService";
 
 const LeadInformationContext = createContext();
+const toastTimer = 10000;
 
 const performAsyncOperation = async (
   operation,
@@ -25,7 +28,7 @@ const performAsyncOperation = async (
     onSuccess(data);
   } catch (err) {
     Sentry.captureException(err);
-    onError(err);
+    onError && onError(err);
     console.error("Failed to delete the provider", err);
   } finally {
     setLoading(false);
@@ -37,6 +40,28 @@ export const useLeadInformation = () => {
 };
 
 export const LeadInformationProvider = ({ children, leadId }) => {
+  const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}`;
+
+  const {
+    Get: fetchLeadPharmacies,
+    Post: saveLeadPharmacies,
+    Delete: deleteLeadPharmacies,
+  } = useFetch(`${URL}/Pharmacies`);
+
+  const {
+    Get: fetchLeadPrescriptions,
+    Post: updateLeadPrescription,
+    Delete: deleteLeadPrescription,
+  } = useFetch(`${URL}/Prescriptions`);
+
+  const { Get: fetchLeadProviders } = useFetch(
+    `${URL}/Provider/ProviderSearchLookup`
+  );
+
+  const { Post: saveLeadProviders, Delete: deleteLeadProviders } = useFetch(
+    `${URL}/Provider`
+  );
+
   const [pharmacies, setPharmacies] = useState([]);
   const [pharmacyLoading, setPharmacyLoading] = useState(false);
 
@@ -48,22 +73,29 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const addToast = useToast();
 
-  const fetchPrescriptions = useCallback(() => {
-    const operation = () => clientsService.getLeadPrescriptions(leadId);
-    performAsyncOperation(operation, setPrescriptionLoading, setPrescriptions);
-  }, [leadId]);
-
-  const fetchPharmacies = useCallback(() => {
-    const operation = () => clientsService.getLeadPharmacies(leadId);
-    performAsyncOperation(operation, setPharmacyLoading, setPharmacies);
-  }, [leadId]);
-
-  const fetchProviders = useCallback(() => {
-    const operation = () => clientsService.getLeadProviders(leadId);
-    performAsyncOperation(operation, setProviderLoading, (data) =>
-      setProviders(data?.providers || [])
+  const fetchPrescriptions = useCallback(async () => {
+    await performAsyncOperation(
+      fetchLeadPrescriptions,
+      setPrescriptionLoading,
+      (data) => setPrescriptions(data || [])
     );
-  }, [leadId]);
+  }, [fetchLeadPrescriptions]);
+
+  const fetchPharmacies = useCallback(async () => {
+    await performAsyncOperation(
+      fetchLeadPharmacies,
+      setPharmacyLoading,
+      (data) => setPharmacies(data || [])
+    );
+  }, [fetchLeadPharmacies]);
+
+  const fetchProviders = useCallback(async () => {
+    await performAsyncOperation(
+      fetchLeadProviders,
+      setProviderLoading,
+      (data) => setProviders(data?.providers || [])
+    );
+  }, [fetchLeadProviders]);
 
   useEffect(() => {
     fetchPrescriptions();
@@ -88,7 +120,10 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         addToast({ message: "Prescription Added" });
       },
       (err) =>
-        addToast({ type: "error", message: "Failed to add prescription" })
+        addToast({
+          type: "error",
+          message: "Failed to add prescription",
+        })
     );
   };
 
@@ -100,7 +135,8 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     };
 
     await performAsyncOperation(
-      () => clientsService.updatePrescription(leadId, updatedData),
+      () =>
+        updateLeadPrescription(updatedData, false, updatedData.dosageRecordID),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -108,7 +144,10 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         addToast({ message: "Prescription Updated" });
       },
       (err) => {
-        addToast({ type: "error", message: "Failed to update prescription" });
+        addToast({
+          type: "error",
+          message: "Failed to update prescription",
+        });
         console.error("Failed to delete the provider", err);
       }
     );
@@ -117,7 +156,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const deletePrescription = async (prescriptionData, refresh) => {
     const dosageRecordID = prescriptionData?.dosage?.dosageRecordID;
     await performAsyncOperation(
-      () => clientsService.deletePrescription(leadId, dosageRecordID),
+      () => deleteLeadPrescription(null, false, dosageRecordID),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -125,20 +164,23 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         addToast({
           type: "success",
           message: "Prescription deleted",
-          time: 10000,
+          time: toastTimer,
           link: "UNDO",
           onClickHandler: () => addPrescription(prescriptionData, refresh),
           closeToastRequired: true,
         });
       },
       (err) =>
-        addToast({ type: "error", message: "Failed to delete prescription" })
+        addToast({
+          type: "error",
+          message: "Failed to delete prescription",
+        })
     );
   };
 
   const addPharmacy = async (pharmacy) => {
     await performAsyncOperation(
-      () => clientsService.createPharmacy(leadId, pharmacy),
+      () => saveLeadPharmacies(pharmacy),
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
@@ -151,13 +193,13 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const deletePharmacy = async (pharmacy) => {
     const pharmacyId = pharmacy?.pharmacyRecordID;
     await performAsyncOperation(
-      () => clientsService.deletePharmacy(leadId, pharmacyId),
+      () => deleteLeadPharmacies(null, false, pharmacyId),
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
         addToast({
           message: "Pharmacy Deleted",
-          time: 10000,
+          time: toastTimer,
           link: "UNDO",
           onClickHandler: () => addPharmacy(pharmacy),
           closeToastRequired: true,
@@ -169,7 +211,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const addProvider = async (request, providerName, refresh) => {
     await performAsyncOperation(
-      () => clientsService.createLeadProvider(leadId, request),
+      () => saveLeadProviders(request),
       setProviderLoading,
       async () => {
         await fetchProviders();
@@ -182,14 +224,15 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const deleteProvider = async (payload, providerName, refresh, isDelete) => {
     await performAsyncOperation(
-      () => clientsService.deleteProvider(payload, leadId),
+      () => deleteLeadProviders(payload),
       setProviderLoading,
       async () => {
         await fetchProviders();
         refresh && (await refresh());
         addToast({
-          message: "Provider Deleted",
+          message: `Provider ${isDelete ? "deleted" : "updated"}`,
           link: "UNDO",
+          time: toastTimer,
           onClickHandler: () => addProvider(payload, providerName, refresh),
           closeToastRequired: true,
         });

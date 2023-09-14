@@ -5,20 +5,22 @@ import { useState, useEffect } from "react";
  *
  * @param {any} defaultValue - The default value for the preference
  * @param {string} key - The key under which the preference is stored in sessionStorage
- * @returns {Array} An array containing two items: the current value of the preference, and a function to set that value
+ * @returns {Array} - An array containing the value and a function to update it
  */
 function usePreferences(defaultValue, key) {
   // initialize the state from sessionStorage or use the default value
   const [value, setValue] = useState(() => {
     const storedValue = window.sessionStorage.getItem(key);
-    if (storedValue) {
+    // If the stored value is not null, parse it as JSON and return it
+    if (storedValue !== null) {
       return JSON.parse(storedValue);
     }
+    // Otherwise, store the default value in sessionStorage and return it
     window.sessionStorage.setItem(key, JSON.stringify(defaultValue));
     return defaultValue;
   });
 
-  // When the value changes, update sessionStorage
+  // When the value changes, update sessionStorage with the new value
   useEffect(() => {
     window.sessionStorage.setItem(key, JSON.stringify(value));
   }, [key, value]);

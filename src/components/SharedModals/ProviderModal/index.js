@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 // Custom Hooks
 import { useLeadInformation } from "hooks/useLeadInformation";
 
+import { useParams } from "react-router-dom";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
 import Typography from "@mui/material/Typography";
@@ -12,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import makeStyles from "@mui/styles/makeStyles";
 import ErrorState from "../SharedComponents/ErrorState";
 import Modal from "components/Modal";
+import useAnalytics from "hooks/useAnalytics";
 import clientsService from "services/clientsService";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
@@ -73,22 +75,21 @@ const ProviderModal = ({
 
   // Initializations
   const classes = useStyles();
+  const { fireEvent } = useAnalytics();
+  const { contactId } = useParams();
 
   const [zipCode, setZipCode] = useState(userZipCode);
   const [searchString, setSearchString] = useState("");
   const [radius, setRadius] = useState(10);
-
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState();
-
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectAddressIds, setSelectAddressIds] = useState([]);
-
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
-  const providerList = isEdit ? [{ ...selected }] : results?.providers;
+  const providerList = results?.providers;
   const totalPages = results ? Math.ceil(total / perPage) : 0;
 
   // useEffects
@@ -153,6 +154,11 @@ const ProviderModal = ({
       selectedProvider?.presentationName,
       refresh
     );
+
+    fireEvent("AI - Provider added", {
+      leadid: contactId,
+      npi: "requestPayload[0].npi",
+    });
   };
 
   const handleEditProvider = async () => {
@@ -177,7 +183,12 @@ const ProviderModal = ({
       };
     });
     onClose();
-    deleteProvider(requestPayload, selectedProvider?.presentationName, refresh);
+    deleteProvider(
+      requestPayload,
+      selectedProvider?.presentationName,
+      refresh,
+      false
+    );
   };
 
   const handleDeleteProvider = () => {
@@ -185,6 +196,7 @@ const ProviderModal = ({
       return {
         npi: selectedProvider?.NPI?.toString(),
         isPrimary: false,
+        addressId: address?.id,
       };
     });
     onClose();

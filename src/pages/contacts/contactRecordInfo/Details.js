@@ -133,6 +133,12 @@ const DetailsComponent = forwardRef((props, ref) => {
     }
   };
 
+  const handleEditProvider = (provider) => {
+    setIsOpen(true);
+    setProviderEditFlag(true);
+    setProviderToEdit(provider);
+  };
+
   return (
     <>
       <Media
@@ -199,9 +205,7 @@ const DetailsComponent = forwardRef((props, ref) => {
                 <div key={item?.NPI} className="provider-container">
                   <RenderProviders
                     provider={item}
-                    setIsOpen={setIsOpen}
-                    setProviderEditFlag={setProviderEditFlag}
-                    setProviderToEdit={setProviderToEdit}
+                    handleEditProvider={handleEditProvider}
                   />
                 </div>
               );

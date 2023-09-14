@@ -111,8 +111,7 @@ const MaDetailsContent = ({
               isMobile={isMobile}
               providers={plan.providers}
               refresh={refresh}
-              // addProvider={addProvider}
-              // deleteProvider={deleteProvider}
+              planName={plan?.planName}
             />
           )}
         </div>

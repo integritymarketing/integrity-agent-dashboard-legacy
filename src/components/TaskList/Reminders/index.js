@@ -172,7 +172,13 @@ const RemindersList = ({ taskList, refreshData }) => {
     <>
       <div className="reminder-card-container">
         {taskList?.map((data, i) => {
-          return <RemindersCard callData={data} refreshData={refreshData} />;
+          return (
+            <RemindersCard
+              key={`reminder-card-${i}`}
+              callData={data}
+              refreshData={refreshData}
+            />
+          );
         })}
       </div>
     </>

@@ -55,6 +55,7 @@ import {
 } from "recoil/providerInsights/atom.js";
 import useFetch from "hooks/useFetch";
 import WebChatComponent from "components/WebChat/WebChat";
+import ReviewProviders from "./viewAvailablePlans/steps/ReviewProviders";
 
 const ContactRecordInfoDetails = () => {
   const { contactId: id, sectionId } = useParams();
@@ -92,7 +93,7 @@ const ContactRecordInfoDetails = () => {
   const { Post: postSpecialists } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
   );
-
+    
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -370,7 +371,6 @@ const ContactRecordInfoDetails = () => {
         providers?.length > 0 &&
         !shouldHideSpecialistPrompt &&
         data?.shouldShow;
-
       if (shouldShowSpecialistPrompt) {
         setPrescriptions(prescriptions);
         setProviders(providers);
@@ -383,6 +383,10 @@ const ContactRecordInfoDetails = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleRefreshContactInfo = async () => {
+    await getLeadDetails();
   };
 
   const handleViewPlans = () => {
@@ -444,6 +448,7 @@ const ContactRecordInfoDetails = () => {
                   personalInfo={personalInfo}
                   refreshAvailablePlans={handleViewAvailablePlans}
                   rXToSpecialists={rXToSpecialists}
+                  setShowViewAvailablePlans={setShowViewAvailablePlans}
                 />
               </>
             )}
@@ -588,6 +593,20 @@ const ContactRecordInfoDetails = () => {
       />
       {process.env.REACT_APP_ASK_INTEGRITY_FLAG && !shouldShowAskIntegrity && (
         <WebChatComponent />
+      )}
+      {!isLoading && !loading && isAddProviderModalOpen && (
+        <ReviewProviders
+          providers={providers}
+          prescriptions={prescriptions}
+          fullName={fullName}
+          birthdate={birthdate}
+          leadsId={leadsId}
+          personalInfo={personalInfo}
+          rXToSpecialists={rXToSpecialists}
+          setShowViewAvailablePlans={setShowViewAvailablePlans}
+          refreshContactInfo={handleRefreshContactInfo}
+          isAddProviderModalOpen={isAddProviderModalOpen}
+        />
       )}
     </React.Fragment>
   );

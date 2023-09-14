@@ -2,9 +2,10 @@
 
 #webchat {
   div {
-    font-size: 1rem !important;
+    font-size: 1rem;
     font-weight: normal !important;
     font-family: "Lato", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
   }
 
   .webchat__basic-transcript__activity-indicator {
@@ -154,7 +155,9 @@
     }
   }
 
-  #mcContactSummaryButtonsCard {
+  #mcContactSummaryButtonsCard,
+  #mcWelcomeCard,
+  #mcContactListCard {
     padding: 0 !important;
   }
 
@@ -201,7 +204,7 @@
           border-radius: 50px;
         }
 
-        &:first-child {
+        &:last-child {
           background-color: #4178ff;
           border-radius: 50px;
           flex-direction: row-reverse;
@@ -217,7 +220,7 @@
 
   .ac-actionSet {
     display: flex !important;
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     justify-content: center !important;
     align-items: stretch;
     gap: 0.5rem;
@@ -228,6 +231,10 @@
     pointer-events: none;
   }
 
+  strong {
+    letter-spacing: 1px;
+  }
+
   #mcContactListCard .ac-columnSet .ac-container {
     gap: 4px;
 
@@ -235,5 +242,10 @@
       font-size: 20px !important;
       letter-spacing: 0.2px;
     }
+  }
+
+  .webchat__bubble__content>p {
+    font-size: 1rem;
+    font-family: "Lato", sans-serif !important;
   }
 }
