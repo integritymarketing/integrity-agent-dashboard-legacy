@@ -7,8 +7,7 @@ import * as Sentry from "@sentry/react";
 import SOA_CARD from "./soaCard";
 import { Button } from "components/ui/Button";
 import ArrowDownIcon from "components/icons/arrow-down";
-import Modal from "components/Modal";
-import NewScopeOfAppointment from "../newScopeOfAppointment";
+import SOAModal from "./SOAModal";
 
 const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
   const MINIMUM_SHOW_SIZE = 3;
@@ -42,22 +41,11 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
 
   return (
     <div data-gtm="section-scope-of-appointment" className="contactdetailscard">
-      <Modal
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false);
-        }}
-        hideFooter
-        contentStyle={{ padding: "0" }}
-        title={"Send Scope Of Appointment"}
-      >
-        <NewScopeOfAppointment
-          leadId={id}
-          onCloseModal={() => {
-            setOpenModal(false);
-          }}
-        />
-      </Modal>
+      <SOAModal
+        id={id}
+        openSOAModal={openModal}
+        setOpenSOAModal={setOpenModal}
+      />
 
       {isMobile ? (
         <div className="soa-mobile-header">
@@ -117,7 +105,6 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
           className="scope-of-app-row-show-more"
           onClick={(e) => {
             e.stopPropagation();
-            console.log("showmore");
             setShowMore(!showMore);
           }}
         >
@@ -131,7 +118,6 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
               <button
                 className="show--more--btn"
                 onClick={() => {
-                  console.log("called");
                   if (!showMore) {
                     setShowSize(soaList?.length);
                   } else {
