@@ -62,7 +62,8 @@ export const Select = ({
   error,
   containerHeight = 0,
   page = "",
-  selectClassName="",
+  selectClassName = "",
+  onIsOpenChange,
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -118,8 +119,13 @@ export const Select = ({
 
   const toggleOptionsMenu = (ev) => {
     ev && ev.preventDefault();
-    setIsOpen((isOpen) => !isOpen && !disabled);
+    setIsOpen((prevIsOpen) => {
+      const newIsOpen = !prevIsOpen && !disabled;
+      onIsOpenChange && onIsOpenChange(newIsOpen);
+      return newIsOpen;
+    });
     if (isOpen) {
+      onIsOpenChange && onIsOpenChange(false);
       onBlur && onBlur();
     }
   };

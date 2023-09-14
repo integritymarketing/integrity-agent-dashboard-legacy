@@ -94,7 +94,11 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "0.32px",
   },
   paperScrollPaper: {
-    overflowY: "visible", // Remove the overflow-y: auto; by setting it to "visible"
+    overflowY: "visible",
+  },
+  customHeight: {
+    overflowY: "visible",
+    height: "70vh",
   },
 }));
 
@@ -111,6 +115,7 @@ export default function Modal({
   endIcon,
   hideFooter = false,
   customFooter,
+  customHeight,
 }) {
   const classes = useStyles();
 
@@ -125,7 +130,9 @@ export default function Modal({
           borderRadius: 8,
         }}
         PaperProps={{
-          className: classes.paperScrollPaper,
+          className: customHeight
+            ? classes.customHeight
+            : classes.paperScrollPaper,
         }}
       >
         <DialogTitle disableTypography className={classes.title}>
