@@ -744,7 +744,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
               </div>
 
               <div className="pr-search-result">
-                {totalCount && <>{totalCount} Pharmacies found</>}
+                {totalCount > 0 && `${totalCount} Pharmacies found`}
                 {renderEmptyContainer()}
               </div>
 
