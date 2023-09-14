@@ -31,6 +31,7 @@ const PrescriptionForm = ({
   packageOptions,
   dosagePackage,
   setDosagePackage,
+  setIsOptionsOpened,
 }) => {
   const classes = useStyles();
 
@@ -45,6 +46,7 @@ const PrescriptionForm = ({
             options={dosageOptions}
             placeholder="Dosage"
             onChange={setDosage}
+            onIsOpenChange={setIsOptionsOpened}
           />
         </Box>
       </Grid>
@@ -72,6 +74,7 @@ const PrescriptionForm = ({
             options={FREQUENCY_OPTIONS}
             placeholder="Frequency"
             onChange={setFrequency}
+            onIsOpenChange={setIsOptionsOpened}
           />
         </Box>
       </Grid>
@@ -87,6 +90,7 @@ const PrescriptionForm = ({
               options={packageOptions}
               placeholder="Packaging"
               onChange={setDosagePackage}
+              onIsOpenChange={setIsOptionsOpened}
             />
           </Box>
         </Grid>

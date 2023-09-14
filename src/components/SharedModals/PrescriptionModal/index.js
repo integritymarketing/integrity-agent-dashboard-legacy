@@ -71,6 +71,7 @@ const PrescriptionModal = ({
   const [isSaving, setIsSaving] = useState(false);
   const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
   const [initialValues, setInitialValues] = useState({});
+  const [isOptionsOpened, setIsOptionsOpened] = useState(false);
 
   useEffect(() => {
     const getDosages = async () => {
@@ -267,12 +268,6 @@ const PrescriptionModal = ({
       initialValues.dosage !== dosage
     );
   };
-  console.log(
-    "disabled",
-    initialValues.dosage,
-
-    dosage
-  );
 
   const validUpdate = isUpdated();
 
@@ -326,6 +321,7 @@ const PrescriptionModal = ({
           />
         )
       }
+      customHeight={isOptionsOpened ? "70vh" : undefined}
     >
       {!selectedDrug && !isLoading ? (
         <>
@@ -414,6 +410,7 @@ const PrescriptionModal = ({
               dosagePackage,
               packageOptions,
             }}
+            setIsOptionsOpened={setIsOptionsOpened}
           />
         </>
       )}

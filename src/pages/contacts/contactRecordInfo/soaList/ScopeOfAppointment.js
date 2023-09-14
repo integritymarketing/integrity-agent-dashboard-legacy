@@ -1,12 +1,5 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
 import ContactContext from "contexts/contacts";
 import ShareIcon from "components/icons/share2";
 import clientsService from "services/clientsService";
@@ -22,7 +15,6 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
   const [openModal, setOpenModal] = useState(false);
   const [soaList, setSoaList] = useState([]);
   const [showSize, setShowSize] = useState(MINIMUM_SHOW_SIZE);
-  const history = useHistory();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [showMore, setShowMore] = useState(false);
 
@@ -47,10 +39,6 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
   useEffect(() => {
     setNewSoaContactDetails(contact);
   }, [setNewSoaContactDetails, contact]);
-
-  const navigateToSOANew = useCallback(() => {
-    history.push(`/new-soa/${id}`);
-  }, [history, id]);
 
   return (
     <div data-gtm="section-scope-of-appointment" className="contactdetailscard">

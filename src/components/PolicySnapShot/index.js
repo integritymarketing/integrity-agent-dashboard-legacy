@@ -70,6 +70,21 @@ export default function PlanSnapShot({ isMobile, npn }) {
     fetchPolicySnapshotList(status);
   }, [fetchPolicySnapshotList, status]);
 
+  const jumptoListMobile = useCallback(
+    (index) => {
+      const status = tabs[index]?.policyStatus || "Declined";
+      const policyStatusColor = tabs[index]?.policyStatusColor || "";
+      const policyCount = tabs[index]?.policyCount || "";
+
+      const filterInfo = { status, policyStatusColor, policyCount };
+
+      window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
+      window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
+      history.push(`/contacts`);
+    },
+    [tabs, leadIds, history]
+  );
+
   const handleWidgetSelection = useCallback(
     async (newIndex, policyCount) => {
       setStatusIndex(newIndex);
@@ -83,7 +98,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         jumptoListMobile(newIndex);
       }
     },
-    [fetchPolicySnapshotList, leadIds, tabs, isMobile]
+    [fetchPolicySnapshotList, leadIds, tabs, isMobile, jumptoListMobile]
   );
 
   useEffect(() => {
@@ -107,27 +122,11 @@ export default function PlanSnapShot({ isMobile, npn }) {
     fetchCounts();
   }, [addToast, dateRange, npn]);
 
-  const jumptoListMobile = (index) => {
-    const status = tabs[index]?.policyStatus || "Declined";
-    const policyStatusColor = tabs[index]?.policyStatusColor || "";
-    const policyCount = tabs[index]?.policyCount || "";
-
-    const filterInfo = { status, policyStatusColor, policyCount };
-
-    window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
-    window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
-    goToContactPage();
-  };
-
   const jumptoList = (index) => {
     if (leadIds?.length > 0) {
       jumptoListMobile(index);
     }
     return true;
-  };
-
-  const goToContactPage = () => {
-    history.push(`/contacts`);
   };
 
   return (
