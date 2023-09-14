@@ -115,7 +115,7 @@ export default function Modal({
   endIcon,
   hideFooter = false,
   customFooter,
-  customModalHeight,
+  customModalHeight = "auto",
 }) {
   const classes = useStyles();
 
