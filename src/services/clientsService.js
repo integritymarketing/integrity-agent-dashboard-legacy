@@ -1181,6 +1181,9 @@ export class ClientsService {
         notes: contact.notes,
         emails: contact.emails,
         phones: contact.phones,
+        medicareBeneficiaryID: contact.medicareBeneficiaryID,
+        partA: contact.partA,
+        partB: contact.partB,
         addresses: [
           {
             leadAddressId: addresses[0]?.leadAddressId,
