@@ -141,8 +141,7 @@ const SharePlanModal = ({
     const roles = userProfile?.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
     const urlPathName = window?.location?.pathname;
-    const origin = window?.location?.origin;
-    const shareCurrentPlanSnapshotUrl = `${origin}/customer${urlPathName}`;
+    const shareCurrentPlanSnapshotUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
     let updatedRoles;
     if (typeof roles === "string") {
       updatedRoles = [roles];
