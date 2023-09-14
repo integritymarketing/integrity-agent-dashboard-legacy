@@ -149,10 +149,7 @@ const App = () => {
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/dashboard">
                                       <Dashboard />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
+                                      <WebChatComponent />
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/link-to-contact/:callLogId/:callFrom/:duration/:date">
                                       <LinkToContact />
@@ -174,10 +171,7 @@ const App = () => {
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/contacts">
                                       <ContactsPage />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
+                                      <WebChatComponent />
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/contact/add-new/:callLogId">
                                       <AddNewContactPage />
@@ -226,17 +220,11 @@ const App = () => {
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/plans/:contactId/compare/:planIds/:effectiveDate">
                                       <ComparePlansPage />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
+                                      <WebChatComponent />
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/plans/:contactId">
                                       <PlansPage />
-                                      {process.env
-                                        .REACT_APP_ASK_INTEGRITY_FLAG && (
-                                        <WebChatComponent />
-                                      )}
+                                      <WebChatComponent />
                                     </AuthenticatedRoute>
                                     <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
                                       <PlanDetailsPage />
