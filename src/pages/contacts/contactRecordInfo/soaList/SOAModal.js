@@ -3,7 +3,6 @@ import Modal from "components/Modal";
 import NewScopeOfAppointment from "../newScopeOfAppointment";
 
 function SOAModal({ id, openSOAModal, setOpenSOAModal }) {
-  console.log(id);
   return (
     <Modal
       open={openSOAModal}
