@@ -163,7 +163,7 @@
           }
           input {
             border: none;
-            height: 40px;
+            height: 36px;
             outline: none;
           }
         }
@@ -228,7 +228,7 @@
         }
         input {
           border: none;
-          height: 40px;
+          height: 36px;
           outline: none;
         }
       }
@@ -250,7 +250,7 @@
       .pr-search-input {
         width: 100%;
         padding: 10px;
-        height: 40px;
+        height: 36px;
         &:focus, &:active {
           outline: 2px solid #0052CE;
         }
@@ -332,6 +332,11 @@
     display: flex;
     justify-content: center;
     margin-top: 15px;
+  }
+  .result-container {
+    @media screen and (max-width: 768px) {
+      overflow-y: auto;
+    }
   }
   .provider-result-container {
     background: #ddd;

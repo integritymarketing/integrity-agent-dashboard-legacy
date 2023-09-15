@@ -241,7 +241,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                             className="pr-search-input"
                             value={pharmacyAddress}
                             disabled={zipCodeError}
-                            placeholder="Enter address"
                             onChange={(e) => {
                               setPharmacyAddress(e.currentTarget.value);
                               setCurrentPage(1);
@@ -331,7 +330,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                           type="text"
                           value={pharmacyAddress}
                           disabled={zipCodeError}
-                          placeholder="Enter Address"
                           onChange={(e) => {
                             setPharmacyAddress(e?.target?.value);
                             setCurrentPage(1);
@@ -393,7 +391,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       <Spinner />
                     </div>
                   ) : (
-                    <div>
+                    <div className="result-container">
                       <div className="provider-result-container">
                         {error && (
                           <div className="pr-search-box">
@@ -584,7 +582,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                           className="pr-search-input"
                           value={pharmacyAddress}
                           disabled={zipCodeError}
-                          placeholder="Enter address"
                           onChange={(e) => {
                             setPharmacyAddress(e.currentTarget.value);
                             setCurrentPage(1);
@@ -733,7 +730,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                       type="text"
                       value={pharmacyAddress}
                       disabled={zipCodeError}
-                      placeholder="Enter Address"
                       onChange={(e) => {
                         setPharmacyAddress(e?.target?.value);
                         setCurrentPage(1);
@@ -753,7 +749,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
                   <Spinner />
                 </div>
               ) : (
-                <div>
+                <div className="result-container">
                   <div className="provider-result-container">
                     {error && (
                       <div className="pr-search-box">
