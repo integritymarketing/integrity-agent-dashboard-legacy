@@ -1,8 +1,13 @@
 import React, { useCallback } from "react";
-import { formatDate, convertToLocalDateTime } from "utils/dates.js";
+import {
+  formatDate,
+  convertToLocalDateTime,
+  getHoursDiffBetweenTwoDays,
+} from "utils/dates.js";
 import { useHistory } from "react-router-dom";
 import { Button } from "components/ui/Button";
 import OpenIcon from "components/icons/open";
+import styles from "./soaCard.module.scss";
 
 const SoaCard = ({
   linkCode,
@@ -11,6 +16,7 @@ const SoaCard = ({
   soaSummary,
   soa,
   soaDestination,
+  contactAfterDate,
   ...rest
 }) => {
   const getStatus = () => {
@@ -38,6 +44,16 @@ const SoaCard = ({
   }, [history, rest.id, linkCode]);
 
   const localDateTime = convertToLocalDateTime(statusDate);
+
+  const getDateTime = (dateString) => {
+    const localDateTime = convertToLocalDateTime(dateString);
+    const date = formatDate(localDateTime, "MM/dd/yyyy");
+    const time = formatDate(localDateTime, "h:mm a").toLowerCase();
+    return { date, time };
+  };
+
+  const isWithinTwoDays = (contactAfterDate) =>
+    getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 48;
 
   return (
     <>
@@ -83,6 +99,18 @@ const SoaCard = ({
                     <li className="li-item">{item}</li>
                   ))}
               </ul>
+              <div className={styles.contact}>
+                <div className={styles.title4}>Contact After</div>
+                <div className={styles.dateContainer}>
+                  <div className={styles.dateItem}>
+                    {getDateTime(contactAfterDate)?.date}
+                  </div>
+                  <div className={styles.title1}>at</div>
+                  <div className={styles.dateItem}>
+                    {getDateTime(contactAfterDate)?.time}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -94,6 +122,9 @@ const SoaCard = ({
                 type="primary"
                 icon={<OpenIcon />}
                 iconPosition="right"
+                className={`${
+                  isWithinTwoDays(contactAfterDate) ? styles.disabled : ""
+                }`}
               />
             </div>
           )}

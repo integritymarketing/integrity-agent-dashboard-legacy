@@ -24,7 +24,7 @@ const DEFAULT_TABS = [
     policyStatus: "SOA 48-hour Rule",
     policyStatusColor: "#4178FF",
     name: "soa48HoursRule",
-    value: 4,
+    value: 0,
   },
   {
     policyStatus: "Reminders",
@@ -147,10 +147,16 @@ export default function TaskList({ isMobile, npn }) {
   };
 
   useEffect(() => {
-    if (statusIndex === 1) {
+    if (statusIndex === 0) {
+      let sortedList = fullList.sort(
+        (a, b) => new Date(b.signedDate) - new Date(a.signedDate)
+      );
+      const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
+      setTaskList([...list]);
+    } else if (statusIndex === 1) {
       let sortedList = fullList?.sort((a, b) =>
-        moment(b.taskDate, "MM/DD/YYYY HH:mm:ss").diff(
-          moment(a.taskDate, "MM/DD/YYYY HH:mm:ss")
+        moment(b.taskList, "MM/DD/YYYY HH:mm:ss").diff(
+          moment(a.taskList, "MM/DD/YYYY HH:mm:ss")
         )
       );
       const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
@@ -200,7 +206,7 @@ export default function TaskList({ isMobile, npn }) {
         return (
           <Soa48HoursRule
             isMobile={isMobile}
-            taskList={[...(taskList || [])].reverse()}
+            taskList={taskList || []}
             refreshData={refreshData}
           />
         );
