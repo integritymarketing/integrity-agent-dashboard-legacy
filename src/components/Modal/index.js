@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "inset 0px -1px 0px #CCCCCC",
     color: "#052A63",
     fontFamily: "Lato",
-    fontSize: "32px",
+    fontSize: "32px !important",
     letterSpacing: "0.32px",
   },
   paperScrollPaper: {

@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   modalContent: {
     backgroundColor: "#FFFFFF",
     borderRadius: "8px",
-    padding: "16px",
+    padding: "24px",
     marginTop: "24px",
   },
 }));
