@@ -34,7 +34,8 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
   const getName = (item) => {
     if (!item) return "";
     const { firstName = "", middleName = "", lastName = "" } = item;
-    return `${firstName} ${middleName} ${lastName}`;
+    const formattedName = [firstName, middleName, lastName].filter(Boolean);
+    return formattedName.join(" ");
   };
 
   const navigateToContacts = (item) => {
