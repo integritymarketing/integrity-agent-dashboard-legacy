@@ -119,7 +119,7 @@ const ComparePlanModal = ({
     const stateCode = addresses[0]?.stateCode;
     const countyFIPS = addresses[0]?.countyFips;
     const urlPathName = window.location.pathname;
-    const planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}/agentPurl/${agentPurl}`;
+    const planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}?purl=${agentPurl}`;
     let updatedRoles;
     if (typeof roles === "string") {
       updatedRoles = [roles];
