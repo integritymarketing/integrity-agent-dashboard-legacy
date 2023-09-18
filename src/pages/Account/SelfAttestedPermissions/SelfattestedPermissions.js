@@ -5,6 +5,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import { SAPermissionsHeader } from "./SAPermissionsHeader";
 import { SAPermissionsTable } from "./SAPermissionsTable";
 import { SAPermissionModal } from "./SAPermissionModal";
+import { SAAddPermissionRow } from "./SAAddPermissionRow";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -15,12 +16,13 @@ const useStyles = makeStyles(() => ({
 
 function SelfAttestedPermissions() {
   const styles = useStyles();
+  const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddNew = useCallback(() => {
-    console.log("Add new");
-  }, []);
+    setIsAdding(true);
+  }, [setIsAdding]);
 
   return (
     <>
@@ -30,8 +32,14 @@ function SelfAttestedPermissions() {
           setIsModalOpen={setIsModalOpen}
           setIsCollapsed={setIsCollapsed}
           isCollapsed={isCollapsed}
+          isAdding={isAdding}
         />
-        {!isCollapsed && <SAPermissionsTable />}
+        {!isCollapsed && (
+          <>
+            <SAPermissionsTable />
+            <SAAddPermissionRow isAdding={isAdding} handleAddNew={handleAddNew} />
+          </>
+        )}
       </Container>
       <SAPermissionModal
         isModalOpen={isModalOpen}

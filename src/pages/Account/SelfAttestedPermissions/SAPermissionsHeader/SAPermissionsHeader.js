@@ -15,6 +15,11 @@ const useStyles = makeStyles(() => ({
     color: "#4178FF",
     cursor: "pointer",
   },
+  inactiveLink: {
+    cursor: "not-allowed",
+    pointerEvents: "none",
+    color: "#B3C9FF",
+  },
   icon: {
     padding: "10px",
     cursor: "pointer",
@@ -26,6 +31,10 @@ const useStyles = makeStyles(() => ({
   iconReverse: {
     transform: "rotate(180deg)",
   },
+  count: {
+    color: "#717171",
+    fontSize: "24px",
+  },
 }));
 
 function SAPermissionsHeader({
@@ -33,6 +42,8 @@ function SAPermissionsHeader({
   setIsModalOpen,
   setIsCollapsed,
   isCollapsed,
+  numOfPermissions = 0,
+  isAdding,
 }) {
   const classess = useStyles();
 
@@ -46,6 +57,7 @@ function SAPermissionsHeader({
           <Arrow color="#4178FF" />
         </Box>
         <Heading2 className={styles.heading} text="Self-Attested Permissions" />
+        <Box className={classess.count}>({numOfPermissions})</Box>
         <Box className={classess.icon} onClick={setIsModalOpen}>
           <Info color="#4178FF" />
         </Box>
@@ -54,7 +66,7 @@ function SAPermissionsHeader({
         display="flex"
         alignItems="center"
         onClick={handleAddNew}
-        className={classess.link}
+        className={isAdding ? classess.inactiveLink : classess.link}
         gap={1}
       >
         <Box>Add New</Box>
@@ -69,6 +81,8 @@ SAPermissionsHeader.propTypes = {
   handleAddNew: PropTypes.func,
   setIsModalOpen: PropTypes.func,
   setIsCollapsed: PropTypes.func,
+  numOfPermissions: PropTypes.number,
+  isAdding: PropTypes.bool,
 };
 
 export default SAPermissionsHeader;

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-
 function SAPermissionsTable() {
     return (
-        <div> table </div>
+       <>
+         <div>Table</div>
+       </>
     )
 }
 
