@@ -52,7 +52,7 @@ const SharePlanModal = ({
 }) => {
   const addToast = useToast();
   const {
-    agentInformation: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber, agentPurl },
   } = useAgentInformationByID();
 
   const {
@@ -141,7 +141,7 @@ const SharePlanModal = ({
     const roles = userProfile?.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
     const urlPathName = window?.location?.pathname;
-    const shareCurrentPlanSnapshotUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
+    const shareCurrentPlanSnapshotUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}/agentPurl/${agentPurl}`;
     let updatedRoles;
     if (typeof roles === "string") {
       updatedRoles = [roles];
@@ -179,6 +179,7 @@ const SharePlanModal = ({
         EnrollmentId: enrollmentId,
         enrollData: enrollData,
         appSubmitDate: enrollData?.submittedDate,
+        agentPurl,
       };
       if (selectOption === "email") {
         const data = {

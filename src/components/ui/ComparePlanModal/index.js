@@ -52,7 +52,7 @@ const ComparePlanModal = ({
   const addToast = useToast();
   const userProfile = useUserProfile();
   const {
-    agentInformation: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber, agentPurl }
   } = useAgentInformationByID();
   const {
     firstName,
@@ -119,7 +119,7 @@ const ComparePlanModal = ({
     const stateCode = addresses[0]?.stateCode;
     const countyFIPS = addresses[0]?.countyFips;
     const urlPathName = window.location.pathname;
-    const planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
+    const planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}/agentPurl/${agentPurl}`;
     let updatedRoles;
     if (typeof roles === "string") {
       updatedRoles = [roles];
@@ -143,6 +143,7 @@ const ComparePlanModal = ({
         middleInitial: middleName === "" ? null : middleName,
         dateOfBirth: birthdate,
         roles: updatedRoles,
+        agentPurl,
       };
       if (selectOption === "email") {
         const data = {
