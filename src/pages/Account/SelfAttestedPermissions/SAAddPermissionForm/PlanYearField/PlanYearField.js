@@ -5,7 +5,7 @@ import { Select } from "components/ui/Select";
 
 import styles from "./styles.module.scss";
 
-function PlanYearField({ year, state, setYear }) {
+function PlanYearField({ year, state, setYear, options }) {
   const isInacctive = !state;
 
   return (
@@ -17,7 +17,7 @@ function PlanYearField({ year, state, setYear }) {
         <Select
           style={{ width: "100%" }}
           placeholder="select"
-          options={[{ label: 2023, value: 2023 }]}
+          options={options}
           initialValue={year}
           onChange={setYear}
           showValueAlways={false}

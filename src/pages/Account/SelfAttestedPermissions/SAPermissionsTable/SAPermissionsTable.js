@@ -1,10 +1,9 @@
 import { useMemo } from "react";
+import Box from "@mui/material/Box";
 
-import { Button } from "components/ui/Button";
-
-import Filters from "components/icons/filters";
 import { Table } from "./Table";
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
+import { TableFilter } from "./TableFilter";
 
 import styles from "./styles.module.scss";
 
@@ -22,7 +21,7 @@ function SAPermissionsTable({
         Header: "Carrier",
         accessor: "carrier",
         Cell: ({ value }) => {
-          return <div className={styles.carrierColumn}>{value}</div>;
+          return <Box className={styles.carrierColumn}>{value}</Box>;
         },
       },
       {
@@ -30,7 +29,7 @@ function SAPermissionsTable({
         accessor: "product",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <div className={styles.productColumn}>{value}</div>;
+          return <Box className={styles.productColumn}>{value}</Box>;
         },
       },
       {
@@ -38,14 +37,14 @@ function SAPermissionsTable({
         accessor: "state",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <div className={styles.productColumn}>{value}</div>;
+          return <Box className={styles.productColumn}>{value}</Box>;
         },
       },
       {
         Header: "Plan year",
         accessor: "planYear",
         Cell: ({ value }) => {
-          return <div className={styles.producerIdColumn}>{value}</div>;
+          return <Box>{value}</Box>;
         },
       },
       {
@@ -53,7 +52,7 @@ function SAPermissionsTable({
         accessor: "producerId",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <div className={styles.producerIdColumn}>{value}</div>;
+          return <Box className={styles.producerIdColumn}>{value}</Box>;
         },
       },
       {
@@ -61,21 +60,15 @@ function SAPermissionsTable({
         accessor: "dateAdded",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <div>{value}</div>;
+          return <Box>{value}</Box>;
         },
       },
       {
-        Header: () => (
-          <Button
-            data-gtm="contacts-filter"
-            icon={<Filters />}
-            type="primary"
-          />
-        ),
+        Header: () => <TableFilter />,
         accessor: "filter",
         disableSortBy: true,
         Cell: () => {
-          return <div>Delete</div>;
+          return <Box>Delete</Box>;
         },
       },
     ],

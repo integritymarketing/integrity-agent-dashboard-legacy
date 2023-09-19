@@ -5,9 +5,8 @@ import { Select } from "components/ui/Select";
 
 import styles from "./styles.module.scss";
 
-function ProductField({ product, carrier, setProduct }) {
+function ProductField({ product, carrier, setProduct, options }) {
   const isInacctive = !carrier;
-  console.log('product', product)
   return (
     <td>
       <Box className={styles.customBodyRow}>
@@ -17,12 +16,7 @@ function ProductField({ product, carrier, setProduct }) {
         <Select
           style={{ width: "100%" }}
           placeholder="select"
-          options={[
-            { value: "MA", label: "MA" },
-            { value: "BA", label: "BA" },
-            { value: "MC", label: "MC" },
-            { value: "FF", label: "FF" },
-          ]}
+          options={options}
           onChange={setProduct}
           initialValue={product}
           showValueAlways={false}
