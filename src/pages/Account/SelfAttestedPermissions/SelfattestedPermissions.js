@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import Container from "components/ui/container";
 import makeStyles from "@mui/styles/makeStyles";
 
@@ -13,6 +13,25 @@ const useStyles = makeStyles(() => ({
     padding: "0 24px",
   },
 }));
+
+const MOCK_DATA = [
+  {
+      carrier: 'Humana',
+      product: 'MA',
+      state: "TX",
+      planYear: "2023",
+      producerId: 123321,
+      dateAdded: "12/12/2023"
+  },
+  {
+      carrier: 'Humana 1',
+      product: 'CA',
+      state: "TX",
+      planYear: "2023",
+      producerId: 123321,
+      dateAdded: "12/12/2023"
+  }
+]
 
 function SelfAttestedPermissions() {
   const styles = useStyles();
@@ -36,7 +55,7 @@ function SelfAttestedPermissions() {
         />
         {!isCollapsed && (
           <>
-            <SAPermissionsTable />
+            <SAPermissionsTable isAdding={isAdding} data={MOCK_DATA}/>
             <SAAddPermissionRow isAdding={isAdding} handleAddNew={handleAddNew} />
           </>
         )}
