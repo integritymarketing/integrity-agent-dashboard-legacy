@@ -28,8 +28,8 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
     refreshData(item?.id);
   };
 
-  const isWithinTwoDays = (contactAfterDate) =>
-    getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 48;
+  const isEarlierThanCurrentDate = (contactAfterDate, signedDate) =>
+    getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 0;
 
   const getName = (item) => {
     if (!item) return "";
@@ -93,7 +93,9 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
           >
             <Button
               className={`${styles.completeBtn} ${
-                isWithinTwoDays(item?.contactAfterDate) ? styles.disabled : ""
+                isEarlierThanCurrentDate(item?.contactAfterDate)
+                  ? styles.disabled
+                  : ""
               }`}
               label={isMobile ? "" : "Complete"}
               onClick={() => navigateToConfirmSOA(item)}
