@@ -6,7 +6,7 @@ import { SAAddPermissionForm } from "../../SAAddPermissionForm";
 
 import styles from "./styles.module.scss";
 
-function Table({ columns, data, isAdding }) {
+function Table({ columns, data, isAdding, handleCancel, handleAddNew }) {
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } =
     useTable(
       {
@@ -20,7 +20,11 @@ function Table({ columns, data, isAdding }) {
     <div>
       <table className={styles.customTable} {...getTableProps()}>
         <TableHeader headerGroups={headerGroups} />
-        <SAAddPermissionForm isAdding={isAdding}/>
+        <SAAddPermissionForm
+          isAdding={isAdding}
+          handleCancel={handleCancel}
+          handleAddNew={handleAddNew}
+        />
         <TableBody
           getTableBodyProps={getTableBodyProps}
           rows={rows}

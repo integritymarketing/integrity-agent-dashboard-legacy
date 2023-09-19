@@ -11,7 +11,7 @@ import { ProducerIdField } from "./ProducerIdField";
 
 import styles from "./styles.module.scss";
 
-function SAAddPermissionForm({ handleAddNew, isAdding }) {
+function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding }) {
   if (!isAdding) return <></>;
 
   return (
@@ -23,12 +23,10 @@ function SAAddPermissionForm({ handleAddNew, isAdding }) {
         <PlanYearField />
         <ProducerIdField />
         <td>
-          <div className={styles.customBodyRow}>
-            <div>Cancle</div>
-          </div>
+          <Box className={styles.customBodyRow} onClick={handleCancel}>Cancel</Box>
         </td>
         <td>
-          <div className={styles.customBodyRow}>
+          <Box className={styles.customBodyRow}>
             <Grid
               display="flex"
               alignItems="center"
@@ -39,7 +37,7 @@ function SAAddPermissionForm({ handleAddNew, isAdding }) {
               <Box>Add</Box>
               <AddIcon color="#4178FF" />
             </Grid>
-          </div>
+          </Box>
         </td>
       </tr>
     </tbody>
@@ -47,6 +45,7 @@ function SAAddPermissionForm({ handleAddNew, isAdding }) {
 }
 
 SAAddPermissionForm.propTypes = {
+  handleCancel:  PropTypes.func,
   handleAddNew: PropTypes.func,
   isAdding: PropTypes.bool,
 };

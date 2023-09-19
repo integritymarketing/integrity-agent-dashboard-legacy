@@ -16,22 +16,22 @@ const useStyles = makeStyles(() => ({
 
 const MOCK_DATA = [
   {
-      carrier: 'Humana',
-      product: 'MA',
-      state: "TX",
-      planYear: "2023",
-      producerId: 123321,
-      dateAdded: "12/12/2023"
+    carrier: "Humana",
+    product: "MA",
+    state: "TX",
+    planYear: "2023",
+    producerId: 123321,
+    dateAdded: "12/12/2023",
   },
   {
-      carrier: 'Humana 1',
-      product: 'CA',
-      state: "TX",
-      planYear: "2023",
-      producerId: 123321,
-      dateAdded: "12/12/2023"
-  }
-]
+    carrier: "Humana 1",
+    product: "CA",
+    state: "TX",
+    planYear: "2023",
+    producerId: 123321,
+    dateAdded: "12/12/2023",
+  },
+];
 
 function SelfAttestedPermissions() {
   const styles = useStyles();
@@ -41,6 +41,10 @@ function SelfAttestedPermissions() {
 
   const handleAddNew = useCallback(() => {
     setIsAdding(true);
+  }, [setIsAdding]);
+
+  const handleCancel = useCallback(() => {
+    setIsAdding(false);
   }, [setIsAdding]);
 
   return (
@@ -55,8 +59,16 @@ function SelfAttestedPermissions() {
         />
         {!isCollapsed && (
           <>
-            <SAPermissionsTable isAdding={isAdding} data={MOCK_DATA}/>
-            <SAAddPermissionRow isAdding={isAdding} handleAddNew={handleAddNew} />
+            <SAPermissionsTable
+              isAdding={isAdding}
+              data={MOCK_DATA}
+              handleCancel={handleCancel}
+              handleAddNew={handleAddNew}
+            />
+            <SAAddPermissionRow
+              isAdding={isAdding}
+              handleAddNew={handleAddNew}
+            />
           </>
         )}
       </Container>

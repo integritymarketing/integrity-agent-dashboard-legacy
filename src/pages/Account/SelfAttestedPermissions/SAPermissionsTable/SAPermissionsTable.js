@@ -10,7 +10,12 @@ import styles from "./styles.module.scss";
 
 const ITEM_PER_PAGE = 5;
 
-function SAPermissionsTable({ data = [], isAdding }) {
+function SAPermissionsTable({
+  data = [],
+  isAdding,
+  handleAddNew,
+  handleCancel,
+}) {
   const columns = useMemo(
     () => [
       {
@@ -80,7 +85,13 @@ function SAPermissionsTable({ data = [], isAdding }) {
 
   return (
     <>
-      <Table columns={columns} data={visibleData} isAdding={isAdding} />
+      <Table
+        columns={columns}
+        data={visibleData}
+        isAdding={isAdding}
+        handleCancel={handleCancel}
+        handleAddNew={handleAddNew}
+      />
       {hasMore && <button onClick={loadMore}>Show More</button>}
     </>
   );
