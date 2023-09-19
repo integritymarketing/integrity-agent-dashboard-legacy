@@ -67,7 +67,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         });
       }
     };
-    if (leadId) {
+    if (!newSoaContactDetails.firstName && leadId) {
       getContactInfo();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,8 +89,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const agentEmail = agentUserProfile?.email;
   const agentPhoneNumber = agentUserProfile?.phone;
   const npnNumber = agentUserProfile?.npn;
-  const leadEmail = emails?.[0]?.leadEmail ?? "";
-  const leadPhone = phones?.[0]?.leadPhone ?? "";
+  const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
+  const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
 
   const validateEmail = (email) => {
     if (emailRegex.test(email)) {
