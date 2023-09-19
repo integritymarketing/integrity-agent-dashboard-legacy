@@ -52,8 +52,8 @@ const SoaCard = ({
     return { date, time };
   };
 
-  const isWithinTwoDays = (contactAfterDate) =>
-    getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 48;
+  const isEarlierThanCurrentDate = (contactAfterDate) =>
+    getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 0;
 
   return (
     <>
@@ -123,7 +123,9 @@ const SoaCard = ({
                 icon={<OpenIcon />}
                 iconPosition="right"
                 className={`${
-                  isWithinTwoDays(contactAfterDate) ? styles.disabled : ""
+                  isEarlierThanCurrentDate(contactAfterDate)
+                    ? styles.disabled
+                    : ""
                 }`}
               />
             </div>

@@ -147,8 +147,10 @@
     @media (max-width: 480px) {
       display: initial;
       .pr-search-section {
-        margin-top: 24px;
         width: 100%;
+        &:nth-child(3) {
+          margin-top: 24px;
+        }
         .search-input-container {
           display: flex;
           align-items: center;
@@ -258,7 +260,7 @@
     }
 
     .miles-section {
-      margin-left: 6px;
+      margin-left: 20px;
       width: 20%;
       @media (max-width: 480px) {
         width: 50%;

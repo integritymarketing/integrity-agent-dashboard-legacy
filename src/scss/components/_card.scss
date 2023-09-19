@@ -116,10 +116,11 @@
 }
 
 .provider-modal {
-  width: 736px;
+  width: 583.5px;
   margin: 0 auto;
   border-radius: initial;
   padding: 0 !important;
+  border: none;
 
   @media (max-width: 768px) {
     min-height: 80vh !important;

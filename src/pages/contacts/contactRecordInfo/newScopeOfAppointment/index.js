@@ -67,7 +67,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         });
       }
     };
-    if (!newSoaContactDetails?.firstName && leadId) {
+    if (leadId) {
       getContactInfo();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -317,13 +317,13 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
               <SMSNotification />
               <Track onCheckChange={setIsTracking} />
             </Card>
-            <div
-              className="send-button"
-              style={{ pointerEvents: idFormNotValid ? "none" : "initial" }}
-            >
+            <div className="send-button">
+              <div className="soaCancelBtn" onClick={onCloseModal}>
+                Cancel
+              </div>
               <Button
-                fullWidth={matches.mobile}
                 label="Send SOA"
+                style={{ pointerEvents: idFormNotValid ? "none" : "initial" }}
                 icon={
                   <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
                     <ArrowForwardWithCircle />

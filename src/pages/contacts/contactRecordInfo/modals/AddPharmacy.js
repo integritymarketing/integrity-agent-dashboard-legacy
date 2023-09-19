@@ -502,7 +502,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, onSave }) {
           header="Add Pharmacy"
           open={isOpen}
           onClose={onClose}
-          size="wide"
+          size="medium"
           labeledById="dialog_add_provider"
           providerModal={true}
           footer={
