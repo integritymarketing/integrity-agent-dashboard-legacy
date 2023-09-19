@@ -17,7 +17,7 @@ function SAPermissionsTable({ data = [], isAdding }) {
         Header: "Carrier",
         accessor: "carrier",
         Cell: ({ value }) => {
-          return <div>{value}</div>;
+          return <div className={styles.carrierColumn}>{value}</div>;
         },
       },
       {
@@ -25,7 +25,7 @@ function SAPermissionsTable({ data = [], isAdding }) {
         accessor: "product",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <div>{value}</div>;
+          return <div className={styles.productColumn}>{value}</div>;
         },
       },
       {
@@ -33,14 +33,14 @@ function SAPermissionsTable({ data = [], isAdding }) {
         accessor: "state",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <div>{value}</div>;
+          return <div className={styles.productColumn}>{value}</div>;
         },
       },
       {
         Header: "Plan year",
         accessor: "planYear",
         Cell: ({ value }) => {
-          return <div>{value}</div>;
+          return <div className={styles.producerIdColumn}>{value}</div>;
         },
       },
       {
@@ -48,7 +48,7 @@ function SAPermissionsTable({ data = [], isAdding }) {
         accessor: "producerId",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <div>{value}</div>;
+          return <div className={styles.producerIdColumn}>{value}</div>;
         },
       },
       {

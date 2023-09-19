@@ -3,31 +3,25 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
 import AddIcon from "components/icons/add";
+import { CarrierField } from "./CarrierField";
+import { ProductField } from "./ProductField";
+import { StateField } from "./StateField";
+import { PlanYearField } from "./PlanYearField";
+import { ProducerIdField } from "./ProducerIdField";
 
 import styles from "./styles.module.scss";
 
 function SAAddPermissionForm({ handleAddNew, isAdding }) {
-
   if (!isAdding) return <></>;
 
   return (
     <tbody className={styles.customBody}>
       <tr>
-        <td>
-          <div className={styles.customBodyRow}>Field</div>
-        </td>
-        <td>
-          <div className={styles.customBodyRow}>Field</div>
-        </td>
-        <td>
-          <div className={styles.customBodyRow}>Field</div>
-        </td>
-        <td>
-          <div className={styles.customBodyRow}>Field</div>
-        </td>
-        <td>
-          <div className={styles.customBodyRow}>Field</div>
-        </td>
+        <CarrierField />
+        <ProductField />
+        <StateField />
+        <PlanYearField />
+        <ProducerIdField />
         <td>
           <div className={styles.customBodyRow}>
             <div>Cancle</div>
