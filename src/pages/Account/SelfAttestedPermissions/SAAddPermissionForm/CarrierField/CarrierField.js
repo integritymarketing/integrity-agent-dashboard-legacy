@@ -5,7 +5,7 @@ import { Select } from "components/ui/Select";
 
 import styles from "./styles.module.scss";
 
-function CarrierField({}) {
+function CarrierField({ carrier, setCarrier }) {
   return (
     <td>
       <Box className={styles.customBodyRow}>
@@ -13,11 +13,15 @@ function CarrierField({}) {
         <Select
           style={{ width: "100%" }}
           placeholder="select"
-          options={[]}
-          initialValue=""
-          onChange={(value) => {
-            console.log(value)
-          }}
+          options={[
+            { value: 30, label: "per month" },
+            { value: 60, label: "per two months" },
+            { value: 90, label: "per three months" },
+            { value: 180, label: "per six months"},
+            { value: 365, label: "per year" },
+          ]}
+          initialValue={carrier}
+          onChange={setCarrier}
           showValueAlways={false}
         />
       </Box>

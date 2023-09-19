@@ -178,7 +178,7 @@ export const Select = ({
           showValueAsLabel={showValueAsLabel}
         />
       ) : (
-        <span className="placeholder">{placeholder}</span>
+        <span className={`placeholder ${ disabled && "disabled"}`}>{placeholder}</span>
       )}
       <Arrow color={"#0052CE"} />
     </div>

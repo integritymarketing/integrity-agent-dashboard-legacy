@@ -5,20 +5,28 @@ import { Select } from "components/ui/Select";
 
 import styles from "./styles.module.scss";
 
-function ProductField({}) {
+function ProductField({ product, carrier, setProduct }) {
+  const isInacctive = !carrier;
+  console.log('product', product)
   return (
     <td>
       <Box className={styles.customBodyRow}>
-        <Box className={styles.label}>Product</Box>
+        <Box className={isInacctive ? styles.labelInactive : styles.label}>
+          Product
+        </Box>
         <Select
           style={{ width: "100%" }}
           placeholder="select"
-          options={[]}
-          initialValue=""
-          onChange={(value) => {
-            console.log(value)
-          }}
+          options={[
+            { value: "MA", label: "MA" },
+            { value: "BA", label: "BA" },
+            { value: "MC", label: "MC" },
+            { value: "FF", label: "FF" },
+          ]}
+          onChange={setProduct}
+          initialValue={product}
           showValueAlways={false}
+          disabled={isInacctive}
         />
       </Box>
     </td>
