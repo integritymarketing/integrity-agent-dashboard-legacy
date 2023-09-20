@@ -48,7 +48,7 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
         <div className={styles.item} key={item.id}>
           <div className={styles.section}>
             <div className={styles.title1}>
-              Soa sent {getDateTime(item?.sentDate).date} to
+              SOA sent {getDateTime(item?.sentDate).date} to
             </div>
             <div
               className={styles.title2}

@@ -394,6 +394,7 @@ const ContactRecordInfoDetails = () => {
           label="View Available Plans"
           onClick={handleViewAvailablePlans}
           type="primary"
+          style={{ borderRadius: "50px" }}
         />
       );
     } else
@@ -403,6 +404,7 @@ const ContactRecordInfoDetails = () => {
           type="primary"
           disabled={false}
           onClick={handleZipDetails}
+          style={{ borderRadius: "50px" }}
         />
       );
   };

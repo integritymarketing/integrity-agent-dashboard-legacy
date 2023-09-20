@@ -121,7 +121,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
         agentNpn: npnNumber,
-        isTracking48HoursWaitingPeroid: isTracking,
+        isTracking48HoursWaitingPeriod: isTracking,
       };
       if (selectOption === "email") {
         const data = {
@@ -323,7 +323,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
               </div>
               <Button
                 label="Send SOA"
-                style={{ pointerEvents: idFormNotValid ? "none" : "initial" }}
+                className={`${idFormNotValid ? "disabledSoaBtn" : ""}`}
                 icon={
                   <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
                     <ArrowForwardWithCircle />

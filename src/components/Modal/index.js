@@ -71,6 +71,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F1F1F1",
     display: "flex",
     flexDirection: "column",
+    borderBottomLeftRadius: "4px",
+    borderBottomRightRadius: "4px",
   },
 
   footerButtons: {
@@ -100,6 +102,11 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "visible",
     height: "70vh",
   },
+  deleteContainer: {
+    "& button:hover": {
+      backgroundColor: "#FFFFFF",
+    },
+  },
 }));
 
 export default function Modal({
@@ -107,7 +114,10 @@ export default function Modal({
   onSave,
   contentStyle,
   onClose,
+  onDelete,
+  isDelete,
   onCancel,
+  modalName,
   open,
   title,
   children,
@@ -133,6 +143,7 @@ export default function Modal({
           style: {
             height: customModalHeight,
             overflowY: "visible",
+            width: "552px",
           },
         }}
       >
@@ -162,16 +173,29 @@ export default function Modal({
         <DialogActions className={classes.footer}>
           {!hideFooter && (
             <Box className={classes.footerButtons}>
-              <Button onClick={onClose} className={classes.cancelButton}>
-                Cancel
-              </Button>
-              <Button
-                onClick={onSave}
-                className={classes.addButton}
-                endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
-                disabled={actionButtonDisabled}
-              >
-                {actionButtonName}
+              {onCancel && (
+                <Button onClick={onClose} className={classes.cancelButton}>
+                  Cancel
+                </Button>
+              )}
+              {actionButtonName && (
+                <Button
+                  onClick={onSave}
+                  className={classes.addButton}
+                  endIcon={
+                    <span className={classes.buttonIcon}>{endIcon}</span>
+                  }
+                  disabled={actionButtonDisabled}
+                >
+                  {actionButtonName}
+                </Button>
+              )}
+            </Box>
+          )}
+          {isDelete && (
+            <Box className={classes.deleteContainer}>
+              <Button onClick={onDelete} className={classes.cancelButton}>
+                Delete {modalName}
               </Button>
             </Box>
           )}

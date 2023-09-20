@@ -1,4 +1,4 @@
-export const disableTextMessage = true;
+export const disableTextMessage = false;
 
 export const getCommunicationOptions = () => {
   if (disableTextMessage) {

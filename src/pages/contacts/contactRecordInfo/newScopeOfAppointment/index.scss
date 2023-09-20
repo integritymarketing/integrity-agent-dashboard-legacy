@@ -10,6 +10,11 @@
     cursor: pointer;
   }
 
+  .disabledSoaBtn  {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   .new-scope-card {
     display: flex;
     height: fit-content;
