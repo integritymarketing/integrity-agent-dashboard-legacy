@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
+
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
 import { LoadMoreButton } from "../SAPermissionsTable/LoadMoreButton";
-
 import { ListItem } from "./ListItem";
+import { SAAddPermissionForm } from "../SAAddPermissionForm";
 
 import styles from "./styles.module.scss";
 
@@ -20,6 +21,12 @@ function SAPermissionsList({
 
   return (
     <Box className={styles.container}>
+      <SAAddPermissionForm
+        isAdding={isAdding}
+        handleCancel={handleCancel}
+        handleAddNew={handleAddNew}
+        agents={agents}
+      />
       {visibleItems.map((item, index) => (
         <ListItem item={item} key={index} />
       ))}

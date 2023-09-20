@@ -3,18 +3,19 @@ import Box from "@mui/material/Box";
 
 import styles from "./styles.module.scss";
 
-function CancelButton({ OnCancelClickHandle }) {
+function CancelButton({ OnCancelClickHandle, isMobile }) {
   return (
-    <td>
-      <Box className={styles.customBodyRow}>
-        <Box className={styles.link} onClick={OnCancelClickHandle}>Cancel</Box>
+    <Box className={isMobile ? styles.mobileRow : styles.customBodyRow}>
+      <Box className={styles.link} onClick={OnCancelClickHandle}>
+        Cancel
       </Box>
-    </td>
+    </Box>
   );
 }
 
 CancelButton.propTypes = {
-  OnCancelClickHandle: PropTypes.func
+  OnCancelClickHandle: PropTypes.func,
+  isMobile: PropTypes.bool,
 };
 
 export default CancelButton;

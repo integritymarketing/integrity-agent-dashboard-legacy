@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
 
+import { useWindowSize } from "hooks/useWindowSize";
 import { CarrierField } from "./CarrierField";
 import { ProductField } from "./ProductField";
 import { StateField } from "./StateField";
@@ -17,6 +19,7 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
   const [product, setProduct] = useState("");
   const [state, setState] = useState("");
   const [year, setYear] = useState("");
+  const { width: windowWidth } = useWindowSize();
   const {
     carriersOptions,
     getProductsOptions,
@@ -26,6 +29,8 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
   const productsOptions = getProductsOptions(carrier);
   const planYearOptions = getPlanYearOptions(carrier);
   const producerId = getProducerID(carrier);
+
+  const isMobile = windowWidth <= 784;
 
   const resetAllFields = () => {
     setCarrier("");
@@ -65,31 +70,89 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
   if (!isAdding) return <></>;
 
   return (
-    <tbody className={styles.customBody}>
-      <tr>
-        <CarrierField
-          carrier={carrier}
-          setCarrier={onCarrierChange}
-          options={carriersOptions}
-        />
-        <ProductField
-          product={product}
-          carrier={carrier}
-          setProduct={onProductChange}
-          options={productsOptions}
-        />
-        <StateField product={product} state={state} setState={onStateChange} />
-        <PlanYearField
-          state={state}
-          year={year}
-          setYear={setYear}
-          options={planYearOptions}
-        />
-        <ProducerIdField producerId={producerId} />
-        <CancelButton OnCancelClickHandle={OnCancelClickHandle} />
-        <AddButton OnAddClickHandle={OnAddClickHandle} />
-      </tr>
-    </tbody>
+    <>
+      {!isMobile && (
+        <tbody className={styles.customBody}>
+          <tr>
+            <td>
+              <CarrierField
+                carrier={carrier}
+                setCarrier={onCarrierChange}
+                options={carriersOptions}
+              />
+            </td>
+            <td>
+              <ProductField
+                product={product}
+                carrier={carrier}
+                setProduct={onProductChange}
+                options={productsOptions}
+              />
+            </td>
+            <td>
+              <StateField
+                product={product}
+                state={state}
+                setState={onStateChange}
+              />
+            </td>
+            <td>
+              <PlanYearField
+                state={state}
+                year={year}
+                setYear={setYear}
+                options={planYearOptions}
+              />
+            </td>
+            <td>
+              <ProducerIdField producerId={producerId} />
+            </td>
+            <td>
+              <CancelButton OnCancelClickHandle={OnCancelClickHandle} />
+            </td>
+            <td>
+              <AddButton OnAddClickHandle={OnAddClickHandle} />
+            </td>
+          </tr>
+        </tbody>
+      )}
+      {isMobile && (
+        <Box className={styles.mobileContainer}>
+          <CarrierField
+            carrier={carrier}
+            setCarrier={onCarrierChange}
+            options={carriersOptions}
+            isMobile={isMobile}
+          />
+          <ProductField
+            product={product}
+            carrier={carrier}
+            setProduct={onProductChange}
+            options={productsOptions}
+            isMobile={isMobile}
+          />
+          <StateField
+            product={product}
+            state={state}
+            setState={onStateChange}
+            isMobile={isMobile}
+          />
+          <PlanYearField
+            state={state}
+            year={year}
+            setYear={setYear}
+            options={planYearOptions}
+            isMobile={isMobile}
+          />
+          <ProducerIdField producerId={producerId} isMobile={isMobile} />
+          <CancelButton
+            OnCancelClickHandle={OnCancelClickHandle}
+            isMobile={isMobile}
+          />
+          <AddButton OnAddClickHandle={OnAddClickHandle} isMobile={isMobile} />
+        </Box>
+      )}
+    </>
   );
 }
 

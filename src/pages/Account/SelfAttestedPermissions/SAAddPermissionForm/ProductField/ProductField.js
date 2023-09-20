@@ -6,32 +6,30 @@ import { Select } from "components/ui/Select";
 
 import styles from "./styles.module.scss";
 
-function ProductField({ product, carrier, setProduct, options }) {
+function ProductField({ product, carrier, setProduct, options, isMobile }) {
   const isInacctive = !carrier;
-  
+
   useEffect(() => {
-    if(options.length === 1 && !product){
-      setProduct(options[0].value)
+    if (options.length === 1 && !product) {
+      setProduct(options[0].value);
     }
-  }, [options])
+  }, [options]);
 
   return (
-    <td>
-      <Box className={styles.customBodyRow}>
-        <Box className={isInacctive ? styles.labelInactive : styles.label}>
-          Product
-        </Box>
-        <Select
-          style={{ width: "100%" }}
-          placeholder="select"
-          options={options}
-          onChange={setProduct}
-          initialValue={product}
-          showValueAlways={false}
-          disabled={isInacctive}
-        />
+    <Box className={isMobile ? styles.mobileRow : styles.customBodyRow}>
+      <Box className={isInacctive ? styles.labelInactive : styles.label}>
+        Product
       </Box>
-    </td>
+      <Select
+        style={{ width: "100%" }}
+        placeholder="select"
+        options={options}
+        onChange={setProduct}
+        initialValue={product}
+        showValueAlways={false}
+        disabled={isInacctive}
+      />
+    </Box>
   );
 }
 
@@ -40,6 +38,7 @@ ProductField.propTypes = {
   carrier: PropTypes.string,
   setProduct: PropTypes.func,
   options: PropTypes.array,
+  isMobile: PropTypes.bool,
 };
 
 export default ProductField;

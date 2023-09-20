@@ -18,3 +18,8 @@
     box-shadow: inset 0px -1px 0px #c7ccd1;
   }
 }
+
+.mobileRow {
+  width: calc(50% - 8px);
+  text-align: left;
+}
