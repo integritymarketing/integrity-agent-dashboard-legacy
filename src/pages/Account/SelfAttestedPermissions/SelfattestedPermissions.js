@@ -8,6 +8,9 @@ import { SAPermissionsHeader } from "./SAPermissionsHeader";
 import { SAPermissionsTable } from "./SAPermissionsTable";
 import { SAPermissionModal } from "./SAPermissionModal";
 import { SAAddPermissionRow } from "./SAAddPermissionRow";
+import useFeatureFlag from "hooks/useFeatureFlag";
+
+const FLAG_NAME = 'REACT_APP_SELF_ATTESTED_PERMISSION_FLAG'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -22,6 +25,7 @@ function SelfAttestedPermissions() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isLoading, agents, tableData } = useFetchAgentsData();
+  const isFeatureEnabled = useFeatureFlag(FLAG_NAME)
 
   const handleAddNew = useCallback(() => {
     setIsAdding(true);
@@ -30,6 +34,8 @@ function SelfAttestedPermissions() {
   const handleCancel = useCallback(() => {
     setIsAdding(false);
   }, [setIsAdding]);
+
+  if(!isFeatureEnabled) return <></>
 
   if (isLoading) return <Spinner />;
 
