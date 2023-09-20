@@ -3,3 +3,33 @@
     font-size: 20px;
   }
 }
+
+.link {
+  color: #4178ff;
+  cursor: pointer;
+}
+
+.inactiveLink {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: #b3c9ff;
+}
+
+.icon {
+  padding: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f1faff;
+    border-radius: 40px;
+  }
+}
+
+.iconReverse {
+  transform: rotate(180deg);
+}
+
+.count {
+  color: #717171;
+  font-size: 24px;
+}

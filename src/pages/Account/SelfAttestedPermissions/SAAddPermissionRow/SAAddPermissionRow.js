@@ -1,31 +1,19 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import makeStyles from "@mui/styles/makeStyles";
 
 import AddIcon from "components/icons/add";
 
-const useStyles = makeStyles(() => ({
-  link: {
-    color: "#4178FF",
-    cursor: "pointer",
-  },
-  customRow: {
-    backgroundColor: "#FFFFFF",
-    padding: "15px",
-    borderRadius: "8px"
-  },
-}));
+import styles from "./styles.module.scss";
 
 function SAAddPermissionRow({ handleAddNew, numOfPermissions, isAdding }) {
-  const classess = useStyles();
   const shouldShow = !isAdding && numOfPermissions === 0;
 
   if (!shouldShow) return <></>;
 
   return (
     <Grid
-      className={classess.customRow}
+      className={styles.customRow}
       container
       justifyContent="center"
       alignItems="center"
@@ -34,7 +22,7 @@ function SAAddPermissionRow({ handleAddNew, numOfPermissions, isAdding }) {
         display="flex"
         alignItems="center"
         onClick={handleAddNew}
-        className={classess.link}
+        className={styles.link}
         gap={1}
       >
         <AddIcon color="#4178FF" />

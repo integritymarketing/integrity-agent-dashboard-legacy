@@ -1,23 +1,10 @@
 import PropTypes from "prop-types";
 import Modal from "components/Modal";
-import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
 
-const useStyles = makeStyles(() => ({
-  modalContentHeader: {
-    color: "#052A63",
-    marginTop: "24px",
-  },
-  modalContent: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: "8px",
-    padding: "24px",
-    marginTop: "24px",
-  },
-}));
+import styles from "./styles.module.scss";
 
 function SAPermissionModal({ isModalOpen, onClose }) {
-  const styles = useStyles();
 
   return (
     <Modal

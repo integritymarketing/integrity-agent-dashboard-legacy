@@ -10,17 +10,11 @@ import { SAPermissionModal } from "./SAPermissionModal";
 import { SAAddPermissionRow } from "./SAAddPermissionRow";
 import useFeatureFlag from "hooks/useFeatureFlag";
 
+import styles from "./styles.module.scss";
+
 const FLAG_NAME = 'REACT_APP_SELF_ATTESTED_PERMISSION_FLAG'
 
-const useStyles = makeStyles(() => ({
-  container: {
-    marginTop: "60px",
-    padding: "0 24px",
-  },
-}));
-
 function SelfAttestedPermissions() {
-  const styles = useStyles();
   const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
