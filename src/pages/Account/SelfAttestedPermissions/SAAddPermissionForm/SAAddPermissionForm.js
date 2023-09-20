@@ -17,18 +17,21 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
   const [product, setProduct] = useState("");
   const [state, setState] = useState("");
   const [year, setYear] = useState("");
-  const [producerId, setProducerId] = useState("");
-  const { carriersOptions, getProductsOptions, getPlanYearOptions } =
-    useSelectOptions(agents);
+  const {
+    carriersOptions,
+    getProductsOptions,
+    getPlanYearOptions,
+    getProducerID,
+  } = useSelectOptions(agents);
   const productsOptions = getProductsOptions(carrier);
   const planYearOptions = getPlanYearOptions(carrier);
+  const producerId = getProducerID(carrier);
 
   const resetAllFields = () => {
     setCarrier("");
     setProduct("");
     setState("");
     setYear("");
-    setProducerId("");
   };
 
   const onCarrierChange = (value) => {

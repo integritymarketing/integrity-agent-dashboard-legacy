@@ -27,10 +27,14 @@ function SAPermissionsTable({
       },
       {
         Header: "Product",
-        accessor: "product",
+        accessor: "planType",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <Box className={styles.productColumn}>{value}</Box>;
+          return (
+            <Box className={styles.productColumn}>
+              <Box className={styles.pill}>{value}</Box>
+            </Box>
+          );
         },
       },
       {

@@ -105,10 +105,42 @@ function getRecordsWithSelfAttestation(data) {
   return uniqueRecords;
 }
 
+/**
+ * Groups unique producer IDs by carrier and returns an object with the format record<carrier, producerId[]>.
+ *
+ * @param {Array} data - The array of objects containing producer and carrier information.
+ * @returns {Object} An object with carrier as the key and an array of unique producer IDs as the value.
+ */
+function groupUniqueProducerIdsByCarrier(data) {
+  const record = {};
+
+  for (const item of data) {
+    const carrier = item.carrier;
+    const producerId = item.producerId;
+
+    // If the carrier is not already in the record, create an empty Set for it
+    if (!record[carrier]) {
+      record[carrier] = new Set();
+    }
+
+    // Add the producerId to the carrier's Set to ensure uniqueness
+    record[carrier].add(producerId);
+  }
+
+  // Convert the Sets to arrays
+  for (const carrier in record) {
+    record[carrier] = Array.from(record[carrier]);
+  }
+
+  return record;
+}
+
+
 export {
   getUniqueCarriers,
   groupUniquePlanTypesByCarrier,
   groupUniquePlanYearsByCarrier,
   convertArrayToOptions,
   getRecordsWithSelfAttestation,
+  groupUniqueProducerIdsByCarrier
 };

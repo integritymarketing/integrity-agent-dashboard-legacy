@@ -4,6 +4,7 @@ import {
   groupUniquePlanTypesByCarrier,
   groupUniquePlanYearsByCarrier,
   convertArrayToOptions,
+  groupUniqueProducerIdsByCarrier,
 } from "../utils/helper";
 
 function useSelectOptions(data) {
@@ -27,6 +28,15 @@ function useSelectOptions(data) {
     [data]
   );
 
+  const getProducerID = useCallback(
+    (carrier) => {
+      if (!carrier) return [];
+      const producerIds = groupUniqueProducerIdsByCarrier(data);
+      return producerIds[carrier][0];
+    },
+    [data]
+  );
+
   useEffect(() => {
     setCarriersOptions(convertArrayToOptions(getUniqueCarriers(data)));
   }, [data]);
@@ -35,6 +45,7 @@ function useSelectOptions(data) {
     carriersOptions,
     getProductsOptions,
     getPlanYearOptions,
+    getProducerID,
   };
 }
 

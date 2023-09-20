@@ -5,8 +5,7 @@ import Textfield from "components/ui/textfield";
 
 import styles from "./styles.module.scss";
 
-function ProducerIdField({ producerId = '' }) {
-  
+function ProducerIdField({ producerId }) {
   return (
     <td>
       <Box className={styles.customBodyRow}>
