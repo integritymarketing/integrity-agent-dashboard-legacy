@@ -7,7 +7,6 @@ import ContactUpdated from "components/icons/activities/Contacts";
 import List from "components/icons/activities/List";
 import LOCATION from "components/icons/activities/LocationIcon";
 import MEDICAID from "components/icons/activities/MedicaId";
-import MEDICAREID from "components/icons/activities/MedicareId";
 import PHARMACY from "components/icons/activities/Pharmacy";
 import PRESCRIPTION from "components/icons/activities/PrescriptionIcon";
 import PROVIDER from "components/icons/activities/ProviderIcon";
@@ -47,12 +46,12 @@ const ActivitySubjectWithIcon = ({ activitySubject }) => {
       "Meeting Recorded": (
         <ImageToIcon src={MeetingRecord} alt="Meeting Recorded" />
       ),
-      "Medicare ID Updated by Client": <MEDICAID />,
+      "Medicare ID Updated by Client": <ContactUpdated />,
       "ZipCode Updated by Client": <LOCATION />,
       "Pharmacy Updated by Client": <PHARMACY />,
       "Prescription Updated by Client": <PRESCRIPTION />,
       "Providers Updated by Client": <PROVIDER />,
-      "Medicaid Updated by Client": <MEDICAREID />,
+      "Medicaid Updated by Client": <MEDICAID />,
     };
 
     return iconMapping[activitySubject] || <Activity />;
