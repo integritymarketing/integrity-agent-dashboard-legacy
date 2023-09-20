@@ -7,6 +7,7 @@ import { Table } from "./Table";
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
 import { TableFilter } from "./TableFilter";
 import { LoadMoreButton } from "./LoadMoreButton";
+import { DeleteButton } from "../DeleteButton";
 
 import styles from "./styles.module.scss";
 
@@ -76,7 +77,7 @@ function SAPermissionsTable({
         accessor: "filter",
         disableSortBy: true,
         Cell: () => {
-          return <Box>Delete</Box>;
+          return <Box><DeleteButton /></Box>;
         },
       },
     ],

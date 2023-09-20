@@ -86,26 +86,6 @@ function convertArrayToOptions(inputArray) {
 }
 
 /**
- * Filters and returns an array of unique records where "isSelfAttested" is equal to TRUE.
- *
- * @param {Array} data - The array of objects containing the records.
- * @returns {Array} An array of unique records with "isSelfAttested" equal to TRUE.
- */
-function getRecordsWithSelfAttestation(data) {
-  const uniqueRecords = [];
-  const seenIds = new Set();
-
-  for (const item of data) {
-    if (item.isSelfAttested === "FALSE" && !seenIds.has(item.producerId)) {
-      uniqueRecords.push(item);
-      seenIds.add(item.producerId);
-    }
-  }
-  
-  return uniqueRecords;
-}
-
-/**
  * Groups unique producer IDs by carrier and returns an object with the format record<carrier, producerId[]>.
  *
  * @param {Array} data - The array of objects containing producer and carrier information.
@@ -141,6 +121,5 @@ export {
   groupUniquePlanTypesByCarrier,
   groupUniquePlanYearsByCarrier,
   convertArrayToOptions,
-  getRecordsWithSelfAttestation,
   groupUniqueProducerIdsByCarrier
 };

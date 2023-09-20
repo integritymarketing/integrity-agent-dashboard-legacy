@@ -18,25 +18,7 @@ function useFetchTableData() {
       const response = await agentsSelfService.getAgentSelfAttestations(
         agentId
       );
-      setTableData([
-        {
-          attestationId: 0,
-          agentId: 0,
-          bu: "string",
-          npn: "string",
-          carrier: "Tets carrier",
-          awn: "1233211",
-          state: "TX",
-          product: "MA",
-          rtsStatus: "string",
-          planYear: 2023,
-          blobPath: "string",
-          isSelfAttested: true,
-          inActive: 0,
-          createDate: "2023-06-20T23:15:56.737Z",
-          lastUpdated: "2023-09-20T23:15:56.737Z",
-        },
-      ]);
+      setTableData(response);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

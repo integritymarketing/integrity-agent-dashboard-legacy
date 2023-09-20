@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
 import { dateFormatter } from "utils/dateFormatter";
+import { DeleteButton } from "../../DeleteButton";
 
 import styles from "./styles.module.scss";
 
@@ -27,11 +28,13 @@ function ListItem({ item }) {
           <Box>{item.state}</Box>
         </Box>
         <Box className={styles.section}>
-            <Box className={styles.label} display="inline">
-              Added:
-            </Box>
-            <Box display="inline">{dateFormatter(item.createDate, 'M-DD-YY')}</Box>
+          <Box className={styles.label} display="inline">
+            Added:
           </Box>
+          <Box display="inline">
+            {dateFormatter(item.createDate, "M-DD-YY")}
+          </Box>
+        </Box>
       </Grid>
       <Grid
         display="flex"
@@ -53,7 +56,7 @@ function ListItem({ item }) {
           </Box>
         </Box>
         <Box>
-          <Box>Delete</Box>
+          <DeleteButton />
         </Box>
       </Grid>
     </Grid>
