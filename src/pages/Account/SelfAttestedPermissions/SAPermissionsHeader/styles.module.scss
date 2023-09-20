@@ -1,6 +1,34 @@
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 767px) and (min-width: 320px) {
+    align-items: flex-start;
+  }
+}
+
+.leftContainer {
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 767px) and (min-width: 320px) {
+    max-width: 225px;
+  }
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .heading {
+  line-height: 1.2;
   @media (max-width: 767px) and (min-width: 320px) {
     font-size: 20px;
+    max-width: 200px;
   }
 }
 

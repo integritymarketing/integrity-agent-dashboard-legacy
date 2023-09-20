@@ -6,6 +6,8 @@ import Arrow from "components/icons/down";
 import AddIcon from "components/icons/add";
 import Heading2 from "packages/Heading2";
 import Info from "components/icons/info-blue";
+import { useWindowSize } from "hooks/useWindowSize";
+import { TableFilter } from "../SAPermissionsTable/TableFilter";
 
 import styles from "./styles.module.scss";
 
@@ -17,10 +19,12 @@ function SAPermissionsHeader({
   numOfPermissions,
   isAdding,
 }) {
+  const { width: windowWidth } = useWindowSize();
+  const isMobile = windowWidth <= 784;
 
   return (
-    <Grid container justifyContent="space-between" alignItems="center">
-      <Grid display="flex" alignItems="center">
+    <Grid  className={styles.container}>
+      <Grid className={styles.leftContainer}>
         <Box
           className={`${styles.icon} ${isCollapsed && styles.iconReverse}`}
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -33,16 +37,19 @@ function SAPermissionsHeader({
           <Info color="#4178FF" />
         </Box>
       </Grid>
-      <Grid
-        display="flex"
-        alignItems="center"
-        onClick={handleAddNew}
-        className={isAdding ? styles.inactiveLink : styles.link}
-        gap={1}
-      >
-        <Box>Add New</Box>
-        <AddIcon color="#4178FF" />
-      </Grid>
+      <Box className={styles.rightContainer}>
+        <Grid
+          display="flex"
+          alignItems="center"
+          onClick={handleAddNew}
+          className={isAdding ? styles.inactiveLink : styles.link}
+          gap={1}
+        >
+          <Box>Add New</Box>
+          <AddIcon color="#4178FF" />
+        </Grid>
+        {isMobile && <TableFilter />}
+      </Box>
     </Grid>
   );
 }

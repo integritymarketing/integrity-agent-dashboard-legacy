@@ -57,7 +57,7 @@ function SAPermissionsTable({
       },
       {
         Header: "Producer ID",
-        accessor: "producerId",
+        accessor: "awn",
         disableSortBy: true,
         Cell: ({ value }) => {
           return <Box className={styles.producerIdColumn}>{value}</Box>;

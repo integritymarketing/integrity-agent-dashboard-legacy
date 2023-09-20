@@ -49,7 +49,7 @@ function ListItem({ item }) {
             <Box className={styles.label} display="inline">
               ID:
             </Box>
-            <Box display="inline"> {item.producerId}</Box>
+            <Box display="inline"> {item.awn}</Box>
           </Box>
         </Box>
         <Box>
