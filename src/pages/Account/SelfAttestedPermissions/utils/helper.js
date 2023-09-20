@@ -96,7 +96,7 @@ function getRecordsWithSelfAttestation(data) {
   const seenIds = new Set();
 
   for (const item of data) {
-    if (item.isSelfAttested === "TRUE" && !seenIds.has(item.producerId)) {
+    if (item.isSelfAttested === "FALSE" && !seenIds.has(item.producerId)) {
       uniqueRecords.push(item);
       seenIds.add(item.producerId);
     }

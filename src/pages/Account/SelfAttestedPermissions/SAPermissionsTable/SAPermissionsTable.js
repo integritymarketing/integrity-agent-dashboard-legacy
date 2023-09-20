@@ -1,6 +1,8 @@
+import PropTypes from "prop-types";
 import { useMemo } from "react";
 import Box from "@mui/material/Box";
 
+import { dateFormatter } from "utils/dateFormatter";
 import { Table } from "./Table";
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
 import { TableFilter } from "./TableFilter";
@@ -28,7 +30,7 @@ function SAPermissionsTable({
       },
       {
         Header: "Product",
-        accessor: "planType",
+        accessor: "product",
         disableSortBy: true,
         Cell: ({ value }) => {
           return (
@@ -63,10 +65,10 @@ function SAPermissionsTable({
       },
       {
         Header: "Date Added",
-        accessor: "dateAdded",
+        accessor: "createDate",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <Box>{value}</Box>;
+          return <Box>{dateFormatter(value, 'M-DD-YY')}</Box>;
         },
       },
       {
@@ -97,5 +99,15 @@ function SAPermissionsTable({
     </>
   );
 }
+
+
+
+SAPermissionsTable.propTypes = {
+  data: PropTypes.array,
+  agents: PropTypes.array,
+  handleAddNew: PropTypes.func,
+  handleCancel: PropTypes.func,
+  isAdding: PropTypes.bool,
+};
 
 export default SAPermissionsTable;

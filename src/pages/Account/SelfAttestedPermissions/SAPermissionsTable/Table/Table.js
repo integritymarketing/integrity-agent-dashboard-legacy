@@ -25,22 +25,20 @@ function Table({
     );
 
   return (
-    <div>
-      <table className={styles.customTable} {...getTableProps()}>
-        <TableHeader headerGroups={headerGroups} />
-        <SAAddPermissionForm
-          isAdding={isAdding}
-          handleCancel={handleCancel}
-          handleAddNew={handleAddNew}
-          agents={agents}
-        />
-        <TableBody
-          getTableBodyProps={getTableBodyProps}
-          rows={rows}
-          prepareRow={prepareRow}
-        />
-      </table>
-    </div>
+    <table className={styles.customTable} {...getTableProps()}>
+      <TableHeader headerGroups={headerGroups} />
+      <SAAddPermissionForm
+        isAdding={isAdding}
+        handleCancel={handleCancel}
+        handleAddNew={handleAddNew}
+        agents={agents}
+      />
+      <TableBody
+        getTableBodyProps={getTableBodyProps}
+        rows={rows}
+        prepareRow={prepareRow}
+      />
+    </table>
   );
 }
 
