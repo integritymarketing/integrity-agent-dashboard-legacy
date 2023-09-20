@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import Container from "components/ui/container";
 
-import useFetchAgentsData from "./hooks/useFetchAgentsData";
 import Spinner from "components/ui/Spinner/index";
 import { SAPermissionsList } from "./SAPermissionsList";
 import { SAPermissionsHeader } from "./SAPermissionsHeader";
@@ -10,6 +9,8 @@ import { SAPermissionModal } from "./SAPermissionModal";
 import { SAAddPermissionRow } from "./SAAddPermissionRow";
 import useFeatureFlag from "hooks/useFeatureFlag";
 import { useWindowSize } from "hooks/useWindowSize";
+import useFetchTableData from "./hooks/useFetchTableData";
+import useFetchAgentsData from "./hooks/useFetchAgentsData";
 
 import styles from "./styles.module.scss";
 
@@ -19,7 +20,8 @@ function SelfAttestedPermissions() {
   const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isLoading, agents, tableData } = useFetchAgentsData();
+  const { agents, isLoading } = useFetchAgentsData();
+  const { tableData, isLoading: isfetchingTableData } = useFetchTableData();
   const { width: windowWidth } = useWindowSize();
   const isFeatureEnabled = useFeatureFlag(FLAG_NAME)
 
@@ -35,7 +37,7 @@ function SelfAttestedPermissions() {
 
   if(!isFeatureEnabled) return <></>
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isfetchingTableData) return <Spinner />;
 
   return (
     <>

@@ -6,14 +6,16 @@ import AddIcon from "components/icons/add";
 
 import styles from "./styles.module.scss";
 
-function AddButton({ OnAddClickHandle, isMobile }) {
+function AddButton({ OnAddClickHandle, year, isMobile }) {
+  const isInacctive = !year;
+
   return (
     <Box className={isMobile ? styles.mobileRow : styles.customBodyRow}>
       <Grid
         display="flex"
         alignItems="center"
         onClick={OnAddClickHandle}
-        className={styles.link}
+        className={`${styles.link} ${isInacctive && styles.inactiveLink}`}
         gap={1}
       >
         <Box>Add</Box>
@@ -24,6 +26,7 @@ function AddButton({ OnAddClickHandle, isMobile }) {
 }
 
 AddButton.propTypes = {
+  year: PropTypes.string,
   OnAddClickHandle: PropTypes.func,
   isMobile: PropTypes.bool,
 };

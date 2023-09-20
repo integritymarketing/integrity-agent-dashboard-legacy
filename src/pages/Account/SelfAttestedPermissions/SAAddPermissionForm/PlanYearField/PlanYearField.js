@@ -10,7 +10,7 @@ function PlanYearField({ year, state, setYear, options, isMobile }) {
   const isInacctive = !state;
 
   useEffect(() => {
-    if (options.length === 1 && !year) {
+    if (options.length === 1 && state && !year) {
       setYear(options[0].value);
     }
   }, [options]);
@@ -34,7 +34,7 @@ function PlanYearField({ year, state, setYear, options, isMobile }) {
 }
 
 PlanYearField.propTypes = {
-  year: PropTypes.string,
+  year: PropTypes.number,
   state: PropTypes.string,
   setYear: PropTypes.func,
   options: PropTypes.array,

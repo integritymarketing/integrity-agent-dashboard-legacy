@@ -12,9 +12,10 @@ function useFetchAgentsData() {
   const [agents, setAgents] = useState([]);
   const [tableData, setTableData] = useState([]);
   const addToast = useToast();
-  const { npn } = useUserProfile;
+  const { npn } = useUserProfile();
 
   const fetchAgentsData = useCallback(async () => {
+    if(!npn) return;
     try {
       setIsLoading(true);
       const response = await clientsService.getAgents(npn);

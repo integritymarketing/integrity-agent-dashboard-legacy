@@ -111,7 +111,7 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
               <CancelButton OnCancelClickHandle={OnCancelClickHandle} />
             </td>
             <td>
-              <AddButton OnAddClickHandle={OnAddClickHandle} />
+              <AddButton OnAddClickHandle={OnAddClickHandle} year={year} />
             </td>
           </tr>
         </tbody>
