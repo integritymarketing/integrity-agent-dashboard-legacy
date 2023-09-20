@@ -1,25 +1,20 @@
-import { useState, useCallback } from "react";
+import { useState } from 'react';
 
-function useLoadMore(initialData, itemsPerPage) {
-  const [data, setData] = useState(initialData);
-  const [visibleData, setVisibleData] = useState(
-    initialData.slice(0, itemsPerPage)
-  );
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialData.length > 5);
+function useLoadMore(initialItems, itemsPerPage) {
+  const [items, setItems] = useState(initialItems);
+  const [visibleItems, setVisibleItems] = useState(initialItems.slice(0, itemsPerPage));
 
-  const loadMore = useCallback(() => {
-    const nextPage = currentPage + 1;
-    const endIndex = nextPage * itemsPerPage;
-    setVisibleData(data.slice(0, endIndex));
-    setCurrentPage(nextPage);
-    setHasMore(visibleData.length < initialData.length);
-  }, []);
+  const loadMore = () => {
+    const currentLastIndex = visibleItems.length;
+    const newLastIndex = currentLastIndex + itemsPerPage;
+    const newVisibleItems = items.slice(0, newLastIndex);
+    setVisibleItems(newVisibleItems);
+  };
 
   return {
-    visibleData,
+    visibleItems,
     loadMore,
-    hasMore,
+    hasMore: visibleItems.length < items.length,
   };
 }
 

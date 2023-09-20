@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import { Table } from "./Table";
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
 import { TableFilter } from "./TableFilter";
+import { LoadMoreButton } from "./LoadMoreButton";
 
 import styles from "./styles.module.scss";
 
@@ -79,19 +80,20 @@ function SAPermissionsTable({
     ],
     []
   );
-  const { visibleData, loadMore, hasMore } = useLoadMore(data, ITEM_PER_PAGE);
+
+  const { visibleItems, loadMore, hasMore } = useLoadMore(data, ITEM_PER_PAGE);
 
   return (
     <>
       <Table
         columns={columns}
-        data={visibleData}
+        data={visibleItems}
         isAdding={isAdding}
         handleCancel={handleCancel}
         handleAddNew={handleAddNew}
         agents={agents}
       />
-      {hasMore && <button onClick={loadMore}>Show More</button>}
+      {hasMore && <LoadMoreButton loadMore={loadMore} />}
     </>
   );
 }
