@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function SAAddPermissionRow({ handleAddNew, numOfPermissions = 0, isAdding }) {
+function SAAddPermissionRow({ handleAddNew, numOfPermissions, isAdding }) {
   const classess = useStyles();
   const shouldShow = !isAdding && numOfPermissions === 0;
 

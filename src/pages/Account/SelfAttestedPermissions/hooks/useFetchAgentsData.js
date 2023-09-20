@@ -5,10 +5,12 @@ import clientsService from "services/clientsService";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import { mockData } from "../SAAddPermissionForm/mockData";
+import { getRecordsWithSelfAttestation } from "../utils/helper";
 
 function useFetchAgentsData() {
   const [isLoading, setIsLoading] = useState(false);
   const [agents, setAgents] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const addToast = useToast();
   const { npn } = useUserProfile;
 
@@ -16,7 +18,9 @@ function useFetchAgentsData() {
     try {
       setIsLoading(true);
       const response = await clientsService.getAgents(npn);
-      setAgents(mockData);
+      const data = getRecordsWithSelfAttestation(mockData());
+      setAgents(mockData());
+      setTableData(data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -33,7 +37,7 @@ function useFetchAgentsData() {
     fetchAgentsData();
   }, [fetchAgentsData]);
 
-  return { agents, fetchAgentsData, isLoading };
+  return { agents, tableData, isLoading };
 }
 
 export default useFetchAgentsData;

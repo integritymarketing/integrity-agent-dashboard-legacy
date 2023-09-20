@@ -1,3 +1,5 @@
+import HiddenRow from "./HiddenRow";
+
 import styles from "./styles.module.scss";
 
 function TableBody({ getTableBodyProps, rows, prepareRow }) {
@@ -17,6 +19,7 @@ function TableBody({ getTableBodyProps, rows, prepareRow }) {
           </tr>
         );
       })}
+        <HiddenRow />
     </tbody>
   );
 }

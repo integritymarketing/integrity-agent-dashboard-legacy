@@ -2,6 +2,8 @@ import { useState, useCallback } from "react";
 import Container from "components/ui/container";
 import makeStyles from "@mui/styles/makeStyles";
 
+import useFetchAgentsData from "./hooks/useFetchAgentsData";
+import Spinner from "components/ui/Spinner/index";
 import { SAPermissionsHeader } from "./SAPermissionsHeader";
 import { SAPermissionsTable } from "./SAPermissionsTable";
 import { SAPermissionModal } from "./SAPermissionModal";
@@ -14,30 +16,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const MOCK_DATA = [
-  {
-    carrier: "Humana",
-    product: "MA",
-    state: "TX",
-    planYear: "2023",
-    producerId: 123321,
-    dateAdded: "12/12/2023",
-  },
-  {
-    carrier: "Humana 1",
-    product: "CA",
-    state: "TX",
-    planYear: "2023",
-    producerId: 123321,
-    dateAdded: "12/12/2023",
-  },
-];
-
 function SelfAttestedPermissions() {
   const styles = useStyles();
   const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoading, agents, tableData } = useFetchAgentsData();
 
   const handleAddNew = useCallback(() => {
     setIsAdding(true);
@@ -46,6 +30,8 @@ function SelfAttestedPermissions() {
   const handleCancel = useCallback(() => {
     setIsAdding(false);
   }, [setIsAdding]);
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>
@@ -56,20 +42,23 @@ function SelfAttestedPermissions() {
           setIsCollapsed={setIsCollapsed}
           isCollapsed={isCollapsed}
           isAdding={isAdding}
+          numOfPermissions={tableData.length}
         />
         {!isCollapsed && (
-          <>
-            <SAPermissionsTable
-              isAdding={isAdding}
-              data={MOCK_DATA}
-              handleCancel={handleCancel}
-              handleAddNew={handleAddNew}
-            />
-            <SAAddPermissionRow
-              isAdding={isAdding}
-              handleAddNew={handleAddNew}
-            />
-          </>
+          <SAPermissionsTable
+            isAdding={isAdding}
+            agents={agents}
+            data={tableData}
+            handleCancel={handleCancel}
+            handleAddNew={handleAddNew}
+          />
+        )}
+        {!isCollapsed && (
+          <SAAddPermissionRow
+            isAdding={isAdding}
+            handleAddNew={handleAddNew}
+            numOfPermissions={tableData.length}
+          />
         )}
       </Container>
       <SAPermissionModal

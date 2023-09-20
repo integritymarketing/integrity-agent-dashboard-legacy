@@ -6,7 +6,9 @@ import { Select } from "components/ui/Select";
 import styles from "./styles.module.scss";
 
 function CarrierField({ carrier, setCarrier, options }) {
-  console.log(options)
+  const shouldShowDefault = options.length === 1 && !carrier;
+  const value = shouldShowDefault ? options[0].value : carrier;
+
   return (
     <td>
       <Box className={styles.customBodyRow}>
@@ -15,7 +17,7 @@ function CarrierField({ carrier, setCarrier, options }) {
           style={{ width: "100%" }}
           placeholder="select"
           options={options}
-          initialValue={carrier}
+          initialValue={value}
           onChange={setCarrier}
           showValueAlways={false}
         />

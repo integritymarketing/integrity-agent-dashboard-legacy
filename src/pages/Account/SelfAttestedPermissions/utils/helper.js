@@ -85,9 +85,30 @@ function convertArrayToOptions(inputArray) {
   return inputArray.map((value) => ({ label: value, value: value }));
 }
 
+/**
+ * Filters and returns an array of unique records where "isSelfAttested" is equal to TRUE.
+ *
+ * @param {Array} data - The array of objects containing the records.
+ * @returns {Array} An array of unique records with "isSelfAttested" equal to TRUE.
+ */
+function getRecordsWithSelfAttestation(data) {
+  const uniqueRecords = [];
+  const seenIds = new Set();
+
+  for (const item of data) {
+    if (item.isSelfAttested === "TRUE" && !seenIds.has(item.producerId)) {
+      uniqueRecords.push(item);
+      seenIds.add(item.producerId);
+    }
+  }
+  
+  return uniqueRecords;
+}
+
 export {
   getUniqueCarriers,
   groupUniquePlanTypesByCarrier,
   groupUniquePlanYearsByCarrier,
   convertArrayToOptions,
+  getRecordsWithSelfAttestation,
 };

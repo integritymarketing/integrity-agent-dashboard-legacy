@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 
@@ -7,6 +8,13 @@ import styles from "./styles.module.scss";
 
 function ProductField({ product, carrier, setProduct, options }) {
   const isInacctive = !carrier;
+  
+  useEffect(() => {
+    if(options.length === 1 && !product){
+      setProduct(options[0].value)
+    }
+  }, [options])
+
   return (
     <td>
       <Box className={styles.customBodyRow}>

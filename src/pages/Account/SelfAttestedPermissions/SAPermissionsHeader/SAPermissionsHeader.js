@@ -42,7 +42,7 @@ function SAPermissionsHeader({
   setIsModalOpen,
   setIsCollapsed,
   isCollapsed,
-  numOfPermissions = 0,
+  numOfPermissions,
   isAdding,
 }) {
   const classess = useStyles();

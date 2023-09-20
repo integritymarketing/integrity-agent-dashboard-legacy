@@ -8,21 +8,20 @@ import { PlanYearField } from "./PlanYearField";
 import { ProducerIdField } from "./ProducerIdField";
 import { CancelButton } from "./CancelButton";
 import { AddButton } from "./AddButton";
-import useFetchAgentsData from "../hooks/useFetchAgentsData";
-import Spinner from "components/ui/Spinner/index";
 import useSelectOptions from "../hooks/useSelectOptions";
 
 import styles from "./styles.module.scss";
 
-function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding }) {
+function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
   const [carrier, setCarrier] = useState("");
   const [product, setProduct] = useState("");
   const [state, setState] = useState("");
   const [year, setYear] = useState("");
   const [producerId, setProducerId] = useState("");
-  const { isLoading, agents } = useFetchAgentsData();
   const { carriersOptions, getProductsOptions, getPlanYearOptions } =
     useSelectOptions(agents);
+  const productsOptions = getProductsOptions(carrier);
+  const planYearOptions = getPlanYearOptions(carrier);
 
   const resetAllFields = () => {
     setCarrier("");
@@ -62,8 +61,6 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding }) {
 
   if (!isAdding) return <></>;
 
-  if (isLoading) return <Spinner />;
-
   return (
     <tbody className={styles.customBody}>
       <tr>
@@ -76,14 +73,14 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding }) {
           product={product}
           carrier={carrier}
           setProduct={onProductChange}
-          options={getProductsOptions(carrier)}
+          options={productsOptions}
         />
         <StateField product={product} state={state} setState={onStateChange} />
         <PlanYearField
           state={state}
           year={year}
           setYear={setYear}
-          options={getPlanYearOptions(carrier)}
+          options={planYearOptions}
         />
         <ProducerIdField producerId={producerId} />
         <CancelButton OnCancelClickHandle={OnCancelClickHandle} />

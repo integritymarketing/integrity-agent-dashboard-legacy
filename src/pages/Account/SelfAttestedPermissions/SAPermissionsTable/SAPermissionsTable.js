@@ -11,6 +11,7 @@ const ITEM_PER_PAGE = 5;
 
 function SAPermissionsTable({
   data = [],
+  agents,
   isAdding,
   handleAddNew,
   handleCancel,
@@ -84,6 +85,7 @@ function SAPermissionsTable({
         isAdding={isAdding}
         handleCancel={handleCancel}
         handleAddNew={handleAddNew}
+        agents={agents}
       />
       {hasMore && <button onClick={loadMore}>Show More</button>}
     </>

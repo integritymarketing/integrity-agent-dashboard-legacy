@@ -60,7 +60,7 @@ const OPTIONS = [
 
 function StateField({ state, product, setState }) {
   const isInacctive = !product;
-
+  
   return (
     <td>
       <Box className={styles.customBodyRow}>
