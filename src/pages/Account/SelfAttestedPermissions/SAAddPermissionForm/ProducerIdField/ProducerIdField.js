@@ -20,6 +20,8 @@ function ProducerIdField({ producerId }) {
   );
 }
 
-ProducerIdField.propTypes = {};
+ProducerIdField.propTypes = {
+  producerId: PropTypes.string,
+};
 
 export default ProducerIdField;

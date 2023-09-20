@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import HiddenRow from "./HiddenRow";
 
 import styles from "./styles.module.scss";
@@ -12,16 +14,24 @@ function TableBody({ getTableBodyProps, rows, prepareRow }) {
             {row.cells.map((cell) => {
               return (
                 <td {...cell.getCellProps()}>
-                  <div className={styles.customBodyRow}>{cell.render("Cell")}</div>
+                  <div className={styles.customBodyRow}>
+                    {cell.render("Cell")}
+                  </div>
                 </td>
               );
             })}
           </tr>
         );
       })}
-        <HiddenRow />
+      <HiddenRow />
     </tbody>
   );
 }
+
+TableBody.propTypes = {
+  getTableBodyProps: PropTypes.func,
+  rows: PropTypes.array,
+  prepareRow: PropTypes.func,
+};
 
 export default TableBody;

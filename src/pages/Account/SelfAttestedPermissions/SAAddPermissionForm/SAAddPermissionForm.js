@@ -97,6 +97,7 @@ SAAddPermissionForm.propTypes = {
   handleCancel: PropTypes.func,
   handleAddNew: PropTypes.func,
   isAdding: PropTypes.bool,
+  agents: PropTypes.array,
 };
 
 export default SAAddPermissionForm;

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useSortBy, useTable } from "react-table";
 
 import { TableHeader } from "../TableHeader";
@@ -42,5 +43,14 @@ function Table({
     </div>
   );
 }
+
+Table.propTypes = {
+  data: PropTypes.array,
+  columns: PropTypes.array,
+  isAdding: PropTypes.bool,
+  handleCancel: PropTypes.func,
+  handleAddNew: PropTypes.func,
+  agents: PropTypes.array,
+};
 
 export default Table;

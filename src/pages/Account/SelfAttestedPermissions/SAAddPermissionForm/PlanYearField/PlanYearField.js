@@ -35,6 +35,11 @@ function PlanYearField({ year, state, setYear, options }) {
   );
 }
 
-PlanYearField.propTypes = {};
+PlanYearField.propTypes = {
+  year: PropTypes.string,
+  state: PropTypes.string,
+  setYear: PropTypes.func,
+  options: PropTypes.array,
+};
 
 export default PlanYearField;

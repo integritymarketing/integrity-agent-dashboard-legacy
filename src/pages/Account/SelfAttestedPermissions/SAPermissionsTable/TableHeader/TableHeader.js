@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Sort from "components/icons/sort-arrow";
 import SortUp from "components/icons/sort-arrow-up";
 import SortDown from "components/icons/sort-arrow-down";
@@ -37,4 +38,8 @@ function TableHeader({ headerGroups }) {
   );
 }
 
-export default TableHeader;
+TableHeader.propTypes = {
+  headerGroups: PropTypes.array
+}
+
+export default TableHeader

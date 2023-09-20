@@ -35,6 +35,11 @@ function ProductField({ product, carrier, setProduct, options }) {
   );
 }
 
-ProductField.propTypes = {};
+ProductField.propTypes = {
+  product: PropTypes.string,
+  carrier: PropTypes.string,
+  setProduct: PropTypes.func,
+  options: PropTypes.array,
+};
 
 export default ProductField;

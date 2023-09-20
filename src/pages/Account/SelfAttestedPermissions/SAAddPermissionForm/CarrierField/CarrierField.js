@@ -26,6 +26,11 @@ function CarrierField({ carrier, setCarrier, options }) {
   );
 }
 
-CarrierField.propTypes = {};
+
+CarrierField.propTypes = {
+  carrier: PropTypes.string,
+  setCarrier: PropTypes.func,
+  options: PropTypes.array,
+};
 
 export default CarrierField;
