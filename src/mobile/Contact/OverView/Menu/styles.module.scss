@@ -54,10 +54,12 @@
         padding: 10px 10px;
 
         .name {
-          color: #4178FF;
-          font-size: 18px;
-          font-weight: bold;
-          margin-left: 15px;
+          font-family: "Lato", sans-serif;
+         font-weight: bold;
+        font-size: 14px;
+        line-height: 18px;
+        color: #434A51;
+        display: inline-flex;
         }
       }
     }
@@ -89,6 +91,7 @@
 
 .icon {
   margin-top: 4px;
+  margin-right: 10px;
   .Overview {
     width: 24px;
   }
