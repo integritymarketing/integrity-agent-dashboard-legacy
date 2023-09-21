@@ -14,6 +14,7 @@ import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import useUserProfile from "hooks/useUserProfile";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import "./index.scss";
 import Track from "./Track";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
@@ -54,6 +55,9 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
+  const {
+    agentInformation: { agentPurl },
+  } = useAgentInformationByID();
 
   useEffect(() => {
     const getContactInfo = async () => {
@@ -122,6 +126,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         agentEmail: agentEmail,
         agentNpn: npnNumber,
         isTracking48HoursWaitingPeriod: isTracking,
+        agentPurl
       };
       if (selectOption === "email") {
         const data = {
