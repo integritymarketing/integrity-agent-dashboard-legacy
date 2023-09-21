@@ -1,25 +1,27 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-
 import * as Sentry from "@sentry/react";
-import agentsSelfService from "services/agentsSelfService";
+
+import TrashBinIcon from "components/icons/trashbin";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
-import TrashBinIcon from "components/icons/trashbin";
+import useFetch from "hooks/useFetch";
 
 import styles from "./styles.module.scss";
 
+const AGENTS_API_VERSION = "v1.0";
 function DeleteButton({ attestationId, fetchTableData }) {
   const addToast = useToast();
   const { agentId } = useUserProfile();
 
+  const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}/${attestationId}`;
+
+  const { Delete: deleteAgentSelfAttestation } = useFetch(URL);
+
   const onDeleteHandle = async () => {
     try {
-      await agentsSelfService.deleteAgentSelfAttestation(
-        agentId,
-        attestationId
-      );
+      await deleteAgentSelfAttestation();
       await fetchTableData();
     } catch (error) {
       Sentry.captureException(error);

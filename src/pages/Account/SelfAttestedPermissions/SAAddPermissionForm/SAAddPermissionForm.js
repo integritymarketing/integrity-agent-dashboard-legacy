@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import * as Sentry from "@sentry/react";
 
-import agentsSelfService from "services/agentsSelfService";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import { useWindowSize } from "hooks/useWindowSize";
@@ -16,8 +15,11 @@ import { CancelButton } from "./CancelButton";
 import { AddButton } from "./AddButton";
 import useSelectOptions from "../hooks/useSelectOptions";
 import { getSnpTypes } from "../utils/helper";
+import useFetch from "hooks/useFetch";
 
 import styles from "./styles.module.scss";
+
+const AGENTS_API_VERSION = "v1.0";
 
 function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData }) {
   const [carrier, setCarrier] = useState("");
@@ -34,11 +36,16 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
     getProducerID,
     carriersGroup,
   } = useSelectOptions(agents);
+
+  
+  const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${npn}`;
+
+  const { Post: addAgentSelfAttestation } = useFetch(URL);
+
   const productsOptions = getProductsOptions(carrier);
   const planYearOptions = getPlanYearOptions(carrier);
   const producerId = getProducerID(carrier);
   const selectedCarrierGroup = carriersGroup[carrier];
-
   const isMobile = windowWidth <= 784;
 
   const resetAllFields = () => {
@@ -95,7 +102,7 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
       ],
     };
     try {
-      await agentsSelfService.addAgentSelfAttestation(npn, payload);
+      await addAgentSelfAttestation(payload);
       await fetchTableData()
       resetAllFields();
     } catch (error) {
