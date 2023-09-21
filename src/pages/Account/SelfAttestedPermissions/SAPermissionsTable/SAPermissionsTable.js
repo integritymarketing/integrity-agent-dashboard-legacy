@@ -69,7 +69,7 @@ function SAPermissionsTable({
         accessor: "createDate",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <Box>{dateFormatter(value, "M-DD-YY")}</Box>;
+          return <Box>{dateFormatter(value, "MM-DD-YY")}</Box>;
         },
       },
       {

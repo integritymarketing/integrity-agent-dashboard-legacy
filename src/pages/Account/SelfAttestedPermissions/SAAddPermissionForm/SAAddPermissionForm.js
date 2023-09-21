@@ -77,7 +77,7 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
       agentRts: {
         awn: agentRtsData.producerId,
         bu: agentRtsData.businessUnit,
-        selfAttestationDate: Date.now(),
+        selfAttestationDate: "",
         isSelfAttested: true,
         blobPath: agentRtsData.blobPath,
         rtS_STATUS: agentRtsData.status,
@@ -90,7 +90,7 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
           planType: product,
           agentProducerID: producerId,
           snpTypes: getSnpTypes(product),
-          stateExpirationDate: Date.now(),
+          stateExpirationDate: "",
         },
       ],
     };
