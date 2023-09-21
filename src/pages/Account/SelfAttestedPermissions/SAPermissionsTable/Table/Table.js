@@ -13,6 +13,7 @@ function Table({
   isAdding,
   handleCancel,
   agents,
+  fetchTableData
 }) {
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } =
     useTable(
@@ -30,6 +31,7 @@ function Table({
         isAdding={isAdding}
         handleCancel={handleCancel}
         agents={agents}
+        fetchTableData={fetchTableData}
       />
       <TableBody
         getTableBodyProps={getTableBodyProps}
@@ -46,6 +48,7 @@ Table.propTypes = {
   isAdding: PropTypes.bool,
   handleCancel: PropTypes.func,
   agents: PropTypes.array,
+  fetchTableData: PropTypes.func,
 };
 
 export default Table;

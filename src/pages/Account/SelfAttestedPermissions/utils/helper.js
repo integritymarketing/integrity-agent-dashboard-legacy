@@ -115,11 +115,46 @@ function groupUniqueProducerIdsByCarrier(data) {
   return record;
 }
 
+/**
+ * Groups an array of objects by their 'carrier' property into a new object format
+ * where each carrier name is a key, and the associated value is an array of objects.
+ *
+ * @param {Array} arr - The array of objects to group.
+ * @returns {Object} An object where each carrier name is a key, and the associated value
+ * is an array of objects containing all the properties for that carrier.
+ */
+function groupCarriers(arr) {
+  const groupedCarriers = {};
+
+  arr.forEach((item) => {
+    const { carrier } = item;
+    if (!groupedCarriers[carrier]) {
+      groupedCarriers[carrier] = [];
+    }
+    groupedCarriers[carrier].push(item);
+  });
+
+  // Convert groupedCarriers to the desired format
+  const result = {};
+  for (const carrier in groupedCarriers) {
+    if (groupedCarriers.hasOwnProperty(carrier)) {
+      result[carrier] = groupedCarriers[carrier];
+    }
+  }
+
+  return result;
+}
+
+function getSnpTypes(planType) {
+  return planType === "MAPD" ? ["DSNP", "ISNP", "CSNP"] : []
+}
 
 export {
   getUniqueCarriers,
   groupUniquePlanTypesByCarrier,
   groupUniquePlanYearsByCarrier,
   convertArrayToOptions,
-  groupUniqueProducerIdsByCarrier
+  groupUniqueProducerIdsByCarrier,
+  groupCarriers,
+  getSnpTypes,
 };

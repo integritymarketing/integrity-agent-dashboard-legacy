@@ -1,7 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
+import * as Sentry from "@sentry/react";
 
+import agentsSelfService from "services/agentsSelfService";
+import useUserProfile from "hooks/useUserProfile";
+import useToast from "hooks/useToast";
 import { useWindowSize } from "hooks/useWindowSize";
 import { CarrierField } from "./CarrierField";
 import { ProductField } from "./ProductField";
@@ -11,24 +15,29 @@ import { ProducerIdField } from "./ProducerIdField";
 import { CancelButton } from "./CancelButton";
 import { AddButton } from "./AddButton";
 import useSelectOptions from "../hooks/useSelectOptions";
+import { getSnpTypes } from "../utils/helper";
 
 import styles from "./styles.module.scss";
 
-function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
+function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData }) {
   const [carrier, setCarrier] = useState("");
   const [product, setProduct] = useState("");
   const [state, setState] = useState("");
   const [year, setYear] = useState("");
+  const { npn } = useUserProfile();
+  const addToast = useToast();
   const { width: windowWidth } = useWindowSize();
   const {
     carriersOptions,
     getProductsOptions,
     getPlanYearOptions,
     getProducerID,
+    carriersGroup,
   } = useSelectOptions(agents);
   const productsOptions = getProductsOptions(carrier);
   const planYearOptions = getPlanYearOptions(carrier);
   const producerId = getProducerID(carrier);
+  const selectedCarrierGroup = carriersGroup[carrier];
 
   const isMobile = windowWidth <= 784;
 
@@ -62,9 +71,41 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
     handleCancel();
   };
 
-  const OnAddClickHandle = () => {
-    handleAddNew();
-    resetAllFields();
+  const OnAddClickHandle = async () => {
+    const agentRtsData = selectedCarrierGroup[0];
+    const payload = {
+      agentRts: {
+        awn: agentRtsData.producerId,
+        bu: agentRtsData.businessUnit,
+        selfAttestationDate: Date.now(),
+        isSelfAttested: true,
+        blobPath: agentRtsData.blobPath,
+        rtS_STATUS: agentRtsData.status,
+      },
+      selfAttestationRequests: [
+        {
+          carrier: carrier,
+          planYear: year,
+          states: [state],
+          planType: product,
+          agentProducerID: producerId,
+          snpTypes: getSnpTypes(product),
+          stateExpirationDate: Date.now(),
+        },
+      ],
+    };
+    try {
+      await agentsSelfService.addAgentSelfAttestation(npn, payload);
+      await fetchTableData()
+      resetAllFields();
+    } catch (error) {
+      Sentry.captureException(error);
+      addToast({
+        type: "error",
+        message: "Failed to add record",
+        time: 10000,
+      });
+    }
   };
 
   if (!isAdding) return <></>;
@@ -158,9 +199,9 @@ function SAAddPermissionForm({ handleCancel, handleAddNew, isAdding, agents }) {
 
 SAAddPermissionForm.propTypes = {
   handleCancel: PropTypes.func,
-  handleAddNew: PropTypes.func,
   isAdding: PropTypes.bool,
   agents: PropTypes.array,
+  fetchTableData: PropTypes.func,
 };
 
 export default SAAddPermissionForm;

@@ -27,6 +27,7 @@ function SAPermissionsList({
         handleCancel={handleCancel}
         handleAddNew={handleAddNew}
         agents={agents}
+        fetchTableData={fetchTableData}
       />
       {visibleItems.map((item, index) => (
         <ListItem item={item} key={index} fetchTableData={fetchTableData} />

@@ -101,6 +101,7 @@ function SAPermissionsTable({
         isAdding={isAdding}
         handleCancel={handleCancel}
         agents={agents}
+        fetchTableData={fetchTableData}
       />
       {hasMore && <LoadMoreButton loadMore={loadMore} />}
     </>
