@@ -12,7 +12,6 @@ function Table({
   data,
   isAdding,
   handleCancel,
-  handleAddNew,
   agents,
 }) {
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } =
@@ -30,7 +29,6 @@ function Table({
       <SAAddPermissionForm
         isAdding={isAdding}
         handleCancel={handleCancel}
-        handleAddNew={handleAddNew}
         agents={agents}
       />
       <TableBody
@@ -47,7 +45,6 @@ Table.propTypes = {
   columns: PropTypes.array,
   isAdding: PropTypes.bool,
   handleCancel: PropTypes.func,
-  handleAddNew: PropTypes.func,
   agents: PropTypes.array,
 };
 

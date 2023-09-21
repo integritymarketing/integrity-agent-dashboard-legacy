@@ -14,16 +14,20 @@ import useFetchAgentsData from "./hooks/useFetchAgentsData";
 
 import styles from "./styles.module.scss";
 
-const FLAG_NAME = 'REACT_APP_SELF_ATTESTED_PERMISSION_FLAG'
+const FLAG_NAME = "REACT_APP_SELF_ATTESTED_PERMISSION_FLAG";
 
 function SelfAttestedPermissions() {
   const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { agents, isLoading } = useFetchAgentsData();
-  const { tableData, isLoading: isfetchingTableData } = useFetchTableData();
+  const {
+    tableData,
+    isLoading: isfetchingTableData,
+    fetchTableData,
+  } = useFetchTableData();
   const { width: windowWidth } = useWindowSize();
-  const isFeatureEnabled = useFeatureFlag(FLAG_NAME)
+  const isFeatureEnabled = useFeatureFlag(FLAG_NAME);
 
   const isMobile = windowWidth <= 784;
 
@@ -35,7 +39,7 @@ function SelfAttestedPermissions() {
     setIsAdding(false);
   }, [setIsAdding]);
 
-  if(!isFeatureEnabled) return <></>
+  if (!isFeatureEnabled) return <></>;
 
   if (isLoading || isfetchingTableData) return <Spinner />;
 
@@ -56,7 +60,7 @@ function SelfAttestedPermissions() {
             agents={agents}
             data={tableData}
             handleCancel={handleCancel}
-            handleAddNew={handleAddNew}
+            fetchTableData={fetchTableData}
           />
         )}
         {!isCollapsed && isMobile && (
@@ -65,7 +69,7 @@ function SelfAttestedPermissions() {
             agents={agents}
             data={tableData}
             handleCancel={handleCancel}
-            handleAddNew={handleAddNew}
+            fetchTableData={fetchTableData}
           />
         )}
         {!isCollapsed && (

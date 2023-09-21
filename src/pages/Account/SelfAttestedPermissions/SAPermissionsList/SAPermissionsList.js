@@ -16,6 +16,7 @@ function SAPermissionsList({
   isAdding,
   handleAddNew,
   handleCancel,
+  fetchTableData,
 }) {
   const { visibleItems, loadMore, hasMore } = useLoadMore(data, ITEM_PER_PAGE);
 
@@ -28,7 +29,7 @@ function SAPermissionsList({
         agents={agents}
       />
       {visibleItems.map((item, index) => (
-        <ListItem item={item} key={index} />
+        <ListItem item={item} key={index} fetchTableData={fetchTableData} />
       ))}
       {hasMore && <LoadMoreButton loadMore={loadMore} />}
     </Box>
@@ -41,6 +42,7 @@ SAPermissionsList.propTypes = {
   handleAddNew: PropTypes.func,
   handleCancel: PropTypes.func,
   isAdding: PropTypes.bool,
+  fetchTableData: PropTypes.func,
 };
 
 export default SAPermissionsList;

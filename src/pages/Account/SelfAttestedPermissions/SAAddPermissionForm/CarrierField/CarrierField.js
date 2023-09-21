@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 
@@ -8,6 +9,12 @@ import styles from "./styles.module.scss";
 function CarrierField({ carrier, setCarrier, options, isMobile }) {
   const shouldShowDefault = options.length === 1 && !carrier;
   const value = shouldShowDefault ? options[0].value : carrier;
+
+  useEffect(() => {
+    if (options.length === 1 && !carrier) {
+      setCarrier(options[0].value);
+    }
+  }, [options, carrier]);
 
   return (
     <Box className={isMobile ? styles.mobileRow : styles.customBodyRow}>

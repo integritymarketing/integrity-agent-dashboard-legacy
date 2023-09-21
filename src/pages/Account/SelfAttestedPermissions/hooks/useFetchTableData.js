@@ -35,7 +35,7 @@ function useFetchTableData() {
     fetchTableData();
   }, [fetchTableData]);
 
-  return { tableData, isLoading };
+  return { tableData, isLoading, fetchTableData };
 }
 
 export default useFetchTableData;

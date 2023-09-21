@@ -12,12 +12,12 @@ function useFetchAgentsData() {
   const { npn } = useUserProfile();
 
   const fetchAgentsData = useCallback(async () => {
-    if(!npn) return;
-    
+    if (!npn) return;
     try {
       setIsLoading(true);
       const response = await clientsService.getAgents(npn);
-      setAgents(response);
+      const filteredAgents = response.filter((agent) => agent.isSelfAttested === "FALSE")
+      setAgents(filteredAgents);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

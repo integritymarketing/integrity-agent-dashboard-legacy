@@ -17,8 +17,8 @@ function SAPermissionsTable({
   data = [],
   agents,
   isAdding,
-  handleAddNew,
   handleCancel,
+  fetchTableData,
 }) {
   const columns = useMemo(
     () => [
@@ -69,15 +69,22 @@ function SAPermissionsTable({
         accessor: "createDate",
         disableSortBy: true,
         Cell: ({ value }) => {
-          return <Box>{dateFormatter(value, 'M-DD-YY')}</Box>;
+          return <Box>{dateFormatter(value, "M-DD-YY")}</Box>;
         },
       },
       {
         Header: () => <TableFilter />,
         accessor: "filter",
         disableSortBy: true,
-        Cell: () => {
-          return <Box><DeleteButton /></Box>;
+        Cell: ({ row }) => {
+          return (
+            <Box>
+              <DeleteButton
+                fetchTableData={fetchTableData}
+                attestationId={row.original.attestationId}
+              />
+            </Box>
+          );
         },
       },
     ],
@@ -93,7 +100,6 @@ function SAPermissionsTable({
         data={visibleItems}
         isAdding={isAdding}
         handleCancel={handleCancel}
-        handleAddNew={handleAddNew}
         agents={agents}
       />
       {hasMore && <LoadMoreButton loadMore={loadMore} />}
@@ -101,14 +107,12 @@ function SAPermissionsTable({
   );
 }
 
-
-
 SAPermissionsTable.propTypes = {
   data: PropTypes.array,
   agents: PropTypes.array,
-  handleAddNew: PropTypes.func,
   handleCancel: PropTypes.func,
   isAdding: PropTypes.bool,
+  fetchTableData: PropTypes.func,
 };
 
 export default SAPermissionsTable;
