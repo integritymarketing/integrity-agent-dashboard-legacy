@@ -3,16 +3,41 @@ import React from "react";
 const HomeIcon = () => {
   return (
     <svg
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      fill="none"
+      id="Overview"
       xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
     >
-      <path
-        d="M13.9123 6.78115L7.2112 0.0866234C7.09468 -0.0288745 6.90739 -0.0288745 6.79088 0.0866234L0.0880635 6.78115C-0.0992277 6.96831 0.0317518 7.28651 0.297288 7.28651H1.5951V14H5.25024V9.92011H8.74997V14H12.4071V7.28651H13.7031C13.9669 7.28651 14.0996 6.96831 13.9123 6.78115Z"
-        fill="#70777E"
-      />
+      <g id="Button_-_BG" data-name="Button - BG">
+        <rect id="bg" width="32" height="32" fill="#ff1717" opacity="0" />
+      </g>
+      <g id="icon" transform="translate(3.5 7.5)">
+        <path
+          id="Path_21674"
+          data-name="Path 21674"
+          d="M24.5,8.5s-4.174,8-12,8-12-8-12-8,4.174-8,12-8S24.5,8.5,24.5,8.5Z"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <ellipse
+          id="Ellipse_709"
+          data-name="Ellipse 709"
+          cx="4.5"
+          cy="5"
+          rx="4.5"
+          ry="5"
+          transform="translate(8 3.5)"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+      </g>
     </svg>
   );
 };

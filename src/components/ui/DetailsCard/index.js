@@ -53,6 +53,7 @@ function DetailsCard({
               label={buttonLabel}
               onClick={onAddClick}
               type="tertiary"
+              style={{ whiteSpace: "nowrap" }}
             />
           </div>
         )

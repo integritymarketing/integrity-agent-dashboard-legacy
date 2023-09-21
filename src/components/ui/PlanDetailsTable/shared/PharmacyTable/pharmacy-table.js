@@ -147,6 +147,7 @@ const PharmacyTable = ({ contact, planData, isMobile, pharmaciesList }) => {
           onClose={() => {
             setOpen(!open);
           }}
+          hideFooter
           title={"Update Pharmacy"}
           isDelete={isEdit}
           modalName={"Pharmacy"}

@@ -417,12 +417,13 @@
 }
 .leftcardmenu li.active span,
 .leftcardmenu li.active label > svg > path {
-  color: var(--v2-dark-blue) !important;
+  color: #4178FF !important;
   fill: var(--v2-dark-blue) !important;
   font-weight: bold;
 }
 .leftcardmenu li.active {
-  background: #f9fafc;
+  background: #f1faff;
+  color: #4178FF;
 }
 .nameCard {
   background: #ffffff;

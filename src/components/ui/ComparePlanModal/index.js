@@ -52,7 +52,7 @@ const ComparePlanModal = ({
   const addToast = useToast();
   const userProfile = useUserProfile();
   const {
-    agentInformation: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber, agentPurl }
   } = useAgentInformationByID();
   const {
     firstName,
@@ -143,6 +143,7 @@ const ComparePlanModal = ({
         middleInitial: middleName === "" ? null : middleName,
         dateOfBirth: birthdate,
         roles: updatedRoles,
+        agentPurl,
       };
       if (selectOption === "email") {
         const data = {

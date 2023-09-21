@@ -52,7 +52,7 @@ const SharePlanModal = ({
 }) => {
   const addToast = useToast();
   const {
-    agentInformation: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber, agentPurl },
   } = useAgentInformationByID();
 
   const {
@@ -179,6 +179,7 @@ const SharePlanModal = ({
         EnrollmentId: enrollmentId,
         enrollData: enrollData,
         appSubmitDate: enrollData?.submittedDate,
+        agentPurl,
       };
       if (selectOption === "email") {
         const data = {

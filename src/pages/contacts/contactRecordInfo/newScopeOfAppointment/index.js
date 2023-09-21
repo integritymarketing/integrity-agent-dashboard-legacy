@@ -14,6 +14,7 @@ import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import useUserProfile from "hooks/useUserProfile";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import "./index.scss";
 import Track from "./Track";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
@@ -54,6 +55,9 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
+  const {
+    agentInformation: { agentPurl },
+  } = useAgentInformationByID();
 
   useEffect(() => {
     const getContactInfo = async () => {
@@ -67,7 +71,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         });
       }
     };
-    if (!newSoaContactDetails?.firstName && leadId) {
+    if (!newSoaContactDetails.firstName && leadId) {
       getContactInfo();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,8 +93,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const agentEmail = agentUserProfile?.email;
   const agentPhoneNumber = agentUserProfile?.phone;
   const npnNumber = agentUserProfile?.npn;
-  const leadEmail = emails?.[0]?.leadEmail ?? "";
-  const leadPhone = phones?.[0]?.leadPhone ?? "";
+  const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
+  const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
 
   const validateEmail = (email) => {
     if (emailRegex.test(email)) {
@@ -121,7 +125,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
         agentNpn: npnNumber,
-        isTracking48HoursWaitingPeroid: isTracking,
+        isTracking48HoursWaitingPeriod: isTracking,
+        agentPurl
       };
       if (selectOption === "email") {
         const data = {
@@ -317,13 +322,13 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
               <SMSNotification />
               <Track onCheckChange={setIsTracking} />
             </Card>
-            <div
-              className="send-button"
-              style={{ pointerEvents: idFormNotValid ? "none" : "initial" }}
-            >
+            <div className="send-button">
+              <div className="soaCancelBtn" onClick={onCloseModal}>
+                Cancel
+              </div>
               <Button
-                fullWidth={matches.mobile}
                 label="Send SOA"
+                className={`${idFormNotValid ? "disabledSoaBtn" : ""}`}
                 icon={
                   <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
                     <ArrowForwardWithCircle />

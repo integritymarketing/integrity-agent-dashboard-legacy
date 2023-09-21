@@ -3,18 +3,83 @@ import React from "react";
 const PersonIcon = () => {
   return (
     <svg
-      width="16"
-      height="14"
-      viewBox="0 0 16 14"
-      fill="none"
+      id="icon-Details"
       xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
     >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M16 14C16 11.3261 14.167 9.07047 11.6611 8.36682C11.1926 8.77875 10.6519 9.11134 10.0685 9.34455C9.41333 9.60622 8.70769 9.74005 8 9.74005C7.29272 9.74005 6.58708 9.60622 5.9319 9.34455C5.34851 9.11134 4.80738 8.77875 4.33928 8.36682C1.83344 9.07007 0 11.3257 0 13.9992C0 13.9996 0 14 0 14H16ZM7.9721 8.79037H7.97128H7.95569H7.94585H7.94503H7.94215L7.92041 8.78997H7.91836H7.91795C7.34646 8.77995 6.80082 8.66535 6.2999 8.46539L6.27897 8.45738L6.27651 8.45618L6.27446 8.45538L6.26872 8.45297L6.25846 8.44856L6.25354 8.44696L6.24944 8.44496L6.24369 8.44255L6.23754 8.44015L6.23097 8.43734L6.224 8.43454L6.21949 8.43254L6.21703 8.43133L6.21005 8.42853C4.61621 7.75213 3.50031 6.19978 3.50031 4.39539C3.50031 1.96949 5.51672 0 8 0C10.4837 0 12.5001 1.96949 12.5001 4.39539C12.5001 6.19978 11.3842 7.75213 9.79036 8.42853L9.78338 8.43133L9.78092 8.43254L9.77641 8.43454L9.76903 8.43734L9.76287 8.44015L9.75672 8.44255L9.75097 8.44496L9.74687 8.44696L9.74195 8.44856L9.73169 8.45297L9.72595 8.45538L9.7239 8.45618L9.72144 8.45738L9.70051 8.46539C9.19959 8.66535 8.65395 8.77995 8.08246 8.78997H8.08205H8.07959L8.05826 8.79037H8.05538H8.05456H8.04472H8.02913H8.02831H8.02749L8 8.79077L7.97292 8.79037H7.9721Z"
-        fill="#70777E"
-      />
+      <g id="Button_-_BG" data-name="Button - BG">
+        <rect id="bg" width="32" height="32" fill="#ff1717" opacity="0" />
+      </g>
+      <g id="Contacts" transform="translate(-1913.5 -241.5)">
+        <path
+          id="Path_3128"
+          data-name="Path 3128"
+          d="M22.426.5H19.164v.522a1.565,1.565,0,0,1-3.13,0V.5H8.967v.522a1.565,1.565,0,1,1-3.13,0V.5H2.574A2.074,2.074,0,0,0,.5,2.574V22.426A2.074,2.074,0,0,0,2.574,24.5H22.426A2.074,2.074,0,0,0,24.5,22.426V2.574A2.074,2.074,0,0,0,22.426.5Z"
+          transform="translate(1917 245)"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <path
+          id="Path_3126"
+          data-name="Path 3126"
+          d="M9.022,8.674A2.087,2.087,0,1,1,6.935,6.587,2.087,2.087,0,0,1,9.022,8.674Z"
+          transform="translate(1917.87 246.217)"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <path
+          id="Path_3127"
+          data-name="Path 3127"
+          d="M11.457,14.935H3.109l.806-2.417A1.043,1.043,0,0,1,4.9,11.8H9.661a1.043,1.043,0,0,1,.99.714Z"
+          transform="translate(1917.522 247.261)"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <line
+          id="Line_919"
+          data-name="Line 919"
+          x2="5.217"
+          transform="translate(1933.152 253.326)"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <line
+          id="Line_920"
+          data-name="Line 920"
+          x2="5.217"
+          transform="translate(1933.152 257.5)"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <line
+          id="Line_921"
+          data-name="Line 921"
+          x2="5.217"
+          transform="translate(1933.152 261.674)"
+          fill="none"
+          stroke="#4178ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+      </g>
     </svg>
   );
 };
