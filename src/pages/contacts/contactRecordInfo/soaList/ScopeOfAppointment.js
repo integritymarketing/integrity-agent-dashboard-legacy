@@ -49,7 +49,7 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
 
       {isMobile ? (
         <div className="soa-mobile-header">
-          <div className={"soa-header-text"}>Scope of Appointments </div>
+          <div className={"soa-header-text"}> </div>
           <div
             className={"shareBtnContainer"}
             onClick={() => {
