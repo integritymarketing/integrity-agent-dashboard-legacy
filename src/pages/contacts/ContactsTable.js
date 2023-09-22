@@ -348,13 +348,11 @@ function ContactsTable({
         setShowAddNewModal(true);
         break;
       case "new-soa":
-      case "plans":
-        if (value === "new-soa") {
-          setNewSoaContactDetails(contact);
-          setLeadId(leadId);
-          setOpenModal(true);
-        }
+        setNewSoaContactDetails(contact);
+        setLeadId(leadId);
+        setOpenModal(true);
         break;
+      case "plans":
       case "contact":
         navigateToPage(leadId, value);
         break;
