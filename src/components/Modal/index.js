@@ -173,10 +173,12 @@ export default function Modal({
         <DialogActions className={classes.footer}>
           {!hideFooter && (
             <Box className={classes.footerButtons}>
-              {onCancel && (
+              {onCancel ? (
                 <Button onClick={onClose} className={classes.cancelButton}>
                   Cancel
                 </Button>
+              ) : (
+                <Box> </Box>
               )}
               {actionButtonName && (
                 <Button

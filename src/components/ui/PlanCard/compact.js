@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.scss";
 import Rating from "../Rating";
 import { Button } from "../Button";
 import Popover from "components/ui/Popover";
 import ShareIcon from "components/icons/vector";
+import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Info from "components/icons/info-blue";
 import useRoles from "hooks/useRoles";
@@ -22,6 +23,7 @@ const CompactPlanCard = ({
   isMobile,
   onlyButtons = false,
 }) => {
+  const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
   const { documents } = planData;
   const { isNonRTS_User } = useRoles();
 
@@ -52,7 +54,10 @@ const CompactPlanCard = ({
       )}
 
       {!planData.nonLicensedPlan && !isNonRTS_User && (
-        <Button label={"Enroll"} onClick={() => onEnrollClick(planData.id)} />
+        <Button
+          label="Enroll"
+          onClick={() => setPreCheckListPdfModal(true)}
+        />
       )}
     </div>
   );
@@ -91,6 +96,15 @@ const CompactPlanCard = ({
         !planData.nonLicensedPlan &&
         !isMobile &&
         buttons}
+      {preCheckListPdfModal && (
+        <PreEnrollPDFModal
+          open={preCheckListPdfModal}
+          onClose={() => {
+            setPreCheckListPdfModal(false);
+            onEnrollClick(planData.id);
+          }}
+        />
+      )}
     </div>
   );
 };
