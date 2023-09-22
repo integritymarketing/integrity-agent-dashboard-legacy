@@ -123,6 +123,22 @@ const ProviderModal = ({
 
   useEffect(() => {
     if (isEdit && selected) {
+      const query = encodeQueryData({
+        NPIs: selected?.NPI?.toString(),
+        page: 1,
+        perPage: 10,
+      });
+      setIsLoading(true);
+      clientsService
+        .searchProviders(query)
+        .then((resp) => {
+          setIsLoading(false);
+          setResults(resp);
+        })
+        .catch((e) => {
+          setIsLoading(false);
+          Sentry.captureException(e);
+        });
       setSelectedProvider(selected);
       setSelectAddressIds(selected?.addresses?.map((address) => address.id));
     }
@@ -162,6 +178,7 @@ const ProviderModal = ({
   };
 
   const handleEditProvider = async () => {
+    debugger;
     let completeAddressArray = selectedProvider?.addresses;
 
     const getFilteredAddressIds = (completeData, partialData) =>
