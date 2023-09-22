@@ -4,7 +4,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Modal from "components/Modal";
-import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCircle";
+import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
 
 const useStyles = makeStyles(() => ({
   container: {
