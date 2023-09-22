@@ -1,62 +1,41 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import * as Sentry from "@sentry/react";
-import useToast from "hooks/useToast";
 import { Button } from "components/ui/Button";
 import Link from "components/icons/link";
-import clientsService from "services/clientsService";
 import styles from "./index.module.scss";
+import useToast from "hooks/useToast";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 
-const PERSONAL_URL_DATA =
+const PERSONAL_URL_DESCRIPTION =
   "Send your personalized link to the client to get them started with shopping for plans. Don't worry, you will get credit if the consumer enrolls in any of these plans.";
+const URL = process.env.REACT_APP_MEDICARE_ENROLL;
 
-export default function CopyPersonalURL(props) {
-  const { agentnpn } = props;
-  const [purlCode, setPurlCode] = useState(null);
+const CopyPersonalURL = () => {
+  const {
+    agentInformation: { agentPurl },
+  } = useAgentInformationByID();
   const addToast = useToast();
 
-  const getAgentPurlCodeWithNPN = useCallback(async () => {
-    const URL = process.env.REACT_APP_MEDICARE_ENROLL;
+  const handleOnClickCopy = useCallback(async () => {
+    if (!agentPurl) return;
+
     try {
-      let data = await clientsService.getAgentPurlCodeByNPN(agentnpn);
-      if (!data) {
-        data = await clientsService.createAgentPurlCode({
-          agentNpn: agentnpn,
-        });
-      }
-      setPurlCode(`${URL}/?purl=${data.agentPurlCode}`);
+      await navigator.clipboard.writeText(`${URL}/?purl=${agentPurl}`);
+      addToast({
+        message: "Successfully copied to Clipboard.",
+      });
     } catch (error) {
+      Sentry.captureException(error);
       addToast({
         type: "error",
-        message: "Failed to get the purl code.",
-        time: 10000,
+        message: "Error while copying the code.",
       });
-      Sentry.captureException(error);
     }
-  }, [agentnpn, addToast]);
-
-  useEffect(() => {
-    getAgentPurlCodeWithNPN();
-  }, [getAgentPurlCodeWithNPN]);
-
-  const handleOnClickCopy = async () => {
-    if (purlCode) {
-      try {
-        await navigator.clipboard.writeText(purlCode);
-        addToast({
-          message: "Successfully copied to Clipboard.",
-        });
-      } catch (error) {
-        addToast({
-          type: "error",
-          message: "Error while copying the code.",
-        });
-      }
-    }
-  };
+  }, [agentPurl, addToast]);
 
   return (
     <>
-      <div className={styles.purlContent}>{PERSONAL_URL_DATA}</div>
+      <div className={styles.purlContent}>{PERSONAL_URL_DESCRIPTION}</div>
       <Button
         className="mt-2"
         icon={<Link />}
@@ -65,4 +44,6 @@ export default function CopyPersonalURL(props) {
       />
     </>
   );
-}
+};
+
+export default CopyPersonalURL;
