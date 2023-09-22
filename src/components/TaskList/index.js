@@ -71,10 +71,9 @@ export default function TaskList({ isMobile, npn }) {
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
   const addToast = useToast();
-  const selName =
+  const selectedName =
     DEFAULT_TABS.find((tab) => tab.value === statusIndex)?.policyStatus ||
     "SOA 48-hour rule";
-  const [selectedName] = useState(selName);
 
   const showMore = page < totalPageSize;
 
@@ -206,7 +205,7 @@ export default function TaskList({ isMobile, npn }) {
     }
   };
 
-  const getErrorHeading = () => {
+  const getErrorHeading = (selectedName) => {
     switch (selectedName) {
       case "Reminders": {
         return "There are no reminders to display at this time.";
@@ -236,7 +235,7 @@ export default function TaskList({ isMobile, npn }) {
     }
   };
 
-  const getMoreInfo = () => {
+  const getMoreInfo = (selectedName) => {
     switch (selectedName) {
       case "Requested Callbacks": {
         return "about how you can receive leads through consumer callback requests.";
@@ -284,8 +283,8 @@ export default function TaskList({ isMobile, npn }) {
           <ErrorState
             isError={isError}
             emptyList={taskList?.length > 0 ? false : true}
-            heading={getErrorHeading()}
-            content={getMoreInfo()}
+            heading={getErrorHeading(selectedName)}
+            content={getMoreInfo(selectedName)}
             icon={getIcon(selectedName)}
             link={getLink[selectedName]}
           />
