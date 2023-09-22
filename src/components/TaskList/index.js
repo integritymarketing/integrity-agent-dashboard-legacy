@@ -14,6 +14,7 @@ import NoReminder from "images/no-reminder.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
 import NoRequestedCallback from "images/no-requested-callback.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
+import NoSOA48Hours from "images/no-soa-48-hours.svg";
 import { Button } from "components/ui/Button";
 import moment from "moment";
 import WithLoader from "components/ui/WithLoader";
@@ -46,22 +47,6 @@ const DEFAULT_TABS = [
   },
 ];
 
-const getIcon = {
-  "Requested Callbacks": NoRequestedCallback,
-  Reminders: NoReminder,
-  "Unlinked Calls": NoUnlinkedCalls,
-  "Unlinked Policies": NoUnlinkedPolicy,
-};
-
-const getMoreInfo = {
-  "Requested Callbacks":
-    "about how you can receive leads through consumer callback requests.",
-  Reminders: "about how you can create reminders.",
-  "Unlinked Calls": "about unlinked calls.",
-  "Unlinked Policies": "about unlinked policies.",
-  "SOA 48-hour rule": "about SOA 48-hour rule.",
-};
-
 const getLink = {
   "Requested Callbacks": "MedicareCENTER-Requested-Callbacks-Guide.pdf",
   Reminders: "MedicareCENTER-Reminders-Guide.pdf",
@@ -86,10 +71,10 @@ export default function TaskList({ isMobile, npn }) {
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
   const addToast = useToast();
-
-  const selectedName =
+  const selName =
     DEFAULT_TABS.find((tab) => tab.value === statusIndex)?.policyStatus ||
     "SOA 48-hour rule";
+  const [selectedName] = useState(selName);
 
   const showMore = page < totalPageSize;
 
@@ -227,10 +212,48 @@ export default function TaskList({ isMobile, npn }) {
         return "There are no reminders to display at this time.";
       }
       case "SOA 48-hour Rule": {
-        return "You do not have any SOA 48-Hour Rule tasks for this date range.";
+        return "There are no incomplete SOAs being tracked for you at this time.";
       }
       default:
         return `There are no ${selectedName?.toLowerCase()} at this time.`;
+    }
+  };
+
+  const getIcon = (selectedName) => {
+    switch (selectedName) {
+      case "Requested Callbacks":
+        return NoRequestedCallback;
+      case "Reminders":
+        return NoReminder;
+      case "Unlinked Calls":
+        return NoUnlinkedCalls;
+      case "Unlinked Policies":
+        return NoUnlinkedPolicy;
+      case "SOA 48-hour Rule":
+        return NoSOA48Hours;
+      default:
+        return null;
+    }
+  };
+
+  const getMoreInfo = () => {
+    switch (selectedName) {
+      case "Requested Callbacks": {
+        return "about how you can receive leads through consumer callback requests.";
+      }
+      case "Reminders": {
+        return "about how you can create reminders.";
+      }
+      case "Unlinked Calls": {
+        return "about unlinked calls.";
+      }
+      case "Unlinked Policies": {
+        return "about unlinked policies.";
+      }
+      case "SOA 48-hour Rule": {
+        return "To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.";
+      }
+      default:
     }
   };
 
@@ -262,8 +285,8 @@ export default function TaskList({ isMobile, npn }) {
             isError={isError}
             emptyList={taskList?.length > 0 ? false : true}
             heading={getErrorHeading()}
-            content={getMoreInfo[selectedName]}
-            icon={getIcon[selectedName]}
+            content={getMoreInfo()}
+            icon={getIcon(selectedName)}
             link={getLink[selectedName]}
           />
         ) : (
