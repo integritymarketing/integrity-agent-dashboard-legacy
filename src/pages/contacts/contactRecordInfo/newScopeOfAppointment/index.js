@@ -126,7 +126,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         agentEmail: agentEmail,
         agentNpn: npnNumber,
         isTracking48HoursWaitingPeriod: isTracking,
-        agentPurl
+        agentPurl,
       };
       if (selectOption === "email") {
         const data = {
@@ -337,6 +337,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                 iconPosition="right"
                 onClick={!idFormNotValid && handleSend}
                 data-gtm="button-send"
+                style={{ border: "none" }}
               />
             </div>
           </Container>

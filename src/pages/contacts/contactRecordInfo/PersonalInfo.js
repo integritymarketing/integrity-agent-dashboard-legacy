@@ -8,11 +8,12 @@ import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
 import CallScriptSvg from "images/call-script.svg";
 import TagSvg from "components/icons/tag-svg";
-import TagIcon from "components/icons/tag-icon";
 import ButtonExpand from "components/icons/btn-expand";
 import RoundCheck from "components/icons/round-check";
 import RoundClose from "components/icons/round-close";
 import TagEdit from "images/tag-edit.svg";
+import RecommendationIcon from "images/recommendation.png";
+import TagIcon from "images/Tag.png";
 import { CallScriptModal } from "packages/CallScriptModal";
 import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
 import { Popover as TinyPopover } from "react-tiny-popover";
@@ -21,8 +22,9 @@ import * as Sentry from "@sentry/react";
 import Check from "components/icons/check-blue";
 import { Button } from "components/ui/Button";
 import useToast from "hooks/useToast";
-import Close from "components/icons/close";
 import ConfirmationModal from "packages/ConfirmationModal";
+import CrossIcon from "components/icons/cross2";
+import EnrollBack from "images/enroll-btn-back.svg";
 
 const NOT_AVAILABLE = "N/A";
 const RECOMMENDATIONS_TAG_NAME = "Recommendations";
@@ -359,176 +361,208 @@ function TagsIcon({
                 cursor: "pointer",
               }}
             >
-              <Close width="28px" height="28px" color="#0052ce" />
+              <CrossIcon />
+              {/* <Close width="28px" height="28px" color="#0052ce" /> */}
             </div>
           </div>
-          {tagsByCategory?.map((tg) => {
-            if (tg.tagCategoryName !== "Other" && !tg.tags?.length) {
-              return null;
-            }
-            if (
-              tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME &&
-              !leadTags?.some(
-                (st) =>
-                  st.tag.tagCategory.tagCategoryName ===
-                  RECOMMENDATIONS_TAG_NAME
-              )
-            ) {
-              return null;
-            }
-            const isReccommendations =
-              tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME;
-            const isExpanded = expandedList[tg.tagCategoryId];
-            const tags = tg.tags || [];
+          <div className={styles.tagsContainer}>
+            {tagsByCategory?.map((tg) => {
+              if (tg.tagCategoryName !== "Other" && !tg.tags?.length) {
+                return null;
+              }
+              if (
+                tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME &&
+                !leadTags?.some(
+                  (st) =>
+                    st.tag.tagCategory.tagCategoryName ===
+                    RECOMMENDATIONS_TAG_NAME
+                )
+              ) {
+                return null;
+              }
+              const isReccommendations =
+                tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME;
+              const isExpanded = expandedList[tg.tagCategoryId];
+              const tags = tg.tags || [];
 
-            return (
-              <div key={tg.tagCategoryId}>
-                <div className={styles.categoryContainer}>
-                  <div className={styles.categoryName}>
-                    {tg.tagCategoryName}
-                  </div>
-                  <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
-                    {isExpanded ? (
-                      <span className={styles.expandIcons}>-</span>
-                    ) : (
-                      <span className={styles.expandIcons}>+</span>
-                    )}
-                  </div>
-                </div>
-                {isExpanded ? (
-                  <div>
-                    <div className={styles.tagCategoryId}>
-                      {tags.map((tag) =>
-                        editingTag?.tag.tagId === tag.tagId ? (
-                          <div
-                            key={tag.tagId}
-                            className={styles.createInputTagContainer}
-                          >
-                            <input
-                              type="text"
-                              value={editingTag.editVal}
-                              onChange={handleChangeEditTagVal}
-                              className={[
-                                hasError
-                                  ? styles.errorInput
-                                  : styles.createInpt,
-                              ]}
-                            />
-                            <div className={styles.editActionContainer}>
-                              {" "}
-                              <span onClick={() => setConfirmModalOpen(true)}>
-                                <RoundClose />
-                              </span>
-                              <span onClick={handleSaveEditTag}>
-                                <RoundCheck />
-                              </span>
-                            </div>
-                          </div>
-                        ) : (
-                          <div
-                            key={tag.tagId}
-                            data-disabled={
-                              isReccommendations ? "disabled" : false
-                            }
-                            className={styles.tagRow}
-                            onClick={(e) =>
-                              isReccommendations
-                                ? undefined
-                                : toggleTagSelection(e, tag.tagId)
-                            }
-                          >
-                            <div className={styles.tagRowText}>
-                              <span
-                                className={[
-                                  styles.tagNameContainer,
-                                  tg.tagCategoryName === "Other"
-                                    ? styles.rowHoverWrapper
-                                    : "",
-                                ].join(" ")}
-                              >
-                                <span className={styles.tagIcon}>
-                                  <TagIcon />
-                                </span>
-                                {tg.tagCategoryName === "Other" && (
-                                  <span
-                                    className={styles.editIcon}
-                                    onClick={(e) =>
-                                      handleEditTag(e, {
-                                        tagCategoryId: tg.tagCategoryId,
-                                        tag,
-                                      })
-                                    }
-                                  >
-                                    <img src={TagEdit} alt="editTags"></img>
-                                  </span>
-                                )}
-                              </span>
-                              <span className={styles.tagNameSpan}>
-                                {tag.tagLabel}
-                              </span>
-                            </div>
-                            <div>
-                              {selectedTagsIds?.includes(tag.tagId) && (
-                                <Check />
-                              )}
-                            </div>
-                          </div>
-                        )
+              return (
+                <div key={tg.tagCategoryId}>
+                  <div className={styles.categoryContainer}>
+                    <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
+                      {isExpanded ? (
+                        <span
+                          class={`${styles.chevron} ${styles.bottom}`}
+                        ></span>
+                      ) : (
+                        <span class={`${styles.chevron} ${styles.top}`}></span>
                       )}
-                      {tg.tagCategoryName === "Other" && (
-                        <div>
-                          {isShowingCreate && (
-                            <span className={styles.createInputTagContainer}>
+                    </div>
+                    <div className={styles.categoryName}>
+                      {tg.tagCategoryName}{" "}
+                      <span
+                        style={{
+                          color: "#717171",
+                          fontSize: "14px",
+                          fontWeight: "normal",
+                        }}
+                      >
+                        ({tags.length}){" "}
+                      </span>
+                    </div>
+                  </div>
+                  {isExpanded ? (
+                    <div>
+                      <div className={styles.tagCategoryId}>
+                        {tags.map((tag) =>
+                          editingTag?.tag.tagId === tag.tagId ? (
+                            <div
+                              key={tag.tagId}
+                              className={styles.createInputTagContainer}
+                            >
                               <input
                                 type="text"
-                                value={newTagVal}
-                                onChange={handleOnChangeTag}
+                                value={editingTag.editVal}
+                                onChange={handleChangeEditTagVal}
                                 className={[
                                   hasError
                                     ? styles.errorInput
                                     : styles.createInpt,
                                 ]}
                               />
-                              <span onClick={(e) => handleSaveTags(e, false)}>
-                                <RoundCheck />
+                              <div className={styles.editActionContainer}>
+                                {" "}
+                                <span onClick={() => setConfirmModalOpen(true)}>
+                                  <RoundClose />
+                                </span>
+                                <span onClick={handleSaveEditTag}>
+                                  <RoundCheck />
+                                </span>
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              key={tag.tagId}
+                              data-disabled={
+                                isReccommendations ? "disabled" : false
+                              }
+                              className={styles.tagRow}
+                              onClick={(e) =>
+                                isReccommendations
+                                  ? undefined
+                                  : toggleTagSelection(e, tag.tagId)
+                              }
+                            >
+                              <div className={styles.tagRowText}>
+                                <span
+                                  className={[
+                                    styles.tagNameContainer,
+                                    tg.tagCategoryName === "Other"
+                                      ? styles.rowHoverWrapper
+                                      : "",
+                                  ].join(" ")}
+                                >
+                                  <span className={styles.tagIcon}>
+                                    <div style={{ margin: "3px 5px 0" }}>
+                                      <img
+                                        src={
+                                          tg.tagCategoryName ===
+                                          "Ask Integrity Recommendations"
+                                            ? RecommendationIcon
+                                            : TagIcon
+                                        }
+                                        alt={
+                                          tg.tagCategoryName ===
+                                          "Ask Integrity Recommendations"
+                                            ? "Recommendation Icon"
+                                            : "Tag Icon"
+                                        }
+                                      />
+                                    </div>
+                                  </span>
+                                  {tg.tagCategoryName === "Other" && (
+                                    <span
+                                      className={styles.editIcon}
+                                      onClick={(e) =>
+                                        handleEditTag(e, {
+                                          tagCategoryId: tg.tagCategoryId,
+                                          tag,
+                                        })
+                                      }
+                                    >
+                                      <img src={TagEdit} alt="editTags" />
+                                    </span>
+                                  )}
+                                </span>
+                                <span className={styles.tagNameSpan}>
+                                  {tag.tagLabel}
+                                </span>
+                              </div>
+                              <div>
+                                {selectedTagsIds?.includes(tag.tagId) && (
+                                  <Check />
+                                )}
+                              </div>
+                            </div>
+                          )
+                        )}
+                        {tg.tagCategoryName === "Other" && (
+                          <div>
+                            {isShowingCreate && (
+                              <span className={styles.createInputTagContainer}>
+                                <input
+                                  type="text"
+                                  value={newTagVal}
+                                  onChange={handleOnChangeTag}
+                                  className={[
+                                    hasError
+                                      ? styles.errorInput
+                                      : styles.createInpt,
+                                  ]}
+                                />
+                                <span onClick={(e) => handleSaveTags(e, false)}>
+                                  <RoundCheck />
+                                </span>
                               </span>
-                            </span>
-                          )}
-                        </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      {tg.tagCategoryName === "Other" && !isShowingCreate && (
+                        <button
+                          onClick={handleCreateTag}
+                          disabled={(tg.tags?.length || 0) >= 10}
+                          title={
+                            (tg.tags?.length || 0) >= 10
+                              ? "Maximum amount of custom tags has been reached"
+                              : ""
+                          }
+                          className={styles.createTagContainer}
+                        >
+                          <ButtonExpand />{" "}
+                          <span className={styles.createTag}>Create Tag</span>
+                        </button>
                       )}
                     </div>
-                    {tg.tagCategoryName === "Other" && !isShowingCreate && (
-                      <button
-                        onClick={handleCreateTag}
-                        disabled={(tg.tags?.length || 0) >= 10}
-                        title={
-                          (tg.tags?.length || 0) >= 10
-                            ? "Maximum amount of custom tags has been reached"
-                            : ""
-                        }
-                        className={styles.createTagContainer}
-                      >
-                        <ButtonExpand />{" "}
-                        <span className={styles.createTag}>Create Tag</span>
-                      </button>
-                    )}
-                  </div>
-                ) : null}
-              </div>
-            );
-          })}
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
           <div className={styles.tagFooter}>
-            <Button
-              label="Reset"
-              type={"secondary"}
+            <div
               onClick={handleResetTags}
-              disabled={isProcessing}
-            />
+              className={`${styles.resetBtn} ${
+                isProcessing ? styles.disableBtn : ""
+              }`}
+            >
+              Reset
+            </div>
             <Button
               label="Apply"
-              type={"primary"}
               onClick={handleSaveTags}
-              disabled={isProcessing}
+              icon={<img src={EnrollBack} alt="apply" />}
+              className={styles.tagApplyBtn}
+              iconPosition="right"
             />
           </div>
         </div>
@@ -571,6 +605,7 @@ const PersonalInformationCard = ({
     contactPreferences,
     leadTags,
   } = personalInfo;
+
   emails = emails.length > 0 ? emails[0].leadEmail : NOT_AVAILABLE;
 
   let phonesData = phones?.filter((phone) => {
@@ -658,12 +693,7 @@ const PersonalInformationCard = ({
             </label>
             <div className="personalInfoText mobile-hide">
               {phone ? (
-                <PrimaryContactPhone
-                  countyFips={addresses?.countyFips}
-                  postalCode={addresses?.postalCode}
-                  phone={phone}
-                  leadsId={leadsId}
-                />
+                <PrimaryContactPhone phone={phone} leadsId={leadsId} />
               ) : (
                 NOT_AVAILABLE
               )}
@@ -698,17 +728,12 @@ const PersonalInformationCard = ({
           </div>
         </div>
       </Container>
-      {modalOpen && (
-        <CallScriptModal
-          modalOpen={modalOpen}
-          handleClose={() => {
-            setModalOpen(false);
-          }}
-          leadId={leadsId}
-          countyFips={addresses?.countyFips}
-          postalCode={addresses?.postalCode}
-        />
-      )}
+      <CallScriptModal
+        modalOpen={modalOpen}
+        handleClose={() => {
+          setModalOpen(false);
+        }}
+      />
       <ConfirmationModal
         open={confirmModalOpen}
         title="Delete Tag"

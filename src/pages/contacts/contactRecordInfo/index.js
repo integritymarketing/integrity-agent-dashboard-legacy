@@ -394,7 +394,11 @@ const ContactRecordInfoDetails = () => {
           label="View Available Plans"
           onClick={handleViewAvailablePlans}
           type="primary"
-          style={{ borderRadius: "50px" }}
+          style={{
+            borderRadius: "50px",
+            background: "#4178FF",
+            border: "none",
+          }}
         />
       );
     } else

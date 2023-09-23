@@ -5,6 +5,8 @@ import CostBreakdowns from "./cost-breakdowns";
 import { Button } from "../Button";
 import Arrow from "components/icons/down";
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
+import EnrollBack from "images/enroll-btn-back.svg";
+
 import {
   capitalizeFirstLetter,
   formatUnderScorestring,
@@ -13,6 +15,7 @@ import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
 import PlanCoverageUnavailable from "./plan-network-unavailable";
+import SelfRecommendation from "./self-recommendation/SelfRecommendation";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -223,56 +226,74 @@ export default function PlanCard({
             )}
           </div>
         </div>
-        {((planData.providers !== null && planData.providers?.length > 0) ||
-          (planData.pharmacyCosts !== null &&
-            planData.pharmacyCosts?.length > 0)) &&
-          !isMobile && (
-            <div className={`in-network ${isMobile ? "mobile" : ""}`}>
-              <div className={"label"}>Plan Coverage</div>
+        <div
+          className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}
+        >
+          <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
+          {((planData.providers !== null && planData.providers?.length > 0) ||
+            (planData.pharmacyCosts !== null &&
+              planData.pharmacyCosts?.length > 0)) && (
+            <div className={`in-network mob-show ${isMobile ? "mobile" : ""}`}>
+              <div className={"label"}>In-Network</div>
               <div className={"items"}>
-                {getProviders(
-                  planData.providers,
-                  isMobile,
-                  planData.isPlanNetworkAvailable
-                )}
+                {getProviders(planData.providers, isMobile)}
                 {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
               </div>
             </div>
           )}
-        {getCoverageRecommendations(planData)?.length > 0 && (
-          <div className={`coverage ${isMobile ? "mobile" : ""}`}>
-            <div className={"label"}>
-              Supplemental Coverage Recommendations:
+        </div>
+      </div>
+      {((planData.providers !== null && planData.providers?.length > 0) ||
+        (planData.pharmacyCosts !== null &&
+          planData.pharmacyCosts?.length > 0)) &&
+        !isMobile && (
+          <div className={`in-network ${isMobile ? "mobile" : ""}`}>
+            <div className={"label"}>Plan Coverage</div>
+            <div className={"items"}>
+              {getProviders(
+                planData.providers,
+                isMobile,
+                planData.isPlanNetworkAvailable
+              )}
+              {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
             </div>
             <div className="list">{getCoverageRecommendations(planData)}</div>
           </div>
         )}
-        <div className={`footer ${isMobile ? "mobile" : ""}`}>
-          <div className={"compare-check "}>
-            <input
-              type="checkbox"
-              className={"compare-inpt"}
-              disabled={isCompareDisabled}
-              checked={isChecked}
-              onChange={(e) => onChangeCompare(e.target.checked)}
-            />
-            <span className={"compare-txt"}>Compare</span>{" "}
-          </div>
-          <div className={"plan-btn-container"}>
-            <Button
-              label="Plan Details"
-              onClick={() => onDetailsClick(planData.id)}
-              type="secondary"
-            />
-            {!planData.nonLicensedPlan && (
-              <Button
-                label={"Enroll"}
-                disabled={disableEnroll}
-                onClick={() => setPreCheckListPdfModal(true)}
-              />
-            )}
-          </div>
+      {getCoverageRecommendations(planData)?.length > 0 && (
+        <div className={`coverage ${isMobile ? "mobile" : ""}`}>
+          <SelfRecommendation pills={getCoverageRecommendations(planData)} />
         </div>
+      )}
+      <div className={`footer ${isMobile ? "mobile" : ""}`}>
+        <div className={"compare-check "}>
+          <input
+            type="checkbox"
+            className={"compare-inpt"}
+            disabled={isCompareDisabled}
+            checked={isChecked}
+            onChange={(e) => onChangeCompare(e.target.checked)}
+          />
+          <span className={"compare-txt"}>Compare</span>{" "}
+        </div>
+        <div
+          onClick={() => onDetailsClick(planData.id)}
+          className="planDetailsBtn"
+        >
+          Plan Details
+        </div>
+        {!planData.nonLicensedPlan && (
+          <Button
+            label={"Enroll"}
+            onClick={() => onEnrollClick(planData.id)}
+            icon={<img src={EnrollBack} alt="enroll" />}
+            className={"enroll-btn"}
+            style={
+              disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null
+            }
+            iconPosition={"right"}
+          />
+        )}
       </div>
       {preCheckListPdfModal && (
         <PreEnrollPDFModal

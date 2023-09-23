@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  gap: 8px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .heading {
+      font-size: 16px;
+      color: #052a63;
+      font-weight: bold;
+    }
+
+    .pills {
+      display: flex;
+      gap: 8px;
+
+      .pill {
+        display: flex;
+        border-radius: 4px;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        height: 11px;
+        font-size: 9px;
+        background-color: white;
+        color: #717171;
+        padding: 4px 6px;
+      }
+    }
+  }
+}
