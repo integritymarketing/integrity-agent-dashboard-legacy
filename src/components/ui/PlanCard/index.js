@@ -267,7 +267,7 @@ export default function PlanCard({
             {!planData.nonLicensedPlan && (
               <Button
                 label={"Enroll"}
-                disabled={!disableEnroll}
+                disabled={disableEnroll}
                 onClick={() => setPreCheckListPdfModal(true)}
               />
             )}
