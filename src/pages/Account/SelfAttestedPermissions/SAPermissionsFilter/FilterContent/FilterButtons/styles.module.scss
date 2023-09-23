@@ -1,0 +1,17 @@
+.filterButton {
+  width: 100%;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  padding: 12px 0px 12px 0px;
+  position: sticky;
+  bottom: 0;
+  @media (max-width: 480px) {
+    position: sticky;
+    bottom: 0;
+    padding: 12px;
+    align-items: flex-start;
+    margin: 0;
+    padding-top: 22px;
+  }
+}

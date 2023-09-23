@@ -1,1 +1,1 @@
-export { default as TableFilter } from "./TableFilter";
+export { default as SAPermissionsFilter } from "./SAPermissionsFilter";

@@ -7,7 +7,7 @@ import AddIcon from "components/icons/add";
 import Heading2 from "packages/Heading2";
 import Info from "components/icons/info-blue";
 import { useWindowSize } from "hooks/useWindowSize";
-import { TableFilter } from "../SAPermissionsFilter";
+import { SAPermissionsFilter } from "../SAPermissionsFilter";
 
 import styles from "./styles.module.scss";
 
@@ -48,7 +48,7 @@ function SAPermissionsHeader({
           <Box>Add New</Box>
           <AddIcon color="#4178FF" />
         </Grid>
-        {isMobile && <TableFilter />}
+        {/* {isMobile && <SAPermissionsFilter />} */}
       </Box>
     </Grid>
   );

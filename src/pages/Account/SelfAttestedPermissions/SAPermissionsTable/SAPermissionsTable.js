@@ -5,9 +5,11 @@ import Box from "@mui/material/Box";
 import { dateFormatter } from "utils/dateFormatter";
 import { Table } from "./Table";
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
-import { TableFilter } from "../SAPermissionsFilter";
+import { SAPermissionsFilter } from "../SAPermissionsFilter";
 import { LoadMoreButton } from "../LoadMoreButton";
 import { DeleteButton } from "../DeleteButton";
+import useFilterData from "../hooks/useFilteredData";
+import useFilterOptions from "../hooks/useFilterOptions";
 
 import styles from "./styles.module.scss";
 
@@ -20,6 +22,14 @@ function SAPermissionsTable({
   handleCancel,
   fetchTableData,
 }) {
+  const { setFilters, filteredData, filters } = useFilterData(data);
+  const { filterOptions } = useFilterOptions(data);
+
+  const { visibleItems, loadMore, hasMore } = useLoadMore(
+    filteredData,
+    ITEM_PER_PAGE
+  );
+
   const columns = useMemo(
     () => [
       {
@@ -73,7 +83,13 @@ function SAPermissionsTable({
         },
       },
       {
-        Header: () => <TableFilter />,
+        Header: () => (
+          <SAPermissionsFilter
+            filterOptions={filterOptions}
+            setFilters={setFilters}
+            filters={filters}
+          />
+        ),
         accessor: "filter",
         disableSortBy: true,
         Cell: ({ row }) => {
@@ -91,7 +107,7 @@ function SAPermissionsTable({
     []
   );
 
-  const { visibleItems, loadMore, hasMore } = useLoadMore(data, ITEM_PER_PAGE);
+  console.log("visibleItems", visibleItems)
 
   return (
     <>
