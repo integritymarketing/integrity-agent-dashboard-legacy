@@ -43,7 +43,7 @@ function FilterContent({ open, submit, filterOptions, filters }) {
   if (!open) return <></>;
 
   return (
-    <Box className={styles.filterContent}>
+    <Box className={`${styles.filterContent} filterContent`}>
       <Box className={styles.contentInner}>
         <Box className={styles.filterTitle}>Filter By</Box>
         <Box className={styles.section}>

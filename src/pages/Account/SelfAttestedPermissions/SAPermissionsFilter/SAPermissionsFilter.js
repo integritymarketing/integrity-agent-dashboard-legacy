@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
 
-import Filter from "packages/Filter/Filter";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import { FilterContent } from "./FilterContent";
-import { useActiveFilters } from "hooks/useActiveFilters";
 
 import styles from "./styles.module.scss";
 
@@ -20,13 +17,31 @@ function SAPermissionsFilter({ setFilters, filterOptions, filters }) {
     setFilters(newFilters);
   };
 
+  useEffect(() => {
+    const closeFilters = (event) => {
+      console.log(event.target);
+      if (
+        event.target.closest(".filterBtn") ||
+        event.target.closest(".filterContent")
+      ) {
+        return;
+      }
+      setOpen(false);
+    };
+    document.body.addEventListener("click", closeFilters);
+    return () => document.body.removeEventListener("click", closeFilters);
+  }, [open]);
+
   return (
-    <Box className={styles.customFilter}>
+    <div className={styles.customFilter}>
       <Button
-        className={styles.filterButton}
+        className={`${styles.filterButton} filterBtn`}
         icon={open ? <ActiveFilter /> : <FilterIcon />}
         type="primary"
-        onClick={() => setOpen(!open)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen(!open);
+        }}
         label=""
       />
       <FilterContent
@@ -35,7 +50,7 @@ function SAPermissionsFilter({ setFilters, filterOptions, filters }) {
         submit={onSubmitHandle}
         filters={filters}
       />
-    </Box>
+    </div>
   );
 }
 

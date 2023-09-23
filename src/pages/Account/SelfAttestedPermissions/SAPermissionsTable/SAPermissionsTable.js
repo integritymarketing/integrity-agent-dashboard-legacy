@@ -24,13 +24,10 @@ function SAPermissionsTable({
 }) {
   const { setFilters, filteredData, filters } = useFilterData(data);
   const { filterOptions } = useFilterOptions(data);
-
   const { visibleItems, loadMore, hasMore } = useLoadMore(
     filteredData,
     ITEM_PER_PAGE
   );
-
-  console.log("filteredData", filteredData)
 
   const columns = useMemo(
     () => [
@@ -110,7 +107,7 @@ function SAPermissionsTable({
   );
 
   return (
-    <>
+    <Box className={styles.tableWrapper}>
       <Table
         columns={columns}
         data={visibleItems}
@@ -120,7 +117,7 @@ function SAPermissionsTable({
         fetchTableData={fetchTableData}
       />
       {hasMore && <LoadMoreButton loadMore={loadMore} />}
-    </>
+    </Box>
   );
 }
 
