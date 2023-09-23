@@ -1,12 +1,14 @@
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
 import AddIcon from "components/icons/add";
+import { useSAPermissionsContext } from "../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
-function SAAddPermissionRow({ handleAddNew, numOfPermissions, isAdding }) {
+function SAAddPermissionRow() {
+  const { isAdding, handleAddNew, tableData } = useSAPermissionsContext();
+  const numOfPermissions = tableData.length;
   const shouldShow = !isAdding && numOfPermissions === 0;
 
   if (!shouldShow) return <></>;
@@ -31,11 +33,5 @@ function SAAddPermissionRow({ handleAddNew, numOfPermissions, isAdding }) {
     </Grid>
   );
 }
-
-SAAddPermissionRow.propTypes = {
-  handleAddNew: PropTypes.func,
-  numOfPermissions: PropTypes.number,
-  isAdding: PropTypes.bool,
-};
 
 export default SAAddPermissionRow;

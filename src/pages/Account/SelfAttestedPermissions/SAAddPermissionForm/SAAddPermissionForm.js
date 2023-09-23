@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import * as Sentry from "@sentry/react";
 
@@ -16,12 +15,13 @@ import { AddButton } from "./AddButton";
 import useSelectOptions from "../hooks/useSelectOptions";
 import { getSnpTypes } from "../utils/helper";
 import useFetch from "hooks/useFetch";
+import { useSAPermissionsContext } from "../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
 
-function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData }) {
+function SAAddPermissionForm() {
   const [carrier, setCarrier] = useState("");
   const [product, setProduct] = useState("");
   const [state, setState] = useState("");
@@ -29,6 +29,8 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
   const { npn } = useUserProfile();
   const addToast = useToast();
   const { width: windowWidth } = useWindowSize();
+  const { agents, handleCancel, fetchTableData, isAdding } =
+    useSAPermissionsContext();
   const {
     carriersOptions,
     getProductsOptions,
@@ -37,7 +39,6 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
     carriersGroup,
   } = useSelectOptions(agents);
 
-  
   const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${npn}`;
 
   const { Post: addAgentSelfAttestation } = useFetch(URL);
@@ -103,7 +104,7 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
     };
     try {
       await addAgentSelfAttestation(payload);
-      await fetchTableData()
+      await fetchTableData();
       resetAllFields();
     } catch (error) {
       Sentry.captureException(error);
@@ -203,12 +204,5 @@ function SAAddPermissionForm({ handleCancel, isAdding, agents, fetchTableData })
     </>
   );
 }
-
-SAAddPermissionForm.propTypes = {
-  handleCancel: PropTypes.func,
-  isAdding: PropTypes.bool,
-  agents: PropTypes.array,
-  fetchTableData: PropTypes.func,
-};
 
 export default SAAddPermissionForm;

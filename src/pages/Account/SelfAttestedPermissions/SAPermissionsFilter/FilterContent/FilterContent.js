@@ -1,10 +1,10 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 
 import FilterButtons from "./FilterButtons/FilterButtons";
 import { FilterTabs } from "./FilterTabs";
 import { PlanYearOptions } from "./PlanYearOptions";
+import { useSAPermissionsContext } from "../../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
@@ -15,8 +15,10 @@ const getEmptyObject = () => ({
   products: [],
 });
 
-function FilterContent({ open, submit, filterOptions, filters }) {
-  const [localFilters, setFilters] = useState(filters);
+function FilterContent() {
+  const { setFilters, filters, setOpenFilter, openFilter } =
+    useSAPermissionsContext();
+  const [localFilters, setLocalFilters] = useState(filters);
 
   const onUpdateFilters = (value, field) => {
     const updatedFilters = { ...localFilters };
@@ -28,19 +30,21 @@ function FilterContent({ open, submit, filterOptions, filters }) {
     } else {
       updatedFilters[field].push(value);
     }
-    setFilters(updatedFilters);
+    setLocalFilters(updatedFilters);
   };
 
   const onResetHandle = () => {
+    setLocalFilters(getEmptyObject());
     setFilters(getEmptyObject());
-    submit(getEmptyObject());
+    setOpenFilter(false);
   };
 
   const onApplyHanle = () => {
-    submit(localFilters);
+    setFilters(localFilters);
+    setOpenFilter(false);
   };
 
-  if (!open) return <></>;
+  if (!openFilter) return <></>;
 
   return (
     <Box className={`${styles.filterContent} filterContent`}>
@@ -48,14 +52,12 @@ function FilterContent({ open, submit, filterOptions, filters }) {
         <Box className={styles.filterTitle}>Filter By</Box>
         <Box className={styles.section}>
           <PlanYearOptions
-            filterOptions={filterOptions}
             onUpdateFilters={onUpdateFilters}
             filters={localFilters}
           />
         </Box>
         <Box>
           <FilterTabs
-            filterOptions={filterOptions}
             onUpdateFilters={onUpdateFilters}
             filters={localFilters}
           />
@@ -65,12 +67,5 @@ function FilterContent({ open, submit, filterOptions, filters }) {
     </Box>
   );
 }
-
-FilterContent.propTypes = {
-  submit: PropTypes.func,
-  filterOptions: PropTypes.object,
-  open: PropTypes.bool,
-  filters: PropTypes.object,
-};
 
 export default FilterContent;

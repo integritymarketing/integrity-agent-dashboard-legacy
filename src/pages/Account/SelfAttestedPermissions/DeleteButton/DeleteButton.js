@@ -7,11 +7,13 @@ import TrashBinIcon from "components/icons/trashbin";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import useFetch from "hooks/useFetch";
+import { useSAPermissionsContext } from "../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
-function DeleteButton({ attestationId, fetchTableData }) {
+function DeleteButton({ attestationId }) {
+  const { fetchTableData } = useSAPermissionsContext();
   const addToast = useToast();
   const { agentId } = useUserProfile();
 
@@ -48,7 +50,6 @@ function DeleteButton({ attestationId, fetchTableData }) {
 }
 
 DeleteButton.propTypes = {
-  fetchTableData: PropTypes.func,
   attestationId: PropTypes.number,
 };
 

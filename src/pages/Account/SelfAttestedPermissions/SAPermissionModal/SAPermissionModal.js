@@ -1,15 +1,16 @@
-import PropTypes from "prop-types";
 import Modal from "components/Modal";
 import Box from "@mui/material/Box";
+import { useSAPermissionsContext } from "../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
-function SAPermissionModal({ isModalOpen, onClose }) {
+function SAPermissionModal() {
+  const { isModalOpen, setIsModalOpen } = useSAPermissionsContext()
 
   return (
     <Modal
       open={isModalOpen}
-      onClose={onClose}
+      onClose={() => setIsModalOpen(false)}
       title="Self-Attested Permissions"
       hideFooter={true}
       size="wide"
@@ -26,10 +27,5 @@ function SAPermissionModal({ isModalOpen, onClose }) {
     </Modal>
   );
 }
-
-SAPermissionModal.propTypes = {
-  isModalOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-};
 
 export default SAPermissionModal;

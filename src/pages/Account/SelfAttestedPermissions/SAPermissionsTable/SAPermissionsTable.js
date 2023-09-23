@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useMemo } from "react";
 import Box from "@mui/material/Box";
 
@@ -8,22 +7,14 @@ import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore
 import { SAPermissionsFilter } from "../SAPermissionsFilter";
 import { LoadMoreButton } from "../LoadMoreButton";
 import { DeleteButton } from "../DeleteButton";
-import useFilterData from "../hooks/useFilteredData";
-import useFilterOptions from "../hooks/useFilterOptions";
+import { useSAPermissionsContext } from "../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
 const ITEM_PER_PAGE = 5;
 
-function SAPermissionsTable({
-  data = [],
-  agents,
-  isAdding,
-  handleCancel,
-  fetchTableData,
-}) {
-  const { setFilters, filteredData, filters } = useFilterData(data);
-  const { filterOptions } = useFilterOptions(data);
+function SAPermissionsTable({}) {
+  const { filteredData, isCollapsed } = useSAPermissionsContext();
   const { visibleItems, loadMore, hasMore } = useLoadMore(
     filteredData,
     ITEM_PER_PAGE
@@ -82,22 +73,13 @@ function SAPermissionsTable({
         },
       },
       {
-        Header: () => (
-          <SAPermissionsFilter
-            filterOptions={filterOptions}
-            setFilters={setFilters}
-            filters={filters}
-          />
-        ),
+        Header: () => <SAPermissionsFilter />,
         accessor: "filter",
         disableSortBy: true,
         Cell: ({ row }) => {
           return (
             <Box>
-              <DeleteButton
-                fetchTableData={fetchTableData}
-                attestationId={row.original.attestationId}
-              />
+              <DeleteButton attestationId={row.original.attestationId} />
             </Box>
           );
         },
@@ -106,27 +88,14 @@ function SAPermissionsTable({
     []
   );
 
+  if (isCollapsed) return <></>;
+
   return (
     <Box className={styles.tableWrapper}>
-      <Table
-        columns={columns}
-        data={visibleItems}
-        isAdding={isAdding}
-        handleCancel={handleCancel}
-        agents={agents}
-        fetchTableData={fetchTableData}
-      />
+      <Table columns={columns} data={visibleItems} />
       {hasMore && <LoadMoreButton loadMore={loadMore} />}
     </Box>
   );
 }
-
-SAPermissionsTable.propTypes = {
-  data: PropTypes.array,
-  agents: PropTypes.array,
-  handleCancel: PropTypes.func,
-  isAdding: PropTypes.bool,
-  fetchTableData: PropTypes.func,
-};
 
 export default SAPermissionsTable;

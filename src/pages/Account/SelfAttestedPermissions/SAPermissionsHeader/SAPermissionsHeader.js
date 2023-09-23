@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
@@ -8,22 +7,25 @@ import Heading2 from "packages/Heading2";
 import Info from "components/icons/info-blue";
 import { useWindowSize } from "hooks/useWindowSize";
 import { SAPermissionsFilter } from "../SAPermissionsFilter";
+import { useSAPermissionsContext } from "../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
-function SAPermissionsHeader({
-  handleAddNew,
-  setIsModalOpen,
-  setIsCollapsed,
-  isCollapsed,
-  numOfPermissions,
-  isAdding,
-}) {
+function SAPermissionsHeader() {
+  const {
+    setIsCollapsed,
+    handleAddNew,
+    isCollapsed,
+    isAdding,
+    filteredData,
+    setIsModalOpen,
+  } = useSAPermissionsContext();
   const { width: windowWidth } = useWindowSize();
   const isMobile = windowWidth <= 784;
+  const numOfPermissions = filteredData.length;
 
   return (
-    <Grid  className={styles.container}>
+    <Grid className={styles.container}>
       <Grid className={styles.leftContainer}>
         <Box
           className={`${styles.icon} ${isCollapsed && styles.iconReverse}`}
@@ -48,19 +50,16 @@ function SAPermissionsHeader({
           <Box>Add New</Box>
           <AddIcon color="#4178FF" />
         </Grid>
-        {/* {isMobile && <SAPermissionsFilter />} */}
+        {/* {isMobile && (
+          <SAPermissionsFilter
+            filterOptions={filterOptions}
+            setFilters={setFilters}
+            filters={filters}
+          />
+        )} */}
       </Box>
     </Grid>
   );
 }
-
-SAPermissionsHeader.propTypes = {
-  isCollapsed: PropTypes.bool,
-  handleAddNew: PropTypes.func,
-  setIsModalOpen: PropTypes.func,
-  setIsCollapsed: PropTypes.func,
-  numOfPermissions: PropTypes.number,
-  isAdding: PropTypes.bool,
-};
 
 export default SAPermissionsHeader;

@@ -7,7 +7,7 @@ import { DeleteButton } from "../../DeleteButton";
 
 import styles from "./styles.module.scss";
 
-function ListItem({ item, fetchTableData }) {
+function ListItem({ item }) {
   return (
     <Grid
       className={styles.container}
@@ -56,10 +56,7 @@ function ListItem({ item, fetchTableData }) {
           </Box>
         </Box>
         <Box>
-          <DeleteButton
-            fetchTableData={fetchTableData}
-            attestationId={item.attestationId}
-          />
+          <DeleteButton attestationId={item.attestationId} />
         </Box>
       </Grid>
     </Grid>
@@ -68,7 +65,6 @@ function ListItem({ item, fetchTableData }) {
 
 ListItem.propTypes = {
   item: PropTypes.object,
-  fetchTableData: PropTypes.func,
 };
 
 export default ListItem;

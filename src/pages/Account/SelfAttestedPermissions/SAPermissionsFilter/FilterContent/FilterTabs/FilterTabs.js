@@ -1,15 +1,17 @@
-import { useState, useMemo } from "react";
-import PropTypes, { object } from "prop-types";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Check from "components/icons/check-blue";
+import { useSAPermissionsContext } from "pages/Account/SelfAttestedPermissions/SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
 const TABS = { Carrier: "carriers", State: "states", Product: "products" };
 const TABS_KEYS = Object.keys(TABS);
 
-function FilterTabs({ filterOptions, onUpdateFilters, filters }) {
+function FilterTabs({ onUpdateFilters, filters }) {
   const [activeTab, setActiveTab] = useState(TABS.Carrier);
+  const { filterOptions } = useSAPermissionsContext();
 
   const activeOptions = filterOptions[activeTab] || [];
   const leftList = activeOptions.filter((_, i) => i % 2 === 0);
@@ -57,7 +59,6 @@ function FilterTabs({ filterOptions, onUpdateFilters, filters }) {
 }
 
 FilterTabs.propTypes = {
-  filterOptions: PropTypes.object,
   onUpdateFilterss: PropTypes.func,
   filters: PropTypes.object,
 };

@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Check from "components/icons/check-blue";
+import { useSAPermissionsContext } from "pages/Account/SelfAttestedPermissions/SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
-function PlanYearOption({ filterOptions, onUpdateFilters, filters }) {
+function PlanYearOption({ onUpdateFilters, filters }) {
+  const { filterOptions } = useSAPermissionsContext()
   const planYears = filterOptions.planYears;
 
   return (
@@ -27,7 +29,6 @@ function PlanYearOption({ filterOptions, onUpdateFilters, filters }) {
 }
 
 PlanYearOption.propTypes = {
-  filterOptions: PropTypes.object,
   onUpdateFilterss: PropTypes.func,
   filters: PropTypes.object,
 };
