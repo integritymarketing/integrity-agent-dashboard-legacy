@@ -30,6 +30,8 @@ function SAPermissionsTable({
     ITEM_PER_PAGE
   );
 
+  console.log("filteredData", filteredData)
+
   const columns = useMemo(
     () => [
       {
@@ -106,8 +108,6 @@ function SAPermissionsTable({
     ],
     []
   );
-
-  console.log("visibleItems", visibleItems)
 
   return (
     <>

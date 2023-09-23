@@ -5,11 +5,11 @@ function useFilterOptions(agents) {
 
   const filterOptions = useMemo(() => {
     return agents.reduce(
-      (acc, { carrier, planType, planYear, state }) => {
+      (acc, { carrier, product, planYear, state }) => {
         return {
           carriers: uniqValues([...acc.carriers, carrier]),
           states: uniqValues([...acc.states, state]),
-          products: uniqValues([...acc.products, planType]),
+          products: uniqValues([...acc.products, product]),
           planYears: uniqValues([...acc.planYears, planYear]),
         };
       },

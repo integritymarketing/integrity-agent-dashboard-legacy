@@ -2,25 +2,21 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 
-import Check from "components/icons/check-blue";
 import FilterButtons from "./FilterButtons/FilterButtons";
+import { FilterTabs } from "./FilterTabs";
+import { PlanYearOptions } from "./PlanYearOptions";
 
 import styles from "./styles.module.scss";
 
-const defaultFilters = {
+const getEmptyObject = () => ({
   carriers: [],
   states: [],
   years: [],
   products: [],
-};
+});
 
 function FilterContent({ open, submit, filterOptions, filters }) {
-  const [localFilters, setFilters] = useState(defaultFilters);
-
-  const planYears = filterOptions.planYears;
-  const carriers = filterOptions.carriers;
-  const states = filterOptions.states;
-  const products = filterOptions.products;
+  const [localFilters, setFilters] = useState(filters);
 
   const onUpdateFilters = (value, field) => {
     const updatedFilters = { ...localFilters };
@@ -36,8 +32,8 @@ function FilterContent({ open, submit, filterOptions, filters }) {
   };
 
   const onResetHandle = () => {
-    setFilters(defaultFilters);
-    submit(defaultFilters);
+    setFilters(getEmptyObject());
+    submit(getEmptyObject());
   };
 
   const onApplyHanle = () => {
@@ -51,22 +47,21 @@ function FilterContent({ open, submit, filterOptions, filters }) {
       <Box className={styles.contentInner}>
         <Box className={styles.filterTitle}>Filter By</Box>
         <Box className={styles.section}>
-          <Box className={styles.sectionTitle}>Plan Year</Box>
-          <Box className={styles.planYears}>
-            {planYears.map((year, index) => (
-              <Box
-                key={index}
-                className={styles.planYear}
-                onClick={() => onUpdateFilters(year, "years")}
-              >
-                <Box>{year}</Box>
-                {localFilters["years"].includes(year) && <Check />}
-              </Box>
-            ))}
-          </Box>
+          <PlanYearOptions
+            filterOptions={filterOptions}
+            onUpdateFilters={onUpdateFilters}
+            filters={localFilters}
+          />
         </Box>
-        <FilterButtons reset={onResetHandle} apply={onApplyHanle} />
+        <Box>
+          <FilterTabs
+            filterOptions={filterOptions}
+            onUpdateFilters={onUpdateFilters}
+            filters={localFilters}
+          />
+        </Box>
       </Box>
+      <FilterButtons reset={onResetHandle} apply={onApplyHanle} />
     </Box>
   );
 }

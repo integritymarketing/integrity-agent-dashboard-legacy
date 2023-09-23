@@ -18,7 +18,6 @@ function SAPermissionsFilter({ setFilters, filterOptions, filters }) {
   const onSubmitHandle = (newFilters) => {
     setOpen(false);
     setFilters(newFilters);
-    console.log("newFilters", newFilters)
   };
 
   return (

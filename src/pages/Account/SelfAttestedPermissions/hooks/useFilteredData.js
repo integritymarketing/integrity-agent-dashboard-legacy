@@ -11,11 +11,11 @@ function useFilterData(data) {
   const [filters, setFilters] = useState(defaultFilters);
 
   const filterCondition = (row) => {
-    const { state, carrier, planYear, planType } = row;
+    const { state, carrier, planYear, product } = row;
     return (
       filters.states.includes(state) ||
       filters.carriers.includes(carrier) ||
-      filters.products.includes(planType) ||
+      filters.products.includes(product) ||
       filters.years.includes(planYear)
     );
   };
