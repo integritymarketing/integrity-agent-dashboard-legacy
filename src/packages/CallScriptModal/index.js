@@ -4,8 +4,8 @@ import Modal from "components/Modal";
 import useFetch from "hooks/useFetch";
 import styles from "./styles.module.scss";
 
-const DEFAULT_CARRIER_COUNT = 0;
-const DEFAULT_PLAN_COUNT = 0;
+const DEFAULT_CARRIER_COUNT = 78;
+const DEFAULT_PLAN_COUNT = 2613;
 
 export const CallScriptModal = ({
   modalOpen,
