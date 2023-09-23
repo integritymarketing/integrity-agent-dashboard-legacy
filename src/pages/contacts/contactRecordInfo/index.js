@@ -93,10 +93,32 @@ const ContactRecordInfoDetails = () => {
 
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setCurrentPage]);
+
+  const fetchCounty = useCallback(async (zipcode) => {
+    const counties = (await clientsService.getCounties(zipcode)) || [];
+
+    const all_Counties = counties.map((county) => ({
+      value: county.countyName,
+      label: county.countyName,
+      key: county.countyFIPS,
+    }));
+
+    const uniqueStatesSet = new Set(counties.map((county) => county.state));
+    const uniqueStates = [...uniqueStatesSet];
+
+    const all_States = uniqueStates.map((state) => {
+      const stateNameObj = STATES.find((s) => s.value === state);
+      return {
+        label: stateNameObj?.label,
+        value: state,
+      };
+    });
+
+    return { all_Counties, all_States };
   }, []);
 
-  const autoUpdateDetails = async (data) => {
+  const autoUpdateDetails = useCallback(async (data) => {
     let zipcode = data?.addresses?.[0]?.postalCode;
     let county = data?.addresses?.[0]?.county;
     if (zipcode && !county) {
@@ -116,7 +138,7 @@ const ContactRecordInfoDetails = () => {
           });
       }
     }
-  };
+  }, [fetchCounty, setisZipAlertOpen, getLeadDetails]);
 
   const getContactRecordInfo = useCallback(
     async (leadDetails) => {
@@ -172,8 +194,7 @@ const ContactRecordInfoDetails = () => {
         setLoading(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [id]
+    [autoUpdateDetails, id, sectionId]
   );
 
   useEffect(() => {
@@ -181,8 +202,7 @@ const ContactRecordInfoDetails = () => {
       setLoading(isLoading);
       history.push(`/contact/${id}/${display}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, id]);
+  }, [display, history, id, isLoading, path]);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -249,29 +269,6 @@ const ContactRecordInfoDetails = () => {
       setisZipAlertOpen(true);
     }
   };
-
-  const fetchCounty = useCallback(async (zipcode) => {
-    const counties = (await clientsService.getCounties(zipcode)) || [];
-
-    const all_Counties = counties.map((county) => ({
-      value: county.countyName,
-      label: county.countyName,
-      key: county.countyFIPS,
-    }));
-
-    const uniqueStatesSet = new Set(counties.map((county) => county.state));
-    const uniqueStates = [...uniqueStatesSet];
-
-    const all_States = uniqueStates.map((state) => {
-      const stateNameObj = STATES.find((s) => s.value === state);
-      return {
-        label: stateNameObj?.label,
-        value: state,
-      };
-    });
-
-    return { all_Counties, all_States };
-  }, []);
 
   const fetchCounties = useCallback(
     async (zipcode) => {

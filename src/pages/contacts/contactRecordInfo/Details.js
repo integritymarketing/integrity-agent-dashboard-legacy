@@ -17,9 +17,8 @@ import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/En
 import ProviderModal from "components/SharedModals/ProviderModal";
 import RenderProviders from "components/ui/ProvidersList";
 
-export default forwardRef((props) => {
+export default forwardRef((props, ref) => {
   let { firstName = "", middleName = "", lastName = "" } = props?.personalInfo;
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);

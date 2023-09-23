@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
@@ -14,13 +14,9 @@ const useLeadInformation = (leadId) => {
     leadDetails: { consumerId },
   } = useContactDetails(leadId);
 
-  const handleGetProviders = (data) => {
-    if (data?.providers?.length > 0) {
-      setProviders(data?.providers);
-    } else {
-      setProviders([]);
-    }
-  };
+  const handleGetProviders = useCallback((data) => {
+    setProviders(data?.providers || []);
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -38,19 +34,19 @@ const useLeadInformation = (leadId) => {
       }
     };
     getData();
-  }, [setPharmacies, setPrescriptions, setIsLoading, leadId]);
+  }, [setPharmacies, setPrescriptions, setIsLoading, leadId, handleGetProviders]);
 
-  const addPrescription = async (item, refresh) => {
-    setIsLoading(true);
-    const itemObject = {
-      ...(item?.dosage ?? item),
-      dosageRecordID: 0,
-      packages: null,
-      selectedPackage: null,
-    };
+  const addPrescription = useCallback(async (item, refresh) => {
     try {
+      setIsLoading(true);
+      const itemObject = {
+        ...(item?.dosage ?? item),
+        dosageRecordID: 0,
+        packages: null,
+        selectedPackage: null,
+      };
       await clientsService.createPrescription(leadId, itemObject, consumerId);
-      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      setPrescriptions(await clientsService.getLeadPrescriptions(leadId));
       refresh && (await refresh());
       addToast({
         message: "Prescription Added",
@@ -64,9 +60,9 @@ const useLeadInformation = (leadId) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const editPrescription = async ({ dosage = {}, ...rest }, refresh) => {
+  }, [addToast, consumerId, leadId, setPrescriptions]);
+  
+  const editPrescription = useCallback(async ({ dosage = {}, ...rest }, refresh) => {
     setIsLoading(true);
     try {
       const item = {
@@ -74,31 +70,27 @@ const useLeadInformation = (leadId) => {
         dosageID: dosage.dosageID,
       };
       await clientsService.editPrescription(leadId, item, consumerId);
+      setPrescriptions(await clientsService.getLeadPrescriptions(leadId));
       addToast({
         message: "Prescription updated successfully",
       });
-      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
       refresh && (await refresh());
     } catch (err) {
       Sentry.captureException(err);
       addToast({
         type: "error",
-        message: "Failed to updated prescription",
+        message: "Failed to update prescription",
       });
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [addToast, consumerId, leadId, setPrescriptions]);
 
-  const deletePrescription = async (item, refresh) => {
+  const deletePrescription = useCallback(async (item, refresh) => {
     setIsLoading(true);
     try {
-      await clientsService.deletePrescription(
-        leadId,
-        item?.dosage?.dosageRecordID,
-        consumerId
-      );
-      await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
+      await clientsService.deletePrescription(leadId, item?.dosage?.dosageRecordID, consumerId);
+      setPrescriptions(await clientsService.getLeadPrescriptions(leadId));
       refresh && (await refresh());
       addToast({
         type: "success",
@@ -117,13 +109,13 @@ const useLeadInformation = (leadId) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [addPrescription, addToast, consumerId, leadId, setPrescriptions]);  
 
-  const addPharmacy = async (item) => {
+  const addPharmacy = useCallback(async (item) => {
     setIsLoading(true);
     try {
       await clientsService.createPharmacy(leadId, item, consumerId);
-      await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
+      setPharmacies(await clientsService.getLeadPharmacies(leadId));
       addToast({
         message: "Pharmacy Added",
         time: 10000,
@@ -137,17 +129,13 @@ const useLeadInformation = (leadId) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const deletePharmacy = async (item) => {
+  }, [addToast, consumerId, leadId, setPharmacies]);
+  
+  const deletePharmacy = useCallback(async (item) => {
     setIsLoading(true);
     try {
-      await clientsService.deletePharmacy(
-        leadId,
-        item.pharmacyRecordID,
-        consumerId
-      );
-      await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
+      await clientsService.deletePharmacy(leadId, item.pharmacyRecordID, consumerId);
+      setPharmacies(await clientsService.getLeadPharmacies(leadId));
       addToast({
         message: "Pharmacy Deleted",
         time: 10000,
@@ -164,13 +152,13 @@ const useLeadInformation = (leadId) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const addProvider = async (request, providerName, refresh) => {
+  }, [addPharmacy, addToast, consumerId, leadId, setPharmacies]);
+  
+  const addProvider = useCallback(async (request, providerName, refresh) => {
     setIsLoading(true);
     try {
       await clientsService.createLeadProvider(leadId, request, consumerId);
-      await clientsService.getLeadProviders(leadId).then(handleGetProviders);
+      handleGetProviders(await clientsService.getLeadProviders(leadId));
       refresh && (await refresh());
       addToast({
         message: providerName + " added to the list. ",
@@ -185,14 +173,14 @@ const useLeadInformation = (leadId) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [addToast, consumerId, handleGetProviders, leadId]);  
 
-  const deleteProvider = async (payload, providerName, refresh, isDelete) => {
+  const deleteProvider = useCallback(async (payload, providerName, refresh, isDelete) => {
     setIsLoading(true);
-
+  
     try {
       await clientsService.deleteProvider(payload, leadId, consumerId);
-      await clientsService.getLeadProviders(leadId).then(handleGetProviders);
+      handleGetProviders(await clientsService.getLeadProviders(leadId));
       refresh && (await refresh());
       addToast({
         message: "Provider Deleted",
@@ -210,7 +198,7 @@ const useLeadInformation = (leadId) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [addProvider, addToast, consumerId, handleGetProviders, leadId]);
 
   return {
     pharmacies,
