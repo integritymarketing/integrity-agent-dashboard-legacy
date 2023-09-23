@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
 
 const useLeadInformation = (leadId) => {
   const [pharmacies, setPharmacies] = useState([]);
@@ -9,6 +10,9 @@ const useLeadInformation = (leadId) => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const addToast = useToast();
+  const {
+    leadDetails: { consumerId },
+  } = useContactDetails(leadId);
 
   const handleGetProviders = (data) => {
     if (data?.providers?.length > 0) {
@@ -45,7 +49,7 @@ const useLeadInformation = (leadId) => {
       selectedPackage: null,
     };
     try {
-      await clientsService.createPrescription(leadId, itemObject);
+      await clientsService.createPrescription(leadId, itemObject, consumerId);
       await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
       refresh && (await refresh());
       addToast({
@@ -69,7 +73,7 @@ const useLeadInformation = (leadId) => {
         ...rest,
         dosageID: dosage.dosageID,
       };
-      await clientsService.editPrescription(leadId, item);
+      await clientsService.editPrescription(leadId, item, consumerId);
       addToast({
         message: "Prescription updated successfully",
       });
@@ -91,7 +95,8 @@ const useLeadInformation = (leadId) => {
     try {
       await clientsService.deletePrescription(
         leadId,
-        item?.dosage?.dosageRecordID
+        item?.dosage?.dosageRecordID,
+        consumerId
       );
       await clientsService.getLeadPrescriptions(leadId).then(setPrescriptions);
       refresh && (await refresh());
@@ -117,7 +122,7 @@ const useLeadInformation = (leadId) => {
   const addPharmacy = async (item) => {
     setIsLoading(true);
     try {
-      await clientsService.createPharmacy(leadId, item);
+      await clientsService.createPharmacy(leadId, item, consumerId);
       await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
       addToast({
         message: "Pharmacy Added",
@@ -137,7 +142,11 @@ const useLeadInformation = (leadId) => {
   const deletePharmacy = async (item) => {
     setIsLoading(true);
     try {
-      await clientsService.deletePharmacy(leadId, item.pharmacyRecordID);
+      await clientsService.deletePharmacy(
+        leadId,
+        item.pharmacyRecordID,
+        consumerId
+      );
       await clientsService.getLeadPharmacies(leadId).then(setPharmacies);
       addToast({
         message: "Pharmacy Deleted",
@@ -160,7 +169,7 @@ const useLeadInformation = (leadId) => {
   const addProvider = async (request, providerName, refresh) => {
     setIsLoading(true);
     try {
-      await clientsService.createLeadProvider(leadId, request);
+      await clientsService.createLeadProvider(leadId, request, consumerId);
       await clientsService.getLeadProviders(leadId).then(handleGetProviders);
       refresh && (await refresh());
       addToast({
@@ -182,7 +191,7 @@ const useLeadInformation = (leadId) => {
     setIsLoading(true);
 
     try {
-      await clientsService.deleteProvider(payload, leadId);
+      await clientsService.deleteProvider(payload, leadId, consumerId);
       await clientsService.getLeadProviders(leadId).then(handleGetProviders);
       refresh && (await refresh());
       addToast({
