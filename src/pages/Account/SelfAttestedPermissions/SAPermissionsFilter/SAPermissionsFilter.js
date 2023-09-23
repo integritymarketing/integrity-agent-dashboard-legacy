@@ -7,7 +7,7 @@ import ActiveFilter from "components/icons/activities/ActiveFilter";
 
 import styles from "./styles.module.scss";
 
-function TableFilter() {
+function SAPermissionsFilter() {
   return (
     <Box className={styles.customFilter}>
       <Filter
@@ -20,4 +20,4 @@ function TableFilter() {
   );
 }
 
-export default TableFilter;
+export default SAPermissionsFilter;

@@ -7,7 +7,7 @@ import AddIcon from "components/icons/add";
 import Heading2 from "packages/Heading2";
 import Info from "components/icons/info-blue";
 import { useWindowSize } from "hooks/useWindowSize";
-import { TableFilter } from "../SAPermissionsTable/TableFilter";
+import { TableFilter } from "../SAPermissionsFilter";
 
 import styles from "./styles.module.scss";
 

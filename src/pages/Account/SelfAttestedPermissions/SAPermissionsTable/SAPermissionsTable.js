@@ -5,8 +5,8 @@ import Box from "@mui/material/Box";
 import { dateFormatter } from "utils/dateFormatter";
 import { Table } from "./Table";
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
-import { TableFilter } from "./TableFilter";
-import { LoadMoreButton } from "./LoadMoreButton";
+import { TableFilter } from "../SAPermissionsFilter";
+import { LoadMoreButton } from "../LoadMoreButton";
 import { DeleteButton } from "../DeleteButton";
 
 import styles from "./styles.module.scss";

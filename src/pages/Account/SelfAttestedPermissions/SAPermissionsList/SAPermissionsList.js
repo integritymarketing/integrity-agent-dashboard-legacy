@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
-import { LoadMoreButton } from "../SAPermissionsTable/LoadMoreButton";
+import { LoadMoreButton } from "../LoadMoreButton";
 import { ListItem } from "./ListItem";
 import { SAAddPermissionForm } from "../SAAddPermissionForm";
 
