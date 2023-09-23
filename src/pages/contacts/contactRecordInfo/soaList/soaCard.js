@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import PropTypes from "prop-types";
 import {
   formatDate,
   convertToLocalDateTime,
@@ -17,6 +18,7 @@ const SoaCard = ({
   soa,
   soaDestination,
   contactAfterDate,
+  isTracking48HourRule,
   ...rest
 }) => {
   const getStatus = () => {
@@ -99,18 +101,20 @@ const SoaCard = ({
                     <li className="li-item">{item}</li>
                   ))}
               </ul>
-              <div className={styles.contact}>
-                <div className={styles.title4}>Contact After</div>
-                <div className={styles.dateContainer}>
-                  <div className={styles.dateItem}>
-                    {getDateTime(contactAfterDate)?.date}
-                  </div>
-                  <div className={styles.title1}>at</div>
-                  <div className={styles.dateItem}>
-                    {getDateTime(contactAfterDate)?.time}
+              {isTracking48HourRule && (
+                <div className={styles.contact}>
+                  <div className={styles.title4}>Contact After</div>
+                  <div className={styles.dateContainer}>
+                    <div className={styles.dateItem}>
+                      {getDateTime(contactAfterDate)?.date}
+                    </div>
+                    <div className={styles.title1}>at</div>
+                    <div className={styles.dateItem}>
+                      {getDateTime(contactAfterDate)?.time}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
@@ -122,7 +126,9 @@ const SoaCard = ({
                 type="primary"
                 icon={<OpenIcon />}
                 iconPosition="right"
+                style={{ background: "#4178ff", border: "none" }}
                 className={`${
+                  isTracking48HourRule &&
                   isEarlierThanCurrentDate(contactAfterDate)
                     ? styles.disabled
                     : ""
@@ -138,6 +144,7 @@ const SoaCard = ({
                 type="secondary"
                 icon={<OpenIcon />}
                 iconPosition="right"
+                style={{ background: "#4178ff", border: "none" }}
               />
             </div>
           )}
@@ -145,6 +152,17 @@ const SoaCard = ({
       </div>
     </>
   );
+};
+
+SoaCard.propTypes = {
+  linkCode: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  statusDate: PropTypes.string.isRequired,
+  soaDestination: PropTypes.string,
+  contactAfterDate: PropTypes.string,
+  isTracking48HourRule: PropTypes.bool,
+  id: PropTypes.string,
+  soa: PropTypes.object,
 };
 
 export default SoaCard;

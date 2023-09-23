@@ -1101,10 +1101,36 @@ table {
   }
 }
 .tagsModal {
-  background: #f4f8fb;
+  background: #f1f1f1;
   padding: 20px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
   width: 380px;
+
+  .tagApplyBtn {
+    border-radius: 20px !important;
+    background: #4178ff 0% 0% no-repeat padding-box;
+    width: 80px;
+    height: 40px;
+    font-style: Lato;
+    border-color: #4178ff;
+
+    img {
+      position: relative;
+      left: 15px;
+    }
+  }
+
+  .resetBtn {
+    color: #4178ff;
+    font-size: 16px;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+
+  .disableBtn {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 
   .tagsModalHeader {
     display: flex;
@@ -1129,10 +1155,17 @@ table {
     }
   }
 
+  .tagsContainer {
+    background-color: white;
+    padding: 22px 16px;
+    border-radius: 8px;
+  }
   .categoryName {
     font-weight: bold;
     padding: 10px 0;
-    color: black;
+    color: #052a63;
+    font-size: 16px;
+    margin-left: 12px;
   }
 
   .tagItemsList {
@@ -1150,11 +1183,11 @@ table {
     padding: 5px 0;
     align-items: center;
     background: #ffffff 0% 0% no-repeat padding-box;
-    box-shadow: inset 0px -1px 0px #cdd0d5;
-    border-radius: 8px 8px 0px 0px;
+    border-radius: 4px;
     opacity: 1;
-    min-width: 152px;
     padding-right: 10px;
+    border: 1px solid #dddddd;
+    margin-bottom: 8px;
     cursor: pointer;
 
     &[data-disabled="disabled"] {
@@ -1220,28 +1253,51 @@ table {
 
 .categoryContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
-.expandIcons {
+.chevron::before {
+  border-style: solid;
+  border-color: #4178ff;
+  border-width: 1px 1px 0 0;
+  content: "";
+  display: inline-block;
+  height: 0.45em;
+  left: 4px;
+  position: relative;
+  top: 8px;
+  transform: rotate(-45deg);
+  vertical-align: top;
+  width: 0.45em;
+  cursor: pointer;
+}
+
+.chevron.bottom:before {
+  top: 5px;
+  transform: rotate(135deg);
+}
+
+.expandIcon {
+  color: white;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #4178ff;
+  cursor: pointer;
+  padding: 0px 8px;
+}
+
+.collapsedIcon {
   font-size: 20px;
   color: #002d72;
   cursor: pointer;
   padding: 0px 8px;
-  &:hover {
-    background-color: #ffffff;
-    border: 1px solid #c7ccd1;
-    border-radius: 4px;
-  }
 }
 
 .tagCategoryId {
   display: grid;
   grid-template-columns: auto auto;
-  grid-column-gap: 18px;
+  grid-column-gap: 8px;
   grid-row-gap: 2px;
-  padding: 16px 16px 0px 16px;
 }
 
 .createTagContainer {
