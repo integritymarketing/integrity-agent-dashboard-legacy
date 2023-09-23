@@ -571,7 +571,6 @@ const PersonalInformationCard = ({
     contactPreferences,
     leadTags,
   } = personalInfo;
-
   emails = emails.length > 0 ? emails[0].leadEmail : NOT_AVAILABLE;
 
   let phonesData = phones?.filter((phone) => {
@@ -659,7 +658,12 @@ const PersonalInformationCard = ({
             </label>
             <div className="personalInfoText mobile-hide">
               {phone ? (
-                <PrimaryContactPhone phone={phone} leadsId={leadsId} />
+                <PrimaryContactPhone
+                  countyFips={addresses?.countyFips}
+                  postalCode={addresses?.postalCode}
+                  phone={phone}
+                  leadsId={leadsId}
+                />
               ) : (
                 NOT_AVAILABLE
               )}
@@ -694,12 +698,17 @@ const PersonalInformationCard = ({
           </div>
         </div>
       </Container>
-      <CallScriptModal
-        modalOpen={modalOpen}
-        handleClose={() => {
-          setModalOpen(false);
-        }}
-      />
+      {modalOpen && (
+        <CallScriptModal
+          modalOpen={modalOpen}
+          handleClose={() => {
+            setModalOpen(false);
+          }}
+          leadId={leadsId}
+          countyFips={addresses?.countyFips}
+          postalCode={addresses?.postalCode}
+        />
+      )}
       <ConfirmationModal
         open={confirmModalOpen}
         title="Delete Tag"
