@@ -14,7 +14,6 @@ const useLeadInformation = (leadId) => {
   const {
     consumerId,
   } = useRecoilValue(contactLeadDetailsAtom);
-  debugger
   const handleGetProviders = useCallback((data) => {
     setProviders(data?.providers || []);
   }, []);
