@@ -2,18 +2,19 @@ import { useState, useEffect, useCallback } from "react";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
-import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { useRecoilValue } from "recoil";
+import {contactLeadDetailsAtom } from "pages/ContactDetails/state"; 
 
 const useLeadInformation = (leadId) => {
   const [pharmacies, setPharmacies] = useState([]);
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const addToast = useToast();
+  const addToast = useToast(); 
   const {
-    leadDetails: { consumerId },
-  } = useContactDetails(leadId);
-
+    consumerId,
+  } = useRecoilValue(contactLeadDetailsAtom);
+  debugger
   const handleGetProviders = useCallback((data) => {
     setProviders(data?.providers || []);
   }, []);

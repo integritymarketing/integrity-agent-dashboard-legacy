@@ -5,8 +5,8 @@ const contactLeadIdAtom = atom({
   key: "contactLeadId",
 });
 
-const contactLeadDetailsAtom = atom({
-  default: [],
+export const contactLeadDetailsAtom = atom({
+  default: {},
   key: "contactLeadDetails",
 });
 
