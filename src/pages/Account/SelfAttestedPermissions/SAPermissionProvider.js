@@ -12,14 +12,17 @@ import useFetchTableData from "./hooks/useFetchTableData";
 import useFetchAgentsData from "./hooks/useFetchAgentsData";
 import useFilterData from "./hooks/useFilteredData";
 import useFilterOptions from "./hooks/useFilterOptions";
+import useRoles from "hooks/useRoles";
 
-const FLAG_NAME = "REACT_APP_SELF_ATTESTED_PERMISSION_FLAG";
+const FLAG_NAME = "REACT_APP_SELECTION_2024_FLAG";
 
 // Create a context for SAPermissionsProvider
 const SAPermissionsContext = createContext(null);
 
 export const SAPermissionsProvider = ({ children }) => {
   const isFeatureEnabled = useFeatureFlag(FLAG_NAME);
+  const { isNonRTS_User } = useRoles();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -90,7 +93,8 @@ export const SAPermissionsProvider = ({ children }) => {
     ]
   );
 
-  if (!isFeatureEnabled) return <></>;
+  // Not showing the section for NonRTS user
+  if (!isFeatureEnabled || isNonRTS_User) return <></>;
 
   if (isFetchingAgentsData || isfetchingTableData || isLoading) return <Spinner />;
 

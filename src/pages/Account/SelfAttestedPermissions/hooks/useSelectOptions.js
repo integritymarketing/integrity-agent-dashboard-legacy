@@ -8,9 +8,14 @@ import {
   groupCarriers,
 } from "../utils/helper";
 
+import useFeatureFlag from "hooks/useFeatureFlag";
+
+const FLAG_NAME = "REACT_APP_SELF_ATTESTED_PERMISSION_FLAG";
+
 function useSelectOptions(data) {
   const [carriersGroup, setCarriersGroup] = useState({});
   const [carriersOptions, setCarriersOptions] = useState([]);
+  const isFeatureEnabled = useFeatureFlag(FLAG_NAME);
 
   const getProductsOptions = useCallback(
     (carrier) => {
@@ -25,7 +30,13 @@ function useSelectOptions(data) {
     (carrier) => {
       if (!carrier) return [];
       const planYearsByCarrier = groupUniquePlanYearsByCarrier(data);
-      return convertArrayToOptions(planYearsByCarrier[carrier]);
+      const planYearyOptions = planYearsByCarrier[carrier];
+      const has2024 = planYearyOptions.some(year => year === 2024);
+      // Business logic - https://integritymarketing.atlassian.net/browse/SPW-285070
+      if(isFeatureEnabled && !has2024) {
+        planYearyOptions.push(2024)
+      }
+      return convertArrayToOptions();
     },
     [data]
   );
