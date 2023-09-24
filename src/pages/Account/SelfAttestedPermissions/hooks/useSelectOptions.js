@@ -10,7 +10,7 @@ import {
 
 import useFeatureFlag from "hooks/useFeatureFlag";
 
-const FLAG_NAME = "REACT_APP_SELF_ATTESTED_PERMISSION_FLAG";
+const FLAG_NAME = "REACT_APP_SELECTION_2024_FLAG";
 
 function useSelectOptions(data) {
   const [carriersGroup, setCarriersGroup] = useState({});

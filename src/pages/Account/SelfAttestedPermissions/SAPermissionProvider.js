@@ -14,7 +14,7 @@ import useFilterData from "./hooks/useFilteredData";
 import useFilterOptions from "./hooks/useFilterOptions";
 import useRoles from "hooks/useRoles";
 
-const FLAG_NAME = "REACT_APP_SELECTION_2024_FLAG";
+const FLAG_NAME = "REACT_APP_SELF_ATTESTED_PERMISSION_FLAG";
 
 // Create a context for SAPermissionsProvider
 const SAPermissionsContext = createContext(null);
