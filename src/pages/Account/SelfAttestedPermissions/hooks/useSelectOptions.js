@@ -36,7 +36,7 @@ function useSelectOptions(data) {
       if(isFeatureEnabled && !has2024) {
         planYearyOptions.push(2024)
       }
-      return convertArrayToOptions();
+      return convertArrayToOptions(planYearyOptions);
     },
     [data]
   );
