@@ -144,34 +144,18 @@ const PlanDetailsPage = () => {
                     isMobile={isMobile}
                     onShareClick={() => setShareModalOpen(true)}
                     onEnrollClick={() => setModalOpen(true)}
-                    // pharmacies={pharmacies}
-                    // prescriptions={prescriptions}
                     refresh={getContactAndPlanData}
-                    // addProvider={addProvider}
-                    // deleteProvider={deleteProvider}
-                    // addPrescription={addPrescription}
-                    // editPrescription={editPrescription}
-                    // deletePrescription={deletePrescription}
-                    // addPharmacy={addPharmacy}
-                    // deletePharmacy={deletePharmacy}
                   />
                 )}
                 {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
                   <PdpContent
                     contact={contact}
-                    // prescriptions={prescriptions}
                     plan={plan}
                     styles={styles}
                     isMobile={isMobile}
                     onShareClick={() => setShareModalOpen(true)}
                     onEnrollClick={() => setModalOpen(true)}
-                    // pharmacies={pharmacies}
                     refresh={getContactAndPlanData}
-                    // addPrescription={addPrescription}
-                    // editPrescription={editPrescription}
-                    // deletePrescription={deletePrescription}
-                    // addPharmacy={addPharmacy}
-                    // deletePharmacy={deletePharmacy}
                   />
                 )}
                 {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
@@ -182,8 +166,6 @@ const PlanDetailsPage = () => {
                     onShareClick={() => setShareModalOpen(true)}
                     onEnrollClick={() => setModalOpen(true)}
                     refresh={getContactAndPlanData}
-                    // addProvider={addProvider}
-                    // deleteProvider={deleteProvider}
                   />
                 )}
               </Container>

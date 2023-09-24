@@ -82,6 +82,8 @@ export const STATES = [
 ];
 
 export const sortAddressesBySelectedIds = (addresses, ids) => {
+  if (!addresses || !ids || addresses?.length === 0 || ids?.length === 0)
+    return;
   return addresses.sort((a, b) => {
     const aIsPriority = ids.includes(a.id);
     const bIsPriority = ids.includes(b.id);

@@ -73,13 +73,15 @@ const RenderProviders = ({
       </Box>
 
       <Box>
-        <IconButton
-          label="Edit"
-          onClick={() => {
-            handleEditProvider(provider);
-          }}
-          icon={<EditIcon />}
-        />
+        {!isPlanPage && (
+          <IconButton
+            label="Edit"
+            onClick={() => {
+              handleEditProvider(provider);
+            }}
+            icon={<EditIcon />}
+          />
+        )}
       </Box>
     </>
   );

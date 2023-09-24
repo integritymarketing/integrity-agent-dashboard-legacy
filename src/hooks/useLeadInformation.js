@@ -116,7 +116,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
-        refresh && (await refresh());
+        if (refresh) {
+          await refresh();
+        }
         addToast({ message: "Prescription Added" });
       },
       (err) =>
@@ -140,7 +142,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
-        refresh && (await refresh());
+        if (refresh) {
+          await refresh();
+        }
         addToast({ message: "Prescription Updated" });
       },
       (err) => {
@@ -160,7 +164,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
-        refresh && (await refresh());
+        if (refresh) {
+          await refresh();
+        }
         addToast({
           type: "success",
           message: "Prescription deleted",
@@ -209,38 +215,60 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     );
   };
 
-  const addProvider = async (request, providerName, refresh) => {
+  const addProvider = async (
+    request,
+    providerName,
+    refresh,
+    isUpdate = false
+  ) => {
     await performAsyncOperation(
       () => saveLeadProviders(request),
       setProviderLoading,
       async () => {
         await fetchProviders();
-        refresh && (await refresh());
-        addToast({ message: `${providerName} added to the list.` });
-      },
-      (err) => addToast({ type: "error", message: "Failed to add Provider" })
-    );
-  };
+        if (refresh) {
+          await refresh();
+        }
 
-  const deleteProvider = async (payload, providerName, refresh, isDelete) => {
-    await performAsyncOperation(
-      () => deleteLeadProviders(payload),
-      setProviderLoading,
-      async () => {
-        await fetchProviders();
-        refresh && (await refresh());
+        debugger;
+        console.log("isUpdate", isUpdate);
         addToast({
-          message: `Provider ${isDelete ? "deleted" : "updated"}`,
-          link: "UNDO",
-          time: toastTimer,
-          onClickHandler: () => addProvider(payload, providerName, refresh),
-          closeToastRequired: true,
+          message: `${providerName} ${
+            isUpdate ? "updated" : "added to the list."
+          }`,
         });
       },
       (err) =>
         addToast({
           type: "error",
-          message: `Failed to ${isDelete ? "delete" : "update"} Provider`,
+          message: `Failed to ${isUpdate ? "update" : "add"} Provider`,
+        })
+    );
+  };
+
+  const deleteProvider = async (payload, providerName, refresh, isToast) => {
+    await performAsyncOperation(
+      () => deleteLeadProviders(payload),
+      setProviderLoading,
+      async () => {
+        await fetchProviders();
+        if (refresh) {
+          await refresh();
+        }
+        if (isToast) {
+          addToast({
+            message: `Provider  deleted`,
+            link: "UNDO",
+            time: toastTimer,
+            onClickHandler: () => addProvider(payload, providerName, refresh),
+            closeToastRequired: true,
+          });
+        }
+      },
+      (err) =>
+        addToast({
+          type: "error",
+          message: `Failed to update Provider`,
         })
     );
   };

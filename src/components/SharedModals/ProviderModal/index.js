@@ -168,7 +168,8 @@ const ProviderModal = ({
     await addProvider(
       requestPayload,
       selectedProvider?.presentationName,
-      refresh
+      refresh,
+      isEdit
     );
 
     fireEvent("AI - Provider added", {
@@ -178,37 +179,6 @@ const ProviderModal = ({
   };
 
   const handleEditProvider = async () => {
-    debugger;
-    let completeAddressArray = selectedProvider?.addresses;
-
-    const getFilteredAddressIds = (completeData, partialData) =>
-      completeData?.filter(
-        (completeAddress) =>
-          !partialData?.some((partialId) => completeAddress?.id === partialId)
-      );
-
-    const filteredAddressIds = getFilteredAddressIds(
-      completeAddressArray,
-      selectAddressIds
-    );
-
-    const requestPayload = filteredAddressIds?.map((address) => {
-      return {
-        npi: selectedProvider?.NPI?.toString(),
-        addressId: address?.id,
-        isPrimary: false,
-      };
-    });
-    onClose();
-    deleteProvider(
-      requestPayload,
-      selectedProvider?.presentationName,
-      refresh,
-      false
-    );
-  };
-
-  const handleDeleteProvider = () => {
     const requestPayload = selected?.addresses?.map((address) => {
       return {
         npi: selectedProvider?.NPI?.toString(),
@@ -216,13 +186,27 @@ const ProviderModal = ({
         addressId: address?.id,
       };
     });
+
     onClose();
     deleteProvider(
       requestPayload,
       selectedProvider?.presentationName,
-      refresh,
-      true
+      handleSaveProvider,
+      false
     );
+  };
+
+  const handleDeleteProvider = () => {
+    const requestPayload = selected?.addresses?.map((address) => {
+      return {
+        npi: selected?.NPI?.toString(),
+        isPrimary: false,
+        addressId: address?.id,
+      };
+    });
+
+    onClose();
+    deleteProvider(requestPayload, selected?.presentationName, refresh, true);
   };
 
   const isFormValid = useMemo(() => {
