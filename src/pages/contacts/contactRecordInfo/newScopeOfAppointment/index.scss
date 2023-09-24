@@ -2,6 +2,18 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  padding: 16px;
+
+  .soaCancelBtn{
+    margin: 16px 16px 0;
+    color: #4178FF;
+    cursor: pointer;
+  }
+
+  .disabledSoaBtn  {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 
   .new-scope-card {
     display: flex;
@@ -67,6 +79,9 @@
         .text-input {
           width: 100%;
           padding: 10px;
+          border: 1px solid #c7ccd1;
+          border-radius: 6px;
+          height: 40px;
         }
 
         .email-mobile-error {
@@ -101,7 +116,7 @@
   }
   .send-button {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     position: sticky;
     bottom: 0px;
     z-index: 1;

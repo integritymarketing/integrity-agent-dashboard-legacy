@@ -7,6 +7,7 @@ import { Button } from "components/ui/Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import useRoles from "hooks/useRoles";
 import { useParams } from "react-router-dom";
+import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import styles from "../../../pages/PlansPage.module.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -33,6 +34,7 @@ export default function ComparePlansByPlanName({
   const [userData, setUserData] = useState(contactData);
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
+  const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
   const { isNonRTS_User } = useRoles();
 
   const isEmailNonRts = isEmail
@@ -160,21 +162,43 @@ export default function ComparePlansByPlanName({
                   !isModal &&
                   !isEmail &&
                   !isEmailNonRts && (
-                    <Button
-                      onClick={() => handleOnClick(plan)}
-                      label={"Enroll"}
-                      type="primary"
-                    />
+                    <>
+                      <Button
+                        onClick={() => setPreCheckListPdfModal(true)}
+                        label={"Enroll"}
+                        type="primary"
+                      />
+                      {preCheckListPdfModal && (
+                        <PreEnrollPDFModal
+                          open={preCheckListPdfModal}
+                          onClose={() => {
+                            setPreCheckListPdfModal(false);
+                            handleOnClick(plan);
+                          }}
+                        />
+                      )}
+                    </>
                   )}
                 {!plan.nonLicensedPlan &&
                   !isModal &&
                   isEmail &&
                   !isEmailNonRts && (
-                    <Button
-                      onClick={() => handleBenificiaryClick(plan)}
-                      label={"Enroll"}
-                      type="primary"
-                    />
+                    <>
+                      <Button
+                        onClick={() => setPreCheckListPdfModal(true)}
+                        label={"Enroll"}
+                        type="primary"
+                      />
+                      {preCheckListPdfModal && (
+                        <PreEnrollPDFModal
+                          open={preCheckListPdfModal}
+                          onClose={() => {
+                            setPreCheckListPdfModal(false);
+                            handleBenificiaryClick(plan);
+                          }}
+                        />
+                      )}
+                    </>
                   )}
                 {!isModal && !isEmail && comparePlans.length > 1 && (
                   <span

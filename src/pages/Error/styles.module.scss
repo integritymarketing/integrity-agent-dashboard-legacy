@@ -1,0 +1,36 @@
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .errorHeading {
+    font-size: 3rem;
+    animation: slideInFromLeft 1s ease-out;
+  }
+  
+  .errorMessage {
+    font-size: 1.5rem;
+    animation: slideInFromRight 1s ease-out;
+  }
+  
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  

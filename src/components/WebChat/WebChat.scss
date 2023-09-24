@@ -216,6 +216,28 @@
         }
       }
     }
+
+    #mcContactSummaryButtonsCard {
+      .ac-actionSet {
+        flex-direction: row-reverse !important;
+
+        button:first-child {
+          background-color: #4178ff;
+          border-radius: 50px;
+          flex-direction: row-reverse;
+          gap: 4px;
+        }
+
+        button:last-child {
+          background-color: transparent;
+
+          &:hover {
+            background-color: #4178ff !important;
+            border-radius: 50px;
+          }
+        }
+      }
+    }
   }
 
   .ac-actionSet {

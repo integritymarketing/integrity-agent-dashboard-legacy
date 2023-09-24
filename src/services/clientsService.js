@@ -588,9 +588,13 @@ export class ClientsService {
     return response?.json().then((res) => res || []);
   };
 
-  createPrescription = async (leadId, reqData) => {
+  createPrescription = async (leadId, reqData, consumerId) => {
+    let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`;
+    if (consumerId) {
+      buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/syncid/${consumerId}`;
+    }
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+      `${buildUrl}`,
       "POST",
       reqData
     );
@@ -600,9 +604,13 @@ export class ClientsService {
     throw new Error("Update failed.");
   };
 
-  editPrescription = async (leadId, reqData) => {
+  editPrescription = async (leadId, reqData, consumerId) => {
+    let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`;
+    if (consumerId) {
+      buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}/syncid/${consumerId}`;
+    }
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`,
+      `${buildUrl}`,
       "POST",
       reqData
     );
@@ -613,11 +621,12 @@ export class ClientsService {
     throw new Error("Update failed.");
   };
 
-  deletePrescription = async (leadId, id) => {
-    const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`,
-      "DELETE"
-    );
+  deletePrescription = async (leadId, id, consumerId) => {
+    let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`;
+    if (consumerId) {
+      buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}/${consumerId}`;
+    }
+    const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE");
 
     return response;
   };
@@ -638,18 +647,23 @@ export class ClientsService {
     return response?.json();
   };
 
-  deletePharmacy = async (leadId, id) => {
-    const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`,
-      "DELETE"
-    );
+  deletePharmacy = async (leadId, id, consumerId) => {
+    let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`;
+    if (consumerId) {
+      buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}/${consumerId}`;
+    }
+    const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE");
 
     return response;
   };
 
-  createPharmacy = async (leadId, reqData) => {
+  createPharmacy = async (leadId, reqData, consumerId) => {
+    let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`;
+    if (consumerId) {
+      buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${consumerId}`;
+    }
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+      `${buildUrl}`,
       "POST",
       reqData
     );
@@ -668,12 +682,12 @@ export class ClientsService {
     return response?.json();
   };
 
-  createLeadProvider = async (leadId, data) => {
-    const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
-      "POST",
-      data
-    );
+  createLeadProvider = async (leadId, data, consumerId) => {
+    let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`;
+    if (consumerId) {
+      buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${consumerId}`;
+    }
+    const response = await this._clientAPIRequest(`${buildUrl}`, "POST", data);
 
     if (response?.ok) {
       return response;
@@ -681,9 +695,13 @@ export class ClientsService {
     throw new Error("Create Lead failed.");
   };
 
-  deleteProvider = async (payload, leadId) => {
+  deleteProvider = async (payload, leadId, consumerId) => {
+    let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`;
+    if (consumerId) {
+      buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${consumerId}`;
+    }
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
+      `${buildUrl}`,
       "DELETE",
       payload
     );
@@ -1181,6 +1199,9 @@ export class ClientsService {
         notes: contact.notes,
         emails: contact.emails,
         phones: contact.phones,
+        medicareBeneficiaryID: contact.medicareBeneficiaryID,
+        partA: contact.partA,
+        partB: contact.partB,
         addresses: [
           {
             leadAddressId: addresses[0]?.leadAddressId,

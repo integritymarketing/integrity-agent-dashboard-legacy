@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
 import Activity from "components/icons/activities/Activity";
-import List from "components/icons/activities/List";
 import CallRecording from "components/icons/activities/CallRecording";
 import ContactUpdated from "components/icons/activities/Contacts";
-import styles from "./ActivitySubjectWithIcon.module.scss";
+import List from "components/icons/activities/List";
+import LOCATION from "components/icons/activities/LocationIcon";
+import MEDICAID from "components/icons/activities/MedicaId";
+import PHARMACY from "components/icons/activities/Pharmacy";
+import PRESCRIPTION from "components/icons/activities/PrescriptionIcon";
+import PROVIDER from "components/icons/activities/ProviderIcon";
 import Reminder from "components/icons/activities/Reminder";
 import SOA from "components/icons/activities/SOA";
-import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
+import styles from "./ActivitySubjectWithIcon.module.scss";
 import share from "../../images/Plans-Shared.png";
 import MeetingRecord from "../../images/MeetingRecording.png";
 
-export default function ActivitySubjectWithIcon({ activitySubject }) {
-  const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
+// Reusable ImageToIcon function component
+export const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
 
-  const getIcon = () => {
-    const icon = {
+ImageToIcon.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+};
+
+const ActivitySubjectWithIcon = ({ activitySubject }) => {
+  const iconComponent = useMemo(() => {
+    const iconMapping = {
       "Contact Updated": <ContactUpdated />,
       "Contact Created": <ContactUpdated />,
       "Contact Imported": <ContactUpdated />,
@@ -34,10 +46,22 @@ export default function ActivitySubjectWithIcon({ activitySubject }) {
       "Meeting Recorded": (
         <ImageToIcon src={MeetingRecord} alt="Meeting Recorded" />
       ),
+      "Medicare ID Updated by Client": <ContactUpdated />,
+      "ZipCode Updated by Client": <LOCATION />,
+      "Pharmacy Updated by Client": <PHARMACY />,
+      "Prescription Updated by Client": <PRESCRIPTION />,
+      "Providers Updated by Client": <PROVIDER />,
+      "Medicaid Updated by Client": <MEDICAID />,
     };
 
-    return icon[activitySubject] || <Activity />;
-  };
+    return iconMapping[activitySubject] || <Activity />;
+  }, [activitySubject]);
 
-  return <div className={styles.icon}>{getIcon()}</div>;
-}
+  return <div className={styles.icon}>{iconComponent}</div>;
+};
+
+ActivitySubjectWithIcon.propTypes = {
+  activitySubject: PropTypes.string.isRequired,
+};
+
+export default ActivitySubjectWithIcon;

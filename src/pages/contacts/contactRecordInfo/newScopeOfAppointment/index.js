@@ -14,9 +14,15 @@ import clientsService from "services/clientsService";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import useUserProfile from "hooks/useUserProfile";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import "./index.scss";
 import Track from "./Track";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
+import SMSNotification from "components/SMSNotification";
+import {
+  disableTextMessage,
+  getCommunicationOptions,
+} from "utilities/appConfig";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -34,10 +40,6 @@ export const __formatPhoneNumber = (phoneNumberString) => {
   return originalInput;
 };
 
-const EMAIL_MOBILE_LABELS = [
-  { value: "email", label: "Email" },
-  { value: "mobile", label: "Mobile" },
-];
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -53,6 +55,9 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
+  const {
+    agentInformation: { agentPurl },
+  } = useAgentInformationByID();
 
   useEffect(() => {
     const getContactInfo = async () => {
@@ -66,7 +71,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         });
       }
     };
-    if (!newSoaContactDetails?.firstName && leadId) {
+    if (!newSoaContactDetails.firstName && leadId) {
       getContactInfo();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,8 +93,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const agentEmail = agentUserProfile?.email;
   const agentPhoneNumber = agentUserProfile?.phone;
   const npnNumber = agentUserProfile?.npn;
-  const leadEmail = emails?.[0]?.leadEmail ?? "";
-  const leadPhone = phones?.[0]?.leadPhone ?? "";
+  const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
+  const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
 
   const validateEmail = (email) => {
     if (emailRegex.test(email)) {
@@ -120,7 +125,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         agentPhoneNumber: agentPhoneNumber,
         agentEmail: agentEmail,
         agentNpn: npnNumber,
-        isTracking48HoursWaitingPeroid: isTracking,
+        isTracking48HoursWaitingPeriod: isTracking,
+        agentPurl,
       };
       if (selectOption === "email") {
         const data = {
@@ -219,7 +225,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                         }
                       />
                     )}
-                    {leadPhone && (
+                    {leadPhone && !disableTextMessage && (
                       <Radio
                         id="textMessage"
                         htmlFor="textMessage"
@@ -244,7 +250,11 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                       className={`${
                         selectOption === "newEmailOrMObile" ? "highlight " : ""
                       } pb-10 radio-label`}
-                      label="New Email Or Mobile Number"
+                      label={
+                        disableTextMessage
+                          ? "New Email"
+                          : "New Email Or Mobile Number"
+                      }
                       name="new-soa"
                       value="newEmailOrMObile"
                       checked={selectOption === "newEmailOrMObile"}
@@ -255,7 +265,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                     <div className="new-email-or-mobile">
                       <Select
                         className="mr-2"
-                        options={EMAIL_MOBILE_LABELS}
+                        options={getCommunicationOptions()}
                         style={{ width: "140px" }}
                         initialValue={selectLabel}
                         providerModal={true}
@@ -309,15 +319,16 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                   )}
                 </section>
               </div>
+              <SMSNotification />
               <Track onCheckChange={setIsTracking} />
             </Card>
-            <div
-              className="send-button"
-              style={{ pointerEvents: idFormNotValid ? "none" : "initial" }}
-            >
+            <div className="send-button">
+              <div className="soaCancelBtn" onClick={onCloseModal}>
+                Cancel
+              </div>
               <Button
-                fullWidth={matches.mobile}
                 label="Send SOA"
+                className={`${idFormNotValid ? "disabledSoaBtn" : ""}`}
                 icon={
                   <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
                     <ArrowForwardWithCircle />
@@ -326,6 +337,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                 iconPosition="right"
                 onClick={!idFormNotValid && handleSend}
                 data-gtm="button-send"
+                style={{ border: "none" }}
               />
             </div>
           </Container>

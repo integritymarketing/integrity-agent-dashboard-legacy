@@ -93,7 +93,7 @@ const ContactRecordInfoDetails = () => {
   const { Post: postSpecialists } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
   );
-    
+
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -402,6 +402,11 @@ const ContactRecordInfoDetails = () => {
           label="View Available Plans"
           onClick={handleViewAvailablePlans}
           type="primary"
+          style={{
+            borderRadius: "50px",
+            background: "#4178FF",
+            border: "none",
+          }}
         />
       );
     } else
@@ -411,6 +416,7 @@ const ContactRecordInfoDetails = () => {
           type="primary"
           disabled={false}
           onClick={handleZipDetails}
+          style={{ borderRadius: "50px" }}
         />
       );
   };
@@ -591,9 +597,7 @@ const ContactRecordInfoDetails = () => {
         countyError={countyError}
         submitEnable={submitEnable}
       />
-      {process.env.REACT_APP_ASK_INTEGRITY_FLAG && !shouldShowAskIntegrity && (
-        <WebChatComponent />
-      )}
+      {!shouldShowAskIntegrity && <WebChatComponent />}
       {!isLoading && !loading && isAddProviderModalOpen && (
         <ReviewProviders
           providers={providers}

@@ -4,6 +4,8 @@ import PlanNetworkItem from "./plan-network-item";
 import CostBreakdowns from "./cost-breakdowns";
 import { Button } from "../Button";
 import Arrow from "components/icons/down";
+import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
+import EnrollBack from "images/enroll-btn-back.svg";
 
 import {
   capitalizeFirstLetter,
@@ -13,6 +15,7 @@ import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
 import PlanCoverageUnavailable from "./plan-network-unavailable";
+import SelfRecommendation from "./self-recommendation/SelfRecommendation";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -112,6 +115,7 @@ export default function PlanCard({
   isCompareDisabled,
 }) {
   let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
+  const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
   const { logoURL } = planData;
   const checkForImage =
     logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
@@ -248,8 +252,7 @@ export default function PlanCard({
         )}
       {getCoverageRecommendations(planData)?.length > 0 && (
         <div className={`coverage ${isMobile ? "mobile" : ""}`}>
-          <div className={"label"}>Supplemental Coverage Recommendations:</div>
-          <div className="list">{getCoverageRecommendations(planData)}</div>
+          <SelfRecommendation pills={getCoverageRecommendations(planData)} />
         </div>
       )}
       <div className={`footer ${isMobile ? "mobile" : ""}`}>
@@ -263,21 +266,34 @@ export default function PlanCard({
           />
           <span className={"compare-txt"}>Compare</span>{" "}
         </div>
-        <div className={"plan-btn-container"}>
-          <Button
-            label="Plan Details"
-            onClick={() => onDetailsClick(planData.id)}
-            type="secondary"
-          />
-          {!planData.nonLicensedPlan && (
-            <Button
-              label={"Enroll"}
-              disabled={disableEnroll}
-              onClick={() => onEnrollClick(planData.id)}
-            />
-          )}
+        <div
+          onClick={() => onDetailsClick(planData.id)}
+          className="planDetailsBtn"
+        >
+          Plan Details
         </div>
+        {!planData.nonLicensedPlan && (
+          <Button
+            label={"Enroll"}
+            onClick={() => onEnrollClick(planData.id)}
+            icon={<img src={EnrollBack} alt="enroll" />}
+            className={"enroll-btn"}
+            style={
+              disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null
+            }
+            iconPosition={"right"}
+          />
+        )}
       </div>
+      {preCheckListPdfModal && (
+        <PreEnrollPDFModal
+          open={preCheckListPdfModal}
+          onClose={() => {
+            setPreCheckListPdfModal(false);
+            onEnrollClick(planData.id);
+          }}
+        />
+      )}
     </div>
   );
 }

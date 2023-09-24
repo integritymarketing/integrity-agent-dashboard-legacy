@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import NavBarWithBack from "partials/back-nav";
 import * as Sentry from "@sentry/react";
 import BackNavContext from "contexts/backNavProvider";
@@ -17,6 +17,7 @@ const FormInput = ({
   ...props
 }) => {
   const value = formValues[objKey];
+
   if (isSubmited) {
     return value || null;
   }
@@ -53,6 +54,7 @@ const Col = ({ children, fullWidth = false }) => {
 const ContactsSOAConfirmForm = () => {
   const { contactId, linkCode } = useParams();
   const { previousPage } = useContext(BackNavContext);
+  const { state } = useLocation();
   const [soaConfirmData, setSoaConfirmData] = useState(null);
   const [formValues, setFormValues] = useState({
     appointmentDate: dateFnsFormat(new Date(), "MM/dd/yy"),
@@ -153,7 +155,10 @@ const ContactsSOAConfirmForm = () => {
 
   return (
     <div className="contacts-soa">
-      <NavBarWithBack title={`Back to ${previousPage}`} leadId={contactId} />
+      <NavBarWithBack
+        title={`Back to ${state?.from || previousPage}`}
+        leadId={contactId}
+      />
       <div className="content-wrapper">
         <div className="heading">Scope of Appointment Confirmation Form</div>
         <div className="section-1">
@@ -511,13 +516,13 @@ const ContactsSOAConfirmForm = () => {
                     <img
                       style={{
                         position: "absolute",
-                        top: "5px",
+                        top: "6px",
                         left: "5px",
                         zIndex: 2,
                       }}
                       src={ReminderIcon}
                       alt=""
-                      height="20"
+                      height="17"
                       className="mr-1"
                     />
                     <Datepicker

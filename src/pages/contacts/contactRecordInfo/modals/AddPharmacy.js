@@ -120,6 +120,12 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
     radius,
   ]);
 
+  const renderEmptyContainer = () => {
+    if (!zipCode) {
+      return <div className={Styles.emptyContainer}>Search for a pharmacy</div>;
+    }
+  };
+
   const handleAddPharmacy = async () => {
     await addPharmacy({
       pharmacyID: selectedPharmacy.pharmacyID,
@@ -134,7 +140,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
     onClose();
   };
 
-  const zipCodeError = !zipCode || zipCode?.length < 5 ? true : false;
+  const zipCodeError = zipCode?.length > 0 && zipCode?.length < 5;
 
   return (
     <div>
@@ -237,7 +243,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                             className="pr-search-input"
                             value={pharmacyAddress}
                             disabled={zipCodeError}
-                            placeholder="Enter address"
                             onChange={(e) => {
                               setPharmacyAddress(e.currentTarget.value);
                               setCurrentPage(1);
@@ -327,7 +332,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                           type="text"
                           value={pharmacyAddress}
                           disabled={zipCodeError}
-                          placeholder="Enter Address"
                           onChange={(e) => {
                             setPharmacyAddress(e?.target?.value);
                             setCurrentPage(1);
@@ -379,11 +383,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
 
                   <div className="pr-search-result">
                     {totalCount ? (
-                      <>
-                        {totalCount || 0} Pharmacies found within {radius}
-                        &nbsp;miles
-                      </>
+                      <>{totalCount || 0} Pharmacies found</>
                     ) : null}
+                    {renderEmptyContainer()}
                   </div>
 
                   {isLoading ? (
@@ -391,7 +393,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                       <Spinner />
                     </div>
                   ) : (
-                    <div>
+                    <div className="result-container">
                       <div className="provider-result-container">
                         {error && (
                           <div className="pr-search-box">
@@ -413,7 +415,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                             >
                               <Checkbox
                                 onClick={() => {
-                                  setSelectedPharmacy(item);
+                                  setSelectedPharmacy(
+                                    item === selectedPharmacy ? null : item
+                                  );
                                 }}
                                 checked={selectedPharmacy === item}
                               />
@@ -500,7 +504,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
           header="Add Pharmacy"
           open={isOpen}
           onClose={onClose}
-          size="wide"
+          size="medium"
           labeledById="dialog_add_provider"
           providerModal={true}
           footer={
@@ -580,7 +584,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                           className="pr-search-input"
                           value={pharmacyAddress}
                           disabled={zipCodeError}
-                          placeholder="Enter address"
                           onChange={(e) => {
                             setPharmacyAddress(e.currentTarget.value);
                             setCurrentPage(1);
@@ -729,7 +732,6 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                       type="text"
                       value={pharmacyAddress}
                       disabled={zipCodeError}
-                      placeholder="Enter Address"
                       onChange={(e) => {
                         setPharmacyAddress(e?.target?.value);
                         setCurrentPage(1);
@@ -740,12 +742,8 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
               </div>
 
               <div className="pr-search-result">
-                {totalCount ? (
-                  <>
-                    {totalCount || 0} Pharmacies found within {radius}
-                    &nbsp;miles
-                  </>
-                ) : null}
+                {totalCount > 0 && `${totalCount} Pharmacies found`}
+                {renderEmptyContainer()}
               </div>
 
               {isLoading ? (
@@ -753,7 +751,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                   <Spinner />
                 </div>
               ) : (
-                <div>
+                <div className="result-container">
                   <div className="provider-result-container">
                     {error && (
                       <div className="pr-search-box">
@@ -779,7 +777,9 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
                             >
                               <Checkbox
                                 onClick={() => {
-                                  setSelectedPharmacy(item);
+                                  setSelectedPharmacy(
+                                    item === selectedPharmacy ? null : item
+                                  );
                                 }}
                                 checked={selectedPharmacy === item}
                               />

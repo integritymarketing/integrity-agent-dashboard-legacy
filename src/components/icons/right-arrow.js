@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const RightArrow = (props) => {
   return (
     <svg
       {...props}
@@ -23,3 +23,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default RightArrow;

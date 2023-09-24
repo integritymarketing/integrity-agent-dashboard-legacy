@@ -71,6 +71,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F1F1F1",
     display: "flex",
     flexDirection: "column",
+    borderBottomLeftRadius: "4px",
+    borderBottomRightRadius: "4px",
   },
 
   footerButtons: {
@@ -94,7 +96,16 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "0.32px",
   },
   paperScrollPaper: {
-    overflowY: "visible", // Remove the overflow-y: auto; by setting it to "visible"
+    overflowY: "visible",
+  },
+  customHeight: {
+    overflowY: "visible",
+    height: "70vh",
+  },
+  deleteContainer: {
+    "& button:hover": {
+      backgroundColor: "#FFFFFF",
+    },
   },
 }));
 
@@ -103,7 +114,10 @@ export default function Modal({
   onSave,
   contentStyle,
   onClose,
+  onDelete,
+  isDelete,
   onCancel,
+  modalName,
   open,
   title,
   children,
@@ -111,6 +125,7 @@ export default function Modal({
   endIcon,
   hideFooter = false,
   customFooter,
+  customModalHeight = "auto",
 }) {
   const classes = useStyles();
 
@@ -125,7 +140,11 @@ export default function Modal({
           borderRadius: 8,
         }}
         PaperProps={{
-          className: classes.paperScrollPaper,
+          style: {
+            height: customModalHeight,
+            overflowY: "visible",
+            width: "552px",
+          },
         }}
       >
         <DialogTitle disableTypography className={classes.title}>
@@ -154,16 +173,31 @@ export default function Modal({
         <DialogActions className={classes.footer}>
           {!hideFooter && (
             <Box className={classes.footerButtons}>
-              <Button onClick={onClose} className={classes.cancelButton}>
-                Cancel
-              </Button>
-              <Button
-                onClick={onSave}
-                className={classes.addButton}
-                endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
-                disabled={actionButtonDisabled}
-              >
-                {actionButtonName}
+              {onCancel ? (
+                <Button onClick={onClose} className={classes.cancelButton}>
+                  Cancel
+                </Button>
+              ) : (
+                <Box> </Box>
+              )}
+              {actionButtonName && (
+                <Button
+                  onClick={onSave}
+                  className={classes.addButton}
+                  endIcon={
+                    <span className={classes.buttonIcon}>{endIcon}</span>
+                  }
+                  disabled={actionButtonDisabled}
+                >
+                  {actionButtonName}
+                </Button>
+              )}
+            </Box>
+          )}
+          {isDelete && (
+            <Box className={classes.deleteContainer}>
+              <Button onClick={onDelete} className={classes.cancelButton}>
+                Delete {modalName}
               </Button>
             </Box>
           )}

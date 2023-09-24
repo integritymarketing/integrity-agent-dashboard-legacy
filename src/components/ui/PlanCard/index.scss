@@ -11,7 +11,6 @@
     button {
       width: calc(50% - 8px);
     }
-
   }
 }
 
@@ -25,7 +24,6 @@
   background: var(--v2-white);
   @media (max-width: 480px) {
     margin: 0px 20px 0px 20px;
-    padding: unset !important;
     width: auto !important;
     border: unset !important;
   }
@@ -375,8 +373,6 @@
     }
   }
 
-
-  
   .share-btn {
     color: #4178ff !important;
     border: none !important;
@@ -391,12 +387,32 @@
     justify-content: flex-end !important;
   }
 
+  .planDetailsBtn {
+    color: #4178ff;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      border-radius: 50px;
+      box-shadow: 0 4px 8px 0px rgba(0, 0, 0, 0.2);
+    }
+  }
+
   .enroll-btn {
     border-radius: 20px;
     background: #4178ff 0% 0% no-repeat padding-box;
     width: 120px;
     height: 40px;
     font-style: Lato;
+    border-color: #4178ff;
+
+    @media (max-width: 480px) {
+      min-width: fit-content !important;
+    }
+
     img {
       position: relative;
       left: 15px;
@@ -405,13 +421,11 @@
 
   .footer {
     border-top: 1px solid #cbd5e1;
-    margin: 0 -30px;
     display: flex;
     font-weight: bold;
-    padding-right: 32px;
     padding-top: 16px;
-    padding-left: 16px;
     justify-content: space-between;
+    margin-bottom: 16px;
 
     .plan-btn-container {
       display: flex;
@@ -445,15 +459,14 @@
       margin: 0px;
       justify-content: space-between;
       border-top: 1px solid #cbd5e1;
-      flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
 
       .monthly-cost {
         display: flex;
         align-items: flex-start;
         width: 100%;
         flex-direction: column;
-        background-color: #F1FAFF;
+        background-color: #f1faff;
         gap: 5px;
         padding: 8px;
 
@@ -501,10 +514,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 15px;
     @media (max-width: 480px) {
       margin-left: 0px;
-      margin-bottom: 15px;
     }
 
     .compare-inpt {
@@ -533,11 +544,8 @@
 
 .coverage {
   border-top: 1px solid #cbd5e1;
-  margin-bottom: 16px;
   font-size: 16px;
-  @media (max-width: 480px) {
-    padding: 17px 23px;
-  }
+
   .label {
     font-weight: bold;
     color: #000000;

@@ -21,12 +21,26 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
   };
 
   const navigateToConfirmSOA = (item) => {
-    history.push(`/contact/${item?.leadId}/soa-confirm/${item?.soaLinkCode}`);
+    history.push({
+      pathname: `/contact/${item?.leadId}/soa-confirm/${item?.soaLinkCode}`,
+      state: { from: "Dashboard" },
+    });
     refreshData(item?.id);
   };
 
-  const isWithinTwoDays = (contactAfterDate) =>
-    getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 48;
+  const isEarlierThanCurrentDate = (contactAfterDate, signedDate) =>
+    getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 0;
+
+  const getName = (item) => {
+    if (!item) return "";
+    const { firstName = "", middleName = "", lastName = "" } = item;
+    const formattedName = [firstName, middleName, lastName].filter(Boolean);
+    return formattedName.join(" ");
+  };
+
+  const navigateToContacts = (item) => {
+    history.push("/contact/" + item.leadId);
+  };
 
   return (
     <div className={styles.container}>
@@ -34,10 +48,13 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
         <div className={styles.item} key={item.id}>
           <div className={styles.section}>
             <div className={styles.title1}>
-              Soa sent {getDateTime(item?.sentDate).date} to
+              SOA sent {getDateTime(item?.sentDate).date} to
             </div>
-            <div className={styles.title2}>
-              {item ? `${item.firstName || ""} ${item.lastName || ""}` : ""}
+            <div
+              className={styles.title2}
+              onClick={() => navigateToContacts(item)}
+            >
+              {getName(item)}
             </div>
             <div className={styles.title3}>
               {item ? item.phoneNumber || item.sentTo : ""}
@@ -76,7 +93,9 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
           >
             <Button
               className={`${styles.completeBtn} ${
-                isWithinTwoDays(item?.contactAfterDate) ? styles.disabled : ""
+                isEarlierThanCurrentDate(item?.contactAfterDate)
+                  ? styles.disabled
+                  : ""
               }`}
               label={isMobile ? "" : "Complete"}
               onClick={() => navigateToConfirmSOA(item)}

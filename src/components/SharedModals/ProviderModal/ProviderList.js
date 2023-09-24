@@ -122,7 +122,6 @@ const Address = ({
       selectedProvider?.NPI === provider?.NPI
     ) {
       if (isAddressExist) {
-        if (selectAddressIds?.length === 1) setSelectedProvider(null);
         setSelectAddressIds(
           selectAddressIds.filter((addressId) => addressId !== address?.id)
         );
@@ -189,13 +188,7 @@ const ProviderCard = ({
   selectedProvider,
 }) => {
   const classes = useStyles();
-  const [isOpen, setOpenToggle] = useState(false);
-
-  useEffect(() => {
-    if (isEdit && selectAddressIds?.length > 1) {
-      setOpenToggle(true);
-    }
-  }, [isEdit, selectAddressIds]);
+  const [isOpen, setOpenToggle] = useState(isEdit);
 
   let selectedAddresses = selectedProvider?.addresses?.map(
     (address) => address.id

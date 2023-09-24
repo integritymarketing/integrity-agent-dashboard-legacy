@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import * as Sentry from "@sentry/react";
 import PropTypes from "prop-types";
-
+import { useRecoilValue } from "recoil";
+import { contactLeadDetailsAtom } from "pages/ContactDetails/state";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
 import useFetch from "hooks/useFetch";
@@ -73,6 +74,8 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const addToast = useToast();
 
+  const { consumerId } = useRecoilValue(contactLeadDetailsAtom);
+
   const fetchPrescriptions = useCallback(async () => {
     await performAsyncOperation(
       fetchLeadPrescriptions,
@@ -112,7 +115,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       selectedPackage: null,
     };
     await performAsyncOperation(
-      () => clientsService.createPrescription(leadId, itemObject),
+      () => clientsService.createPrescription(leadId, itemObject, consumerId),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -138,7 +141,12 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
     await performAsyncOperation(
       () =>
-        updateLeadPrescription(updatedData, false, updatedData.dosageRecordID),
+        updateLeadPrescription(
+          updatedData,
+          false,
+          updatedData.dosageRecordID,
+          consumerId
+        ),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -160,7 +168,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const deletePrescription = async (prescriptionData, refresh) => {
     const dosageRecordID = prescriptionData?.dosage?.dosageRecordID;
     await performAsyncOperation(
-      () => deleteLeadPrescription(null, false, dosageRecordID),
+      () => deleteLeadPrescription(null, false, dosageRecordID, consumerId),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -186,7 +194,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const addPharmacy = async (pharmacy) => {
     await performAsyncOperation(
-      () => saveLeadPharmacies(pharmacy),
+      () => saveLeadPharmacies(pharmacy, consumerId),
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
@@ -199,7 +207,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const deletePharmacy = async (pharmacy) => {
     const pharmacyId = pharmacy?.pharmacyRecordID;
     await performAsyncOperation(
-      () => deleteLeadPharmacies(null, false, pharmacyId),
+      () => deleteLeadPharmacies(null, false, pharmacyId, consumerId),
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
@@ -222,16 +230,13 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     isUpdate = false
   ) => {
     await performAsyncOperation(
-      () => saveLeadProviders(request),
+      () => saveLeadProviders(request, consumerId),
       setProviderLoading,
       async () => {
         await fetchProviders();
         if (refresh) {
           await refresh();
         }
-
-        debugger;
-        console.log("isUpdate", isUpdate);
         addToast({
           message: `${providerName} ${
             isUpdate ? "updated" : "added to the list."
@@ -248,7 +253,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const deleteProvider = async (payload, providerName, refresh, isToast) => {
     await performAsyncOperation(
-      () => deleteLeadProviders(payload),
+      () => deleteLeadProviders(payload, consumerId),
       setProviderLoading,
       async () => {
         await fetchProviders();

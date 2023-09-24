@@ -5,6 +5,7 @@ import React, {
   useContext,
   useMemo,
 } from "react";
+import PropTypes from "prop-types";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -26,6 +27,7 @@ import ActionsDropdown from "components/ui/ActionsDropdown";
 import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
 import StageStatusContext from "contexts/stageStatus";
 import { ColorOptionRender } from "utils/shared-utils/sharedUtility";
+import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
 
 function Table({
   columns,
@@ -68,15 +70,11 @@ function Table({
         // Let's make a column for selection
         {
           id: "selection",
-          // The header can use the table's getToggleAllRowsSelectedProps method
-          // to render a checkbox
           Header: ({ getToggleAllRowsSelectedProps }) => (
             <div>
               <Checkbox label="" id="" {...getToggleAllRowsSelectedProps()} />
             </div>
           ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
           Cell: ({ row }) => (
             <div>
               <Checkbox label="" id="" {...row.getToggleRowSelectedProps()} />
@@ -207,6 +205,8 @@ function ContactsTable({
   const [applyFilters, setApplyFilters] = useState({});
 
   const { setNewSoaContactDetails } = useContext(ContactContext);
+  const [leadId, setLeadId] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const { statusOptions } = useContext(StageStatusContext);
 
   const addToast = useToast();
@@ -348,12 +348,11 @@ function ContactsTable({
         setShowAddNewModal(true);
         break;
       case "new-soa":
-      case "plans":
-        if (value === "new-soa") {
-          setNewSoaContactDetails(contact);
-        }
-        navigateToPage(leadId, value);
+        setNewSoaContactDetails(contact);
+        setLeadId(leadId);
+        setOpenModal(true);
         break;
+      case "plans":
       case "contact":
         navigateToPage(leadId, value);
         break;
@@ -541,21 +540,42 @@ function ContactsTable({
   );
 
   return (
-    <Table
-      onRowSelected={handleRowSelected}
-      columns={isMobile && layout === "list" ? mobile_columns : columns}
-      data={data}
-      searchString={searchString}
-      loading={loading}
-      pageCount={pageCount}
-      totalResults={totalResults}
-      sort={sort}
-      applyFilters={applyFilters}
-      onChangeTableState={setTableState}
-      isMobile={isMobile}
-      layout={layout}
-    />
+    <>
+      <Table
+        onRowSelected={handleRowSelected}
+        columns={isMobile && layout === "list" ? mobile_columns : columns}
+        data={data}
+        searchString={searchString}
+        loading={loading}
+        pageCount={pageCount}
+        totalResults={totalResults}
+        sort={sort}
+        applyFilters={applyFilters}
+        onChangeTableState={setTableState}
+        isMobile={isMobile}
+        layout={layout}
+      />
+
+      {openModal && (
+        <SOAModal
+          id={leadId}
+          openSOAModal={openModal}
+          setOpenSOAModal={setOpenModal}
+        />
+      )}
+    </>
   );
 }
+
+ContactsTable.propTypes = {
+  searchString: PropTypes.string,
+  sort: PropTypes.string,
+  filteredLeadIdsLength: PropTypes.number,
+  handleRowSelected: PropTypes.func,
+  deleteCounter: PropTypes.number,
+  handleGetAllLeadIds: PropTypes.func,
+  isMobile: PropTypes.bool,
+  layout: PropTypes.string,
+};
 
 export default ContactsTable;

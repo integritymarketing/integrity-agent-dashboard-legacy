@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react";
 import state from "./state";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { useEffect, useState, useCallback } from "react";
@@ -15,9 +16,8 @@ const useContactDetails = (leadId) => {
     try {
       const results = await clientsService.getContactInfo(leadId);
       setLeadDetails(results);
-    } catch (err) {
-      // TODO: Handle error
-      console.log(err, err.stack);
+    } catch (error) {
+      Sentry.captureException(error);
       setLeadDetails([]);
     } finally {
       setIsLoading(false);
@@ -26,11 +26,10 @@ const useContactDetails = (leadId) => {
 
   useEffect(() => {
     setLeadId(leadId);
-
-    if (leadId) {
+    if (leadId && leadId !== String(leadDetails?.leadsId)) {
       getLeadDetails(leadId);
     }
-  }, [setLeadId, leadId, getLeadDetails]);
+  }, [setLeadId, leadId, getLeadDetails, leadDetails]);
 
   return {
     leadId,

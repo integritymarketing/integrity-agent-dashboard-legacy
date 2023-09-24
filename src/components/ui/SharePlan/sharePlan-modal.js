@@ -16,11 +16,11 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import plansService from "services/plansService";
 import enrollPlansService from "services/enrollPlansService";
 import "./styles.scss";
-
-const EMAIL_MOBILE_LABELS = [
-  { value: "email", label: "Email" },
-  { value: "mobile", label: "Mobile" },
-];
+import {
+  disableTextMessage,
+  getCommunicationOptions,
+} from "utilities/appConfig";
+import SMSNotification from "components/SMSNotification";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
@@ -48,11 +48,11 @@ const SharePlanModal = ({
   contact = {},
   enrollmentId,
   ispolicyShare = false,
-  enrollData = {}
+  enrollData = {},
 }) => {
   const addToast = useToast();
   const {
-    agentInformation: { agentVirtualPhoneNumber },
+    agentInformation: { agentVirtualPhoneNumber, agentPurl },
   } = useAgentInformationByID();
 
   const {
@@ -141,8 +141,7 @@ const SharePlanModal = ({
     const roles = userProfile?.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
     const urlPathName = window?.location?.pathname;
-    const origin = window?.location?.origin;
-    const shareCurrentPlanSnapshotUrl = `${origin}/customer${urlPathName}`;
+    const shareCurrentPlanSnapshotUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
     let updatedRoles;
     if (typeof roles === "string") {
       updatedRoles = [roles];
@@ -179,7 +178,8 @@ const SharePlanModal = ({
         dateOfBirth: birthdate,
         EnrollmentId: enrollmentId,
         enrollData: enrollData,
-        appSubmitDate: enrollData?.submittedDate
+        appSubmitDate: enrollData?.submittedDate,
+        agentPurl,
       };
       if (selectOption === "email") {
         const data = {
@@ -333,7 +333,7 @@ const SharePlanModal = ({
                           }
                         />
                       )}
-                      {leadPhone && (
+                      {leadPhone && !disableTextMessage && (
                         <Radio
                           id="textMessage"
                           data-gtm="input-share-plans"
@@ -353,7 +353,11 @@ const SharePlanModal = ({
                         id="newEmailOrMobile"
                         data-gtm="input-share-plans"
                         htmlFor="newEmailOrMobile"
-                        label="New email or mobile number"
+                        label={
+                          disableTextMessage
+                            ? "New email"
+                            : "New email or mobile number"
+                        }
                         name="share-plan"
                         value="newEmailOrMObile"
                         checked={selectOption === "newEmailOrMObile"}
@@ -366,7 +370,7 @@ const SharePlanModal = ({
                       <div className="new-email-or-mobile">
                         <Select
                           className="mr-2"
-                          options={EMAIL_MOBILE_LABELS}
+                          options={getCommunicationOptions()}
                           style={{ width: "140px" }}
                           initialValue={selectLabel}
                           providerModal={true}
@@ -427,6 +431,7 @@ const SharePlanModal = ({
                         )}
                       </div>
                     )}
+                    <SMSNotification />
                   </>
                 ) : (
                   <div className="document-wrapper">

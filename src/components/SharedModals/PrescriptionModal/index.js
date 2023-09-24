@@ -73,6 +73,27 @@ const PrescriptionModal = ({
   const [isSaving, setIsSaving] = useState(false);
   const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
   const [initialValues, setInitialValues] = useState({});
+  const [isOptionsOpened, setIsOptionsOpened] = useState(false);
+  const [optionsLength, setOptionsLength] = useState(0);
+
+  const customModalHeight = useMemo(() => {
+    if (selectedDrug.g_value && selectedDrug?.description === "Brand") {
+      if (optionsLength <= 3) {
+        return "70vh";
+      }
+      if (optionsLength <= 6) {
+        return "80vh";
+      }
+      if (optionsLength <= 10) {
+        return "90vh";
+      }
+
+      return "100vh";
+    } else {
+      return "50vh";
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [optionsLength]);
 
   useEffect(() => {
     const getDosages = async () => {
@@ -269,12 +290,6 @@ const PrescriptionModal = ({
       initialValues.dosage !== dosage
     );
   };
-  console.log(
-    "disabled",
-    initialValues.dosage,
-
-    dosage
-  );
 
   const validUpdate = isUpdated();
 
@@ -328,6 +343,7 @@ const PrescriptionModal = ({
           />
         )
       }
+      customModalHeight={isOptionsOpened ? customModalHeight : undefined}
     >
       {!selectedDrug && !isLoading ? (
         <>
@@ -416,6 +432,9 @@ const PrescriptionModal = ({
               dosagePackage,
               packageOptions,
             }}
+            setIsOptionsOpened={setIsOptionsOpened}
+            setOptionsLength={setOptionsLength}
+            optionsLength={optionsLength}
           />
         </>
       )}

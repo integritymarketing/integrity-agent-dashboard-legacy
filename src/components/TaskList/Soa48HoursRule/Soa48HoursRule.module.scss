@@ -55,7 +55,6 @@
         @media (max-width: 768px) {
             position: absolute;
             right: 0;
-
         }
     }
     .mobileIcon .completeBtn{
@@ -80,6 +79,10 @@
     .title2 {
         font-size: 20px;
         color: #052A63;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
     }
     .title3 {
         font-size: 14px;

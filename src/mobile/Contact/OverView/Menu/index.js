@@ -2,9 +2,9 @@ import React from "react";
 import view from "./Images/view.png";
 import contact from "./Images/contact.png";
 import settings from "./Images/settings.png";
-import SOA from "./Images/SOA.png";
 import DownArrow from "./Icons/downArrow";
 import styles from "./styles.module.scss";
+import SOAIcon from "./Images/icon-SOA.png";
 
 const MobileMenu = ({
   handleDisplay,
@@ -27,7 +27,7 @@ const MobileMenu = ({
     {
       name: "scopeofappointments",
       displayName: "Scope of Appointments",
-      img: SOA,
+      img: SOAIcon,
     },
     {
       name: "preferences",

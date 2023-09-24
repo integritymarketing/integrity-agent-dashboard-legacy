@@ -8,7 +8,12 @@ import useToast from "hooks/useToast";
 import { CallScriptModal } from "packages/CallScriptModal";
 import useUserProfile from "hooks/useUserProfile";
 
-export default function PrimaryContactPhone({ phone, leadsId }) {
+export default function PrimaryContactPhone({
+  countyFips,
+  postalCode,
+  phone,
+  leadsId,
+}) {
   const userProfile = useUserProfile();
   const addToast = useToast();
   const [modalOpen, setModalOpen] = useState(false);
@@ -76,10 +81,15 @@ export default function PrimaryContactPhone({ phone, leadsId }) {
 
   return (
     <>
-      <CallScriptModal
-        modalOpen={modalOpen}
-        handleClose={() => setModalOpen(false)}
-      />
+      {modalOpen && (
+        <CallScriptModal
+          modalOpen={modalOpen}
+          handleClose={() => setModalOpen(false)}
+          leadId={leadsId}
+          countyFips={countyFips}
+          postalCode={postalCode}
+        />
+      )}
       <a
         href={() => false}
         className={styles.link}

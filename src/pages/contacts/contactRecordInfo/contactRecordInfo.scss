@@ -401,15 +401,15 @@
 }
 .leftcardmenu li span {
   font-family: "Lato", sans-serif;
-  font-weight: 400;
+  font-weight: bold;
   font-size: 14px;
   line-height: 18px;
-  color: #70777e;
+  color: #434a51;
   display: inline-flex;
 }
 
 .icon-spacing {
-  margin-right: 15px;
+  margin-right: 5px;
   line-height: 2px;
 }
 .leftcardmenu li:last-child {
@@ -417,12 +417,13 @@
 }
 .leftcardmenu li.active span,
 .leftcardmenu li.active label > svg > path {
-  color: var(--v2-dark-blue) !important;
+  color: #4178ff !important;
   fill: var(--v2-dark-blue) !important;
   font-weight: bold;
 }
 .leftcardmenu li.active {
-  background: #f9fafc;
+  background: #f1faff;
+  color: #4178ff;
 }
 .nameCard {
   background: #ffffff;
@@ -729,7 +730,7 @@
 }
 .cal {
   display: flex;
-  width: 80px;
+  width: 100px;
   height: 30px;
   margin-right: 20px;
   border: 1px solid var(--v2-main-gray);
@@ -929,6 +930,10 @@
 .contactdetailscard {
   background: #ffffff;
   border-radius: 8px;
+
+  @media (max-width: 480px) {
+    background: transparent;
+  }
 }
 .contactdetailscardheader {
   padding: 31px 37px 22px 30px;
@@ -1444,7 +1449,7 @@ button {
     padding: 0px;
 
     @media (max-width: 480px) {
-      background: #f1f5f9;
+      background: #f1f1f1;
     }
   }
   .contactdetailscard {
@@ -1486,6 +1491,10 @@ button {
   }
   .soa-list-body {
     padding: 26px !important;
+
+    @media (max-width: 480px) {
+      padding: 8px 26px !important;
+    }
   }
 
   .contactDetailsSection {
@@ -1509,7 +1518,7 @@ button {
     flex-direction: column;
   }
   .li-item {
-   white-space: row;
+    white-space: row;
   }
   .complete-btn {
     width: 35% !important;
@@ -1656,6 +1665,10 @@ button {
     width: 100%;
     margin: 0;
     padding: 20px;
+
+    @media (max-width: 480px) {
+      padding: 0 20px;
+    }
   }
   .leftcardmenu {
     float: none;
@@ -1778,7 +1791,9 @@ button {
   width: 290px;
 }
 .custom-datepicker
-  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(
+    .DayPicker-Day--outside
+  ) {
   color: #fff;
   font-weight: 700;
   background: var(--v2-royal-blue);
@@ -1854,21 +1869,29 @@ button {
   border-radius: 4px;
   padding: 24px;
   margin-bottom: 16px;
+  @media (max-width: 480px) {
+    border: none;
+  }
 }
 .scope-of-app-row-section1 {
   margin-bottom: 18px;
 }
 .scope-of-app-row-section1 p {
-  color: #052A63;
+  color: #052a63;
   font-weight: bold;
   font-size: 16px;
   margin: 0;
 }
 .scope-of-app-row-section1 p > span {
-  color: #434A51;
+  color: #434a51;
   font-weight: 400;
   font-size: 16px;
   margin-left: 10px;
+  @media (max-width: 480px) {
+    display: block;
+    margin-left: 0px;
+    margin-top: 8px;
+  }
 }
 .scope-of-app-row-section2 {
   display: flex;
@@ -1908,10 +1931,9 @@ button {
   font-weight: 700;
 }
 .completed-text {
-  color: #052A63 !important;
+  color: #052a63 !important;
 }
 .completed-text-row {
-  width: 80%;
   align-items: flex-end;
 }
 .completed-text-row ul {
@@ -1923,7 +1945,7 @@ button {
   white-space: nowrap;
 }
 .show--more--btn {
-  color: #4178FF;
+  color: #4178ff;
   font-weight: bold;
   font-size: 14px;
 }
@@ -1933,6 +1955,10 @@ button {
   text-align: center;
   justify-content: center;
   cursor: pointer;
+  background: white;
+  padding: 10px;
+  border-radius: 4px;
+
   div {
     display: flex;
     gap: 5px;
@@ -2324,7 +2350,7 @@ button {
 }
 
 .details-card-main {
-  background-color: #f4f8fb;
+  background-color: #f1f1f1;
 
   @media (min-width: 480px) {
     padding-top: 30px;
@@ -2336,7 +2362,6 @@ button {
 }
 
 .enrollmentPlanContainer_detailsPage {
-  margin-top: 3rem;
   margin-bottom: 3rem;
   background-color: #ffffff;
   border-radius: 8px;
@@ -2363,21 +2388,29 @@ button {
 
 .soa-mobile-header {
   display: flex;
-  flex-direction: column;
-  padding: 20px 26px;
-  box-shadow: inset 0px -1px 0px #c7ccd1;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26px;
+
+  .soa-header-text {
+    &::after {
+      content: "SOA";
+    }
+  }
 }
 
 .soa-header-text {
   color: #002d72;
   font-size: 24px;
+  &::after {
+    content: "Scope of Appointments";
+  }
 }
 
 .shareBtnContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
   .shareText {
     font-size: 16px;
     font-weight: bold;
@@ -2391,33 +2424,41 @@ button {
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  margin-top: 10px;
 
-  .button.button--secondary.icon-right    {
+  .button.button--secondary.icon-right {
     border-radius: 50px;
     background: fff;
-    color: #4178FF;
+    color: #4178ff;
     font-family: Lato;
     height: 32px;
     padding: 20px;
     border: none;
     width: 150px;
- }
-
+  }
 }
 .soa-card-btn {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   width: 100%;
   margin-top: 10px;
 
-  .button.icon-right    {
+  button {
+    @media (max-width: 480px) {
+      margin-top: 10px;
+      height: 30px;
+      padding: 8px;
+      margin-right: -8px;
+      margin-bottom: -8px;
+    }
+  }
+
+  .button.icon-right {
     border-radius: 50px;
-    background: #4178FF;
+    background: #4178ff;
     color: #f8fafc;
     font-family: Lato;
     height: 32px;
     padding: 20px;
- }
+  }
 }

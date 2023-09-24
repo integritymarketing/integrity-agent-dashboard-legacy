@@ -147,8 +147,10 @@
     @media (max-width: 480px) {
       display: initial;
       .pr-search-section {
-        margin-top: 24px;
         width: 100%;
+        &:nth-child(3) {
+          margin-top: 24px;
+        }
         .search-input-container {
           display: flex;
           align-items: center;
@@ -163,7 +165,7 @@
           }
           input {
             border: none;
-            height: 40px;
+            height: 36px;
             outline: none;
           }
         }
@@ -228,7 +230,7 @@
         }
         input {
           border: none;
-          height: 40px;
+          height: 36px;
           outline: none;
         }
       }
@@ -250,7 +252,7 @@
       .pr-search-input {
         width: 100%;
         padding: 10px;
-        height: 40px;
+        height: 36px;
         &:focus, &:active {
           outline: 2px solid #0052CE;
         }
@@ -258,7 +260,7 @@
     }
 
     .miles-section {
-      margin-left: 6px;
+      margin-left: 20px;
       width: 20%;
       @media (max-width: 480px) {
         width: 50%;
@@ -326,13 +328,17 @@
     font-size: 16px;
     line-height: 150%;
     color: #475569;
-    padding: 20px 0px;
   }
 
   .pagination-container {
     display: flex;
     justify-content: center;
     margin-top: 15px;
+  }
+  .result-container {
+    @media screen and (max-width: 768px) {
+      overflow-y: auto;
+    }
   }
   .provider-result-container {
     background: #ddd;

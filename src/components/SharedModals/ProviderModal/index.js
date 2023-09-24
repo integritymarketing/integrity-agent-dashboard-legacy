@@ -23,6 +23,7 @@ import * as Sentry from "@sentry/react";
 import Spinner from "components/ui/Spinner";
 import Pagination from "components/ui/Pagination/pagination";
 import CustomFooter from "components/Modal/CustomFooter";
+import { arraysAreEqual } from "utils/address";
 import "./style.scss";
 
 const DISTANCE_OPTIONS = [
@@ -224,9 +225,13 @@ const ProviderModal = ({
       : searchString?.length === 0 || providerList?.length === 0
     : false;
 
+  const onlyIds = selected?.addresses?.map((address) => address.id);
+
   const isUpdated = useMemo(() => {
-    return selected?.addresses?.length !== selectAddressIds?.length;
-  }, [selected, selectAddressIds]);
+    return !arraysAreEqual(onlyIds, selectAddressIds);
+  }, [onlyIds, selectAddressIds]);
+
+  console.log("isUpdated", isUpdated, onlyIds, selectAddressIds);
 
   const disabled = isEdit
     ? !selectAddressIds?.length > 0 || !isUpdated

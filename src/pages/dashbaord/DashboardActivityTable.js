@@ -33,6 +33,7 @@ import * as Sentry from "@sentry/react";
 import CallDetails from "./CallDetails";
 import useUserProfile from "hooks/useUserProfile";
 import ContactSectionCard from "packages/ContactSectionCard";
+import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
 
 const getActivitySubject = (activitySubject) => {
   switch (activitySubject) {
@@ -136,6 +137,9 @@ export default function DashboardActivityTable({
   const [isMobile, setIsMobile] = useState(false);
   const [filterValues, setFilterValues] = useState(FILTER_OPTIONS);
   const userProfile = useUserProfile();
+  const [leadId, setLeadId] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
   const { npn } = userProfile;
   useEffect(() => {
     setFilteredData([...activityData]);
@@ -152,12 +156,11 @@ export default function DashboardActivityTable({
         setShowAddNewModal(true);
         break;
       case "new-soa":
-      case "plans":
-        if (value === "new-soa") {
-          setNewSoaContactDetails(contact);
-        }
-        navigateToPage(leadId, value);
+        setNewSoaContactDetails(contact);
+        setLeadId(leadId);
+        setOpenModal(true);
         break;
+      case "plans":
       case "contact":
         navigateToPage(leadId, value);
         break;
@@ -194,7 +197,6 @@ export default function DashboardActivityTable({
             activityInteractionURL,
             npn
           );
-          console.log("MOBILE TESTING ....:", link);
           var url = await window.URL.createObjectURL(link);
 
           if (url && url !== "") {
@@ -580,6 +582,11 @@ export default function DashboardActivityTable({
         onChange={(isMobile) => {
           setIsMobile(isMobile);
         }}
+      />
+      <SOAModal
+        id={leadId}
+        openSOAModal={openModal}
+        setOpenSOAModal={setOpenModal}
       />
       <ContactSectionCard
         title="Recent Activity"

@@ -62,8 +62,6 @@ const DetailsComponent = forwardRef((props, ref) => {
     deletePharmacy,
   } = useLeadInformation();
 
-  console.log("KKKK", pharmacies, prescriptions, providers);
-
   const onAddNewPrescription = () => setIsOpenPrescription(true);
   const onCloseNewPrescription = () => setIsOpenPrescription(false);
   const onEditPrescription = (item) => {
