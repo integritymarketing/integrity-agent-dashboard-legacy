@@ -329,6 +329,7 @@ const PrescriptionModal = ({
     <Modal
       open={open}
       onClose={onClose}
+      onCancel={onClose}
       title={isEdit ? "Update Prescription" : "Add Prescriptions"}
       onSave={isEdit ? handleUpdatePrescription : addFunction}
       actionButtonName={isEdit ? "Update Prescription" : "Add Prescription"}
