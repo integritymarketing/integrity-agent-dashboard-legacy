@@ -18,7 +18,8 @@ const PrescriptionTable = ({
   planData,
   refresh,
 }) => {
-  const { prescriptions } = useLeadInformation();
+  const leadInformation = useLeadInformation();
+  const prescriptions = leadInformation?.prescriptions || [];
 
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
   const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
