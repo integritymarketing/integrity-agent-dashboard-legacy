@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Arrow from "components/icons/down";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";

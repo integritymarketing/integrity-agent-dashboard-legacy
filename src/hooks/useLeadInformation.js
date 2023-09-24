@@ -75,6 +75,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const addToast = useToast();
 
   const { consumerId } = useRecoilValue(contactLeadDetailsAtom);
+  console.log("consumerId", consumerId);
 
   const fetchPrescriptions = useCallback(async () => {
     await performAsyncOperation(
