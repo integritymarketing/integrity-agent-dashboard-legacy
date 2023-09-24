@@ -101,14 +101,14 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
           </div>
         )}
 
-        <div
-          className="scope-of-app-row-show-more"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowMore(!showMore);
-          }}
-        >
-          {soaList?.length > MINIMUM_SHOW_SIZE && (
+        {soaList?.length > MINIMUM_SHOW_SIZE && (
+          <div
+            className="scope-of-app-row-show-more"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMore(!showMore);
+            }}
+          >
             <div>
               {showMore ? (
                 <ArrowDownIcon className="cost-arrow-side" />
@@ -128,8 +128,8 @@ const ScopeOfAppointment = ({ setDisplay, isMobile, personalInfo, id }) => {
                 Show More
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
