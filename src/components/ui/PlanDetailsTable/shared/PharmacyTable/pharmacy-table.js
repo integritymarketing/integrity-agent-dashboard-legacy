@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useLeadInformation } from "hooks/useLeadInformation";
 import APIFail from "../APIFail/index";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
 import InNetworkIcon from "components/icons/inNetwork";
@@ -6,23 +7,16 @@ import OutNetworkIcon from "../../Icons/outNetwork";
 import Edit from "components/Edit";
 import Modal from "components/Modal";
 import UpdateView from "./components/UpdateView/updateView";
-import useLeadInformation from "hooks/useLeadInformation";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
 
 function getInNetwork(pharmacyCost) {
   return pharmacyCost.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
 }
 
-const PharmacyTable = ({ contact, planData, isMobile, pharmaciesList }) => {
+const PharmacyTable = ({ contact, planData, isMobile }) => {
+  const { pharmacies: pharmaciesList, deletePharmacy } = useLeadInformation();
   const [open, setOpen] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
-  const { contactId } = useParams();
-  const {
-    pharmacies: pharmaciesData,
-    deletePharmacy,
-    addPharmacy,
-  } = useLeadInformation(contactId);
 
   const isApiFailed =
     (pharmaciesList?.filter((pharmacy) => pharmacy.name)?.length > 0
@@ -61,12 +55,12 @@ const PharmacyTable = ({ contact, planData, isMobile, pharmaciesList }) => {
   const data = [];
 
   if (
-    pharmaciesData &&
+    pharmaciesList &&
     planData?.pharmacyCosts &&
     Array.isArray(planData?.pharmacyCosts)
   ) {
     planData?.pharmacyCosts?.forEach((pharmacyCost) => {
-      const pharmacy = pharmaciesData[0];
+      const pharmacy = pharmaciesList[0];
       if (pharmacy) {
         const row = {
           name: <span className={"label"}>{pharmacy?.name}</span>,
@@ -119,7 +113,7 @@ const PharmacyTable = ({ contact, planData, isMobile, pharmaciesList }) => {
     },
   ];
 
-  const isEdit = pharmaciesData?.length > 0;
+  const isEdit = pharmaciesList?.length > 0;
 
   return (
     <>
@@ -152,12 +146,12 @@ const PharmacyTable = ({ contact, planData, isMobile, pharmaciesList }) => {
           isDelete={isEdit}
           modalName={"Pharmacy"}
           onDelete={() => {
-            deletePharmacy(pharmaciesData?.[0]);
+            deletePharmacy(pharmaciesList?.[0]);
             setOpen(!open);
             setOpenAddModal(true);
           }}
         >
-          <UpdateView data={pharmaciesData?.[0]} />
+          <UpdateView data={pharmaciesList?.[0]} />
         </Modal>
       )}
       {!isEdit && (
@@ -165,10 +159,6 @@ const PharmacyTable = ({ contact, planData, isMobile, pharmaciesList }) => {
           isOpen={openAddModal}
           onClose={() => setOpenAddModal(false)}
           personalInfo={contact}
-          onSave={(item) => {
-            addPharmacy(item);
-            setOpenAddModal(false);
-          }}
         />
       )}
     </>

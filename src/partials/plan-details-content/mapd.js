@@ -13,24 +13,15 @@ import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTab
 
 const MapdDetailsContent = ({
   contact,
-  prescriptions,
   plan,
   isMobile,
   styles,
   onEnrollClick,
   onShareClick,
-  pharmacies,
   isEnroll = false,
   enrollData,
   isEmail = false,
   refresh,
-  addProvider,
-  deleteProvider,
-  addPrescription,
-  editPrescription,
-  deletePrescription,
-  addPharmacy,
-  deletePharmacy,
 }) => {
   const location = useLocation();
   const costsRef = useRef(null);
@@ -194,15 +185,11 @@ const MapdDetailsContent = ({
         >
           {plan && (
             <PrescriptionTable
-              prescriptions={prescriptions}
               planData={plan}
               isMobile={isMobile}
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
               refresh={refresh}
-              addPrescription={addPrescription}
-              editPrescription={editPrescription}
-              deletePrescription={deletePrescription}
             />
           )}
         </div>
@@ -210,10 +197,9 @@ const MapdDetailsContent = ({
           {plan && (
             <ProvidersTableV2
               isMobile={isMobile}
-              providers={plan.providers}
-              addProvider={addProvider}
-              deleteProvider={deleteProvider}
               refresh={refresh}
+              providers={plan?.providers}
+              planName={plan?.planName}
             />
           )}
         </div>
@@ -223,10 +209,7 @@ const MapdDetailsContent = ({
               contact={contact}
               isMobile={isMobile}
               planData={plan}
-              pharmacies={pharmacies}
               refresh={refresh}
-              addPharmacy={addPharmacy}
-              deletePharmacy={deletePharmacy}
             />
           )}
         </div>

@@ -66,10 +66,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
     [addToast, dateRange, npn]
   );
 
-  useEffect(() => {
-    fetchPolicySnapshotList(status);
-  }, [fetchPolicySnapshotList, status]);
-
   const jumptoListMobile = useCallback(
     (index) => {
       const status = tabs[index]?.policyStatus || "Declined";
@@ -84,6 +80,10 @@ export default function PlanSnapShot({ isMobile, npn }) {
     },
     [tabs, leadIds, history]
   );
+
+  useEffect(() => {
+    fetchPolicySnapshotList(status);
+  }, [fetchPolicySnapshotList, status]);
 
   const handleWidgetSelection = useCallback(
     async (newIndex, policyCount) => {

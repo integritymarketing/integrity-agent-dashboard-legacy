@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import EditIcon from "components/icons/icon-edit";
 import { formatPhoneNumber } from "utils/phones";
 import makeStyles from "@mui/styles/makeStyles";
@@ -14,18 +13,24 @@ const useStyles = makeStyles({
   addressContainer: {
     display: "flex",
     alignItems: "center",
+    marginBottom: 10,
   },
-  address: {
+  addressText: {
+    marginLeft: 10,
     color: "#717171",
     fontSize: "14px",
+  },
+  addressColumn: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    width: "40%",
   },
 });
 
 const RenderProviders = ({
   provider,
-  setProviderEditFlag,
-  setProviderToEdit,
-  setIsOpen,
+  handleEditProvider,
   isPlanPage = false,
 }) => {
   const classes = useStyles();
@@ -48,32 +53,35 @@ const RenderProviders = ({
         }
       />
 
-      <Box>
-        {provider?.addresses?.map((address, index) => (
-          <Box className={classes.addressContainer}>
+      <Box className={classes.addressColumn}>
+        {provider?.addresses?.map((address) => (
+          <Box
+            className={classes.addressContainer}
+            key={`Provider-address-${address?.id}`}
+          >
             {isPlanPage && provider?.inNetwork ? (
               <InNetworkIcon />
             ) : (
               <OutNetworkIcon />
             )}
-            <Typography key={index} variant="body2" className={classes.address}>
+            <Box className={classes.addressText}>
               {address.streetLine1}, {address.city}, {address.state},
               {address.zipCode}
-            </Typography>
+            </Box>
           </Box>
         ))}
       </Box>
 
       <Box>
-        <IconButton
-          label="Edit"
-          onClick={() => {
-            setProviderEditFlag(true);
-            setProviderToEdit(provider);
-            setIsOpen(true);
-          }}
-          icon={<EditIcon />}
-        />
+        {!isPlanPage && (
+          <IconButton
+            label="Edit"
+            onClick={() => {
+              handleEditProvider(provider);
+            }}
+            icon={<EditIcon />}
+          />
+        )}
       </Box>
     </>
   );

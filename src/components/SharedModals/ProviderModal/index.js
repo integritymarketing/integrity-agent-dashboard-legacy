@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
+
+// Custom Hooks
+import { useLeadInformation } from "hooks/useLeadInformation";
+
 import { useParams } from "react-router-dom";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
@@ -19,6 +23,7 @@ import * as Sentry from "@sentry/react";
 import Spinner from "components/ui/Spinner";
 import Pagination from "components/ui/Pagination/pagination";
 import CustomFooter from "components/Modal/CustomFooter";
+import { arraysAreEqual } from "utils/address";
 import "./style.scss";
 
 const DISTANCE_OPTIONS = [
@@ -63,13 +68,12 @@ const ProviderModal = ({
   open,
   onClose,
   userZipCode,
-  onDelete,
-  onSave,
   isEdit,
   selected,
   refresh,
-  leadProviders,
 }) => {
+  const { addProvider, deleteProvider } = useLeadInformation();
+
   // Initializations
   const classes = useStyles();
   const { fireEvent } = useAnalytics();
@@ -86,7 +90,7 @@ const ProviderModal = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
-  const providerList = isEdit ? [{ ...selected }] : results?.providers;
+  const providerList = results?.providers;
   const totalPages = results ? Math.ceil(total / perPage) : 0;
 
   // useEffects
@@ -120,6 +124,22 @@ const ProviderModal = ({
 
   useEffect(() => {
     if (isEdit && selected) {
+      const query = encodeQueryData({
+        NPIs: selected?.NPI?.toString(),
+        page: 1,
+        perPage: 10,
+      });
+      setIsLoading(true);
+      clientsService
+        .searchProviders(query)
+        .then((resp) => {
+          setIsLoading(false);
+          setResults(resp);
+        })
+        .catch((e) => {
+          setIsLoading(false);
+          Sentry.captureException(e);
+        });
       setSelectedProvider(selected);
       setSelectAddressIds(selected?.addresses?.map((address) => address.id));
     }
@@ -146,48 +166,48 @@ const ProviderModal = ({
       };
     });
 
-    await onSave(requestPayload, selectedProvider?.presentationName, refresh);
+    await addProvider(
+      requestPayload,
+      selectedProvider?.presentationName,
+      refresh,
+      isEdit
+    );
+
     fireEvent("AI - Provider added", {
       leadid: contactId,
       npi: "requestPayload[0].npi",
     });
-    onClose();
   };
 
   const handleEditProvider = async () => {
-    let completeAddressArray = selectedProvider?.addresses;
-
-    const getFilteredAddressIds = (completeData, partialData) =>
-      completeData?.filter(
-        (completeAddress) =>
-          !partialData?.some((partialId) => completeAddress?.id === partialId)
-      );
-
-    const filteredAddressIds = getFilteredAddressIds(
-      completeAddressArray,
-      selectAddressIds
-    );
-
-    const requestPayload = filteredAddressIds?.map((address) => {
+    const requestPayload = selected?.addresses?.map((address) => {
       return {
         npi: selectedProvider?.NPI?.toString(),
-        addressId: address?.id,
         isPrimary: false,
+        addressId: address?.id,
       };
     });
+
     onClose();
-    onDelete(requestPayload, selectedProvider?.presentationName, refresh);
+    deleteProvider(
+      requestPayload,
+      selectedProvider?.presentationName,
+      handleSaveProvider,
+      false
+    );
   };
 
   const handleDeleteProvider = () => {
     const requestPayload = selected?.addresses?.map((address) => {
       return {
-        npi: selectedProvider?.NPI?.toString(),
+        npi: selected?.NPI?.toString(),
         isPrimary: false,
+        addressId: address?.id,
       };
     });
+
     onClose();
-    onDelete(requestPayload, selectedProvider?.presentationName, refresh, true);
+    deleteProvider(requestPayload, selected?.presentationName, refresh, true);
   };
 
   const isFormValid = useMemo(() => {
@@ -205,9 +225,13 @@ const ProviderModal = ({
       : searchString?.length === 0 || providerList?.length === 0
     : false;
 
+  const onlyIds = selected?.addresses?.map((address) => address.id);
+
   const isUpdated = useMemo(() => {
-    return selected?.addresses?.length !== selectAddressIds?.length;
-  }, [selected, selectAddressIds]);
+    return !arraysAreEqual(onlyIds, selectAddressIds);
+  }, [onlyIds, selectAddressIds]);
+
+  console.log("isUpdated", isUpdated, onlyIds, selectAddressIds);
 
   const disabled = isEdit
     ? !selectAddressIds?.length > 0 || !isUpdated

@@ -13,6 +13,9 @@ import {
   useHistory,
   useRouteMatch,
 } from "react-router-dom";
+
+import LeadInformationProvider from "hooks/useLeadInformation";
+
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -208,7 +211,12 @@ const ContactRecordInfoDetails = () => {
       case "overview":
         return <Overview {...props} />;
       case "details":
-        return <Details {...props} getContactRecordInfo={getLeadDetails} />;
+        return (
+          <LeadInformationProvider leadId={id}>
+            <Details {...props} getContactRecordInfo={getLeadDetails} />
+          </LeadInformationProvider>
+        );
+
       case "scopeofappointments":
         return <ScopeOfAppointment {...props} />;
       case "preferences":

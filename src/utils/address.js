@@ -80,3 +80,33 @@ export const STATES = [
   { value: "WI", label: "WI-Wisconsin" },
   { value: "WY", label: "WY-Wyoming" },
 ];
+
+export const sortAddressesBySelectedIds = (addresses, ids) => {
+  if (!addresses || !ids || addresses?.length === 0 || ids?.length === 0)
+    return;
+  return addresses.sort((a, b) => {
+    const aIsPriority = ids.includes(a.id);
+    const bIsPriority = ids.includes(b.id);
+
+    if (aIsPriority && !bIsPriority) {
+      return -1;
+    }
+    if (!aIsPriority && bIsPriority) {
+      return 1;
+    }
+    return 0;
+  });
+};
+
+export const arraysAreEqual = (arr1, arr2) => {
+  if (!arr1 || !arr2) return false;
+  if (arr1.length !== arr2.length) return false;
+
+  const sortedArr1 = [...arr1].sort();
+  const sortedArr2 = [...arr2].sort();
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (sortedArr1[i] !== sortedArr2[i]) return false;
+  }
+  return true;
+};

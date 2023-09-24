@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Arrow from "components/icons/down";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
@@ -6,6 +6,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Checkbox from "@mui/material/Checkbox";
 import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
+import { sortAddressesBySelectedIds } from "utils/address";
 
 const useStyles = makeStyles({
   list: {
@@ -108,6 +109,7 @@ const Address = ({
   setSelectAddressIds,
   selectAddressIds,
   selectedProvider,
+  isEdit,
 }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
@@ -120,7 +122,6 @@ const Address = ({
       selectedProvider?.NPI === provider?.NPI
     ) {
       if (isAddressExist) {
-        if (selectAddressIds?.length === 1) setSelectedProvider(null);
         setSelectAddressIds(
           selectAddressIds.filter((addressId) => addressId !== address?.id)
         );
@@ -187,24 +188,35 @@ const ProviderCard = ({
   selectedProvider,
 }) => {
   const classes = useStyles();
-  const [isOpen, setOpenToggle] = useState(false);
+  const [isOpen, setOpenToggle] = useState(isEdit);
 
-  useEffect(() => {
-    if (isEdit && selectAddressIds?.length > 1) {
-      setOpenToggle(true);
-    }
-  }, [isEdit, selectAddressIds]);
+  let selectedAddresses = selectedProvider?.addresses?.map(
+    (address) => address.id
+  );
 
   return (
     <div className={classes.list}>
       {list?.map((provider, index) => {
         const { NPI, presentationName, specialty, addresses } = provider;
 
+        const sortedAddresses = sortAddressesBySelectedIds(
+          addresses,
+          selectedAddresses
+        );
+
+        const addressList = isEdit ? sortedAddresses : addresses;
+
+        const defaultAddressIdLength = isEdit ? selectedAddresses?.length : 1;
+
         const initialAddresses =
-          addresses?.length > 1 ? addresses?.slice(0, 1) : addresses;
+          addressList?.length > 1
+            ? addressList?.slice(0, defaultAddressIdLength)
+            : addressList;
 
         const additionalAddresses =
-          addresses?.length > 1 ? addresses?.slice(1) : null;
+          addressList?.length > 1
+            ? addressList?.slice(defaultAddressIdLength)
+            : null;
 
         return (
           <div

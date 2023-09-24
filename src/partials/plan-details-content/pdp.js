@@ -11,7 +11,7 @@ import PrescriptionTable from "components/ui/PlanDetailsTable/shared/Prescriptio
 
 const PdpDetailsContent = ({
   contact,
-  prescriptions,
+  // prescriptions,
   plan,
   isMobile,
   styles,
@@ -22,11 +22,11 @@ const PdpDetailsContent = ({
   enrollData,
   isEmail = false,
   refresh,
-  addPrescription,
-  editPrescription,
-  deletePrescription,
-  addPharmacy,
-  deletePharmacy,
+  // addPrescription,
+  // editPrescription,
+  // deletePrescription,
+  // addPharmacy,
+  // deletePharmacy,
 }) => {
   const location = useLocation();
   const costsRef = useRef(null);
@@ -173,15 +173,11 @@ const PdpDetailsContent = ({
         >
           {plan && (
             <PrescriptionTable
-              prescriptions={prescriptions}
               planData={plan}
               isMobile={isMobile}
               planDrugCoverage={plan?.planDrugCoverage}
               drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
               refresh={refresh}
-              addPrescription={addPrescription}
-              editPrescription={editPrescription}
-              deletePrescription={deletePrescription}
             />
           )}
         </div>
@@ -190,11 +186,8 @@ const PdpDetailsContent = ({
             <PdpPharmacyTable
               contact={contact}
               planData={plan}
-              pharmacies={pharmacies}
               isMobile={isMobile}
               refresh={refresh}
-              addPharmacy={addPharmacy}
-              deletePharmacy={deletePharmacy}
             />
           )}
         </div>
