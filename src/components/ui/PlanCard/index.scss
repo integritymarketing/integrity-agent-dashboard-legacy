@@ -393,6 +393,12 @@
     font-size: 16px;
     font-weight: 400;
     white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      border-radius: 50px;
+      box-shadow: 0 4px 8px 0px rgba(0, 0, 0, 0.2);
+    }
   }
 
   .enroll-btn {
@@ -404,7 +410,7 @@
     border-color: #4178ff;
 
     @media (max-width: 480px) {
-      width: 80px;
+      min-width: fit-content !important;
     }
 
     img {

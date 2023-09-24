@@ -266,11 +266,12 @@ export default function PlanCard({
           />
           <span className={"compare-txt"}>Compare</span>{" "}
         </div>
-        <Button
-          label="Plan Details"
+        <div
           onClick={() => onDetailsClick(planData.id)}
-          type="secondary"
-        />
+          className="planDetailsBtn"
+        >
+          Plan Details
+        </div>
         {!planData.nonLicensedPlan && (
           <Button
             label={"Enroll"}

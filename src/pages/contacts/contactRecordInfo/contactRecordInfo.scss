@@ -730,7 +730,7 @@
 }
 .cal {
   display: flex;
-  width: 80px;
+  width: 100px;
   height: 30px;
   margin-right: 20px;
   border: 1px solid var(--v2-main-gray);
@@ -1934,7 +1934,6 @@ button {
   color: #052a63 !important;
 }
 .completed-text-row {
-  width: 80%;
   align-items: flex-end;
 }
 .completed-text-row ul {
