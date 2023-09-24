@@ -39,7 +39,7 @@ function FilterContent() {
     setOpenFilter(false);
   };
 
-  const onApplyHanle = () => {
+  const onApplyHandle = () => {
     setFilters(localFilters);
     setOpenFilter(false);
   };
@@ -63,7 +63,7 @@ function FilterContent() {
           />
         </Box>
       </Box>
-      <FilterButtons reset={onResetHandle} apply={onApplyHanle} />
+      <FilterButtons reset={onResetHandle} apply={onApplyHandle} />
     </Box>
   );
 }
