@@ -241,6 +241,7 @@ const ProviderModal = ({
     <Modal
       open={open}
       onClose={onClose}
+      onCancel={onClose}
       title={isEdit ? "Update Provider" : "Add Providers"}
       onSave={isEdit ? handleEditProvider : handleSaveProvider}
       actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
