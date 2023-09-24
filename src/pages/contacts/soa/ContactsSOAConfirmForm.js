@@ -516,7 +516,7 @@ const ContactsSOAConfirmForm = () => {
                     <img
                       style={{
                         position: "absolute",
-                        top: "3px",
+                        top: "6px",
                         left: "5px",
                         zIndex: 2,
                       }}

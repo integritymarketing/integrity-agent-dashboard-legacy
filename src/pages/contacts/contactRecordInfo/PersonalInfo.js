@@ -386,7 +386,14 @@ function TagsIcon({
               const tags = tg.tags || [];
 
               return (
-                <div key={tg.tagCategoryId}>
+                <div
+                  key={tg.tagCategoryId}
+                  className={`${
+                    tg.tagCategoryName === "Ask Integrity Recommendations"
+                      ? styles.recommendationContainer
+                      : ""
+                  }`}
+                >
                   <div className={styles.categoryContainer}>
                     <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
                       {isExpanded ? (
