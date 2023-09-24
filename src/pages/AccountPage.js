@@ -36,6 +36,7 @@ import Dialog from "packages/Dialog";
 import useFetch from "hooks/useFetch";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 import authService from "services/authService";
+import { SelfAttestedPermissions } from "./Account/SelfAttestedPermissions";
 
 function CheckinPreferences({ npn }) {
   const { agentId } = useUserProfile();
@@ -875,6 +876,7 @@ const AccountPage = () => {
 
         <div className={styles.rtsTableContainer}>
           <ActiveSellingPermissionTable npn={npn} />
+          <SelfAttestedPermissions />
           <div>
             <ResourceSection />
           </div>

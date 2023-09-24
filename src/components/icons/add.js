@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddIcon = (props) => {
+const AddIcon = ({ color = "white" }) => {
   return (
     <svg
       width="18"
@@ -11,13 +11,13 @@ const AddIcon = (props) => {
     >
       <path
         d="M9 3.16699V14.8337"
-        stroke="white"
+        stroke={color}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M3.16699 9H14.8337"
-        stroke="white"
+        stroke={color}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

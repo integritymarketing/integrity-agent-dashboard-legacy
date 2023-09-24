@@ -1,0 +1,28 @@
+.customBody {
+  background-color: white;
+  border-radius: 8px;
+
+  tr {
+    border-bottom: 1px solid #f1f1f1;
+  }
+}
+
+.customBodyRow {
+  padding: 24px;
+}
+
+.link {
+  color: #4178FF;
+  cursor: pointer;
+}
+
+// Mobile styling
+
+.mobileContainer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  background-color: white;
+  border-bottom: 1px solid #F1F1F1;
+  gap: 15px;
+}
