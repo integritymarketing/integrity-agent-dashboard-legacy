@@ -28,7 +28,7 @@ function SAPermissionsFilter() {
   }, [openFilter]);
 
   return (
-    <div className={styles.customFilter}>
+    <Box className={styles.customFilter}>
       <Button
         className={`${styles.filterButton} filterBtn`}
         icon={openFilter ? <ActiveFilter /> : <FilterIcon />}
@@ -40,7 +40,8 @@ function SAPermissionsFilter() {
         label=""
       />
       <FilterContent />
-    </div>
+      {openFilter && <Box className={styles.drawerOverlay}></Box>}
+    </Box>
   );
 }
 

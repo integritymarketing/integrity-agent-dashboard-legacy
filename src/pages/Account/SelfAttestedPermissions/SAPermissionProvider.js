@@ -19,18 +19,19 @@ const FLAG_NAME = "REACT_APP_SELF_ATTESTED_PERMISSION_FLAG";
 const SAPermissionsContext = createContext(null);
 
 export const SAPermissionsProvider = ({ children }) => {
+  const isFeatureEnabled = useFeatureFlag(FLAG_NAME);
+  const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // -- 
-  const { agents, isLoading } = useFetchAgentsData();
+  // -- For Table related features
+  const { agents, isLoading: isFetchingAgentsData } = useFetchAgentsData();
   const {
     tableData,
     isLoading: isfetchingTableData,
     fetchTableData,
   } = useFetchTableData();
-  const isFeatureEnabled = useFeatureFlag(FLAG_NAME);
 
   // -- For Filter related features
   const [openFilter, setOpenFilter] = useState(false);
@@ -49,47 +50,49 @@ export const SAPermissionsProvider = ({ children }) => {
   const contextValue = useMemo(
     () => ({
       isAdding,
-      setIsAdding,
       isCollapsed,
-      setIsCollapsed,
       isModalOpen,
-      setIsModalOpen,
       agents,
       tableData,
-      fetchTableData,
       filterOptions,
-      setFilters,
       filters,
       filteredData,
+      openFilter,
+      setIsAdding,
+      setIsCollapsed,
+      setIsModalOpen,
+      setFilters,
+      setOpenFilter,
       handleAddNew,
       handleCancel,
-      openFilter,
-      setOpenFilter,
+      fetchTableData,
+      setIsLoading,
     }),
     [
       isAdding,
-      setIsAdding,
       isCollapsed,
-      setIsCollapsed,
       isModalOpen,
-      setIsModalOpen,
       agents,
       tableData,
-      fetchTableData,
       filterOptions,
-      setFilters,
       filters,
       filteredData,
+      openFilter,
+      setIsAdding,
+      setIsCollapsed,
+      setIsModalOpen,
+      setFilters,
+      setOpenFilter,
       handleAddNew,
       handleCancel,
-      openFilter,
-      setOpenFilter
+      fetchTableData,
+      setIsLoading,
     ]
   );
 
   if (!isFeatureEnabled) return <></>;
 
-  if (isLoading || isfetchingTableData) return <Spinner />;
+  if (isFetchingAgentsData || isfetchingTableData || isLoading) return <Spinner />;
 
   return (
     <SAPermissionsContext.Provider value={contextValue}>

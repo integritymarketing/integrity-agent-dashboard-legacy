@@ -17,3 +17,13 @@
   display: inline-block;
   border-radius: 4px;
 }
+
+.expiredColumn {
+  color: #F44336;
+  display: flex;
+  align-items: center;
+}
+
+.expired {
+  color: #CCCCCC;
+}

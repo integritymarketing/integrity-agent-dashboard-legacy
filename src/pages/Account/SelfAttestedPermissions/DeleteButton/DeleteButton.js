@@ -13,7 +13,7 @@ import styles from "./styles.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
 function DeleteButton({ attestationId }) {
-  const { fetchTableData } = useSAPermissionsContext();
+  const { fetchTableData, setIsLoading } = useSAPermissionsContext();
   const addToast = useToast();
   const { agentId } = useUserProfile();
 
@@ -23,9 +23,12 @@ function DeleteButton({ attestationId }) {
 
   const onDeleteHandle = async () => {
     try {
+      setIsLoading(true)
       await deleteAgentSelfAttestation();
       await fetchTableData();
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       Sentry.captureException(error);
       addToast({
         type: "error",

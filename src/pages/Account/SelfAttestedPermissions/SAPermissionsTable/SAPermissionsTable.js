@@ -8,6 +8,7 @@ import { SAPermissionsFilter } from "../SAPermissionsFilter";
 import { LoadMoreButton } from "../LoadMoreButton";
 import { DeleteButton } from "../DeleteButton";
 import { useSAPermissionsContext } from "../SAPermissionProvider";
+import InfoRedIcon from "components/icons/info-red";
 
 import styles from "./styles.module.scss";
 
@@ -25,18 +26,26 @@ function SAPermissionsTable({}) {
       {
         Header: "Carrier",
         accessor: "carrier",
-        Cell: ({ value }) => {
-          return <Box className={styles.carrierColumn}>{value}</Box>;
+        Cell: ({ value, row }) => {
+          const isExpired = row.original.isExpired;
+          return (
+            <Box className={styles.carrierColumn}>
+              <Box className={isExpired && styles.expired}>{value}</Box>
+            </Box>
+          );
         },
       },
       {
         Header: "Product",
         accessor: "product",
         disableSortBy: true,
-        Cell: ({ value }) => {
+        Cell: ({ value, row }) => {
+          const isExpired = row.original.isExpired;
           return (
             <Box className={styles.productColumn}>
-              <Box className={styles.pill}>{value}</Box>
+              <Box className={styles.pill}>
+                <Box className={isExpired && styles.expired}>{value}</Box>
+              </Box>
             </Box>
           );
         },
@@ -45,31 +54,54 @@ function SAPermissionsTable({}) {
         Header: "State",
         accessor: "state",
         disableSortBy: true,
-        Cell: ({ value }) => {
-          return <Box className={styles.productColumn}>{value}</Box>;
+        Cell: ({ value, row }) => {
+          const isExpired = row.original.isExpired;
+          return (
+            <Box className={styles.productColumn}>
+              <Box className={isExpired && styles.expired}>{value}</Box>
+            </Box>
+          );
         },
       },
       {
         Header: "Plan year",
         accessor: "planYear",
-        Cell: ({ value }) => {
-          return <Box>{value}</Box>;
+        Cell: ({ value, row }) => {
+          const isExpired = row.original.isExpired;
+          return <Box className={isExpired && styles.expired}>{value}</Box>;
         },
       },
       {
         Header: "Producer ID",
         accessor: "awn",
         disableSortBy: true,
-        Cell: ({ value }) => {
-          return <Box className={styles.producerIdColumn}>{value}</Box>;
+        Cell: ({ value, row }) => {
+          const isExpired = row.original.isExpired;
+          return (
+            <Box className={styles.producerIdColumn}>
+              <Box className={isExpired && styles.expired}>{value}</Box>
+            </Box>
+          );
         },
       },
       {
         Header: "Date Added",
         accessor: "createDate",
         disableSortBy: true,
-        Cell: ({ value }) => {
-          return <Box>{dateFormatter(value, "MM-DD-YY")}</Box>;
+        Cell: ({ value, row }) => {
+          const isExpired = row.original.isExpired;
+          return (
+            <Box>
+              {isExpired ? (
+                <Box className={styles.expiredColumn}>
+                  <InfoRedIcon />
+                  <Box>Expired</Box>
+                </Box>
+              ) : (
+                dateFormatter(value, "MM-DD-YY")
+              )}
+            </Box>
+          );
         },
       },
       {

@@ -50,13 +50,7 @@ function SAPermissionsHeader() {
           <Box>Add New</Box>
           <AddIcon color="#4178FF" />
         </Grid>
-        {/* {isMobile && (
-          <SAPermissionsFilter
-            filterOptions={filterOptions}
-            setFilters={setFilters}
-            filters={filters}
-          />
-        )} */}
+        {isMobile && <SAPermissionsFilter />}
       </Box>
     </Grid>
   );
