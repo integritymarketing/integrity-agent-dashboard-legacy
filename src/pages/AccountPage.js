@@ -876,7 +876,7 @@ const AccountPage = () => {
 
         <div className={styles.rtsTableContainer}>
           <ActiveSellingPermissionTable npn={npn} />
-          <SelfAttestedPermissions npn={npn} />
+          <SelfAttestedPermissions />
           <div>
             <ResourceSection />
           </div>
