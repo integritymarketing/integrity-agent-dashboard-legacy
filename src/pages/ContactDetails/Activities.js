@@ -126,6 +126,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
             leadFullName={leadFullName}
             activityObj={selectedActivity}
             leadsId={leadId}
+            setDisplay={setDisplay}
           />
         )}
       </div>
