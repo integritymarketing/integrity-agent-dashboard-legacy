@@ -2,7 +2,7 @@ import React from "react";
 import LINK from "components/icons/activities/Link";
 import DOWNLOAD from "components/icons/activities/Download";
 import styles from "./ActivitySubjectWithIcon.module.scss";
-import SOACOMPLETE from "components/icons/activities/SoaComplete";
+// import SOACOMPLETE from "components/icons/activities/SoaComplete";
 import SOAVIEW from "components/icons/activities/SoaView";
 import VIEWPLANSCONTACT from "components/icons/activities/ViewPlansContact";
 import View from "images/View.png";
@@ -17,7 +17,7 @@ export default function ActivityButtonIcon({ activitySubject, route = "" }) {
       "Contact's new call log created": <DOWNLOAD />,
       "Outbound Call Recorded": <DOWNLOAD />,
       "Incoming Call Recorded": <DOWNLOAD />,
-      "Scope of Appointment Signed": <SOACOMPLETE />,
+      "Scope of Appointment Signed": <SOAVIEW />,
       "Scope of Appointment Completed": <SOAVIEW />,
       "Plan Shared":
         route === "contactDetail" ? (

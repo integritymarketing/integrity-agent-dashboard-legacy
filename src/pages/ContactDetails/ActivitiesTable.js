@@ -33,7 +33,7 @@ const buttonTextByActivity = {
   "Contact's new call log created": "Download",
   "Outbound Call Recorded": "Download",
   "Incoming Call Recorded": "Download",
-  "Scope of Appointment Signed": "Complete",
+  "Scope of Appointment Signed": "View",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View Plans",
 };
@@ -45,13 +45,13 @@ const renderButtons = (activity, handleClick) => {
     activityInteractionURL = "",
     activitySubject = "",
   } = activity;
-
   if (
     activityTypeName &&
     (activityTypeName === "Triggered" ||
       activitySubject === "Meeting Recorded") &&
     activityInteractionURL
   ) {
+    
     return (
       <div
         className={styles.activityDataCell}
@@ -102,6 +102,7 @@ export default function ActivitiesTable({
   handleDeleteActivity,
   setEditActivity,
   isMobile,
+  setDisplay,
 }) {
   const history = useHistory();
   const [fullList, setFullList] = useState([]);
@@ -123,6 +124,8 @@ export default function ActivitiesTable({
 
       switch (activitySubject) {
         case "Scope of Appointment Signed":
+          setDisplay("scopeofappointments");
+          break;
         case "Scope of Appointment Completed":
           history.push(
             `/contact/${leadId}/soa-confirm/${activityInteractionURL}`
@@ -157,7 +160,7 @@ export default function ActivitiesTable({
           break;
       }
     },
-    [history, leadId, npn]
+    [history, leadId, npn, setDisplay]
   );
 
   const webColumns = useMemo(
