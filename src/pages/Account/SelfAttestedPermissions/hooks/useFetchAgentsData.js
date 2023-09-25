@@ -34,7 +34,7 @@ function useFetchAgentsData() {
         time: 10000,
       });
     }
-  }, [npn]);
+  }, [npn, addToast, getAgents]);
 
   useEffect(() => {
     fetchAgentsData();

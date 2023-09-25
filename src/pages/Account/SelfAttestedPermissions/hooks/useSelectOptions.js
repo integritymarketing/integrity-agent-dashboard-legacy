@@ -38,7 +38,7 @@ function useSelectOptions(data) {
       }
       return convertArrayToOptions(planYearyOptions);
     },
-    [data]
+    [data, isFeatureEnabled]
   );
 
   const getProducerID = useCallback(

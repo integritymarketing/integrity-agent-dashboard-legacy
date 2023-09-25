@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 
 const defaultFilters = {
   carriers: [],
@@ -10,7 +10,7 @@ const defaultFilters = {
 function useFilterData(data) {
   const [filters, setFilters] = useState(defaultFilters);
 
-  const filterCondition = (row) => {
+  const filterCondition = useCallback((row) => {
     const { state, carrier, planYear, product } = row;
     return (
       filters.states.includes(state) ||
@@ -18,7 +18,7 @@ function useFilterData(data) {
       filters.products.includes(product) ||
       filters.years.includes(planYear)
     );
-  };
+  }, [filters]);
 
   const filteredData = useMemo(() => {
     if (
@@ -31,7 +31,7 @@ function useFilterData(data) {
     } else {
       return data.filter(filterCondition);
     }
-  }, [data, filters]);
+  }, [data, filters, filterCondition]);
 
   return { filters, setFilters, filteredData };
 }

@@ -33,7 +33,7 @@ function useFetchTableData() {
         time: 10000,
       });
     }
-  }, [agentId]);
+  }, [agentId, addToast, getAgentSelfAttestations]);
 
   useEffect(() => {
     fetchTableData();

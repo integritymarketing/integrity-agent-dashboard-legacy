@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
 
@@ -25,7 +24,7 @@ function SAPermissionsFilter() {
     };
     document.body.addEventListener("click", closeFilters);
     return () => document.body.removeEventListener("click", closeFilters);
-  }, [openFilter]);
+  }, [openFilter, setOpenFilter]);
 
   return (
     <Box className={styles.customFilter}>
