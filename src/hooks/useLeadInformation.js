@@ -55,10 +55,13 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const {
     Get: fetchLeadPrescriptions,
-    Put: updateLeadPrescription,
-    Post: createPrescription,
     Delete: deleteLeadPrescription,
   } = useFetch(`${URL}/Prescriptions`);
+
+  const {
+    Post: createPrescription,
+    Put: updateLeadPrescription
+  } = useFetch(`${URL}/Prescriptions/syncid`);
 
   const { Get: fetchLeadProviders } = useFetch(
     `${URL}/Provider/ProviderSearchLookup`
