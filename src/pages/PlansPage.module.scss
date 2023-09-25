@@ -29,7 +29,6 @@
 
     .filters {
       width: 262px;
-      margin-top: 35px;
       margin-right: 15px;
       flex-grow: 1;
       flex-shrink: 1;
@@ -42,7 +41,6 @@
     .results {
       flex-grow: 3;
       flex-shrink: 3;
-      margin-top: 25px;
       max-width: 871px;
       @media (max-width: 480px) {
         margin-top: 0px;
@@ -219,15 +217,6 @@
     & img {
       width: 47px;
     }
-    .close {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      @media (max-width: 480px) {
-        top: 13px;
-        right: 16px;
-      }
-    }
 
     .plan-name {
       font-family: Lato;
@@ -291,8 +280,21 @@
   display: flex;
   min-height: 96px;
 
-  .back-btn svg {
-    transform: rotate(90deg);
+  .header-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .back-btn-wrapper {
+      width: 50%;
+    }
+
+    .header-title {
+      width: 50%;
+      margin-right: 235px;
+      font-size: 32px;
+      color: #052a63;
+    }
   }
 }
 .comp-spinner > div {
@@ -303,10 +305,19 @@
   align-items: center;
 }
 .comparePage {
+  background-color: #f1f1f1;
   @media (min-width: 320px) and (max-width: 767px) {
     position: initial !important;
     width: 669px;
   }
+
+  .back-button {
+    color: #4178ff;
+    span {
+      margin-left: 10px;
+    }
+  }
+
   .sectionTitle {
     background-color: blue;
     padding: 10px;
@@ -327,7 +338,7 @@
   display: initial !important;
 }
 
-.plan-comparsion-heder {
+.plan-comparison-header {
   /* Releasing Mobile view for plans compare footer modal and plans compare page in next deployment so commenting out */
   // @media (max-width: 767px) {
   //   padding: 10px;
@@ -340,7 +351,7 @@
   // }
 
   display: flex;
-  padding: 36px 40px 16px 40px;
+  padding: 0;
   justify-content: flex-start;
   width: 100%;
   min-height: 208px;
@@ -362,6 +373,9 @@
   .compare-div {
     flex: 1;
     display: flex;
+    padding: 16px;
+    max-width: 320px;
+    border-right: thin solid #e1e1e1;
     .vertical-stack {
       width: 100%;
       display: flex;
@@ -373,43 +387,53 @@
         width: 100px;
         height: 30px;
         margin-top: 10px;
+        border: none;
+        text-transform: capitalize;
+        padding: 0;
       }
     }
     .compare-text {
-      font-size: 40px;
+      font-size: 32px;
       font-weight: 400;
       color: var(--v2-dark-blue);
     }
     .share-plan-text {
       font-weight: 600;
     }
-    .plan-separator {
-      border-right: 1.5px dashed #64748b;
-      height: 100%;
-    }
   }
   .plan-div {
-    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex: 1;
+    justify-content: center;
+    align-items: stretch;
     line-height: 130%;
     font-family: Lato;
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
     color: #2b323b;
+    position: relative;
+
+    &:not(:last-child) {
+      border-right: thin solid #e1e1e1;
+    }
+
+    .close {
+      position: absolute;
+      top: 4px;
+      cursor: pointer;
+      right: 8px;
+      font-size: 8px;
+      color: #4178ff;
+    }
 
     .comp-mr-left {
-      margin-left: 25px;
+      padding: 16px;
       position: relative;
-
-      .close {
-        position: absolute;
-        top: 0;
-        cursor: pointer;
-        right: 0;
-      }
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
     .comp-plan-name {
@@ -417,7 +441,7 @@
       max-width: 200px;
     }
     .comp-plan-amnt {
-      margin: 18px 0px;
+      margin-top: 18px;
       .value {
         font-weight: 600;
         font-size: 18px;
@@ -434,22 +458,26 @@
       margin-top: 21px;
     }
     .plan-seperator {
-      border-right: 1.5px dashed #64748b;
+      border-right: 1.5px solid #e1e1e1;
       height: 100%;
     }
     .plan-img {
-      width: 62px;
-      height: 16px;
+      object-fit: contain;
+      max-width: 100%;
+      max-height: 60px;
     }
 
     .retrun-txt {
       font-family: Lato;
       font-style: normal;
+      display: flex;
       font-weight: normal;
       font-size: 16px;
       line-height: 130%;
       color: #0052ce;
-      margin-left: 32px;
+      padding: 16px;
+      align-items: center;
+      justify-content: center;
       a {
         text-decoration: none;
       }

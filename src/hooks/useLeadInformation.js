@@ -29,7 +29,6 @@ const performAsyncOperation = async (
   } catch (err) {
     Sentry.captureException(err);
     onError && onError(err);
-    console.error("Failed to delete the provider", err);
   } finally {
     setLoading(false);
   }

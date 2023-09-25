@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -108,10 +108,11 @@ export function PlanBenefitsCompareTable({ plans }) {
 
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={columns}
         data={[...defaultData, ...data]}
         compareTable={true}
+        header={"Plan Benefits"}
       />
     </>
   );

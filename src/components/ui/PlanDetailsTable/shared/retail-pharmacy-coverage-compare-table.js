@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import { labelMap } from "../mapd/tier-pharmacy-coverage";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -119,10 +119,11 @@ export function RetailPharmacyCoverage({
 
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={columns}
         data={defaultData}
         compareTable={true}
+        header={"Standard Retail Pharmacy Coverage"}
       />
     </>
   );

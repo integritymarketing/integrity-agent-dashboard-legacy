@@ -1,8 +1,24 @@
 import { PLAN_TYPE_ENUMS } from "../../../../constants";
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
 import { useParams } from "react-router-dom";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
+import MonthlyCostTable from "./monthly-cost-table";
+import MonthlyCostCompareTable from "./monthly-cost-comapare-table";
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -144,20 +160,7 @@ const CostTable = ({ planData }) => {
   const { effectiveDate } = useParams();
   const [y, m] = effectiveDate?.split("-");
   const effectiveStartDate = new Date(`${y}-${m}-15`);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+
   const effectiveMonthlyCosts =
     planData && planData.pharmacyCosts?.length > 0
       ? planData.pharmacyCosts[0].monthlyCosts?.filter(
@@ -239,12 +242,15 @@ const CostTable = ({ planData }) => {
       <PlanDetailsTableWithCollapse
         columns={columns}
         data={data}
-        planData={planData}
         header="Costs"
+        compareTable={true}
+      />
+      <MonthlyCostTable
         currencyFormatter={currencyFormatter}
+        planData={planData}
         monthNumber={m}
         months={months}
-        compareTable={true}
+        isShowMore={true}
       />
     </>
   );
@@ -255,6 +261,20 @@ export default CostTable;
 export function CostCompareTable({ plans, effectiveDate }) {
   const [y, m] = effectiveDate.split("-");
   const effectiveStartDate = new Date(`${y}-${m}-15`);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const clonedPlans = useMemo(() => {
     const copyPlans = [...plans];
     if (plans.length < 3) {
@@ -336,7 +356,18 @@ export function CostCompareTable({ plans, effectiveDate }) {
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} />
+      <PlanDetailsTableWithCollapse
+        columns={columns}
+        data={data}
+        header="Costs"
+        compareTable={true}
+      />
+      <MonthlyCostCompareTable
+        plans={plans}
+        monthNumber={m}
+        months={months}
+        isShowMore={true}
+      />
     </>
   );
 }

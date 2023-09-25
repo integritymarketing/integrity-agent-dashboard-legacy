@@ -1,0 +1,130 @@
+.prescription-container {
+    display: flex;
+    flex-direction: column;
+  
+    .row {
+      flex: 1;
+      display: flex;
+      border-bottom: thin solid #dddddd;
+  
+      .col {
+        flex: 1;
+        display: flex;
+        padding: 8px 24px;
+  
+        &:not(:last-child) {
+          border-right: thin solid #dddddd;
+        }
+  
+        &.desc {
+          flex-direction: column;
+        }
+  
+        &.field {
+          max-width: 320px;
+          text-transform: capitalize;
+          font-weight: bold;
+          color: #002d72;
+        }
+  
+        &.val {
+          display: flex;
+          justify-content: flex-end;
+        }
+  
+        &.restrictions {
+          gap: 2px;
+          font-size: 14px;
+          flex-direction: column;
+          align-items: flex-end;
+  
+          .qty {
+            gap: 4px;
+            display: flex;
+            align-items: center;
+          }
+  
+          .qty-limit {
+            color: #717171;
+          }
+  
+          .link {
+            font-weight: 500 !important;
+            font-size: 14px;
+            color: #2175f4;
+          }
+        }
+      }
+  
+      &.header {
+        padding: 24px 0;
+  
+        .type {
+          font-size: 14px;
+          color: #717171;
+        }
+  
+        .drug-name {
+          font-size: 16px;
+          color: #052a63;
+        }
+  
+        .col {
+          border-right: none;
+  
+          &.field {
+            font-weight: normal;
+          }
+  
+          &.val {
+            display: flex;
+            justify-content: center;
+          }
+  
+          .coverage-icon {
+            width: 16px;
+            object-fit: contain;
+          }
+        }
+      }
+  
+      &.footer {
+        min-height: 94px;
+        align-items: stretch;
+  
+        .field {
+          flex-direction: column;
+          font-weight: normal;
+          justify-content: center;
+  
+          .title {
+            font-size: 20px;
+            color: #052a63;
+          }
+  
+          .sub-title {
+            font-size: 14px;
+            color: #717171;
+            font-style: italic;
+          }
+        }
+  
+        .val {
+          justify-content: flex-start;
+          align-items: center;
+          gap: 4px;
+  
+          .cost {
+            font-size: 20px;
+            color: #052a63;
+          }
+  
+          .duration {
+            font-size: 14px;
+            color: #717171;
+            font-style: italic;
+          }
+        }
+      }
+    }
+  }

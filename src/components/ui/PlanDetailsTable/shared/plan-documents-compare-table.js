@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 export function PlanDocumentsCompareTable({ plans }) {
   const clonedPlans = useMemo(() => {
@@ -66,7 +66,12 @@ export function PlanDocumentsCompareTable({ plans }) {
 
   return (
     <>
-      <PlanDetailsTable columns={columns} data={data} compareTable={true} />
+      <PlanDetailsTableWithCollapse
+        columns={columns}
+        data={data}
+        compareTable={true}
+        header={"Plan Documents"}
+      />
     </>
   );
 }

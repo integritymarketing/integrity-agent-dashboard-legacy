@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import { Button } from "components/ui/Button";
-import ArrowDown from "components/icons/arrow-down";
+import NewBackBtn from "images/new-back-btn.svg";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import Container from "components/ui/container";
@@ -185,12 +185,13 @@ const ComparePlansPage = (props) => {
                 <Container>
                   <div className={styles["back-btn"]}>
                     <Button
-                      icon={<ArrowDown />}
+                      icon={<img src={NewBackBtn} alt="Back" />}
                       label="Back to Plans List"
                       onClick={() => {
                         window.location = `/plans/${id}?preserveSelected=true`;
                       }}
                       type="tertiary"
+                      className={`${styles["back-button"]}`}
                     />
                   </div>
                 </Container>

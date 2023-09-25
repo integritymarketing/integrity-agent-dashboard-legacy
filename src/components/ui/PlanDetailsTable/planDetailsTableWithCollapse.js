@@ -2,16 +2,11 @@ import React from "react";
 import { useTable } from "react-table";
 import "./index.scss";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
-import { MonthlyCostTable } from "./shared/monthly-cost-table";
 
 const PlanDetailsTableWithCollapse = ({
   columns,
   data,
-  planData,
   compareTable,
-  currencyFormatter,
-  monthNumber,
-  months,
   className,
   header,
   tbodyClassName,
@@ -64,13 +59,6 @@ const PlanDetailsTableWithCollapse = ({
             })}
           </tbody>
         </table>
-        <MonthlyCostTable
-          currencyFormatter={currencyFormatter}
-          planData={planData}
-          monthNumber={monthNumber}
-          months={months}
-          isShowMore={header === "Costs"}
-        />
       </PlanDetailsContactSectionCard>
     </>
   );
