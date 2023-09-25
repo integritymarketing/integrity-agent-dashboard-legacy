@@ -92,6 +92,7 @@ const ProviderModal = ({
 
   const providerList = results?.providers;
   const totalPages = results ? Math.ceil(total / perPage) : 0;
+  console.log(providerList);
 
   // useEffects
 
@@ -230,8 +231,6 @@ const ProviderModal = ({
   const isUpdated = useMemo(() => {
     return !arraysAreEqual(onlyIds, selectAddressIds);
   }, [onlyIds, selectAddressIds]);
-
-  console.log("isUpdated", isUpdated, onlyIds, selectAddressIds);
 
   const disabled = isEdit
     ? !selectAddressIds?.length > 0 || !isUpdated
