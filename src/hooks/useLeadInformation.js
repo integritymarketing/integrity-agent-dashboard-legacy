@@ -41,26 +41,37 @@ export const useLeadInformation = () => {
 };
 
 export const LeadInformationProvider = ({ children, leadId }) => {
+  const { consumerId } = useRecoilValue(contactLeadDetailsAtom);
+
   const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}`;
 
-  const {
-    Get: fetchLeadPharmacies,
-    Post: saveLeadPharmacies,
-    Delete: deleteLeadPharmacies,
-  } = useFetch(`${URL}/Pharmacies`);
+  const PHARMACY_URL = consumerId
+    ? `${URL}/Pharmacies/${consumerId}`
+    : `${URL}/Pharmacies`;
 
-  const {
-    Get: fetchLeadPrescriptions,
-    Post: updateLeadPrescription,
-    Delete: deleteLeadPrescription,
-  } = useFetch(`${URL}/Prescriptions`);
+  const PROVIDER_URL = consumerId
+    ? `${URL}/Provider/${consumerId}`
+    : `${URL}/Provider`;
+
+  const PRESCRIPTION_URL = consumerId
+    ? `${URL}/Prescriptions/${consumerId}`
+    : `${URL}/Prescriptions`;
+
+  const { Post: saveLeadPharmacies, Delete: deleteLeadPharmacies } =
+    useFetch(PHARMACY_URL);
+
+  const { Post: updateLeadPrescription, Delete: deleteLeadPrescription } =
+    useFetch(PRESCRIPTION_URL);
+
+  const { Post: saveLeadProviders, Delete: deleteLeadProviders } =
+    useFetch(PROVIDER_URL);
+
+  const { Get: fetchLeadPharmacies } = useFetch(`${URL}/Pharmacies`);
+
+  const { Get: fetchLeadPrescriptions } = useFetch(`${URL}/Prescriptions`);
 
   const { Get: fetchLeadProviders } = useFetch(
     `${URL}/Provider/ProviderSearchLookup`
-  );
-
-  const { Post: saveLeadProviders, Delete: deleteLeadProviders } = useFetch(
-    `${URL}/Provider`
   );
 
   const [pharmacies, setPharmacies] = useState([]);
@@ -73,9 +84,6 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const [prescriptionLoading, setPrescriptionLoading] = useState(false);
 
   const addToast = useToast();
-
-  const { consumerId } = useRecoilValue(contactLeadDetailsAtom);
-  console.log("consumerId", consumerId);
 
   const fetchPrescriptions = useCallback(async () => {
     await performAsyncOperation(
