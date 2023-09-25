@@ -48,9 +48,22 @@ const ActivitySubjectWithIcon = ({ activitySubject }) => {
       ),
       "Medicare ID Updated by Client": <ContactUpdated />,
       "ZipCode Updated by Client": <LOCATION />,
+
       "Pharmacy Updated by Client": <PHARMACY />,
+      "Pharmacies Added by Client": <PHARMACY />,
+
+      "Pharmacies Added": <PHARMACY />,
+      "Pharmacies Deleted": <PHARMACY />,
+
       "Prescription Updated by Client": <PRESCRIPTION />,
+      "Prescriptions Added by Client": <PRESCRIPTION />,
+      "Prescriptions Added": <PRESCRIPTION />,
+      "Prescriptions Deleted": <PRESCRIPTION />,
+
       "Providers Updated by Client": <PROVIDER />,
+      "Provider Added by Client": <PROVIDER />,
+      "Provider Added": <PROVIDER />,
+      "Provider Deleted": <PROVIDER />,
       "Medicaid Updated by Client": <MEDICAID />,
     };
 
