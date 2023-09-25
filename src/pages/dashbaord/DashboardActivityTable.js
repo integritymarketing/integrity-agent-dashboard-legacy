@@ -56,7 +56,7 @@ const buttonTextByActivity = {
   "Contact's new call log created": "Download",
   "Outbound Call Recorded": "Download",
   "Incoming Call Recorded": "Download",
-  "Scope of Appointment Signed": "Complete",
+  "Scope of Appointment Signed": "View",
   "Scope of Appointment Completed": "View",
   "Plan Shared": "View Plans",
   "Application Submitted": "View",
@@ -175,6 +175,11 @@ export default function DashboardActivityTable({
       const splitViewPlansURL = activityInteractionURL.split("/");
       switch (activitySubject) {
         case "Scope of Appointment Signed":
+          history.push({
+            pathname:`/contact/${leadsId}`,
+            search: '?awaiting=true'
+          })
+          break;
         case "Scope of Appointment Completed":
           history.push(
             `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
