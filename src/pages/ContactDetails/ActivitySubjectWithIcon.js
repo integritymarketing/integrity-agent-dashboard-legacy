@@ -51,19 +51,28 @@ const ActivitySubjectWithIcon = ({ activitySubject }) => {
 
       "Pharmacy Updated by Client": <PHARMACY />,
       "Pharmacies Added by Client": <PHARMACY />,
+      "Pharmacies Deleted by Client": <PHARMACY />,
 
       "Pharmacies Added": <PHARMACY />,
+      "Pharmacies Updated": <PHARMACY />,
       "Pharmacies Deleted": <PHARMACY />,
 
       "Prescription Updated by Client": <PRESCRIPTION />,
       "Prescriptions Added by Client": <PRESCRIPTION />,
+      "Prescriptions Deleted by Client": <PRESCRIPTION />,
+
+      "Prescription Updated": <PRESCRIPTION />,
       "Prescriptions Added": <PRESCRIPTION />,
       "Prescriptions Deleted": <PRESCRIPTION />,
 
       "Providers Updated by Client": <PROVIDER />,
       "Provider Added by Client": <PROVIDER />,
+      "Provider Deleted by Client": <PROVIDER />,
+
+      "Providers Updated": <PROVIDER />,
       "Provider Added": <PROVIDER />,
       "Provider Deleted": <PROVIDER />,
+
       "Medicaid Updated by Client": <MEDICAID />,
     };
 

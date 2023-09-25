@@ -70,15 +70,15 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
   );
 
   const Post = useCallback(
-    (body, returnHttpResponse) => {
-      return fetchData({ method: "POST", body, returnHttpResponse });
+    (body, returnHttpResponse, id) => {
+      return fetchData({ method: "POST", body, returnHttpResponse, id });
     },
     [fetchData]
   );
 
   const Put = useCallback(
-    (body, returnHttpResponse) => {
-      return fetchData({ method: "PUT", body, returnHttpResponse });
+    (body, returnHttpResponse, id) => {
+      return fetchData({ method: "PUT", body, returnHttpResponse, id });
     },
     [fetchData]
   );
