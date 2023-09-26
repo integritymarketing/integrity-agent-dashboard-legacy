@@ -15,7 +15,7 @@ import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import Media from "react-media";
 
-const Activities = ({ getLeadDetails, leadId, personalInfo }) => {
+const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
   const [isMobile, setIsMobile] = useState(false);
   const {
     activities,
@@ -96,6 +96,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo }) => {
           setEditActivity={setEditActivity}
           isMobile={isMobile}
           personalInfo={personalInfo}
+          setDisplay={setDisplay}
         />
 
         <AddNewActivityDialog
@@ -125,6 +126,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo }) => {
             leadFullName={leadFullName}
             activityObj={selectedActivity}
             leadsId={leadId}
+            setDisplay={setDisplay}
           />
         )}
       </div>

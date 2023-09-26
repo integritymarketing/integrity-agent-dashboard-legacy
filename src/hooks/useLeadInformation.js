@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import { contactLeadDetailsAtom } from "pages/ContactDetails/state";
 import useToast from "hooks/useToast";
-import clientsService from "services/clientsService";
 import useFetch from "hooks/useFetch";
 import { QUOTES_API_VERSION } from "services/clientsService";
 
@@ -30,7 +29,6 @@ const performAsyncOperation = async (
   } catch (err) {
     Sentry.captureException(err);
     onError && onError(err);
-    console.error("Failed to delete the provider", err);
   } finally {
     setLoading(false);
   }
@@ -41,26 +39,29 @@ export const useLeadInformation = () => {
 };
 
 export const LeadInformationProvider = ({ children, leadId }) => {
+  const { consumerId } = useRecoilValue(contactLeadDetailsAtom);
+
   const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}`;
-
-  const {
-    Get: fetchLeadPharmacies,
-    Post: saveLeadPharmacies,
-    Delete: deleteLeadPharmacies,
-  } = useFetch(`${URL}/Pharmacies`);
-
-  const {
-    Get: fetchLeadPrescriptions,
-    Post: updateLeadPrescription,
-    Delete: deleteLeadPrescription,
-  } = useFetch(`${URL}/Prescriptions`);
-
-  const { Get: fetchLeadProviders } = useFetch(
-    `${URL}/Provider/ProviderSearchLookup`
-  );
 
   const { Post: saveLeadProviders, Delete: deleteLeadProviders } = useFetch(
     `${URL}/Provider`
+  );
+
+  const {
+    Get: fetchLeadPharmacies,
+    Delete: deleteLeadPharmacies,
+    Post: saveLeadPharmacies,
+  } = useFetch(`${URL}/Pharmacies`);
+
+  const { Get: fetchLeadPrescriptions, Delete: deleteLeadPrescription } =
+    useFetch(`${URL}/Prescriptions`);
+
+  const { Post: createPrescription, Put: updateLeadPrescription } = useFetch(
+    `${URL}/Prescriptions/syncid`
+  );
+
+  const { Get: fetchLeadProviders } = useFetch(
+    `${URL}/Provider/ProviderSearchLookup`
   );
 
   const [pharmacies, setPharmacies] = useState([]);
@@ -73,8 +74,6 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const [prescriptionLoading, setPrescriptionLoading] = useState(false);
 
   const addToast = useToast();
-
-  const { consumerId } = useRecoilValue(contactLeadDetailsAtom);
 
   const fetchPrescriptions = useCallback(async () => {
     await performAsyncOperation(
@@ -115,7 +114,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       selectedPackage: null,
     };
     await performAsyncOperation(
-      () => clientsService.createPrescription(leadId, itemObject, consumerId),
+      () => createPrescription(itemObject, false, consumerId),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -139,14 +138,12 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       dosageID: dosage.dosageID,
     };
 
+    const id = consumerId
+      ? `${updatedData.dosageRecordID}/${consumerId}`
+      : `${updatedData.dosageRecordID}`;
+
     await performAsyncOperation(
-      () =>
-        updateLeadPrescription(
-          updatedData,
-          false,
-          updatedData.dosageRecordID,
-          consumerId
-        ),
+      () => updateLeadPrescription(updatedData, false, id),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -167,8 +164,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const deletePrescription = async (prescriptionData, refresh) => {
     const dosageRecordID = prescriptionData?.dosage?.dosageRecordID;
+    const id = consumerId ? `${dosageRecordID}/${consumerId}` : dosageRecordID;
     await performAsyncOperation(
-      () => deleteLeadPrescription(null, false, dosageRecordID, consumerId),
+      () => deleteLeadPrescription(null, false, id),
       setPrescriptionLoading,
       async () => {
         await fetchPrescriptions();
@@ -194,7 +192,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const addPharmacy = async (pharmacy) => {
     await performAsyncOperation(
-      () => saveLeadPharmacies(pharmacy, consumerId),
+      () => saveLeadPharmacies(pharmacy, false, consumerId),
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
@@ -206,8 +204,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const deletePharmacy = async (pharmacy) => {
     const pharmacyId = pharmacy?.pharmacyRecordID;
+    const id = consumerId ? `${pharmacyId}/${consumerId}` : pharmacyId;
     await performAsyncOperation(
-      () => deleteLeadPharmacies(null, false, pharmacyId, consumerId),
+      () => deleteLeadPharmacies(null, false, id),
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
@@ -230,7 +229,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     isUpdate = false
   ) => {
     await performAsyncOperation(
-      () => saveLeadProviders(request, consumerId),
+      () => saveLeadProviders(request, false, consumerId),
       setProviderLoading,
       async () => {
         await fetchProviders();
@@ -253,7 +252,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const deleteProvider = async (payload, providerName, refresh, isToast) => {
     await performAsyncOperation(
-      () => deleteLeadProviders(payload, consumerId),
+      () => deleteLeadProviders(payload, false, consumerId),
       setProviderLoading,
       async () => {
         await fetchProviders();

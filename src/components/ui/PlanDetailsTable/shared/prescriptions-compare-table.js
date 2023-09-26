@@ -1,111 +1,95 @@
 import React, { useMemo } from "react";
-import { parseDate } from "utils/dates";
-import PlanDetailsTable from "..";
-import { useParams } from "react-router-dom";
-import InNetworkCheck from "components/icons/in-network-check";
-import OutNetworkX from "components/icons/out-network-x";
 import APIFail from "./APIFail/index";
+import Prescription, { currencyFormatter } from "./prescription";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
+import { useParams } from "react-router-dom";
+import "./prescription.scss";
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
-
-function getCoveredCheck(isCovered) {
-  if (isCovered) {
-    return (
-      <>
-        <InNetworkCheck />
-        <span className={"in-network-label"}>Covered</span>
-      </>
-    );
+const EstimatedCost = ({ data }) => {
+  if (!data || !data?.cost) {
+    return null;
   }
+
   return (
-    <>
-      <OutNetworkX /> <span className={"in-network-label"}>Not Covered</span>
-    </>
+    <div className="prescription-container">
+      <div className="row footer">
+        <div className="col field">
+          <div className="title">Estimate Drug Cost</div>
+          <div className="sub-title">
+            Based on both Medical Premium & Drug Premium when applicable
+          </div>
+        </div>
+        {data.cost.map((val) => (
+          <div className="col val">
+            <div className="cost">{currencyFormatter.format(val)}</div>
+            <div className="duration">{data.startMonth} - Dec</div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
-}
+};
 
-function renderData(
-  prescriptionMap,
-  labelName,
-  effectiveDateString,
-  isFullYear
-) {
-  return (
-    <>
-      {getCoveredCheck(prescriptionMap[labelName].isCovered)}
-      <span className={"label comp-pres-label"}>
-        {currencyFormatter.format(prescriptionMap[labelName].cost)}{" "}
-        <span className="per">{isFullYear ? "/year" : "/partial year"}</span>
-      </span>
-      <span className={"subtext"}>
-        Estimate based on an effective date {effectiveDateString}
-      </span>
-    </>
-  );
-}
+const renderCell = (value, rowIndex, totalRows, prescriptions) => {
+  if (rowIndex === totalRows - 1) {
+    return <EstimatedCost data={value} />;
+  }
+  return <Prescription data={value} prescriptions={prescriptions} />;
+};
 
-function buildPrescription({ planData, monthsRemaining }) {
-  const pharmacyCost = planData?.pharmacyCosts
-    ? planData?.pharmacyCosts[0]
-    : {};
+const getTableData = (plans = [], prescriptions = [], startMonth) => {
+  const rows = [];
+  for (let i = 0, len = prescriptions.length; i < len; i++) {
+    const planDrugCoverage = plans[0]?.planDrugCoverage[i];
+    rows[i] = {
+      data: {
+        gap: [],
+        copay: [],
+        covered: [],
+        deductible: [],
+        restrictions: [],
+        catastrophic: [],
+        drugName: planDrugCoverage.labelName,
+        type: planDrugCoverage.tierDescription || "Non-Preferred Drug",
+      },
+    };
+    plans.forEach(({ pharmacyCosts } = {}, planIndex) => {
+      const rowData = rows[i].data;
+      const costs = pharmacyCosts?.[0]?.drugCosts?.[i] || {};
 
-  const prescriptionMap = {};
-  if (planData.planDrugCoverage && Array.isArray(planData.planDrugCoverage)) {
-    planData.planDrugCoverage.forEach((drugCoverage) => {
-      prescriptionMap[drugCoverage.labelName] = {
-        isCovered: drugCoverage.tierNumber !== 0,
-        cost: 0,
+      rowData.gap[planIndex] = costs.gap;
+      rowData.copay[planIndex] = costs.beforeGap;
+      rowData.catastrophic[planIndex] = costs.afterGap;
+      rowData.deductible[planIndex] = costs.deductible;
+      rowData.restrictions[planIndex] = {
+        hasPriorAuthorization: planDrugCoverage.hasPriorAuthorization,
+        hasQuantityLimit: planDrugCoverage.hasQuantityLimit,
+        hasStepTherapy: planDrugCoverage.hasStepTherapy,
+        quantityLimitAmount: planDrugCoverage.quantityLimitAmount,
+        quantityLimitDays: planDrugCoverage.quantityLimitDays,
       };
+      rowData.covered[planIndex] = planDrugCoverage.tierNumber === 1;
     });
   }
-
-  if (pharmacyCost.monthlyCosts && Array.isArray(pharmacyCost.monthlyCosts)) {
-    for (var i = 0; i <= monthsRemaining; i++) {
-      var monthlyCost = pharmacyCost.monthlyCosts[i];
-      if (monthlyCost.costDetail && Array.isArray(monthlyCost.costDetail)) {
-        for (var k = 0; k < monthlyCost.costDetail.length; k++) {
-          var costDetail = monthlyCost.costDetail[k];
-          prescriptionMap[costDetail.labelName].cost += costDetail.memberCost;
-        }
-      }
-    }
-  }
-
-  return prescriptionMap;
-}
+  rows.push({
+    data: {
+      startMonth,
+      cost: plans.map((plan) => plan.estimatedAnnualDrugCostPartialYear),
+    },
+  });
+  return rows;
+};
 
 export function PrescriptionsCompareTable({
-  plans,
-  prescriptions,
-  isFullYear,
+  plans = [],
+  prescriptions = [],
+  apiError,
 }) {
-  const clonedPlans = useMemo(() => {
-    const copyPlans = [...plans];
-    if (plans.length < 3) {
-      copyPlans.push(null);
-    }
-    return copyPlans;
-  }, [plans]);
-
-  const isApiFailed =
-    (prescriptions?.filter((drug) => drug.dosageDetails?.labelName)?.length > 0
-      ? false
-      : true) &&
-    prescriptions !== null &&
-    prescriptions?.length > 0;
-
+  const isEmptyData = prescriptions?.length === 0;
   const { effectiveDate } = useParams();
-  const effectiveStartDate = parseDate(effectiveDate, "yyyy-MM-dd");
-  const effectiveEndDate = new Date(effectiveStartDate);
-  effectiveEndDate.setMonth(11);
-  const monthsRemaining =
-    effectiveEndDate.getMonth() - effectiveStartDate.getMonth();
-  const effectiveDateString = `${effectiveStartDate.toLocaleString("default", {
+  const startMonth = new Date(effectiveDate).toLocaleString("default", {
     month: "long",
-  })} ${effectiveStartDate.getFullYear()} `;
+  });
 
   const columns = useMemo(
     () => [
@@ -113,55 +97,21 @@ export function PrescriptionsCompareTable({
         Header: "Prescriptions",
         columns: [
           {
-            hideHeader: true,
-            accessor: "labelName",
-            Cell({ value }) {
-              return (
-                <div>
-                  <div className="label">{value}</div>
-                </div>
-              );
+            accessor: "data",
+            Cell({ value, row, rows }) {
+              return renderCell(value, row.index, rows.length, prescriptions);
             },
           },
-          ...clonedPlans.map((plan, index) => ({
-            hideHeader: true,
-            accessor: `plan-${index}`,
-            Cell({ value: { labelName, prescriptionMap }, original }) {
-              if (!clonedPlans[index]) {
-                return "-";
-              }
-              return renderData(
-                prescriptionMap,
-                labelName,
-                effectiveDateString,
-                isFullYear
-              );
-            },
-          })),
         ],
       },
     ],
-    [clonedPlans, effectiveDateString, isFullYear]
+    [prescriptions]
   );
 
-  const allPrescriptions = [];
-  const allPrescriptionsMap = clonedPlans.reduce((acc, plan) => {
-    if (plan) {
-      const map = buildPrescription({ planData: plan, monthsRemaining });
-      acc.push(map);
-      allPrescriptions.push(...Object.keys(map));
-    }
-    return acc;
-  }, []);
-
-  const uniqPres = [...new Set(allPrescriptions)];
-
-  const data = Object.values(uniqPres).map((labelName, index) => ({
-    labelName,
-    "plan-0": { labelName, prescriptionMap: allPrescriptionsMap[0] },
-    "plan-1": { labelName, prescriptionMap: allPrescriptionsMap[1] },
-    "plan-2": { labelName, prescriptionMap: allPrescriptionsMap[2] },
-  }));
+  const data = useMemo(
+    () => getTableData(plans, prescriptions, startMonth),
+    [plans, prescriptions, startMonth]
+  );
 
   const columnsData = [
     {
@@ -175,18 +125,35 @@ export function PrescriptionsCompareTable({
     },
   ];
 
+  const emptyColumnsData = [
+    {
+      Header: "Prescriptions",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "empty",
+        },
+      ],
+    },
+  ];
+
   const rowData = [
     {
       unAvailable: <APIFail title={"Prescription"} />,
     },
   ];
 
+  const emptyRowData = [];
+
   return (
     <>
-      <PlanDetailsTable
-        columns={isApiFailed ? columnsData : columns}
-        data={isApiFailed ? rowData : data}
+      <PlanDetailsTableWithCollapse
+        columns={
+          apiError ? columnsData : isEmptyData ? emptyColumnsData : columns
+        }
+        data={apiError ? rowData : isEmptyData ? emptyRowData : data}
         compareTable={true}
+        header={"Prescriptions"}
       />
     </>
   );

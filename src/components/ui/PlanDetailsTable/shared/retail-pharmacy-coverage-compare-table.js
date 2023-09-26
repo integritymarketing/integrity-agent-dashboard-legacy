@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import { labelMap } from "../mapd/tier-pharmacy-coverage";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -85,6 +85,9 @@ export function RetailPharmacyCoverage({
           {
             hideHeader: true,
             accessor: "name",
+            Cell({ value }) {
+              return <div className="extra-padding">{value}</div>;
+            },
           },
           ...clonedPlans.map((plan, index) => ({
             hideHeader: true,
@@ -119,10 +122,11 @@ export function RetailPharmacyCoverage({
 
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={columns}
         data={defaultData}
         compareTable={true}
+        header={"Standard Retail Pharmacy Coverage"}
       />
     </>
   );

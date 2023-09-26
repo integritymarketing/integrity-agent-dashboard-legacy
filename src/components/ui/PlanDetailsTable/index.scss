@@ -46,8 +46,11 @@
       @media screen and (min-width: 320px) and (max-width: 480px) {
         width: 100% !important;
       }
+      td {
+        width: calc(70% / 3);
+      }
       td:first-child {
-        width: 40%;
+        width: 30%;
       }
       @media screen and (min-width: 320px) and (max-width: 480px) {
         td:first-child {
@@ -74,7 +77,7 @@
         color: #052a63;
         letter-spacing: 0.2px;
         display: block;
-        padding-left: 40px;
+        padding: 0 40px;
 
         .per {
           font-weight: normal;
@@ -115,12 +118,13 @@
       }
 
       .copay {
-        display: flex;
         @media screen and (min-width: 320px) and (max-width: 480px) {
+          display: flex;
           flex-direction: column;
         }
         .label {
           margin-right: 4px;
+          padding: 0;
         }
         .supply {
           letter-spacing: -0.14px;
@@ -138,6 +142,7 @@
         color: #64748b;
         display: flex;
         flex-direction: column;
+        padding-left: 40px;
       }
 
       .in-network-label {
@@ -198,6 +203,13 @@
   .comp-td:last-child {
     border-right: 1px solid #cbd5e1 !important;
   }
+  .comp-td:not(:first-child) {
+    padding-left: 15px;
+    padding-right: 8px;
+  }
+  .extra-padding {
+    padding-left: 20px;
+  }
 }
 
 .show-more-cost {
@@ -207,12 +219,13 @@
   justify-content: center;
   height: 48px;
   width: 100%;
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #dddddd;
+  background-color: white;
   cursor: pointer;
 
   .show-more-cost-label {
     margin-left: 11px;
-    color: #4178FF;
+    color: #4178ff;
   }
   .cost-arrow-side {
     transform: rotate(180deg);
@@ -220,21 +233,39 @@
 }
 
 .cost-monthly-past {
+  background-color: white;
+
   .cost-monthly-bar {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: space-between;
-    flex-direction: row;
     width: 100%;
-    height: 40px;
-    padding-left: 16px;
-    padding-right: 16px;
     color: #717171;
+    display: flex;
+    font-weight: bold;
+    height: 100%;
+    border: 1px solid #cbd5e1;
+    border-bottom: none;
+    border-top: none;
 
     .date {
       font-style: italic;
       font-size: 14px;
+      font-weight: normal;
+      padding-left: 5px;
+    }
+
+    .compare-cost-month-container {
+      width: 30%;
+      padding: 10px 0;
+      padding-left: 35px;
+    }
+
+    .cost-monthly-bar-item {
+      text-align: right;
+      width: calc(70% / 3);
+      color: #717171;
+      font-weight: bold;
+      padding: 10px 0;
+      padding-right: 8px;
+      border-left: 1px solid #cbd5e1;
     }
   }
 }
@@ -279,8 +310,8 @@
     }
   }
 }
-.plan-details-contact-section{
-  background-color: #FFFFFF;
+.plan-details-contact-section {
+  background-color: #ffffff;
 }
 .cost-monthly-prescriptions {
   .cost-monthly-bar {
@@ -307,15 +338,21 @@
       width: 100%;
       height: 40px;
       border: 1px solid #cbd5e1;
-      padding-left: 16px;
-      padding-right: 16px;
+      background-color: white;
       cursor: pointer;
 
-      .cost-phases{
+      .cost-phases {
         display: flex;
         align-items: center;
         width: 300px;
         justify-content: flex-start;
+      }
+
+      .compare-cost-phases {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 62%;
       }
 
       .cost-month-container {
@@ -330,6 +367,29 @@
         }
       }
 
+      .compare-cost-month-container {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: flex-start;
+        width: 30%;
+        padding-left: 15px;
+
+        div {
+          padding-left: 10px;
+        }
+      }
+
+      .cost-monthly-header-item {
+        display: flex;
+        width: calc(70% / 3);
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 8px;
+        border-left: 1px solid #cbd5e1;
+        height: 100%;
+      }
+
       .cost-arrow-side {
         transform: rotate(270deg);
       }
@@ -339,14 +399,17 @@
       font-size: 14px;
       text-transform: capitalize;
       margin-left: 3px;
+      text-align: initial;
     }
 
     .cost-monthly-content {
       display: none;
       background-color: #f1faff;
-      padding: 16px 48px 0 24px;
+
       .cost-monthly-thead {
         height: 28px;
+        border-bottom: 1px solid #cbd5e1;
+
         tr {
           th {
             background: unset;
@@ -354,9 +417,14 @@
             font-family: Lato;
             font-size: 14px;
             letter-spacing: -0.14px;
-            padding-left: 0;
+            padding-left: 20px;
+            padding-right: 10px;
+            border-right: 1px solid #cbd5e1;
           }
           th:last-child {
+            border-right: unset;
+          }
+          th:not(:first-child) {
             text-align: right;
           }
         }
@@ -369,19 +437,38 @@
         tr {
           height: 28px;
           border-bottom: 1px solid #cbd5e1;
+
           td {
-            padding-left: 0;
-            border-right: unset;
+            padding-left: 20px;
+            padding-right: 10px;
+            padding-bottom: 5px;
+            border-right: 1px solid #cbd5e1;
             color: #717171;
           }
+
           td:last-child {
-            text-align: right;
-            color: #052A63;
-            font-weight:bold;
+            border-right: unset;
+          }
+
+          td:not(:first-child) {
+            text-align: end;
           }
         }
+
         tr:nth-child(even) {
           background-color: #f1faff;
+        }
+
+        tr:last-child {
+          td:first-child div {
+            display: flex;
+            flex-direction: column;
+          }
+          td:not(:first-child) {
+            color: #052a63;
+            font-weight: bold;
+            text-align: end;
+          }
         }
       }
     }
@@ -465,4 +552,11 @@
   font-size: 14px;
   color: #717171;
   letter-spacing: -0.14px;
+}
+
+.compare-cost-0 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 62%;
 }

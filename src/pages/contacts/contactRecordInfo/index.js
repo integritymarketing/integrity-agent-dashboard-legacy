@@ -56,6 +56,7 @@ import {
 import useFetch from "hooks/useFetch";
 import WebChatComponent from "components/WebChat/WebChat";
 import ReviewProviders from "./viewAvailablePlans/steps/ReviewProviders";
+import useAwaitingQueryParam from "hooks/useAwaitingQueryParam";
 
 const ContactRecordInfoDetails = () => {
   const { contactId: id, sectionId } = useParams();
@@ -93,6 +94,7 @@ const ContactRecordInfoDetails = () => {
   const { Post: postSpecialists } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
   );
+  const { isAwaiting, deleteAwaitingParam } = useAwaitingQueryParam();
 
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
@@ -124,7 +126,12 @@ const ContactRecordInfoDetails = () => {
   const getContactRecordInfo = useCallback(
     async (leadDetails) => {
       if (!sectionId) {
-        setDisplay("overview");
+        if (isAwaiting) {
+          setDisplay("scopeofappointments");
+          deleteAwaitingParam();
+        } else {
+          setDisplay("overview");
+        }
       }
       setLoading(true);
       if (leadDetails?.length === 0) {
@@ -348,6 +355,7 @@ const ContactRecordInfoDetails = () => {
   };
 
   const handleViewAvailablePlans = async () => {
+    setLoading(true);
     const { leadsId, birthdate, shouldHideSpecialistPrompt } = personalInfo;
     try {
       const [prescriptions, { providers }] = await Promise.all([
@@ -382,6 +390,8 @@ const ContactRecordInfoDetails = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 

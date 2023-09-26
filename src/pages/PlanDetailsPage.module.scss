@@ -4,7 +4,7 @@
   font-style: normal;
   background-color: #f1f1f1;
   .back-button {
-    color: #4178FF;
+    color: #4178ff;
     margin-left: 10px;
     span {
       margin-left: 10px;
@@ -15,7 +15,7 @@
         color: #ffff;
       }
       span {
-        color: #4178FF;
+        color: #4178ff;
       }
     }
   }
@@ -43,7 +43,7 @@
       font-size: 32px;
       font-family: Lato;
       font-style: normal;
-      color: #052A63;
+      color: #052a63;
       @media screen and (min-width: 320px) and (max-width: 480px) {
         color: white;
         font-size: 18px;
@@ -51,11 +51,11 @@
       }
     }
 
-    .header-callscript{
+    .header-callscript {
       @media screen and (min-width: 320px) and (max-width: 480px) {
         flex: 0.2;
       }
-      svg{
+      svg {
         width: 40px;
         position: relative;
         left: 12px;
@@ -111,6 +111,7 @@
     }
     .main {
       flex-grow: 3;
+      width: 100%;
       @media screen and (min-width: 320px) and (max-width: 480px) {
         background-color: #e7e9ed;
         width: 100%;

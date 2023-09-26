@@ -29,7 +29,7 @@ function SAAddPermissionForm() {
   const { npn } = useUserProfile();
   const addToast = useToast();
   const { width: windowWidth } = useWindowSize();
-  const { agents, handleCancel, fetchTableData, isAdding } =
+  const { agents, handleCancel, fetchTableData, isAdding, setIsLoading } =
     useSAPermissionsContext();
   const {
     carriersOptions,
@@ -103,10 +103,13 @@ function SAAddPermissionForm() {
       ],
     };
     try {
+      setIsLoading(true)
       await addAgentSelfAttestation(payload);
       await fetchTableData();
       resetAllFields();
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       Sentry.captureException(error);
       addToast({
         type: "error",

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -30,6 +30,9 @@ export function PlanBenefitsCompareTable({ plans }) {
           {
             hideHeader: true,
             accessor: "name",
+            Cell({ value }) {
+              return <div className="extra-padding">{value}</div>;
+            },
           },
           ...clonedPlans.map((plan, index) => ({
             hideHeader: true,
@@ -108,10 +111,11 @@ export function PlanBenefitsCompareTable({ plans }) {
 
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={columns}
         data={[...defaultData, ...data]}
         compareTable={true}
+        header={"Plan Benefits"}
       />
     </>
   );

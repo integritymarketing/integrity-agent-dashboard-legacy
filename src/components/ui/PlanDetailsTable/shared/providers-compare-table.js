@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import PlanDetailsTable from "..";
+import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import OutNetworkX from "../../../icons/out-network-x";
 import InNetworkCheck from "../../../icons/in-network-check";
 import APIFail from "./APIFail/index";
@@ -151,10 +151,11 @@ export function ProvidersCompareTable({ plans }) {
 
   return (
     <>
-      <PlanDetailsTable
+      <PlanDetailsTableWithCollapse
         columns={isApiFailed ? columnsData : columns}
         data={isApiFailed ? rowData : data}
         compareTable={true}
+        header={"Providers"}
       />
     </>
   );

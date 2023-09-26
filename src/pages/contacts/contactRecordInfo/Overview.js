@@ -9,6 +9,7 @@ const Overview = ({
   getLeadDetails,
   id,
   isMobile,
+  setDisplay,
 }) => {
   return (
     <>
@@ -22,6 +23,7 @@ const Overview = ({
         getLeadDetails={getLeadDetails}
         personalInfo={personalInfo}
         leadId={id}
+        setDisplay={setDisplay}
       />
       <ClientNotes
         personalInfo={personalInfo || {}}

@@ -209,7 +209,21 @@ const GlobalNavV2 = ({
                   );
                 },
               },
-              label: "MedicareAPP",
+              label: "MedicareAPP 2023",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2024",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP 2024",
             },
           ],
         }
@@ -283,7 +297,21 @@ const GlobalNavV2 = ({
                   );
                 },
               },
-              label: "MedicareAPP",
+              label: "MedicareAPP 2023",
+            },
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => {
+                  window.open(
+                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
+                      "/external/SamlLogin/2024",
+                    "_blank"
+                  );
+                },
+              },
+              label: "MedicareAPP 2024",
             },
             {
               component: "button",

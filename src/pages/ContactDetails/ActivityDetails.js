@@ -13,6 +13,7 @@ export default function ActivityDetails({
   activityObj,
   leadFullName,
   leadsId,
+  setDisplay,
 }) {
   const [note, setNote] = useState(activityObj?.activityNote);
 
@@ -77,6 +78,7 @@ export default function ActivityDetails({
                     <ActivityButtonText
                       activity={activityObj}
                       leadsId={leadsId}
+                      setDisplay={setDisplay}
                     />
                   </div>
                   <CreatedDate

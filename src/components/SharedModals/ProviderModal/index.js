@@ -92,7 +92,6 @@ const ProviderModal = ({
 
   const providerList = results?.providers;
   const totalPages = results ? Math.ceil(total / perPage) : 0;
-  console.log(providerList);
 
   // useEffects
 

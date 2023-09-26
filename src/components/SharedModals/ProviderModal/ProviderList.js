@@ -7,6 +7,7 @@ import Checkbox from "@mui/material/Checkbox";
 import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
 import { sortAddressesBySelectedIds } from "utils/address";
+import EditIcon from "components/icons/edit2";
 
 const useStyles = makeStyles({
   list: {
@@ -100,6 +101,22 @@ const useStyles = makeStyles({
       borderRadius: "4px",
     },
   },
+  editBtn: {
+    position: "absolute",
+    top: "20px",
+    right: "20px",
+    color: "#4178FF",
+    cursor: "pointer",
+    fontSize: "14px",
+    display: "flex",
+    alignItems: "center",
+    gap: "3px",
+    borderRadius: "50px",
+    padding: "5px 15px",
+    "&:hover": {
+      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+    },
+  },
 });
 
 const Address = ({
@@ -109,7 +126,7 @@ const Address = ({
   setSelectAddressIds,
   selectAddressIds,
   selectedProvider,
-  isEdit,
+  disableAddressSelect,
 }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
@@ -149,11 +166,13 @@ const Address = ({
             }`}
             selected={isChecked}
           >
-            <Checkbox
-              className={classes.checkbox}
-              onClick={() => handleSelectAddress(address)}
-              checked={isChecked}
-            />
+            {!disableAddressSelect && (
+              <Checkbox
+                className={classes.checkbox}
+                onClick={() => handleSelectAddress(address)}
+                checked={isChecked}
+              />
+            )}
             <Typography className={classes.addressText}>
               <div>
                 <div>
@@ -186,6 +205,8 @@ const ProviderCard = ({
   setSelectAddressIds,
   isEdit,
   selectedProvider,
+  onEditProvider,
+  disableAddressSelect,
 }) => {
   const classes = useStyles();
   const [isOpen, setOpenToggle] = useState(isEdit);
@@ -223,13 +244,24 @@ const ProviderCard = ({
             className={
               list.length > 1 ? classes.multipleCard : classes.singleCard
             }
+            style={{ position: "relative" }}
             key={`ProviderList-${index}`}
           >
             <Typography className={classes.title}>{specialty}</Typography>
             <Typography className={classes.name}>{presentationName}</Typography>
             <Typography className={classes.specialty}>{NPI}</Typography>
+            {onEditProvider && (
+              <div
+                className={classes.editBtn}
+                onClick={() => onEditProvider(provider)}
+              >
+                <span>Edit</span>
+                <EditIcon />
+              </div>
+            )}
 
             <Address
+              disableAddressSelect
               addresses={initialAddresses}
               provider={provider}
               setSelectedProvider={onProviderSelection}
