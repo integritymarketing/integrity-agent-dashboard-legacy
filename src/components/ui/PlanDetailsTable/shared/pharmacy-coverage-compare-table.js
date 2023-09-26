@@ -23,6 +23,9 @@ export function PharmacyCoverageCompareTable({ plans }) {
           {
             hideHeader: true,
             accessor: "name",
+            Cell({ value }) {
+              return <div className="extra-padding">{value}</div>;
+            },
           },
           ...clonedPlans.map((plan, index) => ({
             hideHeader: true,
