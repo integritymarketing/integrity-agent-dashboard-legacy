@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 import "./prescription.scss";
 
 const EstimatedCost = ({ data }) => {
+  if (!data || !data?.cost) {
+    return null;
+  }
+
   return (
     <div className="prescription-container">
       <div className="row footer">
@@ -78,11 +82,13 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
   return rows;
 };
 
-export function PrescriptionsCompareTable({ plans = [], prescriptions = [] }) {
-  const isApiFailed = prescriptions.length === 0;
-
+export function PrescriptionsCompareTable({
+  plans = [],
+  prescriptions = [],
+  apiError,
+}) {
+  const isEmptyData = prescriptions?.length === 0;
   const { effectiveDate } = useParams();
-
   const startMonth = new Date(effectiveDate).toLocaleString("default", {
     month: "long",
   });
@@ -121,17 +127,33 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [] }) {
     },
   ];
 
+  const emptyColumnsData = [
+    {
+      Header: "Prescriptions",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "empty",
+        },
+      ],
+    },
+  ];
+
   const rowData = [
     {
       unAvailable: <APIFail title={"Prescription"} />,
     },
   ];
 
+  const emptyRowData = [];
+
   return (
     <>
       <PlanDetailsTableWithCollapse
-        columns={isApiFailed ? columnsData : columns}
-        data={isApiFailed ? rowData : data}
+        columns={
+          apiError ? columnsData : isEmptyData ? emptyColumnsData : columns
+        }
+        data={apiError ? rowData : isEmptyData ? emptyRowData : data}
         compareTable={true}
         header={"Prescriptions"}
       />
