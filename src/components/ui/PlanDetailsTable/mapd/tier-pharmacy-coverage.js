@@ -50,25 +50,25 @@ export default forwardRef(
                 values.push(
                   <>
                     <div className={"copay"}>
-                      <span className={"label"}>
+                      <div className={"label"}>
                         {currencyFormatter.format(copay.cost)}
-                      </span>{" "}
-                      <span className={"supply"}>
+                      </div>{" "}
+                      <div className={"supply"}>
                         copay ({copay.daysOfSupply}-day supply)
-                      </span>
+                      </div>
                     </div>
                   </>
                 );
               } else if (copay.costType === 2) {
                 values.push(
                   <>
-                    <div className={"copay"}>
-                      <span className={"label"}>
+                    <div className="copay">
+                      <div className="label">
                         {Math.round(copay.cost * 100)}%
-                      </span>
-                      <span className={"supply"}>
+                      </div>
+                      <div className="supply">
                         coinsurance ({copay.daysOfSupply}-day supply)
-                      </span>
+                      </div>
                     </div>
                   </>
                 );
