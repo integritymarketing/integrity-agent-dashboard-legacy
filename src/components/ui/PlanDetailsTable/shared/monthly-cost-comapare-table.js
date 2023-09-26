@@ -181,24 +181,15 @@ export function MonthlyCostCompareTable({
                 <ArrowDown className="cost-arrow-side" />
               )}
               <div>
-                {" "}
                 <span className={"final-value"}>
-                  {" "}
                   {months[MIndex + parseInt(monthNumber) - 1]}
                 </span>
               </div>
             </div>
             {!isMobile && (
-              <div className="compare-cost-phases">
+              <>
                 {filterData?.map((month) => (
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "30%",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div className="cost-monthly-header-item">
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <span className={"value"}>Phase:</span>{" "}
                       <span className="costPhases">
@@ -210,7 +201,7 @@ export function MonthlyCostCompareTable({
                     </span>
                   </div>
                 ))}
-              </div>
+              </>
             )}
           </div>
           <div className="cost-monthly-content">
@@ -234,15 +225,12 @@ export function MonthlyCostCompareTable({
     return (
       <div className="cost-monthly-bar">
         <div className="compare-cost-month-container">
-          {start + previous}{" "}
+          {start + previous}
           <span className="date">{"Effective " + months[monthNumber - 1]}</span>
         </div>
-
-        <div className="compare-cost-0">
-          {plans?.map(() => {
-            return <div>{currencyFormatter.format("0")}</div>;
-          })}
-        </div>
+        {plans?.map(() => {
+          return <div className="cost-monthly-bar-item">{currencyFormatter.format("0")}</div>;
+        })}
       </div>
     );
   };
