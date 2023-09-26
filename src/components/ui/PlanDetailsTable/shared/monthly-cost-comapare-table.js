@@ -5,10 +5,10 @@ import Media from "react-media";
 import { currencyFormatter } from "./prescription";
 
 export function MonthlyCostCompareTable({
-  plans,
-  months,
-  monthNumber,
-  isShowMore,
+  plans = [],
+  months = [],
+  monthNumber = 0,
+  isShowMore = false,
 }) {
   const clonedPlans = useMemo(() => {
     const copyPlans = [...plans];
@@ -31,7 +31,7 @@ export function MonthlyCostCompareTable({
         mc?.costDetail?.reduce((acc, curr) => {
           return curr.memberCost + acc;
         }, 0) || 0;
-      const premium = planData.annualPlanPremium / 12;
+      const premium = planData?.annualPlanPremium / 12 || 0;
       const totalEstimatedCost = totalDrugCost + premium;
 
       const data = mc.costDetail?.map((cd) => {
@@ -72,7 +72,7 @@ export function MonthlyCostCompareTable({
         plan,
       } = currentPlan;
 
-      monthlyCostDetails.forEach(({ labelName, memberCost }) => {
+      monthlyCostDetails?.forEach(({ labelName, memberCost }) => {
         const existingRecord = acc.find(
           (record) =>
             record.labelName === labelName && record.monthID === monthID
