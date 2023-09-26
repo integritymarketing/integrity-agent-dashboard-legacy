@@ -21,9 +21,7 @@ const EstimatedCost = ({ data }) => {
         </div>
         {data.cost.map((val) => (
           <div className="col val">
-            <div className="cost">
-              {(val && currencyFormatter.format(val)) || "-"}
-            </div>
+            <div className="cost">{currencyFormatter.format(val)}</div>
             <div className="duration">{data.startMonth} - Dec</div>
           </div>
         ))}

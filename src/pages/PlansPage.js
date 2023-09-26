@@ -26,6 +26,7 @@ import PlanTypesFilter, { planTypesMap } from "components/ui/PlanTypesFilter";
 import PharmacyFilter from "components/ui/PharmacyFilter";
 import AdditionalFilters from "components/ui/AdditionalFilters";
 import Pagination from "components/ui/Pagination/pagination";
+import GlobalFooter from "partials/global-footer";
 import analyticsService from "services/analyticsService";
 import { formatDate } from "utils/dates";
 import { PlanPageFooter } from "./PlanPageFooter";
@@ -33,9 +34,9 @@ import { Button } from "components/ui/Button";
 import Filter from "components/icons/filter";
 import Radio from "components/ui/Radio";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
-import ContactFooter from "partials/global-footer";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
+
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
     ? 1
@@ -492,7 +493,8 @@ const PlansPage = () => {
             <Helmet>
               <title>MedicareCENTER - Plans</title>
             </Helmet>
-            {(!isEdit || (isEdit && isMobile)) && <GlobalNav />}
+            <GlobalNav />
+            {!isEdit || (isEdit && isMobile)}
             {(isEdit || (isMobile && filtersOpen)) && (
               <FocusedNav
                 backText={"Back to plans page"}
@@ -728,18 +730,18 @@ const PlansPage = () => {
                 />
               </Container>
             )}
+            <GlobalFooter />
+            <PlanPageFooter
+              leadId={id}
+              effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
+              plans={results?.filter((plan) => selectedPlans[plan.id])}
+              onRemove={(plan) => {
+                setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
+              }}
+              setSessionData={setSessionData}
+              isMobile={isMobile}
+            />
           </WithLoader>
-          <ContactFooter />
-          <PlanPageFooter
-            leadId={id}
-            effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
-            plans={results?.filter((plan) => selectedPlans[plan.id])}
-            onRemove={(plan) => {
-              setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
-            }}
-            setSessionData={setSessionData}
-            isMobile={isMobile}
-          />
         </div>
       </ToastContextProvider>
     </>
