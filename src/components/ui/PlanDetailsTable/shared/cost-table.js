@@ -82,7 +82,7 @@ function PremiumCell({ planData }) {
   );
 }
 
-function EstRxLabel({ effectiveMonth, effectiveYear }) {
+function TotalEstLabel({ effectiveMonth, effectiveYear }) {
   return (
     <>
       <span className={"label"}>Total Estimated Cost</span>
@@ -115,7 +115,7 @@ function EstRxValue({ planData, effectiveStartDate, monthNumber }) {
   );
 }
 
-function TotalEstLabel({ drugsCount }) {
+function EstRxLabel({ drugsCount }) {
   return (
     <>
       <span className={"label"}> Estimated Drug Cost</span>
