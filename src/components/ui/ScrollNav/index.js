@@ -64,7 +64,9 @@ export default forwardRef(
     useEffect(() => {
       function onScroll() {
         for (const id in refs) {
-          observer.observe(refs[id]?.current);
+          if (refs[id]?.current) {
+            observer.observe(refs[id].current);
+          }
         }
       }
       const observer = new IntersectionObserver(
