@@ -44,6 +44,7 @@ const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
+  const [isSending, setIsSending] = useState(false);
   const addToast = useToast();
   const { newSoaContactDetails, setNewSoaContactDetails } =
     useContext(ContactContext);
@@ -328,14 +329,17 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
               </div>
               <Button
                 label="Send SOA"
-                className={`${idFormNotValid ? "disabledSoaBtn" : ""}`}
+                className={`${idFormNotValid || isSending ? "disabledSoaBtn" : ""}`}
                 icon={
                   <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
                     <ArrowForwardWithCircle />
                   </span>
                 }
                 iconPosition="right"
-                onClick={!idFormNotValid && handleSend}
+                onClick={() => {
+                  setIsSending(true);
+                  !idFormNotValid && handleSend()
+                }}
                 data-gtm="button-send"
                 style={{ border: "none" }}
               />
