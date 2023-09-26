@@ -94,7 +94,7 @@ const ContactRecordInfoDetails = () => {
   const { Post: postSpecialists } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
   );
-  const { isAwaiting, deleteAwaitingParam} = useAwaitingQueryParam();
+  const { isAwaiting, deleteAwaitingParam } = useAwaitingQueryParam();
 
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
@@ -355,6 +355,7 @@ const ContactRecordInfoDetails = () => {
   };
 
   const handleViewAvailablePlans = async () => {
+    setLoading(true);
     const { leadsId, birthdate, shouldHideSpecialistPrompt } = personalInfo;
     try {
       const [prescriptions, { providers }] = await Promise.all([
@@ -389,6 +390,8 @@ const ContactRecordInfoDetails = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
