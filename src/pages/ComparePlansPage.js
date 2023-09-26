@@ -43,6 +43,8 @@ const ComparePlansPage = (props) => {
   const [pharmacies, setPharmacies] = useState([]);
   const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
   const [contactData, setContactData] = useState({});
+  const [hasErrorPrescriptions, setHasErrorPrescriptions] = useState(false);
+  const [hasErrorPharmacies, setHasErrorPharmacies] = useState(false);
 
   const { isNonRTS_User } = useRoles();
 
@@ -82,6 +84,7 @@ const ComparePlansPage = (props) => {
     try {
       setResults([]);
       let contactData = {};
+
       if (!isComingFromEmail) {
         contactData = await clientsService.getContactInfo(id);
         setContactData(contactData);
@@ -98,17 +101,40 @@ const ComparePlansPage = (props) => {
       });
       setResults(plansData);
 
-      const [prescriptionData, pharmacyData] = !isComingFromEmail
-        ? await Promise.all([
-            clientsService.getLeadPrescriptions(id),
-            clientsService.getLeadPharmacies(id),
-          ])
-        : await Promise.all([
-            comparePlansService.getLeadPrescriptions(id, agentInfo?.AgentNpn),
-            comparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn),
-          ]);
-      setPrescriptions(prescriptionData);
-      setPharmacies(pharmacyData || []);
+      if (!isComingFromEmail) {
+        try {
+          const prescriptionData = await clientsService.getLeadPrescriptions(id);
+          setPrescriptions(prescriptionData);
+        } catch (prescriptionError) {
+          setHasErrorPrescriptions(true);
+          Sentry.captureException(prescriptionError);
+        }
+
+        try {
+          const pharmacyData = await clientsService.getLeadPharmacies(id);
+          setPharmacies(pharmacyData || []);
+        } catch (pharmacyError) {
+          setHasErrorPharmacies(true);
+          Sentry.captureException(pharmacyError);
+        }
+      } else {
+        try {
+          const prescriptionData = await comparePlansService.getLeadPrescriptions(id, agentInfo?.AgentNpn);
+          setPrescriptions(prescriptionData);
+        } catch (prescriptionError) {
+          setHasErrorPrescriptions(true);
+          Sentry.captureException(prescriptionError);
+        }
+
+        try {
+          const pharmacyData = await comparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn);
+          setPharmacies(pharmacyData || []);
+        } catch (pharmacyError) {
+          setHasErrorPharmacies(true);
+          Sentry.captureException(pharmacyError);
+        }
+      }
+
       analyticsService.fireEvent("event-content-load", {
         pagePath: "/plans/:contactId",
       });
@@ -117,8 +143,8 @@ const ComparePlansPage = (props) => {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line
-  }, [effectiveDate, id, planIds, isComingFromEmail]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isComingFromEmail, planIds, id, effectiveDate]);
 
   useEffect(() => {
     if (results && results.length) {
@@ -227,11 +253,13 @@ const ComparePlansPage = (props) => {
                     plans={comparePlans}
                     prescriptions={prescriptions}
                     isFullYear={isFullYear}
+                    apiError={hasErrorPrescriptions}
                   />
                   <div style={{ height: 20 }} />
                   <PharmaciesCompareTable
                     plans={comparePlans}
                     pharmacies={pharmacies}
+                    apiError={hasErrorPharmacies}
                   />
                   <div style={{ height: 20 }} />
 

@@ -26,39 +26,42 @@ const PlanDetailsTableWithCollapse = ({
         isDashboard={true}
         preferencesKey={"costTemp_collapse"}
         actions={actions}
+        isEmpty={data?.length === 0}
       >
-        <table
-          {...getTableProps()}
-          className={`${className} plan-details-table`}
-        >
-          <tbody
-            {...getTableBodyProps()}
-            className={`${tbodyClassName} plan-details-tbody`}
+        {data?.length > 0 && (
+          <table
+            {...getTableProps()}
+            className={`${className} plan-details-table`}
           >
-            {rows.map((row, rowIndex) => {
-              prepareRow(row);
-              return (
-                <tr
-                  key={`${header}-row-${rowIndex}`}
-                  {...row.getRowProps()}
-                  className={`${compareTable && "comp-tr"}`}
-                >
-                  {row.cells.map((cell, cellIndex) => {
-                    return (
-                      <td
-                        key={`${header}-cell-${cellIndex}`}
-                        {...cell.getCellProps()}
-                        className={`${compareTable && "comp-td"}`}
-                      >
-                        {cell.render("Cell")}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+            <tbody
+              {...getTableBodyProps()}
+              className={`${tbodyClassName} plan-details-tbody`}
+            >
+              {rows.map((row, rowIndex) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    key={`${header}-row-${rowIndex}`}
+                    {...row.getRowProps()}
+                    className={`${compareTable && "comp-tr"}`}
+                  >
+                    {row.cells.map((cell, cellIndex) => {
+                      return (
+                        <td
+                          key={`${header}-cell-${cellIndex}`}
+                          {...cell.getCellProps()}
+                          className={`${compareTable && "comp-td"}`}
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
       </PlanDetailsContactSectionCard>
     </>
   );

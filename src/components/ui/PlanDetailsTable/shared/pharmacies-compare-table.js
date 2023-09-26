@@ -4,7 +4,7 @@ import OutNetworkX from "../../../icons/out-network-x";
 import InNetworkCheck from "../../../icons/in-network-check";
 import APIFail from "./APIFail/index";
 
-export function PharmaciesCompareTable({ plans, pharmacies }) {
+export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
   const clonedPlans = useMemo(() => {
     const copyPlans = [...plans];
     if (plans.length < 3) {
@@ -13,13 +13,12 @@ export function PharmaciesCompareTable({ plans, pharmacies }) {
     return copyPlans;
   }, [plans]);
 
-  const isApiFailed =
+  const isEmpty =
     (pharmacies?.filter((pharmacy) => pharmacy?.name)?.length > 0
       ? false
       : true) &&
     pharmacies !== null &&
     pharmacies?.length > 0;
-
   const columns = useMemo(
     () => [
       {
@@ -87,17 +86,31 @@ export function PharmaciesCompareTable({ plans, pharmacies }) {
     },
   ];
 
+  const emptyColumnsData = [
+    {
+      Header: "Pharmacies",
+      columns: [
+        {
+          hideHeader: true,
+          accessor: "empty",
+        },
+      ],
+    },
+  ];
+
   const rowData = [
     {
       unAvailable: <APIFail title={"Pharmacy"} />,
     },
   ];
 
+  const emptyRowData = [];
+
   return (
     <>
       <PlanDetailsTableWithCollapse
-        columns={isApiFailed ? columnsData : columns}
-        data={isApiFailed ? rowData : data}
+        columns={apiError ? columnsData : isEmpty ? emptyColumnsData : columns}
+        data={apiError ? rowData : isEmpty ? emptyRowData : data}
         compareTable={true}
         header={"Pharmacies"}
       />
