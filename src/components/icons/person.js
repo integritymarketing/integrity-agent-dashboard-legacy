@@ -20,9 +20,9 @@ const PersonIcon = () => {
           transform="translate(1917 245)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <path
           id="Path_3126"
@@ -31,9 +31,9 @@ const PersonIcon = () => {
           transform="translate(1917.87 246.217)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <path
           id="Path_3127"
@@ -42,9 +42,9 @@ const PersonIcon = () => {
           transform="translate(1917.522 247.261)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_919"
@@ -53,9 +53,9 @@ const PersonIcon = () => {
           transform="translate(1933.152 253.326)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_920"
@@ -64,9 +64,9 @@ const PersonIcon = () => {
           transform="translate(1933.152 257.5)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_921"
@@ -75,9 +75,9 @@ const PersonIcon = () => {
           transform="translate(1933.152 261.674)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
       </g>
     </svg>

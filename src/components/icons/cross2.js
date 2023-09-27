@@ -31,8 +31,8 @@ const CrossIcon = (props) => {
           transform="translate(342.343 414.343) rotate(45)"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeWidth="1"
         />
         <line
           id="Line_654"
@@ -41,8 +41,8 @@ const CrossIcon = (props) => {
           transform="translate(334.343 414.343) rotate(45)"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeWidth="1"
         />
       </g>
     </svg>

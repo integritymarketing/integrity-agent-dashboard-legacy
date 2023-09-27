@@ -24,7 +24,7 @@ const ShareIcon = () => {
         <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0" />
       </g>
       <g id="Group_7249" data-name="Group 7249" transform="translate(4 6)">
-        <g id="Group_7248" data-name="Group 7248" clip-path="url(#clip-path)">
+        <g id="Group_7248" data-name="Group 7248" clipPath="url(#clip-path)">
           <path
             id="Path_21635"
             data-name="Path 21635"
@@ -32,9 +32,9 @@ const ShareIcon = () => {
             transform="translate(-0.167 -0.167)"
             fill="none"
             stroke="#4178ff"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           />
         </g>
       </g>

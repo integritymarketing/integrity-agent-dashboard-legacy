@@ -20,9 +20,9 @@ const SOAIcon = (props) => {
           transform="translate(-0.331 -1.462)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <path
           id="Path_21314"
@@ -31,9 +31,9 @@ const SOAIcon = (props) => {
           transform="translate(-4.268 -0.331)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_1127"
@@ -43,9 +43,9 @@ const SOAIcon = (props) => {
           transform="translate(17.891 3.196)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_1128"
@@ -55,9 +55,9 @@ const SOAIcon = (props) => {
           transform="translate(9.17 15.105)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
       </g>
     </svg>
