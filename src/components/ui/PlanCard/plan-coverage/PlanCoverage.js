@@ -1,20 +1,21 @@
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
+import PropTypes from "prop-types";
 import styles from "./PlanCoverage.module.scss";
-import PharmacySvg from "./assets/pharmacySvg";
-import PrescriptionSvg from "./assets/prescriptionSvg";
-import ProviderSvg from "./assets/providerSvg";
+import { Button } from "components/ui/Button";
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
+import EditIcon from "components/icons/edit2";
 import Modal from "components/Modal";
+import PharmacySvg from "./assets/pharmacySvg";
+import PrescriptionModal from "components/SharedModals/PrescriptionModal";
+import PrescriptionSvg from "./assets/prescriptionSvg";
+import ProviderCard from "components/SharedModals/ProviderModal/ProviderList";
+import ProviderModal from "components/SharedModals/ProviderModal";
+import ProviderSvg from "./assets/providerSvg";
 import UpdateView from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 import { useLeadInformation } from "hooks/useLeadInformation";
-import ProviderModal from "components/SharedModals/ProviderModal";
-import PrescriptionModal from "components/SharedModals/PrescriptionModal";
-import ProviderCard from "components/SharedModals/ProviderModal/ProviderList";
 import Add from "components/icons/add";
-import { Button } from "components/ui/Button";
-import EditIcon from "components/icons/edit2";
 
-function PlanCoverage({ contactId, contact, planData }) {
+const PlanCoverage = ({ contactId, contact, planData }) => {
   const { pharmacies, deletePharmacy, providers, prescriptions } =
     useLeadInformation() || {};
   const [currentModal, setCurrentModal] = useState(null);
@@ -23,13 +24,15 @@ function PlanCoverage({ contactId, contact, planData }) {
   const [providerToEdit, setProviderToEdit] = useState(null);
   const [prescriptionToEdit, setPrescriptionToEdit] = useState(null);
 
-  const resetCurrentModal = () => {
+  const resetCurrentModal = useCallback(() => {
     setCurrentModal(null);
-  };
+  }, []);
 
   const onAddNewProvider = () => setIsOpenNewProvider(true);
-
-  const onAddNewPrescription = () => setIsOpenPrescription(true);
+  const onAddNewPrescription = useCallback(
+    () => setIsOpenPrescription(true),
+    []
+  );
 
   const addPharmacyText =
     pharmacies?.length > 0
@@ -181,7 +184,7 @@ function PlanCoverage({ contactId, contact, planData }) {
           open
           onClose={() => {
             resetCurrentModal();
-            setIsOpenNewProvider();
+            setIsOpenNewProvider(false);
           }}
           userZipCode={contact?.addresses?.[0]?.postalCode}
           leadId={contactId}
@@ -307,6 +310,11 @@ function PlanCoverage({ contactId, contact, planData }) {
       </div>
     </div>
   );
-}
+};
 
+PlanCoverage.propTypes = {
+  contactId: PropTypes.string.isRequired,
+  contact: PropTypes.object.isRequired,
+  planData: PropTypes.object.isRequired,
+};
 export default PlanCoverage;
