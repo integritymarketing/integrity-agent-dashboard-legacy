@@ -8,6 +8,7 @@
     position: sticky;
     top: 0;
     z-index: 1;
+    margin-bottom: 20px;
   }
 
   .search-container {
@@ -279,6 +280,7 @@
   z-index: 1;
   display: flex;
   min-height: 96px;
+  margin-bottom: 20px;
 
   .header-child {
     display: flex;
@@ -541,4 +543,36 @@
 
 .welcome-user-header {
   padding-left: 0;
+}
+
+.share-btn {
+  color: #4178ff !important;
+  border: none !important;
+  padding: 0;
+  background-color: #f9fafb;
+  :hover {
+    background-color: #ddedff;
+  }
+
+  &.mobile {
+    min-width: 0;
+  }
+}
+
+.enroll-btn {
+  border-radius: 20px !important;
+  background: #4178ff 0% 0% no-repeat padding-box;
+  width: 120px;
+  height: 40px;
+  font-style: Lato;
+  border-color: #4178ff;
+
+  @media (max-width: 480px) {
+    min-width: fit-content !important;
+  }
+
+  img {
+    position: relative;
+    left: 15px;
+  }
 }
