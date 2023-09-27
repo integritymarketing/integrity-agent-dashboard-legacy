@@ -7,12 +7,12 @@ import usePreferences from "hooks/usePreferences";
 const PlanDetailsContactSectionCard = (props) => {
   const {
     title,
-    // actions,
+    actions,
     children,
     className = "",
     infoIcon,
     preferencesKey,
-    // hideActionIfCollapse = false,
+    hideActionIfCollapse = false,
     isDashboard = false,
   } = props;
   const [value, setValue] = usePreferences(false, preferencesKey);
@@ -47,9 +47,9 @@ const PlanDetailsContactSectionCard = (props) => {
           {infoIcon && <div className={styles.infoIcon}>{infoIcon} </div>}
         </div>
 
-        {/* {!(hideActionIfCollapse && isCollapsed) && (
+        {!(hideActionIfCollapse && isCollapsed) && (
           <div className={styles.actions}>{actions}</div>
-        )} */}
+        )}
       </div>
       {!isCollapsed && <div className={styles.content}>{children}</div>}
     </section>

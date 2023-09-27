@@ -15,7 +15,12 @@ import Pagination from "components/ui/Pagination/pagination";
 import { Checkbox } from "@mui/material";
 import SearchIcon from "components/icons/search2";
 
-export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
+export default function AddPharmacy({
+  isOpen,
+  onClose,
+  personalInfo,
+  refresh,
+}) {
   const { addPharmacy } = useLeadInformation();
   const [zipCode, setZipCode] = useState(
     personalInfo?.addresses?.[0]?.postalCode
@@ -127,16 +132,19 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo }) {
   };
 
   const handleAddPharmacy = async () => {
-    await addPharmacy({
-      pharmacyID: selectedPharmacy.pharmacyID,
-      name: selectedPharmacy.name,
-      address1: selectedPharmacy.address1,
-      address2: selectedPharmacy.address2,
-      city: selectedPharmacy.city,
-      zip: selectedPharmacy.zip,
-      state: selectedPharmacy.state,
-      pharmacyPhone: selectedPharmacy.pharmacyPhone,
-    });
+    await addPharmacy(
+      {
+        pharmacyID: selectedPharmacy.pharmacyID,
+        name: selectedPharmacy.name,
+        address1: selectedPharmacy.address1,
+        address2: selectedPharmacy.address2,
+        city: selectedPharmacy.city,
+        zip: selectedPharmacy.zip,
+        state: selectedPharmacy.state,
+        pharmacyPhone: selectedPharmacy.pharmacyPhone,
+      },
+      refresh
+    );
     onClose();
   };
 

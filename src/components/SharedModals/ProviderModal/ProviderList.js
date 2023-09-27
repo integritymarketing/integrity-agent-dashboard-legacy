@@ -109,7 +109,6 @@ const Address = ({
   setSelectAddressIds,
   selectAddressIds,
   selectedProvider,
-  isEdit,
 }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
@@ -139,7 +138,7 @@ const Address = ({
       {addresses?.map((address) => {
         const isChecked =
           selectAddressIds?.includes(address?.id) &&
-          selectedProvider?.NPI === provider?.NPI;
+          selectedProvider?.NPI?.toString() === provider?.NPI?.toString();
 
         return (
           <ListItemButton
@@ -154,6 +153,7 @@ const Address = ({
               onClick={() => handleSelectAddress(address)}
               checked={isChecked}
             />
+
             <Typography className={classes.addressText}>
               <div>
                 <div>
@@ -223,6 +223,7 @@ const ProviderCard = ({
             className={
               list.length > 1 ? classes.multipleCard : classes.singleCard
             }
+            style={{ position: "relative" }}
             key={`ProviderList-${index}`}
           >
             <Typography className={classes.title}>{specialty}</Typography>
@@ -230,6 +231,7 @@ const ProviderCard = ({
             <Typography className={classes.specialty}>{NPI}</Typography>
 
             <Address
+              disableAddressSelect
               addresses={initialAddresses}
               provider={provider}
               setSelectedProvider={onProviderSelection}

@@ -8,6 +8,7 @@ import Edit from "components/Edit";
 import Modal from "components/Modal";
 import UpdateView from "./components/UpdateView/updateView";
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
+import EditIcon from "components/icons/edit2";
 
 function getInNetwork(pharmacyCost) {
   return pharmacyCost.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
@@ -132,6 +133,7 @@ const PharmacyTable = ({ contact, planData, isMobile }) => {
                 setOpenAddModal(true);
               }
             }}
+            icon={<EditIcon />}
           />
         }
       />

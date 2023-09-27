@@ -7,7 +7,9 @@ export class PlansService {
     const response = await this._clientAPIRequest(
       `Lead/${leadId}/Plan`,
       "GET",
-      plansFilter
+      plansFilter,
+      null,
+      "v2.0"
     );
 
     return response?.json();

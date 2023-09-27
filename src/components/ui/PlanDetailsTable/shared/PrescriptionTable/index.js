@@ -7,9 +7,9 @@ import Row from "./components/Row";
 import Footer from "./components/Footer";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCoverageModal";
-import IconButton from "components/IconButton";
-import EditIcon from "components/icons/icon-edit";
 import Plus from "components/icons/plus";
+import Edit from "components/Edit";
+import EditIcon from "components/icons/edit2";
 
 const PrescriptionTable = ({
   isMobile,
@@ -67,7 +67,7 @@ const PrescriptionTable = ({
       isDashboard={true}
       preferencesKey={"prescriptions_collapse"}
       actions={
-        <IconButton
+        <Edit
           label={isEdit ? "Edit" : "Add"}
           onClick={handleAddEdit}
           icon={isEdit ? <EditIcon /> : <Plus />}

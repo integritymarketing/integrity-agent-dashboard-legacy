@@ -231,8 +231,6 @@ const ProviderModal = ({
     return !arraysAreEqual(onlyIds, selectAddressIds);
   }, [onlyIds, selectAddressIds]);
 
-  console.log("isUpdated", isUpdated, onlyIds, selectAddressIds);
-
   const disabled = isEdit
     ? !selectAddressIds?.length > 0 || !isUpdated
     : !isFormValid;

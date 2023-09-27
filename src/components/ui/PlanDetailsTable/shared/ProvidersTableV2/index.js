@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import IconButton from "components/IconButton";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
-import EditIcon from "components/icons/icon-edit";
 import Plus from "components/icons/plus";
 import { useParams } from "react-router-dom";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import RenderProviders from "components/ui/ProvidersList";
 import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
+import Edit from "components/Edit";
+import EditIcon from "components/icons/edit2";
+
 import styles from "./ProvidersTableV2.module.scss";
 
 const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
@@ -23,11 +24,11 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
 
   const isEdit = providers?.length > 0 ? true : false;
 
-  const closeAllModalsAndRefresh = (isRefresh) => {
+  const closeAllModalsAndRefresh = () => {
     setIsModalOpen(false);
     setIsEditingProvider(false);
     setProviderToEdit(null);
-    isRefresh && refresh();
+    if (refresh) refresh();
   };
 
   const handleAddEditProvider = () => {
@@ -39,11 +40,15 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
   };
 
   const handleEditProvider = (provider) => {
+    setCoverageModal(false);
     setIsModalOpen(true);
     setIsEditingProvider(true);
     setProviderToEdit(provider);
   };
 
+  const selectedProvider = isEditingProvider
+    ? { ...providerToEdit, NPI: providerToEdit?.npi }
+    : null;
   return (
     <>
       <PlanDetailsContactSectionCard
@@ -51,7 +56,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
         isDashboard
         preferencesKey="providers_collapse"
         actions={
-          <IconButton
+          <Edit
             label={isEdit ? "Edit" : "Add"}
             onClick={handleAddEditProvider}
             icon={isEdit ? <EditIcon /> : <Plus />}
@@ -72,11 +77,11 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
         {isModalOpen && (
           <ProviderModal
             open={isModalOpen}
-            onClose={closeAllModalsAndRefresh}
+            onClose={() => setIsModalOpen(false)}
             userZipCode={leadDetails?.addresses?.[0]?.postalCode}
-            selected={providerToEdit}
+            selected={selectedProvider}
             isEdit={isEditingProvider}
-            refresh={() => closeAllModalsAndRefresh(true)}
+            refresh={closeAllModalsAndRefresh}
           />
         )}
 
@@ -90,6 +95,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
               setCoverageModal(false);
               setIsModalOpen(true);
             }}
+            onEditProvider={handleEditProvider}
           />
         )}
       </PlanDetailsContactSectionCard>

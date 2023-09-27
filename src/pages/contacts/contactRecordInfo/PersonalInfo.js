@@ -7,7 +7,7 @@ import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
 import CallScriptSvg from "images/call-script.svg";
-import TagSvg from "components/icons/tag-svg";
+import TagSvg from "components/icons/tag2";
 import ButtonExpand from "components/icons/btn-expand";
 import RoundCheck from "components/icons/round-check";
 import RoundClose from "components/icons/round-close";

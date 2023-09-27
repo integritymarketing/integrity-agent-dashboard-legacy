@@ -53,14 +53,14 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     Post: saveLeadPharmacies,
   } = useFetch(`${URL}/Pharmacies`);
 
-  const {
-    Get: fetchLeadPrescriptions,
-    Delete: deleteLeadPrescription,
-  } = useFetch(`${URL}/Prescriptions`);
+  const { Get: fetchLeadPrescriptions, Delete: deleteLeadPrescription } =
+    useFetch(`${URL}/Prescriptions`);
 
-  const {
-    Post: createPrescription,
-  } = useFetch(`${URL}/Prescriptions/syncid`);
+ 
+  const { Post: createPrescription, Put: updateLeadPrescription } = useFetch(
+    `${URL}/Prescriptions/syncid`
+  );
+ 
 
   const {
     Post: updateLeadPrescription
@@ -194,19 +194,22 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     );
   };
 
-  const addPharmacy = async (pharmacy) => {
+  const addPharmacy = async (pharmacy, refresh) => {
     await performAsyncOperation(
       () => saveLeadPharmacies(pharmacy, false, consumerId),
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
+        if (refresh) {
+          await refresh();
+        }
         addToast({ message: "Pharmacy Added" });
       },
       (err) => addToast({ type: "error", message: "Failed to add pharmacy" })
     );
   };
 
-  const deletePharmacy = async (pharmacy) => {
+  const deletePharmacy = async (pharmacy, refresh) => {
     const pharmacyId = pharmacy?.pharmacyRecordID;
     const id = consumerId ? `${pharmacyId}/${consumerId}` : pharmacyId;
     await performAsyncOperation(
@@ -214,6 +217,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       setPharmacyLoading,
       async () => {
         await fetchPharmacies();
+        if (refresh) {
+          await refresh();
+        }
         addToast({
           message: "Pharmacy Deleted",
           time: toastTimer,
