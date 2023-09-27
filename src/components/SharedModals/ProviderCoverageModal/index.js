@@ -3,15 +3,18 @@ import Arrow from "components/icons/down";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
-import Checkbox from "@mui/material/Checkbox";
 import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
-
+import InNetworkIcon from "components/icons/inNetwork";
+import OutNetworkIcon from "components/icons/outNetwork";
 import Modal from "components/Modal";
 import CustomFooter from "components/Modal/CustomFooter";
 import Plus from "components/icons/plus";
+import EditIcon from "components/icons/icon-edit";
 
-import "../ProviderModal/style.scss";
+import IconButton from "components/IconButton";
+
+import "./style.scss";
 
 const useStyles = makeStyles({
   list: {
@@ -64,7 +67,7 @@ const useStyles = makeStyles({
   listItem: {
     backgroundColor: "#dddddd !important",
 
-    "&.Mui-selected, &.Mui-selected:hover, &:hover": {
+    "&.Mui-selected, &.Mui-selected:hover": {
       backgroundColor: "#f1faff !important",
     },
     padding: "unset !important",
@@ -105,38 +108,37 @@ const useStyles = makeStyles({
       borderRadius: "4px",
     },
   },
+  providerInfo: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  network: {
+    marginRight: 10,
+  },
+  planName: {
+    color: "#052A63",
+    fontSize: 24,
+    fontFamily: "Lato",
+    letterSpacing: "0.24px",
+    marginTop: 30,
+  },
+  subText: {
+    color: "#434A51",
+    fontSize: 16,
+    fontFamily: "Lato",
+    letterSpacing: -0.16,
+    marginTop: 30,
+  },
 });
 
-const Address = ({ addresses, provider }) => {
+const Address = ({ addresses, isChecked, disabled = false }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
-
-  // const handleSelectAddress = (address) => {
-  //   const isAddressExist = selectAddressIds?.includes(address?.id);
-
-  //   if (
-  //     selectAddressIds?.length > 0 &&
-  //     selectedProvider?.NPI === provider?.NPI
-  //   ) {
-  //     if (isAddressExist) {
-  //       if (selectAddressIds?.length === 1) setSelectedProvider(null);
-  //       setSelectAddressIds(
-  //         selectAddressIds.filter((addressId) => addressId !== address?.id)
-  //       );
-  //     } else {
-  //       setSelectAddressIds([...selectAddressIds, address?.id]);
-  //     }
-  //   } else {
-  //     setSelectAddressIds([address?.id]);
-  //     setSelectedProvider(provider);
-  //   }
-  // };
 
   return (
     <List>
       {addresses?.map((address) => {
-        const isChecked = true;
-
         return (
           <ListItemButton
             key={address?.id}
@@ -145,29 +147,29 @@ const Address = ({ addresses, provider }) => {
             }`}
             selected={isChecked}
           >
-            <Checkbox
-              className={classes.checkbox}
-              // onClick={() => handleSelectAddress(address)}
-              checked={isChecked}
-            />
-            <Typography className={classes.addressText}>
-              <div>
+            <Box className={classes.network}>
+              {address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
+            </Box>
+            <Box>
+              <Typography className={classes.addressText}>
                 <div>
-                  {address
-                    ? [address?.streetLine1, address?.streetLine2]
-                        .filter(Boolean)
-                        .join(",")
-                    : null}
+                  <div>
+                    {address
+                      ? [address?.streetLine1, address?.streetLine2]
+                          .filter(Boolean)
+                          .join(",")
+                      : null}
+                  </div>
+                  <div>
+                    {address
+                      ? [address?.city, address?.state, address?.zipCode]
+                          .filter(Boolean)
+                          .join(",")
+                      : null}
+                  </div>
                 </div>
-                <div>
-                  {address
-                    ? [address?.city, address?.state, address?.zipCode]
-                        .filter(Boolean)
-                        .join(",")
-                    : null}
-                </div>
-              </div>
-            </Typography>
+              </Typography>
+            </Box>
           </ListItemButton>
         );
       })}
@@ -181,16 +183,17 @@ const ProviderCoverageModal = ({
   onClose,
   addNew,
   planName,
+  onEditProvider,
 }) => {
   const classes = useStyles();
 
-  const [isOpen, setOpenToggle] = useState(false);
+  const [isOpen, setOpenToggle] = useState(true);
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title={"Prescription Coverage"}
+      title={"Provider Coverage"}
       customFooter={
         <CustomFooter
           buttonName={"Add Provider"}
@@ -208,13 +211,13 @@ const ProviderCoverageModal = ({
         </Typography>
         <div className={classes.list}>
           {providers?.map((provider, index) => {
-            const { NPI, presentationName, specialty, addresses } = provider;
-
-            const initialAddresses =
-              addresses?.length > 1 ? addresses?.slice(0, 1) : addresses;
-
-            const additionalAddresses =
-              addresses?.length > 1 ? addresses?.slice(1) : null;
+            const {
+              NPI,
+              presentationName,
+              specialty,
+              addresses,
+              inNetworkAddressList,
+            } = provider;
 
             return (
               <div
@@ -225,15 +228,33 @@ const ProviderCoverageModal = ({
                 }
                 key={`ProviderList-${index}`}
               >
-                <Typography className={classes.title}>{specialty}</Typography>
-                <Typography className={classes.name}>
-                  {presentationName}
-                </Typography>
-                <Typography className={classes.specialty}>{NPI}</Typography>
+                <Box className={classes.providerInfo}>
+                  <Box>
+                    <Typography className={classes.title}>
+                      {specialty}
+                    </Typography>
+                    <Typography className={classes.name}>
+                      {presentationName}
+                    </Typography>
+                    <Typography className={classes.specialty}>{NPI}</Typography>
+                  </Box>
+                  {onEditProvider && (
+                    <Box className={classes.editIcon}>
+                      <IconButton
+                        label="Edit"
+                        onClick={() => onEditProvider(provider)}
+                        icon={<EditIcon />}
+                      ></IconButton>
+                    </Box>
+                  )}
+                </Box>
+                <Address
+                  addresses={addresses}
+                  provider={provider}
+                  isChecked={true}
+                />
 
-                <Address addresses={initialAddresses} provider={provider} />
-
-                {additionalAddresses?.length > 0 && (
+                {inNetworkAddressList?.length > 0 && (
                   <>
                     <Box className={classes.multipleAddresses}>
                       <Typography
@@ -243,13 +264,15 @@ const ProviderCoverageModal = ({
                         <Arrow color="#0052CE" />
                       </Typography>
                       <Typography className={classes.additional}>
-                        Additional Locations ({additionalAddresses?.length})
+                        Additional Locations ({inNetworkAddressList?.length})
                       </Typography>
                     </Box>
                     {isOpen && (
                       <Address
-                        addresses={additionalAddresses}
+                        addresses={inNetworkAddressList}
                         provider={provider}
+                        isChecked={false}
+                        disabled={true}
                       />
                     )}
                   </>

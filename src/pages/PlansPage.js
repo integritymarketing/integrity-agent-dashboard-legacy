@@ -696,6 +696,7 @@ const PlansPage = () => {
                           selectedPlans={selectedPlans}
                           setSelectedPlans={setSelectedPlans}
                           setSessionData={setSessionData}
+                          refresh={getAllPlans}
                         />
                         {!plansLoading && filteredPlansCount > 0 && (
                           <>

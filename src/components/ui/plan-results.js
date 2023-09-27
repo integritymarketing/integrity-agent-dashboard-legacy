@@ -22,6 +22,7 @@ const PlanResults = ({
   setSelectedPlans,
   selectedPlans,
   setSessionData,
+  refresh,
 }) => {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -63,6 +64,7 @@ const PlanResults = ({
             Object.values(selectedPlans).filter(Boolean).length >= 3 &&
             !selectedPlans[plan.id]
           }
+          refresh={refresh}
         />
       );
     }

@@ -1,313 +1,251 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./PlanCoverage.module.scss";
-import { Button } from "components/ui/Button";
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
-import EditIcon from "components/icons/edit2";
 import Modal from "components/Modal";
 import PharmacySvg from "./assets/pharmacySvg";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import PrescriptionSvg from "./assets/prescriptionSvg";
-import ProviderCard from "components/SharedModals/ProviderModal/ProviderList";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import ProviderSvg from "./assets/providerSvg";
 import UpdateView from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 import { useLeadInformation } from "hooks/useLeadInformation";
-import Add from "components/icons/add";
+import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { useParams } from "react-router-dom";
+import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCoverageModal";
 
-const PlanCoverage = ({ contactId, contact, planData }) => {
-  const { pharmacies, deletePharmacy, providers, prescriptions } =
-    useLeadInformation() || {};
-  const [currentModal, setCurrentModal] = useState(null);
-  const [isOpenNewPrescription, setIsOpenPrescription] = useState(false);
-  const [isOpenNewProvider, setIsOpenNewProvider] = useState(false);
+const PlanCoverage = ({ contact, planData, planName, refresh }) => {
+  const { contactId } = useParams();
+  const {
+    deletePharmacy,
+    prescriptions: prescriptionsList,
+    pharmacies: pharmaciesList,
+  } = useLeadInformation() || {};
+
+  const pharmacies = planData?.pharmacyCosts;
+  const prescriptions = planData?.planDrugCoverage;
+  const providers = planData?.providers;
+
+  const { leadDetails } = useContactDetails(contactId);
+
+  // Prescription Modal states //
+  const [isOpenPrescription, setIsOpenPrescription] = useState(false);
+  const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
+  const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
+  const [isPrescriptionCoverageModalOpen, setIsPrescriptionCoverageModalOpen] =
+    useState(false);
+
+  // Provider Modal states //
   const [providerToEdit, setProviderToEdit] = useState(null);
-  const [prescriptionToEdit, setPrescriptionToEdit] = useState(null);
 
-  const resetCurrentModal = useCallback(() => {
-    setCurrentModal(null);
-  }, []);
+  const [isProviderModalOpen, setIsProviderModalOpen] = useState(false);
+  const [isEditingProvider, setIsEditingProvider] = useState(false);
 
-  const onAddNewProvider = () => setIsOpenNewProvider(true);
-  const onAddNewPrescription = useCallback(
-    () => setIsOpenPrescription(true),
-    []
+  const [isProviderCoverageModalOpen, setIsProviderCoverageModalOpen] =
+    useState(false);
+
+  // pharmacy modal states //
+
+  const [openAddPharmacyModal, setOpenAddPharmacyModal] = useState(false);
+  const [isOpenPharmacyCoverageMOdal, setIsOpenPharmacyCoverageModal] =
+    useState(false);
+
+  // prescription modal handle functions //
+  const onAddNewPrescription = () => setIsOpenPrescription(true);
+  const onCloseNewPrescription = () => setIsOpenPrescription(false);
+  const onEditPrescription = (item) => {
+    setIsPrescriptionCoverageModalOpen(false);
+    setIsOpenEditPrescription(true);
+    setPrescriptionToEdit(item);
+  };
+  const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
+  const handleAddEditPrescrptions = () => {
+    if (prescriptions?.length > 0) {
+      setIsPrescriptionCoverageModalOpen(true);
+    } else {
+      onAddNewPrescription();
+    }
+  };
+
+  const closePrescriptionModalsAndRefresh = () => {
+    onCloseNewPrescription(false);
+    onCloseEditPrescription(false);
+    setIsPrescriptionCoverageModalOpen(false);
+    refresh();
+  };
+
+  // provider modal handle functions //
+  const closeProviderModalsAndRefresh = () => {
+    setIsProviderModalOpen(false);
+    setIsEditingProvider(false);
+    setProviderToEdit(null);
+    if (refresh) refresh();
+  };
+  const handleAddEditProvider = () => {
+    if (providers?.length > 0) {
+      setIsProviderCoverageModalOpen(true);
+    } else {
+      setIsProviderModalOpen(true);
+    }
+  };
+  const handleEditProvider = (provider) => {
+    setIsProviderCoverageModalOpen(false);
+    setIsProviderModalOpen(true);
+    setIsEditingProvider(true);
+    setProviderToEdit(provider);
+  };
+
+  // pharmacy modal handle functions //
+  const handleAddEditPharmacy = () => {
+    if (pharmaciesList?.length > 0) {
+      setIsOpenPharmacyCoverageModal(true);
+    } else {
+      setOpenAddPharmacyModal(true);
+    }
+  };
+
+  const selectedProvider = isEditingProvider
+    ? {
+        ...providerToEdit,
+        NPI: providerToEdit?.npi,
+      }
+    : null;
+
+  const coveredProviders = planData?.providers?.filter(
+    (provider) => provider?.inNetwork
+  );
+  const coveredPharmacies = planData?.pharmacyCosts?.filter(
+    (pharmacy) => pharmacy?.isNetwork
+  );
+  const coveredPrescriptions = planData?.planDrugCoverage?.filter(
+    (prescription) => prescription?.tierNumber > 0
   );
 
   const addPharmacyText =
     pharmacies?.length > 0
-      ? `${1} of ${pharmacies.length} Pharmacies Covered`
+      ? `${coveredPharmacies?.length} of ${planData?.pharmacyCosts?.length} Pharmacies Covered`
       : "Add Pharmacy";
   const addPrescriptionText =
     prescriptions?.length > 0
-      ? `${1} of ${prescriptions.length} Prescriptions Covered`
+      ? `${coveredPrescriptions?.length} of ${planData?.planDrugCoverage?.length} Prescriptions Covered`
       : "Add Prescriptions";
   const addProviderText =
     providers?.length > 0
-      ? `${1} of ${providers.length} Provider Locations Covered`
+      ? `${coveredProviders?.length} of ${planData?.providers?.length} Provider Locations Covered`
       : "Add Providers";
-
-  const handleClickItem = (item) => {
-    setCurrentModal(item);
-  };
-
-  const showPharmacyModal = () => {
-    if (pharmacies?.length > 0) {
-      return (
-        <Modal
-          open={true}
-          onClose={resetCurrentModal}
-          hideFooter
-          title={"Update Pharmacy"}
-          isDelete
-          modalName={"Pharmacy"}
-          onDelete={() => {
-            deletePharmacy(pharmacies?.[0]);
-          }}
-        >
-          <UpdateView data={pharmacies?.[0]} />
-        </Modal>
-      );
-    }
-    return (
-      <AddPharmacy
-        isOpen={true}
-        onClose={resetCurrentModal}
-        personalInfo={contact}
-      />
-    );
-  };
-
-  const getNumberInText = (number) => {
-    switch (number) {
-      case 1:
-        return "one month";
-      case 2:
-        return "two months";
-      case 3:
-        return "three months";
-      case 4:
-        return "four months";
-      case 5:
-        return "five months";
-      case 6:
-        return "six months";
-      case 12:
-        return "year";
-      default:
-        return "";
-    }
-  };
-
-  const getDoseQuantity = (prescription) => {
-    if (!prescription || !prescription.dosage) {
-      return;
-    }
-    const { dosage } = prescription;
-    const duration = getNumberInText(Math.floor(dosage.daysOfSupply / 30));
-    if (dosage.selectedPackage) {
-      return `${dosage.userQuantity} X ${dosage.selectedPackage.packageDisplayText} per ${duration}`;
-    }
-
-    return `${dosage.userQuantity} tablets per ${duration}`;
-  };
-
-  const renderProvidersList = () => {
-    return (
-      <div className={styles.listContainer}>
-        <ProviderCard
-          list={providers}
-          disableAddressSelect
-          onEditProvider={(provider) => {
-            setProviderToEdit(provider);
-          }}
-        />
-        <Button
-          icon={<Add />}
-          className={styles.addProviderBtn}
-          label="Add New Provider"
-          type="secondary"
-          iconPosition="right"
-          onClick={onAddNewProvider}
-        />
-      </div>
-    );
-  };
-  const renderPrescriptionList = () => {
-    return (
-      <div className={styles.listContainer}>
-        <div className={styles.prescriptionContainer}>
-          {prescriptions.map((prescription) => {
-            return (
-              <div className={styles.left}>
-                <div className={styles.data}>
-                  <div className={`${styles.secondaryColor} ${styles.type}`}>
-                    {prescription?.dosage?.drugType}
-                  </div>
-                  <div className={`${styles.primaryColor} ${styles?.name}`}>
-                    {prescription?.dosage?.labelName}
-                  </div>
-                  <div className={`${styles.secondaryColor} ${styles?.dose}`}>
-                    {getDoseQuantity(prescription)}
-                  </div>
-                </div>
-                <div
-                  className={styles.editBtn}
-                  onClick={() => {
-                    setPrescriptionToEdit(prescription);
-                  }}
-                >
-                  <span>Edit</span>
-                  <EditIcon />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <Button
-          icon={<Add />}
-          className={styles.addProviderBtn}
-          label="Add New Prescription"
-          type="secondary"
-          iconPosition="right"
-          onClick={onAddNewPrescription}
-        />
-      </div>
-    );
-  };
-  const showProviderModal = () => {
-    const showAddNewProvider = isOpenNewProvider;
-    const showEditProvider = providers?.length > 0;
-    if (showAddNewProvider) {
-      return (
-        <ProviderModal
-          open
-          onClose={() => {
-            resetCurrentModal();
-            setIsOpenNewProvider(false);
-          }}
-          userZipCode={contact?.addresses?.[0]?.postalCode}
-          leadId={contactId}
-        />
-      );
-    }
-    if (showEditProvider) {
-      if (providerToEdit) {
-        return (
-          <ProviderModal
-            open
-            onClose={() => {
-              setProviderToEdit(null);
-            }}
-            userZipCode={contact?.addresses?.[0]?.postalCode}
-            leadId={contactId}
-            selected={providerToEdit}
-            isEdit
-          />
-        );
-      }
-      return (
-        <Modal
-          open={true}
-          onClose={resetCurrentModal}
-          hideFooter
-          title="Provider Coverage"
-          modalName="Provider"
-        >
-          {renderProvidersList()}
-        </Modal>
-      );
-    }
-  };
-
-  const showPrescriptionModal = () => {
-    if (isOpenNewPrescription) {
-      return (
-        <PrescriptionModal
-          open
-          onClose={() => {
-            setIsOpenPrescription();
-            resetCurrentModal();
-          }}
-        />
-      );
-    }
-    if (prescriptions.length > 0) {
-      if (prescriptionToEdit) {
-        return (
-          <PrescriptionModal
-            open
-            onClose={() => setPrescriptionToEdit(null)}
-            item={prescriptionToEdit}
-            isEdit
-          />
-        );
-      }
-      return (
-        <Modal
-          open
-          onClose={resetCurrentModal}
-          hideFooter
-          title="Prescription Coverage"
-          modalName="Prescription"
-        >
-          {renderPrescriptionList()}
-        </Modal>
-      );
-    }
-  };
-
-  const showModal = () => {
-    switch (currentModal) {
-      case "pharmacy": {
-        return showPharmacyModal();
-      }
-      case "provider": {
-        return showProviderModal();
-      }
-      case "prescription": {
-        return showPrescriptionModal();
-      }
-      default:
-    }
-  };
 
   return (
     <div>
       <div className={`${styles.heading}`}>Plan Coverage</div>
-      {showModal()}
+
       <div className={`${styles.itemsContainer}`}>
         <div className={`${styles.item}`}>
           <PharmacySvg />
-          <span
-            onClick={() => {
-              handleClickItem("pharmacy");
-            }}
-          >
-            {addPharmacyText}
-          </span>
+          <span onClick={handleAddEditPharmacy}>{addPharmacyText}</span>
         </div>
         <div className={`${styles.item}`}>
           <ProviderSvg />
-          <span
-            onClick={() => {
-              handleClickItem("provider");
-            }}
-          >
-            {addProviderText}
-          </span>
+          <span onClick={handleAddEditProvider}>{addProviderText}</span>
         </div>
         <div className={`${styles.item}`}>
           <PrescriptionSvg />
-          <span
-            onClick={() => {
-              handleClickItem("prescription");
-            }}
-          >
-            {addPrescriptionText}
-          </span>
+          <span onClick={handleAddEditPrescrptions}>{addPrescriptionText}</span>
         </div>
       </div>
+
+      {/* Provider Modals  */}
+      {isProviderModalOpen && (
+        <ProviderModal
+          open={isProviderModalOpen}
+          onClose={() => setIsProviderModalOpen(false)}
+          userZipCode={leadDetails?.addresses?.[0]?.postalCode}
+          selected={selectedProvider}
+          isEdit={isEditingProvider}
+          refresh={closeProviderModalsAndRefresh}
+        />
+      )}
+
+      {isProviderCoverageModalOpen && (
+        <ProviderCoverageModal
+          open={isProviderCoverageModalOpen}
+          onClose={() => setIsProviderCoverageModalOpen(false)}
+          providers={providers}
+          planName={planName}
+          addNew={() => {
+            setIsProviderCoverageModalOpen(false);
+            setIsProviderModalOpen(true);
+          }}
+          onEditProvider={handleEditProvider}
+        />
+      )}
+
+      {/* Prescription Modals  */}
+      {isOpenPrescription && (
+        <PrescriptionModal
+          open={isOpenPrescription}
+          onClose={() => onCloseNewPrescription(false)}
+          prescriptions={prescriptions}
+          refresh={closePrescriptionModalsAndRefresh}
+        />
+      )}
+
+      {isOpenEditPrescription && (
+        <PrescriptionModal
+          open={isOpenEditPrescription}
+          onClose={() => onCloseEditPrescription(false)}
+          item={prescriptionToEdit}
+          isEdit={true}
+          refresh={closePrescriptionModalsAndRefresh}
+        />
+      )}
+
+      {isPrescriptionCoverageModalOpen && (
+        <PrescriptionCoverageModal
+          open={isPrescriptionCoverageModalOpen}
+          onClose={() => setIsPrescriptionCoverageModalOpen(false)}
+          prescriptions={prescriptionsList}
+          planName={planData?.planName}
+          refresh={closePrescriptionModalsAndRefresh}
+          coveredDrugs={coveredPrescriptions}
+          addNew={() => {
+            setIsPrescriptionCoverageModalOpen(false);
+            onAddNewPrescription();
+          }}
+          onEditPrescription={onEditPrescription}
+        />
+      )}
+
+      {/* Pharmacy Modals  */}
+      {isOpenPharmacyCoverageMOdal && (
+        <Modal
+          open={isOpenPharmacyCoverageMOdal}
+          onClose={() => {
+            setIsOpenPharmacyCoverageModal(false);
+          }}
+          hideFooter
+          title={"Update Pharmacy"}
+          isDelete={pharmaciesList?.length > 0}
+          modalName={"Pharmacy"}
+          onDelete={() => {
+            deletePharmacy(pharmaciesList?.[0]);
+            setIsOpenPharmacyCoverageModal(false);
+            refresh();
+          }}
+        >
+          <UpdateView data={pharmaciesList?.[0]} />
+        </Modal>
+      )}
+      {openAddPharmacyModal && (
+        <AddPharmacy
+          isOpen={openAddPharmacyModal}
+          onClose={() => {
+            setOpenAddPharmacyModal(false);
+          }}
+          personalInfo={contact}
+          refresh={refresh}
+        />
+      )}
     </div>
   );
 };

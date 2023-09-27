@@ -1,9 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import EditIcon from "components/icons/icon-edit";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
-import IconButton from "components/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -15,6 +13,8 @@ import Modal from "components/Modal";
 import CustomFooter from "components/Modal/CustomFooter";
 import Plus from "components/icons/plus";
 
+import Edit from "components/Edit";
+import EditIcon from "components/icons/edit2";
 import "../PrescriptionModal/style.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -69,8 +69,21 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Lato",
     letterSpacing: "0.24px",
   },
-  editIcon: {
-    marginLeft: "auto",
+  customButton: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#4178FF",
+    fontSize: "16px",
+    fontWeight: "600",
+    height: "40px",
+    textTransform: "unset",
+    padding: "10px 15px",
+    "&:hover": {
+      backgroundColor: "#FFFFFF",
+      borderRadius: "20px",
+      boxShadow: "inset 0px -1px 0px #CCCCCC",
+    },
   },
 }));
 
@@ -137,13 +150,12 @@ const PrescriptionRow = ({ item, coveredDrugs, onEditPrescription }) => {
           primary: classes.drugType,
         }}
       />
-      <Box className={classes.editIcon}>
-        <IconButton
-          label="Edit"
-          onClick={() => onEditPrescription(item)}
-          icon={<EditIcon />}
-        ></IconButton>
-      </Box>
+
+      <Edit
+        label={"Edit"}
+        onClick={() => onEditPrescription(item)}
+        icon={<EditIcon />}
+      />
     </ListItem>
   );
 };
@@ -166,7 +178,7 @@ const PrescriptionCoverageModal = ({
       title={"Prescription Coverage"}
       customFooter={
         <CustomFooter
-          buttonName={"Add Provider"}
+          buttonName={"Add Prescription"}
           onClick={addNew}
           icon={<Plus />}
         />

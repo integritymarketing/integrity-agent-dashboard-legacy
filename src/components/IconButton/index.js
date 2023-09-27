@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import makeStyles from "@mui/styles/makeStyles";
-import Box from "@mui/material/Box";
 
 const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -43,16 +42,14 @@ const IconButton = ({ label, onClick, disabled, icon }) => {
   const classes = useStyles();
 
   return (
-    <Box>
-      <Button
-        onClick={onClick}
-        className={classes.addButton}
-        endIcon={<span className={classes.iconWrapper}>{icon}</span>}
-        disabled={disabled}
-      >
-        {label}
-      </Button>
-    </Box>
+    <Button
+      onClick={onClick}
+      className={classes.addButton}
+      endIcon={<span className={classes.iconWrapper}>{icon}</span>}
+      disabled={disabled}
+    >
+      {label}
+    </Button>
   );
 };
 
