@@ -60,8 +60,11 @@ export const LeadInformationProvider = ({ children, leadId }) => {
 
   const {
     Post: createPrescription,
-    Put: updateLeadPrescription
   } = useFetch(`${URL}/Prescriptions/syncid`);
+
+  const {
+    Post: updateLeadPrescription
+  } = useFetch(`${URL}/Prescriptions`);
 
   const { Get: fetchLeadProviders } = useFetch(
     `${URL}/Provider/ProviderSearchLookup`
@@ -108,7 +111,6 @@ export const LeadInformationProvider = ({ children, leadId }) => {
     fetchProviders();
   }, [fetchPrescriptions, fetchPharmacies, fetchProviders]);
 
-  // You can create similar functions for add, update, delete for Prescriptions, Pharmacies, and Providers
   const addPrescription = async (item, refresh) => {
     const itemObject = {
       ...(item?.dosage ?? item),
@@ -140,9 +142,8 @@ export const LeadInformationProvider = ({ children, leadId }) => {
       ...rest,
       dosageID: dosage.dosageID,
     };
-
     const id = consumerId
-      ? `${updatedData.dosageRecordID}/${consumerId}`
+      ? `${updatedData.dosageRecordID}/syncid/${consumerId}`
       : `${updatedData.dosageRecordID}`;
 
     await performAsyncOperation(
