@@ -6,7 +6,6 @@ import useAnalytics from "hooks/useAnalytics";
 import { toTitleCase } from "utils/toTitleCase";
 import { addProviderModalAtom } from "recoil/providerInsights/atom.js";
 import ProviderModal from "components/SharedModals/ProviderModal";
-import useLeadInformation from "hooks/useLeadInformation";
 import ArrowDown from "../icons/arrow-down.png";
 import ButtonCircle from "../icons/button-circle.png";
 import styles from "./ReviewProviders.module.scss";
@@ -22,7 +21,6 @@ const ReviewProviders = ({
   refreshContactInfo,
   isAddProviderModalOpen = false,
 }) => {
-  const { addProvider } = useLeadInformation(leadsId);
   const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
   const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
@@ -146,7 +144,6 @@ const ReviewProviders = ({
           onClose={() => {
             setModalOpen(false);
           }}
-          onSave={addProvider}
           userZipCode={userZipCode}
           leadId={leadsId}
           refresh={refreshContactInfo}

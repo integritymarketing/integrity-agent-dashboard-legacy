@@ -18,7 +18,7 @@ const CheckedIcon = (props) => {
             height="6.429"
             fill="none"
             stroke="#fff"
-            stroke-width="1"
+            strokeWidth="1"
           />
         </clipPath>
       </defs>
@@ -41,7 +41,7 @@ const CheckedIcon = (props) => {
           fill="#ddd"
         />
       </g>
-      <g id="icon-Check" transform="translate(8 9)" clip-path="url(#clip-path)">
+      <g id="icon-Check" transform="translate(8 9)" clipPath="url(#clip-path)">
         <path
           id="Path_2482"
           data-name="Path 2482"
@@ -49,9 +49,9 @@ const CheckedIcon = (props) => {
           transform="translate(0.342 0.303)"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
       </g>
     </svg>

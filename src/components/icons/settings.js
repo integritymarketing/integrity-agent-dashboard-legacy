@@ -20,9 +20,9 @@ const SettingsIcon = (props) => {
           transform="translate(8.5 7.5)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <circle
           id="Ellipse_226"
@@ -33,9 +33,9 @@ const SettingsIcon = (props) => {
           transform="translate(16.5 15.5)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
       </g>
     </svg>

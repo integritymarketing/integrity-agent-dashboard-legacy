@@ -19,9 +19,9 @@ const OpenIcon = (props) => {
           d="M14.2,8.652v5.657A1.191,1.191,0,0,1,13.005,15.5H1.691A1.191,1.191,0,0,1,.5,14.309V2.995A1.191,1.191,0,0,1,1.691,1.8H7.348"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_1047"
@@ -30,9 +30,9 @@ const OpenIcon = (props) => {
           transform="translate(11.587 0.5)"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_1048"
@@ -41,9 +41,9 @@ const OpenIcon = (props) => {
           transform="translate(15.5 0.5)"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <line
           id="Line_1049"
@@ -53,9 +53,9 @@ const OpenIcon = (props) => {
           transform="translate(8.326 0.5)"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
       </g>
     </svg>

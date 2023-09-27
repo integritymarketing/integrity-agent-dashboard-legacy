@@ -3,13 +3,14 @@ import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import clientsService from "services/clientsService";
 import enrollPlansService from "services/enrollPlansService";
-import Button from "@mui/material/Button";
+import { Button } from "../Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 import useRoles from "hooks/useRoles";
 import { useParams } from "react-router-dom";
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Container from "components/ui/container";
-import Share from "components/icons/share2";
+import NewShareIcon from "images/new-share-icon.svg";
+import EnrollBack from "images/enroll-btn-back.svg";
 import styles from "../../../pages/PlansPage.module.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -125,12 +126,15 @@ export default function ComparePlansByPlanName({
                     <div className={`${styles["share-plan-text"]}`}>
                       Share plans with client
                     </div>
+
                     <Button
-                      endIcon={<Share />}
+                      label="Share"
+                      icon={<img src={NewShareIcon} alt="share" />}
                       onClick={() => setComparePlanModalOpen(true)}
-                    >
-                      Share
-                    </Button>
+                      type="secondary"
+                      className={`${styles["share-btn"]} ${styles["mobile"]}`}
+                      iconPosition={"right"}
+                    />
                   </>
                 </div>
                 <span className={`${styles["plan-separator"]}`}></span>
@@ -170,10 +174,13 @@ export default function ComparePlansByPlanName({
                     !isEmailNonRts && (
                       <>
                         <Button
-                          onClick={() => setPreCheckListPdfModal(true)}
                           label={"Enroll"}
-                          type="primary"
+                          onClick={() => setPreCheckListPdfModal(true)}
+                          icon={<img src={EnrollBack} alt="enroll" />}
+                          className={styles["enroll-btn"]}
+                          iconPosition={"right"}
                         />
+
                         {preCheckListPdfModal && (
                           <PreEnrollPDFModal
                             open={preCheckListPdfModal}
@@ -191,9 +198,11 @@ export default function ComparePlansByPlanName({
                     !isEmailNonRts && (
                       <>
                         <Button
-                          onClick={() => setPreCheckListPdfModal(true)}
                           label={"Enroll"}
-                          type="primary"
+                          onClick={() => setPreCheckListPdfModal(true)}
+                          icon={<img src={EnrollBack} alt="enroll" />}
+                          className={styles["enroll-btn"]}
+                          iconPosition={"right"}
                         />
                         {preCheckListPdfModal && (
                           <PreEnrollPDFModal

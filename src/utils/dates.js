@@ -8,7 +8,7 @@ import {
 import moment from "moment";
 import { dateFormatter } from "./dateFormatter";
 
-const DEFAULT_EFFECTIVE_YEAR = [
+export const DEFAULT_EFFECTIVE_YEAR = [
   parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2023),
 ];
 

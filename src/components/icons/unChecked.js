@@ -22,7 +22,7 @@ const UnCheckedIcon = (props) => {
         transform="translate(4 4)"
         fill="#fff"
         stroke="#4178ff"
-        stroke-width="1"
+        strokeWidth="1"
       >
         <rect width="16" height="16" rx="4" stroke="none" />
         <rect x="0.5" y="0.5" width="15" height="15" rx="3.5" fill="none" />

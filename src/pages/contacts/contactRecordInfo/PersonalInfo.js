@@ -398,10 +398,10 @@ function TagsIcon({
                     <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
                       {isExpanded ? (
                         <span
-                          class={`${styles.chevron} ${styles.bottom}`}
+                          className={`${styles.chevron} ${styles.bottom}`}
                         ></span>
                       ) : (
-                        <span class={`${styles.chevron} ${styles.top}`}></span>
+                        <span className={`${styles.chevron} ${styles.top}`}></span>
                       )}
                     </div>
                     <div className={styles.categoryName}>

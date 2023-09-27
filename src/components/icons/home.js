@@ -19,9 +19,9 @@ const HomeIcon = () => {
           d="M24.5,8.5s-4.174,8-12,8-12-8-12-8,4.174-8,12-8S24.5,8.5,24.5,8.5Z"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
         <ellipse
           id="Ellipse_709"
@@ -33,9 +33,9 @@ const HomeIcon = () => {
           transform="translate(8 3.5)"
           fill="none"
           stroke="#4178ff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
         />
       </g>
     </svg>
