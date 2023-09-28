@@ -28,10 +28,8 @@ export const CallScriptModal = ({
   }, [fetchCarrierProductData, leadId, postalCode]);
 
   useEffect(() => {
-    if (modalOpen) {
-      fetchCounts();
-    }
-  }, [modalOpen, fetchCounts]);
+    fetchCounts();
+  }, [fetchCounts, countyFips, postalCode]);
 
   let carrierCount = countyFips
     ? carrierProductData?.carrierCount || DEFAULT_CARRIER_COUNT
