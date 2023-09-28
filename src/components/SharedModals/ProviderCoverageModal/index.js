@@ -132,7 +132,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Address = ({ addresses, isChecked, disabled = false }) => {
+const Address = ({ addresses, isChecked, disabled = false, inNetwork }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
 
@@ -148,7 +148,11 @@ const Address = ({ addresses, isChecked, disabled = false }) => {
             selected={isChecked}
           >
             <Box className={classes.network}>
-              {address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
+              {inNetwork || address?.inNetwork ? (
+                <InNetworkIcon />
+              ) : (
+                <OutNetworkIcon />
+              )}
             </Box>
             <Box>
               <Typography className={classes.addressText}>
@@ -264,7 +268,7 @@ const ProviderCoverageModal = ({
                         <Arrow color="#0052CE" />
                       </Typography>
                       <Typography className={classes.additional}>
-                        Additional Locations ({inNetworkAddressList?.length})
+                        In-network Locations ({inNetworkAddressList?.length})
                       </Typography>
                     </Box>
                     {isOpen && (
@@ -273,6 +277,7 @@ const ProviderCoverageModal = ({
                         provider={provider}
                         isChecked={false}
                         disabled={true}
+                        inNetwork={true}
                       />
                     )}
                   </>

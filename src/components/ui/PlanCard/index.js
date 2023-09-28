@@ -10,7 +10,6 @@ import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
 import PlanCoverage from "./plan-coverage/PlanCoverage";
-import LeadInformationProvider from "hooks/useLeadInformation";
 import { useParams } from "react-router-dom";
 import {
   capitalizeFirstLetter,
@@ -81,151 +80,147 @@ export default function PlanCard({
   const disableEnroll = isNonRTS_User || (isMidAEP && isJanuary);
 
   return (
-    <LeadInformationProvider leadId={contactId}>
-      <div className={"plan-card"}>
-        <div className={`header ${isMobile ? "mobile" : ""}`}>
-          <div className={"plan-name"}>{planData.planName} </div>
-          {checkForImage && (
-            <div className={"plan-logo"}>
-              {isMobile && (
-                <div className={"rating-container"}>
-                  <Rating value={planData.planRating} />
-                </div>
-              )}
-              <img src={LOGO_BASE_URL + logoURL} alt="logo" />{" "}
-            </div>
-          )}
-        </div>
-        {planData?.marketingName && !isMobile && (
-          <div className={"sub-header"}>
-            <div className={"carrier-name cr-name-mbl"}>
-              {planData?.marketingName}
-            </div>
-            {!isMobile && (
+    <div className={"plan-card"}>
+      <div className={`header ${isMobile ? "mobile" : ""}`}>
+        <div className={"plan-name"}>{planData.planName} </div>
+        {checkForImage && (
+          <div className={"plan-logo"}>
+            {isMobile && (
               <div className={"rating-container"}>
                 <Rating value={planData.planRating} />
               </div>
             )}
+            <img src={LOGO_BASE_URL + logoURL} alt="logo" />{" "}
           </div>
         )}
-        <div className={`premiums ${isMobile ? "mobile" : ""}`}>
+      </div>
+      {planData?.marketingName && !isMobile && (
+        <div className={"sub-header"}>
+          <div className={"carrier-name cr-name-mbl"}>
+            {planData?.marketingName}
+          </div>
+          {!isMobile && (
+            <div className={"rating-container"}>
+              <Rating value={planData.planRating} />
+            </div>
+          )}
+        </div>
+      )}
+      <div className={`premiums ${isMobile ? "mobile" : ""}`}>
+        <div
+          className={`plan-monthly-costs ${
+            !breakdownCollapsed && isMobile ? "plan-ms-open" : ""
+          }`}
+        >
           <div
-            className={`plan-monthly-costs ${
-              !breakdownCollapsed && isMobile ? "plan-ms-open" : ""
-            }`}
+            className={"monthly"}
+            onClick={() => {
+              if (planType === "MA" && isMobile) {
+                setBreakdownCollapsed(isMobile && !breakdownCollapsed);
+              } else return false;
+            }}
           >
-            <div
-              className={"monthly"}
-              onClick={() => {
-                if (planType === "MA" && isMobile) {
-                  setBreakdownCollapsed(isMobile && !breakdownCollapsed);
-                } else return false;
-              }}
-            >
-              <div className={"label"}>Monthly Plan Premium</div>
-              <div className={"currency"}>
-                {currencyFormatter.format(planData.annualPlanPremium / 12)}
-              </div>
-              {/* {isMobile && (
+            <div className={"label"}>Monthly Plan Premium</div>
+            <div className={"currency"}>
+              {currencyFormatter.format(planData.annualPlanPremium / 12)}
+            </div>
+            {/* {isMobile && (
               <div className={"label"}>
                 <span className={"mnth-mbl"}>/month </span>
                 {planType === "MA" && <ArrowDown />}
               </div>
             )} */}
-            </div>
+          </div>
 
-            {planType !== "MA" && (
-              <div
-                className={" rx-drug"}
-                onClick={() => {
-                  setBreakdownCollapsed(isMobile && !breakdownCollapsed);
-                }}
-              >
-                <div>
-                  <div className={"label"}>Est. Monthly RX Drug Cost</div>
-                  <div className={"currency"}>
-                    {currencyFormatter.format(
-                      planData.estimatedAnnualDrugCostPartialYear /
-                        (12 - effectiveDate?.getMonth())
-                    )}
-                  </div>
+          {planType !== "MA" && (
+            <div
+              className={" rx-drug"}
+              onClick={() => {
+                setBreakdownCollapsed(isMobile && !breakdownCollapsed);
+              }}
+            >
+              <div>
+                <div className={"label"}>Est. Monthly RX Drug Cost</div>
+                <div className={"currency"}>
+                  {currencyFormatter.format(
+                    planData.estimatedAnnualDrugCostPartialYear /
+                      (12 - effectiveDate?.getMonth())
+                  )}
                 </div>
-                <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
-                  {isMobile && <Arrow color={"#0052CE"} />}
-                </div>
+              </div>
+              <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
+                {isMobile && <Arrow color={"#0052CE"} />}
+              </div>
 
-                {/* {isMobile && (
+              {/* {isMobile && (
                 <div className={"label"}>
                   <span className={"mnth-mbl"}>/month </span>
                   <ArrowDown />
                 </div>
               )} */}
-              </div>
-            )}
-          </div>
-          <div
-            className={`costs-breakdown ${
-              breakdownCollapsed ? "collapsed" : ""
-            }`}
-          >
-            <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
-          </div>
-        </div>
-
-        <PlanCoverage
-          contact={contact}
-          planData={planData}
-          contactId={contactId}
-          planName={planData?.planName}
-          refresh={refresh}
-        />
-        {getCoverageRecommendations(planData)?.length > 0 && (
-          <div className={`coverage ${isMobile ? "mobile" : ""}`}>
-            <SelfRecommendation pills={getCoverageRecommendations(planData)} />
-          </div>
-        )}
-
-        <div className={`footer ${isMobile ? "mobile" : ""}`}>
-          <div className={"compare-check "}>
-            <input
-              type="checkbox"
-              className={"compare-inpt"}
-              disabled={isCompareDisabled}
-              checked={isChecked}
-              onChange={(e) => onChangeCompare(e.target.checked)}
-            />
-            <span className={"compare-txt"}>Compare</span>{" "}
-          </div>
-          <div
-            onClick={() => onDetailsClick(planData.id)}
-            className="planDetailsBtn"
-          >
-            Plan Details
-          </div>
-          {!planData.nonLicensedPlan && (
-            <Button
-              label={"Enroll"}
-              onClick={() => onEnrollClick(planData.id)}
-              icon={<img src={EnrollBack} alt="enroll" />}
-              className={"enroll-btn"}
-              disabled={disableEnroll}
-              style={
-                disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null
-              }
-              iconPosition={"right"}
-            />
+            </div>
           )}
         </div>
-        {preCheckListPdfModal && (
-          <PreEnrollPDFModal
-            open={preCheckListPdfModal}
-            onClose={() => {
-              setPreCheckListPdfModal(false);
-              onEnrollClick(planData.id);
-            }}
+        <div
+          className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}
+        >
+          <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
+        </div>
+      </div>
+
+      <PlanCoverage
+        contact={contact}
+        planData={planData}
+        contactId={contactId}
+        planName={planData?.planName}
+        refresh={refresh}
+      />
+      {getCoverageRecommendations(planData)?.length > 0 && (
+        <div className={`coverage ${isMobile ? "mobile" : ""}`}>
+          <SelfRecommendation pills={getCoverageRecommendations(planData)} />
+        </div>
+      )}
+
+      <div className={`footer ${isMobile ? "mobile" : ""}`}>
+        <div className={"compare-check "}>
+          <input
+            type="checkbox"
+            className={"compare-inpt"}
+            disabled={isCompareDisabled}
+            checked={isChecked}
+            onChange={(e) => onChangeCompare(e.target.checked)}
+          />
+          <span className={"compare-txt"}>Compare</span>{" "}
+        </div>
+        <div
+          onClick={() => onDetailsClick(planData.id)}
+          className="planDetailsBtn"
+        >
+          Plan Details
+        </div>
+        {!planData.nonLicensedPlan && (
+          <Button
+            label={"Enroll"}
+            onClick={() => onEnrollClick(planData.id)}
+            icon={<img src={EnrollBack} alt="enroll" />}
+            className={"enroll-btn"}
+            disabled={disableEnroll}
+            style={
+              disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null
+            }
+            iconPosition={"right"}
           />
         )}
       </div>
-    </LeadInformationProvider>
+      {preCheckListPdfModal && (
+        <PreEnrollPDFModal
+          open={preCheckListPdfModal}
+          onClose={() => {
+            setPreCheckListPdfModal(false);
+            onEnrollClick(planData.id);
+          }}
+        />
+      )}
+    </div>
   );
 }

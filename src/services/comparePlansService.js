@@ -94,7 +94,6 @@ class ComparePlansService {
         Authorization: "Bearer " + user.access_token,
       }
     );
-    console.log("MOBILE TESTING ....:", response);
     return response.blob();
   };
 }

@@ -176,9 +176,9 @@ export default function DashboardActivityTable({
       switch (activitySubject) {
         case "Scope of Appointment Signed":
           history.push({
-            pathname:`/contact/${leadsId}`,
-            search: '?awaiting=true'
-          })
+            pathname: `/contact/${leadsId}`,
+            search: "?awaiting=true",
+          });
           break;
         case "Scope of Appointment Completed":
           history.push(
@@ -206,8 +206,6 @@ export default function DashboardActivityTable({
 
           if (url && url !== "") {
             window.open(url, "_blank");
-          } else {
-            console.log("NO PDF SOURCE AVAILABLE", url);
           }
           break;
         default:
