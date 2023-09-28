@@ -27,7 +27,7 @@ function SAPermissionsFilter() {
     document.body.addEventListener("click", closeFilters);
     return () => document.body.removeEventListener("click", closeFilters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setOpenFilter]);
+  }, [setOpenFilter, filters]);
 
   return (
     <Box className={styles.customFilter}>
