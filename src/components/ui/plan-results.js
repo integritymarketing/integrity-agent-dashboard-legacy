@@ -37,7 +37,7 @@ const PlanResults = ({
     for (const plan of plans) {
       cards.push(
         <PlanCard
-          contact
+          contact={contact}
           key={key++}
           planData={plan}
           effectiveDate={effectiveDate}
