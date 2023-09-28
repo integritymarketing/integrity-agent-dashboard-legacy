@@ -70,6 +70,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
                 provider={provider}
                 handleEditProvider={handleEditProvider}
                 isPlanPage
+                isMobile={isMobile}
               />
             </div>
           ))}
