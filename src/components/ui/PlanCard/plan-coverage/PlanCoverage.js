@@ -21,11 +21,11 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     deletePharmacy,
     prescriptions: prescriptionsList,
     pharmacies: pharmaciesList,
+    providers: providersList,
   } = useLeadInformation() || {};
 
   const pharmacies = planData?.pharmacyCosts;
   const prescriptions = planData?.planDrugCoverage;
-  const providers = planData?.providers;
 
   const { leadDetails } = useContactDetails(contactId);
 
@@ -83,7 +83,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     if (refresh) refresh();
   };
   const handleAddEditProvider = () => {
-    if (providers?.length > 0) {
+    if (providersList?.length > 0) {
       setIsProviderCoverageModalOpen(true);
     } else {
       setIsProviderModalOpen(true);
@@ -112,27 +112,40 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
       }
     : null;
 
-  const coveredProviders = planData?.providers?.filter(
-    (provider) => provider?.inNetwork
+  const totalProvidersLocation = providersList.reduce((acc, provider) => {
+    return acc + provider?.addresses?.length;
+  }, 0);
+  const totalCoveredProvidersLocation = providersList.reduce(
+    (acc, provider) => {
+      return (
+        acc +
+        provider?.addresses?.filter((address) => address?.inNetwork).length
+      );
+    },
+    0
   );
-  const coveredPharmacies = planData?.pharmacyCosts?.filter(
-    (pharmacy) => pharmacy?.isNetwork
-  );
+
+  const coveredPharmacies = planData?.pharmacyCosts
+    ?.filter((pharmacy) => pharmacy?.isNetwork)
+    .filter(
+      (pharmacy) => pharmacy?.pharmacyID === pharmaciesList?.[0]?.pharmacyID
+    );
+
   const coveredPrescriptions = planData?.planDrugCoverage?.filter(
     (prescription) => prescription?.tierNumber > 0
   );
 
   const addPharmacyText =
     pharmacies?.length > 0
-      ? `${coveredPharmacies?.length} of ${planData?.pharmacyCosts?.length} Pharmacies Covered`
+      ? `${coveredPharmacies?.length} of ${pharmaciesList?.length} Pharmacies Covered`
       : "Add Pharmacy";
   const addPrescriptionText =
     prescriptions?.length > 0
       ? `${coveredPrescriptions?.length} of ${planData?.planDrugCoverage?.length} Prescriptions Covered`
       : "Add Prescriptions";
   const addProviderText =
-    providers?.length > 0
-      ? `${coveredProviders?.length} of ${planData?.providers?.length} Provider Locations Covered`
+    providersList?.length > 0
+      ? `${totalCoveredProvidersLocation} of ${totalProvidersLocation} Provider Locations Covered`
       : "Add Providers";
 
   return (
@@ -170,7 +183,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
         <ProviderCoverageModal
           open={isProviderCoverageModalOpen}
           onClose={() => setIsProviderCoverageModalOpen(false)}
-          providers={providers}
+          providers={providersList}
           planName={planName}
           addNew={() => {
             setIsProviderCoverageModalOpen(false);
