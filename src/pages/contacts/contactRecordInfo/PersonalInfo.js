@@ -7,7 +7,7 @@ import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
 import CallScriptSvg from "images/call-script.svg";
-import TagSvg from "components/icons/tag2";
+import TagSvg from "components/icons/tag-svg";
 import ButtonExpand from "components/icons/btn-expand";
 import RoundCheck from "components/icons/round-check";
 import RoundClose from "components/icons/round-close";
@@ -398,10 +398,10 @@ function TagsIcon({
                     <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
                       {isExpanded ? (
                         <span
-                          className={`${styles.chevron} ${styles.bottom}`}
+                          class={`${styles.chevron} ${styles.bottom}`}
                         ></span>
                       ) : (
-                        <span className={`${styles.chevron} ${styles.top}`}></span>
+                        <span class={`${styles.chevron} ${styles.top}`}></span>
                       )}
                     </div>
                     <div className={styles.categoryName}>
@@ -619,8 +619,7 @@ const PersonalInformationCard = ({
     return phone?.leadPhone && phone?.leadPhone !== "" ? phone : null;
   });
   let phone = phonesData?.length > 0 ? phonesData[0]?.leadPhone : null;
-  addresses = addresses.length > 0 ? addresses[0] : null;
-
+  addresses = addresses.length > 0 ? addresses : null;
   const isPrimary =
     contactPreferences && contactPreferences.primary
       ? contactPreferences.primary
