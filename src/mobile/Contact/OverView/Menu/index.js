@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useOnClickOutside } from "hooks/useOnClickOutside";
 import view from "./Images/view.png";
 import contact from "./Images/contact.png";
 import settings from "./Images/settings.png";
@@ -13,6 +14,7 @@ const MobileMenu = ({
   menuToggle,
   display,
 }) => {
+  const ref = useRef();
   const DATA = [
     {
       name: "overview",
@@ -36,57 +38,63 @@ const MobileMenu = ({
     },
   ];
 
+  useOnClickOutside(ref, () => {
+    setMenuToggle(false);
+  });
+
   const selected = DATA.filter((item) => item.name === display)?.[0] || null;
   return (
-    <div className={styles.menuContainer}>
-      <div
-        className={styles.selected}
-        onClick={() => setMenuToggle(!menuToggle)}
-      >
-        <div className={styles.row}>
+    <div ref={ref}>
+      <div className={styles.menuContainer}>
+        <div
+          className={styles.selected}
+          onClick={() => setMenuToggle(!menuToggle)}
+        >
+          <div className={styles.row}>
+            <div className={styles.icon}>
+              <img
+                alt={selected.name}
+                className={styles[selected.name]}
+                src={selected.img}
+              />
+            </div>
+            <div className={styles.name}>{selected?.displayName}</div>
+          </div>
           <div className={styles.icon}>
-            <img
-              alt={selected.name}
-              className={styles[selected.name]}
-              src={selected.img}
-            />
+            <DownArrow />
           </div>
-          <div className={styles.name}>{selected?.displayName}</div>
         </div>
-        <div className={styles.icon}>
-          <DownArrow />
-        </div>
-      </div>
-      {menuToggle && (
-        <div className={styles.contentCenter}>
-          <div className={styles.optionsContainer}>
-            <div className={styles.options}>
-              {DATA &&
-                DATA.map((item) => (
-                  <div
-                    className={`${styles.row} ${
-                      display === item.name ? styles.selectedItem : ""
-                    }`}
-                    onClick={() => handleDisplay(item.name)}
-                  >
-                    <div className={styles.icon}>
-                      {" "}
-                      <img
-                        alt={item.name}
-                        className={styles[item.name]}
-                        src={item.img}
-                      />
+        {menuToggle && (
+          <div className={styles.contentCenter}>
+            <div className={styles.optionsContainer}>
+              <div className={styles.options}>
+                {DATA &&
+                  DATA.map((item) => (
+                    <div
+                      className={`${styles.row} ${
+                        display === item.name ? styles.selectedItem : ""
+                      }`}
+                      onClick={() => handleDisplay(item.name)}
+                    >
+                      <div className={styles.icon}>
+                        {" "}
+                        <img
+                          alt={item.name}
+                          className={styles[item.name]}
+                          src={item.img}
+                        />
+                      </div>
+                      <div className={styles.name}>{item.displayName}</div>
                     </div>
-                    <div className={styles.name}>{item.displayName}</div>
-                  </div>
-                ))}
-            </div>
-            <div className={styles.buttonContainer}>
-              {handleViewPlans(true)}
+                  ))}
+              </div>
+              <div className={styles.buttonContainer}>
+                {handleViewPlans(true)}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
