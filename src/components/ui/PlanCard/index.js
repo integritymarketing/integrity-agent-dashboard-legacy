@@ -255,6 +255,7 @@ export default function PlanCard({
               onClick={() => onEnrollClick(planData.id)}
               icon={<img src={EnrollBack} alt="enroll" />}
               className={"enroll-btn"}
+              disabled={disableEnroll}
               style={
                 disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null
               }
