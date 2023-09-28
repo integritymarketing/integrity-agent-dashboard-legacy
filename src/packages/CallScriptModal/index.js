@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import Modal from "components/Modal";
+import WithLoader from "components/ui/WithLoader";
 import useFetch from "hooks/useFetch";
 import styles from "./styles.module.scss";
 import { DEFAULT_EFFECTIVE_YEAR } from "utils/dates";
@@ -16,7 +17,7 @@ export const CallScriptModal = ({
   postalCode,
 }) => {
   const [carrierProductData, setCarrierProductData] = useState(null);
-  const { Get: fetchCarrierProductData } = useFetch(
+  const { Get: fetchCarrierProductData, loading } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`
   );
 
@@ -42,20 +43,22 @@ export const CallScriptModal = ({
   const renderModalContent = useCallback(
     () => (
       <>
-        <div className={styles.cmsComplianceSection}>
-          To be in compliance with CMS guidelines, please read this script
-          before every call.
-        </div>
-        <div className={styles.planInformationSection}>
-          We do not offer every plan available in your area. Currently, we
-          represent {carrierCount} organizations which offer {productCount}{" "}
-          products in your area. Please contact medicare.gov, 1-800-MEDICARE, or
-          your local State Health Insurance Program (SHIP) to get information on
-          all of your options.
-        </div>
+        <WithLoader isLoading={loading}>
+          <div className={styles.cmsComplianceSection}>
+            To be in compliance with CMS guidelines, please read this script
+            before every call.
+          </div>
+          <div className={styles.planInformationSection}>
+            We do not offer every plan available in your area. Currently, we
+            represent {carrierCount} organizations which offer {productCount}{" "}
+            products in your area. Please contact medicare.gov, 1-800-MEDICARE,
+            or your local State Health Insurance Program (SHIP) to get
+            information on all of your options.
+          </div>
+        </WithLoader>
       </>
     ),
-    [carrierCount, productCount]
+    [carrierCount, loading, productCount]
   );
 
   return (

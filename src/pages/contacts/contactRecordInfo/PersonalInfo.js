@@ -746,8 +746,8 @@ const PersonalInformationCard = ({
           setModalOpen(false);
         }}
         leadId={leadsId}
-        countyFips={addresses?.countyFips}
-        postalCode={addresses?.postalCode}
+        countyFips={addresses?.[0]?.countyFips}
+        postalCode={addresses?.[0]?.postalCode}
       />
       <ConfirmationModal
         open={confirmModalOpen}
