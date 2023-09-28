@@ -226,6 +226,7 @@ function SAAddPermissionForm() {
             <AddButton
               OnAddClickHandle={OnAddClickHandle}
               isMobile={isMobile}
+              year={year}
             />
           </Box>
           {error && <Box className={styles.error}>{error}</Box>}
