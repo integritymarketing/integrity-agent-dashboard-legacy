@@ -254,8 +254,8 @@ const PlansPage = () => {
       };
       const data = await postSpecialists(payload);
       const shouldShowSpecialistPrompt =
-        prescriptions?.length > 0 &&
-        providers?.length > 0 &&
+        prescriptionData?.length > 0 &&
+        providerData?.providers?.length > 0 &&
         !shouldHideSpecialistPrompt &&
         data?.shouldShow;
       //for testing keep !
