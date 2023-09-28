@@ -259,7 +259,7 @@ const PlansPage = () => {
         !shouldHideSpecialistPrompt &&
         data?.shouldShow;
       //for testing keep !
-      if (!shouldShowSpecialistPrompt) {
+      if (shouldShowSpecialistPrompt) {
         setShowViewAvailablePlans(true);
         setRXToSpecialists(data);
       }
