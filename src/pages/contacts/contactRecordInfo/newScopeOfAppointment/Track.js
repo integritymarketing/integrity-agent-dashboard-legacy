@@ -4,7 +4,7 @@ import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
 
 function Track({ onCheckChange }) {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   return (
     <div className={styles.container}>

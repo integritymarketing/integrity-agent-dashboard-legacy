@@ -52,7 +52,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const agentUserProfile = useUserProfile();
   const [selectLabel, setSelectLabel] = useState("email");
   const [selectOption, setSelectOption] = useState(null);
-  const [isTracking, setIsTracking] = useState(false);
+  const [isTracking, setIsTracking] = useState(true);
   const [formattedMobile, setFormattedMobile] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
@@ -329,7 +329,9 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
               </div>
               <Button
                 label="Send SOA"
-                className={`${idFormNotValid || isSending ? "disabledSoaBtn" : ""}`}
+                className={`${
+                  idFormNotValid || isSending ? "disabledSoaBtn" : ""
+                }`}
                 icon={
                   <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
                     <ArrowForwardWithCircle />
@@ -338,7 +340,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                 iconPosition="right"
                 onClick={() => {
                   setIsSending(true);
-                  !idFormNotValid && handleSend()
+                  !idFormNotValid && handleSend();
                 }}
                 data-gtm="button-send"
                 style={{ border: "none" }}

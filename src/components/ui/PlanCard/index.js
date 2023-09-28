@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Rating from "../Rating";
-import PlanNetworkItem from "./plan-network-item";
 import CostBreakdowns from "./cost-breakdowns";
 import { Button } from "../Button";
 import Arrow from "components/icons/down";
@@ -10,10 +9,14 @@ import EnrollBack from "images/enroll-btn-back.svg";
 import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import "./index.scss";
-import PlanCoverageUnavailable from "./plan-network-unavailable";
 import PlanCoverage from "./plan-coverage/PlanCoverage";
 import LeadInformationProvider from "hooks/useLeadInformation";
 import { useParams } from "react-router-dom";
+import {
+  capitalizeFirstLetter,
+  formatUnderScorestring,
+} from "utils/shared-utils/sharedUtility";
+import SelfRecommendation from "./self-recommendation/SelfRecommendation";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -23,65 +26,23 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const LOGO_BASE_URL =
   "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
-function getProviders(entries, isMobile, isPlanNetworkAvailable) {
-  const isApiFailed =
-    entries?.filter((provider) => provider.firstName && provider.lastName)
-      ?.length > 0
-      ? false
-      : true;
+const getCoverageRecommendations = (planData) => {
+  if (!planData?.crossUpSellPlanOptions) return false;
 
-  const items = [];
-  if (entries && entries !== null && entries?.length > 0) {
-    if (isApiFailed) {
-      items.push(<PlanCoverageUnavailable title={"Provider"} />);
-    } else {
-      var key = 0;
-      for (const entry of entries) {
-        items.push(
-          <PlanNetworkItem
-            key={key++}
-            name={entry.firstName + " " + entry.lastName}
-            address={entry?.address?.streetLine1}
-            inNetwork={entry.inNetwork}
-            isMobile={isMobile}
-          />
-        );
-      }
+  let list = { ...planData?.crossUpSellPlanOptions };
+  let coverageArray = [];
+  Object.keys(list).map((keyName) => {
+    if (list[keyName] === "1") {
+      let value = keyName.includes("_")
+        ? formatUnderScorestring(keyName)
+        : capitalizeFirstLetter(keyName);
+
+      coverageArray.push(value);
     }
-  }
-  return items;
-}
-
-function getPharmacies(entries, pharmacyMap, isMobile) {
-  const isApiFailed =
-    entries?.filter((pharmacy) => pharmacy.pharmacyID)?.length > 0
-      ? false
-      : true;
-
-  const items = [];
-  if (entries && entries !== null && entries?.length > 0) {
-    if (isApiFailed) {
-      items.push(<PlanCoverageUnavailable title={"Pharmacy"} />);
-    } else {
-      var key = 0;
-      for (const entry of entries) {
-        const pharmacy = pharmacyMap[entry.pharmacyID];
-        if (pharmacy) {
-          items.push(
-            <PlanNetworkItem
-              key={key++}
-              name={pharmacy?.name}
-              address={pharmacy?.address1}
-              inNetwork={entry?.isNetwork}
-              isMobile={isMobile}
-            />
-          );
-        }
-      }
-    }
-  }
-  return items;
-}
+    return keyName;
+  });
+  return coverageArray.join(", ");
+};
 
 export default function PlanCard({
   contact,
@@ -208,19 +169,6 @@ export default function PlanCard({
             }`}
           >
             <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
-            {((planData.providers !== null && planData.providers?.length > 0) ||
-              (planData.pharmacyCosts !== null &&
-                planData.pharmacyCosts?.length > 0)) && (
-              <div
-                className={`in-network mob-show ${isMobile ? "mobile" : ""}`}
-              >
-                <div className={"label"}>In-Network</div>
-                <div className={"items"}>
-                  {getProviders(planData.providers, isMobile)}
-                  {getPharmacies(planData.pharmacyCosts, pharmacyMap, isMobile)}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -231,6 +179,11 @@ export default function PlanCard({
           planName={planData?.planName}
           refresh={refresh}
         />
+        {getCoverageRecommendations(planData)?.length > 0 && (
+          <div className={`coverage ${isMobile ? "mobile" : ""}`}>
+            <SelfRecommendation pills={getCoverageRecommendations(planData)} />
+          </div>
+        )}
 
         <div className={`footer ${isMobile ? "mobile" : ""}`}>
           <div className={"compare-check "}>
