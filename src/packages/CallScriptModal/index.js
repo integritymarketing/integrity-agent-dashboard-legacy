@@ -35,13 +35,18 @@ export const CallScriptModal = ({
     fetchCounts();
   }, [fetchCounts]);
 
-  let carrierCount = countyFips
-    ? carrierProductData?.carrierCount || DEFAULT_CARRIER_COUNT
-    : `0-${carrierProductData?.carrierCount || DEFAULT_CARRIER_COUNT}`;
+  let carrierCount = DEFAULT_CARRIER_COUNT;
+  let productCount = DEFAULT_PLAN_COUNT;
 
-  let productCount = countyFips
-    ? carrierProductData?.planCount || DEFAULT_PLAN_COUNT
-    : `0-${carrierProductData?.planCount || DEFAULT_PLAN_COUNT}`;
+  if (countyFips && carrierProductData) {
+    carrierCount = carrierProductData.carrierCount || DEFAULT_CARRIER_COUNT;
+    productCount = carrierProductData.planCount || DEFAULT_PLAN_COUNT;
+  }
+
+  if (countyFips) {
+    carrierCount = carrierCount || `0-${DEFAULT_CARRIER_COUNT}`;
+    productCount = productCount || `0-${DEFAULT_PLAN_COUNT}`;
+  }
 
   const renderModalContent = useCallback(
     () => (
