@@ -51,7 +51,6 @@ const renderButtons = (activity, handleClick) => {
       activitySubject === "Meeting Recorded") &&
     activityInteractionURL
   ) {
-    
     return (
       <div
         className={styles.activityDataCell}
@@ -152,8 +151,6 @@ export default function ActivitiesTable({
 
           if (url && url !== "") {
             window.open(url, "_blank");
-          } else {
-            console.log("NO PDF SOURCE AVAILABLE", url);
           }
           break;
         default:

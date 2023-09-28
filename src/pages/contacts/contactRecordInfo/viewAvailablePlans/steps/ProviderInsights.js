@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
 import styles from "./ProviderInsights.module.scss";
 import ButtonCircleIcon from "../icons/button-circle.png";
 import { STEPS } from "./index";
@@ -11,8 +10,8 @@ const ProviderInsights = ({
   fullName,
   leadsId,
   personalInfo,
+  setShowViewAvailablePlans,
 }) => {
-  const history = useHistory();
   const { Put } = useFetch(
     `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/${leadsId}`,
     false,
@@ -20,12 +19,7 @@ const ProviderInsights = ({
   );
 
   const handleViewPlans = async () => {
-    const payload = {
-      ...personalInfo,
-      shouldHideSpecialistPrompt: true,
-    };
-    await Put(payload);
-    history.push(`/plans/${leadsId}`);
+    setShowViewAvailablePlans(false);
   };
 
   const handleReviewProviders = async () => {

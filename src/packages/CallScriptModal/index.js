@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import Modal from "components/Modal";
+import WithLoader from "components/ui/WithLoader";
 import useFetch from "hooks/useFetch";
 import styles from "./styles.module.scss";
 import { DEFAULT_EFFECTIVE_YEAR } from "utils/dates";
@@ -16,14 +17,17 @@ export const CallScriptModal = ({
   postalCode,
 }) => {
   const [carrierProductData, setCarrierProductData] = useState(null);
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const { Get: fetchCarrierProductData } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`
   );
 
   const fetchCounts = useCallback(async () => {
     if (leadId && postalCode) {
+      setIsLoadingData(true);
       const fetchedData = await fetchCarrierProductData();
       setCarrierProductData(fetchedData);
+      setIsLoadingData(false);
     }
   }, [fetchCarrierProductData, leadId, postalCode]);
 
@@ -41,7 +45,7 @@ export const CallScriptModal = ({
 
   const renderModalContent = useCallback(
     () => (
-      <>
+      <WithLoader isLoading={isLoadingData}>
         <div className={styles.cmsComplianceSection}>
           To be in compliance with CMS guidelines, please read this script
           before every call.
@@ -53,9 +57,9 @@ export const CallScriptModal = ({
           your local State Health Insurance Program (SHIP) to get information on
           all of your options.
         </div>
-      </>
+      </WithLoader>
     ),
-    [carrierCount, productCount]
+    [carrierCount, isLoadingData, productCount]
   );
 
   return (

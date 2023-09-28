@@ -333,6 +333,7 @@ const ProviderModal = ({
                 setSelectAddressIds={setSelectAddressIds}
                 selectedProvider={selectedProvider}
                 isEdit={isEdit}
+                providerToEdit={selected}
               />
               {zipCode && totalPages >= 1 && (
                 <Box className={classes.pagination}>

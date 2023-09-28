@@ -226,7 +226,6 @@ const App = () => {
                                       </AuthenticatedRoute>
                                       <AuthenticatedRoute path="/plans/:contactId">
                                         <PlansPage />
-                                        <WebChatComponent />
                                       </AuthenticatedRoute>
                                       <AuthenticatedRoute path="/:contactId/plan/:planId/:effectiveDate">
                                         <PlanDetailsPage />

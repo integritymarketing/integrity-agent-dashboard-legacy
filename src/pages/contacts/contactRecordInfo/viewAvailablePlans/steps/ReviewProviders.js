@@ -1,44 +1,36 @@
 import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { useRecoilState } from "recoil";
 import useAnalytics from "hooks/useAnalytics";
 import { toTitleCase } from "utils/toTitleCase";
 import { addProviderModalAtom } from "recoil/providerInsights/atom.js";
-import ProviderModal from "components/SharedModals/ProviderModal";
 import ArrowDown from "../icons/arrow-down.png";
 import ButtonCircle from "../icons/button-circle.png";
 import styles from "./ReviewProviders.module.scss";
+import { useSetRecoilState } from 'recoil';
 
 const ReviewProviders = ({
   fullName,
   providers,
   leadsId,
-  personalInfo,
   rXToSpecialists,
   setShowViewAvailablePlans,
   prescriptions,
-  refreshContactInfo,
-  isAddProviderModalOpen = false,
 }) => {
-  const userZipCode = personalInfo?.addresses?.[0]?.postalCode;
   const history = useHistory();
-  const [isModalOpen, setModalOpen] = useRecoilState(addProviderModalAtom);
+  const setModalOpen = useSetRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
   const { fireEvent } = useAnalytics();
 
   useEffect(() => {
-    if (!isAddProviderModalOpen) {
       fireEvent("AI - Provider Review Displayed", {
         leadid: leadsId,
         flow: "Rx to Specialist",
         provider_count: providers?.length,
         prescription_count: prescriptions?.length,
       });
-    }
   }, [
     fireEvent,
-    isAddProviderModalOpen,
     leadsId,
     prescriptions,
     providers?.length,
@@ -138,17 +130,6 @@ const ReviewProviders = ({
           <img src={ButtonCircle} alt="right-arrow" />
         </button>
       </div>
-      {isModalOpen && (
-        <ProviderModal
-          open={isModalOpen}
-          onClose={() => {
-            setModalOpen(false);
-          }}
-          userZipCode={userZipCode}
-          leadId={leadsId}
-          refresh={refreshContactInfo}
-        />
-      )}
     </div>
   );
 };
@@ -162,13 +143,6 @@ ReviewProviders.propTypes = {
     })
   ).isRequired,
   leadsId: PropTypes.string.isRequired,
-  personalInfo: PropTypes.shape({
-    addresses: PropTypes.arrayOf(
-      PropTypes.shape({
-        postalCode: PropTypes.string,
-      })
-    ),
-  }),
   rXToSpecialists: PropTypes.shape({
     rXToSpecialistsResults: PropTypes.arrayOf(
       PropTypes.shape({
@@ -177,6 +151,8 @@ ReviewProviders.propTypes = {
       })
     ).isRequired,
   }).isRequired,
+  setShowViewAvailablePlans: PropTypes.func.isRequired,
+  prescriptions: PropTypes.array,
 };
 
 export default ReviewProviders;

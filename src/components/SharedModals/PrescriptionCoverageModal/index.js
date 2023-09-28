@@ -118,7 +118,7 @@ const PrescriptionRow = ({ item, coveredDrugs, onEditPrescription }) => {
     : "";
 
   const isNetwork = coveredDrugs?.some(
-    (item) => ndc === item?.ndc && item?.networkTier === "In Network"
+    (item) => ndc === item?.ndc && item.tierNumber > 0
   );
 
   return (

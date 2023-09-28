@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Media from "react-media";
@@ -116,14 +116,32 @@ UnlinkedPolicyCard.propTypes = {
 };
 
 const UnlinkedPolicyList = ({ taskList, npn }) => {
-  // Sort the taskList, sort by last name in ascending order
-  const sortedPolicyList = [...taskList]?.sort((a, b) => {
-    return a.lastName?.localeCompare(b.lastName);
-  });
+  // Sort the taskList, sort by last name in ascending order, effective date in ascending order
+
+  const sortedUnlinkedPolicies = useMemo(() => {
+    return [...taskList].sort((a, b) => {
+      // Null check and default value assignment
+      const effectiveDateA = a?.policyEffectiveDate || "";
+      const effectiveDateB = b?.policyEffectiveDate || "";
+      const lastNameA = a?.lastName || "";
+      const lastNameB = b?.lastName || "";
+
+      // Compare by Effective Date in descending order
+      const effectiveDateComparison =
+        effectiveDateB.localeCompare(effectiveDateA);
+      if (effectiveDateComparison !== 0) {
+        return effectiveDateComparison;
+      }
+
+      // Compare by Last Name in ascending order
+      return lastNameA.localeCompare(lastNameB);
+    });
+  }, [taskList]);
+
   return (
     <>
       <div className="up-card-container">
-        {sortedPolicyList?.map((data, i) => {
+        {sortedUnlinkedPolicies?.map((data, i) => {
           return <UnlinkedPolicyCard callData={data} npn={npn} />;
         })}
       </div>

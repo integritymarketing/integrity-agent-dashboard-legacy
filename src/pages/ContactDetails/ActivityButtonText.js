@@ -59,14 +59,11 @@ export default function ActivityButtonText(props) {
           activityInteractionURL,
           npn
         );
-        console.log("MOBILE TESTING ....:", link);
 
         var url = await window.URL.createObjectURL(link);
 
         if (url && url !== "") {
           window.open(url, "_blank");
-        } else {
-          console.log("NO PDF SOURCE AVAILABLE", url);
         }
         break;
       default:

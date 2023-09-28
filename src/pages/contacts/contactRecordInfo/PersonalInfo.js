@@ -131,6 +131,8 @@ function TagsIcon({
           )
         ) {
           acc[cat.tagCategoryId] = true;
+        } else if (cat.tagCategoryName === "Ask Integrity Recommendations") {
+          acc[cat.tagCategoryId] = true;
         }
         return acc;
       }, {})
@@ -382,6 +384,8 @@ function TagsIcon({
               }
               const isReccommendations =
                 tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME;
+              const isAskRecommendation =
+                tg.tagCategoryName === "Ask Integrity Recommendations";
               const isExpanded = expandedList[tg.tagCategoryId];
               const tags = tg.tags || [];
 
@@ -398,10 +402,10 @@ function TagsIcon({
                     <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
                       {isExpanded ? (
                         <span
-                          className={`${styles.chevron} ${styles.bottom}`}
+                          class={`${styles.chevron} ${styles.bottom}`}
                         ></span>
                       ) : (
-                        <span className={`${styles.chevron} ${styles.top}`}></span>
+                        <span class={`${styles.chevron} ${styles.top}`}></span>
                       )}
                     </div>
                     <div className={styles.categoryName}>
@@ -450,11 +454,13 @@ function TagsIcon({
                             <div
                               key={tag.tagId}
                               data-disabled={
-                                isReccommendations ? "disabled" : false
+                                isReccommendations || isAskRecommendation
+                                  ? "disabled"
+                                  : false
                               }
                               className={styles.tagRow}
                               onClick={(e) =>
-                                isReccommendations
+                                isReccommendations || isAskRecommendation
                                   ? undefined
                                   : toggleTagSelection(e, tag.tagId)
                               }
@@ -619,8 +625,7 @@ const PersonalInformationCard = ({
     return phone?.leadPhone && phone?.leadPhone !== "" ? phone : null;
   });
   let phone = phonesData?.length > 0 ? phonesData[0]?.leadPhone : null;
-  addresses = addresses.length > 0 ? addresses[0] : null;
-
+  addresses = addresses.length > 0 ? addresses : null;
   const isPrimary =
     contactPreferences && contactPreferences.primary
       ? contactPreferences.primary
@@ -741,8 +746,8 @@ const PersonalInformationCard = ({
           setModalOpen(false);
         }}
         leadId={leadsId}
-        countyFips={addresses?.countyFips}
-        postalCode={addresses?.postalCode}
+        countyFips={addresses?.[0]?.countyFips}
+        postalCode={addresses?.[0]?.postalCode}
       />
       <ConfirmationModal
         open={confirmModalOpen}

@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import * as Sentry from "@sentry/react";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -36,6 +37,17 @@ import Radio from "components/ui/Radio";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
+import ViewAvailablePlans from "../pages/contacts/contactRecordInfo/viewAvailablePlans";
+import {
+  addProviderModalAtom,
+  showViewAvailablePlansAtom,
+} from "recoil/providerInsights/atom.js";
+import useFetch from "hooks/useFetch";
+import closeAudio from "../components/WebChat/close.mp3";
+import { useOnClickOutside } from "hooks/useOnClickOutside";
+import LeadInformationProvider from "hooks/useLeadInformation";
+import WebChatComponent from "components/WebChat/WebChat";
+import ProviderModal from "components/SharedModals/ProviderModal";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -170,10 +182,8 @@ const PlansPage = () => {
   const [sort, setSort] = useState(
     showSelected ? s_options?.s_sort : PLAN_SORT_OPTIONS[0].value
   );
-
   const [isEdit, setIsEdit] = useState(false);
   const [effectiveDate, setEffectiveDate] = useState(initialeffDate);
-
   const [results, setResults] = useState([]);
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
@@ -184,10 +194,37 @@ const PlansPage = () => {
       return acc;
     }, {})
   );
+  const [showViewAvailablePlans, setShowViewAvailablePlans] = useRecoilState(
+    showViewAvailablePlansAtom
+  );
+  const showViewAvailablePlansRef = useRef(showViewAvailablePlans);
+  const audioRefClose = useRef(null);
+  const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
+  const setModalOpen = useSetRecoilState(addProviderModalAtom);
+  const { Post: postSpecialists } = useFetch(
+    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
+  );
+  const [rXToSpecialists, setRXToSpecialists] = useState([]);
+  const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
   useEffect(() => {
     setMyAppointedPlans(MY_APPOINTED_PLANS);
   }, [isNonRTS_User, MY_APPOINTED_PLANS]);
+
+  useOnClickOutside(showViewAvailablePlansRef, () => {
+    if (isAddProviderModalOpen === false) {
+      setShowViewAvailablePlans(false);
+      playCloseAudio();
+    }
+  });
+
+  const playCloseAudio = () => {
+    if (audioRefClose.current) {
+      audioRefClose.current.play().catch((error) => {
+        console.error("Error playing open audio:", error);
+      });
+    }
+  };
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -203,6 +240,29 @@ const PlansPage = () => {
       setProviders(providerData.providers);
       setPrescriptions(prescriptionData);
       setPharmacies(pharmacyData);
+      const { birthdate, shouldHideSpecialistPrompt } = contactData;
+      const payload = {
+        birthDate: birthdate,
+        rxDetails: prescriptions?.map(({ dosage: { ndc, drugName } }) => ({
+          ndc,
+          drugName,
+        })),
+        providerDetails: providers?.map(({ presentationName, specialty }) => ({
+          providerName: presentationName,
+          providerSpecialty: specialty,
+        })),
+      };
+      const data = await postSpecialists(payload);
+      const shouldShowSpecialistPrompt =
+        prescriptions?.length > 0 &&
+        providers?.length > 0 &&
+        !shouldHideSpecialistPrompt &&
+        data?.shouldShow;
+      //for testing keep !
+      if (!shouldShowSpecialistPrompt) {
+        setShowViewAvailablePlans(true);
+        setRXToSpecialists(data);
+      }
       analyticsService.fireEvent("event-content-load", {
         pagePath: "/plans/:contactId",
       });
@@ -211,7 +271,8 @@ const PlansPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, postSpecialists, setShowViewAvailablePlans]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [planType, setPlanType] = useState(
@@ -479,271 +540,319 @@ const PlansPage = () => {
     );
   };
   const isLoading = loading;
+  const {
+    firstName = "",
+    lastName = "",
+    birthdate = "",
+    leadsId = "",
+  } = contact || {};
+  const toSentenceCase = (name) =>
+    name?.charAt(0).toUpperCase() + name?.slice(1).toLowerCase();
+  const fullName = `${toSentenceCase(firstName)} ${toSentenceCase(lastName)}`;
+  const userZipCode = contact?.addresses?.[0]?.postalCode;
+
   return (
     <>
       <ToastContextProvider>
-        <div className={`${styles["plans-page"]}`}>
-          <Media
-            query={"(max-width: 500px)"}
-            onChange={(isMobile) => {
-              setIsMobile(isMobile);
-            }}
-          />
-          <WithLoader isLoading={isLoading}>
-            <Helmet>
-              <title>MedicareCENTER - Plans</title>
-            </Helmet>
-            <GlobalNav />
-            {!isEdit || (isEdit && isMobile)}
-            {(isEdit || (isMobile && filtersOpen)) && (
-              <FocusedNav
-                backText={"Back to plans page"}
-                onBackClick={() => {
-                  if (isEdit) {
-                    getContactRecordInfo();
-                  }
-                  setfiltersOpen(false);
-                  setIsEdit(false);
-                  window.location = `/plans/${id}?preserveSelected=true`;
-                }}
-              />
-            )}
-            {((contact && !isEdit && !isMobile) ||
-              (isMobile && !filtersOpen && !isEdit)) && (
-              <div className={`${styles["header"]}`}>
-                <Container>
-                  <ContactRecordHeader
-                    contact={contact}
-                    isMobile={isMobile}
-                    onEditClick={(section) => {
-                      setSessionData();
-                      setSection(section);
-                      setIsEdit(true);
-                    }}
-                    providersCount={providers?.length}
-                    prescriptionsCount={prescriptions?.length}
-                    pharmacyCount={pharmacies?.length}
-                  />
-                </Container>
-              </div>
-            )}
+        <LeadInformationProvider leadId={id}>
+          <audio ref={audioRefClose} src={closeAudio} />
+          {showViewAvailablePlans && (<>
+            <div className={styles.backdrop} />
+            <ViewAvailablePlans
+              providers={providers}
+              prescriptions={prescriptions}
+              fullName={fullName}
+              birthdate={birthdate}
+              leadsId={leadsId}
+              showViewAvailablePlansRef={showViewAvailablePlansRef}
+              showViewAvailablePlans={showViewAvailablePlans}
+              personalInfo={contact}
+              rXToSpecialists={rXToSpecialists}
+              setShowViewAvailablePlans={setShowViewAvailablePlans}
+            />
+          </>)}
+          {isAddProviderModalOpen && (
+            <ProviderModal
+              open={isAddProviderModalOpen}
+              onClose={() => {
+                setModalOpen(false);
+              }}
+              userZipCode={userZipCode}
+              leadId={leadsId}
+            />
+          )}
+          <div className={`${styles["plans-page"]}`}>
+            <Media
+              query={"(max-width: 500px)"}
+              onChange={(isMobile) => {
+                setIsMobile(isMobile);
+              }}
+            />
+            <WithLoader isLoading={isLoading}>
+              {!shouldShowAskIntegrity && <WebChatComponent />}
+              <Helmet>
+                <title>MedicareCENTER - Plans</title>
+              </Helmet>
+              <GlobalNav />
+              {!isEdit || (isEdit && isMobile)}
+              {(isEdit || (isMobile && filtersOpen)) && (
+                <FocusedNav
+                  backText={"Back to plans page"}
+                  onBackClick={() => {
+                    if (isEdit) {
+                      getContactRecordInfo();
+                    }
+                    setfiltersOpen(false);
+                    setIsEdit(false);
+                    window.location = `/plans/${id}?preserveSelected=true`;
+                  }}
+                />
+              )}
+              {((contact && !isEdit && !isMobile) ||
+                (isMobile && !filtersOpen && !isEdit)) && (
+                <div className={`${styles["header"]}`}>
+                  <Container>
+                    <ContactRecordHeader
+                      contact={contact}
+                      isMobile={isMobile}
+                      onEditClick={(section) => {
+                        setSessionData();
+                        setSection(section);
+                        setIsEdit(true);
+                      }}
+                      providersCount={providers?.length}
+                      prescriptionsCount={prescriptions?.length}
+                      pharmacyCount={pharmacies?.length}
+                    />
+                  </Container>
+                </div>
+              )}
 
-            {isMobile && !filtersOpen && !isEdit && (
-              <Button
-                icon={<Filter />}
-                label={"Filter Plans"}
-                onClick={openFilters}
-                type="secondary"
-                className={`${styles["filter-plans-btn"]}`}
-              />
-            )}
+              {isMobile && !filtersOpen && !isEdit && (
+                <Button
+                  icon={<Filter />}
+                  label={"Filter Plans"}
+                  onClick={openFilters}
+                  type="secondary"
+                  className={`${styles["filter-plans-btn"]}`}
+                />
+              )}
 
-            {!isEdit && (
-              <>
-                {isNonRTS_User && <NonRTSBanner />}
-                <Container className={`${styles["search-container"]}`}>
-                  {(!isMobile || (isMobile && filtersOpen)) && (
-                    <div className={`${styles["filters"]}`}>
-                      {isMobile && (
-                        <>
-                          <div className={`${styles["plans-count-mobile"]}`}>
-                            {getPlansAvailableSection(
-                              filteredPlansCount,
-                              plansAvailableCount,
-                              plansLoading,
-                              planType,
-                              isMobile
-                            )}
-                          </div>
-
-                          <div className={`${styles["filter-section"]}`}>
-                            <div className="header">Sort By</div>
-
-                            {effectiveDate &&
-                              PLAN_SORT_OPTIONS.map((sortOption, sortIndex) => {
-                                return (
-                                  <Radio
-                                    id={sortOption.label}
-                                    key={`${sortOption.label} - ${sortIndex}`}
-                                    name="sortBy"
-                                    value={sortOption.value}
-                                    label={sortOption.label}
-                                    checked={sort_mobile === sortOption.value}
-                                    onChange={() =>
-                                      setSort_mobile(sortOption.value)
-                                    }
-                                  />
-                                );
-                              })}
-                          </div>
-                        </>
-                      )}
-                      <div className={`${styles["filter-section"]}`}>
-                        {effectiveDate && (
-                          <PlanTypesFilter
-                            changeFilter={changePlanType}
-                            initialValue={isMobile ? planType_mobile : planType}
-                          />
-                        )}
-                      </div>
-                      <div className={`${styles["filter-section"]}`}>
-                        {effectiveDate && (
-                          <EffectiveDateFilter
-                            years={EFFECTIVE_YEARS_SUPPORTED}
-                            initialValue={
-                              isMobile ? effectiveDate_mobile : effectiveDate
-                            }
-                            onChange={(date) => changeEffectiveDate(date)}
-                          />
-                        )}
-                      </div>
-
-                      <div className={`${styles["filter-section"]}`}>
-                        {effectiveDate && (
-                          <PharmacyFilter
-                            pharmacies={pharmacies}
-                            onChange={() => {}}
-                          />
-                        )}
-                      </div>
-
-                      <div className={`${styles["filter-section"]}`}>
-                        {effectiveDate && (
-                          <AdditionalFilters
-                            planType={planType}
-                            onChange={() => {}}
-                            toggleAppointedPlans={toggleAppointedPlans}
-                            carriers={carrierList}
-                            policyTypes={subTypeList}
-                            onFilterChange={changeFilters}
-                            toggleRebates={toggleRebates}
-                            toggleNeeds={toggleNeeds}
-                            myAppointedPlans={
-                              isMobile
-                                ? myAppointedPlans_mobile
-                                : myAppointedPlans
-                            }
-                            carrierFilters={
-                              isMobile ? carrierFilters_mobile : carrierFilters
-                            }
-                            policyFilters={
-                              isMobile ? policyFilters_mobile : policyFilters
-                            }
-                            rebatesFilter={
-                              isMobile ? rebatesFilter_mobile : rebatesFilter
-                            }
-                            specialNeedsFilter={
-                              isMobile
-                                ? specialNeedsFilter_mobile
-                                : specialNeedsFilter
-                            }
-                            isNonRTS_User={isNonRTS_User}
-                          />
-                        )}
-                      </div>
-                      {isMobile && (
-                        <>
-                          <div className={`${styles["filter-btn-section"]}`}>
-                            <Button
-                              label={"Reset Filters"}
-                              onClick={resetFilters}
-                              type="secondary"
-                              className={`${styles["filter-grey-btn"]}`}
-                            />
-                            <Button
-                              label={"Apply"}
-                              onClick={applyFilters}
-                              type="primary"
-                              className={`${styles["filter-blue-btn"]}`}
-                            />
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  )}
-                  {((isMobile && !filtersOpen) || !isMobile) && (
-                    <div className={`${styles["results"]}`}>
-                      <div className={`${styles["sort"]}`}>
-                        {getPlansAvailableSection(
-                          filteredPlansCount,
-                          plansAvailableCount,
-                          plansLoading,
-                          planType,
-                          isMobile
-                        )}
-                        {!isMobile && (
-                          <div className={`${styles["sort-select"]}`}>
-                            <Select
-                              mobileLabel={<SortIcon />}
-                              initialValue={sort}
-                              onChange={(value) => setSort(value)}
-                              options={PLAN_SORT_OPTIONS}
-                              prefix="Sort by: "
-                            />
-                          </div>
-                        )}
-                      </div>
-                      <div className={`${styles["plans"]}`}>
-                        <PlanResults
-                          plans={pagedResults}
-                          isMobile={isMobile}
-                          loading={plansLoading}
-                          effectiveDate={effectiveDate}
-                          contact={contact}
-                          leadId={id}
-                          pharmacies={pharmacies}
-                          planType={planType}
-                          selectedPlans={selectedPlans}
-                          setSelectedPlans={setSelectedPlans}
-                          setSessionData={setSessionData}
-                          refresh={getAllPlans}
-                        />
-                        {!plansLoading && filteredPlansCount > 0 && (
+              {!isEdit && (
+                <>
+                  {isNonRTS_User && <NonRTSBanner />}
+                  <Container className={`${styles["search-container"]}`}>
+                    {(!isMobile || (isMobile && filtersOpen)) && (
+                      <div className={`${styles["filters"]}`}>
+                        {isMobile && (
                           <>
-                            <BackToTop />
-                            <Pagination
-                              currentPage={currentPage}
-                              resultName="plans"
-                              totalPages={Math.ceil(filteredPlansCount / 10)}
-                              totalResults={filteredPlansCount}
-                              pageSize={pageSize}
-                              onPageChange={(page) => setCurrentPage(page)}
+                            <div className={`${styles["plans-count-mobile"]}`}>
+                              {getPlansAvailableSection(
+                                filteredPlansCount,
+                                plansAvailableCount,
+                                plansLoading,
+                                planType,
+                                isMobile
+                              )}
+                            </div>
+
+                            <div className={`${styles["filter-section"]}`}>
+                              <div className="header">Sort By</div>
+
+                              {effectiveDate &&
+                                PLAN_SORT_OPTIONS.map(
+                                  (sortOption, sortIndex) => {
+                                    return (
+                                      <Radio
+                                        id={sortOption.label}
+                                        key={`${sortOption.label} - ${sortIndex}`}
+                                        name="sortBy"
+                                        value={sortOption.value}
+                                        label={sortOption.label}
+                                        checked={
+                                          sort_mobile === sortOption.value
+                                        }
+                                        onChange={() =>
+                                          setSort_mobile(sortOption.value)
+                                        }
+                                      />
+                                    );
+                                  }
+                                )}
+                            </div>
+                          </>
+                        )}
+                        <div className={`${styles["filter-section"]}`}>
+                          {effectiveDate && (
+                            <PlanTypesFilter
+                              changeFilter={changePlanType}
+                              initialValue={
+                                isMobile ? planType_mobile : planType
+                              }
                             />
+                          )}
+                        </div>
+                        <div className={`${styles["filter-section"]}`}>
+                          {effectiveDate && (
+                            <EffectiveDateFilter
+                              years={EFFECTIVE_YEARS_SUPPORTED}
+                              initialValue={
+                                isMobile ? effectiveDate_mobile : effectiveDate
+                              }
+                              onChange={(date) => changeEffectiveDate(date)}
+                            />
+                          )}
+                        </div>
+
+                        <div className={`${styles["filter-section"]}`}>
+                          {effectiveDate && (
+                            <PharmacyFilter
+                              pharmacies={pharmacies}
+                              onChange={() => {}}
+                            />
+                          )}
+                        </div>
+
+                        <div className={`${styles["filter-section"]}`}>
+                          {effectiveDate && (
+                            <AdditionalFilters
+                              planType={planType}
+                              onChange={() => {}}
+                              toggleAppointedPlans={toggleAppointedPlans}
+                              carriers={carrierList}
+                              policyTypes={subTypeList}
+                              onFilterChange={changeFilters}
+                              toggleRebates={toggleRebates}
+                              toggleNeeds={toggleNeeds}
+                              myAppointedPlans={
+                                isMobile
+                                  ? myAppointedPlans_mobile
+                                  : myAppointedPlans
+                              }
+                              carrierFilters={
+                                isMobile
+                                  ? carrierFilters_mobile
+                                  : carrierFilters
+                              }
+                              policyFilters={
+                                isMobile ? policyFilters_mobile : policyFilters
+                              }
+                              rebatesFilter={
+                                isMobile ? rebatesFilter_mobile : rebatesFilter
+                              }
+                              specialNeedsFilter={
+                                isMobile
+                                  ? specialNeedsFilter_mobile
+                                  : specialNeedsFilter
+                              }
+                              isNonRTS_User={isNonRTS_User}
+                            />
+                          )}
+                        </div>
+                        {isMobile && (
+                          <>
+                            <div className={`${styles["filter-btn-section"]}`}>
+                              <Button
+                                label={"Reset Filters"}
+                                onClick={resetFilters}
+                                type="secondary"
+                                className={`${styles["filter-grey-btn"]}`}
+                              />
+                              <Button
+                                label={"Apply"}
+                                onClick={applyFilters}
+                                type="primary"
+                                className={`${styles["filter-blue-btn"]}`}
+                              />
+                            </div>
                           </>
                         )}
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {((isMobile && !filtersOpen) || !isMobile) && (
+                      <div className={`${styles["results"]}`}>
+                        <div className={`${styles["sort"]}`}>
+                          {getPlansAvailableSection(
+                            filteredPlansCount,
+                            plansAvailableCount,
+                            plansLoading,
+                            planType,
+                            isMobile
+                          )}
+                          {!isMobile && (
+                            <div className={`${styles["sort-select"]}`}>
+                              <Select
+                                mobileLabel={<SortIcon />}
+                                initialValue={sort}
+                                onChange={(value) => setSort(value)}
+                                options={PLAN_SORT_OPTIONS}
+                                prefix="Sort by: "
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div className={`${styles["plans"]}`}>
+                          <PlanResults
+                            plans={pagedResults}
+                            isMobile={isMobile}
+                            loading={plansLoading}
+                            effectiveDate={effectiveDate}
+                            contact={contact}
+                            leadId={id}
+                            pharmacies={pharmacies}
+                            planType={planType}
+                            selectedPlans={selectedPlans}
+                            setSelectedPlans={setSelectedPlans}
+                            setSessionData={setSessionData}
+                            refresh={getAllPlans}
+                          />
+                          {!plansLoading && filteredPlansCount > 0 && (
+                            <>
+                              <BackToTop />
+                              <Pagination
+                                currentPage={currentPage}
+                                resultName="plans"
+                                totalPages={Math.ceil(filteredPlansCount / 10)}
+                                totalResults={filteredPlansCount}
+                                pageSize={pageSize}
+                                onPageChange={(page) => setCurrentPage(page)}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </Container>
+                </>
+              )}
+              {isEdit && (
+                <Container className={`${styles["edit-container"]}`}>
+                  <ContactEdit
+                    leadId={id}
+                    personalInfo={contact}
+                    initialSection={section}
+                    initialEdit={isEdit}
+                    getContactRecordInfo={getContactRecordInfo}
+                    successNavigationRoute={`/plans/${id}`}
+                    isMobile={isMobile}
+                    page={"plansPage"}
+                  />
                 </Container>
-              </>
-            )}
-            {isEdit && (
-              <Container className={`${styles["edit-container"]}`}>
-                <ContactEdit
-                  leadId={id}
-                  personalInfo={contact}
-                  initialSection={section}
-                  initialEdit={isEdit}
-                  getContactRecordInfo={getContactRecordInfo}
-                  successNavigationRoute={`/plans/${id}`}
-                  isMobile={isMobile}
-                  page={"plansPage"}
-                />
-              </Container>
-            )}
-            <GlobalFooter />
-            <PlanPageFooter
-              leadId={id}
-              effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
-              plans={results?.filter((plan) => selectedPlans[plan.id])}
-              onRemove={(plan) => {
-                setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
-              }}
-              setSessionData={setSessionData}
-              isMobile={isMobile}
-            />
-          </WithLoader>
-        </div>
+              )}
+              <GlobalFooter />
+              <PlanPageFooter
+                leadId={id}
+                effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
+                plans={results?.filter((plan) => selectedPlans[plan.id])}
+                onRemove={(plan) => {
+                  setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
+                }}
+                setSessionData={setSessionData}
+                isMobile={isMobile}
+              />
+            </WithLoader>
+          </div>
+        </LeadInformationProvider>
       </ToastContextProvider>
     </>
   );
