@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 
 import AddIcon from "components/icons/add";
 
@@ -11,16 +10,13 @@ function AddButton({ OnAddClickHandle, year, isMobile }) {
 
   return (
     <Box className={isMobile ? styles.mobileRow : styles.customBodyRow}>
-      <Grid
-        display="flex"
-        alignItems="center"
+      <Box
         onClick={OnAddClickHandle}
         className={`${styles.link} ${isInacctive && styles.inactiveLink}`}
-        gap={1}
       >
         <Box>Add</Box>
         <AddIcon color="#ffffff" />
-      </Grid>
+      </Box>
     </Box>
   );
 }

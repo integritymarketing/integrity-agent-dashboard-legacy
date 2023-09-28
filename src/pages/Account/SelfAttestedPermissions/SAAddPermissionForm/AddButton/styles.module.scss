@@ -4,11 +4,14 @@
 }
 
 .link {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
   width: 85px;
   background-color: #4178ff;
   color: #ffffff;
   cursor: pointer;
-  display: inline-block;
   margin-top: 20px;
   padding: 7px 15px;
   transition: ease-out 300ms;

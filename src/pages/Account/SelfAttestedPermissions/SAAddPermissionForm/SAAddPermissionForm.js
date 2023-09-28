@@ -95,6 +95,7 @@ function SAAddPermissionForm() {
       status: agentRtsData.status,
       planYear: year,
       blobPath: agentRtsData.blobPath,
+      tin: agentRtsData.tin,
     };
     return hasDuplicate(newItem, agents);
   };
@@ -120,6 +121,7 @@ function SAAddPermissionForm() {
           planYear: year,
           states: [state],
           planType: product,
+          tin: agentRtsData.tin,
           agentProducerID: producerId,
           snpTypes: getSnpTypes(product),
           stateExpirationDate: "",
