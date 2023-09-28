@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Box from "@mui/material/Box";
-import { Button } from "components/ui/Button";
+import Button from "@mui/material/Button";
 
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
@@ -33,13 +33,12 @@ function SAPermissionsFilter() {
     <Box className={styles.customFilter}>
       <Button
         className={`${styles.filterButton} filterBtn`}
-        icon={openFilter ? <ActiveFilter /> : <FilterIcon />}
+        endIcon={openFilter ? <ActiveFilter /> : <FilterIcon />}
         type="primary"
         onClick={(e) => {
           e.stopPropagation();
           setOpenFilter(!openFilter);
         }}
-        label=""
       />
       <FilterContent />
       {openFilter && <Box className={styles.drawerOverlay}></Box>}

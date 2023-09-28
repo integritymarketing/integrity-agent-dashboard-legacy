@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import * as Sentry from "@sentry/react";
 
 import TrashBinIcon from "components/icons/trashbin";
@@ -35,16 +34,13 @@ function DeleteButton({ attestationId }) {
   };
 
   return (
-    <Grid
-      display="flex"
-      alignItems="center"
+    <Box
       className={styles.link}
-      gap={1}
       onClick={onDeleteHandle}
     >
       <Box>Delete</Box>
       <TrashBinIcon color="#4178ff" />
-    </Grid>
+    </Box>
   );
 }
 

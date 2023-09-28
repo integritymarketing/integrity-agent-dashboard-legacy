@@ -1,7 +1,10 @@
 .link {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
   color: #4178ff;
   cursor: pointer;
-  display: inline-block;
   padding: 7px 10px;
   width: 95px;
   transition: ease-out 300ms;
