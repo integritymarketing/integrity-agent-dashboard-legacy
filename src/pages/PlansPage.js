@@ -247,7 +247,7 @@ const PlansPage = () => {
           ndc,
           drugName,
         })),
-        providerDetails: providerData?.map(({ presentationName, specialty }) => ({
+        providerDetails: providerData?.providers?.map(({ presentationName, specialty }) => ({
           providerName: presentationName,
           providerSpecialty: specialty,
         })),
