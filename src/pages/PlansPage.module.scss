@@ -545,6 +545,15 @@
   padding-left: 0;
 }
 
+.backdrop {
+  position: absolute;
+  inset: 0px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 101;
+  /* blur the background */
+  backdrop-filter: blur(1px) saturate(180%) contrast(46%) brightness(120%);
+}
+
 .share-btn {
   color: #4178ff !important;
   border: none !important;

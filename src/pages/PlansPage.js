@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import * as Sentry from "@sentry/react";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -36,7 +37,17 @@ import Radio from "components/ui/Radio";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
+import ViewAvailablePlans from "../pages/contacts/contactRecordInfo/viewAvailablePlans";
+import {
+  addProviderModalAtom,
+  showViewAvailablePlansAtom,
+} from "recoil/providerInsights/atom.js";
+import useFetch from "hooks/useFetch";
+import closeAudio from "../components/WebChat/close.mp3";
+import { useOnClickOutside } from "hooks/useOnClickOutside";
 import LeadInformationProvider from "hooks/useLeadInformation";
+import WebChatComponent from "components/WebChat/WebChat";
+import ProviderModal from "components/SharedModals/ProviderModal";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -171,10 +182,8 @@ const PlansPage = () => {
   const [sort, setSort] = useState(
     showSelected ? s_options?.s_sort : PLAN_SORT_OPTIONS[0].value
   );
-
   const [isEdit, setIsEdit] = useState(false);
   const [effectiveDate, setEffectiveDate] = useState(initialeffDate);
-
   const [results, setResults] = useState([]);
   const [providers, setProviders] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
@@ -185,10 +194,37 @@ const PlansPage = () => {
       return acc;
     }, {})
   );
+  const [showViewAvailablePlans, setShowViewAvailablePlans] = useRecoilState(
+    showViewAvailablePlansAtom
+  );
+  const showViewAvailablePlansRef = useRef(showViewAvailablePlans);
+  const audioRefClose = useRef(null);
+  const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
+  const setModalOpen = useSetRecoilState(addProviderModalAtom);
+  const { Post: postSpecialists } = useFetch(
+    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
+  );
+  const [rXToSpecialists, setRXToSpecialists] = useState([]);
+  const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
   useEffect(() => {
     setMyAppointedPlans(MY_APPOINTED_PLANS);
   }, [isNonRTS_User, MY_APPOINTED_PLANS]);
+
+  useOnClickOutside(showViewAvailablePlansRef, () => {
+    if (isAddProviderModalOpen === false) {
+      setShowViewAvailablePlans(false);
+      playCloseAudio();
+    }
+  });
+
+  const playCloseAudio = () => {
+    if (audioRefClose.current) {
+      audioRefClose.current.play().catch((error) => {
+        console.error("Error playing open audio:", error);
+      });
+    }
+  };
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
@@ -204,6 +240,29 @@ const PlansPage = () => {
       setProviders(providerData.providers);
       setPrescriptions(prescriptionData);
       setPharmacies(pharmacyData);
+      const { birthdate, shouldHideSpecialistPrompt } = contactData;
+      const payload = {
+        birthDate: birthdate,
+        rxDetails: prescriptions?.map(({ dosage: { ndc, drugName } }) => ({
+          ndc,
+          drugName,
+        })),
+        providerDetails: providers?.map(({ presentationName, specialty }) => ({
+          providerName: presentationName,
+          providerSpecialty: specialty,
+        })),
+      };
+      const data = await postSpecialists(payload);
+      const shouldShowSpecialistPrompt =
+        prescriptions?.length > 0 &&
+        providers?.length > 0 &&
+        !shouldHideSpecialistPrompt &&
+        data?.shouldShow;
+      //for testing keep !
+      if (!shouldShowSpecialistPrompt) {
+        setShowViewAvailablePlans(true);
+        setRXToSpecialists(data);
+      }
       analyticsService.fireEvent("event-content-load", {
         pagePath: "/plans/:contactId",
       });
@@ -212,7 +271,8 @@ const PlansPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, postSpecialists, setShowViewAvailablePlans]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [planType, setPlanType] = useState(
@@ -480,10 +540,47 @@ const PlansPage = () => {
     );
   };
   const isLoading = loading;
+  const {
+    firstName = "",
+    lastName = "",
+    birthdate = "",
+    leadsId = "",
+  } = contact || {};
+  const toSentenceCase = (name) =>
+    name?.charAt(0).toUpperCase() + name?.slice(1).toLowerCase();
+  const fullName = `${toSentenceCase(firstName)} ${toSentenceCase(lastName)}`;
+  const userZipCode = contact?.addresses?.[0]?.postalCode;
+
   return (
     <>
       <ToastContextProvider>
         <LeadInformationProvider leadId={id}>
+          <audio ref={audioRefClose} src={closeAudio} />
+          {showViewAvailablePlans && (<>
+            <div className={styles.backdrop} />
+            <ViewAvailablePlans
+              providers={providers}
+              prescriptions={prescriptions}
+              fullName={fullName}
+              birthdate={birthdate}
+              leadsId={leadsId}
+              showViewAvailablePlansRef={showViewAvailablePlansRef}
+              showViewAvailablePlans={showViewAvailablePlans}
+              personalInfo={contact}
+              rXToSpecialists={rXToSpecialists}
+              setShowViewAvailablePlans={setShowViewAvailablePlans}
+            />
+          </>)}
+          {isAddProviderModalOpen && (
+            <ProviderModal
+              open={isAddProviderModalOpen}
+              onClose={() => {
+                setModalOpen(false);
+              }}
+              userZipCode={userZipCode}
+              leadId={leadsId}
+            />
+          )}
           <div className={`${styles["plans-page"]}`}>
             <Media
               query={"(max-width: 500px)"}
@@ -492,6 +589,7 @@ const PlansPage = () => {
               }}
             />
             <WithLoader isLoading={isLoading}>
+              {!shouldShowAskIntegrity && <WebChatComponent />}
               <Helmet>
                 <title>MedicareCENTER - Plans</title>
               </Helmet>

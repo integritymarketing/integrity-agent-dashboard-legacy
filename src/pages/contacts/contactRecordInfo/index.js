@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  useContext,
-  useRef,
-} from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
 import {
@@ -45,17 +39,7 @@ import { debounce } from "debounce";
 import MobileMenu from "mobile/Contact/OverView/Menu";
 import Media from "react-media";
 import FooterBanners from "packages/FooterBanners";
-import ViewAvailablePlans from "./viewAvailablePlans";
-import { useOnClickOutside } from "hooks/useOnClickOutside";
-import closeAudio from "../../../components/WebChat/close.mp3";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  addProviderModalAtom,
-  showViewAvailablePlansAtom,
-} from "recoil/providerInsights/atom.js";
-import useFetch from "hooks/useFetch";
 import WebChatComponent from "components/WebChat/WebChat";
-import ReviewProviders from "./viewAvailablePlans/steps/ReviewProviders";
 import useAwaitingQueryParam from "hooks/useAwaitingQueryParam";
 
 const ContactRecordInfoDetails = () => {
@@ -73,27 +57,14 @@ const ContactRecordInfoDetails = () => {
   const [isEdit, setEdit] = useState(false);
   const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
   const [allCounties, setAllCounties] = useState([]);
-  const [rXToSpecialists, setRXToSpecialists] = useState([]);
   const [allStates, setAllStates] = useState([]);
   const [county, setCounty] = useState("");
   const [countyError, setCountyError] = useState(false);
   const [submitEnable, setSubmitEnable] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showViewAvailablePlans, setShowViewAvailablePlans] = useRecoilState(
-    showViewAvailablePlansAtom
-  );
-  const [prescriptions, setPrescriptions] = useState([]);
-  const [providers, setProviders] = useState([]);
   const { setCurrentPage } = useContext(BackNavContext);
   const history = useHistory();
   const { path } = useRouteMatch();
-  const showViewAvailablePlansRef = useRef(showViewAvailablePlans);
-  const audioRefClose = useRef(null);
-  const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
-  const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
-  const { Post: postSpecialists } = useFetch(
-    `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
-  );
   const { isAwaiting, deleteAwaitingParam } = useAwaitingQueryParam();
 
   useEffect(() => {
@@ -334,64 +305,8 @@ const ContactRecordInfoDetails = () => {
     }
   };
 
-  useOnClickOutside(showViewAvailablePlansRef, () => {
-    if (isAddProviderModalOpen === false) {
-      setShowViewAvailablePlans(false);
-      playCloseAudio();
-    }
-  });
-
-  const playCloseAudio = () => {
-    if (audioRefClose.current) {
-      audioRefClose.current.play().catch((error) => {
-        console.error("Error playing open audio:", error);
-      });
-    }
-  };
-
   const handleViewAvailablePlans = async () => {
-    setLoading(true);
-    const { leadsId, birthdate, shouldHideSpecialistPrompt } = personalInfo;
-    try {
-      const [prescriptions, { providers }] = await Promise.all([
-        clientsService.getLeadPrescriptions(leadsId),
-        clientsService.getLeadProviders(leadsId),
-      ]);
-      const payload = {
-        birthDate: birthdate,
-        rxDetails: prescriptions?.map(({ dosage: { ndc, drugName } }) => ({
-          ndc,
-          drugName,
-        })),
-        providerDetails: providers?.map(({ presentationName, specialty }) => ({
-          providerName: presentationName,
-          providerSpecialty: specialty,
-        })),
-      };
-      const data = await postSpecialists(payload);
-      const shouldShowSpecialistPrompt =
-        prescriptions?.length > 0 &&
-        providers?.length > 0 &&
-        !shouldHideSpecialistPrompt &&
-        data?.shouldShow;
-      if (shouldShowSpecialistPrompt) {
-        setPrescriptions(prescriptions);
-        setProviders(providers);
-        setMenuToggle(false);
-        setShowViewAvailablePlans(true);
-        setRXToSpecialists(data);
-      } else {
-        history.push(`/plans/${id}`);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRefreshContactInfo = async () => {
-    await getLeadDetails();
+    history.push(`/plans/${id}`);
   };
 
   const handleViewPlans = () => {
@@ -403,7 +318,6 @@ const ContactRecordInfoDetails = () => {
     if (postalCode && stateCode && county && countyFips) {
       return (
         <Button
-          disabled={showViewAvailablePlans}
           label="View Available Plans"
           onClick={handleViewAvailablePlans}
           type="primary"
@@ -425,10 +339,6 @@ const ContactRecordInfoDetails = () => {
         />
       );
   };
-  const { firstName, lastName, birthdate, leadsId } = personalInfo;
-  const toSentenceCase = (name) =>
-    name?.charAt(0).toUpperCase() + name?.slice(1).toLowerCase();
-  const fullName = `${toSentenceCase(firstName)} ${toSentenceCase(lastName)}`;
 
   return (
     <React.Fragment>
@@ -446,24 +356,6 @@ const ContactRecordInfoDetails = () => {
                 <title>MedicareCENTER - Contacts</title>
               </Helmet>
               <GlobalNav />
-              <audio ref={audioRefClose} src={closeAudio} />
-              {showViewAvailablePlans && (
-                <>
-                  <ViewAvailablePlans
-                    providers={providers}
-                    prescriptions={prescriptions}
-                    fullName={fullName}
-                    birthdate={birthdate}
-                    leadsId={leadsId}
-                    showViewAvailablePlansRef={showViewAvailablePlansRef}
-                    showViewAvailablePlans={showViewAvailablePlans}
-                    personalInfo={personalInfo}
-                    refreshAvailablePlans={handleViewAvailablePlans}
-                    rXToSpecialists={rXToSpecialists}
-                    setShowViewAvailablePlans={setShowViewAvailablePlans}
-                  />
-                </>
-              )}
               {duplicateLeadIds.length === 1 && (
                 <section className={`${styles["duplicate-contact-link"]} pl-1`}>
                   <Warning />
@@ -514,7 +406,6 @@ const ContactRecordInfoDetails = () => {
                       display={display}
                       setMenuToggle={setMenuToggle}
                       menuToggle={menuToggle}
-                      showViewAvailablePlans={showViewAvailablePlans}
                     />
                   ) : (
                     <ul
@@ -597,21 +488,7 @@ const ContactRecordInfoDetails = () => {
                     countyError={countyError}
                     submitEnable={submitEnable}
                   />
-                  {!shouldShowAskIntegrity && <WebChatComponent />}
-                  {!isLoading && !loading && isAddProviderModalOpen && (
-                    <ReviewProviders
-                      providers={providers}
-                      prescriptions={prescriptions}
-                      fullName={fullName}
-                      birthdate={birthdate}
-                      leadsId={leadsId}
-                      personalInfo={personalInfo}
-                      rXToSpecialists={rXToSpecialists}
-                      setShowViewAvailablePlans={setShowViewAvailablePlans}
-                      refreshContactInfo={handleRefreshContactInfo}
-                      isAddProviderModalOpen={isAddProviderModalOpen}
-                    />
-                  )}
+                  <WebChatComponent />
                 </Container>
               </div>
               <ContactFooter />
