@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 
 import FilterButtons from "./FilterButtons/FilterButtons";
 import { FilterTabs } from "./FilterTabs";
 import { PlanYearOptions } from "./PlanYearOptions";
-import { useSAPermissionsContext } from "../../SAPermissionProvider";
+import { useSAPermissionsContext } from "../../providers/SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
@@ -18,10 +18,10 @@ const getEmptyObject = () => ({
 function FilterContent() {
   const { setFilters, filters, setOpenFilter, openFilter } =
     useSAPermissionsContext();
-  const [localFilters, setLocalFilters] = useState(filters);
+  const [localFilters, setLocalFilters] = useState({});
 
   const onUpdateFilters = (value, field) => {
-    const updatedFilters = { ...localFilters };
+    const updatedFilters = JSON.parse(JSON.stringify(localFilters));
     updatedFilters[field] = updatedFilters[field] || [];
     if (updatedFilters[field].includes(value)) {
       updatedFilters[field] = updatedFilters[field].filter(
@@ -43,6 +43,10 @@ function FilterContent() {
     setFilters(localFilters);
     setOpenFilter(false);
   };
+
+  useEffect(() => {
+    setLocalFilters(JSON.parse(JSON.stringify(filters)));
+  }, [setLocalFilters, filters]);
 
   if (!openFilter) return <></>;
 

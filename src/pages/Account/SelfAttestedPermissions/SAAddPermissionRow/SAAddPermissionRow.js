@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
 import AddIcon from "components/icons/add";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 

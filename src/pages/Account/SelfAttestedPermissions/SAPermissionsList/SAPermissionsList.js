@@ -4,7 +4,7 @@ import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore
 import { LoadMoreButton } from "../LoadMoreButton";
 import { ListItem } from "./ListItem";
 import { SAAddPermissionForm } from "../SAAddPermissionForm";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 

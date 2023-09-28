@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import * as Sentry from "@sentry/react";
 
 import useUserProfile from "hooks/useUserProfile";
-import useToast from "hooks/useToast";
 import { useWindowSize } from "hooks/useWindowSize";
 import { CarrierField } from "./CarrierField";
 import { ProductField } from "./ProductField";
@@ -13,22 +12,24 @@ import { ProducerIdField } from "./ProducerIdField";
 import { CancelButton } from "./CancelButton";
 import { AddButton } from "./AddButton";
 import useSelectOptions from "../hooks/useSelectOptions";
-import { getSnpTypes } from "../utils/helper";
+import { getSnpTypes, hasDuplicate } from "../utils/helper";
 import useFetch from "hooks/useFetch";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
+import { useSAPModalsContext } from "../providers/SAPModalProvider";
 
 import styles from "./styles.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
 
 function SAAddPermissionForm() {
+  const [error, setError] = useState(null);
   const [carrier, setCarrier] = useState("");
   const [product, setProduct] = useState("");
   const [state, setState] = useState("");
   const [year, setYear] = useState("");
   const { npn } = useUserProfile();
-  const addToast = useToast();
   const { width: windowWidth } = useWindowSize();
+  const { setIsErrorModalOpen } = useSAPModalsContext();
   const { agents, handleCancel, fetchTableData, isAdding, setIsLoading } =
     useSAPermissionsContext();
   const {
@@ -54,6 +55,7 @@ function SAAddPermissionForm() {
     setProduct("");
     setState("");
     setYear("");
+    setError(null);
   };
 
   const onCarrierChange = (value) => {
@@ -61,17 +63,20 @@ function SAAddPermissionForm() {
     setProduct("");
     setState("");
     setYear("");
+    if (error) setError(null);
   };
 
   const onProductChange = (value) => {
     setProduct(value);
     setState("");
     setYear("");
+    if (error) setError(null);
   };
 
   const onStateChange = (value) => {
     setState(value);
     setYear("");
+    if (error) setError(null);
   };
 
   const OnCancelClickHandle = () => {
@@ -79,7 +84,26 @@ function SAAddPermissionForm() {
     handleCancel();
   };
 
+  const isDuplicate = () => {
+    const agentRtsData = selectedCarrierGroup[0];
+    const newItem = {
+      producerId: producerId,
+      businessUnit: agentRtsData.businessUnit,
+      carrier: carrier,
+      state: state,
+      planType: product,
+      status: agentRtsData.status,
+      planYear: year,
+      blobPath: agentRtsData.blobPath,
+    };
+    return hasDuplicate(newItem, agents);
+  };
+
   const OnAddClickHandle = async () => {
+    if (isDuplicate()) {
+      setError("The new permission duplicates an active permission.");
+      return;
+    }
     const agentRtsData = selectedCarrierGroup[0];
     const payload = {
       agentRts: {
@@ -102,20 +126,16 @@ function SAAddPermissionForm() {
         },
       ],
     };
-    try {
-      setIsLoading(true)
-      await addAgentSelfAttestation(payload);
+    setIsLoading(true);
+    const res = await addAgentSelfAttestation(payload, true);
+    if (res.status >= 200 && res.status < 300) {
       await fetchTableData();
       resetAllFields();
-      setIsLoading(false)
-    } catch (error) {
-      setIsLoading(false)
-      Sentry.captureException(error);
-      addToast({
-        type: "error",
-        message: "Failed to add record",
-        time: 10000,
-      });
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      Sentry.captureException(res.statusText);
+      setIsErrorModalOpen(true);
     }
   };
 
@@ -125,7 +145,7 @@ function SAAddPermissionForm() {
     <>
       {!isMobile && (
         <tbody className={styles.customBody}>
-          <tr>
+          <tr className={styles.customRow}>
             <td>
               <CarrierField
                 carrier={carrier}
@@ -165,44 +185,51 @@ function SAAddPermissionForm() {
             <td>
               <AddButton OnAddClickHandle={OnAddClickHandle} year={year} />
             </td>
+            {error && <Box className={styles.errorTable}>{error}</Box>}
           </tr>
         </tbody>
       )}
       {isMobile && (
-        <Box className={styles.mobileContainer}>
-          <CarrierField
-            carrier={carrier}
-            setCarrier={onCarrierChange}
-            options={carriersOptions}
-            isMobile={isMobile}
-          />
-          <ProductField
-            product={product}
-            carrier={carrier}
-            setProduct={onProductChange}
-            options={productsOptions}
-            isMobile={isMobile}
-          />
-          <StateField
-            product={product}
-            state={state}
-            setState={onStateChange}
-            isMobile={isMobile}
-          />
-          <PlanYearField
-            state={state}
-            year={year}
-            setYear={setYear}
-            options={planYearOptions}
-            isMobile={isMobile}
-          />
-          <ProducerIdField producerId={producerId} isMobile={isMobile} />
-          <CancelButton
-            OnCancelClickHandle={OnCancelClickHandle}
-            isMobile={isMobile}
-          />
-          <AddButton OnAddClickHandle={OnAddClickHandle} isMobile={isMobile} />
-        </Box>
+        <>
+          <Box className={styles.mobileContainer}>
+            <CarrierField
+              carrier={carrier}
+              setCarrier={onCarrierChange}
+              options={carriersOptions}
+              isMobile={isMobile}
+            />
+            <ProductField
+              product={product}
+              carrier={carrier}
+              setProduct={onProductChange}
+              options={productsOptions}
+              isMobile={isMobile}
+            />
+            <StateField
+              product={product}
+              state={state}
+              setState={onStateChange}
+              isMobile={isMobile}
+            />
+            <PlanYearField
+              state={state}
+              year={year}
+              setYear={setYear}
+              options={planYearOptions}
+              isMobile={isMobile}
+            />
+            <ProducerIdField producerId={producerId} isMobile={isMobile} />
+            <CancelButton
+              OnCancelClickHandle={OnCancelClickHandle}
+              isMobile={isMobile}
+            />
+            <AddButton
+              OnAddClickHandle={OnAddClickHandle}
+              isMobile={isMobile}
+            />
+          </Box>
+          {error && <Box className={styles.error}>{error}</Box>}
+        </>
       )}
     </>
   );

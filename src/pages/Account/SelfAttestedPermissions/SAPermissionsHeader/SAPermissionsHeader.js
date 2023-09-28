@@ -7,19 +7,15 @@ import Heading2 from "packages/Heading2";
 import Info from "components/icons/info-blue";
 import { useWindowSize } from "hooks/useWindowSize";
 import { SAPermissionsFilter } from "../SAPermissionsFilter";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
+import { useSAPModalsContext } from "../providers/SAPModalProvider";
 
 import styles from "./styles.module.scss";
 
 function SAPermissionsHeader() {
-  const {
-    setIsCollapsed,
-    handleAddNew,
-    isCollapsed,
-    isAdding,
-    filteredData,
-    setIsModalOpen,
-  } = useSAPermissionsContext();
+  const { setIsCollapsed, handleAddNew, isCollapsed, isAdding, filteredData } =
+    useSAPermissionsContext();
+  const { setIsModalOpen } = useSAPModalsContext();
   const { width: windowWidth } = useWindowSize();
   const isMobile = windowWidth <= 784;
   const numOfPermissions = filteredData.length;

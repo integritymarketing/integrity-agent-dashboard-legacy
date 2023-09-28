@@ -5,12 +5,13 @@ import { Button } from "components/ui/Button";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import { FilterContent } from "./FilterContent";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
 function SAPermissionsFilter() {
-  const { openFilter, setOpenFilter } = useSAPermissionsContext();
+  const { openFilter, setOpenFilter, filters, setFilters } =
+    useSAPermissionsContext();
 
   useEffect(() => {
     const closeFilters = (event) => {
@@ -20,11 +21,13 @@ function SAPermissionsFilter() {
       ) {
         return;
       }
+      setFilters(JSON.parse(JSON.stringify(filters)));
       setOpenFilter(false);
     };
     document.body.addEventListener("click", closeFilters);
     return () => document.body.removeEventListener("click", closeFilters);
-  }, [openFilter, setOpenFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setOpenFilter]);
 
   return (
     <Box className={styles.customFilter}>

@@ -149,6 +149,32 @@ function getSnpTypes(planType) {
   return planType === "MAPD" ? ["DSNP", "ISNP", "CSNP"] : []
 }
 
+/**
+ * Checks if there are no unique carrier values in the provided data.
+ *
+ * @param {Array} data - The array of objects containing carrier information.
+ * @returns {boolean} True if there are no unique carrier values, false otherwise.
+ */
+function hasNoUniqueCarriers(data) {
+  const uniqueCarriers = getUniqueCarriers(data);
+  return uniqueCarriers.length === 0;
+}
+
+function hasDuplicate(inputObject, arrayOfObjects) {
+  for (const obj of arrayOfObjects) {
+      const inputObjectWithoutIsSelfAttested = { ...inputObject };
+      const objWithoutIsSelfAttested = { ...obj };
+
+      delete inputObjectWithoutIsSelfAttested.isSelfAttested;
+      delete objWithoutIsSelfAttested.isSelfAttested;
+
+      if (JSON.stringify(objWithoutIsSelfAttested) === JSON.stringify(inputObjectWithoutIsSelfAttested)) {
+          return true;
+      }
+  }
+  return false;
+}
+
 export {
   getUniqueCarriers,
   groupUniquePlanTypesByCarrier,
@@ -157,4 +183,6 @@ export {
   groupUniqueProducerIdsByCarrier,
   groupCarriers,
   getSnpTypes,
+  hasNoUniqueCarriers,
+  hasDuplicate,
 };

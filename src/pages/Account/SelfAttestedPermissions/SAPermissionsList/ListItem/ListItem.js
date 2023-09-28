@@ -5,10 +5,12 @@ import Grid from "@mui/material/Grid";
 import { dateFormatter } from "utils/dateFormatter";
 import { DeleteButton } from "../../DeleteButton";
 import InfoRedIcon from "components/icons/info-red";
+import { useSAPModalsContext } from "../../providers/SAPModalProvider";
 
 import styles from "./styles.module.scss";
 
 function ListItem({ item }) {
+  const { setIsExpriedModalOpen } = useSAPModalsContext();
   const isExpired = item.isExpired;
 
   return (
@@ -73,7 +75,9 @@ function ListItem({ item }) {
         <Box>
           {isExpired && (
             <Box className={styles.expiredColumn}>
-              <InfoRedIcon />
+              <Box className={styles.expiredIcon} onClick={() => setIsExpriedModalOpen(true)}>
+                <InfoRedIcon />
+              </Box>
               <Box>Expired</Box>
             </Box>
           )}

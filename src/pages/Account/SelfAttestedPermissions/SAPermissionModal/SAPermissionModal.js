@@ -1,31 +1,44 @@
+import PropTypes from "prop-types";
 import Modal from "components/Modal";
 import Box from "@mui/material/Box";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 
-function SAPermissionModal() {
-  const { isModalOpen, setIsModalOpen } = useSAPermissionsContext()
-
+function SAPermissionModal({
+  content,
+  title,
+  subTitle,
+  isModalOpen,
+  setIsModalOpen,
+  actionButtonName,
+  hideFooter = true,
+  onSave,
+}) {
   return (
     <Modal
       open={isModalOpen}
       onClose={() => setIsModalOpen(false)}
-      title="Self-Attested Permissions"
-      hideFooter={true}
+      title={title}
       size="wide"
+      actionButtonName={actionButtonName}
+      hideFooter={hideFooter}
+      onSave={onSave}
     >
-      <Box className={styles.modalContentHeader}>Pharetra Tortor Magna</Box>
-      <Box className={styles.modalContent}>
-        Cras mattis consectetur purus sit amet fermentum. Praesent commodo
-        cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-        lacus vel augue laoreet rutrum faucibus dolor auctor. Cras mattis
-        consectetur purus sit amet fermentum. Donec id elit non mi porta gravida
-        at eget metus. Vestibulum id ligula porta felis euismod semper.
-        Curabitur blandit tempus porttitor.
-      </Box>
+      <Box className={styles.modalContentHeader}>{subTitle}</Box>
+      <Box className={styles.modalContent}>{content}</Box>
     </Modal>
   );
 }
+
+SAPermissionModal.propTypes = {
+  content: PropTypes.node,
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
+  isModalOpen: PropTypes.bool,
+  setIsModalOpen: PropTypes.func,
+  actionButtonName: PropTypes.string,
+  hideFooter: PropTypes.bool,
+  onSave: PropTypes.func,
+};
 
 export default SAPermissionModal;

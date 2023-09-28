@@ -12,7 +12,7 @@
 }
 
 .link {
-  color: #4178FF;
+  color: #4178ff;
   cursor: pointer;
 }
 
@@ -23,6 +23,23 @@
   flex-wrap: wrap;
   padding: 16px 24px;
   background-color: white;
-  border-bottom: 1px solid #F1F1F1;
+  border-bottom: 1px solid #f1f1f1;
   gap: 15px;
+}
+
+.error {
+  width: 100%;
+  text-align: center;
+  color: #f44336;
+}
+
+.errorTable {
+  position: absolute;
+  left: 35%;
+  bottom: 0;
+  color: #f44336;
+}
+
+.customRow {
+  position: relative;
 }

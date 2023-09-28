@@ -5,16 +5,16 @@ import * as Sentry from "@sentry/react";
 
 import TrashBinIcon from "components/icons/trashbin";
 import useUserProfile from "hooks/useUserProfile";
-import useToast from "hooks/useToast";
 import useFetch from "hooks/useFetch";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
+import { useSAPModalsContext } from "../providers/SAPModalProvider";
 
 import styles from "./styles.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
 function DeleteButton({ attestationId }) {
   const { fetchTableData, setIsLoading } = useSAPermissionsContext();
-  const addToast = useToast();
+  const { setIsErrorModalOpen } = useSAPModalsContext();
   const { agentId } = useUserProfile();
 
   const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}/${attestationId}`;
@@ -22,19 +22,15 @@ function DeleteButton({ attestationId }) {
   const { Delete: deleteAgentSelfAttestation } = useFetch(URL);
 
   const onDeleteHandle = async () => {
-    try {
-      setIsLoading(true)
-      await deleteAgentSelfAttestation();
+    setIsLoading(true);
+    const res = await deleteAgentSelfAttestation(null, true);
+    if (res.status >= 200 && res.status < 300) {
       await fetchTableData();
-      setIsLoading(false)
-    } catch (error) {
-      setIsLoading(false)
-      Sentry.captureException(error);
-      addToast({
-        type: "error",
-        message: "Failed to delete record",
-        time: 10000,
-      });
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      Sentry.captureException(res.statusText);
+      setIsErrorModalOpen(true);
     }
   };
 

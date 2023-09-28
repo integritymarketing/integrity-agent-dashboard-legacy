@@ -7,7 +7,8 @@ import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore
 import { SAPermissionsFilter } from "../SAPermissionsFilter";
 import { LoadMoreButton } from "../LoadMoreButton";
 import { DeleteButton } from "../DeleteButton";
-import { useSAPermissionsContext } from "../SAPermissionProvider";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
+import { useSAPModalsContext } from "../providers/SAPModalProvider";
 import InfoRedIcon from "components/icons/info-red";
 
 import styles from "./styles.module.scss";
@@ -15,6 +16,7 @@ import styles from "./styles.module.scss";
 const ITEM_PER_PAGE = 5;
 
 function SAPermissionsTable() {
+  const { setIsExpriedModalOpen } = useSAPModalsContext;
   const { filteredData, isCollapsed } = useSAPermissionsContext();
   const { visibleItems, loadMore, hasMore } = useLoadMore(
     filteredData,
@@ -94,7 +96,12 @@ function SAPermissionsTable() {
             <Box>
               {isExpired ? (
                 <Box className={styles.expiredColumn}>
-                  <InfoRedIcon />
+                  <Box
+                    className={styles.expiredIcon}
+                    onClick={() => setIsExpriedModalOpen(true)}
+                  >
+                    <InfoRedIcon />
+                  </Box>
                   <Box>Expired</Box>
                 </Box>
               ) : (
@@ -117,7 +124,7 @@ function SAPermissionsTable() {
         },
       },
     ],
-    []
+    [setIsExpriedModalOpen]
   );
 
   if (isCollapsed) return <></>;

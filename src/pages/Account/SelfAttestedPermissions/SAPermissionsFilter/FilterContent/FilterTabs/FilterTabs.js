@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Check from "components/icons/check-blue";
-import { useSAPermissionsContext } from "pages/Account/SelfAttestedPermissions/SAPermissionProvider";
+import { useSAPermissionsContext } from "pages/Account/SelfAttestedPermissions/providers/SAPermissionProvider";
 
 import styles from "./styles.module.scss";
 

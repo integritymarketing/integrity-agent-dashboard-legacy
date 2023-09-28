@@ -7,26 +7,19 @@ import React, {
 } from "react";
 
 import Spinner from "components/ui/Spinner/index";
-import useFeatureFlag from "hooks/useFeatureFlag";
-import useFetchTableData from "./hooks/useFetchTableData";
-import useFetchAgentsData from "./hooks/useFetchAgentsData";
-import useFilterData from "./hooks/useFilteredData";
-import useFilterOptions from "./hooks/useFilterOptions";
-import useRoles from "hooks/useRoles";
-
-const FLAG_NAME = "REACT_APP_SELF_ATTESTED_PERMISSION_FLAG";
+import useFetchTableData from "../hooks/useFetchTableData";
+import useFetchAgentsData from "../hooks/useFetchAgentsData";
+import useFilterData from "../hooks/useFilteredData";
+import useFilterOptions from "../hooks/useFilterOptions";
+import useShowSection from "../hooks/useShowSection";
 
 // Create a context for SAPermissionsProvider
 const SAPermissionsContext = createContext(null);
 
 export const SAPermissionsProvider = ({ children }) => {
-  const isFeatureEnabled = useFeatureFlag(FLAG_NAME);
-  const { isNonRTS_User } = useRoles();
-
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // -- For Table related features
   const { agents, isLoading: isFetchingAgentsData } = useFetchAgentsData();
@@ -41,6 +34,8 @@ export const SAPermissionsProvider = ({ children }) => {
   const { setFilters, filteredData, filters } = useFilterData(tableData);
   const { filterOptions } = useFilterOptions(tableData);
 
+  const shouldShowSection = useShowSection(agents);
+
   const handleAddNew = useCallback(() => {
     setIsAdding(true);
   }, [setIsAdding]);
@@ -54,7 +49,6 @@ export const SAPermissionsProvider = ({ children }) => {
     () => ({
       isAdding,
       isCollapsed,
-      isModalOpen,
       agents,
       tableData,
       filterOptions,
@@ -63,7 +57,6 @@ export const SAPermissionsProvider = ({ children }) => {
       openFilter,
       setIsAdding,
       setIsCollapsed,
-      setIsModalOpen,
       setFilters,
       setOpenFilter,
       handleAddNew,
@@ -74,7 +67,6 @@ export const SAPermissionsProvider = ({ children }) => {
     [
       isAdding,
       isCollapsed,
-      isModalOpen,
       agents,
       tableData,
       filterOptions,
@@ -83,7 +75,6 @@ export const SAPermissionsProvider = ({ children }) => {
       openFilter,
       setIsAdding,
       setIsCollapsed,
-      setIsModalOpen,
       setFilters,
       setOpenFilter,
       handleAddNew,
@@ -93,10 +84,10 @@ export const SAPermissionsProvider = ({ children }) => {
     ]
   );
 
-  // Not showing the section for NonRTS user
-  if (!isFeatureEnabled || isNonRTS_User) return <></>;
+  if (!shouldShowSection) return <></>;
 
-  if (isFetchingAgentsData || isfetchingTableData || isLoading) return <Spinner />;
+  if (isFetchingAgentsData || isfetchingTableData || isLoading)
+    return <Spinner />;
 
   return (
     <SAPermissionsContext.Provider value={contextValue}>
