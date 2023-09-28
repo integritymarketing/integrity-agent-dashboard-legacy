@@ -7,7 +7,7 @@ import styles from "../ContactsPage.module.scss";
 import { formatAddress, getMapUrl } from "utils/address";
 import Editicon from "components/icons/edit-details";
 import CallScriptSvg from "images/call-script.svg";
-import TagSvg from "components/icons/tag-svg";
+import TagSvg from "components/icons/tag2";
 import ButtonExpand from "components/icons/btn-expand";
 import RoundCheck from "components/icons/round-check";
 import RoundClose from "components/icons/round-close";
@@ -130,6 +130,8 @@ function TagsIcon({
               st.tag.tagCategory.tagCategoryName === RECOMMENDATIONS_TAG_NAME
           )
         ) {
+          acc[cat.tagCategoryId] = true;
+        } else if (cat.tagCategoryName === "Ask Integrity Recommendations") {
           acc[cat.tagCategoryId] = true;
         }
         return acc;
@@ -382,6 +384,8 @@ function TagsIcon({
               }
               const isReccommendations =
                 tg.tagCategoryName === RECOMMENDATIONS_TAG_NAME;
+              const isAskRecommendation =
+                tg.tagCategoryName === "Ask Integrity Recommendations";
               const isExpanded = expandedList[tg.tagCategoryId];
               const tags = tg.tags || [];
 
@@ -450,11 +454,13 @@ function TagsIcon({
                             <div
                               key={tag.tagId}
                               data-disabled={
-                                isReccommendations ? "disabled" : false
+                                isReccommendations || isAskRecommendation
+                                  ? "disabled"
+                                  : false
                               }
                               className={styles.tagRow}
                               onClick={(e) =>
-                                isReccommendations
+                                isReccommendations || isAskRecommendation
                                   ? undefined
                                   : toggleTagSelection(e, tag.tagId)
                               }
