@@ -17,20 +17,23 @@ export const CallScriptModal = ({
   postalCode,
 }) => {
   const [carrierProductData, setCarrierProductData] = useState(null);
-  const { Get: fetchCarrierProductData, loading } = useFetch(
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const { Get: fetchCarrierProductData } = useFetch(
     `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`
   );
 
   const fetchCounts = useCallback(async () => {
     if (leadId && postalCode) {
+      setIsLoadingData(true);
       const fetchedData = await fetchCarrierProductData();
       setCarrierProductData(fetchedData);
+      setIsLoadingData(false);
     }
   }, [fetchCarrierProductData, leadId, postalCode]);
 
   useEffect(() => {
     fetchCounts();
-  }, [fetchCounts, countyFips, postalCode]);
+  }, [fetchCounts]);
 
   let carrierCount = countyFips
     ? carrierProductData?.carrierCount || DEFAULT_CARRIER_COUNT
@@ -42,23 +45,21 @@ export const CallScriptModal = ({
 
   const renderModalContent = useCallback(
     () => (
-      <>
-        <WithLoader isLoading={loading}>
-          <div className={styles.cmsComplianceSection}>
-            To be in compliance with CMS guidelines, please read this script
-            before every call.
-          </div>
-          <div className={styles.planInformationSection}>
-            We do not offer every plan available in your area. Currently, we
-            represent {carrierCount} organizations which offer {productCount}{" "}
-            products in your area. Please contact medicare.gov, 1-800-MEDICARE,
-            or your local State Health Insurance Program (SHIP) to get
-            information on all of your options.
-          </div>
-        </WithLoader>
-      </>
+      <WithLoader isLoading={isLoadingData}>
+        <div className={styles.cmsComplianceSection}>
+          To be in compliance with CMS guidelines, please read this script
+          before every call.
+        </div>
+        <div className={styles.planInformationSection}>
+          We do not offer every plan available in your area. Currently, we
+          represent {carrierCount} organizations which offer {productCount}{" "}
+          products in your area. Please contact medicare.gov, 1-800-MEDICARE, or
+          your local State Health Insurance Program (SHIP) to get information on
+          all of your options.
+        </div>
+      </WithLoader>
     ),
-    [carrierCount, loading, productCount]
+    [carrierCount, isLoadingData, productCount]
   );
 
   return (
