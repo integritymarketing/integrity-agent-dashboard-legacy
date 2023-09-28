@@ -10,6 +10,9 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "flex-start",
     width: "40%",
+    "@media (max-width: 768px)": {
+      width: "100%",
+    },
   },
   specialty: {
     color: "#717171",
