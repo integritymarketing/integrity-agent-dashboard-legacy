@@ -90,12 +90,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
   },
-  checkbox: {
-    color: "#434A51",
-    "&.Mui-checked": {
-      color: "#4178FF",
-    },
-  },
+
   isMultiple: {
     boxShadow: "inset 0px -1px 0px #CCCCCC",
     "&:first-child": {
@@ -132,7 +127,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Address = ({ addresses, isChecked, disabled = false, inNetwork }) => {
+const Address = ({ addresses, isChecked, inNetwork }) => {
   const classes = useStyles();
   const isMultiple = addresses?.length > 1;
 
@@ -252,11 +247,7 @@ const ProviderCoverageModal = ({
                     </Box>
                   )}
                 </Box>
-                <Address
-                  addresses={addresses}
-                  provider={provider}
-                  isChecked={true}
-                />
+                <Address addresses={addresses} isChecked={true} />
 
                 {inNetworkAddressList?.length > 0 && (
                   <>
@@ -274,9 +265,7 @@ const ProviderCoverageModal = ({
                     {isOpen && (
                       <Address
                         addresses={inNetworkAddressList}
-                        provider={provider}
                         isChecked={false}
-                        disabled={true}
                         inNetwork={true}
                       />
                     )}
