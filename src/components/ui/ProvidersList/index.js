@@ -25,6 +25,34 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "flex-start",
     width: "40%",
+    "@media (max-width: 768px)": {
+      width: "100%",
+    },
+  },
+  editbtn: {
+    "@media (max-width: 768px)": {
+      position: "absolute",
+      top: "12px",
+      right: "15px",
+    },
+  },
+  highlightBox: {
+    "@media (max-width: 768px)": {
+      background: "#F1FAFF",
+      width: "100%",
+      padding: "9px 16px",
+      borderRadius: "4px",
+    },
+  },
+  selectedText: {
+    display: "none",
+    "@media (max-width: 768px)": {
+      marginTop: "15px",
+      marginBottom: "5px",
+      color: "#717171",
+      fontSize: "14px",
+      fontStyle: "italics",
+    },
   },
 });
 
@@ -54,23 +82,38 @@ const RenderProviders = ({
       />
 
       <Box className={classes.addressColumn}>
-        {provider?.addresses?.map((address) => (
-          <Box
-            className={classes.addressContainer}
-            key={`Provider-address-${address?.id}`}
-          >
-            {isPlanPage && (
-              <>{address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}</>
-            )}
-            <Box className={classes.addressText}>
-              {address.streetLine1}, {address.city}, {address.state},
-              {address.zipCode}
-            </Box>
-          </Box>
-        ))}
+        {provider?.addresses?.map((address, index) => {
+          return (
+            <>
+              {index === 0 && (
+                <div className={classes.selectedText}>Selected Location</div>
+              )}
+              <Box
+                className={`${classes.addressContainer} ${
+                  index === 0 ? classes.highlightBox : ""
+                }`}
+                key={`Provider-address-${address?.id}`}
+              >
+                {isPlanPage && (
+                  <>
+                    {address?.inNetwork ? (
+                      <InNetworkIcon />
+                    ) : (
+                      <OutNetworkIcon />
+                    )}
+                  </>
+                )}
+                <Box className={classes.addressText}>
+                  {address.streetLine1}, {address.city}, {address.state},
+                  {address.zipCode}
+                </Box>
+              </Box>
+            </>
+          );
+        })}
       </Box>
 
-      <Box>
+      <Box className={classes.editbtn}>
         <IconButton
           label="Edit"
           onClick={() => {
