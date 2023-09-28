@@ -6,8 +6,8 @@ import useFetch from "hooks/useFetch";
 import styles from "./styles.module.scss";
 import { DEFAULT_EFFECTIVE_YEAR } from "utils/dates";
 
-const DEFAULT_CARRIER_COUNT = 78;
-const DEFAULT_PLAN_COUNT = "2,613";
+const DEFAULT_CARRIER_COUNT = `0-78`;
+const DEFAULT_PLAN_COUNT = `0-2,613`;
 
 export const CallScriptModal = ({
   modalOpen,
@@ -41,11 +41,6 @@ export const CallScriptModal = ({
   if (countyFips && carrierProductData) {
     carrierCount = carrierProductData.carrierCount || DEFAULT_CARRIER_COUNT;
     productCount = carrierProductData.planCount || DEFAULT_PLAN_COUNT;
-  }
-
-  if (countyFips) {
-    carrierCount = carrierCount || `0-${DEFAULT_CARRIER_COUNT}`;
-    productCount = productCount || `0-${DEFAULT_PLAN_COUNT}`;
   }
 
   const renderModalContent = useCallback(
