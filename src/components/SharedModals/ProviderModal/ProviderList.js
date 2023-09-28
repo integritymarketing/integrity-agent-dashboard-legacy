@@ -133,8 +133,6 @@ const Address = ({
     }
   };
 
-  console.log("addresses", selectAddressIds, selectedProvider);
-
   return (
     <List>
       {addresses?.map((address) => {
