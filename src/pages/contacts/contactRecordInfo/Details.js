@@ -204,6 +204,7 @@ const DetailsComponent = forwardRef((props, ref) => {
                   <RenderProviders
                     provider={item}
                     handleEditProvider={handleEditProvider}
+                    isMobile={isMobile}
                   />
                 </div>
               );
