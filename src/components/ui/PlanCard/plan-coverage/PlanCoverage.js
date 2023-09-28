@@ -99,8 +99,17 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     }
   };
 
-  const coveredProviders = planData?.providers?.filter(
-    (provider) => provider?.inNetwork
+  const totalProvidersLocation = providersList.reduce((acc, provider) => {
+    return acc + provider?.addresses?.length;
+  }, 0);
+  const totalCoveredProvidersLocation = providersList.reduce(
+    (acc, provider) => {
+      return (
+        acc +
+        provider?.addresses?.filter((address) => address?.inNetwork).length
+      );
+    },
+    0
   );
   const coveredPharmacies = planData?.pharmacyCosts?.filter(
     (pharmacy) =>
@@ -122,7 +131,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
       : "Add Prescriptions";
   const addProviderText =
     providersList?.length > 0
-      ? `${coveredProviders?.length} of ${planData?.providers?.length} Provider Locations Covered`
+      ? `${totalCoveredProvidersLocation} of ${totalProvidersLocation} Provider Locations Covered`
       : "Add Providers";
 
   return (
