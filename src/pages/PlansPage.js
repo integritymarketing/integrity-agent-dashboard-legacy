@@ -243,11 +243,11 @@ const PlansPage = () => {
       const { birthdate, shouldHideSpecialistPrompt } = contactData;
       const payload = {
         birthDate: birthdate,
-        rxDetails: prescriptions?.map(({ dosage: { ndc, drugName } }) => ({
+        rxDetails: prescriptionData?.map(({ dosage: { ndc, drugName } }) => ({
           ndc,
           drugName,
         })),
-        providerDetails: providers?.map(({ presentationName, specialty }) => ({
+        providerDetails: providerData?.map(({ presentationName, specialty }) => ({
           providerName: presentationName,
           providerSpecialty: specialty,
         })),
