@@ -11,12 +11,9 @@ import ProviderSvg from "./assets/providerSvg";
 import UpdateView from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 import { useLeadInformation } from "hooks/useLeadInformation";
 import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
-import useContactDetails from "pages/ContactDetails/useContactDetails";
-import { useParams } from "react-router-dom";
 import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCoverageModal";
 
 const PlanCoverage = ({ contact, planData, planName, refresh }) => {
-  const { contactId } = useParams();
   const {
     deletePharmacy,
     prescriptions: prescriptionsList,
@@ -24,10 +21,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     providers: providersList,
   } = useLeadInformation() || {};
 
-  const pharmacies = planData?.pharmacyCosts;
   const prescriptions = planData?.planDrugCoverage;
-
-  const { leadDetails } = useContactDetails(contactId);
 
   // Prescription Modal states //
   const [isOpenPrescription, setIsOpenPrescription] = useState(false);
@@ -105,38 +99,21 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     }
   };
 
-  const selectedProvider = isEditingProvider
-    ? {
-        ...providerToEdit,
-        NPI: providerToEdit?.npi,
-      }
-    : null;
-
-  const totalProvidersLocation = providersList.reduce((acc, provider) => {
-    return acc + provider?.addresses?.length;
-  }, 0);
-  const totalCoveredProvidersLocation = providersList.reduce(
-    (acc, provider) => {
-      return (
-        acc +
-        provider?.addresses?.filter((address) => address?.inNetwork).length
-      );
-    },
-    0
+  const coveredProviders = planData?.providers?.filter(
+    (provider) => provider?.inNetwork
   );
-
-  const coveredPharmacies = planData?.pharmacyCosts
-    ?.filter((pharmacy) => pharmacy?.isNetwork)
-    .filter(
-      (pharmacy) => pharmacy?.pharmacyID === pharmaciesList?.[0]?.pharmacyID
-    );
+  const coveredPharmacies = planData?.pharmacyCosts?.filter(
+    (pharmacy) =>
+      pharmaciesList[0]?.pharmacyID === pharmacy?.pharmacyID &&
+      pharmacy?.isNetwork
+  );
 
   const coveredPrescriptions = planData?.planDrugCoverage?.filter(
     (prescription) => prescription?.tierNumber > 0
   );
 
   const addPharmacyText =
-    pharmacies?.length > 0
+    pharmaciesList?.length > 0
       ? `${coveredPharmacies?.length} of ${pharmaciesList?.length} Pharmacies Covered`
       : "Add Pharmacy";
   const addPrescriptionText =
@@ -145,7 +122,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
       : "Add Prescriptions";
   const addProviderText =
     providersList?.length > 0
-      ? `${totalCoveredProvidersLocation} of ${totalProvidersLocation} Provider Locations Covered`
+      ? `${coveredProviders?.length} of ${planData?.providers?.length} Provider Locations Covered`
       : "Add Providers";
 
   return (
@@ -172,8 +149,8 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
         <ProviderModal
           open={isProviderModalOpen}
           onClose={() => setIsProviderModalOpen(false)}
-          userZipCode={leadDetails?.addresses?.[0]?.postalCode}
-          selected={selectedProvider}
+          userZipCode={contact?.addresses?.[0]?.postalCode}
+          selected={providerToEdit}
           isEdit={isEditingProvider}
           refresh={closeProviderModalsAndRefresh}
         />
@@ -265,7 +242,6 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
 
 PlanCoverage.propTypes = {
   contactId: PropTypes.string.isRequired,
-  contact: PropTypes.object.isRequired,
   planData: PropTypes.object.isRequired,
 };
 export default PlanCoverage;

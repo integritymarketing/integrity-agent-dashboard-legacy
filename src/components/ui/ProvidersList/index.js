@@ -59,10 +59,8 @@ const RenderProviders = ({
             className={classes.addressContainer}
             key={`Provider-address-${address?.id}`}
           >
-            {isPlanPage && provider?.inNetwork ? (
-              <InNetworkIcon />
-            ) : (
-              <OutNetworkIcon />
+            {isPlanPage && (
+              <>{address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}</>
             )}
             <Box className={classes.addressText}>
               {address.streetLine1}, {address.city}, {address.state},

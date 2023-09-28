@@ -118,7 +118,7 @@ const Address = ({
 
     if (
       selectAddressIds?.length > 0 &&
-      selectedProvider?.NPI === provider?.NPI
+      selectedProvider?.NPI?.toString() === provider?.NPI?.toString()
     ) {
       if (isAddressExist) {
         setSelectAddressIds(
@@ -132,6 +132,8 @@ const Address = ({
       setSelectedProvider(provider);
     }
   };
+
+  console.log("addresses", selectAddressIds, selectedProvider);
 
   return (
     <List>
@@ -186,11 +188,12 @@ const ProviderCard = ({
   setSelectAddressIds,
   isEdit,
   selectedProvider,
+  providerToEdit,
 }) => {
   const classes = useStyles();
   const [isOpen, setOpenToggle] = useState(isEdit);
 
-  let selectedAddresses = selectedProvider?.addresses?.map(
+  let selectedAddresses = providerToEdit?.addresses?.map(
     (address) => address.id
   );
 
