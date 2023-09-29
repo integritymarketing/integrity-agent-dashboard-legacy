@@ -99,10 +99,20 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     }
   };
 
-  const totalProvidersLocation = providersList.reduce((acc, provider) => {
-    return acc + provider?.addresses?.length;
-  }, 0);
-  const totalCoveredProvidersLocation = providersList.reduce(
+  const selectedProvider = isEditingProvider
+    ? {
+        ...providerToEdit,
+        NPI: providerToEdit?.npi,
+      }
+    : null;
+
+  const totalProvidersLocation = planData?.providers?.reduce(
+    (acc, provider) => {
+      return acc + provider?.addresses?.length;
+    },
+    0
+  );
+  const totalCoveredProvidersLocation = planData?.providers?.reduce(
     (acc, provider) => {
       return (
         acc +
@@ -111,6 +121,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     },
     0
   );
+
   const coveredPharmacies = planData?.pharmacyCosts?.filter(
     (pharmacy) =>
       pharmaciesList[0]?.pharmacyID === pharmacy?.pharmacyID &&
@@ -159,7 +170,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
           open={isProviderModalOpen}
           onClose={() => setIsProviderModalOpen(false)}
           userZipCode={contact?.addresses?.[0]?.postalCode}
-          selected={providerToEdit}
+          selected={selectedProvider}
           isEdit={isEditingProvider}
           refresh={closeProviderModalsAndRefresh}
         />
@@ -169,7 +180,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
         <ProviderCoverageModal
           open={isProviderCoverageModalOpen}
           onClose={() => setIsProviderCoverageModalOpen(false)}
-          providers={providersList}
+          providers={planData?.providers}
           planName={planName}
           addNew={() => {
             setIsProviderCoverageModalOpen(false);
