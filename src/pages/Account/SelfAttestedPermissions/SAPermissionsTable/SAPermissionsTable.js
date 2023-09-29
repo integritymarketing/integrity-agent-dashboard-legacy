@@ -16,7 +16,7 @@ import styles from "./styles.module.scss";
 const ITEM_PER_PAGE = 5;
 
 function SAPermissionsTable() {
-  const { setIsExpriedModalOpen } = useSAPModalsContext;
+  const { setIsExpriedModalOpen } = useSAPModalsContext();
   const { filteredData, isCollapsed } = useSAPermissionsContext();
   const { visibleItems, loadMore, hasMore } = useLoadMore(
     filteredData,
