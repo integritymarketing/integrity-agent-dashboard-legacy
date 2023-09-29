@@ -131,12 +131,11 @@ const SoaCard = ({
                 icon={<OpenIcon />}
                 iconPosition="right"
                 style={{ border: "none" }}
-                className={
+                className={`${styles.customButton} ${
                   isTracking48HourRule &&
-                  isEarlierThanCurrentDate(contactAfterDate)
-                    ? styles.disabled
-                    : ""
-                }
+                  isEarlierThanCurrentDate(contactAfterDate) &&
+                  styles.disabled
+                } `}
               />
             </div>
           )}
@@ -149,6 +148,7 @@ const SoaCard = ({
                 icon={<OpenIcon />}
                 iconPosition="right"
                 style={{ background: "#4178ff", border: "none" }}
+                className={styles.customButton}
               />
             </div>
           )}
