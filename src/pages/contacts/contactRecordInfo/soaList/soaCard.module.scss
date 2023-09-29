@@ -1,32 +1,31 @@
 .contact {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 6px;
-
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .title4 {
-    font-size: 16px;
-    color: #052A63;
-    font-weight: bold;
+  font-size: 16px;
+  color: #052a63;
+  font-weight: bold;
 }
 
 .dateContainer {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    .dateItem {
-        background-color: #F1F1F1;
-        padding: 2px 4px;
-        border-radius: 4px;
-        white-space: nowrap;
-    }
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  .dateItem {
+    background-color: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
 }
 
 .disabled {
-    pointer-events: none;
-    background-color: #B3C9FF !important;
-    border: 1px solid #B3C9FF;
+  cursor: none;
+  background-color: #b3c9ff !important;
+  border: 1px solid #b3c9ff;
 }
