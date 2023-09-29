@@ -65,7 +65,7 @@ export default forwardRef(
       function onScroll() {
         for (const id in refs) {
           if (refs[id]?.current) {
-            observer.observe(refs[id].current);
+            observer?.observe(refs[id]?.current);
           }
         }
       }
