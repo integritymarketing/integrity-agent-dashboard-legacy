@@ -121,18 +121,16 @@ const SoaCard = ({
           {soa_status === "Signed" && (
             <div className="soa-card-btn">
               <Button
+                disabled={
+                  isTracking48HourRule &&
+                  isEarlierThanCurrentDate(contactAfterDate)
+                }
                 label="Complete"
                 onClick={navigateToConfirmSOA}
                 type="primary"
                 icon={<OpenIcon />}
                 iconPosition="right"
-                style={{ background: "#4178ff", border: "none" }}
-                className={`${
-                  isTracking48HourRule &&
-                  isEarlierThanCurrentDate(contactAfterDate)
-                    ? styles.disabled
-                    : ""
-                }`}
+                style={{ border: "none" }}
               />
             </div>
           )}
