@@ -130,12 +130,14 @@ function getPlansAvailableSection(
     );
   }
 }
-const CURRENT_YEAR = new Date().getFullYear();
-const CURRENT_PLAN_YEAR =
-  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR) === CURRENT_YEAR
-    ? CURRENT_YEAR
-    : CURRENT_YEAR;
-const EFFECTIVE_YEARS_SUPPORTED = [CURRENT_PLAN_YEAR];
+
+const currentYear = new Date().getFullYear();
+const currentPlanYear = parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR, 10);
+
+const EFFECTIVE_YEARS_SUPPORTED =
+  currentPlanYear === currentYear
+    ? [currentYear]
+    : [currentYear, currentPlanYear].sort((a, b) => a - b);
 
 function useQuery() {
   const { search } = useLocation();
@@ -247,10 +249,12 @@ const PlansPage = () => {
           ndc,
           drugName,
         })),
-        providerDetails: providerData?.providers?.map(({ presentationName, specialty }) => ({
-          providerName: presentationName,
-          providerSpecialty: specialty,
-        })),
+        providerDetails: providerData?.providers?.map(
+          ({ presentationName, specialty }) => ({
+            providerName: presentationName,
+            providerSpecialty: specialty,
+          })
+        ),
       };
       const data = await postSpecialists(payload);
       const shouldShowSpecialistPrompt =
@@ -556,21 +560,23 @@ const PlansPage = () => {
       <ToastContextProvider>
         <LeadInformationProvider leadId={id}>
           <audio ref={audioRefClose} src={closeAudio} />
-          {showViewAvailablePlans && (<>
-            <div className={styles.backdrop} />
-            <ViewAvailablePlans
-              providers={providers}
-              prescriptions={prescriptions}
-              fullName={fullName}
-              birthdate={birthdate}
-              leadsId={leadsId}
-              showViewAvailablePlansRef={showViewAvailablePlansRef}
-              showViewAvailablePlans={showViewAvailablePlans}
-              personalInfo={contact}
-              rXToSpecialists={rXToSpecialists}
-              setShowViewAvailablePlans={setShowViewAvailablePlans}
-            />
-          </>)}
+          {showViewAvailablePlans && (
+            <>
+              <div className={styles.backdrop} />
+              <ViewAvailablePlans
+                providers={providers}
+                prescriptions={prescriptions}
+                fullName={fullName}
+                birthdate={birthdate}
+                leadsId={leadsId}
+                showViewAvailablePlansRef={showViewAvailablePlansRef}
+                showViewAvailablePlans={showViewAvailablePlans}
+                personalInfo={contact}
+                rXToSpecialists={rXToSpecialists}
+                setShowViewAvailablePlans={setShowViewAvailablePlans}
+              />
+            </>
+          )}
           {isAddProviderModalOpen && (
             <ProviderModal
               open={isAddProviderModalOpen}
