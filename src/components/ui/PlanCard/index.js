@@ -16,6 +16,7 @@ import {
   formatUnderScorestring,
 } from "utils/shared-utils/sharedUtility";
 import SelfRecommendation from "./self-recommendation/SelfRecommendation";
+import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -66,18 +67,11 @@ export default function PlanCard({
 
   const planType = PLAN_TYPE_ENUMS[planData.planType];
 
-  const now = new Date();
-  const year = now.getFullYear();
-
-  const aepSeasonStart = new Date(`10/01/${year}`);
-  const aepSeasonMid = new Date(`10/14/${year}`);
-
-  const isMidAEP = now >= aepSeasonStart && now <= aepSeasonMid ? true : false;
-  const isJanuary = new Date(effectiveDate).getMonth() === 0 ? true : false;
-
   const { isNonRTS_User } = useRoles();
 
-  const disableEnroll = isNonRTS_User || (isMidAEP && isJanuary);
+  const disableEnroll =
+    isNonRTS_User ||
+    shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
 
   return (
     <div className={"plan-card"}>

@@ -11,6 +11,7 @@ import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Container from "components/ui/container";
 import NewShareIcon from "images/new-share-icon.svg";
 import EnrollBack from "images/enroll-btn-back.svg";
+import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 import styles from "../../../pages/PlansPage.module.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -43,6 +44,9 @@ export default function ComparePlansByPlanName({
   const isEmailNonRts = isEmail
     ? agentInfo?.Roles?.includes("nonRts")
     : isNonRTS_User;
+
+  const disableEnroll =
+    shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
 
   useEffect(() => {
     if (!userData && id) {
@@ -179,6 +183,7 @@ export default function ComparePlansByPlanName({
                           icon={<img src={EnrollBack} alt="enroll" />}
                           className={styles["enroll-btn"]}
                           iconPosition={"right"}
+                          disabled={disableEnroll}
                         />
 
                         {preCheckListPdfModal && (
@@ -203,6 +208,7 @@ export default function ComparePlansByPlanName({
                           icon={<img src={EnrollBack} alt="enroll" />}
                           className={styles["enroll-btn"]}
                           iconPosition={"right"}
+                          disabled={disableEnroll}
                         />
                         {preCheckListPdfModal && (
                           <PreEnrollPDFModal

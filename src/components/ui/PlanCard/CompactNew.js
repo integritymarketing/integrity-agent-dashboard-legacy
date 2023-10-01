@@ -7,6 +7,8 @@ import NewShareIcon from "images/new-share-icon.svg";
 import EnrollBack from "images/enroll-btn-back.svg";
 import Info from "components/icons/info-blue";
 import useRoles from "hooks/useRoles";
+import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
+import { useParams } from "react-router-dom";
 import "./index.scss";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -27,7 +29,9 @@ const CompactPlanCardNew = ({
   const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
   const { documents } = planData;
   const { isNonRTS_User } = useRoles();
-
+  const { effectiveDate } = useParams();
+  const disableEnroll =
+    shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
   const buttons = (
     <div className={`footer ${isMobile ? "mobile controlButtons" : ""}`}>
       {documents === null || documents?.length === 0 ? (
@@ -64,6 +68,7 @@ const CompactPlanCardNew = ({
           icon={<img src={EnrollBack} alt="enroll" />}
           className={"enroll-btn"}
           iconPosition={"right"}
+          disabled={disableEnroll}
         />
       )}
     </div>
@@ -106,7 +111,7 @@ const CompactPlanCardNew = ({
         onEnrollClick &&
         !planData.nonLicensedPlan &&
         buttons}
-         {preCheckListPdfModal && (
+      {preCheckListPdfModal && (
         <PreEnrollPDFModal
           open={preCheckListPdfModal}
           onClose={() => {

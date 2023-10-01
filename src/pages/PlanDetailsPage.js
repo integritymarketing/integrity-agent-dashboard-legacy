@@ -106,6 +106,7 @@ const PlanDetailsPage = () => {
               planData={plan}
               contact={contact}
               handleCloseModal={() => setShareModalOpen(false)}
+              effectiveDate={effectiveDate}
             />
             <WithLoader isLoading={isLoading}>
               <Helmet>

@@ -8,6 +8,8 @@ import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Info from "components/icons/info-blue";
 import useRoles from "hooks/useRoles";
+import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
+
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -22,10 +24,14 @@ const CompactPlanCard = ({
   onShareClick,
   isMobile,
   onlyButtons = false,
+  effectiveDate,
 }) => {
   const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
   const { documents } = planData;
   const { isNonRTS_User } = useRoles();
+
+  const disableEnroll =
+    shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
 
   const buttons = (
     <div className={`footer ${isMobile ? "mobile" : ""}`}>
@@ -57,6 +63,7 @@ const CompactPlanCard = ({
         <Button
           label="Enroll"
           onClick={() => setPreCheckListPdfModal(true)}
+          disabled={disableEnroll}
         />
       )}
     </div>
