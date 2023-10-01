@@ -48,6 +48,7 @@ import { useOnClickOutside } from "hooks/useOnClickOutside";
 import LeadInformationProvider from "hooks/useLeadInformation";
 import WebChatComponent from "components/WebChat/WebChat";
 import ProviderModal from "components/SharedModals/ProviderModal";
+import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -132,7 +133,7 @@ function getPlansAvailableSection(
 }
 
 const currentYear = new Date().getFullYear();
-const currentPlanYear = parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR, 10);
+const currentPlanYear = getNextAEPEnrollmentYear();
 
 const EFFECTIVE_YEARS_SUPPORTED =
   currentPlanYear === currentYear

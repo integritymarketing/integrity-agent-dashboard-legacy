@@ -7,9 +7,10 @@ import {
 } from "date-fns";
 import moment from "moment";
 import { dateFormatter } from "./dateFormatter";
+import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear"; 
 
 export const DEFAULT_EFFECTIVE_YEAR = [
-  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR || 2023),
+  getNextAEPEnrollmentYear(),
 ];
 
 export const parseDate = (dateString, format = "MM/dd/yyyy") => {

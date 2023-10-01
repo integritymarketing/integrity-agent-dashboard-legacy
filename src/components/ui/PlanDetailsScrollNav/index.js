@@ -3,6 +3,7 @@ import { debounce } from "debounce";
 import "./index.scss";
 import EffectiveDateFilter from "../EffectiveDateFilter";
 import { getFirstEffectiveDateOption } from "utils/dates";
+import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
 
 const SCROLL_BEHAVIOR = {
   behavior: "smooth",
@@ -50,7 +51,7 @@ function getNavElements(
 }
 
 const currentYear = new Date().getFullYear();
-const currentPlanYear = parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR, 10);
+const currentPlanYear = getNextAEPEnrollmentYear();
 
 const EFFECTIVE_YEARS_SUPPORTED =
   currentPlanYear === currentYear
