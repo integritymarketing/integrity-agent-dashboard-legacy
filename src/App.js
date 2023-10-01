@@ -9,6 +9,7 @@ import { ParallaxProvider } from "react-scroll-parallax";
 import { RecoilRoot } from "recoil";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from '@mui/material/CssBaseline';
 import Media from "react-media";
 
 // Context Providers
@@ -94,6 +95,7 @@ const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <AuthContext.Provider value={authService}>
         <RecoilRoot>
           <Suspense fallback={<div>Loading...</div>}>
