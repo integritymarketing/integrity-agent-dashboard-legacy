@@ -26,7 +26,7 @@ function getNavElements(
         </div>
       );
     } else {
-      if (hidePharmacy && section.label === 'Pharmacy') {
+      if (hidePharmacy && section.label === "Pharmacy") {
         continue;
       }
       const ref = sectionRefs[section.id];
@@ -49,18 +49,29 @@ function getNavElements(
   return rows;
 }
 
-const CURRENT_YEAR = new Date().getFullYear();
-const CURRENT_PLAN_YEAR =
-  parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR) === CURRENT_YEAR
-    ? CURRENT_YEAR
-    : CURRENT_YEAR;
-const EFFECTIVE_YEARS_SUPPORTED = [CURRENT_PLAN_YEAR];
+const currentYear = new Date().getFullYear();
+const currentPlanYear = parseInt(process.env.REACT_APP_CURRENT_PLAN_YEAR, 10);
+
+const EFFECTIVE_YEARS_SUPPORTED =
+  currentPlanYear === currentYear
+    ? [currentYear]
+    : [currentYear, currentPlanYear].sort((a, b) => a - b);
 
 export default forwardRef(
-  ({ initialSectionID, sections, scrollToInitialSection = true, hidePharmacy  = false}, refs) => {
-    const initialeffDate = getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
+  (
+    {
+      initialSectionID,
+      sections,
+      scrollToInitialSection = true,
+      hidePharmacy = false,
+    },
+    refs
+  ) => {
+    const initialeffDate = getFirstEffectiveDateOption(
+      EFFECTIVE_YEARS_SUPPORTED
+    );
     const [activeSectionID, setActiveSectionID] = useState(initialSectionID);
-    const [effectiveDate,] = useState(initialeffDate);
+    const [effectiveDate] = useState(initialeffDate);
     const [isScrolling, setIsScrolling] = useState(false);
     const navElements = getNavElements(
       sections,
@@ -115,15 +126,13 @@ export default forwardRef(
         </div>
         <div className={"plan-details-actions"}>
           <div className={"filter-section"}>
-              <EffectiveDateFilter
-                years={EFFECTIVE_YEARS_SUPPORTED}
-                initialValue={
-                  effectiveDate
-                }
-                onChange={(date) => console.log(date)}
-                selectClassName={"plan-details-effective-date-select"}
-              />
-            </div>
+            <EffectiveDateFilter
+              years={EFFECTIVE_YEARS_SUPPORTED}
+              initialValue={effectiveDate}
+              onChange={(date) => console.log(date)}
+              selectClassName={"plan-details-effective-date-select"}
+            />
+          </div>
         </div>
       </div>
     );
