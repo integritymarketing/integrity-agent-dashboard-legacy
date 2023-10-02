@@ -21,14 +21,11 @@ import ChatIcon from "./askintegrity-logo.jpg";
 import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
 import closeAudio from "./close.mp3";
-import Info from "components/icons/info-blue";
-import AskIntegrityFeedback from "./AskIntegrityInfoContainer/AskIntegrityFeedback";
 
 const WebChatComponent = () => {
   const { npn, fullName } = useUserProfile();
   const addToast = useToast();
   const [directLineToken, setDirectLineToken] = useState(null);
-  const [showAskIntegrityFeedback, setShowAskIntegrityFeedback] = useState(false)
   const [isChatActive, setIsChatActive] = useState(false);
   const audioRefOpen = useRef(null);
   const audioRefClose = useRef(null);
@@ -75,7 +72,6 @@ const WebChatComponent = () => {
 
   const closeChat = useCallback(() => {
     clearChat();
-    setShowAskIntegrityFeedback(false)
     if (isChatActive) {
       setIsChatActive(false);
       if (audioRefClose.current) {
@@ -322,71 +318,35 @@ const WebChatComponent = () => {
     [fullName, npn, fireEvent, goToContactDetailPage]
   );
 
-  const handleClickInfo = () => {
-    if (showAskIntegrityFeedback) {
-      closeChat()
-    } else {
-      setShowAskIntegrityFeedback(true)
-    }
-  }
-
-  if (showAskIntegrityFeedback) {
-    return <div
-        id="webchat"
-        ref={chatRef}
-        className={styles.askIntegrityChatSidebar}
-      >
-          <div className={styles.askIntegrityContent}>
-            <AskIntegrityFeedback
-              onLogoClick={clearChatAndFetchToken}
-              onClose={handleClickInfo}
-              onSkip={closeChat}
-              onDone={closeChat}
-              onSubmit={console.log}
-              onContactSupport={console.log}
-            />
-          </div>
-        </div>
-  }
-
   return (
     <div className={styles.container} ref={chatRef}>
       <div
         id="webchat"
-        className={cx(styles.chatSidebar, { [styles.active]: isChatActive }, { [styles.feedbackInfoSidebar]: showAskIntegrityFeedback })}
+        className={cx(styles.chatSidebar, { [styles.active]: isChatActive })}
       >
-        {
-          !showAskIntegrityFeedback && <>
-            <div className={styles.header}>
-              <img
-                className={styles.logoIcon}
-                onClick={clearChatAndFetchToken}
-                src={ChatIcon}
-                alt="Chat Icon"
-              />
-              <p className={styles.headerText}>
-                <span>Ask Integrity</span>
-                <span className={styles.infoLogo} onClick={handleClickInfo}>
-                  <Info />
-                </span>
-              </p>
-              <img
-                onClick={closeChat}
-                className={styles.hideIcon}
-                src={HideIcon}
-                alt="Hide Icon"
-              />
-            </div>
-            {directLineToken && (
-              <ReactWebChat
-                store={store}
-                directLine={directLine}
-                styleOptions={styleOptions}
-                overrideLocalizedStrings={overrideLocalizedStrings}
-              />
-            )}
-          </>
-        }
+        <div className={styles.header}>
+          <img
+            className={styles.logoIcon}
+            onClick={clearChatAndFetchToken}
+            src={ChatIcon}
+            alt="Chat Icon"
+          />
+          <p className={styles.headerText}>Ask Integrity</p>
+          <img
+            onClick={closeChat}
+            className={styles.hideIcon}
+            src={HideIcon}
+            alt="Hide Icon"
+          />
+        </div>
+        {directLineToken && (
+          <ReactWebChat
+            store={store}
+            directLine={directLine}
+            styleOptions={styleOptions}
+            overrideLocalizedStrings={overrideLocalizedStrings}
+          />
+        )}
       </div>
       {!isChatActive && (
         <div onClick={openChat} className={styles.chatIconWrapper}>

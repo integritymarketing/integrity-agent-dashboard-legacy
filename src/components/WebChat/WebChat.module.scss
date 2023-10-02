@@ -19,12 +19,10 @@
 
     &:hover {
       width: 10.75rem;
-
       .chatIconText {
         opacity: 1;
       }
     }
-
     .chatIconText {
       position: absolute;
       right: 3.75rem;
@@ -35,7 +33,6 @@
       margin-left: 0.5rem;
       font-size: 1rem;
     }
-
     .chatIcon {
       width: 3.5rem;
       height: 3.5rem;
@@ -79,7 +76,7 @@
           width: 24rem;
         }
       }
-
+      
       @include small {
         :global(.webchat__send-box) {
           position: fixed;
@@ -105,21 +102,8 @@
       z-index: 9;
       box-shadow: 2px 12px 8px 0px #072a6396;
 
-      .headerText {
-        position: relative;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-
-        .infoLogo {
-          position: absolute;
-          right: 0;
-          cursor: pointer;
-        }
-      }
-
       .logoIcon {
-        max-width: 120px;
+        max-width:120px;
         max-height: 120px;
       }
 
@@ -139,36 +123,6 @@
         cursor: pointer;
         transform: scale(1.2);
       }
-    }
-  }
-}
-
-.askIntegrityChatSidebar {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 28rem;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 9999;
-  background: #1D3E71B3 0% 0% no-repeat padding-box;
-  animation: expandAnimation 0.3s ease;
-
-  @include small {
-    width: 100vw;
-  }
-
-  .askIntegrityContent {
-    background-color: #052a63;
-    margin-top: 50px;
-  }
-
-  @keyframes expandAnimation {
-    from {
-      height: 0;
-    }
-    to {
-      height: 100vh;
     }
   }
 }
