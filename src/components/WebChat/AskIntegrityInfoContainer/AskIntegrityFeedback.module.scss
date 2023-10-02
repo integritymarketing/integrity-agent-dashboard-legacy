@@ -1,0 +1,186 @@
+.chatSideBarInfo {
+    height: 100vh;
+    position: relative;
+
+    .logoContainer {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+
+        .crossIcon {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+        }
+
+        .logoIcon {
+            max-width: 120px;
+            max-height: 120px;
+            position: absolute;
+            top: -28px;
+        }
+    }
+
+}
+
+.container {
+    margin-top: 40px;
+    font-size: 14px;
+    padding: 0 24px;
+    overflow: auto;
+    color: white;
+    height: calc(100vh - 100px);
+
+    .infoContainer {
+        margin-bottom: 24px;
+
+        .heading {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .infoItem {
+            background-color: #375582;
+            padding: 16px;
+            border-radius: 8px;
+
+            .gap {
+                margin-bottom: 8px;
+            }
+
+            .buttonContainer  {
+                display: flex;
+                justify-content: flex-end;
+
+                .actionButton {
+                    border-radius: 50px;
+                    background-color: #4178FF;
+                    padding: 5px 10px;
+                    width: fit-content;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin: 10px;
+                    font-size: 16px;
+                    cursor: pointer;
+                }
+            }
+
+        }
+    }
+}
+
+.feedbackContainer {
+    color: white;
+    margin-top: 60px;
+    overflow: auto;
+
+    .info {
+        background-color: #375582;
+        padding: 14px 24px;
+        margin-right: 30px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .actions {
+        padding: 24px;
+        padding-right: 30px;
+        display: flex;
+        gap: 24px;
+
+        @media screen and (max-width:480px) {
+            gap: 50px;
+        }
+    }
+
+    .item {
+        width: 152px;
+        height: 152px;
+        background-color: #375582;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .optionsContainer {
+        background-color: #375582;
+        padding: 8px;
+        margin: 16px;
+        margin-right: 30px;
+        border-radius: 8px;
+    }
+
+    .options {
+        background-color: #49648B;
+    }
+
+    .option {
+        padding: 8px;
+        box-shadow: inset 0px -1px 0px #889BB5;
+
+        &:last-child {
+            box-shadow: none;
+        }
+    }
+
+    .doneButtonContainer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 16px;
+    }
+
+    .buttonContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        margin-bottom: 50px;
+
+        .skipButton {
+            font-size: 16px;
+            cursor: pointer;
+        }
+    }
+
+    .submitButton {
+        border-radius: 50px;
+        background-color: #4178FF;
+        padding: 5px 10px;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .checkboxContainer {
+        width: fit-content;
+    }
+
+    .unCheckedIcon {
+        width: 16px;
+        height: 16px;
+        background-color: white;
+        border-radius: 4px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+
+    .check {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding-right: 10px;
+        height: 38px;
+
+        span {
+            display: flex;
+        }
+    }
+}
