@@ -15,6 +15,7 @@ export const CallScriptModal = ({
   leadId,
   countyFips,
   postalCode,
+  setCarrierAndProductData,
 }) => {
   const [carrierProductData, setCarrierProductData] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(false);
@@ -32,8 +33,11 @@ export const CallScriptModal = ({
   }, [fetchCarrierProductData, leadId, postalCode]);
 
   useEffect(() => {
-    fetchCounts();
-  }, [fetchCounts]);
+    if (!setCarrierAndProductData) {
+      fetchCounts();
+    }
+    setCarrierProductData(setCarrierAndProductData);
+  }, [fetchCounts, setCarrierAndProductData]);
 
   let carrierCount = DEFAULT_CARRIER_COUNT;
   let productCount = DEFAULT_PLAN_COUNT;

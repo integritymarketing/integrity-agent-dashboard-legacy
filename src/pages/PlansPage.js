@@ -49,6 +49,7 @@ import LeadInformationProvider from "hooks/useLeadInformation";
 import WebChatComponent from "components/WebChat/WebChat";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
+import CMSCompliance from "components/CMSCompliance";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -555,7 +556,6 @@ const PlansPage = () => {
     name?.charAt(0).toUpperCase() + name?.slice(1).toLowerCase();
   const fullName = `${toSentenceCase(firstName)} ${toSentenceCase(lastName)}`;
   const userZipCode = contact?.addresses?.[0]?.postalCode;
-
   return (
     <>
       <ToastContextProvider>
@@ -778,6 +778,14 @@ const PlansPage = () => {
                     )}
                     {((isMobile && !filtersOpen) || !isMobile) && (
                       <div className={`${styles["results"]}`}>
+                        {!isNonRTS_User && (
+                          <CMSCompliance
+                            leadId={contact?.leadsId}
+                            countyFips={contact?.addresses[0]?.countyFips}
+                            postalCode={contact?.addresses[0]?.postalCode}
+                          />
+                        )}
+
                         <div className={`${styles["sort"]}`}>
                           {getPlansAvailableSection(
                             filteredPlansCount,
