@@ -23,7 +23,6 @@ const CMSCompliance = ({ leadId, countyFips, postalCode }) => {
       setIsLoading(true);
       const fetchedData = await fetchCarrierAndProductData();
       setCarrierAndProductData(fetchedData);
-      debugger;
       setIsLoading(false);
     }
   }, [fetchCarrierAndProductData, leadId, postalCode]);
@@ -54,7 +53,7 @@ const CMSCompliance = ({ leadId, countyFips, postalCode }) => {
         leadId={leadId}
         countyFips={countyFips}
         postalCode={postalCode}
-        setCarrierAndProductData={carrierAndProductData}
+        carrierAndProductData={carrierAndProductData}
       />
       <div className={styles.cmsContainer}>
         <div className={styles.cmsTitle}>CMS Compliance</div>
