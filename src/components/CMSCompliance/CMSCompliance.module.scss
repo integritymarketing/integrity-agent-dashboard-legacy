@@ -6,19 +6,23 @@
   background: #f2f9ff;
   margin-bottom: 24px;
 
-  .cmsTitle {
-    font-size: 20px;
-    color: #052a63;
-    margin-bottom: 8px;
+  @media (max-width: 480px) {
+    width: 90%;
+    margin: 20px auto;
   }
+}
+.cmsTitle {
+  font-size: 20px;
+  color: #052a63;
+  margin-bottom: 8px;
+}
 
-  .cmsContent {
-    letter-spacing: -0.16px;
-    font-size: 16px;
+.cmsContent {
+  letter-spacing: -0.16px;
+  font-size: 16px;
 
-    .cmsCallLink {
-      color: #4178ff;
-      cursor: pointer;
-    }
+  .cmsCallLink {
+    color: #4178ff;
+    cursor: pointer;
   }
 }
