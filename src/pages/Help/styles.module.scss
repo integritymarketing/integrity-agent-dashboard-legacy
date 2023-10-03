@@ -22,10 +22,11 @@
 }
 
 .outerContainer {
-  background-color: $alice-blue;
+  background-color: #f1f1f1;
   min-height: 45vh;
   display: flex;
   flex-grow: 1;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -91,4 +92,8 @@
 
 .cta {
   text-decoration: none;
+}
+
+.helpText {
+  color: #052a63;
 }

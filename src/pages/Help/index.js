@@ -1,4 +1,6 @@
+import React, { useState, useCallback } from "react";
 import CallIcon from "components/icons/callicon";
+import PropTypes from "prop-types";
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 import Heading2 from "packages/Heading2";
@@ -7,21 +9,24 @@ import Heading4 from "packages/Heading4";
 import MailIcon from "components/icons/mailicon";
 import Media from "react-media";
 import Paragraph from "packages/Paragraph";
-import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { Helmet } from "react-helmet-async";
 import { Box } from "@mui/material";
+import MissingActiveSellingPermissions from "components/MissingActiveSellingPermissions";
 
 const HelpPage = () => {
   const [isMobile, setIsMobile] = useState(false);
+
+  const handleMediaQueryChange = useCallback((isMobile) => {
+    setIsMobile(isMobile);
+  }, []);
 
   return (
     <React.Fragment>
       <Media
         query={"(max-width: 500px)"}
-        onChange={(isMobile) => {
-          setIsMobile(isMobile);
-        }}
+        onChange={handleMediaQueryChange}
+        defaultMatches={isMobile}
       />
       <Helmet>
         <title>MedicareCENTER - Help</title>
@@ -57,7 +62,7 @@ const HelpPage = () => {
                 <CallIcon />
               </div>
               <a className={styles.cta} href="tel:8888183760">
-                <Paragraph text={"888-818-3760"} />
+                <Paragraph className={styles.helpText} text={"888-818-3760"} />
               </a>
             </Box>
             <Box className={styles.sectionRoundedBottom}>
@@ -68,15 +73,23 @@ const HelpPage = () => {
                 className={styles.cta}
                 href="mailto: support@medicarecenter.com"
               >
-                <Paragraph text={"support@medicarecenter.com"} />
+                <Paragraph
+                  className={styles.helpText}
+                  text={"support@medicarecenter.com"}
+                />
               </a>
             </Box>
           </div>
+          <MissingActiveSellingPermissions />
         </div>
       </div>
       <GlobalFooter className={styles.footer} />
     </React.Fragment>
   );
+};
+
+HelpPage.propTypes = {
+  someProp: PropTypes.string,
 };
 
 export default HelpPage;

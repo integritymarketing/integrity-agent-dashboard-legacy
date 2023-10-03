@@ -16,6 +16,9 @@ import { useWindowSize } from "hooks/useWindowSize";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import useRoles from "hooks/useRoles";
 import clientsService from "services/clientsService";
+import InfoBlueIcon from "components/icons/info-blue";
+import MissingActiveSellingPermissions from "components/MissingActiveSellingPermissions";
+import Modal from "components/Modal";
 
 const uniqValues = (array) => Array.from(new Set(array));
 const NONRTS_DESCRIPTION =
@@ -248,6 +251,7 @@ function Table({
 }) {
   const [pageSize, setPageSize] = useState(10);
   const [filters, setFilters] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
 
   const pageData = useMemo(() => {
     const shouldApplyFilters =
@@ -401,12 +405,28 @@ function Table({
 
   return (
     <Container className={styles.container}>
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Active Selling Permissions"
+        hideFooter
+      >
+        <MissingActiveSellingPermissions isModal={true} />
+      </Modal>
       <div className={styles.headerContainer}>
-        <Heading2
-          className={styles.heading}
-          text="Active Selling Permissions"
-        />
-
+        <div className={styles.leftContent}>
+          <Heading2
+            className={styles.heading}
+            text="Active Selling Permissions"
+          />
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={() => setModalOpen(true)}
+            className={styles.infoContainer}
+          >
+            <InfoBlueIcon />
+          </div>
+        </div>
         <ActiveSellingPermissionFilter
           onSubmit={setFilters}
           filterOptions={filterOptions}

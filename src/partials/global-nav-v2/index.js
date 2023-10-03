@@ -126,6 +126,14 @@ const GlobalNavV2 = ({
   const [isAvailable, setIsAvailable] = useAgentAvailability();
   const [leadPreference, setLeadPreference] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const medicareAppLabel = () => (
+    <div className="medicareAPP">
+      <div>MedicareAPP</div>
+      <div className="labelSubtext">(2023/2024)</div>
+    </div>
+  );
+
   const mobileMenuProps = Object.assign(
     {
       navOpen,
@@ -209,21 +217,7 @@ const GlobalNavV2 = ({
                   );
                 },
               },
-              label: "MedicareAPP 2023",
-            },
-            {
-              component: "button",
-              props: {
-                type: "button",
-                onClick: () => {
-                  window.open(
-                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                      "/external/SamlLogin/2024",
-                    "_blank"
-                  );
-                },
-              },
-              label: "MedicareAPP 2024",
+              label: medicareAppLabel(),
             },
           ],
         }
@@ -297,21 +291,7 @@ const GlobalNavV2 = ({
                   );
                 },
               },
-              label: "MedicareAPP 2023",
-            },
-            {
-              component: "button",
-              props: {
-                type: "button",
-                onClick: () => {
-                  window.open(
-                    process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                      "/external/SamlLogin/2024",
-                    "_blank"
-                  );
-                },
-              },
-              label: "MedicareAPP 2024",
+              label: medicareAppLabel(),
             },
             {
               component: "button",
@@ -419,7 +399,6 @@ const GlobalNavV2 = ({
     showPhoneNotification = true;
   }
   const { agentid = "" } = user || {};
-  
   function clickButton() {
     updateAgentAvailability({ agentID: agentid, availability: !isAvailable });
   }

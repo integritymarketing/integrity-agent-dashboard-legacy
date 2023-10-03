@@ -176,7 +176,14 @@
 .headerContainer {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  .leftContent {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
 }
+
 .headerContainerNonRTS {
   display: flex;
   justify-content: space-between;

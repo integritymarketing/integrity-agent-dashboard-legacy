@@ -111,6 +111,12 @@
       > li a:hover {
         color: var(--v2-royal-blue);
       }
+
+      li:nth-child(3):hover {
+        * {
+          color: #0079cc;
+        }
+      }
     }
     .dropdown-menu__icon {
       transform: rotate(180deg);
@@ -147,7 +153,7 @@
 
   &__link {
     font-size: 20px;
-    line-height: (24*0.05);
+    line-height: (24 * 0.05);
     font-family: "Lato";
   }
 
@@ -366,4 +372,9 @@
 
 .disabledEvents {
   pointer-events: none;
+}
+
+.labelSubtext {
+  font-style: italic;
+  color: #999999;
 }
