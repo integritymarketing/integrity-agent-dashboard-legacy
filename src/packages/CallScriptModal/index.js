@@ -61,9 +61,22 @@ export const CallScriptModal = ({
           your local State Health Insurance Program (SHIP) to get information on
           all of your options.
         </div>
+        {!carrierProductData && !postalCode && !carrierAndProductData && (
+          <div className={styles.planInformationSection}>
+            Exact carrier and plan counts are determined by your zip code and
+            county.
+          </div>
+        )}
       </WithLoader>
     ),
-    [carrierCount, isLoadingData, productCount]
+    [
+      carrierAndProductData,
+      carrierCount,
+      carrierProductData,
+      isLoadingData,
+      postalCode,
+      productCount,
+    ]
   );
 
   return (
