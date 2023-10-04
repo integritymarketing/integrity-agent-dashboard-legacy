@@ -46,7 +46,7 @@ const NewContactForm = ({
   const {
     allCounties = [],
     allStates = [],
-    doFetch,
+    fetchCountyAndState,
   } = useContext(CountyContext);
 
   const history = useHistory();
@@ -107,7 +107,7 @@ const NewContactForm = ({
   };
 
   useEffect(() => {
-    doFetch(""); // eslint-disable-next-line
+    fetchCountyAndState(""); // eslint-disable-next-line
   }, []);
 
   const linkContact = async (leadIdParam) => {
@@ -505,7 +505,7 @@ const NewContactForm = ({
                     setFieldValue("address.postalCode", e.target.value);
                     setFieldValue("address.county", "");
                     setFieldValue("address.stateCode", "");
-                    doFetch(e.target.value);
+                    fetchCountyAndState(e.target.value);
                   }}
                   onBlur={handleBlur}
                   onInput={(e) => {

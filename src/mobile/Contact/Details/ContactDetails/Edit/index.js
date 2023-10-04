@@ -44,7 +44,7 @@ const EditDetails = (props) => {
     partB = "",
   } = props.personalInfo;
 
-  let { allCounties = [], allStates = [], doFetch } = useContext(CountyContext);
+  let { allCounties = [], allStates = [], fetchCountyAndState } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
   let addressData = addresses.length > 0 ? addresses[0] : null;
@@ -137,8 +137,8 @@ const EditDetails = (props) => {
   };
 
   useEffect(() => {
-    doFetch(postalCode); // eslint-disable-next-line
-  }, []);
+    fetchCountyAndState(postalCode);
+  }, [fetchCountyAndState, postalCode]);
 
   return (
     <Formik
@@ -470,7 +470,7 @@ const EditDetails = (props) => {
                       setFieldValue("address.postalCode", e.target.value);
                       setFieldValue("address.county", "");
                       setFieldValue("address.stateCode", "");
-                      doFetch(e.target.value);
+                      fetchCountyAndState(e.target.value);
                     }}
                     onBlur={handleBlur}
                     onInput={(e) => {
