@@ -632,7 +632,7 @@ const PersonalInformationCard = ({
       : "";
 
   const goToEditPage = () => {
-    setDisplay("Details");
+    setDisplay("details");
     setEdit(true);
   };
 

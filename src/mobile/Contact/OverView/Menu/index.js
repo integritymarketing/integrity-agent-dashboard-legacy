@@ -42,7 +42,9 @@ const MobileMenu = ({
     setMenuToggle(false);
   });
 
-  const selected = DATA.filter((item) => item.name === display)?.[0] || null;
+  const selected =
+    DATA.filter((item) => item.name === display)?.[0] || DATA[0];
+
   return (
     <div ref={ref}>
       <div className={styles.menuContainer}>
