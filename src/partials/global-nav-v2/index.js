@@ -28,6 +28,8 @@ import MobileHome from "./assets/icons-Home.svg";
 import MobileContacts from "./assets/icons-Contacts.svg";
 import MobileLogout from "./assets/icons-Logout.svg";
 import MobileAccount from "./assets/icons-Account.svg";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import useUserProfile from "hooks/useUserProfile";
 
 const handleCSGSSO = async (history, loading) => {
   loading.begin(0);
@@ -120,12 +122,9 @@ const GlobalNavV2 = ({
   const loadingHook = useLoading();
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [navOpen, setNavOpen] = useState(false);
-  const [agentInfo, setAgentInfo] = useState({});
   const [helpModalOpen, setHelpModalOpen] = useState(false);
-  const [user, setUser] = useState({});
+  const user = useUserProfile();
   const [isAvailable, setIsAvailable] = useAgentAvailability();
-  const [leadPreference, setLeadPreference] = useState({});
-  const [loading, setLoading] = useState(true);
 
   const medicareAppLabel = () => (
     <div className="medicareAPP">
@@ -133,6 +132,12 @@ const GlobalNavV2 = ({
       <div className="labelSubtext">(2023/2024)</div>
     </div>
   );
+  const {
+    agentInformation,
+    getAgentAvailability,
+  } = useAgentInformationByID();
+  const leadPreference = agentInformation?.leadPreference;
+  useEffect(() => setIsAvailable(agentInformation?.isAvailable), [setIsAvailable, agentInformation?.isAvailable])
 
   const mobileMenuProps = Object.assign(
     {
@@ -273,7 +278,7 @@ const GlobalNavV2 = ({
                 type: "button",
                 onClick: () =>
                   window.open(
-                    `/leadcenter-redirect/${agentInfo?.agentNPN}`,
+                    `/leadcenter-redirect/${agentInformation?.agentNPN}`,
                     "_blank"
                   ),
               },
@@ -338,37 +343,23 @@ const GlobalNavV2 = ({
         }
   );
 
-  const getAgentAvailability = async (agentid) => {
-    const isDashboardLocation = history?.location?.pathname === "/dashboard";
-    if (!agentid) {
-      return;
+  useEffect(() => {
+    if(leadPreference && !leadPreference?.isAgentMobilePopUpDismissed) {
+      setWelcomeModalOpen(true);
     }
-    try {
-      setLoading(true);
-      const response = await clientService.getAgentAvailability(agentid);
-      const { isAvailable, agentVirtualPhoneNumber, leadPreference } =
-        response || {};
-      if (!agentVirtualPhoneNumber && isDashboardLocation) {
-        setTimeout(() => clientService.genarateAgentTwiloNumber(agentid), 5000);
-      }
-      if (!leadPreference?.isAgentMobilePopUpDismissed) {
-        setWelcomeModalOpen(true);
-      }
-      setAgentInfo(response);
-      setIsAvailable(isAvailable);
-      setLeadPreference(leadPreference);
-    } catch (error) {
-      Sentry.captureException(error);
-    } finally {
-      setLoading(false);
+  }, [leadPreference, setWelcomeModalOpen]);
+
+  useEffect(() => {
+    if(user?.agentId && !agentInformation?.agentVirtualPhoneNumber && agentInformation?.isDashboardLocation) {
+      setTimeout(() => clientService.genarateAgentTwiloNumber(user?.agentId), 5000);
     }
-  };
+  }, [agentInformation, user])
 
   const updateAgentAvailability = async (data) => {
     try {
       let response = await clientService.updateAgentAvailability(data);
       if (response.ok) {
-        getAgentAvailability(data.agentID);
+        getAgentAvailability();
       }
     } catch (error) {
       addToast({
@@ -380,22 +371,9 @@ const GlobalNavV2 = ({
     }
   };
 
-  useEffect(() => {
-    const loadAsyncData = async () => {
-      const user = await auth.getUser();
-      const { agentid } = user.profile;
-      getAgentAvailability(agentid);
-      setUser(user.profile);
-    };
-    if (auth.isAuthenticated()) {
-      loadAsyncData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
-
   let showPhoneNotification = false;
 
-  if (!loading && auth.isAuthenticated() && user && !user.phone) {
+  if (auth.isAuthenticated() && user && !user.phone) {
     showPhoneNotification = true;
   }
   const { agentid = "" } = user || {};
@@ -415,10 +393,9 @@ const GlobalNavV2 = ({
 
   let showBanner = false;
   if (
-    !loading &&
-    agentInfo &&
-    agentInfo.leadPreference &&
-    !agentInfo.leadPreference.isAgentMobileBannerDismissed
+    agentInformation &&
+    agentInformation.leadPreference &&
+    !agentInformation.leadPreference.isAgentMobileBannerDismissed
   ) {
     showBanner = true;
   }
@@ -470,7 +447,7 @@ const GlobalNavV2 = ({
                       clickButton={clickButton}
                       isAvailable={isAvailable}
                       page={page}
-                      hasActiveCampaign={agentInfo?.hasActiveCampaign}
+                      hasActiveCampaign={agentInformation?.hasActiveCampaign}
                     />
                   )}
                 </React.Fragment>
@@ -480,7 +457,7 @@ const GlobalNavV2 = ({
         )}
       </header>
       {auth.isAuthenticated() && !menuHidden && (
-        <InboundCallBanner agentInformation={agentInfo} />
+        <InboundCallBanner agentInformation={agentInformation} />
       )}
       <Modal
         open={helpModalOpen}
