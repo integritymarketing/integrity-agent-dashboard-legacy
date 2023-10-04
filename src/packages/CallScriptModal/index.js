@@ -55,17 +55,21 @@ export const CallScriptModal = ({
           before every call.
         </div>
         <div className={styles.planInformationSection}>
-          We do not offer every plan available in your area. Currently, we
-          represent {carrierCount} organizations which offer {productCount}{" "}
+          This call may be recorded for quality assurance or training
+          purposes.We do not offer every plan available in your area. Currently,
+          we represent {carrierCount} organizations which offer {productCount}{" "}
           products in your area. Please contact medicare.gov, 1-800-MEDICARE, or
           your local State Health Insurance Program (SHIP) to get information on
           all of your options.
         </div>
         {!carrierProductData && !postalCode && !carrierAndProductData && (
+          <>
+          <div className={styles.cmsComplianceSection}>Optional information</div>
           <div className={styles.planInformationSection}>
             Exact carrier and plan counts are determined by your zip code and
             county.
           </div>
+          </>
         )}
       </WithLoader>
     ),
