@@ -19,6 +19,11 @@ const ProviderInsights = ({
   );
 
   const handleViewPlans = async () => {
+    const payload = {
+      ...personalInfo,
+      shouldHideSpecialistPrompt: true,
+    };
+    await Put(payload);
     setShowViewAvailablePlans(false);
   };
 
