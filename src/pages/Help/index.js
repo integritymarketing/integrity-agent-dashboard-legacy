@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import CallIcon from "components/icons/callicon";
 import PropTypes from "prop-types";
 import GlobalFooter from "partials/global-footer";
@@ -13,6 +14,7 @@ import styles from "./styles.module.scss";
 import { Helmet } from "react-helmet-async";
 import { Box } from "@mui/material";
 import MissingActiveSellingPermissions from "components/MissingActiveSellingPermissions";
+import BackButton from "components/icons/back-button-2";
 
 const HelpPage = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -20,6 +22,7 @@ const HelpPage = () => {
   const handleMediaQueryChange = useCallback((isMobile) => {
     setIsMobile(isMobile);
   }, []);
+  const history = useHistory();
 
   return (
     <React.Fragment>
@@ -35,6 +38,10 @@ const HelpPage = () => {
       <div className={styles.layout}>
         {!isMobile && (
           <div className={styles.headerLayoutContainer}>
+            <div onClick={() => history.goBack()} className={styles.backButton}>
+              <BackButton />
+              <div className={styles.backButtonText}>Back</div>
+            </div>
             <div className={styles.headerLayout}>
               <Heading2 className={styles.headerLayoutText} text="Need Help?" />
             </div>

@@ -9,12 +9,16 @@
 .headerLayoutContainer {
   background: $white;
   box-shadow: inset 0px -1px 0px $gray-6;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
 .headerLayout {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  padding-left: 8rem;
+  display: flex;
+  justify-content: center;
 
   .headerLayoutText {
     font-weight: normal;
@@ -39,7 +43,7 @@
   text-align: center;
 
   @include small() {
-    width: 296px;
+    width: 350px;
   }
 
   .sectionRoundedTop {
@@ -96,4 +100,27 @@
 
 .helpText {
   color: #052a63;
+}
+
+.backButtonText {
+  color: #4178ff;
+  margin-left: 10px;
+}
+
+.backButton {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 40px;
+  width: 90px;
+  justify-content: center;
+  cursor: pointer;
+  left: 50px;
+  top: 35px;
+  border-radius: 20px;
+
+  &:hover {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
+  }
 }
