@@ -1,11 +1,12 @@
-import React, { createContext, useState } from "react";
 import * as Sentry from "@sentry/react";
-import useToast from "hooks/useToast";
+import PropTypes from "prop-types";
+import React, { createContext, useCallback, useState } from "react";
 import clientsService from "services/clientsService";
+import useToast from "hooks/useToast";
 
 const StageSummaryContext = createContext({});
 
-const SORT_BY_ORDER = {
+const SORT_ORDER = {
   New: 1,
   Renewal: 2,
   Contacted: 3,
@@ -16,40 +17,46 @@ const SORT_BY_ORDER = {
   Enrolled: 8,
 };
 
-export const StageSummaryProvider = (props) => {
-  const [stageSummaryData, setStageSummaryData] = useState([]);
-  const addToast = useToast();
+export const StageSummaryProvider = ({ children }) => {
+  const [stageSummary, setStageSummary] = useState([]);
+  const addToastNotification = useToast();
 
-  const loadStageSummaryData = async () => {
+  const loadStageSummary = useCallback(async () => {
     try {
-      await clientsService.getDashbaordSummary().then((response) => {
-        setStageSummaryData(
-          response.sort((a, b) => {
-            return (
-              (SORT_BY_ORDER[a.statusName] || 1000) -
-              (SORT_BY_ORDER[b.statusName] || 1000)
-            );
-          })
-        );
-      });
-    } catch (err) {
-      Sentry.captureException(err);
-      addToast({
+      const response = await clientsService.getDashbaordSummary();
+      if (response) {
+        const sortedData = response.sort((a, b) => {
+          return (
+            (SORT_ORDER[a.statusName] || 1000) -
+            (SORT_ORDER[b.statusName] || 1000)
+          );
+        });
+        setStageSummary(sortedData);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      addToastNotification({
         type: "error",
-        message: "Failed to load data",
+        message: "Failed to load stage summary data",
       });
     }
-  };
+  }, [addToastNotification]);
 
   return (
     <StageSummaryContext.Provider
       value={{
-        stageSummaryData,
-        loadStageSummaryData,
+        stageSummary,
+        loadStageSummary,
       }}
-      {...props}
-    />
+    >
+      {children}
+    </StageSummaryContext.Provider>
   );
+};
+
+StageSummaryProvider.propTypes = {
+  // Children components that will consume the context data
+  children: PropTypes.node.isRequired,
 };
 
 export default StageSummaryContext;

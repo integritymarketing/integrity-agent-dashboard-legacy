@@ -11,13 +11,13 @@ import stageSummaryContext from "contexts/stageSummary";
 
 const ContactRecordTypes = ["Prospect", "Client"];
 
-export default () => {
+const ContactListFilter = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [stageOpen, setStageOpen] = useState(false);
   const history = useHistory();
   const location = useLocation();
 
-  const { stageSummaryData, loadStageSummaryData } =
+  const { stageSummary, loadStageSummary } =
     useContext(stageSummaryContext);
 
   const [filters, setFilters] = useState({
@@ -28,7 +28,7 @@ export default () => {
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      await loadStageSummaryData();
+      await loadStageSummary();
     };
     loadAsyncData();
     // ensure this only runs once.. adding a dependency w/ the stage summary data causes
@@ -97,7 +97,7 @@ export default () => {
 
   const getFullCount = () => {
     let fullCount = 0;
-    stageSummaryData.map((status) => {
+    stageSummary.map((status) => {
       fullCount += status?.totalCount;
       return fullCount;
     });
@@ -232,8 +232,8 @@ export default () => {
                     {getFullCount()}
                   </span>
                 </li>
-                {stageSummaryData &&
-                  stageSummaryData.map((status, s_index) => {
+                {stageSummary &&
+                  stageSummary.map((status, s_index) => {
                     return (
                       <li
                         key={`${s_index}-${status?.statusName}`}
@@ -285,3 +285,5 @@ export default () => {
     </div>
   );
 };
+
+export default ContactListFilter;

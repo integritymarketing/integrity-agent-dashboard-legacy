@@ -1,48 +1,61 @@
-import React, { createContext, useState } from "react";
-import { STATES } from "utils/address";
-import clientsService from "services/clientsService";
+import React, { createContext, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { STATES } from 'utils/address';
+import clientsService from 'services/clientsService';
 
 const CountyContext = createContext();
 
-export const CountyProvider = (props) => {
+/**
+ * CountyProvider is a context provider for counties and states.
+ *
+ * @param {object} props - The props for the component.
+ */
+
+export const CountyProvider = ({ children }) => {
   const [allCounties, setAllCounties] = useState([]);
   const [allStates, setAllStates] = useState([]);
 
-  const doFetch = async (zipcode) => {
+  const fetchCountyAndState = useCallback(async (zipcode) => {
     if (zipcode.length === 5) {
-      const counties = (await clientsService.getCounties(zipcode)) || [];
-      const all_Counties = counties?.map((county) => ({
+      const fetchedCounties = await clientsService.getCounties(zipcode);
+      const countyOptions = fetchedCounties?.map((county) => ({
         value: county.countyName,
         label: county.countyName,
         key: county.countyFIPS,
-      }));
-      let uniqueStates = [...new Set(counties.map((a) => a.state))];
-      const all_States = uniqueStates?.map((state) => {
-        let stateName = STATES.filter((a) => a.value === state);
+      })) || [];
+
+      const uniqueStates = [...new Set(fetchedCounties.map((county) => county.state))];
+      const stateOptions = uniqueStates?.map((state) => {
+        const stateDetail = STATES.find((stateInfo) => stateInfo.value === state);
         return {
-          label: stateName[0]?.label,
+          label: stateDetail?.label,
           value: state,
         };
       });
 
-      setAllCounties([...all_Counties]);
-      setAllStates([...all_States]);
+      setAllCounties(countyOptions);
+      setAllStates(stateOptions);
     } else {
       setAllCounties([]);
       setAllStates([]);
     }
-  };
+  }, []);
 
   return (
     <CountyContext.Provider
       value={{
-        allCounties: allCounties,
-        allStates: allStates,
-        doFetch: (zip) => doFetch(zip),
+        allCounties,
+        allStates,
+        fetchCountyAndState,
       }}
-      {...props}
-    />
+    >
+      {children}
+    </CountyContext.Provider>
   );
+};
+
+CountyProvider.propTypes = {
+  children: PropTypes.node.isRequired, // Children are expected to be passed to the Provider
 };
 
 export default CountyContext;

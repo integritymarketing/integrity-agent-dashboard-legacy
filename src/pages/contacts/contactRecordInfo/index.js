@@ -350,8 +350,8 @@ const ContactRecordInfoDetails = () => {
       />
       <LeadInformationProvider leadId={id}>
         <ToastContextProvider>
-          <WithLoader isLoading={isLoad}>
-            <StageStatusProvider>
+          <StageStatusProvider>
+            <WithLoader isLoading={isLoad}>
               <Helmet>
                 <title>MedicareCENTER - Contacts</title>
               </Helmet>
@@ -492,8 +492,8 @@ const ContactRecordInfoDetails = () => {
                 </Container>
               </div>
               <ContactFooter />
-            </StageStatusProvider>
-          </WithLoader>
+            </WithLoader>
+          </StageStatusProvider>
         </ToastContextProvider>
       </LeadInformationProvider>
     </React.Fragment>

@@ -1,119 +1,99 @@
-import React, { useContext, useState, useMemo, useEffect } from "react";
-import * as Sentry from "@sentry/react";
-import { ColorOptionRender } from "../../../utils/shared-utils/sharedUtility";
-import { Select } from "components/ui/Select";
-import useToast from "../../../hooks/useToast";
-import clientsService from "services/clientsService";
-import StageStatusContext from "contexts/stageStatus";
-import analyticsService from "services/analyticsService";
-import LostStageDisposition from "pages/contacts/contactRecordInfo/LostStageDisposition";
-import stageSummaryContext from "contexts/stageSummary";
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/react';
+import LostStageDisposition from 'pages/contacts/contactRecordInfo/LostStageDisposition';
+import StageStatusContext from 'contexts/stageStatus';
+import analyticsService from 'services/analyticsService';
+import clientsService from 'services/clientsService';
+import stageSummaryContext from 'contexts/stageSummary';
+import useToast from 'hooks/useToast';
+import { ColorOptionRender } from 'utils/shared-utils/sharedUtility';
+import { Select } from 'components/ui/Select';
 
-const StageSelect = ({ value, original, onRefresh }) => {
-  const [isLostReasonModalOpen, setIsLostReasonModalOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
-
-  const { loadStageSummaryData } = useContext(stageSummaryContext);
-  const { allStatuses, statusOptions, lostSubStatusesOptions } =
-    useContext(StageStatusContext);
-
-  const addToast = useToast();
+const StageSelect = ({ initialValue, originalData, refreshData }) => {
+  const [isLostReasonModalVisible, setLostReasonModalVisibility] = useState(false);
+  const [selectedStage, setSelectedStage] = useState('');
+  const { loadStageSummary } = useContext(stageSummaryContext);
+  const { allStatuses, statusOptions, lostSubStatusOptions } = useContext(StageStatusContext);
+  const showToast = useToast();
 
   useEffect(() => {
-    if (lostSubStatusesOptions) {
-      let filteredValue = value
-        ? lostSubStatusesOptions?.filter((opt) => opt?.label === value)
-            ?.length > 0
-          ? "Lost"
-          : value
-        : "New";
-      setSelectedValue(filteredValue);
-    }
-  }, [lostSubStatusesOptions, value]);
+    const defaultStage = lostSubStatusOptions?.some((opt) => opt?.label === initialValue) ? 'Lost' : initialValue || 'New';
+    setSelectedStage(defaultStage);
+  }, [lostSubStatusOptions, initialValue]);
 
-  const onLostReasonModalCancel = () => {
-    setIsLostReasonModalOpen(false);
-    setSelectedValue(value || "New");
+  const handleLostReasonModalCancel = () => {
+    setLostReasonModalVisibility(false);
+    setSelectedStage(initialValue || 'New');
   };
-  const handleChangeStatus = async (val, leadSubStatus) => {
-    setSelectedValue(val);
-    if (val === "Lost" && !leadSubStatus) {
-      setIsLostReasonModalOpen(true);
+
+  const handleStageChange = async (selectedValue, leadSubStatus) => {
+    setSelectedStage(selectedValue);
+
+    if (selectedValue === 'Lost' && !leadSubStatus) {
+      setLostReasonModalVisibility(true);
       return;
     }
-    setIsLostReasonModalOpen(false);
-    analyticsService.fireEvent("event-sort", {
-      clickedItemText: `Sort: ${val}`,
-    });
-    try {
-      const subSelectPayload =
-        leadSubStatus?.length > 0
-          ? {
-              leadSubStatus,
-            }
-          : {};
-      const response = await clientsService.updateClient(original, {
-        ...original,
-        leadStatusId:
-          leadSubStatus?.length > 0
-            ? leadSubStatus[0]?.leadStatusId
-            : allStatuses.find((status) => status.statusName === val)
-                ?.leadStatusId,
-        ...subSelectPayload,
-      });
-      if (response.ok) {
-        await loadStageSummaryData();
-        onRefresh();
-        addToast({
-          type: "success",
-          message: "Contact successfully updated.",
-          time: 3000,
-        });
-      } else {
-        addToast({
-          type: "error",
-          message: "Failed to update contact.",
-          time: 3000,
-        });
-      }
-    } catch (e) {
-      Sentry.captureException(e);
-    }
-    return false;
-  };
-  const filteredStatuses = useMemo(
-    () =>
-      statusOptions.filter((opt) => {
-        if (
-          original.contactRecordType &&
-          original.contactRecordType.toLowerCase() === "client"
-        ) {
-          return opt.value !== "New";
-        }
-        return opt.value !== "Renewal";
-      }),
-    [statusOptions, original]
-  );
-  return (
-    <React.Fragment>
-      <LostStageDisposition
-        open={isLostReasonModalOpen}
-        onClose={onLostReasonModalCancel}
-        onSubmit={handleChangeStatus}
-        subStatuses={lostSubStatusesOptions}
-      />
 
+    setLostReasonModalVisibility(false);
+    analyticsService.fireEvent('event-sort', { clickedItemText: `Sort: ${selectedValue}` });
+
+    try {
+      const subSelectData = leadSubStatus?.length ? { leadSubStatus } : {};
+      const updatedClientData = {
+        ...originalData,
+        leadStatusId: leadSubStatus?.length
+          ? leadSubStatus[0]?.leadStatusId
+          : allStatuses.find((status) => status.statusName === selectedValue)?.leadStatusId,
+        ...subSelectData,
+      };
+
+      const response = await clientsService.updateClient(originalData, updatedClientData);
+
+      if (response?.ok) {
+        await loadStageSummary();
+        refreshData();
+        showToast({ type: 'success', message: 'Contact successfully updated.', time: 3000 });
+      } else {
+        showToast({ type: 'error', message: 'Failed to update contact.', time: 3000 });
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+  };
+
+  const filteredStatusOptions = useMemo(() => (
+    statusOptions.filter((opt) => {
+      const isClient = originalData?.contactRecordType?.toLowerCase() === 'client';
+      return isClient ? opt.value !== 'New' : opt.value !== 'Renewal';
+    })
+  ), [statusOptions, originalData]);
+
+  return (
+    <>
+      <LostStageDisposition
+        open={isLostReasonModalVisible}
+        onClose={handleLostReasonModalCancel}
+        onSubmit={handleStageChange}
+        subStatuses={lostSubStatusOptions}
+      />
       <Select
         Option={ColorOptionRender}
-        initialValue={selectedValue || "New"}
+        initialValue={selectedStage || 'New'}
         placeholder="Stage"
-        options={filteredStatuses}
-        onChange={handleChangeStatus}
+        options={filteredStatusOptions}
+        onChange={handleStageChange}
         contactRecordPage={true}
         showValueAlways={true}
       />
-    </React.Fragment>
+    </>
   );
+};
+
+StageSelect.propTypes = {
+  initialValue: PropTypes.string,
+  originalData: PropTypes.object.isRequired,
+  refreshData: PropTypes.func.isRequired,
 };
 
 export default StageSelect;

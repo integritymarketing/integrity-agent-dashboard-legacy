@@ -1,45 +1,51 @@
-import React, { createContext, useState, useEffect, useMemo } from "react";
-import clientsService from "services/clientsService";
+import React, { createContext, useEffect, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import clientsService from 'services/clientsService';
 
-const StageStatusContext = createContext({
-  message: "",
-  isVisible: false,
+export const StageStatusContext = createContext({
+  allStatuses: [],
+  statusOptions: [],
+  lostSubStatusesOptions: [],
 });
 
-export const StageStatusProvider = (props) => {
+export const StageStatusProvider = ({ children }) => {
   const [allStatuses, setAllStatuses] = useState([]);
-  const statusOptions = useMemo(() => {
-    return allStatuses.map((status) => ({
-      value: status.statusName,
-      label: status.statusName,
-      color: status.hexValue,
-      statusId: status.leadStatusId,
-    }));
-  }, [allStatuses]);
+
+  const statusOptions = useMemo(() => (
+    allStatuses.map(({ statusName, hexValue, leadStatusId }) => ({
+      value: statusName,
+      label: statusName,
+      color: hexValue,
+      statusId: leadStatusId,
+    }))
+  ), [allStatuses]);
 
   const lostSubStatusesOptions = useMemo(() => {
-    return allStatuses
-      .filter(({ statusName }) => statusName === "Lost")[0]
-      ?.leadSubStatus?.map(({ leadStatusId: value, statusName: label }) => ({
-        value,
-        label,
-      }));
+    const lostStatus = allStatuses.find(({ statusName }) => statusName === 'Lost');
+    return lostStatus?.leadSubStatus?.map(({ leadStatusId, statusName }) => ({
+      value: leadStatusId,
+      label: statusName,
+    })) || [];
   }, [allStatuses]);
 
+  const fetchStatuses = async () => {
+    const fetchedStatuses = await clientsService.getStatuses();
+    setAllStatuses(fetchedStatuses);
+  };
+
   useEffect(() => {
-    const doFetch = async () => {
-      const statuses = await clientsService.getStatuses();
-      setAllStatuses(statuses);
-    };
-    doFetch();
+    fetchStatuses();
   }, []);
 
   return (
-    <StageStatusContext.Provider
-      value={{ allStatuses, statusOptions, lostSubStatusesOptions }}
-      {...props}
-    />
+    <StageStatusContext.Provider value={{ allStatuses, statusOptions, lostSubStatusesOptions }}>
+      {children}
+    </StageStatusContext.Provider>
   );
+};
+
+StageStatusProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default StageStatusContext;

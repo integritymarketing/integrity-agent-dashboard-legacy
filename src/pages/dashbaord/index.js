@@ -49,7 +49,7 @@ export default function Dashbaord() {
   const [welcomeModalOpen, setWelcomeModalOpen] =
     useRecoilState(welcomeModalOpenAtom);
 
-  const { stageSummaryData, loadStageSummaryData } =
+  const { stageSummary, loadStageSummary } =
     useContext(stageSummaryContext);
 
   const { agentInformation } = useAgentInformationByID();
@@ -67,7 +67,7 @@ export default function Dashbaord() {
 
   useEffect(() => {
     const loadAsyncData = async () => {
-      await loadStageSummaryData();
+      await loadStageSummary();
     };
     loadAsyncData();
     // ensure this only runs once.. adding a dependency w/ the stage summary data causes
@@ -190,8 +190,8 @@ export default function Dashbaord() {
                   </div>
                   {((isClientSnapshotOpen && isMobile) || !isMobile) && (
                     <div className="snapshot-data">
-                      {stageSummaryData &&
-                        stageSummaryData.map((d, index) => (
+                      {stageSummary &&
+                        stageSummary.map((d, index) => (
                           <div
                             className={`snapshot-item ${
                               index > 0 ? "brTop" : ""
