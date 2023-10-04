@@ -113,7 +113,16 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
 
-  const [applyFilters, setApplyFilters] = useState({});
+  const [applyFilters, setApplyFilters] = useState({
+    contactRecordType: null,
+    hasReminder: null,
+    stages: [],
+    tags: [],
+    hasOverdueReminder: null,
+  });
+
+  const applyFiltersString = JSON.stringify(applyFilters);
+
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
@@ -181,6 +190,7 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
       searchString,
       sort,
       applyFilters,
+      returnAll: false,
     });
   };
 
@@ -203,12 +213,13 @@ function ContactsCard({ searchString, sort, isMobile, layout }) {
       applyFilters,
       returnAll,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentPage,
     fetchData,
     searchString,
     sort,
-    applyFilters,
+    applyFiltersString,
     pageSize,
     returnAll,
   ]);

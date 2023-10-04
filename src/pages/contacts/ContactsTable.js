@@ -32,19 +32,17 @@ import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
 function Table({
   columns,
   data,
-  searchString,
-  onChangeTableState,
   pageCount: manualPageCount,
   loading,
   totalResults,
-  sort,
-  applyFilters,
   onRowSelected,
   isMobile,
   layout,
+  pageSize,
+  setPageSize,
+  pageIndex,
+  setPageIndex,
 }) {
-  const [pageSize, setPageSize] = useState(25);
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -52,15 +50,13 @@ function Table({
     prepareRow,
     page,
     pageCount,
-    gotoPage,
-    state: { pageIndex },
     selectedFlatRows,
   } = useTable(
     {
       columns,
       data,
       manualPagination: true,
-      initialState: { pageIndex: 1, pageSize: pageSize },
+      initialState: { pageIndex: pageIndex, pageSize: pageSize },
       pageCount: manualPageCount + 1,
     },
     usePagination,
@@ -87,32 +83,18 @@ function Table({
   );
 
   useEffect(() => {
-    onRowSelected(selectedFlatRows);
-  }, [onRowSelected, selectedFlatRows]);
-
-  useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/list-view/",
     });
-    onChangeTableState({
-      pageSize,
-      pageIndex,
-      searchString,
-      sort,
-      applyFilters,
-    });
-  }, [
-    onChangeTableState,
-    pageSize,
-    pageIndex,
-    searchString,
-    sort,
-    applyFilters,
-  ]);
+  }, []);
+
+  useEffect(() => {
+    onRowSelected(selectedFlatRows);
+  }, [onRowSelected, selectedFlatRows]);
 
   const onPageSizeChange = (value) => {
     setPageSize(value);
-    gotoPage(0);
+    setPageIndex(0);
   };
 
   if (loading) {
@@ -161,7 +143,7 @@ function Table({
           totalPages={pageCount - 1}
           totalResults={totalResults}
           pageSize={pageSize}
-          onPageChange={(pageIndex) => gotoPage(pageIndex)}
+          onPageChange={(pageIndex) => setPageIndex(pageIndex)}
           onResetPageSize={true}
           setPageSize={(value) => onPageSizeChange(value)}
         />
@@ -196,13 +178,23 @@ function ContactsTable({
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
   const [pageCount, setPageCount] = useState(0);
+  const [pageSize, setPageSize] = useState(25);
+  const [pageIndex, setPageIndex] = useState(1);
 
-  const [tableState, setTableState] = useState({});
   const [showAddModal, setShowAddModal] = useState(null);
   const [showAddNewModal, setShowAddNewModal] = useState(false);
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
     useContext(DeleteLeadContext);
-  const [applyFilters, setApplyFilters] = useState({});
+
+  const [applyFilters, setApplyFilters] = useState({
+    contactRecordType: null,
+    hasReminder: null,
+    stages: [],
+    tags: [],
+    hasOverdueReminder: null,
+  });
+
+  const applyFiltersString = JSON.stringify(applyFilters);
 
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [leadId, setLeadId] = useState(null);
@@ -331,12 +323,27 @@ function ContactsTable({
   );
 
   const handleRefresh = useCallback(() => {
-    fetchData({ pageIndex: 1, ...(tableState || {}) });
-  }, [tableState, fetchData]);
+    fetchData({
+      pageIndex: 1,
+      pageSize,
+      searchString,
+      sort,
+      applyFilters,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    fetchData(tableState);
-  }, [tableState, fetchData, filteredLeadIdsLength]);
+    fetchData({ pageIndex, pageSize, searchString, sort, applyFilters });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    filteredLeadIdsLength,
+    pageIndex,
+    pageSize,
+    searchString,
+    sort,
+    applyFiltersString,
+  ]);
 
   const navigateToPage = (leadId, page) => {
     history.push(`/${page}/${leadId}`);
@@ -551,9 +558,12 @@ function ContactsTable({
         totalResults={totalResults}
         sort={sort}
         applyFilters={applyFilters}
-        onChangeTableState={setTableState}
         isMobile={isMobile}
         layout={layout}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageIndex={pageIndex}
+        setPageIndex={setPageIndex}
       />
 
       {openModal && (
