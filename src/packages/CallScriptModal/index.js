@@ -56,7 +56,7 @@ export const CallScriptModal = ({
         </div>
         <div className={styles.planInformationSection}>
           This call may be recorded for quality assurance or training
-          purposes.We do not offer every plan available in your area. Currently,
+          purposes. We do not offer every plan available in your area. Currently,
           we represent {carrierCount} organizations which offer {productCount}{" "}
           products in your area. Please contact medicare.gov, 1-800-MEDICARE, or
           your local State Health Insurance Program (SHIP) to get information on

@@ -21,11 +21,15 @@ import ChatIcon from "./askintegrity-logo.jpg";
 import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
 import closeAudio from "./close.mp3";
+import Info from "components/icons/info-blue";
+import AskIntegrityFeedback from "./AskIntegrityInfoContainer/AskIntegrityFeedback";
 
 const WebChatComponent = () => {
   const { npn, fullName } = useUserProfile();
   const addToast = useToast();
   const [directLineToken, setDirectLineToken] = useState(null);
+  const [showAskIntegrityFeedback, setShowAskIntegrityFeedback] =
+    useState(false);
   const [isChatActive, setIsChatActive] = useState(false);
   const audioRefOpen = useRef(null);
   const audioRefClose = useRef(null);
@@ -72,6 +76,7 @@ const WebChatComponent = () => {
 
   const closeChat = useCallback(() => {
     clearChat();
+    setShowAskIntegrityFeedback(false);
     if (isChatActive) {
       setIsChatActive(false);
       if (audioRefClose.current) {
@@ -168,6 +173,12 @@ const WebChatComponent = () => {
   const openChat = useCallback(async () => {
     fireEvent("AI - Ask Integrity Global Icon Clicked");
     setIsChatActive(true);
+    const container = document.querySelector(
+      ".webchat__basic-transcript__transcript"
+    );
+    if (container) {
+      container.innerHTML = "";
+    }
     if (audioRefOpen.current) {
       audioRefOpen.current.play().catch((error) => {
         Sentry.captureException(error);
@@ -318,34 +329,80 @@ const WebChatComponent = () => {
     [fullName, npn, fireEvent, goToContactDetailPage]
   );
 
+  const handleOpenAskIntegrityFeedback = () => {
+    setShowAskIntegrityFeedback(true);
+    setIsChatActive(false);
+  };
+
+  const handleCloseAskIntegrityFeedback = () => {
+    setShowAskIntegrityFeedback(false);
+    setIsChatActive(false);
+  };
+
+  if (showAskIntegrityFeedback) {
+    return (
+      <div
+        id="webchat"
+        ref={chatRef}
+        className={styles.askIntegrityChatSidebar}
+      >
+        <div className={styles.askIntegrityContent}>
+          <AskIntegrityFeedback
+            onClose={handleCloseAskIntegrityFeedback}
+            onDone={() => {
+              setShowAskIntegrityFeedback(false);
+              setIsChatActive(false);
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container} ref={chatRef}>
       <div
         id="webchat"
-        className={cx(styles.chatSidebar, { [styles.active]: isChatActive })}
+        className={cx(
+          styles.chatSidebar,
+          { [styles.active]: isChatActive },
+          { [styles.feedbackInfoSidebar]: showAskIntegrityFeedback }
+        )}
       >
-        <div className={styles.header}>
-          <img
-            className={styles.logoIcon}
-            onClick={clearChatAndFetchToken}
-            src={ChatIcon}
-            alt="Chat Icon"
-          />
-          <p className={styles.headerText}>Ask Integrity</p>
-          <img
-            onClick={closeChat}
-            className={styles.hideIcon}
-            src={HideIcon}
-            alt="Hide Icon"
-          />
-        </div>
-        {directLineToken && (
-          <ReactWebChat
-            store={store}
-            directLine={directLine}
-            styleOptions={styleOptions}
-            overrideLocalizedStrings={overrideLocalizedStrings}
-          />
+        {!showAskIntegrityFeedback && (
+          <>
+            <div className={styles.header}>
+              <img
+                className={styles.logoIcon}
+                onClick={clearChatAndFetchToken}
+                src={ChatIcon}
+                alt="Chat Icon"
+              />
+              <p className={styles.headerText}>
+                <span>Ask Integrity</span>
+                <span
+                  className={styles.infoLogo}
+                  onClick={handleOpenAskIntegrityFeedback}
+                >
+                  <Info />
+                </span>
+              </p>
+              <img
+                onClick={closeChat}
+                className={styles.hideIcon}
+                src={HideIcon}
+                alt="Hide Icon"
+              />
+            </div>
+            {directLineToken && (
+              <ReactWebChat
+                store={store}
+                directLine={directLine}
+                styleOptions={styleOptions}
+                overrideLocalizedStrings={overrideLocalizedStrings}
+              />
+            )}
+          </>
         )}
       </div>
       {!isChatActive && (
