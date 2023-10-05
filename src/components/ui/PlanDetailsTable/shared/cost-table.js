@@ -200,11 +200,7 @@ const CostTable = ({ planData }) => {
       value: <PremiumCell planData={planData} />,
     },
     {
-      label: (
-        <TotalEstLabel
-          drugsCount={planData?.pharmacyCosts?.[0]?.drugCosts?.length || 0}
-        />
-      ),
+      label: <TotalEstLabel effectiveMonth={m} effectiveYear={y} />,
       value: (
         <TotalEstValue
           planData={planData}
@@ -330,15 +326,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
       }, {}),
     },
     {
-      label: (
-        <TotalEstLabel
-          drugsCount={
-            (clonedPlans?.pharmacyCosts?.length > 0 &&
-              clonedPlans?.pharmacyCosts[0]?.drugCosts?.length) ||
-            0
-          }
-        />
-      ),
+      label: <TotalEstLabel effectiveMonth={m} effectiveYear={y} />,
       ...clonedPlans?.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? (
           <TotalEstValue
