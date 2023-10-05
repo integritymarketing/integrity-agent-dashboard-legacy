@@ -451,7 +451,7 @@ const AccountPage = () => {
     if (!isEmptyObj(errors)) return "provide valid data to save";
     return "";
   };
-  const [isPersonalInfoSaved, setIsPersonalInfoSaved] = useState(false);
+
   const addToast = useToast();
 
   let mainContentClassName = "container " + styles.headerLayout;
@@ -550,9 +550,9 @@ const AccountPage = () => {
                         }}
                         onSubmit={async (
                           values,
-                          { setErrors, setSubmitting }
+                          { setErrors, setSubmitting, resetForm }
                         ) => {
-                          setIsPersonalInfoSaved(false);
+                          resetForm({ values });
                           setSubmitting(true);
                           const formattedValues = Object.assign({}, values, {
                             phone: values.phone
@@ -571,7 +571,6 @@ const AccountPage = () => {
 
                             await authService.signinSilent();
                             setSubmitting(false);
-                            setIsPersonalInfoSaved(true);
                             addToast({
                               message: "Your account info has been updated",
                             });
@@ -679,9 +678,7 @@ const AccountPage = () => {
                                     values,
                                     errors
                                   )}
-                                  disabled={
-                                    !dirty || !isValid || isPersonalInfoSaved
-                                  }
+                                  disabled={!dirty || !isValid}
                                 >
                                   Save
                                 </button>
