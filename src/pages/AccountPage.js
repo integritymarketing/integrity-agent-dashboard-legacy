@@ -49,7 +49,6 @@ function CheckinPreferences({ npn }) {
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [phoneAtom] = useRecoilState(agentPhoneAtom);
   const [showAvilabilityDialog, setShowAvilabilityDialog] = useState(false);
-
   const [isAvailable, setIsAvailable] = useAgentAvailability();
 
   useEffect(() => {
@@ -452,6 +451,8 @@ const AccountPage = () => {
     if (!isEmptyObj(errors)) return "provide valid data to save";
     return "";
   };
+  const [isPersonalInfoSaved, setIsPersonalInfoSaved] = useState(false);
+  const addToast = useToast();
 
   let mainContentClassName = "container " + styles.headerLayout;
   return (
@@ -551,9 +552,8 @@ const AccountPage = () => {
                           values,
                           { setErrors, setSubmitting }
                         ) => {
+                          setIsPersonalInfoSaved(false);
                           setSubmitting(true);
-                          loading.begin(0);
-
                           const formattedValues = Object.assign({}, values, {
                             phone: values.phone
                               ? `${values.phone}`.replace(/\D/g, "")
@@ -571,31 +571,31 @@ const AccountPage = () => {
 
                             await authService.signinSilent();
                             setSubmitting(false);
-                            loading.end();
-
-                            showMessage("Your account info has been updated.", {
-                              type: "success",
+                            setIsPersonalInfoSaved(true);
+                            addToast({
+                              message: "Your account info has been updated",
                             });
                           } else {
                             loading.end();
                             if (response.status === 401) {
                               authService.handleExpiredToken();
                             } else {
-                            const errorsArr = await response.json();
-                            analyticsService.fireEvent(
-                              "event-form-submit-invalid",
-                              {
-                                formName: "update-account",
-                              }
-                            );
-                            setErrors(
-                              validationService.formikErrorsFor(
-                                validationService.standardizeValidationKeys(
-                                  errorsArr
+                              const errorsArr = await response.json();
+                              analyticsService.fireEvent(
+                                "event-form-submit-invalid",
+                                {
+                                  formName: "update-account",
+                                }
+                              );
+                              setErrors(
+                                validationService.formikErrorsFor(
+                                  validationService.standardizeValidationKeys(
+                                    errorsArr
+                                  )
                                 )
-                              )
-                            );
-                          }}
+                              );
+                            }
+                          }
                         }}
                       >
                         {({
@@ -679,7 +679,9 @@ const AccountPage = () => {
                                     values,
                                     errors
                                   )}
-                                  disabled={!dirty || !isValid}
+                                  disabled={
+                                    !dirty || !isValid || isPersonalInfoSaved
+                                  }
                                 >
                                   Save
                                 </button>
