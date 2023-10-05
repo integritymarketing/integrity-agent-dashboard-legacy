@@ -5,16 +5,21 @@ import "./index.scss";
 import { Button } from "components/ui/Button";
 import EditDetails from "components/icons/edit-details";
 import ArrowDown from "components/icons/arrow-down";
+import { useLeadInformation } from "hooks/useLeadInformation";
 
 export default function ContactRecordHeader({
   contact = {},
-  providersCount = 0,
-  prescriptionsCount = 0,
-  pharmacyCount = 0,
   isMobile,
   onEditClick,
 }) {
   const history = useHistory();
+
+  const { prescriptions, pharmacies, providers } = useLeadInformation() || {};
+
+  const providersCount = providers?.length || 0;
+  const prescriptionsCount = prescriptions?.length || 0;
+  const pharmacyCount = pharmacies?.length || 0;
+
   const fullName = `${contact.firstName} ${contact.middleName || ""} ${
     contact.lastName
   }`;
