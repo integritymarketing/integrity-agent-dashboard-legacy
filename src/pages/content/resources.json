@@ -164,10 +164,16 @@
       "filename": "MedicareSUPP-Professional-User-Guide.pdf"
     },
     {
-      "name": "Medicare Enrollment Tools Carrier Comparison Chart",
-      "description": "Need help selecting between MedicareAPP and MedicareLINK? This handy carrier comparison chart will tell you which carriers are in each tool!",
+      "name": "Medicare Enrollment Platform Carrier Comparison Chart",
+      "description": "View the carriers available in MedicareCENTER Quote & eApp, MedicareAPP, MedicareLINK, and CSG.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Carrier-Comparison-Chart.pdf"
+    },
+     {
+      "name": "Health Risk Assessment Carrier Comparison Chart",
+      "description": "View the carriers who offer HRAs in each enrollment platform.",
+      "categories": ["tech-guides"],
+      "filename": "MedicareCENTER-HRA-Comparison-Chart.pdf"
     },
     {
       "name": "MedicareCENTER FAQs",
