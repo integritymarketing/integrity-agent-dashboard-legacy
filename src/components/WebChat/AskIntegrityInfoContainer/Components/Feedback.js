@@ -32,10 +32,12 @@ const Feedback = ({ onReact, content, onSkip, onDone, onSubmit }) => {
 
   const handleSubmit = () => {
     onSubmit();
+    if(rating === false) {
     fireEvent("Ask Integrity", {
       feedback: selectedFeedback.map(({ value }) => value),
       rating
     });
+  }
   };
 
   const toggleSelectedOptions = (option) => {
