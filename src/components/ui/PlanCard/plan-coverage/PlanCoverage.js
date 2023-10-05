@@ -55,7 +55,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
   };
   const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
   const handleAddEditPrescrptions = () => {
-    if (prescriptions?.length > 0) {
+    if (prescriptionsList?.length > 0) {
       setIsPrescriptionCoverageModalOpen(true);
     } else {
       onAddNewPrescription();
@@ -76,6 +76,14 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     setProviderToEdit(null);
     if (refresh) refresh();
   };
+
+  // provider modal handle functions //
+  const closeEditProviderModal = () => {
+    setIsProviderModalOpen(false);
+    setIsEditingProvider(false);
+    setProviderToEdit(null);
+  };
+
   const handleAddEditProvider = () => {
     if (providersList?.length > 0) {
       setIsProviderCoverageModalOpen(true);
@@ -132,13 +140,15 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
     (prescription) => prescription?.tierNumber > 0
   );
 
+  const coveredPrescriptionsLength = coveredPrescriptions?.length || 0;
+
   const addPharmacyText =
     pharmaciesList?.length > 0
       ? `${coveredPharmacies?.length} of ${pharmaciesList?.length} Pharmacies Covered`
       : "Add Pharmacy";
   const addPrescriptionText =
-    prescriptions?.length > 0
-      ? `${coveredPrescriptions?.length} of ${planData?.planDrugCoverage?.length} Prescriptions Covered`
+    prescriptionsList?.length > 0
+      ? `${coveredPrescriptionsLength} of ${prescriptionsList?.length} Prescriptions Covered`
       : "Add Prescriptions";
   const addProviderText =
     providersList?.length > 0
@@ -168,7 +178,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
       {isProviderModalOpen && (
         <ProviderModal
           open={isProviderModalOpen}
-          onClose={() => setIsProviderModalOpen(false)}
+          onClose={closeEditProviderModal}
           userZipCode={contact?.addresses?.[0]?.postalCode}
           selected={selectedProvider}
           isEdit={isEditingProvider}

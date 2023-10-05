@@ -627,9 +627,6 @@ const PlansPage = () => {
                         setSection(section);
                         setIsEdit(true);
                       }}
-                      providersCount={providers?.length}
-                      prescriptionsCount={prescriptions?.length}
-                      pharmacyCount={pharmacies?.length}
                     />
                   </Container>
                 </div>

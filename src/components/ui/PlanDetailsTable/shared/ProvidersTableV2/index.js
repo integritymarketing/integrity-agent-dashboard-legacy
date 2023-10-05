@@ -31,6 +31,12 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
     if (refresh) refresh();
   };
 
+  const closeEditModal = () => {
+    setIsModalOpen(false);
+    setIsEditingProvider(false);
+    setProviderToEdit(null);
+  };
+
   const handleAddEditProvider = () => {
     if (isEdit) {
       setCoverageModal(true);
@@ -78,7 +84,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName }) => {
         {isModalOpen && (
           <ProviderModal
             open={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
+            onClose={closeEditModal}
             userZipCode={leadDetails?.addresses?.[0]?.postalCode}
             selected={selectedProvider}
             isEdit={isEditingProvider}
