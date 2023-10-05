@@ -24,10 +24,13 @@ const Feedback = ({ onReact, content, onSkip, onDone, onSubmit }) => {
 
   const handleClickFeedback = (rating) => {
     setRating(rating);
-    onReact();
     fireEvent("Ask Integrity", {
       rating,
     });
+    if (rating) {
+      return onSkip();
+    }
+    onReact();
   };
 
   const handleSubmit = () => {
