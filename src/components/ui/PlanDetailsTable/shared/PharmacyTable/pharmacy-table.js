@@ -61,8 +61,10 @@ const PharmacyTable = ({ contact, planData, isMobile }) => {
     planData?.pharmacyCosts &&
     Array.isArray(planData?.pharmacyCosts)
   ) {
-    pharmaciesList?.forEach((pharmacyCost) => {
+    pharmaciesList?.forEach((_, index) => {
       const pharmacy = pharmaciesList[0];
+      const matchedPharmacyCost = planData?.pharmacyCosts[index];
+
       if (pharmacy) {
         const row = {
           name: <span className={"label"}>{pharmacy?.name}</span>,
@@ -70,7 +72,7 @@ const PharmacyTable = ({ contact, planData, isMobile }) => {
             <>
               <div className={"address"}>
                 <span className="networkIcon">
-                  {getInNetwork(pharmacyCost)}
+                  {getInNetwork(matchedPharmacyCost)}
                 </span>
                 {pharmacy?.address1 +
                   "\n" +
