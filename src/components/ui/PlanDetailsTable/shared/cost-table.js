@@ -200,7 +200,12 @@ const CostTable = ({ planData }) => {
       value: <PremiumCell planData={planData} />,
     },
     {
-      label: <TotalEstLabel effectiveMonth={m} effectiveYear={y} />,
+      label: (
+        <TotalEstLabel
+          effectiveMonth={getMonthShortName(parseInt(m) - 1)}
+          effectiveYear={y}
+        />
+      ),
       value: (
         <TotalEstValue
           planData={planData}
@@ -326,7 +331,12 @@ export function CostCompareTable({ plans, effectiveDate }) {
       }, {}),
     },
     {
-      label: <TotalEstLabel effectiveMonth={m} effectiveYear={y} />,
+      label: (
+        <TotalEstLabel
+          effectiveMonth={getMonthShortName(parseInt(m) - 1)}
+          effectiveYear={y}
+        />
+      ),
       ...clonedPlans?.reduce((acc, plan, index) => {
         acc[`plan-${index}`] = plan ? (
           <TotalEstValue
