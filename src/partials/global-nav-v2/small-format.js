@@ -7,7 +7,13 @@ import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import useRoles from "hooks/useRoles";
 const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLink"];
 
-const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
+const SmallFormatNav = ({
+  navOpen,
+  setNavOpen,
+  primary,
+  secondary,
+  tertiary,
+}) => {
   const userProfile = useUserProfile();
 
   const { isNonRTS_User } = useRoles();
@@ -96,6 +102,30 @@ const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
                       className={`link link--invert modal-nav__link ${className}`}
                       {...props}
                     >
+                      {link.label}
+                    </link.component>
+                  </li>
+                );
+              })}
+            <hr className="modal-nav__hr"></hr>
+            {tertiary
+              .filter((link) => link.format !== "large")
+              .map((link, idx) => {
+                const { className = "", ...props } = link.props || {};
+
+                return (
+                  <li className="mt-3 ml-3" key={idx}>
+                    <link.component
+                      className={`link link--invert modal-nav__link ${className} linkAlignItems`}
+                      {...props}
+                    >
+                      {link.img && (
+                        <img
+                          src={link.img}
+                          alt="linkIcon"
+                          className="iconImg"
+                        />
+                      )}
                       {link.label}
                     </link.component>
                   </li>

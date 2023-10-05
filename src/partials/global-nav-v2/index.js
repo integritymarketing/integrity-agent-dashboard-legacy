@@ -132,12 +132,12 @@ const GlobalNavV2 = ({
       <div className="labelSubtext">(2023/2024)</div>
     </div>
   );
-  const {
-    agentInformation,
-    getAgentAvailability,
-  } = useAgentInformationByID();
+  const { agentInformation, getAgentAvailability } = useAgentInformationByID();
   const leadPreference = agentInformation?.leadPreference;
-  useEffect(() => setIsAvailable(agentInformation?.isAvailable), [setIsAvailable, agentInformation?.isAvailable])
+  useEffect(
+    () => setIsAvailable(agentInformation?.isAvailable),
+    [setIsAvailable, agentInformation?.isAvailable]
+  );
 
   const mobileMenuProps = Object.assign(
     {
@@ -170,15 +170,6 @@ const GlobalNavV2 = ({
               props: { to: "/account" },
               label: "Account",
               img: MobileAccount,
-            },
-            {
-              component: "button",
-              props: {
-                type: "button",
-                onClick: () => auth.logout(),
-              },
-              label: "Sign Out",
-              img: MobileLogout,
             },
           ],
           secondary: [
@@ -225,10 +216,22 @@ const GlobalNavV2 = ({
               label: medicareAppLabel(),
             },
           ],
+          tertiary: [
+            {
+              component: "button",
+              props: {
+                type: "button",
+                onClick: () => auth.logout(),
+              },
+              label: "Sign Out",
+              img: MobileLogout,
+            },
+          ],
         }
       : {
           primary: [],
           secondary: [],
+          tertiary: [],
         }
   );
 
@@ -344,16 +347,23 @@ const GlobalNavV2 = ({
   );
 
   useEffect(() => {
-    if(leadPreference && !leadPreference?.isAgentMobilePopUpDismissed) {
+    if (leadPreference && !leadPreference?.isAgentMobilePopUpDismissed) {
       setWelcomeModalOpen(true);
     }
   }, [leadPreference, setWelcomeModalOpen]);
 
   useEffect(() => {
-    if(user?.agentId && !agentInformation?.agentVirtualPhoneNumber && agentInformation?.isDashboardLocation) {
-      setTimeout(() => clientService.genarateAgentTwiloNumber(user?.agentId), 5000);
+    if (
+      user?.agentId &&
+      !agentInformation?.agentVirtualPhoneNumber &&
+      agentInformation?.isDashboardLocation
+    ) {
+      setTimeout(
+        () => clientService.genarateAgentTwiloNumber(user?.agentId),
+        5000
+      );
     }
-  }, [agentInformation, user])
+  }, [agentInformation, user]);
 
   const updateAgentAvailability = async (data) => {
     try {
