@@ -186,16 +186,6 @@ function ContactsTable({
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
     useContext(DeleteLeadContext);
 
-  const [applyFilters, setApplyFilters] = useState({
-    contactRecordType: null,
-    hasReminder: null,
-    stages: [],
-    tags: [],
-    hasOverdueReminder: null,
-  });
-
-  const applyFiltersString = JSON.stringify(applyFilters);
-
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [leadId, setLeadId] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -205,24 +195,24 @@ function ContactsTable({
   const history = useHistory();
   const location = useLocation();
 
-  const queryParams = new URLSearchParams(location.search);
+  const queryParams = useMemo(() => {
+    return new URLSearchParams(location.search);
+  }, [location.search]);
 
-  useEffect(() => {
+  const applyFilters = useMemo(() => {
     const stages = queryParams.get("Stage");
     const tags = queryParams.get("Tags");
     const contactRecordType = queryParams.get("ContactRecordType");
     const hasReminder = queryParams.get("HasReminder");
     const hasOverdueReminder = queryParams.get("HasOverdueReminder");
-    const applyFilters = {
+    return {
       contactRecordType,
       hasReminder,
       stages: stages ? stages.split(",") : [],
       tags: tags ? tags.split(",") : [],
       hasOverdueReminder,
     };
-    setApplyFilters(applyFilters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [queryParams]);
 
   useEffect(() => {
     if (deleteCounter) {
@@ -272,7 +262,7 @@ function ContactsTable({
   }, [deleteLeadId, deleteContact]);
 
   const fetchData = useCallback(
-    ({ pageSize, pageIndex, searchString, sort }) => {
+    ({ pageSize, pageIndex, searchString, sort, applyFilters }) => {
       if (pageIndex === undefined) {
         return;
       }
@@ -319,7 +309,7 @@ function ContactsTable({
           setLoading(false);
         });
     },
-    [applyFilters, handleGetAllLeadIds, isMobile, layout]
+    [handleGetAllLeadIds, isMobile, layout]
   );
 
   const handleRefresh = useCallback(() => {
@@ -342,7 +332,7 @@ function ContactsTable({
     pageSize,
     searchString,
     sort,
-    applyFiltersString,
+    applyFilters,
   ]);
 
   const navigateToPage = (leadId, page) => {

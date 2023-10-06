@@ -26,6 +26,7 @@ import FooterBanners from "packages/FooterBanners";
 import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
 import useUserProfile from "hooks/useUserProfile";
+import MobileAppBanner from "mobile/SmartAppBanner";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -49,8 +50,7 @@ export default function Dashbaord() {
   const [welcomeModalOpen, setWelcomeModalOpen] =
     useRecoilState(welcomeModalOpenAtom);
 
-  const { stageSummary, loadStageSummary } =
-    useContext(stageSummaryContext);
+  const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
 
   const { agentInformation } = useAgentInformationByID();
   const leadPreference = agentInformation?.leadPreference;
@@ -140,6 +140,7 @@ export default function Dashbaord() {
       <Helmet>
         <title>MedicareCENTER - Dashboard</title>
       </Helmet>
+      <MobileAppBanner isMobile={isMobile} />
       <GlobalNav page="dashboard" />
       <WithLoader isLoading={isLoading}>
         <div className="dashbaord-page">
