@@ -26,6 +26,7 @@ import FooterBanners from "packages/FooterBanners";
 import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
 import useUserProfile from "hooks/useUserProfile";
+import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -37,6 +38,7 @@ export default function Dashbaord() {
   const history = useHistory();
   const addToast = useToast();
   const userProfile = useUserProfile();
+  const device = useDeviceInfo();
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [activityData, setActivityData] = useState([]);
@@ -49,12 +51,38 @@ export default function Dashbaord() {
   const [welcomeModalOpen, setWelcomeModalOpen] =
     useRecoilState(welcomeModalOpenAtom);
 
-  const { stageSummary, loadStageSummary } =
-    useContext(stageSummaryContext);
+  const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
 
   const { agentInformation } = useAgentInformationByID();
   const leadPreference = agentInformation?.leadPreference;
   const agentID = agentInformation?.agentID;
+
+  // Mobile App Deep Linking and Smart App Banner
+  // Define your app ID and app url
+  const APP_ID = "1623328763";
+  const APP_URL = "https://apps.apple.com/us/app/medicarecenter";
+
+  const isSafari = () => {
+    const userAgent = navigator?.userAgent;
+    return userAgent
+      ? /Safari/.test(userAgent) && !/Chrome/.test(userAgent)
+      : false;
+  };
+
+  useEffect(() => {
+    if (
+      isSafari() &&
+      isMobile &&
+      device === DEVICES.IOS &&
+      process.env.REACT_APP_SMART_APP_BANNER_FLAG === "show"
+    ) {
+      // Use the custom hook only if the browser is Safari and mobile device is iOS also check if the broswer is safari
+      const metaTag = document.createElement("meta");
+      metaTag.name = "apple-itunes-app";
+      metaTag.content = `app-id=${APP_ID}, app-argument=${APP_URL}`;
+      document.getElementsByTagName("head")[0].appendChild(metaTag);
+    }
+  }, [isMobile, device]);
 
   useEffect(() => {
     loadActivityData();
