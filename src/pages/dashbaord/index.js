@@ -70,12 +70,7 @@ export default function Dashbaord() {
   };
 
   useEffect(() => {
-    if (
-      isSafari() &&
-      isMobile &&
-      device === DEVICES.IOS &&
-      process.env.REACT_APP_SMART_APP_BANNER_FLAG === "show"
-    ) {
+    if (isSafari() && isMobile && device === DEVICES.IOS) {
       // Use the custom hook only if the browser is Safari and mobile device is iOS also check if the broswer is safari
       const metaTag = document.createElement("meta");
       metaTag.name = "apple-itunes-app";
