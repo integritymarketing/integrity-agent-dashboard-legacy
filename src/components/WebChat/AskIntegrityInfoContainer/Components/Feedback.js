@@ -24,7 +24,8 @@ const Feedback = ({ onReact, content, onSkip, onDone, onSubmit }) => {
 
   const handleClickFeedback = (rating) => {
     setRating(rating);
-    fireEvent("Ask Integrity", {
+    fireEvent("AI - General Feedback Submitted", {
+      feature: "Ask Integrity",
       rating,
     });
     if (rating) {
@@ -36,7 +37,8 @@ const Feedback = ({ onReact, content, onSkip, onDone, onSubmit }) => {
   const handleSubmit = () => {
     onSubmit();
     if(rating === false) {
-    fireEvent("Ask Integrity", {
+    fireEvent("AI - Detailed Feedback Submitted", {
+      feature: "Ask Integrity",
       feedback: selectedFeedback.map(({ value }) => value),
       rating
     });

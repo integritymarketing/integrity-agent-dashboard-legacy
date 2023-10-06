@@ -21,7 +21,9 @@ const AskIntegrityFeedback = ({  onClose, onDone }) => {
   const { fireEvent } = useAnalytics();
 
   useEffect(() => {
-    fireEvent("Ask Integrity");
+    fireEvent("AI - Informational Modal Viewed", {
+      feature: "Ask Integrity"
+    });
   }, [fireEvent]);
 
   const handleShareClick = () => {
