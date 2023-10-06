@@ -20,7 +20,7 @@ import { CountyProvider } from "contexts/counties";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import { ToastContextProvider } from "components/ui/Toast/ToastContext";
-import ErrorBoundary from "components/ErrorBoundary";
+//import ErrorBoundary from "components/ErrorBoundary";
 
 // Services
 import authService from "services/authService";
@@ -112,7 +112,7 @@ const App = () => {
                                 <title>MedicareCENTER</title>
                               </Helmet>
                               <div className="content-frame">
-                                <ErrorBoundary>
+                                {/* <ErrorBoundary> */}
                                   {process.env.REACT_APP_MAINTENANCE_MODE ? (
                                     <Switch>
                                       <Route path="/maintenance">
@@ -289,7 +289,7 @@ const App = () => {
                                       </Route>
                                     </Switch>
                                   )}
-                                </ErrorBoundary>
+                                {/* </ErrorBoundary> */}
                               </div>
                               <PortalUrl />
                             </Router>
