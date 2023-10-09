@@ -618,7 +618,6 @@ const PersonalInformationCard = ({
     contactPreferences,
     leadTags,
   } = personalInfo;
-
   emails = emails.length > 0 ? emails[0].leadEmail : NOT_AVAILABLE;
 
   let phonesData = phones?.filter((phone) => {
@@ -705,7 +704,12 @@ const PersonalInformationCard = ({
             </label>
             <div className="personalInfoText mobile-hide">
               {phone ? (
-                <PrimaryContactPhone phone={phone} leadsId={leadsId} />
+                <PrimaryContactPhone
+                  countyFips={addresses?.[0]?.countyFips}
+                  postalCode={addresses?.[0]?.postalCode}
+                  phone={phone}
+                  leadsId={leadsId}
+                />
               ) : (
                 NOT_AVAILABLE
               )}
