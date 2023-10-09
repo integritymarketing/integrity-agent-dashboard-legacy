@@ -14,7 +14,7 @@ const Support = ({ onShare }) => {
 
   return (
     <div className={styles.infoContainer}>
-      <div className={styles.heading}>Support</div>
+      <div className={styles.heading}>Feedback and Support</div>
       <div className={styles.infoItem}>
         <div className={styles.gap}>
           <div>

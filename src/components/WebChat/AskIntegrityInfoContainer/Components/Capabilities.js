@@ -3,7 +3,7 @@ import styles from '../AskIntegrityFeedback.module.scss';
 
 const Capabilities = () => (
   <div className={styles.infoContainer}>
-    <div className={styles.heading}>Capabilities</div>
+    <div className={styles.heading}>Available Capabilities</div>
     <div className={styles.infoItem}>
       <div className={styles.gap}>
         Ask Integrity is just getting started!
