@@ -47,10 +47,12 @@
         width: 100% !important;
       }
       td {
-        width: calc(70% / 3);
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+          width: 40%;
+          word-break: break-word;
+        }
       }
       td:first-child {
-        width: 30%;
         @media screen and (min-width: 320px) and (max-width: 480px) {
           width: 60%;
         }
@@ -204,6 +206,7 @@
   .comp-td:not(:first-child) {
     padding-left: 15px;
     padding-right: 8px;
+    width: 63%;
   }
   .extra-padding {
     padding-left: 20px;
@@ -241,7 +244,9 @@
     height: 100%;
     border: 1px solid #cbd5e1;
     border-bottom: none;
-    border-top: none;
+    // border-top: none;
+    padding: 10px;
+    justify-content: space-between;
 
     .date {
       font-style: italic;
@@ -338,6 +343,7 @@
       border: 1px solid #cbd5e1;
       background-color: white;
       cursor: pointer;
+      padding: 10px 20px;
 
       .cost-phases {
         display: flex;
@@ -417,7 +423,6 @@
             letter-spacing: -0.14px;
             padding-left: 20px;
             padding-right: 10px;
-            border-right: 1px solid #cbd5e1;
           }
           th:last-child {
             border-right: unset;
@@ -440,7 +445,6 @@
             padding-left: 20px;
             padding-right: 10px;
             padding-bottom: 5px;
-            border-right: 1px solid #cbd5e1;
             color: #717171;
           }
 
@@ -450,6 +454,8 @@
 
           td:not(:first-child) {
             text-align: end;
+            color: #052a63;
+            font-weight: bold;
           }
         }
 

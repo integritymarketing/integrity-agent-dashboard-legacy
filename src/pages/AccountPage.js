@@ -9,7 +9,6 @@ import GlobalFooter from "partials/global-footer";
 import useUserProfile from "hooks/useUserProfile";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
-import useFlashMessage from "hooks/useFlashMessage";
 import useLoading from "hooks/useLoading";
 import analyticsService from "services/analyticsService";
 import ActiveSellingPermissionTable from "./ActiveSellingPermissionTable";
@@ -426,7 +425,6 @@ const formatPhoneNumber = (phoneNumberString) => {
 const AccountPage = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const { show: showMessage } = useFlashMessage();
   const loading = useLoading();
   const userProfile = useUserProfile();
   const { firstName, lastName, npn, email, phone } = userProfile;
@@ -724,24 +722,25 @@ const AccountPage = () => {
                       }}
                       onSubmit={async (
                         values,
-                        { setErrors, setSubmitting }
+                        { setErrors, setSubmitting, resetForm }
                       ) => {
+                        const initialValues = {
+                          currentPassword: "",
+                          newPassword: "",
+                          confirmPassword: "",
+                        };
+                        resetForm({ initialValues });
                         setSubmitting(true);
-                        loading.begin(0);
                         let response = await updateAccountPassword(
                           values,
                           true
                         );
                         if (response.status >= 200 && response.status < 300) {
                           setSubmitting(false);
-                          loading.end();
-
-                          showMessage(
-                            "Your password has been successfully updated.",
-                            {
-                              type: "success",
-                            }
-                          );
+                          addToast({
+                            message:
+                              "Your password has been successfully updated.",
+                          });
                         } else {
                           loading.end();
                           const errorsArr = await response.json();
