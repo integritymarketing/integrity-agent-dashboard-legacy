@@ -37,8 +37,8 @@ const PAGESIZE = 10;
 export default function Dashbaord() {
   const history = useHistory();
   const addToast = useToast();
-  const userProfile = useUserProfile();
   const device = useDeviceInfo();
+  const userProfile = useUserProfile();
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [activityData, setActivityData] = useState([]);
@@ -58,15 +58,10 @@ export default function Dashbaord() {
   const agentID = agentInformation?.agentID;
 
   // Mobile App Deep Linking and Smart App Banner
-  // Define your app ID and app url
-  const APP_ID = "1623328763";
-  const APP_URL = "https://apps.apple.com/us/app/medicarecenter";
 
   const isSafari = () => {
-    const userAgent = navigator?.userAgent;
-    return userAgent
-      ? /Safari/.test(userAgent) && !/Chrome/.test(userAgent)
-      : false;
+    const userAgent = navigator.userAgent;
+    return /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
   };
 
   useEffect(() => {
@@ -74,7 +69,8 @@ export default function Dashbaord() {
       // Use the custom hook only if the browser is Safari and mobile device is iOS also check if the broswer is safari
       const metaTag = document.createElement("meta");
       metaTag.name = "apple-itunes-app";
-      metaTag.content = `app-id=${APP_ID}, app-argument=${APP_URL}`;
+      metaTag.content =
+        "app-id=1623328763, app-argument=https://apps.apple.com/us/app/medicarecenter";
       document.getElementsByTagName("head")[0].appendChild(metaTag);
     }
   }, [isMobile, device]);
