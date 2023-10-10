@@ -14,13 +14,13 @@ const StageSelect = ({ initialValue, originalData, refreshData }) => {
   const [isLostReasonModalVisible, setLostReasonModalVisibility] = useState(false);
   const [selectedStage, setSelectedStage] = useState('');
   const { loadStageSummary } = useContext(stageSummaryContext);
-  const { allStatuses, statusOptions, lostSubStatusOptions } = useContext(StageStatusContext);
+  const { allStatuses, statusOptions, lostSubStatusesOptions } = useContext(StageStatusContext);
   const showToast = useToast();
 
   useEffect(() => {
-    const defaultStage = lostSubStatusOptions?.some((opt) => opt?.label === initialValue) ? 'Lost' : initialValue || 'New';
+    const defaultStage = lostSubStatusesOptions?.some((opt) => opt?.label === initialValue) ? 'Lost' : initialValue || 'New';
     setSelectedStage(defaultStage);
-  }, [lostSubStatusOptions, initialValue]);
+  }, [lostSubStatusesOptions, initialValue]);
 
   const handleLostReasonModalCancel = () => {
     setLostReasonModalVisibility(false);
@@ -75,7 +75,7 @@ const StageSelect = ({ initialValue, originalData, refreshData }) => {
         open={isLostReasonModalVisible}
         onClose={handleLostReasonModalCancel}
         onSubmit={handleStageChange}
-        subStatuses={lostSubStatusOptions}
+        subStatuses={lostSubStatusesOptions}
       />
       <Select
         Option={ColorOptionRender}
