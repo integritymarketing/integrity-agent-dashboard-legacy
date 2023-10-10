@@ -55,6 +55,7 @@ const LostStageDisposition = ({
             placeholder="Select"
             showValueAlways={true}
             onChange={setSelectedSubStatus}
+            initialValue={selectedSubStatus}
           />
         </div>
         <div className="footer">
