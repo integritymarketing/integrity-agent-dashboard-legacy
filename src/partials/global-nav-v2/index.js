@@ -117,7 +117,7 @@ const GlobalNavV2 = ({
   ...props
 }) => {
   const auth = useContext(AuthContext);
-  const addToast = useToast();
+  const showToast = useToast();
   const history = useHistory();
   const loadingHook = useLoading();
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
@@ -372,7 +372,7 @@ const GlobalNavV2 = ({
         getAgentAvailability();
       }
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to Save the Availability.",
         time: 10000,

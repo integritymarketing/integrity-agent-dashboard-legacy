@@ -28,7 +28,7 @@ export default function ClientNotes(props) {
     setIsEdit(false);
     setIsSaving(() => true);
   };
-  const addToast = useToast();
+  const showToast = useToast();
 
   return (
     <Fragment>
@@ -99,7 +99,7 @@ export default function ClientNotes(props) {
       });
       setnotesLastSaved(value);
       await props.getLeadDetails();
-      addToast({
+      showToast({
         type: "success",
         message: "Client notes successfully Updated.",
         time: 3000,
@@ -107,7 +107,7 @@ export default function ClientNotes(props) {
       setIsEdit(false);
     } catch (err) {
       Sentry.captureException(err);
-      addToast({
+      showToast({
         type: "error",
         message: "Error, update unsuccessful.",
         time: 3000,

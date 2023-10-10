@@ -14,14 +14,14 @@ export default ({ activities, leadId, getLeadDetails }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [activityData, setActivityData] = useState({});
   const [hovered, setHovered] = useState(null);
-  const addToast = useToast();
+  const showToast = useToast();
   const [showSize, setShowSize] = useState(3);
   const history = useHistory();
 
   const deleteActivity = async (activityId) => {
     await clientsService.deleteActivity(activityId);
     getLeadDetails();
-    addToast({
+    showToast({
       type: "success",
       message: "Activity successfully deleted",
       time: 3000,

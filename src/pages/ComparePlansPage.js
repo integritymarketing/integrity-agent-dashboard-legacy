@@ -13,7 +13,6 @@ import plansService from "services/plansService";
 import clientsService from "services/clientsService";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./PlansPage.module.scss";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import analyticsService from "services/analyticsService";
 import { CostCompareTable } from "components/ui/PlanDetailsTable/shared/cost-table";
 import { ProvidersCompareTable } from "components/ui/PlanDetailsTable/shared/providers-compare-table";
@@ -190,7 +189,6 @@ const ComparePlansPage = (props) => {
   }
   return (
     <>
-      <ToastContextProvider>
         {!isComingFromEmail && (
           <ComparePlanModal
             modalOpen={comparePlanModalOpen}
@@ -290,7 +288,6 @@ const ComparePlansPage = (props) => {
           </WithLoader>
           {footer && <GlobalFooter />}
         </div>
-      </ToastContextProvider>
     </>
   );
 };

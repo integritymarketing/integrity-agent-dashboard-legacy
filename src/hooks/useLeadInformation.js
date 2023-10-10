@@ -73,7 +73,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionLoading, setPrescriptionLoading] = useState(false);
 
-  const addToast = useToast();
+  const showToast = useToast();
 
   const fetchPrescriptions = useCallback(async () => {
     await performAsyncOperation(
@@ -120,10 +120,10 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         if (refresh) {
           await refresh();
         }
-        addToast({ message: "Prescription Added" });
+        showToast({ message: "Prescription Added" });
       },
       (err) =>
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to add prescription",
         })
@@ -148,10 +148,10 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         if (refresh) {
           await refresh();
         }
-        addToast({ message: "Prescription Updated" });
+        showToast({ message: "Prescription Updated" });
       },
       (err) => {
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to update prescription",
         });
@@ -171,7 +171,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         if (refresh) {
           await refresh();
         }
-        addToast({
+        showToast({
           type: "success",
           message: "Prescription deleted",
           time: toastTimer,
@@ -181,7 +181,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         });
       },
       (err) =>
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to delete prescription",
         })
@@ -197,9 +197,9 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         if (refresh) {
           await refresh();
         }
-        addToast({ message: "Pharmacy Added" });
+        showToast({ message: "Pharmacy Added" });
       },
-      (err) => addToast({ type: "error", message: "Failed to add pharmacy" })
+      (err) => showToast({ type: "error", message: "Failed to add pharmacy" })
     );
   };
 
@@ -214,7 +214,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         if (refresh) {
           await refresh();
         }
-        addToast({
+        showToast({
           message: "Pharmacy Deleted",
           time: toastTimer,
           link: "UNDO",
@@ -222,7 +222,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
           closeToastRequired: true,
         });
       },
-      (err) => addToast({ type: "error", message: "Failed to delete pharmacy" })
+      (err) => showToast({ type: "error", message: "Failed to delete pharmacy" })
     );
   };
 
@@ -240,14 +240,14 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         if (refresh) {
           await refresh();
         }
-        addToast({
+        showToast({
           message: `${providerName} ${
             isUpdate ? "updated" : "added to the list."
           }`,
         });
       },
       (err) =>
-        addToast({
+        showToast({
           type: "error",
           message: `Failed to ${isUpdate ? "update" : "add"} Provider`,
         })
@@ -264,7 +264,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
           await refresh();
         }
         if (isToast) {
-          addToast({
+          showToast({
             message: `Provider  deleted`,
             link: "UNDO",
             time: toastTimer,
@@ -274,7 +274,7 @@ export const LeadInformationProvider = ({ children, leadId }) => {
         }
       },
       (err) =>
-        addToast({
+        showToast({
           type: "error",
           message: `Failed to update Provider`,
         })

@@ -36,7 +36,7 @@ const PAGESIZE = 10;
 
 export default function Dashbaord() {
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
   const device = useDeviceInfo();
   const userProfile = useUserProfile();
   const [isLoading, setIsLoading] = useState(true);
@@ -113,7 +113,7 @@ export default function Dashbaord() {
       setTotalPageSize(response?.pageResult?.totalPages);
     } catch (err) {
       Sentry.captureException(err);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to load data",
       });
@@ -137,7 +137,7 @@ export default function Dashbaord() {
       };
       await clientsService.updateAgentPreferences(payload);
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to update the Preferences.",
         time: 10000,

@@ -41,7 +41,7 @@ export default function AddProvider({
   const [selectAddressId, setSelectAddressId] = useState(null);
   const filteredResults = results?.providers || [];
   const totalPages = results ? Math.ceil(results.total / perPage) : 0;
-  const addToast = useToast();
+  const showToast = useToast();
 
   useEffect(() => {
     if (isOpen) {
@@ -85,7 +85,7 @@ export default function AddProvider({
       addProviderHandle(provider);
     } catch (err) {
       Sentry.captureException(err);
-      addToast({
+      showToast({
         type: "error",
         message: "Error, update unsuccessful.",
       });
@@ -113,13 +113,13 @@ export default function AddProvider({
     ];
     try {
       await clientsService.createLeadProvider(leadId, request);
-      addToast({
+      showToast({
         message: provider.presentationName + " added to the list. ",
       });
       onClose({ refresh: true });
     } catch (err) {
       Sentry.captureException(err);
-      addToast({
+      showToast({
         type: "error",
         message: "Error, update unsuccessful.",
       });

@@ -49,7 +49,7 @@ const ComparePlanModal = ({
   plansLoading,
   contactData,
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const userProfile = useUserProfile();
   const {
     agentInformation: { agentVirtualPhoneNumber, agentPurl }
@@ -176,12 +176,12 @@ const ComparePlanModal = ({
           await plansService.sendPlanCompare(data);
         }
       }
-      addToast({
+      showToast({
         message: "Plans sent to client",
       });
     } catch (error) {
       Sentry.captureException(error);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to share plan",
       });

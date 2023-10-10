@@ -14,7 +14,7 @@ import "./style.scss";
 const UnlinkedPolicyCard = ({ callData, npn }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
 
   const handleLinkToContact = useCallback(async () => {
     try {
@@ -38,13 +38,13 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
       // Redirect to Enrollment Link to Contact page, passing the policy data.
       history.push("/enrollment-link-to-contact", { state: stateData });
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to get enroll plan info.",
         time: 10000,
       });
     }
-  }, [addToast, callData, history, npn]);
+  }, [showToast, callData, history, npn]);
 
   return (
     <div className="up-card">

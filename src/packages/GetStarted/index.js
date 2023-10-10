@@ -37,7 +37,7 @@ export default function GetStarted(props) {
   const history = useHistory();
   const [show, setShow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const addToast = useToast();
+  const showToast = useToast();
   const {
     agentInformation: { agentVirtualPhoneNumber },
   } = useAgentInformationByID();
@@ -54,7 +54,7 @@ export default function GetStarted(props) {
       };
       await clientsService.updateAgentPreferences(payload);
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to Save the Preferences.",
         time: 10000,

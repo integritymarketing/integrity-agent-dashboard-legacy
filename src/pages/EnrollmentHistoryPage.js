@@ -32,7 +32,7 @@ const EnrollmentHistoryPage = ({
   } = agentInfo;
   const { contactId: paramContactId, confirmationNumber } = useParams();
   const location = useLocation();
-  const addToast = useToast();
+  const showToast = useToast();
   const { Get: fetchEnrollByConfirmationNumber } = useFetch(
     `${process.env.REACT_APP_ENROLLMENT_CONSUMER_API}/confirmationNumber/${confirmationNumber}`,
     true
@@ -86,7 +86,7 @@ const EnrollmentHistoryPage = ({
         } catch (error) {
           Sentry.captureException(error);
           setLoading(false);
-          addToast({
+          showToast({
             type: "error",
             message: "There was an error loading the enrollment details.",
           });
@@ -95,7 +95,7 @@ const EnrollmentHistoryPage = ({
     };
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast, confirmationNumber]);
+  }, [showToast, confirmationNumber]);
 
   const getContactData = useCallback(async () => {
     try {
@@ -104,13 +104,13 @@ const EnrollmentHistoryPage = ({
       setContact(contactData);
     } catch (e) {
       Sentry.captureException(e);
-      addToast({
+      showToast({
         type: "error",
         message: "There was an error loading the contact details.",
       });
     } finally {
     }
-  }, [finalContactId, addToast]);
+  }, [finalContactId, showToast]);
 
   useEffect(() => {
     if (!isComingFromEmail && finalContactId) {

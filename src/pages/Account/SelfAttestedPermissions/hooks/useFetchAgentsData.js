@@ -10,7 +10,7 @@ const AGENTS_API_VERSION = "v1.0";
 function useFetchAgentsData() {
   const [isLoading, setIsLoading] = useState(false);
   const [agents, setAgents] = useState([]);
-  const addToast = useToast();
+  const showToast = useToast();
   const { npn } = useUserProfile();
 
   const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`;
@@ -28,13 +28,13 @@ function useFetchAgentsData() {
     } catch (error) {
       setIsLoading(false);
       Sentry.captureException(error);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to load data",
         time: 10000,
       });
     }
-  }, [npn, addToast, getAgents]);
+  }, [npn, showToast, getAgents]);
 
   useEffect(() => {
     fetchAgentsData();

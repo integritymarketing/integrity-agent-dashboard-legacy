@@ -7,7 +7,7 @@ import useToast from "hooks/useToast";
 import * as Sentry from "@sentry/react";
 
 const useActivities = ({ getLeadDetails }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const { contactId: leadsId } = useParams();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const [activities, leadFullName] = useRecoilValue(
@@ -73,13 +73,13 @@ const useActivities = ({ getLeadDetails }) => {
 
   const addErrorToast = useCallback(
     (message) => {
-      addToast({
+      showToast({
         type: "error",
         message: message,
         time: 3000,
       });
     },
-    [addToast]
+    [showToast]
   );
 
   const handleAddNewActivity = useCallback(
@@ -93,7 +93,7 @@ const useActivities = ({ getLeadDetails }) => {
       await clientsService
         .createActivity(payload)
         .then(async () => {
-          addToast({
+          showToast({
             type: "success",
             message: "Activity successfully added.",
             time: 3000,
@@ -107,7 +107,7 @@ const useActivities = ({ getLeadDetails }) => {
           addErrorToast("There was an error while saving your activity");
         });
     },
-    [getLeadDetails, addToast, leadsId, setOpen, addErrorToast]
+    [getLeadDetails, showToast, leadsId, setOpen, addErrorToast]
   );
 
   const handleDeleteActivity = useCallback(
@@ -115,7 +115,7 @@ const useActivities = ({ getLeadDetails }) => {
       try {
         await clientsService.deleteActivity(activity?.activityId);
         getLeadDetails();
-        addToast({
+        showToast({
           type: "success",
           message: "Activity successfully deleted",
           time: 3000,
@@ -125,7 +125,7 @@ const useActivities = ({ getLeadDetails }) => {
         addErrorToast("There was an error while deleting your activity");
       }
     },
-    [getLeadDetails, addToast, addErrorToast]
+    [getLeadDetails, showToast, addErrorToast]
   );
 
   const handleEditActivity = useCallback(
@@ -139,7 +139,7 @@ const useActivities = ({ getLeadDetails }) => {
         await clientsService.updateActivity(payload, leadsId);
         getLeadDetails();
         setEditActivity(null);
-        addToast({
+        showToast({
           type: "success",
           message: "Activity successfully updated.",
           time: 3000,
@@ -150,7 +150,7 @@ const useActivities = ({ getLeadDetails }) => {
         addErrorToast("There was an error while updating your activity");
       }
     },
-    [getLeadDetails, leadsId, addToast, addErrorToast, setSelectedActivity]
+    [getLeadDetails, leadsId, showToast, addErrorToast, setSelectedActivity]
   );
 
   const handleAddActivtyNotes = useCallback(
@@ -166,7 +166,7 @@ const useActivities = ({ getLeadDetails }) => {
         await clientsService.updateActivity(payload, leadsId);
         getLeadDetails();
         setSelectedActivity(null);
-        addToast({
+        showToast({
           type: "success",
           message: "Activity notes added successfully",
           time: 3000,
@@ -177,7 +177,7 @@ const useActivities = ({ getLeadDetails }) => {
         addErrorToast("There was an error while updating your activity");
       }
     },
-    [getLeadDetails, setSelectedActivity, addToast, leadsId, addErrorToast]
+    [getLeadDetails, setSelectedActivity, showToast, leadsId, addErrorToast]
   );
 
   const toggleFilterMenu = useCallback(() => {

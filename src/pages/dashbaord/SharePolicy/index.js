@@ -14,7 +14,7 @@ import useToast from "hooks/useToast";
 import "./sharepolicy.scss";
 
 function PolicyCodePage() {
-  const addToast = useToast();
+  const showToast = useToast();
   const { request, token } = useParams();
   const [verificationCode, setVerificationCode] = useState("");
   const [code, setCode] = useState("");
@@ -36,7 +36,7 @@ function PolicyCodePage() {
     const isCodeValid = code === verificationCode;
     setIsValid(isCodeValid);
     if (!isCodeValid) {
-      addToast({
+      showToast({
         type: "error",
         message: "Please enter valid code.",
       });

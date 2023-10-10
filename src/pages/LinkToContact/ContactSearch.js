@@ -34,7 +34,7 @@ const ContactListItemButton = ({
   callLogId,
   children,
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const history = useHistory();
 
   const updatePrimaryContact = useCallback(() => {
@@ -53,13 +53,13 @@ const ContactListItemButton = ({
           callLogId,
           leadId,
         });
-        addToast({
+        showToast({
           message: "Contact linked succesfully",
         });
         history.push(`/contact/${leadId}`);
       }
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: `${error.message}`,
       });
@@ -68,7 +68,7 @@ const ContactListItemButton = ({
     history,
     leadId,
     callLogId,
-    addToast,
+    showToast,
     contact.phones,
     updatePrimaryContact,
   ]);

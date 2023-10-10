@@ -19,7 +19,7 @@ const SORT_ORDER = {
 
 export const StageSummaryProvider = ({ children }) => {
   const [stageSummary, setStageSummary] = useState([]);
-  const addToastNotification = useToast();
+  const showToastNotification = useToast();
 
   const loadStageSummary = useCallback(async () => {
     try {
@@ -35,12 +35,12 @@ export const StageSummaryProvider = ({ children }) => {
       }
     } catch (error) {
       Sentry.captureException(error);
-      addToastNotification({
+      showToastNotification({
         type: "error",
         message: "Failed to load stage summary data",
       });
     }
-  }, [addToastNotification]);
+  }, [showToastNotification]);
 
   return (
     <StageSummaryContext.Provider

@@ -26,7 +26,7 @@ import AskIntegrityFeedback from "./AskIntegrityInfoContainer/AskIntegrityFeedba
 
 const WebChatComponent = () => {
   const { npn, fullName } = useUserProfile();
-  const addToast = useToast();
+  const showToast = useToast();
   const [directLineToken, setDirectLineToken] = useState(null);
   const [showAskIntegrityFeedback, setShowAskIntegrityFeedback] =
     useState(false);
@@ -49,12 +49,12 @@ const WebChatComponent = () => {
       }
     } catch (error) {
       Sentry.captureException(error);
-      addToast({
+      showToast({
         type: "error",
         message: "Error fetching Direct Line token.",
       });
     }
-  }, [npn, addToast]);
+  }, [npn, showToast]);
 
   const clearChatAndFetchToken = useCallback(async () => {
     const container = document.querySelector(

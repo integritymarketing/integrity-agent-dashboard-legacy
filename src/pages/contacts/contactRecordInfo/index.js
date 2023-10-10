@@ -21,7 +21,6 @@ import DetailsIcon from "components/icons/person";
 import PreferencesIcon from "components/icons/settings";
 import Warning from "components/icons/warning";
 import PersonalInfo from "./PersonalInfo";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import WithLoader from "components/ui/WithLoader";
 import { StageStatusProvider } from "contexts/stageStatus";
 import BackNavContext from "contexts/backNavProvider";
@@ -349,7 +348,6 @@ const ContactRecordInfoDetails = () => {
         }}
       />
       <LeadInformationProvider leadId={id}>
-        <ToastContextProvider>
           <StageStatusProvider>
             <WithLoader isLoading={isLoad}>
               <Helmet>
@@ -494,7 +492,6 @@ const ContactRecordInfoDetails = () => {
               <ContactFooter />
             </WithLoader>
           </StageStatusProvider>
-        </ToastContextProvider>
       </LeadInformationProvider>
     </React.Fragment>
   );

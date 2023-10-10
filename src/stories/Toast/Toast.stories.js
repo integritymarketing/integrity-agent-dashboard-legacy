@@ -2,8 +2,8 @@ import React from "react";
 
 import { action } from "@storybook/addon-actions";
 
-import { ToastContextProvider } from "../../components/ui/Toast/ToastContext";
-import useToast from "../../hooks/useToast";
+import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
+import useToast from "hooks/useToast";
 
 const ShowToast = ({
   message,
@@ -14,12 +14,12 @@ const ShowToast = ({
   closeToastRequired,
   onCloseCallback,
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   return (
     <div>
       <button
         onClick={() =>
-          addToast({
+          showToast({
             message,
             time,
             type,

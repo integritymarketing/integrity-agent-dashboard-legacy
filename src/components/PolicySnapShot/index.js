@@ -31,7 +31,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const [tabs, setTabs] = useState([]);
 
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
 
   const status = tabs[index]?.policyStatus;
 
@@ -54,7 +54,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         setLeadIds(ids || []);
       } catch (error) {
         setIsError(true);
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to get Policy Snapshot List.",
           time: 10000,
@@ -63,7 +63,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         setIsLoading(false);
       }
     },
-    [addToast, dateRange, npn]
+    [showToast, dateRange, npn]
   );
 
   const jumptoListMobile = useCallback(
@@ -112,7 +112,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         setTabs([...tabsData]);
       } catch (error) {
         console.log("Error in fetch policy count: ", error);
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to get Policy Snapshot Count.",
           time: 10000,
@@ -120,7 +120,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       }
     };
     fetchCounts();
-  }, [addToast, dateRange, npn]);
+  }, [showToast, dateRange, npn]);
 
   const jumptoList = (index) => {
     if (leadIds?.length > 0) {

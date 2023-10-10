@@ -125,7 +125,7 @@ export default function DashboardActivityTable({
   sort,
 }) {
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [filterToggle, setFilterToggle] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
@@ -538,7 +538,7 @@ export default function DashboardActivityTable({
         await clientsService.updateActivity(payload, leadsId);
         realoadActivityData && (await realoadActivityData());
         setSelectedActivity(null);
-        addToast({
+        showToast({
           type: "success",
           message: "Activity notes added successfully",
           time: 3000,
@@ -547,7 +547,7 @@ export default function DashboardActivityTable({
         Sentry.captureException(e);
       }
     },
-    [setSelectedActivity, addToast, selectedLead, realoadActivityData]
+    [setSelectedActivity, showToast, selectedLead, realoadActivityData]
   );
 
   const handleSortUpdate = (value) => {

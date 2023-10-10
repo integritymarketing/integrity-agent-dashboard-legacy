@@ -12,7 +12,6 @@ import plansService from "services/plansService";
 import clientsService from "services/clientsService";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./PlansPage.module.scss";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import analyticsService from "services/analyticsService";
 import { CostCompareTable } from "components/ui/PlanDetailsTable/shared/cost-table";
 import { ProvidersCompareTable } from "components/ui/PlanDetailsTable/shared/providers-compare-table";
@@ -154,7 +153,6 @@ export default (props) => {
   }
   return (
     <>
-      <ToastContextProvider>
         <ComparePlanModal
           modalOpen={comparePlanModalOpen}
           handleCloseModal={() => setComparePlanModalOpen(false)}
@@ -234,7 +232,6 @@ export default (props) => {
             </Container>
           </WithLoader>
         </div>
-      </ToastContextProvider>
     </>
   );
 };

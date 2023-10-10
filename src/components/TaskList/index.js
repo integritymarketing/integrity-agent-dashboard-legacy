@@ -70,7 +70,7 @@ export default function TaskList({ isMobile, npn }) {
   const [tabs, setTabs] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
-  const addToast = useToast();
+  const showToast = useToast();
   const selectedName =
     DEFAULT_TABS.find((tab) => tab.value === statusIndex)?.policyStatus ||
     "SOA 48-hour rule";
@@ -101,7 +101,7 @@ export default function TaskList({ isMobile, npn }) {
       }
     } catch (error) {
       setIsError(true);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to get Task List.",
         time: 10000,
@@ -122,7 +122,7 @@ export default function TaskList({ isMobile, npn }) {
       setTabs([...data]);
     } catch (error) {
       console.log("Error in fetch Task List count: ", error);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to get Task List Count.",
         time: 10000,
@@ -155,12 +155,12 @@ export default function TaskList({ isMobile, npn }) {
   useEffect(() => {
     fetchEnrollPlans();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast, statusIndex, dateRange, npn, selectedName]);
+  }, [showToast, statusIndex, dateRange, npn, selectedName]);
 
   useEffect(() => {
     fetchCounts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToast, dateRange, npn]);
+  }, [showToast, dateRange, npn]);
 
   const refreshData = (id) => {
     fetchCounts();

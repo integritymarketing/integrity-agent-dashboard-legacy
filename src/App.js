@@ -19,7 +19,7 @@ import { ContactsProvider } from "contexts/contacts";
 import { CountyProvider } from "contexts/counties";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { StageSummaryProvider } from "contexts/stageSummary";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
 //import ErrorBoundary from "components/ErrorBoundary";
 
 // Services

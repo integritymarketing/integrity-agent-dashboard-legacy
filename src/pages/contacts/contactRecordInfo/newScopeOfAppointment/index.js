@@ -45,7 +45,7 @@ const emailRegex =
 
 const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
   const [isSending, setIsSending] = useState(false);
-  const addToast = useToast();
+  const showToast = useToast();
   const { newSoaContactDetails, setNewSoaContactDetails } =
     useContext(ContactContext);
   const { setCurrentPage } = useContext(BackNavContext);
@@ -66,7 +66,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         const data = await clientsService.getContactInfo(leadId);
         setNewSoaContactDetails(data);
       } catch (err) {
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to load lead information",
         });
@@ -161,7 +161,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
         }
       }
       onCloseModal();
-      addToast({
+      showToast({
         message: "Scope of Appointment sent",
       });
       analyticsService.fireEvent("event-form-submit-valid", {
@@ -169,7 +169,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
       });
     } catch (err) {
       Sentry.captureException(err);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to send Scope of Appointment",
       });

@@ -7,7 +7,7 @@ import styles from "./EnrollmentHistoryContainer.module.scss";
 
 export default function EnrollmentHistoryContainer({ leadId }) {
   const [enrollPlans, setEnrollPlans] = useState([]);
-  const addToast = useToast();
+  const showToast = useToast();
 
   useEffect(() => {
     const fetchEnrollPlans = async () => {
@@ -15,7 +15,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         const items = await enrollPlansService.getEnrollPlans(leadId);
         setEnrollPlans(items);
       } catch (error) {
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to get Enroll Plans List.",
           time: 10000,
@@ -23,7 +23,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
       }
     };
     fetchEnrollPlans();
-  }, [addToast, leadId]);
+  }, [showToast, leadId]);
 
   function getCurrentYear(date) {
     return date ? new Date(date).getFullYear() : null;

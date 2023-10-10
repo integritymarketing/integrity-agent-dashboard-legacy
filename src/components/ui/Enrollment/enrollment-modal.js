@@ -16,7 +16,7 @@ const EnrollmentModal = ({
   effectiveDate,
 }) => {
   const [option, setOption] = useState("");
-  const addToast = useToast();
+  const showToast = useToast();
 
   const enroll = useCallback(async () => {
     try {
@@ -42,26 +42,26 @@ const EnrollmentModal = ({
 
       if (enrolled && enrolled.url) {
         window.open(enrolled.url, "_blank").focus();
-        addToast({
+        showToast({
           type: "success",
           message: "Successfully Sent to Client",
         });
       } else {
-        addToast({
+        showToast({
           type: "error",
           message: "There was an error enrolling the contact.",
         });
       }
     } catch (e) {
       Sentry.captureException(e);
-      addToast({
+      showToast({
         type: "error",
         message: "There was an error enrolling the contact.",
       });
     } finally {
       handleCloseModal();
     }
-  }, [planData, contact, addToast, option, handleCloseModal, effectiveDate]);
+  }, [planData, contact, showToast, option, handleCloseModal, effectiveDate]);
 
   return (
     <React.Fragment>

@@ -48,7 +48,7 @@ const mobileColumnFormat = {
 
 export default function ActiveSellingPermissionTable({ npn }) {
   const { width: windowWidth } = useWindowSize();
-  const addToast = useToast();
+  const showToast = useToast();
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoadings] = useState(true);
   const [error, setError] = useState(null);
@@ -69,7 +69,7 @@ export default function ActiveSellingPermissionTable({ npn }) {
         .catch((err) => {
           setIsLoadings(false);
           setError(err);
-          addToast({
+          showToast({
             type: "error",
             message: "Failed to load data",
             time: 10000,

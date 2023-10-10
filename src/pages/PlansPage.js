@@ -18,7 +18,6 @@ import { PLAN_SORT_OPTIONS } from "../constants";
 import EffectiveDateFilter from "components/ui/EffectiveDateFilter";
 import { getFirstEffectiveDateOption } from "utils/dates";
 import ContactEdit from "components/ui/ContactEdit";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { BackToTop } from "components/ui/BackToTop";
 import PlanResults, {
   convertPlanTypeToValue,
@@ -558,7 +557,6 @@ const PlansPage = () => {
   const userZipCode = contact?.addresses?.[0]?.postalCode;
   return (
     <>
-      <ToastContextProvider>
         <LeadInformationProvider leadId={id}>
           <audio ref={audioRefClose} src={closeAudio} />
           {showViewAvailablePlans && (
@@ -865,7 +863,6 @@ const PlansPage = () => {
             </WithLoader>
           </div>
         </LeadInformationProvider>
-      </ToastContextProvider>
     </>
   );
 };

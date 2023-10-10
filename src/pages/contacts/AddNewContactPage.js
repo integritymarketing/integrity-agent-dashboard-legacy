@@ -15,7 +15,6 @@ import clientsService from "services/clientsService";
 import enrollPlansService from "services/enrollPlansService";
 import callRecordingsService from "services/callRecordingsService";
 import useToast from "../../hooks/useToast";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
@@ -50,7 +49,7 @@ const NewContactForm = ({
   } = useContext(CountyContext);
 
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
 
   const isDuplicateContact = useCallback(
     async (values, setDuplicateLeadIds, errors = {}) => {
@@ -141,13 +140,13 @@ const NewContactForm = ({
       );
       if (response) {
         setTimeout(() => {
-          addToast({
+          showToast({
             message: "Contact linked successfully",
           });
         }, 4000);
       }
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: `${error.message}`,
         time: 4000,
@@ -273,7 +272,7 @@ const NewContactForm = ({
               leadId,
             });
           }
-          addToast({
+          showToast({
             message: "Contact added successfully",
           });
           if (isRelink) {
@@ -825,7 +824,6 @@ export default function AddNewContactPage() {
           id="main-content"
           className={`mt-4 add--new-contact new--contact-err ${styles["add--new-contact"]}`}
         >
-          <ToastContextProvider>
             <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
             <div className="border-bottom border-bottom--light"></div>
             <NewContactForm
@@ -834,7 +832,6 @@ export default function AddNewContactPage() {
               lastName={lastName}
               state={state}
             />
-          </ToastContextProvider>
         </Container>
       </div>
       <GlobalFooter />

@@ -191,7 +191,7 @@ function ContactsTable({
   const [openModal, setOpenModal] = useState(false);
   const { statusOptions } = useContext(StageStatusContext);
 
-  const addToast = useToast();
+  const showToast = useToast();
   const history = useHistory();
   const location = useLocation();
 
@@ -238,14 +238,14 @@ function ContactsTable({
           clearContext();
           history.push(`/contact/${deleteLeadId}`);
         } else if (response.status === 400) {
-          addToast({
+          showToast({
             type: "error",
             message: "Error while reactivating contact",
           });
         }
       };
 
-      addToast({
+      showToast({
         type: "success",
         message: leadName + " Deleted",
         time: 10000,
@@ -255,7 +255,7 @@ function ContactsTable({
         onCloseCallback: clearContext,
       });
     }
-  }, [deleteLeadId, addToast, leadName, setDeleteLeadId, setLeadName, history]);
+  }, [deleteLeadId, showToast, leadName, setDeleteLeadId, setLeadName, history]);
 
   useEffect(() => {
     deleteContact();

@@ -20,7 +20,7 @@ export default ({
     activitySubject: "",
   });
   const { activityBody, activitySubject } = state;
-  const addToast = useToast();
+  const showToast = useToast();
 
   const handlChange = ({ target: { name, value } }) => {
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -45,7 +45,7 @@ export default ({
     clientsService
       .createActivity(payload)
       .then((data) => {
-        addToast({
+        showToast({
           type: "success",
           message: "Activity successfully added.",
           time: 3000,
@@ -69,7 +69,7 @@ export default ({
     clientsService
       .updateActivity(payload, leadId)
       .then((data) => {
-        addToast({
+        showToast({
           type: "success",
           message: "Activity successfully updated.",
           time: 3000,

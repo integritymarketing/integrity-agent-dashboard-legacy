@@ -14,24 +14,24 @@ const CopyPersonalURL = () => {
   const {
     agentInformation: { agentPurl },
   } = useAgentInformationByID();
-  const addToast = useToast();
+  const showToast = useToast();
 
   const handleOnClickCopy = useCallback(async () => {
     if (!agentPurl) return;
 
     try {
       await navigator.clipboard.writeText(`${URL}/?purl=${agentPurl}`);
-      addToast({
+      showToast({
         message: "Successfully copied to Clipboard.",
       });
     } catch (error) {
       Sentry.captureException(error);
-      addToast({
+      showToast({
         type: "error",
         message: "Error while copying the code.",
       });
     }
-  }, [agentPurl, addToast]);
+  }, [agentPurl, showToast]);
 
   return (
     <>

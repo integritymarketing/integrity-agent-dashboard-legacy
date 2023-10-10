@@ -8,22 +8,22 @@ import useToast from "hooks/useToast";
 import plansService from "services/plansService";
 
 const ResendCodeModal = ({ agentInfo, modalOpen, close, token, request }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const { AgentPhoneNumber, AgentFirstName, AgentLastName, AgentEmail } = agentInfo;
 
   const handleResendCode = useCallback(async () => {
     const data = { token, request };
     try {
       await plansService.resendCode(data);
-      addToast({ message: "Your code has been resent." });
+      showToast({ message: "Your code has been resent." });
     } catch (err) {
       Sentry.captureException(err);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to resend code",
       });
     }
-  }, [addToast, request, token]);
+  }, [showToast, request, token]);
 
   return (
     <Modal

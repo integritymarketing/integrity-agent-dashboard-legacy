@@ -26,7 +26,7 @@ import "./index.scss";
 const ScopeOfAppointmentConfirmation = () => {
   const { linkCode } = useParams();
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
   const medicareOverviewSectionEl = useRef(null);
   const [products, setProducts] = useState({});
   const [soaStatus, setSOAStatus] = useState({});
@@ -91,7 +91,7 @@ const ScopeOfAppointmentConfirmation = () => {
           });
         }
       } catch (err) {
-        addToast({
+        showToast({
           type: "error",
           message: "Failed to fetch data",
           time: 10000,
@@ -211,7 +211,7 @@ const ScopeOfAppointmentConfirmation = () => {
           }
         } catch (err) {
           Sentry.captureException(err);
-          addToast({
+          showToast({
             type: "error",
             message: "Failed to submit SOA",
           });

@@ -30,7 +30,6 @@ import ExportContactsModal from "./ExportContactsModal";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import BackNavContext from "contexts/backNavProvider";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
@@ -103,7 +102,7 @@ const ContactsPage = () => {
   const { active = false } = useActiveFilters();
 
   const { setCurrentPage } = useContext(BackNavContext);
-  const addToast = useToast();
+  const showToast = useToast();
 
   const duplicateIdsLength = duplicateIds?.length;
   const filteredLeadIdsLength = filterIds?.length;
@@ -190,18 +189,18 @@ const ContactsPage = () => {
       let response = await clientsService.reActivateClients(selectedContacts);
       if (response.ok) {
         setDeleteCounter((deleteCounter) => deleteCounter + 1);
-        addToast({
+        showToast({
           type: "success",
           message: `contacts reactivated successfully`,
         });
       } else if (response.status === 400) {
-        addToast({
+        showToast({
           type: "error",
           message: "Error while reactivating contacts",
         });
       }
     };
-    addToast({
+    showToast({
       type: "success",
       message: `${selectedContacts.length} contacts deleted`,
       time: 10000,
@@ -241,7 +240,6 @@ const ContactsPage = () => {
         }}
       />
       <StageStatusProvider>
-        <ToastContextProvider>
           <Helmet>
             <title>MedicareCENTER - Contacts</title>
           </Helmet>
@@ -483,7 +481,6 @@ const ContactsPage = () => {
             </Container>
           </div>
           <GlobalFooter />
-        </ToastContextProvider>
       </StageStatusProvider>
     </React.Fragment>
   );

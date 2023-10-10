@@ -37,7 +37,7 @@ const ContactListItemButton = ({
   leadInfo,
   setLeadInfo, // Accessing setLeadInfo here
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const history = useHistory();
   const firstRender = useRef(true);
   useEffect(() => {
@@ -86,13 +86,13 @@ const ContactListItemButton = ({
         updateBusinessBookPayload
       );
       if (response) {
-        addToast({
+        showToast({
           message: "Contact linked succesfully",
         });
         history.push(`/contact/${selectedLeadId}`);
       }
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: `${error.message}`,
         time: 7000,
@@ -100,7 +100,7 @@ const ContactListItemButton = ({
     }
   }, [
     history,
-    addToast,
+    showToast,
     contact.phones,
     updatePrimaryContact,
     state,

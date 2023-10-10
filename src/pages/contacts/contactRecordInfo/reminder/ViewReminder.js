@@ -13,7 +13,7 @@ const ViewReminder = ({ reminder, leadId, getLeadDetails, isMobile }) => {
   const [updatedReminder, setReminderNote] = useState(reminderNote);
   const [isEdit, setEdit] = useState(false);
   const [reminderHovered, setReminderHovered] = useState(false);
-  const addToast = useToast();
+  const showToast = useToast();
 
   useEffect(() => {
     if (isEdit) {
@@ -34,7 +34,7 @@ const ViewReminder = ({ reminder, leadId, getLeadDetails, isMobile }) => {
     clientsService
       .updateReminder(payload)
       .then((data) => {
-        addToast({
+        showToast({
           type: "success",
           message: "Reminder successfully Updated.",
           time: 3000,
@@ -50,7 +50,7 @@ const ViewReminder = ({ reminder, leadId, getLeadDetails, isMobile }) => {
   const deleteReminder = async () => {
     await clientsService.deleteReminder(reminderId);
     getLeadDetails();
-    addToast({
+    showToast({
       type: "success",
       message: "Reminder successfully deleted",
       time: 3000,

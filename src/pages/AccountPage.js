@@ -39,7 +39,7 @@ import { SelfAttestedPermissions } from "./Account/SelfAttestedPermissions";
 
 function CheckinPreferences({ npn }) {
   const { agentId } = useUserProfile();
-  const addToast = useToast();
+  const showToast = useToast();
   const [phone, setPhone] = useState("");
   const [callForwardNumber, setCallForwardNumber] = useState("");
   const [leadPreference, setLeadPreference] = useState({});
@@ -100,7 +100,7 @@ function CheckinPreferences({ npn }) {
         setLeadPreference({ ...response.leadPreference });
       }
     } catch (error) {
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to Save the Preferences.",
         time: 10000,
@@ -226,7 +226,7 @@ const CallCenterContent = ({
   callForwardNumber,
   getAgentAvailability,
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
   const phoneNumber = callForwardNumber || phone;
 
@@ -252,11 +252,11 @@ const CallCenterContent = ({
               agentID: agentId,
             });
             getAgentAvailability(agentId);
-            addToast({
+            showToast({
               message: "Contact number updated succesfully",
             });
           } catch (error) {
-            addToast({
+            showToast({
               type: "error",
               message: "Failed to update the contact",
             });
@@ -450,7 +450,7 @@ const AccountPage = () => {
     return "";
   };
 
-  const addToast = useToast();
+  const showToast = useToast();
 
   let mainContentClassName = "container " + styles.headerLayout;
   return (
@@ -569,7 +569,7 @@ const AccountPage = () => {
 
                             await authService.signinSilent();
                             setSubmitting(false);
-                            addToast({
+                            showToast({
                               message: "Your account info has been updated",
                             });
                           } else {
@@ -737,7 +737,7 @@ const AccountPage = () => {
                         );
                         if (response.status >= 200 && response.status < 300) {
                           setSubmitting(false);
-                          addToast({
+                          showToast({
                             message:
                               "Your password has been successfully updated.",
                           });

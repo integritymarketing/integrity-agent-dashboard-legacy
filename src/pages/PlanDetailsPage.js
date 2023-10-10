@@ -4,7 +4,6 @@ import LeadInformationProvider from "hooks/useLeadInformation";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import styles from "./PlanDetailsPage.module.scss";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
 import { Button } from "components/ui/Button";
 import NewBackBtn from "images/new-back-btn.svg";
 import Media from "react-media";
@@ -29,7 +28,7 @@ import CallScript from "components/icons/callScript";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 
 const PlanDetailsPage = () => {
-  const addToast = useToast();
+  const showToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
   const { leadDetails } = useContactDetails(contactId);
   const [isMobile, setIsMobile] = useState(false);
@@ -55,7 +54,7 @@ const PlanDetailsPage = () => {
       );
 
       if (!planData) {
-        addToast({
+        showToast({
           type: "error",
           message: "There was an error loading the plan.",
         });
@@ -67,14 +66,14 @@ const PlanDetailsPage = () => {
       });
     } catch (e) {
       Sentry.captureException(e);
-      addToast({
+      showToast({
         type: "error",
         message: "There was an error loading the plan.",
       });
     } finally {
       setIsLoading(false);
     }
-  }, [contactId, planId, addToast, effectiveDate]);
+  }, [contactId, planId, showToast, effectiveDate]);
 
   useEffect(() => {
     getContactAndPlanData();
@@ -82,7 +81,6 @@ const PlanDetailsPage = () => {
 
   return (
     <React.Fragment>
-      <ToastContextProvider>
         <LeadInformationProvider leadId={contactId}>
           <div
             className={`${styles["plan-details-page"]}`}
@@ -175,7 +173,6 @@ const PlanDetailsPage = () => {
             </WithLoader>
           </div>
         </LeadInformationProvider>
-      </ToastContextProvider>
     </React.Fragment>
   );
 };

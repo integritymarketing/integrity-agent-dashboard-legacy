@@ -17,7 +17,7 @@ import "./style.scss";
 const RemindersCard = ({ callData, refreshData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
 
   const isReminderDue = isOverDue(callData?.taskDate);
 
@@ -31,7 +31,7 @@ const RemindersCard = ({ callData, refreshData }) => {
     clientsService
       .updateReminder(payload)
       .then((data) => {
-        addToast({
+        showToast({
           type: "success",
           message: "Reminder successfully Updated.",
           time: 3000,

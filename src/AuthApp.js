@@ -6,7 +6,7 @@ import authService from "services/authService";
 import AuthContext from "contexts/auth";
 import { theme } from "./theme";
 import { ThemeProvider } from "@mui/material/styles";
-import { ToastContextProvider } from "components/ui/Toast/ToastContext";
+import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
 import AuthClientId from "components/functional/auth/client-id";
 import AuthClientUrl from "components/functional/auth/client-url";
 

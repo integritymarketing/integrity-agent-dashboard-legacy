@@ -15,7 +15,7 @@ export default function PrimaryContactPhone({
   leadsId,
 }) {
   const userProfile = useUserProfile();
-  const addToast = useToast();
+  const showToast = useToast();
   const [modalOpen, setModalOpen] = useState(false);
   const { npn, agentId } = userProfile;
 
@@ -61,14 +61,14 @@ export default function PrimaryContactPhone({
           agentNPN: npn,
         };
         await callRecordingsService.outboundCallFromMedicareCenter(payload);
-        addToast({
+        showToast({
           type: "success",
           message: "Call Intiated Successfully",
         });
         setModalOpen(true);
       } catch (error) {
         Sentry.captureException(error);
-        addToast({
+        showToast({
           type: "error",
           message: "There was an error please try again.",
         });

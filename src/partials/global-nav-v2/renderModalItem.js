@@ -26,7 +26,7 @@ const CallCenterContent = ({
   callForwardNumber,
   getAgentAvailability,
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const [isEditingNumber, setIsEditingNumber] = useState(false);
   const phoneNumber = callForwardNumber || phone;
 
@@ -52,11 +52,11 @@ const CallCenterContent = ({
               agentID: agentId,
             });
             getAgentAvailability(agentId);
-            addToast({
+            showToast({
               message: "Contact number updated succesfully",
             });
           } catch (error) {
-            addToast({
+            showToast({
               type: "error",
               message: "Failed to update the contact",
             });

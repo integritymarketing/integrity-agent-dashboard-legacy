@@ -13,7 +13,7 @@ const AddReminder = ({
 }) => {
   const [reminderNote, setReminderNote] = useState("");
   const [reminderDate, setReminderDate] = useState(null);
-  const addToast = useToast();
+  const showToast = useToast();
 
   const saveReminder = async () => {
     const payload = {
@@ -23,7 +23,7 @@ const AddReminder = ({
     };
     try {
       await clientsService.createReminder(payload);
-      addToast({
+      showToast({
         type: "success",
         message: "Reminder successfully added.",
         time: 3000,

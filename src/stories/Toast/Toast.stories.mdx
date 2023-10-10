@@ -6,10 +6,10 @@ import { useToast } from "../../hooks/useToast";
 <Meta title="useToast Component Introduction" component={ShowToast} />
 
 const ShowToast = ({ message, time, type }) => {
-const addToast = useToast()
+const showToast = useToast()
 
     return <div>
-        <button onClick={() => addToast({ message, time, type })}>Show toast</button>
+        <button onClick={() => showToast({ message, time, type })}>Show toast</button>
     </div>
 
 }
@@ -20,10 +20,10 @@ const addToast = useToast()
 
 ```
    const ShowToast = ({ message, time, type }) => {
-      const addToast = useToast()
+      const showToast = useToast()
 
       return <div>
-          <button onClick={() => addToast({ message, time, type })}>Show toast</button>
+          <button onClick={() => showToast({ message, time, type })}>Show toast</button>
       </div>
   }
 ```

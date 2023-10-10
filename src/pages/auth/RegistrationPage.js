@@ -29,7 +29,7 @@ const RegistrationPage = () => {
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
-  const addToast = useToast();
+  const showToast = useToast();
   const auth = useContext(AuthContext);
   const { show: showMessage } = useFlashMessage();
   const [hasNPN] = useState(params.get("npn"));
@@ -142,7 +142,7 @@ const RegistrationPage = () => {
                   errorsArr[0]?.NPN[1]?.NPN[1] ||
                   null;
                 if (errMsg) {
-                  addToast({
+                  showToast({
                     message: errMsg,
                     type: "error",
                   });

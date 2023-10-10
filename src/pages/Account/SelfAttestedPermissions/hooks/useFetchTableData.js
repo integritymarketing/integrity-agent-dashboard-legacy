@@ -10,7 +10,7 @@ const AGENTS_API_VERSION = "v1.0";
 function useFetchTableData() {
   const [isLoading, setIsLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const addToast = useToast();
+  const showToast = useToast();
   const { agentId } = useUserProfile();
 
   const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}`;
@@ -27,13 +27,13 @@ function useFetchTableData() {
     } catch (error) {
       setIsLoading(false);
       Sentry.captureException(error);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to load data",
         time: 10000,
       });
     }
-  }, [agentId, addToast, getAgentSelfAttestations]);
+  }, [agentId, showToast, getAgentSelfAttestations]);
 
   useEffect(() => {
     fetchTableData();

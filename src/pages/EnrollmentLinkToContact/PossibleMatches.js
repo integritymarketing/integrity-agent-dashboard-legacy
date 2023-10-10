@@ -13,7 +13,7 @@ export default function PossibleMatches({
   const [matches, setMatches] = useState([]);
   const { callFrom } = useParams();
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
 
   useEffect(() => {
     const getContacts = async () => {
@@ -95,24 +95,24 @@ export default function PossibleMatches({
         );
 
         if (response) {
-          addToast({
+          showToast({
             message: "Contact linked successfully",
           });
           history.push(`/contact/${contact.leadsId}`);
         } else {
-          addToast({
+          showToast({
             type: "error",
             message: `${response}`,
           });
         }
       } catch (error) {
-        addToast({
+        showToast({
           type: "error",
           message: `${error.message}`,
         });
       }
     },
-    [history, addToast, updatePrimaryContact, state]
+    [history, showToast, updatePrimaryContact, state]
   );
 
   if (matches?.length > 0) {

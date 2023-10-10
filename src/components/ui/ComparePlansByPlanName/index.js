@@ -33,7 +33,7 @@ export default function ComparePlansByPlanName({
   isModal = false,
   contactData,
 }) {
-  const addToast = useToast();
+  const showToast = useToast();
   const { effectiveDate } = useParams();
   const [userData, setUserData] = useState(contactData);
   const [modalOpen, setModalOpen] = useState(false);
@@ -90,19 +90,19 @@ export default function ComparePlansByPlanName({
 
       if (enrolled && enrolled.url) {
         window.open(enrolled.url, "_blank").focus();
-        addToast({
+        showToast({
           type: "success",
           message: "Successfully Sent to Client",
         });
       } else {
-        addToast({
+        showToast({
           type: "error",
           message: "There was an error enrolling the contact.",
         });
       }
     } catch (error) {
       Sentry.captureException(error);
-      addToast({
+      showToast({
         type: "error",
         message: "There was an error enrolling the contact.",
       });

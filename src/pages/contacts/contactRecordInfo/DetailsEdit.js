@@ -66,7 +66,7 @@ const DetailsEditContact = (props) => {
     ? contactPreferences?.primary
     : "email";
 
-  const addToast = useToast();
+  const showToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
   const history = useHistory();
@@ -271,7 +271,7 @@ const DetailsEditContact = (props) => {
           }
           props.setEdit(false);
           setSubmitting(false);
-          addToast({
+          showToast({
             message: "Contact updated successfully",
           });
         } else if (response.status === 400) {

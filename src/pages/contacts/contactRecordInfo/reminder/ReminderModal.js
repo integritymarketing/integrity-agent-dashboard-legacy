@@ -30,7 +30,7 @@ const ReminderModal = ({
   }, [reminderModalStatus]);
 
   const isEdit = reminder && reminder.reminderId;
-  const addToast = useToast();
+  const showToast = useToast();
 
   const saveReminder = async () => {
     const payload = {
@@ -41,7 +41,7 @@ const ReminderModal = ({
     clientsService
       .createReminder(payload)
       .then((data) => {
-        addToast({
+        showToast({
           type: "success",
           message: "Reminder successfully added.",
           time: 3000,
@@ -70,7 +70,7 @@ const ReminderModal = ({
     clientsService
       .updateReminder(payload)
       .then((data) => {
-        addToast({
+        showToast({
           type: "success",
           message: "Reminder successfully Updated.",
           time: 3000,

@@ -18,7 +18,7 @@ const CommunicationPreferences = (props) => {
     mail: false,
     dnd: false,
   });
-  const addToast = useToast();
+  const showToast = useToast();
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
@@ -35,13 +35,13 @@ const CommunicationPreferences = (props) => {
       })
       .catch(() => {
         setIsLoading(false);
-        addToast({
+        showToast({
           type: "error",
           message: "Error, update unsuccessful.",
           time: 3000,
         });
       });
-  }, [props.id, addToast]);
+  }, [props.id, showToast]);
 
   if (isLoading) {
     return <Spinner />;
@@ -78,7 +78,7 @@ const CommunicationPreferences = (props) => {
         setPreference(resp);
       })
       .catch(() => {
-        addToast({
+        showToast({
           type: "error",
           message: "Error, update unsuccessful.",
           time: 3000,
@@ -96,7 +96,7 @@ const CommunicationPreferences = (props) => {
         setPreference(resp);
       })
       .catch(() => {
-        addToast({
+        showToast({
           type: "error",
           message: "Error, update unsuccessful.",
           time: 3000,

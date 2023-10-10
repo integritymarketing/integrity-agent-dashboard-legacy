@@ -22,7 +22,7 @@ const headers = [
 ];
 
 const ExportsContactsModal = ({ open, close, contacts, allLeads }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const csvLinkRef = useRef();
   const [selectedOption, setSelectOption] = useState("selectedContacts");
   const [exportData, setExportData] = useState([]);
@@ -38,7 +38,7 @@ const ExportsContactsModal = ({ open, close, contacts, allLeads }) => {
       const response = await clientsService.bulkExportContacts(payload);
       const result = await response.json();
       setExportData(result);
-      addToast({
+      showToast({
         type: "success",
         message: `Download successfully `,
       });
@@ -50,7 +50,7 @@ const ExportsContactsModal = ({ open, close, contacts, allLeads }) => {
       });
     } catch (error) {
       Sentry.captureException(error);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to download",
       });

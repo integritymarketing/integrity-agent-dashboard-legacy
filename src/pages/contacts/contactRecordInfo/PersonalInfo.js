@@ -49,7 +49,7 @@ function TagsIcon({
   const [editingTag, setEditingTag] = useState(null);
   const [hasError, setHasError] = useState(false);
 
-  const addToast = useToast();
+  const showToast = useToast();
   function toggleTagSelection(e, tagId) {
     e.stopPropagation();
     e.nativeEvent && e.nativeEvent.stopImmediatePropagation();
@@ -78,7 +78,7 @@ function TagsIcon({
         if (closeModal) {
           setTagModalOpen(false);
           onUpdateTags();
-          addToast({
+          showToast({
             time: 10000,
             type: "success",
             message: "Successfully Updated the Tags",
@@ -88,7 +88,7 @@ function TagsIcon({
       .catch((error) => {
         setIsProcessing(false);
         Sentry.captureException(error);
-        addToast({
+        showToast({
           time: 10000,
           type: "error",
           message: "Error Updating the Tags",
@@ -206,7 +206,7 @@ function TagsIcon({
       !isAlphanumeric(newTagVal || "")
     ) {
       setHasError(true);
-      addToast({
+      showToast({
         time: 10000,
         type: "error",
         message:
@@ -229,7 +229,7 @@ function TagsIcon({
       return resp?.tagId;
     } catch (e) {
       console.log(e);
-      addToast({
+      showToast({
         time: 10000,
         type: "error",
         message: "Error creating tag",
@@ -261,7 +261,7 @@ function TagsIcon({
         tagId: editingTag.tag.tagId,
       });
       if (!resp) {
-        addToast({
+        showToast({
           time: 10000,
           type: "error",
           message: "Error deleting tag",
@@ -271,7 +271,7 @@ function TagsIcon({
       fetchTags();
     } catch (e) {
       console.log(e);
-      addToast({
+      showToast({
         time: 10000,
         type: "error",
         message: "Error deleting tag",
@@ -302,7 +302,7 @@ function TagsIcon({
       !isAlphanumeric(editingTag.editVal || "")
     ) {
       setHasError(true);
-      addToast({
+      showToast({
         time: 10000,
         type: "error",
         message:
@@ -324,7 +324,7 @@ function TagsIcon({
       setHasError(false);
     } catch (e) {
       console.log(e);
-      addToast({
+      showToast({
         time: 10000,
         type: "Error",
         message: "Error saving tag",
@@ -600,7 +600,7 @@ const PersonalInformationCard = ({
   leadsId,
   refreshContactDetails,
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [deleteTagFlag, setDeleteTagFlag] = useState(false);
@@ -763,7 +763,7 @@ const PersonalInformationCard = ({
         submitHandler={() => {
           setDeleteTagFlag(true);
           setConfirmModalOpen(false);
-          addToast({
+          showToast({
             time: 10000,
             type: "success",
             message: "Successfully deleted the Tags",

@@ -50,7 +50,7 @@ const SharePlanModal = ({
   ispolicyShare = false,
   enrollData = {},
 }) => {
-  const addToast = useToast();
+  const showToast = useToast();
   const {
     agentInformation: { agentVirtualPhoneNumber, agentPurl },
   } = useAgentInformationByID();
@@ -249,12 +249,12 @@ const SharePlanModal = ({
           }
         }
       }
-      addToast({
+      showToast({
         message: "Successfully shared plan",
       });
     } catch (err) {
       Sentry.captureException(err);
-      addToast({
+      showToast({
         type: "error",
         message: "Failed to share plan",
       });

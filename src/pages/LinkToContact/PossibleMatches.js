@@ -10,7 +10,7 @@ export default function PossibleMatches({ phone }) {
   const [matches, setMatches] = useState([]);
   const { callLogId, callFrom } = useParams();
   const history = useHistory();
-  const addToast = useToast();
+  const showToast = useToast();
 
   useEffect(() => {
     const getContacts = async () => {
@@ -56,19 +56,19 @@ export default function PossibleMatches({ phone }) {
             callLogId,
             leadId: contact.leadsId,
           });
-          addToast({
+          showToast({
             message: "Contact linked successfully",
           });
           history.push(`/contact/${contact.leadsId}`);
         }
       } catch (error) {
-        addToast({
+        showToast({
           type: "error",
           message: `${error.message}`,
         });
       }
     },
-    [history, callLogId, addToast, updatePrimaryContact]
+    [history, callLogId, showToast, updatePrimaryContact]
   );
 
   if (matches?.length > 0) {
