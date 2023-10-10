@@ -661,7 +661,7 @@ const PersonalInformationCard = ({
         <div className="nameCardSection2">
           <div className="customSelectbox personalInfo minWidth">
             <label className="text-bold">Stage</label>
-            <StageSelect value={statusName} original={personalInfo} />
+            <StageSelect initialValue={statusName} originalData={personalInfo} />
           </div>
           <div
             className="personalInfo personalInfoCallScriptIcon"

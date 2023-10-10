@@ -49,7 +49,7 @@ const StageSelect = ({ initialValue, originalData, refreshData }) => {
       };
 
       const response = await clientsService.updateClient(originalData, updatedClientData);
-
+      debugger
       if (response?.ok) {
         await loadStageSummary();
         refreshData();

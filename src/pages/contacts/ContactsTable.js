@@ -255,7 +255,14 @@ function ContactsTable({
         onCloseCallback: clearContext,
       });
     }
-  }, [deleteLeadId, showToast, leadName, setDeleteLeadId, setLeadName, history]);
+  }, [
+    deleteLeadId,
+    showToast,
+    leadName,
+    setDeleteLeadId,
+    setLeadName,
+    history,
+  ]);
 
   useEffect(() => {
     deleteContact();
@@ -397,9 +404,9 @@ function ContactsTable({
         Cell: ({ value, row }) => {
           return (
             <StageSelect
-              value={value}
-              original={row.original}
-              onRefresh={handleRefresh}
+              initialValue={value}
+              originalData={row.original}
+              refreshData={handleRefresh}
             />
           );
         },

@@ -95,8 +95,8 @@ const ClientCard = ({ client, onRefresh }) => {
           <div>
             <StageSelect
               id={`stage-${client.leadsId}`}
-              value={stage}
-              original={client}
+              initialValue={stage}
+              originalData={client}
             />
           </div>
         </div>
