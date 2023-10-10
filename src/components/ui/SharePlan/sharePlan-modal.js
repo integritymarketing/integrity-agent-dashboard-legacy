@@ -480,7 +480,10 @@ const SharePlanModal = ({
                     fullWidth={matches.mobile}
                     data-gtm="button-cancel"
                     label={"Cancel"}
-                    onClick={handleCloseModal}
+                    onClick={() => {
+                      handleCleanUp();
+                      handleCloseModal();
+                    }}
                     type="secondary"
                   />
                 </div>

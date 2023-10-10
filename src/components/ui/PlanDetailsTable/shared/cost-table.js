@@ -199,22 +199,6 @@ const CostTable = ({ planData }) => {
       label: <PremiumLabel />,
       value: <PremiumCell planData={planData} />,
     },
-    {
-      label: (
-        <TotalEstLabel
-          effectiveMonth={getMonthShortName(parseInt(m) - 1)}
-          effectiveYear={y}
-        />
-      ),
-      value: (
-        <TotalEstValue
-          planData={planData}
-          effectiveStartDate={effectiveStartDate}
-          monthNumber={parseInt(m)}
-          totalCost={totalDrugCost}
-        />
-      ),
-    },
   ];
 
   if (
@@ -237,6 +221,22 @@ const CostTable = ({ planData }) => {
       ),
     });
   }
+  data.push({
+    label: (
+      <TotalEstLabel
+        effectiveMonth={getMonthShortName(parseInt(m) - 1)}
+        effectiveYear={y}
+      />
+    ),
+    value: (
+      <TotalEstValue
+        planData={planData}
+        effectiveStartDate={effectiveStartDate}
+        monthNumber={parseInt(m)}
+        totalCost={totalDrugCost}
+      />
+    ),
+  });
 
   return (
     <>
