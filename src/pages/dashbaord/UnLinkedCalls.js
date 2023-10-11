@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Media from "react-media";
-import { dateFormatter } from "utils/dateFormatter";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
@@ -8,6 +7,7 @@ import { ReactComponent as DownloadDashboard } from "./DownloadDashboard.svg";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import { useHistory } from "react-router-dom";
 import { formatPhoneNumber } from "utils/phones";
+import moment from "moment";
 
 const UnLinkedCallCard = ({ task }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -18,6 +18,12 @@ const UnLinkedCallCard = ({ task }) => {
     history.push(
       `/link-to-contact/${task?.id}/${task?.phoneNumber}/${task?.duration}/${date}`
     );
+  };
+
+  const getTaskDate = (date) => {
+    if (date) {
+      return moment.utc(date, "HH:mm:ss").local().format("h:m A");
+    }
   };
 
   return (
@@ -36,7 +42,7 @@ const UnLinkedCallCard = ({ task }) => {
           </p>
           <p>
             <span className="date-time-duration-text">Time:</span>{" "}
-            {dateFormatter(task?.taskDate, "h:m A")}
+            {getTaskDate(task?.taskDate)}
           </p>
           <p>
             <span className="date-time-duration-text">Duration:</span>{" "}
