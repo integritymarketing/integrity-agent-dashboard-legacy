@@ -18,12 +18,15 @@ import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
 import { Button } from "packages/Button";
+import useDeviceInfo from "hooks/useDeviceInfo";
+import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
 
 const ServerLoginPage = () => {
   const loading = useLoading();
   const history = useHistory();
   const params = useQueryParams();
   const auth = useContext(AuthContext);
+  const device = useDeviceInfo();
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
@@ -36,6 +39,10 @@ const ServerLoginPage = () => {
 
     let clientId = params1.get("client_id");
     let version = params1.get("Version");
+
+    if (clientId === "AEPortal") {
+      showMobileAppDeepLinking(device);
+    }
 
     if (feature_toggle && !version && clientId === "AgentMobile") {
       history.push("/mobile-app-update");

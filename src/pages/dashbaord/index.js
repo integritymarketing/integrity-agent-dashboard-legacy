@@ -26,7 +26,8 @@ import FooterBanners from "packages/FooterBanners";
 import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
 import useUserProfile from "hooks/useUserProfile";
-import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
+import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
+import useDeviceInfo from "hooks/useDeviceInfo";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -57,23 +58,9 @@ export default function Dashbaord() {
   const leadPreference = agentInformation?.leadPreference;
   const agentID = agentInformation?.agentID;
 
-  // Mobile App Deep Linking and Smart App Banner
-
-  const isSafari = () => {
-    const userAgent = navigator.userAgent;
-    return /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
-  };
-
   useEffect(() => {
-    if (isSafari() && isMobile && device === DEVICES.IOS) {
-      // Use the custom hook only if the browser is Safari and mobile device is iOS also check if the broswer is safari
-      const metaTag = document.createElement("meta");
-      metaTag.name = "apple-itunes-app";
-      metaTag.content =
-        "app-id=1623328763, app-argument=https://apps.apple.com/us/app/medicarecenter";
-      document.getElementsByTagName("head")[0].appendChild(metaTag);
-    }
-  }, [isMobile, device]);
+    showMobileAppDeepLinking(device);
+  }, [device]);
 
   useEffect(() => {
     loadActivityData();
