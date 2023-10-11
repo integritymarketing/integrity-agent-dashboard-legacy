@@ -20,8 +20,10 @@ const UnLinkedCallCard = ({ task }) => {
     );
   };
 
-  const getTaskDate = (data) => {
-    return moment.utc(data, "HH:mm:ss").local().format("h:m A");
+  const getTaskDate = (date) => {
+    if (date) {
+      return moment.utc(date, "HH:mm:ss").local().format("h:m A");
+    }
   };
 
   return (
