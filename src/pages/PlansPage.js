@@ -394,8 +394,8 @@ const PlansPage = () => {
         setSubTypeList([]);
         setCarrierList([]);
         const plansData = await plansService.getPlans(contact.leadsId, {
-          fips: contact.addresses[0].countyFips.toString(),
-          zip: contact.addresses[0].postalCode.toString(),
+          fips: contact.addresses?.[0].countyFips.toString(),
+          zip: contact.addresses?.[0].postalCode.toString(),
           year: effectiveDate.getFullYear(),
           ReturnAllMedicarePlans: !myAppointedPlans,
           ShowFormulary: true,
@@ -776,8 +776,8 @@ const PlansPage = () => {
                         {!isNonRTS_User && (
                           <CMSCompliance
                             leadId={contact?.leadsId}
-                            countyFips={contact?.addresses[0]?.countyFips}
-                            postalCode={contact?.addresses[0]?.postalCode}
+                            countyFips={contact?.addresses?.[0]?.countyFips}
+                            postalCode={contact?.addresses?.[0]?.postalCode}
                           />
                         )}
 

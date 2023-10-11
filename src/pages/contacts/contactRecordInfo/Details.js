@@ -160,7 +160,7 @@ const DetailsComponent = forwardRef((props, ref) => {
               setProviderEditFlag(false);
               setProviderToEdit({});
             }}
-            userZipCode={props?.personalInfo?.addresses[0]?.postalCode}
+            userZipCode={props?.personalInfo?.addresses?.[0]?.postalCode}
             leadId={id}
             selected={providerToEdit}
             isEdit={providerEditFlag}

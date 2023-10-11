@@ -69,7 +69,7 @@ const SharePlanModal = ({
   const { planRating, id, documents } = planData;
   const leadEmail = emails?.[0]?.leadEmail ?? "";
   const leadPhone = phones?.[0]?.leadPhone ?? "";
-  const addressData = addresses?.length > 0 ? addresses[0] : null;
+  const addressData = addresses?.length > 0 ? addresses?.[0] : null;
   const countyFIPS =
     addressData && addressData?.countyFIPS ? addressData?.countyFIPS : "";
   const state =

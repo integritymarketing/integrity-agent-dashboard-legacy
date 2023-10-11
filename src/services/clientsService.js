@@ -1094,16 +1094,16 @@ export class ClientsService {
         phones: contact.phones,
         addresses: [
           {
-            leadAddressId: contact?.addresses[0]?.leadAddressId,
-            address1: contact?.addresses[0]?.address1,
-            address2: contact?.addresses[0]?.address2,
-            city: contact?.addresses[0]?.city,
-            stateCode: contact?.addresses[0]?.stateCode,
+            leadAddressId: contact?.addresses?.[0]?.leadAddressId,
+            address1: contact?.addresses?.[0]?.address1,
+            address2: contact?.addresses?.[0]?.address2,
+            city: contact?.addresses?.[0]?.city,
+            stateCode: contact?.addresses?.[0]?.stateCode,
             postalCode: zip,
             county: county,
             countyFips: countyFips,
-            createDate: contact?.addresses[0]?.createDate,
-            modifyDate: contact?.addresses[0]?.modifyDate,
+            createDate: contact?.addresses?.[0]?.createDate,
+            modifyDate: contact?.addresses?.[0]?.modifyDate,
           },
         ],
       }
@@ -1131,16 +1131,16 @@ export class ClientsService {
         phones: contact.phones,
         addresses: [
           {
-            leadAddressId: contact?.addresses[0]?.leadAddressId,
-            address1: contact?.addresses[0]?.address1,
-            address2: contact?.addresses[0]?.address2,
-            city: contact?.addresses[0]?.city,
+            leadAddressId: contact?.addresses?.[0]?.leadAddressId,
+            address1: contact?.addresses?.[0]?.address1,
+            address2: contact?.addresses?.[0]?.address2,
+            city: contact?.addresses?.[0]?.city,
             stateCode: stateCode,
-            postalCode: contact?.addresses[0]?.postalCode,
-            county: contact?.addresses[0]?.county,
-            countyFips: contact?.addresses[0]?.countyFips,
-            createDate: contact?.addresses[0]?.createDate,
-            modifyDate: contact?.addresses[0]?.modifyDate,
+            postalCode: contact?.addresses?.[0]?.postalCode,
+            county: contact?.addresses?.[0]?.county,
+            countyFips: contact?.addresses?.[0]?.countyFips,
+            createDate: contact?.addresses?.[0]?.createDate,
+            modifyDate: contact?.addresses?.[0]?.modifyDate,
           },
         ],
       }
@@ -1153,19 +1153,19 @@ export class ClientsService {
 
   updateLeadCounty = async (contact, county, fips, zip, state) => {
     let addresses = [];
-    if (contact.addresses.length !== 0 && contact.addresses[0].leadAddressId) {
+    if (contact.addresses.length !== 0 && contact.addresses?.[0].leadAddressId) {
       addresses = [
         {
-          leadAddressId: contact.addresses[0].leadAddressId,
-          address1: contact.addresses[0].address1,
-          address2: contact.addresses[0].address2,
-          city: contact.addresses[0].city,
-          stateCode: state ? state : contact.addresses[0].stateCode,
-          postalCode: zip ? zip : contact.addresses[0].postalCode,
+          leadAddressId: contact.addresses?.[0].leadAddressId,
+          address1: contact.addresses?.[0].address1,
+          address2: contact.addresses?.[0].address2,
+          city: contact.addresses?.[0].city,
+          stateCode: state ? state : contact.addresses?.[0].stateCode,
+          postalCode: zip ? zip : contact.addresses?.[0].postalCode,
           county: county,
           countyFips: fips,
-          createDate: contact.addresses[0].createDate,
-          modifyDate: contact.addresses[0].modifyDate,
+          createDate: contact.addresses?.[0].createDate,
+          modifyDate: contact.addresses?.[0].modifyDate,
         },
       ];
     } else {
@@ -1175,8 +1175,8 @@ export class ClientsService {
           address1: null,
           address2: null,
           city: null,
-          stateCode: state ? state : contact.addresses[0].stateCode,
-          postalCode: zip ? zip : contact.addresses[0].postalCode,
+          stateCode: state ? state : contact.addresses?.[0].stateCode,
+          postalCode: zip ? zip : contact.addresses?.[0].postalCode,
           county: county,
           countyFips: fips,
           createDate: null,
@@ -1204,16 +1204,16 @@ export class ClientsService {
         partB: contact.partB,
         addresses: [
           {
-            leadAddressId: addresses[0]?.leadAddressId,
-            address1: addresses[0]?.address1,
-            address2: addresses[0]?.address2,
-            city: addresses[0]?.city,
-            stateCode: addresses[0]?.stateCode,
-            postalCode: addresses[0]?.postalCode,
-            county: addresses[0]?.county,
-            countyFips: addresses[0]?.countyFips,
-            createDate: addresses[0]?.createDate,
-            modifyDate: addresses[0]?.modifyDate,
+            leadAddressId: addresses?.[0]?.leadAddressId,
+            address1: addresses?.[0]?.address1,
+            address2: addresses?.[0]?.address2,
+            city: addresses?.[0]?.city,
+            stateCode: addresses?.[0]?.stateCode,
+            postalCode: addresses?.[0]?.postalCode,
+            county: addresses?.[0]?.county,
+            countyFips: addresses?.[0]?.countyFips,
+            createDate: addresses?.[0]?.createDate,
+            modifyDate: addresses?.[0]?.modifyDate,
           },
         ],
       }

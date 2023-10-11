@@ -27,7 +27,7 @@ export default function AddProvider({
   leadId,
   leadProviders,
 }) {
-  const [zipCode, setZipCode] = useState(personalInfo.addresses[0]?.postalCode);
+  const [zipCode, setZipCode] = useState(personalInfo.addresses?.[0]?.postalCode);
   const [searchText, setSearchText] = useState("");
   const [radius, setRadius] = useState(10);
   const [isMobile, setIsMobile] = useState(false);
@@ -97,7 +97,7 @@ export default function AddProvider({
       leadProviders?.filter((each) => each?.NPI === provider?.NPI)[0] || null;
 
     if (isExist) {
-      deleteExistingProvider(provider, isExist?.NPI, isExist?.addresses[0]?.id);
+      deleteExistingProvider(provider, isExist?.NPI, isExist?.addresses?.[0]?.id);
     } else {
       addProviderHandle(provider);
     }

@@ -47,7 +47,7 @@ const EditDetails = (props) => {
   let { allCounties = [], allStates = [], fetchCountyAndState } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
-  let addressData = addresses.length > 0 ? addresses[0] : null;
+  let addressData = addresses.length > 0 ? addresses?.[0] : null;
   const emailID = emails.length > 0 ? emails[0].emailID : 0;
   const leadAddressId =
     addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;

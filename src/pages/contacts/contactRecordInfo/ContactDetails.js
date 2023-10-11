@@ -32,7 +32,7 @@ const ContactDetails = ({ setDisplay, personalInfo, ...rest }) => {
   const phoneLabel =
     phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "Mobile";
 
-  const addressData = addresses.length > 0 ? addresses[0] : null;
+  const addressData = addresses.length > 0 ? addresses?.[0] : null;
   const city = addressData && addressData.city ? addressData.city : "";
   const stateCode =
     addressData && addressData.stateCode ? addressData.stateCode : "";

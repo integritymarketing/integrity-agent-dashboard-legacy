@@ -1,6 +1,6 @@
 export const formatAddress = (address) => {
   if (address?.length > 0) {
-    const { address1, address2, city, stateCode, postalCode } = address[0];
+    const { address1, address2, city, stateCode, postalCode } = address?.[0];
     const formattedAddress = [address1, address2, city, stateCode, postalCode]
       .filter(Boolean)
       .join(", ");

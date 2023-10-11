@@ -20,8 +20,8 @@ export class PlansService {
       `Lead/${leadId}/Plan/${planId}`,
       "GET",
       {
-        zip: contactData.addresses[0].postalCode,
-        fips: contactData.addresses[0].countyFips,
+        zip: contactData.addresses?.[0].postalCode,
+        fips: contactData.addresses?.[0].countyFips,
         effectiveDate,
       },
       null,

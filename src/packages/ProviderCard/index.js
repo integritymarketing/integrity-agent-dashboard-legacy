@@ -24,7 +24,7 @@ const ProviderCard = ({
       </div>
       {item && item?.addresses?.length >= 0 && (
         <Address
-          address={item?.addresses[0]}
+          address={item?.addresses?.[0]}
           item={item}
           setSelectedProvider={setSelectedProvider}
           setSelectAddressId={setSelectAddressId}

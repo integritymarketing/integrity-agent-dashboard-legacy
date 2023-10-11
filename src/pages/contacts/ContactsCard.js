@@ -40,9 +40,9 @@ const ClientCard = ({ client, onRefresh }) => {
 
   const options = MORE_ACTIONS.slice(0);
   if (
-    client?.addresses[0]?.postalCode &&
-    client?.addresses[0]?.county &&
-    client?.addresses[0]?.stateCode
+    client?.addresses?.[0]?.postalCode &&
+    client?.addresses?.[0]?.county &&
+    client?.addresses?.[0]?.stateCode
   ) {
     options.splice(1, 0, PLAN_ACTION);
   }

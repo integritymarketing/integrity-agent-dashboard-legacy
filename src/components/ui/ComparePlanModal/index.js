@@ -115,9 +115,9 @@ const ComparePlanModal = ({
     const agentEmail = userProfile.email;
     const roles = userProfile.roles ?? "";
     const agentPhoneNumber = agentVirtualPhoneNumber;
-    const zipCode = addresses[0]?.postalCode;
-    const stateCode = addresses[0]?.stateCode;
-    const countyFIPS = addresses[0]?.countyFips;
+    const zipCode = addresses?.[0]?.postalCode;
+    const stateCode = addresses?.[0]?.stateCode;
+    const countyFIPS = addresses?.[0]?.countyFips;
     const urlPathName = window.location.pathname;
     const planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
     let updatedRoles;

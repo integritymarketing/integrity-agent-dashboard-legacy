@@ -327,9 +327,9 @@ export default function DashboardActivityTable({
           const options = MORE_ACTIONS.slice(0);
 
           if (
-            row?.original?.addresses[0]?.postalCode &&
-            row?.original?.addresses[0]?.county &&
-            row?.original?.addresses[0]?.stateCode
+            row?.original?.addresses?.[0]?.postalCode &&
+            row?.original?.addresses?.[0]?.county &&
+            row?.original?.addresses?.[0]?.stateCode
           ) {
             options.splice(1, 0, PLAN_ACTION);
           }
@@ -467,9 +467,9 @@ export default function DashboardActivityTable({
           const options = MORE_ACTIONS.slice(0);
 
           if (
-            row?.original?.addresses[0]?.postalCode &&
-            row?.original?.addresses[0]?.county &&
-            row?.original?.addresses[0]?.stateCode
+            row?.original?.addresses?.[0]?.postalCode &&
+            row?.original?.addresses?.[0]?.county &&
+            row?.original?.addresses?.[0]?.stateCode
           ) {
             options.splice(1, 0, PLAN_ACTION);
           }

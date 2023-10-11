@@ -28,7 +28,7 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
   const email = emails?.length > 0 ? emails[0]?.leadEmail : notAvailable;
   const phoneData = phones.length > 0 ? phones[0] : null;
   const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
-  const addressData = addresses.length > 0 ? addresses[0] : null;
+  const addressData = addresses.length > 0 ? addresses?.[0] : null;
   const county =
     addressData && addressData.county ? addressData.county : notAvailable;
 
