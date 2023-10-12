@@ -1,11 +1,28 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.scss";
+import React, { Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
-import App from "./App";
 import { RecoilRoot } from "recoil";
+import { ParallaxProvider } from "react-scroll-parallax";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+import { BackNavProvider } from "contexts/backNavProvider";
+import { ContactsProvider } from "contexts/contacts";
+import { CountyProvider } from "contexts/counties";
+import { DeleteLeadProvider } from "contexts/deleteLead";
+import { StageSummaryProvider } from "contexts/stageSummary";
+import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
+
+import AuthContext from "contexts/auth";
+import authService from "services/authService";
+import AppRouter from "components/functional/router";
+import AppRoutes from "./App";
+import PortalUrl from "components/functional/portal-url";
 import * as serviceWorker from "./serviceWorker";
+import { theme } from "./theme";
 import "focus-visible";
+import "./index.scss";
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
@@ -17,13 +34,45 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   });
 }
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById("root")
+    <ParallaxProvider>
+      <ThemeProvider theme={theme}>
+        <AuthContext.Provider value={authService}>
+          <CssBaseline />
+          <RecoilRoot>
+            <ToastContextProvider>
+              <CountyProvider>
+                <DeleteLeadProvider>
+                  <ContactsProvider>
+                    <BackNavProvider>
+                      <StageSummaryProvider>
+                        <HelmetProvider>
+                          <Helmet>
+                            <title>MedicareCENTER</title>
+                          </Helmet>
+                          <Suspense fallback={<div>Loading...</div>}>
+                            <AppRouter>
+                              <div className="content-frame">
+                                <AppRoutes />
+                              </div>
+                            </AppRouter>
+                          </Suspense>
+                          <PortalUrl />
+                        </HelmetProvider>
+                      </StageSummaryProvider>
+                    </BackNavProvider>
+                  </ContactsProvider>
+                </DeleteLeadProvider>
+              </CountyProvider>
+            </ToastContextProvider>
+          </RecoilRoot>
+        </AuthContext.Provider>
+      </ThemeProvider>
+    </ParallaxProvider>
+  </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

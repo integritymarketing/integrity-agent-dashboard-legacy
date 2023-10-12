@@ -1,11 +1,11 @@
 import Styles from "./Notice.module.scss";
 import React from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ClickAwayListener from "react-click-away-listener";
 
 export default function Notice({ hideModal }) {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <div className={Styles.wrapper}>
       <ClickAwayListener onClickAway={hideModal}>
@@ -36,7 +36,7 @@ export default function Notice({ hideModal }) {
           {location.pathname !== "/account" && (
             <button
               className={Styles.button}
-              onClick={() => history.push("/account")}
+              onClick={() => navigate("/account")}
             >
               View Account
             </button>

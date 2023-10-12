@@ -1,16 +1,16 @@
 import { useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "contexts/auth";
 
 const RedirectToAppropriateRoute = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const auth = useContext(AuthContext);
-
+  
   useEffect(() => {
     if (auth.isAuthenticated()) {
-      history.replace("dashboard");
+      navigate("dashboard", { replace: true });
     } else {
-      history.replace("welcome");
+      navigate("welcome", { replace: true });
     }
   });
   return null;

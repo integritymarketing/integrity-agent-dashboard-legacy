@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   formatDate,
   convertToLocalDateTime,
@@ -11,7 +11,7 @@ import OpenIcon from "components/icons/open";
 import styles from "./Soa48HoursRule.module.scss";
 
 const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const getDateTime = (dateString) => {
     const localDateTime = convertToLocalDateTime(dateString);
@@ -21,7 +21,7 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
   };
 
   const navigateToConfirmSOA = (item) => {
-    history.push({
+    navigate({
       pathname: `/contact/${item?.leadId}/soa-confirm/${item?.soaLinkCode}`,
       state: { from: "Dashboard" },
     });
@@ -39,7 +39,7 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
   };
 
   const navigateToContacts = (item) => {
-    history.push("/contact/" + item.leadId);
+    navigate("/contact/" + item.leadId);
   };
 
   return (

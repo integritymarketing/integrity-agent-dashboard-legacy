@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useClientId from "hooks/auth/useClientId";
 import useQueryParams from "hooks/useQueryParams";
 import validationService from "services/validationService";
@@ -23,7 +23,7 @@ const confirmEmailAPI = async (values) => {
 };
 
 const RegistrationConfirmEmailPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const params = useQueryParams();
   const clientId = useClientId();
 
@@ -40,7 +40,7 @@ const RegistrationConfirmEmailPage = () => {
       let response = await handleComfirmEmail();
 
       if (response.status >= 200 && response.status < 300) {
-        history.push("registration-complete");
+        navigate("registration-complete");
       } else {
         let errorsArr = await response.json();
         let errors = validationService.formikErrorsFor(errorsArr);
@@ -49,9 +49,9 @@ const RegistrationConfirmEmailPage = () => {
           errors.hasOwnProperty("NPN") &&
           errors.NPN === "account_already_confirmed"
         ) {
-          history.push("registration-complete");
+          navigate("registration-complete");
         } else {
-          history.push(`confirm-link-expired?npn=${params.get("npn")}`);
+          navigate(`confirm-link-expired?npn=${params.get("npn")}`);
         }
       }
     };

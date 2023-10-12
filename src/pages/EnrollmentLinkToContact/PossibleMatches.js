@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import clientsService from "services/clientsService";
 import enrollPlansService from "services/enrollPlansService";
@@ -12,7 +12,7 @@ export default function PossibleMatches({
 
   const [matches, setMatches] = useState([]);
   const { callFrom } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function PossibleMatches({
           showToast({
             message: "Contact linked successfully",
           });
-          history.push(`/contact/${contact.leadsId}`);
+          navigate(`/contact/${contact.leadsId}`);
         } else {
           showToast({
             type: "error",
@@ -112,7 +112,7 @@ export default function PossibleMatches({
         });
       }
     },
-    [history, showToast, updatePrimaryContact, state]
+    [navigate, showToast, updatePrimaryContact, state]
   );
 
   if (matches?.length > 0) {

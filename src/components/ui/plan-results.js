@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import PlanCard from "./PlanCard";
 import PlanCardLoader from "./PlanCard/loader";
 import EnrollmentModal from "./Enrollment/enrollment-modal";
@@ -24,7 +24,7 @@ const PlanResults = ({
   setSessionData,
   refresh,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [enrollingPlan, setEnrollingPlan] = useState();
   const cards = [];
@@ -45,7 +45,7 @@ const PlanResults = ({
           pharmacyMap={pharmacyMap}
           onDetailsClick={() => {
             setSessionData();
-            history.push(
+            navigate(
               `/${leadId}/plan/${plan.id}/${formatDate(
                 effectiveDate,
                 "yyyy-MM-01"

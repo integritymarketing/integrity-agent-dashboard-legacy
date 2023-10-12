@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { useHistory, Link, useParams, useLocation } from "react-router-dom";
+import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
 import { Button } from "components/ui/Button";
@@ -48,7 +48,7 @@ const NewContactForm = ({
     fetchCountyAndState,
   } = useContext(CountyContext);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
 
   const isDuplicateContact = useCallback(
@@ -86,14 +86,14 @@ const NewContactForm = ({
   const getContactLink = (id) => `/contact/${id}/details`;
   const goToContactDetailPage = (id) => {
     // if (duplicateLeadIds.length) {
-    //   return history.push(
+    //   return navigate(
     //     getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
     //   );
     // }
-    history.push(getContactLink(id));
+    navigate(getContactLink(id));
   };
   const goToContactPage = () => {
-    history.push("/contacts");
+    navigate("/contacts");
   };
   const handleMultileDuplicates = () => {
     if (duplicateLeadIds.length) {

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useMemo } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
 import FooterButtons from "packages/FooterButtons";
@@ -22,7 +22,7 @@ export default function ContactListFilterOptions({ close, layout }) {
     reminderValue = "",
   } = useActiveFilters();
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [tagsList, setTagsList] = useState([]);
@@ -93,9 +93,9 @@ export default function ContactListFilterOptions({ close, layout }) {
     setStages([]);
     setTags([]);
     if (layout === "list") {
-      history.push(`/contacts/list`);
+      navigate(`/contacts/list`);
     } else {
-      history.push(`/contacts/card`);
+      navigate(`/contacts/card`);
     }
   };
 
@@ -115,7 +115,7 @@ export default function ContactListFilterOptions({ close, layout }) {
       searchParams.set("HasOverdueReminder", null);
     }
 
-    history.push({
+    navigate({
       pathname: pathname,
       search: searchParams.toString(),
     });

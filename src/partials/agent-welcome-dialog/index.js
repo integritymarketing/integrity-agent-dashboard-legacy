@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal from "packages/Modal";
 import Heading2 from "packages/Heading2";
 import Heading3 from "packages/Heading3";
@@ -13,7 +13,7 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import styles from "./styles.module.scss";
 
 export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     agentInformation: { agentFirstName, agentVirtualPhoneNumber },
     getAgentAvailability,
@@ -25,15 +25,15 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
     }
   }, [open, getAgentAvailability]);
   const navigateToLearningPage = () => {
-    history.push(`/learning-center`);
+    navigate(`/learning-center`);
   };
 
   const navigateToAccountPage = () => {
-    history.push(`/account`);
+    navigate(`/account`);
   };
 
   const navigateToHelpPage = () => {
-    history.push(`/help`);
+    navigate(`/help`);
   };
 
   const modalContent = (

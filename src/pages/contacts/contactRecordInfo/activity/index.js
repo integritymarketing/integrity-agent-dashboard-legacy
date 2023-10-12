@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddNote from "components/icons/add-note";
 import ActivityModal from "./ActivityModal";
 import SuccessIcon from "components/icons/success-note";
@@ -16,7 +16,7 @@ export default ({ activities, leadId, getLeadDetails }) => {
   const [hovered, setHovered] = useState(null);
   const showToast = useToast();
   const [showSize, setShowSize] = useState(3);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const deleteActivity = async (activityId) => {
     await clientsService.deleteActivity(activityId);
@@ -40,7 +40,7 @@ export default ({ activities, leadId, getLeadDetails }) => {
   };
 
   const navigateToSOA = (item) => {
-    history.push(
+    navigate(
       `/contact/${leadId}/soa-confirm/${item?.activityInteractionURL}`
     );
   };

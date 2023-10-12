@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAnalytics from "hooks/useAnalytics";
 import { toTitleCase } from "utils/toTitleCase";
 import { addProviderModalAtom } from "recoil/providerInsights/atom.js";
@@ -17,7 +17,7 @@ const ReviewProviders = ({
   setShowViewAvailablePlans,
   prescriptions,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const setModalOpen = useSetRecoilState(addProviderModalAtom);
   const [providersCollapsed, setProvidersCollapsed] = useState(false);
   const { fireEvent } = useAnalytics();
@@ -41,8 +41,8 @@ const ReviewProviders = ({
   }, []);
 
   const viewPlans = useCallback(() => {
-    history.push(`/plans/${leadsId}`);
-  }, [history, leadsId]);
+    navigate(`/plans/${leadsId}`);
+  }, [navigate, leadsId]);
 
   const openAddProviderModal = useCallback(() => {
     setModalOpen(true);

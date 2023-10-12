@@ -1,6 +1,6 @@
 import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import usePortalUrl from "hooks/usePortalUrl";
 
@@ -21,7 +21,7 @@ const requestPasswordReset = async (npn) => {
 };
 
 const PasswordResetExpiredPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const queryParams = useQueryParams();
   const portalUrl = usePortalUrl();
 
@@ -30,9 +30,9 @@ const PasswordResetExpiredPage = () => {
     const response = await requestPasswordReset(npn);
 
     if (response.status >= 200 && response.status < 300) {
-      history.push(`password-reset-sent?npn=${npn}`);
+      navigate(`password-reset-sent?npn=${npn}`);
     } else {
-      history.push(
+      navigate(
         `sorry?message=${encodeURIComponent(
           "We could not send a password reset at this time."
         )}`

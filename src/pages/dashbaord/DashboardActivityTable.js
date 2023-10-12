@@ -8,7 +8,7 @@ import React, {
 import Media from "react-media";
 import "./activitytable.scss";
 import Table from "../../packages/TableWrapper";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { dateFormatter } from "utils/dateFormatter";
 import { TextButton } from "packages/Button";
 import Typography from "@mui/material/Typography";
@@ -124,7 +124,7 @@ export default function DashboardActivityTable({
   setSort,
   sort,
 }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
   const { setNewSoaContactDetails } = useContext(ContactContext);
   const [filterToggle, setFilterToggle] = useState(false);
@@ -146,7 +146,7 @@ export default function DashboardActivityTable({
   }, [activityData]);
 
   const navigateToPage = (leadId, page) => {
-    history.push(`/${page}/${leadId}`);
+    navigate(`/${page}/${leadId}`);
   };
 
   const handleDropdownActions = (contact) => (value, leadId) => {
@@ -175,18 +175,18 @@ export default function DashboardActivityTable({
       const splitViewPlansURL = activityInteractionURL.split("/");
       switch (activitySubject) {
         case "Scope of Appointment Signed":
-          history.push({
+          navigate({
             pathname: `/contact/${leadsId}`,
             search: "?awaiting=true",
           });
           break;
         case "Scope of Appointment Completed":
-          history.push(
+          navigate(
             `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
           );
           break;
         case "Plan Shared":
-          history.push(
+          navigate(
             `/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
           );
           break;
@@ -212,7 +212,7 @@ export default function DashboardActivityTable({
           break;
       }
     },
-    [history, npn]
+    [navigate, npn]
   );
 
   const handleTableRowClick = useCallback(
@@ -264,7 +264,7 @@ export default function DashboardActivityTable({
               color="#0052CE"
               onClick={(event) => {
                 event.stopPropagation();
-                history.push(`/contact/${row?.original?.leadsId}`);
+                navigate(`/contact/${row?.original?.leadsId}`);
               }}
             >
               <strong>
@@ -363,7 +363,7 @@ export default function DashboardActivityTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, showAddModal]
+    [navigate, showAddModal]
   );
 
   const mobileColumns = useMemo(
@@ -382,7 +382,7 @@ export default function DashboardActivityTable({
               color="#0052CE"
               onClick={(event) => {
                 event.stopPropagation();
-                history.push(`/contact/${row?.original?.leadsId}`);
+                navigate(`/contact/${row?.original?.leadsId}`);
               }}
             >
               <strong>
@@ -503,7 +503,7 @@ export default function DashboardActivityTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, showAddModal]
+    [navigate, showAddModal]
   );
 
   const onFilterApply = (selectedValues) => {

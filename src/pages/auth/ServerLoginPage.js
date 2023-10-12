@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
@@ -24,7 +24,7 @@ import useMobileVersionCheck from "hooks/useMobileVersionCheck";
 
 const ServerLoginPage = () => {
   const loading = useLoading();
-  const history = useHistory();
+  const navigate = useNavigate();
   const params = useQueryParams();
   const auth = useContext(AuthContext);
   const device = useDeviceInfo();
@@ -44,9 +44,9 @@ const ServerLoginPage = () => {
     if (clientId === "AEPortal") {
       showMobileAppDeepLinking(device);
     }
-
+    
     if (feature_toggle && isOutdatedVersion && clientId === "AgentMobile") {
-      history.push("/mobile-app-update");
+      navigate("/mobile-app-update");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -98,7 +98,7 @@ const ServerLoginPage = () => {
     // are present (eg missing ReturnUrl).
     // catch 500 and send to final error page.
     if (response && response.status >= 500) {
-      history.push(
+      navigate(
         `sorry?message=${encodeURIComponent(
           "Something went wrong with your login request.  Please try again."
         )}`
@@ -123,7 +123,7 @@ const ServerLoginPage = () => {
         analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
           formName: "Login",
         });
-        history.push(
+        navigate(
           `registration-email-sent?npn=${payload.Username}&mode=error`
         );
       } else {

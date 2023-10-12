@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import * as Sentry from "@sentry/react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
 import useToast from "hooks/useToast";
@@ -38,7 +38,7 @@ const ContactListItemButton = ({
   setLeadInfo, // Accessing setLeadInfo here
 }) => {
   const showToast = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
   const firstRender = useRef(true);
   useEffect(() => {
     if (firstRender.current) {
@@ -89,7 +89,7 @@ const ContactListItemButton = ({
         showToast({
           message: "Contact linked succesfully",
         });
-        history.push(`/contact/${selectedLeadId}`);
+        navigate(`/contact/${selectedLeadId}`);
       }
     } catch (error) {
       showToast({
@@ -99,7 +99,7 @@ const ContactListItemButton = ({
       });
     }
   }, [
-    history,
+    navigate,
     showToast,
     contact.phones,
     updatePrimaryContact,

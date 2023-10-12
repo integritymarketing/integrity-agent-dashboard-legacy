@@ -7,10 +7,10 @@ import React, {
 } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  Redirect,
+  Navigate,
   Route,
-  Switch,
-  useHistory,
+  Routes,
+  useNavigate,
   useLocation,
 } from "react-router-dom";
 
@@ -76,7 +76,7 @@ const ContactsPage = () => {
   const [layout, setLayout] = useState("");
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [allLeads, setAllLeads] = useState([]);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
   const [deleteCounter, setDeleteCounter] = useState(0);
@@ -123,7 +123,7 @@ const ContactsPage = () => {
   const switchLayout = () => {
     const switchToLayoutPath =
       layout === "list" ? cardViewLayoutPath : listViewLayoutPath;
-    history.push(switchToLayoutPath);
+    navigate(switchToLayoutPath);
     setLayout((layout) => (layout === "list" ? "card" : "list"));
   };
 
@@ -135,11 +135,11 @@ const ContactsPage = () => {
   }, [location, isMobile]);
 
   const goToImportPage = () => {
-    history.push("/client-import");
+    navigate("/client-import");
   };
 
   const goToAddNewContactPage = () => {
-    history.push("/contact/add-new");
+    navigate("/contact/add-new");
   };
 
   useEffect(() => {
@@ -155,7 +155,7 @@ const ContactsPage = () => {
   const clearDuplicateLeadIds = () => {
     window.localStorage.removeItem("duplicateLeadIds");
     setDuplicateLeadIds([]);
-    history.push("/contacts");
+    navigate("/contacts");
   };
 
   const clearFilteredLeadIds = () => {
@@ -164,7 +164,7 @@ const ContactsPage = () => {
 
     setFilterLeadIds([]);
     setFilterInfo(null);
-    history.push("/contacts");
+    navigate("/contacts");
   };
 
   const handleRowSelected = useCallback(
@@ -240,200 +240,86 @@ const ContactsPage = () => {
         }}
       />
       <StageStatusProvider>
-          <Helmet>
-            <title>MedicareCENTER - Contacts</title>
-          </Helmet>
-          <GlobalNav />
-          {filterInfo?.policyCount > 0 && <GoBackNavbar />}
-          <DeleteContactsModal
-            open={isOpenDeleteContactsIdModal}
-            count={selectedContacts.length}
-            close={onCloseDeleteContactsModal}
-            onConfirm={handleDeleteContacts}
-          />
-          <ExportContactsModal
-            open={isOpenExportContactsIdModal}
-            close={onCloseExportContactsModal}
-            contacts={selectedContacts}
-            allLeads={allLeads}
-          />
-          <div className={styles.header}>
-            <Container>
-              <div className={styles.headerText}>Contacts</div>
-              <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
-                <Button
-                  className="mr-2"
-                  data-gtm="contacts-import"
-                  icon={<Import />}
-                  label="Import"
-                  type="secondary"
-                  onClick={goToImportPage}
-                />
-                <Button
-                  data-gtm="contacts-add-new"
-                  icon={<Add />}
-                  label="Add New"
-                  type="primary"
-                  onClick={goToAddNewContactPage}
-                />
-              </div>
-              {isMobile && (
-                <div
-                  className={styles.headerText}
-                  onClick={goToAddNewContactPage}
-                >
-                  + Add New
-                </div>
-              )}
-            </Container>
-          </div>
-          <div className={styles.contactBodyWrapper}>
-            <Container>
-              <div className={styles.searchContactInput}>
-                <Textfield
-                  id="contacts-search"
-                  type={isMobile ? "text" : "search"}
-                  defaultValue={searchString}
-                  icon={<SearchIcon />}
-                  placeholder="Search "
-                  name="search"
-                  className={styles.searchInput}
-                  onChange={handleContactSearch}
-                  onBlur={() => {
-                    analyticsService.fireEvent("event-search");
-                    return null;
-                  }}
-                  isMobile={isMobile}
-                  onClear={() => {
-                    setSearchString("");
-                    document.getElementById("contacts-search").focus();
-                  }}
-                />
-                {!isMobile && filterInfo?.policyCount > 0 && (
-                  <div className={`${styles["reset-partial-duplicates"]}`}>
-                    <div className={`${styles["colorAndCount"]}`}>
-                      <div
-                        style={{
-                          backgroundColor: filterInfo.policyStatusColor,
-                        }}
-                        className={styles["statusColor"]}
-                      ></div>
-                      <div className={styles["duplicate-found"]}>
-                        {`${filterInfo.policyCount}  ${filterInfo.status}
-                      Policies `}
-                      </div>
-                    </div>
-                    <button
-                      onClick={clearFilteredLeadIds}
-                      className={styles["reset-close"]}
-                    >
-                      <RoundCloseIcon />
-                    </button>
-                  </div>
-                )}
-                {duplicateIdsLength > 0 && (
-                  <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
-                    <div className={styles["duplicate-found"]}>
-                      {duplicateIdsLength}
-                      duplicates found
-                    </div>
-                    <button
-                      onClick={clearDuplicateLeadIds}
-                      className={styles["reset-close"]}
-                    >
-                      <RoundCloseIcon />
-                    </button>
-                  </div>
-                )}
-              </div>
-
+        <Helmet>
+          <title>MedicareCENTER - Contacts</title>
+        </Helmet>
+        <GlobalNav />
+        {filterInfo?.policyCount > 0 && <GoBackNavbar />}
+        <DeleteContactsModal
+          open={isOpenDeleteContactsIdModal}
+          count={selectedContacts.length}
+          close={onCloseDeleteContactsModal}
+          onConfirm={handleDeleteContacts}
+        />
+        <ExportContactsModal
+          open={isOpenExportContactsIdModal}
+          close={onCloseExportContactsModal}
+          contacts={selectedContacts}
+          allLeads={allLeads}
+        />
+        <div className={styles.header}>
+          <Container>
+            <div className={styles.headerText}>Contacts</div>
+            <div className={`${styles.buttonGroup} ${styles.hideOnMobile}`}>
+              <Button
+                className="mr-2"
+                data-gtm="contacts-import"
+                icon={<Import />}
+                label="Import"
+                type="secondary"
+                onClick={goToImportPage}
+              />
+              <Button
+                data-gtm="contacts-add-new"
+                icon={<Add />}
+                label="Add New"
+                type="primary"
+                onClick={goToAddNewContactPage}
+              />
+            </div>
+            {isMobile && (
               <div
-                className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
-                style={{
-                  "--bar-spacing-vert": 0,
-                  "--bar-spacing-horiz": "2.5rem",
-                }}
+                className={styles.headerText}
+                onClick={goToAddNewContactPage}
               >
-                <div className={`${styles.contactsGridActions} mt-2`}>
-                  {selectedContacts.length > 0 && (
-                    <>
-                      <button
-                        className={styles["drop-bg"]}
-                        onClick={showDeleteContactsModal}
-                      >
-                        <Delete />
-                      </button>
-                      <button
-                        className={styles["drop-bg"]}
-                        onClick={showExportContactsModal}
-                      >
-                        <Export />
-                      </button>
-                    </>
-                  )}
-                </div>
-                <div className="bar">
-                  <div className={styles["switch-view"]}>
-                    {layout === "list" ? (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<CardView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
-                    ) : (
-                      <Button
-                        data-gtm="contacts-slide-view"
-                        icon={<TableView />}
-                        iconOnly
-                        label="Button"
-                        type="secondary"
-                        onClick={switchLayout}
-                      />
-                    )}
-                  </div>
-
-                  <Filter
-                    Icon={ContactSort}
-                    ActiveIcon={ContactSort}
-                    heading={"Sort by "}
-                    open={sortToggle}
-                    onToggle={setSortToggle}
-                    content={
-                      <ContactListSort
-                        close={setSortToggle}
-                        sort={sort}
-                        setSort={(value) => setSort([value])}
-                      />
-                    }
-                  />
-                  <Filter
-                    Icon={FilterIcon}
-                    ActiveIcon={ActiveFilter}
-                    heading={"Filter by "}
-                    open={filterToggle}
-                    onToggle={setFilterToggle}
-                    filtered={active}
-                    content={
-                      <ContactListFilterOptions
-                        close={setFilterToggle}
-                        layout={layout}
-                      />
-                    }
-                  />
-                </div>
+                + Add New
               </div>
-              {isMobile && filterInfo?.policyCount > 0 && (
+            )}
+          </Container>
+        </div>
+        <div className={styles.contactBodyWrapper}>
+          <Container>
+            <div className={styles.searchContactInput}>
+              <Textfield
+                id="contacts-search"
+                type={isMobile ? "text" : "search"}
+                defaultValue={searchString}
+                icon={<SearchIcon />}
+                placeholder="Search "
+                name="search"
+                className={styles.searchInput}
+                onChange={handleContactSearch}
+                onBlur={() => {
+                  analyticsService.fireEvent("event-search");
+                  return null;
+                }}
+                isMobile={isMobile}
+                onClear={() => {
+                  setSearchString("");
+                  document.getElementById("contacts-search").focus();
+                }}
+              />
+              {!isMobile && filterInfo?.policyCount > 0 && (
                 <div className={`${styles["reset-partial-duplicates"]}`}>
                   <div className={`${styles["colorAndCount"]}`}>
                     <div
-                      style={{ backgroundColor: filterInfo.policyStatusColor }}
+                      style={{
+                        backgroundColor: filterInfo.policyStatusColor,
+                      }}
                       className={styles["statusColor"]}
                     ></div>
                     <div className={styles["duplicate-found"]}>
-                      {`${filterInfo.policyCount} ${filterInfo.status}
+                      {`${filterInfo.policyCount}  ${filterInfo.status}
                       Policies `}
                     </div>
                   </div>
@@ -445,12 +331,129 @@ const ContactsPage = () => {
                   </button>
                 </div>
               )}
-              <div className={styles.tableWrapper}>
-                <Switch>
-                  <Route exact path="/contacts">
-                    <Redirect to="/contacts/list" />
-                  </Route>
-                  <Route path="/contacts/list">
+              {duplicateIdsLength > 0 && (
+                <div className={`pl-2 ${styles["reset-partial-duplicates"]}`}>
+                  <div className={styles["duplicate-found"]}>
+                    {duplicateIdsLength}
+                    duplicates found
+                  </div>
+                  <button
+                    onClick={clearDuplicateLeadIds}
+                    className={styles["reset-close"]}
+                  >
+                    <RoundCloseIcon />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div
+              className={`bar bar--repel bar--collapse-mobile ${styles["contacts-search-input-wrapper"]}`}
+              style={{
+                "--bar-spacing-vert": 0,
+                "--bar-spacing-horiz": "2.5rem",
+              }}
+            >
+              <div className={`${styles.contactsGridActions} mt-2`}>
+                {selectedContacts.length > 0 && (
+                  <>
+                    <button
+                      className={styles["drop-bg"]}
+                      onClick={showDeleteContactsModal}
+                    >
+                      <Delete />
+                    </button>
+                    <button
+                      className={styles["drop-bg"]}
+                      onClick={showExportContactsModal}
+                    >
+                      <Export />
+                    </button>
+                  </>
+                )}
+              </div>
+              <div className="bar">
+                <div className={styles["switch-view"]}>
+                  {layout === "list" ? (
+                    <Button
+                      data-gtm="contacts-slide-view"
+                      icon={<CardView />}
+                      iconOnly
+                      label="Button"
+                      type="secondary"
+                      onClick={switchLayout}
+                    />
+                  ) : (
+                    <Button
+                      data-gtm="contacts-slide-view"
+                      icon={<TableView />}
+                      iconOnly
+                      label="Button"
+                      type="secondary"
+                      onClick={switchLayout}
+                    />
+                  )}
+                </div>
+
+                <Filter
+                  Icon={ContactSort}
+                  ActiveIcon={ContactSort}
+                  heading={"Sort by "}
+                  open={sortToggle}
+                  onToggle={setSortToggle}
+                  content={
+                    <ContactListSort
+                      close={setSortToggle}
+                      sort={sort}
+                      setSort={(value) => setSort([value])}
+                    />
+                  }
+                />
+                <Filter
+                  Icon={FilterIcon}
+                  ActiveIcon={ActiveFilter}
+                  heading={"Filter by "}
+                  open={filterToggle}
+                  onToggle={setFilterToggle}
+                  filtered={active}
+                  content={
+                    <ContactListFilterOptions
+                      close={setFilterToggle}
+                      layout={layout}
+                    />
+                  }
+                />
+              </div>
+            </div>
+            {isMobile && filterInfo?.policyCount > 0 && (
+              <div className={`${styles["reset-partial-duplicates"]}`}>
+                <div className={`${styles["colorAndCount"]}`}>
+                  <div
+                    style={{ backgroundColor: filterInfo.policyStatusColor }}
+                    className={styles["statusColor"]}
+                  ></div>
+                  <div className={styles["duplicate-found"]}>
+                    {`${filterInfo.policyCount} ${filterInfo.status}
+                      Policies `}
+                  </div>
+                </div>
+                <button
+                  onClick={clearFilteredLeadIds}
+                  className={styles["reset-close"]}
+                >
+                  <RoundCloseIcon />
+                </button>
+              </div>
+            )}
+            <div className={styles.tableWrapper}>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Navigate to="/contacts/list" />}
+                />
+                <Route
+                  path="/list"
+                  element={
                     <ContactsTable
                       filteredLeadIdsLength={filteredLeadIdsLength}
                       searchString={searchStringNew}
@@ -461,26 +464,30 @@ const ContactsPage = () => {
                       isMobile={isMobile}
                       layout={layout}
                     />
-                  </Route>
-                  <Route path="/contacts/card">
+                  }
+                />
+                <Route
+                  path="/card"
+                  element={
                     <ContactsCard
                       searchString={searchStringNew}
                       sort={sort}
                       isMobile={isMobile}
                       layout={layout}
                     />
-                  </Route>
-                </Switch>
-              </div>
-              <div className={styles.footerContainer}>
-                <FooterBanners
-                  className={styles.footerBanners}
-                  type={isMobile ? "column" : "row"}
+                  }
                 />
-              </div>
-            </Container>
-          </div>
-          <GlobalFooter />
+              </Routes>
+            </div>
+            <div className={styles.footerContainer}>
+              <FooterBanners
+                className={styles.footerBanners}
+                type={isMobile ? "column" : "row"}
+              />
+            </div>
+          </Container>
+        </div>
+        <GlobalFooter />
       </StageStatusProvider>
     </React.Fragment>
   );

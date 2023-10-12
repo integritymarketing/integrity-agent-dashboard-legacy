@@ -23,9 +23,7 @@ const Template = () => (
     <CountyProvider>
       <HelmetProvider>
         <MemoryRouter initialEntries={["/plans/123"]}>
-          <Route path="/plans/:contactId">
-            <PlansPage />
-          </Route>
+          <Route path="/plans/:contactId" element={<PlansPage />} />
         </MemoryRouter>
       </HelmetProvider>
     </CountyProvider>

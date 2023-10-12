@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import styles from "./EnrollmentPlanCard.module.scss";
 import IconWithText from "packages/IconWithText";
 import View from "./View.png";
@@ -32,14 +32,14 @@ export default function EnrollmentPlanCard(props) {
     policyStatusColor,
   } = props;
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
 
   const holderName = policyHolder ? formattedName(policyHolder) : "";
 
   const navigateEnrollDetails = () => {
-    history.push(
+    navigate(
       `/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`,
       {
         state: props,
@@ -48,7 +48,7 @@ export default function EnrollmentPlanCard(props) {
   };
 
   const navigateToEnrollmentLink = () => {
-    history.push(`/enrollment-link-to-contact`, {
+    navigate(`/enrollment-link-to-contact`, {
       state: props,
     });
   };

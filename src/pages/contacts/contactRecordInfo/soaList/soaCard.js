@@ -5,7 +5,7 @@ import {
   convertToLocalDateTime,
   getHoursDiffBetweenTwoDays,
 } from "utils/dates.js";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "components/ui/Button";
 import OpenIcon from "components/icons/open";
 import styles from "./soaCard.module.scss";
@@ -30,7 +30,7 @@ const SoaCard = ({
     }
   };
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const getProducts = () => {
     const products = soa?.leadSection?.products ?? [];
     if (products && products?.length > 0) {
@@ -42,8 +42,8 @@ const SoaCard = ({
   const soa_status = getStatus();
   const soa_products = getProducts();
   const navigateToConfirmSOA = useCallback(() => {
-    history.push(`/contact/${rest?.id}/soa-confirm/${linkCode}`);
-  }, [history, rest.id, linkCode]);
+    navigate(`/contact/${rest?.id}/soa-confirm/${linkCode}`);
+  }, [navigate, rest.id, linkCode]);
 
   const localDateTime = convertToLocalDateTime(statusDate);
 

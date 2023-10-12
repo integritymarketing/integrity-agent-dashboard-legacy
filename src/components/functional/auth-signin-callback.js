@@ -1,11 +1,11 @@
 import { useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Cookies from "universal-cookie";
 
 const useAuthSigninCallBack = () => {
   const auth = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -17,9 +17,9 @@ const useAuthSigninCallBack = () => {
       return;
     }
     auth.signinSilent().catch((error) => {
-      history.replace("/error?code=login_callback_error");
+      navigate("/error?code=login_callback_error", { replace: true });
     });
-  }, [auth, history]);
+  }, [auth, navigate]);
 
   return "";
 };

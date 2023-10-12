@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import clientsService from "services/clientsService";
 import callRecordingsService from "services/callRecordingsService";
@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 export default function PossibleMatches({ phone }) {
   const [matches, setMatches] = useState([]);
   const { callLogId, callFrom } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function PossibleMatches({ phone }) {
           showToast({
             message: "Contact linked successfully",
           });
-          history.push(`/contact/${contact.leadsId}`);
+          navigate(`/contact/${contact.leadsId}`);
         }
       } catch (error) {
         showToast({
@@ -68,7 +68,7 @@ export default function PossibleMatches({ phone }) {
         });
       }
     },
-    [history, callLogId, showToast, updatePrimaryContact]
+    [navigate, callLogId, showToast, updatePrimaryContact]
   );
 
   if (matches?.length > 0) {

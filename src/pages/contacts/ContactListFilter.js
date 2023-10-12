@@ -6,7 +6,7 @@ import Close from "components/icons/close";
 import { Button } from "components/ui/Button";
 import styles from "./ContactsPage.module.scss";
 import Switch from "components/ui/switch";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import stageSummaryContext from "contexts/stageSummary";
 
 const ContactRecordTypes = ["Prospect", "Client"];
@@ -14,7 +14,7 @@ const ContactRecordTypes = ["Prospect", "Client"];
 const ContactListFilter = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [stageOpen, setStageOpen] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const { stageSummary, loadStageSummary } =
@@ -105,7 +105,7 @@ const ContactListFilter = () => {
   };
 
   const resetFilters = () => {
-    history.push(`/contacts/list`);
+    navigate(`/contacts/list`);
     let resetData = {
       contactRecordType: "",
       stages: [],
@@ -127,7 +127,7 @@ const ContactListFilter = () => {
       searchParams.set("HasReminder", filters?.hasReminder);
     }
 
-    history.push({
+    navigate({
       pathname: pathname,
       search: searchParams.toString(),
     });

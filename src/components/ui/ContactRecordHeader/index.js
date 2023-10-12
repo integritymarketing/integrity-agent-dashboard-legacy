@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./index.scss";
 import { Button } from "components/ui/Button";
@@ -12,7 +12,7 @@ export default function ContactRecordHeader({
   isMobile,
   onEditClick,
 }) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { prescriptions, pharmacies, providers } = useLeadInformation() || {};
 
@@ -31,7 +31,7 @@ export default function ContactRecordHeader({
         <Button
           icon={<ArrowDown />}
           label="Back to Contact Record"
-          onClick={() => history.push(`/contact/${contact.leadsId}`)}
+          onClick={() => navigate(`/contact/${contact.leadsId}`)}
           type="tertiary"
         />
       </div>

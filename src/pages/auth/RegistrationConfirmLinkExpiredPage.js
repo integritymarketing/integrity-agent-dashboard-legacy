@@ -1,13 +1,13 @@
 import React, { useCallback } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import useClientId from "hooks/auth/useClientId";
 import useFetch from "hooks/useFetch";
 import usePortalUrl from "hooks/usePortalUrl";
 
 const ConfirmationPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const queryParams = useQueryParams();
   const clientId = useClientId();
   const portalUrl = usePortalUrl();
@@ -27,9 +27,9 @@ const ConfirmationPage = () => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        history.push(`registration-email-sent?npn=${npn}`);
+        navigate(`registration-email-sent?npn=${npn}`);
       } else {
-        history.push(
+        navigate(
           `sorry?message=${encodeURIComponent(
             "We could not send a new confirmation email at this time."
           )}`
@@ -37,13 +37,13 @@ const ConfirmationPage = () => {
       }
     } catch (error) {
       console.error("Error sending confirmation email:", error);
-      history.push(
+      navigate(
         `sorry?message=${encodeURIComponent(
           "An error occurred while resending the confirmation email."
         )}`
       );
     }
-  }, [sendConfirmationEmail, npn, clientId, history]);
+  }, [sendConfirmationEmail, npn, clientId, navigate]);
 
   const handleRedirectAndRestartLoginFlow = () => {
     window.location = portalUrl + "/signin";

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "contexts/auth";
 import Media from "react-media";
 import LargeFormatMenu from "./large-format";
@@ -31,7 +31,7 @@ import MobileAccount from "./assets/icons-Account.svg";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useUserProfile from "hooks/useUserProfile";
 
-const handleCSGSSO = async (history, loading) => {
+const handleCSGSSO = async (navigate, loading) => {
   loading.begin(0);
 
   let user = await authService.getUser();
@@ -61,7 +61,7 @@ const handleCSGSSO = async (history, loading) => {
     window.open(formattedRes.redirect_url, "_blank");
     return;
   } else {
-    history.replace("/error?code=third_party_notauthorized");
+    navigate("/error?code=third_party_notauthorized", { replace: true});
   }
 };
 
@@ -118,7 +118,7 @@ const GlobalNavV2 = ({
 }) => {
   const auth = useContext(AuthContext);
   const showToast = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
   const loadingHook = useLoading();
   const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
   const [navOpen, setNavOpen] = useState(false);
@@ -186,7 +186,7 @@ const GlobalNavV2 = ({
               props: {
                 type: "button",
                 onClick: () => {
-                  handleCSGSSO(history, loadingHook);
+                  handleCSGSSO(navigate, loadingHook);
                 },
               },
               label: "CSG App",
@@ -316,7 +316,7 @@ const GlobalNavV2 = ({
               props: {
                 type: "button",
                 onClick: () => {
-                  handleCSGSSO(history, loadingHook);
+                  handleCSGSSO(navigate, loadingHook);
                 },
               },
               label: "CSG APP",

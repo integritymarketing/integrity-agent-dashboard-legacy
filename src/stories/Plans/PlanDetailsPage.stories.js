@@ -19,9 +19,7 @@ export default {
 const Template = () => (
   <HelmetProvider>
     <MemoryRouter initialEntries={["/456/plan/123"]}>
-      <Route path="/:contactId/plan/:planId">
-        <PlanDetailsPage />
-      </Route>
+      <Route path="/:contactId/plan/:planId" element={<PlanDetailsPage />} />
     </MemoryRouter>
   </HelmetProvider>
 );

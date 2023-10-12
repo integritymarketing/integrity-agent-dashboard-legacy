@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import SimpleFooter from "partials/simple-footer";
@@ -27,7 +27,7 @@ const useHelpLinkWithModal = () => {
 
 const NotFound = () => {
   const [HelpLink, HelpModal] = useHelpLinkWithModal();
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <div className="content-frame bg-neutral-gradient text-invert">
       <GlobalNav menuHidden={true} className="mb-auto" />
@@ -40,7 +40,7 @@ const NotFound = () => {
           further assistance.
         </p>
         <div>
-          <button className="btn btn--invert" onClick={() => history.goBack()}>
+          <button className="btn btn--invert" onClick={() => navigate(-1)}>
             Go Back
           </button>
         </div>

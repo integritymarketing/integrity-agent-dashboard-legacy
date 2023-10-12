@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import Box from "@mui/material/Box";
 import Modal from "packages/Modal";
@@ -34,7 +34,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 
 export default function GetStarted(props) {
   const leadPreference = props.leadPreference;
-  const history = useHistory();
+  const navigate = useNavigate();
   const [show, setShow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const showToast = useToast();
@@ -67,12 +67,12 @@ export default function GetStarted(props) {
 
   const navigateToAccount = () => {
     setModalOpen(false);
-    history.push(`/account`);
+    navigate(`/account`);
   };
 
   const navigateToLearningCenter = () => {
     setModalOpen(false);
-    history.push(`/learning-center`);
+    navigate(`/learning-center`);
   };
 
   const modalContent = (

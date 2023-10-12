@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
@@ -9,9 +9,9 @@ import PhoneIcon from "components/icons/v2-phone";
 
 const ContactSupportInvalidNPN = () => {
   const { npnId } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const goToForgotPassword = () => {
-    history.push(`/forgot-password`);
+    navigate(`/forgot-password`);
   };
   return (
     <>

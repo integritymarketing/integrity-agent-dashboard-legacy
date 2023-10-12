@@ -7,7 +7,7 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
 import useToast from "hooks/useToast";
@@ -35,7 +35,7 @@ const ContactListItemButton = ({
   children,
 }) => {
   const showToast = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const updatePrimaryContact = useCallback(() => {
     return clientsService.updateLeadPhone(contact, callFrom);
@@ -56,7 +56,7 @@ const ContactListItemButton = ({
         showToast({
           message: "Contact linked succesfully",
         });
-        history.push(`/contact/${leadId}`);
+        navigate(`/contact/${leadId}`);
       }
     } catch (error) {
       showToast({
@@ -65,7 +65,7 @@ const ContactListItemButton = ({
       });
     }
   }, [
-    history,
+    navigate,
     leadId,
     callLogId,
     showToast,

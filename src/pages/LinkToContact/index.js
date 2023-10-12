@@ -13,7 +13,7 @@ import { CallScriptModal } from "packages/CallScriptModal";
 import { Helmet } from "react-helmet-async";
 import { Button } from "packages/Button";
 import { formatPhoneNumber } from "utils/phones";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useCallRecordings from "hooks/useCallRecordings";
 import Heading2 from "packages/Heading2";
 import PossibleMatches from "./PossibleMatches";
@@ -22,7 +22,7 @@ import CreateNewContact from "./CreateNewContact";
 import GoBackNavbar from "components/BackButtonNavbar";
 
 export default function LinkToContact() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { callLogId, callFrom, duration, date } = useParams();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -73,7 +73,7 @@ export default function LinkToContact() {
   };
 
   const goToAddNewContactsPage = () => {
-    history.push(
+    navigate(
       `/contact/add-new/${callLogId || ""}${
         callFrom ? "?callFrom=" + callFrom : ""
       }`

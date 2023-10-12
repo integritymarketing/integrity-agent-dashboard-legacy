@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 
 import { Importer, ImporterField } from "react-csv-importer";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import clientsService from "services/clientsService";
 import LeadImporterStatusContainer from "partials/lead-importer/status-container";
 import { formatPhoneNumber } from "utils/phones";
@@ -17,7 +17,7 @@ const prepareRowForImport = (row) => {
 
 const LeadImporter = () => {
   const scrollToRef = useRef();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [importErrors, setImportErrors] = useState([]);
   const [importSuccesses, setImportSuccesses] = useState(0);
 
@@ -81,7 +81,7 @@ const LeadImporter = () => {
           }}
           onClose={() => {
             // optional, invoked when import is done and user clicked "Finish"
-            history.push("contacts");
+            navigate("contacts");
           }}
         >
           <ImporterField

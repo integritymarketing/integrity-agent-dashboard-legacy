@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CallIcon from "components/icons/callicon";
 import PropTypes from "prop-types";
 import GlobalFooter from "partials/global-footer";
@@ -22,7 +22,7 @@ const HelpPage = () => {
   const handleMediaQueryChange = useCallback((isMobile) => {
     setIsMobile(isMobile);
   }, []);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
@@ -38,7 +38,7 @@ const HelpPage = () => {
       <div className={styles.layout}>
         {!isMobile && (
           <div className={styles.headerLayoutContainer}>
-            <div onClick={() => history.goBack()} className={styles.backButton}>
+            <div onClick={() => navigate(-1)} className={styles.backButton}>
               <BackButton />
               <div className={styles.backButtonText}>Back</div>
             </div>

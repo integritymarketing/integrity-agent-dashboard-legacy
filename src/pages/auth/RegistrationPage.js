@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
 import useLoading from "hooks/useLoading";
@@ -25,7 +25,7 @@ import "./mobileStyle.scss";
 const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
 
 const RegistrationPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
@@ -132,7 +132,7 @@ const RegistrationPage = () => {
                 analyticsService.fireEvent("event-form-submit", {
                   formName: "Register Account",
                 });
-                history.push(`registration-email-sent?npn=${values.NPN}`);
+                navigate(`registration-email-sent?npn=${values.NPN}`);
               } else {
                 const errorsArr = await response.json();
                 const errMsg =

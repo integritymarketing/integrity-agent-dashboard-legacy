@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
@@ -10,10 +10,10 @@ import { Button } from "components/ui/Button";
 import styles from "./ClientImportPage.module.scss";
 
 const ClientImportPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const goToContactsPage = () => {
-    history.push("/contacts");
+    navigate("/contacts");
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Table from "packages/TableWrapper";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import { dateFormatter } from "utils/dateFormatter";
@@ -103,7 +103,7 @@ export default function ActivitiesTable({
   isMobile,
   setDisplay,
 }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [fullList, setFullList] = useState([]);
 
   const [, setActivitiesSortBy] = useRecoilState(
@@ -126,12 +126,12 @@ export default function ActivitiesTable({
           setDisplay("scopeofappointments");
           break;
         case "Scope of Appointment Completed":
-          history.push(
+          navigate(
             `/contact/${leadId}/soa-confirm/${activityInteractionURL}`
           );
           break;
         case "Plan Shared":
-          history.push(
+          navigate(
             `/plans/${leadId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
           );
           break;
@@ -157,7 +157,7 @@ export default function ActivitiesTable({
           break;
       }
     },
-    [history, leadId, npn, setDisplay]
+    [navigate, leadId, npn, setDisplay]
   );
 
   const webColumns = useMemo(

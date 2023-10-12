@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./PlansPage.module.scss";
 import { Button } from "components/ui/Button";
 import Close from "../components/icons/input-clear";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Primary UI component for user interaction
@@ -16,7 +16,7 @@ export const PlanPageFooter = ({
   setSessionData,
   isMobile,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   if (!plans || plans.length < 1) {
     return null;
   }
@@ -70,7 +70,7 @@ export const PlanPageFooter = ({
         data-gtm="button-compare"
         onClick={() => {
           setSessionData();
-          history.push(
+          navigate(
             `/plans/${leadId}/compare/${plans
               ?.map(({ id }) => id)
               .join(",")}/${effectiveDate}`

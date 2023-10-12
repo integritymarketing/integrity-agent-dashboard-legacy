@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { Button } from "components/ui/Button";
 import Textfield from "components/ui/textfield";
@@ -76,7 +76,7 @@ const EditDetails = (props) => {
   const showToast = useToast();
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const isDuplicateContact = useCallback(
     async (values, setDuplicateLeadIds, errors = {}, leadsId) => {
@@ -119,11 +119,11 @@ const EditDetails = (props) => {
   const getContactLink = (id) => `/contact/${id}`;
   const goToContactDetailPage = (id) => {
     if (duplicateLeadIds.length) {
-      return history.push(
+      return navigate(
         getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
       );
     }
-    history.push(getContactLink(id));
+    navigate(getContactLink(id));
   };
 
   const handleMultileDuplicates = () => {
@@ -258,7 +258,7 @@ const EditDetails = (props) => {
         if (response.ok) {
           props.getContactRecordInfo();
           if (props.successNavigationRoute) {
-            history.push(props.successNavigationRoute);
+            navigate(props.successNavigationRoute);
           } else {
             goToContactDetailPage(leadsId);
           }

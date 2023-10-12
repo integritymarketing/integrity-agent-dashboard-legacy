@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Back from 'components/icons/back';
 import './index.scss';
 
 const BackNav = ({ title = '', leadId }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const noTitle = title === 'Back to ';
   
   const goBack = () => {
     if (noTitle) {
-      history.push(`/contact/${leadId}`);
+      navigate(`/contact/${leadId}`);
     } else {
-      history.goBack();
+      navigate(-1);
     }
   };
 

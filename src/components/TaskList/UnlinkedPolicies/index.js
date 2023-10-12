@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Media from "react-media";
 import PropTypes from "prop-types";
@@ -13,7 +13,7 @@ import "./style.scss";
 
 const UnlinkedPolicyCard = ({ callData, npn }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
 
   const handleLinkToContact = useCallback(async () => {
@@ -36,7 +36,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
           };
 
       // Redirect to Enrollment Link to Contact page, passing the policy data.
-      history.push("/enrollment-link-to-contact", { state: stateData });
+      navigate("/enrollment-link-to-contact", { state: stateData });
     } catch (error) {
       showToast({
         type: "error",
@@ -44,7 +44,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
         time: 10000,
       });
     }
-  }, [showToast, callData, history, npn]);
+  }, [showToast, callData, navigate, npn]);
 
   return (
     <div className="up-card">

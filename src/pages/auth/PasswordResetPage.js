@@ -6,7 +6,7 @@ import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import Textfield from "components/ui/textfield";
 import validationService from "services/validationService";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useLoading from "hooks/useLoading";
 import useClientId from "hooks/auth/useClientId";
 import useQueryParams from "hooks/useQueryParams";
@@ -17,7 +17,7 @@ import Box from "@mui/material/Box";
 // before we fully transition to 'Username' for everything
 
 const PasswordResetPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const loading = useLoading();
   const params = useQueryParams();
   const clientId = useClientId();
@@ -42,7 +42,7 @@ const PasswordResetPage = () => {
       if (response.ok) {
         return true;
       } else {
-        history.push(`password-link-expired?npn=${params.get("npn")}`);
+        navigate(`password-link-expired?npn=${params.get("npn")}`);
         return false;
       }
     };
@@ -73,7 +73,7 @@ const PasswordResetPage = () => {
     loading.end();
 
     if (response.ok) {
-      history.push("password-updated");
+      navigate("password-updated");
     } else {
       const errorsArr = await response.json();
       const errors = validationService.formikErrorsFor(errorsArr);

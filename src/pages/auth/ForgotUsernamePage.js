@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik } from "formik";
@@ -14,7 +14,7 @@ import CheckIcon from "components/icons/v2-check";
 import useFetch from "hooks/useFetch";
 
 export default () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const loading = useLoading();
   const [username, setUsername] = useState();
   const [apiErrors, setApiErrors] = useState([]);
@@ -128,7 +128,7 @@ export default () => {
                 let errors = validationService.formikErrorsFor(errorsArr);
 
                 if (errors.Global === "account_unconfirmed") {
-                  history.push(
+                  navigate(
                     `registration-email-sent?npn=${values.NPN}&mode=error`
                   );
                 } else {

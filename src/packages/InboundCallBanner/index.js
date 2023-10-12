@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
 
 import DashboardHeaderSection from 'pages/dashbaord/DashboardHeaderSection';
@@ -20,7 +20,7 @@ import CallScriptIcon from 'components/icons/script';
 const IN_PROGRESS = 'in-progress';
 
 export default function InboundCallBanner() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
   const callRecordings = useCallRecordings();
 
@@ -34,7 +34,7 @@ export default function InboundCallBanner() {
     const duration = callDuration(recordingStartTime, callEndTime);
     const localDate = convertUTCDateToLocalDate(callStartTime);
 
-    history.push(`/link-to-contact/${callLogId}/${from}/${duration}/${localDate}`);
+    navigate(`/link-to-contact/${callLogId}/${from}/${duration}/${localDate}`);
   };
 
   const renderBannerContent = () => {

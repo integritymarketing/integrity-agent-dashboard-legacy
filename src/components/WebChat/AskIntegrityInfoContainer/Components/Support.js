@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import ArrowRightCircle from './assets/ArrrowRightCircle';
 import styles from '../AskIntegrityFeedback.module.scss';
 
 const Support = ({ onShare }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleContactSupportNavigation = () => {
-    history.push('/help');
+    navigate('/help');
   };
 
   return (

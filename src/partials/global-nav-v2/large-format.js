@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Arrow from "components/icons/down";
 import useUserProfile from "hooks/useUserProfile";
-import { useHistory } from "react-router-dom";
 import useRoles from "hooks/useRoles";
 import "./index.scss";
 
@@ -10,7 +9,6 @@ const nonRTS_DisableLinks = ["LeadCENTER", "MedicareAPP", "MedicareLINK"];
 const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
   const userProfile = useUserProfile();
 
-  const history = useHistory();
   const [activedLink, setActivedLink] = useState("");
 
   const { isNonRTS_User } = useRoles();
@@ -23,10 +21,10 @@ const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
   };
 
   useEffect(() => {
-    history?.location?.pathname !== activedLink &&
-      setActivedLink(history.location.pathname);
+    window.location.pathname !== activedLink &&
+      setActivedLink(window.location.pathname);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.pathname]);
+  }, [window.location.pathname]);
 
   useEffect(() => {
     const closeDropDown = (event) => {

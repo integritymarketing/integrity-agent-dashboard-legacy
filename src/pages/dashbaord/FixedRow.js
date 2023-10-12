@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import TableCell from "@mui/material/TableCell";
@@ -19,7 +19,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { callLogId, from, callStartTime, recordingStartTime, callEndTime } =
     unAssosiatedCallRecord;
@@ -29,7 +29,7 @@ export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
   const goTolinkToContact = () => {
     let duration = callDuration(recordingStartTime, callEndTime);
 
-    history.push(`/link-to-contact/${callLogId}/${from}/${duration}/${date}`);
+    navigate(`/link-to-contact/${callLogId}/${from}/${duration}/${date}`);
   };
 
   const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";

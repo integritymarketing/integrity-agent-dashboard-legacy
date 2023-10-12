@@ -7,7 +7,7 @@ import ReminderIcon from "images/Reminder.svg";
 import Reminder_Overdue from "images/Reminder_Overdue.svg";
 import RoundCheck from "components/icons/round-check";
 import { dateFormatter } from "utils/dateFormatter";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { isOverDue } from "utils/dates";
 import clientsService from "services/clientsService";
 import * as Sentry from "@sentry/react";
@@ -16,7 +16,7 @@ import "./style.scss";
 
 const RemindersCard = ({ callData, refreshData }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
 
   const isReminderDue = isOverDue(callData?.taskDate);
@@ -157,7 +157,7 @@ const RemindersCard = ({ callData, refreshData }) => {
             icon={<Person />}
             label={"View Contact"}
             className={"reminder-card-link-btn"}
-            onClick={() => history.push(`/contact/${callData?.leadId}`)}
+            onClick={() => navigate(`/contact/${callData?.leadId}`)}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
           />

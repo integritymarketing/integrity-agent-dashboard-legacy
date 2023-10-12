@@ -11,7 +11,7 @@ import Active from "components/icons/BookofBusiness/policySnapshot/active";
 import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
 import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
 import Terminated from "components/icons/BookofBusiness/policySnapshot/terminated";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import "./style.scss";
 
@@ -28,7 +28,7 @@ const renderIcons = {
 
 const PolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const policyStatus = callData?.policyStatus
     ? capitalizeFirstLetter(callData?.policyStatus)
@@ -101,7 +101,7 @@ const PolicyCard = ({ callData }) => {
             icon={<Person />}
             label={"View Contact"}
             className={"policy-card-link-btn"}
-            onClick={() => history.push(`/contact/${callData?.leadId}`)}
+            onClick={() => navigate(`/contact/${callData?.leadId}`)}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
           />

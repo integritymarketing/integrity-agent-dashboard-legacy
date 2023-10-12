@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 
 function useAwaitingQueryParam() {
   const { search } = useLocation();
@@ -8,16 +8,13 @@ function useAwaitingQueryParam() {
     return new URLSearchParams(search);
   }, [search]);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const deleteAwaitingParam = useCallback(() => {
     params.delete("awaiting");
 
-    // Replace the current URL with the updated query parameters
-    history.replace({
-      search: params.toString(),
-    });
-  }, [params, history]);
+    navigate(`?${params.toString()}`, { replace: true });
+  }, [params, navigate]);
 
   return { isAwaiting: params.get("awaiting") === "true", deleteAwaitingParam };
 }

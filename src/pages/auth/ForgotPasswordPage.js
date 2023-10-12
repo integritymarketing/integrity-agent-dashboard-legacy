@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import useQueryParams from "hooks/useQueryParams";
 import { Formik } from "formik";
@@ -19,7 +19,7 @@ import Styles from "./AuthPages.module.scss";
 import useFetch from "hooks/useFetch";
 
 const ForgotPasswordpage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const loading = useLoading();
   const clientId = useClientId();
   const params = useQueryParams();
@@ -72,7 +72,7 @@ const ForgotPasswordpage = () => {
               setSubmitting(false);
               loading.end();
               if (response.status >= 200 && response.status < 300) {
-                history.push(`password-reset-sent?npn=${values.Username}`);
+                navigate(`password-reset-sent?npn=${values.Username}`);
                 analyticsService.fireEvent("formSubmit", {
                   button: "forgotSubmit",
                   pagePath: window.location.href,
@@ -89,7 +89,7 @@ const ForgotPasswordpage = () => {
                 let errors = validationService.formikErrorsFor(errorsArr);
 
                 if (errors.Global === "account_unconfirmed") {
-                  history.push(
+                  navigate(
                     `registration-email-sent?npn=${values.Username}&mode=error`
                   );
                 } else {
@@ -97,7 +97,7 @@ const ForgotPasswordpage = () => {
                     formName: "Reset password",
                   });
                   setErrors(errors);
-                  history.push(
+                  navigate(
                     `contact-support-invalid-npn/${values.Username}`
                   );
                 }

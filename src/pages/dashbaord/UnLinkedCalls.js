@@ -5,17 +5,17 @@ import { Button } from "components/ui/Button";
 import { ReactComponent as LinkContactCircle } from "./LinkContactCircle.svg";
 import { ReactComponent as DownloadDashboard } from "./DownloadDashboard.svg";
 import { convertUTCDateToLocalDate } from "utils/dates";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatPhoneNumber } from "utils/phones";
 import moment from "moment";
 
 const UnLinkedCallCard = ({ task }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const linkToContact = () => {
     const date = convertUTCDateToLocalDate(task?.taskDate);
-    history.push(
+    navigate(
       `/link-to-contact/${task?.id}/${task?.phoneNumber}/${task?.duration}/${date}`
     );
   };

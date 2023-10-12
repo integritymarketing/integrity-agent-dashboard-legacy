@@ -7,7 +7,7 @@ import Heading3 from "packages/Heading3";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { Helmet } from "react-helmet-async";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import PossibleMatches from "./PossibleMatches";
 import CreateNewContact from "./CreateNewContact";
 import clientsService from "services/clientsService";
@@ -15,7 +15,7 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import GoBackNavbar from "components/BackButtonNavbar";
 
 export default function EnrollmentLinkToContact() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { state } = location.state;
   const { callLogId, callFrom } = useParams();
@@ -52,21 +52,21 @@ export default function EnrollmentLinkToContact() {
 
   const goToAddNewContactsPage = () => {
     if (callLogId) {
-      history.push(
+      navigate(
         `/contact/add-new/${callLogId}?callFrom=${callFrom}&relink=true"
         }`,
         { state: state }
       );
     } else {
-      history.push(`/contact/add-new?relink=true`, { state: state });
+      navigate(`/contact/add-new?relink=true`, { state: state });
     }
   };
 
   const handleBackToRoute = () => {
     if (state?.page === "Contacts Details") {
-      history.push(`/contact/${state?.leadId}/details`);
+      navigate(`/contact/${state?.leadId}/details`);
     } else if (state?.page === "Dashboard") {
-      history.push(`/dashboard`);
+      navigate(`/dashboard`);
     }
   };
 

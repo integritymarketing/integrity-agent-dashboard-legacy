@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
 import GlobalNav from "partials/global-nav-v2";
@@ -36,7 +36,7 @@ function numberWithCommas(number) {
 const PAGESIZE = 10;
 
 export default function Dashbaord() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
   const device = useDeviceInfo();
   const userProfile = useUserProfile();
@@ -110,7 +110,7 @@ export default function Dashbaord() {
   };
 
   const navigateToContactListPage = (id) => {
-    history.push(`/contacts/list?Stage=${id}`);
+    navigate(`/contacts/list?Stage=${id}`);
   };
 
   const handleConfirm = async () => {

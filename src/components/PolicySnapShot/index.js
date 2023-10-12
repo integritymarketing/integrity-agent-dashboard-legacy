@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import ContactSectionCard from "packages/ContactSectionCard";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DateRangeSort from "../DateRangeSort";
 import TabsCard from "components/TabsCard";
 import PolicyList from "./PolicyList";
@@ -30,7 +30,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const [isError, setIsError] = useState(false);
   const [tabs, setTabs] = useState([]);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
 
   const status = tabs[index]?.policyStatus;
@@ -76,9 +76,9 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
       window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
       window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
-      history.push(`/contacts`);
+      navigate(`/contacts`);
     },
-    [tabs, leadIds, history]
+    [tabs, leadIds, navigate]
   );
 
   useEffect(() => {

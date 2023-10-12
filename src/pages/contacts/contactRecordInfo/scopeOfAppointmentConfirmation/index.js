@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
@@ -25,7 +25,7 @@ import "./index.scss";
 
 const ScopeOfAppointmentConfirmation = () => {
   const { linkCode } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const showToast = useToast();
   const medicareOverviewSectionEl = useRef(null);
   const [products, setProducts] = useState({});
@@ -205,7 +205,7 @@ const ScopeOfAppointmentConfirmation = () => {
             analyticsService.fireEvent("event-form-submit-valid", {
               formName: "Scope of Appointment Agent Complete",
             });
-            history.push(
+            navigate(
               `/soa-confirmation-page/${agentSection?.firstName}/${agentSection?.lastName}`
             );
           }

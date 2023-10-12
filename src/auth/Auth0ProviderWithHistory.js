@@ -16,7 +16,7 @@ import { createBrowserHistory } from "history";
 const Auth0ProviderWithHistory = ({ children }) => {
   const history = createBrowserHistory();
   const onRedirectCallback = (appState) => {
-    history.push(
+    navigate(
       appState && appState.returnTo
         ? appState.returnTo
         : window.location.pathname

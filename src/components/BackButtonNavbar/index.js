@@ -1,18 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-import { useHistory } from "react-router-dom";
 import styles from "./styles.module.scss";
 import Back from "components/icons/back";
 
 function GoBackNavbar(props) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleGoBack = () => {
     if (props.handleBackToRoute) {
       props.handleBackToRoute();
     } else {
-      history.goBack();
+      navigate(-1);
     }
   };
 

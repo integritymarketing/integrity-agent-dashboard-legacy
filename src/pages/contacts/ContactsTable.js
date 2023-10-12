@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import PropTypes from "prop-types";
 import { useTable, usePagination, useRowSelect } from "react-table";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import clientsService from "services/clientsService";
@@ -192,7 +192,7 @@ function ContactsTable({
   const { statusOptions } = useContext(StageStatusContext);
 
   const showToast = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const queryParams = useMemo(() => {
@@ -236,7 +236,7 @@ function ContactsTable({
         let response = await clientsService.reActivateClients([deleteLeadId]);
         if (response.ok) {
           clearContext();
-          history.push(`/contact/${deleteLeadId}`);
+          navigate(`/contact/${deleteLeadId}`);
         } else if (response.status === 400) {
           showToast({
             type: "error",
@@ -261,7 +261,7 @@ function ContactsTable({
     leadName,
     setDeleteLeadId,
     setLeadName,
-    history,
+    navigate,
   ]);
 
   useEffect(() => {
@@ -343,7 +343,7 @@ function ContactsTable({
   ]);
 
   const navigateToPage = (leadId, page) => {
-    history.push(`/${page}/${leadId}`);
+    navigate(`/${page}/${leadId}`);
   };
   const handleDropdownActions = (contact) => (value, leadId) => {
     switch (value) {

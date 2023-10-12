@@ -4,8 +4,8 @@ import * as Sentry from "@sentry/react";
 import {
   useParams,
   useLocation,
-  useHistory,
-  useRouteMatch,
+  useNavigate,
+  useMatch ,
 } from "react-router-dom";
 
 import LeadInformationProvider from "hooks/useLeadInformation";
@@ -62,8 +62,8 @@ const ContactRecordInfoDetails = () => {
   const [submitEnable, setSubmitEnable] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { setCurrentPage } = useContext(BackNavContext);
-  const history = useHistory();
-  const { path } = useRouteMatch();
+  const navigate = useNavigate();
+  const match = useMatch(`/contact/${id}/*`);
   const { isAwaiting, deleteAwaitingParam } = useAwaitingQueryParam();
 
   useEffect(() => {
@@ -157,20 +157,20 @@ const ContactRecordInfoDetails = () => {
   );
 
   useEffect(() => {
-    if (path === `/contact/${id}`) {
+    if (match) {
       setLoading(isLoading);
-      history.push(`/contact/${id}/${display}`);
+      navigate(`/contact/${id}/${display}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, id]);
+  }, [navigate, match]);
 
   useEffect(() => {
     analyticsService.fireEvent("event-content-load", {
       pagePath: "/contact-record-note-edit/",
     });
     getContactRecordInfo(leadDetails);
-    setEdit(state.isEdit);
-  }, [getContactRecordInfo, state.isEdit, state.display, leadDetails]);
+    setEdit(state?.isEdit);
+  }, [getContactRecordInfo, state?.isEdit, state?.display, leadDetails]);
 
   const handleRendering = () => {
     let props = {
@@ -305,7 +305,7 @@ const ContactRecordInfoDetails = () => {
   };
 
   const handleViewAvailablePlans = async () => {
-    history.push(`/plans/${id}`);
+    navigate(`/plans/${id}`);
   };
 
   const handleViewPlans = () => {

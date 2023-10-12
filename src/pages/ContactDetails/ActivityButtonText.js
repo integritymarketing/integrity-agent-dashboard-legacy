@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "packages/Button";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import comparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
 
@@ -21,7 +21,7 @@ export default function ActivityButtonText(props) {
   const { activityTypeName, activityInteractionURL, activitySubject } =
     props.activity;
   const { leadsId, setDisplay } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
   const userProfile = useUserProfile();
   const { npn } = userProfile;
   const splitViewPlansURL = activityInteractionURL?.split("/");
@@ -31,19 +31,19 @@ export default function ActivityButtonText(props) {
         if (setDisplay) {
           setDisplay("scopeofappointments");
         } else {
-          history.push({
+          navigate({
             pathname: `/contact/${leadsId}`,
             search: "?awaiting=true",
           });
         }
         break;
       case "Scope of Appointment Completed":
-        history.push(
+        navigate(
           `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
         );
         break;
       case "Plan Shared":
-        history.push(
+        navigate(
           `/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
         );
         break;

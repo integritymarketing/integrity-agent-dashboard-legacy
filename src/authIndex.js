@@ -1,16 +1,46 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Suspense } from "react";
+import { createRoot } from "react-dom/client";
 import * as Sentry from "@sentry/react";
-import "./index.scss";
-import AuthApp from "./AuthApp";
+import { ThemeProvider } from "@mui/material/styles";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+
+import AppRouter from "components/functional/router";
+import authService from "services/authService";
+import AuthContext from "contexts/auth";
+import { theme } from "./theme";
+import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
+import AuthClientId from "components/functional/auth/client-id";
+import AuthClientUrl from "components/functional/auth/client-url";
+import AuthAppRoutes from "./AuthApp";
 import * as serviceWorker from "./serviceWorker";
 import "focus-visible";
+import "./index.scss";
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
-    <AuthApp />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <ThemeProvider theme={theme}>
+      <HelmetProvider>
+        <AuthContext.Provider value={authService}>
+          <ToastContextProvider>
+            <Helmet>
+              <title>MedicareCENTER</title>
+            </Helmet>
+            <Suspense fallback={<div>Loading...</div>}>
+              <AppRouter>
+                <div className="content-frame">
+                  <AuthAppRoutes />
+                </div>
+              </AppRouter>
+            </Suspense>
+            <AuthClientId />
+            <AuthClientUrl />
+          </ToastContextProvider>
+        </AuthContext.Provider>
+      </HelmetProvider>
+    </ThemeProvider>
+  </React.StrictMode>
 );
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds

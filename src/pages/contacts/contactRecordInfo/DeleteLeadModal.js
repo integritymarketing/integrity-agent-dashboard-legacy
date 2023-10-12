@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Modal from "components/ui/modal";
 import clientsService from "services/clientsService";
 import DeleteLeadContext from "contexts/deleteLead";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const DeleteLeadModal = ({
   leadsId,
@@ -11,13 +11,13 @@ const DeleteLeadModal = ({
   deleteModalStatus,
 }) => {
   const { setDeleteLeadId, setLeadName } = useContext(DeleteLeadContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const deleteLead = async () => {
     await clientsService.deleteClient(leadsId);
     setDeleteLeadId(leadsId);
     setLeadName(leadName);
-    history.push("/contacts");
+    navigate("/contacts");
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
@@ -11,7 +11,7 @@ import validationService from "services/validationService";
 import authService from "services/authService";
 import useLoading from "hooks/useLoading";
 
-const handleCSGSSO = async (history, loading) => {
+const handleCSGSSO = async (navigate, loading) => {
   loading.begin(0);
 
   let user = await authService.getUser();
@@ -41,12 +41,12 @@ const handleCSGSSO = async (history, loading) => {
     window.open(formattedRes.redirect_url, "_blank");
     return;
   } else {
-    history.replace("/error?code=third_party_notauthorized");
+    navigate("/error?code=third_party_notauthorized", { replace: true });
   }
 };
 
 export default () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const loading = useLoading();
 
   useEffect(() => {
@@ -157,7 +157,7 @@ export default () => {
                       data-gtm="hp-category-wrapper-item-button"
                       type="button"
                       onClick={() => {
-                        handleCSGSSO(history, loading);
+                        handleCSGSSO(navigate, loading);
                       }}
                       className={`btn--invert cta-button ${analyticsService.clickClass(
                         "medicaresupplement-button"
