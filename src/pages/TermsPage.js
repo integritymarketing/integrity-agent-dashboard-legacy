@@ -3,6 +3,7 @@ import BaseLegalPage from "pages/BaseLegalPage";
 const TermsPage = () => {
   return (
     <BaseLegalPage title="Terms of Use">
+      <p>Last Modified: 10-12-2023</p>
       <p className="text-body text-body--large mb-4">
         <strong>Please read these terms of use policies carefully.</strong>
       </p>
@@ -12,7 +13,7 @@ const TermsPage = () => {
           MedicareCENTER (the “<strong>Platform</strong>”) is a binding contract
           between you ("<strong>User</strong>," "<strong>you</strong>," or "
           <strong>your</strong>") and Integrity Marketing Group, LLC ("
-          <strong>Integrity</strong>", “<strong></strong>we”).
+          <strong>Integrity</strong>", “<strong>we</strong>”).
         </p>
         <p>
           THIS AGREEMENT TAKES EFFECT WHEN YOU ACCESS OR USE THE PRODUCT (the "
