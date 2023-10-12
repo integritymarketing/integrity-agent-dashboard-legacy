@@ -20,6 +20,7 @@ import { Box } from "@mui/material";
 import { Button } from "packages/Button";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
+import useMobileVersionCheck from "hooks/useMobileVersionCheck";
 
 const ServerLoginPage = () => {
   const loading = useLoading();
@@ -27,6 +28,7 @@ const ServerLoginPage = () => {
   const params = useQueryParams();
   const auth = useContext(AuthContext);
   const device = useDeviceInfo();
+  const isOutdatedVersion = useMobileVersionCheck();
   const [mobileAppLogin, setMobileAppLogin] = useState(false);
 
   useEffect(() => {
@@ -38,13 +40,12 @@ const ServerLoginPage = () => {
       process.env.REACT_APP_MOBILE_UPDATE === "yes" ? true : false;
 
     let clientId = params1.get("client_id");
-    let version = params1.get("Version");
 
     if (clientId === "AEPortal") {
       showMobileAppDeepLinking(device);
     }
 
-    if (feature_toggle && !version && clientId === "AgentMobile") {
+    if (feature_toggle && isOutdatedVersion && clientId === "AgentMobile") {
       history.push("/mobile-app-update");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
