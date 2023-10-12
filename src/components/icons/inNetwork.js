@@ -7,6 +7,7 @@ const InNetworkIcon = (props) => {
       width="16"
       height="16"
       viewBox="0 0 16 16"
+      style={{ marginLeft: "4px" }}
     >
       <defs>
         <clipPath id="clip-path">
