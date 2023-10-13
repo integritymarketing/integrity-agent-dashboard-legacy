@@ -5,7 +5,7 @@ import {
   useParams,
   useLocation,
   useNavigate,
-  useMatch ,
+  useMatch,
 } from "react-router-dom";
 
 import LeadInformationProvider from "hooks/useLeadInformation";
@@ -40,6 +40,7 @@ import Media from "react-media";
 import FooterBanners from "packages/FooterBanners";
 import WebChatComponent from "components/WebChat/WebChat";
 import useAwaitingQueryParam from "hooks/useAwaitingQueryParam";
+import PlansTypeModal from "components/PlansTypeModal";
 
 const ContactRecordInfoDetails = () => {
   const { contactId: id, sectionId } = useParams();
@@ -65,6 +66,7 @@ const ContactRecordInfoDetails = () => {
   const navigate = useNavigate();
   const match = useMatch(`/contact/${id}/*`);
   const { isAwaiting, deleteAwaitingParam } = useAwaitingQueryParam();
+  const [openPlanType, setOpenPlanType] = useState(false);
 
   useEffect(() => {
     setCurrentPage("Contact Detail Page");
@@ -304,8 +306,8 @@ const ContactRecordInfoDetails = () => {
     }
   };
 
-  const handleViewAvailablePlans = async () => {
-    navigate(`/plans/${id}`);
+  const handleViewAvailablePlans = () => {
+    setOpenPlanType(true);
   };
 
   const handleViewPlans = () => {
@@ -339,6 +341,16 @@ const ContactRecordInfoDetails = () => {
       );
   };
 
+  const handleClickHealthPlan = () => {
+    setOpenPlanType(false);
+    navigate(`/plans/${id}`);
+  };
+
+  // const handleClickFinalExpensePlan = () => {
+  //   setOpenPlanType(false);
+  //   navigate(`/finalexpenses/${id}`);
+  // };
+
   return (
     <React.Fragment>
       <Media
@@ -348,150 +360,158 @@ const ContactRecordInfoDetails = () => {
         }}
       />
       <LeadInformationProvider leadId={id}>
-          <StageStatusProvider>
-            <WithLoader isLoading={isLoad}>
-              <Helmet>
-                <title>MedicareCENTER - Contacts</title>
-              </Helmet>
-              <GlobalNav />
-              {duplicateLeadIds.length === 1 && (
-                <section className={`${styles["duplicate-contact-link"]} pl-1`}>
-                  <Warning />
-                  <span className="pl-1">
-                    The entry is a potential duplicate to&nbsp;&nbsp;
-                    <a
-                      href={`/contact/${duplicateLeadIds}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {duplicateLeadIdName ?? "this contact link."}
-                    </a>
-                  </span>
-                </section>
-              )}
-              {duplicateLeadIds.length > 1 && (
-                <section className={`${styles["duplicate-contact-link"]} pl-1`}>
-                  <Warning />
-                  <span className="pl-1">
-                    The entry is a potential duplicate to&nbsp;&nbsp;
-                    <a
-                      onClick={handleMultileDuplicates}
-                      href={`/contacts/list`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      these contacts
-                    </a>
-                  </span>
-                </section>
-              )}
+        <StageStatusProvider>
+          <WithLoader isLoading={isLoad}>
+            <Helmet>
+              <title>MedicareCENTER - Contacts</title>
+            </Helmet>
+            <GlobalNav />
+            {duplicateLeadIds.length === 1 && (
+              <section className={`${styles["duplicate-contact-link"]} pl-1`}>
+                <Warning />
+                <span className="pl-1">
+                  The entry is a potential duplicate to&nbsp;&nbsp;
+                  <a
+                    href={`/contact/${duplicateLeadIds}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {duplicateLeadIdName ?? "this contact link."}
+                  </a>
+                </span>
+              </section>
+            )}
+            {duplicateLeadIds.length > 1 && (
+              <section className={`${styles["duplicate-contact-link"]} pl-1`}>
+                <Warning />
+                <span className="pl-1">
+                  The entry is a potential duplicate to&nbsp;&nbsp;
+                  <a
+                    onClick={handleMultileDuplicates}
+                    href={`/contacts/list`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    these contacts
+                  </a>
+                </span>
+              </section>
+            )}
 
-              <PersonalInfo
-                personalInfo={personalInfo}
-                setEdit={setEdit}
-                isEdit={isEdit}
-                setDisplay={setDisplay}
-                leadsId={id}
-                refreshContactDetails={getLeadDetails}
+            <PersonalInfo
+              personalInfo={personalInfo}
+              setEdit={setEdit}
+              isEdit={isEdit}
+              setDisplay={setDisplay}
+              leadsId={id}
+              refreshContactDetails={getLeadDetails}
+            />
+
+            <div className="details-card-main">
+              <PlansTypeModal
+                isModalOpen={openPlanType}
+                handleHealthPlanClick={handleClickHealthPlan}
+                handleFinalExpensePlanClick={handleClickHealthPlan}
+                handleModalClose={() => {
+                  setOpenPlanType(false);
+                }}
               />
-
-              <div className="details-card-main">
-                <Container className={styles.container}>
-                  {isMobile ? (
-                    <MobileMenu
-                      handleDisplay={handleDisplay}
-                      handleViewPlans={handleViewPlans}
-                      display={display}
-                      setMenuToggle={setMenuToggle}
-                      menuToggle={menuToggle}
-                    />
-                  ) : (
-                    <ul
-                      className="leftcardmenu desktop-menu-hide"
-                      data-gtm="contact-record-menu-item"
-                    >
-                      <li
-                        className={display === "overview" ? "active" : ""}
-                        onClick={() => {
-                          setDisplay("overview");
-                        }}
-                      >
-                        <label className="icon-spacing">
-                          <OverviewIcon />
-                        </label>
-                        <span>Overview</span>
-                      </li>
-                      <li
-                        className={
-                          display === "details" || display === "DetailsEdit"
-                            ? "active"
-                            : ""
-                        }
-                        onClick={() => setDisplay("details")}
-                      >
-                        <label className="icon-spacing">
-                          <DetailsIcon />
-                        </label>
-                        <span>Details</span>
-                      </li>
-                      <li
-                        className={
-                          display === "scopeofappointments" ? "active" : ""
-                        }
-                        onClick={() => setDisplay("scopeofappointments")}
-                      >
-                        <label className="icon-spacing">
-                          <SOAicon />
-                        </label>
-                        <span>Scope Of Appointments</span>
-                      </li>
-                      <li
-                        className={display === "preferences" ? "active" : ""}
-                        onClick={() => setDisplay("preferences")}
-                      >
-                        <label className="icon-spacing">
-                          <PreferencesIcon />
-                        </label>
-                        <span>Preferences </span>
-                      </li>
-                      <li className="plans-button">{handleViewPlans(false)}</li>
-                    </ul>
-                  )}
-                  <div className="rightSection">
-                    {handleRendering()}
-                    <div className={"footerContainer"}>
-                      <FooterBanners
-                        className={"footerBanners"}
-                        type={isMobile ? "column" : "row"}
-                      />
-                    </div>
-                  </div>
-                  <AddZip
-                    isOpen={isZipAlertOpen}
-                    onClose={() => setisZipAlertOpen(false)}
-                    updateZip={handleUpdateZip}
-                    address={[
-                      personalInfo?.addresses?.[0]?.address1,
-                      personalInfo?.addresses?.[0]?.address2,
-                      personalInfo?.addresses?.[0]?.city,
-                      personalInfo?.addresses?.[0]?.stateCode,
-                    ]
-                      .filter(Boolean)
-                      .join(", ")}
-                    handleZipCode={handleZipCode}
-                    zipCode={personalInfo?.addresses?.[0]?.postalCode}
-                    allCounties={allCounties}
-                    county={county}
-                    setCounty={setCounty}
-                    countyError={countyError}
-                    submitEnable={submitEnable}
+              <Container className={styles.container}>
+                {isMobile ? (
+                  <MobileMenu
+                    handleDisplay={handleDisplay}
+                    handleViewPlans={handleViewPlans}
+                    display={display}
+                    setMenuToggle={setMenuToggle}
+                    menuToggle={menuToggle}
                   />
-                  <WebChatComponent />
-                </Container>
-              </div>
-              <ContactFooter />
-            </WithLoader>
-          </StageStatusProvider>
+                ) : (
+                  <ul
+                    className="leftcardmenu desktop-menu-hide"
+                    data-gtm="contact-record-menu-item"
+                  >
+                    <li
+                      className={display === "overview" ? "active" : ""}
+                      onClick={() => {
+                        setDisplay("overview");
+                      }}
+                    >
+                      <label className="icon-spacing">
+                        <OverviewIcon />
+                      </label>
+                      <span>Overview</span>
+                    </li>
+                    <li
+                      className={
+                        display === "details" || display === "DetailsEdit"
+                          ? "active"
+                          : ""
+                      }
+                      onClick={() => setDisplay("details")}
+                    >
+                      <label className="icon-spacing">
+                        <DetailsIcon />
+                      </label>
+                      <span>Details</span>
+                    </li>
+                    <li
+                      className={
+                        display === "scopeofappointments" ? "active" : ""
+                      }
+                      onClick={() => setDisplay("scopeofappointments")}
+                    >
+                      <label className="icon-spacing">
+                        <SOAicon />
+                      </label>
+                      <span>Scope Of Appointments</span>
+                    </li>
+                    <li
+                      className={display === "preferences" ? "active" : ""}
+                      onClick={() => setDisplay("preferences")}
+                    >
+                      <label className="icon-spacing">
+                        <PreferencesIcon />
+                      </label>
+                      <span>Preferences </span>
+                    </li>
+                    <li className="plans-button">{handleViewPlans(false)}</li>
+                  </ul>
+                )}
+                <div className="rightSection">
+                  {handleRendering()}
+                  <div className={"footerContainer"}>
+                    <FooterBanners
+                      className={"footerBanners"}
+                      type={isMobile ? "column" : "row"}
+                    />
+                  </div>
+                </div>
+                <AddZip
+                  isOpen={isZipAlertOpen}
+                  onClose={() => setisZipAlertOpen(false)}
+                  updateZip={handleUpdateZip}
+                  address={[
+                    personalInfo?.addresses?.[0]?.address1,
+                    personalInfo?.addresses?.[0]?.address2,
+                    personalInfo?.addresses?.[0]?.city,
+                    personalInfo?.addresses?.[0]?.stateCode,
+                  ]
+                    .filter(Boolean)
+                    .join(", ")}
+                  handleZipCode={handleZipCode}
+                  zipCode={personalInfo?.addresses?.[0]?.postalCode}
+                  allCounties={allCounties}
+                  county={county}
+                  setCounty={setCounty}
+                  countyError={countyError}
+                  submitEnable={submitEnable}
+                />
+                <WebChatComponent />
+              </Container>
+            </div>
+            <ContactFooter />
+          </WithLoader>
+        </StageStatusProvider>
       </LeadInformationProvider>
     </React.Fragment>
   );
