@@ -14,8 +14,10 @@ const UpdateMobileApp = () => {
 
   const updateMobile = useCallback(() => {
     if (device === DEVICES.ANDROID) {
-      window.open("https://play.google.com/store/apps/details?id=com.medicarecenter");
-    } else if (device === DEVICES.IOS) {
+      window.open(
+        "https://play.google.com/store/apps/details?id=com.medicarecenter"
+      );
+    } else if (device === DEVICES.IOS || device === DEVICES.IPHONE) {
       window.open("https://apps.apple.com/us/app/medicarecenter/id1623328763");
     }
   }, [device]);

@@ -44,11 +44,11 @@ const ServerLoginPage = () => {
     if (clientId === "AEPortal") {
       showMobileAppDeepLinking(device);
     }
-    
+
     if (feature_toggle && isOutdatedVersion && clientId === "AgentMobile") {
       navigate("/mobile-app-update");
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [device, params]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     async function checkForExtrnalLogin() {
@@ -123,9 +123,7 @@ const ServerLoginPage = () => {
         analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
           formName: "Login",
         });
-        navigate(
-          `registration-email-sent?npn=${payload.Username}&mode=error`
-        );
+        navigate(`registration-email-sent?npn=${payload.Username}&mode=error`);
       } else {
         analyticsService.fireEvent("event-form-submit-invalid", {
           formName: "Login",

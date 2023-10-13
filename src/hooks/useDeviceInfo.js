@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 export const DEVICES = {
   ANDROID: "ANDROID",
   IOS: "IOS",
+  IPHONE: "IPHONE",
+  UNKNOWN: "UNKNOWN",
 };
 
 const useDeviceInfo = () => {
@@ -19,10 +21,14 @@ const useDeviceInfo = () => {
 
       // iOS detection
       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // Further check for iPhone
+        if (/iPhone/.test(userAgent)) {
+          return DEVICES.IPHONE;
+        }
         return DEVICES.IOS;
       }
 
-      return "unknown";
+      return DEVICES.UNKNOWN;
     };
 
     let info = getMobileOperatingSystem();

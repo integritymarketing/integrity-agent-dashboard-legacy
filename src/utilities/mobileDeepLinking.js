@@ -12,17 +12,10 @@ const showMobileAppDeepLinking = (device) => {
     const userAgent = navigator.userAgent;
     return /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
   };
-  console.log(
-    "SMART APP BANNER DEBUG DATA:",
-    device,
-    isSafariBrowser(),
-    DEVICES.IOS,
-    process.env.REACT_APP_SMART_APP_BANNER_FLAG
-  );
 
   if (
     isSafariBrowser() &&
-    device === DEVICES.IOS &&
+    device === DEVICES.IPHONE &&
     process.env.REACT_APP_SMART_APP_BANNER_FLAG === "show"
   ) {
     const metaTag = document.createElement("meta");

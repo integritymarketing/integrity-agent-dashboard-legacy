@@ -40,7 +40,9 @@ const useMobileVersionCheck = () => {
 
   if (versionParam) {
     const minVersion =
-      device === DEVICES.IOS ? MIN_VERSIONS.IOS : MIN_VERSIONS.ANDROID;
+      device === DEVICES.IOS || device === DEVICES.IPHONE
+        ? MIN_VERSIONS.IOS
+        : MIN_VERSIONS.ANDROID;
     return isAppVersionOlderThan(versionParam, minVersion);
   }
 
