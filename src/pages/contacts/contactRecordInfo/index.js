@@ -307,7 +307,11 @@ const ContactRecordInfoDetails = () => {
   };
 
   const handleViewAvailablePlans = () => {
-    setOpenPlanType(true);
+    if (process.env.REACT_APP_SHOW_FINAL_EXPENSE === "true") {
+      setOpenPlanType(true);
+    } else {
+      navigate(`/plans/${id}`);
+    }
   };
 
   const handleViewPlans = () => {
