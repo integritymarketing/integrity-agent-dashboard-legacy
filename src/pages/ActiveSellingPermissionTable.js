@@ -271,35 +271,28 @@ function Table({
       ].length > 0;
 
     // Filters a list of agent RTS permissions based on the provided filters.
-
     const filtered = () => {
       // Filters data by plan year.
-
       const filterByPlanYear = (rowData) => filters.PlanYear[rowData.planYear];
 
       // Filters data by state.
-
       const filterByState = (rowData) =>
         rowData.states.some((state) => filters.State[state]);
 
       // Filters data by carrier.
-
       const filterByCarrier = (rowData) => filters.Carrier[rowData.carrier];
 
       // Filters data by plan type.
-
       const filterByPlanType = (rowData) =>
         rowData.planTypes.some((planType) => filters.PlanType[planType]);
 
       // Checks if there are any filters for a given key.
-
       const hasFilters = (key) => Object.keys(filters?.[key] || {}).length > 0;
 
       // Start with a copy of the original data.
       let filteredData = [...data];
 
       // Apply filters if they exist.
-
       if (hasFilters("PlanYear")) {
         filteredData = filteredData.filter(filterByPlanYear);
       }
