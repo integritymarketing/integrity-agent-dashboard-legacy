@@ -269,24 +269,54 @@ function Table({
           (id) => (filters?.PlanYear || {})[id]
         ),
       ].length > 0;
-    const filteredData = shouldApplyFilters
-      ? data.filter((row) => {
-          const { states, carrier, planTypes, planYear } = row;
-          const isStateMatched =
-            states.filter((state) => (filters?.State ?? {})[state]).length > 0;
-          if (isStateMatched) return true;
-          if ((filters?.Carrier || {})[carrier]) return true;
-          const isPlantypeMatched =
-            planTypes.filter((planType) => (filters?.PlanType ?? {})[planType])
-              .length > 0;
-          if (isPlantypeMatched) return true;
-          if ((filters?.PlanYear || {})[planYear]) return true;
 
-          return false;
-        })
-      : [...data];
+    // Filters a list of agent RTS permissions based on the provided filters.
+    const filtered = () => {
+      // Filters data by plan year.
+      const filterByPlanYear = (rowData) => filters.PlanYear[rowData.planYear];
+
+      // Filters data by state.
+      const filterByState = (rowData) =>
+        rowData.states.some((state) => filters.State[state]);
+
+      // Filters data by carrier.
+      const filterByCarrier = (rowData) => filters.Carrier[rowData.carrier];
+
+      // Filters data by plan type.
+      const filterByPlanType = (rowData) =>
+        rowData.planTypes.some((planType) => filters.PlanType[planType]);
+
+      // Checks if there are any filters for a given key.
+      const hasFilters = (key) => Object.keys(filters?.[key] || {}).length > 0;
+
+      // Start with a copy of the original data.
+      let filteredData = [...data];
+
+      // Apply filters if they exist.
+      if (hasFilters("PlanYear")) {
+        filteredData = filteredData.filter(filterByPlanYear);
+      }
+
+      if (hasFilters("State")) {
+        filteredData = filteredData.filter(filterByState);
+      }
+
+      if (hasFilters("Carrier")) {
+        filteredData = filteredData.filter(filterByCarrier);
+      }
+
+      if (hasFilters("PlanType")) {
+        filteredData = filteredData.filter(filterByPlanType);
+      }
+
+      // Return the filtered data.
+      return filteredData;
+    };
+
+    const filteredFullData = shouldApplyFilters ? filtered() : [...data];
+
     setPageSize((pageSize) => Math.min(data.length, pageSize + 10));
-    return filteredData.splice(0, pageSize);
+    return filteredFullData.splice(0, pageSize);
   }, [data, pageSize, filters]);
 
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } =
