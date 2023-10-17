@@ -12,8 +12,11 @@ function getURLParameter(name, url) {
   return urlParams.get(name);
 }
 
-// Function to check if the app version is older than the specified version
 function isAppVersionOlderThan(version, targetVersion) {
+  // Remove any number between parentheses from the end of version and targetVersion
+  version = version.replace(/\(\d+\)$/, '');
+  targetVersion = targetVersion.replace(/\(\d+\)$/, '');
+
   const versionParts = version.split(".").map(Number);
   const targetVersionParts = targetVersion.split(".").map(Number);
 
