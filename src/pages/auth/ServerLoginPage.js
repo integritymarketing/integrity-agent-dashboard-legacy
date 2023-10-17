@@ -41,6 +41,8 @@ const ServerLoginPage = () => {
 
     let clientId = params1.get("client_id");
 
+    console.log("SAB TESTING 1: CLIENT_ID, DEVICE ", clientId, device);
+
     if (clientId === "AEPortal") {
       showMobileAppDeepLinking(device);
     }
