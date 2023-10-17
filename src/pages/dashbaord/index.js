@@ -59,6 +59,7 @@ export default function Dashbaord() {
   const agentID = agentInformation?.agentID;
 
   useEffect(() => {
+    console.log("SAB TESTING 4:  DEVICE", device);
     showMobileAppDeepLinking(device);
   }, [device]);
 
