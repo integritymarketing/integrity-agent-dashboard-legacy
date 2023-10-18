@@ -74,26 +74,35 @@ const PrescriptionModal = ({
   const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
   const [initialValues, setInitialValues] = useState({});
   const [isOptionsOpened, setIsOptionsOpened] = useState(false);
-  const [optionsLength, setOptionsLength] = useState(0);
 
-  const customModalHeight = useMemo(() => {
-    if (selectedDrug.g_value && selectedDrug?.description === "Brand") {
-      if (optionsLength <= 3) {
-        return "70vh";
-      }
-      if (optionsLength <= 6) {
-        return "80vh";
-      }
-      if (optionsLength <= 10) {
-        return "90vh";
-      }
+  const [addExtraModalHeight, setAddExtraModalHeight] = useState("auto");
 
-      return "100vh";
+  useEffect(() => {
+    // Get the element by its ID
+    const element = document.getElementById("option-container-scrolling_div");
+
+    // Check if the element exists
+    if (element && isOptionsOpened) {
+      // Get the computed style of the element
+      const computedStyle = window.getComputedStyle(element);
+
+      const defaultHeight =
+        selectedDrug.g_value && selectedDrug?.description === "Brand" ? 70 : 50;
+
+      // Get the max-height value from the computed style
+      const maxHeight =
+        parseInt(computedStyle.getPropertyValue("max-height"), 10) / 10;
+
+      // Set the height to the max-height
+      const customModalHeight =
+        maxHeight > 0 ? `${maxHeight + defaultHeight}vh` : "auto";
+
+      setAddExtraModalHeight(customModalHeight);
     } else {
-      return "50vh";
+      setAddExtraModalHeight("auto");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [optionsLength]);
+  }, [isOptionsOpened]);
 
   useEffect(() => {
     const getDosages = async () => {
@@ -344,7 +353,7 @@ const PrescriptionModal = ({
           />
         )
       }
-      customModalHeight={isOptionsOpened ? customModalHeight : undefined}
+      addExtraModalHeight={addExtraModalHeight}
     >
       {!selectedDrug && !isLoading ? (
         <>
@@ -434,8 +443,6 @@ const PrescriptionModal = ({
               packageOptions,
             }}
             setIsOptionsOpened={setIsOptionsOpened}
-            setOptionsLength={setOptionsLength}
-            optionsLength={optionsLength}
           />
         </>
       )}

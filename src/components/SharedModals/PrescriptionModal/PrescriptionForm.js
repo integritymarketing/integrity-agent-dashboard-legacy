@@ -32,17 +32,14 @@ const PrescriptionForm = ({
   dosagePackage,
   setDosagePackage,
   setIsOptionsOpened,
-  setOptionsLength,
 }) => {
   const classes = useStyles();
 
-  const handleOptionsCallback = (isOpen, length) => {
-    setOptionsLength(length);
+  const handleOptionsCallback = (isOpen) => {
     setIsOptionsOpened(isOpen);
   };
 
   const handleBlur = () => {
-    setOptionsLength(0);
     setIsOptionsOpened(false);
   };
 
@@ -58,9 +55,7 @@ const PrescriptionForm = ({
             placeholder="Dosage"
             onChange={setDosage}
             onBlur={handleBlur}
-            onIsOpenChange={(isOpen) =>
-              handleOptionsCallback(isOpen, dosageOptions.length)
-            }
+            onIsOpenChange={handleOptionsCallback}
           />
         </Box>
       </Grid>
@@ -88,9 +83,7 @@ const PrescriptionForm = ({
             options={FREQUENCY_OPTIONS}
             placeholder="Frequency"
             onChange={setFrequency}
-            onIsOpenChange={(isOpen) =>
-              handleOptionsCallback(isOpen, FREQUENCY_OPTIONS.length)
-            }
+            onIsOpenChange={handleOptionsCallback}
             onBlur={handleBlur}
           />
         </Box>
@@ -107,9 +100,7 @@ const PrescriptionForm = ({
               options={packageOptions}
               placeholder="Packaging"
               onChange={setDosagePackage}
-              onIsOpenChange={(isOpen) =>
-                handleOptionsCallback(isOpen, packageOptions.length)
-              }
+              onIsOpenChange={handleOptionsCallback}
               onBlur={handleBlur}
             />
           </Box>
