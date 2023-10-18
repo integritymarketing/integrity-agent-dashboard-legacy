@@ -89,7 +89,7 @@ export default function AddPrescription({
     if (dosage) {
       const { commonUserQuantity, commonDaysOfSupply } = dosage;
       const packageOptions = (dosage?.packages || []).map((_package) => ({
-        label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
+        label: _package.packageDisplayText,
         value: _package,
       }));
 

@@ -35,7 +35,7 @@ const PrescriptionForm = ({
   const classes = useStyles();
 
   return (
-    <Grid container spacing={3}>
+    <Grid container rowSpacing={1} columnSpacing={3}>
       <Grid item xs={12} md={6}>
         <Box>
           <Typography className={classes.customTypography}>Dosage</Typography>

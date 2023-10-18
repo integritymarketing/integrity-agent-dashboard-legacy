@@ -51,7 +51,7 @@ export default function EditPrescription({
     if (item && isOpen) {
       const packageOptions = (item?.dosageDetails?.packages || []).map(
         (_package) => ({
-          label: `${_package.packageSize}${_package.packageSizeUnitOfMeasure} ${_package.packageDescription}`,
+          label: _package.packageDisplayText,
           value: _package,
         })
       );
@@ -69,7 +69,7 @@ export default function EditPrescription({
   useEffect(() => {
     if (dosage && isOpen) {
       const packageOptions = (dosage?.packages || []).map((_package) => ({
-        label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
+        label: _package.packageDisplayText,
         value: _package,
       }));
 

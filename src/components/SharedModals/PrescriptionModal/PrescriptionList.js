@@ -41,6 +41,9 @@ const usePrescriptionListStyles = makeStyles((theme) => ({
   // Style rules for the list Root
 
   listRoot: {
+    maxHeight: "35vh",
+    overflowY: "auto",
+    marginBottom: "5px",
     "& li:first-of-type": {
       borderTopLeftRadius: 8,
       borderTopRightRadius: 8,
