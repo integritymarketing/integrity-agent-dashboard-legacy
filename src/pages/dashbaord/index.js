@@ -27,7 +27,7 @@ import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
 import useUserProfile from "hooks/useUserProfile";
 import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
-import useDeviceInfo from "hooks/useDeviceInfo";
+import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -60,7 +60,9 @@ export default function Dashbaord() {
 
   useEffect(() => {
     console.log("SAB TESTING 4:  DEVICE", device);
-    showMobileAppDeepLinking(device);
+    if (device === DEVICES.IPHONE) {
+      showMobileAppDeepLinking(device);
+    }
   }, [device]);
 
   useEffect(() => {
