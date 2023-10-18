@@ -76,7 +76,7 @@ const PrescriptionForm = ({
         </Box>
       </Grid>
       {packageOptions?.length > 0 && (
-        <Grid item xs={8} md={5}>
+        <Grid item xs={8} md={8}>
           <Box>
             <Typography className={classes.customTypography}>
               Packaging
