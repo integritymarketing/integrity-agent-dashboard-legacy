@@ -73,36 +73,6 @@ const PrescriptionModal = ({
   const [isSaving, setIsSaving] = useState(false);
   const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
   const [initialValues, setInitialValues] = useState({});
-  const [isOptionsOpened, setIsOptionsOpened] = useState(false);
-
-  const [addExtraModalHeight, setAddExtraModalHeight] = useState("auto");
-
-  useEffect(() => {
-    // Get the element by its ID
-    const element = document.getElementById("option-container-scrolling_div");
-
-    // Check if the element exists
-    if (element && isOptionsOpened) {
-      // Get the computed style of the element
-      const computedStyle = window.getComputedStyle(element);
-
-      const defaultHeight =
-        selectedDrug.g_value && selectedDrug?.description === "Brand" ? 70 : 50;
-
-      // Get the max-height value from the computed style
-      const maxHeight =
-        parseInt(computedStyle.getPropertyValue("max-height"), 10) / 10;
-
-      // Set the height to the max-height
-      const customModalHeight =
-        maxHeight > 0 ? `${maxHeight + defaultHeight}vh` : "auto";
-
-      setAddExtraModalHeight(customModalHeight);
-    } else {
-      setAddExtraModalHeight("auto");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOptionsOpened]);
 
   useEffect(() => {
     const getDosages = async () => {
@@ -353,7 +323,6 @@ const PrescriptionModal = ({
           />
         )
       }
-      addExtraModalHeight={addExtraModalHeight}
     >
       {!selectedDrug && !isLoading ? (
         <>
@@ -442,7 +411,6 @@ const PrescriptionModal = ({
               dosagePackage,
               packageOptions,
             }}
-            setIsOptionsOpened={setIsOptionsOpened}
           />
         </>
       )}

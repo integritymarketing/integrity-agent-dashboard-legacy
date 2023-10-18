@@ -63,7 +63,6 @@ export const Select = ({
   containerHeight = 0,
   page = "",
   selectClassName = "",
-  onIsOpenChange,
 }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [value, setValue] = useState(initialValue);
@@ -121,11 +120,9 @@ export const Select = ({
     ev && ev.preventDefault();
     setIsOpen((prevIsOpen) => {
       const newIsOpen = !prevIsOpen && !disabled;
-      onIsOpenChange && onIsOpenChange(newIsOpen);
       return newIsOpen;
     });
     if (isOpen) {
-      onIsOpenChange && onIsOpenChange(false);
       onBlur && onBlur();
     }
   };
@@ -178,7 +175,9 @@ export const Select = ({
           showValueAsLabel={showValueAsLabel}
         />
       ) : (
-        <span className={`placeholder ${ disabled && "disabled"}`}>{placeholder}</span>
+        <span className={`placeholder ${disabled && "disabled"}`}>
+          {placeholder}
+        </span>
       )}
       <Arrow color={"#0052CE"} />
     </div>
