@@ -118,7 +118,6 @@ export default function Modal({
   onCancel,
   cancelButtonName,
   modalName,
-  onCancel,
   onDelete,
   onClose,
   onSave,
