@@ -115,6 +115,8 @@ export default function Modal({
   endIcon,
   hideFooter = false,
   isDelete,
+  onCancel,
+  cancelButtonName,
   modalName,
   onCancel,
   onDelete,
@@ -170,8 +172,11 @@ export default function Modal({
           {!hideFooter && (
             <Box className={classes.footerButtons}>
               {onCancel ? (
-                <Button onClick={onClose} className={classes.cancelButton}>
-                  Cancel
+                <Button
+                  onClick={onCancel ? onCancel : onClose}
+                  className={classes.cancelButton}
+                >
+                  {cancelButtonName ? cancelButtonName : "Cancel"}
                 </Button>
               ) : (
                 <Box> </Box>
