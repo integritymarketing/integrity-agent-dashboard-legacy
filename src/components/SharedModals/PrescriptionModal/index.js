@@ -316,7 +316,6 @@ const PrescriptionModal = ({
       endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
       modalName="Prescription"
       contentStyle={{ overflowY: "visible", paddingBottom: "0" }}
-      customModalHeight={isOptionsOpened ? customModalHeight : undefined}
     >
       {!selectedDrug && !isLoading ? (
         <>
