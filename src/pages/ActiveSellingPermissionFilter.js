@@ -8,21 +8,6 @@ import styles from "./ActiveSellingPermissionFilter.module.scss";
 const FILTER_OPTIONS = ["Carrier", "State", "PlanType"];
 
 const Pills = ({ planYear, handleYearfilter, selectedYr }) => {
-  const [selectedItems, setSelectedItems] = useState([]);
-
-  const handleItemClick = (item) => {
-    const index = selectedItems.indexOf(item);
-    if (index === -1) {
-      const newItems = [...selectedItems, item];
-      setSelectedItems(newItems);
-      handleYearfilter(newItems);
-    } else {
-      const newItems = selectedItems.filter((i) => i !== item);
-      setSelectedItems(newItems);
-      handleYearfilter(newItems);
-    }
-  };
-
   return (
     <>
       <div className={styles.yearLabel}>Plan Year</div>
@@ -30,7 +15,7 @@ const Pills = ({ planYear, handleYearfilter, selectedYr }) => {
         {planYear.map((item, index) => (
           <div
             key={index}
-            onClick={() => handleItemClick(item)}
+            onClick={() => handleYearfilter(item)}
             className={styles.yearOptionsList}
           >
             {item}
@@ -156,26 +141,37 @@ const ActiveSellingPermissionFilter = ({ onSubmit, filterOptions }) => {
     setFilterOpen(false);
   };
 
-  const handleYearfilter = (option, activeTab = "PlanYear") => {
-    setFilters((filters) => {
+  const handleYearfilter = (option) => {
+    setFilters((currentFilters) => {
+      const { PlanYear } = currentFilters;
+      let updatedPlanYear = { ...PlanYear };
+
+      if (updatedPlanYear.hasOwnProperty(option)) {
+        delete updatedPlanYear[option];
+      } else {
+        updatedPlanYear[option] = true;
+      }
+
       return {
-        ...filters,
-        [activeTab]: {
-          ...filters[activeTab],
-          [option]: !Boolean(filters[activeTab][option]),
-        },
+        ...currentFilters,
+        PlanYear: updatedPlanYear,
       };
     });
   };
 
   const handleOptionClick = (option) => {
-    setFilters((filters) => {
+    setFilters((currentFilters) => {
+      const updatedTabFilters = { ...currentFilters[activeTab] };
+
+      if (updatedTabFilters.hasOwnProperty(option)) {
+        delete updatedTabFilters[option];
+      } else {
+        updatedTabFilters[option] = true;
+      }
+
       return {
-        ...filters,
-        [activeTab]: {
-          ...filters[activeTab],
-          [option]: !Boolean(filters[activeTab][option]),
-        },
+        ...currentFilters,
+        [activeTab]: updatedTabFilters,
       };
     });
   };
