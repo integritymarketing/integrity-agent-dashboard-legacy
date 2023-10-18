@@ -109,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Modal({
   actionButtonDisabled,
   actionButtonName,
-  addExtraModalHeight = "auto",
   children,
   contentStyle,
   customFooter,
@@ -138,7 +137,7 @@ export default function Modal({
         }}
         PaperProps={{
           style: {
-            height: addExtraModalHeight,
+            height: "auto",
             overflowY: "visible",
             width: "552px",
           },
