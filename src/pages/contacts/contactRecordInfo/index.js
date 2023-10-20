@@ -350,10 +350,10 @@ const ContactRecordInfoDetails = () => {
     navigate(`/plans/${id}`);
   };
 
-  // const handleClickFinalExpensePlan = () => {
-  //   setOpenPlanType(false);
-  //   navigate(`/finalexpenses/${id}`);
-  // };
+  const handleClickFinalExpensePlan = () => {
+    setOpenPlanType(false);
+    navigate(`/finalexpenses/create/${id}`);
+  };
 
   return (
     <React.Fragment>
@@ -415,7 +415,7 @@ const ContactRecordInfoDetails = () => {
               <PlansTypeModal
                 isModalOpen={openPlanType}
                 handleHealthPlanClick={handleClickHealthPlan}
-                handleFinalExpensePlanClick={handleClickHealthPlan}
+                handleFinalExpensePlanClick={handleClickFinalExpensePlan}
                 handleModalClose={() => {
                   setOpenPlanType(false);
                 }}

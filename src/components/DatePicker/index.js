@@ -16,6 +16,8 @@ export default function DatePickerMUI({
   React.useEffect(() => {
     if (value && isValid(new Date(value))) {
       setLastValidDate(value);
+    } else {
+      setLastValidDate("");
     }
   }, [value]);
 
@@ -23,6 +25,7 @@ export default function DatePickerMUI({
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DesktopDatePicker
         views={["year", "month", "day"]}
+        sx={{ width: "100%" }}
         disableFuture={disableFuture}
         minDate={minDate}
         value={

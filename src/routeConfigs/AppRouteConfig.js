@@ -170,7 +170,10 @@ const appProtectedRoutes = [
     path: "/:contactId/plan/:planId/:effectiveDate",
     component: <PlanDetailsPage />,
   },
-  { path: "/finalexpenses/:contactId", component: <FinalExpensesPage /> },
+  {
+    path: "/finalexpenses/create/:contactId",
+    component: <FinalExpensesPage />,
+  },
 ];
 
 export { appRoutes, appProtectedRoutes };
