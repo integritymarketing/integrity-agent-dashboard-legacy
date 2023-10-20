@@ -63,8 +63,8 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
   );
 
   const Get = useCallback(
-    (body, returnHttpResponse) => {
-      return fetchData({ method: "GET", body, returnHttpResponse });
+    (body, returnHttpResponse, id) => {
+      return fetchData({ method: "GET", body, returnHttpResponse, id });
     },
     [fetchData]
   );
