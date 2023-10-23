@@ -39,10 +39,6 @@ const FormComponent = () => {
   const { contactId } = useParams();
   const requiredKeys = ["state", "gender", "dateOfBirth", "tobaccoUse"];
 
-  const { Get: getLeadDetails } = useFetch(
-    `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/${contactId}`
-  );
-
   const onChangeFormData = (formElement, value) => {
     setFormData({
       ...formData,
@@ -155,10 +151,42 @@ const FormComponent = () => {
 
   useEffect(() => {
     const getContactLead = async () => {
-      const data = await getLeadDetails();
-      onChangeFormData("state", data.addresses[0].stateCode);
-      setZipCode(data.addresses[0].postalCode);
-      setAgentNpn(data.agentNpn);
+      const leadData = await (
+        await finalExpenseService.getLeadDetails(contactId)
+      ).json();
+      const quoteData = await (
+        await finalExpenseService.getFinalExpense(contactId)
+      ).json();
+      if (quoteData.length > 0) {
+        const mostRecentQuoteData = quoteData[quoteData.length - 1];
+        const {
+          State,
+          Zipcode,
+          agentNpn,
+          Tobacco,
+          Sex,
+          WeightInPounds,
+          HeightInInches,
+          DateOfBirth,
+        } = mostRecentQuoteData;
+        const { feetValue, inchesValue } = formatHeight(HeightInInches) || null;
+        setZipCode(Zipcode);
+        setAgentNpn(agentNpn);
+        setFormData({
+          ...formData,
+          state: State.toUpperCase(),
+          tobaccoUse: Tobacco,
+          gender: formatGender(Sex),
+          weight: WeightInPounds,
+          feet: feetValue,
+          inches: inchesValue,
+          dateOfBirth: DateOfBirth,
+        });
+      } else {
+        onChangeFormData("state", leadData.addresses[0].stateCode);
+        setZipCode(leadData.addresses[0].postalCode);
+        setAgentNpn(leadData.agentNpn);
+      }
     };
     getContactLead();
   }, [contactId]);
