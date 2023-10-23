@@ -46,7 +46,7 @@ const NewScopeOfAppointment = lazy(() =>
 const NotFoundPage = lazy(() => import("pages/NotFound"));
 const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
 const PlansPage = lazy(() => import("pages/PlansPage"));
-const FinalExpensesPage = lazy(() => import("pages/FinalExpensesPage"));
+const FinalExpensesPage = lazy(() => import("pages/FinalExpensesPage/index"));
 const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));

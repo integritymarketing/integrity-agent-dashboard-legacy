@@ -16,6 +16,7 @@ import {
   StyledUnitSpan,
   StyledSubText,
   StyledErrorText,
+  StyledDatePicker,
 } from "./StyledComponents";
 import { Select } from "components/ui/Select";
 import {
@@ -24,7 +25,6 @@ import {
   TOBACCO_USE_OPTIONS,
 } from "./FinalExpensesPage.constants";
 import EnrollBack from "images/enroll-btn-back.svg";
-import useFetch from "hooks/useFetch";
 import { useParams } from "react-router-dom";
 import finalExpenseService from "services/finalExpenseService";
 import { formatDate } from "utils/dates";
@@ -149,6 +149,23 @@ const FormComponent = () => {
     );
   };
 
+  function formatHeight(heightInInches) {
+    if (typeof heightInInches !== "number" || heightInInches < 0) {
+      return { feetValue: null, inchesValue: null };
+    }
+
+    const feetValue = Math.floor(heightInInches / 12);
+    const inchesValue = heightInInches % 12;
+
+    return { feetValue, inchesValue };
+  }
+
+  function formatGender(gender) {
+    if (gender === "male") return "Male";
+    if (gender === "female") return "Female";
+    return null;
+  }
+
   useEffect(() => {
     const getContactLead = async () => {
       const leadData = await (
@@ -188,7 +205,7 @@ const FormComponent = () => {
         setAgentNpn(leadData.agentNpn);
       }
     };
-    getContactLead();
+    getContactLead(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactId]);
 
   return (
@@ -296,7 +313,7 @@ const FormComponent = () => {
           <StyledFormRow>
             <StyledFormItem>
               <StyledElementName>Date of Birth*</StyledElementName>
-              <div>
+              <StyledDatePicker>
                 <DatePickerMUI
                   value={formData.dateOfBirth}
                   disableFuture={true}
@@ -305,7 +322,7 @@ const FormComponent = () => {
                   }}
                   isMobile={true}
                 />
-              </div>
+              </StyledDatePicker>
               {errorKeys.dateOfBirth && (
                 <StyledErrorText>Date Of Birth is required</StyledErrorText>
               )}

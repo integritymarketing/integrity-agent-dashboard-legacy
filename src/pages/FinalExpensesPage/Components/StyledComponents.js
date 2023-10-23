@@ -101,12 +101,17 @@ export const StyledButton = styled("div")`
   background-color: #4178ff;
   border-radius: 50px;
   padding: 10px 14px;
-  width: 100%;
+  width: 98%;
   color: white;
   margin-top: 30px;
+  transition: 0.3s;
   opacity: ${({ disabled }) => disabled && "0.5"};
   cursor: ${({ disabled }) => !disabled && "pointer"};
   pointer-events: ${({ disabled }) => disabled && "none"};
+
+  &:hover {
+    width: 100%;
+  }
 `;
 
 export const StyledGenderFormElements = styled("div")`
@@ -177,3 +182,9 @@ export const StyledUnitSpan = styled("span")({
   transform: "translateY(-50%)",
   color: "#777",
 });
+
+export const StyledDatePicker = styled("div")`
+  input {
+    padding: 9px !important;
+  }
+`;
