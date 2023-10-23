@@ -12,7 +12,6 @@ export const StyledContactDetailsWrapper = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 172px);
 `;
 
 export const StyledHeaderContainer = styled("header")({
@@ -41,9 +40,11 @@ export const StyledFormWrapper = styled("div")`
   padding: 30px 68px;
   gap: 8px;
   flex-direction: column;
+  margin: 20px 0;
 
   @media (max-width: 600px) {
     padding: 10px;
+    max-width: 360px;
   }
 `;
 
@@ -51,6 +52,8 @@ export const StyledForm = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: center;
+  width: 100%;
 `;
 
 export const StyledTitle = styled("div")`
@@ -85,6 +88,9 @@ export const StyledFormRow = styled("div")`
 
 export const StyledFormItem = styled("div")`
   width: 360px;
+  @media (max-width: 600px) {
+    max-width: 340px;
+  }
 `;
 
 export const StyledButton = styled("div")`
@@ -111,7 +117,7 @@ export const StyledGenderFormElements = styled("div")`
 export const StyledButtonFormElement = styled("div")`
   background: ${({ selected }) => (selected ? "#F1FAFF" : "#FFFFFF")};
   width: 168px;
-  height: 48px;
+  height: 40px;
   border-radius: 4px;
   border: 1px solid #dddddd;
   display: flex;

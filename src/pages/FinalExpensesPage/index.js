@@ -16,8 +16,6 @@ function FinalExpensesPage() {
   const { contactId } = useParams();
   const [isMobile, setIsMobile] = useState(false);
 
-  console.log("FINAL EXPENSE");
-
   return (
     <StyledWrapper>
       <Media
@@ -38,7 +36,7 @@ function FinalExpensesPage() {
           }
           label={!isMobile && "Back to Plans"}
           onClick={() => {
-            window.location = `/plans/${contactId}?preserveSelected=true`;
+            window.location = `/contact/${contactId}/overview`;
           }}
           type="tertiary"
           style={{

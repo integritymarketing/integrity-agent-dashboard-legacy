@@ -7,11 +7,9 @@ import {
 } from "date-fns";
 import moment from "moment";
 import { dateFormatter } from "./dateFormatter";
-import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear"; 
+import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
 
-export const DEFAULT_EFFECTIVE_YEAR = [
-  getNextAEPEnrollmentYear(),
-];
+export const DEFAULT_EFFECTIVE_YEAR = [getNextAEPEnrollmentYear()];
 
 export const parseDate = (dateString, format = "MM/dd/yyyy") => {
   return parse(dateString, format, new Date());
