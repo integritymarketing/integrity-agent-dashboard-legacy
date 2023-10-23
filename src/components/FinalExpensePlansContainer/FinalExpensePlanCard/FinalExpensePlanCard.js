@@ -7,11 +7,11 @@ import React from "react";
 // Internal Modules
 import { Button } from "components/ui/Button";
 import EnrollBack from "images/enroll-btn-back.svg";
-import styles from "./FinalExpensesPlanCard.module.scss";
-import { FinalExpensesPlanCostDetails } from "../FinalExpensesPlanCostDetails";
-import { FinalExpensesPlanHeader } from "../FinalExpensesPlanHeader";
+import styles from "./FinalExpensePlanCard.module.scss";
+import { FinalExpensePlanCostDetails } from "../FinalExpensePlanCostDetails";
+import { FinalExpensePlanHeader } from "../FinalExpensePlanHeader";
 
-const FinalExpensesPlanCard = ({
+const FinalExpensePlanCard = ({
   company,
   rates,
   policyFee,
@@ -21,10 +21,10 @@ const FinalExpensesPlanCard = ({
 }) => {
   const { LogoUri = "", Name } = company;
   return (
-    <Card className={styles.finalExpensesPlanCard}>
+    <Card className={styles.finalExpensePlanCard}>
       <Box>
-        <FinalExpensesPlanHeader name={Name} logoUri={LogoUri} />
-        <FinalExpensesPlanCostDetails
+        <FinalExpensePlanHeader name={Name} logoUri={LogoUri} />
+        <FinalExpensePlanCostDetails
           rates={rates}
           policyFee={policyFee}
           isSocialSecurityBillingSupported={isSocialSecurityBillingSupported}
@@ -44,7 +44,7 @@ const FinalExpensesPlanCard = ({
   );
 };
 
-FinalExpensesPlanCard.propTypes = {
+FinalExpensePlanCard.propTypes = {
   company: PropTypes.shape({
     logoUri: PropTypes.string, // URI for the company logo
   }),
@@ -56,10 +56,10 @@ FinalExpensesPlanCard.propTypes = {
   planName: PropTypes.string, // The name of the plan
 };
 
-FinalExpensesPlanCard.defaultProps = {
+FinalExpensePlanCard.defaultProps = {
   company: {
     logoUri: "",
   },
 };
 
-export default FinalExpensesPlanCard;
+export default FinalExpensePlanCard;

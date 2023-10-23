@@ -20,7 +20,7 @@ import moment from "moment";
 import WithLoader from "components/ui/WithLoader";
 import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
 
-import { FinalExpensesWithProvider } from "components/FinalExpensesPlansContainer";
+import { FinalExpenseWithProvider } from "components/FinalExpensePlansContainer";
 
 const DEFAULT_TABS = [
   {
@@ -306,7 +306,7 @@ export default function TaskList({ isMobile, npn }) {
           </>
         )}
       </WithLoader> */}
-      <FinalExpensesWithProvider />
+      <FinalExpenseWithProvider />
     </ContactSectionCard>
   );
 }

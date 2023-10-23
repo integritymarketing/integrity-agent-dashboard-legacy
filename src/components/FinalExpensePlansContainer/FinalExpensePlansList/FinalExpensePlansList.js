@@ -2,24 +2,22 @@
 import React, { useEffect, useMemo } from "react";
 
 // Internal Modules
-import { FinalExpensesPlanCard } from "../FinalExpensesPlanCard";
+import { FinalExpensePlanCard } from "../FinalExpensePlanCard";
 import PlanCardLoader from "components/ui/PlanCard/loader";
-import { useFinalExpensesPlansList } from "providers/FinalExpenses";
+import { useFinalExpensePlansList } from "providers/FinalExpense";
 
 const QUOTE_ID = "390e04ef-be95-463d-9b76-46050cbf438c";
 
-const FinalExpensesPlansList = () => {
+const FinalExpensePlansList = () => {
   const {
-    getFinalExpensesPlansList,
-    finalExpensesPlansList,
-    finalExpensesPlansLoading,
-  } = useFinalExpensesPlansList();
+    getFinalExpensePlansList,
+    finalExpensePlansList,
+    isLoadingFinalExpensePlans,
+  } = useFinalExpensePlansList();
 
   useEffect(() => {
-    getFinalExpensesPlansList(QUOTE_ID);
-  }, [getFinalExpensesPlansList]);
-
-  console.log("finalExpensesPlansList", finalExpensesPlansList);
+    getFinalExpensePlansList(QUOTE_ID);
+  }, [getFinalExpensePlansList]);
 
   const renderPlanCardLoaders = useMemo(() => {
     const loaders = Array.from({ length: 10 }, (_, i) => (
@@ -30,7 +28,7 @@ const FinalExpensesPlansList = () => {
 
   const renderPlanCards = useMemo(
     () =>
-      finalExpensesPlansList?.map(
+      finalExpensePlansList?.map(
         ({
           Company,
           Rates,
@@ -40,7 +38,7 @@ const FinalExpensesPlansList = () => {
           PlanInfo,
           UnderwritingWarning,
         }) => (
-          <FinalExpensesPlanCard
+          <FinalExpensePlanCard
             company={Company}
             rates={Rates}
             compensationWarning={CompensationWarning}
@@ -51,12 +49,13 @@ const FinalExpensesPlansList = () => {
           />
         )
       ),
-    [finalExpensesPlansList]
+    [finalExpensePlansList]
   );
 
   return (
-    <>{finalExpensesPlansLoading ? renderPlanCardLoaders : renderPlanCards}</>
+    <>{isLoadingFinalExpensePlans ? renderPlanCardLoaders : renderPlanCards}</>
   );
+  
 };
 
-export default FinalExpensesPlansList;
+export default FinalExpensePlansList;

@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import React from "react";
 
 // Internal Modules
-import styles from "./FinalExpensesPlanHeader.module.scss";
+import styles from "./FinalExpensePlanHeader.module.scss";
 
-const FinalExpensesPlanHeader = ({ logoUri, name }) => {
+const FinalExpensePlanHeader = ({ logoUri, name }) => {
   return (
     <Box className={styles.planHeader}>
       <div className={styles.planName}>{name}</div>
@@ -17,9 +17,9 @@ const FinalExpensesPlanHeader = ({ logoUri, name }) => {
   );
 };
 
-FinalExpensesPlanHeader.propTypes = {
+FinalExpensePlanHeader.propTypes = {
   logoUri: PropTypes.string, // URI for the logo image
   planName: PropTypes.string.isRequired, // Name of the plan
 };
 
-export default FinalExpensesPlanHeader;
+export default FinalExpensePlanHeader;

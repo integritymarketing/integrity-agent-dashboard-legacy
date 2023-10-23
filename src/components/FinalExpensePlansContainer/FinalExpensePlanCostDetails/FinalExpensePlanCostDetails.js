@@ -5,9 +5,9 @@ import React from "react";
 
 // Internal Modules
 import InfoBlueIcon from "components/icons/info-blue";
-import styles from "./FinalExpensesPlanCostDetails.module.scss";
+import styles from "./FinalExpensePlanCostDetails.module.scss";
 
-const FinalExpensesPlanCostDetails = ({
+const FinalExpensePlanCostDetails = ({
   rates,
   policyFee,
   isSocialSecurityBillingSupported,
@@ -63,7 +63,7 @@ const FinalExpensesPlanCostDetails = ({
   );
 };
 
-FinalExpensesPlanCostDetails.propTypes = {
+FinalExpensePlanCostDetails.propTypes = {
   rates: PropTypes.arrayOf(
     PropTypes.shape({
       monthlyPremium: PropTypes.number, // The monthly premium rate
@@ -75,4 +75,4 @@ FinalExpensesPlanCostDetails.propTypes = {
   underwritingWarning: PropTypes.string, // Warning or notice related to underwriting
 };
 
-export default FinalExpensesPlanCostDetails;
+export default FinalExpensePlanCostDetails;
