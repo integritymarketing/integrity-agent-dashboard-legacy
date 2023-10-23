@@ -1,0 +1,34 @@
+{
+    // Controls the font family for the editor
+    "editor.fontFamily": "Consolas, 'Courier New', monospace",
+    // Controls the font size in pixels
+    "editor.fontSize": 14,
+    // Controls whether the editor should automatically format code on save
+    "editor.formatOnSave": true,
+    // Controls the default tab size
+    "editor.tabSize": 4,
+    // Controls whether the editor should use spaces for indentation
+    "editor.insertSpaces": true,
+    // Controls the default language for new files
+    "files.defaultLanguage": "javascript",
+    // Configures code formatting options for specific languages
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    // Enables or disables word wrapping
+    "editor.wordWrap": "on",
+    // Customize the theme (you can install themes from the marketplace)
+    "workbench.colorTheme": "Default Dark Modern",
+    // Enable or disable auto-save
+    "files.autoSave": "afterDelay",
+    // Customize the cursor style
+    "editor.cursorStyle": "line",
+    // Enable or disable line numbers
+    "editor.lineNumbers": "on",
+    "eslint.validate": ["javascript", "javascriptreact"],
+    "eslint.workingDirectories": [
+        {
+            "mode": "auto"
+        }
+    ]
+}

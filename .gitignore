@@ -32,7 +32,6 @@ npm ERR!*
 .netlify
 
 # ignore vs-code configs
-/.vscode
 *.code-workspace
 
 # Yarn lockfile
