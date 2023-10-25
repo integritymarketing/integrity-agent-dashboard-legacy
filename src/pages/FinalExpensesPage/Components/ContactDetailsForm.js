@@ -17,6 +17,7 @@ import {
   StyledSubText,
   StyledErrorText,
   StyledDatePicker,
+  StyledCaptionText,
 } from "./StyledComponents";
 import { Select } from "components/ui/Select";
 import {
@@ -121,7 +122,7 @@ const FormComponent = () => {
       let payload = {
         leadId: contactId,
         agentNpn: agentNpn,
-        HeightInInches: feet * 12 + inches,
+        HeightInInches: +feet * 12 + +inches,
         DateOfBirth: moment(dateOfBirth).format("YYYY-MM-DD"),
         Amount: 15000,
         amount_type: "Level",
@@ -174,7 +175,7 @@ const FormComponent = () => {
       const quoteData = await (
         await finalExpenseService.getFinalExpense(contactId)
       ).json();
-      if (quoteData.length > 0) {
+      if (quoteData?.length > 0) {
         const mostRecentQuoteData = quoteData[quoteData.length - 1];
         const {
           State,
@@ -350,6 +351,7 @@ const FormComponent = () => {
           <img src={EnrollBack} alt="enroll" />
         </StyledButton>
       </StyledFormWrapper>
+      <StyledCaptionText> *Required fields</StyledCaptionText>
     </div>
   );
 };

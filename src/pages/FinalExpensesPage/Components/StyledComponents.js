@@ -12,6 +12,7 @@ export const StyledContactDetailsWrapper = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 export const StyledHeaderContainer = styled("header")({
@@ -40,7 +41,7 @@ export const StyledFormWrapper = styled("div")`
   padding: 30px 68px;
   gap: 8px;
   flex-direction: column;
-  margin: 20px 0;
+  margin-top: 20px;
 
   @media (max-width: 600px) {
     padding: 10px;
@@ -187,4 +188,14 @@ export const StyledDatePicker = styled("div")`
   input {
     padding: 9px !important;
   }
+`;
+
+export const StyledCaptionText = styled("div")`
+  display: flex;
+  justify-content: flex-start;
+  margin: 5px 0 20px;
+  color: #717171;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 14px;
 `;

@@ -172,7 +172,12 @@ const appProtectedRoutes = [
   },
   {
     path: "/finalexpenses/create/:contactId",
-    component: <FinalExpensesPage />,
+    component: (
+      <>
+        <FinalExpensesPage />
+        <WebChatComponent />
+      </>
+    ),
   },
 ];
 

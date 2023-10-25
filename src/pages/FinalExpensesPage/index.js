@@ -34,7 +34,7 @@ function FinalExpensesPage() {
               style={{ marginRight: "5px" }}
             />
           }
-          label={!isMobile && "Back to Plans"}
+          label={!isMobile && "Back to Contact"}
           onClick={() => {
             window.location = `/contact/${contactId}/overview`;
           }}
