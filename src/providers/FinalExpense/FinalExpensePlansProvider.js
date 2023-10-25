@@ -11,46 +11,46 @@ import PropTypes from "prop-types";
  * @returns {React.Element} The rendered component.
  */
 
-export const FinalExpensePlansListContext = createContext();
+export const FinalExpensePlansContext = createContext();
 
 export const FinalExpensePlansProvider = ({ children }) => {
   const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/plans`;
 
   const {
-    Get: fetchFinalExpensePlansList,
+    Get: fetchFinalExpensePlans,
     loading: isLoadingFinalExpensePlans,
     error: finalExpensePlansError,
   } = useFetch(URL);
 
-  const [finalExpensePlansList, setFinalExpensePlansList] = useState([]);
+  const [finalExpensePlans, setFinalExpensePlans] = useState([]);
 
-  const getFinalExpensePlansList = useCallback(
+  const getFinalExpensePlans = useCallback(
     async (quoteId) => {
-      const data = await fetchFinalExpensePlansList(null, false, quoteId);
-      setFinalExpensePlansList(data?.Results || []);
+      const data = await fetchFinalExpensePlans(null, false, quoteId);
+      setFinalExpensePlans(data?.Results || []);
     },
-    [fetchFinalExpensePlansList]
+    [fetchFinalExpensePlans]
   );
 
   const fetchAndSetFilteredExpensePlans = useCallback(
     async (perPage, pageNumber, filterId, sortBy) => {
       const filteredURL = `?per_page=${perPage}&page=${pageNumber}&filterId=${filterId}&sort_by=${sortBy}`;
-      const data = await fetchFinalExpensePlansList(filteredURL);
-      setFinalExpensePlansList(data?.Results || []);
+      const data = await fetchFinalExpensePlans(filteredURL);
+      setFinalExpensePlans(data?.Results || []);
     },
-    [fetchFinalExpensePlansList]
+    [fetchFinalExpensePlans]
   );
 
   return (
-    <FinalExpensePlansListContext.Provider value={getContextValue()}>
+    <FinalExpensePlansContext.Provider value={getContextValue()}>
       {children}
-    </FinalExpensePlansListContext.Provider>
+    </FinalExpensePlansContext.Provider>
   );
 
   function getContextValue() {
     return {
-      getFinalExpensePlansList,
-      finalExpensePlansList,
+      getFinalExpensePlans,
+      finalExpensePlans,
       finalExpensePlansError,
       isLoadingFinalExpensePlans,
       fetchAndSetFilteredExpensePlans,

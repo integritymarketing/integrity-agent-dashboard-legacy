@@ -1,23 +1,21 @@
-// External Packages
 import React, { useEffect, useMemo } from "react";
 
-// Internal Modules
-import { FinalExpensePlanCard } from "../FinalExpensePlanCard";
+import { FinalExpensePlanCard } from "./FinalExpensePlanCard";
 import PlanCardLoader from "components/ui/PlanCard/loader";
-import { useFinalExpensePlansList } from "providers/FinalExpense";
+import { useFinalExpensePlans } from "providers/FinalExpense";
 
 const QUOTE_ID = "390e04ef-be95-463d-9b76-46050cbf438c";
 
-const FinalExpensePlansList = () => {
+export const FinalExpensePlansContainer = () => {
   const {
-    getFinalExpensePlansList,
-    finalExpensePlansList,
+    getFinalExpensePlans,
+    finalExpensePlans,
     isLoadingFinalExpensePlans,
-  } = useFinalExpensePlansList();
+  } = useFinalExpensePlans();
 
   useEffect(() => {
-    getFinalExpensePlansList(QUOTE_ID);
-  }, [getFinalExpensePlansList]);
+    getFinalExpensePlans(QUOTE_ID);
+  }, [getFinalExpensePlans]);
 
   const renderPlanCardLoaders = useMemo(() => {
     const loaders = Array.from({ length: 10 }, (_, i) => (
@@ -28,7 +26,7 @@ const FinalExpensePlansList = () => {
 
   const renderPlanCards = useMemo(
     () =>
-      finalExpensePlansList?.map(
+    finalExpensePlans?.map(
         ({
           Company,
           Rates,
@@ -49,7 +47,7 @@ const FinalExpensePlansList = () => {
           />
         )
       ),
-    [finalExpensePlansList]
+    [finalExpensePlans]
   );
 
   return (
@@ -58,4 +56,3 @@ const FinalExpensePlansList = () => {
   
 };
 
-export default FinalExpensePlansList;

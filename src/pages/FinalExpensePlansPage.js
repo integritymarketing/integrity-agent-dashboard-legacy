@@ -1,35 +1,32 @@
 import React from "react";
+import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
 import { Helmet } from "react-helmet-async";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
-import { FinalExpenseWithProvider } from "components/FinalExpensePlansContainer";
+import {FinalExpensePlansContainer} from "components/FinalExpensePlansContainer";
+
+const StyledBox = styled(Box)(() => ({
+  alignItems: "center",
+  display: "flex",
+  flexDirection: "column",
+  minHeight: "100vh",
+  backgroundColor: "#f1f1f1",
+}));
 
 const FinalExpensePlansPage = () => {
   return (
-    <Box
-      style={{
-        alignItems: "center",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        backgroundColor: "#f1f1f1",
-      }}
-    >
+    <StyledBox>
       <Helmet>
         <title>MedicareCENTER - Final Expenses Plans</title>
       </Helmet>
       <FinalExpensePlansProvider>
         <GlobalNav />
-        <div>
-          <h2>Final Expenses Plans</h2>
-        </div>
-        <FinalExpenseWithProvider />
-
+        <FinalExpensePlansContainer />
         <GlobalFooter />
       </FinalExpensePlansProvider>
-    </Box>
+    </StyledBox>
   );
 };
 

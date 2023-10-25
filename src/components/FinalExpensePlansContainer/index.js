@@ -1,1 +1,1 @@
-export { default as FinalExpenseWithProvider } from "./FinalExpenseWithProvider";
+export * from './FinalExpensePlansContainer';

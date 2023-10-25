@@ -1,5 +1,6 @@
 import { lazy, StrictMode } from "react";
 import { Navigate } from "react-router-dom";
+import { FinalExpensePlansProvider } from "providers/FinalExpense";
 
 const TrafficDirector = lazy(() =>
   import("components/functional/traffic-director")
@@ -176,7 +177,9 @@ const appProtectedRoutes = [
     path: "/final-expense-plans/:contactId",
     component: (
       <StrictMode>
+        <FinalExpensePlansProvider>
         <FinalExpensePlansPage />
+        </FinalExpensePlansProvider>
       </StrictMode>
     ),
   },

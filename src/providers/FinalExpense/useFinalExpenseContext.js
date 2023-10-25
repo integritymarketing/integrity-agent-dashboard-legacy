@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { FinalExpensePlansListContext } from "./FinalExpensePlansProvider";
+import { FinalExpensePlansContext } from "./FinalExpensePlansProvider";
 
-export const useFinalExpensePlansList = () =>
-  useContext(FinalExpensePlansListContext) ?? {};
+export const useFinalExpensePlans = () =>
+  useContext(FinalExpensePlansContext) ?? {};
