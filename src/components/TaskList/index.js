@@ -20,8 +20,6 @@ import moment from "moment";
 import WithLoader from "components/ui/WithLoader";
 import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
 
-import { FinalExpenseWithProvider } from "components/FinalExpensePlansContainer";
-
 const DEFAULT_TABS = [
   {
     policyStatus: "SOA 48-hour Rule",
@@ -280,7 +278,7 @@ export default function TaskList({ isMobile, npn }) {
         handleWidgetSelection={setStatusIndex}
         apiTabs={tabs}
       />
-      {/* <WithLoader isLoading={isLoading}>
+      <WithLoader isLoading={isLoading}>
         {isError || taskList?.length === 0 ? (
           <ErrorState
             isError={isError}
@@ -305,8 +303,7 @@ export default function TaskList({ isMobile, npn }) {
             )}
           </>
         )}
-      </WithLoader> */}
-      <FinalExpenseWithProvider />
+      </WithLoader>
     </ContactSectionCard>
   );
 }
