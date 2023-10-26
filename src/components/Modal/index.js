@@ -10,200 +10,188 @@ import makeStyles from "@mui/styles/makeStyles";
 import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles((theme) => ({
-  addButton: {
-    backgroundColor: "#4178FF",
-    borderRadius: "20px",
-    color: "#FFFFFF",
-    padding: "20px 16px;",
-    textTransform: "capitalize",
-    "&:hover": {
-      backgroundColor: "#4178FF",
+    addButton: {
+        backgroundColor: "#4178FF",
+        borderRadius: "20px",
+        color: "#FFFFFF",
+        padding: "20px 16px;",
+        textTransform: "capitalize",
+        "&:hover": {
+            backgroundColor: "#4178FF",
+        },
+        "&.Mui-disabled": {
+            backgroundColor: "#B3C9FF",
+            color: "#FFFFFF",
+            cursor: "not-allowed",
+            "& svg #Icon_Arrow_path": {
+                // targeting the svg path by id
+                fill: "transparent", // changing the fill color
+            },
+            "& svg #Icon_circle_path": {
+                // targeting the svg path by id
+                fill: "#FFFFFF", // changing the fill color
+            },
+            "& svg #Icon_Add_path": {
+                // targeting the svg path by id
+                fill: "transparent", // changing the fill color
+            },
+        },
     },
-    "&.Mui-disabled": {
-      backgroundColor: "#B3C9FF",
-      color: "#FFFFFF",
-      cursor: "not-allowed",
-      "& svg #Icon_Arrow_path": {
-        // targeting the svg path by id
-        fill: "transparent", // changing the fill color
-      },
-      "& svg #Icon_circle_path": {
-        // targeting the svg path by id
-        fill: "#FFFFFF", // changing the fill color
-      },
-      "& svg #Icon_Add_path": {
-        // targeting the svg path by id
-        fill: "transparent", // changing the fill color
-      },
+    buttonIcon: {
+        marginTop: "10px",
     },
-  },
-  buttonIcon: {
-    marginTop: "10px",
-  },
-  cancelButton: {
-    color: "#4178FF",
-    fontSize: "16px",
-    fontWeight: "600",
-    height: "40px",
-    padding: "10px 15px",
-    textTransform: "capitalize !important",
+    cancelButton: {
+        color: "#4178FF",
+        fontSize: "16px",
+        fontWeight: "600",
+        height: "40px",
+        padding: "10px 15px",
+        textTransform: "capitalize !important",
 
-    "&:hover": {
-      backgroundColor: "#FFFFFF",
-      borderRadius: "20px",
-      boxShadow: "inset 0px -1px 0px #CCCCCC",
+        "&:hover": {
+            backgroundColor: "#FFFFFF",
+            borderRadius: "20px",
+            boxShadow: "inset 0px -1px 0px #CCCCCC",
+        },
     },
-  },
-  closeButton: {
-    backgroundColor: "#DDDDDD",
-    color: "#FFFFFF",
-    marginBottom: "5px",
-    padding: "0px",
-    transform: "rotate(0deg)",
-    transition: "transform 1s",
-    "&:hover": {
-      backgroundColor: "#BBBBBB",
-      transition: "transform 1s",
-      transform: "rotate(90deg)",
+    closeButton: {
+        backgroundColor: "#DDDDDD",
+        color: "#FFFFFF",
+        marginBottom: "5px",
+        padding: "0px",
+        transform: "rotate(0deg)",
+        transition: "transform 1s",
+        "&:hover": {
+            backgroundColor: "#BBBBBB",
+            transition: "transform 1s",
+            transform: "rotate(90deg)",
+        },
     },
-  },
-  footer: {
-    backgroundColor: "#F1F1F1",
-    display: "flex",
-    flexDirection: "column",
-    borderBottomLeftRadius: "4px",
-    borderBottomRightRadius: "4px",
-  },
-
-  footerButtons: {
-    backgroundColor: "#F1F1F1",
-    borderRadius: "0px 0px 8px 8px",
-    borderBotom: "1px solid #CCCCCC",
-
-    justifyContent: "space-between",
-    padding: "20px 24px",
-    width: "100%",
-    display: "flex",
-  },
-
-  title: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: "8px 8px 0px 0px",
-    boxShadow: "inset 0px -1px 0px #CCCCCC",
-    color: "#052A63",
-    fontFamily: "Lato",
-    fontSize: "32px !important",
-    letterSpacing: "0.32px",
-  },
-  paperScrollPaper: {
-    overflowY: "visible",
-  },
-
-  deleteContainer: {
-    "& button:hover": {
-      backgroundColor: "#FFFFFF",
+    footer: {
+        backgroundColor: "#F1F1F1",
+        display: "flex",
+        flexDirection: "column",
+        borderBottomLeftRadius: "4px",
+        borderBottomRightRadius: "4px",
     },
-  },
+
+    footerButtons: {
+        backgroundColor: "#F1F1F1",
+        borderRadius: "0px 0px 8px 8px",
+        borderBotom: "1px solid #CCCCCC",
+
+        justifyContent: "space-between",
+        padding: "20px 24px",
+        width: "100%",
+        display: "flex",
+    },
+
+    title: {
+        backgroundColor: "#FFFFFF",
+        borderRadius: "8px 8px 0px 0px",
+        boxShadow: "inset 0px -1px 0px #CCCCCC",
+        color: "#052A63",
+        fontFamily: "Lato",
+        fontSize: "32px !important",
+        letterSpacing: "0.32px",
+    },
+    paperScrollPaper: {
+        overflowY: "visible",
+    },
+
+    deleteContainer: {
+        "& button:hover": {
+            backgroundColor: "#FFFFFF",
+        },
+    },
 }));
 
 export default function Modal({
-  actionButtonDisabled,
-  actionButtonName,
-  children,
-  contentStyle,
-  customFooter,
-  endIcon,
-  hideFooter = false,
-  isDelete,
-  onCancel,
-  cancelButtonName,
-  modalName,
-  onDelete,
-  onClose,
-  onSave,
-  open,
-  title,
+    actionButtonDisabled,
+    actionButtonName,
+    children,
+    contentStyle,
+    customFooter,
+    endIcon,
+    hideFooter = false,
+    isDelete,
+    onCancel,
+    cancelButtonName,
+    modalName,
+    onDelete,
+    onClose,
+    onSave,
+    open,
+    title,
 }) {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={onClose}
-        maxWidth="sm"
-        fullWidth
-        style={{
-          borderRadius: 8,
-        }}
-        PaperProps={{
-          style: {
-            height: "auto",
-            overflowY: "visible",
-            width: "552px",
-          },
-        }}
-      >
-        <DialogTitle disableTypography className={classes.title}>
-          <div
-            style={{
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <span>{title}</span>
-            <IconButton
-              aria-label="close"
-              className={classes.closeButton}
-              onClick={onClose}
+    return (
+        <div>
+            <Dialog
+                open={open}
+                onClose={onClose}
+                maxWidth="sm"
+                fullWidth
+                style={{
+                    borderRadius: 8,
+                }}
+                PaperProps={{
+                    style: {
+                        height: "auto",
+                        overflowY: "visible",
+                    },
+                }}
             >
-              <CloseIcon />
-            </IconButton>
-          </div>
-        </DialogTitle>
-        <DialogContent
-          style={{ backgroundColor: "#F1F1F1", ...(contentStyle || {}) }}
-        >
-          {children}
-        </DialogContent>
-        <DialogActions className={classes.footer}>
-          {!hideFooter && (
-            <Box className={classes.footerButtons}>
-              {onCancel ? (
-                <Button
-                  onClick={onCancel ? onCancel : onClose}
-                  className={classes.cancelButton}
-                >
-                  {cancelButtonName ? cancelButtonName : "Cancel"}
-                </Button>
-              ) : (
-                <Box> </Box>
-              )}
-              {actionButtonName && (
-                <Button
-                  onClick={onSave}
-                  className={classes.addButton}
-                  endIcon={
-                    <span className={classes.buttonIcon}>{endIcon}</span>
-                  }
-                  disabled={actionButtonDisabled}
-                >
-                  {actionButtonName}
-                </Button>
-              )}
-            </Box>
-          )}
-          {isDelete && (
-            <Box className={classes.deleteContainer}>
-              <Button onClick={onDelete} className={classes.cancelButton}>
-                Delete {modalName}
-              </Button>
-            </Box>
-          )}
-          {customFooter && customFooter}
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+                <DialogTitle disableTypography className={classes.title}>
+                    <div
+                        style={{
+                            alignItems: "center",
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <span>{title}</span>
+                        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </div>
+                </DialogTitle>
+                <DialogContent style={{ backgroundColor: "#F1F1F1", ...(contentStyle || {}) }}>
+                    {children}
+                </DialogContent>
+                <DialogActions className={classes.footer}>
+                    {!hideFooter && (
+                        <Box className={classes.footerButtons}>
+                            {onCancel ? (
+                                <Button onClick={onCancel ? onCancel : onClose} className={classes.cancelButton}>
+                                    {cancelButtonName ? cancelButtonName : "Cancel"}
+                                </Button>
+                            ) : (
+                                <Box> </Box>
+                            )}
+                            {actionButtonName && (
+                                <Button
+                                    onClick={onSave}
+                                    className={classes.addButton}
+                                    endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
+                                    disabled={actionButtonDisabled}
+                                >
+                                    {actionButtonName}
+                                </Button>
+                            )}
+                        </Box>
+                    )}
+                    {isDelete && (
+                        <Box className={classes.deleteContainer}>
+                            <Button onClick={onDelete} className={classes.cancelButton}>
+                                Delete {modalName}
+                            </Button>
+                        </Box>
+                    )}
+                    {customFooter && customFooter}
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
 }
