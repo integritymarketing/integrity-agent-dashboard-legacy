@@ -66,8 +66,7 @@ const FormComponent = () => {
           ...errorKeys,
           feet: "Feet should be less than 8",
         });
-      }
-      if (isDecimal) {
+      } else if (isDecimal) {
         setErrorKeys({
           ...errorKeys,
           feet: "Height should not be in decimals",
@@ -85,8 +84,7 @@ const FormComponent = () => {
           ...errorKeys,
           inches: "Inches should be less than 12",
         });
-      }
-      if (isDecimal) {
+      } else if (isDecimal) {
         setErrorKeys({
           ...errorKeys,
           inches: "Height should not be in decimals",
