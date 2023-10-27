@@ -86,7 +86,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }) => {
-    const { addProvider, deleteProvider } = useLeadInformation();
+    const { addProvider, deleteProvider, providers } = useLeadInformation();
 
     // Initializations
     const classes = useStyles();
@@ -106,6 +106,16 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
 
     const providerList = results?.providers;
     const totalPages = results ? Math.ceil(total / perPage) : 0;
+    // Merge addresses from all providers
+    const mergedAddresses = providers.reduce((acc, provider) => {
+        return acc.concat(provider.addresses);
+    }, []);
+
+    // Assign the length of the merged addresses array to a variable
+    const addressCount = mergedAddresses?.length;
+
+    // Disable the address select if the address count is greater than or equal to 10
+    const disableAddressSelect = addressCount + selectAddressIds?.length >= 10;
 
     // useEffects
 
@@ -244,7 +254,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
             actionButtonDisabled={disabled}
             endIcon={selectedProvider ? <AddCircleOutline /> : <ArrowForwardWithCirlce />}
         >
-            {selectAddressIds?.length === 10 && (
+            {disableAddressSelect && (
                 <Box className={classes.maxAddresses}>
                     <div>
                         <Warning />
@@ -323,6 +333,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
                                 selectedProvider={selectedProvider}
                                 isEdit={isEdit}
                                 providerToEdit={selected}
+                                disableAddressSelect={disableAddressSelect}
                             />
                             {zipCode && totalPages >= 1 && (
                                 <Box className={classes.pagination}>

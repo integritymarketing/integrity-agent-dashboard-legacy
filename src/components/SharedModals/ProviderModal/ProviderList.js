@@ -109,6 +109,7 @@ const Address = ({
     setSelectAddressIds,
     selectAddressIds,
     selectedProvider,
+    disableAddressSelect,
 }) => {
     const classes = useStyles();
     const isMultiple = addresses?.length > 1;
@@ -129,11 +130,7 @@ const Address = ({
     };
 
     const disableOtherAddresses = (id) => {
-        if (
-            selectAddressIds?.length === 10 &&
-            selectedProvider?.NPI?.toString() === provider?.NPI?.toString() &&
-            !selectAddressIds?.includes(id)
-        ) {
+        if (disableAddressSelect && !selectAddressIds?.includes(id)) {
             return true;
         } else {
             return false;
@@ -190,6 +187,7 @@ const ProviderCard = ({
     isEdit,
     selectedProvider,
     providerToEdit,
+    disableAddressSelect,
 }) => {
     const classes = useStyles();
     const [isOpen, setOpenToggle] = useState(isEdit);
@@ -223,13 +221,13 @@ const ProviderCard = ({
                         <Typography className={classes.specialty}>{NPI}</Typography>
 
                         <Address
-                            disableAddressSelect
                             addresses={initialAddresses}
                             provider={provider}
                             setSelectedProvider={onProviderSelection}
                             setSelectAddressIds={setSelectAddressIds}
                             selectAddressIds={selectAddressIds}
                             selectedProvider={selectedProvider}
+                            disableAddressSelect={disableAddressSelect}
                         />
 
                         {additionalAddresses?.length > 0 && (
@@ -253,6 +251,7 @@ const ProviderCard = ({
                                         setSelectAddressIds={setSelectAddressIds}
                                         selectAddressIds={selectAddressIds}
                                         selectedProvider={selectedProvider}
+                                        disableAddressSelect={disableAddressSelect}
                                     />
                                 )}
                             </>
