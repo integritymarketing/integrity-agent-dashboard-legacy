@@ -17,7 +17,7 @@ import {
   StyledSubText,
   StyledErrorText,
   StyledDatePicker,
-  StyledCaptionText,
+  StyledErrorWrapper,
 } from "./StyledComponents";
 import { Select } from "components/ui/Select";
 import {
@@ -26,7 +26,7 @@ import {
   TOBACCO_USE_OPTIONS,
 } from "./FinalExpensesPage.constants";
 import EnrollBack from "images/enroll-btn-back.svg";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import finalExpenseService from "services/finalExpenseService";
 import { formatDate } from "utils/dates";
 import DatePickerMUI from "components/DatePicker";
@@ -38,6 +38,7 @@ const FormComponent = () => {
   const [zipCode, setZipCode] = useState(null);
   const [agentNpn, setAgentNpn] = useState(null);
   const { contactId } = useParams();
+  const navigate = useNavigate();
   const requiredKeys = ["state", "gender", "dateOfBirth", "tobaccoUse"];
 
   const onChangeFormData = (formElement, value) => {
@@ -59,10 +60,17 @@ const FormComponent = () => {
     }
     if (formElement === "feet") {
       const isInvalid = checkIfInvalidFeet(value);
+      const isDecimal = checkIfDecimal(value);
       if (isInvalid) {
         setErrorKeys({
           ...errorKeys,
-          feet: "Height should be less than 8 feet",
+          feet: "Feet should be less than 8",
+        });
+      }
+      if (isDecimal) {
+        setErrorKeys({
+          ...errorKeys,
+          feet: "Height should not be in decimals",
         });
       } else {
         const { feet, ...rest } = errorKeys;
@@ -71,10 +79,17 @@ const FormComponent = () => {
     }
     if (formElement === "inches") {
       const isInvalid = checkIfInvalidInches(value);
+      const isDecimal = checkIfDecimal(value);
       if (isInvalid) {
         setErrorKeys({
           ...errorKeys,
           inches: "Inches should be less than 12",
+        });
+      }
+      if (isDecimal) {
+        setErrorKeys({
+          ...errorKeys,
+          inches: "Height should not be in decimals",
         });
       } else {
         const { inches, ...rest } = errorKeys;
@@ -85,6 +100,10 @@ const FormComponent = () => {
 
   const checkIfInvalidWeight = (weight) => {
     return weight && (+weight < 10 || +weight > 999);
+  };
+
+  const checkIfDecimal = (value) => {
+    return value.includes(".");
   };
 
   const checkIfInvalidFeet = (feet) => {
@@ -115,18 +134,18 @@ const FormComponent = () => {
   };
 
   const onSubmit = async () => {
-    const { feet, inches, weight, dateOfBirth, gender, state, tobaccoUse } =
-      formData;
+    const { feet, inches, dateOfBirth, gender, state, tobaccoUse } = formData;
 
     if (isValidForm()) {
       let payload = {
         leadId: contactId,
         agentNpn: agentNpn,
-        HeightInInches: +feet * 12 + +inches,
+        HeightInInches: feet * 12 + inches,
         DateOfBirth: moment(dateOfBirth).format("YYYY-MM-DD"),
+        AgeInYears: moment().diff(moment(dateOfBirth, "YYYY"), "years"),
         Amount: 15000,
-        amount_type: "Level",
-        coverage_type: "face",
+        amount_type: "face",
+        coverage_type: "level",
         ReturnOfPremium: true,
         TermLength: "30",
         MedSuppPlanCode: "a",
@@ -136,17 +155,19 @@ const FormComponent = () => {
         State: state.toLowerCase(),
         Tobacco: tobaccoUse,
         Toolkit: "fex",
-        WeightInPounds: weight || null,
+        // WeightInPounds: weight || null,
       };
       await finalExpenseService.createFinalExpense(payload);
       setFormData({ ...INITIAL_FORM_DATA, dateOfBirth: null });
     }
+    navigate(`/planOptions/${contactId}`);
   };
 
   const disableButton = () => {
     return (
       requiredKeys.some((key) => !formData[key]) ||
-      checkIfInvalidWeight(formData.weight)
+      checkIfInvalidWeight(formData.weight) ||
+      Object.keys(errorKeys).length > 0
     );
   };
 
@@ -175,7 +196,7 @@ const FormComponent = () => {
       const quoteData = await (
         await finalExpenseService.getFinalExpense(contactId)
       ).json();
-      if (quoteData?.length > 0) {
+      if (quoteData.length > 0) {
         const mostRecentQuoteData = quoteData[quoteData.length - 1];
         const {
           State,
@@ -236,33 +257,33 @@ const FormComponent = () => {
             <StyledFormItem>
               <StyledElementName>Height</StyledElementName>
               <StyledHeightFormContainer>
-                <StyledNumberInputContainer>
-                  <StyledNumberInputField
-                    type="number"
-                    value={formData.feet}
-                    onChange={({ target }) => {
-                      onChangeFormData("feet", target.value);
-                    }}
-                  />
-                  <StyledUnitSpan>ft</StyledUnitSpan>
-                </StyledNumberInputContainer>
-
-                <StyledNumberInputContainer>
-                  <StyledNumberInputField
-                    type="number"
-                    value={formData.inches}
-                    onChange={({ target }) => {
-                      onChangeFormData("inches", target.value);
-                    }}
-                  />
-                  <StyledUnitSpan>in</StyledUnitSpan>
-                </StyledNumberInputContainer>
+                <StyledErrorWrapper>
+                  <StyledNumberInputContainer>
+                    <StyledNumberInputField
+                      type="number"
+                      value={formData.feet}
+                      onChange={({ target }) => {
+                        onChangeFormData("feet", target.value);
+                      }}
+                    />
+                    <StyledUnitSpan>ft</StyledUnitSpan>
+                  </StyledNumberInputContainer>
+                  <StyledErrorText>{errorKeys.feet}</StyledErrorText>
+                </StyledErrorWrapper>
+                <StyledErrorWrapper>
+                  <StyledNumberInputContainer>
+                    <StyledNumberInputField
+                      type="number"
+                      value={formData.inches}
+                      onChange={({ target }) => {
+                        onChangeFormData("inches", target.value);
+                      }}
+                    />
+                    <StyledUnitSpan>in</StyledUnitSpan>
+                  </StyledNumberInputContainer>
+                  <StyledErrorText>{errorKeys.inches}</StyledErrorText>
+                </StyledErrorWrapper>
               </StyledHeightFormContainer>
-              <div>
-                <StyledErrorText>
-                  {errorKeys.feet || errorKeys.inches}
-                </StyledErrorText>
-              </div>
             </StyledFormItem>
           </StyledFormRow>
 
@@ -351,7 +372,6 @@ const FormComponent = () => {
           <img src={EnrollBack} alt="enroll" />
         </StyledButton>
       </StyledFormWrapper>
-      <StyledCaptionText> *Required fields</StyledCaptionText>
     </div>
   );
 };

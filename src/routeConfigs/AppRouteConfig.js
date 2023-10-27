@@ -47,6 +47,7 @@ const NotFoundPage = lazy(() => import("pages/NotFound"));
 const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
 const PlansPage = lazy(() => import("pages/PlansPage"));
 const FinalExpensesPage = lazy(() => import("pages/FinalExpensesPage/index"));
+const PlanOptionsPage = lazy(() => import("pages/PlanOptionsPage/index"));
 const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
@@ -172,13 +173,15 @@ const appProtectedRoutes = [
   },
   {
     path: "/finalexpenses/create/:contactId",
-    component: (
-      <>
-        <FinalExpensesPage />
-        <WebChatComponent />
-      </>
-    ),
+    component: <FinalExpensesPage />,
   },
+  {
+    path: "/planOptions/:contactId",
+    component: <>
+                <PlanOptionsPage />
+                 <WebChatComponent />
+                </>
+  }
 ];
 
 export { appRoutes, appProtectedRoutes };

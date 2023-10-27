@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Media from "react-media";
 
@@ -14,7 +14,12 @@ const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
   const isMaintainanceMode = process.env.REACT_APP_MAINTENANCE_MODE;
-
+  useEffect(() => {
+    var iframes = document.querySelectorAll("iframe");
+    for (var i = 0; i < iframes.length; i++) {
+      iframes[i].parentNode.removeChild(iframes[i]);
+    }
+  });
   if (isMaintainanceMode) {
     return (
       <Routes>

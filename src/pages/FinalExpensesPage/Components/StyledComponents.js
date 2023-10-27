@@ -154,7 +154,13 @@ export const StyledSubText = styled("div")`
 export const StyledErrorText = styled("div")`
   color: red;
   font-size: 14px;
+  height: 21px;
 `;
+
+export const StyledErrorWrapper = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+});
 
 // Define styled components
 export const StyledNumberInputContainer = styled("div")({
