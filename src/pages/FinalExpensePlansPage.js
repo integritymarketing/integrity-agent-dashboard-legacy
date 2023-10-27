@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
-import {FinalExpensePlansContainer} from "components/FinalExpensePlansContainer";
+import { FinalExpensePlansContainer } from "components/FinalExpensePlansContainer";
 
 const StyledBox = styled(Box)(() => ({
   alignItems: "center",
@@ -17,16 +17,18 @@ const StyledBox = styled(Box)(() => ({
 
 const FinalExpensePlansPage = () => {
   return (
-    <StyledBox>
+    <>
       <Helmet>
         <title>MedicareCENTER - Final Expenses Plans</title>
       </Helmet>
       <FinalExpensePlansProvider>
         <GlobalNav />
-        <FinalExpensePlansContainer />
+        <StyledBox>
+          <FinalExpensePlansContainer />
+        </StyledBox>
         <GlobalFooter />
       </FinalExpensePlansProvider>
-    </StyledBox>
+    </>
   );
 };
 
