@@ -1,5 +1,6 @@
-import { lazy } from "react";
+import { lazy, StrictMode } from "react";
 import { Navigate } from "react-router-dom";
+import { FinalExpensePlansProvider } from "providers/FinalExpense";
 
 const TrafficDirector = lazy(() =>
   import("components/functional/traffic-director")
@@ -60,6 +61,9 @@ const SOAConfirmationPage = lazy(() =>
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
+const FinalExpensePlansPage = lazy(() =>
+  import("pages/FinalExpensePlansPage")
+);
 
 const appRoutes = [
   {
@@ -168,6 +172,16 @@ const appProtectedRoutes = [
   {
     path: "/:contactId/plan/:planId/:effectiveDate",
     component: <PlanDetailsPage />,
+  },
+  {
+    path: "/final-expense-plans/:contactId",
+    component: (
+      <StrictMode>
+        <FinalExpensePlansProvider>
+        <FinalExpensePlansPage />
+        </FinalExpensePlansProvider>
+      </StrictMode>
+    ),
   },
 ];
 
