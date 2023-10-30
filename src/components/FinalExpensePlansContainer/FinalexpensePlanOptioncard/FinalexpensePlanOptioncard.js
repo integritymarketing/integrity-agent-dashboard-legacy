@@ -15,11 +15,11 @@ import {
 import {
   StyledCheckFilter,
   StyledPlanDetailsWrapper,
-  StyledCTA,
   StyledPlanOptionsFilter,
   H2Header,
   H4HeaderBold,
 } from "./StyledComponents";
+import { CurrencyAdjuster } from "components/CurrencyAdjuster";
 import { useLife } from "contexts/Life";
 
 import styles from "./styles.module.scss";
@@ -55,74 +55,64 @@ const FinalexpensePlanOptioncard = ({ contactId }) => {
     }
   }, [contactId]);
 
-  useEffect(() => {
-    const updateFinalExpenseDetails = async () => {
-      const { CoverageType, AmountType, Amount } = lifeDetails;
-      const body = {
-        ...lifeDetails,
-        Amount: stepperValue,
-        AmountType: value,
-        CoverageType: coverageType,
-        PaymentType: paymentMethod,
-      };
-      if (
-        coverageType !== CoverageType ||
-        value !== AmountType ||
-        stepperValue !== Amount
-      ) {
-        await editLifeDetails(body);
-      }
+  const updateFinalExpenseDetails = async () => {
+    const { CoverageType, AmountType, Amount } = lifeDetails;
+    const body = {
+      ...lifeDetails,
+      Amount: stepperValue,
+      AmountType: value,
+      CoverageType: coverageType?.value || CoverageType,
+      PaymentType: paymentMethod,
     };
-    if (lifeDetails) updateFinalExpenseDetails();
-  }, [coverageType, stepperValue, lifeDetails, paymentMethod]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (
+      coverageType?.value !== CoverageType ||
+      value !== AmountType ||
+      stepperValue !== Amount
+    ) {
+      await editLifeDetails(body);
+    }
+  };
 
   const increment = () => {
     if (stepperValue < max) {
       setStepperValue(stepperValue + step);
+      updateFinalExpenseDetails();
     }
   };
 
   const decrement = () => {
     if (stepperValue > min) {
       setStepperValue(stepperValue - step);
+      updateFinalExpenseDetails();
     }
+  };
+
+  const handleCoverageTypeChange = (value) => {
+    setCoverageType(value);
+    updateFinalExpenseDetails();
+  };
+
+  const handlePaymentMethodChange = (value) => {
+    setPaymentMethod(value);
+    updateFinalExpenseDetails();
   };
 
   return (
     <StyledPlanDetailsWrapper>
-      <div className={styles.amountStepperWrapper}>
-        <div
-          className={selectedTab === COVERAGE_AMOUNT ? styles.selected : ""}
-          onClick={() => setSelectedTab(COVERAGE_AMOUNT)}
-        >
-          {COVERAGE_AMOUNT}
-        </div>
-        <div
-          className={selectedTab === MONTHLY_PREMIUM ? styles.selected : ""}
-          onClick={() => setSelectedTab(MONTHLY_PREMIUM)}
-        >
-          {MONTHLY_PREMIUM}
-        </div>
-      </div>
-      <div className={styles.stepper}>
-        <StyledCTA onClick={decrement}>
-          <MinusIcon />
-        </StyledCTA>
-        <input
-          type="text"
-          className={styles.input}
-          value={`$${stepperValue.toLocaleString()}`}
-        />
-        <StyledCTA onClick={increment}>
-          <PlusIcon />
-        </StyledCTA>
-      </div>
+      <CurrencyAdjuster
+        stepperValue={stepperValue}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+        increment={increment}
+        decrement={decrement}
+      />
+
       <StyledPlanOptionsFilter>
         <H2Header>Plan Options</H2Header>
         <H4HeaderBold>Coverage Type</H4HeaderBold>
         <Select
           initialValue={COVERAGE_TYPE[0].value}
-          onChange={(value) => setCoverageType(value)}
+          onChange={handleCoverageTypeChange}
           options={COVERAGE_TYPE}
           style={{ color: "#717171", fontSize: "16px" }}
           showValueAlways
@@ -141,7 +131,7 @@ const FinalexpensePlanOptioncard = ({ contactId }) => {
                 value={method}
                 label={method}
                 checked={paymentMethod === method}
-                onChange={(e) => setPaymentMethod(e.target.value)}
+                onChange={(e) => handlePaymentMethodChange(e.target.value)}
               />
             );
           })}
