@@ -1,0 +1,26 @@
+.finalExpensePlanCard {
+  margin-bottom: 40px;
+  padding: 24px;
+  border-radius: 8px !important;
+
+  .applyButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  .applyButton {
+    display: flex;
+    justify-content: space-between;
+    background: #4178ff;
+    color: #ffffff;
+    width: 168px;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 20px;
+    img {
+      position: relative;
+      left: 15px;
+    }
+  }
+}

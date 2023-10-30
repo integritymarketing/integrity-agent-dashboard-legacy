@@ -27,7 +27,7 @@ import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
 import useUserProfile from "hooks/useUserProfile";
 import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
-import useDeviceInfo from "hooks/useDeviceInfo";
+import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -59,7 +59,10 @@ export default function Dashbaord() {
   const agentID = agentInformation?.agentID;
 
   useEffect(() => {
-    showMobileAppDeepLinking(device);
+    console.log("SAB TESTING 4:  DEVICE", device);
+    if (device === DEVICES.IPHONE) {
+      showMobileAppDeepLinking(device);
+    }
   }, [device]);
 
   useEffect(() => {
@@ -224,13 +227,13 @@ export default function Dashbaord() {
             </div>
 
             {!isMobile && (
-              <FooterBanners className="banners mt-350" type="column" />
+              <FooterBanners className="banners mt-400" type="column" />
             )}
           </section>
 
           <section
             className={`recent-activity-section ${
-              isMobile && isClientSnapshotOpen ? "mt-350" : ""
+              isMobile && isClientSnapshotOpen ? "mt-400" : ""
             }`}
           >
             <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />

@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
 import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Formik, Form, Field } from "formik";
@@ -27,6 +33,9 @@ import {
 import CountyContext from "contexts/counties";
 import useQueryParams from "hooks/useQueryParams";
 import DatePickerMUI from "components/DatePicker";
+import { scrollTop } from "utils/shared-utils/sharedUtility";
+
+import "./contactRecordInfo/contactRecordInfo.scss";
 
 const NewContactForm = ({
   callLogId,
@@ -38,6 +47,7 @@ const NewContactForm = ({
   medicareBeneficiaryID = "",
 }) => {
   const { get } = useQueryParams();
+  const addNewDuplicateErrorRef = useRef();
   const callFrom = get("callFrom");
   const isRelink = get("relink") === "true";
   const [showAddress2, setShowAddress2] = useState(false);
@@ -52,44 +62,45 @@ const NewContactForm = ({
   const showToast = useToast();
 
   const isDuplicateContact = useCallback(
-    async (values, setDuplicateLeadIds, errors = {}) => {
-      if (Object.keys(errors).length) {
-        return {
-          ...errors,
-          isExactDuplicate: true,
-        };
-      } else {
-        const response = await clientsService.getDuplicateContact(values);
-        if (response.ok) {
-          const resMessage = await response.json();
-          if (resMessage.isExactDuplicate) {
-            return {
-              firstName: "Duplicate Contact",
-              lastName: "Duplicate Contact",
-              isExactDuplicate: true,
-            };
-          } else {
-            setDuplicateLeadIds(resMessage.duplicateLeadIds || []);
-          }
-          return errors;
-        } else {
-          // TODO: handle errors
+    async (values, setDuplicateLeadIds) => {
+      // if no phone or email, return false else check for duplicate contact
+      const response = await clientsService.getDuplicateContact(values);
+      if (response?.ok) {
+        const resMessage = await response.json();
+
+        // if duplicate contact, show error and return
+        if (resMessage?.isExactDuplicate) {
           return {
+            firstName: "Duplicate Contact",
+            lastName: "Duplicate Contact",
             isExactDuplicate: true,
           };
+        } else {
+          // if not duplicate contact, set duplicate lead ids to show in error message because it is potential duplicate contact
+          setDuplicateLeadIds(resMessage?.duplicateLeadIds || []);
+
+          // return false to indicate not duplicate contact
+          return {
+            isExactDuplicate: false,
+          };
         }
+      } else {
+        showToast({
+          message: "Issue while checking for duplicate contact",
+          type: "error",
+        });
+
+        // if error, return false to indicate not duplicate contact
+        return {
+          isExactDuplicate: false,
+        };
       }
     },
-    []
+    [showToast]
   );
 
   const getContactLink = (id) => `/contact/${id}/details`;
   const goToContactDetailPage = (id) => {
-    // if (duplicateLeadIds.length) {
-    //   return navigate(
-    //     getContactLink(id).concat(`/duplicate/${duplicateLeadIds[0]}`)
-    //   );
-    // }
     navigate(getContactLink(id));
   };
   const goToContactPage = () => {
@@ -184,7 +195,7 @@ const NewContactForm = ({
         contactRecordType: "prospect",
       }}
       validate={async (values) => {
-        const errors = validationService.validateMultiple(
+        return validationService.validateMultiple(
           [
             {
               name: "firstName",
@@ -255,10 +266,28 @@ const NewContactForm = ({
           ],
           values
         );
-        return await isDuplicateContact(values, setDuplicateLeadIds, errors);
       }}
       onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
+        const duplicateCheckResult = await isDuplicateContact(
+          values,
+          setDuplicateLeadIds
+        );
+
+        // if duplicate contact, show error and return and don't submit form
+        if (duplicateCheckResult?.isExactDuplicate) {
+          analyticsService.fireEvent("event-form-submit-invalid", {
+            formName: "Duplicate Contact Error",
+          });
+          setErrors({
+            firstName: "Duplicate Contact",
+            lastName: "Duplicate Contact",
+          });
+          scrollTop();
+          setSubmitting(false);
+          return;
+        }
+
         let response = await clientsService.addNewContact(values);
         if (response.ok) {
           const resMessage = await response.json();
@@ -284,16 +313,10 @@ const NewContactForm = ({
           }, 4000);
         } else if (response.status === 400) {
           const errMessage = await response.json();
-          const duplicateLeadId = (errMessage.split(":")[1] || "").trim();
-          setErrors({
-            duplicateLeadId,
-            firstName: "Duplicate Contact",
-            lastName: "Duplicate Contact",
+          showToast({
+            message: errMessage,
+            type: "error",
           });
-          analyticsService.fireEvent("event-form-submit-invalid", {
-            formName: "Duplicate Contact Error",
-          });
-          document.getElementsByTagName("html")[0].scrollIntoView();
         }
       }}
     >
@@ -341,7 +364,10 @@ const NewContactForm = ({
         }
         return (
           <Form className="form mt-3">
-            <fieldset className="form__fields form__fields--constrained hide-input-err">
+            <fieldset
+              ref={addNewDuplicateErrorRef}
+              className="form__fields form__fields--constrained hide-input-err"
+            >
               <Textfield
                 id="contact-fname"
                 label="First Name"

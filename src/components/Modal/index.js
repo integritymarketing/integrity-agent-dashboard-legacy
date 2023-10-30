@@ -98,10 +98,7 @@ const useStyles = makeStyles((theme) => ({
   paperScrollPaper: {
     overflowY: "visible",
   },
-  customHeight: {
-    overflowY: "visible",
-    height: "70vh",
-  },
+
   deleteContainer: {
     "& button:hover": {
       backgroundColor: "#FFFFFF",
@@ -110,22 +107,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Modal({
-  actionButtonName,
-  onSave,
-  contentStyle,
-  onClose,
-  onDelete,
-  isDelete,
-  onCancel,
-  modalName,
-  open,
-  title,
-  children,
   actionButtonDisabled,
+  actionButtonName,
+  children,
+  contentStyle,
+  customFooter,
   endIcon,
   hideFooter = false,
-  customFooter,
-  customModalHeight = "auto",
+  isDelete,
+  onCancel,
+  cancelButtonName,
+  modalName,
+  onDelete,
+  onClose,
+  onSave,
+  open,
+  title,
 }) {
   const classes = useStyles();
 
@@ -141,7 +138,7 @@ export default function Modal({
         }}
         PaperProps={{
           style: {
-            height: customModalHeight,
+            height: "auto",
             overflowY: "visible",
             width: "552px",
           },
@@ -174,8 +171,11 @@ export default function Modal({
           {!hideFooter && (
             <Box className={classes.footerButtons}>
               {onCancel ? (
-                <Button onClick={onClose} className={classes.cancelButton}>
-                  Cancel
+                <Button
+                  onClick={onCancel ? onCancel : onClose}
+                  className={classes.cancelButton}
+                >
+                  {cancelButtonName ? cancelButtonName : "Cancel"}
                 </Button>
               ) : (
                 <Box> </Box>

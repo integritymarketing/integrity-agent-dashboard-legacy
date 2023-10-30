@@ -1,0 +1,70 @@
+.costCard {
+  background-color: #f1faff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 20px;
+}
+
+.monthlyCostCard {
+  width: 25%;
+}
+
+.costDetails {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  border-left: 1px solid #cccccc;
+  padding: 0px 20px;
+}
+
+.costRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0px;
+}
+
+.costLabel {
+  width: 65%;
+  font-weight: bold;
+  color: #434a51;
+  font-size: 16px;
+}
+
+.costValue {
+  width: 35%;
+  color: #434a51;
+  font-size: 16px;
+}
+
+.planInfoDetail {
+  color: #434a51;
+  font-size: 16px;
+}
+
+.monthlyCostLabel {
+  color: #434a51;
+  font-size: 16px;
+}
+
+.monthlyCostValue {
+  color: #052a63;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.warningContainer {
+  border-top: 1px solid #cccccc;
+  padding: 5px 0px;
+  display: flex;
+  .warning {
+    color: #434a51;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  .warningIcon {
+    margin-top: 2px;
+  }
+}

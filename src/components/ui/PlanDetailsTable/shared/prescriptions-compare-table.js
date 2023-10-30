@@ -54,6 +54,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
       },
     };
     plans.forEach(({ pharmacyCosts } = {}, planIndex) => {
+      const currentDrugCoverage = plans[planIndex]?.planDrugCoverage[i];
       const rowData = rows[i].data;
       const costs = pharmacyCosts?.[0]?.drugCosts?.[i] || {};
 
@@ -62,13 +63,13 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
       rowData.catastrophic[planIndex] = costs.afterGap;
       rowData.deductible[planIndex] = costs.deductible;
       rowData.restrictions[planIndex] = {
-        hasPriorAuthorization: planDrugCoverage.hasPriorAuthorization,
-        hasQuantityLimit: planDrugCoverage.hasQuantityLimit,
-        hasStepTherapy: planDrugCoverage.hasStepTherapy,
-        quantityLimitAmount: planDrugCoverage.quantityLimitAmount,
-        quantityLimitDays: planDrugCoverage.quantityLimitDays,
+        hasPriorAuthorization: currentDrugCoverage.hasPriorAuthorization,
+        hasQuantityLimit: currentDrugCoverage.hasQuantityLimit,
+        hasStepTherapy: currentDrugCoverage.hasStepTherapy,
+        quantityLimitAmount: currentDrugCoverage.quantityLimitAmount,
+        quantityLimitDays: currentDrugCoverage.quantityLimitDays,
       };
-      rowData.covered[planIndex] = planDrugCoverage.tierNumber === 1;
+      rowData.covered[planIndex] = currentDrugCoverage.tierNumber > 0;
     });
   }
   rows.push({

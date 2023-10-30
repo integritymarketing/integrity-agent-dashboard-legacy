@@ -31,23 +31,11 @@ const PrescriptionForm = ({
   packageOptions,
   dosagePackage,
   setDosagePackage,
-  setIsOptionsOpened,
-  setOptionsLength,
 }) => {
   const classes = useStyles();
 
-  const handleOptionsCallback = (isOpen, length) => {
-    setOptionsLength(length);
-    setIsOptionsOpened(isOpen);
-  };
-
-  const handleBlur = () => {
-    setOptionsLength(0);
-    setIsOptionsOpened(false);
-  };
-
   return (
-    <Grid container spacing={3}>
+    <Grid container rowSpacing={1} columnSpacing={3}>
       <Grid item xs={12} md={6}>
         <Box>
           <Typography className={classes.customTypography}>Dosage</Typography>
@@ -57,10 +45,6 @@ const PrescriptionForm = ({
             options={dosageOptions}
             placeholder="Dosage"
             onChange={setDosage}
-            onBlur={handleBlur}
-            onIsOpenChange={(isOpen) =>
-              handleOptionsCallback(isOpen, dosageOptions.length)
-            }
           />
         </Box>
       </Grid>
@@ -88,15 +72,11 @@ const PrescriptionForm = ({
             options={FREQUENCY_OPTIONS}
             placeholder="Frequency"
             onChange={setFrequency}
-            onIsOpenChange={(isOpen) =>
-              handleOptionsCallback(isOpen, FREQUENCY_OPTIONS.length)
-            }
-            onBlur={handleBlur}
           />
         </Box>
       </Grid>
       {packageOptions?.length > 0 && (
-        <Grid item xs={8} md={5}>
+        <Grid item xs={8} md={8}>
           <Box>
             <Typography className={classes.customTypography}>
               Packaging
@@ -107,10 +87,6 @@ const PrescriptionForm = ({
               options={packageOptions}
               placeholder="Packaging"
               onChange={setDosagePackage}
-              onIsOpenChange={(isOpen) =>
-                handleOptionsCallback(isOpen, packageOptions.length)
-              }
-              onBlur={handleBlur}
             />
           </Box>
         </Grid>

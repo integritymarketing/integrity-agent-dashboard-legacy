@@ -14,8 +14,8 @@ const shouldDisableEnrollButtonBasedOnEffectiveDate = (effectiveDate) => {
     const currentMonth = currentDate.month() + 1; // January is 0, so we add 1
     const currentDay = currentDate.date();
 
-    // Check if the current date is between October 1 and October 15
-    if (currentMonth === 10 && currentDay >= 1 && currentDay <= 15) {
+  // Check if the current date is between October 1 and October 15 (exclusive)
+  if (currentMonth === 10 && currentDay >= 1 && currentDay < 15) {
       return true;
     }
   }

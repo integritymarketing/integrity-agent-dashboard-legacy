@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, StrictMode } from "react";
 import { Navigate } from "react-router-dom";
 
 const TrafficDirector = lazy(() =>
@@ -47,7 +47,6 @@ const NotFoundPage = lazy(() => import("pages/NotFound"));
 const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
 const PlansPage = lazy(() => import("pages/PlansPage"));
 const FinalExpensesPage = lazy(() => import("pages/FinalExpensesPage"));
-const PlanOptionsPage = lazy(() => import("pages/PlanOptionsPage"));
 const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
@@ -62,6 +61,7 @@ const SOAConfirmationPage = lazy(() =>
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
+const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
 
 const appRoutes = [
   {
@@ -176,12 +176,11 @@ const appProtectedRoutes = [
     component: <FinalExpensesPage />,
   },
   {
-    path: "/planOptions/:contactId",
+    path: "/final-expense-plans/:contactId",
     component: (
-      <>
-        <PlanOptionsPage />
-        <WebChatComponent />
-      </>
+      <StrictMode>
+        <FinalExpensePlansPage />
+      </StrictMode>
     ),
   },
 ];

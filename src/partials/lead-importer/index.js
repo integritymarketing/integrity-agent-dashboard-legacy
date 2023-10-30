@@ -80,8 +80,7 @@ const LeadImporter = () => {
             // maybe show import issues in summary modal?
           }}
           onClose={() => {
-            // optional, invoked when import is done and user clicked "Finish"
-            navigate("contacts");
+            navigate("/contacts");
           }}
         >
           <ImporterField

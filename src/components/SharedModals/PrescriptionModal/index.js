@@ -12,7 +12,6 @@ import SearchLabel from "../SharedComponents/SearchLabel";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
 import clientsService from "services/clientsService";
-import CustomFooter from "components/Modal/CustomFooter";
 
 import "./style.scss";
 
@@ -73,27 +72,6 @@ const PrescriptionModal = ({
   const [isSaving, setIsSaving] = useState(false);
   const [selectedGenericDrug, setSelectedGenericDrug] = useState(false);
   const [initialValues, setInitialValues] = useState({});
-  const [isOptionsOpened, setIsOptionsOpened] = useState(false);
-  const [optionsLength, setOptionsLength] = useState(0);
-
-  const customModalHeight = useMemo(() => {
-    if (selectedDrug.g_value && selectedDrug?.description === "Brand") {
-      if (optionsLength <= 3) {
-        return "70vh";
-      }
-      if (optionsLength <= 6) {
-        return "80vh";
-      }
-      if (optionsLength <= 10) {
-        return "90vh";
-      }
-
-      return "100vh";
-    } else {
-      return "50vh";
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [optionsLength]);
 
   useEffect(() => {
     const getDosages = async () => {
@@ -163,7 +141,7 @@ const PrescriptionModal = ({
     if (dosage) {
       const { commonUserQuantity, commonDaysOfSupply } = dosage;
       const packageOptions = (dosage?.packages || []).map((_package) => ({
-        label: `${_package?.packageSize}${_package?.packageSizeUnitOfMeasure} ${_package?.packageDescription}`,
+        label: _package.packageDisplayText,
         value: _package,
       }));
 
@@ -328,23 +306,16 @@ const PrescriptionModal = ({
   return (
     <Modal
       open={open}
-      onClose={onClose}
-      onCancel={onClose}
       title={isEdit ? "Update Prescription" : "Add Prescriptions"}
+      onClose={onClose}
+      onCancel={isEdit && handleDeletePrescription}
+      cancelButtonName="Delete Prescription"
       onSave={isEdit ? handleUpdatePrescription : addFunction}
       actionButtonName={isEdit ? "Update Prescription" : "Add Prescription"}
       actionButtonDisabled={disabled}
       endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
       modalName="Prescription"
-      customFooter={
-        isEdit && (
-          <CustomFooter
-            buttonName={"Delete Prescription"}
-            onClick={handleDeletePrescription}
-          />
-        )
-      }
-      customModalHeight={isOptionsOpened ? customModalHeight : undefined}
+      contentStyle={{ overflowY: "visible", paddingBottom: "0" }}
     >
       {!selectedDrug && !isLoading ? (
         <>
@@ -387,7 +358,7 @@ const PrescriptionModal = ({
                   fontSize: 20,
                   fontFamily: "Lato",
                   letterSpacing: "0.2px",
-                  marginTop: 20,
+                  marginTop: 10,
                 }}
               >
                 Would you like to use the Generic Version?
@@ -433,9 +404,6 @@ const PrescriptionModal = ({
               dosagePackage,
               packageOptions,
             }}
-            setIsOptionsOpened={setIsOptionsOpened}
-            setOptionsLength={setOptionsLength}
-            optionsLength={optionsLength}
           />
         </>
       )}

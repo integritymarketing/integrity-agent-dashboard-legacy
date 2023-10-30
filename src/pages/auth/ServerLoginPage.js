@@ -18,7 +18,7 @@ import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
 import { Button } from "packages/Button";
-import useDeviceInfo from "hooks/useDeviceInfo";
+import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
 import useMobileVersionCheck from "hooks/useMobileVersionCheck";
 
@@ -41,8 +41,10 @@ const ServerLoginPage = () => {
 
     let clientId = params1.get("client_id");
 
-    if (clientId === "AEPortal") {
-      showMobileAppDeepLinking(device);
+    console.log("SAB TESTING 1: CLIENT_ID, DEVICE ", clientId, device);
+
+    if (clientId === "AEPortal" && device === DEVICES.IPHONE) {
+      showMobileAppDeepLinking();
     }
 
     if (feature_toggle && isOutdatedVersion && clientId === "AgentMobile") {

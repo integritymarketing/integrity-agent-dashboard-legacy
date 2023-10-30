@@ -79,7 +79,11 @@
       }
       .options .option {
         font-weight: normal;
-
+        text-wrap: wrap;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        line-height: 1;
+        
         &.selected {
           font-weight: 600;
         }

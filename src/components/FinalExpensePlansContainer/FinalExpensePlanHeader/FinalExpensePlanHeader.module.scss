@@ -1,0 +1,16 @@
+.planHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.planName {
+  color: #052a63;
+  font-size: 24px;
+}
+
+.companyLogo {
+  height: 50px;
+  object-fit: contain;
+}

@@ -11,9 +11,10 @@ import {
   MONTHLY_PREMIUM,
   PAYMENT_METHODS,
   STEPPER_FILTER,
-} from "./OptionsSideBar.constants";
+} from "./FinalexpensePlanOptioncard.constants";
 import {
   StyledCheckFilter,
+  StyledPlanDetailsWrapper,
   StyledCTA,
   StyledPlanOptionsFilter,
   H2Header,
@@ -23,7 +24,7 @@ import { useLife } from "contexts/Life";
 
 import styles from "./styles.module.scss";
 
-const OptionsSideBar = ({ contactId }) => {
+const FinalexpensePlanOptioncard = ({ contactId }) => {
   const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
   const { value, step, min, max } = STEPPER_FILTER[selectedTab];
   const [stepperValue, setStepperValue] = useState(min);
@@ -32,12 +33,9 @@ const OptionsSideBar = ({ contactId }) => {
   const [isExcludedPlans, showExcludedPlans] = useState(false);
   const [isSocialSecurityBilling, showSocialSecurityBilling] = useState(false);
 
-  const {
-    getLifeDetails,
-    lifeDetails,
-    editLifeDetails,
-    updateLifeDetailsError,
-  } = useLife();
+  const { getLifeDetails, lifeDetails, editLifeDetails } = useLife();
+
+  console.log("lifeDetails", coverageType);
 
   useEffect(() => {
     setStepperValue(min);
@@ -66,11 +64,11 @@ const OptionsSideBar = ({ contactId }) => {
         ...lifeDetails,
         Amount: stepperValue,
         AmountType: value,
-        CoverageType: coverageType.value,
+        CoverageType: coverageType,
         PaymentType: paymentMethod,
       };
       if (
-        coverageType.value !== CoverageType ||
+        coverageType !== CoverageType ||
         value !== AmountType ||
         stepperValue !== Amount
       ) {
@@ -93,7 +91,7 @@ const OptionsSideBar = ({ contactId }) => {
   };
 
   return (
-    <>
+    <StyledPlanDetailsWrapper>
       <div className={styles.amountStepperWrapper}>
         <div
           className={selectedTab === COVERAGE_AMOUNT ? styles.selected : ""}
@@ -161,8 +159,8 @@ const OptionsSideBar = ({ contactId }) => {
           <span>{"Show Excluded Plans"}</span>
         </StyledCheckFilter>
       </StyledPlanOptionsFilter>
-    </>
+    </StyledPlanDetailsWrapper>
   );
 };
 
-export default OptionsSideBar;
+export default FinalexpensePlanOptioncard;

@@ -28,7 +28,6 @@ export const StyledHeaderTitle = styled("h1")({
 
 export const StyledPlanDetailsWrapper = styled("div")`
   background: #f1f1f1;
-  padding: 4rem 5rem;
 `;
 
 export const StyledCTA = styled("div")`
@@ -40,7 +39,7 @@ export const StyledCTA = styled("div")`
 
 export const StyledPlanOptionsFilter = styled("div")`
   background: #ffffff;
-  width: 288px;
+  width: 100%;
   padding: 24px;
   border-radius: 8px;
 `;
