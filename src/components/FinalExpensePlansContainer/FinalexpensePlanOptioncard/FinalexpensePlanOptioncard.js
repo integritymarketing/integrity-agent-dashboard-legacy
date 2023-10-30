@@ -35,8 +35,6 @@ const FinalexpensePlanOptioncard = ({ contactId }) => {
 
   const { getLifeDetails, lifeDetails, editLifeDetails } = useLife();
 
-  console.log("lifeDetails", coverageType);
-
   useEffect(() => {
     setStepperValue(min);
   }, [selectedTab]); // eslint-disable-line react-hooks/exhaustive-deps
