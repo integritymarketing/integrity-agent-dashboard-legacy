@@ -115,7 +115,9 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
     const addressCount = mergedAddresses?.length;
 
     // Disable the address select if the address count is greater than or equal to 10
-    const disableAddressSelect = addressCount + selectAddressIds?.length >= 10;
+    const disableAddressSelect = isEdit
+        ? addressCount + selectAddressIds?.length - selected?.addresses?.length >= 10
+        : addressCount + selectAddressIds?.length >= 10;
 
     // useEffects
 
