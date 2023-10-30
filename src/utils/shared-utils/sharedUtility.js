@@ -42,6 +42,31 @@ export const onlyAlphabets = (e) => {
   }
 };
 
+/**
+ * Prevents numbers outside the range of 1 to 8 from being entered.
+ * Allows empty strings to pass through.
+ * @param {KeyboardEvent} e - Keyboard event triggered on key press
+ */
+export const onlyNumbersBetween1And8 = (e) => {
+  const regex = /^[1-8]*$/;
+  if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(e.key)) {
+    e.preventDefault();
+  }
+};
+
+/**
+ * Prevents numbers outside the range of 1 to 8 from being entered.
+ * Allows empty strings to pass through.
+ * @param {KeyboardEvent} e - Keyboard event triggered on key press
+ */
+export const onlyNumbersBetween1And12 = (e) => {
+  const regex = /^[1-9][0-2]?$/; // Updated regex pattern
+  const value = e.target.value + e.key; // Calculate the value after the keypress
+  if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(value)) {
+    e.preventDefault();
+  }
+};
+
 export const scrollTop = () => {
   window.scrollTo(0, 0);
 };

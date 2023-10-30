@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   StyledDescription,
   StyledElementName,
@@ -20,26 +20,43 @@ import {
   StyledErrorWrapper,
 } from "./StyledComponents";
 import { Select } from "components/ui/Select";
-import {
-  INITIAL_FORM_DATA,
-  STATES,
-  TOBACCO_USE_OPTIONS,
-} from "./FinalExpensesPage.constants";
+import { INITIAL_FORM_DATA, STATES, TOBACCO_USE_OPTIONS } from "./constants";
 import EnrollBack from "images/enroll-btn-back.svg";
 import { useParams, useNavigate } from "react-router-dom";
-import finalExpenseService from "services/finalExpenseService";
 import { formatDate } from "utils/dates";
 import DatePickerMUI from "components/DatePicker";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { useLife } from "contexts/Life";
+import useToast from "hooks/useToast";
+import {
+  onlyNumbersBetween1And8,
+  onlyNumbersBetween1And12,
+} from "utils/shared-utils/sharedUtility";
+
 import moment from "moment";
 
 const FormComponent = () => {
+  const { contactId } = useParams();
+  const { leadDetails } = useContactDetails(contactId);
+
+  const showToast = useToast();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [errorKeys, setErrorKeys] = useState([]);
   const [zipCode, setZipCode] = useState(null);
   const [agentNpn, setAgentNpn] = useState(null);
-  const { contactId } = useParams();
-  const navigate = useNavigate();
+
   const requiredKeys = ["state", "gender", "dateOfBirth", "tobaccoUse"];
+
+  const {
+    getLifeDetails,
+    lifeDetails,
+    saveLifeDetails,
+    editLifeDetails,
+    createLifeDetailsError,
+    updateLifeDetailsError,
+  } = useLife();
 
   const onChangeFormData = (formElement, value) => {
     setFormData({
@@ -59,18 +76,12 @@ const FormComponent = () => {
       }
     }
     if (formElement === "feet") {
-      const isInvalid = checkIfInvalidFeet(value);
-      const isDecimal = checkIfDecimal(value);
+      const sanitizedValue = value.replace(/[^1-8]/g, "");
+      const isInvalid = checkIfInvalidFeet(sanitizedValue);
       if (isInvalid) {
         setErrorKeys({
           ...errorKeys,
           feet: "Feet should be less than 8",
-        });
-      }
-      if (isDecimal) {
-        setErrorKeys({
-          ...errorKeys,
-          feet: "Height should not be in decimals",
         });
       } else {
         const { feet, ...rest } = errorKeys;
@@ -79,17 +90,10 @@ const FormComponent = () => {
     }
     if (formElement === "inches") {
       const isInvalid = checkIfInvalidInches(value);
-      const isDecimal = checkIfDecimal(value);
       if (isInvalid) {
         setErrorKeys({
           ...errorKeys,
           inches: "Inches should be less than 12",
-        });
-      }
-      if (isDecimal) {
-        setErrorKeys({
-          ...errorKeys,
-          inches: "Height should not be in decimals",
         });
       } else {
         const { inches, ...rest } = errorKeys;
@@ -102,16 +106,12 @@ const FormComponent = () => {
     return weight && (+weight < 10 || +weight > 999);
   };
 
-  const checkIfDecimal = (value) => {
-    return value.includes(".");
-  };
-
   const checkIfInvalidFeet = (feet) => {
-    return feet && (+feet > 8 || +feet < 0);
+    return feet === "";
   };
 
   const checkIfInvalidInches = (inches) => {
-    return inches && (+inches > 12 || +inches < 0);
+    return inches === "";
   };
 
   const isValidForm = () => {
@@ -133,8 +133,29 @@ const FormComponent = () => {
     return Object.keys(errorKeys).includes(formElement);
   };
 
+  const isDataUpdated = useMemo(() => {
+    const { dateOfBirth, gender, state, tobaccoUse, weight, feet, inches } =
+      formData;
+    const heightInInches = feet * 12 + inches;
+
+    const diff =
+      lifeDetails?.DateOfBirth !== dateOfBirth ||
+      formatGender(lifeDetails?.Sex) !== gender ||
+      lifeDetails?.State?.toUpperCase() !== state ||
+      lifeDetails?.Tobacco !== tobaccoUse ||
+      lifeDetails?.WeightInPounds !== weight ||
+      lifeDetails?.HeightInInches !== heightInInches;
+
+    return diff;
+  }, [formData, lifeDetails]);
+
+  const isEdit = useMemo(() => {
+    return Boolean(lifeDetails?.Id);
+  }, [lifeDetails]);
+
   const onSubmit = async () => {
-    const { feet, inches, dateOfBirth, gender, state, tobaccoUse } = formData;
+    const { feet, inches, dateOfBirth, gender, state, tobaccoUse, weight } =
+      formData;
 
     if (isValidForm()) {
       let payload = {
@@ -155,21 +176,48 @@ const FormComponent = () => {
         State: state.toLowerCase(),
         Tobacco: tobaccoUse,
         Toolkit: "fex",
-        // WeightInPounds: weight || null,
+        WeightInPounds: weight || null,
       };
-      await finalExpenseService.createFinalExpense(payload);
-      setFormData({ ...INITIAL_FORM_DATA, dateOfBirth: null });
+      if (isEdit) {
+        if (isDataUpdated) {
+          payload = {
+            ...payload,
+            id: lifeDetails?.Id,
+          };
+          await editLifeDetails(payload);
+        } else {
+          navigate(`/planOptions/${contactId}`);
+        }
+      } else {
+        await saveLifeDetails(payload);
+      }
+
+      if (createLifeDetailsError || updateLifeDetailsError) {
+        showToast({
+          type: "error",
+          message: "Failed to Save or Update.",
+          time: 10000,
+        });
+      } else {
+        navigate(`/planOptions/${contactId}`);
+      }
     }
-    navigate(`/planOptions/${contactId}`);
   };
 
-  const disableButton = () => {
+  const isValidSaveData = useMemo(() => {
+    const { dateOfBirth, gender, state, tobaccoUse, weight, feet, inches } =
+      formData;
+
     return (
-      requiredKeys.some((key) => !formData[key]) ||
-      checkIfInvalidWeight(formData.weight) ||
-      Object.keys(errorKeys).length > 0
+      feet !== "" &&
+      inches !== "" &&
+      dateOfBirth !== "" &&
+      gender !== "" &&
+      state !== "" &&
+      tobaccoUse !== "" &&
+      weight !== ""
     );
-  };
+  }, [formData]);
 
   function formatHeight(heightInInches) {
     if (typeof heightInInches !== "number" || heightInInches < 0) {
@@ -189,45 +237,41 @@ const FormComponent = () => {
   }
 
   useEffect(() => {
-    const getContactLead = async () => {
-      const leadData = await (
-        await finalExpenseService.getLeadDetails(contactId)
-      ).json();
-      const quoteData = await (
-        await finalExpenseService.getFinalExpense(contactId)
-      ).json();
-      if (quoteData.length > 0) {
-        const mostRecentQuoteData = quoteData[quoteData.length - 1];
-        const {
-          State,
-          Zipcode,
-          agentNpn,
-          Tobacco,
-          Sex,
-          WeightInPounds,
-          HeightInInches,
-          DateOfBirth,
-        } = mostRecentQuoteData;
-        const { feetValue, inchesValue } = formatHeight(HeightInInches) || null;
-        setZipCode(Zipcode);
-        setAgentNpn(agentNpn);
-        setFormData({
-          ...formData,
-          state: State.toUpperCase(),
-          tobaccoUse: Tobacco,
-          gender: formatGender(Sex),
-          weight: WeightInPounds,
-          feet: feetValue,
-          inches: inchesValue,
-          dateOfBirth: DateOfBirth,
-        });
-      } else {
-        onChangeFormData("state", leadData.addresses[0].stateCode);
-        setZipCode(leadData.addresses[0].postalCode);
-        setAgentNpn(leadData.agentNpn);
-      }
-    };
-    getContactLead(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (lifeDetails) {
+      const {
+        State,
+        Zipcode,
+        agentNpn,
+        Tobacco,
+        Sex,
+        WeightInPounds,
+        HeightInInches,
+        DateOfBirth,
+      } = lifeDetails;
+      const { feetValue, inchesValue } = formatHeight(HeightInInches) || null;
+      setZipCode(Zipcode);
+      setAgentNpn(agentNpn);
+      setFormData({
+        ...formData,
+        state: State.toUpperCase(),
+        tobaccoUse: Tobacco,
+        gender: formatGender(Sex),
+        weight: WeightInPounds,
+        feet: feetValue,
+        inches: inchesValue,
+        dateOfBirth: DateOfBirth,
+      });
+    } else {
+      onChangeFormData("state", leadDetails?.addresses?.[0]?.stateCode || null);
+      setZipCode(leadDetails?.addresses?.[0]?.postalCode || null);
+      setAgentNpn(leadDetails?.agentNpn || null);
+    }
+  }, [lifeDetails, leadDetails]);
+
+  useEffect(() => {
+    if (contactId) {
+      getLifeDetails(contactId);
+    }
   }, [contactId]);
 
   return (
@@ -260,8 +304,10 @@ const FormComponent = () => {
                 <StyledErrorWrapper>
                   <StyledNumberInputContainer>
                     <StyledNumberInputField
-                      type="number"
+                      type="text"
                       value={formData.feet}
+                      maxLength="1"
+                      onKeyDown={onlyNumbersBetween1And8}
                       onChange={({ target }) => {
                         onChangeFormData("feet", target.value);
                       }}
@@ -273,8 +319,10 @@ const FormComponent = () => {
                 <StyledErrorWrapper>
                   <StyledNumberInputContainer>
                     <StyledNumberInputField
-                      type="number"
+                      type="text"
+                      maxLength="2"
                       value={formData.inches}
+                      onKeyDown={onlyNumbersBetween1And12}
                       onChange={({ target }) => {
                         onChangeFormData("inches", target.value);
                       }}
@@ -292,17 +340,17 @@ const FormComponent = () => {
               <StyledElementName>Gender*</StyledElementName>
               <StyledGenderFormElements>
                 <StyledButtonFormElement
-                  selected={formData.gender === "Male"}
+                  selected={formData.gender === "male"}
                   onClick={() => {
-                    onChangeFormData("gender", "Male");
+                    onChangeFormData("gender", "male");
                   }}
                 >
                   Male
                 </StyledButtonFormElement>
                 <StyledButtonFormElement
-                  selected={formData.gender === "Female"}
+                  selected={formData.gender === "female"}
                   onClick={() => {
-                    onChangeFormData("gender", "Female");
+                    onChangeFormData("gender", "female");
                   }}
                 >
                   Female
@@ -367,7 +415,7 @@ const FormComponent = () => {
             </StyledFormItem>
           </StyledFormRow>
         </StyledForm>
-        <StyledButton onClick={onSubmit} disabled={disableButton()}>
+        <StyledButton onClick={onSubmit} disabled={!isValidSaveData}>
           <span>Next</span>
           <img src={EnrollBack} alt="enroll" />
         </StyledButton>

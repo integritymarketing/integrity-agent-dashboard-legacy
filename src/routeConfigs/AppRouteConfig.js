@@ -46,8 +46,8 @@ const NewScopeOfAppointment = lazy(() =>
 const NotFoundPage = lazy(() => import("pages/NotFound"));
 const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
 const PlansPage = lazy(() => import("pages/PlansPage"));
-const FinalExpensesPage = lazy(() => import("pages/FinalExpensesPage/index"));
-const PlanOptionsPage = lazy(() => import("pages/PlanOptionsPage/index"));
+const FinalExpensesPage = lazy(() => import("pages/FinalExpensesPage"));
+const PlanOptionsPage = lazy(() => import("pages/PlanOptionsPage"));
 const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
@@ -177,11 +177,13 @@ const appProtectedRoutes = [
   },
   {
     path: "/planOptions/:contactId",
-    component: <>
-                <PlanOptionsPage />
-                 <WebChatComponent />
-                </>
-  }
+    component: (
+      <>
+        <PlanOptionsPage />
+        <WebChatComponent />
+      </>
+    ),
+  },
 ];
 
 export { appRoutes, appProtectedRoutes };

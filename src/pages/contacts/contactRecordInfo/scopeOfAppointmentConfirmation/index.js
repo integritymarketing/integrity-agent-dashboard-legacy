@@ -388,7 +388,7 @@ const ScopeOfAppointmentConfirmation = () => {
                             label="Beneficiary's Middle Initial (optional)"
                             className="user-middle-name"
                             name="middleName"
-                            onKeyPress={onlyAlphabets}
+                            onKeyDown={onlyAlphabets}
                             maxLength="1"
                             value={values.middleName?.toUpperCase()}
                             onChange={handleChange}
@@ -706,7 +706,7 @@ const ScopeOfAppointmentConfirmation = () => {
                               className="user-middle-name"
                               label="Authorized Representative’s  Middle Initial"
                               name="authorizedRepresentative.middleName"
-                              onKeyPress={onlyAlphabets}
+                              onKeyDown={onlyAlphabets}
                               maxLength="1"
                               value={values?.authorizedRepresentative?.middleName?.toUpperCase()}
                               onChange={handleChange}

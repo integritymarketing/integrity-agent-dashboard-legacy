@@ -367,7 +367,7 @@ const NewContactForm = ({
                 label="Middle Initial"
                 placeholder="Enter middle initial"
                 name="middleName"
-                onKeyPress={onlyAlphabets}
+                onKeyDown={onlyAlphabets}
                 maxLength="1"
                 value={values.middleName?.toUpperCase()}
                 onChange={handleChange}
@@ -824,14 +824,14 @@ export default function AddNewContactPage() {
           id="main-content"
           className={`mt-4 add--new-contact new--contact-err ${styles["add--new-contact"]}`}
         >
-            <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
-            <div className="border-bottom border-bottom--light"></div>
-            <NewContactForm
-              callLogId={callLogId}
-              firstName={firstName}
-              lastName={lastName}
-              state={state}
-            />
+          <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
+          <div className="border-bottom border-bottom--light"></div>
+          <NewContactForm
+            callLogId={callLogId}
+            firstName={firstName}
+            lastName={lastName}
+            state={state}
+          />
         </Container>
       </div>
       <GlobalFooter />

@@ -11,4 +11,9 @@ export const COVERAGE_TYPE = [
   { label: "Guaranteed", value: "guaranteed" },
   { label: "Limited", value: "limited_pay" },
 ];
-export const PAYMENT_METHODS = ["Bank Draft/EFT"];
+export const PAYMENT_METHODS = [
+  "Bank Draft/EFT",
+  "Debit Card",
+  "Credit Card",
+  "Direct Express",
+];

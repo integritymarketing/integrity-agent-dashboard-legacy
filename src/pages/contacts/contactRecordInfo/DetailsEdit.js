@@ -37,7 +37,11 @@ const DetailsEditContact = (props) => {
     partB,
   } = props.personalInfo;
 
-  let { allCounties = [], allStates = [], fetchCountyAndState } = useContext(CountyContext);
+  let {
+    allCounties = [],
+    allStates = [],
+    fetchCountyAndState,
+  } = useContext(CountyContext);
   let email = emails.length > 0 ? emails[0].leadEmail : null;
   let phoneData = phones.length > 0 ? phones[0] : null;
   let addressData = addresses.length > 0 ? addresses?.[0] : null;
@@ -372,7 +376,7 @@ const DetailsEditContact = (props) => {
                       placeholder=""
                       maxLength="1"
                       name="middleName"
-                      onKeyPress={onlyAlphabets}
+                      onKeyDown={onlyAlphabets}
                       value={values.middleName?.toUpperCase()}
                       className="custom-mob-w custom-w-px"
                       onChange={handleChange}

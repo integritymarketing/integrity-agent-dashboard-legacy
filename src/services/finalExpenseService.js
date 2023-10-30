@@ -3,17 +3,6 @@ import { ClientsService } from "./clientsService";
 export const LEADS_API_VERSION = "v1.0";
 
 class FinalExpenseService extends ClientsService {
-  getLeadDetails = async (id) => {
-    const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/${id}`,
-      "Get"
-    );
-    if (response.ok) {
-      return response;
-    }
-    throw new Error("Fetch failed.");
-  };
-
   createFinalExpense = async (data) => {
     try {
       const response = await this._clientAPIRequest(
@@ -36,7 +25,7 @@ class FinalExpenseService extends ClientsService {
       data
     );
     if (response.ok) {
-      return response;
+      return response?.json();
     }
     throw new Error("Update failed.");
   };
@@ -47,7 +36,7 @@ class FinalExpenseService extends ClientsService {
       "Get"
     );
     if (response.ok) {
-      return response;
+      return response?.json();
     }
     throw new Error("Fetch failed.");
   };

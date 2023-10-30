@@ -13,6 +13,7 @@ import { CountyProvider } from "contexts/counties";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
+import { LifeProvider } from "contexts/Life";
 
 import AuthContext from "contexts/auth";
 import authService from "services/authService";
@@ -49,19 +50,21 @@ root.render(
                   <ContactsProvider>
                     <BackNavProvider>
                       <StageSummaryProvider>
-                        <HelmetProvider>
-                          <Helmet>
-                            <title>MedicareCENTER</title>
-                          </Helmet>
-                          <Suspense fallback={<div>Loading...</div>}>
-                            <AppRouter>
-                              <div className="content-frame">
-                                <AppRoutes />
-                              </div>
-                            </AppRouter>
-                          </Suspense>
-                          <PortalUrl />
-                        </HelmetProvider>
+                        <LifeProvider>
+                          <HelmetProvider>
+                            <Helmet>
+                              <title>MedicareCENTER</title>
+                            </Helmet>
+                            <Suspense fallback={<div>Loading...</div>}>
+                              <AppRouter>
+                                <div className="content-frame">
+                                  <AppRoutes />
+                                </div>
+                              </AppRouter>
+                            </Suspense>
+                            <PortalUrl />
+                          </HelmetProvider>
+                        </LifeProvider>
                       </StageSummaryProvider>
                     </BackNavProvider>
                   </ContactsProvider>

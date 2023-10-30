@@ -34,10 +34,14 @@
 
 .paymentTypeWrapper {
   margin: 10px 0;
-  padding: 10px 0;
-  background: #f1faff;
 }
 
 .radioSpacing {
-  padding: 0 10px;
+  margin: 10px 0;
+  padding: 10px 10px;
+  border-radius: 8px;
+}
+
+.selectedRadio {
+  background: #f1faff;
 }

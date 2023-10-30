@@ -42,6 +42,7 @@ export const StyledFormWrapper = styled("div")`
   gap: 8px;
   flex-direction: column;
   margin-top: 20px;
+  margin-bottom: 20px;
 
   @media (max-width: 600px) {
     padding: 10px;
