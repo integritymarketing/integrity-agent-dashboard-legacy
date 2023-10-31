@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import MinusCircle from "images/minus-circle.png";
 import "./prescription.scss";
 import GreenRoundCheckIcon from "components/icons/greenRoundCheckBold";
+import MinusIconRed from "components/icons/minusIconRed";
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -9,8 +9,6 @@ export const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 const fields = ["deductible", "gap", "copay", "catastrophic"];
-
-const Img = ({ src }) => <img className="coverage-icon" alt="coverage" src={src} />;
 
 function Prescription({ data, prescriptions }) {
     const getDoseQuantity = (labelName) => {
@@ -64,7 +62,7 @@ function Prescription({ data, prescriptions }) {
                 </div>
                 {data.covered.map((covered, index) => (
                     <div className="col val" key={index}>
-                        {covered ? <GreenRoundCheckIcon /> : <Img src={MinusCircle} />}
+                        {covered ? <GreenRoundCheckIcon /> : <MinusIconRed />}
                     </div>
                 ))}
             </div>

@@ -34,7 +34,7 @@ const UnLinkedCallCard = ({ task }) => {
                     </p>
                     <p>
                         <span className="date-time-duration-text">Time:</span>{" "}
-                        {convertToLocalDateTime(task?.taskDate).format("h:mm")}
+                        {convertToLocalDateTime(task?.taskDate).format("h:mm a")}
                     </p>
                     <p>
                         <span className="date-time-duration-text">Duration:</span> {task?.duration}
