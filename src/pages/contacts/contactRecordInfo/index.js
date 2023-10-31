@@ -10,8 +10,7 @@ import styles from "../ContactsPage.module.scss";
 import PersonalInfo from "./PersonalInfo";
 import Overview from "./Overview";
 import Preferences from "./Preferences";
-import LeadInformationProvider from "hooks/useLeadInformation";
-
+import { LeadInformationProvider } from "hooks/useLeadInformation";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -39,7 +38,7 @@ import useAwaitingQueryParam from "hooks/useAwaitingQueryParam";
 
 const ContactRecordInfoDetails = () => {
     const { contactId: id, sectionId } = useParams();
-    const { getLeadDetails, isLoading, leadDetails } = useContactDetails(id);
+    const { getLeadDetails, leadDetails } = useContactDetails(id);
     const { state = {} } = useLocation();
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
     const [duplicateLeadIdName, setDuplicateLeadIdName] = useState();
@@ -68,8 +67,8 @@ const ContactRecordInfoDetails = () => {
 
     const autoUpdateDetails = async (data) => {
         const zipcode = data?.addresses?.[0]?.postalCode;
-        const county = data?.addresses?.[0]?.county;
-        if (zipcode && !county) {
+        const dataCounty = data?.addresses?.[0]?.county;
+        if (zipcode && !dataCounty) {
             const countiesList = await fetchCounty(zipcode);
             if (countiesList?.all_Counties?.length === 1) {
                 await clientsService
@@ -89,7 +88,7 @@ const ContactRecordInfoDetails = () => {
     };
 
     const getContactRecordInfo = useCallback(
-        async (leadDetails) => {
+        async (_leadDetails) => {
             if (!sectionId) {
                 if (isAwaiting) {
                     setDisplay("scopeofappointments");
@@ -99,11 +98,11 @@ const ContactRecordInfoDetails = () => {
                 }
             }
             setLoading(true);
-            if (leadDetails?.length === 0) {
+            if (_leadDetails?.length === 0) {
                 return;
             }
             try {
-                const data = leadDetails;
+                const data = _leadDetails;
                 setPersonalInfo(data);
                 setReminders(data.reminders);
                 setActivities(data.activities);
@@ -123,17 +122,18 @@ const ContactRecordInfoDetails = () => {
                 const response = await clientsService.getDuplicateContact(values);
                 if (response.ok) {
                     const resMessage = await response.json();
-                    const duplicateLeadIds = resMessage.duplicateLeadIds;
-                    if (duplicateLeadIds.length === 1) {
-                        const getFullNameById = await clientsService.getContactInfo(duplicateLeadIds[0]);
+                    const _duplicateLeadIds = resMessage.duplicateLeadIds;
+                    if (_duplicateLeadIds.length === 1) {
+                        const getFullNameById = await clientsService.getContactInfo(_duplicateLeadIds[0]);
+                        // eslint-disable-next-line no-shadow
                         const { firstName, middleName, lastName } = getFullNameById;
                         setDuplicateLeadIdName(`${firstName} ${middleName || ""} ${lastName}`);
-                        if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
-                            setDuplicateLeadIds(duplicateLeadIds);
+                        if (resMessage.isPartialDuplicate && _duplicateLeadIds[0] !== id) {
+                            setDuplicateLeadIds(_duplicateLeadIds);
                         }
                     } else {
-                        if (resMessage.isPartialDuplicate && duplicateLeadIds[0] !== id) {
-                            setDuplicateLeadIds(duplicateLeadIds);
+                        if (resMessage.isPartialDuplicate && _duplicateLeadIds[0] !== id) {
+                            setDuplicateLeadIds(_duplicateLeadIds);
                         }
                     }
                 }
@@ -143,7 +143,7 @@ const ContactRecordInfoDetails = () => {
                 setLoading(false);
             }
         },
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [id]
     );
 
@@ -151,7 +151,7 @@ const ContactRecordInfoDetails = () => {
         if (match) {
             navigate(`/contact/${id}/${display}`, { replace: true });
         }
-    }, [navigate, match, display]);
+    }, [navigate, match, display, id]);
 
     useEffect(() => {
         analyticsService.fireEvent("event-content-load", {
@@ -209,9 +209,9 @@ const ContactRecordInfoDetails = () => {
         setMenuToggle(false);
         const postalCode = personalInfo?.addresses?.[0]?.postalCode;
         const stateCode = personalInfo?.addresses?.[0]?.stateCode;
-        const county = personalInfo?.addresses?.[0]?.county;
+        const _county = personalInfo?.addresses?.[0]?.county;
         const countyFips = personalInfo?.addresses?.[0]?.countyFips;
-        if (!postalCode || !stateCode || !county || !countyFips) {
+        if (!postalCode || !stateCode || !_county || !countyFips) {
             setisZipAlertOpen(true);
         }
     };
@@ -219,20 +219,20 @@ const ContactRecordInfoDetails = () => {
     const fetchCounty = useCallback(async (zipcode) => {
         const counties = (await clientsService.getCounties(zipcode)) || [];
 
-        const all_Counties = counties.map((county) => ({
-            value: county.countyName,
-            label: county.countyName,
-            key: county.countyFIPS,
+        const all_Counties = counties.map((_county) => ({
+            value: _county.countyName,
+            label: _county.countyName,
+            key: _county.countyFIPS,
         }));
 
-        const uniqueStatesSet = new Set(counties.map((county) => county.state));
+        const uniqueStatesSet = new Set(counties.map((_county) => _county.state));
         const uniqueStates = [...uniqueStatesSet];
 
-        const all_States = uniqueStates.map((state) => {
-            const stateNameObj = STATES.find((s) => s.value === state);
+        const all_States = uniqueStates.map((_state) => {
+            const stateNameObj = STATES.find((s) => s.value === _state);
             return {
                 label: stateNameObj?.label,
-                value: state,
+                value: _state,
             };
         });
 
@@ -257,6 +257,7 @@ const ContactRecordInfoDetails = () => {
         [fetchCounty, setAllCounties, setAllStates, setSubmitEnable]
     );
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const debounceZipFn = useCallback(debounce(fetchCounties, 1000), []);
 
     const handleZipCode = (zipcode) => {
@@ -264,41 +265,41 @@ const ContactRecordInfoDetails = () => {
         debounceZipFn(zipcode);
     };
 
-    const updateCounty = async (county, fip, zip, state) => {
-        await clientsService.updateLeadCounty(personalInfo, county, fip, zip, state).then(() => {
+    const updateCounty = async (_county, fip, zip, _state) => {
+        await clientsService.updateLeadCounty(personalInfo, _county, fip, zip, _state).then(() => {
             setisZipAlertOpen(false);
             getLeadDetails();
         });
     };
 
-    const handleUpdateZip = async (zip) => {
+    const handleUpdateZip = (zip) => {
         if (allCounties.length === 1) {
-            const county = allCounties?.[0]?.value;
+            const _county = allCounties?.[0]?.value;
             const fip = allCounties?.[0]?.key;
-            const state = allStates[0]?.value;
-            updateCounty(county, fip, zip, state);
+            const _state = allStates[0]?.value;
+            updateCounty(_county, fip, zip, _state);
         } else {
             if (county) {
                 const fip = allCounties.filter((item) => item.value === county)[0]?.key;
-                const state = allStates[0]?.value;
-                updateCounty(county, fip, zip, state);
+                const _state = allStates[0]?.value;
+                updateCounty(county, fip, zip, _state);
             } else {
                 setCountyError(true);
             }
         }
     };
 
-    const handleViewAvailablePlans = async () => {
+    const handleViewAvailablePlans = () => {
         navigate(`/plans/${id}`);
     };
 
     const handleViewPlans = () => {
         const postalCode = personalInfo?.addresses?.[0]?.postalCode;
         const stateCode = personalInfo?.addresses?.[0]?.stateCode;
-        const county = personalInfo?.addresses?.[0]?.county;
+        const _county = personalInfo?.addresses?.[0]?.county;
         const countyFips = personalInfo?.addresses?.[0]?.countyFips;
 
-        if (postalCode && stateCode && county && countyFips) {
+        if (postalCode && stateCode && _county && countyFips) {
             return (
                 <Button
                     label="View Available Plans"
@@ -328,8 +329,8 @@ const ContactRecordInfoDetails = () => {
         <React.Fragment>
             <Media
                 query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
+                onChange={(_isMobile) => {
+                    setIsMobile(_isMobile);
                 }}
             />
             <LeadInformationProvider leadId={id}>

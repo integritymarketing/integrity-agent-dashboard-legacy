@@ -81,5 +81,6 @@ module.exports = {
         "max-lines-per-function": ["warn", { max: 100, skipBlankLines: true, skipComments: true }],
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "off",
+        "react-hooks/exhaustive-deps": "warn",
     },
 };

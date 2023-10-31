@@ -87,7 +87,7 @@ const ContactsPage = () => {
 
     useEffect(() => {
         setCurrentPage("Contacts Page");
-    }, []);
+    }, [setCurrentPage]);
 
     const debouncedSetSearchString = useRef(debounce(setSearchStringNew, 500)).current;
 
@@ -98,7 +98,7 @@ const ContactsPage = () => {
     const switchLayout = () => {
         const switchToLayoutPath = layout === "list" ? cardViewLayoutPath : listViewLayoutPath;
         navigate(switchToLayoutPath);
-        setLayout((layout) => (layout === "list" ? "card" : "list"));
+        setLayout((_layout) => (_layout === "list" ? "card" : "list"));
     };
 
     useEffect(() => {
@@ -154,12 +154,12 @@ const ContactsPage = () => {
 
     const handleDeleteContacts = async () => {
         await clientsService.deleteContactLeads(selectedContacts);
-        setDeleteCounter((deleteCounter) => deleteCounter + 1);
+        setDeleteCounter((_deleteCounter) => _deleteCounter + 1);
 
         const undoDelete = async () => {
             const response = await clientsService.reActivateClients(selectedContacts);
             if (response.ok) {
-                setDeleteCounter((deleteCounter) => deleteCounter + 1);
+                setDeleteCounter((_deleteCounter) => _deleteCounter + 1);
                 showToast({
                     type: "success",
                     message: `contacts reactivated successfully`,
@@ -206,8 +206,8 @@ const ContactsPage = () => {
         <React.Fragment>
             <Media
                 query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
+                onChange={(_isMobile) => {
+                    setIsMobile(_isMobile);
                 }}
             />
             <StageStatusProvider>
