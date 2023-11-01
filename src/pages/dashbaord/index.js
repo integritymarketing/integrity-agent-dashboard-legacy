@@ -3,6 +3,11 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import Media from "react-media";
 import * as Sentry from "@sentry/react";
+import { useRecoilState } from "recoil";
+import Morning from "./morning.svg";
+import Afternoon from "./afternoon.svg";
+import Evening from "./evening.svg";
+import DashboardActivityTable from "./DashboardActivityTable";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import clientsService from "services/clientsService";
@@ -13,15 +18,10 @@ import { greetings } from "utils/greetings";
 import useToast from "hooks/useToast";
 import stageSummaryContext from "contexts/stageSummary";
 import "./index.scss";
-import Morning from "./morning.svg";
-import Afternoon from "./afternoon.svg";
-import Evening from "./evening.svg";
 import Arrow from "components/icons/down";
-import DashboardActivityTable from "./DashboardActivityTable";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import AgentWelcomeDialog from "partials/agent-welcome-dialog";
 import { welcomeModalOpenAtom } from "recoil/agent/atoms";
-import { useRecoilState } from "recoil";
 import FooterBanners from "packages/FooterBanners";
 import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
@@ -64,7 +64,9 @@ export default function Dashbaord() {
             }
         };
 
-        performAsyncTask();
+        setTimeout(() => {
+            performAsyncTask();
+        }, 100);
     }, [device]);
 
     useEffect(() => {
