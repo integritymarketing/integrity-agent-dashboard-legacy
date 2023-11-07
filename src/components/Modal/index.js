@@ -123,6 +123,7 @@ export default function Modal({
     onSave,
     open,
     title,
+    maxWidth = "sm",
 }) {
     const classes = useStyles();
 
@@ -131,7 +132,7 @@ export default function Modal({
             <Dialog
                 open={open}
                 onClose={onClose}
-                maxWidth="sm"
+                maxWidth={maxWidth}
                 fullWidth
                 style={{
                     borderRadius: 8,

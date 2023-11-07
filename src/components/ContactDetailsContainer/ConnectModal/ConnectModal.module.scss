@@ -1,0 +1,53 @@
+.connectModalBody {
+    padding: 20px 10px;
+    .leadName {
+        color: #052a63;
+        font-size: 20px;
+    }
+    .connectList {
+        background-color: #ffffff;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+}
+
+.connectOption {
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    width: 100%;
+    box-shadow: inset 0px -1px 0px #dddddd;
+
+    &:last-child {
+        box-shadow: none;
+    }
+
+    cursor: pointer;
+
+    .connectName {
+        width: 95%;
+        color: #434a51;
+        font-size: 16px;
+    }
+    .iconTwo {
+        width: 10%;
+    }
+}
+
+.connectSOA {
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.infoIcon {
+    margin-top: 7px;
+    margin-right: 55px;
+}
+
+.iconOne {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
