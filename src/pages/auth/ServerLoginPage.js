@@ -110,7 +110,7 @@ const ServerLoginPage = () => {
                 analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
                     formName: "Login",
                 });
-                navigate(`registration-email-sent?npn=${payload.Username}&mode=error`);
+                navigate(`/registration-email-sent?npn=${payload.Username}&mode=error`);
             } else {
                 analyticsService.fireEvent("event-form-submit-invalid", {
                     formName: "Login",
