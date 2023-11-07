@@ -29,7 +29,7 @@ const PasswordResetExpiredPage = () => {
         if (response.status >= 200 && response.status < 300) {
             navigate(`/password-reset-sent?npn=${npn}`);
         } else {
-            navigate(`sorry?message=${encodeURIComponent("We could not send a password reset at this time.")}`);
+            navigate(`/sorry?message=${encodeURIComponent("We could not send a password reset at this time.")}`);
         }
     };
 
