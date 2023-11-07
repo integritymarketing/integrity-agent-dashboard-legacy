@@ -105,9 +105,7 @@ const NewContactForm = ({
     }, []);
 
     const linkContact = async (leadIdParam) => {
-        const {
-            state: { policyId, policyNumber, sourceId, agentNpn, policyStatus, firstName, lastName, linkingType },
-        } = state;
+        const { policyId, policyNumber, sourceId, agentNpn, policyStatus, firstName, lastName, linkingType } = state;
 
         try {
             const updateBusinessBookPayload = {
