@@ -29,7 +29,7 @@ const getCoverageRecommendations = (planData) => {
     let coverageArray = [];
     Object.keys(list).map((keyName) => {
         if (list[keyName] === "1") {
-            let value = keyName.includes("_") ? formatUnderScorestring(keyName) : capitalizeFirstLetter(keyName);
+            let value = keyName.includes("_") ? formatUnderScoreString(keyName) : capitalizeFirstLetter(keyName);
 
             coverageArray.push(value);
         }
