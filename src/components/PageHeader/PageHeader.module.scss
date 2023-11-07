@@ -1,0 +1,26 @@
+.headerContainer {
+    background: #FFFFFF;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .backBtnMobile {
+        color: #4178FF;
+        position: absolute;
+        left: 5%;
+    }
+
+    .backBtnDesktop {
+        color: #4178FF;
+        position: absolute;
+        left: 15%
+    }
+
+    .title {
+        font-size: 32px;
+        color: #052A63;
+    }
+}

@@ -1,0 +1,44 @@
+.addressWrapper {
+    margin-top: 8px;
+
+    .title {
+        color: #052A63;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .detailsSubTitle {
+        color: #434a51;
+        font-size: 16px;
+        padding-bottom: 8px;
+    }
+
+
+    .inputAddress {
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        color: #051d43;
+        width: 100%;
+        align-items: center;
+        padding: 16px;
+        gap: 33px;
+        background-color: #F1FAFF;
+        border-radius: 8px;
+        margin-bottom: 16px;
+
+        .copy {
+            background-color: #2175f41a;
+        }
+
+        .copied {
+            background-color: rgb(173, 173, 194);
+        }
+    }
+
+    .mobilebkg {
+        background-color: #ffffff;
+    }
+
+
+}

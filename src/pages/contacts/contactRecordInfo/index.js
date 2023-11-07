@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet-async";
 import * as Sentry from "@sentry/react";
 import { useParams, useLocation, useNavigate, useMatch } from "react-router-dom";
 
-import { debounce } from "debounce";
 import Media from "react-media";
 import styles from "../ContactsPage.module.scss";
 import PersonalInfo from "./PersonalInfo";
@@ -29,7 +28,6 @@ import { Button } from "components/ui/Button";
 import SOAicon from "components/icons/soa";
 import ScopeOfAppointment from "./soaList/ScopeOfAppointment";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
-import AddZip from "./modals/AddZip";
 import { STATES } from "utils/address";
 import MobileMenu from "mobile/Contact/OverView/Menu";
 import FooterBanners from "packages/FooterBanners";
@@ -49,12 +47,6 @@ const ContactRecordInfoDetails = () => {
     const [display, setDisplay] = useState(sectionId);
     const [menuToggle, setMenuToggle] = useState(false);
     const [isEdit, setEdit] = useState(false);
-    const [isZipAlertOpen, setisZipAlertOpen] = useState(false);
-    const [allCounties, setAllCounties] = useState([]);
-    const [allStates, setAllStates] = useState([]);
-    const [county, setCounty] = useState("");
-    const [countyError, setCountyError] = useState(false);
-    const [submitEnable, setSubmitEnable] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const { setCurrentPage } = useContext(BackNavContext);
     const navigate = useNavigate();
@@ -207,13 +199,7 @@ const ContactRecordInfoDetails = () => {
 
     const handleZipDetails = () => {
         setMenuToggle(false);
-        const postalCode = personalInfo?.addresses?.[0]?.postalCode;
-        const stateCode = personalInfo?.addresses?.[0]?.stateCode;
-        const _county = personalInfo?.addresses?.[0]?.county;
-        const countyFips = personalInfo?.addresses?.[0]?.countyFips;
-        if (!postalCode || !stateCode || !_county || !countyFips) {
-            setisZipAlertOpen(true);
-        }
+        navigate(`/contact/${id}/addZip`);
     };
 
     const fetchCounty = useCallback(async (zipcode) => {
@@ -238,56 +224,6 @@ const ContactRecordInfoDetails = () => {
 
         return { all_Counties, all_States };
     }, []);
-
-    const fetchCounties = useCallback(
-        async (zipcode) => {
-            if (zipcode) {
-                const countiesList = await fetchCounty(zipcode);
-                if (countiesList) {
-                    setAllCounties([...(countiesList?.all_Counties || [])]);
-                    setAllStates([...(countiesList?.all_States || [])]);
-                    setSubmitEnable(false);
-                } else {
-                    setAllCounties([]);
-                    setAllStates([]);
-                    setSubmitEnable(false);
-                }
-            }
-        },
-        [fetchCounty, setAllCounties, setAllStates, setSubmitEnable]
-    );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const debounceZipFn = useCallback(debounce(fetchCounties, 1000), []);
-
-    const handleZipCode = (zipcode) => {
-        setSubmitEnable(true);
-        debounceZipFn(zipcode);
-    };
-
-    const updateCounty = async (_county, fip, zip, _state) => {
-        await clientsService.updateLeadCounty(personalInfo, _county, fip, zip, _state).then(() => {
-            setisZipAlertOpen(false);
-            getLeadDetails();
-        });
-    };
-
-    const handleUpdateZip = (zip) => {
-        if (allCounties.length === 1) {
-            const _county = allCounties?.[0]?.value;
-            const fip = allCounties?.[0]?.key;
-            const _state = allStates[0]?.value;
-            updateCounty(_county, fip, zip, _state);
-        } else {
-            if (county) {
-                const fip = allCounties.filter((item) => item.value === county)[0]?.key;
-                const _state = allStates[0]?.value;
-                updateCounty(county, fip, zip, _state);
-            } else {
-                setCountyError(true);
-            }
-        }
-    };
 
     const handleViewAvailablePlans = () => {
         navigate(`/plans/${id}`);
@@ -438,26 +374,6 @@ const ContactRecordInfoDetails = () => {
                                         <FooterBanners className={"footerBanners"} type={isMobile ? "column" : "row"} />
                                     </div>
                                 </div>
-                                <AddZip
-                                    isOpen={isZipAlertOpen}
-                                    onClose={() => setisZipAlertOpen(false)}
-                                    updateZip={handleUpdateZip}
-                                    address={[
-                                        personalInfo?.addresses?.[0]?.address1,
-                                        personalInfo?.addresses?.[0]?.address2,
-                                        personalInfo?.addresses?.[0]?.city,
-                                        personalInfo?.addresses?.[0]?.stateCode,
-                                    ]
-                                        .filter(Boolean)
-                                        .join(", ")}
-                                    handleZipCode={handleZipCode}
-                                    zipCode={personalInfo?.addresses?.[0]?.postalCode}
-                                    allCounties={allCounties}
-                                    county={county}
-                                    setCounty={setCounty}
-                                    countyError={countyError}
-                                    submitEnable={submitEnable}
-                                />
                                 <WebChatComponent />
                             </Container>
                         </div>
