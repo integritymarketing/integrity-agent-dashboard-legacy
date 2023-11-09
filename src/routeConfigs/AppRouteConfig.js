@@ -37,8 +37,11 @@ const SOAConfirmationPage = lazy(() =>
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
+const TaskListResultsMobileLayout = lazy(() => import("pages/dashbaord/Tasklist/TaskListResultsMobileLayout"));
+
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
 const AddZipPage = lazy(() => import("pages/AddZipPage"));
+
 const appRoutes = [
     {
         path: "/",
@@ -160,6 +163,10 @@ const appProtectedRoutes = [
     {
         path: "/contact/:contactId/addZip",
         component: <AddZipPage />,
+    },
+    {
+        path: "taskList-results-mobile-layout/:npn/:widget",
+        component: <TaskListResultsMobileLayout />,
     },
 ];
 

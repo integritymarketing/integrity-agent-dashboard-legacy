@@ -4,7 +4,6 @@ import DateRangeSort from "../DateRangeSort";
 import styles from "./styles.module.scss";
 import TabsCard from "components/TabsCard";
 import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
-import UnlinkedPolicyList from "./UnlinkedPolicies";
 import RemindersList from "./Reminders";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
@@ -19,31 +18,34 @@ import { Button } from "components/ui/Button";
 import moment from "moment";
 import WithLoader from "components/ui/WithLoader";
 import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
+import PlanEnrollLeads from "./PlanEnrollLeads";
+import { useNavigate } from "react-router-dom";
+import { StageStatusProvider } from "contexts/stageStatus";
 
 const DEFAULT_TABS = [
   {
+    policyStatus: "PlanEnroll Leads",
+    policyStatusColor: "#4178FF",
+    name: "PlanEnrollLeads",
+    value: 3,
+  },
+  {
     policyStatus: "SOA 48-hour Rule",
     policyStatusColor: "#4178FF",
-    name: "soa48HoursRule",
+    name: "Soa48HoursRule",
     value: 0,
   },
   {
     policyStatus: "Reminders",
     policyStatusColor: "#4178FF",
-    name: "reminders",
+    name: "Reminders",
     value: 1,
   },
   {
     policyStatus: "Unlinked Calls",
     policyStatusColor: "#DEEBFB",
-    name: "unlinkedCalls",
+    name: "UnlinkedCalls",
     value: 2,
-  },
-  {
-    policyStatus: "Unlinked Policies",
-    policyStatusColor: "#DEEBFB",
-    name: "unLinkedPolicies",
-    value: 3,
   },
 ];
 
@@ -51,14 +53,15 @@ const getLink = {
   "Requested Callbacks": "MedicareCENTER-Requested-Callbacks-Guide.pdf",
   Reminders: "MedicareCENTER-Reminders-Guide.pdf",
   "Unlinked Calls": "MedicareCENTER-Unlinked-Calls-Guide.pdf",
-  "Unlinked Policies": "MedicareCENTER-Unlinked-Policies-Guide.pdf",
+  // "Unlinked Policies": "MedicareCENTER-Unlinked-Policies-Guide.pdf",
 };
 
 export default function TaskList({ isMobile, npn }) {
   const PAGESIZE = isMobile ? 3 : 5;
+  const navigate = useNavigate();
 
   const [dRange] = usePreferences(0, "taskList_sort");
-  const [index] = usePreferences(1, "taskList_widget");
+  const [index] = usePreferences(0, "taskList_widget");
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,25 +70,27 @@ export default function TaskList({ isMobile, npn }) {
   const [isError, setIsError] = useState(false);
   const [fullList, setFullList] = useState([]);
   const [taskList, setTaskList] = useState([]);
-  const [tabs, setTabs] = useState([]);
+  const [tabs, setTabs] = useState(DEFAULT_TABS);
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
   const showToast = useToast();
-  const selectedName =
-    DEFAULT_TABS.find((tab) => tab.value === statusIndex)?.policyStatus ||
-    "SOA 48-hour rule";
+
+  const selectedName = tabs[statusIndex]?.policyStatus || "PlanEnroll Leads";
 
   const showMore = page < totalPageSize;
+
+  const widgetNumber = tabs[statusIndex]?.value;
 
   const fetchEnrollPlans = async () => {
     setIsLoading(true);
     setTotalPageSize(1);
     setPage(1);
+
     try {
       const data = await clientsService.getTaskList(
         npn,
         dateRange,
-        statusIndex
+        widgetNumber
       );
       if (data?.taskSummmary?.length > 0) {
         const sortedTasks = data?.taskSummmary?.sort((a, b) =>
@@ -114,14 +119,18 @@ export default function TaskList({ isMobile, npn }) {
   const fetchCounts = async () => {
     try {
       const tabsData = await clientsService.getTaskListCount(npn, dateRange);
-      const data = DEFAULT_TABS.map((tab, i) => {
-        const task = tabsData[tab.name];
-        tab.policyCount = task?.count || task || 0;
-        return tab;
-      });
-      setTabs([...data]);
+      if (tabsData?.length > 0) {
+        const updatedData = DEFAULT_TABS.map((tab, i) => {
+          const task = tabsData.find((t) => t.name === tab.name);
+          tab.policyCount = task?.count || 0;
+          tab.policyStatusColor = task?.color || "#4178FF";
+          return tab;
+        });
+        setTabs(updatedData);
+      } else {
+        setTabs(DEFAULT_TABS);
+      }
     } catch (error) {
-      console.log("Error in fetch Task List count: ", error);
       showToast({
         type: "error",
         message: "Failed to get Task List Count.",
@@ -153,9 +162,11 @@ export default function TaskList({ isMobile, npn }) {
   }, [page, fullList]);
 
   useEffect(() => {
-    fetchEnrollPlans();
+    if (selectedName !== "PlanEnroll Leads") {
+      fetchEnrollPlans();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showToast, statusIndex, dateRange, npn, selectedName]);
+  }, [showToast, widgetNumber, dateRange, npn, selectedName]);
 
   useEffect(() => {
     fetchCounts();
@@ -170,20 +181,24 @@ export default function TaskList({ isMobile, npn }) {
     }
   };
 
+  const handleWidgetSelection = (index) => {
+    setStatusIndex(index);
+
+    const widgetName = tabs[index]?.name;
+    const selectedWidgetCount = tabs[index]?.policyCount;
+
+    if (isMobile && selectedWidgetCount > 0) {
+      navigate(`/taskList-results-mobile-layout/${npn}/${widgetName}`);
+    }
+  };
+
   // we can pass card info here and accordingly set the show to true as per card
 
   const renderList = () => {
     switch (selectedName) {
       case "Unlinked Calls":
         return <UnLinkedCalls taskList={taskList} refreshData={refreshData} />;
-      case "Unlinked Policies":
-        return (
-          <UnlinkedPolicyList
-            taskList={taskList}
-            npn={npn}
-            refreshData={refreshData}
-          />
-        );
+
       case "Reminders":
         return <RemindersList taskList={taskList} refreshData={refreshData} />;
       case "SOA 48-hour Rule":
@@ -194,14 +209,11 @@ export default function TaskList({ isMobile, npn }) {
             refreshData={refreshData}
           />
         );
+
+      case "PlanEnroll Leads":
+        return <PlanEnrollLeads />;
       default:
-        return (
-          <UnlinkedPolicyList
-            taskList={taskList}
-            npn={npn}
-            refreshData={refreshData}
-          />
-        );
+        return <PlanEnrollLeads />;
     }
   };
 
@@ -226,7 +238,7 @@ export default function TaskList({ isMobile, npn }) {
         return NoReminder;
       case "Unlinked Calls":
         return NoUnlinkedCalls;
-      case "Unlinked Policies":
+      case "PlanEnroll Leads":
         return NoUnlinkedPolicy;
       case "SOA 48-hour Rule":
         return NoSOA48Hours;
@@ -246,7 +258,7 @@ export default function TaskList({ isMobile, npn }) {
       case "Unlinked Calls": {
         return "about unlinked calls.";
       }
-      case "Unlinked Policies": {
+      case "PlanEnroll Leads": {
         return "about unlinked policies.";
       }
       case "SOA 48-hour Rule": {
@@ -255,6 +267,8 @@ export default function TaskList({ isMobile, npn }) {
       default:
     }
   };
+
+  const selectedWidgetCount = tabs[statusIndex]?.policyCount;
 
   return (
     <ContactSectionCard
@@ -275,35 +289,50 @@ export default function TaskList({ isMobile, npn }) {
         tabs={tabs}
         preferencesKey={"taskList_widget"}
         statusIndex={statusIndex}
-        handleWidgetSelection={setStatusIndex}
+        handleWidgetSelection={handleWidgetSelection}
         apiTabs={tabs}
+        isMobile={isMobile}
       />
-      <WithLoader isLoading={isLoading}>
-        {isError || taskList?.length === 0 ? (
-          <ErrorState
-            isError={isError}
-            emptyList={taskList?.length > 0 ? false : true}
-            heading={getErrorHeading(selectedName)}
-            content={getMoreInfo(selectedName)}
-            icon={getIcon(selectedName)}
-            link={getLink[selectedName]}
-          />
-        ) : (
-          <>
-            {renderList()}
-            {showMore && (
-              <div className="jumpList-card">
-                <Button
-                  type="tertiary"
-                  onClick={() => setPage(page + 1)}
-                  label="Show More"
-                  className="jumpList-btn"
-                />
-              </div>
-            )}
-          </>
-        )}
-      </WithLoader>
+
+      {isError || selectedWidgetCount === 0 ? (
+        <ErrorState
+          isError={isError}
+          emptyList={selectedWidgetCount === 0}
+          heading={getErrorHeading(selectedName)}
+          content={getMoreInfo(selectedName)}
+          icon={getIcon(selectedName)}
+          link={getLink[selectedName]}
+        />
+      ) : (
+        <>
+          {selectedName !== "PlanEnroll Leads" && (
+            <WithLoader isLoading={isLoading}>
+              <>
+                {!isMobile && (
+                  <>
+                    {renderList()}
+                    {showMore && (
+                      <div className="jumpList-card">
+                        <Button
+                          type="tertiary"
+                          onClick={() => setPage(page + 1)}
+                          label="Show More"
+                          className="jumpList-btn"
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </>
+            </WithLoader>
+          )}
+          {selectedName === "PlanEnroll Leads" && !isMobile && (
+            <StageStatusProvider>
+              <PlanEnrollLeads dateRange={dateRange} />
+            </StageStatusProvider>
+          )}
+        </>
+      )}
     </ContactSectionCard>
   );
 }

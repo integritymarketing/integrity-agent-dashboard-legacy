@@ -61,7 +61,7 @@ const handleCSGSSO = async (navigate, loading) => {
     window.open(formattedRes.redirect_url, "_blank");
     return;
   } else {
-    navigate("/error?code=third_party_notauthorized", { replace: true});
+    navigate("/error?code=third_party_notauthorized", { replace: true });
   }
 };
 
@@ -425,16 +425,27 @@ const GlobalNavV2 = ({
         <a href="#main-content" className="skip-link">
           Jump to main content
         </a>
-        <h1
-          className={`global-nav-v2__title ${analyticsService.clickClass(
-            "nav-logo"
-          )}`}
-        >
-          <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
-            <Logo aria-hidden="true" />
-            <span className="visually-hidden">Medicare Center</span>
-          </Link>
-        </h1>
+
+        {page === "taskListMobileLayout" ? (
+          <>
+            <div className="backButton" onClick={() => navigate(`/dashboard`)}>
+              Back
+            </div>
+            <div className="taskListTitle"> Task List</div>
+          </>
+        ) : (
+          <h1
+            className={`global-nav-v2__title ${analyticsService.clickClass(
+              "nav-logo"
+            )}`}
+          >
+            <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
+              <Logo aria-hidden="true" />
+              <span className="visually-hidden">Medicare Center</span>
+            </Link>
+          </h1>
+        )}
+
         {auth.isAuthenticated() && !menuHidden && (
           <nav className="global-nav-v2__links">
             <h2 className="visually-hidden">Main Navigation</h2>

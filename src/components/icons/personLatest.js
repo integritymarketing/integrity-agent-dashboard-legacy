@@ -1,6 +1,6 @@
 import React from "react";
 
-const PersonLatestIcon = () => {
+const PersonLatestIcon = ({ color = "0052ce" }) => {
   return (
     <svg
       id="Contact"
@@ -26,7 +26,7 @@ const PersonLatestIcon = () => {
           d="M12.827,4.265A2.69,2.69,0,0,1,9.9,6.943,2.783,2.783,0,0,1,7.449,4.126v-.8A2.783,2.783,0,0,1,9.9.511a2.69,2.69,0,0,1,2.93,2.678Z"
           transform="translate(-2.441 -0.164)"
           fill="none"
-          stroke="#0052ce"
+          stroke={color}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1"
@@ -37,7 +37,7 @@ const PersonLatestIcon = () => {
           d="M9.276,13.549l-.9,1.074a.671.671,0,0,1-1.031,0l-.9-1.074a1.328,1.328,0,0,0-1.536-.385A7.4,7.4,0,0,0,.5,19.2a.678.678,0,0,0,.672.748H14.547a.679.679,0,0,0,.672-.748,7.4,7.4,0,0,0-4.407-6.032A1.328,1.328,0,0,0,9.276,13.549Z"
           transform="translate(-0.164 -4.28)"
           fill="none"
-          stroke="#0052ce"
+          stroke={color}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1"

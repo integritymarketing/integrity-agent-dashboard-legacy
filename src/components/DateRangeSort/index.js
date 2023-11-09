@@ -11,6 +11,7 @@ export default function DateRangeSort({
   preferencesKey,
   dateRange,
   setDateRange,
+  page = "",
 }) {
   const [, setValue] = usePreferences(0, preferencesKey);
 
@@ -30,8 +31,14 @@ export default function DateRangeSort({
           setIsMobile(isMobile);
         }}
       />
-      <div className={styles.sortSelector}>
-        {isMobile ? (
+      <div
+        className={
+          page !== "taskListMobileLayout" && isMobile
+            ? styles.maxWidthMobile
+            : styles.sortSelector
+        }
+      >
+        {isMobile && page !== "taskListMobileLayout" ? (
           <div
             onClick={() => {
               setOpen(!isOpen);
@@ -56,7 +63,13 @@ export default function DateRangeSort({
           </div>
         )}
         {isOpen && (
-          <div className={styles.options}>
+          <div
+            className={
+              page !== "taskListMobileLayout" && isMobile
+                ? `${styles.options} ${styles.optionsMobile}`
+                : styles.options
+            }
+          >
             {DASHBOARD_SORT_OPTIONS.map((option) => {
               return (
                 <div

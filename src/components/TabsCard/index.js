@@ -46,7 +46,7 @@ const TabsCard = ({
   page,
   isMobile,
 }) => {
-  const defaultIndex = page === "policySnapshot" ? 0 : 1;
+  const defaultIndex = page === "policySnapshot" ? 0 : 0;
   const [, setValue] = usePreferences(defaultIndex, preferencesKey);
 
   const onTabClick = (index, policyCount) => {
@@ -54,7 +54,7 @@ const TabsCard = ({
     setValue(index, preferencesKey);
   };
 
-  const isPS_widget = isMobile && page === "policySnapshot";
+  const isPS_widget = isMobile;
 
   return (
     <div
@@ -66,7 +66,7 @@ const TabsCard = ({
         <>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index < 1) {
+              if (index < 2) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}
@@ -76,7 +76,6 @@ const TabsCard = ({
                     tab={tab}
                     isPS_widget={true}
                     tabCount={tabs.length}
-                    isPS_widgetOne={true}
                   />
                 );
               } else return null;
@@ -84,7 +83,7 @@ const TabsCard = ({
           </div>
           <div className={styles.widgetRow}>
             {tabs?.map((tab, index) => {
-              if (index > 0) {
+              if (index > 1) {
                 return (
                   <Widget
                     key={tab?.policyStatus + index}
@@ -108,7 +107,7 @@ const TabsCard = ({
                 key={tab?.policyStatus + index}
                 statusIndex={statusIndex}
                 onTabClick={onTabClick}
-                index={page === "policySnapshot" ? index : tab?.value}
+                index={index}
                 tab={tab}
                 tabCount={tabs.length}
               />
