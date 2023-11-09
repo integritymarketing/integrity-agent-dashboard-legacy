@@ -1,34 +1,43 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./SelectCounty.module.scss";
-import Radio from "components/ui/Radio";
 import { SELECT_COUNTY } from "components/AddZipContainer/AddZipContainer.constants";
+import RadioUnchecked from "components/icons/radio-unchecked";
+import RadioChecked from "components/icons/radio-checked";
 
 export const SelectCounty = ({ counties, isMobile, onSelectCounty }) => {
     const [selectedCounty, setSelectedCounty] = useState("");
 
-    const onChange = (event) => {
-        const selectedValue = event.target.value;
-        setSelectedCounty(selectedValue);
-        onSelectCounty(counties.find((county) => county.value === selectedValue));
+    const onSelect = (value) => {
+        setSelectedCounty(value);
+        onSelectCounty(counties.find((county) => county.value === value));
     };
 
     return (
         <>
             <div className={styles.title}>{SELECT_COUNTY}</div>
             <div className={`${styles.radioWrapper} ${isMobile ? styles.bkgWrapper : ""}`}>
-                {counties.map((county, index) => (
-                    <Radio
-                        id={county.label}
-                        className={`${styles.radioLabel} ${isMobile ? styles.bkgLabel : ""}`}
-                        key={`${county.label}-${index}`}
-                        name="county"
-                        value={county.value}
-                        label={county.label}
-                        checked={selectedCounty === county.value}
-                        onChange={onChange}
-                    />
-                ))}
+                {counties.map((county) => {
+                    const checked = selectedCounty === county.value;
+                    return (
+                        <div
+                            className={`${styles.radioLabel} ${isMobile ? styles.bkgLabel : ""} ${
+                                checked ? styles.selectedBkg : ""
+                            }`}
+                            onClick={() => onSelect(county.value)}
+                        >
+                            <input
+                                type="radio"
+                                className={styles.radioInput}
+                                name={"county"}
+                                value={county.value}
+                                checked={checked}
+                            />
+                            {checked ? <RadioChecked /> : <RadioUnchecked />}
+                            <span>{county.label}</span>
+                        </div>
+                    );
+                })}
             </div>
         </>
     );

@@ -34,7 +34,7 @@ const AddZipPage = () => {
                 <title>MedicareCENTER - Add Zip </title>
             </Helmet>
             <GlobalNav />
-            <PageHeader isMobile={isMobile} contactId={contactId} title={ZIP_CODE} />
+            <PageHeader isMobile={isMobile} contactId={contactId} pageName={ZIP_CODE} />
             <StyledBox>
                 <AddZipContainer isMobile={isMobile} contactId={contactId} />
             </StyledBox>
