@@ -10,205 +10,190 @@ import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 
 const PdpDetailsContent = ({
-  contact,
-  // prescriptions,
-  plan,
-  isMobile,
-  styles,
-  onEnrollClick,
-  onShareClick,
-  pharmacies,
-  isEnroll = false,
-  enrollData,
-  isEmail = false,
-  refresh,
-  // addPrescription,
-  // editPrescription,
-  // deletePrescription,
-  // addPharmacy,
-  // deletePharmacy,
+    contact,
+    // prescriptions,
+    plan,
+    isMobile,
+    styles,
+    onEnrollClick,
+    onShareClick,
+    pharmacies,
+    isEnroll = false,
+    enrollData,
+    isEmail = false,
+    refresh,
 }) => {
-  const location = useLocation();
-  const costsRef = useRef(null);
-  const prescriptionsRef = useRef(null);
-  const pharmacyRef = useRef(null);
-  const pharmacyCoverageRef = useRef(null);
-  const preferredRetailPharmacyCoverageRef = useRef(null);
-  const standardRetailPharmacyCoverageRef = useRef(null);
-  const preferredMailOrderPharmacyCoverageRef = useRef(null);
-  const standardMailOrderPharmacyCoverageRef = useRef(null);
-  const planDocumentsRef = useRef(null);
-  const {
-    hasPreferredRetailPharmacyNetwork,
-    hasPreferredMailPharmacyNetwork,
-    hasMailDrugBenefits,
-  } = plan;
-  return (
-    <>
-      <div className={`${styles["left"]}`}>
-        <PlanDetailsScrollNav
-          initialSectionID="costs"
-          scrollToInitialSection={false}
-          isMobile={isMobile}
-          hidePharmacy={location.pathname.includes("/enrollmenthistory/")}
-          sections={[
-            {
-              header: "Overview",
-            },
-            {
-              id: "costs",
-              label: "Estimated Costs",
-            },
-            {
-              id: "prescriptions",
-              label: "Prescriptions",
-            },
-            {
-              id: "pharmacy",
-              label: "Pharmacy",
-            },
-            {
-              header: "Plan Details",
-            },
-            {
-              id: "pharmacyCoverage",
-              label: "Pharmacy Coverage",
-            },
-            {
-              id: "standardRetailPharmacyCoverage",
-              label: "Standard Retail Pharmacy Coverage",
-            },
-            ...(hasPreferredRetailPharmacyNetwork
-              ? [
-                  {
-                    id: "preferredRetailPharmacyCoverage",
-                    label: "Preferred Retail Pharmacy Coverage",
-                  },
-                ]
-              : []),
-            ...(hasPreferredMailPharmacyNetwork
-              ? [
-                  {
-                    id: "preferredMailOrderPharmacyCoverage",
-                    label: "Preferred Mail Order Pharmacy Coverage",
-                  },
-                ]
-              : []),
-            ...(hasMailDrugBenefits
-              ? [
-                  {
-                    id: "standardMailOrderPharmacyCoverage",
-                    label: "Standard Mail Order Pharmacy Coverage",
-                  },
-                ]
-              : []),
-            {
-              id: "planDocuments",
-              label: "Plan Documents",
-            },
-          ]}
-          ref={{
-            costs: costsRef,
-            prescriptions: prescriptionsRef,
-            pharmacy: pharmacyRef,
-            pharmacyCoverage: pharmacyCoverageRef,
-            planDocuments: planDocumentsRef,
-            standardRetailPharmacyCoverage: standardRetailPharmacyCoverageRef,
-            ...(hasPreferredRetailPharmacyNetwork && {
-              preferredRetailPharmacyCoverage:
-                preferredRetailPharmacyCoverageRef,
-            }),
-            ...(hasPreferredMailPharmacyNetwork && {
-              preferredMailOrderPharmacyCoverage:
-                preferredMailOrderPharmacyCoverageRef,
-            }),
-            ...(hasMailDrugBenefits && {
-              standardMailOrderPharmacyCoverage:
-                standardMailOrderPharmacyCoverageRef,
-            }),
-          }}
-        />
-      </div>
-      <div className={`${styles["main"]}`}>
-        <div className={`${styles["card-container"]}`}>
-          {plan && !isEnroll ? (
-            <CompactPlanCardNew
-              planData={plan}
-              onEnrollClick={onEnrollClick}
-              onShareClick={onShareClick}
-              isMobile={isMobile}
-            />
-          ) : (
-            <EnrollmentPlanCard
-              currentYear={enrollData.currentYear}
-              submittedDate={enrollData.submitDate || "Not Provided by Carrier"}
-              enrolledDate={enrollData.enrolledDate}
-              policyEffectiveDate={enrollData.policyEffectiveDate}
-              policyId={enrollData.policyId}
-              policyHolder={enrollData.policyHolder}
-              leadId={enrollData.leadId}
-              planId={enrollData.planId}
-              agentNpn={enrollData.agentNpn}
-              carrier={enrollData.carrier}
-              consumerSource={enrollData.consumerSource}
-              hasPlanDetails={enrollData.hasPlanDetails}
-              policyStatus={enrollData.policyStatus}
-              confirmationNumber={enrollData.confirmationNumber}
-              isEnrollPlansPage={isEnroll}
-              onShareClick={onShareClick}
-              isEmail={isEmail}
-              planName={enrollData.planName}
-              policyStatusColor={enrollData.policyStatusColor}
-            />
-          )}
-        </div>
-        <div ref={costsRef} className={`${styles["costs"]}`}>
-          {plan && (
-            <PdpCostTable planData={plan} isMobile={isMobile} planType="PDP" />
-          )}
-        </div>
-        <div
-          ref={prescriptionsRef}
-          className={`${styles["prescription-details"]}`}
-        >
-          {plan && (
-            <PrescriptionTable
-              planData={plan}
-              isMobile={isMobile}
-              planDrugCoverage={plan?.planDrugCoverage}
-              drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
-              refresh={refresh}
-            />
-          )}
-        </div>
-        <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
-          {plan && !isEnroll && (
-            <PdpPharmacyTable
-              contact={contact}
-              planData={plan}
-              isMobile={isMobile}
-              refresh={refresh}
-            />
-          )}
-        </div>
-        <PlanDetailsPharmacyCoverageContent
-          plan={plan}
-          styles={styles}
-          refs={{
-            pharmacyCoverageRef,
-            preferredRetailPharmacyCoverageRef,
-            standardRetailPharmacyCoverageRef,
-            preferredMailOrderPharmacyCoverageRef,
-            standardMailOrderPharmacyCoverageRef,
-          }}
-          isMobile={isMobile}
-        />
-        <div ref={planDocumentsRef} className={`${styles["plan-documents"]}`}>
-          <PlanDocumentsTable planData={plan} isMobile={isMobile} />
-        </div>
-      </div>
-    </>
-  );
+    const location = useLocation();
+    const costsRef = useRef(null);
+    const prescriptionsRef = useRef(null);
+    const pharmacyRef = useRef(null);
+    const pharmacyCoverageRef = useRef(null);
+    const preferredRetailPharmacyCoverageRef = useRef(null);
+    const standardRetailPharmacyCoverageRef = useRef(null);
+    const preferredMailOrderPharmacyCoverageRef = useRef(null);
+    const standardMailOrderPharmacyCoverageRef = useRef(null);
+    const planDocumentsRef = useRef(null);
+    const { hasPreferredRetailPharmacyNetwork, hasPreferredMailPharmacyNetwork, hasMailDrugBenefits } = plan;
+    return (
+        <>
+            <div className={`${styles["left"]}`}>
+                <PlanDetailsScrollNav
+                    initialSectionID="costs"
+                    scrollToInitialSection={false}
+                    isMobile={isMobile}
+                    hidePharmacy={location.pathname.includes("/enrollmenthistory/")}
+                    sections={[
+                        {
+                            header: "Overview",
+                        },
+                        {
+                            id: "costs",
+                            label: "Estimated Costs",
+                        },
+                        {
+                            id: "prescriptions",
+                            label: "Prescriptions",
+                        },
+                        {
+                            id: "pharmacy",
+                            label: "Pharmacy",
+                        },
+                        {
+                            header: "Plan Details",
+                        },
+                        {
+                            id: "pharmacyCoverage",
+                            label: "Pharmacy Coverage",
+                        },
+                        {
+                            id: "standardRetailPharmacyCoverage",
+                            label: "Standard Retail Pharmacy Coverage",
+                        },
+                        ...(hasPreferredRetailPharmacyNetwork
+                            ? [
+                                  {
+                                      id: "preferredRetailPharmacyCoverage",
+                                      label: "Preferred Retail Pharmacy Coverage",
+                                  },
+                              ]
+                            : []),
+                        ...(hasPreferredMailPharmacyNetwork
+                            ? [
+                                  {
+                                      id: "preferredMailOrderPharmacyCoverage",
+                                      label: "Preferred Mail Order Pharmacy Coverage",
+                                  },
+                              ]
+                            : []),
+                        ...(hasMailDrugBenefits
+                            ? [
+                                  {
+                                      id: "standardMailOrderPharmacyCoverage",
+                                      label: "Standard Mail Order Pharmacy Coverage",
+                                  },
+                              ]
+                            : []),
+                        {
+                            id: "planDocuments",
+                            label: "Plan Documents",
+                        },
+                    ]}
+                    ref={{
+                        costs: costsRef,
+                        prescriptions: prescriptionsRef,
+                        pharmacy: pharmacyRef,
+                        pharmacyCoverage: pharmacyCoverageRef,
+                        planDocuments: planDocumentsRef,
+                        standardRetailPharmacyCoverage: standardRetailPharmacyCoverageRef,
+                        ...(hasPreferredRetailPharmacyNetwork && {
+                            preferredRetailPharmacyCoverage: preferredRetailPharmacyCoverageRef,
+                        }),
+                        ...(hasPreferredMailPharmacyNetwork && {
+                            preferredMailOrderPharmacyCoverage: preferredMailOrderPharmacyCoverageRef,
+                        }),
+                        ...(hasMailDrugBenefits && {
+                            standardMailOrderPharmacyCoverage: standardMailOrderPharmacyCoverageRef,
+                        }),
+                    }}
+                />
+            </div>
+            <div className={`${styles["main"]}`}>
+                <div className={`${styles["card-container"]}`}>
+                    {plan && !isEnroll ? (
+                        <CompactPlanCardNew
+                            planData={plan}
+                            onEnrollClick={onEnrollClick}
+                            onShareClick={onShareClick}
+                            isMobile={isMobile}
+                        />
+                    ) : (
+                        <EnrollmentPlanCard
+                            currentYear={enrollData.currentYear}
+                            submittedDate={enrollData.submitDate || "Not Provided by Carrier"}
+                            enrolledDate={enrollData.enrolledDate}
+                            policyEffectiveDate={enrollData.policyEffectiveDate}
+                            policyId={enrollData.policyId}
+                            policyHolder={enrollData.policyHolder}
+                            leadId={enrollData.leadId}
+                            planId={enrollData.planId}
+                            agentNpn={enrollData.agentNpn}
+                            carrier={enrollData.carrier}
+                            consumerSource={enrollData.consumerSource}
+                            hasPlanDetails={enrollData.hasPlanDetails}
+                            policyStatus={enrollData.policyStatus}
+                            confirmationNumber={enrollData.confirmationNumber}
+                            isEnrollPlansPage={isEnroll}
+                            onShareClick={onShareClick}
+                            isEmail={isEmail}
+                            planName={enrollData.planName}
+                            policyStatusColor={enrollData.policyStatusColor}
+                        />
+                    )}
+                </div>
+                <div ref={costsRef} className={`${styles["costs"]}`}>
+                    {plan && <PdpCostTable planData={plan} isMobile={isMobile} planType="PDP" />}
+                </div>
+                <div ref={prescriptionsRef} className={`${styles["prescription-details"]}`}>
+                    {plan && (
+                        <PrescriptionTable
+                            planData={plan}
+                            isMobile={isMobile}
+                            planDrugCoverage={plan?.planDrugCoverage}
+                            drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+                            refresh={refresh}
+                            isEnroll={isEnroll}
+                        />
+                    )}
+                </div>
+                <div ref={pharmacyRef} className={`${styles["pharmacy-details"]}`}>
+                    {plan && !isEnroll && (
+                        <PdpPharmacyTable
+                            contact={contact}
+                            planData={plan}
+                            isMobile={isMobile}
+                            refresh={refresh}
+                            isEnroll={isEnroll}
+                        />
+                    )}
+                </div>
+                <PlanDetailsPharmacyCoverageContent
+                    plan={plan}
+                    styles={styles}
+                    refs={{
+                        pharmacyCoverageRef,
+                        preferredRetailPharmacyCoverageRef,
+                        standardRetailPharmacyCoverageRef,
+                        preferredMailOrderPharmacyCoverageRef,
+                        standardMailOrderPharmacyCoverageRef,
+                    }}
+                    isMobile={isMobile}
+                />
+                <div ref={planDocumentsRef} className={`${styles["plan-documents"]}`}>
+                    <PlanDocumentsTable planData={plan} isMobile={isMobile} />
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default PdpDetailsContent;
