@@ -55,7 +55,7 @@ export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
                                 </div>
                             </Box>
                             {/* Directions option */}
-                            <Box className={styles.connectOption}>
+                            {/* <Box className={styles.connectOption}>
                                 <div className={styles.iconOne}>
                                     <Direction />
                                 </div>
@@ -63,7 +63,7 @@ export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
                                 <div className={styles.iconTwo} onClick={() => window.open(getMapUrl(address))}>
                                     <Navigate />
                                 </div>
-                            </Box>
+                            </Box> */}
                             {/* Call Script option */}
                             <Box className={styles.connectOption}>
                                 <div className={styles.iconOne}>
@@ -81,9 +81,9 @@ export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
                                     <Soa />
                                 </div>
                                 <div className={styles.connectName}>Scopes of Appointment</div>
-                                <div className={styles.infoIcon}>
+                                {/* <div className={styles.infoIcon}>
                                     <Info />
-                                </div>
+                                </div> */}
                                 <div
                                     className={styles.iconTwo}
                                     onClick={() =>
