@@ -48,7 +48,7 @@ export default function Dashbaord() {
     const [selectedFilterValues, setSelectedFilterValues] = useState([]);
     const [sort, setSort] = useState("Activities.CreateDate:desc");
     const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(false);
-
+ 
     const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
@@ -249,6 +249,7 @@ export default function Dashbaord() {
                         setTimeout(() => (document.body.style.overflow = "auto"), 1000);
                     }}
                 />
+               
             </WithLoader>
             <GlobalFooter />
         </>
