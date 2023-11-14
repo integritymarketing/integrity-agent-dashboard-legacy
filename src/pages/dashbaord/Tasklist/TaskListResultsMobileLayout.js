@@ -11,10 +11,9 @@ import DateRangeSort from "components/DateRangeSort";
 
 import ErrorState from "components/ErrorState";
 import NoReminder from "images/no-reminder.svg";
-import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
-import NoRequestedCallback from "images/no-requested-callback.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 import NoSOA48Hours from "images/no-soa-48-hours.svg";
+import PlanEnroll from "components/icons/planEnroll";
 
 import UnLinkedCalls from "./UnlinkedCalls";
 import RemindersList from "./Reminders";
@@ -54,10 +53,8 @@ const DEFAULT_TABS = [
 ];
 
 const getLink = {
-    "Requested Callbacks": "MedicareCENTER-Requested-Callbacks-Guide.pdf",
     Reminders: "MedicareCENTER-Reminders-Guide.pdf",
     "Unlinked Calls": "MedicareCENTER-Unlinked-Calls-Guide.pdf",
-    // "Unlinked Policies": "MedicareCENTER-Unlinked-Policies-Guide.pdf",
 };
 
 export default function TaskListMobileLayout() {
@@ -174,14 +171,10 @@ export default function TaskListMobileLayout() {
 
     const getIcon = (selectedName) => {
         switch (selectedName) {
-            case "Requested Callbacks":
-                return NoRequestedCallback;
             case "Reminders":
                 return NoReminder;
             case "Unlinked Calls":
                 return NoUnlinkedCalls;
-            case "Unlinked Policies":
-                return NoUnlinkedPolicy;
             case "SOA 48-hour Rule":
                 return NoSOA48Hours;
             default:
@@ -191,18 +184,13 @@ export default function TaskListMobileLayout() {
 
     const getMoreInfo = (selectedName) => {
         switch (selectedName) {
-            case "Requested Callbacks": {
-                return "about how you can receive leads through consumer callback requests.";
-            }
             case "Reminders": {
                 return "about how you can create reminders.";
             }
             case "Unlinked Calls": {
                 return "about unlinked calls.";
             }
-            case "Unlinked Policies": {
-                return "about unlinked policies.";
-            }
+
             case "SOA 48-hour Rule": {
                 return "To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.";
             }
@@ -226,7 +214,14 @@ export default function TaskListMobileLayout() {
             <Box className={styles.mobileWidget}>
                 <Box className={styles.taskListColor} style={{ backgroundColor: widgetInfo?.color }}></Box>
                 <Box className={styles.taskListHeader}>
-                    <div className={styles.taskListTitle}> {WIDGET_NAME}</div>
+                    <div className={styles.taskListTitle}>
+                        {WIDGET_NAME === "PlanEnroll Leads" && (
+                            <span className={styles.planEnrollIcon}>
+                                <PlanEnroll />
+                            </span>
+                        )}
+                        {WIDGET_NAME}
+                    </div>
                     <div className={styles.taskListCount}>{`(${widgetInfo?.count})`}</div>
                 </Box>
             </Box>

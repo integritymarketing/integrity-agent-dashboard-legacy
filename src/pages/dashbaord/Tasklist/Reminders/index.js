@@ -5,7 +5,7 @@ import { formatDate, convertToLocalDateTime } from "utils/dates";
 import { isOverDue } from "utils/dates";
 
 import Reminder from "../Icons/reminder";
-import { TaskListCard, TaskListCardContainer } from "../TaskListCardContainer";
+import { TaskListCard, } from "../TaskListCardContainer";
 
 import styles from "./styles.module.scss";
 

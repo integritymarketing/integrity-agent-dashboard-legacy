@@ -1,52 +1,52 @@
 .taskListInfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .taskSentDate {
-  color: #717171;
-  font-size: 16px;
-  font-weight: 400;
+    color: #4178ff;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .name {
-  color: #052a63;
-  font-size: 20px;
+    color: #052a63;
+    font-size: 20px;
 }
 .dateInfo {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .reminderIcon {
-  background-color: #f1faff;
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background-color: #f1faff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .overDue {
-  background-color: #ffc3c3;
+    background-color: #ffc3c3;
 }
 
 .dateTimeLabel {
-  color: #434a51;
-  font-size: 16px;
+    color: #434a51;
+    font-size: 16px;
 }
 
 .reminderText {
-  color: #434a51;
-  font-size: 16px;
+    color: #434a51;
+    font-size: 16px;
 }
 
 .completeIcon {
-  background-color: #4178ff;
+    background-color: #4178ff;
 }
 .disabled {
-  pointer-events: none;
-  background-color: #b3c9ff;
+    pointer-events: none;
+    background-color: #b3c9ff;
 }

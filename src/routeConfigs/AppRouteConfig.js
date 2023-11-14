@@ -166,7 +166,12 @@ const appProtectedRoutes = [
     },
     {
         path: "taskList-results-mobile-layout/:npn/:widget",
-        component: <TaskListResultsMobileLayout />,
+        component: (
+            <>
+                <TaskListResultsMobileLayout />
+                <WebChatComponent />
+            </>
+        ),
     },
 ];
 

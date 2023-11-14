@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import OpenIcon from "components/icons/open";
 import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays } from "utils/dates";
 import { Button } from "components/ui/Button";
-import { TaskListCard, TaskListCardContainer } from "../TaskListCardContainer";
+import { TaskListCard,  } from "../TaskListCardContainer";
 
 import styles from "./styles.module.scss";
 

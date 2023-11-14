@@ -11,6 +11,8 @@ import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 import ErrorState from "components/ErrorState";
 import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
+import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
+
 import WithLoader from "components/ui/WithLoader";
 import "./style.scss";
 
@@ -97,8 +99,13 @@ export default function PlanSnapShot({ isMobile, npn }) {
         const fetchCounts = async () => {
             try {
                 const tabsData = await enrollPlansService.getPolicySnapShotCount(npn, dateRange);
-
-                setTabs([...tabsData]);
+                const updatedList = tabsData.map((item) => {
+                    return {
+                        ...item,
+                        policyStatus: item.policyStatus === "UnlinkedPolicies" ? "Unlinked" : item.policyStatus,
+                    };
+                });
+                setTabs([...updatedList]);
             } catch (error) {
                 console.log("Error in fetch policy count: ", error);
                 showToast({
@@ -116,6 +123,46 @@ export default function PlanSnapShot({ isMobile, npn }) {
             jumptoListMobile(index);
         }
         return true;
+    };
+
+    const getErrorHeading = (status) => {
+        switch (status) {
+            case "Unlinked": {
+                return "There are no Unlinked Policies at this time.";
+            }
+
+            default:
+                return `There is no policy information available for you at this time.`;
+        }
+    };
+
+    const getIcon = (status) => {
+        switch (status) {
+            case "Unlinked":
+                return NoUnlinkedPolicy;
+            default:
+                return PolicyNoData;
+        }
+    };
+
+    const getMoreInfo = (status) => {
+        switch (status) {
+            case "Unlinked": {
+                return "about unlinked policies.";
+            }
+            default:
+                return "New policies will be displayed here once they are submitted. Please contact your marketer for more information.";
+        }
+    };
+
+    const getLink = (status) => {
+        switch (status) {
+            case "Unlinked": {
+                return "MedicareCENTER-Unlinked-Policies-Guide.pdf";
+            }
+            default:
+                return null;
+        }
     };
 
     return (
@@ -156,10 +203,10 @@ export default function PlanSnapShot({ isMobile, npn }) {
                     <ErrorState
                         isError={isError}
                         emptyList={policyList?.length > 0 ? false : true}
-                        heading={`There is no policy information available for you at this time.`}
-                        content={`New policies will be displayed here once they are submitted.
-          Please contact your marketer for more information.`}
-                        icon={PolicyNoData}
+                        heading={getErrorHeading(status)}
+                        content={getMoreInfo(status)}
+                        icon={getIcon(status)}
+                        link={getLink(status)}
                     />
                 )}
 

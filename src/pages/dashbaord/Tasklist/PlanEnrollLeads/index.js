@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
 import { useNavigate } from "react-router-dom";
-import { getMMDDYY } from "utils/dates";
 import { formatPhoneNumber } from "utils/phones";
-import { formatDate, convertToLocalDateTime } from "utils/dates";
+import { formatDate } from "utils/dates";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import WithLoader from "components/ui/WithLoader";
 import StageSelect from "pages/contacts/contactRecordInfo/StageSelect";
 import Box from "@mui/material/Box";
-import { TaskListCard, TaskListCardContainer } from "../TaskListCardContainer";
+import { TaskListCard } from "../TaskListCardContainer";
 
 import clientsService from "services/clientsService";
 
@@ -26,25 +25,28 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
     });
 
     const leadPhone = phonesData?.[0]?.leadPhone || null;
+    const leadEmail = callData?.emails.length > 0 ? callData?.emails?.[0]?.leadEmail : null;
 
-    const requestedDate = getMMDDYY(callData?.createDate);
+    const isPrimary = callData?.contactPreferences?.primary || null;
 
     const getDateTime = () => {
-        const localDateTime = convertToLocalDateTime(requestedDate);
-        const date = formatDate(localDateTime, "MM/dd/yyyy");
-        const time = formatDate(localDateTime, "h:mm a").toLowerCase();
+        const date = formatDate(callData?.createDate, "MM/dd/yyyy");
+        const time = formatDate(callData?.createDate, "h:mm a").toLowerCase();
         return { date, time };
     };
+
+    const primaryContact =
+        isPrimary === "email" && leadEmail ? leadEmail : leadPhone ? formatPhoneNumber(leadPhone) : leadEmail;
 
     return (
         <TaskListCard multi={multi} background="white">
             <Box className={styles.taskListInfo}>
                 <Box>
                     <div className={styles.name}>{leadFullName}</div>
-                    <div className={styles.mobile}>{formatPhoneNumber(leadPhone)}</div>
+                    <div className={styles.mobile}>{primaryContact || ""}</div>
                 </Box>
                 <Box className={styles.dateInfo}>
-                    <div className={styles.planDateLabel}>Date Requested:</div>
+                    <div className={styles.planDateLabel}>Date Requested</div>
                     <div className={styles.planDate}>
                         {" "}
                         {getDateTime()?.date} <span className={styles.planDateSpan}>at</span> {getDateTime()?.time}{" "}
@@ -132,13 +134,15 @@ const PlanEnrollLeads = ({ dateRange }) => {
         }
     };
 
+    const sortedTasks = planEnrollData?.sort((a, b) =>
+        moment(b?.createDate, "MM/DD/YYYY HH:mm:ss").diff(moment(a?.createDate, "MM/DD/YYYY HH:mm:ss"))
+    );
+
     return (
         <WithLoader isLoading={isLoading}>
-            {planEnrollData?.length > 0 &&
-                planEnrollData?.map((data) => {
-                    return (
-                        <PlanEnrollCard callData={data} refreshData={refreshData} multi={planEnrollData?.length > 1} />
-                    );
+            {sortedTasks?.length > 0 &&
+                sortedTasks?.map((data) => {
+                    return <PlanEnrollCard callData={data} refreshData={refreshData} multi={sortedTasks?.length > 1} />;
                 })}
         </WithLoader>
     );

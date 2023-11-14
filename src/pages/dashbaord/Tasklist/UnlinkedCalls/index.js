@@ -2,14 +2,12 @@ import React from "react";
 import Box from "@mui/material/Box";
 
 import { useNavigate } from "react-router-dom";
-import OutboundCall from "../Icons/outBound";
 import Link from "../Icons/relink";
 import Download from "../Icons/download";
 import InboundCall from "../Icons/incomingCall";
-import { convertUTCDateToLocalDate } from "utils/dates";
+import { convertUTCDateToLocalDate, convertToLocalDateTime } from "utils/dates";
 import { formatPhoneNumber } from "utils/phones";
-import moment from "moment";
-import { TaskListCard, TaskListCardContainer } from "../TaskListCardContainer";
+import { TaskListCard } from "../TaskListCardContainer";
 
 import styles from "./styles.module.scss";
 
@@ -21,11 +19,6 @@ export default function TaskListMobileLayout({ taskList }) {
         navigate(`/link-to-contact/${item?.id}/${item?.phoneNumber}/${item?.duration}/${date}`);
     };
 
-    const getTaskDate = (date) => {
-        if (date) {
-            return moment.utc(date).local().format("h:m A");
-        }
-    };
     return (
         <>
             {taskList?.map((item) => {
@@ -35,11 +28,17 @@ export default function TaskListMobileLayout({ taskList }) {
                             <Box marginTop={"10px"}>
                                 <div className={styles.dateTimeLabel}>
                                     Date:
-                                    <span className={styles.taskSentDate}> {item?.taskDate?.split(" ")[0]}</span>
+                                    <span className={styles.taskSentDate}>
+                                        {" "}
+                                        {convertToLocalDateTime(task?.taskDate).format("MM/DD/yyyy")}
+                                    </span>
                                 </div>
                                 <div className={styles.dateTimeLabel}>
                                     Time:
-                                    <span className={styles.taskSentDate}> {getTaskDate(item?.taskDate)}</span>
+                                    <span className={styles.taskSentDate}>
+                                        {" "}
+                                        {convertToLocalDateTime(task?.taskDate).format("h:mm a")}
+                                    </span>
                                 </div>
                                 <div className={styles.dateTimeLabel}>
                                     Duration:
