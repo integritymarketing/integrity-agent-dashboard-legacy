@@ -63,7 +63,7 @@ export default function PlanCard({
     const { isNonRTS_User } = useRoles();
 
     const disableEnroll = isNonRTS_User || shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
-
+    console.log("effective month", effectiveDate?.getMonth());
     return (
         <div className={"plan-card"}>
             <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -120,7 +120,8 @@ export default function PlanCard({
                                 <div className={"label"}>Est. Monthly RX Drug Cost</div>
                                 <div className={"currency"}>
                                     {currencyFormatter.format(
-                                        planData.estimatedAnnualDrugCostPartialYear / (12 - effectiveDate?.getMonth())
+                                        planData.estimatedAnnualDrugCostPartialYear / (12 - effectiveDate?.getMonth()) -
+                                            planData?.drugPremium / (12 - effectiveDate?.getMonth())
                                     )}
                                 </div>
                             </div>
