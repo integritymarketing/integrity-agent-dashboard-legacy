@@ -99,13 +99,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
         const fetchCounts = async () => {
             try {
                 const tabsData = await enrollPlansService.getPolicySnapShotCount(npn, dateRange);
-                const updatedList = tabsData.map((item) => {
-                    return {
-                        ...item,
-                        policyStatus: item.policyStatus === "UnlinkedPolicies" ? "Unlinked" : item.policyStatus,
-                    };
-                });
-                setTabs([...updatedList]);
+                setTabs([...tabsData]);
             } catch (error) {
                 console.log("Error in fetch policy count: ", error);
                 showToast({
