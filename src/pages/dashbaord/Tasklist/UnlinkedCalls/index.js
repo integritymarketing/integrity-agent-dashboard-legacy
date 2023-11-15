@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box";
-
 import { useNavigate } from "react-router-dom";
 import Link from "../Icons/relink";
 import Download from "../Icons/download";
@@ -30,14 +29,14 @@ export default function TaskListMobileLayout({ taskList }) {
                                     Date:
                                     <span className={styles.taskSentDate}>
                                         {" "}
-                                        {convertToLocalDateTime(task?.taskDate).format("MM/DD/yyyy")}
+                                        {convertToLocalDateTime(item?.taskDate).format("MM/DD/yyyy")}
                                     </span>
                                 </div>
                                 <div className={styles.dateTimeLabel}>
                                     Time:
                                     <span className={styles.taskSentDate}>
                                         {" "}
-                                        {convertToLocalDateTime(task?.taskDate).format("h:mm a")}
+                                        {convertToLocalDateTime(item?.taskDate).format("h:mm a")}
                                     </span>
                                 </div>
                                 <div className={styles.dateTimeLabel}>

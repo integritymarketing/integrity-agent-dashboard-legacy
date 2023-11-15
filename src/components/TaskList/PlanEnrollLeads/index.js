@@ -35,6 +35,14 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
 
     const primaryContact =
         isPrimary === "email" && leadEmail ? leadEmail : leadPhone ? formatPhoneNumber(leadPhone) : leadEmail;
+    
+    const handleContactClick = () => {
+        if (leadEmail && isPrimary === "email") {
+            window.location.href = `mailto:${leadEmail}`;
+        } else if (leadPhone) {
+            window.location.href = `tel:${leadPhone}`;
+        }
+    }
 
     return (
         <div className="plan-card">
@@ -51,7 +59,7 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
                 <div className="plan-name-info">
                     <div>
                         <p className="plan-name">{leadFullName}</p>
-                        <p className="plan-phone">{primaryContact || ""}</p>
+                        <p className="plan-phone" onClick={handleContactClick} >{primaryContact || ""}</p>
                     </div>
                 </div>
             </Grid>
@@ -157,7 +165,7 @@ const PlanEnrollLeads = ({ dateRange }) => {
             );
 
             if (page > 1) {
-                setPlanEnrollData([...planEnrollData, ...sortedTasks]);
+                setPlanEnrollData([...planEnrollData, ...response.result]);
             } else {
                 setPlanEnrollData([...response.result]);
             }
@@ -181,7 +189,7 @@ const PlanEnrollLeads = ({ dateRange }) => {
     };
 
     const sortedTasks = planEnrollData?.sort((a, b) =>
-        moment(b?.createDate, "MM/DD/YYYY HH:mm:ss").diff(moment(a?.createDate, "MM/DD/YYYY HH:mm:ss"))
+        moment(a?.createDate, "MM/DD/YYYY HH:mm:ss").diff(moment(b?.createDate, "MM/DD/YYYY HH:mm:ss"))
     );
 
     return (

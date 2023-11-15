@@ -218,7 +218,7 @@ export default function TaskList({ isMobile, npn }) {
             case "Unlinked Calls":
                 return NoUnlinkedCalls;
             case "PlanEnroll Leads":
-                return NoUnlinkedPolicy;
+                return NoSOA48Hours;
             case "SOA 48-hour Rule":
                 return NoSOA48Hours;
             default:

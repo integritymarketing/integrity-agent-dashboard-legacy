@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useMemo } from "react";
+import React, { useEffect, useState, } from "react";
 import Box from "@mui/material/Box";
 
 import { Helmet } from "react-helmet-async";
@@ -14,7 +14,8 @@ import NoReminder from "images/no-reminder.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 import NoSOA48Hours from "images/no-soa-48-hours.svg";
 import PlanEnroll from "components/icons/planEnroll";
-
+import PlanEnrollBig from "images/enroll.svg";
+ 
 import UnLinkedCalls from "./UnlinkedCalls";
 import RemindersList from "./Reminders";
 import PlanEnrollLeads from "./PlanEnrollLeads";
@@ -164,6 +165,8 @@ export default function TaskListMobileLayout() {
             case "SOA 48-hour Rule": {
                 return "There are no incomplete SOAs being tracked for you at this time.";
             }
+            case "PlanEnroll Leads":
+                return "There are no PlanEnroll Leads available for the selected date range."
             default:
                 return `There are no ${selectedName?.toLowerCase()} at this time.`;
         }
@@ -175,6 +178,8 @@ export default function TaskListMobileLayout() {
                 return NoReminder;
             case "Unlinked Calls":
                 return NoUnlinkedCalls;
+            case "PlanEnroll Leads":
+                return PlanEnrollBig;
             case "SOA 48-hour Rule":
                 return NoSOA48Hours;
             default:

@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box";
-
 import { useNavigate } from "react-router-dom";
 import OpenIcon from "components/icons/open";
 import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays } from "utils/dates";

@@ -121,7 +121,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const getErrorHeading = (status) => {
         switch (status) {
-            case "Unlinked": {
+            case "UnlinkedPolicies": {
                 return "There are no Unlinked Policies at this time.";
             }
 
@@ -132,7 +132,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const getIcon = (status) => {
         switch (status) {
-            case "Unlinked":
+            case "UnlinkedPolicies":
                 return NoUnlinkedPolicy;
             default:
                 return PolicyNoData;
@@ -141,7 +141,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const getMoreInfo = (status) => {
         switch (status) {
-            case "Unlinked": {
+            case "UnlinkedPolicies": {
                 return "about unlinked policies.";
             }
             default:
@@ -151,13 +151,15 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const getLink = (status) => {
         switch (status) {
-            case "Unlinked": {
+            case "UnlinkedPolicies": {
                 return "MedicareCENTER-Unlinked-Policies-Guide.pdf";
             }
             default:
                 return null;
         }
     };
+
+    console.log("tabs", status);
 
     return (
         <ContactSectionCard

@@ -10,6 +10,7 @@ import WithLoader from "components/ui/WithLoader";
 import StageSelect from "pages/contacts/contactRecordInfo/StageSelect";
 import Box from "@mui/material/Box";
 import { TaskListCard } from "../TaskListCardContainer";
+import { moment } from "moment";
 
 import clientsService from "services/clientsService";
 
@@ -37,13 +38,21 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
 
     const primaryContact =
         isPrimary === "email" && leadEmail ? leadEmail : leadPhone ? formatPhoneNumber(leadPhone) : leadEmail;
+    
+        const handleContactClick = () => {
+        if (leadEmail && isPrimary === "email") {
+            window.location.href = `mailto:${leadEmail}`;
+        } else if (leadPhone) {
+            window.location.href = `tel:${leadPhone}`;
+        }
+    }
 
     return (
         <TaskListCard multi={multi} background="white">
             <Box className={styles.taskListInfo}>
                 <Box>
                     <div className={styles.name}>{leadFullName}</div>
-                    <div className={styles.mobile}>{primaryContact || ""}</div>
+                    <div className={styles.mobile} onClick={handleContactClick}>{primaryContact || ""}</div>
                 </Box>
                 <Box className={styles.dateInfo}>
                     <div className={styles.planDateLabel}>Date Requested</div>
@@ -135,7 +144,7 @@ const PlanEnrollLeads = ({ dateRange }) => {
     };
 
     const sortedTasks = planEnrollData?.sort((a, b) =>
-        moment(b?.createDate, "MM/DD/YYYY HH:mm:ss").diff(moment(a?.createDate, "MM/DD/YYYY HH:mm:ss"))
+        moment(a?.createDate, "MM/DD/YYYY HH:mm:ss").diff(moment(b?.createDate, "MM/DD/YYYY HH:mm:ss"))
     );
 
     return (
