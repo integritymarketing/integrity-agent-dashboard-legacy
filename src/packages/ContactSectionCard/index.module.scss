@@ -1,64 +1,64 @@
 @import "../../scss/globalDefines.scss";
 
 .cardHeader {
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 8px 8px 0px 0px;
-  display: flex;
-  padding: 1.5rem;
-
-  @include small {
-    background: none;
-    box-shadow: none;
-    padding: 0.5rem;
-  }
-  .iconWithTitle {
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px 8px 0px 0px;
     display: flex;
-  }
-  .icon {
-    padding: 10px;
-    cursor: pointer;
-    &:hover {
-      background-color: #f1faff;
-      border-radius: 40px;
+    padding: 1.5rem;
+
+    @include small {
+        background: none;
+        box-shadow: none;
+        padding: 0.5rem;
     }
-  }
-  .iconReverse {
-    transform: rotate(180deg);
-  }
+    .iconWithTitle {
+        display: flex;
+    }
+    .icon {
+        padding: 12px;
+        cursor: pointer;
+        &:hover {
+            background-color: #f1faff;
+            border-radius: 40px;
+        }
+    }
+    .iconReverse {
+        transform: rotate(180deg);
+    }
 }
 
 .heading {
-  color: #002d72;
-  font-size: 24px;
-  letter-spacing: 0.24px;
-  margin-top: 6px;
-  @include small {
-    font-size: 20px;
-    letter-spacing: 0.2px;
-  }
+    color: #002d72;
+    font-size: 24px;
+    letter-spacing: 0.24px;
+    margin-top: 6px;
+    @include small {
+        font-size: 20px;
+        letter-spacing: 0.2px;
+    }
 }
 
 .content {
-  border-radius: 0px 0px 8px 8px;
-  padding: 1.5rem;
+    border-radius: 0px 0px 8px 8px;
+    padding: 1.5rem;
 
-  @include small {
-    background: none;
-    padding: 0.5rem;
-  }
+    @include small {
+        background: none;
+        padding: 0.5rem;
+    }
 }
 
 .infoIcon {
-  margin-left: 10px;
-  margin-top: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .actions {
-  width: 32%;
-  display: flex;
-  justify-content: flex-end;
-  @include small {
-    width: 15%;
-  }
+    width: 32%;
+    display: flex;
+    justify-content: flex-end;
+    @include small {
+        width: 15%;
+    }
 }

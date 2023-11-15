@@ -33,6 +33,7 @@ import MobileMenu from "mobile/Contact/OverView/Menu";
 import FooterBanners from "packages/FooterBanners";
 import WebChatComponent from "components/WebChat/WebChat";
 import useAwaitingQueryParam from "hooks/useAwaitingQueryParam";
+import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 
 const ContactRecordInfoDetails = () => {
     const { contactId: id, sectionId } = useParams();
@@ -174,6 +175,8 @@ const ContactRecordInfoDetails = () => {
                 return <ScopeOfAppointment {...props} />;
             case "preferences":
                 return <Preferences {...props} />;
+            case "policies":
+                return <EnrollmentHistoryContainer leadId={id} />;
             default:
                 return <Overview {...props} />;
         }
