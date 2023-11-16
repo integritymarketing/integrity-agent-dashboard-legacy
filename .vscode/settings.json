@@ -20,7 +20,7 @@
     // Customize the theme (you can install themes from the marketplace)
     "workbench.colorTheme": "Default Dark Modern",
     // Enable or disable auto-save
-    "files.autoSave": "afterDelay",
+    "files.autoSave": "off",
     // Customize the cursor style
     "editor.cursorStyle": "line",
     // Enable or disable line numbers

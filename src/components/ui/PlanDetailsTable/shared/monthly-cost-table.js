@@ -5,7 +5,6 @@ import PlanDetailsTable from "../index";
 import Media from "react-media";
 
 export function MonthlyCostTable({ planData, months, monthNumber, currencyFormatter, isShowMore }) {
-    console.log("monthNumber", monthNumber);
     const effectiveMonthlyCosts =
         planData && planData.pharmacyCosts?.length > 0
             ? planData.pharmacyCosts[0].monthlyCosts?.filter((mc) => mc.monthID <= 12 - parseInt(monthNumber))

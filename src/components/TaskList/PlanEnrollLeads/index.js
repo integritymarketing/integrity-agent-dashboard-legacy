@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
 import { useNavigate } from "react-router-dom";
 import { formatPhoneNumber } from "utils/phones";
-import { formatDate } from "utils/dates";
+import { formatDate, sortListByDate } from "utils/dates";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import WithLoader from "components/ui/WithLoader";
@@ -35,7 +35,7 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
 
     const primaryContact =
         isPrimary === "email" && leadEmail ? leadEmail : leadPhone ? formatPhoneNumber(leadPhone) : leadEmail;
-    
+
     const handleContactClick = () => {
         if (leadEmail && isPrimary === "email") {
             window.location.href = `mailto:${leadEmail}`;
@@ -188,9 +188,7 @@ const PlanEnrollLeads = ({ dateRange }) => {
         }
     };
 
-    const sortedTasks = planEnrollData?.sort((a, b) =>
-        moment(a?.createDate, "MM/DD/YYYY HH:mm:ss").diff(moment(b?.createDate, "MM/DD/YYYY HH:mm:ss"))
-    );
+    const sortedTasks = sortListByDate(planEnrollData, "createDate", false);
 
     return (
         <WithLoader isLoading={isLoading}>

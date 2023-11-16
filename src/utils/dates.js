@@ -242,9 +242,8 @@ export const callDuration = (dateLeft, dateRight) => {
     });
     let { hours, minutes, seconds } = diffTime;
 
-    return `${hours > 9 ? hours : "0" + hours}:${minutes > 9 ? minutes : "0" + minutes}:${
-        seconds > 9 ? seconds : "0" + seconds
-    }`;
+    return `${hours > 9 ? hours : "0" + hours}:${minutes > 9 ? minutes : "0" + minutes}:${seconds > 9 ? seconds : "0" + seconds
+        }`;
 };
 
 export const formattedTime = (time) => {
@@ -263,4 +262,36 @@ export const getHoursDiffBetweenTwoDays = (endDate, startDate) => {
 export const getMonthNumber = (date) => {
     if (!date) return null;
     return date.getMonth() + 1;
+};
+
+
+/**
+ * Parses a date string and returns a Date object or null if invalid.
+ * @param {string} dateString - The date string to be parsed.
+ * @returns {Date|null}
+ */
+const parseDateValue = (dateString) => {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? null : date;
+};
+
+/**
+ * Sorts an array of objects based on a date property.
+ * @param {Object[]} list - The array of objects to sort.
+ * @param {string} dateProperty - The property name of the date to sort by.
+ * @param {boolean} ascending - Whether to sort in ascending order.
+ * @returns {Object[]}
+ */
+export const sortListByDate = (list, dateProperty, ascending = true) => {
+    return [...list].sort((a, b) => {
+        const dateA = parseDateValue(a[dateProperty]);
+        const dateB = parseDateValue(b[dateProperty]);
+
+        // Handling null dates
+        if (!dateA) return ascending ? -1 : 1;
+        if (!dateB) return ascending ? 1 : -1;
+
+        // Sorting
+        return ascending ? dateA - dateB : dateB - dateA;
+    });
 };

@@ -25,7 +25,7 @@ export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
     const address = addresses?.length > 0 ? formatAddress(addresses[0]) : NOT_AVAILABLE;
 
     const handleSoaNavigation = () => {
-        navigate(`/newContact/${leadId}/scope-of-appointment`);
+        navigate(`/contact/${leadId}/scopeofappointments`);
         onClose();
     };
 

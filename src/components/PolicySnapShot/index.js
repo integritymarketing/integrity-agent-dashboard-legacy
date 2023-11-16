@@ -159,7 +159,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
         }
     };
 
-    console.log("tabs", status);
 
     return (
         <ContactSectionCard

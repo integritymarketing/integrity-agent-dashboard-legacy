@@ -2,9 +2,9 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import OpenIcon from "components/icons/open";
-import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays } from "utils/dates";
+import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays, sortListByDate } from "utils/dates";
 import { Button } from "components/ui/Button";
-import { TaskListCard,  } from "../TaskListCardContainer";
+import { TaskListCard, } from "../TaskListCardContainer";
 
 import styles from "./styles.module.scss";
 
@@ -40,9 +40,12 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
         navigate("/contact/" + item.leadId);
     };
 
+    const sortedTasks = sortListByDate(taskList, "sentDate", false);
+
+
     return (
         <>
-            {taskList?.map((item) => {
+            {sortedTasks?.map((item) => {
                 return (
                     <TaskListCard multi={taskList?.length > 1} background="white">
                         <Box className={styles.taskListInfo}>
@@ -76,9 +79,8 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
                         </Box>
                         <Box className={`${styles.section} ${styles.action} ${styles.mobileIcon}`}>
                             <Button
-                                className={`${styles.completeBtn} ${
-                                    isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
-                                }`}
+                                className={`${styles.completeBtn} ${isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
+                                    }`}
                                 label=""
                                 onClick={() => navigateToConfirmSOA(item)}
                                 type="primary"

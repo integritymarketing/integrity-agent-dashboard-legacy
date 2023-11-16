@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import styles from "./Soa48HoursRule.module.scss";
-import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays } from "utils/dates";
+import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays, sortListByDate } from "utils/dates";
 import { Button } from "components/ui/Button";
 import OpenIcon from "components/icons/open";
 
@@ -38,9 +38,13 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
         navigate(`/contact/${item.leadId}`);
     };
 
+    const sortedTasks = sortListByDate(taskList, "sentDate", false);
+
+
+
     return (
         <div className={styles.container}>
-            {taskList?.map((item) => (
+            {sortedTasks?.map((item) => (
                 <div className={styles.item} key={item.id}>
                     <div className={styles.section}>
                         <div className={styles.title1}>SOA sent {getDateTime(item?.sentDate).date} to</div>
@@ -69,9 +73,8 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
                     </div>
                     <div className={`${styles.section} ${styles.action} ${isMobile ? styles.mobileIcon : ""}`}>
                         <Button
-                            className={`${styles.completeBtn} ${
-                                isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
-                            }`}
+                            className={`${styles.completeBtn} ${isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
+                                }`}
                             label={isMobile ? "" : "Complete"}
                             onClick={() => navigateToConfirmSOA(item)}
                             type="primary"
