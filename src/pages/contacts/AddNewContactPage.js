@@ -252,9 +252,9 @@ const NewContactForm = ({
                     analyticsService.fireEvent("event-form-submit", {
                         formName: "New Contact",
                     });
-                    if (callLogId !== "undefined" && callLogId) {
+                    if (callLogIdNumber !== "undefined" && callLogIdNumber) {
                         await callRecordingsService.assignsLeadToInboundCallRecord({
-                            callLogId,
+                            callLogIdNumber,
                             leadId,
                         });
                     }
@@ -728,7 +728,7 @@ const NewContactForm = ({
 export default function AddNewContactPage() {
     const { callLogId } = useParams();
     const { state } = useLocation();
-
+    const callLogIdNumber = Number(callLogId);
     const { policyHolder } = state?.state ?? {};
     let firstName = "";
     let lastName = "";
@@ -758,7 +758,12 @@ export default function AddNewContactPage() {
                 >
                     <h3 className="hdg hdg--3 pt-3 pl-3 pb-2">Contact Details</h3>
                     <div className="border-bottom border-bottom--light"></div>
-                    <NewContactForm callLogId={callLogId} firstName={firstName} lastName={lastName} state={state} />
+                    <NewContactForm
+                        callLogId={callLogIdNumber}
+                        firstName={firstName}
+                        lastName={lastName}
+                        state={state}
+                    />
                 </Container>
             </div>
             <GlobalFooter />
