@@ -41,7 +41,6 @@ const totalCostBasedOnPlantypes = (planData, effectiveStartDate, totalCost) => {
         case "PDP":
         case "MAPD":
             return currencyFormatter.format(planData.estimatedAnnualDrugCostPartialYear);
-        // return currencyFormatter.format(totalCost);
         case "MA":
             return currencyFormatter.format(planData.medicalPremium * (12 - effectiveStartDate.getMonth()));
 
@@ -50,13 +49,12 @@ const totalCostBasedOnPlantypes = (planData, effectiveStartDate, totalCost) => {
     }
 };
 
-const RXCostBasedOnPlantypes = (planData) => {
+const RXCostBasedOnPlantypes = (planData, effectiveStartDate) => {
     const type = PLAN_TYPE_ENUMS[planData.planType];
     switch (type) {
         case "PDP":
         case "MAPD":
-            return currencyFormatter.format(planData.estimatedAnnualDrugCostPartialYear - planData.drugPremium * 12);
-
+            return currencyFormatter.format(planData.estimatedAnnualDrugCostPartialYear - (planData.drugPremium * (12 - effectiveStartDate?.getMonth())));
         default:
             return currencyFormatter.format(0);
     }
@@ -91,11 +89,11 @@ function TotalEstLabel({ effectiveMonth, effectiveYear }) {
     );
 }
 
-function EstRxValue({ planData, monthNumber }) {
+function EstRxValue({ planData, monthNumber, effectiveStartDate }) {
     return (
         <>
             <span className={"value"}>
-                <span className={"currency-value-blue"}>{RXCostBasedOnPlantypes(planData)}</span>
+                <span className={"currency-value-blue"}>{RXCostBasedOnPlantypes(planData, effectiveStartDate)}</span>
                 <i>
                     <span className={"value-subtext"}>{getShortFormMonthSpan(monthNumber)}</span>
                 </i>
@@ -192,7 +190,7 @@ const CostTable = ({ planData }) => {
                     effectiveMonth={getMonthShortName(parseInt(m) - 1)}
                 />
             ),
-            value: <EstRxValue planData={planData} monthNumber={parseInt(m)} />,
+            value: <EstRxValue planData={planData} monthNumber={parseInt(m)} effectiveStartDate={effectiveStartDate} />,
         });
     }
     data.push({

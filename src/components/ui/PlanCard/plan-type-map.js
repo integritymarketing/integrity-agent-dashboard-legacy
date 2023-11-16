@@ -16,7 +16,7 @@ const planTypeMap = {
             label: "Estimated Yearly Rx Drug Cost",
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
-            function: (planData) => planData.estimatedAnnualDrugCostPartialYear - planData.drugPremium * 12,
+            function: (planData, effectiveDate) => planData.estimatedAnnualDrugCostPartialYear - (planData.drugPremium * (12 - effectiveDate?.getMonth())),
         },
         {
             label: "Estimated Yearly Total Cost",
@@ -51,7 +51,7 @@ const planTypeMap = {
             label: "Estimated Yearly Rx Drug Cost",
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
-            function: (planData) => planData.estimatedAnnualDrugCostPartialYear - planData.drugPremium * 12,
+            function: (planData, effectiveDate) => planData.estimatedAnnualDrugCostPartialYear - (planData.drugPremium * (12 - effectiveDate?.getMonth())),
         },
         {
             label: "Estimated Yearly Total Cost",

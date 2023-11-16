@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
 import { useNavigate } from "react-router-dom";
 import { formatPhoneNumber } from "utils/phones";
-import { formatDate, sortListByDate } from "utils/dates";
+import { formatDate, sortListByDate, convertToLocalDateTime } from "utils/dates";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import WithLoader from "components/ui/WithLoader";
@@ -30,8 +30,9 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
     const isPrimary = callData?.contactPreferences?.primary || null;
 
     const getDateTime = () => {
-        const date = formatDate(callData?.createDate, "MM/dd/yyyy");
-        const time = formatDate(callData?.createDate, "h:mm a").toLowerCase();
+        const localDateTime = convertToLocalDateTime(callData?.createDate);
+        const date = formatDate(localDateTime, "MM/dd/yyyy");
+        const time = formatDate(localDateTime, "h:mm a").toLowerCase();
         return { date, time };
     };
 
