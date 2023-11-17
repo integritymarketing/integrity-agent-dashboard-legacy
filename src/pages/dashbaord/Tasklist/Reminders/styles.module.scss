@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
 }
 
 .taskSentDate {
@@ -13,6 +14,7 @@
 .name {
     color: #052a63;
     font-size: 20px;
+    word-wrap: break-word;
 }
 .dateInfo {
     display: flex;
