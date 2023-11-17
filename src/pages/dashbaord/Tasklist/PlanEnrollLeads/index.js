@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
 import { useNavigate } from "react-router-dom";
-import { formatPhoneNumber } from "utils/phones";
 import { formatDate, sortListByDate, convertToLocalDateTime } from "utils/dates";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
@@ -10,6 +9,7 @@ import WithLoader from "components/ui/WithLoader";
 import StageSelect from "pages/contacts/contactRecordInfo/StageSelect";
 import Box from "@mui/material/Box";
 import { TaskListCard } from "../TaskListCardContainer";
+import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
 
 import clientsService from "services/clientsService";
 
@@ -26,8 +26,10 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
 
     const leadPhone = phonesData?.[0]?.leadPhone || null;
     const leadEmail = callData?.emails.length > 0 ? callData?.emails?.[0]?.leadEmail : null;
+    const addresses = callData?.addresses || null;
 
-    const isPrimary = callData?.contactPreferences?.primary || null;
+
+    const isPrimary = callData?.primaryCommunication || null;
 
     const getDateTime = () => {
         const localDateTime = convertToLocalDateTime(callData?.createDate);
@@ -36,15 +38,11 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
         return { date, time };
     };
 
-    const primaryContact =
-        isPrimary === "email" && leadEmail ? leadEmail : leadPhone ? formatPhoneNumber(leadPhone) : leadEmail;
 
-    const handleContactClick = () => {
-        if (leadEmail && isPrimary === "email") {
-            window.location.href = `mailto:${leadEmail}`;
-        } else if (leadPhone) {
-            window.location.href = `tel:${leadPhone}`;
-        }
+
+    const handleEmailClick = () => {
+        window.location.href = `mailto:${leadEmail}`;
+
     }
 
     return (
@@ -52,7 +50,22 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
             <Box className={styles.taskListInfo}>
                 <Box>
                     <div className={styles.name}>{leadFullName}</div>
-                    <div className={styles.mobile} onClick={handleContactClick}>{primaryContact || ""}</div>
+                    {leadEmail && isPrimary === "email" && (
+
+                        <div className={styles.mobile} onClick={handleEmailClick}>{leadEmail}</div>
+                    )}
+                    {leadPhone && isPrimary === "phone" && (
+
+                        <div className={styles.mobile}>
+                            <PrimaryContactPhone
+                                countyFips={addresses?.[0]?.countyFips}
+                                postalCode={addresses?.[0]?.postalCode}
+                                phone={leadPhone}
+                                leadsId={callData?.leadsId}
+                            />
+                        </div>
+                    )}
+
                 </Box>
                 <Box className={styles.dateInfo}>
                     <div className={styles.planDateLabel}>Date Requested</div>

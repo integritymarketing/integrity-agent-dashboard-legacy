@@ -49,14 +49,30 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
                 return (
                     <TaskListCard multi={taskList?.length > 1} background="white">
                         <Box className={styles.taskListInfo}>
-                            <Box>
-                                <div className={styles.taskSentDate}>
-                                    SOA sent {getDateTime(item?.sentDate)?.date} to
+                            <Box sx={{
+                                display: "flex",
+                                justifyContent: "space-between"
+                            }}>
+                                <Box width={"80%"}>
+                                    <div className={styles.taskSentDate}>
+                                        SOA sent {getDateTime(item?.sentDate)?.date} to
+                                    </div>
+                                    <div className={styles.name} onClick={() => navigateToContacts(item)}>
+                                        {getName(item)}
+                                    </div>
+                                    <div className={styles.mobile}>{item ? item?.phoneNumber || item?.sentTo : ""}</div>
+                                </Box>
+                                <div className={`${styles.mobileIcon}`}>
+                                    <Button
+                                        className={`${styles.completeBtn} ${isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
+                                            }`}
+                                        label=""
+                                        onClick={() => navigateToConfirmSOA(item)}
+                                        type="primary"
+                                        icon={<OpenIcon />}
+                                        iconPosition="right"
+                                    />
                                 </div>
-                                <div className={styles.name} onClick={() => navigateToContacts(item)}>
-                                    {getName(item)}
-                                </div>
-                                <div className={styles.mobile}>{item ? item?.phoneNumber || item?.sentTo : ""}</div>
                             </Box>
                             <Box marginTop={"10px"}>
                                 <div className={styles.dateTimeLabel}>
@@ -77,17 +93,7 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
                                 </div>
                             </Box>
                         </Box>
-                        <Box className={`${styles.section} ${styles.action} ${styles.mobileIcon}`}>
-                            <Button
-                                className={`${styles.completeBtn} ${isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
-                                    }`}
-                                label=""
-                                onClick={() => navigateToConfirmSOA(item)}
-                                type="primary"
-                                icon={<OpenIcon />}
-                                iconPosition="right"
-                            />
-                        </Box>
+
                     </TaskListCard>
                 );
             })}

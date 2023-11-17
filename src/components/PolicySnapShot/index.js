@@ -19,6 +19,8 @@ import "./style.scss";
 const TitleData =
     "View your policies by status. Policy status is imported directly from carriers and the availability of status and other policy information may vary by carrier. For the most complete and up-to-date policy information, submit your applications through Contact Management Quote & eApp. Please visit our Learning Center to view the list of carriers whose policies are available in Policy Snapshot or find out more about Policy Management.";
 
+
+const PAGESIZE = 5;
 export default function PlanSnapShot({ isMobile, npn }) {
     // Getting the index and date range from Session storage to auto select the widget and date range //
     const [index] = usePreferences(0, "policySnapShot_widget");
@@ -31,6 +33,9 @@ export default function PlanSnapShot({ isMobile, npn }) {
     const [statusIndex, setStatusIndex] = useState(index);
     const [isError, setIsError] = useState(false);
     const [tabs, setTabs] = useState([]);
+
+    const [page, setPage] = useState(1);
+    const [totalPageSize, setTotalPageSize] = useState(1);
 
     const navigate = useNavigate();
     const showToast = useToast();
@@ -50,6 +55,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
                 setPolicyList(list || []);
                 setLeadIds(ids || []);
+                setTotalPageSize(list?.length / PAGESIZE);
+
             } catch (error) {
                 setIsError(true);
                 showToast({
@@ -61,8 +68,17 @@ export default function PlanSnapShot({ isMobile, npn }) {
                 setIsLoading(false);
             }
         },
-        [showToast, dateRange, npn]
+        [showToast, dateRange, npn,]
     );
+
+
+    useEffect(() => {
+        if (status === "UnlinkedPolicies") {
+            const list = policyList?.filter((task, i) => i < page * PAGESIZE);
+            setPolicyList([...list]);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page,]);
 
     const jumptoListMobile = useCallback(
         (index) => {
@@ -80,19 +96,22 @@ export default function PlanSnapShot({ isMobile, npn }) {
     );
 
     useEffect(() => {
+        setPage(1);
+        setTotalPageSize(1);
         fetchPolicySnapshotList(status);
     }, [fetchPolicySnapshotList, status]);
 
     const handleWidgetSelection = useCallback(
         async (newIndex, policyCount) => {
-            // If mobile, when clicking on the widget, it should take you to the contact list page //
-            if (isMobile && leadIds?.length > 0 && policyCount > 0) {
+            const newStatus = tabs[newIndex]?.policyStatus;
+            // If mobile, when clicking on the widget, it should take you to the contact list page except for UnlinkedPolicies //
+            if (isMobile && leadIds?.length > 0 && policyCount > 0 && newStatus !== "UnlinkedPolicies") {
                 jumptoListMobile(newIndex);
             } else {
                 setStatusIndex(newIndex);
             }
         },
-        [fetchPolicySnapshotList, leadIds, tabs, isMobile, jumptoListMobile]
+        [leadIds, isMobile, jumptoListMobile]
     );
 
     useEffect(() => {
@@ -205,12 +224,15 @@ export default function PlanSnapShot({ isMobile, npn }) {
                     />
                 )}
 
-                {!isMobile && (
+                {(!isMobile || (isMobile && status === "UnlinkedPolicies")) && (
                     <PolicyList
                         policyList={policyList}
                         policyCount={tabs?.[statusIndex]?.policyCount ?? 0}
                         isError={isError}
                         handleJumpList={() => jumptoList(statusIndex)}
+                        status={status}
+                        showMore={page < totalPageSize}
+                        setPage={() => setPage(page + 1)}
                     />
                 )}
             </WithLoader>

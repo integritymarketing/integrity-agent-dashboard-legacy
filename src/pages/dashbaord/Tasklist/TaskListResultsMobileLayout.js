@@ -15,7 +15,7 @@ import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 import NoSOA48Hours from "images/no-soa-48-hours.svg";
 import PlanEnroll from "components/icons/planEnroll";
 import PlanEnrollBig from "images/enroll.svg";
- 
+
 import UnLinkedCalls from "./UnlinkedCalls";
 import RemindersList from "./Reminders";
 import PlanEnrollLeads from "./PlanEnrollLeads";
@@ -247,6 +247,7 @@ export default function TaskListMobileLayout() {
                         content={getMoreInfo(WIDGET_NAME)}
                         icon={getIcon(WIDGET_NAME)}
                         link={getLink[WIDGET_NAME]}
+                        iconPosition="left"
                     />
                 ) : (
                     <>
