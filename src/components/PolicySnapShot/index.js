@@ -231,7 +231,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
                         isError={isError}
                         handleJumpList={() => jumptoList(statusIndex)}
                         status={status}
-                        showMore={true}
+                        showMore={page < totalPageSize}
                         setPage={() => setPage(page + 1)}
                     />
                 )}
