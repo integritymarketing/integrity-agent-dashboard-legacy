@@ -1,0 +1,25 @@
+.customPopover {
+    width: 500px;
+    padding: 10px;
+}
+
+.moreButton {
+    cursor: pointer;
+}
+
+.selections {
+    width: 185px;
+    margin: 10px;
+    border-radius: 4px;
+}
+
+.selection {
+    padding: 10px 20px;
+    border: 1px solid #DDDDDD;
+    cursor: pointer;
+
+    &:hover {
+        background: #f4f6fa;
+        color: #434A51;
+    }
+}

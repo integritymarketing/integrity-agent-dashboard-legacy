@@ -1,0 +1,28 @@
+.customLink {
+    color: #4178ff;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.tag {
+    border-radius: 23px;
+    padding: 0 7px;
+    color: #717171;
+    background: #F1F1F1;
+    border-radius: 4px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 10px;
+    white-space: nowrap;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    padding: 15px;
+    padding-bottom: 10px;
+}

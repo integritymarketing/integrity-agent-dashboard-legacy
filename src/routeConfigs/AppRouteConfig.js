@@ -41,6 +41,7 @@ const TaskListResultsMobileLayout = lazy(() => import("pages/dashbaord/Tasklist/
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
 const AddZipPage = lazy(() => import("pages/AddZipPage"));
+const ContactsList = lazy(() => import("pages/ContactsList"));
 
 const appRoutes = [
     {
@@ -172,6 +173,10 @@ const appProtectedRoutes = [
                 <WebChatComponent />
             </>
         ),
+    },
+    {
+        path: "/contacts-list/*",
+        component: <ContactsList />,
     },
 ];
 

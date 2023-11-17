@@ -1,0 +1,32 @@
+
+.lostStageModal {
+  overflow-x: hidden;
+}
+
+.deleteContactsModal,
+.exportContactsModal,
+.lostStageModal {
+  padding: 1rem;
+}
+
+.footerButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.selectExportContacts {
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.text {
+  font-size: 14px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.lostStageModalContent {
+  margin-top: 10px;
+  margin-bottom: 100px;
+}
