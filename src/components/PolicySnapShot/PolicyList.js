@@ -111,7 +111,7 @@ const PolicyCard = ({ callData }) => {
   );
 };
 
-const PolicyList = ({ policyCount, policyList, handleJumpList, status, showMore, setPage }) => {
+const PolicyList = ({ policyCount, policyList, handleJumpList }) => {
   return (
     <>
       <div className="policy-card-container">
@@ -120,7 +120,7 @@ const PolicyList = ({ policyCount, policyList, handleJumpList, status, showMore,
             return <PolicyCard callData={data} />;
           })}
       </div>
-      {policyCount > 5 && status !== "UnlinkedPolicies" && (
+      {policyCount > 5 && (
         <div className="jumpList-card">
           <Button
             type="tertiary"
@@ -130,16 +130,7 @@ const PolicyList = ({ policyCount, policyList, handleJumpList, status, showMore,
           />
         </div>
       )}
-      {showMore && status === "UnlinkedPolicies" && (
-        <div className="jumpList-card">
-          <Button
-            type="tertiary"
-            onClick={setPage}
-            label="Show More"
-            className="jumpList-btn"
-          />
-        </div>
-      )}
+
     </>
   );
 };

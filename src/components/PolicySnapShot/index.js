@@ -12,6 +12,7 @@ import Popover from "components/ui/Popover";
 import ErrorState from "components/ErrorState";
 import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
+import UnlinkedPolicyList from "components/TaskList/UnlinkedPolicies";
 
 import WithLoader from "components/ui/WithLoader";
 import "./style.scss";
@@ -229,15 +230,20 @@ export default function PlanSnapShot({ isMobile, npn }) {
                     />
                 )}
 
-                {(!isMobile || (isMobile && status === "UnlinkedPolicies")) && (
+                {(!isMobile && status !== "UnlinkedPolicies") && (
                     <PolicyList
                         policyList={policyList}
                         policyCount={tabs?.[statusIndex]?.policyCount ?? 0}
                         isError={isError}
                         handleJumpList={() => jumptoList(statusIndex)}
-                        status={status}
+                    />
+                )}
+                {status === "UnlinkedPolicies" && (
+                    <UnlinkedPolicyList
+                        policyList={policyList}
                         showMore={page < totalPageSize}
                         setPage={() => setPage(page + 1)}
+                        npn={npn}
                     />
                 )}
             </WithLoader>

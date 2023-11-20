@@ -24,13 +24,24 @@
 
 .up-card-link-btn {
   border-radius: 25px !important;
-  padding: 5px 20px !important;
-  background-color: #ffffff !important;
+  padding: 5px 20px 5px 24px !important;
+  background-color: #4178FF !important;
 }
 
 .up-card-link-btn > .label {
   font-size: 16px !important;
-  color: #434a51 !important;
+  color: #ffffff !important;
+}
+
+.up-policy-view-btn{
+   border-radius: 25px !important;
+  padding: 5px 20px 5px 24px !important;
+  background-color: #ffffff !important;
+}
+
+.up-policy-view-btn > .label {
+  font-size: 16px !important;
+  color: #4178FF !important;
 }
 
 .up-name {
@@ -107,3 +118,5 @@
     max-width: none !important;
   }
 }
+
+ 
