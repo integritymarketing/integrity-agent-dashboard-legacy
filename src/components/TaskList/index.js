@@ -10,7 +10,6 @@ import usePreferences from "hooks/usePreferences";
 import clientsService from "services/clientsService";
 import ErrorState from "components/ErrorState";
 import NoReminder from "images/no-reminder.svg";
-import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
 import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 import NoSOA48Hours from "images/no-soa-48-hours.svg";
 import { Button } from "components/ui/Button";
@@ -20,6 +19,8 @@ import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
 import PlanEnrollLeads from "./PlanEnrollLeads";
 import { useNavigate } from "react-router-dom";
 import { StageStatusProvider } from "contexts/stageStatus";
+import { InfoModal } from "./InfoModal/InfoModal";
+import Info from "components/icons/info-blue";
 
 const DEFAULT_TABS = [
     {
@@ -70,6 +71,7 @@ export default function TaskList({ isMobile, npn }) {
     const [tabs, setTabs] = useState(DEFAULT_TABS);
     const [page, setPage] = useState(1);
     const [totalPageSize, setTotalPageSize] = useState(1);
+    const [showTaskListInfoModal, setShowTaskListInfoModal] = useState(false);
     const showToast = useToast();
 
     const selectedName = tabs[statusIndex]?.policyStatus || "PlanEnroll Leads";
@@ -247,68 +249,78 @@ export default function TaskList({ isMobile, npn }) {
     const selectedWidgetCount = tabs[statusIndex]?.policyCount;
 
     return (
-        <ContactSectionCard
-            title="Task List"
-            className={styles.enrollmentPlanContainer_dashboard}
-            isDashboard={true}
-            actions={
-                <DateRangeSort
+        <>
+            <ContactSectionCard
+                title="Task List"
+                className={styles.enrollmentPlanContainer_dashboard}
+                isDashboard={true}
+                infoIcon={
+                    <div onClick={() => setShowTaskListInfoModal(true)} className={styles.infoIcon}>
+                        <Info />
+                    </div>
+                }
+                actions={
+                    <DateRangeSort
+                        isMobile={isMobile}
+                        preferencesKey={"taskList_sort"}
+                        dateRange={dateRange}
+                        setDateRange={setDateRange}
+                    />
+                }
+                preferencesKey={"taskList_collapse"}
+            >
+                <TabsCard
+                    tabs={tabs}
+                    preferencesKey={"taskList_widget"}
+                    statusIndex={statusIndex}
+                    handleWidgetSelection={handleWidgetSelection}
+                    apiTabs={tabs}
                     isMobile={isMobile}
-                    preferencesKey={"taskList_sort"}
-                    dateRange={dateRange}
-                    setDateRange={setDateRange}
                 />
-            }
-            preferencesKey={"taskList_collapse"}
-        >
-            <TabsCard
-                tabs={tabs}
-                preferencesKey={"taskList_widget"}
-                statusIndex={statusIndex}
-                handleWidgetSelection={handleWidgetSelection}
-                apiTabs={tabs}
-                isMobile={isMobile}
-            />
 
-            {isError || selectedWidgetCount === 0 ? (
-                <ErrorState
-                    isError={isError}
-                    emptyList={selectedWidgetCount === 0}
-                    heading={getErrorHeading(selectedName)}
-                    content={getMoreInfo(selectedName)}
-                    icon={getIcon(selectedName)}
-                    link={getLink[selectedName]}
-                />
-            ) : (
-                <>
-                    {selectedName !== "PlanEnroll Leads" && (
-                        <WithLoader isLoading={isLoading}>
-                            <>
-                                {!isMobile && (
-                                    <>
-                                        {renderList()}
-                                        {showMore && (
-                                            <div className="jumpList-card">
-                                                <Button
-                                                    type="tertiary"
-                                                    onClick={() => setPage(page + 1)}
-                                                    label="Show More"
-                                                    className="jumpList-btn"
-                                                />
-                                            </div>
-                                        )}
-                                    </>
-                                )}
-                            </>
-                        </WithLoader>
-                    )}
-                    {selectedName === "PlanEnroll Leads" && !isMobile && (
-                        <StageStatusProvider>
-                            <PlanEnrollLeads dateRange={dateRange} />
-                        </StageStatusProvider>
-                    )}
-                </>
-            )}
-        </ContactSectionCard>
+                {isError || selectedWidgetCount === 0 ? (
+                    <ErrorState
+                        isError={isError}
+                        emptyList={selectedWidgetCount === 0}
+                        heading={getErrorHeading(selectedName)}
+                        content={getMoreInfo(selectedName)}
+                        icon={getIcon(selectedName)}
+                        link={getLink[selectedName]}
+                    />
+                ) : (
+                    <>
+                        {selectedName !== "PlanEnroll Leads" && (
+                            <WithLoader isLoading={isLoading}>
+                                <>
+                                    {!isMobile && (
+                                        <>
+                                            {renderList()}
+                                            {showMore && (
+                                                <div className="jumpList-card">
+                                                    <Button
+                                                        type="tertiary"
+                                                        onClick={() => setPage(page + 1)}
+                                                        label="Show More"
+                                                        className="jumpList-btn"
+                                                    />
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
+                                </>
+                            </WithLoader>
+                        )}
+                        {selectedName === "PlanEnroll Leads" && !isMobile && (
+                            <StageStatusProvider>
+                                <PlanEnrollLeads dateRange={dateRange} />
+                            </StageStatusProvider>
+                        )}
+                    </>
+                )}
+            </ContactSectionCard>
+            {showTaskListInfoModal &&
+                <InfoModal open={showTaskListInfoModal} onClose={() => setShowTaskListInfoModal(false)} isMobile={isMobile} />
+            }
+        </>
     );
 }

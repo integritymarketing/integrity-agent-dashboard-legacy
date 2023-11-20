@@ -28,6 +28,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const [isLoading, setIsLoading] = useState(false);
     const [policyList, setPolicyList] = useState([]);
+    const [fullList, setFullList] = useState([]);
     const [leadIds, setLeadIds] = useState([]);
     const [dateRange, setDateRange] = useState(dRange);
     const [statusIndex, setStatusIndex] = useState(index);
@@ -45,6 +46,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
     const fetchPolicySnapshotList = useCallback(
         async (statusToFetch) => {
             // If status is undefined, don't hit the fetch call //
+            setPage(1);
+            setTotalPageSize(1);
             if (!statusToFetch) return;
             setIsLoading(true);
 
@@ -52,8 +55,12 @@ export default function PlanSnapShot({ isMobile, npn }) {
                 const items = await enrollPlansService.getPolicySnapShotList(npn, dateRange, statusToFetch);
                 const list = items[0]?.bookOfBusinessSummmaryRecords;
                 const ids = items[0]?.leadIds;
-
-                setPolicyList(list || []);
+                if (statusToFetch === "UnlinkedPolicies") {
+                    setFullList(list || []);
+                }
+                else {
+                    setPolicyList(list || []);
+                }
                 setLeadIds(ids || []);
                 setTotalPageSize(list?.length / PAGESIZE);
 
@@ -74,11 +81,11 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     useEffect(() => {
         if (status === "UnlinkedPolicies") {
-            const list = policyList?.filter((task, i) => i < page * PAGESIZE);
+            const list = fullList?.filter((task, i) => i < page * PAGESIZE);
             setPolicyList([...list]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page,]);
+    }, [page, fullList]);
 
     const jumptoListMobile = useCallback(
         (index) => {
@@ -96,8 +103,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
     );
 
     useEffect(() => {
-        setPage(1);
-        setTotalPageSize(1);
         fetchPolicySnapshotList(status);
     }, [fetchPolicySnapshotList, status]);
 

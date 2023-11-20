@@ -120,7 +120,7 @@ const PlanEnrollLeads = ({ dateRange }) => {
 
         try {
             const response = await clientsService.getDashboardData(
-                null,
+                "createDate:desc",
                 null,
                 null,
                 null,
