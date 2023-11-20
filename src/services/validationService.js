@@ -182,8 +182,8 @@ class ValidationService {
     };
 
     validateAddress = (inputStr, label = "Address") => {
-        if (inputStr && !/^[0-9a-zA-Z #'.,-]{3,}$/.test(inputStr)) {
-            return `${label} must be 3 characters or more, Only Alpha, Numerical, and certain special characters such as # ' . - are allowed`;
+        if (inputStr && !/^[0-9a-zA-Z #'.,-]{2,}$/.test(inputStr)) {
+            return `${label} must be 2 characters or more, Only Alpha, Numerical, and certain special characters such as # ' . - are allowed`;
         }
         return null;
     };
