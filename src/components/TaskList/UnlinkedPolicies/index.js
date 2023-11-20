@@ -90,14 +90,14 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
             {callData?.policyHolder || ""}
           </div>
         </Grid>
-        {callData?.hasPlanDetails && (
-          <Grid
-            item
-            xs={6}
-            md={3}
-            alignSelf={"center"}
-            className="policy-button-mobile"
-          >
+        <Grid
+          item
+          xs={6}
+          md={3}
+          alignSelf={"center"}
+          className="policy-button-mobile"
+        >
+          {callData?.hasPlanDetails && (
             <Button
               icon={<OpenIcon color="#4178FF" />}
               label={"View Policy"}
@@ -107,8 +107,8 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
               type="tertiary"
               style={isMobile ? { padding: "11px 6px" } : {}}
             />
-          </Grid>
-        )}
+          )}
+        </Grid>
         <Grid
           item
           xs={6}
