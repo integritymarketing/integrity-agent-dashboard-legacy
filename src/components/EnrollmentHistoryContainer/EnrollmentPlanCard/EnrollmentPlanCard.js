@@ -161,39 +161,29 @@ export default function EnrollmentPlanCard(props) {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        {/* {hasPlanDetails && ( */}
-                                                        <Button
-                                                            icon={<OpenIcon />}
-                                                            label={"View"}
-                                                            className={styles.viewButton}
-                                                            onClick={navigateEnrollDetails}
-                                                            type="tertiary"
-                                                            iconPosition="right"
-                                                        />
-                                                        {/* )} */}
-                                                        {/* {!location.pathname.includes("enrollment-link-to-contact") &&
-                                                        policyStatus !== "started" && ( */}
-                                                        {/* // <div onClick={navigateToEnrollmentLink}>
-                                                            //     <IconWithText
-                                                            //         text="Relink"
-                                                            //         icon={
-                                                            //             <Icon
-                                                            //                 altText="Link"
-                                                            //                 className={styles.iconPng}
-                                                            //                 image={Link}
-                                                            //             />
-                                                            //         }
-                                                            //     /> */}
-                                                        <Button
-                                                            icon={<Relink color="#4178FF" />}
-                                                            label={"Relink"}
-                                                            className={styles.relinkButton}
-                                                            onClick={navigateToEnrollmentLink}
-                                                            type="tertiary"
-                                                            iconPosition="right"
-                                                        />
-                                                        {/* // </div> */}
-                                                        {/* )} */}
+                                                        {hasPlanDetails && (
+                                                            <Button
+                                                                icon={<OpenIcon />}
+                                                                label={"View"}
+                                                                className={styles.viewButton}
+                                                                onClick={navigateEnrollDetails}
+                                                                type="tertiary"
+                                                                iconPosition="right"
+                                                            />
+                                                        )}
+                                                        {!location.pathname.includes("enrollment-link-to-contact") &&
+                                                            policyStatus !== "started" && (
+
+                                                                <Button
+                                                                    icon={<Relink color="#4178FF" />}
+                                                                    label={"Relink"}
+                                                                    className={styles.relinkButton}
+                                                                    onClick={navigateToEnrollmentLink}
+                                                                    type="tertiary"
+                                                                    iconPosition="right"
+                                                                />
+
+                                                            )}
                                                     </>
                                                 )
                                             }
