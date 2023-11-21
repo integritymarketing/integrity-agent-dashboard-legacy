@@ -20,6 +20,7 @@ import { ContactsListHeader } from "pages/ContactsList/ContactsListHeader";
 import { ContactsCard } from "./ContactsCard";
 import { ContactsListActions } from "./ContactsListActions";
 import { ContactsTable } from "./ContactsTable";
+import { DuplicateBanner } from "./DuplicateBanner";
 import { ContactsListModalProvider } from "./providers/ContactsListModalProvider";
 import { ContactsListProvider } from "./providers/ContactsListProvider";
 import styles from "./styles.module.scss";
@@ -42,6 +43,7 @@ function ContactsList() {
                         <Box className={styles.wrapper}>
                             <Container className={styles.container}>
                                 <ContactsListActions />
+                                <DuplicateBanner />
                                 <Divider className={styles.divider} />
                                 <Routes>
                                     <Route path="/" element={<Navigate to="/contacts-list/list" replace={true} />} />
