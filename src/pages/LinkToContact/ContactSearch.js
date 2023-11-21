@@ -1,15 +1,20 @@
-import React, { useState, useCallback } from "react";
-import { InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import SearchIcon from "@mui/icons-material/Search";
-import styles from "./styles.module.scss";
-import useToast from "hooks/useToast";
-import Heading3 from "packages/Heading3";
+import { InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { useParams } from "react-router-dom";
+
+import useToast from "hooks/useToast";
+
+import Heading3 from "packages/Heading3";
+
 import Spinner from "components/ui/Spinner/index";
-import clientsService from "services/clientsService";
+
 import callRecordingsService from "services/callRecordingsService";
+import clientsService from "services/clientsService";
+
+import styles from "./styles.module.scss";
 
 const SearchInput = styled(OutlinedInput)(() => ({
     background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -20,7 +25,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
     },
 }));
 
-const ContactListItemButton = ({ contact, callFrom, leadId, callLogIdNumber, children }) => {
+const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children }) => {
     const showToast = useToast();
     const navigate = useNavigate();
 
@@ -35,9 +40,9 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogIdNumber, chi
             if (!hasPhone) {
                 await updatePrimaryContact();
             }
-            if (callLogIdNumber) {
+            if (callLogId) {
                 await callRecordingsService.assignsLeadToInboundCallRecord({
-                    callLogIdNumber,
+                    callLogId,
                     leadId,
                 });
                 showToast({
@@ -51,7 +56,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogIdNumber, chi
                 message: `${error.message}`,
             });
         }
-    }, [navigate, leadId, callLogIdNumber, showToast, contact.phones, updatePrimaryContact]);
+    }, [navigate, leadId, callLogId, showToast, contact.phones, updatePrimaryContact]);
 
     return (
         <div className={styles.contactName} onClick={onClickHandler}>
@@ -76,7 +81,7 @@ export default function ContactSearch({ contacts, onChange, isLoading }) {
         }
 
         return (
-            <ListItem key={"contactindex" + index} className={styles.contactItem} disablePadding>
+            <ListItem key={`contactindex${index}`} className={styles.contactItem} disablePadding>
                 <ListItemButton
                     component={ContactListItemButton}
                     leadId={value.leadsId}
