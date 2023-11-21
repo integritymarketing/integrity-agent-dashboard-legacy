@@ -728,7 +728,7 @@ const NewContactForm = ({
 export default function AddNewContactPage() {
     const { callLogId } = useParams();
     const { state } = useLocation();
-    const callLogIdNumber = Number(callLogId);
+    const callLogIdNumber = callLogId ? Number(callLogId) : null;
     const { policyHolder } = state?.state ?? {};
     let firstName = "";
     let lastName = "";

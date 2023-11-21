@@ -11,7 +11,7 @@ export default function PossibleMatches({ phone }) {
     const { callLogId, callFrom } = useParams();
     const navigate = useNavigate();
     const showToast = useToast();
-    const callLogIdNumber = Number(callLogId);
+    const callLogIdNumber = callLogId ? Number(callLogId) : null;
 
     useEffect(() => {
         const getContacts = async () => {
