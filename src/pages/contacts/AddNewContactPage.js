@@ -252,9 +252,9 @@ const NewContactForm = ({
                     analyticsService.fireEvent("event-form-submit", {
                         formName: "New Contact",
                     });
-                    if (callLogIdNumber !== "undefined" && callLogIdNumber) {
+                    if (callLogId !== "undefined" && callLogId) {
                         await callRecordingsService.assignsLeadToInboundCallRecord({
-                            callLogIdNumber,
+                            callLogId,
                             leadId,
                         });
                     }

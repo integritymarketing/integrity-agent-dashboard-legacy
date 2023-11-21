@@ -44,7 +44,7 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
     }
 
     return (
-        <div className="plan-card">
+        <div className="plan-enroll-card">
             <Box className="plan-name-info" width={"20%"}>
 
 
