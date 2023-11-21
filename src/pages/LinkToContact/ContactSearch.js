@@ -44,6 +44,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children 
                 await callRecordingsService.assignsLeadToInboundCallRecord({
                     callLogId,
                     leadId,
+                    isInbound: true,
                 });
                 showToast({
                     message: "Contact linked succesfully",

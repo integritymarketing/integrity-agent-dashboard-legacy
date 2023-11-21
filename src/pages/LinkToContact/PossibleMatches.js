@@ -1,9 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import clientsService from "services/clientsService";
-import callRecordingsService from "services/callRecordingsService";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import useToast from "hooks/useToast";
+
+import callRecordingsService from "services/callRecordingsService";
+import clientsService from "services/clientsService";
+
 import styles from "./styles.module.scss";
 
 export default function PossibleMatches({ phone }) {
@@ -52,8 +55,9 @@ export default function PossibleMatches({ phone }) {
                 }
                 if (callLogIdNumber) {
                     await callRecordingsService.assignsLeadToInboundCallRecord({
-                        callLogIdNumber,
+                        callLogId: callLogIdNumber,
                         leadId: contact.leadsId,
+                        isInbound: true,
                     });
                     showToast({
                         message: "Contact linked successfully",
