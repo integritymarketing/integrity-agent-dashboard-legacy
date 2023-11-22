@@ -1,31 +1,37 @@
-import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
-import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Formik, Form, Field } from "formik";
-import { Button } from "components/ui/Button";
-import Container from "components/ui/container";
-import Textfield from "components/ui/textfield";
-import Warning from "components/icons/warning";
-import { Select } from "components/ui/Select";
-import validationService from "services/validationService";
-import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
-import styles from "./ContactsPage.module.scss";
-import clientsService from "services/clientsService";
-import enrollPlansService from "services/enrollPlansService";
-import callRecordingsService from "services/callRecordingsService";
-import useToast from "../../hooks/useToast";
-import { formatPhoneNumber } from "utils/phones";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+
+import { Field, Form, Formik } from "formik";
+
+import ContactRecordTypes from "utils/contactRecordTypes";
 import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
-import ContactRecordTypes from "utils/contactRecordTypes";
-import analyticsService from "services/analyticsService";
-import { onlyAlphabets, formatMbiNumber } from "utils/shared-utils/sharedUtility";
-import CountyContext from "contexts/counties";
-import useQueryParams from "hooks/useQueryParams";
-import DatePickerMUI from "components/DatePicker";
-import { scrollTop } from "utils/shared-utils/sharedUtility";
+import { formatPhoneNumber } from "utils/phones";
+import { formatMbiNumber, onlyAlphabets, scrollTop } from "utils/shared-utils/sharedUtility";
 
+import useToast from "../../hooks/useToast";
+import useQueryParams from "hooks/useQueryParams";
+
+import DatePickerMUI from "components/DatePicker";
+import Warning from "components/icons/warning";
+import { Button } from "components/ui/Button";
+import { Select } from "components/ui/Select";
+import Container from "components/ui/container";
+import Textfield from "components/ui/textfield";
+
+import GlobalFooter from "partials/global-footer";
+import GlobalNav from "partials/global-nav-v2";
+
+import CountyContext from "contexts/counties";
+
+import analyticsService from "services/analyticsService";
+import callRecordingsService from "services/callRecordingsService";
+import clientsService from "services/clientsService";
+import enrollPlansService from "services/enrollPlansService";
+import validationService from "services/validationService";
+
+import styles from "./ContactsPage.module.scss";
 import "./contactRecordInfo/contactRecordInfo.scss";
 
 const NewContactForm = ({
@@ -245,7 +251,7 @@ const NewContactForm = ({
                     return;
                 }
 
-                let response = await clientsService.addNewContact(values);
+                const response = await clientsService.addNewContact(values);
                 if (response.ok) {
                     const resMessage = await response.json();
                     const leadId = resMessage.leadsId;
@@ -256,6 +262,7 @@ const NewContactForm = ({
                         await callRecordingsService.assignsLeadToInboundCallRecord({
                             callLogId,
                             leadId,
+                            isInbound: true,
                         });
                     }
                     showToast({
@@ -301,9 +308,9 @@ const NewContactForm = ({
                 ) {
                     primaryCommunicationStatus = true;
                 }
-                let countyName = allCounties[0]?.value;
-                let countyFipsName = allCounties[0]?.key;
-                let stateCodeName = allStates[0]?.value;
+                const countyName = allCounties[0]?.value;
+                const countyFipsName = allCounties[0]?.key;
+                const stateCodeName = allStates[0]?.value;
 
                 if (
                     allCounties.length === 1 &&
