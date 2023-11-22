@@ -9,7 +9,7 @@ import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
 import Media from "react-media";
 import { AddZipContainer } from "components/AddZipContainer";
-import { ZIP_CODE } from "components/AddZipContainer/AddZipContainer.constants";
+import { HEALTH_POLICIES } from "components/AddZipContainer/AddZipContainer.constants";
 import { PageHeader } from "components/PageHeader";
 
 const StyledBox = styled(Box)(() => ({
@@ -34,7 +34,7 @@ const AddZipPage = () => {
                 <title>MedicareCENTER - Add Zip </title>
             </Helmet>
             <GlobalNav />
-            <PageHeader isMobile={isMobile} contactId={contactId} pageName={ZIP_CODE} />
+            <PageHeader isMobile={isMobile} contactId={contactId} pageName={HEALTH_POLICIES} />
             <StyledBox>
                 <AddZipContainer isMobile={isMobile} contactId={contactId} />
             </StyledBox>

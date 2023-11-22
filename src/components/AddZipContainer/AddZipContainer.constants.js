@@ -1,6 +1,7 @@
 export const CONFIRM_DETAILS_TEXT = "Let's confirm a few details";
 export const CONFIRM_DETAILS_SUBTEXT = "Please enter your contact's zip code to see plan details and pricing";
 export const ZIP_CODE = "Zip Code";
+export const HEALTH_POLICIES = "Health Policies";
 export const SELECT_COUNTY = "Select County";
 export const NEED_HELP_ZIP_TEXT = "Need help finding your client's Zip Code?";
 export const NEED_HELP_ZIP_SUBTEXT = "Copy the address below to help";

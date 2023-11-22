@@ -34,7 +34,7 @@ const AddZipContainer = ({
         const payload = getPayloadForUpdate(leadDetails, countyName, countyFIPS, state, zipCode)
         await updateLeadData(payload)
         getLeadDetails();
-        navigate(`/contact/${contactId}/overview`);
+        navigate(`/plans/${contactId}`);
 
     };
 
