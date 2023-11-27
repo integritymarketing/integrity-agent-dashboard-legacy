@@ -8,10 +8,6 @@ export const MORE_ACTIONS = [
         value: "new-soa",
     },
     {
-        label: "Connect",
-        value: "connect",
-    },
-    {
         label: "Add New Reminder",
         value: "addnewreminder",
     },

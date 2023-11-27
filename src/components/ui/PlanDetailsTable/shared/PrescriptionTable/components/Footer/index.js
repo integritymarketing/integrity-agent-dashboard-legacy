@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Footer.module.scss";
-import { TotalEstValue } from "../../../cost-table";
+import { EstRxValue } from "../../../cost-table";
 import { useParams } from "react-router-dom";
 
 const Footer = ({ isMobile, planData, count }) => {
@@ -11,8 +11,8 @@ const Footer = ({ isMobile, planData, count }) => {
   const effectiveMonthlyCosts =
     planData && planData.pharmacyCosts?.length > 0
       ? planData.pharmacyCosts[0].monthlyCosts?.filter(
-          (mc) => mc.monthID <= 12 - parseInt(month)
-        )
+        (mc) => mc.monthID <= 12 - parseInt(month)
+      )
       : [];
   const totalDrugCost = effectiveMonthlyCosts?.reduce((acc, curr) => {
     return (
@@ -24,9 +24,8 @@ const Footer = ({ isMobile, planData, count }) => {
   }, 0);
   return (
     <div
-      className={`${styles.container} ${
-        isMobile ? styles.mobileContainer : ""
-      }`}
+      className={`${styles.container} ${isMobile ? styles.mobileContainer : ""
+        }`}
     >
       <div className={`${styles.left} ${isMobile ? styles.mbLeft : ""}`}>
         <div className={`${styles.title} ${isMobile ? styles.mbTitle : ""}`}>
@@ -35,15 +34,14 @@ const Footer = ({ isMobile, planData, count }) => {
         <div
           className={`${styles.subTitle} ${isMobile ? styles.mbSubTitle : ""}`}
         >
-          Based on {count} drugs plus monthly drug premium
+          Based on {count} drugs
         </div>
       </div>
       <div className={`${styles.right} ${isMobile ? styles.mbRight : ""}`}>
-        <TotalEstValue
+        <EstRxValue
           planData={planData}
           effectiveStartDate={effectiveStartDate}
           monthNumber={parseInt(month)}
-          totalCost={totalDrugCost}
         />
       </div>
     </div>

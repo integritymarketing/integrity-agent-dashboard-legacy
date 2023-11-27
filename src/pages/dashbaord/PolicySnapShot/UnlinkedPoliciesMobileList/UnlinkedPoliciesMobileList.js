@@ -45,9 +45,42 @@ export default function UnlinkedPolicyMobileList({ policyList, npn }) {
         }
     }, [showToast, navigate, npn]);
 
-    const navigateToContacts = (leadId) => {
-        navigate(`/contact/${leadId}`);
-    };
+
+    const navigateEnrollDetails = useCallback(async (item) => {
+        try {
+            const data = await enrollPlansService.getBookOfBusinessBySourceId(
+                npn,
+                item?.sourceId
+            );
+            // If policy data coming from API is null, then we have to pass the existing policy data to the next page
+            const stateData = data
+                ? {
+                    ...data,
+                    page: "Dashboard",
+                    policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
+                }
+                : {
+                    ...item,
+                    page: "Dashboard",
+                    policyHolder: item?.policyHolder || "",
+                };
+
+            navigate(`/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`, {
+                state: props,
+            });
+        }
+        catch (error) {
+            showToast({
+                type: "error",
+                message: "Failed to get enroll plan info.",
+                time: 10000,
+            });
+        }
+
+    }, [showToast, navigate, npn]);
+
+
+
 
 
     return (
@@ -89,7 +122,7 @@ export default function UnlinkedPolicyMobileList({ policyList, npn }) {
                             </div>
 
                             <div
-                                className={`${styles.taskListIcon} ${styles.downloadIcon}`} onClick={() => navigateToContacts(item?.leadId)} >
+                                className={`${styles.taskListIcon} ${styles.downloadIcon}`} onClick={navigateEnrollDetails} >
                                 <OpenIcon color="#4178FF" />
                             </div>
 

@@ -48,9 +48,39 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
   }, [showToast, callData, navigate, npn]);
 
 
-  const navigateToContacts = (leadId) => {
-    navigate(`/contact/${leadId}`);
-  };
+  const navigateEnrollDetails = useCallback(async () => {
+    try {
+      const data = await enrollPlansService.getBookOfBusinessBySourceId(
+        npn,
+        callData?.sourceId
+      );
+      // If policy data coming from API is null, then we have to pass the existing policy data to the next page
+      const stateData = data
+        ? {
+          ...data,
+          page: "Dashboard",
+          policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
+        }
+        : {
+          ...callData,
+          page: "Dashboard",
+          policyHolder: callData?.policyHolder || "",
+        };
+
+      navigate(`/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`, {
+        state: props,
+      });
+    }
+    catch (error) {
+      showToast({
+        type: "error",
+        message: "Failed to get enroll plan info.",
+        time: 10000,
+      });
+    }
+
+  }, [showToast, callData, navigate, npn]);
+
 
 
   return (
@@ -108,7 +138,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
               icon={<OpenIcon color="#4178FF" />}
               label={"View Policy"}
               className={"up-policy-view-btn"}
-              onClick={() => navigateToContacts(callData?.leadId)}
+              onClick={navigateEnrollDetails}
               iconPosition={"right"}
               type="tertiary"
               style={isMobile ? { padding: "11px 6px" } : {}}

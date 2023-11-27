@@ -89,7 +89,7 @@ function TotalEstLabel({ effectiveMonth, effectiveYear }) {
     );
 }
 
-function EstRxValue({ planData, monthNumber, effectiveStartDate }) {
+export function EstRxValue({ planData, monthNumber, effectiveStartDate }) {
     return (
         <>
             <span className={"value"}>
@@ -285,7 +285,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
                 />
             ),
             ...clonedPlans?.reduce((acc, plan, index) => {
-                acc[`plan-${index}`] = plan ? <EstRxValue planData={plan} monthNumber={parseInt(m)} /> : "-";
+                acc[`plan-${index}`] = plan ? <EstRxValue planData={plan} monthNumber={parseInt(m)} effectiveStartDate={effectiveStartDate} /> : "-";
                 return acc;
             }, {}),
         },

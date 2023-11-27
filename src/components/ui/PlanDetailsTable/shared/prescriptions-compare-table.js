@@ -6,7 +6,7 @@ import APIFail from "./APIFail/index";
 import Prescription, { currencyFormatter } from "./prescription";
 import "./prescription.scss";
 
-const EstimatedCost = ({ data }) => {
+const EstimatedCost = ({ data, drugCount }) => {
     if (!data || !data?.cost) {
         return null;
     }
@@ -16,7 +16,7 @@ const EstimatedCost = ({ data }) => {
             <div className="row footer">
                 <div className="col field">
                     <div className="title">Estimate Drug Cost</div>
-                    <div className="sub-title">Based on both Medical Premium & Drug Premium when applicable</div>
+                    <div className="sub-title">Based on {drugCount} drugs</div>
                 </div>
                 {data.cost.map((val) => (
                     <div className="col val">
@@ -31,7 +31,7 @@ const EstimatedCost = ({ data }) => {
 
 const renderCell = (value, rowIndex, totalRows, prescriptions) => {
     if (rowIndex === totalRows - 1) {
-        return <EstimatedCost data={value} />;
+        return <EstimatedCost data={value} drugCount={prescriptions?.length} />;
     }
     return <Prescription data={value} prescriptions={prescriptions} />;
 };
@@ -93,7 +93,7 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
                     {
                         accessor: "data",
                         Cell({ value, row, rows }) {
-                            return renderCell(value, row.index, rows.length, prescriptions);
+                            return renderCell(value, row.index, rows.length, prescriptions,);
                         },
                     },
                 ],
