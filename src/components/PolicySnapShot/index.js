@@ -241,7 +241,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
                         handleJumpList={() => jumptoList(statusIndex)}
                     />
                 )}
-                {status === "UnlinkedPolicies" && (
+                {status === "UnlinkedPolicies" && !isMobile && (
                     <UnlinkedPolicyList
                         policyList={policyList}
                         showMore={page < totalPageSize}

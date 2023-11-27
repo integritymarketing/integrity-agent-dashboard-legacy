@@ -23,7 +23,7 @@ import ContactDetails from "./ContactDetails";
 import EditForm from "./DetailsEdit";
 import RenderProviders from "components/ui/ProvidersList";
 import DetailsMobile from "mobile/Contact/Details/ContactDetails";
-
+import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
 // Styles
 import "./details.scss";
 import "./contactRecordInfo.scss";
@@ -76,8 +76,8 @@ const DetailsComponent = forwardRef((props, ref) => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-            : "";
+                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+                : "";
 
         return (
             <div className={className}>
@@ -127,6 +127,11 @@ const DetailsComponent = forwardRef((props, ref) => {
             <div className="contactdetailscard" ref={detailsRef}>
                 {DetailsInfo()}
             </div>
+
+            <section>
+                <EnrollmentHistoryContainer leadId={id} />
+            </section>
+
 
             <div className="detailscard-container">
                 {isOpen && (

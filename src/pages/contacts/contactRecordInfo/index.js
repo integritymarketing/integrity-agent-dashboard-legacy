@@ -175,8 +175,6 @@ const ContactRecordInfoDetails = () => {
                 return <ScopeOfAppointment {...props} />;
             case "preferences":
                 return <Preferences {...props} />;
-            case "policies":
-                return <EnrollmentHistoryContainer leadId={id} />;
             default:
                 return <Overview {...props} />;
         }

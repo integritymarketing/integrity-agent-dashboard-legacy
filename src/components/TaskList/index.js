@@ -166,7 +166,6 @@ export default function TaskList({ isMobile, npn }) {
         }
     };
 
-    console.log("taskList", statusIndex);
 
     const handleWidgetSelection = (index) => {
         setStatusIndex(index);

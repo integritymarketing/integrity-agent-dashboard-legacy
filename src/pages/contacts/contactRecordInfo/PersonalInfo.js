@@ -357,11 +357,10 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags, setConfirmModalOpen, delete
                             return (
                                 <div
                                     key={tg.tagCategoryId}
-                                    className={`${
-                                        tg.tagCategoryName === "Ask Integrity Recommendations"
-                                            ? styles.recommendationContainer
-                                            : ""
-                                    }`}
+                                    className={`${tg.tagCategoryName === "Ask Integrity Recommendations"
+                                        ? styles.recommendationContainer
+                                        : ""
+                                        }`}
                                 >
                                     <div className={styles.categoryContainer}>
                                         <div onClick={() => handleToggleExpand(tg.tagCategoryId)}>
@@ -437,13 +436,13 @@ function TagsIcon({ leadsId, leadTags, onUpdateTags, setConfirmModalOpen, delete
                                                                             <img
                                                                                 src={
                                                                                     tg.tagCategoryName ===
-                                                                                    "Ask Integrity Recommendations"
+                                                                                        "Ask Integrity Recommendations"
                                                                                         ? RecommendationIcon
                                                                                         : TagIcon
                                                                                 }
                                                                                 alt={
                                                                                     tg.tagCategoryName ===
-                                                                                    "Ask Integrity Recommendations"
+                                                                                        "Ask Integrity Recommendations"
                                                                                         ? "Recommendation Icon"
                                                                                         : "Tag Icon"
                                                                                 }
@@ -624,12 +623,6 @@ const PersonalInformationCard = ({ personalInfo, isEdit, setEdit, setDisplay, le
                             deleteTagFlag={deleteTagFlag}
                             setDeleteTagFlag={setDeleteTagFlag}
                         />
-                    </div>
-                    <div className="personalInfo personalInfoCallScriptIcon">
-                        <label className="text-bold">Policies</label>
-                        <div className="policyIcon" onClick={() => setDisplay("policies")}>
-                            <PolicyIcon />
-                        </div>
                     </div>
                     <div className="personalInfo personalInfoCallScriptIcon">
                         <label className="text-bold">Call Script</label>

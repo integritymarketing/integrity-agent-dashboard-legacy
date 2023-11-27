@@ -1,39 +1,21 @@
-@import "../../scss/globalDefines.scss";
 .enrollmentPlanContainer_detailsPage {
-    margin-bottom: 3rem;
-    border-radius: 8px;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
 
 .previousYearPlanTitle {
-    color: #434a51;
-    letter-spacing: 0.16px;
+  color: #434a51;
+  letter-spacing: 0.16px;
 }
 
 .no-items {
-    border: 1.5px solid #e6ecf2;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #64748b;
-}
-
-.cardHeader {
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 8px 8px 0px 0px;
-    display: flex;
-    padding: 1.5rem;
-}
-
-.enrollmentPlanContainer_detailsPage_content {
-    border-radius: 8px;
-    background-color: #ffffff;
-    padding: 1.5rem;
-
-    @include small {
-        background: none;
-        padding: 0.5rem;
-    }
+  border: 1.5px solid #e6ecf2;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #64748b;
 }
