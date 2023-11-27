@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { StageStatusProvider } from "contexts/stageStatus";
 import { InfoModal } from "./InfoModal/InfoModal";
 import Info from "components/icons/info-blue";
+import { sortListByDate } from "utils/dates";
 
 const DEFAULT_TABS = [
     {
@@ -133,15 +134,10 @@ export default function TaskList({ isMobile, npn }) {
     };
 
     useEffect(() => {
-        if (statusIndex === 0) {
-            let sortedList = fullList.sort((a, b) => new Date(b.signedDate) - new Date(a.signedDate));
-            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
-            setTaskList([...list]);
-        } else if (statusIndex === 1) {
-            let sortedList = fullList?.sort((a, b) =>
-                moment(b.taskList, "MM/DD/YYYY HH:mm:ss").diff(moment(a.taskList, "MM/DD/YYYY HH:mm:ss"))
-            );
-            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
+
+        if (statusIndex === 1) {
+            const sortedTasks = sortListByDate(fullList, "signedDate", false);
+            const list = sortedTasks?.filter((task, i) => i < page * PAGESIZE);
             setTaskList([...list]);
         } else {
             const list = fullList?.filter((task, i) => i < page * PAGESIZE);
@@ -169,6 +165,8 @@ export default function TaskList({ isMobile, npn }) {
             setFullList([...list]);
         }
     };
+
+    console.log("taskList", statusIndex);
 
     const handleWidgetSelection = (index) => {
         setStatusIndex(index);

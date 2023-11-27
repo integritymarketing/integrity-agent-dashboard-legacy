@@ -47,6 +47,12 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
     }
   }, [showToast, callData, navigate, npn]);
 
+
+  const navigateToContacts = (leadId) => {
+    navigate(`/contact/${leadId}`);
+  };
+
+
   return (
     <div className="up-card">
       <Media
@@ -102,7 +108,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
               icon={<OpenIcon color="#4178FF" />}
               label={"View Policy"}
               className={"up-policy-view-btn"}
-              onClick={handleLinkToContact}
+              onClick={() => navigateToContacts(callData?.leadId)}
               iconPosition={"right"}
               type="tertiary"
               style={isMobile ? { padding: "11px 6px" } : {}}

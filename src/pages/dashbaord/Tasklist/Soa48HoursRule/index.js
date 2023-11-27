@@ -40,7 +40,7 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
         navigate("/contact/" + item.leadId);
     };
 
-    const sortedTasks = sortListByDate(taskList, "sentDate", false);
+    const sortedTasks = sortListByDate(taskList, "signedDate", false);
 
 
     return (

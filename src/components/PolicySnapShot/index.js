@@ -110,7 +110,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
     const handleWidgetSelection = useCallback(
         async (newIndex, policyCount) => {
             const newStatus = tabs[newIndex]?.policyStatus;
-            if (newStatus === "UnlinkedPolicies") {
+            if (newStatus === "UnlinkedPolicies" && isMobile) {
                 navigate(`/policy-snapshot-mobile-layout/${npn}`);
             }
             // If mobile, when clicking on the widget, it should take you to the contact list page except for UnlinkedPolicies //

@@ -1,41 +1,75 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import Link from "../Icons/relink";
-import { convertUTCDateToLocalDate, convertToLocalDateTime } from "utils/dates";
-import { formatPhoneNumber } from "utils/phones";
 import { TaskListCard } from "../../Tasklist/TaskListCardContainer";
-
+import OpenIcon from "components/icons/open";
+import enrollPlansService from "services/enrollPlansService";
+import useToast from "hooks/useToast";
 import styles from "./UnlinkedPoliciesMobileList.module.scss";
 
-export default function UnlinkedPolicyMobileList({ policyList }) {
-    const navigate = useNavigate();
+export default function UnlinkedPolicyMobileList({ policyList, npn }) {
 
-    const linkToContact = (item) => {
-        const date = convertUTCDateToLocalDate(item?.taskDate);
-        navigate(`/link-to-contact/${item?.id}/${item?.phoneNumber}/${item?.duration}/${date}`);
+
+
+    const navigate = useNavigate();
+    const showToast = useToast();
+
+    const handleLinkToContact = useCallback(async (item) => {
+        try {
+            const data = await enrollPlansService.getBookOfBusinessBySourceId(
+                npn,
+                item?.sourceId
+            );
+            // If policy data coming from API is null, then we have to pass the existing policy data to the next page
+            const stateData = data
+                ? {
+                    ...data,
+                    page: "Dashboard",
+                    policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
+                }
+                : {
+                    ...item,
+                    page: "Dashboard",
+                    policyHolder: item?.policyHolder || "",
+                };
+
+            // Redirect to Enrollment Link to Contact page, passing the policy data.
+            navigate("/enrollment-link-to-contact", { state: stateData });
+        } catch (error) {
+            showToast({
+                type: "error",
+                message: "Failed to get enroll plan info.",
+                time: 10000,
+            });
+        }
+    }, [showToast, navigate, npn]);
+
+    const navigateToContacts = (leadId) => {
+        navigate(`/contact/${leadId}`);
     };
+
 
     return (
         <>
-            {[0, 1, 2, 3]?.map((item) => {
+            {policyList?.map((item) => {
                 return (
                     <TaskListCard multi={policyList?.length > 1} background="blue">
                         <Box className={styles.taskListInfo}>
-                            <div className={styles.planName}> Humana HMO 2343</div>
+                            <div className={styles.policyName}>  {item?.planName}</div>
                             <Box marginTop={"10px"}>
                                 <div className={styles.dateTimeLabel}>
                                     Policy ID:
                                     <span className={styles.taskSentDate}>
                                         {" "}
-                                        {/* {convertToLocalDateTime(item?.taskDate).format("MM/DD/yyyy")} */}
+                                        {item?.policyNumber}
                                     </span>
                                 </div>
                                 <div className={styles.dateTimeLabel}>
                                     Carrier:
                                     <span className={styles.taskSentDate}>
                                         {" "}
-                                        {/* {convertToLocalDateTime(item?.taskDate).format("h:mm a")} */}
+                                        {item?.carrier}
                                     </span>
                                 </div>
 
@@ -43,22 +77,20 @@ export default function UnlinkedPolicyMobileList({ policyList }) {
                             <Box marginTop={"10px"}>
                                 <div className={styles.dateTimeLabel}>
                                     Policy Holder
-
                                 </div>
-                                <div className={styles.taskSentDate}>
-                                    {" "}
-                                    {/* {convertToLocalDateTime(item?.taskDate).format("MM/DD/yyyy")} */}
+                                <div className={styles.policyHolder}>
+                                    {item?.policyHolder}
                                 </div>
                             </Box>
                         </Box>
                         <Box className={styles.taskListIcons}>
-                            <div className={styles.taskListIcon} onClick={() => linkToContact(item)}>
+                            <div className={styles.taskListIcon} onClick={() => handleLinkToContact(item)} >
                                 <Link />
                             </div>
 
                             <div
-                                className={`${styles.taskListIcon} ${styles.downloadIcon}`}>
-                                <Link />
+                                className={`${styles.taskListIcon} ${styles.downloadIcon}`} onClick={() => navigateToContacts(item?.leadId)} >
+                                <OpenIcon color="#4178FF" />
                             </div>
 
                         </Box>

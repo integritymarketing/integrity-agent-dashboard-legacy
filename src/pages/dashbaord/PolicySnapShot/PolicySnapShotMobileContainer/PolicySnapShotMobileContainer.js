@@ -170,7 +170,7 @@ export default function PolicySnapshotMobileLayout() {
                 />
             </Box>
             <TaskListCardContainer>
-                {/* {!isLoading && (isError || widgetInfo?.count === 0) ? (
+                {!isLoading && (isError || widgetInfo?.count === 0) ? (
                     <ErrorState
                         isError={isError}
                         emptyList={widgetInfo?.count === 0}
@@ -180,14 +180,14 @@ export default function PolicySnapshotMobileLayout() {
                         link={getLink(WIDGET_NAME)}
                         iconPosition="left"
                     />
-                ) : ( */}
+                ) : (
 
-                <>
-                    <WithLoader isLoading={isLoading}>
-                        <UnlinkedPolicyMobileList policyList={policyList} />
-                    </WithLoader>
-                </>
-                {/* )} */}
+                    <>
+                        <WithLoader isLoading={isLoading}>
+                            <UnlinkedPolicyMobileList policyList={policyList} npn={npn} />
+                        </WithLoader>
+                    </>
+                )}
             </TaskListCardContainer>
 
             <GlobalFooter />
