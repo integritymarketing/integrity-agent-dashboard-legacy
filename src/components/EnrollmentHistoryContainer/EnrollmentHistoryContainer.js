@@ -32,15 +32,17 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     const currentYear = useMemo(() => new Date().getFullYear(), []);
 
     const currentYearPlansData = enrollPlans?.filter((planData) => {
-        let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
-        policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
-        return getCurrentYear(policyDate) === currentYear;
+        let policyDate = new Date(planData?.policyEffectiveDate);
+        policyDate.setDate(policyDate.getDate() + 1);
+        const policyYear = getCurrentYear(policyDate);
+        return policyYear === currentYear || policyYear === currentYear + 1;
     });
-
+    
     const previousYearPlansData = enrollPlans?.filter((planData) => {
-        let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
-        policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
-        return getCurrentYear(policyDate) !== currentYear;
+        let policyDate = new Date(planData?.policyEffectiveDate);
+        policyDate.setDate(policyDate.getDate() + 1);
+        const policyYear = getCurrentYear(policyDate);
+        return policyYear < currentYear;
     });
 
     if (!enrollPlans || enrollPlans?.length === 0) return null;
