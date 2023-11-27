@@ -214,7 +214,7 @@ export default function TaskListMobileLayout() {
             <Helmet>
                 <title>MedicareCENTER - Dashboard</title>
             </Helmet>
-            <GlobalNav page="taskListMobileLayout" />
+            <GlobalNav page="taskListMobileLayout" title="Task List" />
 
             <Box className={styles.mobileWidget}>
                 <Box className={styles.taskListColor} style={{ backgroundColor: widgetInfo?.color }}></Box>

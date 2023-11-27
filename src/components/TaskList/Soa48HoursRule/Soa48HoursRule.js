@@ -34,21 +34,20 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
         return formattedName.join(" ");
     };
 
-    const navigateToContacts = (item) => {
-        navigate(`/contact/${item.leadId}`);
+    const navigateToContacts = (leadId) => {
+        navigate(`/contact/${leadId}`);
     };
 
-    const sortedTasks = sortListByDate(taskList, "sentDate", false);
 
 
 
     return (
         <div className={styles.container}>
-            {sortedTasks?.map((item) => (
+            {taskList?.map((item) => (
                 <div className={styles.item} key={item.id}>
                     <div className={styles.section}>
                         <div className={styles.title1}>SOA sent {getDateTime(item?.sentDate).date} to</div>
-                        <div className={styles.title2} onClick={() => navigateToContacts(item)}>
+                        <div className={styles.title2} onClick={() => navigateToContacts(item?.leadId)}>
                             {getName(item)}
                         </div>
                         <div className={styles.title3}>{item ? item.phoneNumber || item.sentTo : ""}</div>
