@@ -1,0 +1,44 @@
+.policySnapshotMobileContainer {
+    background-color: #f1f1f1;
+    .mobileWidget {
+        display: flex;
+
+        .policySnapshotColor {
+            height: 56px;
+            background: #dddddd;
+            width: 5%;
+        }
+        .policySnapshotHeader {
+            display: flex;
+            height: 56px;
+            background: #ffffff;
+            color: #052a63;
+            font-size: 20px;
+            align-items: center;
+            justify-content: center;
+            width: 95%;
+            .policySnapshotCount {
+                color: #717171;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .mobileDateRange {
+        margin-top: 10px;
+        display: flex;
+        width: 70%;
+        margin-left: 25%;
+        margin-right: 50%;
+    }
+}
+
+.planEnrollIcon {
+    margin-right: 5px;
+    background-color: #f1f1f1;
+    padding: 8px 5px 2px 6px;
+    border-radius: 25px;
+}
+
+
+ 
