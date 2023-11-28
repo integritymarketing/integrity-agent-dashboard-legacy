@@ -1,131 +1,15 @@
-@import "../../scss/globalDefines.scss";
-@import "../../styles/global.scss";
+@import "scss/globalDefines.scss";
+@import "styles/global.scss";
 
 .tabContainer {
   display: flex;
   justify-content: space-between;
   padding-bottom: 10px;
   gap: 20px;
-  // background: $bluish-cyan;
-
-  @include tabletAndBelow {
-    padding-right: 5%;
-  }
 
   @include mobileOnly {
     padding: 20px;
     width: 100%;
+    flex-wrap: wrap;
   }
-
-  .tab {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    @include mobileOnly {
-      width: 45%;
-    }
-
-    .tabHeading {
-      color: $dark-blue;
-      padding-bottom: 8px;
-      font: normal normal normal 20px/24px Lato;
-      letter-spacing: 0.2px;
-
-      @include mobileOnly {
-        font: normal normal normal 14px/16px Lato;
-        width: 100%;
-        letter-spacing: 0.14px;
-      }
-    }
-
-    .isPS_widget {
-      @include mobileOnly {
-        width: 100% !important ;
-      }
-    }
-    .isPS_widgetOne {
-      @include mobileOnly {
-        width: 100% !important ;
-      }
-    }
-
-    .tabContent {
-      display: flex;
-      height: 88px;
-      background: white;
-      margin-bottom: 12px;
-      cursor: pointer;
-      box-shadow: 0px 0px 20px #002d721a;
-      border-radius: 6px;
-      align-items: center;
-      position: relative;
-
-      @include mobileOnly {
-        height: 64px;
-      }
-      @include desktopOnly {
-        width: 192px;
-      }
-      .content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        color: $dark-blue;
-        font-size: $size-48;
-        @include mobileOnly {
-          font: normal normal normal 24px/56px Lato-Regular;
-        }
-      }
-
-      .color {
-        content: "";
-        width: 16px;
-        height: 88px;
-        display: block;
-        border-top-left-radius: 6px;
-        border-bottom-left-radius: 6px;
-        position: absolute;
-
-        @include mobileOnly {
-          width: 8px;
-          height: 64px;
-        }
-      }
-
-      &.selected::after {
-        content: "";
-        display: block;
-        position: absolute;
-        left: 48%;
-        margin-top: 100px;
-        transform: translate(-6px, 0);
-        border-left: 12px solid transparent;
-        border-right: 12px solid transparent;
-        border-top: 12px solid white;
-
-        @include mobileOnly {
-          margin-top: 76px;
-          left: 45%;
-        }
-      }
-      &.isPS_widget::after {
-        display: none;
-      }
-      &.isPS_widgetOne::after {
-        display: none;
-      }
-    }
-  }
-}
-
-.widgetRow {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-}
-
-.psMobile {
-  flex-direction: column !important;
 }

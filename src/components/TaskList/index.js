@@ -1,27 +1,39 @@
-import React, { useState, useEffect } from "react";
-import ContactSectionCard from "packages/ContactSectionCard";
-import DateRangeSort from "../DateRangeSort";
-import styles from "./styles.module.scss";
-import TabsCard from "components/TabsCard";
-import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
-import RemindersList from "./Reminders";
-import useToast from "hooks/useToast";
-import usePreferences from "hooks/usePreferences";
-import clientsService from "services/clientsService";
-import ErrorState from "components/ErrorState";
-import NoReminder from "images/no-reminder.svg";
-import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
-import NoSOA48Hours from "images/no-soa-48-hours.svg";
-import { Button } from "components/ui/Button";
-import moment from "moment";
-import WithLoader from "components/ui/WithLoader";
-import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
-import PlanEnrollLeads from "./PlanEnrollLeads";
+/* eslint-disable max-lines-per-function */
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { StageStatusProvider } from "contexts/stageStatus";
-import { InfoModal } from "./InfoModal/InfoModal";
-import Info from "components/icons/info-blue";
+
+import moment from "moment";
+
 import { sortListByDate } from "utils/dates";
+
+import usePreferences from "hooks/usePreferences";
+import useToast from "hooks/useToast";
+
+import ContactSectionCard from "packages/ContactSectionCard";
+
+import ErrorState from "components/ErrorState";
+import TabsCard from "components/TabsCard";
+import Info from "components/icons/info-blue";
+import { Button } from "components/ui/Button";
+import WithLoader from "components/ui/WithLoader";
+
+import { StageStatusProvider } from "contexts/stageStatus";
+
+import clientsService from "services/clientsService";
+
+import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
+
+import { InfoModal } from "./InfoModal/InfoModal";
+import PlanEnrollLeads from "./PlanEnrollLeads";
+import RemindersList from "./Reminders";
+import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
+import styles from "./styles.module.scss";
+
+import DateRangeSort from "../DateRangeSort";
+
+import NoReminder from "images/no-reminder.svg";
+import NoSOA48Hours from "images/no-soa-48-hours.svg";
+import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 
 const DEFAULT_TABS = [
     {
@@ -69,7 +81,7 @@ export default function TaskList({ isMobile, npn }) {
     const [isError, setIsError] = useState(false);
     const [fullList, setFullList] = useState([]);
     const [taskList, setTaskList] = useState([]);
-    const [tabs, setTabs] = useState(DEFAULT_TABS);
+    const [tabs, setTabs] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPageSize, setTotalPageSize] = useState(1);
     const [showTaskListInfoModal, setShowTaskListInfoModal] = useState(false);
@@ -113,8 +125,12 @@ export default function TaskList({ isMobile, npn }) {
     const fetchCounts = async () => {
         try {
             const tabsData = await clientsService.getTaskListCount(npn, dateRange);
+            let filteredTabs = [...DEFAULT_TABS];
+            if (!hasSoa48HoursRule(tabsData)) {
+                filteredTabs = filteredTabs.filter((tab) => tab.name !== "Soa48HoursRule");
+            }
             if (tabsData?.length > 0) {
-                const updatedData = DEFAULT_TABS.map((tab, i) => {
+                const updatedData = filteredTabs.map((tab, i) => {
                     const task = tabsData.find((t) => t.name === tab.name);
                     tab.policyCount = task?.count || 0;
                     tab.policyStatusColor = task?.color || "#4178FF";
@@ -122,7 +138,7 @@ export default function TaskList({ isMobile, npn }) {
                 });
                 setTabs(updatedData);
             } else {
-                setTabs(DEFAULT_TABS);
+                setTabs(filteredTabs);
             }
         } catch (error) {
             showToast({
@@ -134,10 +150,15 @@ export default function TaskList({ isMobile, npn }) {
     };
 
     useEffect(() => {
-
-        if (statusIndex === 1) {
-            const sortedTasks = sortListByDate(fullList, "signedDate", false);
-            const list = sortedTasks?.filter((task, i) => i < page * PAGESIZE);
+        if (statusIndex === 0) {
+            const sortedList = sortListByDate(fullList, "signedDate", false);
+            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
+            setTaskList([...list]);
+        } else if (statusIndex === 1) {
+            const sortedList = fullList?.sort((a, b) =>
+                moment(b.taskList, "MM/DD/YYYY HH:mm:ss").diff(moment(a.taskList, "MM/DD/YYYY HH:mm:ss"))
+            );
+            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
             setTaskList([...list]);
         } else {
             const list = fullList?.filter((task, i) => i < page * PAGESIZE);
@@ -165,7 +186,6 @@ export default function TaskList({ isMobile, npn }) {
             setFullList([...list]);
         }
     };
-
 
     const handleWidgetSelection = (index) => {
         setStatusIndex(index);
@@ -243,6 +263,11 @@ export default function TaskList({ isMobile, npn }) {
         }
     };
 
+    const hasSoa48HoursRule = (tabsData) => {
+        const soa48HoursRuleData = tabsData.find((obj) => obj.name === "Soa48HoursRule");
+        return soa48HoursRuleData && soa48HoursRuleData.count > 0;
+    };
+
     const selectedWidgetCount = tabs[statusIndex]?.policyCount;
 
     return (
@@ -315,9 +340,13 @@ export default function TaskList({ isMobile, npn }) {
                     </>
                 )}
             </ContactSectionCard>
-            {showTaskListInfoModal &&
-                <InfoModal open={showTaskListInfoModal} onClose={() => setShowTaskListInfoModal(false)} isMobile={isMobile} />
-            }
+            {showTaskListInfoModal && (
+                <InfoModal
+                    open={showTaskListInfoModal}
+                    onClose={() => setShowTaskListInfoModal(false)}
+                    isMobile={isMobile}
+                />
+            )}
         </>
     );
 }

@@ -1,94 +1,61 @@
-import React from "react";
+import Box from "@mui/material/Box";
+
+import PropTypes from "prop-types";
+
 import usePreferences from "hooks/usePreferences";
+
+import { DesktopTab } from "./DesktopTab";
+import { MobileTab } from "./MobileTab";
 import styles from "./styles.module.scss";
 
-const Widget = ({ index, tab, statusIndex, onTabClick, isPS_widget, isPS_widgetOne, tabCount }) => {
-    const { policyCount, policyStatusColor, policyStatus } = tab;
-    const tabWidth = isPS_widget ? "45%" : 100 / tabCount - 0.5;
-
-    return (
-        <div className={styles.tab} style={{ width: `${!isPS_widgetOne ? `${tabWidth}%` : "100%"}` }}>
-            <span className={styles.tabHeading}>{policyStatus === "UnlinkedPolicies" ? "Unlinked" : policyStatus}</span>
-            <div
-                onClick={() => onTabClick(index, policyCount)}
-                className={`${styles.tabContent} ${index === statusIndex ? styles.selected : ""} ${
-                    isPS_widget ? styles.isPS_widget : ""
-                } ${isPS_widgetOne ? styles.isPS_widgetOne : ""}`}
-            >
-                <span style={{ backgroundColor: policyStatusColor }} className={styles.color}></span>
-                <span className={styles.content}>{policyCount}</span>
-            </div>
-        </div>
-    );
-};
-
-const TabsCard = ({ tabs, preferencesKey, statusIndex, handleWidgetSelection, page, isMobile }) => {
-    const defaultIndex = page === "policySnapshot" ? 0 : 0;
-    const [, setValue] = usePreferences(defaultIndex, preferencesKey);
+const TabsCard = ({ tabs, preferencesKey, statusIndex, handleWidgetSelection, isMobile }) => {
+    const [, setValue] = usePreferences(0, preferencesKey);
 
     const onTabClick = (index, policyCount) => {
         handleWidgetSelection(index, policyCount);
         setValue(index, preferencesKey);
     };
 
-    const isPS_widget = isMobile;
-
     return (
-        <div className={`${styles.tabContainer} ${isPS_widget ? styles.psMobile : ""} `}>
-            {isPS_widget ? (
+        <Box className={styles.tabContainer}>
+            {tabs?.map((tab, index) => (
                 <>
-                    <div className={styles.widgetRow}>
-                        {tabs?.map((tab, index) => {
-                            if (index < 2) {
-                                return (
-                                    <Widget
-                                        key={tab?.policyStatus + index}
-                                        statusIndex={statusIndex}
-                                        onTabClick={onTabClick}
-                                        index={index}
-                                        tab={tab}
-                                        isPS_widget={true}
-                                        tabCount={tabs.length}
-                                    />
-                                );
-                            } else return null;
-                        })}
-                    </div>
-                    <div className={styles.widgetRow}>
-                        {tabs?.map((tab, index) => {
-                            if (index > 1) {
-                                return (
-                                    <Widget
-                                        key={tab?.policyStatus + index}
-                                        statusIndex={statusIndex}
-                                        onTabClick={onTabClick}
-                                        index={index}
-                                        tab={tab}
-                                        isPS_widget={true}
-                                        tabCount={tabs.length}
-                                    />
-                                );
-                            } else return null;
-                        })}
-                    </div>
+                    {isMobile ? (
+                        <MobileTab
+                            key={tab?.policyStatus + index}
+                            onTabClick={onTabClick}
+                            index={index}
+                            tab={tab}
+                            tabCount={tabs.length}
+                        />
+                    ) : (
+                        <DesktopTab
+                            key={tab?.policyStatus + index}
+                            statusIndex={statusIndex}
+                            onTabClick={onTabClick}
+                            index={index}
+                            tab={tab}
+                            tabCount={tabs.length}
+                        />
+                    )}
                 </>
-            ) : (
-                <>
-                    {tabs?.map((tab, index) => {
-                        return (
-                            <Widget
-                                key={tab?.policyStatus + index}
-                                statusIndex={statusIndex}
-                                onTabClick={onTabClick}
-                                index={index}
-                                tab={tab}
-                                tabCount={tabs.length}
-                            />
-                        );
-                    })}
-                </>
-            )}
-        </div>
+            ))}
+        </Box>
     );
 };
+
+TabsCard.propTypes = {
+    tabs: PropTypes.arrayOf(
+        PropTypes.shape({
+            policyCount: PropTypes.number,
+            policyStatusColor: PropTypes.string,
+            policyStatus: PropTypes.string,
+        })
+    ).isRequired,
+    preferencesKey: PropTypes.string,
+    statusIndex: PropTypes.number,
+    handleWidgetSelection: PropTypes.func,
+    isMobile: PropTypes.bool,
+};
+
 export default TabsCard;
