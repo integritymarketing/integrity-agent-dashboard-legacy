@@ -20,7 +20,7 @@ import {
   StyledErrorWrapper,
 } from "./StyledComponents";
 import { Select } from "components/ui/Select";
-import { INITIAL_FORM_DATA, STATES, TOBACCO_USE_OPTIONS } from "./constants";
+import { INITIAL_FORM_DATA, STATES } from "./constants";
 import EnrollBack from "images/enroll-btn-back.svg";
 import { useParams, useNavigate } from "react-router-dom";
 import { formatDate } from "utils/dates";
@@ -44,8 +44,6 @@ const FormComponent = () => {
 
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [errorKeys, setErrorKeys] = useState([]);
-  const [zipCode, setZipCode] = useState(null);
-  const [agentNpn, setAgentNpn] = useState(null);
 
   const requiredKeys = ["state", "gender", "dateOfBirth", "tobaccoUse"];
 
@@ -159,24 +157,26 @@ const FormComponent = () => {
 
     if (isValidForm()) {
       let payload = {
-        leadId: contactId,
-        agentNpn: agentNpn,
-        HeightInInches: feet * 12 + inches,
-        DateOfBirth: moment(dateOfBirth).format("YYYY-MM-DD"),
-        AgeInYears: moment().diff(moment(dateOfBirth, "YYYY"), "years"),
-        Amount: 15000,
+        age: moment().diff(moment(dateOfBirth, "YYYY"), "years"),
+        desiredFaceValue: 15000,
+        desiredMonthlyRate: null,
         amount_type: "face",
-        coverage_type: "level",
-        ReturnOfPremium: true,
-        TermLength: "30",
-        MedSuppPlanCode: "a",
-        Zipcode: zipCode,
-        PaymentType: "bank_draft_eft",
-        Sex: gender.toLowerCase(),
-        State: state.toLowerCase(),
-        Tobacco: tobaccoUse,
-        Toolkit: "fex",
-        WeightInPounds: weight || null,
+        coverageType: "LEVEL",
+        gender: gender,
+        usState: state.toLowerCase(),
+        tobacco: tobaccoUse,
+        underWriting: {
+          user: {
+            height: feet * 12 + inches,
+            weight: weight || 0,
+          },
+          conditions: [
+            {
+              categoryId: 0,
+              lastTreatmentDate: moment(new Date()).format("YYYY-MM-DD"),
+            },
+          ],
+        },
       };
       if (isEdit) {
         if (isDataUpdated) {
@@ -205,23 +205,16 @@ const FormComponent = () => {
   };
 
   const isValidSaveData = useMemo(() => {
-    const { dateOfBirth, gender, state, tobaccoUse, weight, feet, inches } =
-      formData;
+    const { dateOfBirth, gender, state, tobaccoUse } = formData;
 
     return (
-      feet !== "" &&
-      inches !== "" &&
-      dateOfBirth !== "" &&
-      gender !== "" &&
-      state !== "" &&
-      tobaccoUse !== "" &&
-      weight !== ""
+      dateOfBirth !== "" && gender !== "" && state !== "" && tobaccoUse !== ""
     );
   }, [formData]);
 
   function formatHeight(heightInInches) {
     if (typeof heightInInches !== "number" || heightInInches < 0) {
-      return { feetValue: null, inchesValue: null };
+      return { feetValue: 0, inchesValue: 0 };
     }
 
     const feetValue = Math.floor(heightInInches / 12);
@@ -231,10 +224,13 @@ const FormComponent = () => {
   }
 
   function formatGender(gender) {
-    if (gender === "male") return "Male";
-    if (gender === "female") return "Female";
+    if (gender === "M") return "Male";
+    if (gender === "F") return "Female";
     return null;
   }
+
+  const [zipCode, setZipCode] = useState(null);
+  const [agentNPN, setAgentNpn] = useState(null);
 
   useEffect(() => {
     if (lifeDetails) {
@@ -248,7 +244,7 @@ const FormComponent = () => {
         HeightInInches,
         DateOfBirth,
       } = lifeDetails;
-      const { feetValue, inchesValue } = formatHeight(HeightInInches) || null;
+      const { feetValue, inchesValue } = formatHeight(HeightInInches) || 0;
       setZipCode(Zipcode);
       setAgentNpn(agentNpn);
       setFormData({
@@ -340,17 +336,17 @@ const FormComponent = () => {
               <StyledElementName>Gender*</StyledElementName>
               <StyledGenderFormElements>
                 <StyledButtonFormElement
-                  selected={formData.gender === "male"}
+                  selected={formData.gender === "M"}
                   onClick={() => {
-                    onChangeFormData("gender", "male");
+                    onChangeFormData("gender", "M");
                   }}
                 >
                   Male
                 </StyledButtonFormElement>
                 <StyledButtonFormElement
-                  selected={formData.gender === "female"}
+                  selected={formData.gender === "F"}
                   onClick={() => {
-                    onChangeFormData("gender", "female");
+                    onChangeFormData("gender", "F");
                   }}
                 >
                   Female
@@ -399,18 +395,26 @@ const FormComponent = () => {
             </StyledFormItem>
             <StyledFormItem>
               <StyledElementName>Tobacco Use*</StyledElementName>
-              <div>
-                <Select
-                  options={TOBACCO_USE_OPTIONS}
-                  initialValue={formData.tobaccoUse}
-                  onChange={(value) => {
-                    onChangeFormData("tobaccoUse", value);
+              <StyledGenderFormElements>
+                <StyledButtonFormElement
+                  selected={formData.tobaccoUse === true}
+                  onClick={() => {
+                    onChangeFormData("tobaccoUse", true);
                   }}
-                  showValueAlways={true}
-                />
-              </div>
-              {errorKeys.tobaccoUse && (
-                <StyledErrorText>Tobacco Use is required</StyledErrorText>
+                >
+                  Yes
+                </StyledButtonFormElement>
+                <StyledButtonFormElement
+                  selected={formData.tobaccoUse === false}
+                  onClick={() => {
+                    onChangeFormData("tobaccoUse", false);
+                  }}
+                >
+                  No
+                </StyledButtonFormElement>
+              </StyledGenderFormElements>
+              {errorKeys.gender && (
+                <StyledErrorText>Gender is required</StyledErrorText>
               )}
             </StyledFormItem>
           </StyledFormRow>

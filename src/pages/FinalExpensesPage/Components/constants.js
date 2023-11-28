@@ -51,20 +51,6 @@ export const STATES = [
   { label: "Wyoming", value: "WY" },
 ];
 
-export const TOBACCO_USE_OPTIONS = [
-  { label: "None", value: "none" },
-  { label: "Cigarettes", value: "cigarettes" },
-  {
-    label: "Cigarettes plus other nicotine products",
-    value: "cigarettes_plus_other_nicotine_products",
-  },
-  {
-    label: "Occasional pipe or cigar use only",
-    value: "occasional_pipe_or_cigar_use_only",
-  },
-  { label: "Other nicotine products", value: "other_nicotine_products" },
-];
-
 export const INITIAL_FORM_DATA = {
   state: "",
   feet: "",

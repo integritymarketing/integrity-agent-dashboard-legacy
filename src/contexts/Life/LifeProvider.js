@@ -46,7 +46,7 @@ export const LifeProvider = ({ children }) => {
         throw new Error("Fetch failed.");
       }
     },
-    [fetchLifeDetails]
+    [fetchLifeDetails] //react-hooks/exhaustive-deps
   );
 
   const saveLifeDetails = useCallback(
@@ -59,7 +59,7 @@ export const LifeProvider = ({ children }) => {
         throw new Error("Save failed.");
       }
     },
-    [createLifeDetails]
+    [createLifeDetails] //react-hooks/exhaustive-deps
   );
 
   const editLifeDetails = useCallback(
@@ -72,7 +72,7 @@ export const LifeProvider = ({ children }) => {
         throw new Error("Update failed.");
       }
     },
-    [updateLifeDetails]
+    [updateLifeDetails] //react-hooks/exhaustive-deps
   );
 
   return (

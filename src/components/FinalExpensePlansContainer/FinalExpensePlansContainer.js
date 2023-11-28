@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { FinalExpensePlanCard } from "./FinalExpensePlanCard";
 import PlanCardLoader from "components/ui/PlanCard/loader";
