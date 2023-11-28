@@ -120,12 +120,12 @@ export default function UnlinkedPolicyMobileList({ policyList, npn }) {
                             <div className={styles.taskListIcon} onClick={() => handleLinkToContact(item)} >
                                 <Link />
                             </div>
-
-                            <div
-                                className={`${styles.taskListIcon} ${styles.downloadIcon}`} onClick={navigateEnrollDetails} >
-                                <OpenIcon color="#4178FF" />
-                            </div>
-
+                            {item?.hasPlanDetails && (
+                                <div
+                                    className={`${styles.taskListIcon} ${styles.downloadIcon}`} onClick={navigateEnrollDetails} >
+                                    <OpenIcon color="#4178FF" />
+                                </div>
+                            )}
                         </Box>
                     </TaskListCard >
                 );
