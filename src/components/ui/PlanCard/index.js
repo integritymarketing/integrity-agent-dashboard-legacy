@@ -5,6 +5,7 @@ import { Button } from "../Button";
 import Arrow from "components/icons/down";
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import EnrollBack from "images/enroll-btn-back.svg";
+import Alert from '@mui/material/Alert';
 
 import useRoles from "hooks/useRoles";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
@@ -14,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { capitalizeFirstLetter, formatUnderScoreString } from "utils/shared-utils/sharedUtility";
 import SelfRecommendation from "./self-recommendation/SelfRecommendation";
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
+import { calculatePartialYearDrugCost, calculateMonthlyDrugCost } from "./calculatePartialDrugCost";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -63,6 +65,11 @@ export default function PlanCard({
     const { isNonRTS_User } = useRoles();
 
     const disableEnroll = isNonRTS_User || shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
+
+
+
+    const validatePartialYearDrugCost = calculatePartialYearDrugCost(planData.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate);
+    const validatePartialMonthlyDrugCost = calculateMonthlyDrugCost(planData.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate);
     return (
         <div className={"plan-card"}>
             <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -118,10 +125,7 @@ export default function PlanCard({
                             <div>
                                 <div className={"label"}>Est. Monthly RX Drug Cost</div>
                                 <div className={"currency"}>
-                                    {currencyFormatter.format(
-                                        planData.estimatedAnnualDrugCostPartialYear / (12 - effectiveDate?.getMonth()) -
-                                        planData?.drugPremium
-                                    )}
+                                    {validatePartialMonthlyDrugCost === 'N/A' ? 'N/A' : currencyFormatter.format(validatePartialMonthlyDrugCost)}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
@@ -140,8 +144,15 @@ export default function PlanCard({
                 <div className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}>
                     <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
                 </div>
+
+
             </div>
 
+            {validatePartialYearDrugCost === 'N/A' &&
+                <div>
+                    <Alert severity="warning">Plan cost data temporarily unavailable, Please add a pharmacy to the contact record or try again later.</Alert>
+                </div>
+            }
             <PlanCoverage
                 contact={contact}
                 planData={planData}
