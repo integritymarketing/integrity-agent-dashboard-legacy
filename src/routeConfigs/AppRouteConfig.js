@@ -1,9 +1,10 @@
-import { lazy, StrictMode } from "react";
+import { StrictMode, lazy } from "react";
 import { Navigate } from "react-router-dom";
+
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
-const AccountPage = lazy(() => import("pages/AccountPage"));
+const AccountPage = lazy(() => import("pages/Account/AccountPage"));
 const AddNewContactPage = lazy(() => import("pages/contacts/AddNewContactPage"));
 const AuthSigninCallback = lazy(() => import("components/functional/auth-signin-callback"));
 const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));

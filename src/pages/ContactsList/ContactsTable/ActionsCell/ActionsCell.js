@@ -7,6 +7,7 @@ import Popover from "@mui/material/Popover";
 import PropTypes from "prop-types";
 
 import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
+import { SellingPreferenceModal } from "components/SellingPreferenceModal";
 import MoreBlue from "components/icons/version-2/MoreBlue";
 
 import ReminderModal from "pages/contacts/contactRecordInfo/reminder/ReminderModal";
@@ -37,9 +38,11 @@ export const PLAN_ACTION = {
     value: "plans",
 };
 
+// eslint-disable-next-line max-lines-per-function
 function ActionsCell({ row, isCard, item }) {
     const [leadConnectModal, setLeadConnectModal] = useState(false);
     const [showAddNewModal, setShowAddNewModal] = useState(false);
+    const [showSellingPreferenceModal, setShowSellingPreferenceModal] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const navigate = useNavigate();
 
@@ -51,6 +54,15 @@ function ActionsCell({ row, isCard, item }) {
     const county = leadDetails?.addresses?.[0]?.county;
     const countyFips = leadDetails?.addresses?.[0]?.countyFips;
     const hasFIPsCode = postalCode && county && stateCode && countyFips;
+
+    const onStartQuoteHandle = () => {
+        if (hasFIPsCode) {
+            navigate(`/plans/${leadId}`);
+        } else {
+            navigate(`/contact/${leadId}/addZip`);
+        }
+        setShowSellingPreferenceModal(false);
+    };
 
     const handleOptionClick = (value) => {
         setAnchorEl(null);
@@ -66,11 +78,7 @@ function ActionsCell({ row, isCard, item }) {
                 setLeadConnectModal(true);
                 break;
             case "startAQuote": {
-                if (hasFIPsCode) {
-                    navigate(`/plans/${leadId}`);
-                } else {
-                    navigate(`/contact/${leadId}/addZip`);
-                }
+                setShowSellingPreferenceModal(true);
                 break;
             }
             default:
@@ -134,6 +142,13 @@ function ActionsCell({ row, isCard, item }) {
                 setReminderModalStatus={() => setShowAddNewModal(false)}
                 leadId={leadId}
             />
+            {showSellingPreferenceModal && (
+                <SellingPreferenceModal
+                    isOpen={showSellingPreferenceModal}
+                    onStartQuoteHandle={onStartQuoteHandle}
+                    onClose={() => setShowSellingPreferenceModal(false)}
+                />
+            )}
         </>
     );
 }
