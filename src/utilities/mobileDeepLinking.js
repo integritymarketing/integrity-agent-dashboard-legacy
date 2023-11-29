@@ -1,34 +1,38 @@
 /**
- * Mobile App Deep Linking and Smart App Banner for Safari on iOS devices.
- *
- * @param {Object} appInfo - Information for the app deep linking.
- * @param {string} appInfo.appId - App's ID.
- * @param {string} appInfo.appArgument - App's argument or URL.
+ * Check if the current browser is Safari
+ * @returns {boolean} - True if the browser is Safari, otherwise false.
  */
-const showMobileAppDeepLinking = () => {
-  const isSafariBrowser = () => {
-    const userAgent = navigator.userAgent;
+const isSafariBrowser = () => {
+    const { userAgent } = navigator;
     return /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
-  };
+};
 
-  console.log(
-    "SAB TESTING 3:  IS_SAFARI",
-    isSafariBrowser(),
-    "ENV_VARIABLE",
-    process.env.REACT_APP_SMART_APP_BANNER_FLAG
-  );
+/**
+ * Create or replace the meta tag for apple-itunes-app in the document head.
+ */
+const createOrReplaceMetaTag = () => {
+    const existingMetaTag = document.querySelector('meta[name="apple-itunes-app"]');
 
-  if (
-    isSafariBrowser() &&
-    process.env.REACT_APP_SMART_APP_BANNER_FLAG === "show"
-  ) {
-    console.log("SAB TESTING 5:  SHOWING BANNER");
+    if (existingMetaTag) {
+        console.log("Meta tag already exists. Replacing it.");
+        existingMetaTag.remove();
+    }
+
     const metaTag = document.createElement("meta");
     metaTag.name = "apple-itunes-app";
-    metaTag.content =
-      "app-id=1623328763, app-argument=https://apps.apple.com/us/app/medicarecenter";
+    metaTag.content = "app-id=1623328763, app-argument=https://apps.apple.com/us/app/medicarecenter";
     document.getElementsByTagName("head")[0].appendChild(metaTag);
-  }
+};
+
+/**
+ * Mobile App Deep Linking and Smart App Banner for Safari on iOS devices.
+ *
+ */
+const showMobileAppDeepLinking = () => {
+    console.log("showMobileAppDeepLinking", isSafariBrowser(), process.env.REACT_APP_SMART_APP_BANNER_FLAG);
+    if (isSafariBrowser() && process.env.REACT_APP_SMART_APP_BANNER_FLAG === "show") {
+        createOrReplaceMetaTag();
+    }
 };
 
 export default showMobileAppDeepLinking;

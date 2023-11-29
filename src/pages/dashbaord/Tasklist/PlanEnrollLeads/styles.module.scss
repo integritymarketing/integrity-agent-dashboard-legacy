@@ -1,0 +1,115 @@
+.taskListInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.taskSentDate {
+    color: #717171;
+    font-size: 14px;
+}
+
+.name {
+    color: #052a63;
+    font-size: 20px;
+}
+.mobile {
+    color: #4178ff;
+    font-size: 16px;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.dateTimeLabel {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.contactAfterLabel {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.fromToDates {
+    margin-top: 5px;
+
+    .dateValue {
+        padding: 5px;
+        background-color: #f1f1f1;
+        border-radius: 4px;
+        font-size: 16px;
+        color: #434a51;
+    }
+    .atText {
+        margin: 2px;
+    }
+}
+
+.mobileDateRange {
+    margin-top: 10px;
+    display: flex;
+    width: 70%;
+    margin-left: 25%;
+    margin-right: 50%;
+}
+
+.dateInfo {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.planDateLabel {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+}
+.planDate {
+    color: #434a51;
+    font-size: 16px;
+    font-weight: bold;
+     background-color: #f1f1f1;
+    padding: 5px 12px;
+    border-radius: 4px;
+}
+
+.planDateSpan {
+    color: #717171;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.viewContactButton {
+    border-radius: 25px !important;
+    background-color: #4178ff !important;
+    padding: 0px 4px 0px 14px !important;
+
+    span {
+        font-size: 14px !important;
+        color: #ffffff !important;
+    }
+}
+
+.stageInfo {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.planStage {
+    width: 45%;
+}
+
+.planStageText {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+

@@ -1,0 +1,29 @@
+.taskListContainer {
+  padding: 20px;
+  min-height: 450px;
+ }
+
+.taskListCard {
+  padding: 5%;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: inset 0px -1px 0px #dddddd;
+  &:first-child {
+    border-radius: 8px 8px 0px 0px;
+  }
+  &:last-child {
+    border-radius: 0px 0px 8px 8px;
+  }
+}
+
+.singleCardBorder {
+  border-radius: 8px !important;
+}
+
+.white {
+  background: #ffffff;
+}
+
+.blue {
+  background: #f1faff;
+}

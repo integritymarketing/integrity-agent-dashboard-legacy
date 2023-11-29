@@ -1,0 +1,57 @@
+@import "scss/globalDefines.scss";
+@import "styles/global.scss";
+
+.tab {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    .tabHeading {
+        color: $dark-blue;
+        padding-bottom: 8px;
+        font: normal normal normal 20px/24px Lato;
+        letter-spacing: 0.2px;
+    }
+
+    .tabContent {
+        display: flex;
+        height: 88px;
+        background: white;
+        margin-bottom: 12px;
+        cursor: pointer;
+        box-shadow: 0px 0px 20px #002d721a;
+        border-radius: 6px;
+        align-items: center;
+        position: relative;
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            color: $dark-blue;
+            font-size: $size-48;
+        }
+
+        .color {
+            content: "";
+            width: 16px;
+            height: 88px;
+            display: block;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            position: absolute;
+        }
+
+        &.selected::after {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 48%;
+            margin-top: 100px;
+            transform: translate(-6px, 0);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 12px solid white;
+        }
+    }
+}

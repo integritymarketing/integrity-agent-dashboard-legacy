@@ -1,0 +1,26 @@
+.wrapper {
+    padding: 0 24px;
+    background-color: #f1f1f1;
+}
+
+.container {
+    padding: 0 24px;
+}
+
+.divider {
+    margin-top: 15px !important;
+    margin-bottom: 20px !important;
+}
+
+.footerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .footerBanners {
+        width: 60%;
+        @media (max-width: 480px) {
+            width: 80%;
+        }
+    }
+}

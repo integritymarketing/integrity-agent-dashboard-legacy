@@ -86,6 +86,7 @@ const SharePlanModal = ({
   const [hasFocus, setFocus] = useState(false);
   const [isDocumentsSelected, setIsDocumentsSelected] = useState(false);
   const [selectedDocuments, setSelectedDocuments] = useState([]);
+  const [loading, setLoading] = useState(false);
   const userProfile = useUserProfile();
 
   useEffect(() => {
@@ -135,6 +136,7 @@ const SharePlanModal = ({
   };
 
   const enroll = async () => {
+    setLoading(true)
     const agentFirstName = userProfile?.firstName;
     const agentLastName = userProfile?.lastName;
     const agentEmail = userProfile?.email;
@@ -260,6 +262,7 @@ const SharePlanModal = ({
       });
     } finally {
       handleCleanUp();
+      setLoading(false)
     }
   };
 
@@ -387,9 +390,8 @@ const SharePlanModal = ({
                               onBlur={() => setFocus(false)}
                               placeholder={hasFocus ? "" : "Enter email"}
                               value={email}
-                              className={`${
-                                errors && "error-class"
-                              } text-input`}
+                              className={`${errors && "error-class"
+                                } text-input`}
                               onChange={(e) => {
                                 handleSetEmail(e.currentTarget.value);
                               }}
@@ -409,11 +411,10 @@ const SharePlanModal = ({
                               placeholder={hasFocus ? "" : "XXX-XXX-XXXX"}
                               value={formattedMobile}
                               maxLength="10"
-                              className={`${
-                                mobile.length !== 10 && mobile.length !== 0
-                                  ? "error-class"
-                                  : ""
-                              } text-input`}
+                              className={`${mobile.length !== 10 && mobile.length !== 0
+                                ? "error-class"
+                                : ""
+                                } text-input`}
                               onChange={(e) => {
                                 setFormattedMobile(
                                   formatPhoneNumber(
@@ -466,7 +467,7 @@ const SharePlanModal = ({
                       label="Share"
                       data-gtm="button-share"
                       onClick={enroll}
-                      disabled={idFormNotValid}
+                      disabled={idFormNotValid || loading}
                     />
                   ) : (
                     <Button

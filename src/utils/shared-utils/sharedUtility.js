@@ -1,45 +1,66 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-export const ColorOptionRender = ({
-  value,
-  label,
-  color,
-  selected = false,
-  onClick,
-  filter,
-  className,
-}) => {
-  const handleClick = (ev) => {
-    onClick && onClick(ev, value);
-  };
-  return (
-    <div
-      className={`option ${selected ? "selected" : ""} ${
-        filter ? className : ""
-      }`}
-      onClick={handleClick}
-    >
-      <span
-        style={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          backgroundColor: color,
-          marginRight: 5,
-        }}
-      />
-      <span>{label}</span>
-    </div>
-  );
+/**
+ * Renders a color option with styling and click handler.
+ *
+ * @param {Object} props - The props for the component.
+ * @param {string} props.value - The value of the color option.
+ * @param {string} props.label - The label of the color option.
+ * @param {string} props.color - The color to display.
+ * @param {boolean} [props.selected=false] - If the option is selected.
+ * @param {Function} [props.onClick] - The function to call on click.
+ * @param {boolean} [props.filter] - If a filter should be applied to the option.
+ * @param {string} [props.className] - Additional CSS class to apply to the option.
+ */
+export const ColorOptionRender = ({ value, label, color, selected = false, onClick, filter, className }) => {
+    const handleClick = (event) => {
+        if (onClick) {
+            onClick(event, value);
+        }
+    };
+
+    return (
+        <div className={`option ${selected ? "selected" : ""} ${filter ? className : ""}`} onClick={handleClick}>
+            <span
+                style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: 5,
+                    backgroundColor: color,
+                    marginRight: 5,
+                }}
+            />
+            <span>{label}</span>
+        </div>
+    );
 };
 
-// Key_validation - Restricting input field to accept only alphabets
+ColorOptionRender.propTypes = {
+    value: PropTypes.string.isRequired, // The unique identifier for the color option
+    label: PropTypes.string.isRequired, // The display text for the color option
+    color: PropTypes.string.isRequired, // The actual color value for the color swatch
+    selected: PropTypes.bool, // Indicates if the color option is selected
+    onClick: PropTypes.func, // Function to call when the color option is clicked
+    filter: PropTypes.bool, // Indicates if filtering is applied to the color option
+    className: PropTypes.string, // Additional CSS class to apply for custom styling
+};
 
+ColorOptionRender.defaultProps = {
+    selected: false,
+    onClick: null,
+    filter: false,
+    className: "",
+};
+
+// Utilities
+
+// Restricts input to alphabet characters only
 export const onlyAlphabets = (e) => {
-  const re = /^[a-zA-Z ]*$/;
-  if (!re.test(e.key)) {
-    e.preventDefault();
-  }
+    const regex = /^[a-zA-Z ]*$/;
+    if (!regex.test(e.key)) {
+        e.preventDefault();
+    }
 };
 
 /**
@@ -67,51 +88,48 @@ export const onlyNumbersBetween1And12 = (e) => {
   }
 };
 
+// Scrolls the window to the top
 export const scrollTop = () => {
-  window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 };
 
-export const capitalizeFirstLetter = (str) => {
-  if (!str) return "";
-  return str.charAt(0).toUpperCase() + str.slice(1);
+// Capitalizes the first letter of a string
+export const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const formatUnderScorestring = (str) => {
-  let value = str.charAt(0).toUpperCase() + str.slice(1);
-  return value.replaceAll("_", " ");
+// Formats a string by replacing underscores with spaces and capitalizing words
+export const formatUnderScoreString = (string) => {
+    let formattedString = capitalizeFirstLetter(string);
+    return formattedString.replaceAll("_", " ");
 };
 
-export const isEmptyObj = (obj) => {
-  for (let i in obj) return false;
-  return true;
+// Checks if an object is empty
+export const isEmptyObj = (object) => {
+    return Object.keys(object).length === 0;
 };
 
-export const formattedName = (str) => {
-  const capitalize = (word) => {
-    return word.toLowerCase().replace(/\b[a-z]/g, (char) => char.toUpperCase());
-  };
-
-  return str.split(" ").map(capitalize).join(" ");
+// Formats a name by capitalizing the first letter of each word
+export const formattedName = (string) => {
+    return string.split(" ").map(capitalizeFirstLetter).join(" ");
 };
 
+// Formats a Medicare Beneficiary Identifier (MBI) by masking or formatting it
 export const formatMBID = (mbid, showMBID) => {
-  if (!mbid) {
-    return null;
-  } else if (showMBID) {
-    return formatMbiNumber(mbid);
-  } else {
-    return `****-***-${mbid.slice(-4)}`;
-  }
+    if (!mbid) return null;
+    return showMBID ? formatMbiNumber(mbid) : `****-***-${mbid.slice(-4)}`;
 };
 
-export const formatMbiNumber = (value) => {
-  if (!value) return "";
-  let formattedValue = value.replace(/-/g, "");
-  if (formattedValue.length > 4) {
-    formattedValue = formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
-  }
-  if (formattedValue.length > 8) {
-    formattedValue = formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
-  }
-  return formattedValue.toUpperCase();
+// Formats a string as an MBI number
+export const formatMbiNumber = (mbi) => {
+    if (!mbi) return "";
+    let formattedMbi = mbi.replace(/-/g, "");
+    if (formattedMbi.length > 4) {
+        formattedMbi = `${formattedMbi.slice(0, 4)}-${formattedMbi.slice(4)}`;
+    }
+    if (formattedMbi.length > 8) {
+        formattedMbi = `${formattedMbi.slice(0, 8)}-${formattedMbi.slice(8)}`;
+    }
+    return formattedMbi.toUpperCase();
 };

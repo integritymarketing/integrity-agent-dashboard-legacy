@@ -1,6 +1,6 @@
 import React from "react";
 
-const OpenIcon = (props) => {
+const OpenIcon = ({ color = "#ffffff" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@ const OpenIcon = (props) => {
       viewBox="0 0 24 24"
     >
       <g id="Button_-_BG" data-name="Button - BG">
-        <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0" />
+        <rect id="bg" width="24" height="24" fill={color} opacity="0" />
       </g>
       <g id="Group_3326" data-name="Group 3326" transform="translate(4 4)">
         <path
@@ -18,7 +18,7 @@ const OpenIcon = (props) => {
           data-name="Path 3517"
           d="M14.2,8.652v5.657A1.191,1.191,0,0,1,13.005,15.5H1.691A1.191,1.191,0,0,1,.5,14.309V2.995A1.191,1.191,0,0,1,1.691,1.8H7.348"
           fill="none"
-          stroke="#fff"
+          stroke={color}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1"
@@ -29,7 +29,7 @@ const OpenIcon = (props) => {
           x2="3.913"
           transform="translate(11.587 0.5)"
           fill="none"
-          stroke="#fff"
+          stroke={color}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1"
@@ -40,7 +40,7 @@ const OpenIcon = (props) => {
           y1="3.913"
           transform="translate(15.5 0.5)"
           fill="none"
-          stroke="#fff"
+          stroke={color}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1"
@@ -52,7 +52,7 @@ const OpenIcon = (props) => {
           x2="7.174"
           transform="translate(8.326 0.5)"
           fill="none"
-          stroke="#fff"
+          stroke={color}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1"

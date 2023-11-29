@@ -1,4 +1,3 @@
-
 import { lazy } from "react";
 import authService from "services/authService";
 
@@ -6,20 +5,36 @@ const ServerLoginPage = lazy(() => import("pages/auth/ServerLoginPage"));
 const ServerLogoutPage = lazy(() => import("pages/auth/ServerLogoutPage"));
 const ServerErrorPage = lazy(() => import("pages/auth/ServerErrorPage"));
 const RegistrationPage = lazy(() => import("pages/auth/RegistrationPage"));
-const RegistrationConfirmEmailPage = lazy(() => import("pages/auth/RegistrationConfirmEmailPage"));
-const RegistrationConfirmLinkExpiredPage = lazy(() => import("pages/auth/RegistrationConfirmLinkExpiredPage"));
-const RegistrationCheckEmailPage = lazy(() => import("pages/auth/RegistrationCheckEmailPage"));
-const RegistrationCompletedPage = lazy(() => import("pages/auth/RegistrationCompletedPage"));
+const RegistrationConfirmEmailPage = lazy(() =>
+  import("pages/auth/RegistrationConfirmEmailPage")
+);
+const RegistrationConfirmLinkExpiredPage = lazy(() =>
+  import("pages/auth/RegistrationConfirmLinkExpiredPage")
+);
+const RegistrationCheckEmailPage = lazy(() =>
+  import("pages/auth/RegistrationCheckEmailPage")
+);
+const RegistrationCompletedPage = lazy(() =>
+  import("pages/auth/RegistrationCompletedPage")
+);
 const ForgotPasswordPage = lazy(() => import("pages/auth/ForgotPasswordPage"));
-const ForgotPasswordSentPage = lazy(() => import("pages/auth/ForgotPasswordSentPage"));
+const ForgotPasswordSentPage = lazy(() =>
+  import("pages/auth/ForgotPasswordSentPage")
+);
 const PasswordResetPage = lazy(() => import("pages/auth/PasswordResetPage"));
-const PasswordLinkExpiredPage = lazy(() => import("pages/auth/PasswordLinkExpiredPage"));
-const PasswordUpdatedPage = lazy(() => import("pages/auth/PasswordUpdatedPage"));
+const PasswordLinkExpiredPage = lazy(() =>
+  import("pages/auth/PasswordLinkExpiredPage")
+);
+const PasswordUpdatedPage = lazy(() =>
+  import("pages/auth/PasswordUpdatedPage")
+);
 const FinalErrorPage = lazy(() => import("pages/auth/FinalErrorPage"));
 const NewEmailPage = lazy(() => import("pages/auth/NewEmailPage"));
 const EmailUpdatedPage = lazy(() => import("pages/auth/EmailUpdatedPage"));
 const ContactSupport = lazy(() => import("pages/auth/ContactSupport"));
-const ContactSupportInvalidNPN = lazy(() => import("pages/auth/ContactSupportInvalidNPN"));
+const ContactSupportInvalidNPN = lazy(() =>
+  import("pages/auth/ContactSupportInvalidNPN")
+);
 const UpdateMobileApp = lazy(() => import("pages/auth/UpdateMobileApp"));
 
 const AuthAppRoutes = [
@@ -27,7 +42,10 @@ const AuthAppRoutes = [
   { path: "/logout", component: <ServerLogoutPage /> },
   { path: "/error", component: <ServerErrorPage /> },
   { path: "/register", component: <RegistrationPage /> },
-  { path: "/registration-email-sent", component: <RegistrationCheckEmailPage /> },
+  {
+    path: "/registration-email-sent",
+    component: <RegistrationCheckEmailPage />,
+  },
   { path: "/confirm-email", component: <RegistrationConfirmEmailPage /> },
   {
     path: "/confirm-link-expired",

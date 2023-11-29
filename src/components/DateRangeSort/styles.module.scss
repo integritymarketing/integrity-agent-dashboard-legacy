@@ -1,34 +1,40 @@
 .sortSelector {
-  width: 100%;
-  @media (max-width: 768px) {
+    width: 100%;
+}
+.maxWidthMobile {
     width: 80px;
-  }
-  .sortButton {
+}
+.sortButton {
     background-color: #ffffff;
     align-items: center;
     display: flex;
-    border: 1px solid #717171;
+    border: 1px solid #dddddd;
     border-radius: 4px;
     font-size: 16px;
     color: #717171;
     position: relative;
     .icon {
-      padding: 10px;
-      position: absolute;
-      cursor: pointer;
-      right: 0;
-      &:hover {
-        background-color: #f1faff;
-        border-radius: 40px;
-      }
+        padding: 10px;
+        position: absolute;
+        cursor: pointer;
+        right: 0;
+        &:hover {
+            background-color: #f1faff;
+            border-radius: 40px;
+        }
     }
     .iconReverse {
-      transform: rotate(180deg);
+        transform: rotate(180deg);
     }
-  }
-  .options {
+}
+
+.optionsMobile {
+    margin-left: -190px;
+    width: 232px;
+}
+.options {
     margin-top: 5px;
-    width: 21%;
+    width: 240px;
     display: flex;
     flex-direction: column;
     border: 1px solid #00000029;
@@ -37,32 +43,28 @@
     background-color: #ffffff;
     position: absolute;
     z-index: 999999;
-    @media (max-width: 768px) {
-      margin-left: -190px;
-      width: 232px;
-    }
+
     .option {
-      display: flex;
-      position: relative;
-      align-items: center;
-      justify-content: 30%;
-      justify-content: space-between;
-      box-shadow: inset 0px -1px 0px #dfdedd;
-      padding: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #434a51;
-      cursor: pointer;
-      &:last-child {
-        box-shadow: unset;
-      }
-      &:hover {
-        background-color: #f1faff;
-      }
-      .mark {
-        position: absolute;
-        right: 5px;
-      }
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: 30%;
+        justify-content: space-between;
+        box-shadow: inset 0px -1px 0px #dfdedd;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #434a51;
+        cursor: pointer;
+        &:last-child {
+            box-shadow: unset;
+        }
+        &:hover {
+            background-color: #f1faff;
+        }
+        .mark {
+            position: absolute;
+            right: 5px;
+        }
     }
-  }
 }

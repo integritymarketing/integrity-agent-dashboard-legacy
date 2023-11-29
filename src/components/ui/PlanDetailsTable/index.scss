@@ -1,567 +1,580 @@
 .plan-details-table {
-  width: 100%;
-  font-family: Lato;
-  font-style: normal;
-  box-sizing: border-box;
-  border-radius: 8px;
-  border-collapse: collapse;
-  background-color: white;
-  .plan-details-thead {
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 130%;
-    color: var(--v2-white);
-    height: 56px;
-
-    th {
-      background: #002d72;
-      border-radius: 4px 4px 0px 0px;
-      text-align: left;
-      padding-left: 25px;
-    }
-  }
-
-  &.quotes {
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      tr {
-        td:last-child {
-          width: 140px;
-          padding-right: 5px;
-        }
-      }
-    }
-  }
-
-  &.plan-benfits {
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      tr > td {
-        width: 50%;
-      }
-    }
-  }
-
-  .plan-details-tbody {
-    tr {
-      height: 96px;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        width: 100% !important;
-      }
-      td {
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          width: calc(70% / 3);
-        }
-      }
-      td:first-child {
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          width: 30%;
-        }
-      }
-    }
-
-    tr:nth-child(even) {
-      background: #f1faff;
-    }
-
-    td {
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        word-break: initial;
-        padding: 16px;
-        width: 50%;
-      }
-      .label,
-      .value {
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 24px;
-        color: #052a63;
-        letter-spacing: 0.2px;
-        display: block;
-        padding: 0 40px;
-
-        .per {
-          font-weight: normal;
-          font-size: 14px;
-        }
-        .value-subtext {
-          margin-left: 5px;
-          font-weight: normal;
-          font-size: 14px;
-        }
-        .currency-value-blue {
-          color: #052a63;
-        }
-        .per-mobile {
-          font-weight: normal;
-          display: none;
-        }
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          display: flex;
-          flex-direction: column;
-          .per {
-            display: none;
-          }
-          .per-mobile {
-            display: block;
-          }
-        }
-      }
-
-      .link {
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 150%;
-        color: #4178ff;
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          word-break: break-word;
-        }
-      }
-
-      .copay {
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          display: flex;
-          flex-direction: column;
-        }
-        .label {
-          margin-right: 4px;
-          padding: 0;
-        }
-        .supply {
-          letter-spacing: -0.14px;
-          font-style: italic;
-          font-size: 14px;
-          color: #717171;
-        }
-      }
-
-      .subtext {
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 130%;
-        color: #64748b;
-        display: flex;
-        flex-direction: column;
-        padding-left: 40px;
-      }
-
-      .in-network-label {
-        line-height: 130%;
-        margin-left: 8px;
-      }
-    }
-  }
-}
-
-.comp-pr-name {
-  font-family: Lato;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 150%;
-  color: #2b323b;
-}
-
-.pr-address {
-  margin-top: 10px;
-}
-
-.pr-network {
-  display: flex;
-  align-items: center;
-
-  .pr-network-text {
+    width: 100%;
     font-family: Lato;
     font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 130%;
-    color: #2b323b;
-    margin-left: 10px;
-  }
-}
+    box-sizing: border-box;
+    border-radius: 8px;
+    border-collapse: collapse;
+    background-color: white;
+    .plan-details-thead {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 130%;
+        color: var(--v2-white);
+        height: 56px;
 
-.comp-pres-label {
-  margin-top: 20px;
-}
-
-.comp-doc-link {
-  font-family: Lato;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 150%;
-  color: #0052ce;
-  text-decoration: none;
-}
-
-.comp-td {
-  border-right: 1px solid #cbd5e1 !important;
-}
-
-.comp-tr {
-  .comp-td:last-child {
-    border-right: 1px solid #cbd5e1 !important;
-  }
-  .comp-td:not(:first-child) {
-    padding-left: 15px;
-    padding-right: 8px;
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      width: calc(70% / 3);
-    }
-  }
-  .extra-padding {
-    padding-left: 20px;
-  }
-}
-
-.show-more-cost {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  height: 48px;
-  width: 100%;
-  border-top: 1px solid #dddddd;
-  background-color: white;
-  cursor: pointer;
-
-  .show-more-cost-label {
-    margin-left: 11px;
-    color: #4178ff;
-  }
-  .cost-arrow-side {
-    transform: rotate(180deg);
-  }
-}
-
-.cost-monthly-past {
-  background-color: white;
-
-  .cost-monthly-bar {
-    width: 100%;
-    color: #717171;
-    display: flex;
-    font-weight: bold;
-    height: 100%;
-    border: 1px solid #cbd5e1;
-    border-bottom: none;
-    // border-top: none;
-    padding: 10px;
-    justify-content: space-between;
-
-    .date {
-      font-style: italic;
-      font-size: 14px;
-      font-weight: normal;
-      padding-left: 5px;
-    }
-
-    .compare-cost-month-container {
-      width: 30%;
-      padding: 10px 0;
-      padding-left: 35px;
-    }
-
-    .cost-monthly-bar-item {
-      text-align: right;
-      width: calc(70% / 3);
-      color: #717171;
-      font-weight: bold;
-      padding: 10px 0;
-      padding-right: 8px;
-      border-left: 1px solid #cbd5e1;
-    }
-  }
-}
-
-.cost-monthly-table {
-  border: unset;
-  background-color: #f1faff;
-}
-
-.value {
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  color: #052a63;
-  letter-spacing: 0.2px;
-  display: block;
-
-  .per {
-    font-weight: normal;
-    font-size: 14px;
-  }
-  .value-subtext {
-    margin-left: 5px;
-    font-weight: normal;
-    font-size: 14px;
-  }
-  .currency-value-blue {
-    color: #052a63;
-  }
-  .per-mobile {
-    font-weight: normal;
-    display: none;
-  }
-  @media screen and (min-width: 320px) and (max-width: 480px) {
-    display: flex;
-    flex-direction: column;
-    .per {
-      display: none;
-    }
-    .per-mobile {
-      display: block;
-    }
-  }
-}
-.plan-details-contact-section {
-  background-color: #ffffff;
-}
-.cost-monthly-prescriptions {
-  .cost-monthly-bar {
-    display: flex;
-    flex-direction: column;
-    min-height: 40px;
-    overflow: hidden;
-    height: auto;
-    width: 100%;
-    .value {
-      color: #052a63;
-      font-weight: bold;
-      font-size: 14px;
-    }
-    .final-value {
-      color: #4178ff;
-    }
-    .cost-monthly-header {
-      display: flex;
-      align-items: center;
-      text-align: center;
-      justify-content: space-between;
-      flex-direction: row;
-      width: 100%;
-      height: 40px;
-      border: 1px solid #cbd5e1;
-      background-color: white;
-      cursor: pointer;
-      padding: 10px 20px;
-
-      .cost-phases {
-        display: flex;
-        align-items: center;
-        width: 300px;
-        justify-content: flex-start;
-      }
-
-      .compare-cost-phases {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 62%;
-      }
-
-      .cost-month-container {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        justify-content: flex-start;
-        width: 100px;
-
-        div {
-          padding-left: 10px;
+        th {
+            background: #002d72;
+            border-radius: 4px 4px 0px 0px;
+            text-align: left;
+            padding-left: 25px;
         }
-      }
+    }
 
-      .compare-cost-month-container {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        justify-content: flex-start;
-        width: 30%;
-        padding-left: 15px;
-
-        div {
-          padding-left: 10px;
+    &.quotes {
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            tr {
+                td:last-child {
+                    width: 140px;
+                    padding-right: 5px;
+                }
+            }
         }
-      }
-
-      .cost-monthly-header-item {
-        display: flex;
-        width: calc(70% / 3);
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 8px;
-        border-left: 1px solid #cbd5e1;
-        height: 100%;
-      }
-
-      .cost-arrow-side {
-        transform: rotate(270deg);
-      }
-    }
-    .costPhases {
-      color: #717171;
-      font-size: 14px;
-      text-transform: capitalize;
-      margin-left: 3px;
-      text-align: initial;
     }
 
-    .cost-monthly-content {
-      display: none;
-      background-color: #f1faff;
+    &.plan-benfits {
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            tr > td {
+                width: 50%;
+            }
+        }
+    }
 
-      .cost-monthly-thead {
-        height: 28px;
-        border-bottom: 1px solid #cbd5e1;
-
+    .plan-details-tbody {
         tr {
-          th {
-            background: unset;
-            color: #052a63;
-            font-family: Lato;
-            font-size: 14px;
-            letter-spacing: -0.14px;
-            padding-left: 20px;
-            padding-right: 10px;
-          }
-          th:last-child {
-            border-right: unset;
-          }
-          th:not(:first-child) {
-            text-align: right;
-          }
-        }
-        &:first-child {
-          height: 17px;
-        }
-      }
-
-      .cost-monthly-tbody {
-        tr {
-          height: 28px;
-          border-bottom: 1px solid #cbd5e1;
-
-          td {
-            padding-left: 20px;
-            padding-right: 10px;
-            padding-bottom: 5px;
-            color: #717171;
-          }
-
-          td:last-child {
-            border-right: unset;
-          }
-
-          td:not(:first-child) {
-            text-align: end;
-            color: #052a63;
-            font-weight: bold;
-          }
+            height: 96px;
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                width: 100% !important;
+            }
+            td {
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    width: calc(70% / 3);
+                }
+            }
+            td:first-child {
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    width: 30%;
+                }
+            }
         }
 
         tr:nth-child(even) {
-          background-color: #f1faff;
+            background: #f1faff;
         }
 
-        tr:last-child {
-          td:first-child div {
-            display: flex;
-            flex-direction: column;
-          }
-          td:not(:first-child) {
+        td {
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                word-break: initial;
+                padding: 16px;
+                width: 50%;
+            }
+            .label,
+            .value {
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 24px;
+                color: #052a63;
+                letter-spacing: 0.2px;
+                display: block;
+                padding: 0 40px;
+
+                .per {
+                    font-weight: normal;
+                    font-size: 14px;
+                }
+                .value-subtext {
+                    margin-left: 5px;
+                    font-weight: normal;
+                    font-size: 14px;
+                }
+                .currency-value-blue {
+                    color: #052a63;
+                }
+                .per-mobile {
+                    font-weight: normal;
+                    display: none;
+                }
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    display: flex;
+                    flex-direction: column;
+                    .per {
+                        display: none;
+                    }
+                    .per-mobile {
+                        display: block;
+                    }
+                }
+            }
+
+            .link {
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 150%;
+                color: #4178ff;
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    word-break: break-word;
+                }
+            }
+
+            .copay {
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .label {
+                    margin-right: 4px;
+                    padding: 0;
+                }
+                .supply {
+                    letter-spacing: -0.14px;
+                    font-style: italic;
+                    font-size: 14px;
+                    color: #717171;
+                }
+            }
+
+            .subtext {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 130%;
+                color: #64748b;
+                display: flex;
+                flex-direction: column;
+                padding-left: 40px;
+            }
+
+            .in-network-label {
+                line-height: 130%;
+                margin-left: 8px;
+            }
+        }
+    }
+}
+
+.comp-pr-name {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 150%;
+    color: #2b323b;
+}
+
+.pr-address {
+    margin-top: 10px;
+}
+
+.pr-network {
+    display: flex;
+    align-items: center;
+
+    .pr-network-text {
+        font-family: Lato;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 130%;
+        color: #2b323b;
+        margin-left: 10px;
+    }
+}
+
+.comp-pres-label {
+    margin-top: 20px;
+}
+
+.comp-doc-link {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 150%;
+    color: #0052ce;
+    text-decoration: none;
+}
+
+.comp-td {
+    border-right: 1px solid #cbd5e1 !important;
+}
+
+.comp-tr {
+    .comp-td:last-child {
+        border-right: 1px solid #cbd5e1 !important;
+    }
+    .comp-td:not(:first-child) {
+        padding-left: 15px;
+        padding-right: 8px;
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            width: calc(70% / 3);
+        }
+    }
+    .extra-padding {
+        padding-left: 20px;
+    }
+}
+
+.show-more-cost {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    height: 48px;
+    width: 100%;
+    border-top: 1px solid #dddddd;
+    background-color: white;
+    cursor: pointer;
+
+    .show-more-cost-label {
+        margin-left: 11px;
+        color: #4178ff;
+    }
+    .cost-arrow-side {
+        transform: rotate(180deg);
+    }
+}
+
+.cost-monthly-past {
+    background-color: white;
+
+    .cost-monthly-bar {
+        width: 100%;
+        color: #717171;
+        display: flex;
+        font-weight: bold;
+        height: 100%;
+        border: 1px solid #cbd5e1;
+        border-bottom: none;
+        // border-top: none;
+        padding: 10px;
+        justify-content: space-between;
+
+        .date {
+            font-style: italic;
+            font-size: 14px;
+            font-weight: normal;
+            padding-left: 5px;
+        }
+
+        .compare-cost-month-container {
+            width: 30%;
+            padding: 10px 0;
+            padding-left: 35px;
+        }
+
+        .cost-monthly-bar-item {
+            text-align: right;
+            width: calc(70% / 3);
+            color: #717171;
+            font-weight: bold;
+            padding: 10px 0;
+            padding-right: 8px;
+            border-left: 1px solid #cbd5e1;
+        }
+    }
+}
+
+.cost-monthly-table {
+    border: unset;
+    background-color: #f1faff;
+}
+
+.value {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #052a63;
+    letter-spacing: 0.2px;
+    display: block;
+
+    .per {
+        font-weight: normal;
+        font-size: 14px;
+    }
+    .value-subtext {
+        margin-left: 5px;
+        font-weight: normal;
+        font-size: 14px;
+    }
+    .currency-value-blue {
+        color: #052a63;
+    }
+    .per-mobile {
+        font-weight: normal;
+        display: none;
+    }
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+        display: flex;
+        flex-direction: column;
+        .per {
+            display: none;
+        }
+        .per-mobile {
+            display: block;
+        }
+    }
+}
+.plan-details-contact-section {
+    background-color: #ffffff;
+}
+.cost-monthly-prescriptions {
+    .cost-monthly-bar {
+        display: flex;
+        flex-direction: column;
+        min-height: 40px;
+        overflow: hidden;
+        height: auto;
+        width: 100%;
+        .value {
             color: #052a63;
             font-weight: bold;
-            text-align: end;
-          }
+            font-size: 14px;
         }
-      }
-    }
-
-    &.active .cost-monthly-content {
-      display: block;
-    }
-
-    &.active .cost-monthly-prescription-total {
-      display: block;
-    }
-
-    .cost-monthly-prescription-total {
-      display: none;
-      background-color: #f1faff;
-      padding: 0 48px 24px 16px;
-      .total-line {
-        display: flex;
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
+        .final-value {
+            color: #4178ff;
         }
-      }
-      .cost-total {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        justify-content: flex-end;
-        flex-direction: row;
-        width: 100%;
-        height: 40px;
-        .total-line {
-          @media screen and (min-width: 320px) and (max-width: 480px) {
+        .cost-monthly-header {
             display: flex;
+            align-items: center;
+            text-align: center;
+            justify-content: space-between;
             flex-direction: row;
-          }
+            width: 100%;
+            height: 40px;
+            border: 1px solid #cbd5e1;
+            background-color: white;
+            cursor: pointer;
+            padding: 10px 20px;
+
+            .cost-phases {
+                display: flex;
+                align-items: center;
+                width: 300px;
+                justify-content: flex-start;
+            }
+
+            .compare-cost-phases {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 62%;
+            }
+
+            .cost-month-container {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                justify-content: flex-start;
+                width: 100px;
+
+                div {
+                    padding-left: 10px;
+                }
+            }
+
+            .compare-cost-month-container {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                justify-content: flex-start;
+                width: 30%;
+                padding-left: 15px;
+
+                div {
+                    padding-left: 10px;
+                }
+            }
+
+            .cost-monthly-header-item {
+                display: flex;
+                width: calc(70% / 3);
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 8px;
+                border-left: 1px solid #cbd5e1;
+                height: 100%;
+            }
+
+            .cost-arrow-side {
+                transform: rotate(270deg);
+            }
         }
-        .operator {
-          padding-left: 40px;
-          padding-right: 40px;
-          @media screen and (min-width: 320px) and (max-width: 480px) {
-            padding-left: 20px;
-            padding-right: 20px;
-          }
-        }
-        .total-label {
-          padding-right: 8px;
+        .costPhases {
+            color: #717171;
+            font-size: 14px;
+            text-transform: capitalize;
+            margin-left: 3px;
+            text-align: initial;
         }
 
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          padding-bottom: 10px;
-          border-bottom: 1px solid #cbd5e1;
+        .cost-monthly-content {
+            display: none;
+            background-color: #f1faff;
+
+            .cost-monthly-thead {
+                height: 28px;
+                border-bottom: 1px solid #cbd5e1;
+
+                tr {
+                    th {
+                        background: unset;
+                        color: #052a63;
+                        font-family: Lato;
+                        font-size: 14px;
+                        letter-spacing: -0.14px;
+                        padding-left: 20px;
+                        padding-right: 10px;
+                    }
+                    th:last-child {
+                        border-right: unset;
+                    }
+                    th:not(:first-child) {
+                        text-align: right;
+                    }
+                }
+                &:first-child {
+                    height: 17px;
+                }
+            }
+
+            .cost-monthly-tbody {
+                tr {
+                    height: 28px;
+                    border-bottom: 1px solid #cbd5e1;
+
+                    td {
+                        padding-left: 20px;
+                        padding-right: 10px;
+                        padding-bottom: 5px;
+                        color: #717171;
+                    }
+
+                    td:last-child {
+                        border-right: unset;
+                    }
+
+                    td:not(:first-child) {
+                        text-align: end;
+                        color: #052a63;
+                        font-weight: bold;
+                    }
+                }
+
+                tr:nth-child(even) {
+                    background-color: #f1faff;
+                }
+
+                tr:last-child {
+                    td:first-child div {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    td:not(:first-child) {
+                        color: #052a63;
+                        font-weight: bold;
+                        text-align: end;
+                    }
+                }
+            }
         }
-      }
+
+        &.active .cost-monthly-content {
+            display: block;
+        }
+
+        &.active .cost-monthly-prescription-total {
+            display: block;
+        }
+
+        .cost-monthly-prescription-total {
+            display: none;
+            background-color: #f1faff;
+            padding: 0 48px 24px 16px;
+            .total-line {
+                display: flex;
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                }
+            }
+            .cost-total {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                justify-content: flex-end;
+                flex-direction: row;
+                width: 100%;
+                height: 40px;
+                .total-line {
+                    @media screen and (min-width: 320px) and (max-width: 480px) {
+                        display: flex;
+                        flex-direction: row;
+                    }
+                }
+                .operator {
+                    padding-left: 40px;
+                    padding-right: 40px;
+                    @media screen and (min-width: 320px) and (max-width: 480px) {
+                        padding-left: 20px;
+                        padding-right: 20px;
+                    }
+                }
+                .total-label {
+                    padding-right: 8px;
+                }
+
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    padding-bottom: 10px;
+                    border-bottom: 1px solid #cbd5e1;
+                }
+            }
+        }
     }
-  }
 }
 
 .networkIcon {
-  margin-right: 10px;
-  margin-top: 2px;
+    margin-right: 10px;
+    margin-top: 2px;
 }
 
 .address {
-  align-items: center;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 130%;
-  color: #717171;
-  display: flex;
-  @media screen and (min-width: 320px) and (max-width: 480px) {
-    padding: 16px;
-    margin-top: 16px;
-    background-color: #f1faff;
-  }
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    color: #717171;
+    display: flex;
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+        padding: 16px;
+        margin-top: 16px;
+        background-color: #f1faff;
+    }
 }
 
 .description {
-  font-size: 14px;
-  color: #717171;
-  letter-spacing: -0.14px;
+    font-size: 14px;
+    color: #717171;
+    letter-spacing: -0.14px;
 }
 
 .compare-cost-0 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 62%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 62%;
+}
+
+.providerContainer {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    @media (max-width: 768px) {
+        flex-direction: column !important;
+        padding: 20px 20px !important;
+    }
 }

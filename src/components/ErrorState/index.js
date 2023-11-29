@@ -3,7 +3,7 @@ import TooltipMUI from "packages/ToolTip";
 import Dialog from "packages/Dialog";
 import "./style.scss";
 
-const ErrorState = ({ isError, emptyList, icon, heading, content, link }) => {
+const ErrorState = ({ isError, emptyList, icon, heading, content, link, iconPosition = "top" }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
@@ -31,7 +31,7 @@ const ErrorState = ({ isError, emptyList, icon, heading, content, link }) => {
         </div>
       )}
       {!isError && emptyList && (
-        <div className="no-data-container">
+        <div className={`no-data-container ${iconPosition === "left" ? "PE-container" : ""} `}>
           {icon && (
             <div className="no-data-icon-container">
               <img src={icon} className="no-data-icon" alt={heading} />

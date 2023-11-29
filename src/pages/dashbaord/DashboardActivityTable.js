@@ -1,10 +1,4 @@
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-} from "react";
+import React, { useMemo, useState, useEffect, useCallback, useContext } from "react";
 import Media from "react-media";
 import "./activitytable.scss";
 import Table from "../../packages/TableWrapper";
@@ -34,623 +28,577 @@ import CallDetails from "./CallDetails";
 import useUserProfile from "hooks/useUserProfile";
 import ContactSectionCard from "packages/ContactSectionCard";
 import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
+import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
 
 const getActivitySubject = (activitySubject) => {
-  switch (activitySubject) {
-    case "Scope of Appointment Sent":
-    case "Scope of Appointment Signed":
-    case "Scope of Appointment Completed":
-      let text = activitySubject.replace("Scope of Appointment", "SOA");
-      return text;
-    case "Stage Change":
-      return "Stage Changed";
-    case "Contact's new call log created":
-      return "Call Recording";
-    default:
-      return activitySubject;
-  }
+    switch (activitySubject) {
+        case "Scope of Appointment Sent":
+        case "Scope of Appointment Signed":
+        case "Scope of Appointment Completed":
+            let text = activitySubject.replace("Scope of Appointment", "SOA");
+            return text;
+        case "Stage Change":
+            return "Stage Changed";
+        case "Contact's new call log created":
+            return "Call Recording";
+        default:
+            return activitySubject;
+    }
 };
 const buttonTextByActivity = {
-  "Incoming Call": "Link to Contact",
-  "Call Recording": "Download",
-  "Contact's new call log created": "Download",
-  "Outbound Call Recorded": "Download",
-  "Incoming Call Recorded": "Download",
-  "Scope of Appointment Signed": "View",
-  "Scope of Appointment Completed": "View",
-  "Plan Shared": "View Plans",
-  "Application Submitted": "View",
-  "Meeting Recorded": "Download",
+    "Incoming Call": "Link to Contact",
+    "Call Recording": "Download",
+    "Contact's new call log created": "Download",
+    "Outbound Call Recorded": "Download",
+    "Incoming Call Recorded": "Download",
+    "Scope of Appointment Signed": "View",
+    "Scope of Appointment Completed": "View",
+    "Plan Shared": "View Plans",
+    "Application Submitted": "View",
+    "Meeting Recorded": "Download",
 };
 
 const FILTER_OPTIONS = [
-  { name: "Application Submitted", selected: false },
-  { name: "Call Recording", selected: false },
-  { name: "Contact Created", selected: false },
-  { name: "Contact Updated", selected: false },
-  { name: "Contact Imported", selected: false },
-  { name: "Reminder Added", selected: false },
-  { name: "Reminder Complete", selected: false },
-  { name: "Contact's new call log created", selected: false },
-  { name: "Incoming Call", selected: false },
-  { name: "Incoming Call Recorded", selected: false },
-  { name: "Meeting Recorded", selected: false },
-  { name: "Outbound Call Recorded", selected: false },
-  { name: "Plan Shared", selected: false },
-  { name: "Scope of Appointment Sent", selected: false },
-  { name: "Scope of Appointment Completed", selected: false },
-  { name: "Scope of Appointment Signed", selected: false },
-  { name: "Stage Change", selected: false },
+    { name: "Application Submitted", selected: false },
+    { name: "Call Recording", selected: false },
+    { name: "Contact Created", selected: false },
+    { name: "Contact Updated", selected: false },
+    { name: "Contact Imported", selected: false },
+    { name: "Reminder Added", selected: false },
+    { name: "Reminder Complete", selected: false },
+    { name: "Contact's new call log created", selected: false },
+    { name: "Incoming Call", selected: false },
+    { name: "Incoming Call Recorded", selected: false },
+    { name: "Meeting Recorded", selected: false },
+    { name: "Outbound Call Recorded", selected: false },
+    { name: "Plan Shared", selected: false },
+    { name: "Scope of Appointment Sent", selected: false },
+    { name: "Scope of Appointment Completed", selected: false },
+    { name: "Scope of Appointment Signed", selected: false },
+    { name: "Stage Change", selected: false },
 ];
 const renderButtons = (activity, leadsId, handleClick) => {
-  if (!activity) return false;
-  const {
-    activityTypeName = "",
-    activityInteractionURL = "",
-    activitySubject = "",
-  } = activity;
+    if (!activity) return false;
+    const { activityTypeName = "", activityInteractionURL = "", activitySubject = "" } = activity;
 
-  if (
-    activityTypeName &&
-    (activityTypeName === "Triggered" ||
-      activitySubject === "Meeting Recorded") &&
-    activityInteractionURL
-  ) {
-    return (
-      <div
-        className={styles.activityDataCell}
-        onClick={() =>
-          handleClick(activitySubject, activityInteractionURL, leadsId)
-        }
-      >
-        <ActivityButtonIcon activitySubject={activitySubject} />
-        <Typography color="#434A51" fontSize={"16px"} noWrap>
-          {buttonTextByActivity[activitySubject]}
-        </Typography>
-      </div>
-    );
-  }
-  return false;
+    if (
+        activityTypeName &&
+        (activityTypeName === "Triggered" || activitySubject === "Meeting Recorded") &&
+        activityInteractionURL
+    ) {
+        return (
+            <div
+                className={styles.activityDataCell}
+                onClick={() => handleClick(activitySubject, activityInteractionURL, leadsId)}
+            >
+                <ActivityButtonIcon activitySubject={activitySubject} />
+                <Typography color="#434A51" fontSize={"16px"} noWrap>
+                    {buttonTextByActivity[activitySubject]}
+                </Typography>
+            </div>
+        );
+    }
+    return false;
 };
 
 export default function DashboardActivityTable({
-  activityData,
-  realoadActivityData,
-  setPage,
-  page,
-  showMore,
-  setSelectedFilterValues,
-  selectedFilterValues,
-  setSort,
-  sort,
+    activityData,
+    realoadActivityData,
+    setPage,
+    page,
+    showMore,
+    setSelectedFilterValues,
+    selectedFilterValues,
+    setSort,
+    sort,
 }) {
-  const navigate = useNavigate();
-  const showToast = useToast();
-  const { setNewSoaContactDetails } = useContext(ContactContext);
-  const [filterToggle, setFilterToggle] = useState(false);
-  const [filteredData, setFilteredData] = useState([]);
-  const [showAddModal, setShowAddModal] = useState(null);
-  const [showAddNewModal, setShowAddNewModal] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState(null);
-  const [selectedCall, setSelectedCall] = useState(null);
-  const [selectedLead, setSelectedLead] = useState();
-  const [isMobile, setIsMobile] = useState(false);
-  const [filterValues, setFilterValues] = useState(FILTER_OPTIONS);
-  const userProfile = useUserProfile();
-  const [leadId, setLeadId] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
+    const navigate = useNavigate();
+    const showToast = useToast();
+    const { setNewSoaContactDetails } = useContext(ContactContext);
+    const [filterToggle, setFilterToggle] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
+    const [showAddModal, setShowAddModal] = useState(null);
+    const [showAddNewModal, setShowAddNewModal] = useState(false);
+    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [selectedCall, setSelectedCall] = useState(null);
+    const [selectedLead, setSelectedLead] = useState();
+    const [isMobile, setIsMobile] = useState(false);
+    const [filterValues, setFilterValues] = useState(FILTER_OPTIONS);
+    const userProfile = useUserProfile();
+    const [leadId, setLeadId] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [leadConnectModal, setLeadConnectModal] = useState(false);
+    const [leadDetails, setLeadDetails] = useState(null);
 
-  const { npn } = userProfile;
-  useEffect(() => {
-    setFilteredData([...activityData]);
-  }, [activityData]);
+    const { npn } = userProfile;
+    useEffect(() => {
+        setFilteredData([...activityData]);
+    }, [activityData]);
 
-  const navigateToPage = (leadId, page) => {
-    navigate(`/${page}/${leadId}`);
-  };
+    const navigateToPage = (leadId, page) => {
+        navigate(`/${page}/${leadId}`);
+    };
 
-  const handleDropdownActions = (contact) => (value, leadId) => {
-    switch (value) {
-      case "addnewreminder":
-        setShowAddModal(leadId);
-        setShowAddNewModal(true);
-        break;
-      case "new-soa":
-        setNewSoaContactDetails(contact);
+    const handleDropdownActions = (contact) => (value, leadId) => {
         setLeadId(leadId);
-        setOpenModal(true);
-        break;
-      case "plans":
-      case "contact":
-        navigateToPage(leadId, value);
-        break;
+        setLeadDetails(contact);
+        switch (value) {
+            case "addnewreminder":
+                setShowAddModal(leadId);
+                setShowAddNewModal(true);
+                break;
+            case "new-soa":
+                setNewSoaContactDetails(contact);
+                setOpenModal(true);
+                break;
+            case "plans":
+            case "contact":
+                navigateToPage(leadId, value);
+                break;
+            case "connect":
+                setLeadConnectModal(true);
+                break;
+            default:
+                break;
+        }
+    };
 
-      default:
-        break;
-    }
-  };
+    const handleClick = useCallback(
+        async (activitySubject, activityInteractionURL, leadsId) => {
+            const splitViewPlansURL = activityInteractionURL.split("/");
+            switch (activitySubject) {
+                case "Scope of Appointment Signed":
+                    navigate({
+                        pathname: `/contact/${leadsId}`,
+                        search: "?awaiting=true",
+                    });
+                    break;
+                case "Scope of Appointment Completed":
+                    navigate(`/contact/${leadsId}/soa-confirm/${activityInteractionURL}`);
+                    break;
+                case "Plan Shared":
+                    navigate(`/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`);
+                    break;
+                case "Call Recording":
+                case "Incoming Call Recorded":
+                case "Outbound Call Recorded":
+                case "Contact's new call log created":
+                case "Meeting Recorded":
+                    window.open(activityInteractionURL, "_blank");
+                    break;
+                case "Application Submitted":
+                    let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
+                    var url = await window.URL.createObjectURL(link);
 
-  const handleClick = useCallback(
-    async (activitySubject, activityInteractionURL, leadsId) => {
-      const splitViewPlansURL = activityInteractionURL.split("/");
-      switch (activitySubject) {
-        case "Scope of Appointment Signed":
-          navigate({
-            pathname: `/contact/${leadsId}`,
-            search: "?awaiting=true",
-          });
-          break;
-        case "Scope of Appointment Completed":
-          navigate(
-            `/contact/${leadsId}/soa-confirm/${activityInteractionURL}`
-          );
-          break;
-        case "Plan Shared":
-          navigate(
-            `/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`
-          );
-          break;
-        case "Call Recording":
-        case "Incoming Call Recorded":
-        case "Outbound Call Recorded":
-        case "Contact's new call log created":
-        case "Meeting Recorded":
-          window.open(activityInteractionURL, "_blank");
-          break;
-        case "Application Submitted":
-          let link = await comparePlansService?.getPdfSource(
-            activityInteractionURL,
-            npn
-          );
-          var url = await window.URL.createObjectURL(link);
-
-          if (url && url !== "") {
-            window.open(url, "_blank");
-          }
-          break;
-        default:
-          break;
-      }
-    },
-    [navigate, npn]
-  );
-
-  const handleTableRowClick = useCallback(
-    (row) => {
-      setSelectedLead({
-        fullName: `${row?.firstName} ${row?.lastName}`,
-        ...row,
-      });
-      setSelectedActivity(row.activities[0]);
-    },
-    [setSelectedActivity, setSelectedLead]
-  );
-
-  const columns = useMemo(
-    () => [
-      {
-        id: "date",
-        Header: "Date",
-        accessor: (row) =>
-          new Date(
-            row?.original?.activities[0]?.modifyDate
-              ? row?.original?.activities[0]?.modifyDate
-              : row?.original?.activities[0]?.createDate
-          ),
-        Cell: ({ row }) => {
-          let date = convertUTCDateToLocalDate(
-            row?.original?.activities[0]?.modifyDate
-              ? row?.original?.activities[0]?.modifyDate
-              : row?.original?.activities[0]?.createDate
-          );
-          return (
-            <Typography color="#434A51" fontSize="16px">
-              {dateFormatter(date, "MM/DD/yyyy")}
-            </Typography>
-          );
-        },
-      },
-      {
-        id: "name",
-        Header: "Name",
-        accessor: (row) =>
-          `${row?.original?.firstName} ${row?.original?.lastName}`,
-        Cell: ({ row }) => (
-          <div className={styles.activityDataCell}>
-            <Typography
-              noWrap
-              fontWeight="bold"
-              fontSize="16px"
-              color="#0052CE"
-              onClick={(event) => {
-                event.stopPropagation();
-                navigate(`/contact/${row?.original?.leadsId}`);
-              }}
-            >
-              <strong>
-                {`${row?.original?.firstName} ${row?.original?.lastName}`}{" "}
-              </strong>
-            </Typography>
-          </div>
-        ),
-      },
-      {
-        id: "activity",
-        Header: "Activity",
-        accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
-        Cell: ({ row }) => (
-          <div className={styles.activityDataCell}>
-            <ActivitySubjectWithIcon
-              activitySubject={row?.original?.activities[0]?.activitySubject}
-            />
-            <Typography
-              color="#434A51"
-              fontSize={"16px"}
-              noWrap
-              onClick={() => {
-                handleTableRowClick(row?.original);
-              }}
-            >
-              {getActivitySubject(
-                row?.original?.activities[0]?.activitySubject
-              )}
-            </Typography>
-          </div>
-        ),
-      },
-      {
-        id: "inboundcall",
-        disableSortBy: true,
-        Header: "",
-        Cell: () => null,
-      },
-      {
-        id: "status",
-        disableSortBy: true,
-        Header: "",
-        Cell: ({ row }) => (
-          <>
-            {renderButtons(
-              row?.original?.activities[0],
-              row?.original?.leadsId,
-              handleClick
-            )}
-          </>
-        ),
-      },
-      {
-        Header: "",
-        id: "more",
-        disableSortBy: true,
-        accessor: "reminders",
-        Cell: ({ value, row }) => {
-          const options = MORE_ACTIONS.slice(0);
-
-          if (
-            row?.original?.addresses?.[0]?.postalCode &&
-            row?.original?.addresses?.[0]?.county &&
-            row?.original?.addresses?.[0]?.stateCode
-          ) {
-            options.splice(1, 0, PLAN_ACTION);
-          }
-          return (
-            <>
-              <ActionsDropdown
-                options={options}
-                id={row.original.leadsId}
-                onClick={handleDropdownActions(row.original)}
-              >
-                <MoreHorizOutlinedIcon />
-              </ActionsDropdown>
-              {showAddNewModal && (
-                <ShortReminder
-                  reminders={value || []}
-                  leadId={row.original.leadsId}
-                  showAddModal={showAddModal === row.original.leadsId}
-                  setShowAddModal={(value) => {
-                    setShowAddModal(value ? row.original.leadsId : null);
-                    if (!value) {
-                      setShowAddNewModal(false);
+                    if (url && url !== "") {
+                        window.open(url, "_blank");
                     }
-                  }}
-                  showAddNewModal={showAddNewModal}
-                  hideIcon={true}
-                />
-              )}
-            </>
-          );
+                    break;
+                default:
+                    break;
+            }
         },
-      },
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigate, showAddModal]
-  );
+        [navigate, npn]
+    );
 
-  const mobileColumns = useMemo(
-    () => [
-      {
-        id: "name",
-        Header: "Name",
-        accessor: (row) =>
-          `${row?.original?.firstName} ${row?.original?.lastName}`,
-        Cell: ({ row }) => (
-          <div className={styles.activityDataCell}>
-            <Typography
-              noWrap
-              fontWeight="bold"
-              fontSize="16px"
-              color="#0052CE"
-              onClick={(event) => {
-                event.stopPropagation();
-                navigate(`/contact/${row?.original?.leadsId}`);
-              }}
-            >
-              <strong>
-                {`${row?.original?.firstName} ${row?.original?.lastName}`}{" "}
-              </strong>
-            </Typography>
-          </div>
-        ),
-      },
-      {
-        id: "activity",
-        Header: "Activity",
-        accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
-        Cell: ({ row }) => (
-          <div className={styles.activityDataCell}>
-            <ActivitySubjectWithIcon
-              activitySubject={row?.original?.activities[0]?.activitySubject}
-            />
-            <Typography
-              color="#434A51"
-              fontSize={"16px"}
-              noWrap
-              onClick={() => {
-                handleTableRowClick(row?.original);
-              }}
-            >
-              {getActivitySubject(
-                row?.original?.activities[0]?.activitySubject
-              )}
-            </Typography>
-          </div>
-        ),
-      },
-      {
-        id: "date",
-        Header: "Date",
-        accessor: (row) =>
-          new Date(
-            row?.original?.activities[0]?.modifyDate
-              ? row?.original?.activities[0]?.modifyDate
-              : row?.original?.activities[0]?.createDate
-          ),
-        Cell: ({ row }) => {
-          let date = convertUTCDateToLocalDate(
-            row?.original?.activities[0]?.modifyDate
-              ? row?.original?.activities[0]?.modifyDate
-              : row?.original?.activities[0]?.createDate
-          );
-          return (
-            <Typography color="#434A51" fontSize="16px">
-              {dateFormatter(date, "MM/DD/yyyy")}
-            </Typography>
-          );
+    const handleTableRowClick = useCallback(
+        (row) => {
+            setSelectedLead({
+                fullName: `${row?.firstName} ${row?.lastName}`,
+                ...row,
+            });
+            setSelectedActivity(row.activities[0]);
         },
-      },
-      {
-        id: "inboundcall",
-        disableSortBy: true,
-        Header: "",
-        Cell: () => null,
-      },
-      {
-        id: "status",
-        disableSortBy: true,
-        Header: "",
-        Cell: ({ row }) => (
-          <>
-            {renderButtons(
-              row?.original?.activities[0],
-              row?.original?.leadsId,
-              handleClick
-            )}
-          </>
-        ),
-      },
-      {
-        Header: "",
-        id: "more",
-        disableSortBy: true,
-        accessor: "reminders",
-        Cell: ({ value, row }) => {
-          const options = MORE_ACTIONS.slice(0);
+        [setSelectedActivity, setSelectedLead]
+    );
 
-          if (
-            row?.original?.addresses?.[0]?.postalCode &&
-            row?.original?.addresses?.[0]?.county &&
-            row?.original?.addresses?.[0]?.stateCode
-          ) {
-            options.splice(1, 0, PLAN_ACTION);
-          }
-          return (
-            <>
-              <ActionsDropdown
-                options={options}
-                id={row.original.leadsId}
-                onClick={handleDropdownActions(row.original)}
-              >
-                <MoreHorizOutlinedIcon />
-              </ActionsDropdown>
-              {showAddNewModal && (
-                <ShortReminder
-                  reminders={value || []}
-                  leadId={row.original.leadsId}
-                  showAddModal={showAddModal === row.original.leadsId}
-                  setShowAddModal={(value) => {
-                    setShowAddModal(value ? row.original.leadsId : null);
-                    if (!value) {
-                      setShowAddNewModal(false);
+    const columns = useMemo(
+        () => [
+            {
+                id: "date",
+                Header: "Date",
+                accessor: (row) =>
+                    new Date(
+                        row?.original?.activities[0]?.modifyDate
+                            ? row?.original?.activities[0]?.modifyDate
+                            : row?.original?.activities[0]?.createDate
+                    ),
+                Cell: ({ row }) => {
+                    let date = convertUTCDateToLocalDate(
+                        row?.original?.activities[0]?.modifyDate
+                            ? row?.original?.activities[0]?.modifyDate
+                            : row?.original?.activities[0]?.createDate
+                    );
+                    return (
+                        <Typography color="#434A51" fontSize="16px">
+                            {dateFormatter(date, "MM/DD/yyyy")}
+                        </Typography>
+                    );
+                },
+            },
+            {
+                id: "name",
+                Header: "Name",
+                accessor: (row) => `${row?.original?.firstName} ${row?.original?.lastName}`,
+                Cell: ({ row }) => (
+                    <div className={styles.activityDataCell}>
+                        <Typography
+                            noWrap
+                            fontWeight="bold"
+                            fontSize="16px"
+                            color="#0052CE"
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                navigate(`/contact/${row?.original?.leadsId}`);
+                            }}
+                        >
+                            <strong>{`${row?.original?.firstName} ${row?.original?.lastName}`} </strong>
+                        </Typography>
+                    </div>
+                ),
+            },
+            {
+                id: "activity",
+                Header: "Activity",
+                accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
+                Cell: ({ row }) => (
+                    <div className={styles.activityDataCell}>
+                        <ActivitySubjectWithIcon activitySubject={row?.original?.activities[0]?.activitySubject} />
+                        <Typography
+                            color="#434A51"
+                            fontSize={"16px"}
+                            noWrap
+                            onClick={() => {
+                                handleTableRowClick(row?.original);
+                            }}
+                        >
+                            {getActivitySubject(row?.original?.activities[0]?.activitySubject)}
+                        </Typography>
+                    </div>
+                ),
+            },
+            {
+                id: "inboundcall",
+                disableSortBy: true,
+                Header: "",
+                Cell: () => null,
+            },
+            {
+                id: "status",
+                disableSortBy: true,
+                Header: "",
+                Cell: ({ row }) => (
+                    <>{renderButtons(row?.original?.activities[0], row?.original?.leadsId, handleClick)}</>
+                ),
+            },
+            {
+                Header: "",
+                id: "more",
+                disableSortBy: true,
+                accessor: "reminders",
+                Cell: ({ value, row }) => {
+                    const options = MORE_ACTIONS.slice(0);
+
+                    if (
+                        row?.original?.addresses?.[0]?.postalCode &&
+                        row?.original?.addresses?.[0]?.county &&
+                        row?.original?.addresses?.[0]?.stateCode
+                    ) {
+                        options.splice(1, 0, PLAN_ACTION);
                     }
-                  }}
-                  showAddNewModal={showAddNewModal}
-                  hideIcon={true}
-                />
-              )}
-            </>
-          );
-        },
-      },
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigate, showAddModal]
-  );
+                    return (
+                        <>
+                            <ActionsDropdown
+                                options={options}
+                                id={row.original.leadsId}
+                                onClick={handleDropdownActions(row.original)}
+                            >
+                                <MoreHorizOutlinedIcon />
+                            </ActionsDropdown>
+                            {showAddNewModal && (
+                                <ShortReminder
+                                    reminders={value || []}
+                                    leadId={row.original.leadsId}
+                                    showAddModal={showAddModal === row.original.leadsId}
+                                    setShowAddModal={(value) => {
+                                        setShowAddModal(value ? row.original.leadsId : null);
+                                        if (!value) {
+                                            setShowAddNewModal(false);
+                                        }
+                                    }}
+                                    showAddNewModal={showAddNewModal}
+                                    hideIcon={true}
+                                />
+                            )}
+                        </>
+                    );
+                },
+            },
+        ],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [navigate, showAddModal]
+    );
 
-  const onFilterApply = (selectedValues) => {
-    setFilterValues([...selectedValues]);
-    let data = selectedValues
-      .filter((item) => item.selected)
-      .map((item) => item.name);
-    setSelectedFilterValues([...data]);
-    setPage(1);
-    setFilterToggle(false);
-  };
+    const mobileColumns = useMemo(
+        () => [
+            {
+                id: "name",
+                Header: "Name",
+                accessor: (row) => `${row?.original?.firstName} ${row?.original?.lastName}`,
+                Cell: ({ row }) => (
+                    <div className={styles.activityDataCell}>
+                        <Typography
+                            noWrap
+                            fontWeight="bold"
+                            fontSize="16px"
+                            color="#0052CE"
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                navigate(`/contact/${row?.original?.leadsId}`);
+                            }}
+                        >
+                            <strong>{`${row?.original?.firstName} ${row?.original?.lastName}`} </strong>
+                        </Typography>
+                    </div>
+                ),
+            },
+            {
+                id: "activity",
+                Header: "Activity",
+                accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
+                Cell: ({ row }) => (
+                    <div className={styles.activityDataCell}>
+                        <ActivitySubjectWithIcon activitySubject={row?.original?.activities[0]?.activitySubject} />
+                        <Typography
+                            color="#434A51"
+                            fontSize={"16px"}
+                            noWrap
+                            onClick={() => {
+                                handleTableRowClick(row?.original);
+                            }}
+                        >
+                            {getActivitySubject(row?.original?.activities[0]?.activitySubject)}
+                        </Typography>
+                    </div>
+                ),
+            },
+            {
+                id: "date",
+                Header: "Date",
+                accessor: (row) =>
+                    new Date(
+                        row?.original?.activities[0]?.modifyDate
+                            ? row?.original?.activities[0]?.modifyDate
+                            : row?.original?.activities[0]?.createDate
+                    ),
+                Cell: ({ row }) => {
+                    let date = convertUTCDateToLocalDate(
+                        row?.original?.activities[0]?.modifyDate
+                            ? row?.original?.activities[0]?.modifyDate
+                            : row?.original?.activities[0]?.createDate
+                    );
+                    return (
+                        <Typography color="#434A51" fontSize="16px">
+                            {dateFormatter(date, "MM/DD/yyyy")}
+                        </Typography>
+                    );
+                },
+            },
+            {
+                id: "inboundcall",
+                disableSortBy: true,
+                Header: "",
+                Cell: () => null,
+            },
+            {
+                id: "status",
+                disableSortBy: true,
+                Header: "",
+                Cell: ({ row }) => (
+                    <>{renderButtons(row?.original?.activities[0], row?.original?.leadsId, handleClick)}</>
+                ),
+            },
+            {
+                Header: "",
+                id: "more",
+                disableSortBy: true,
+                accessor: "reminders",
+                Cell: ({ value, row }) => {
+                    const options = MORE_ACTIONS.slice(0);
 
-  const onResetFilter = () => {
-    setFilterValues((values) => {
-      return values.map((v) => ({ ...v, selected: false }));
-    });
-    setSelectedFilterValues([]);
-    setPage(1);
-  };
+                    if (
+                        row?.original?.addresses?.[0]?.postalCode &&
+                        row?.original?.addresses?.[0]?.county &&
+                        row?.original?.addresses?.[0]?.stateCode
+                    ) {
+                        options.splice(1, 0, PLAN_ACTION);
+                    }
+                    return (
+                        <>
+                            <ActionsDropdown
+                                options={options}
+                                id={row.original.leadsId}
+                                onClick={handleDropdownActions(row.original)}
+                            >
+                                <MoreHorizOutlinedIcon />
+                            </ActionsDropdown>
+                            {showAddNewModal && (
+                                <ShortReminder
+                                    reminders={value || []}
+                                    leadId={row.original.leadsId}
+                                    showAddModal={showAddModal === row.original.leadsId}
+                                    setShowAddModal={(value) => {
+                                        setShowAddModal(value ? row.original.leadsId : null);
+                                        if (!value) {
+                                            setShowAddNewModal(false);
+                                        }
+                                    }}
+                                    showAddNewModal={showAddNewModal}
+                                    hideIcon={true}
+                                />
+                            )}
+                        </>
+                    );
+                },
+            },
+        ],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [navigate, showAddModal]
+    );
 
-  const handleAddActivtyNotes = useCallback(
-    async (activity, activityNote) => {
-      const { activitySubject, activityId, activityBody } = activity;
-      const leadsId = selectedLead.leadsId;
-      const payload = {
-        activityBody,
-        activitySubject,
-        activityId,
-        activityNote,
-      };
-      try {
-        await clientsService.updateActivity(payload, leadsId);
-        realoadActivityData && (await realoadActivityData());
-        setSelectedActivity(null);
-        showToast({
-          type: "success",
-          message: "Activity notes added successfully",
-          time: 3000,
+    const onFilterApply = (selectedValues) => {
+        setFilterValues([...selectedValues]);
+        let data = selectedValues.filter((item) => item.selected).map((item) => item.name);
+        setSelectedFilterValues([...data]);
+        setPage(1);
+        setFilterToggle(false);
+    };
+
+    const onResetFilter = () => {
+        setFilterValues((values) => {
+            return values.map((v) => ({ ...v, selected: false }));
         });
-      } catch (e) {
-        Sentry.captureException(e);
-      }
-    },
-    [setSelectedActivity, showToast, selectedLead, realoadActivityData]
-  );
+        setSelectedFilterValues([]);
+        setPage(1);
+    };
 
-  const handleSortUpdate = (value) => {
-    switch (value) {
-      case "Date":
-        if (sort === "Activities.CreateDate:asc") {
-          setSort("Activities.CreateDate:desc");
-        } else {
-          setSort("Activities.CreateDate:asc");
-        }
-        break;
-      case "Name":
-        if (sort === "firstName:asc") {
-          setSort("firstName:desc");
-        } else {
-          setSort("firstName:asc");
-        }
-        break;
-      case "Activity":
-        if (sort === "Activities.ActivitySubject:asc") {
-          setSort("Activities.ActivitySubject:desc");
-        } else {
-          setSort("Activities.ActivitySubject:asc");
-        }
-        break;
-      default:
-        setSort("Activities.CreateDate:desc");
-    }
-  };
+    const handleAddActivtyNotes = useCallback(
+        async (activity, activityNote) => {
+            const { activitySubject, activityId, activityBody } = activity;
+            const leadsId = selectedLead.leadsId;
+            const payload = {
+                activityBody,
+                activitySubject,
+                activityId,
+                activityNote,
+            };
+            try {
+                await clientsService.updateActivity(payload, leadsId);
+                realoadActivityData && (await realoadActivityData());
+                setSelectedActivity(null);
+                showToast({
+                    type: "success",
+                    message: "Activity notes added successfully",
+                    time: 3000,
+                });
+            } catch (e) {
+                Sentry.captureException(e);
+            }
+        },
+        [setSelectedActivity, showToast, selectedLead, realoadActivityData]
+    );
 
-  return (
-    <>
-      <Media
-        query={"(max-width: 500px)"}
-        onChange={(isMobile) => {
-          setIsMobile(isMobile);
-        }}
-      />
-      <SOAModal
-        id={leadId}
-        openSOAModal={openModal}
-        setOpenSOAModal={setOpenModal}
-      />
-      <ContactSectionCard
-        title="Recent Activity"
-        className={styles.enrollmentPlanContainer}
-        isDashboard={true}
-        actions={
-          <div className={styles.filterButton}>
-            <Filter
-              Icon={FilterIcon}
-              ActiveIcon={ActiveFilter}
-              heading={"Filter by Activity Type"}
-              open={filterToggle}
-              onToggle={setFilterToggle}
-              filtered={selectedFilterValues.length > 0 ? true : false}
-              content={
-                <FilterOptions
-                  values={[...filterValues]}
-                  multiSelect={true}
-                  onApply={onFilterApply}
-                  onReset={onResetFilter}
-                />
-              }
+    const handleSortUpdate = (value) => {
+        switch (value) {
+            case "Date":
+                if (sort === "Activities.CreateDate:asc") {
+                    setSort("Activities.CreateDate:desc");
+                } else {
+                    setSort("Activities.CreateDate:asc");
+                }
+                break;
+            case "Name":
+                if (sort === "firstName:asc") {
+                    setSort("firstName:desc");
+                } else {
+                    setSort("firstName:asc");
+                }
+                break;
+            case "Activity":
+                if (sort === "Activities.ActivitySubject:asc") {
+                    setSort("Activities.ActivitySubject:desc");
+                } else {
+                    setSort("Activities.ActivitySubject:asc");
+                }
+                break;
+            default:
+                setSort("Activities.CreateDate:desc");
+        }
+    };
+
+    return (
+        <>
+            <Media
+                query={"(max-width: 500px)"}
+                onChange={(isMobile) => {
+                    setIsMobile(isMobile);
+                }}
             />
-          </div>
-        }
-        preferencesKey={"RecentActivity_collapse"}
-        hideActionIfCollapse={true}
-      >
-        <Table
-          handleSort={handleSortUpdate}
-          initialState={{}}
-          data={filteredData}
-          columns={isMobile ? mobileColumns : columns}
-          footer={
-            showMore ? (
-              <TextButton onClick={() => setPage(page + 1)}>
-                Show more
-              </TextButton>
-            ) : (
-              ""
-            )
-          }
-        />
-      </ContactSectionCard>
-      {selectedActivity && (
-        <ActivityDetails
-          open={true}
-          onSave={handleAddActivtyNotes}
-          onClose={() => setSelectedActivity(null)}
-          leadFullName={selectedLead?.fullName}
-          activityObj={selectedActivity}
-          leadsId={selectedLead?.leadsId}
-        />
-      )}
-      {selectedCall && (
-        <CallDetails
-          open={true}
-          onClose={() => setSelectedCall(null)}
-          callObj={selectedCall}
-        />
-      )}
-    </>
-  );
+            <SOAModal id={leadId} openSOAModal={openModal} setOpenSOAModal={setOpenModal} />
+            {leadConnectModal && (
+                <ConnectModal
+                    open={leadConnectModal}
+                    onClose={() => setLeadConnectModal(false)}
+                    leadId={leadId}
+                    leadDetails={leadDetails}
+                />
+            )}
+            <ContactSectionCard
+                title="Recent Activity"
+                className={styles.enrollmentPlanContainer}
+                isDashboard={true}
+                actions={
+                    <div className={styles.filterButton}>
+                        <Filter
+                            Icon={FilterIcon}
+                            ActiveIcon={ActiveFilter}
+                            heading={"Filter by Activity Type"}
+                            open={filterToggle}
+                            onToggle={setFilterToggle}
+                            filtered={selectedFilterValues.length > 0 ? true : false}
+                            content={
+                                <FilterOptions
+                                    values={[...filterValues]}
+                                    multiSelect={true}
+                                    onApply={onFilterApply}
+                                    onReset={onResetFilter}
+                                />
+                            }
+                        />
+                    </div>
+                }
+                preferencesKey={"RecentActivity_collapse"}
+                hideActionIfCollapse={true}
+            >
+                <Table
+                    handleSort={handleSortUpdate}
+                    initialState={{}}
+                    data={filteredData}
+                    columns={isMobile ? mobileColumns : columns}
+                    footer={showMore ? <TextButton onClick={() => setPage(page + 1)}>Show more</TextButton> : ""}
+                />
+            </ContactSectionCard>
+            {selectedActivity && (
+                <ActivityDetails
+                    open={true}
+                    onSave={handleAddActivtyNotes}
+                    onClose={() => setSelectedActivity(null)}
+                    leadFullName={selectedLead?.fullName}
+                    activityObj={selectedActivity}
+                    leadsId={selectedLead?.leadsId}
+                />
+            )}
+            {selectedCall && <CallDetails open={true} onClose={() => setSelectedCall(null)} callObj={selectedCall} />}
+        </>
+    );
 }

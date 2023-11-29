@@ -1,0 +1,22 @@
+.tag {
+    border-radius: 23px;
+    padding: 0 7px;
+    color: #717171;
+    background: #f1f1f1;
+    border-radius: 4px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 10px;
+    white-space: nowrap;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tag {
+    &:first-child {
+        margin-top: 0;
+    }
+}

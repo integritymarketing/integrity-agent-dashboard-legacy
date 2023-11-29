@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# package lock files
+package-lock.json
+yarn.lock
+
 # testing
 /coverage
 
@@ -32,8 +36,5 @@ npm ERR!*
 .netlify
 
 # ignore vs-code configs
-/.vscode
 *.code-workspace
-
-# Yarn lockfile
-yarn.lock
+.vscode/*

@@ -1,0 +1,15 @@
+.banner {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dfe5ef;
+    background-color: #ffffff;
+    border-radius: 4px;
+    font-size: 16px;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin-top: 15px;
+}
+
+.clearIcon {
+    cursor: pointer;
+}

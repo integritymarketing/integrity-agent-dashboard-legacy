@@ -1,0 +1,126 @@
+.plan-card-container {
+  background: #deebfb 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+}
+
+.plan-enroll-card {
+  border-bottom: 0.5px solid #dfdedd;
+  padding: 20px 20px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between ;
+
+  &:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+}
+
+.plan-card-link-btn {
+  border-radius: 25px !important;
+  padding: 6px 10px 6px 15px !important;
+  background-color: #4178ff !important;
+}
+
+.plan-card-link-btn > .label {
+  font-size: 14px !important;
+  color: #ffffff !important;
+}
+
+.date-time-duration-text {
+  color: #002d72;
+  padding-right: 8px;
+  font-weight: 600;
+}
+
+.plan-name {
+  color: #052a63;
+  font-size: 20px;
+
+}
+.plan-phone {
+  color: #4178ff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  word-wrap: break-word;
+}
+.plan-date-label {
+  color: #052a63;
+  font-size: 16px;
+  font-weight: bold;
+}
+.plan-date {
+  color: #434a51;
+  font-size: 16px;
+  font-weight: bold;
+  width: 78%;
+  background-color: #f1f1f1;
+  padding: 5px 12px;
+  border-radius: 4px;
+}
+
+.plan-date-span {
+  color: #717171;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.plan-name-info {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+.plan-avatar {
+  margin-right: 10px;
+  background: #dddddd;
+  padding: 3px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
+.plan-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.plan-stage-text {
+  color: #052a63;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.plan-stage-select {
+  width: 140px;
+}
+
+.jumpList-card {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  border-radius: 0px 0px 8px 8px;
+  @media screen and (max-width: 480px) {
+    margin: 0px 12px 20px 15px;
+  }
+}
+
+.jumpList-btn > span {
+  color: #0052ce;
+  font-weight: 600;
+}

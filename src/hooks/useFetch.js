@@ -12,85 +12,88 @@ import * as Sentry from "@sentry/react";
  */
 
 const useFetch = (url, isPublic = false, noResponse = false) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  /**
-   * Fetches data from the API endpoint using the specified HTTP method and request body
-   */
+    /**
+     * Fetches data from the API endpoint using the specified HTTP method and request body
+     */
 
-  const fetchData = useCallback(
-    async ({ method = "GET", body, returnHttpResponse = false, id }) => {
-      try {
-        const options = { method };
-        if (!isPublic) {
-          const user = await authService.getUser();
-          if (user) {
-            options.headers = { Authorization: `Bearer ${user?.access_token}` };
-          }
-        }
+    const fetchData = useCallback(
+        async ({ method = "GET", body, returnHttpResponse = false, id, param }) => {
+            try {
+                const options = { method };
+                if (!isPublic) {
+                    const user = await authService.getUser();
+                    if (user) {
+                        options.headers = { Authorization: `Bearer ${user?.access_token}` };
+                    }
+                }
 
-        const fullUrl = id ? `${url}/${id}` : url;
+                let fullUrl = id ? `${url}/${id}` : url;
+                if (param) {
+                    fullUrl = `${url}${param}`;
+                }
 
-        if (body) {
-          options.headers = {
-            ...options.headers,
-            "Content-Type": "application/json",
-          };
-          options.body = JSON.stringify(body);
-        }
-        const response = await fetch(fullUrl, options);
+                if (body) {
+                    options.headers = {
+                        ...options.headers,
+                        "Content-Type": "application/json",
+                    };
+                    options.body = JSON.stringify(body);
+                }
+                const response = await fetch(fullUrl, options);
 
-        if (returnHttpResponse) {
-          return response;
-        }
+                if (returnHttpResponse) {
+                    return response;
+                }
 
-        let json = null;
-        if (!noResponse) {
-          json = await response.json();
-        }
-        setData(json);
-        setLoading(false);
-        return json;
-      } catch (error) {
-        Sentry.captureException(error);
-        setError(error);
-        setLoading(false);
-      }
-    },
-    [url, isPublic, noResponse]
-  );
+                let json = null;
+                if (!noResponse) {
+                    json = await response.json();
+                }
+                setData(json);
+                setLoading(false);
+                return json;
+            } catch (error) {
+                Sentry.captureException(error);
+                setError(error);
+                setLoading(false);
+            }
+        },
+        [url, isPublic, noResponse]
+    );
 
-  const Get = useCallback(
-    (body, returnHttpResponse, id) => {
-      return fetchData({ method: "GET", body, returnHttpResponse, id });
-    },
-    [fetchData]
-  );
+    const Get = useCallback(
+        (body, returnHttpResponse, id, param) => {
+            return fetchData({ method: "GET", body, returnHttpResponse, id, param });
+        },
+        [fetchData]
+    );
 
-  const Post = useCallback(
-    (body, returnHttpResponse, id) => {
-      return fetchData({ method: "POST", body, returnHttpResponse, id });
-    },
-    [fetchData]
-  );
+    const Post = useCallback(
+        (body, returnHttpResponse, id) => {
+            return fetchData({ method: "POST", body, returnHttpResponse, id });
+        },
+        [fetchData]
+    );
 
-  const Put = useCallback(
-    (body, returnHttpResponse, id) => {
-      return fetchData({ method: "PUT", body, returnHttpResponse, id });
-    },
-    [fetchData]
-  );
+    const Put = useCallback(
+        (body, returnHttpResponse, id) => {
+            return fetchData({ method: "PUT", body, returnHttpResponse, id });
+        },
+        [fetchData]
+    );
 
-  const Delete = useCallback(
-    (body, returnHttpResponse, id) => {
-      return fetchData({ method: "DELETE", body, returnHttpResponse, id });
-    },
-    [fetchData]
-  );
+    const Delete = useCallback(
+        (body, returnHttpResponse, id) => {
+            return fetchData({ method: "DELETE", body, returnHttpResponse, id });
+        },
+        [fetchData]
+    );
 
-  return { data, loading, error, Put, Post, Delete, Get };
+    return { data, loading, error, Put, Post, Delete, Get };
 };
 
 export default useFetch;

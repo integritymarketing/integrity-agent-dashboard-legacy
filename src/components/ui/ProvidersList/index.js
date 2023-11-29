@@ -14,266 +14,249 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 
 const useWebStyles = makeStyles({
-  addressContainer: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  addressText: {
-    marginLeft: 10,
-    color: "#717171",
-    fontSize: "14px",
-  },
-  addressColumn: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    width: "40%",
-  },
-  editbtn: {
-    "@media (max-width: 768px)": {
-      position: "absolute",
-      right: "32px",
+    addressContainer: {
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 10,
     },
-  },
-  editbtn2: {
-    "@media (max-width: 768px)": {
-      position: "absolute",
-      top: "12px",
-      right: "15px",
+    addressText: {
+        marginLeft: 10,
+        color: "#717171",
+        fontSize: "14px",
     },
-  },
+    addressColumn: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        width: "40%",
+    },
+    editbtn: {
+        "@media (max-width: 768px)": {
+            position: "absolute",
+            right: "32px",
+        },
+    },
+    editbtn2: {
+        "@media (max-width: 768px)": {
+            position: "absolute",
+            top: "12px",
+            right: "15px",
+        },
+    },
+    compareTable: {
+        width: "100% !important",
+        marginTop: "16px",
+    },
+    addressTextNew: {
+        marginLeft: 0,
+    },
 });
 
 const useMobileStyles = makeStyles({
-  list: {
-    marginTop: "16px",
-    marginBottom: "16px",
-    backgroundColor: "#FFFFFF",
-    borderRadius: "8px",
-  },
-  singleCard: {
-    padding: "16px",
-    borderRadius: "8px",
-  },
-  multipleCard: {
-    padding: "16px",
-    boxShadow: "inset 0px -1px 0px #CCCCCC",
-    "&:first-child": {
-      borderRadius: "8px 8px 0px 0px",
+    list: {
+        marginTop: "16px",
+        marginBottom: "16px",
+        backgroundColor: "#FFFFFF",
+        borderRadius: "8px",
     },
-    "&:last-child": {
-      borderRadius: "0px 0px 8px 8px",
+    singleCard: {
+        padding: "16px",
+        borderRadius: "8px",
     },
-  },
+    multipleCard: {
+        padding: "16px",
+        boxShadow: "inset 0px -1px 0px #CCCCCC",
+        "&:first-child": {
+            borderRadius: "8px 8px 0px 0px",
+        },
+        "&:last-child": {
+            borderRadius: "0px 0px 8px 8px",
+        },
+    },
 
-  additional: {
-    color: "#4178FF",
-    fontSize: "16px",
-    fontWeight: "600",
-    letterSpacing: "-0.16px",
-    fontFamily: "Lato",
-  },
-  listItem: {
-    backgroundColor: "#dddddd !important",
+    additional: {
+        color: "#4178FF",
+        fontSize: "16px",
+        fontWeight: "600",
+        letterSpacing: "-0.16px",
+        fontFamily: "Lato",
+    },
+    listItem: {
+        backgroundColor: "#dddddd !important",
 
-    "&.Mui-selected, &.Mui-selected:hover": {
-      backgroundColor: "#f1faff !important",
+        "&.Mui-selected, &.Mui-selected:hover": {
+            backgroundColor: "#f1faff !important",
+        },
+        padding: "unset !important",
     },
-    padding: "unset !important",
-  },
-  addressText: {
-    color: "#434A51",
-    fontSize: 16,
-  },
-  reverse: {
-    transform: "rotate(360deg)",
-    cursor: "pointer",
-    marginRight: "10px",
-  },
-  icon: {
-    cursor: "pointer",
-    marginRight: "10px",
-    transform: "rotate(270deg)",
-  },
-  multipleAddresses: {
-    display: "flex",
-    alignItems: "center",
-  },
+    addressText: {
+        color: "#434A51",
+        fontSize: 16,
+    },
+    reverse: {
+        transform: "rotate(360deg)",
+        cursor: "pointer",
+        marginRight: "10px",
+    },
+    icon: {
+        cursor: "pointer",
+        marginRight: "10px",
+        transform: "rotate(270deg)",
+    },
+    multipleAddresses: {
+        display: "flex",
+        alignItems: "center",
+    },
 
-  isMultiple: {
-    boxShadow: "inset 0px -1px 0px #CCCCCC",
-    "&:first-child": {
-      borderRadius: "4px 4px 0px 0px",
+    isMultiple: {
+        boxShadow: "inset 0px -1px 0px #CCCCCC",
+        "&:first-child": {
+            borderRadius: "4px 4px 0px 0px",
+        },
+        "&:last-child": {
+            borderRadius: "0px 0px 4px 4px",
+        },
+        isSingle: {
+            borderRadius: "4px",
+        },
     },
-    "&:last-child": {
-      borderRadius: "0px 0px 4px 4px",
-    },
-    isSingle: {
-      borderRadius: "4px",
-    },
-  },
 
-  network: {
-    marginRight: 10,
-  },
-  addressList: {
-    width: "100%",
-  },
+    network: {
+        marginRight: 10,
+    },
+    addressList: {
+        width: "100%",
+    },
 });
 
 const Address = ({ addresses, isPlanPage }) => {
-  const classes = useMobileStyles();
-  const isMultiple = addresses?.length > 1;
+    const classes = useMobileStyles();
+    const isMultiple = addresses?.length > 1;
 
-  return (
-    <List>
-      {addresses?.map((address) => {
-        return (
-          <ListItemButton
-            key={address?.id}
-            className={`${classes.listItem}, ${
-              isMultiple ? classes.isMultiple : classes.isSingle
-            }`}
-            selected={true}
-          >
-            {isPlanPage && (
-              <Box className={classes.network}>
-                {address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
-              </Box>
-            )}
-            <Box>
-              <Typography className={classes.addressText}>
-                <div>
-                  <div>
-                    {address
-                      ? [address?.streetLine1, address?.streetLine2]
-                          .filter(Boolean)
-                          .join(",")
-                      : null}
-                  </div>
-                  <div>
-                    {address
-                      ? [address?.city, address?.state, address?.zipCode]
-                          .filter(Boolean)
-                          .join(",")
-                      : null}
-                  </div>
-                </div>
-              </Typography>
-            </Box>
-          </ListItemButton>
-        );
-      })}
-    </List>
-  );
+    return (
+        <List>
+            {addresses?.map((address) => {
+                return (
+                    <ListItemButton
+                        key={address?.id}
+                        className={`${classes.listItem}, ${isMultiple ? classes.isMultiple : classes.isSingle}`}
+                        selected={true}
+                    >
+                        {isPlanPage && (
+                            <Box className={classes.network}>
+                                {address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
+                            </Box>
+                        )}
+                        <Box>
+                            <Typography className={classes.addressText}>
+                                <div>
+                                    <div>
+                                        {address
+                                            ? [address?.streetLine1, address?.streetLine2].filter(Boolean).join(",")
+                                            : null}
+                                    </div>
+                                    <div>
+                                        {address
+                                            ? [address?.city, address?.state, address?.zipCode]
+                                                  .filter(Boolean)
+                                                  .join(",")
+                                            : null}
+                                    </div>
+                                </div>
+                            </Typography>
+                        </Box>
+                    </ListItemButton>
+                );
+            })}
+        </List>
+    );
 };
 
 const MobileAddress = ({ addresses, isPlanPage }) => {
-  const classes = useMobileStyles();
-  const [isOpen, setOpenToggle] = useState(false);
+    const classes = useMobileStyles();
+    const [isOpen, setOpenToggle] = useState(false);
 
-  const initialAddresses =
-    addresses?.length > 1 ? addresses?.slice(0, 1) : addresses;
+    const initialAddresses = addresses?.length > 1 ? addresses?.slice(0, 1) : addresses;
 
-  const additionalAddresses =
-    addresses?.length > 1 ? addresses?.slice(1) : null;
-  return (
-    <Box className={classes.addressList}>
-      <Address addresses={initialAddresses} isPlanPage={isPlanPage} />
+    const additionalAddresses = addresses?.length > 1 ? addresses?.slice(1) : null;
+    return (
+        <Box className={classes.addressList}>
+            <Address addresses={initialAddresses} isPlanPage={isPlanPage} />
 
-      {additionalAddresses?.length > 0 && (
-        <>
-          <Box className={classes.multipleAddresses}>
-            <Typography
-              className={isOpen ? classes.reverse : classes.icon}
-              onClick={() => setOpenToggle(!isOpen)}
-            >
-              <Arrow color="#0052CE" />
-            </Typography>
-            <Typography className={classes.additional}>
-              Additional Locations ({additionalAddresses?.length})
-            </Typography>
-          </Box>
-          {isOpen && (
-            <Address addresses={additionalAddresses} isPlanPage={isPlanPage} />
-          )}
-        </>
-      )}
-    </Box>
-  );
-};
-
-const WebAddress = ({ addresses, isPlanPage }) => {
-  const classes = useWebStyles();
-  return (
-    <Box className={classes.addressColumn}>
-      {addresses?.map((address) => {
-        return (
-          <>
-            <Box
-              className={classes.addressContainer}
-              key={`Provider-address-${address?.id}`}
-            >
-              {isPlanPage && (
+            {additionalAddresses?.length > 0 && (
                 <>
-                  {address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}
+                    <Box className={classes.multipleAddresses}>
+                        <Typography
+                            className={isOpen ? classes.reverse : classes.icon}
+                            onClick={() => setOpenToggle(!isOpen)}
+                        >
+                            <Arrow color="#0052CE" />
+                        </Typography>
+                        <Typography className={classes.additional}>
+                            Additional Locations ({additionalAddresses?.length})
+                        </Typography>
+                    </Box>
+                    {isOpen && <Address addresses={additionalAddresses} isPlanPage={isPlanPage} />}
                 </>
-              )}
-              <Box className={classes.addressText}>
-                {address?.streetLine1}, {address?.city}, {address?.state},
-                {address?.zipCode}
-              </Box>
-            </Box>
-          </>
-        );
-      })}
-    </Box>
-  );
+            )}
+        </Box>
+    );
 };
 
-const RenderProviders = ({
-  provider,
-  handleEditProvider,
-  isPlanPage = false,
-  isMobile,
-}) => {
-  const classes = useWebStyles();
-  const { firstName, lastName, middleName, specialty, title } = provider || {};
+const WebAddress = ({ addresses, isPlanPage, compareTable }) => {
+    const classes = useWebStyles();
+    return (
+        <Box className={`${classes.addressColumn} ${compareTable ? classes.compareTable : ""}`}>
+            {addresses?.map((address) => {
+                return (
+                    <>
+                        <Box className={classes.addressContainer} key={`Provider-address-${address?.id}`}>
+                            {isPlanPage && <>{address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}</>}
+                            <Box className={`${classes.addressText} ${compareTable ? classes.addressTextNew : ""}`}>
+                                {address?.streetLine1}, {address?.city}, {address?.state},{address?.zipCode}
+                            </Box>
+                        </Box>
+                    </>
+                );
+            })}
+        </Box>
+    );
+};
 
-  const providerName = [firstName, middleName, lastName]
-    .filter(Boolean)
-    .join(" ");
+const RenderProviders = ({ provider, handleEditProvider, isPlanPage = false, isMobile, compareTable }) => {
+    const classes = useWebStyles();
+    const { firstName, lastName, middleName, specialty, title } = provider || {};
 
-  return (
-    <>
-      <ProviderPersonalInfo
-        specialty={specialty}
-        title={title}
-        name={isPlanPage ? providerName : provider?.presentationName}
-        phone={formatPhoneNumber(provider?.phone)}
-      />
+    const providerName = [firstName, middleName, lastName].filter(Boolean).join(" ");
 
-      {isMobile ? (
-        <MobileAddress
-          addresses={provider?.addresses}
-          isPlanPage={isPlanPage}
-        />
-      ) : (
-        <WebAddress addresses={provider?.addresses} isPlanPage={isPlanPage} />
-      )}
+    return (
+        <>
+            <ProviderPersonalInfo
+                specialty={specialty}
+                title={title}
+                name={isPlanPage ? providerName : provider?.presentationName}
+                phone={formatPhoneNumber(provider?.phone)}
+                compareTable={compareTable}
+            />
 
-      <Box className={isPlanPage ? classes.editbtn : classes.editbtn2}>
-        <IconButton
-          label="Edit"
-          onClick={() => {
-            handleEditProvider(provider);
-          }}
-          icon={<EditIcon />}
-        />
-      </Box>
-    </>
-  );
+            {isMobile ? (
+                <MobileAddress addresses={provider?.addresses} isPlanPage={isPlanPage} />
+            ) : (
+                <WebAddress addresses={provider?.addresses} isPlanPage={isPlanPage} compareTable={compareTable} />
+            )}
+            {handleEditProvider && (
+                <Box className={isPlanPage ? classes.editbtn : classes.editbtn2}>
+                    <IconButton
+                        label="Edit"
+                        onClick={() => {
+                            handleEditProvider(provider);
+                        }}
+                        icon={<EditIcon />}
+                    />
+                </Box>
+            )}
+        </>
+    );
 };
 
 export default RenderProviders;

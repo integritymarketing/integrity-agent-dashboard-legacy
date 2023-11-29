@@ -825,7 +825,9 @@ export class ClientsService {
     leadIds,
     contactRecordType = "",
     stages = [],
-    hasReminder = false
+    hasReminder = false,
+    DateRangeFilterType,
+    LeadSource = ""
   ) => {
     let params = {
       ReturnAll,
@@ -834,6 +836,8 @@ export class ClientsService {
       Sort: sort,
       Search: searchText,
       leadIds,
+      DateRangeFilterType,
+      LeadSource,
     };
 
     if (activitySubjects && activitySubjects?.length > 0) {
@@ -858,6 +862,9 @@ export class ClientsService {
         }
         if (key === "Stage") {
           return stages.map((stageId) => `${key}=${stageId}`).join("&");
+        }
+        if (key === "DateRangeFilterType") {
+          return `${key}=${DateRangeFilterType}`;
         }
         if (key === "ActivitySubject") {
           return activitySubjects
@@ -1153,7 +1160,10 @@ export class ClientsService {
 
   updateLeadCounty = async (contact, county, fips, zip, state) => {
     let addresses = [];
-    if (contact.addresses.length !== 0 && contact.addresses?.[0].leadAddressId) {
+    if (
+      contact.addresses.length !== 0 &&
+      contact.addresses?.[0].leadAddressId
+    ) {
       addresses = [
         {
           leadAddressId: contact.addresses?.[0].leadAddressId,
@@ -1257,7 +1267,7 @@ export class ClientsService {
 
   getTaskListCount = async (npn, dateRange) => {
     const response = await this._clientAPIRequest(
-      `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/taskcount/${npn}/${dateRange}`,
+      `${process.env.REACT_APP_LEADS_URL}/api/v3.0/Leads/taskcount/${npn}/${dateRange}`,
       "GET"
     );
 

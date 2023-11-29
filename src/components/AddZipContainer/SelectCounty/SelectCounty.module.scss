@@ -1,0 +1,45 @@
+.title {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.radioWrapper {
+    background: #f1f1f1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    .radioLabel {
+        padding: 10px 16px 11px 8px;
+        background: #ffffff;
+        border-radius: 4px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        span {
+            padding-left: 4px;
+        }
+    }
+
+    .selectedBkg {
+        background-color: #f1faff !important;
+    }
+}
+
+.bkgWrapper {
+    background: #ffffff;
+
+    .bkgLabel {
+        background: #f1f1f1;
+    }
+}
+
+.radioInput {
+    display: none;
+}

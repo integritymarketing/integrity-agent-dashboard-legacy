@@ -33,8 +33,7 @@ const CostBreakdowns = ({ planData, effectiveDate }) => {
           <div className={"label"}>{breakdown.label}</div>
 
           <div className={"filler"}></div>
-          <div className={"currency"}>{currencyFormatter.format(value)}</div>
-        </div>
+          <div className={"currency"}>{value === "N/A" ? "N/A" : currencyFormatter.format(value)}</div>        </div>
         <div className={"subtext"}>{subtext}</div>
       </div>
     );

@@ -1,0 +1,56 @@
+.customTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    // Checkbox
+    thead tr th:first-child {
+        width: 15px;
+
+        > div {
+            position: relative;
+            left: 12px;
+        }
+    }
+    // Name column
+    thead tr th:nth-child(2) {
+        width: 20%;
+    }
+    // Stage column
+    thead tr th:nth-child(3) {
+        width: 20%;
+    }
+    // Tag column
+    thead tr th:nth-child(4) {
+        width: 30%;
+    }
+    // Life column
+    thead tr th:nth-child(5) {
+        width: 5%;
+    }
+    // Health column
+    thead tr th:nth-child(6) {
+        width: 12%;
+    }
+    // Action column
+    thead tr th:nth-child(7) {
+        width: 20px;
+    }
+
+    tbody tr td:first-child {
+        width: 15px;
+
+        > div {
+            position: relative;
+            left: 12px;
+        }
+    }
+    tbody tr td:last-child {
+        padding-right: 24px;
+    }
+    tbody tr:first-child td:first-child {
+        border-top-left-radius: 8px;
+    }
+    tbody tr:first-child td:last-child {
+        border-top-right-radius: 8px;
+    }
+}

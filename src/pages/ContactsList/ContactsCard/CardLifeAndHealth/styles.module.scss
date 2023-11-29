@@ -1,0 +1,10 @@
+.tag {
+    color: #052A63;
+    font-weight: bold;
+}
+
+.innerWrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px;
+}

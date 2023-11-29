@@ -1,0 +1,14 @@
+.searchInput {
+    max-width: 330px;
+    width: 100%;
+}
+
+.customBox {
+    > div {
+        margin-right: 10px !important;
+    }
+}
+
+.pointerBox {
+ cursor: pointer;
+}

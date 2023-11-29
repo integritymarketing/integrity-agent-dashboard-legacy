@@ -62,18 +62,18 @@ const ComparePlansPage = (props) => {
         .map((planId) =>
           !isComingFromEmail
             ? plansService.getPlan(
-                contactId,
-                planId,
-                contactData,
-                effectiveDate
-              )
+              contactId,
+              planId,
+              contactData,
+              effectiveDate
+            )
             : comparePlansService.getPlan(
-                contactId,
-                planId,
-                agentInfo,
-                effectiveDate,
-                agentNPN
-              )
+              contactId,
+              planId,
+              agentInfo,
+              effectiveDate,
+              agentNPN
+            )
         )
     );
   }
@@ -142,12 +142,12 @@ const ComparePlansPage = (props) => {
     } finally {
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isComingFromEmail, planIds, id, effectiveDate]);
 
   useEffect(() => {
     if (results && results.length) {
-      setComparePlans(results?.filter(({ id }) => planIds.includes(id)));
+      setComparePlans(results?.filter((plan) => planIds.includes(plan?.id)));
     }
   }, [planIds, results]);
 
@@ -189,105 +189,105 @@ const ComparePlansPage = (props) => {
   }
   return (
     <>
-        {!isComingFromEmail && (
-          <ComparePlanModal
-            modalOpen={comparePlanModalOpen}
-            handleCloseModal={() => setComparePlanModalOpen(false)}
-            contactData={contactData}
-            {...getComparePlansByPlanNamesProps()}
-          />
-        )}
-        <div className={styles.comparePage}>
-          <Media query={"(max-width: 500px)"} onChange={(isMobile) => {}} />
-          <WithLoader isLoading={isLoading}>
-            <Helmet>
-              <title>MedicareCENTER - Plans</title>
-            </Helmet>
-            {!isComingFromEmail && <GlobalNav />}
-            {!isComingFromEmail && (
-              <div className={`${styles["header"]}`} style={{ height: "auto" }}>
-                <Container>
-                  <div className={styles["back-btn"]}>
-                    <Button
-                      icon={<img src={NewBackBtn} alt="Back" />}
-                      label="Back to Plans List"
-                      onClick={() => {
-                        window.location = `/plans/${id}?preserveSelected=true`;
-                      }}
-                      type="tertiary"
-                      className={`${styles["back-button"]}`}
-                    />
-                  </div>
-                </Container>
-              </div>
-            )}
-            {isNonRTS_User && <NonRTSBanner />}
-            {isComingFromEmail && (
-              <div className={styles["welcome-user-header"]}>
-                <Container>
-                  <WelcomeEmailUser
-                    firstName={agentInfo.LeadFirstName}
-                    lastName={agentInfo.LeadLastName}
-                    className="welcome-user-plans"
+      {!isComingFromEmail && (
+        <ComparePlanModal
+          modalOpen={comparePlanModalOpen}
+          handleCloseModal={() => setComparePlanModalOpen(false)}
+          contactData={contactData}
+          {...getComparePlansByPlanNamesProps()}
+        />
+      )}
+      <div className={styles.comparePage}>
+        <Media query={"(max-width: 500px)"} onChange={(isMobile) => { }} />
+        <WithLoader isLoading={isLoading}>
+          <Helmet>
+            <title>MedicareCENTER - Plans</title>
+          </Helmet>
+          {!isComingFromEmail && <GlobalNav />}
+          {!isComingFromEmail && (
+            <div className={`${styles["header"]}`} style={{ height: "auto" }}>
+              <Container>
+                <div className={styles["back-btn"]}>
+                  <Button
+                    icon={<img src={NewBackBtn} alt="Back" />}
+                    label="Back to Plans List"
+                    onClick={() => {
+                      window.location = `/plans/${id}?preserveSelected=true`;
+                    }}
+                    type="tertiary"
+                    className={`${styles["back-button"]}`}
                   />
-                </Container>
-              </div>
-            )}
-            <ComparePlansByPlanName {...getComparePlansByPlanNamesProps()} />
-            <Container>
-              {plansLoading ? (
-                <Spinner />
-              ) : (
-                <div className={styles["compare-plans-list"]}>
-                  <CostCompareTable
-                    plans={comparePlans}
-                    isFullYear={isFullYear}
-                    effectiveDate={effectiveDate}
-                  />
-                  <div style={{ height: 20 }} />
-                  <ProvidersCompareTable plans={comparePlans} />
-                  <div style={{ height: 20 }} />
-                  <PrescriptionsCompareTable
-                    plans={comparePlans}
-                    prescriptions={prescriptions}
-                    isFullYear={isFullYear}
-                    apiError={hasErrorPrescriptions}
-                  />
-                  <div style={{ height: 20 }} />
-                  <PharmaciesCompareTable
-                    plans={comparePlans}
-                    pharmacies={pharmacies}
-                    apiError={hasErrorPharmacies}
-                  />
-                  <div style={{ height: 20 }} />
-
-                  <PlanBenefitsCompareTable
-                    plans={comparePlans}
-                    pharmacies={pharmacies}
-                  />
-                  <div style={{ height: 20 }} />
-
-                  <PharmacyCoverageCompareTable
-                    plans={comparePlans}
-                    pharmacies={pharmacies}
-                  />
-                  <div style={{ height: 20 }} />
-
-                  <RetailPharmacyCoverage
-                    plans={comparePlans}
-                    pharmacies={pharmacies}
-                    header="Standard Retail Pharmacy Coverage"
-                    isPreffered={false}
-                    isRetail={true}
-                  />
-                  <div style={{ height: 20 }} />
-                  <PlanDocumentsCompareTable plans={comparePlans} />
                 </div>
-              )}
-            </Container>
-          </WithLoader>
-          {footer && <GlobalFooter />}
-        </div>
+              </Container>
+            </div>
+          )}
+          {isNonRTS_User && <NonRTSBanner />}
+          {isComingFromEmail && (
+            <div className={styles["welcome-user-header"]}>
+              <Container>
+                <WelcomeEmailUser
+                  firstName={agentInfo.LeadFirstName}
+                  lastName={agentInfo.LeadLastName}
+                  className="welcome-user-plans"
+                />
+              </Container>
+            </div>
+          )}
+          <ComparePlansByPlanName {...getComparePlansByPlanNamesProps()} />
+          <Container>
+            {plansLoading ? (
+              <Spinner />
+            ) : (
+              <div className={styles["compare-plans-list"]}>
+                <CostCompareTable
+                  plans={comparePlans}
+                  isFullYear={isFullYear}
+                  effectiveDate={effectiveDate}
+                />
+                <div style={{ height: 20 }} />
+                <ProvidersCompareTable plans={comparePlans} />
+                <div style={{ height: 20 }} />
+                <PrescriptionsCompareTable
+                  plans={comparePlans}
+                  prescriptions={prescriptions}
+                  isFullYear={isFullYear}
+                  apiError={hasErrorPrescriptions}
+                />
+                <div style={{ height: 20 }} />
+                <PharmaciesCompareTable
+                  plans={comparePlans}
+                  pharmacies={pharmacies}
+                  apiError={hasErrorPharmacies}
+                />
+                <div style={{ height: 20 }} />
+
+                <PlanBenefitsCompareTable
+                  plans={comparePlans}
+                  pharmacies={pharmacies}
+                />
+                <div style={{ height: 20 }} />
+
+                <PharmacyCoverageCompareTable
+                  plans={comparePlans}
+                  pharmacies={pharmacies}
+                />
+                <div style={{ height: 20 }} />
+
+                <RetailPharmacyCoverage
+                  plans={comparePlans}
+                  pharmacies={pharmacies}
+                  header="Standard Retail Pharmacy Coverage"
+                  isPreffered={false}
+                  isRetail={true}
+                />
+                <div style={{ height: 20 }} />
+                <PlanDocumentsCompareTable plans={comparePlans} />
+              </div>
+            )}
+          </Container>
+        </WithLoader>
+        {footer && <GlobalFooter />}
+      </div>
     </>
   );
 };

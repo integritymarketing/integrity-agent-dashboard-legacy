@@ -4,8 +4,9 @@ import Grid from "@mui/material/Grid";
 import Media from "react-media";
 import PropTypes from "prop-types";
 
+import OpenIcon from "components/icons/open";
+import LinkContactCircle from "components/icons/BookofBusiness/policySnapshot/linkToContact";
 import { Button } from "components/ui/Button";
-import { ReactComponent as LinkContactCircle } from "pages/dashbaord/LinkContactCircle.svg";
 import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 
@@ -25,15 +26,15 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
       // If policy data coming from API is null, then we have to pass the existing policy data to the next page
       const stateData = data
         ? {
-            ...data,
-            page: "Dashboard",
-            policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
-          }
+          ...data,
+          page: "Dashboard",
+          policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
+        }
         : {
-            ...callData,
-            page: "Dashboard",
-            policyHolder: `${callData.firstName} ${callData.lastName}`,
-          };
+          ...callData,
+          page: "Dashboard",
+          policyHolder: callData?.policyHolder || "",
+        };
 
       // Redirect to Enrollment Link to Contact page, passing the policy data.
       navigate("/enrollment-link-to-contact", { state: stateData });
@@ -45,6 +46,42 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
       });
     }
   }, [showToast, callData, navigate, npn]);
+
+
+  const navigateEnrollDetails = useCallback(async () => {
+    try {
+      const data = await enrollPlansService.getBookOfBusinessBySourceId(
+        npn,
+        callData?.sourceId
+      );
+      // If policy data coming from API is null, then we have to pass the existing policy data to the next page
+      const stateData = data
+        ? {
+          ...data,
+          page: "Dashboard",
+          policyHolder: `${data.consumerFirstName} ${data.consumerLastName}`,
+        }
+        : {
+          ...callData,
+          page: "Dashboard",
+          policyHolder: callData?.policyHolder || "",
+        };
+
+      navigate(`/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`, {
+        state: props,
+      });
+    }
+    catch (error) {
+      showToast({
+        type: "error",
+        message: "Failed to get enroll plan info.",
+        time: 10000,
+      });
+    }
+
+  }, [showToast, callData, navigate, npn]);
+
+
 
   return (
     <div className="up-card">
@@ -59,7 +96,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
           item
           xs={6}
           alignSelf={!isMobile ? "center" : ""}
-          md={5}
+          md={4}
           className="policy-mobile"
         >
           <p className="up-name">{callData?.planName}</p>
@@ -71,14 +108,14 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
           )}
           <p>
             <span className="up-label">Carrier:</span>
-            <span className="up-info"> {callData?.policyCarrier}</span>
+            <span className="up-info"> {callData?.carrier}</span>
           </p>
         </Grid>
 
         <Grid
           item
           xs={6}
-          md={3}
+          md={2}
           alignSelf={!isMobile ? "center" : ""}
           className="policy-holder-mobile"
         >
@@ -86,21 +123,41 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
             Policy Holder {isMobile ? ":" : ""}
           </div>
           <div className="up-info-bold">
-            {`${callData?.firstName}   ${callData?.lastName}`}
+            {callData?.policyHolder || ""}
           </div>
         </Grid>
         <Grid
           item
           xs={6}
-          md={4}
+          md={3}
+          alignSelf={"center"}
+          className="policy-button-mobile"
+        >
+          {callData?.hasPlanDetails && (
+            <Button
+              icon={<OpenIcon color="#4178FF" />}
+              label={"View Policy"}
+              className={"up-policy-view-btn"}
+              onClick={navigateEnrollDetails}
+              iconPosition={"right"}
+              type="tertiary"
+              style={isMobile ? { padding: "11px 6px" } : {}}
+            />
+          )}
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          md={3}
           alignSelf={"center"}
           className="policy-button-mobile"
         >
           <Button
-            icon={<LinkContactCircle />}
+            icon={<LinkContactCircle color="#ffffff" />}
             label={"Link to contact"}
-            className={"unlink-card-link-btn"}
+            className={"up-card-link-btn"}
             onClick={handleLinkToContact}
+            iconPosition={"right"}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
           />
@@ -115,11 +172,11 @@ UnlinkedPolicyCard.propTypes = {
   npn: PropTypes.string,
 };
 
-const UnlinkedPolicyList = ({ taskList, npn }) => {
-  // Sort the taskList, sort by last name in ascending order, effective date in ascending order
+const UnlinkedPolicyList = ({ npn, policyList, showMore, setPage }) => {
+  // Sort the policyList, sort by last name in ascending order, effective date in ascending order
 
   const sortedUnlinkedPolicies = useMemo(() => {
-    return [...taskList].sort((a, b) => {
+    return [...policyList].sort((a, b) => {
       // Null check and default value assignment
       const effectiveDateA = a?.policyEffectiveDate || "";
       const effectiveDateB = b?.policyEffectiveDate || "";
@@ -136,7 +193,7 @@ const UnlinkedPolicyList = ({ taskList, npn }) => {
       // Compare by Last Name in ascending order
       return lastNameA.localeCompare(lastNameB);
     });
-  }, [taskList]);
+  }, [policyList]);
 
   return (
     <>
@@ -144,13 +201,23 @@ const UnlinkedPolicyList = ({ taskList, npn }) => {
         {sortedUnlinkedPolicies?.map((data, i) => {
           return <UnlinkedPolicyCard callData={data} npn={npn} />;
         })}
+        {showMore && (
+          <div className="jumpList-card">
+            <Button
+              type="tertiary"
+              onClick={setPage}
+              label="Show More"
+              className="jumpList-btn"
+            />
+          </div>
+        )}
       </div>
     </>
   );
 };
 
 UnlinkedPolicyList.propTypes = {
-  taskList: PropTypes.array,
+  policyList: PropTypes.array,
   npn: PropTypes.string,
 };
 

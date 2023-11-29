@@ -1,0 +1,34 @@
+.headerContainer {
+    background: #ffffff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .backBtnMobile {
+        color: #4178ff;
+        position: absolute;
+        left: 5%;
+    }
+
+    .backBtnDesktop {
+        color: #4178ff;
+        position: absolute;
+        left: 15%;
+    }
+
+    .title {
+        color: #052a63;
+    }
+}
+
+.Mview {
+    height: 56px;
+    font-size: 24px;
+}
+
+.Dview {
+    height: 88px;
+    font-size: 32px;
+}
