@@ -148,7 +148,7 @@ export default function PlanCard({
 
             </div>
 
-            {validatePartialYearDrugCost === 'N/A' &&
+            {validatePartialYearDrugCost === 'N/A' && planType !== "MA" &&
                 <div>
                     <Alert severity="warning">Plan cost data temporarily unavailable, Please add a pharmacy to the contact record or try again later.</Alert>
                 </div>

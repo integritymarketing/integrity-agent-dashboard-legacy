@@ -1,5 +1,5 @@
 export const calculatePartialYearDrugCost = (estimatedAnnualDrugCostPartialYear, drugPremium, effectiveDate) => {
-    if (!estimatedAnnualDrugCostPartialYear || drugPremium === null) {
+    if (estimatedAnnualDrugCostPartialYear === null || drugPremium === null) {
         return 'N/A';
     }
 
@@ -9,7 +9,7 @@ export const calculatePartialYearDrugCost = (estimatedAnnualDrugCostPartialYear,
 
 
 export const calculateMonthlyDrugCost = (estimatedAnnualDrugCostPartialYear, drugPremium, effectiveDate) => {
-    if (!estimatedAnnualDrugCostPartialYear || drugPremium === null) {
+    if (estimatedAnnualDrugCostPartialYear === null || drugPremium === null) {
         return 'N/A';
     }
 
