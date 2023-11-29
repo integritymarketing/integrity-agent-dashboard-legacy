@@ -10,13 +10,15 @@ import { useContactsListContext } from "../providers/ContactsListProvider";
 const DEFAULT_PAGE_ITEM = 12;
 
 function LoadMoreButton() {
-    const { setPageSize, pageResult, layout } = useContactsListContext();
+    const { fetchSilently, pageResult, layout, pageSize, setPageSize } = useContactsListContext();
 
     const onLoadMoreHandle = () => {
-        setPageSize((prev) => prev + DEFAULT_PAGE_ITEM);
+        const newSize = pageSize + DEFAULT_PAGE_ITEM;
+        setPageSize(newSize);
+        fetchSilently(newSize);
     };
 
-    if (pageResult?.totalPages === 1) {
+    if (pageResult?.totalPages <= 1) {
         return <></>;
     }
 

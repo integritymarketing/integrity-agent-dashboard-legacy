@@ -39,7 +39,9 @@ const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
 const TaskListResultsMobileLayout = lazy(() => import("pages/dashbaord/Tasklist/TaskListResultsMobileLayout"));
-const PolicySnapshotMobileLayout = lazy(() => import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer"));
+const PolicySnapshotMobileLayout = lazy(() =>
+    import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer")
+);
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
 const AddZipPage = lazy(() => import("pages/AddZipPage"));
@@ -187,7 +189,12 @@ const appProtectedRoutes = [
     },
     {
         path: "/contacts-list/*",
-        component: <ContactsList />,
+        component: (
+            <>
+                <ContactsList />
+                <WebChatComponent />
+            </>
+        ),
     },
 ];
 

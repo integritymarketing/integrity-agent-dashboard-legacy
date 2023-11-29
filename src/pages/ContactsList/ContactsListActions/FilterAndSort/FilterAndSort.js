@@ -36,10 +36,12 @@ function FilterAndSort() {
     };
 
     return (
-        <Box className={styles.customBox} display="flex" alignItems="center">
+        <Box className={styles.customBox} display="flex" alignItems="flex-end">
             <Box className={styles.pointerBox}>
-                <Box onClick={switchLayout}>{layout === "list" && <ListViewIcon />}</Box>
-                <Box onClick={switchLayout}>{layout === "card" && <CardView />}</Box>
+                <Box onClick={switchLayout}>{layout === "list" && <CardView />}</Box>
+                <Box onClick={switchLayout} position="relative" top="7px">
+                    {layout === "card" && <ListViewIcon />}
+                </Box>
             </Box>
             <Filter
                 Icon={SortIcon}
@@ -47,6 +49,7 @@ function FilterAndSort() {
                 heading="Sort by"
                 open={sortToggle}
                 onToggle={setSortToggle}
+                filtered={active}
                 content={<ContactListSort close={setSortToggle} sort={sort} setSort={(value) => setSort([value])} />}
             />
             <Filter

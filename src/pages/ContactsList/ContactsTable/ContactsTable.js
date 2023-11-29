@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 
 import HealthInactive from "components/icons/version-2/HealthInactive";
 import HeartInactive from "components/icons/version-2/HeartInactive";
-import Checkbox from "components/ui/Checkbox";
+import { Checkbox } from "components/ui/version-2/Checkbox";
 
 import { ActionsCell } from "./ActionsCell";
 import { NameCell } from "./NameCell";
@@ -22,7 +22,9 @@ function ContactsTable() {
             {
                 accessor: "selection",
                 disableSortBy: true,
-                Header: ({ getToggleAllRowsSelectedProps }) => <Checkbox {...getToggleAllRowsSelectedProps()} />,
+                Header: ({ getToggleAllRowsSelectedProps }) => (
+                    <Checkbox {...getToggleAllRowsSelectedProps()} indeterminate={false} />
+                ),
                 Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
             },
             {
@@ -37,7 +39,7 @@ function ContactsTable() {
                 Cell: ({ value, row }) => <StageCell initialValue={value} originalData={row?.original} />,
             },
             {
-                Header: "Tag",
+                Header: "Tags",
                 disableSortBy: true,
                 accessor: (row) => <TagCell row={row} />,
             },

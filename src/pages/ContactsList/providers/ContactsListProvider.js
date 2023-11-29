@@ -29,6 +29,13 @@ export const ContactsListProvider = ({ children }) => {
         fetchTableData({ pageIndex: 1, pageSize, searchString, sort });
     }, [fetchTableData, pageSize, searchString, sort]);
 
+    const fetchSilently = useCallback(
+        (_pageSize) => {
+            fetchTableData({ pageSize: _pageSize, pageIndex, searchString, sort, isSilent: true });
+        },
+        [fetchTableData, pageIndex, searchString, sort]
+    );
+
     const resetData = useCallback(() => {
         setPageSize(DEFAULT_PAGE_ITEM);
         setPageIndex(1);
@@ -46,7 +53,7 @@ export const ContactsListProvider = ({ children }) => {
             searchString,
             setSearchString,
             pageSize,
-            setPageSize,
+            fetchSilently,
             pageIndex,
             setPageIndex,
             sort,
@@ -59,6 +66,7 @@ export const ContactsListProvider = ({ children }) => {
             allLeads,
             refreshData,
             pageResult,
+            setPageSize,
         }),
         [
             tableData,
@@ -73,12 +81,14 @@ export const ContactsListProvider = ({ children }) => {
             allLeads,
             refreshData,
             pageResult,
+            fetchSilently,
         ]
     );
 
     useEffect(() => {
         fetchTableData({ pageSize, pageIndex, searchString, sort });
-    }, [fetchTableData, searchString, location.search, pageSize, pageIndex, sort]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchTableData, searchString, location.search, pageIndex, sort]);
 
     useEffect(() => {
         setLayout(location.pathname === CARD_PATH ? "card" : "list");

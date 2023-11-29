@@ -1,9 +1,13 @@
+.wrapper {
+    box-shadow: inset 0px -1px 0px #DDDDDD;
+}
+
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     @media (max-width: 480px) {
         flex-direction: column;
@@ -13,7 +17,7 @@
 
 .title {
     font-size: 32px;
-    color: var(--v2-dark-blue);
+    color: #052A63;
 }
 
 .linkBlue {
@@ -27,7 +31,7 @@
     padding: 5px 5px 5px 12px;
     transition: ease-out 300ms;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
 }
 
@@ -42,7 +46,7 @@
     padding: 5px 5px 5px 12px;
     transition: ease-out 300ms;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
 
     &:hover {

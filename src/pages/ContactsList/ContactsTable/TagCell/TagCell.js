@@ -10,13 +10,7 @@ function TagCell({ row }) {
     const { layout } = useContactsListContext();
 
     return (
-        <Box
-            display="flex"
-            gap="7px"
-            flexWrap="wrap"
-            alignItems={layout === "card" ? "center" : "left"}
-            flexDirection={layout === "card" ? "row" : "column"}
-        >
+        <Box display="flex" gap="7px" flexWrap="wrap" alignItems={layout === "card" ? "center" : "left"}>
             {row.leadTags?.map((lt) => (
                 <Box key={lt?.tag?.tagLabel} className={styles.tag}>
                     {lt.tag.tagLabel}

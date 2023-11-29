@@ -116,6 +116,9 @@ function ActionsCell({ row, isCard, item }) {
                     vertical: "top",
                     horizontal: "right",
                 }}
+                sx={{
+                    ".MuiPaper-root": { borderRadius: "8px" },
+                }}
             >
                 <Box className={styles.selections}>
                     {options.map((option) => (

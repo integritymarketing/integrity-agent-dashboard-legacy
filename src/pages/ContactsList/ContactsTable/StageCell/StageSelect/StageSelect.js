@@ -22,10 +22,13 @@ function StageSelect({ options, initialValue, onChange, customWidth, customHeigh
                 width: customWidth ? customWidth : "100%",
                 height: customHeight ? customHeight : "35px",
                 paddingRight: "5px",
+                borderColor: "#DDDDDD",
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                     borderColor: "#DDDDDD",
                 },
                 ".MuiSelect-outlined": { padding: "0px 7px", paddingRight: "0px !important" },
+                ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" },
+                "&:hover": { ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" } },
             }}
         >
             {options.map(({ value, label, color }) => (

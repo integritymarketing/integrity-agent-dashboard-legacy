@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";
 
-import Checkbox from "components/ui/Checkbox";
+import { Checkbox } from "components/ui/version-2/Checkbox";
 
 import { ActionsCell } from "pages/ContactsList/ContactsTable/ActionsCell";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";

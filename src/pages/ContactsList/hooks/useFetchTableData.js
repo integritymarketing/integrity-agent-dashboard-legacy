@@ -46,9 +46,11 @@ function useFetchTableData() {
     }, [queryParams]);
 
     const fetchTableData = useCallback(
-        async ({ pageIndex, pageSize, sort, searchString, returnAll }) => {
+        async ({ pageIndex, pageSize, sort, searchString, returnAll, isSilent }) => {
             try {
-                setIsLoading(true);
+                if (!isSilent) {
+                    setIsLoading(true);
+                }
                 const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
                 const filterLeadIds = getAndResetItemFromLocalStorage("filterLeadIds");
                 const leadIds = filterLeadIds ? filterLeadIds : duplicateIds ? duplicateIds : null;
