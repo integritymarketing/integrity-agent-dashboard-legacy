@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import styles from "./ActivityDetails.module.scss";
-import { Box, TextField } from "@mui/material";
-import Dialog from "packages/Dialog";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Modal from "components/Modal";
+import { Add } from "components/ContactDetailsContainer/ContactDetailsModals/Icons";
 import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
 import CreatedDate from "./CreatedDate";
 import { formatPhoneNumber } from "utils/phones";
+import ActivitySubjectWithIcon from "./ActivitySubjectWithIcon";
 
 export default function ActivityDetails({
   open,
@@ -48,21 +51,25 @@ export default function ActivityDetails({
 
   return (
     <Box>
-      <Dialog
-        fullWidth={true}
-        keepMounted
+
+
+      <Modal
+        maxWidth="sm"
         open={open}
+        onClose={onClose}
+        onCancel={onClose}
+        title={
+          <div className={styles.subHeading}>
+            <ActivitySubjectWithIcon activitySubject={activityObj?.activitySubject} />
+            {activityObj?.activitySubject}
+          </div>
+        }
         onSave={() => {
           onSave(activityObj, note);
         }}
-        title={activityObj?.activitySubject}
-        saveText={"Save"}
-        onCancel={onClose}
-        onClose={onClose}
-        maxWidth="sm"
-        disabled={
-          activityObj?.activityNote === note || !note || note?.length < 2
-        }
+        actionButtonName="Save"
+        actionButtonDisabled={activityObj?.activityNote === note || !note || note?.length < 2}
+        endIcon={<Add />}
       >
         <div className={styles.subSection}>
           <div>
@@ -129,7 +136,7 @@ export default function ActivityDetails({
             )}
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </Box>
   );
 }

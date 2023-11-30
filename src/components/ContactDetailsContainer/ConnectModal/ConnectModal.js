@@ -8,11 +8,13 @@ import { CallScriptModal } from "packages/CallScriptModal";
 import { formatAddress, getMapUrl } from "utils/address";
 import Modal from "components/Modal";
 import { formatPhoneNumber } from "utils/phones";
+import { useLeadDetails } from "providers/ContactDetails";
 
 const NOT_AVAILABLE = "N/A";
 
 export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
     const navigate = useNavigate();
+    const { setSelectedTab } = useLeadDetails();
     const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
 
     const { firstName = "", lastName = "", emails = [], phones = [], addresses = [] } = leadDetails || {};
@@ -25,7 +27,7 @@ export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
     const address = addresses?.length > 0 ? formatAddress(addresses[0]) : NOT_AVAILABLE;
 
     const handleSoaNavigation = () => {
-        navigate(`/contact/${leadId}/scopeofappointments`);
+        navigate(`/newContact/${leadId}/scope-of-appointment`);
         onClose();
     };
 
@@ -83,7 +85,7 @@ export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
                                 <div className={styles.iconTwo}>
                                     <Navigate />
                                 </div>
-                            </Box> */}
+                            </Box>
                             {/* Call Script option */}
                             <Box className={styles.connectOption} onClick={() => setIsScriptModalOpen(true)}>
                                 <div className={styles.iconOne}>

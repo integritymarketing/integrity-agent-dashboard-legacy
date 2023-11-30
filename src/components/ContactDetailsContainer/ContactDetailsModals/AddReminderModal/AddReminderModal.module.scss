@@ -1,0 +1,24 @@
+.connectModalBody {
+    padding: 20px 10px;
+    background-color: #ffffff;
+    margin-top: 20px;
+    border-radius: 8px;
+   .dateTimePickers{
+    display: flex ;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+   }
+
+   .reminderNotes{
+    margin-bottom: 20px;
+ 
+   }
+}
+
+   .label{
+        color: #052A63;
+        font-size: 16px;
+        font-weight: 600;
+    }

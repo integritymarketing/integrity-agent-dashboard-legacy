@@ -13,6 +13,8 @@ import { useRecoilState } from "recoil";
 import state from "./state";
 import comparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
+import { Button } from "components/ui/Button";
+import EditIcon from "components/icons/icon-edit";
 
 const initialState = {
   sortBy: [
@@ -176,9 +178,9 @@ export default function ActivitiesTable({
               : row?.original?.createDate
           );
           return (
-            <span onClick={() => onActivityClick(row?.original)}>
+            <div className={styles.activityDate} onClick={() => onActivityClick(row?.original)}>
               {dateFormatter(date, "MM/DD/yyyy")}
-            </span>
+            </div>
           );
         },
       },
@@ -191,41 +193,53 @@ export default function ActivitiesTable({
             <ActivitySubjectWithIcon
               activitySubject={row?.original?.activitySubject}
             />
-            <Typography noWrap onClick={() => onActivityClick(row?.original)}>
-              <strong>{row?.original?.activitySubject} </strong>
-              <span>{row?.original?.activityBody}</span>
-            </Typography>
+            <div noWrap onClick={() => onActivityClick(row?.original)}>
+              <div className={styles.activitySubject}>
+                {row?.original?.activitySubject}
+
+                <span className={styles.activityBody}>
+                  {row?.original?.activityBody?.length > 15
+                    ? `${row?.original?.activityBody?.slice(0, 13)}...`
+                    : row?.original?.activityBody}
+                </span>
+              </div>
+            </div>
           </div>
         ),
       },
-      {
-        id: "status",
-        disableSortBy: true,
-        Header: "",
-        Cell: ({ row }) => <>{renderButtons(row?.original, handleClick)}</>,
-      },
-      {
-        id: "actions",
-        disableSortBy: true,
-        Header: "",
-        Cell: ({ row }) => (
-          <>
-            {renderActivtyActions(
-              row?.original,
-              handleDeleteActivity,
-              setEditActivity
-            )}
-          </>
-        ),
-      },
+      // {
+      //   id: "status",
+      //   disableSortBy: true,
+      //   Header: "",
+      //   Cell: ({ row }) => <>{renderButtons(row?.original, handleClick)}</>,
+      // },
+      // {
+      //   id: "actions",
+      //   disableSortBy: true,
+      //   Header: "",
+      //   Cell: ({ row }) => (
+      //     <>
+      //       {renderActivtyActions(
+      //         row?.original,
+      //         handleDeleteActivity,
+      //         setEditActivity
+      //       )}
+      //     </>
+      //   ),
+      // },
       {
         id: "more",
         disableSortBy: true,
         Header: "",
         Cell: ({ row }) => (
-          <span onClick={() => onActivityClick(row?.original)}>
-            <MoreHorizOutlinedIcon />
-          </span>
+          <Button
+            icon={<EditIcon />}
+            iconPosition="right"
+            label="Edit"
+            onClick={() => onActivityClick(row?.original)}
+            type="tertiary"
+            className={styles.buttonWithIcon}
+          />
         ),
       },
     ],
@@ -248,9 +262,9 @@ export default function ActivitiesTable({
               : row?.original?.createDate
           );
           return (
-            <span onClick={() => onActivityClick(row?.original)}>
+            <div className={styles.activityDate} onClick={() => onActivityClick(row?.original)}>
               {dateFormatter(date, "MM/DD/YY")}
-            </span>
+            </div>
           );
         },
       },

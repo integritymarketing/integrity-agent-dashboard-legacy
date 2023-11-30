@@ -45,6 +45,7 @@ const PolicySnapshotMobileLayout = lazy(() =>
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
 const AddZipPage = lazy(() => import("pages/AddZipPage"));
+const ContactProfile = lazy(() => import("pages/ContactProfilePage"));
 const ContactsList = lazy(() => import("pages/ContactsList"));
 
 const appRoutes = [
@@ -178,6 +179,25 @@ const appProtectedRoutes = [
             </>
         ),
     },
+    // NEW ROUTES //
+    {
+        path: "/newContact/:leadId/:section",
+        component: (
+            <ContactProfile />
+        ),
+    },
+    // {
+    //     path: "/complete-scopeofappointment/:linkcode",
+    //     component: (
+    //         <SOANewConfirmationForm />
+    //     ),
+    // },
+    // {
+    //     path: "/view-scopeofappointment/:linkcode",
+    //     component: (
+    //         <SOANewViewForm />
+    //     ),
+    // },
     {
         path: "policy-snapshot-mobile-layout/:npn",
         component: (

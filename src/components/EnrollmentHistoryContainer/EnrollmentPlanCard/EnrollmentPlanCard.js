@@ -173,7 +173,6 @@ export default function EnrollmentPlanCard(props) {
                                                         )}
                                                         {!location.pathname.includes("enrollment-link-to-contact") &&
                                                             policyStatus !== "started" && (
-
                                                                 <Button
                                                                     icon={<Relink color="#4178FF" />}
                                                                     label={"Relink"}
@@ -182,7 +181,6 @@ export default function EnrollmentPlanCard(props) {
                                                                     type="tertiary"
                                                                     iconPosition="right"
                                                                 />
-
                                                             )}
                                                     </>
                                                 )

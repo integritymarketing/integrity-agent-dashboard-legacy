@@ -1,0 +1,44 @@
+.title {
+    font-size: 24px;
+    color: #052A63;
+    margin-bottom: 16px;
+}
+
+.requiredText {
+    font-size: 14px;
+    font-style: italic;
+    color: #717171;
+    margin: 16px 0;
+}
+
+.fieldLabel {
+    font-size: 16px;
+    color: #052A63;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.fieldValue {
+    margin-bottom: 16px;
+}
+
+.consentWrapper {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.soaSignedTime {
+    display: flex;
+    padding: 5px 16px 5px 8px;
+    width: fit-content;
+    border-radius: 4px;
+}
+
+.checked {
+    background: #F1FAFF;
+}
+
+.boldText {
+    font-weight: bold;
+    margin-bottom: 16px;
+}

@@ -21,11 +21,10 @@ const Centered = styled("div")`
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.table.headerColor,
+    color: "#434A51",
     cursor: "pointer",
     fontFamily: "Lato",
     fontSize: "16px",
-    fontWeight: "bold",
     lineHeight: " 20px",
     borderBottom: "none",
   },
@@ -112,8 +111,8 @@ function Table(props) {
 
   // Render the UI for table
   return (
-    <TableContainer 
-      sx={{ width: '94%', marginLeft: 'auto', marginRight: 'auto' }}
+    <TableContainer
+      sx={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}
     >
       <Media
         query={"(max-width: 500px)"}

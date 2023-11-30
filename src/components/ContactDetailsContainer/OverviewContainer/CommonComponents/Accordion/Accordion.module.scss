@@ -1,0 +1,30 @@
+* {
+    user-select: none;
+}
+
+.container {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+
+
+.labelContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .chevronIcon {
+        cursor: pointer;
+    }
+
+    .rotateIcon {
+        transform: rotate(-90deg);
+    }
+}
+
+.itemContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8.5px 12.5px;
+}

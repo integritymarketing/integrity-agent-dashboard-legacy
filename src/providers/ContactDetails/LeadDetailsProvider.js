@@ -1,0 +1,90 @@
+import React, { createContext, useState, useCallback, useMemo } from "react";
+import useFetch from "hooks/useFetch";
+import PropTypes from "prop-types";
+import performAsyncOperation from "utilities/performAsyncOperation";
+import useToast from "hooks/useToast";
+import { getFormattedData } from "utilities/formatData";
+
+export const LeadDetailsContext = createContext();
+
+export const LeadDetailsProvider = ({ children }) => {
+    const leadsApiUrl = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads`;
+
+    const { Get: fetchLeadDetails, loading: isLoadingLeadDetails, error: leadDetailsError, Put: editLeadDetails, Delete: deleteContact } = useFetch(leadsApiUrl);
+
+
+    const showToast = useToast();
+
+    // selectedTab  state can be one of ["overview", "scopeOfAppointment", "policies", "health"]
+    const [selectedTab, setSelectedTab] = useState("overview");
+    const [leadDetails, setLeadDetails] = useState(null);
+    const [leadDetailsloading, setLeadDetailsloading] = useState(false);
+
+    const getLeadDetails = useCallback(
+        async (leadId) => {
+            try {
+                const data = await fetchLeadDetails(null, false, leadId);
+                if (data) setLeadDetails(data);
+                else setLeadDetails(null);
+            } catch (error) {
+                console.error("Error fetching Lead details:", error);
+                // Handle error appropriately here
+            }
+        },
+        [fetchLeadDetails]
+    );
+
+    const updateLeadDetails = async (oldPayload, newPayload) => {
+        const formattedData = getFormattedData(newPayload, oldPayload);
+        await performAsyncOperation(
+            () => editLeadDetails(formattedData, false, newPayload.leadsId),
+            setLeadDetailsloading,
+            async () => {
+                await getLeadDetails(newPayload?.leadsId);
+                showToast({
+                    message: `Lead updated successfully`,
+                });
+            },
+            (err) =>
+                showToast({
+                    type: "error",
+                    message: `Failed to update lead`,
+                })
+        );
+    };
+
+
+
+    const removeContact = async (leadId) => {
+        await performAsyncOperation(
+            () => deleteContact(null, false, leadId),
+            setLeadDetailsloading,
+            () => { },
+            (err) =>
+                showToast({
+                    type: "error",
+                    message: `Failed to delete lead`,
+                })
+        );
+    };
+
+    const contextValue = useMemo(
+        () => ({
+            getLeadDetails,
+            leadDetails,
+            leadDetailsError,
+            isLoadingLeadDetails,
+            selectedTab,
+            setSelectedTab,
+            updateLeadDetails,
+            removeContact
+        }),
+        [getLeadDetails, leadDetails, leadDetailsError, isLoadingLeadDetails, selectedTab, setSelectedTab, removeContact, updateLeadDetails]
+    );
+
+    return <LeadDetailsContext.Provider value={contextValue}>{children}</LeadDetailsContext.Provider>;
+};
+
+LeadDetailsProvider.propTypes = {
+    children: PropTypes.node.isRequired, // PropTypes.node for validating React node types
+};

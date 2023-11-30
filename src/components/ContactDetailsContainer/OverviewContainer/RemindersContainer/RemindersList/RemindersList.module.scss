@@ -1,0 +1,128 @@
+@import "scss/globalDefines.scss";
+
+.reminderItem {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 28px;
+  margin-bottom: 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  box-shadow: inset 0px -1px 0px #DDDDDD;
+  align-items: flex-start;
+
+  &:last-child {
+    box-shadow : none;
+  }
+}
+
+.reminderDue {
+  display: flex;
+  flex-direction: row;
+  color: #434A51;
+  font-size: 16px;
+  width: 16%;
+  align-items: center;
+}
+
+.dueValue{
+  font-weight: 500;
+  color: #4178FF;
+}
+
+.dueLabel {
+  margin: 2px 0;
+}
+
+.reminderDescription {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  width: 60%;
+  height: 120px;
+}
+
+.reminderActions {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+ }
+
+.completeButton {
+  // Add styling for the complete button
+}
+
+.editButton {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.deleteButton {
+  // Add styling for the delete button
+}
+
+
+.buttonWithIcon {
+  border-radius: 25px !important;
+  padding: 5px 20px !important;
+
+  span {
+    font-size: 14px !important;
+    color: #4178ff !important;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    color: #1357FF !important
+  }
+}
+
+.remindersContainer {
+    margin-bottom: 3rem;
+    border-radius: 8px;
+}
+
+ 
+
+.no-items {
+    border: 1.5px solid #e6ecf2;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+
+.remindersContainer_content {
+    border-radius: 8px;
+    background-color: #ffffff;
+ 
+    @include small {
+        background: none;
+        padding: 0.5rem;
+    }
+  }
+
+ 
+
+  .reminderIcon {
+    background-color: #F1FAFF;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+
+   .dueIcon{
+    background-color: #ffc3c3;
+  }
+
+  

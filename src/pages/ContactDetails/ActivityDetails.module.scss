@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #e5e8eb;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     flex-wrap: wrap;
@@ -39,11 +39,30 @@
 .date {
   margin-top: 5px;
   text-align: end;
+  font-size: 14px;
   .day {
-    color: black;
+    color: #052A63;
   }
   .time {
     color: #717171;
     margin-left: 5px;
   }
+}
+
+
+.activityButton {
+  border-radius: 25px !important;
+  padding: 10px 20px !important;
+  background-color: #4178ff !important;
+  margin-top: 10px;
+
+  span {
+    font-size: 14px !important;
+    color: #ffffff !important;
+    font-weight: 500;
+  }
+
+  &:hover {
+      background-color: #1357FF !important;
+    }
 }

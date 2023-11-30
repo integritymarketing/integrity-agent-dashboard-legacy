@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "./PlanCoverage.module.scss";
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
@@ -9,17 +9,20 @@ import PrescriptionSvg from "./assets/prescriptionSvg";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import ProviderSvg from "./assets/providerSvg";
 import UpdateView from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
-import { useLeadInformation } from "hooks/useLeadInformation";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
 import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCoverageModal";
 
-const PlanCoverage = ({ contact, planData, planName, refresh }) => {
+const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
   const {
     deletePharmacy,
     prescriptions: prescriptionsList,
     pharmacies: pharmaciesList,
     providers: providersList,
-  } = useLeadInformation() || {};
+    fetchPrescriptions,
+    fetchPharmacies,
+    fetchProviders,
+  } = useHealth() || {};
 
   const prescriptions = planData?.planDrugCoverage;
 
@@ -44,6 +47,24 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
   const [openAddPharmacyModal, setOpenAddPharmacyModal] = useState(false);
   const [isOpenPharmacyCoverageMOdal, setIsOpenPharmacyCoverageModal] =
     useState(false);
+
+
+
+  useEffect(() => {
+    if (contactId) {
+      fetchHealthDetails();
+    }
+  }, [contactId]);
+
+  const fetchHealthDetails = useCallback(async () => {
+    await Promise.all([
+      fetchPrescriptions(contactId),
+      fetchPharmacies(contactId),
+      fetchProviders(contactId),
+    ]);
+  }, [contactId, fetchPrescriptions, fetchPharmacies, fetchProviders]);
+
+
 
   // prescription modal handle functions //
   const onAddNewPrescription = () => setIsOpenPrescription(true);
@@ -109,9 +130,9 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
 
   const selectedProvider = isEditingProvider
     ? {
-        ...providerToEdit,
-        NPI: providerToEdit?.npi,
-      }
+      ...providerToEdit,
+      NPI: providerToEdit?.npi,
+    }
     : null;
 
   const totalProvidersLocation = planData?.providers?.reduce(
@@ -248,7 +269,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh }) => {
           isDelete={pharmaciesList?.length > 0}
           modalName={"Pharmacy"}
           onDelete={() => {
-            deletePharmacy(pharmaciesList?.[0]);
+            deletePharmacy(pharmaciesList?.[0], contactId);
             setIsOpenPharmacyCoverageModal(false);
             refresh();
           }}

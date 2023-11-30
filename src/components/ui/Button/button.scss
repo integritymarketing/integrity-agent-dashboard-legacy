@@ -65,9 +65,9 @@
   }
   &--tertiary {
     color: var(--v2-royal-blue);
-    & > svg {
-      stroke: var(--v2-royal-blue);
-    }
+    // & > svg {
+    //   stroke: var(--v2-royal-blue);
+    // }
     background-color: transparent;
     border: 1px solid transparent;
   }

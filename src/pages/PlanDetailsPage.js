@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import LeadInformationProvider from "hooks/useLeadInformation";
 import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import styles from "./PlanDetailsPage.module.scss";
@@ -81,98 +80,99 @@ const PlanDetailsPage = () => {
 
   return (
     <React.Fragment>
-        <LeadInformationProvider leadId={contactId}>
-          <div
-            className={`${styles["plan-details-page"]}`}
-            style={isLoading ? { background: "#ffffff" } : {}}
-          >
-            <Media
-              query={"(max-width: 500px)"}
-              onChange={(isMobile) => {
-                setIsMobile(isMobile);
-              }}
-            />
-            <EnrollmentModal
-              modalOpen={modalOpen}
-              planData={plan}
-              contact={contact}
-              handleCloseModal={() => setModalOpen(false)}
-              effectiveDate={effectiveDate}
-            />
-            <SharePlanModal
-              modalOpen={shareModalOpen}
-              planData={plan}
-              contact={contact}
-              handleCloseModal={() => setShareModalOpen(false)}
-              effectiveDate={effectiveDate}
-            />
-            <WithLoader isLoading={isLoading}>
-              <Helmet>
-                <title>MedicareCENTER - Plans</title>
-              </Helmet>
-              <GlobalNav />
+      <div
+        className={`${styles["plan-details-page"]}`}
+        style={isLoading ? { background: "#ffffff" } : {}}
+      >
+        <Media
+          query={"(max-width: 500px)"}
+          onChange={(isMobile) => {
+            setIsMobile(isMobile);
+          }}
+        />
+        <EnrollmentModal
+          modalOpen={modalOpen}
+          planData={plan}
+          contact={contact}
+          handleCloseModal={() => setModalOpen(false)}
+          effectiveDate={effectiveDate}
+        />
+        <SharePlanModal
+          modalOpen={shareModalOpen}
+          planData={plan}
+          contact={contact}
+          handleCloseModal={() => setShareModalOpen(false)}
+          effectiveDate={effectiveDate}
+        />
+        <WithLoader isLoading={isLoading}>
+          <Helmet>
+            <title>MedicareCENTER - Plans</title>
+          </Helmet>
+          <GlobalNav />
 
-              <div className={`${styles["header"]}`} style={{ height: "auto" }}>
-                <Container className={`${styles["plan-details-container"]}`}>
-                  <div className={`${styles["back"]}`}>
-                    <Button
-                      icon={<img src={NewBackBtn} alt="Back" />}
-                      label={isMobile ? "Back" : "Back to Plans"}
-                      onClick={() => {
-                        window.location = `/plans/${contactId}?preserveSelected=true`;
-                      }}
-                      type="tertiary"
-                      className={`${styles["back-button"]}`}
-                    />
-                  </div>
-                  <p className={`${styles["header-text"]}`}>Plan Details</p>
-                  <p className={`${styles["header-callscript"]}`}>
-                    {isMobile ? <CallScript /> : null}
-                  </p>
-                </Container>
+          <div className={`${styles["header"]}`} style={{ height: "auto" }}>
+            <Container className={`${styles["plan-details-container"]}`}>
+              <div className={`${styles["back"]}`}>
+                <Button
+                  icon={<img src={NewBackBtn} alt="Back" />}
+                  label={isMobile ? "Back" : "Back to Plans"}
+                  onClick={() => {
+                    window.location = `/plans/${contactId}?preserveSelected=true`;
+                  }}
+                  type="tertiary"
+                  className={`${styles["back-button"]}`}
+                />
               </div>
-
-              {isNonRTS_User && <NonRTSBanner />}
-
-              <Container className={`${styles["body"]}`}>
-                {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (
-                  <MapdContent
-                    contact={contact}
-                    plan={plan}
-                    styles={styles}
-                    isMobile={isMobile}
-                    onShareClick={() => setShareModalOpen(true)}
-                    onEnrollClick={() => setModalOpen(true)}
-                    refresh={getContactAndPlanData}
-                  />
-                )}
-                {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
-                  <PdpContent
-                    contact={contact}
-                    plan={plan}
-                    styles={styles}
-                    isMobile={isMobile}
-                    onShareClick={() => setShareModalOpen(true)}
-                    onEnrollClick={() => setModalOpen(true)}
-                    refresh={getContactAndPlanData}
-                  />
-                )}
-                {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
-                  <MaContent
-                    plan={plan}
-                    styles={styles}
-                    isMobile={isMobile}
-                    onShareClick={() => setShareModalOpen(true)}
-                    onEnrollClick={() => setModalOpen(true)}
-                    refresh={getContactAndPlanData}
-                  />
-                )}
-              </Container>
-              <ContactFooter />
-              <BackToTop />
-            </WithLoader>
+              <p className={`${styles["header-text"]}`}>Plan Details</p>
+              <p className={`${styles["header-callscript"]}`}>
+                {isMobile ? <CallScript /> : null}
+              </p>
+            </Container>
           </div>
-        </LeadInformationProvider>
+
+          {isNonRTS_User && <NonRTSBanner />}
+
+          <Container className={`${styles["body"]}`}>
+            {plan && PLAN_TYPE_ENUMS[plan.planType] === "MAPD" && (
+              <MapdContent
+                contact={contact}
+                plan={plan}
+                styles={styles}
+                isMobile={isMobile}
+                onShareClick={() => setShareModalOpen(true)}
+                onEnrollClick={() => setModalOpen(true)}
+                refresh={getContactAndPlanData}
+                leadId={contactId}
+              />
+            )}
+            {plan && PLAN_TYPE_ENUMS[plan.planType] === "PDP" && (
+              <PdpContent
+                contact={contact}
+                plan={plan}
+                styles={styles}
+                isMobile={isMobile}
+                onShareClick={() => setShareModalOpen(true)}
+                onEnrollClick={() => setModalOpen(true)}
+                refresh={getContactAndPlanData}
+                leadId={contactId}
+              />
+            )}
+            {plan && PLAN_TYPE_ENUMS[plan.planType] === "MA" && (
+              <MaContent
+                plan={plan}
+                styles={styles}
+                isMobile={isMobile}
+                onShareClick={() => setShareModalOpen(true)}
+                onEnrollClick={() => setModalOpen(true)}
+                refresh={getContactAndPlanData}
+                leadId={contactId}
+              />
+            )}
+          </Container>
+          <ContactFooter />
+          <BackToTop />
+        </WithLoader>
+      </div>
     </React.Fragment>
   );
 };

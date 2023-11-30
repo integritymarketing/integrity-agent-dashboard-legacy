@@ -1,0 +1,76 @@
+.soaSignedContainer {
+    background: #FFFFFF;
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    .titleWrapper {
+        font-size: 20px;
+        color: #052A63;
+        padding: 16px 24px;
+        border-bottom: 1px solid #cccccc;
+    }
+
+    .contentWrapper {
+        padding: 16px 24px 24px 24px;
+        display: flex;
+
+        .boxColumn {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+
+            .ViewCTAWrapper {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 32px;
+
+                button {
+                    border-radius: 25px;
+                    border: none;
+                    background: #4178FF;
+                    padding: 5px 9px;
+                    width: 125px;
+                    display: flex;
+                    justify-content: flex-start;
+                    cursor: pointer;
+                }
+            }
+
+            .columnLabel {
+                color: #052A63;
+                font-weight: bold;
+            }
+
+            .columnText {
+                color: #434a51;
+            }
+
+            .confirmNo {
+                background: #F1F1F1;
+                border-radius: 8px;
+                color: #434a51;
+                padding: 16px 16px 13px 16px;
+            }
+        }
+
+        .width15 {
+            flex-basis: 15%;
+            padding-right: 24px;
+        }
+
+        .width50 {
+            flex-basis: 50%;
+            padding-right: 24px;
+        }
+
+        .width20 {
+            flex-basis: 20%;
+        }
+
+
+    }
+
+    .columnView {
+        flex-direction: column;
+    }
+}

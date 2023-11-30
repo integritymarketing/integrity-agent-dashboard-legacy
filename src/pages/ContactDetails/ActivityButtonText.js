@@ -1,8 +1,11 @@
 import React from "react";
-import { Button } from "packages/Button";
+import { Button } from "components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import comparePlansService from "services/comparePlansService";
 import useUserProfile from "hooks/useUserProfile";
+import { Navigate } from "components/ContactDetailsContainer/ConnectModal/Icons";
+
+import styles from "./ActivityDetails.module.scss";
 
 const buttonTextByActivity = {
   "Incoming Call": "Link to Contact",
@@ -12,7 +15,7 @@ const buttonTextByActivity = {
   "Incoming Call Recorded": "Download",
   "Scope of Appointment Signed": "View",
   "Scope of Appointment Completed": "View",
-  "Plan Shared": "View Plans",
+  "Plan Shared": "View Shared Link",
   "Application Submitted": "View",
   "Meeting Recorded": "Download",
 };
@@ -73,8 +76,8 @@ export default function ActivityButtonText(props) {
 
   const showButton =
     activityTypeName &&
-    activityTypeName === "Triggered" &&
-    activityInteractionURL
+      activityTypeName === "Triggered" &&
+      activityInteractionURL
       ? true
       : false;
 
@@ -83,14 +86,19 @@ export default function ActivityButtonText(props) {
   return (
     <>
       {showButton && (
+
         <Button
-          variant="primary"
+          icon={<Navigate color="#ffffff" />}
+          iconPosition="right"
+          label={buttonText}
           onClick={() =>
             handleClick(activitySubject, activityInteractionURL, leadsId)
           }
-        >
-          {buttonText}
-        </Button>
+
+          type="tertiary"
+          className={styles.activityButton}
+        />
+
       )}
     </>
   );

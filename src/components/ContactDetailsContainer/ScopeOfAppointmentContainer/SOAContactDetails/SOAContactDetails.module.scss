@@ -1,0 +1,30 @@
+.formWrapper {
+    background: #F1F1F1;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 33px 0 16px 0;
+    font-size: 16px;
+    color: #434a51;
+
+    .nameBox {
+        display: flex;
+
+        >div {
+            flex-basis: 50%;
+        }
+    }
+
+    .fieldLabel {
+        color: #052A63;
+        font-weight: bold;
+    }
+
+    .fieldContent {
+        margin-bottom: 16px;
+    }
+
+    .consentWrapper {
+        display: flex;
+        margin-bottom: 16px;
+    }
+}

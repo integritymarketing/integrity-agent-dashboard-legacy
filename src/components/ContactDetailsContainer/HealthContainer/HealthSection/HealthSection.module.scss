@@ -1,0 +1,28 @@
+.providerContainer {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    border-bottom: 1px solid #cdd0d5;
+
+    @media (max-width: 480px) {
+        display: inherit;
+        height: auto;
+        position: relative;
+        padding: 16px 12px;
+        box-shadow: inset 0px -1px 0px #cdd0d5;
+        &:last-child {
+            box-shadow: inset 0px -1px 0px #cdd0d5;
+        }
+    }
+
+    &:first-child {
+        border-radius: 8px 8px 0px 0px;
+    }
+
+    &:last-child {
+        border-bottom: unset;
+        border-radius: 0px 0px 8px 8px;
+    }
+}

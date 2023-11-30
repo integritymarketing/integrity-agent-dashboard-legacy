@@ -1,0 +1,14 @@
+import { useContext } from "react";
+
+import { LeadDetailsContext } from "./LeadDetailsProvider";
+import { HealthContext } from "./HealthProvider";
+import { OverViewContext } from "./OverViewProvider";
+import { PoliciesContext } from "./PoliciesProvider";
+import { ScopeOfAppointmentContext } from "./ScopeOfAppointmentProvider";
+
+export const useLeadDetails = () => useContext(LeadDetailsContext) ?? {};
+export const useOverView = () => useContext(OverViewContext) ?? {};
+export const useHealth = () => useContext(HealthContext) ?? {};
+export const usePolicies = () => useContext(PoliciesContext) ?? {};
+export const useScopeOfAppointment = () => useContext(ScopeOfAppointmentContext) ?? {};
+

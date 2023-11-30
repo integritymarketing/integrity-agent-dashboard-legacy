@@ -58,17 +58,73 @@
   color: #0052ce;
 }
 
-.filterIcon {
-  position: relative;
-  top: 60px;
-  left: 60px;
-  @media (max-width: 480px) {
-    left: 100px;
+.buttonWithIcon {
+  border-radius: 25px !important;
+  padding: 5px 20px !important;
+
+  span {
+    font-size: 14px !important;
+    color: #4178ff !important;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    color: #1357FF !important
   }
 }
+ 
 
 .css-126gqmu-MuiTableCell-root {
   @media (max-width: 480px) {
     padding: 16px 10px !important;
   }
 }
+
+
+.activitiesContainer {
+    margin-bottom: 3rem;
+    border-radius: 8px;
+}
+
+ 
+
+.no-items {
+    border: 1.5px solid #e6ecf2;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+
+.activitiesContainer_content {
+    border-radius: 8px;
+  
+    @include small {
+        background: none;
+        padding: 0.5rem;
+    }
+  }
+
+
+  .activityDate{
+    color: #717171;
+    font-size: 14px;
+  }
+
+  .activitySubject{
+    color: #052A63;
+    font-size: 16px;
+  }
+
+ 
+  .activityBody{
+    color: #717171;
+    font-size: 14px;
+    margin-right: 5px;
+  }

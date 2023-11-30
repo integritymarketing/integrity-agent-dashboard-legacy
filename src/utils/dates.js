@@ -295,3 +295,20 @@ export const sortListByDate = (list, dateProperty, ascending = true) => {
         return ascending ? dateA - dateB : dateB - dateA;
     });
 };
+
+
+
+export const getDateTime = (dateString) => {
+    if (!dateString) return null;
+    const date = formatDate(dateString, "MM/dd/yyyy");
+    const time = formatDate(dateString, "h:mm a").toLowerCase();
+    return { date, time };
+};
+
+export const getLocalDateTime = (dateString) => {
+    if (!dateString) return null;
+    const localDateTime = convertToLocalDateTime(dateString);
+    const date = formatDate(localDateTime, "MM/dd/yyyy");
+    const time = formatDate(localDateTime, "h:mm a").toLowerCase();
+    return { date, time };
+};

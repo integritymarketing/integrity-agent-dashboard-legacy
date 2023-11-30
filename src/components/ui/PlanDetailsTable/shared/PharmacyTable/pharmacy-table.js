@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from "react";
-import { useLeadInformation } from "hooks/useLeadInformation";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import APIFail from "../APIFail/index";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
 import InNetworkIcon from "components/icons/inNetwork";
@@ -16,9 +16,20 @@ function getInNetwork(pharmacyCost) {
 }
 
 const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
-    const { pharmacies: pharmaciesList, deletePharmacy } = useLeadInformation();
+    const { pharmacies: pharmaciesList, deletePharmacy, fetchPharmacies } = useHealth();
     const [open, setOpen] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
+    const leadId = contact?.leadsId;
+
+    useEffect(() => {
+        if (leadId) {
+            fetchHealthDetails();
+        }
+    }, [leadId]);
+
+    const fetchHealthDetails = useCallback(async () => {
+        await fetchPharmacies(leadId)
+    }, [leadId, fetchPharmacies,]);
 
     const isApiFailed =
         (pharmaciesList?.filter((pharmacy) => pharmacy.name)?.length > 0 ? false : true) &&
@@ -32,21 +43,21 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 columns: [
                     ...(isMobile
                         ? [
-                              {
-                                  hideHeader: true,
-                                  accessor: "name_address",
-                              },
-                          ]
+                            {
+                                hideHeader: true,
+                                accessor: "name_address",
+                            },
+                        ]
                         : [
-                              {
-                                  hideHeader: true,
-                                  accessor: "name",
-                              },
-                              {
-                                  hideHeader: true,
-                                  accessor: "address",
-                              },
-                          ]),
+                            {
+                                hideHeader: true,
+                                accessor: "name",
+                            },
+                            {
+                                hideHeader: true,
+                                accessor: "address",
+                            },
+                        ]),
                 ],
             },
         ],

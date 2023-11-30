@@ -9,7 +9,6 @@ import styles from "../ContactsPage.module.scss";
 import PersonalInfo from "./PersonalInfo";
 import Overview from "./Overview";
 import Preferences from "./Preferences";
-import { LeadInformationProvider } from "hooks/useLeadInformation";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 import ContactFooter from "partials/global-footer";
@@ -175,6 +174,8 @@ const ContactRecordInfoDetails = () => {
                 return <ScopeOfAppointment {...props} />;
             case "preferences":
                 return <Preferences {...props} />;
+            case "policies":
+                return <EnrollmentHistoryContainer leadId={id} />;
             default:
                 return <Overview {...props} />;
         }
@@ -270,118 +271,116 @@ const ContactRecordInfoDetails = () => {
                     setIsMobile(_isMobile);
                 }}
             />
-            <LeadInformationProvider leadId={id}>
-                <StageStatusProvider>
-                    <WithLoader isLoading={isLoad}>
-                        <Helmet>
-                            <title>MedicareCENTER - Contacts</title>
-                        </Helmet>
-                        <GlobalNav />
-                        {duplicateLeadIds.length === 1 && (
-                            <section className={`${styles["duplicate-contact-link"]} pl-1`}>
-                                <Warning />
-                                <span className="pl-1">
-                                    The entry is a potential duplicate to&nbsp;&nbsp;
-                                    <a href={`/contact/${duplicateLeadIds}`} target="_blank" rel="noopener noreferrer">
-                                        {duplicateLeadIdName ?? "this contact link."}
-                                    </a>
-                                </span>
-                            </section>
-                        )}
-                        {duplicateLeadIds.length > 1 && (
-                            <section className={`${styles["duplicate-contact-link"]} pl-1`}>
-                                <Warning />
-                                <span className="pl-1">
-                                    The entry is a potential duplicate to&nbsp;&nbsp;
-                                    <a
-                                        onClick={handleMultileDuplicates}
-                                        href={`/contacts/list`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+            <StageStatusProvider>
+                <WithLoader isLoading={isLoad}>
+                    <Helmet>
+                        <title>MedicareCENTER - Contacts</title>
+                    </Helmet>
+                    <GlobalNav />
+                    {duplicateLeadIds.length === 1 && (
+                        <section className={`${styles["duplicate-contact-link"]} pl-1`}>
+                            <Warning />
+                            <span className="pl-1">
+                                The entry is a potential duplicate to&nbsp;&nbsp;
+                                <a href={`/contact/${duplicateLeadIds}`} target="_blank" rel="noopener noreferrer">
+                                    {duplicateLeadIdName ?? "this contact link."}
+                                </a>
+                            </span>
+                        </section>
+                    )}
+                    {duplicateLeadIds.length > 1 && (
+                        <section className={`${styles["duplicate-contact-link"]} pl-1`}>
+                            <Warning />
+                            <span className="pl-1">
+                                The entry is a potential duplicate to&nbsp;&nbsp;
+                                <a
+                                    onClick={handleMultileDuplicates}
+                                    href={`/contacts/list`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    these contacts
+                                </a>
+                            </span>
+                        </section>
+                    )}
+
+                    <PersonalInfo
+                        personalInfo={personalInfo}
+                        setEdit={setEdit}
+                        isEdit={isEdit}
+                        setDisplay={setDisplay}
+                        leadsId={id}
+                        refreshContactDetails={getLeadDetails}
+                    />
+
+                    <div className="details-card-main">
+                        <Container className={styles.container}>
+                            {isMobile ? (
+                                <MobileMenu
+                                    handleDisplay={handleDisplay}
+                                    handleViewPlans={handleViewPlans}
+                                    display={display}
+                                    setMenuToggle={setMenuToggle}
+                                    menuToggle={menuToggle}
+                                />
+                            ) : (
+                                <ul className="leftcardmenu desktop-menu-hide" data-gtm="contact-record-menu-item">
+                                    <li
+                                        className={display === "overview" ? "active" : ""}
+                                        onClick={() => {
+                                            setDisplay("overview");
+                                        }}
                                     >
-                                        these contacts
-                                    </a>
-                                </span>
-                            </section>
-                        )}
-
-                        <PersonalInfo
-                            personalInfo={personalInfo}
-                            setEdit={setEdit}
-                            isEdit={isEdit}
-                            setDisplay={setDisplay}
-                            leadsId={id}
-                            refreshContactDetails={getLeadDetails}
-                        />
-
-                        <div className="details-card-main">
-                            <Container className={styles.container}>
-                                {isMobile ? (
-                                    <MobileMenu
-                                        handleDisplay={handleDisplay}
-                                        handleViewPlans={handleViewPlans}
-                                        display={display}
-                                        setMenuToggle={setMenuToggle}
-                                        menuToggle={menuToggle}
-                                    />
-                                ) : (
-                                    <ul className="leftcardmenu desktop-menu-hide" data-gtm="contact-record-menu-item">
-                                        <li
-                                            className={display === "overview" ? "active" : ""}
-                                            onClick={() => {
-                                                setDisplay("overview");
-                                            }}
-                                        >
-                                            <label className="icon-spacing">
-                                                <OverviewIcon />
-                                            </label>
-                                            <span>Overview</span>
-                                        </li>
-                                        <li
-                                            className={
-                                                display === "details" || display === "DetailsEdit" ? "active" : ""
-                                            }
-                                            onClick={() => setDisplay("details")}
-                                        >
-                                            <label className="icon-spacing">
-                                                <DetailsIcon />
-                                            </label>
-                                            <span>Details</span>
-                                        </li>
-                                        <li
-                                            className={display === "scopeofappointments" ? "active" : ""}
-                                            onClick={() => setDisplay("scopeofappointments")}
-                                        >
-                                            <label className="icon-spacing">
-                                                <SOAicon />
-                                            </label>
-                                            <span>Scope Of Appointments</span>
-                                        </li>
-                                        <li
-                                            className={display === "preferences" ? "active" : ""}
-                                            onClick={() => setDisplay("preferences")}
-                                        >
-                                            <label className="icon-spacing">
-                                                <PreferencesIcon />
-                                            </label>
-                                            <span>Preferences </span>
-                                        </li>
-                                        <li className="plans-button">{handleViewPlans(false)}</li>
-                                    </ul>
-                                )}
-                                <div className="rightSection">
-                                    {handleRendering()}
-                                    <div className={"footerContainer"}>
-                                        <FooterBanners className={"footerBanners"} type={isMobile ? "column" : "row"} />
-                                    </div>
+                                        <label className="icon-spacing">
+                                            <OverviewIcon />
+                                        </label>
+                                        <span>Overview</span>
+                                    </li>
+                                    <li
+                                        className={
+                                            display === "details" || display === "DetailsEdit" ? "active" : ""
+                                        }
+                                        onClick={() => setDisplay("details")}
+                                    >
+                                        <label className="icon-spacing">
+                                            <DetailsIcon />
+                                        </label>
+                                        <span>Details</span>
+                                    </li>
+                                    <li
+                                        className={display === "scopeofappointments" ? "active" : ""}
+                                        onClick={() => setDisplay("scopeofappointments")}
+                                    >
+                                        <label className="icon-spacing">
+                                            <SOAicon />
+                                        </label>
+                                        <span>Scope Of Appointments</span>
+                                    </li>
+                                    <li
+                                        className={display === "preferences" ? "active" : ""}
+                                        onClick={() => setDisplay("preferences")}
+                                    >
+                                        <label className="icon-spacing">
+                                            <PreferencesIcon />
+                                        </label>
+                                        <span>Preferences </span>
+                                    </li>
+                                    <li className="plans-button">{handleViewPlans(false)}</li>
+                                </ul>
+                            )}
+                            <div className="rightSection">
+                                {handleRendering()}
+                                <div className={"footerContainer"}>
+                                    <FooterBanners className={"footerBanners"} type={isMobile ? "column" : "row"} />
                                 </div>
-                                <WebChatComponent />
-                            </Container>
-                        </div>
-                        <ContactFooter />
-                    </WithLoader>
-                </StageStatusProvider>
-            </LeadInformationProvider>
+                            </div>
+                            <WebChatComponent />
+                        </Container>
+                    </div>
+                    <ContactFooter />
+                </WithLoader>
+            </StageStatusProvider>
         </React.Fragment>
     );
 };

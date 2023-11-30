@@ -18,7 +18,7 @@ import { useContactsListContext } from "pages/ContactsList/providers/ContactsLis
 
 import { StageSelect } from "./StageSelect";
 
-const StageCell = ({ initialValue, originalData }) => {
+const StageCell = ({ initialValue, originalData, customWidth, customRefresh }) => {
     const [isLostReasonModalVisible, setLostReasonModalVisibility] = useState(false);
     const [selectedStage, setSelectedStage] = useState(initialValue);
     const { loadStageSummary } = useContext(stageSummaryContext);
@@ -54,7 +54,11 @@ const StageCell = ({ initialValue, originalData }) => {
             const response = await clientsService.updateClient(originalData, updatedClientData);
             if (response?.ok) {
                 await loadStageSummary();
-                refreshData();
+                if (customRefresh) {
+                    customRefresh();
+                } else {
+                    refreshData();
+                }
                 showToast({ type: "success", message: "Contact successfully updated.", time: 3000 });
             } else {
                 showToast({ type: "error", message: "Failed to update contact.", time: 3000 });
@@ -91,7 +95,7 @@ const StageCell = ({ initialValue, originalData }) => {
                 options={filteredStatusOptions}
                 initialValue={selectedStage || "New"}
                 onChange={handleStageChange}
-                customWidth={layout === "list" && 160}
+                customWidth={customWidth ? customWidth : layout === "list" && 160}
             />
         </Box>
     );

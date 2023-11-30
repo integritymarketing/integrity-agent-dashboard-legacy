@@ -1,18 +1,21 @@
 import React from "react";
 import Media from "react-media";
+import EditIcon from "components/icons/icon-edit";
+import { Button } from "components/ui/Button";
 import "./detailstable.scss";
 
 function DetailsTable({ items, Row, onDelete, onEdit, headerTitle }) {
   const editButton = (item) =>
     onEdit ? (
       <div className="bottom-actions">
-        <button
-          className="edit"
-          data-gtm={`buton-edit-${headerTitle}`}
+        <Button
+          icon={<EditIcon />}
+          label={"Edit"}
+          className="editButton"
           onClick={() => onEdit(item)}
-        >
-          Edit
-        </button>
+          type="tertiary"
+          iconPosition="right"
+        />
       </div>
     ) : null;
   const deleteButton = (item) =>

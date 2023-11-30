@@ -8,7 +8,7 @@ import * as Sentry from "@sentry/react";
 
 const useActivities = ({ getLeadDetails }) => {
   const showToast = useToast();
-  const { contactId: leadsId } = useParams();
+  const { leadId: leadsId } = useParams();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const [activities, leadFullName] = useRecoilValue(
     state.selectors.contactLeadActivitiesSelector

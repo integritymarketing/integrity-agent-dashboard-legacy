@@ -3,7 +3,6 @@ import Details from "pages/contacts/contactRecordInfo/Details";
 import "./index.scss";
 import ScrollNav from "../ScrollNav";
 import analyticsService from "services/analyticsService";
-import LeadInformationProvider from "hooks/useLeadInformation";
 
 const ContactEdit = (props) => {
   const [isEdit, setIsEdit] = useState(props.initialEdit);
@@ -52,19 +51,17 @@ const ContactEdit = (props) => {
         </div>
       )}
       <div className={"details-container"}>
-        <LeadInformationProvider leadId={props.leadId}>
-          <Details
-            id={props.leadId}
-            personalInfo={props.personalInfo}
-            isEdit={isEdit}
-            setEdit={setIsEdit}
-            detailsRef={detailsRef}
-            providersRef={providersRef}
-            prescriptionRef={prescriptionRef}
-            pharmacyRef={pharmacyRef}
-            {...props}
-          />
-        </LeadInformationProvider>
+        <Details
+          id={props.leadId}
+          personalInfo={props.personalInfo}
+          isEdit={isEdit}
+          setEdit={setIsEdit}
+          detailsRef={detailsRef}
+          providersRef={providersRef}
+          prescriptionRef={prescriptionRef}
+          pharmacyRef={pharmacyRef}
+          {...props}
+        />
       </div>
     </div>
   );

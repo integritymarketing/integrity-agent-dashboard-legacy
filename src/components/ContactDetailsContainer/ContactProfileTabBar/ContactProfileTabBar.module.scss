@@ -1,0 +1,111 @@
+@import "../../../scss/globalDefines.scss";
+
+.contactProfileTabBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 24px;
+    position: relative;
+    box-shadow: inset 0px -1px 0px #dddddd;
+
+    @include small {
+        flex-direction: column;
+    }
+
+
+    .backToContacts {
+        position: absolute;
+        left: 2.5rem;
+        top: 24px;
+        cursor: pointer;
+
+        @include small {
+            position: static;
+        }
+
+        .backButton {
+            color: #4178ff;
+            font-size: 16px;
+            font-weight: 500;
+
+            &:hover {
+                background-color: #ffffff;
+                border-radius: 20px;
+                box-shadow: inset 0px -1px 0px #00000029;
+            }
+
+            span {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .profileMenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+        @include small {
+            width: 100%;
+        }
+        .userName {
+            color: #052a63;
+            font-size: 32px;
+        }
+
+        .profileTabs {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 24px;
+
+            .profileTab {
+                display: flex;
+                flex-direction: column;
+                width: 25%;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                .tabIcon {
+                    padding: 7px 9px 3px 8px;
+                    background-color: #f1faff;
+                    border-radius: 35px;
+
+                    &:hover {
+                        box-shadow: inset 0px -1px 0px #00000029;
+                    }
+
+                    &.selected {
+                        border: 1px solid #4178ff;
+                    }
+                }
+
+                .tabName {
+                    color: #717171;
+                    font-size: 14px;
+                    text-wrap: nowrap;
+                }
+            }
+        }
+
+        .quoteButton {
+            width: 232px;
+            height: 32px;
+            background: #4178ff;
+            border-radius: 20px;
+            color: #ffffff;
+            margin-top: 25px;
+            font-size: 14px;
+            font-weight: 500;
+
+            &:hover {
+                background-color: #0052ce;
+            }
+        }
+    }
+}

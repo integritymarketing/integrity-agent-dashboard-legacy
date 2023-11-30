@@ -1,0 +1,28 @@
+.selectPdtContainer {
+    background: #F1F1F1;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 33px 0;
+
+    .label {
+        color: #052A63;
+        font-weight: bold;
+    }
+
+    .productOpts {
+        display: flex;
+        align-items: center;
+        padding: 10px 16px 11px 8px;
+        cursor: pointer;
+
+        .checkboxStyle {
+            position: relative;
+            top: 3px;
+            margin-right: 4px;
+        }
+    }
+
+    .products {
+        padding: 8px 0 0 0;
+    }
+}
