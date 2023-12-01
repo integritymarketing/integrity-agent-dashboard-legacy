@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import useActivities from "./useActivities";
 import ActivitiesTable from "./ActivitiesTable";
-import { TextButton } from "packages/Button";
-import SectionHeader from "packages/SectionHeader";
-import { Divider } from "@mui/material";
 import Filter from "packages/Filter/Filter";
 import FilterOptions from "packages/Filter/FilterOptions";
 import styles from "./Activities.module.scss";
-import AddNew from "components/icons/addnew";
 import AddNewActivityDialog from "./AddNewActivityDialog";
 import EditActivityDialog from "./EditActivityDialog";
 import ActivityDetails from "./ActivityDetails";
 import FilterIcon from "components/icons/activities/Filter";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import Media from "react-media";
+import Plus from "components/icons/plus";
+import { Button } from "components/ui/Button";
+import ContactSectionCard from "packages/ContactSectionCard";
+
 
 const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -51,6 +51,20 @@ const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
             setIsMobile(isMobile);
           }}
         />
+
+
+
+        <Button
+          icon={<Plus />}
+          iconPosition="right"
+          label="Add New"
+          onClick={() => {
+            setOpen(true);
+          }}
+          type="tertiary"
+          className={styles.buttonWithIcon}
+        />
+
         <div className={styles.filterIcon}>
           <Filter
             Icon={FilterIcon}
@@ -69,14 +83,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
             }
           />
         </div>
-        <TextButton
-          startIcon={<AddNew />}
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          Add new
-        </TextButton>
+
       </div>
     );
   };
@@ -84,20 +91,34 @@ const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
   return (
     <div className={styles.layout}>
       <div className={styles.activities}>
-        <SectionHeader text={"Activity"} children={sectionHeaderChildren()} />
-        <Divider />
-        <ActivitiesTable
-          data={activities}
-          onActivityClick={onActivityClick}
-          onShowMore={onShowMore}
-          pageHasMoreRows={pageHasMoreRows}
-          leadId={leadId}
-          handleDeleteActivity={handleDeleteActivity}
-          setEditActivity={setEditActivity}
-          isMobile={isMobile}
-          personalInfo={personalInfo}
-          setDisplay={setDisplay}
-        />
+        {/* <SectionHeader text={"Activities"} children={sectionHeaderChildren()} /> */}
+
+        <ContactSectionCard
+          title="Activities"
+          infoIcon={`(${activities?.length})`}
+          className={styles.activitiesContainer}
+
+          contentClassName={styles.activitiesContainer_content}
+          actions={
+            <div className="actions">
+              {sectionHeaderChildren()}
+            </div>
+          }
+        >
+
+
+          <ActivitiesTable
+            data={activities}
+            onActivityClick={onActivityClick}
+            onShowMore={onShowMore}
+            pageHasMoreRows={pageHasMoreRows}
+            leadId={leadId}
+            handleDeleteActivity={handleDeleteActivity}
+            setEditActivity={setEditActivity}
+            isMobile={isMobile}
+            setDisplay={setDisplay}
+          />
+        </ContactSectionCard>
 
         <AddNewActivityDialog
           open={open}

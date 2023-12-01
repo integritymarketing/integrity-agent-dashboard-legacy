@@ -1,0 +1,12 @@
+@import "scss/globalDefines.scss";
+
+.healthContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 50%;
+    
+    @include small {
+        width: 100%;
+    }
+}

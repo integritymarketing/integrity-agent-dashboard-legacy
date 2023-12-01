@@ -1,6 +1,6 @@
 import React from "react";
 
-const IconEdit = (props) => {
+const IconEdit = ({ color = "#0047de" }) => {
   return (
     <svg
       id="icon-Edit"
@@ -28,7 +28,7 @@ const IconEdit = (props) => {
           d="M10.1,9l-2.9.8L8,6.9l5.6-5.6a1.088,1.088,0,0,1,1.5,0l.6.6a1.087,1.087,0,0,1,0,1.5Z"
           transform="translate(-1 -1)"
           fill="none"
-          stroke="#0047de"
+          stroke={color}
           strokeLinejoin="round"
           strokeWidth="1"
         />
@@ -38,7 +38,7 @@ const IconEdit = (props) => {
           d="M15.4,8v5.2A2.862,2.862,0,0,1,12.6,16H3.8A2.862,2.862,0,0,1,1,13.2V4.5A2.862,2.862,0,0,1,3.8,1.7H9"
           transform="translate(-1 -1)"
           fill="none"
-          stroke="#0047de"
+          stroke={color}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1"

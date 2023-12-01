@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-// Custom Hooks
-import { useLeadInformation } from "hooks/useLeadInformation";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import Typography from "@mui/material/Typography";
@@ -52,9 +51,10 @@ const PrescriptionModal = ({
   item,
   isEdit,
   refresh,
+  leadId,
 }) => {
   const { addPrescription, editPrescription, deletePrescription } =
-    useLeadInformation();
+    useHealth();
   const { labelName, daysOfSupply, userQuantity, ndc } = item?.dosage ?? {};
 
   // Initializations
@@ -206,7 +206,8 @@ const PrescriptionModal = ({
           metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
           selectedPackage: null,
         },
-        refresh
+        refresh,
+        leadId
       );
       onClose();
     } finally {
@@ -230,7 +231,8 @@ const PrescriptionModal = ({
           metricQuantity: quantity * (dosagePackage?.commonMetricQuantity ?? 1),
           quantity: quantity,
         },
-        refresh
+        refresh,
+        leadId
       );
       onClose();
     } finally {
@@ -240,16 +242,16 @@ const PrescriptionModal = ({
 
   const handleDeletePrescription = () => {
     onClose();
-    deletePrescription(item, refresh);
+    deletePrescription(item, refresh, leadId);
   };
 
   const isFormValid = useMemo(() => {
     return Boolean(
       selectedDrug &&
-        quantity &&
-        frequency &&
-        dosage &&
-        (packageOptions.length > 0 ? dosagePackage : true)
+      quantity &&
+      frequency &&
+      dosage &&
+      (packageOptions.length > 0 ? dosagePackage : true)
     );
   }, [
     selectedDrug,
@@ -298,10 +300,10 @@ const PrescriptionModal = ({
   const disabled = isEdit
     ? !validUpdate || !isFormValid || isSaving
     : selectedDrug
-    ? !isFormValid || isSaving
-    : !searchselected
-    ? true
-    : false;
+      ? !isFormValid || isSaving
+      : !searchselected
+        ? true
+        : false;
 
   return (
     <Modal
@@ -420,8 +422,8 @@ PrescriptionModal.propTypes = {
 };
 
 PrescriptionModal.defaultProps = {
-  onSave: () => {},
-  onClose: () => {},
+  onSave: () => { },
+  onClose: () => { },
   open: false,
   item: {},
   isEdit: false,

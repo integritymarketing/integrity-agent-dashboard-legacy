@@ -1,84 +1,108 @@
-.details-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 26px;
-  background: #ffffff;
-  width: 100%;
-  @media screen and (max-width: 768px) {
-    background-color: transparent;
-  }
-  & > .header {
-    border-bottom: 1px solid #e3e8eb;
-    height: 83px;
+
+@import "../../../scss/globalDefines.scss";
+
+ .details-card {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    margin-top: 26px;
+    background: #ffffff;
     width: 100%;
     @media screen and (max-width: 768px) {
-      border-bottom: 0px;
+        background-color: transparent;
     }
-    .headerTitle {
-      padding-left: 32px;
-      color: var(--v2-header-title);
-      font-family: Lato;
-      font-size: 20px;
-      font-style: normal;
-      line-height: 31px;
-      letter-spacing: 0em;
-      text-align: left;
-      @media screen and (max-width: 768px) {
-        padding-left: 0;
-      }
+    & > .header {
+        border-bottom: 1px solid #e3e8eb;
+        height: 83px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        @media screen and (max-width: 768px) {
+            border-bottom: 0px;
+        }
+        .headerTitle {
+            padding-left: 32px;
+            color: var(--v2-header-title);
+            font-family: Lato;
+            font-size: 20px;
+            font-style: normal;
+            line-height: 31px;
+            letter-spacing: 0em;
+            text-align: left;
+            @media screen and (max-width: 768px) {
+                padding-left: 0;
+            }
+        }
+        .actions button {
+            padding: 5px 18px;
+            margin-right: 5px;
+        }
     }
-    .actions button {
-      padding: 5px 18px;
-      margin-right: 5px;
+    .card-body {
+        width: calc(100% - 64px);
+        margin: 32px;
+        @media screen and (max-width: 768px) {
+            width: 100%;
+            margin: 0;
+        }
+        .no-items {
+            height: 69px;
+            border: 1.5px solid #e6ecf2;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Lato;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 18px;
+            letter-spacing: 0em;
+            color: #64748b;
+            @media screen and (max-width: 480px) {
+                flex-direction: column;
+            }
+            a {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+        .link {
+            color: var(--v2-royal-blue);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 18px;
+            letter-spacing: 0em;
+            text-decoration: underline;
+        }
     }
-  }
-  .card-body {
-    width: calc(100% - 64px);
-    margin: 32px;
-    @media screen and (max-width: 768px) {
-      width: 100%;
-      margin: 0;
-    }
-    .no-items {
-      height: 69px;
-      border: 1.5px solid #e6ecf2;
-      border-radius: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Lato;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 18px;
-      letter-spacing: 0em;
-      color: #64748b;
-      @media screen and (max-width: 480px) {
-        flex-direction: column;
-      }
-      a {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
-    .link {
-      color: var(--v2-royal-blue);
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 18px;
-      letter-spacing: 0em;
-      text-decoration: underline;
-    }
-  }
 }
 
-.previousYearPlanTitle {
-  color: #434a51;
-  letter-spacing: 0.16px;
+.enrollmentPlanContainer_detailsPage {
+    margin-top: 3rem;
+    border-radius: 8px;
+ }
+
+.no-items {
+    border: 1.5px solid #e6ecf2;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+
+.enrollmentPlanContainer_detailsPage_content {
+    border-radius: 8px;
+    background-color: #ffffff;
+ 
+    @include small {
+        background: none;
+        padding: 0.5rem;
+    }
 }

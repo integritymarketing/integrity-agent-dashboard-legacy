@@ -9,9 +9,9 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        width: "40%",
+        width: "40% !important",
         "@media (max-width: 768px)": {
-            width: "100%",
+            width: "100% !important",
         },
     },
     specialty: {
@@ -36,7 +36,7 @@ const ProviderPersonalInfo = ({ specialty, title, phone, name, compareTable }) =
 
     return (
         <>
-            <Box className={`${classes.infoColumn} ${classes.compareTable}`}>
+            <Box className={`${classes.infoColumn} ${compareTable ? classes.compareTable : ""}`}>
                 <Typography variant="body1" className={classes.specialty}>
                     {specialty} {title ? `/ ${title}` : ""}
                 </Typography>

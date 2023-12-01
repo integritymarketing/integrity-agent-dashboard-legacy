@@ -1,9 +1,9 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import Media from "react-media";
 
 // Custom Hooks
-import { useLeadInformation } from "hooks/useLeadInformation";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
 // Constants
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
@@ -51,7 +51,20 @@ const DetailsComponent = forwardRef((props, ref) => {
         prescriptionLoading,
         deletePrescription,
         deletePharmacy,
-    } = useLeadInformation();
+        fetchPrescriptions,
+        fetchPharmacies,
+        fetchProviders,
+    } = useHealth();
+
+    useEffect(() => {
+        if (id) {
+            fetchHealthDetails();
+        }
+    }, [id]);
+
+    const fetchHealthDetails = useCallback(async () => {
+        await Promise.all([fetchPrescriptions(id), fetchPharmacies(id), fetchProviders(id)]);
+    }, [id, fetchPrescriptions, fetchPharmacies, fetchProviders]);
 
     const onAddNewPrescription = () => setIsOpenPrescription(true);
     const onCloseNewPrescription = () => setIsOpenPrescription(false);
@@ -127,11 +140,6 @@ const DetailsComponent = forwardRef((props, ref) => {
             <div className="contactdetailscard" ref={detailsRef}>
                 {DetailsInfo()}
             </div>
-
-            <section>
-                <EnrollmentHistoryContainer leadId={id} />
-            </section>
-
 
             <div className="detailscard-container">
                 {isOpen && (

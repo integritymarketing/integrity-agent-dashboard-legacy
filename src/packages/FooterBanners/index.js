@@ -1,80 +1,84 @@
 import React from "react";
-import Icon from "@mui/material/Icon";
+import PropTypes from "prop-types";
+import { Icon, Typography } from "@mui/material";
+import { ArrowForward } from "@mui/icons-material";
+import { styled } from "@mui/system";
+import styles from "./styles.module.scss";
 import GlassesIcon from "./Glasses.svg";
 import HeadsetIcon from "./Headset.svg";
-import { Typography } from "@mui/material";
-import { ArrowForward } from "@mui/icons-material";
-import styles from "./styles.module.scss";
-import { styled } from "@mui/system";
 
-const StyledIcon = styled(Icon)(({ theme }) => ({
-  height: "auto",
-  width: "100px",
-}));
-const StyledTypography = styled(Typography)(({ theme }) => ({
-  color: "#686E72",
-  lineHeight: "1.25",
-}));
-const StyledTypographyLink = styled(Typography)(({ theme }) => ({
-  color: "#1158CF",
-  fontWeight: "bold",
-}));
-const StyledArrowForward = styled(ArrowForward)(({ theme }) => ({
-  color: "#1158CF",
-}));
+const StyledIcon = styled(Icon)({
+    height: "auto",
+    width: "100px",
+});
 
-export default function FooterBanners({ className = "", type = "row" }) {
-  return (
-    <div className={className}>
-      <div className={`${styles.footerBannerContainer} ${styles[type]}`}>
-        <div className={styles.footerBanner1}>
-          <StyledIcon>
-            <img alt="Glasses Icon" className={styles.icon} src={GlassesIcon} />
-          </StyledIcon>
-          <div className={styles.textContentContainer}>
-            <div className={styles.textContent}>
-              <StyledTypography variant="subtitle1">
-                For the latest resources and news for integrity visit the
-              </StyledTypography>
-              <a
-                className={styles.link}
-                target="_blank"
-                href="/learning-center"
-                rel="noopener noreferrer"
-              >
-                <StyledTypographyLink variant="subtitle1">
-                  Knowledge Center
-                </StyledTypographyLink>
-                <StyledArrowForward />
-              </a>
+const StyledTypography = styled(Typography)({
+    color: "#686E72",
+    lineHeight: "1.25",
+});
+
+const StyledTypographyLink = styled(Typography)({
+    color: "#1158CF",
+    fontWeight: "bold",
+});
+
+const StyledArrowForward = styled(ArrowForward)({
+    color: "#1158CF",
+});
+
+const FooterBanners = ({ className = "", type = "row" }) => {
+    return (
+        <div className={className}>
+            <div className={`${styles.footerBannerContainer} ${styles[type]}`}>
+                <Banner
+                    icon={GlassesIcon}
+                    text="For the latest resources and news for integrity visit the"
+                    link="/learning-center"
+                    linkText="Knowledge Center"
+                />
+                <Banner
+                    icon={HeadsetIcon}
+                    text="Need help? Visit the help center for 24/7 professional"
+                    link="/help"
+                    linkText="Zendesk Assistance"
+                />
             </div>
-          </div>
         </div>
+    );
+};
 
-        <div className={styles.footerBanner2}>
-          <StyledIcon>
-            <img alt="Headset Icon" className={styles.icon} src={HeadsetIcon} />
-          </StyledIcon>
-          <div className={styles.textContentContainer}>
+FooterBanners.propTypes = {
+    className: PropTypes.string,
+    type: PropTypes.oneOf(["row", "column"]),
+};
+
+FooterBanners.defaultProps = {
+    className: "",
+    type: "row",
+};
+
+const Banner = ({ icon, text, link, linkText }) => (
+    <div className={styles.footerBanner}>
+        <StyledIcon>
+            <img alt={`${linkText} Icon`} className={styles.icon} src={icon} />
+        </StyledIcon>
+        <div className={styles.textContentContainer}>
             <div className={styles.textContent}>
-              <StyledTypography variant="subtitle1">
-                Need help? Visit the help center for 24/7 professional
-              </StyledTypography>
-              <a
-                className={styles.link}
-                target="_blank"
-                href="/help"
-                rel="noopener noreferrer"
-              >
-                <StyledTypographyLink variant="subtitle1">
-                  Zendesk Assistance
-                </StyledTypographyLink>
-                <StyledArrowForward />
-              </a>
+                <StyledTypography variant="subtitle1">{text}</StyledTypography>
+                <a className={styles.link} target="_blank" href={link} rel="noopener noreferrer">
+                    <StyledTypographyLink variant="subtitle1">{linkText}</StyledTypographyLink>
+                    <StyledArrowForward />
+                </a>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  );
-}
+);
+
+Banner.propTypes = {
+    icon: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+    linkText: PropTypes.string.isRequired,
+};
+
+export default FooterBanners;

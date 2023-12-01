@@ -32,9 +32,8 @@ function DetailsCard({
     itemsLength > 1
       ? `${headerTitle} (${itemsLength})`
       : headerTitle === "Pharmacies"
-      ? `Pharmacy`
-      : `${headerTitle.slice(0, -1)} ${
-          itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength
+        ? `Pharmacy`
+        : `${headerTitle.slice(0, -1)} ${itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength
         }`;
   const disableStatus =
     headerTitle === "Pharmacies" && items.length > 0 ? true : false;
@@ -43,6 +42,9 @@ function DetailsCard({
     <ContactSectionCard
       title={displayTitleWithCount}
       className={"enrollmentPlanContainer_detailsPage"}
+      isDashboard
+      contentClassName={"enrollmentPlanContainer_detailsPage_content"}
+
       actions={
         onAddClick && (
           <div className="actions">
@@ -58,6 +60,7 @@ function DetailsCard({
           </div>
         )
       }
+
     >
       <div className="card-body">
         <WithLoader isLoading={isLoading}>

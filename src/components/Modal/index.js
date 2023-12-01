@@ -11,17 +11,16 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
-        backgroundColor: "#4178FF",
-        borderRadius: "20px",
-        color: "#FFFFFF",
-        padding: "20px 16px;",
-        textTransform: "capitalize",
+        backgroundColor: "#4178FF !important",
+        borderRadius: "20px !important",
+        color: "#FFFFFF !important",
+        padding: "20px 16px !important",
         "&:hover": {
-            backgroundColor: "#4178FF",
+            backgroundColor: "#4178FF !important",
         },
         "&.Mui-disabled": {
-            backgroundColor: "#B3C9FF",
-            color: "#FFFFFF",
+            backgroundColor: "#B3C9FF !important",
+            color: "#FFFFFF !important",
             cursor: "not-allowed",
             "& svg #Icon_Arrow_path": {
                 // targeting the svg path by id
@@ -49,9 +48,10 @@ const useStyles = makeStyles((theme) => ({
         textTransform: "capitalize !important",
 
         "&:hover": {
-            backgroundColor: "#FFFFFF",
+            backgroundColor: "#FFFFFF !important",
             borderRadius: "20px",
-            boxShadow: "inset 0px -1px 0px #CCCCCC",
+            boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.2)",
+
         },
     },
     closeButton: {

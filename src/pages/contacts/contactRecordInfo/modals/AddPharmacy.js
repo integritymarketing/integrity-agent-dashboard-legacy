@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLeadInformation } from "hooks/useLeadInformation";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import Modal from "components/ui/modal";
 import { Select } from "components/ui/Select";
 import { Button } from "components/ui/Button";
@@ -20,8 +20,9 @@ export default function AddPharmacy({
   onClose,
   personalInfo,
   refresh,
+  leadId,
 }) {
-  const { addPharmacy } = useLeadInformation();
+  const { addPharmacy } = useHealth();
   const [zipCode, setZipCode] = useState(
     personalInfo?.addresses?.[0]?.postalCode
   );
@@ -143,7 +144,8 @@ export default function AddPharmacy({
         state: selectedPharmacy.state,
         pharmacyPhone: selectedPharmacy.pharmacyPhone,
       },
-      refresh
+      refresh,
+      leadId
     );
     onClose();
   };
@@ -194,9 +196,8 @@ export default function AddPharmacy({
                             placeholder="Zip"
                             value={zipCode}
                             maxLength="5"
-                            className={`${
-                              zipCodeError ? "error" : ""
-                            } zip-input`}
+                            className={`${zipCodeError ? "error" : ""
+                              } zip-input`}
                             onChange={(e) => {
                               setZipCode(e.target.value);
                               setCurrentPage(1);
@@ -295,9 +296,8 @@ export default function AddPharmacy({
                             placeholder="Zip"
                             value={zipCode}
                             maxLength="5"
-                            className={`${
-                              zipCodeError ? "error" : ""
-                            } zip-input`}
+                            className={`${zipCodeError ? "error" : ""
+                              } zip-input`}
                             onChange={(e) => {
                               setZipCode(e?.target?.value);
                               setCurrentPage(1);

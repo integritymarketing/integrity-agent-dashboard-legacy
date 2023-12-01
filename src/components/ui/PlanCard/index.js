@@ -159,6 +159,7 @@ export default function PlanCard({
                 contactId={contactId}
                 planName={planData?.planName}
                 refresh={refresh}
+
             />
             {getCoverageRecommendations(planData)?.length > 0 && (
                 <div className={`coverage ${isMobile ? "mobile" : ""}`}>

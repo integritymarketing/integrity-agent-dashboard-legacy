@@ -13,6 +13,7 @@ import { CountyProvider } from "contexts/counties";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import { TaskListProvider } from "contexts/taskListProvider";
+import { ContactDetailsProvider } from "providers/ContactDetails";
 import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
 
 import AuthContext from "contexts/auth";
@@ -51,19 +52,21 @@ root.render(
                     <BackNavProvider>
                       <StageSummaryProvider>
                         <TaskListProvider>
-                          <HelmetProvider>
-                            <Helmet>
-                              <title>MedicareCENTER</title>
-                            </Helmet>
-                            <Suspense fallback={<div>Loading...</div>}>
-                              <AppRouter>
-                                <div className="content-frame">
-                                  <AppRoutes />
-                                </div>
-                              </AppRouter>
-                            </Suspense>
-                            <PortalUrl />
-                          </HelmetProvider>
+                          <ContactDetailsProvider>
+                            <HelmetProvider>
+                              <Helmet>
+                                <title>MedicareCENTER</title>
+                              </Helmet>
+                              <Suspense fallback={<div>Loading...</div>}>
+                                <AppRouter>
+                                  <div className="content-frame">
+                                    <AppRoutes />
+                                  </div>
+                                </AppRouter>
+                              </Suspense>
+                              <PortalUrl />
+                            </HelmetProvider>
+                          </ContactDetailsProvider>
                         </TaskListProvider>
                       </StageSummaryProvider>
                     </BackNavProvider>

@@ -22,6 +22,7 @@ const MapdDetailsContent = ({
     enrollData,
     isEmail = false,
     refresh,
+    leadId
 }) => {
     const location = useLocation();
     const costsRef = useRef(null);
@@ -82,27 +83,27 @@ const MapdDetailsContent = ({
                         },
                         ...(hasPreferredRetailPharmacyNetwork
                             ? [
-                                  {
-                                      id: "preferredRetailPharmacyCoverage",
-                                      label: "Preferred Retail Pharmacy Coverage",
-                                  },
-                              ]
+                                {
+                                    id: "preferredRetailPharmacyCoverage",
+                                    label: "Preferred Retail Pharmacy Coverage",
+                                },
+                            ]
                             : []),
                         ...(hasPreferredMailPharmacyNetwork
                             ? [
-                                  {
-                                      id: "preferredMailOrderPharmacyCoverage",
-                                      label: "Preferred Mail Order Pharmacy Coverage",
-                                  },
-                              ]
+                                {
+                                    id: "preferredMailOrderPharmacyCoverage",
+                                    label: "Preferred Mail Order Pharmacy Coverage",
+                                },
+                            ]
                             : []),
                         ...(hasMailDrugBenefits
                             ? [
-                                  {
-                                      id: "standardMailOrderPharmacyCoverage",
-                                      label: "Standard Mail Order Pharmacy Coverage",
-                                  },
-                              ]
+                                {
+                                    id: "standardMailOrderPharmacyCoverage",
+                                    label: "Standard Mail Order Pharmacy Coverage",
+                                },
+                            ]
                             : []),
                         {
                             id: "planDocuments",
@@ -175,6 +176,7 @@ const MapdDetailsContent = ({
                             drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
                             refresh={refresh}
                             isEnroll={isEnroll}
+                            leadId={leadId}
                         />
                     )}
                 </div>

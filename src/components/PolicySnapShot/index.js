@@ -187,7 +187,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
         }
     };
 
-
     return (
         <ContactSectionCard
             title="Policy Snapshot"

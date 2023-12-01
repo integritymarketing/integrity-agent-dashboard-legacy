@@ -1,7 +1,9 @@
-import Dialog from "packages/Dialog";
 import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "components/Modal";
+import { Add } from "components/ContactDetailsContainer/ContactDetailsModals/Icons";
 import styles from "./AddNewActivityDialog.module.scss";
-import { Box, TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import ActivitySubjectWithIcon from "./ActivitySubjectWithIcon";
 import CreatedDate from "./CreatedDate";
 
@@ -60,21 +62,29 @@ export default function EditActivityDialog({
 
   return (
     <Box>
-      <Dialog
+
+      <Modal
+        maxWidth="sm"
         open={open}
-        fullWidth={true}
+        onClose={onClose}
+        onCancel={onClose}
+        title={
+          <div className={styles.subHeading}>
+            <ActivitySubjectWithIcon activitySubject={leadFullName} />
+            {leadFullName}
+          </div>
+        }
         onSave={() => {
           onSave(activityId, activitySubject, note);
         }}
-        title={leadFullName}
-        saveText={"Save"}
-        onCancel={onClose}
-        onClose={onClose}
-        maxWidth="sm"
-        disabled={activityNote === note || !note || note?.length < 2}
+        actionButtonName="Save"
+        actionButtonDisabled={activityNote === note || !note || note?.length < 2}
+        endIcon={<Add />}
       >
+
         {renderContent()}
-      </Dialog>
+
+      </Modal>
     </Box>
   );
 }

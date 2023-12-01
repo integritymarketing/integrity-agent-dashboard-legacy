@@ -1,0 +1,36 @@
+.soaTitleHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .titleWrapper {
+            display: flex;
+            align-items: center;
+
+            svg {
+                position: relative;
+                top: 5px;
+            }
+
+            .soaTitle {
+                color: #052A63;
+                font-size: 24px;
+                padding-right: 5px;
+            }
+
+            .infoStyle {
+                position: relative;
+                top: 2px;
+            }
+
+            .sendStyle {
+                font-size: 14px;
+                color: #4178FF
+            }
+        }
+    }
+
+    .columnView {
+        flex-direction: column;
+    }
+

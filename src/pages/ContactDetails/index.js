@@ -12,7 +12,7 @@ const ContactDetails = () => {
     <div>Loading</div>
   ) : (
     <Container>
-      <Activities getLeadDetails={getLeadDetails} />
+      <Activities />
     </Container>
   );
 };

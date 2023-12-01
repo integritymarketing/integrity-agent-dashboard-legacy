@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
-// Custom Hooks
-import { useLeadInformation } from "hooks/useLeadInformation";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
 import { useParams } from "react-router-dom";
 import AddCircleOutline from "../Icons/AddCircleOutline";
@@ -86,12 +85,22 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }) => {
-    const { addProvider, deleteProvider, providers } = useLeadInformation();
+    const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
+    const { contactId } = useParams();
+
+    useEffect(() => {
+        if (contactId) {
+            fetchHealthDetails();
+        }
+    }, [contactId]);
+
+    const fetchHealthDetails = useCallback(async () => {
+        await fetchProviders(contactId)
+    }, [contactId, fetchProviders]);
 
     // Initializations
     const classes = useStyles();
     const { fireEvent } = useAnalytics();
-    const { contactId } = useParams();
 
     const [zipCode, setZipCode] = useState(userZipCode);
     const [searchString, setSearchString] = useState("");
@@ -192,7 +201,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
             };
         });
 
-        await addProvider(requestPayload, selectedProvider?.presentationName, refresh, isEdit);
+        await addProvider(requestPayload, selectedProvider?.presentationName, refresh, isEdit, leadId);
 
         fireEvent("AI - Provider added", {
             leadid: contactId,
@@ -210,7 +219,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
         });
 
         onClose();
-        deleteProvider(requestPayload, selectedProvider?.presentationName, handleSaveProvider, false);
+        deleteProvider(requestPayload, selectedProvider?.presentationName, handleSaveProvider, false, leadId);
     };
 
     const handleDeleteProvider = () => {
@@ -223,7 +232,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
         });
 
         onClose();
-        deleteProvider(requestPayload, selected?.presentationName, refresh, true);
+        deleteProvider(requestPayload, selected?.presentationName, refresh, true, leadId);
     };
 
     const isFormValid = useMemo(() => {

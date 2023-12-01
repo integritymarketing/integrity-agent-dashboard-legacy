@@ -1,0 +1,95 @@
+.soaSignedContainer {
+    background: #FFFFFF;
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    .titleWrapper {
+        font-size: 20px;
+        color: #052A63;
+        padding: 16px 24px;
+        border-bottom: 1px solid #cccccc;
+    }
+
+    .contentWrapper {
+        padding: 16px 24px 24px 24px;
+        display: flex;
+
+        .boxColumn {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+
+            .completeCTAWrapper {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 38px;
+
+                button {
+                    border-radius: 25px;
+                    border: none;
+                    background: #4178FF;
+                    padding: 5px 9px;
+                    width: 125px;
+                    display: flex;
+                    justify-content: flex-start;
+                    cursor: pointer;
+                }
+            }
+
+            .columnLabel {
+                color: #052A63;
+                font-weight: bold;
+            }
+
+            .columnText {
+                color: #434a51;
+            }
+
+            .productsContainer {
+                background: #F1F1F1;
+                border-radius: 8px;
+                color: #434a51;
+                padding: 16px 16px 23px 29px;
+                list-style: disc;
+            }
+
+            .contactWrapper {
+                display: flex;
+                align-items: center;
+
+                .contactBox {
+                    background: #F1F1F1;
+                    border-radius: 4px;
+                    color: #434a51;
+                    padding: 7px 19px;
+                }
+
+                .spacing {
+                    margin: 0 16px;
+                }
+            }
+
+
+        }
+
+        .width15 {
+            flex-basis: 15%;
+            padding-right: 24px;
+        }
+
+        .width45 {
+            flex-basis: 45%;
+            padding-right: 24px;
+        }
+
+        .width25 {
+            flex-basis: 25%;
+        }
+
+
+    }
+
+    .columnView {
+        flex-direction: column;
+    }
+}

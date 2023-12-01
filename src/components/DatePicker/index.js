@@ -2,8 +2,9 @@ import * as React from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import TextField from '@mui/material/TextField';
 import { isValid } from "date-fns";
-import TextField from "@mui/material/TextField";
+import EventIcon from '@mui/icons-material/Event'; // Importing a calendar icon
 
 export default function DatePickerMUI({
   disableFuture,
@@ -34,15 +35,13 @@ export default function DatePickerMUI({
           value
             ? new Date(value)
             : lastValidDate
-            ? new Date(lastValidDate)
-            : null
+              ? new Date(lastValidDate)
+              : null
         }
         onChange={(newValue) => {
           if (!newValue || isNaN(newValue.getTime()) || !isValid(newValue)) {
-            // If new value is null or not a date, keep the last valid date
-            onChange(null); // pass null to your onChange function
+            onChange(null);
           } else {
-            // Only call onChange if newValue is a valid date
             onChange(newValue);
           }
         }}
@@ -58,6 +57,17 @@ export default function DatePickerMUI({
           />
         )}
         className={className}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <EventIcon /> // Icon positioned on the left side
+              ),
+            }}
+          />
+        )}
       />
     </LocalizationProvider>
   );

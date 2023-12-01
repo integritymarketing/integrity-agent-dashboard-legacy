@@ -1,0 +1,18 @@
+.miniContainer {
+    display: flex;
+    gap: 24px;
+}
+
+.horizontalLayout {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.border {
+    border-bottom: 1px solid #ddd;
+}
+
+.gap {
+    justify-content: space-between;
+}

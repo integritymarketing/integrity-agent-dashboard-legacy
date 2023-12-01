@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLeadInformation } from "hooks/useLeadInformation";
+import React, { useState, useCallback, useEffect } from "react";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import PropTypes from "prop-types";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 import Header from "./components/Header";
@@ -11,9 +11,19 @@ import Plus from "components/icons/plus";
 import Edit from "components/Edit";
 import EditIcon from "components/icons/edit2";
 
-const PrescriptionTable = ({ isMobile, planDrugCoverage, drugCosts, planData, refresh, isEnroll }) => {
-    const leadInformation = useLeadInformation();
-    const prescriptions = leadInformation?.prescriptions || [];
+const PrescriptionTable = ({ isMobile, planDrugCoverage, drugCosts, planData, refresh, isEnroll, leadId }) => {
+    const { prescriptions, fetchPrescriptions } = useHealth();
+
+
+    useEffect(() => {
+        if (leadId) {
+            fetchHealthDetails();
+        }
+    }, [leadId]);
+
+    const fetchHealthDetails = useCallback(async () => {
+        await fetchPrescriptions(leadId)
+    }, [leadId, fetchPrescriptions,]);
 
     const [isOpenPrescription, setIsOpenPrescription] = useState(false);
     const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);

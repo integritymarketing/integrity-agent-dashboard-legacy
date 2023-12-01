@@ -1,0 +1,18 @@
+.duplicateContactLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background: #fff8de;
+    border-radius: 4px;
+    padding-left: 1rem;
+
+    a {
+        color: var(--v2-secondary-blue-900);
+        cursor: pointer;
+    }
+}
+
+.duplicateText {
+    padding-left: 1rem;
+}
