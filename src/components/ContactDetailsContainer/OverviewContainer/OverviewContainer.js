@@ -1,16 +1,21 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
+
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/system";
-import { RemindersContainer } from "./RemindersContainer/RemindersContainer";
+
+import { useLeadDetails } from "providers/ContactDetails";
+
+import { formatDate } from "utils/dates";
+
+import { DeleteContactModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteContactModal/DeleteContactModal";
+
 import { ActivitiesTableContainer } from "./ActivitiesContainer/ActivitiesTableContainer";
 import { ClientNotes } from "./ClientNotesContainer/ClientNotes";
-import TagsContainer from "./TagsContainer/TagsContainer";
-import { ContactInfoContainer } from "./ContactInfoContainer/ContactInfoContainer";
 import Label from "./CommonComponents/Label";
+import { ContactInfoContainer } from "./ContactInfoContainer/ContactInfoContainer";
+import { RemindersContainer } from "./RemindersContainer/RemindersContainer";
 import { StageContainer } from "./StageContainer/StageContainer";
-import { useLeadDetails } from "providers/ContactDetails";
-import { DeleteContactModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteContactModal/DeleteContactModal";
-import { formatDate } from "utils/dates";
+import TagsContainer from "./TagsContainer/TagsContainer";
 
 const NOT_AVAILABLE = "N/A";
 export const OverviewContainer = () => {
@@ -18,70 +23,41 @@ export const OverviewContainer = () => {
 
     const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
-
-    let {
-        firstName = "",
-        middleName = "",
-        lastName = "",
-        createDate,
-        leadsId,
-    } = leadDetails;
+    let { firstName = "", middleName = "", lastName = "", createDate, leadsId } = leadDetails;
 
     const leadCreatedDate = useMemo(() => {
         return createDate ? formatDate(createDate, "MM-dd-yyyy") : NOT_AVAILABLE;
     }, [leadDetails]);
 
     return (
-        <Box sx={{ padding: "2rem 7rem" }}>
-            <Grid container spacing={2}>
-                {/* First Row */}
-                <Grid item xs={12} container spacing={3}>
-                    <Grid item xs={3}>
-                        <div>
-                            <StageContainer />
-                        </div>
-                    </Grid>
-                    <Grid item xs={9}>
-                        <div>
-                            <RemindersContainer />
-                        </div>
-                    </Grid>
-                </Grid>
-
-                {/* Second Row */}
-                <Grid item xs={12} container spacing={3}>
-                    <Grid item xs={3}>
-                        <TagsContainer />
-                    </Grid>
-                    <Grid item xs={9}>
-                        <div>
-                            <ActivitiesTableContainer />
-                        </div>
-                    </Grid>
-                </Grid>
-
-                {/* Third Row */}
-                <Grid item xs={12} container spacing={3}>
-                    <Grid item xs={3}>
-                        <ContactInfoContainer />
+        <Box minWidth="1000px">
+            <Grid container spacing={3}>
+                <Grid item xs={3}>
+                    <StageContainer />
+                    <TagsContainer />
+                    <ContactInfoContainer />
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "24px",
+                            marginTop: "24px",
+                            flexDirection: "column",
+                        }}
+                    >
+                        <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />
                         <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "24px",
-                                marginTop: "24px",
-                                flexDirection: "column",
-
-                            }}>
-                            <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />
-                            <Box sx={{ color: "#F44336", fontSize: "16px", cursor: "pointer" }} onClick={() => setDeleteModalStatus(true)}> Delete Contact </Box>
+                            sx={{ color: "#F44336", fontSize: "16px", cursor: "pointer" }}
+                            onClick={() => setDeleteModalStatus(true)}
+                        >
+                            Delete Contact
                         </Box>
-                    </Grid>
-                    <Grid item xs={9}>
-                        <div>
-                            <ClientNotes />
-                        </div>
-                    </Grid>
+                    </Box>
+                </Grid>
+                <Grid item xs={9}>
+                    <RemindersContainer />
+                    <ActivitiesTableContainer />
+                    <ClientNotes />
                 </Grid>
             </Grid>
             {deleteModalStatus && (
@@ -92,6 +68,6 @@ export const OverviewContainer = () => {
                     open={deleteModalStatus}
                 />
             )}
-        </Box >
+        </Box>
     );
 };
