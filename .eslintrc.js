@@ -76,7 +76,6 @@ module.exports = {
         "prefer-template": "warn",
         "import/no-duplicates": "warn",
         "no-unused-vars": ["warn", { vars: "all", args: "after-used", ignoreRestSiblings: false }],
-        "import/order": "warn",
         "max-lines": ["warn", { max: 500, skipBlankLines: true, skipComments: true }],
         "max-lines-per-function": ["warn", { max: 100, skipBlankLines: true, skipComments: true }],
         "react/react-in-jsx-scope": "off",

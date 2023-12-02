@@ -18,6 +18,11 @@ function StageSelect({ options, initialValue, onChange, customWidth, customHeigh
             IconComponent={() => <ArrowDownBlue />}
             value={initialValue}
             sx={{
+                svg: {
+                    pointerEvents: "none",
+                    position: "absolute",
+                    right: "5px",
+                },
                 color: "#434A51",
                 width: customWidth ? customWidth : "100%",
                 height: customHeight ? customHeight : "35px",
