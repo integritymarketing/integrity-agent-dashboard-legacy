@@ -1,0 +1,122 @@
+.healthInfoContainer {
+    margin: 3.8rem 0.5rem 0 8.5rem;
+    width: 16.6rem;
+
+    .headerWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .headerTitle {
+            font-size: 24px;
+            color: #052A63;
+        }
+
+        .editCTA {
+            font-size: 14px;
+            color: #4178FF;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .editCtas {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        .cancel {
+            padding: 10px 16px;
+            color: #4178FF;
+            cursor: pointer;
+        }
+    }
+
+    .updatedTimestamp {
+        color: #717171;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    .header {
+        font-size: 24px;
+        color: #052A63;
+        margin-bottom: 9px;
+    }
+
+    .adjacentInputs {
+        display: flex;
+        gap: 24px;
+    }
+
+    .inputBoxHalf {
+        flex-basis: 50%;
+    }
+
+    .inputBox {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+
+        .label {
+            font-size: 14px;
+            color: #717171;
+        }
+
+        .labelEdit {
+            font-size: 14px;
+            color: #717171;
+            margin-bottom: 10px;
+        }
+
+        .heightSpec {
+            display: flex;
+            gap: 12px;
+        }
+
+        .valueWrapper {
+            display: flex;
+            gap: 32px;
+        }
+
+        .valueBox {
+            padding: 14px 14px 15px 16px;
+            border: 1px solid #DDDDDD;
+            flex-basis: 50%;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .value {
+            font-size: 16px;
+            color: #052A63;
+            min-height: 20px;
+        }
+
+        .selected {
+            background: #F1FAFF;
+        }
+
+        .input {
+            padding: 15px 0 14px 8px;
+            border: 1px solid #DDDDDD;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .datepicker {
+            input {
+                color: #4178FF
+            }
+
+            button {
+                color: #4178FF
+            }
+        }
+    }
+}

@@ -149,6 +149,3 @@ export const RemindersList = () => {
         </>
     );
 };
-
-
-
