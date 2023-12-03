@@ -2,7 +2,6 @@
 
 .reminderItem {
   display: flex;
-  flex-direction: column;
   padding: 22px 28px;
   margin-bottom: 8px;
   flex-direction: row;
@@ -11,7 +10,13 @@
   align-items: flex-start;
 
   &:last-child {
-    box-shadow : none;
+    box-shadow: none;
+  }
+
+  @include small {
+    padding: 8px;
+    flex-direction: column;
+    gap: 12px;
   }
 }
 
@@ -22,9 +27,13 @@
   font-size: 16px;
   width: 16%;
   align-items: center;
+
+  @include small {
+    width: auto;
+  }
 }
 
-.dueValue{
+.dueValue {
   font-weight: 500;
   color: #4178FF;
 }
@@ -39,14 +48,26 @@
   padding: 8px;
   width: 60%;
   height: 120px;
+
+  @include small {
+    width: auto;
+    height: auto;
+  }
 }
 
 .reminderActions {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  align-items: center;
- }
+  align-items: flex-end;
+
+  @include small {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
 
 .completeButton {
   // Add styling for the complete button
@@ -64,7 +85,11 @@
 
 .buttonWithIcon {
   border-radius: 25px !important;
-  padding: 5px 20px !important;
+  padding: 4px 8px !important;
+
+  svg {
+    width: 24px;
+  }
 
   span {
     font-size: 14px !important;
@@ -81,48 +106,46 @@
 }
 
 .remindersContainer {
-    margin-bottom: 3rem;
-    border-radius: 8px;
+  margin-bottom: 3rem;
+  border-radius: 8px;
 }
 
- 
+
 
 .no-items {
-    border: 1.5px solid #e6ecf2;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #64748b;
+  border: 1.5px solid #e6ecf2;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #64748b;
 }
 
 
 .remindersContainer_content {
-    border-radius: 8px;
-    background-color: #ffffff;
- 
-    @include small {
-        background: none;
-        padding: 0.5rem;
-    }
+  border-radius: 8px;
+  background-color: #ffffff;
+
+  @include small {
+    background: none;
+    padding: 0.5rem;
   }
+}
 
- 
 
-  .reminderIcon {
-    background-color: #F1FAFF;
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-  }
 
-   .dueIcon{
-    background-color: #ffc3c3;
-  }
+.reminderIcon {
+  background-color: #F1FAFF;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
 
-  
+.dueIcon {
+  background-color: #ffc3c3;
+}

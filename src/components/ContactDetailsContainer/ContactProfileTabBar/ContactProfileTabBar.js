@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
 import NewBackBtn from "images/new-back-btn.svg";
 import { Connect, Health, Policies, Overview } from "./Icons";
 import { useLeadDetails } from "providers/ContactDetails";
 import { ConnectModal } from "../ConnectModal";
+import {toTitleCase} from "utils/toTitleCase";
 
 import styles from "./ContactProfileTabBar.module.scss";
 
@@ -32,9 +33,13 @@ export const ContactProfileTabBar = () => {
         [leadId, navigate, setSelectedTab]
     );
 
-    const handleBackToContacts = useCallback(() => {
-        navigate("/contacts");
-    }, [navigate]);
+    const handleBackPage = useCallback(() => {
+        if (location.state?.from) {
+            navigate(-1);
+        } else {
+            navigate("/contacts");
+        }
+    }, [navigate, location.state]);
 
     const renderTab = ({ name, section, icon, modalTrigger }) => (
         <Box
@@ -52,15 +57,15 @@ export const ContactProfileTabBar = () => {
             <div className={styles.backToContacts}>
                 <Button
                     icon={<img src={NewBackBtn} alt="Back" />}
-                    label="Back to Contact List"
-                    onClick={handleBackToContacts}
+                    label="Back"
+                    onClick={handleBackPage}
                     type="tertiary"
                     className={styles.backButton}
                 />
             </div>
 
             <Box className={styles.profileMenu}>
-                <h1 className={styles.userName}>{leadName}</h1>
+                <h1 className={styles.userName}>{toTitleCase(leadName)}</h1>
                 <div className={styles.profileTabs}>{tabs.map(renderTab)}</div>
                 <Button label="Start a Quote" type="primary" className={styles.quoteButton} />
             </Box>

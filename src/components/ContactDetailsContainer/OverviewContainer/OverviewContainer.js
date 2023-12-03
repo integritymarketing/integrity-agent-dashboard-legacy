@@ -30,9 +30,9 @@ export const OverviewContainer = () => {
     }, [leadDetails]);
 
     return (
-        <Box minWidth="1000px">
-            <Grid container spacing={3}>
-                <Grid item xs={3}>
+        <Box>
+            <Grid container>
+                <Grid item xs={5} sm={3}>
                     <StageContainer />
                     <TagsContainer />
                     <ContactInfoContainer />
@@ -54,10 +54,13 @@ export const OverviewContainer = () => {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item xs={9}>
-                    <RemindersContainer />
-                    <ActivitiesTableContainer />
-                    <ClientNotes />
+                <Grid item xs={1} sm={1}/>
+                <Grid item xs={6} sm={8}>
+                    <Box sx={{minWidth: "400px"}}>
+                        <RemindersContainer />
+                        <ActivitiesTableContainer />
+                        <ClientNotes />
+                    </Box>
                 </Grid>
             </Grid>
             {deleteModalStatus && (

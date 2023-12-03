@@ -20,12 +20,7 @@ export const StageContainer = () => {
                     {leadDetails &&
                         <>
                             <Box>Stage</Box>
-                            <Box sx={{
-                                padding: "20px",
-                                backgroundColor: "#ffffff",
-                                borderRadius: " 8px",
-                                marginTop: "20px"
-                            }}>
+                            <Box className={styles.box}>
                                 <StageCell initialValue={leadDetails?.statusName} originalData={leadDetails} customWidth={"100%"} customRefresh={refreshData} />
                             </Box>
                         </>

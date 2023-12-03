@@ -1,6 +1,19 @@
+@import "../../../../scss/globalDefines.scss";
+
 .stage {
     padding-top: 40px;
     padding-bottom: 0px;
     color: #052A63;
     font-size: 24px;
+
+    .box {
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        margin-top: 20px;
+
+        @include small {
+            padding: 4px;
+        }
+    }
 }

@@ -1,3 +1,5 @@
+@import "../../../../../scss/globalDefines.scss";
+
 * {
     user-select: none;
 }
@@ -27,4 +29,14 @@
     align-items: center;
     gap: 5px;
     padding: 8.5px 12.5px;
+
+    @include small {
+        padding: 4px;
+        gap: 2px;
+
+        svg {
+            width: 16px;
+            min-width: 16px;
+        }
+    }
 }
