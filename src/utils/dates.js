@@ -264,6 +264,54 @@ export const getMonthNumber = (date) => {
     return date.getMonth() + 1;
 };
 
+/**
+ * Parses a date string and returns a Date object or null if invalid.
+ * @param {string} dateString - The date string to be parsed.
+ * @returns {Date|null}
+ */
+const parseDateValue = (dateString) => {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? null : date;
+};
+
+/**
+ * Sorts an array of objects based on a date property.
+ * @param {Object[]} list - The array of objects to sort.
+ * @param {string} dateProperty - The property name of the date to sort by.
+ * @param {boolean} ascending - Whether to sort in ascending order.
+ * @returns {Object[]}
+ */
+export const sortListByDate = (list, dateProperty, ascending = true) => {
+    return [...list].sort((a, b) => {
+        const dateA = parseDateValue(a[dateProperty]);
+        const dateB = parseDateValue(b[dateProperty]);
+
+        // Handling null dates
+        if (!dateA) return ascending ? -1 : 1;
+        if (!dateB) return ascending ? 1 : -1;
+
+        // Sorting
+        return ascending ? dateA - dateB : dateB - dateA;
+    });
+};
+
+
+
+export const getDateTime = (dateString) => {
+    if (!dateString) return null;
+    const date = formatDate(dateString, "MM/dd/yyyy");
+    const time = formatDate(dateString, "h:mm a").toLowerCase();
+    return { date, time };
+};
+
+export const getLocalDateTime = (dateString) => {
+    if (!dateString) return null;
+    const localDateTime = convertToLocalDateTime(dateString);
+    const date = formatDate(localDateTime, "MM/dd/yyyy");
+    const time = formatDate(localDateTime, "h:mm a").toLowerCase();
+    return { date, time };
+};
+
 export const getAgeFromBirthDate = (birthdate) => {
     // If the birthdate is in ISO format (YYYY-MM-DD), use parseISO to convert it to a Date object
     const birthDate = parseISO(birthdate);
@@ -272,4 +320,5 @@ export const getAgeFromBirthDate = (birthdate) => {
 
     // Calculate the difference in years
     return differenceInYears(currentDate, birthDate);
+
 }

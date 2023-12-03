@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { AGE, BIRTHDATE, GENDER, HEALTH_INFO, HEIGHT, SMOKER, WEIGHT } from "../HealthContainer.constants";
+import { AGE, BIRTHDATE, GENDER, HEALTH_INFO, HEIGHT, SMOKER, WEIGHT, WT_UNIT } from "../HealthContainer.constants";
 import { EditIcon } from "../icons/EditIcon";
 import styles from "./HealthInfoContainer.module.scss";
 import { formatDate, getAgeFromBirthDate } from 'utils/dates';
@@ -34,7 +34,7 @@ export const ViewHealthInfo = ({ birthdate, gender, height, weight, smoker, onEd
             </div>
             <div className={styles.inputBox}>
                 <div className={styles.label}>{WEIGHT}</div>
-                <div className={styles.value}>{weight}</div>
+                <div className={styles.value}>{`${weight} ${WT_UNIT}`}</div>
             </div>
             <div className={styles.inputBox}>
                 <div className={styles.label}>{SMOKER}</div>

@@ -32,12 +32,17 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet,
     const [feet, setFeet] = useState(hFeet);
     const [inch, setInch] = useState(hInch);
     const [weight, setWeight] = useState(wt);
-    const [isTobaccoUser, setIsTobaccoUser] = useState(smoker);
+    const [isTobaccoUser, setIsTobaccoUser] = useState(smoker)
 
-    const updateHeight = (key, value) => {
+    const updateFeet = (value) => {
+        if (!value || value > 0 && value <= 8 && !value.includes('.')) {
+            setFeet(value)
+        }
+    }
+
+    const updateInch = (value) => {
         if (!value || value > 0 && value <= 12 && !value.includes('.')) {
-            if (key === "feet") setFeet(value);
-            else setInch(value);
+            setFeet(value)
         }
     }
     const updateWeight = (value) => {
@@ -92,12 +97,12 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet,
                 <div className={styles.heightSpec}>
                     <OutlinedInput
                         value={feet}
-                        onChange={(e) => updateHeight("feet", e.target.value)}
+                        onChange={(e) => updateFeet(e.target.value)}
                         endAdornment={<InputAdornment position="end">{FEET_PLACEHOLDER}</InputAdornment>}
                     />
                     <OutlinedInput
                         value={inch}
-                        onChange={(e) => updateHeight("inch", e.target.value)}
+                        onChange={(e) => updateInch(e.target.value)}
                         endAdornment={<InputAdornment position="end">{INCH_PLACEHOLDER}</InputAdornment>}
                     />
                 </div>
