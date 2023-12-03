@@ -1,4 +1,4 @@
-import { parse, parseISO, format, differenceInDays, intervalToDuration } from "date-fns";
+import { parse, parseISO, format, differenceInDays, differenceInYears, intervalToDuration } from "date-fns";
 import moment from "moment";
 import { dateFormatter } from "./dateFormatter";
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
@@ -264,7 +264,6 @@ export const getMonthNumber = (date) => {
     return date.getMonth() + 1;
 };
 
-
 /**
  * Parses a date string and returns a Date object or null if invalid.
  * @param {string} dateString - The date string to be parsed.
@@ -312,3 +311,14 @@ export const getLocalDateTime = (dateString) => {
     const time = formatDate(localDateTime, "h:mm a").toLowerCase();
     return { date, time };
 };
+
+export const getAgeFromBirthDate = (birthdate) => {
+    // If the birthdate is in ISO format (YYYY-MM-DD), use parseISO to convert it to a Date object
+    const birthDate = parseISO(birthdate);
+    // Use the current date as the second parameter
+    const currentDate = new Date();
+
+    // Calculate the difference in years
+    return differenceInYears(currentDate, birthDate);
+
+}

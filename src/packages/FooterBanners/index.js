@@ -31,12 +31,14 @@ const FooterBanners = ({ className = "", type = "row" }) => {
         <div className={className}>
             <div className={`${styles.footerBannerContainer} ${styles[type]}`}>
                 <Banner
+                    className={styles.footerBanner1}
                     icon={GlassesIcon}
                     text="For the latest resources and news for integrity visit the"
                     link="/learning-center"
                     linkText="Knowledge Center"
                 />
                 <Banner
+                    className={styles.footerBanner2}
                     icon={HeadsetIcon}
                     text="Need help? Visit the help center for 24/7 professional"
                     link="/help"
@@ -57,8 +59,8 @@ FooterBanners.defaultProps = {
     type: "row",
 };
 
-const Banner = ({ icon, text, link, linkText }) => (
-    <div className={styles.footerBanner}>
+const Banner = ({ icon, text, link, linkText, className }) => (
+    <div className={className}>
         <StyledIcon>
             <img alt={`${linkText} Icon`} className={styles.icon} src={icon} />
         </StyledIcon>
