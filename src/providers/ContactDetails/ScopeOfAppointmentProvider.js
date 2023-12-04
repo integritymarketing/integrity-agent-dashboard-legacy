@@ -11,7 +11,6 @@ export const ScopeOfAppointmentProvider = ({ children }) => {
     const { Get: fetchSoaList, loading: isSoaListLoading, error: soaListError } = useFetch(URL);
     const { Get: fetchSoaByLinkCode, loading: isLoadingSoaByLinkCodeLoading, error: soaByLinkCodeError, Post: editSoaByLinkCode } = useFetch(URL);
 
-
     const [soaList, setSoaList] = useState([]);
     const [soaByLinkcode, setSoaByLinkcode] = useState({});
     const [linkCode, setLinkCode] = useState(null);
@@ -25,17 +24,14 @@ export const ScopeOfAppointmentProvider = ({ children }) => {
         [fetchSoaList]
     );
 
-
     const getSoaByLinkCode = useCallback(
         async (linkCode) => {
             const path = `Soa/${linkCode}`;
             const data = await fetchSoaByLinkCode(null, false, path);
-            setSoaByLinkcode(data || {}); // TODO
+            setSoaByLinkcode(data || {});
         },
         [fetchSoaByLinkCode]
     );
-
-
 
     const updateSoaByLinkCode = async (payload, linkCode, callback) => {
         const path = `Soa/${linkCode}`;
@@ -56,7 +52,6 @@ export const ScopeOfAppointmentProvider = ({ children }) => {
                 })
         );
     };
-
 
     const contextValue = useMemo(
         () => ({
@@ -87,11 +82,7 @@ export const ScopeOfAppointmentProvider = ({ children }) => {
         ]
     );
 
-
-
     return <ScopeOfAppointmentContext.Provider value={contextValue}>{children}</ScopeOfAppointmentContext.Provider>;
-
-
 };
 
 ScopeOfAppointmentProvider.propTypes = {

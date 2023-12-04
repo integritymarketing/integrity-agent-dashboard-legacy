@@ -10,9 +10,7 @@ import { getLocalDateTime } from 'utils/dates';
 
 export const SOASignedView = ({ onView, soa }) => {
     const { statusDate, signedDate, linkCode } = soa;
-
     const [isMobile, setIsMobile] = useState(false);
-
 
     const Column = ({ style, label, data, subdata, dataStyle }) => (
         <div className={`${styles.boxColumn} ${style}`}>
@@ -21,7 +19,6 @@ export const SOASignedView = ({ onView, soa }) => {
             {subdata && <div className={styles.columnText}>{subdata}</div>}
         </div >
     );
-
 
     return (
         <>

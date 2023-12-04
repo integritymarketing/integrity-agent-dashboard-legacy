@@ -7,7 +7,6 @@ import LifeIcon from 'components/icons/lifeIcon';
 import styles from './styles.module.scss';
 
 const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }) => {
-  debugger
   const navigate = useNavigate();
 
   const handleHealthPlanClick = () => {

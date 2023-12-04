@@ -36,8 +36,6 @@ export const ScopeOfAppointmentContainer = () => {
         navigate(`/newContact/${leadId}/${COMPLETE_SCOPE_OF_APPOINTMENT}`);
     }, [setLinkCode, setSelectedTab]);
 
-
-
     const handleView = useCallback((linkCode) => {
         setLinkCode(linkCode);
         setSelectedTab(VIEW_SCOPE_OF_APPOINTMENT);

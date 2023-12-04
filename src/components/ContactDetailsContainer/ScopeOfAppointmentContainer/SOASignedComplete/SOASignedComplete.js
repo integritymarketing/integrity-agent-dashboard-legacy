@@ -8,11 +8,8 @@ import Media from 'react-media';
 import { getLocalDateTime, getHoursDiffBetweenTwoDays } from 'utils/dates';
 
 export const SOASignedComplete = ({ onComplete, soa }) => {
-
     const { statusDate, signedDate, contactAfterDate, isTracking48HourRule } = soa;
-
     const [isMobile, setIsMobile] = useState(false);
-
     const productsToDiscuss = soa?.soa?.leadSection?.products ?? [];
 
     const isEarlierThanCurrentDate = (contactAfterDate) =>

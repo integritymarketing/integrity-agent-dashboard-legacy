@@ -18,7 +18,6 @@ export const SOAConfirmationForm = () => {
     const [leadSection, setLeadSection] = useState(null);
     const [agentSection, setAgentSection] = useState(null);
 
-
     const handleView = useCallback(() => {
         setSelectedTab(VIEW_SCOPE_OF_APPOINTMENT);
     }, [setSelectedTab]);
@@ -37,8 +36,6 @@ export const SOAConfirmationForm = () => {
         setAgentSection(soaByLinkcode?.agentSection);
     }
         , [soaByLinkcode])
-
-
 
     const handleSubmit = (data) => {
         const payload = {
