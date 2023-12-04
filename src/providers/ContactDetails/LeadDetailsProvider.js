@@ -55,11 +55,13 @@ export const LeadDetailsProvider = ({ children }) => {
 
 
 
-    const removeContact = async (leadId) => {
+    const removeContact = async (leadId, callBack) => {
         await performAsyncOperation(
             () => deleteContact(null, false, leadId),
             setLeadDetailsloading,
-            () => { },
+            () => {
+                callBack();
+            },
             (err) =>
                 showToast({
                     type: "error",

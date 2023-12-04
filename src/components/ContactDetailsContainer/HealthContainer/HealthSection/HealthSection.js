@@ -115,6 +115,10 @@ const HealthDetailsSection = () => {
         setProviderToEdit(provider);
     };
 
+    const onDeletePharmacy = (pharmacy) => {
+        deletePharmacy(pharmacy, null, leadId);
+    }
+
     return (
         <>
             <Media
@@ -164,7 +168,7 @@ const HealthDetailsSection = () => {
                         onAddClick={onAddNewPharmacy}
                         items={pharmacies}
                         Row={PharamaciesRow}
-                        onDelete={deletePharmacy}
+                        onDelete={onDeletePharmacy}
                         isLoading={pharmacyLoading}
                     />
                 </div>

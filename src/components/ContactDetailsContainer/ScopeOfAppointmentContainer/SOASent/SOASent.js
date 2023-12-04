@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { getLocalDateTime } from 'utils/dates';
 
 export const SOASent = ({ soa }) => {
-    const { statusDate, mailId = "" } = soa;
+    const { statusDate, soaDestination = "" } = soa;
     const [isMobile, setIsMobile] = useState(false);
     return (
         <>
@@ -26,7 +26,7 @@ export const SOASent = ({ soa }) => {
                     </div>
                     <div className={`${styles.boxColumn} ${styles.width70}`}>
                         <div className={styles.columnLabel}>Products to Discuss</div>
-                        <div className={styles.productsContainer}>{SOA_SENT_TO}<span>{mailId}</span>
+                        <div className={styles.productsContainer}>{SOA_SENT_TO}<span>{soaDestination}</span>
                         </div>
                     </div>
                 </div >

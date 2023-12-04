@@ -17,6 +17,7 @@ import { RemindersContainer } from "./RemindersContainer/RemindersContainer";
 import { StageContainer } from "./StageContainer/StageContainer";
 import TagsContainer from "./TagsContainer/TagsContainer";
 
+
 const NOT_AVAILABLE = "N/A";
 export const OverviewContainer = () => {
     const { leadDetails } = useLeadDetails();
@@ -28,6 +29,8 @@ export const OverviewContainer = () => {
     const leadCreatedDate = useMemo(() => {
         return createDate ? formatDate(createDate, "MM-dd-yyyy") : NOT_AVAILABLE;
     }, [leadDetails]);
+
+
 
     return (
         <Box>
@@ -63,6 +66,7 @@ export const OverviewContainer = () => {
                     </Box>
                 </Grid>
             </Grid>
+
             {deleteModalStatus && (
                 <DeleteContactModal
                     leadId={leadsId}

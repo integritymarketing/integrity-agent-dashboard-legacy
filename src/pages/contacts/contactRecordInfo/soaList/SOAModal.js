@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "components/Modal";
 import NewScopeOfAppointment from "../newScopeOfAppointment";
 
-function SOAModal({ id, openSOAModal, setOpenSOAModal }) {
+function SOAModal({ id, openSOAModal, setOpenSOAModal, refreshSOAList }) {
   return (
     <Modal
       open={openSOAModal}
@@ -18,6 +18,7 @@ function SOAModal({ id, openSOAModal, setOpenSOAModal }) {
         onCloseModal={() => {
           setOpenSOAModal(false);
         }}
+        refreshSOAList={refreshSOAList}
       />
     </Modal>
   );

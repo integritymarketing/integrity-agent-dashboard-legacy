@@ -66,18 +66,18 @@ export const OverViewProvider = ({ children }) => {
 
     const editReminder = async (payload) => {
         await performAsyncOperation(
-            () => updateReminder(payload, false, payload?.leadsId),
+            () => updateReminder(payload, false, payload?.reminderId),
             setReminderLoading,
             async () => {
                 await getReminders(payload?.leadsId);
                 showToast({
-                    message: `Reminder deleted successfully`,
+                    message: `Reminder updated successfully`,
                 });
             },
             (err) =>
                 showToast({
                     type: "error",
-                    message: `Failed to delete reminders`,
+                    message: `Failed to update reminders`,
                 })
         );
     };

@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import Label from '../CommonComponents/Label'
 import SectionContainer from '../CommonComponents/SectionContainer'
 import styles from './ContactInfoContainer.module.scss'
-import { Favorite } from '../Icons'
+import { EditWithIcon, Favorite } from '../Icons'
 import { useLeadDetails } from "providers/ContactDetails";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
+import ContactInfoForm from './ContactInfoForm'
 
 
 const calculateAge = (birthdate) => {
@@ -22,6 +23,7 @@ const calculateAge = (birthdate) => {
 
 const NOT_AVAILABLE = "-";
 export const ContactInfoContainer = () => {
+    const [isEditMode, setIsEditMode] = useState(false)
     const { leadDetails, } = useLeadDetails();
 
     let {
@@ -36,6 +38,7 @@ export const ContactInfoContainer = () => {
         medicareBeneficiaryID,
         partA,
         partB,
+        hasMedicAid
     } = leadDetails;
 
     let phonesData = phones?.filter((phone) => {
@@ -55,8 +58,12 @@ export const ContactInfoContainer = () => {
         return emails?.length > 0 ? emails?.[0]?.leadEmail : NOT_AVAILABLE;
     }, [emails]);
 
-    const leadAddress = useMemo(() => {
+    const leadAddress1 = useMemo(() => {
         return addresses?.length > 0 ? addresses?.[0]?.address1 : NOT_AVAILABLE;
+    }, [addresses]);
+
+    const leadAddress2 = useMemo(() => {
+        return addresses?.length > 0 ? addresses?.[0]?.address2 : NOT_AVAILABLE;
     }, [addresses]);
 
     const leadCity = useMemo(() => {
@@ -99,77 +106,104 @@ export const ContactInfoContainer = () => {
         return contactPreferences?.primary ? contactPreferences?.primary : "phone";
     }, [contactPreferences]);
 
+    const leadData = {
+        firstName,
+        middleName,
+        lastName,
+        birthdate,
+        leadPhone,
+        leadEmail,
+        leadAddress1,
+        leadAddress2,
+        leadCity,
+        leadState,
+        leadZip,
+        leadMBID,
+        leadPartA,
+        leadPartB,
+        leadAge,
+        leadBirthdate,
+        leadCounty,
+        isPrimary,
+        hasMedicAid
+    }
 
     return <div>
-        <Label value="Contact Details" />
-        <SectionContainer>
-            <Label value="Full Name" color="#717171" size="14px" />
-            <Label value={leadName} color="#052A63" size="20px" />
-        </SectionContainer>
-        <div className={styles.miniContainer}>
-            <SectionContainer>
-                <Label value="Birthdate" color="#717171" size="14px" />
-                <Label value={leadBirthdate} color="#052A63" size="20px" />
-            </SectionContainer>
-            <SectionContainer>
-                <Label value="Age" color="#717171" size="14px" />
-                <Label value={leadAge} color="#052A63" size="20px" />
-            </SectionContainer>
+        <div className={`${styles.horizontalLayout} ${styles.gap}`}>
+            <Label value={isEditMode ? "Edit Contact Details" : "Contact Details"} />
+            {!isEditMode && <div className={styles.editIcon} onClick={() => {
+                setIsEditMode(true)
+            }}>
+                <EditWithIcon />
+            </div>}
         </div>
-        <SectionContainer>
-            <Label value="Email" color="#717171" size="14px" />
-            <div className={styles.horizontalLayout}>
-                <Label value={leadEmail} color="#4178FF" size="16px" />
-
-                {isPrimary === "email" && <Favorite />}
+        {isEditMode && leadDetails && <ContactInfoForm leadDetails={leadData} />}
+        {!isEditMode && <div>
+            <SectionContainer>
+                <Label value="Full Name" color="#717171" size="14px" />
+                <Label value={leadName} color="#052A63" size="20px" />
+            </SectionContainer>
+            <div className={styles.miniContainer}>
+                <SectionContainer>
+                    <Label value="Birthdate" color="#717171" size="14px" />
+                    <Label value={leadBirthdate} color="#052A63" size="20px" />
+                </SectionContainer>
+                <SectionContainer>
+                    <Label value="Age" color="#717171" size="14px" />
+                    <Label value={leadAge} color="#052A63" size="20px" />
+                </SectionContainer>
             </div>
-        </SectionContainer>
-        <SectionContainer >
-            <Label value="Phone" color="#717171" size="14px" />
-            <div className={`${styles.horizontalLayout}   ${styles.gap}`} >
+            <SectionContainer>
+                <Label value="Email" color="#717171" size="14px" />
                 <div className={styles.horizontalLayout}>
-                    <Label value="Home:" color="#052A63" size="16px" />
-                    <Label value={leadPhone} color="#4178FF" size="16px" />
+                    <Label value={leadEmail} color="#4178FF" size="16px" />
+
+                    {isPrimary === "email" && <Favorite />}
                 </div>
-                {isPrimary === "phone" && <Favorite />}
-            </div>
-            {/* ${styles.border}  Add this on main div, when using below element*/}
-            {/* <div className={styles.horizontalLayout}>
+            </SectionContainer>
+            <SectionContainer >
+                <Label value="Phone" color="#717171" size="14px" />
+                <div className={`${styles.horizontalLayout}   ${styles.gap}`} >
+                    <div className={styles.horizontalLayout}>
+                        <Label value="Home:" color="#052A63" size="16px" />
+                        <Label value={leadPhone} color="#4178FF" size="16px" />
+                    </div>
+                    {isPrimary === "phone" && <Favorite />}
+                </div>
+                {/* ${styles.border}  Add this on main div, when using below element*/}
+                {/* <div className={styles.horizontalLayout}>
                 <Label value="Cell:" color="#052A63" size="16px" />
                 <Label value="702-555-8546" color="#4178FF" size="16px" />
             </div> */}
-        </SectionContainer>
-
-        <SectionContainer >
-            <Label value="Address" color="#717171" size="14px" />
-            <Label value={leadAddress} color="#4178FF" size="16px" />
-            <Label value={`${leadCity} ${leadState} ${leadZip}`} color="#4178FF" size="16px" />
-            <div className={styles.horizontalLayout}>
-                <Label value="County:" color="#052A63" size="16px" />
-                <Label value={leadCounty} color="#717171" size="16px" />
-            </div>
-        </SectionContainer>
-
-        <SectionContainer >
-            <Label value="Medicare Beneficiary Identifier (MBIs)" color="#717171" size="14px" />
-            <Label value={leadMBID} color="#052A63" size="16px" />
-            <div className={`${styles.horizontalLayout} ${styles.gap}`} >
-                <div>
-                    <Label value="Part A start date" color="#717171" size="14px" />
-                    <Label value={leadPartA} color="#052A63" size="16px" />
+            </SectionContainer>
+            <SectionContainer >
+                <Label value="Address" color="#717171" size="14px" />
+                <Label value={leadAddress1} color="#4178FF" size="16px" />
+                <Label value={`${leadCity} ${leadState} ${leadZip}`} color="#4178FF" size="16px" />
+                <div className={styles.horizontalLayout}>
+                    <Label value="County:" color="#052A63" size="16px" />
+                    <Label value={leadCounty} color="#717171" size="16px" />
                 </div>
-                <div>
-                    <Label value="Part B start date" color="#717171" size="14px" />
-                    <Label value={leadPartB} color="#052A63" size="16px" />
+            </SectionContainer>
+            <SectionContainer >
+                <Label value="Medicare Beneficiary Identifier (MBIs)" color="#717171" size="14px" />
+                <Label value={leadMBID} color="#052A63" size="16px" />
+                <div className={`${styles.horizontalLayout} ${styles.gap}`} >
+                    <div>
+                        <Label value="Part A start date" color="#717171" size="14px" />
+                        <Label value={leadPartA} color="#052A63" size="16px" />
+                    </div>
+                    <div>
+                        <Label value="Part B start date" color="#717171" size="14px" />
+                        <Label value={leadPartB} color="#052A63" size="16px" />
+                    </div>
                 </div>
-            </div>
-        </SectionContainer>
-
-        <SectionContainer >
-            <Label value="Medicaid" color="#717171" size="14px" />
-            <Label value="No" color="#052A63" size="16px" />
-        </SectionContainer>
-
+            </SectionContainer>
+            <SectionContainer >
+                <Label value="Medicaid" color="#717171" size="14px" />
+                <Label value="No" color="#052A63" size="16px" />
+            </SectionContainer>
+        </div>
+        }
     </div>
 }
-

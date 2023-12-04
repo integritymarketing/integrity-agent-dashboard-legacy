@@ -11,6 +11,7 @@ import { Info, Share } from "./Icons";
 import { useScopeOfAppointment } from 'providers/ContactDetails/ContactDetailsContext';
 import WithLoader from "components/ui/WithLoader";
 import { useLeadDetails } from "providers/ContactDetails";
+import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
 
 import styles from './ScopeOfAppointmentContainer.module.scss';
 
@@ -20,6 +21,7 @@ export const ScopeOfAppointmentContainer = () => {
     const navigate = useNavigate();
     const { setSelectedTab } = useLeadDetails();
     const [isMobile, setIsMobile] = useState(false);
+    const [openSOAModal, setOpenSOAModal] = useState(false);
     const { getSoaList, soaList = [], isSoaListLoading, setLinkCode } = useScopeOfAppointment();
 
     useEffect(() => {
@@ -62,18 +64,28 @@ export const ScopeOfAppointmentContainer = () => {
                     <div className={styles.soaTitle}>{SCOPES_OF_APPOINTMENT}</div>
                     <Info className={styles.infoStyle} />
                 </div>
-                <div className={styles.titleWrapper}>
-                    <div className={styles.sendStyle}>{SEND_NEW}</div>
+                <div className={styles.titleWrapper} onClick={() => setOpenSOAModal(true)}>
+                    <div className={styles.sendStyle} >{SEND_NEW}</div>
                     <Share className={styles.infoStyle} />
                 </div>
             </div>
-            {soaList && soaList?.map((soa, index) => {
+            {[] && []?.length > 0 ? []?.map((soa, index) => {
                 return (
                     <div key={`SOA_LIST-${index}`}>
                         {renderSOACard(soa)}
                     </div>
                 )
-            })}
+            }) :
+
+                <div className={styles.noSOA}>
+                    <div className={styles.noSOAText} >This contact has no Scope Of Appointments.</div>
+                    <div className={styles.titleWrapper} onClick={() => setOpenSOAModal(true)}>
+                        <div className={styles.sendStyle} >{SEND_NEW}</div>
+                        <Share className={styles.infoStyle} />
+                    </div>
+
+                </div>
+            }
 
         </>
     );
@@ -89,6 +101,13 @@ export const ScopeOfAppointmentContainer = () => {
                 }}
             />
             <SOAContainer>{renderScopeOfAppointments()} </SOAContainer>
+
+            <SOAModal
+                id={leadId}
+                openSOAModal={openSOAModal}
+                setOpenSOAModal={setOpenSOAModal}
+                refreshSOAList={getSoaList}
+            />
         </WithLoader>
     )
 

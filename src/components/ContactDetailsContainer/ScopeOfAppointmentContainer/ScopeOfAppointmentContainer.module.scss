@@ -3,34 +3,55 @@
         align-items: center;
         justify-content: space-between;
 
-        .titleWrapper {
-            display: flex;
-            align-items: center;
-
-            svg {
-                position: relative;
-                top: 5px;
-            }
-
-            .soaTitle {
-                color: #052A63;
-                font-size: 24px;
-                padding-right: 5px;
-            }
-
-            .infoStyle {
-                position: relative;
-                top: 2px;
-            }
-
-            .sendStyle {
-                font-size: 14px;
-                color: #4178FF
-            }
-        }
     }
 
     .columnView {
         flex-direction: column;
     }
 
+
+.noSOA{
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.noSOAText{
+    font-size: 16px;
+    color: #000000;
+    margin-right: 10px;
+}
+
+
+.titleWrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    svg {
+        position: relative;
+     }
+
+
+}
+
+.soaTitle {
+    color: #052A63;
+    font-size: 24px;
+    padding-right: 5px;
+}
+
+.infoStyle {
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+}
+
+.sendStyle {
+    font-size: 14px;
+    color: #4178FF;
+    cursor: pointer;
+}

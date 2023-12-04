@@ -132,7 +132,8 @@ button {
   }
 
   &:hover {
-    border-radius: 20px;
-    box-shadow: inset 0px -1px 0px #dddddd;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    color: #1357FF !important
   }
 }

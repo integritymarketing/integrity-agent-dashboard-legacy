@@ -6,15 +6,15 @@ const useStyles = makeStyles((theme) => ({
   addButton: {
     color: "#4178FF",
     fontSize: "14px",
-    fontWeight: "600",
-    height: "40px",
+    fontWeight: "500",
     textTransform: "unset !important",
-    padding: "6px 15px",
+    padding: "5px 20px !important",
     cursor: "pointer",
+    borderRadius: "8px !important",
     "&:hover": {
-      borderRadius: "20px",
-      boxShadow: "0px 0px 0px 1px #CCCCCC",
-      backgroundColor: "#FFFFFF",
+      backgroundColor: "#FFFFFF 0% 0 % no - repeat padding- box",
+      boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.2)",
+      color: "#1357FF !important",
     },
     "&.Mui-disabled": {
       color: "#4178FF",

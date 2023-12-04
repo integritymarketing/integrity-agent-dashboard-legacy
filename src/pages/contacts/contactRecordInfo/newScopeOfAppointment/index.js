@@ -43,7 +43,7 @@ export const __formatPhoneNumber = (phoneNumberString) => {
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
+const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
   const [isSending, setIsSending] = useState(false);
   const showToast = useToast();
   const { newSoaContactDetails, setNewSoaContactDetails } =
@@ -164,6 +164,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
       showToast({
         message: "Scope of Appointment sent",
       });
+      refreshSOAList && refreshSOAList(leadId);
       analyticsService.fireEvent("event-form-submit-valid", {
         formName: "New Scope Appointment",
       });
@@ -214,9 +215,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                       <Radio
                         id="email"
                         htmlFor="email"
-                        className={`${
-                          selectOption === "email" ? "highlight " : ""
-                        } pb-10 radio-label`}
+                        className={`${selectOption === "email" ? "highlight " : ""
+                          } pb-10 radio-label`}
                         label={getRadioElement("Email", leadEmail)}
                         name="new-soa"
                         value="email"
@@ -230,9 +230,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                       <Radio
                         id="textMessage"
                         htmlFor="textMessage"
-                        className={`${
-                          selectOption === "textMessage" ? "highlight " : ""
-                        } pb-10 radio-label`}
+                        className={`${selectOption === "textMessage" ? "highlight " : ""
+                          } pb-10 radio-label`}
                         label={getRadioElement(
                           "Text Message",
                           __formatPhoneNumber(leadPhone)
@@ -248,9 +247,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                     <Radio
                       id="newEmailOrMobile"
                       htmlFor="newEmailOrMobile"
-                      className={`${
-                        selectOption === "newEmailOrMObile" ? "highlight " : ""
-                      } pb-10 radio-label`}
+                      className={`${selectOption === "newEmailOrMObile" ? "highlight " : ""
+                        } pb-10 radio-label`}
                       label={
                         disableTextMessage
                           ? "New Email"
@@ -296,11 +294,10 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
                             placeholder="XXX-XXX-XXXX"
                             value={formattedMobile}
                             maxLength="10"
-                            className={`${
-                              mobile.length !== 10 && mobile.length !== 0
-                                ? "error-class"
-                                : ""
-                            } text-input`}
+                            className={`${mobile.length !== 10 && mobile.length !== 0
+                              ? "error-class"
+                              : ""
+                              } text-input`}
                             onChange={(e) => {
                               setFormattedMobile(
                                 formatPhoneNumber(
@@ -329,9 +326,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal }) => {
               </div>
               <Button
                 label="Send SOA"
-                className={`${
-                  idFormNotValid || isSending ? "disabledSoaBtn" : ""
-                }`}
+                className={`${idFormNotValid || isSending ? "disabledSoaBtn" : ""
+                  }`}
                 icon={
                   <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
                     <ArrowForwardWithCircle />

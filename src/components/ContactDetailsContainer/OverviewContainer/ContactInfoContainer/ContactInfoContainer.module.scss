@@ -9,10 +9,15 @@
     align-items: center;
 }
 
+
 .border {
     border-bottom: 1px solid #ddd;
 }
 
 .gap {
     justify-content: space-between;
+}
+
+.editIcon {
+    cursor: pointer
 }

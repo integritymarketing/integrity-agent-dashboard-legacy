@@ -5,3 +5,4 @@ export * from "./reminder";
 export * from "./chevron";
 export * from "./info";
 export * from "./favorite"
+export * from "./editWithIcon"

@@ -1,16 +1,26 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
+import { useEffect, useContext, useCallback } from "react";
 import { useRowSelect, useSortBy, useTable } from "react-table";
+import { useNavigate } from "react-router-dom";
+import useToast from "hooks/useToast";
 
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
+import DeleteLeadContext from "contexts/deleteLead";
+import clientsService from "services/clientsService";
+
 
 import styles from "./styles.module.scss";
 
 import { TableBody } from "../TableBody";
 import { TableHeader } from "../TableHeader";
 
+
 function Table({ columns }) {
     const { setSelectedContacts, tableData } = useContactsListContext();
+    const showToast = useToast();
+    const navigate = useNavigate();
+
+    const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
 
     const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows } = useTable(
         {
@@ -24,6 +34,48 @@ function Table({ columns }) {
     useEffect(() => {
         setSelectedContacts(selectedFlatRows.map((contact) => contact.original.leadsId));
     }, [selectedFlatRows, setSelectedContacts]);
+
+
+
+    const deleteContact = useCallback(() => {
+        if (deleteLeadId !== null) {
+            const clearTimer = () =>
+                setTimeout(() => {
+                    clearContext();
+                }, 10000);
+            clearTimer();
+            const clearContext = () => {
+                setDeleteLeadId(null);
+                setLeadName(null);
+            };
+            const unDODelete = async () => {
+                const response = await clientsService.reActivateClients([deleteLeadId]);
+                if (response.ok) {
+                    clearContext();
+                    navigate(`/newContact/${deleteLeadId}/overview`);
+                } else if (response.status === 400) {
+                    showToast({
+                        type: "error",
+                        message: "Error while reactivating contact",
+                    });
+                }
+            };
+
+            showToast({
+                type: "success",
+                message: `${leadName} Deleted`,
+                time: 10000,
+                link: "UNDO",
+                onClickHandler: unDODelete,
+                closeToastRequired: true,
+                onCloseCallback: clearContext,
+            });
+        }
+    }, [deleteLeadId, showToast, leadName, setDeleteLeadId, setLeadName, navigate]);
+
+    useEffect(() => {
+        deleteContact();
+    }, [deleteLeadId, deleteContact]);
 
     return (
         <table className={styles.customTable} {...getTableProps()}>

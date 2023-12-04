@@ -47,7 +47,7 @@ export const RemindersList = () => {
 
 
     const deleteReminder = (id) => {
-        removeReminder(id);
+        removeReminder(id, leadId);
     }
 
 

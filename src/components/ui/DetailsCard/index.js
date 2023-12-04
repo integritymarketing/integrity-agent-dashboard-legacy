@@ -44,18 +44,17 @@ function DetailsCard({
       className={"enrollmentPlanContainer_detailsPage"}
       isDashboard
       contentClassName={"enrollmentPlanContainer_detailsPage_content"}
-
       actions={
         onAddClick && (
           <div className="actions">
             <Button
               icon={<Plus disabled={disableStatus} />}
               disabled={disableStatus}
-              iconPosition="left"
+              iconPosition="right"
               label={buttonLabel}
               onClick={onAddClick}
               type="tertiary"
-              style={{ whiteSpace: "nowrap" }}
+              className={"buttonWithIcon"}
             />
           </div>
         )

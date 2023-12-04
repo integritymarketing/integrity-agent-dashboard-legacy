@@ -19,11 +19,15 @@ export const DeleteContactModal = ({
     const { setDeleteLeadId, setLeadName } = useContext(DeleteLeadContext);
     const navigate = useNavigate();
 
-    const deleteLead = async () => {
-        await removeContact(leadId);
+    const callBack = () => {
         setDeleteLeadId(leadId);
         setLeadName(leadName);
         navigate("/contacts-list");
+    }
+
+
+    const deleteLead = () => {
+        removeContact(leadId, callBack);
     };
 
     return (
