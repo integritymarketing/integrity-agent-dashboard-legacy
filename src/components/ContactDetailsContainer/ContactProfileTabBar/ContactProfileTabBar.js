@@ -7,6 +7,7 @@ import { Connect, Health, Policies, Overview } from "./Icons";
 import { useLeadDetails } from "providers/ContactDetails";
 import { ConnectModal } from "../ConnectModal";
 import {toTitleCase} from "utils/toTitleCase";
+import PlansTypeModal from "components/PlansTypeModal";
 
 import styles from "./ContactProfileTabBar.module.scss";
 
@@ -21,8 +22,12 @@ export const ContactProfileTabBar = () => {
     const { leadId } = useParams();
     const navigate = useNavigate();
     const { leadDetails, selectedTab, setSelectedTab } = useLeadDetails();
+    const location = useLocation();
+    const currentPath = location.pathname;
     const [connectModalVisible, setConnectModalVisible] = useState(false);
+    const [showPlanTypeModal, setShowPlanTypeModal] = useState(false);
 
+    const isContactDetailsPage = currentPath?.toLowerCase().includes('contact');
     const leadName = leadDetails?.firstName && leadDetails?.lastName ? `${leadDetails?.firstName} ${leadDetails?.lastName}` : "Lead Name here ...";
 
     const handleSectionChange = useCallback(
@@ -40,6 +45,14 @@ export const ContactProfileTabBar = () => {
             navigate("/contacts");
         }
     }, [navigate, location.state]);
+
+    const handleCloseShowPlanTypeModal = useCallback(() => {
+        setShowPlanTypeModal(false);
+    }, []);
+
+    const handleStartQuote = useCallback(() => {
+        setShowPlanTypeModal(true);
+    }, []);
 
     const renderTab = ({ name, section, icon, modalTrigger }) => (
         <Box
@@ -67,7 +80,9 @@ export const ContactProfileTabBar = () => {
             <Box className={styles.profileMenu}>
                 <h1 className={styles.userName}>{toTitleCase(leadName)}</h1>
                 <div className={styles.profileTabs}>{tabs.map(renderTab)}</div>
-                <Button label="Start a Quote" type="primary" className={styles.quoteButton} />
+                {isContactDetailsPage &&
+                    <Button onClick={handleStartQuote} label="Start a Quote" type="primary" className={styles.quoteButton} />
+                }
             </Box>
             {connectModalVisible && (
                 <ConnectModal
@@ -77,6 +92,7 @@ export const ContactProfileTabBar = () => {
                     leadDetails={leadDetails}
                 />
             )}
+            <PlansTypeModal showPlanTypeModal={showPlanTypeModal} handleModalClose={handleCloseShowPlanTypeModal} leadId={leadId} />
         </nav>
     );
 };
