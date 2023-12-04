@@ -1,0 +1,29 @@
+.outerContainer {
+    @media (min-width: 1024px) {
+        min-width: 1000px;
+    }
+}
+
+.innerContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @media (min-width: 1024px) {
+        flex-direction: row;
+        min-width: 1000px;
+        gap: 24px;
+    }
+
+    .leftSection {
+        @media (min-width: 1024px) {
+            width: 30%;
+        }
+    }
+
+    .rightSection {
+        @media (min-width: 1024px) {
+            width: 70%;
+        }
+    }
+}

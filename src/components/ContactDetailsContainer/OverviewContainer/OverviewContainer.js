@@ -13,10 +13,10 @@ import { ActivitiesTableContainer } from "./ActivitiesContainer/ActivitiesTableC
 import { ClientNotes } from "./ClientNotesContainer/ClientNotes";
 import Label from "./CommonComponents/Label";
 import { ContactInfoContainer } from "./ContactInfoContainer/ContactInfoContainer";
+import styles from "./OverviewContainer.module.scss";
 import { RemindersContainer } from "./RemindersContainer/RemindersContainer";
 import { StageContainer } from "./StageContainer/StageContainer";
 import TagsContainer from "./TagsContainer/TagsContainer";
-
 
 const NOT_AVAILABLE = "N/A";
 export const OverviewContainer = () => {
@@ -30,12 +30,10 @@ export const OverviewContainer = () => {
         return createDate ? formatDate(createDate, "MM-dd-yyyy") : NOT_AVAILABLE;
     }, [leadDetails]);
 
-
-
     return (
         <Box>
-            <Grid container>
-                <Grid item xs={5} sm={3}>
+            <Box className={styles.innerContainer}>
+                <Box className={styles.leftSection}>
                     <StageContainer />
                     <TagsContainer />
                     <ContactInfoContainer />
@@ -56,16 +54,15 @@ export const OverviewContainer = () => {
                             Delete Contact
                         </Box>
                     </Box>
-                </Grid>
-                <Grid item xs={1} sm={1}/>
-                <Grid item xs={6} sm={8}>
-                    <Box sx={{minWidth: "400px"}}>
+                </Box>
+                <Box className={styles.rightSection}>
+                    <Box>
                         <RemindersContainer />
                         <ActivitiesTableContainer />
                         <ClientNotes />
                     </Box>
-                </Grid>
-            </Grid>
+                </Box>
+            </Box>
 
             {deleteModalStatus && (
                 <DeleteContactModal
