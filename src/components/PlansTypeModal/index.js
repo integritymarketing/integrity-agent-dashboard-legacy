@@ -1,21 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import Modal from 'components/Modal';
 import HealthIcon from 'components/icons/healthIcon';
 import LifeIcon from 'components/icons/lifeIcon';
 import styles from './styles.module.scss';
 
-const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId }) => {
+const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }) => {
+  debugger
   const navigate = useNavigate();
 
   const handleHealthPlanClick = () => {
-    navigate(`/plans/${leadId}`);
-  }
+    if (zipcode) {
+      navigate(`/plans/${leadId}`);
+    } else {
+      navigate(`/contact/${leadId}/addZip`);
+    }
+  };
 
   const handleFinalExpensePlanClick = () => {
-    navigate(`/final-expense-plans/${leadId}`);
-  }
+    if (zipcode) {
+      navigate(`/final-expense-plans/${leadId}`);
+    } else {
+      navigate(`/contact/${leadId}/addZip`);
+    }
+  };
 
   return (
     <Modal
@@ -46,6 +55,7 @@ PlansTypeModal.propTypes = {
   showPlanTypeModal: PropTypes.bool.isRequired, // Determines if the modal is open
   handleModalClose: PropTypes.func.isRequired, // Function to call when closing the modal
   leadId: PropTypes.number.isRequired, // Lead ID for navigation
+  zipcode: PropTypes.string.isRequired, // zip code value
 };
 
 export default PlansTypeModal;

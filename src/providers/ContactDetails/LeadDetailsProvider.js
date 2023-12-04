@@ -22,7 +22,6 @@ export const LeadDetailsProvider = ({ children }) => {
 
     const { Get: fetchLeadDetails, loading: isLoadingLeadDetails, error: leadDetailsError, Put: editLeadDetails, Delete: deleteContact } = useFetch(leadsApiUrl);
 
-
     const showToast = useToast();
 
     // selectedTab  state can be one of ["overview", "scopeOfAppointment", "policies", "health"]
@@ -145,8 +144,6 @@ export const LeadDetailsProvider = ({ children }) => {
                 })
         );
     };
-
-
 
     const removeContact = async (leadId, callBack) => {
         await performAsyncOperation(

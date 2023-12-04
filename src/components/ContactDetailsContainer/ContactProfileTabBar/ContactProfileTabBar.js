@@ -92,7 +92,7 @@ export const ContactProfileTabBar = () => {
                     leadDetails={leadDetails}
                 />
             )}
-            <PlansTypeModal showPlanTypeModal={showPlanTypeModal} handleModalClose={handleCloseShowPlanTypeModal} leadId={leadId} />
+            <PlansTypeModal zipcode={leadDetails?.addresses[0]?.postalCode} showPlanTypeModal={showPlanTypeModal} handleModalClose={handleCloseShowPlanTypeModal} leadId={leadId} />
         </nav>
     );
 };
