@@ -47,9 +47,11 @@
         align-items: center;
         justify-content: center;
         width: 40%;
+
         @include small {
             width: 100%;
         }
+
         .userName {
             color: #052a63;
             font-size: 32px;
@@ -58,15 +60,14 @@
         .profileTabs {
             display: flex;
             width: 100%;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
             margin-top: 20px;
-            gap: 24px;
 
             .profileTab {
                 display: flex;
                 flex-direction: column;
-                width: 25%;
+                margin: 0 24px;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
