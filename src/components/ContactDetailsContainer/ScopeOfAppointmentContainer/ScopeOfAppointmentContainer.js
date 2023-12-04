@@ -69,7 +69,7 @@ export const ScopeOfAppointmentContainer = () => {
                     <Share className={styles.infoStyle} />
                 </div>
             </div>
-            {[] && []?.length > 0 ? []?.map((soa, index) => {
+            {soaList && soaList?.length > 0 ? soaList?.map((soa, index) => {
                 return (
                     <div key={`SOA_LIST-${index}`}>
                         {renderSOACard(soa)}

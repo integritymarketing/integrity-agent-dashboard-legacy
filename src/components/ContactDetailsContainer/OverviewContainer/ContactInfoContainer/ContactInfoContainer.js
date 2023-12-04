@@ -24,7 +24,7 @@ const calculateAge = (birthdate) => {
 const NOT_AVAILABLE = "-";
 export const ContactInfoContainer = () => {
     const [isEditMode, setIsEditMode] = useState(false)
-    const { leadDetails, } = useLeadDetails();
+    const { leadDetails, updateLeadDetails } = useLeadDetails();
 
     let {
         firstName = "",
@@ -38,7 +38,15 @@ export const ContactInfoContainer = () => {
         medicareBeneficiaryID,
         partA,
         partB,
-        hasMedicAid
+        hasMedicAid,
+        contactRecordType,
+        emailID,
+        leadAddressId,
+        phoneId,
+        leadStatusId,
+        leadsId,
+        notes,
+        createDate
     } = leadDetails;
 
     let phonesData = phones?.filter((phone) => {
@@ -102,9 +110,20 @@ export const ContactInfoContainer = () => {
         return addresses?.length > 0 ? addresses?.[0]?.county : NOT_AVAILABLE;
     }, [addresses]);
 
+    const leadCountyFips = useMemo(() => {
+        return addresses?.length > 0 ? addresses?.[0]?.countyFips : NOT_AVAILABLE;
+    }, [addresses]);
+
     const isPrimary = useMemo(() => {
         return contactPreferences?.primary ? contactPreferences?.primary : "phone";
     }, [contactPreferences]);
+
+
+    const leadCreatedDate = useMemo(() => {
+        return createDate ? formatDate(createDate, "MM-dd-yyyy") : NOT_AVAILABLE;
+    }, [leadDetails]);
+
+
 
     const leadData = {
         firstName,
@@ -118,14 +137,30 @@ export const ContactInfoContainer = () => {
         leadCity,
         leadState,
         leadZip,
-        leadMBID,
+        leadMBID: medicareBeneficiaryID,
         leadPartA,
         leadPartB,
         leadAge,
         leadBirthdate,
         leadCounty,
+        leadCountyFips,
         isPrimary,
-        hasMedicAid
+        hasMedicAid,
+        contactRecordType: contactRecordType?.toLowerCase(),
+        emailID,
+        leadAddressId,
+        phoneId,
+        leadStatusId,
+        leadsId,
+        notes,
+        leadCreatedDate
+    }
+
+
+
+    const editLeadDetails = (data) => {
+        updateLeadDetails(data)
+        setIsEditMode(false)
     }
 
     return <div>
@@ -137,7 +172,7 @@ export const ContactInfoContainer = () => {
                 <EditWithIcon />
             </div>}
         </div>
-        {isEditMode && leadDetails && <ContactInfoForm leadDetails={leadData} />}
+        {isEditMode && leadDetails && <ContactInfoForm leadDetails={leadData} editLeadDetails={editLeadDetails} setIsEditMode={setIsEditMode} />}
         {!isEditMode && <div>
             <SectionContainer>
                 <Label value="Full Name" color="#717171" size="14px" />

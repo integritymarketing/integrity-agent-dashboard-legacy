@@ -29,3 +29,12 @@ export const getProviderPhone = (addresses) => {
 
   return phoneNumbers[0] || "";
 };
+
+
+export const primaryContactOptions = [
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Phone" },
+];
+
+
+

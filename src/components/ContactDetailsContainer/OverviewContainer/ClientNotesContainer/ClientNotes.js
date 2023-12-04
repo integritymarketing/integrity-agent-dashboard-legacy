@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import { useParams } from "react-router-dom";
 import { useLeadDetails } from "providers/ContactDetails";
 import ContactSectionCard from "packages/ContactSectionCard";
 import { Button } from "components/ui/Button";
@@ -11,7 +10,7 @@ import styles from "./ClientNotes.module.scss";
 
 export const ClientNotes = () => {
 
-    const { leadDetails, updateLeadDetails } = useLeadDetails();
+    const { leadDetails, updateClientNotes } = useLeadDetails();
     const [notes, setNotes] = useState("");
     const [isEdit, setIsEdit] = useState(false);
 
@@ -26,7 +25,7 @@ export const ClientNotes = () => {
             primaryContact: "phone",
         }
 
-        updateLeadDetails(leadDetails, payload);
+        updateClientNotes(leadDetails, payload);
         setIsEdit(false);
     }
 

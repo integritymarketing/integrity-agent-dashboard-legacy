@@ -6,3 +6,4 @@ export * from "./chevron";
 export * from "./info";
 export * from "./favorite"
 export * from "./editWithIcon"
+export * from "./ArrowForwardWithCirlce"
