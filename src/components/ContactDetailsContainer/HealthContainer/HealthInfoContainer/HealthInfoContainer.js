@@ -26,7 +26,7 @@ const HealthInfoContainer = () => {
                 ? <EditHealthInfo
                     birthdate={birthdate}
                     sexuality={gender}
-                    wt={weight}
+                    wt={weight? weight : 0}
                     hFeet={height ? Math.floor(height / 12) : ""}
                     hInch={height ? height % 12 : ""}
                     smoker={smoker}
@@ -35,7 +35,7 @@ const HealthInfoContainer = () => {
                     onCancel={() => setIsEditHealthInfo(false)} />
                 : <ViewHealthInfo birthdate={birthdate}
                     gender={gender}
-                    weight={weight}
+                    weight={weight ? weight : ""}
                     height={height ? `${Math.floor(height / 12)}' ${height % 12}''` : ""}
                     smoker={smoker}
                     onEdit={() => setIsEditHealthInfo(true)} />

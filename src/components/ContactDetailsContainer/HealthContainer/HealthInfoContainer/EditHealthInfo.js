@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -25,7 +26,7 @@ const StyledSaveButton = styled(Button)(() => ({
 }));
 
 export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet,
-    hInch, smoker, modifyDate, updatedOn, onSave, onCancel }) => {
+    hInch, smoker, modifyDate, onSave, onCancel }) => {
 
     const [gender, setGender] = useState(sexuality);
     const [bDate, setBDate] = useState(birthdate);
@@ -33,6 +34,19 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet,
     const [inch, setInch] = useState(hInch);
     const [weight, setWeight] = useState(wt);
     const [isTobaccoUser, setIsTobaccoUser] = useState(smoker)
+    const [isModified, setIsModified] = useState(false);
+
+    useEffect(() => {
+        setIsModified(
+            sexuality !== gender || 
+            birthdate !== bDate || 
+            hFeet !== feet || 
+            hInch !== inch || 
+            wt !== weight || 
+            smoker !== isTobaccoUser
+        );
+    }, [gender, bDate, feet, inch, weight, isTobaccoUser, sexuality, birthdate, hFeet, hInch, wt, smoker]);
+    
 
     const updateFeet = (value) => {
         if (!value || value > 0 && value <= 8 && !value.includes('.')) {
@@ -42,7 +56,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet,
 
     const updateInch = (value) => {
         if (!value || value > 0 && value <= 12 && !value.includes('.')) {
-            setFeet(value)
+            setInch(value)
         }
     }
     const updateWeight = (value) => {
@@ -56,12 +70,12 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet,
         const formData = { gender, birthdate, height: +(feet * 12) + +inch, weight, isTobaccoUser: isTobaccoUser === "Yes" };
         onSave(formData);
     }
+
     const genderOptions = useMemo(() => GENDER_OPTS.map((option) => (
         <div key={option} className={`${styles.valueBox} ${option === gender ? styles.selected : ""}`} onClick={() => setGender(option)}>
             {option}
         </div>
     )), [gender]);
-
 
     const smokerOptions = useMemo(() => SMOKER_OPTS.map((option) => (
         <div key={option} className={`${styles.valueBox} ${option === isTobaccoUser ? styles.selected : ""}`} onClick={() => setIsTobaccoUser(option)}>
@@ -131,7 +145,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet,
             {/* Action Buttons */}
             <div className={styles.editCtas}>
                 <div onClick={onCancel} className={styles.cancel}>{CANCEL}</div>
-                <StyledSaveButton variant="contained" onClick={() => onSaveHealthInfo()} endIcon={<ButtonCircleArrow />}>
+                <StyledSaveButton disabled={!isModified} variant="contained" onClick={() => onSaveHealthInfo()} endIcon={<ButtonCircleArrow />}>
                     {SAVE}
                 </StyledSaveButton>
             </div>
@@ -150,7 +164,6 @@ EditHealthInfo.propTypes = {
     hFeet: PropTypes.number,
     hInch: PropTypes.number,
     smoker: PropTypes.string,
-    updatedOn: PropTypes.string,
     onSave: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired
 };
