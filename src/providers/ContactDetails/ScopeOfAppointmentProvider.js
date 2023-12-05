@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 export const ScopeOfAppointmentContext = createContext();
 
 export const ScopeOfAppointmentProvider = ({ children }) => {
-    const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`; //
+    const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`; 
 
     const { Get: fetchSoaList, loading: isSoaListLoading, error: soaListError } = useFetch(URL);
     const { Get: fetchSoaByLinkCode, loading: isLoadingSoaByLinkCodeLoading, error: soaByLinkCodeError, Post: editSoaByLinkCode } = useFetch(URL);
@@ -19,7 +19,7 @@ export const ScopeOfAppointmentProvider = ({ children }) => {
         async (leadId) => {
             const path = `lead/${leadId}/Soa`;
             const data = await fetchSoaList(null, false, path);
-            setSoaList(data || []); // TODO
+            setSoaList(data || []);
         },
         [fetchSoaList]
     );

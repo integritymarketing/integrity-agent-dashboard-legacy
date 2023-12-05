@@ -8,20 +8,10 @@ import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
 import ContactInfoForm from './ContactInfoForm'
-
-
-const calculateAge = (birthdate) => {
-    const today = new Date();
-    const birthDate = new Date(birthdate);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
-        age--;
-    return age;
-}
-
+import calculateAgeFromBirthdate from 'utils/calculateAgeFromBirthdate';
 
 const NOT_AVAILABLE = "-";
+
 export const ContactInfoContainer = () => {
     const [isEditMode, setIsEditMode] = useState(false)
     const { leadDetails, updateLeadDetails } = useLeadDetails();
@@ -99,7 +89,7 @@ export const ContactInfoContainer = () => {
     }, [partB]);
 
     const leadAge = useMemo(() => {
-        return birthdate ? calculateAge(birthdate) : NOT_AVAILABLE;
+        return birthdate ? calculateAgeFromBirthdate(birthdate) : NOT_AVAILABLE;
     }, [birthdate]);
 
     const leadBirthdate = useMemo(() => {
@@ -118,12 +108,9 @@ export const ContactInfoContainer = () => {
         return contactPreferences?.primary ? contactPreferences?.primary : "phone";
     }, [contactPreferences]);
 
-
     const leadCreatedDate = useMemo(() => {
         return createDate ? formatDate(createDate, "MM-dd-yyyy") : NOT_AVAILABLE;
     }, [leadDetails]);
-
-
 
     const leadData = {
         firstName,
@@ -155,8 +142,6 @@ export const ContactInfoContainer = () => {
         notes,
         leadCreatedDate
     }
-
-
 
     const editLeadDetails = (data) => {
         updateLeadDetails(data)
@@ -206,11 +191,6 @@ export const ContactInfoContainer = () => {
                     </div>
                     {isPrimary === "phone" && <Favorite />}
                 </div>
-                {/* ${styles.border}  Add this on main div, when using below element*/}
-                {/* <div className={styles.horizontalLayout}>
-                <Label value="Cell:" color="#052A63" size="16px" />
-                <Label value="702-555-8546" color="#4178FF" size="16px" />
-            </div> */}
             </SectionContainer>
             <SectionContainer >
                 <Label value="Address" color="#717171" size="14px" />
