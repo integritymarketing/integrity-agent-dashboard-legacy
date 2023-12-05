@@ -33,6 +33,7 @@ import FooterBanners from "packages/FooterBanners";
 import WebChatComponent from "components/WebChat/WebChat";
 import useAwaitingQueryParam from "hooks/useAwaitingQueryParam";
 import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
+import PlansTypeModal from "components/PlansTypeModal";
 
 const ContactRecordInfoDetails = () => {
     const { contactId: id, sectionId } = useParams();
@@ -52,6 +53,7 @@ const ContactRecordInfoDetails = () => {
     const navigate = useNavigate();
     const match = useMatch(`/contact/${id}/*`);
     const { isAwaiting, deleteAwaitingParam } = useAwaitingQueryParam();
+    const [openPlanType, setOpenPlanType] = useState(false);
 
     useEffect(() => {
         setCurrentPage("Contact Detail Page");
@@ -226,9 +228,20 @@ const ContactRecordInfoDetails = () => {
 
         return { all_Counties, all_States };
     }, []);
-
-    const handleViewAvailablePlans = () => {
+    const handleClickHealthPlan = () => {
+        setOpenPlanType(false);
         navigate(`/plans/${id}`);
+      };
+        const handleClickFinalExpense = () => {
+        setOpenPlanType(false);
+        navigate(`/finalexpenses/create/${id}`);
+        };
+    const handleViewAvailablePlans = () => {
+        if (process.env.REACT_APP_SHOW_FINAL_EXPENSE === "true") {
+            setOpenPlanType(true);
+          } else {
+            navigate(`/plans/${id}`);
+          }
     };
 
     const handleViewPlans = () => {
@@ -315,6 +328,14 @@ const ContactRecordInfoDetails = () => {
                     />
 
                     <div className="details-card-main">
+                    <PlansTypeModal
+                isModalOpen={openPlanType}
+                handleHealthPlanClick={handleClickHealthPlan}
+                handleFinalExpensePlanClick={handleClickFinalExpense}
+                handleModalClose={() => {
+                    setOpenPlanType(false);
+                }}
+            />
                         <Container className={styles.container}>
                             {isMobile ? (
                                 <MobileMenu

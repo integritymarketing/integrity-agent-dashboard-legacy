@@ -1,6 +1,5 @@
 import { StrictMode, lazy } from "react";
 import { Navigate } from "react-router-dom";
-
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
@@ -157,12 +156,13 @@ const appProtectedRoutes = [
         component: <PlanDetailsPage />,
     },
     {
-        path: "/final-expense-plans/:contactId",
+        path: "/finalexpenses/create/:contactId",
         component: (
             <StrictMode>
                 <FinalExpensePlansProvider>
                     <FinalExpensePlansPage />
                 </FinalExpensePlansProvider>
+                <WebChatComponent />
             </StrictMode>
         ),
     },
@@ -182,9 +182,7 @@ const appProtectedRoutes = [
     // NEW ROUTES //
     {
         path: "/newContact/:leadId/:section",
-        component: (
-            <ContactProfile />
-        ),
+        component: <ContactProfile />,
     },
     // {
     //     path: "/complete-scopeofappointment/:linkcode",

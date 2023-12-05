@@ -1,7 +1,7 @@
 import { parse, parseISO, format, differenceInDays, differenceInYears, intervalToDuration } from "date-fns";
 import moment from "moment";
-import { dateFormatter } from "./dateFormatter";
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
+import { dateFormatter } from "./dateFormatter";
 
 export const DEFAULT_EFFECTIVE_YEAR = [getNextAEPEnrollmentYear()];
 
@@ -242,8 +242,9 @@ export const callDuration = (dateLeft, dateRight) => {
     });
     let { hours, minutes, seconds } = diffTime;
 
-    return `${hours > 9 ? hours : "0" + hours}:${minutes > 9 ? minutes : "0" + minutes}:${seconds > 9 ? seconds : "0" + seconds
-        }`;
+    return `${hours > 9 ? hours : "0" + hours}:${minutes > 9 ? minutes : "0" + minutes}:${
+        seconds > 9 ? seconds : "0" + seconds
+    }`;
 };
 
 export const formattedTime = (time) => {
@@ -294,8 +295,6 @@ export const sortListByDate = (list, dateProperty, ascending = true) => {
         return ascending ? dateA - dateB : dateB - dateA;
     });
 };
-
-
 
 export const getDateTime = (dateString) => {
     if (!dateString) return null;

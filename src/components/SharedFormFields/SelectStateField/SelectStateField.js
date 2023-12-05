@@ -1,6 +1,5 @@
 import { Select } from "components/ui/Select";
 
-
 const STATES_OPTS = [
     { label: "AL", value: "AL" },
     { label: "AK", value: "AK" },
@@ -53,7 +52,15 @@ const STATES_OPTS = [
     { label: "WI", value: "WI" },
     { label: "WY", value: "WY" },
 ];
-export const SelectStateField = ({ stateLabel, className, labelClassName, value, onChange }) => {
+export const SelectStateField = ({
+    stateLabel,
+    className,
+    selectContainerClassName,
+    inputBoxClassName,
+    labelClassName,
+    value,
+    onChange,
+}) => {
     return (
         <div className={className}>
             <div className={labelClassName}>{stateLabel}</div>
@@ -61,9 +68,11 @@ export const SelectStateField = ({ stateLabel, className, labelClassName, value,
                 placeholder="Select"
                 options={STATES_OPTS}
                 initialValue={value}
+                inputBoxClassName={inputBoxClassName}
+                selectContainerClassName={selectContainerClassName}
                 onChange={onChange}
                 showValueAlways={true}
             />
         </div>
-    )
-}
+    );
+};

@@ -1,0 +1,61 @@
+@import "../../../scss/globalDefines.scss";
+
+.finalExpenseContactBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 24px;
+    background-color: #ffffff;
+    position: relative;
+    height: 88px;
+    box-shadow: inset 0px -1px 0px #dddddd;
+
+    @include small {
+        flex-direction: column;
+    }
+
+    .backToContacts {
+        position: absolute;
+        left: 2.5rem;
+        top: 18px;
+        cursor: pointer;
+
+        @include small {
+            position: static;
+        }
+
+        .backButton {
+            color: #4178ff;
+            font-size: 16px;
+            font-weight: 500;
+
+            &:hover {
+                background-color: #ffffff;
+                border-radius: 20px;
+                box-shadow: inset 0px -1px 0px #00000029;
+            }
+
+            span {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .profileMenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+
+        @include small {
+            width: 100%;
+        }
+
+        .userName {
+            color: #052a63;
+            font-size: 32px;
+        }
+    }
+}

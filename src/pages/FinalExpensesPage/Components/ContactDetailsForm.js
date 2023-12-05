@@ -186,7 +186,7 @@ const FormComponent = () => {
           };
           await editLifeDetails(payload);
         } else {
-          navigate(`/final-expense-plans/${contactId}`);
+          navigate(`/finalexpenses/create/${contactId}`);
         }
       } else {
         await saveLifeDetails(payload);
@@ -199,7 +199,7 @@ const FormComponent = () => {
           time: 10000,
         });
       } else {
-        navigate(`/final-expense-plans/${contactId}`);
+        navigate(`/finalexpenses/create/${contactId}`);
       }
     }
   };
