@@ -614,6 +614,39 @@ const DetailsEditContact = (props) => {
                       </ul>
                     )}
                   </div>
+                  <div className="mob-res-mt-29 custom-w-25 contact-details-col1">
+                    <label
+                      className=" custom-label-state label"
+                      htmlFor="phone-label"
+                    >
+                      County
+                    </label>
+                    <div className="record-select-input mob-res-mar-0">
+                      <Select
+                        placeholder="select"
+                        showValueAsLabel={true}
+                        className={`${styles["contact-address--statecode"]} `}
+                        options={allCounties}
+                        initialValue={values.address.county}
+                        isDefaultOpen={
+                          allCounties.length > 1 && values.address.county === ""
+                            ? true
+                            : false
+                        }
+                        onChange={(value) => {
+                          setFieldValue("address.county", value);
+                          const { key: fip, state } = allCounties.filter(
+                            (item) => item.value === value
+                          )[0];
+                          setFieldValue("address.countyFips", fip);
+                          if (allCounties.length > 1) {
+                            setFieldValue("address.stateCode", state);
+                          }
+                        }}
+                        showValueAlways={true}
+                      />
+                    </div>
+                  </div>
                   <div className="ml-20 custom-w-14  state--label--space custom-w-25 contact-details-col1 mob-res-margin">
                     <label
                       className="custom-label-state label"
@@ -637,37 +670,6 @@ const DetailsEditContact = (props) => {
                         initialValue={values.address.stateCode}
                         onChange={(value) => {
                           setFieldValue("address.stateCode", value);
-                        }}
-                        showValueAlways={true}
-                      />
-                    </div>
-                  </div>
-                  <div></div>
-                  <div className="mob-res-mt-29 custom-w-25 contact-details-col1">
-                    <label
-                      className=" custom-label-state label"
-                      htmlFor="phone-label"
-                    >
-                      County
-                    </label>
-                    <div className="record-select-input mob-res-mar-0">
-                      <Select
-                        placeholder="select"
-                        showValueAsLabel={true}
-                        className={`${styles["contact-address--statecode"]} `}
-                        options={allCounties}
-                        initialValue={values.address.county}
-                        isDefaultOpen={
-                          allCounties.length > 1 && values.address.county === ""
-                            ? true
-                            : false
-                        }
-                        onChange={(value) => {
-                          setFieldValue("address.county", value);
-                          const fip = allCounties.filter(
-                            (item) => item.value === value
-                          )[0]?.key;
-                          setFieldValue("address.countyFips", fip);
                         }}
                         showValueAlways={true}
                       />

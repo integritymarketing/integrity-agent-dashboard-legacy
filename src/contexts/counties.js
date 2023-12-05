@@ -22,6 +22,7 @@ export const CountyProvider = ({ children }) => {
         value: county.countyName,
         label: county.countyName,
         key: county.countyFIPS,
+        state: county.state,
       })) || [];
 
       const uniqueStates = [...new Set(fetchedCounties.map((county) => county.state))];
