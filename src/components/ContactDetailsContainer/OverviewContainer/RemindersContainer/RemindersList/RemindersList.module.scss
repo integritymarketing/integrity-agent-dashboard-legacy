@@ -48,6 +48,7 @@
   padding: 8px;
   width: 60%;
   height: 120px;
+  line-break: anywhere;
 
   @include small {
     width: auto;
