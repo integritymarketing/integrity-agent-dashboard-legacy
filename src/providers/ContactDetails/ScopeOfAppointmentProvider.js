@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 export const ScopeOfAppointmentContext = createContext();
 
 export const ScopeOfAppointmentProvider = ({ children }) => {
-    const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`; 
+    const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
 
     const { Get: fetchSoaList, loading: isSoaListLoading, error: soaListError } = useFetch(URL);
     const { Get: fetchSoaByLinkCode, loading: isLoadingSoaByLinkCodeLoading, error: soaByLinkCodeError, Post: editSoaByLinkCode } = useFetch(URL);
@@ -38,13 +38,7 @@ export const ScopeOfAppointmentProvider = ({ children }) => {
         await performAsyncOperation(
             () => editSoaByLinkCode(payload, false, path),
             () => { },
-            async () => {
-                await getSoaByLinkCode(linkCode);
-                showToast({
-                    message: `Scope Of Appointment saved successfully`,
-                });
-                callback();
-            },
+            () => callback(),
             (err) =>
                 showToast({
                     type: "error",

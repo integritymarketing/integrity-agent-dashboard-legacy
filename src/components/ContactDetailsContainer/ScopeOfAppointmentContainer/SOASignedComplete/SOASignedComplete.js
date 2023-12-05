@@ -5,15 +5,19 @@ import { SOACTAOPTS, SOA_SIGNED } from '../ScopeOfAppointmentContainer.constants
 import styles from './SOASignedComplete.module.scss';
 import { Button } from 'components/ui/Button';
 import Media from 'react-media';
-import { getLocalDateTime, getHoursDiffBetweenTwoDays } from 'utils/dates';
+import { getLocalDateTime, getHoursDiffBetweenTwoDays, getSoaDatesFromSummary } from 'utils/dates';
 
 export const SOASignedComplete = ({ onComplete, soa }) => {
-    const { statusDate, signedDate, contactAfterDate, isTracking48HourRule } = soa;
+    const { contactAfterDate, isTracking48HourRule, soaSummary } = soa;
     const [isMobile, setIsMobile] = useState(false);
     const productsToDiscuss = soa?.soa?.leadSection?.products ?? [];
 
     const isEarlierThanCurrentDate = (contactAfterDate) =>
         getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 0;
+
+
+    const { sentDate, signedDate } = getSoaDatesFromSummary(soaSummary);
+
 
     return (
         <>
@@ -26,7 +30,7 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
             <div className={styles.soaSignedContainer}>
                 <div className={styles.titleWrapper}>{SOA_SIGNED}</div>
                 <div className={`${isMobile ? styles.columnView : ""} ${styles.contentWrapper}`}>
-                    <Column label='Sent' date={getLocalDateTime(statusDate)?.date} time={getLocalDateTime(statusDate)?.time} style={styles.width15} />
+                    <Column label='Sent' date={getLocalDateTime(sentDate)?.date} time={getLocalDateTime(sentDate)?.time} style={styles.width15} />
                     <Column label='Signed' date={getLocalDateTime(signedDate)?.date} time={getLocalDateTime(signedDate)?.time} style={styles.width15} />
                     <Column label='Products to Discuss' products={productsToDiscuss} style={styles.width45} />
                     <div className={`${styles.boxColumn} ${styles.width25}`}>
@@ -49,7 +53,8 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
                                     isEarlierThanCurrentDate(contactAfterDate)
                                 }
                                 type='primary'
-                                icon={<OpenIcon />}
+                                icon={<OpenIcon color={isTracking48HourRule &&
+                                    isEarlierThanCurrentDate(contactAfterDate) ? "#aba7a7" : null} />}
                                 iconPosition='right'
                             />
                         </div>
