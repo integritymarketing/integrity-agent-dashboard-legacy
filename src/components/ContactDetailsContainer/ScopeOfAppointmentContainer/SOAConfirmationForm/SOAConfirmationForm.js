@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { MedicareDocumentation } from '../MedicareDocumentation/MedicareDocumentation';
 import { ProductSelection } from '../ProductSelection/ProductSelection';
 import { SOAContactDetailsForm } from '../SOAContactDetailsForm/SOAContactDetailsForm';
-import { SOA_CONFIRMATION_FORM, SOA_CONSENT, SOA_SCOPE } from '../ScopeOfAppointmentContainer.constants';
+import { SOA_CONFIRMATION_FORM, SOA_CONSENT, SOA_SCOPE, } from '../ScopeOfAppointmentContainer.constants';
 import { SOAContactDetails } from '../SOAContactDetails/SOAContactDetails';
 import { useScopeOfAppointment } from 'providers/ContactDetails/ContactDetailsContext';
 import { useLeadDetails } from "providers/ContactDetails";
 import { SOAContainer } from '../SOAContainer/SOAContainer';
+import { VIEW_SCOPE_OF_APPOINTMENT, } from "../../tabNames";
 import styles from './SOAConfirmationForm.module.scss';
 
 export const SOAConfirmationForm = () => {
@@ -46,6 +47,7 @@ export const SOAConfirmationForm = () => {
             }
         }
         updateSoaByLinkCode(payload, linkCode, handleView);
+        // handleView();
     }
 
 

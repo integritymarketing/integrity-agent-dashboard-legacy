@@ -60,7 +60,7 @@ export const ScopeOfAppointmentContainer = () => {
             <div className={`${isMobile ? styles.columnView : ""} ${styles.soaTitleHeader}`}>
                 <div className={styles.titleWrapper}>
                     <div className={styles.soaTitle}>{SCOPES_OF_APPOINTMENT}</div>
-                    <Info className={styles.infoStyle} />
+                    {/* <Info className={styles.infoStyle} /> */}
                 </div>
                 <div className={styles.titleWrapper} onClick={() => setOpenSOAModal(true)}>
                     <div className={styles.sendStyle} >{SEND_NEW}</div>

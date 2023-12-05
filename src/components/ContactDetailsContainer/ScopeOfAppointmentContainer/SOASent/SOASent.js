@@ -3,11 +3,13 @@ import { SOA_SENT, SOA_SENT_TO } from "../ScopeOfAppointmentContainer.constants"
 import styles from "./SOASent.module.scss";
 import Media from 'react-media';
 import { useState } from 'react';
-import { getLocalDateTime } from 'utils/dates';
+import { getLocalDateTime, } from 'utils/dates';
 
 export const SOASent = ({ soa }) => {
-    const { statusDate, soaDestination = "" } = soa;
+    const { statusDate, soaDestination = "", } = soa;
     const [isMobile, setIsMobile] = useState(false);
+
+
     return (
         <>
             <Media
@@ -22,7 +24,7 @@ export const SOASent = ({ soa }) => {
                     <div className={`${styles.boxColumn} ${styles.width30}`}>
                         <div className={styles.columnLabel}>Sent:</div>
                         <div className={styles.columnText}>{getLocalDateTime(statusDate)?.date}</div>
-                        <div className={styles.columnText}>{getLocalDateTime(statusDate)?.date}</div>
+                        <div className={styles.columnText}>{getLocalDateTime(statusDate)?.time}</div>
                     </div>
                     <div className={`${styles.boxColumn} ${styles.width70}`}>
                         <div className={styles.columnLabel}>Products to Discuss</div>

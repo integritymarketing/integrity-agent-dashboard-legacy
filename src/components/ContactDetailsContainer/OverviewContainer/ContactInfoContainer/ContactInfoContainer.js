@@ -177,7 +177,7 @@ export const ContactInfoContainer = () => {
                 <Label value="Email" color="#717171" size="14px" />
                 <div className={styles.horizontalLayout}>
                     <div className={styles.emailAddress}>
-                    <Label value={leadEmail} color="#4178FF" size="16px" />
+                        <Label value={leadEmail} color="#4178FF" size="16px" />
                     </div>
                     {isPrimary === "email" && <Favorite />}
                 </div>
@@ -215,7 +215,7 @@ export const ContactInfoContainer = () => {
                     </div>
                 </div>
             </SectionContainer>
-            <SectionContainer >
+            <SectionContainer>
                 <Label value="Medicaid" color="#717171" size="14px" />
                 <Label value="No" color="#052A63" size="16px" />
             </SectionContainer>
