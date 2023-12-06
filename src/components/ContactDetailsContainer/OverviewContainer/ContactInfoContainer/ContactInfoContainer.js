@@ -15,6 +15,7 @@ import ContactInfoForm from "./ContactInfoForm";
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { EditWithIcon, Favorite } from "../Icons";
+import { formatFullName } from "utils/formatFullName"; 
 
 const NOT_AVAILABLE = "-";
 
@@ -48,10 +49,6 @@ export const ContactInfoContainer = () => {
     let phonesData = phones?.filter((phone) => {
         return phone?.leadPhone && phone?.leadPhone !== "" ? phone : null;
     });
-
-    const leadName = useMemo(() => {
-        return `${firstName} ${middleName && middleName} ${lastName}`;
-    }, [leadDetails]);
 
     const leadPhone = useMemo(() => {
         return phonesData?.[0]?.leadPhone ? formatPhoneNumber(phonesData?.[0]?.leadPhone) : NOT_AVAILABLE;
@@ -179,7 +176,7 @@ export const ContactInfoContainer = () => {
                 <Box>
                     <SectionContainer>
                         <Label value="Full Name" color="#717171" size="14px" />
-                        <Label value={leadName} color="#052A63" size="20px" />
+                        <Label value={formatFullName(firstName, middleName, lastName)} color="#052A63" size="20px" />
                     </SectionContainer>
                     <Box className={styles.miniContainer}>
                         <SectionContainer>
