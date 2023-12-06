@@ -4,19 +4,22 @@ import { OverViewProvider } from "./OverViewProvider";
 import { HealthProvider } from "./HealthProvider";
 import { PoliciesProvider } from "./PoliciesProvider";
 import { ScopeOfAppointmentProvider } from "./ScopeOfAppointmentProvider";
+import { DuplicateContactsProvider } from "./DuplicatesContactsProvider";
 
 export const ContactDetailsProvider = ({ children }) => {
     return (
         <StrictMode>
-            <LeadDetailsProvider>
-                <HealthProvider>
-                    <OverViewProvider>
-                        <ScopeOfAppointmentProvider>
-                            <PoliciesProvider>{children}</PoliciesProvider>
-                        </ScopeOfAppointmentProvider>
-                    </OverViewProvider>
-                </HealthProvider>
-            </LeadDetailsProvider>
+            <DuplicateContactsProvider>
+                <LeadDetailsProvider>
+                    <HealthProvider>
+                        <OverViewProvider>
+                            <ScopeOfAppointmentProvider>
+                                <PoliciesProvider>{children}</PoliciesProvider>
+                            </ScopeOfAppointmentProvider>
+                        </OverViewProvider>
+                    </HealthProvider>
+                </LeadDetailsProvider>
+            </DuplicateContactsProvider>
         </StrictMode>
     );
 };
