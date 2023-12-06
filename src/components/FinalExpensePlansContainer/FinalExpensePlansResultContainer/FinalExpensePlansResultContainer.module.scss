@@ -1,0 +1,46 @@
+@import "src/scss/globalDefines.scss";
+
+.contentWrapper {
+    display: flex;
+    padding: 24px;
+}
+
+.planOptionsBox {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px #00000029;
+    width: 100%;
+    padding: 24px;
+    margin-bottom: 24px;
+    margin-top: 15px;
+}
+
+.planOptionsHeader {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.planOptionsText {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.filterContent {
+    width: 350px;
+}
+
+.checkboxesWrapper {
+    padding: 10px 5px;
+    padding-top: 20px;
+}
+
+.checkbox1 {
+    margin-bottom: 20px;
+    color: #434a51;
+}
+
+.checkbox2 {
+    color: #434a51;
+}

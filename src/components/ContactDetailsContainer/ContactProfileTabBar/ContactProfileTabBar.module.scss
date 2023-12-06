@@ -8,11 +8,11 @@
     padding: 24px;
     position: relative;
     box-shadow: inset 0px -1px 0px #dddddd;
+    background-color: #ffffff;
 
     @include small {
         flex-direction: column;
     }
-
 
     .backToContacts {
         position: absolute;

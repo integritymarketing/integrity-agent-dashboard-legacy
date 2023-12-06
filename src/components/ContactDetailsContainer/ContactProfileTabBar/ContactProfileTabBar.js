@@ -1,15 +1,21 @@
-import React, { useState, useCallback } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import Box from "@mui/material/Box";
-import { Button } from "components/ui/Button";
-import NewBackBtn from "images/new-back-btn.svg";
-import { Connect, Health, Policies, Overview } from "./Icons";
+
 import { useLeadDetails } from "providers/ContactDetails";
-import { ConnectModal } from "../ConnectModal";
-import {toTitleCase} from "utils/toTitleCase";
+
+import { toTitleCase } from "utils/toTitleCase";
+
 import PlansTypeModal from "components/PlansTypeModal";
+import { Button } from "components/ui/Button";
 
 import styles from "./ContactProfileTabBar.module.scss";
+import { Connect, Health, Overview, Policies } from "./Icons";
+
+import { ConnectModal } from "../ConnectModal";
+
+import NewBackBtn from "images/new-back-btn.svg";
 
 const tabs = [
     { name: "Overview", section: "overview", icon: <Overview /> },
@@ -18,8 +24,9 @@ const tabs = [
     { name: "Connect", section: "scope-of-appointment", icon: <Connect />, modalTrigger: true },
 ];
 
-export const ContactProfileTabBar = () => {
-    const { leadId } = useParams();
+export const ContactProfileTabBar = ({ contactId }) => {
+    const { leadId: leadIdParam } = useParams();
+    const leadId = contactId || leadIdParam;
     const navigate = useNavigate();
     const { leadDetails, selectedTab, setSelectedTab } = useLeadDetails();
     const location = useLocation();
@@ -27,8 +34,11 @@ export const ContactProfileTabBar = () => {
     const [connectModalVisible, setConnectModalVisible] = useState(false);
     const [showPlanTypeModal, setShowPlanTypeModal] = useState(false);
 
-    const isContactDetailsPage = currentPath?.toLowerCase().includes('contact');
-    const leadName = leadDetails?.firstName && leadDetails?.lastName ? `${leadDetails?.firstName} ${leadDetails?.lastName}` : "Lead Name here ...";
+    const isContactDetailsPage = currentPath?.toLowerCase().includes("contact");
+    const leadName =
+        leadDetails?.firstName && leadDetails?.lastName
+            ? `${leadDetails?.firstName} ${leadDetails?.lastName}`
+            : "Lead Name here ...";
 
     const handleSectionChange = useCallback(
         (section) => {
@@ -80,9 +90,14 @@ export const ContactProfileTabBar = () => {
             <Box className={styles.profileMenu}>
                 <h1 className={styles.userName}>{toTitleCase(leadName)}</h1>
                 <div className={styles.profileTabs}>{tabs.map(renderTab)}</div>
-                {isContactDetailsPage &&
-                    <Button onClick={handleStartQuote} label="Start a Quote" type="primary" className={styles.quoteButton} />
-                }
+                {isContactDetailsPage && (
+                    <Button
+                        onClick={handleStartQuote}
+                        label="Start a Quote"
+                        type="primary"
+                        className={styles.quoteButton}
+                    />
+                )}
             </Box>
             {connectModalVisible && (
                 <ConnectModal
@@ -92,7 +107,12 @@ export const ContactProfileTabBar = () => {
                     leadDetails={leadDetails}
                 />
             )}
-            <PlansTypeModal zipcode={leadDetails?.addresses[0]?.postalCode} showPlanTypeModal={showPlanTypeModal} handleModalClose={handleCloseShowPlanTypeModal} leadId={leadId} />
+            <PlansTypeModal
+                zipcode={leadDetails?.addresses[0]?.postalCode}
+                showPlanTypeModal={showPlanTypeModal}
+                handleModalClose={handleCloseShowPlanTypeModal}
+                leadId={leadId}
+            />
         </nav>
     );
 };
