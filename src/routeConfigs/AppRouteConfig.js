@@ -179,23 +179,15 @@ const appProtectedRoutes = [
             </>
         ),
     },
-    // NEW ROUTES //
     {
         path: "/newContact/:leadId/:section",
-        component: <ContactProfile />,
+        component:  (
+            <>
+                <ContactProfile />
+                <WebChatComponent />
+            </>
+    ),
     },
-    // {
-    //     path: "/complete-scopeofappointment/:linkcode",
-    //     component: (
-    //         <SOANewConfirmationForm />
-    //     ),
-    // },
-    // {
-    //     path: "/view-scopeofappointment/:linkcode",
-    //     component: (
-    //         <SOANewViewForm />
-    //     ),
-    // },
     {
         path: "policy-snapshot-mobile-layout/:npn",
         component: (
