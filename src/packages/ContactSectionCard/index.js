@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+
 import PropTypes from "prop-types";
-import styles from "./index.module.scss";
-import Arrow from "components/icons/down";
+
 import usePreferences from "hooks/usePreferences";
+
+import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
+
+import styles from "./index.module.scss";
 
 const ContactSectionCard = (props) => {
     const {
@@ -31,8 +35,8 @@ const ContactSectionCard = (props) => {
         <section className={className}>
             <div className={styles.cardHeader} style={{ boxShadow: cardBorderClassName }}>
                 <div className={styles.iconWithTitle}>
-                    <div className={`${styles.icon} ${isCollapsed ? styles.iconReverse : ""}`} onClick={handleToggle}>
-                        <Arrow color={"#0052CE"} />
+                    <div className={`${styles.icon} ${isCollapsed ? styles.iconRotate : ""}`} onClick={handleToggle}>
+                        <ArrowDownBig />
                     </div>
                     <h3 className={styles.heading}>{title}</h3>
                     {infoIcon && <div className={styles.infoIcon}>{infoIcon} </div>}

@@ -1,19 +1,25 @@
-import React, { useMemo, useState } from 'react'
-import Label from '../CommonComponents/Label'
-import SectionContainer from '../CommonComponents/SectionContainer'
-import styles from './ContactInfoContainer.module.scss'
-import { EditWithIcon, Favorite } from '../Icons'
+import React, { useMemo, useState } from "react";
+
+import { Box } from "@mui/system";
+
 import { useLeadDetails } from "providers/ContactDetails";
-import { formatPhoneNumber } from "utils/phones";
+
+import calculateAgeFromBirthdate from "utils/calculateAgeFromBirthdate";
 import { formatDate } from "utils/dates";
+import { formatPhoneNumber } from "utils/phones";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
-import ContactInfoForm from './ContactInfoForm'
-import calculateAgeFromBirthdate from 'utils/calculateAgeFromBirthdate';
+
+import styles from "./ContactInfoContainer.module.scss";
+import ContactInfoForm from "./ContactInfoForm";
+
+import Label from "../CommonComponents/Label";
+import SectionContainer from "../CommonComponents/SectionContainer";
+import { EditWithIcon, Favorite } from "../Icons";
 
 const NOT_AVAILABLE = "-";
 
 export const ContactInfoContainer = () => {
-    const [isEditMode, setIsEditMode] = useState(false)
+    const [isEditMode, setIsEditMode] = useState(false);
     const { leadDetails, updateLeadDetails } = useLeadDetails();
 
     let {
@@ -36,7 +42,7 @@ export const ContactInfoContainer = () => {
         leadStatusId,
         leadsId,
         notes,
-        createDate
+        createDate,
     } = leadDetails;
 
     let phonesData = phones?.filter((phone) => {
@@ -44,9 +50,8 @@ export const ContactInfoContainer = () => {
     });
 
     const leadName = useMemo(() => {
-        return `${firstName} ${middleName && middleName} ${lastName}`
+        return `${firstName} ${middleName && middleName} ${lastName}`;
     }, [leadDetails]);
-
 
     const leadPhone = useMemo(() => {
         return phonesData?.[0]?.leadPhone ? formatPhoneNumber(phonesData?.[0]?.leadPhone) : NOT_AVAILABLE;
@@ -140,86 +145,103 @@ export const ContactInfoContainer = () => {
         leadStatusId,
         leadsId,
         notes,
-        leadCreatedDate
-    }
+        leadCreatedDate,
+    };
 
     const editLeadDetails = (data) => {
-        updateLeadDetails(data)
-        setIsEditMode(false)
-    }
+        updateLeadDetails(data);
+        setIsEditMode(false);
+    };
 
-    return <div>
-        <div className={`${styles.horizontalLayout} ${styles.gap}`}>
-            <Label value={isEditMode ? "Edit Contact Details" : "Contact Details"} />
-            {!isEditMode && <div className={styles.editIcon} onClick={() => {
-                setIsEditMode(true)
-            }}>
-                <EditWithIcon />
-            </div>}
-        </div>
-        {isEditMode && leadDetails && <ContactInfoForm leadDetails={leadData} editLeadDetails={editLeadDetails} setIsEditMode={setIsEditMode} />}
-        {!isEditMode && <div>
-            <SectionContainer>
-                <Label value="Full Name" color="#717171" size="14px" />
-                <Label value={leadName} color="#052A63" size="20px" />
-            </SectionContainer>
-            <div className={styles.miniContainer}>
-                <SectionContainer>
-                    <Label value="Birthdate" color="#717171" size="14px" />
-                    <Label value={leadBirthdate} color="#052A63" size="20px" />
-                </SectionContainer>
-                <SectionContainer>
-                    <Label value="Age" color="#717171" size="14px" />
-                    <Label value={leadAge} color="#052A63" size="20px" />
-                </SectionContainer>
-            </div>
-            <SectionContainer>
-                <Label value="Email" color="#717171" size="14px" />
-                <div className={styles.horizontalLayout}>
-                    <div className={styles.emailAddress}>
-                        <Label value={leadEmail} color="#4178FF" size="16px" />
-                    </div>
-                    {isPrimary === "email" && <Favorite />}
-                </div>
-            </SectionContainer>
-            <SectionContainer >
-                <Label value="Phone" color="#717171" size="14px" />
-                <div className={`${styles.horizontalLayout}   ${styles.gap}`} >
-                    <div className={styles.horizontalLayout}>
-                        <Label value="Home:" color="#052A63" size="16px" />
-                        <Label value={leadPhone} color="#4178FF" size="16px" />
-                    </div>
-                    {isPrimary === "phone" && <Favorite />}
-                </div>
-            </SectionContainer>
-            <SectionContainer >
-                <Label value="Address" color="#717171" size="14px" />
-                <Label value={leadAddress1} color="#4178FF" size="16px" />
-                <Label value={`${leadCity} ${leadState} ${leadZip}`} color="#4178FF" size="16px" />
-                <div className={styles.horizontalLayout}>
-                    <Label value="County:" color="#052A63" size="16px" />
-                    <Label value={leadCounty} color="#717171" size="16px" />
-                </div>
-            </SectionContainer>
-            <SectionContainer >
-                <Label value="Medicare Beneficiary Identifier (MBIs)" color="#717171" size="14px" />
-                <Label value={leadMBID} color="#052A63" size="16px" />
-                <div className={`${styles.horizontalLayout} ${styles.gap}`} >
-                    <div>
-                        <Label value="Part A start date" color="#717171" size="14px" />
-                        <Label value={leadPartA} color="#052A63" size="16px" />
-                    </div>
-                    <div>
-                        <Label value="Part B start date" color="#717171" size="14px" />
-                        <Label value={leadPartB} color="#052A63" size="16px" />
-                    </div>
-                </div>
-            </SectionContainer>
-            <SectionContainer>
-                <Label value="Medicaid" color="#717171" size="14px" />
-                <Label value="No" color="#052A63" size="16px" />
-            </SectionContainer>
-        </div>
-        }
-    </div>
-}
+    return (
+        <Box>
+            <Box className={`${styles.horizontalLayout} ${styles.gap}`} marginBottom="-16px">
+                <Label value={isEditMode ? "Edit Contact Details" : "Contact Details"} />
+                {!isEditMode && (
+                    <Box
+                        className={styles.editIcon}
+                        onClick={() => {
+                            setIsEditMode(true);
+                        }}
+                    >
+                        <EditWithIcon />
+                    </Box>
+                )}
+            </Box>
+            {isEditMode && leadDetails && (
+                <ContactInfoForm
+                    leadDetails={leadData}
+                    editLeadDetails={editLeadDetails}
+                    setIsEditMode={setIsEditMode}
+                />
+            )}
+            {!isEditMode && (
+                <Box>
+                    <SectionContainer>
+                        <Label value="Full Name" color="#717171" size="14px" />
+                        <Label value={leadName} color="#052A63" size="20px" />
+                    </SectionContainer>
+                    <Box className={styles.miniContainer}>
+                        <SectionContainer>
+                            <Label value="Birthdate" color="#717171" size="14px" />
+                            <Label value={leadBirthdate} color="#052A63" size="20px" />
+                        </SectionContainer>
+                        <SectionContainer>
+                            <Label value="Age" color="#717171" size="14px" />
+                            <Label value={leadAge} color="#052A63" size="20px" />
+                        </SectionContainer>
+                    </Box>
+                    <SectionContainer>
+                        <Label value="Email" color="#717171" size="14px" />
+                        <Box className={styles.horizontalLayout}>
+                            <Box className={styles.emailAddress}>
+                                <Label value={leadEmail} color="#4178FF" size="16px" />
+                            </Box>
+                            {isPrimary === "email" && <Favorite />}
+                        </Box>
+                    </SectionContainer>
+                    <SectionContainer>
+                        <Label value="Phone" color="#717171" size="14px" />
+                        <Box className={`${styles.horizontalLayout}   ${styles.gap}`}>
+                            <Box className={styles.horizontalLayout}>
+                                <Label value="Home:" color="#052A63" size="16px" />
+                                <Label value={leadPhone} color="#4178FF" size="16px" />
+                            </Box>
+                            {isPrimary === "phone" && <Favorite />}
+                        </Box>
+                    </SectionContainer>
+                    <SectionContainer>
+                        <Label value="Address" color="#717171" size="14px" />
+                        <Label value={leadAddress1} color="#4178FF" size="16px" />
+                        <Label value={`${leadCity} ${leadState} ${leadZip}`} color="#4178FF" size="16px" />
+                        <Box className={styles.horizontalLayout}>
+                            <Label value="County:" color="#052A63" size="16px" />
+                            <Label value={leadCounty} color="#717171" size="16px" />
+                        </Box>
+                    </SectionContainer>
+                    <SectionContainer>
+                        <Label value="Medicare Beneficiary Identifier (MBIs)" color="#717171" size="14px" />
+                        <Label value={leadMBID} color="#052A63" size="16px" />
+                        <Box className={`${styles.horizontalLayout} ${styles.gap}`}>
+                            <Box>
+                                <Label value="Part A start date" color="#717171" size="14px" />
+                                <Label value={leadPartA} color="#052A63" size="16px" />
+                            </Box>
+                            <Box>
+                                <Label value="Part B start date" color="#717171" size="14px" />
+                                <Label value={leadPartB} color="#052A63" size="16px" />
+                            </Box>
+                        </Box>
+                    </SectionContainer>
+                    <SectionContainer>
+                        <Label value="Medicaid" color="#717171" size="14px" />
+                        <Label value="No" color="#052A63" size="16px" />
+                    </SectionContainer>
+                    <Box display="flex" alignItems="center" justifyContent="center" marginTop="10px">
+                        <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />
+                    </Box>
+                </Box>
+            )}
+        </Box>
+    );
+};

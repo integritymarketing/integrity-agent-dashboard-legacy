@@ -1,152 +1,149 @@
 @import "scss/globalDefines.scss";
 
 .reminderItem {
-  display: flex;
-  padding: 22px 28px;
-  margin-bottom: 8px;
-  flex-direction: row;
-  justify-content: space-between;
-  box-shadow: inset 0px -1px 0px #DDDDDD;
-  align-items: flex-start;
+    display: flex;
+    padding: 22px 28px;
+    margin-bottom: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    box-shadow: inset 0px -1px 0px #dddddd;
+    gap: 15px;
+    align-items: flex-start;
 
-  &:last-child {
-    box-shadow: none;
-  }
+    &:last-child {
+        box-shadow: none;
+    }
 
-  @include small {
-    padding: 8px;
-    flex-direction: column;
-    gap: 12px;
-  }
+    @include small {
+        padding: 8px;
+        flex-direction: column;
+        gap: 12px;
+    }
 }
 
 .reminderDue {
-  display: flex;
-  flex-direction: row;
-  color: #434A51;
-  font-size: 16px;
-  width: 16%;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    color: #434a51;
+    font-size: 16px;
+    width: 150px;
+    align-items: center;
 
-  @include small {
-    width: auto;
-  }
+    @include small {
+        width: auto;
+    }
 }
 
 .dueValue {
-  font-weight: 500;
-  color: #4178FF;
+    font-weight: 600;
+    color: #4178ff;
+    padding-left: 3px;
 }
 
 .dueLabel {
-  margin: 2px 0;
+    margin: 2px 0;
 }
 
 .reminderDescription {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 8px;
-  width: 60%;
-  height: 120px;
-  line-break: anywhere;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    width: calc(100% - 150px - 100px);
+    height: 120px;
+    line-break: anywhere;
 
-  @include small {
-    width: auto;
-    height: auto;
-  }
+    @include small {
+        width: auto;
+        height: auto;
+    }
 }
 
 .reminderActions {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100px;
 
-  @include small {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+    @include small {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 .completeButton {
-  // Add styling for the complete button
+    // Add styling for the complete button
 }
 
 .editButton {
-  margin-top: 5px;
-  margin-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .deleteButton {
-  // Add styling for the delete button
+    // Add styling for the delete button
 }
 
-
 .buttonWithIcon {
-  border-radius: 25px !important;
-  padding: 4px 8px !important;
+    border-radius: 25px !important;
+    padding: 4px 8px !important;
 
-  svg {
-    width: 24px;
-  }
+    svg {
+        width: 24px;
+    }
 
-  span {
-    font-size: 14px !important;
-    color: #4178ff !important;
-    font-weight: 500;
-  }
+    span {
+        font-size: 14px !important;
+        color: #4178ff !important;
+        font-weight: 500;
+    }
 
-  &:hover {
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-    color: #1357FF !important
-  }
+    &:hover {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        color: #1357ff !important;
+    }
 }
 
 .remindersContainer {
-  margin-bottom: 3rem;
-  border-radius: 8px;
+    margin-bottom: 3rem;
+    border-radius: 8px;
 }
-
-
 
 .no-items {
-  border: 1.5px solid #e6ecf2;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  color: #64748b;
+    border: 1.5px solid #e6ecf2;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #64748b;
 }
-
 
 .remindersContainer_content {
-  border-radius: 8px;
-  background-color: #ffffff;
+    border-radius: 8px;
+    background-color: #ffffff;
 
-  @include small {
-    background: none;
-    padding: 0.5rem;
-  }
+    @include small {
+        background: none;
+        padding: 0.5rem;
+    }
 }
 
-
-
 .reminderIcon {
-  background-color: #F1FAFF;
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
+    background-color: #f1faff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
 }
 
 .dueIcon {
-  background-color: #ffc3c3;
+    background-color: #ffc3c3;
 }

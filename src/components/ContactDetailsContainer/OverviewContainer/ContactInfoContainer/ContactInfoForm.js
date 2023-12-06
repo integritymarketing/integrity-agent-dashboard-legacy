@@ -1,54 +1,57 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react'
-import SectionContainer from '../CommonComponents/SectionContainer'
-import {
-    StyledElementName, StyledFormItem, StyledGenderFormElements, StyledNumberInputContainer, StyledInputField,
-    StyledButtonFormElement,
-    StyledDatePicker
-} from './StyledComponents'
-import styles from './ContactInfoContainer.module.scss'
-import { Select } from 'components/ui/Select'
-import DatePickerMUI from 'components/DatePicker'
-import { formatDate } from 'utils/dates'
-import { primaryContactOptions } from 'utils/primaryContact'
-import CountyContext from "contexts/counties";
-import Label from "../CommonComponents/Label";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+
 import Box from "@mui/material/Box";
+
+import { formatDate } from "utils/dates";
+import { primaryContactOptions } from "utils/primaryContact";
+
+import DatePickerMUI from "components/DatePicker";
 import { Button } from "components/ui/Button";
+import { Select } from "components/ui/Select";
+
+import CountyContext from "contexts/counties";
+
+import styles from "./ContactInfoContainer.module.scss";
+import {
+    StyledButtonFormElement,
+    StyledDatePicker,
+    StyledElementName,
+    StyledFormItem,
+    StyledGenderFormElements,
+    StyledInputField,
+    StyledNumberInputContainer,
+} from "./StyledComponents";
+
+import Label from "../CommonComponents/Label";
+import SectionContainer from "../CommonComponents/SectionContainer";
 import { ArrowForwardWithCircle } from "../Icons";
 
 const initialFormData = {
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    dateOfBirth: '',
-    primaryContact: '',
-    email: '',
-    leadPhone: '',
-    cellPhone: '',
-    address1: '',
-    address2: '',
-    city: '',
-    zipCode: '',
-    state: '',
-    county: '',
-    countyFips: '',
-    medicareBeneficiaryID: '',
-    partA: '',
-    partB: '',
-    medicaid: ''
-}
-
-
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    dateOfBirth: "",
+    primaryContact: "",
+    email: "",
+    leadPhone: "",
+    cellPhone: "",
+    address1: "",
+    address2: "",
+    city: "",
+    zipCode: "",
+    state: "",
+    county: "",
+    countyFips: "",
+    medicareBeneficiaryID: "",
+    partA: "",
+    partB: "",
+    medicaid: "",
+};
 
 function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
     const [formData, setFormData] = useState(initialFormData);
 
-    let {
-        allCounties = [],
-        allStates = [],
-        fetchCountyAndState,
-    } = useContext(CountyContext);
-
+    let { allCounties = [], allStates = [], fetchCountyAndState } = useContext(CountyContext);
 
     useEffect(() => {
         setFormData({
@@ -72,11 +75,9 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
             medicareBeneficiaryID: leadDetails?.leadMBID,
             partA: leadDetails?.leadPartA,
             partB: leadDetails?.leadPartB,
-            medicaid: leadDetails?.hasMedicAid ? "Yes" : "No"
-        })
-    }, [leadDetails])
-
-
+            medicaid: leadDetails?.hasMedicAid ? "Yes" : "No",
+        });
+    }, [leadDetails]);
 
     useEffect(() => {
         if (allCounties?.length === 1) {
@@ -86,18 +87,16 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                 ...formData,
                 county: countyName,
                 countyFips: countyFipsName,
-            })
+            });
         }
         if (allStates?.length === 1) {
             let stateCodeName = allStates[0]?.value;
             setFormData({
                 ...formData,
                 state: stateCodeName,
-            })
+            });
         }
     }, [allCounties, allStates]);
-
-
 
     const onChangeFormData = (formElement, value) => {
         setFormData({
@@ -106,14 +105,11 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
         });
     };
 
-
     useEffect(() => {
         if (formData.zipCode.length === 5) {
             fetchCountyAndState(formData.zipCode);
         }
     }, [formData.zipCode, fetchCountyAndState]);
-
-
 
     const handleSave = () => {
         const payload = {
@@ -147,19 +143,15 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
             notes: leadDetails?.notes,
         };
 
-        editLeadDetails(payload)
-    }
-
+        editLeadDetails(payload);
+    };
 
     return (
         <Box>
-
             <div>
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            First Name
-                        </StyledElementName>
+                        <StyledElementName>First Name</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledInputField
                                 type="text"
@@ -172,9 +164,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                         </StyledNumberInputContainer>
                     </StyledFormItem>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Middle Initial
-                        </StyledElementName>
+                        <StyledElementName>Middle Initial</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledInputField
                                 type="text"
@@ -187,9 +177,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                         </StyledNumberInputContainer>
                     </StyledFormItem>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Last Name
-                        </StyledElementName>
+                        <StyledElementName>Last Name</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledInputField
                                 type="text"
@@ -205,9 +193,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
 
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Birthdate
-                        </StyledElementName>
+                        <StyledElementName>Birthdate</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledDatePicker>
                                 <DatePickerMUI
@@ -225,9 +211,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
 
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Primary Contact
-                        </StyledElementName>
+                        <StyledElementName>Primary Contact</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <Select
                                 // error={isInvalid("state")}
@@ -245,9 +229,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
 
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Email
-                        </StyledElementName>
+                        <StyledElementName>Email</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledInputField
                                 type="text"
@@ -263,9 +245,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
 
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Phone
-                        </StyledElementName>
+                        <StyledElementName>Phone</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledInputField
                                 type="number"
@@ -296,9 +276,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
 
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Address
-                        </StyledElementName>
+                        <StyledElementName>Address</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledInputField
                                 type="text"
@@ -334,7 +312,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                             />
                         </StyledNumberInputContainer>
                     </StyledFormItem>
-                    <div className={styles.horizontalLayout}>
+                    <Box className={styles.horizontalLayout} display="flex" gap="5px">
                         <StyledFormItem>
                             <StyledNumberInputContainer style={{ width: "100%" }}>
                                 <StyledInputField
@@ -351,7 +329,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                         <StyledFormItem>
                             <StyledNumberInputContainer style={{ width: "100%" }}>
                                 <Select
-                                    placeholder="Select State"
+                                    placeholder="State"
                                     // error={isInvalid("state")}
                                     options={allStates}
                                     initialValue={formData.state}
@@ -360,11 +338,10 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                                     }}
                                     showValueAlways={true}
                                     showValueAsLabel={true}
-
                                 />
                             </StyledNumberInputContainer>
                         </StyledFormItem>
-                    </div>
+                    </Box>
                     <StyledFormItem>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <Select
@@ -383,9 +360,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
 
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Medicare Beneficiary ID
-                        </StyledElementName>
+                        <StyledElementName>Medicare Beneficiary ID</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledInputField
                                 type="text"
@@ -399,12 +374,9 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                     </StyledFormItem>
                 </SectionContainer>
 
-
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Medicare Part A Effective Date
-                        </StyledElementName>
+                        <StyledElementName>Medicare Part A Effective Date</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledDatePicker>
                                 <DatePickerMUI
@@ -420,12 +392,9 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                     </StyledFormItem>
                 </SectionContainer>
 
-
                 <SectionContainer>
                     <StyledFormItem>
-                        <StyledElementName>
-                            Medicare Part B Effective Date
-                        </StyledElementName>
+                        <StyledElementName>Medicare Part B Effective Date</StyledElementName>
                         <StyledNumberInputContainer style={{ width: "100%" }}>
                             <StyledDatePicker>
                                 <DatePickerMUI
@@ -466,17 +435,17 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                 </SectionContainer>
             </div>
 
-            <Box sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: "20px",
-            }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: "20px",
+                }}
+            >
                 <Label value={`Created Date: ${leadDetails?.leadCreatedDate}`} color="#717171" size="14px" />
-
             </Box>
-            <Box className={styles.buttonContainer} >
-
+            <Box className={styles.buttonContainer}>
                 <Button
                     label={"Cancel"}
                     className={styles.deleteButton}
@@ -492,11 +461,8 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                     iconPosition="right"
                 />
             </Box>
-
-
-
         </Box>
-    )
+    );
 }
 
-export default ContactInfoForm
+export default ContactInfoForm;

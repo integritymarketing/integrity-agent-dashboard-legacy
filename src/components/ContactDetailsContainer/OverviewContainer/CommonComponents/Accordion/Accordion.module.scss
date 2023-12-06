@@ -5,38 +5,49 @@
 }
 
 .container {
-    border-bottom: 1px solid #DDDDDD;
+    border-bottom: 1px solid #dddddd;
 }
-
-
 
 .labelContainer {
     display: flex;
     align-items: center;
-    gap: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #052a63;
+    padding-top: 5px;
+    cursor: pointer;
 
     .chevronIcon {
-        cursor: pointer;
+        padding-top: 5px;
     }
 
-    .rotateIcon {
-        transform: rotate(-90deg);
+    .chevronIconRotate {
+        svg {
+            transform: rotate(-90deg);
+        }
+    }
+
+    svg {
+        transition: 300ms ease-out;
+    }
+
+    .infoIcon {
+      padding-left: 2px;
+      padding-top: 5px;
     }
 }
 
-.itemContainer {
+.itemsContainer {
+    padding: 5px 25px;
+    cursor: pointer;
     display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 8.5px 12.5px;
+    gap: 10px;
+    flex-direction: column;
+}
 
-    @include small {
-        padding: 4px;
-        gap: 2px;
-
-        svg {
-            width: 16px;
-            min-width: 16px;
-        }
+.itemContainer {
+    .itemLabel {
+        color: #434a51;
+        font-size: 16px;
     }
 }

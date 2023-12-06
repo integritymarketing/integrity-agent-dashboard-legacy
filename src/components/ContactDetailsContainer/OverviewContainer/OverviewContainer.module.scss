@@ -1,6 +1,6 @@
 .outerContainer {
-    @media (min-width: 1024px) {
-        min-width: 1000px;
+    @media (min-width: 768px) {
+        padding: 0 24px 60px 24px;
     }
 }
 
@@ -11,19 +11,23 @@
 
     @media (min-width: 1024px) {
         flex-direction: row;
-        min-width: 1000px;
         gap: 24px;
     }
 
     .leftSection {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
         @media (min-width: 1024px) {
-            width: 30%;
+            width: 280px;
         }
     }
 
     .rightSection {
         @media (min-width: 1024px) {
-            width: 70%;
+            width: calc(100% - 280px);
+            margin-top: -10px;
         }
     }
 }

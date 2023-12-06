@@ -1,25 +1,30 @@
-import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useLeadDetails, useOverView } from "providers/ContactDetails";
+
+import Box from "@mui/material/Box";
+
+import { useOverView } from "providers/ContactDetails";
+
+import { formatDate, getDateTime, getOverDue } from "utils/dates";
+
 import ContactSectionCard from "packages/ContactSectionCard";
-import { Button } from "components/ui/Button";
-import { Delete, Edit, Complete, } from "../../Icons";
-import Reminder from "../../Icons/reminder";
-import Plus from "components/icons/plus";
+
+import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
 import EditIcon from "components/icons/icon-edit";
-import { getDateTime, getOverDue } from "utils/dates";
+import Plus from "components/icons/plus";
+import { Button } from "components/ui/Button";
 
 import styles from "./RemindersList.module.scss";
-import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
+
+import { Complete, Delete } from "../../Icons";
+import Reminder from "../../Icons/reminder";
+
 export const RemindersList = () => {
     const { leadId } = useParams();
 
-    const { leadDetails } = useLeadDetails();
     const { getReminders, reminders, addReminder, removeReminder, editReminder } = useOverView();
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
     const [selectedReminder, setSelectedReminder] = useState(null);
-
 
     useEffect(() => {
         getReminders(leadId);
@@ -29,30 +34,24 @@ export const RemindersList = () => {
         const addPayload = {
             ...payload,
             leadsId: leadId,
-        }
+        };
         addReminder(addPayload, leadId);
         setIsAddNewModalOpen(false);
-    }
+    };
 
     const updateReminder = (payload, isComplete = false) => {
         const addPayload = {
             ...payload,
             leadsId: leadId,
-            isComplete: isComplete
-        }
+            isComplete: isComplete,
+        };
         editReminder(addPayload);
         setIsAddNewModalOpen(false);
-    }
-
-
+    };
 
     const deleteReminder = (id) => {
         removeReminder(id, leadId);
-    }
-
-
-
-
+    };
 
     return (
         <>
@@ -69,7 +68,7 @@ export const RemindersList = () => {
                             iconPosition="right"
                             label="Add New"
                             onClick={() => {
-                                setIsAddNewModalOpen(true)
+                                setIsAddNewModalOpen(true);
                             }}
                             type="tertiary"
                             className={styles.buttonWithIcon}
@@ -84,17 +83,25 @@ export const RemindersList = () => {
                         return (
                             <Box className={styles.reminderItem}>
                                 <Box className={styles.reminderDue}>
-                                    <Box className={`${styles.reminderIcon} ${isOverDue ? styles.dueIcon : ""}`}> {isOverDue ? <Reminder color="#FF1717" /> : <Reminder color="#4178FF" />}</Box>
+                                    <Box className={`${styles.reminderIcon} ${isOverDue ? styles.dueIcon : ""}`}>
+                                        {isOverDue ? <Reminder color="#FF1717" /> : <Reminder color="#4178FF" />}
+                                    </Box>
                                     <Box>
-                                        <Box className={styles.dueLabel}>Due:{" "} <span className={styles.dueValue}>{getDateTime(reminderDate)?.date}</span></Box>
-                                        <Box className={styles.dueLabel}>At: {" "} <span className={styles.dueValue}>{getDateTime(reminderDate)?.time}</span></Box>
+                                        <Box className={styles.dueLabel}>
+                                            Due:
+                                            <span className={styles.dueValue}>{formatDate(reminderDate, "MM/dd")}</span>
+                                        </Box>
+                                        <Box className={styles.dueLabel}>
+                                            At:
+                                            <span className={styles.dueValue}>{getDateTime(reminderDate)?.time}</span>
+                                        </Box>
                                     </Box>
                                 </Box>
                                 <Box className={styles.reminderDescription}>{reminderNote}</Box>
                                 <Box className={styles.reminderActions}>
-                                    {!isComplete &&
+                                    {!isComplete && (
                                         <>
-                                            <div>
+                                            <Box>
                                                 <Button
                                                     icon={<Complete color="#4178FF" />}
                                                     label={"Complete"}
@@ -103,24 +110,23 @@ export const RemindersList = () => {
                                                     type="tertiary"
                                                     iconPosition="right"
                                                 />
-                                            </div>
-
-                                            <div className={styles.editButton}>
+                                            </Box>
+                                            <Box className={styles.editButton}>
                                                 <Button
                                                     icon={<EditIcon />}
                                                     label={"Edit"}
                                                     className={styles.buttonWithIcon}
                                                     onClick={() => {
-                                                        setSelectedReminder(reminder)
-                                                        setIsAddNewModalOpen(true)
+                                                        setSelectedReminder(reminder);
+                                                        setIsAddNewModalOpen(true);
                                                     }}
                                                     type="tertiary"
                                                     iconPosition="right"
                                                 />
-                                            </div>
+                                            </Box>
                                         </>
-                                    }
-                                    <div>
+                                    )}
+                                    <Box>
                                         <Button
                                             icon={<Delete color="#4178FF" />}
                                             label={"Delete"}
@@ -129,23 +135,22 @@ export const RemindersList = () => {
                                             type="tertiary"
                                             iconPosition="right"
                                         />
-                                    </div>
+                                    </Box>
                                 </Box>
                             </Box>
                         );
                     })}
-
                 </>
-            </ContactSectionCard >
-            {
-                isAddNewModalOpen &&
+            </ContactSectionCard>
+            {isAddNewModalOpen && (
                 <AddReminderModal
                     open={isAddNewModalOpen}
                     onClose={() => setIsAddNewModalOpen(false)}
                     onSave={selectedReminder ? updateReminder : saveReminder}
                     leadId={leadId}
-                    selectedReminder={selectedReminder} />
-            }
+                    selectedReminder={selectedReminder}
+                />
+            )}
         </>
     );
 };

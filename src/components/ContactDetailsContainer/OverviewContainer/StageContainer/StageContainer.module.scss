@@ -6,10 +6,9 @@
     font-size: 24px;
 
     .box {
-        padding: 20px;
+        padding: 15px;
         background-color: #ffffff;
         border-radius: 8px;
-        margin-top: 20px;
 
         @include small {
             padding: 4px;

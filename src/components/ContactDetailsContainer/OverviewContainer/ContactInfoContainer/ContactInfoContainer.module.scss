@@ -1,76 +1,80 @@
 .miniContainer {
-  display: flex;
-  gap: 24px;
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 1024px) {
+        flex-direction: row;
+        gap: 24px;
+    }
 }
 
 .horizontalLayout {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+    position: relative;
+    
+    .editIcon {
+        cursor: pointer;
+        position: absolute;
+        top: -10px;
+        right: 0;
+    }
 }
 
 .emailAddress {
-  overflow: hidden;
-  word-wrap: break-word;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .border {
-  border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .gap {
-  justify-content: space-between;
-}
-
-.editIcon {
-  cursor: pointer;
-  align-items: center;
+    justify-content: space-between;
 }
 
 .buttonContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 .editButton {
-  border-radius: 25px !important;
-  padding: 5px 12px !important;
-  background-color: #4178ff !important;
+    border-radius: 25px !important;
+    padding: 5px 12px !important;
+    background-color: #4178ff !important;
 
-  span {
-    font-size: 14px !important;
-    color: #ffffff !important;
-    font-weight: 500;
-  }
+    span {
+        font-size: 14px !important;
+        color: #ffffff !important;
+        font-weight: 500;
+    }
 
-  &:hover {
-    background-color: #1357FF !important;
-  }
+    &:hover {
+        background-color: #1357ff !important;
+    }
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }
 
-
 .deleteButton {
-  border-radius: 25px !important;
-  padding: 5px 20px !important;
+    border-radius: 25px !important;
+    padding: 5px 20px !important;
 
-  span {
-    font-size: 14px !important;
-    color: #4178ff !important;
-    font-weight: 500;
-  }
+    span {
+        font-size: 14px !important;
+        color: #4178ff !important;
+        font-weight: 500;
+    }
 
-  &:hover {
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-    color: #1357FF !important
-  }
+    &:hover {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        color: #1357ff !important;
+    }
 }

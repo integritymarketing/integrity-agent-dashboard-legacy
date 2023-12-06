@@ -1,27 +1,28 @@
-import React, { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
+import React, { useCallback, useEffect, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
 
+import Box from "@mui/material/Box";
+
+import PropTypes from "prop-types";
 // Custom Hooks
 import { useLeadDetails } from "providers/ContactDetails";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
 // Constants
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-
 // Utils
 import { formatPhoneNumber } from "utils/phones";
 
+import PrescriptionModal from "components/SharedModals/PrescriptionModal";
+import ProviderModal from "components/SharedModals/ProviderModal";
+import DetailsCard from "components/ui/DetailsCard";
 // UI Components
 import CellData from "components/ui/DetailsTable/CellData";
-import DetailsCard from "components/ui/DetailsCard";
-import ProviderModal from "components/SharedModals/ProviderModal";
-import PrescriptionModal from "components/SharedModals/PrescriptionModal";
+import RenderProviders from "components/ui/ProvidersList";
 
 // Local Components
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
-import RenderProviders from "components/ui/ProvidersList";
-import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
 // Styles
 import styles from "./HealthSection.module.scss";
@@ -46,7 +47,6 @@ const HealthDetailsSection = () => {
         providerLoading,
         prescriptions = [],
         prescriptionLoading,
-        deletePrescription,
         deletePharmacy,
         fetchPrescriptions,
         fetchPharmacies,
@@ -62,7 +62,6 @@ const HealthDetailsSection = () => {
     const fetchHealthDetails = useCallback(async () => {
         await Promise.all([fetchPrescriptions(leadId), fetchPharmacies(leadId), fetchProviders(leadId)]);
     }, [leadId, fetchPrescriptions, fetchPharmacies, fetchProviders]);
-
 
     const onAddNewPrescription = () => setIsOpenPrescription(true);
     const onCloseNewPrescription = () => setIsOpenPrescription(false);
@@ -87,8 +86,8 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-                : "";
+            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+            : "";
 
         return (
             <div className={className}>
@@ -117,7 +116,7 @@ const HealthDetailsSection = () => {
 
     const onDeletePharmacy = (pharmacy) => {
         deletePharmacy(pharmacy, null, leadId);
-    }
+    };
 
     return (
         <>
@@ -129,7 +128,7 @@ const HealthDetailsSection = () => {
             />
 
             <div className={styles.detailscardContainer}>
-                <div>
+                <Box marginTop="-1.2rem">
                     <DetailsCard
                         dataGtm="section-provider"
                         headerTitle="Providers"
@@ -149,29 +148,25 @@ const HealthDetailsSection = () => {
                             );
                         }}
                     />
-                </div>
-                <div>
-                    <DetailsCard
-                        dataGtm="section-prescription"
-                        headerTitle="Prescriptions"
-                        onAddClick={onAddNewPrescription}
-                        items={prescriptions}
-                        Row={PrescriptionRow}
-                        onEdit={onEditPrescription}
-                        isLoading={prescriptionLoading}
-                    />
-                </div>
-                <div>
-                    <DetailsCard
-                        dataGtm="section-pharmacies"
-                        headerTitle="Pharmacies"
-                        onAddClick={onAddNewPharmacy}
-                        items={pharmacies}
-                        Row={PharamaciesRow}
-                        onDelete={onDeletePharmacy}
-                        isLoading={pharmacyLoading}
-                    />
-                </div>
+                </Box>
+                <DetailsCard
+                    dataGtm="section-prescription"
+                    headerTitle="Prescriptions"
+                    onAddClick={onAddNewPrescription}
+                    items={prescriptions}
+                    Row={PrescriptionRow}
+                    onEdit={onEditPrescription}
+                    isLoading={prescriptionLoading}
+                />
+                <DetailsCard
+                    dataGtm="section-pharmacies"
+                    headerTitle="Pharmacies"
+                    onAddClick={onAddNewPharmacy}
+                    items={pharmacies}
+                    Row={PharamaciesRow}
+                    onDelete={onDeletePharmacy}
+                    isLoading={pharmacyLoading}
+                />
                 {isOpen && (
                     <ProviderModal
                         open={isOpen}

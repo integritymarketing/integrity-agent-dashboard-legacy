@@ -1,27 +1,41 @@
-import React, { useState } from 'react'
-import styles from './Accordion.module.scss'
-import { Chevron, Delete, Info } from '../../Icons'
-import Label from '../Label'
+import React, { useState } from "react";
+
+import { Box } from "@mui/system";
+
+import ArrowDownBlue from "components/icons/version-2/ArrowDownBlue";
+
+import styles from "./Accordion.module.scss";
+
+import { Info } from "../../Icons";
 
 const Accordion = function ({ label, items }) {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(true);
 
-    return <div className={styles.container}>
-        <div className={styles.labelContainer} >
-            <div className={`${styles.chevronIcon} ${open ? '' : styles.rotateIcon}`} onClick={() => setOpen(value => !value)} >
-                <Chevron />
-            </div>
-            <Label value={label} size="16px" />
-            <Info />
-        </div>
-        {open && <div className={styles.itemsContainer}>
-            {items.map(item => <div className={styles.itemContainer} key={item.label}>
-                <Delete />
-                <Label value={item.label} size="16px" color="#434A51" />
-            </div>)}
-        </div>
-        }
-    </div>
-}
+    return (
+        <Box className={styles.container}>
+            <Box className={styles.labelContainer}>
+                <Box
+                    className={`${styles.chevronIcon} ${!open && styles.chevronIconRotate}`}
+                    onClick={() => setOpen((value) => !value)}
+                >
+                    <ArrowDownBlue />
+                </Box>
+                <Box onClick={() => setOpen((value) => !value)}>{label}</Box>
+                <Box className={styles.infoIcon}>
+                    <Info />
+                </Box>
+            </Box>
+            {open && (
+                <Box className={styles.itemsContainer} onClick={() => setOpen((value) => !value)}>
+                    {items.map((item) => (
+                        <Box className={styles.itemContainer} key={item.label}>
+                            <Box className={styles.itemLabel}>{item.label}</Box>
+                        </Box>
+                    ))}
+                </Box>
+            )}
+        </Box>
+    );
+};
 
-export default Accordion
+export default Accordion;

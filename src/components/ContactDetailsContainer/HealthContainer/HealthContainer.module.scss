@@ -1,11 +1,34 @@
-@import "../../../scss/globalDefines.scss";
+
+.outerContainer {
+    @media (min-width: 768px) {
+        padding: 0 24px 60px 24px;
+    }
+}
 
 .healthContainer {
     display: flex;
-    gap: 1.5rem;
+    flex-direction: column;
+    width: 100%;
 
-    @include small {
+    @media (min-width: 1024px) {
+        flex-direction: row;
+        gap: 24px;
+    }
+
+    .leftSection {
+        display: flex;
         flex-direction: column;
-        gap: 0;
+        gap: 20px;
+
+        @media (min-width: 1024px) {
+            width: 280px;
+        }
+    }
+
+    .rightSection {
+        @media (min-width: 1024px) {
+            width: calc(100% - 280px);
+            margin-top: -10px;
+        }
     }
 }

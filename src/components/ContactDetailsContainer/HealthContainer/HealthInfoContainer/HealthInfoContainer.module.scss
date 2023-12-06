@@ -1,14 +1,6 @@
 @import "../../../../scss/globalDefines.scss";
 
 .healthInfoContainer {
-    margin: 3.8rem 0.5rem 0 8.5rem;
-    width: 17rem;
-
-    @include small {
-        margin: 1rem;
-        width: calc(100% - 2rem);
-    }
-
     .headerWrapper {
         display: flex;
         justify-content: space-between;

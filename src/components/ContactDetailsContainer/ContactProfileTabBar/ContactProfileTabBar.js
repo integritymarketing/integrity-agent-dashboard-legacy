@@ -9,6 +9,7 @@ import { toTitleCase } from "utils/toTitleCase";
 
 import PlansTypeModal from "components/PlansTypeModal";
 import { Button } from "components/ui/Button";
+import Container from "components/ui/container";
 
 import styles from "./ContactProfileTabBar.module.scss";
 import { Connect, Health, Overview, Policies } from "./Icons";
@@ -39,6 +40,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
         leadDetails?.firstName && leadDetails?.lastName
             ? `${leadDetails?.firstName} ${leadDetails?.lastName}`
             : "Lead Name here ...";
+    const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
 
     const handleSectionChange = useCallback(
         (section) => {
@@ -49,12 +51,8 @@ export const ContactProfileTabBar = ({ contactId }) => {
     );
 
     const handleBackPage = useCallback(() => {
-        if (location.state?.from) {
-            navigate(-1);
-        } else {
-            navigate("/contacts");
-        }
-    }, [navigate, location.state]);
+        navigate(-1) || navigate("/contacts");
+    }, [navigate]);
 
     const handleCloseShowPlanTypeModal = useCallback(() => {
         setShowPlanTypeModal(false);
@@ -70,49 +68,50 @@ export const ContactProfileTabBar = ({ contactId }) => {
             className={styles.profileTab}
             onClick={() => (modalTrigger ? setConnectModalVisible(true) : handleSectionChange(section))}
         >
-            <div className={`${styles.tabIcon} ${selectedTab === section ? styles.selected : ""}`}>{icon}</div>
-            <div className={styles.tabName}>{name}</div>
+            <Box className={`${styles.tabIcon} ${selectedTab === section ? styles.selected : ""}`}>{icon}</Box>
+            <Box className={styles.tabName}>{name}</Box>
         </Box>
     );
 
     return (
-        <nav className={styles.contactProfileTabBar}>
-            <div className={styles.backToContacts}>
-                <Button
-                    icon={<img src={NewBackBtn} alt="Back" />}
-                    label="Back"
-                    onClick={handleBackPage}
-                    type="tertiary"
-                    className={styles.backButton}
-                />
-            </div>
-
-            <Box className={styles.profileMenu}>
-                <h1 className={styles.userName}>{toTitleCase(leadName)}</h1>
-                <div className={styles.profileTabs}>{tabs.map(renderTab)}</div>
-                {isContactDetailsPage && (
+        <Box className={styles.navWrapper}>
+            <Container className={styles.contactProfileTabBar}>
+                <Box className={styles.backToContacts}>
                     <Button
-                        onClick={handleStartQuote}
-                        label="Start a Quote"
-                        type="primary"
-                        className={styles.quoteButton}
+                        icon={<img src={NewBackBtn} alt="Back" />}
+                        label="Back"
+                        onClick={handleBackPage}
+                        type="tertiary"
+                        className={styles.backButton}
+                    />
+                </Box>
+                <Box className={styles.profileMenu}>
+                    <Box className={styles.userName}>{toTitleCase(leadName)}</Box>
+                    <Box className={styles.profileTabs}>{tabs.map(renderTab)}</Box>
+                    {isContactDetailsPage && (
+                        <Button
+                            onClick={handleStartQuote}
+                            label="Start a Quote"
+                            type="primary"
+                            className={styles.quoteButton}
+                        />
+                    )}
+                </Box>
+                {connectModalVisible && (
+                    <ConnectModal
+                        open={connectModalVisible}
+                        onClose={() => setConnectModalVisible(false)}
+                        leadId={leadId}
+                        leadDetails={leadDetails}
                     />
                 )}
-            </Box>
-            {connectModalVisible && (
-                <ConnectModal
-                    open={connectModalVisible}
-                    onClose={() => setConnectModalVisible(false)}
+                <PlansTypeModal
+                    zipcode={zipcode}
+                    showPlanTypeModal={showPlanTypeModal}
+                    handleModalClose={handleCloseShowPlanTypeModal}
                     leadId={leadId}
-                    leadDetails={leadDetails}
                 />
-            )}
-            <PlansTypeModal
-                zipcode={leadDetails?.addresses?.[0]?.postalCode}
-                showPlanTypeModal={showPlanTypeModal}
-                handleModalClose={handleCloseShowPlanTypeModal}
-                leadId={leadId}
-            />
-        </nav>
+            </Container>
+        </Box>
     );
 };

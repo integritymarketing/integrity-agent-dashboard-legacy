@@ -5,6 +5,7 @@ import { Box } from "@mui/system";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { DeleteContactModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteContactModal/DeleteContactModal";
+import Container from "components/ui/container";
 
 import { ActivitiesTableContainer } from "./ActivitiesContainer/ActivitiesTableContainer";
 import { ClientNotes } from "./ClientNotesContainer/ClientNotes";
@@ -19,12 +20,10 @@ export const OverviewContainer = () => {
 
     const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
-    let { firstName = "", middleName = "", lastName = "", leadsId } = leadDetails;
-
-
+    const { firstName = "", middleName = "", lastName = "", leadsId } = leadDetails;
 
     return (
-        <Box>
+        <Container className={styles.outerContainer}>
             <Box className={styles.innerContainer}>
                 <Box className={styles.leftSection}>
                     <StageContainer />
@@ -55,7 +54,6 @@ export const OverviewContainer = () => {
                     </Box>
                 </Box>
             </Box>
-
             {deleteModalStatus && (
                 <DeleteContactModal
                     leadId={leadsId}
@@ -64,6 +62,6 @@ export const OverviewContainer = () => {
                     open={deleteModalStatus}
                 />
             )}
-        </Box>
+        </Container>
     );
 };

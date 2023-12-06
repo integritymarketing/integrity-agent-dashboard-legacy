@@ -3,9 +3,7 @@
 .detailscardContainer {
     display: flex;
     flex-direction: column;
-    padding: 30px;
-    width: 53rem;
-
+    
     @include small {
         width: 100%;
     }
