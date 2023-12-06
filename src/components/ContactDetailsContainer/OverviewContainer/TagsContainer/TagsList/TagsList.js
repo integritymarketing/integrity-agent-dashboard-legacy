@@ -112,7 +112,7 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
         const payload = {
             tagLabel: newTag,
             tagCategoryId: 8,
-            leadsId: leadId,
+            leadsId: leadId.toString(),
             tagId: 0
         }
         createNewTag(payload);
@@ -225,13 +225,17 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
                     </Box>
                 }
             </div>
+            {label === "Other" && addNewTag &&
+                <Box>
+                    <AddNewTag />
+                </Box>
+            }
             {open && <div className={styles.itemsContainer}>
                 {items.map(item => {
                     return (
                         <>
                             {label === "Other" ? (
                                 <>
-                                    {addNewTag && <AddNewTag />}
                                     <OtherTags item={item} />
 
                                 </>
