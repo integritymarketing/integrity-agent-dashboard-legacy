@@ -1,0 +1,39 @@
+.labelClassName {
+    font-size: 16px;
+    letter-spacing: -0.14px;
+    color: #717171;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.expandableButton {
+    transition: all 0.5s ease;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    background: #FFFFFF;
+    cursor: pointer;
+    flex: 1;
+    color: #434A51;
+    font-size: 16px;
+    letter-spacing: -0.16px;
+}
+
+.expandableButton:hover {
+    flex-grow: 3;
+    background: #F1FAFF;
+}
+
+.expandableButton.selected {
+    background: #F1FAFF no-repeat padding-box;
+    border: 1px solid #DDDDDD;
+}
