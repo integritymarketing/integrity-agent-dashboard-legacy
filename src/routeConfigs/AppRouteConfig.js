@@ -43,6 +43,7 @@ const PolicySnapshotMobileLayout = lazy(() =>
 );
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
+const FinalExpensePlansResultContainer = lazy(() => import("components/FinalExpensePlansContainer/FinalExpensePlansResultContainer"));
 const AddZipPage = lazy(() => import("pages/AddZipPage"));
 const ContactProfile = lazy(() => import("pages/ContactProfilePage"));
 const ContactsList = lazy(() => import("pages/ContactsList"));
@@ -164,6 +165,15 @@ const appProtectedRoutes = [
                 </FinalExpensePlansProvider>
                 <WebChatComponent />
             </StrictMode>
+        ),
+    },
+    {
+        path: "/finalexpenses/plans/:contactId",
+        component: (
+            <>
+                <FinalExpensePlansResultContainer />
+                <WebChatComponent />
+            </>
         ),
     },
     {

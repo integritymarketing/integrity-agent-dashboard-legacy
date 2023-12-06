@@ -1,14 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Text } from "@integritymarketing/ui-text-components";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
-
 import Heading4 from "packages/Heading4";
-
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { CurrencyAdjuster } from "components/CurrencyAdjuster";
-import Checkbox from "components/ui/Checkbox";
 import { Select } from "components/ui/Select";
 
 import {
@@ -19,20 +16,19 @@ import {
     MONTHLY_PREMIUM,
     MY_APPOINTED_LABEL,
     PLAN_OPTIONS_HEADING,
-    STEPPER_FILTER,
+    STEPPER_FILTER
 } from "./FinalExpensePlansResultContainer.constants";
 import styles from "./FinalExpensePlansResultContainer.module.scss";
+import CheckedIcon from "components/icons/CheckedIcon";
+import UnCheckedIcon from "components/icons/unChecked";
 
 const FinalExpensePlansResultContainer = ({
-    contactId,
-    coverageAmount,
-    setCoverageAmount,
-    monthlyPremiumAmount,
-    setMonthlyPremiumAmount,
-    coverageType,
-    setCoverageType,
 }) => {
+    const { contactId } = useParams();
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
+    const [coverageAmount, setCoverageAmount] = useState(STEPPER_FILTER[COVERAGE_AMOUNT].min);
+    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = useState(STEPPER_FILTER[MONTHLY_PREMIUM].min);
+    const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[0].value);
     const { getLeadDetails, leadDetails } = useLeadDetails();
     const [isMyAppointedProducts, setIsMyAppointedProducts] = useState(false);
     const [isShowExcludedProducts, setIsShowExcludedProducts] = useState(false);
@@ -92,18 +88,18 @@ const FinalExpensePlansResultContainer = ({
                             showValueAlways
                         />
                         <div className={styles.checkboxesWrapper}>
-                            <Checkbox
-                                checked={isMyAppointedProducts}
-                                onChange={() => setIsMyAppointedProducts(!isMyAppointedProducts)}
-                                className={styles.checkbox1}
-                                label={MY_APPOINTED_LABEL}
-                            />
-                            <Checkbox
-                                checked={isShowExcludedProducts}
-                                onChange={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
-                                className={styles.checkbox2}
-                                label={EXCLUDE_LABEL}
-                            />
+                            <div className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""}`}
+                                onClick={() => setIsMyAppointedProducts(!isMyAppointedProducts)}
+                            >
+                                {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                <span>{MY_APPOINTED_LABEL}</span>
+                            </div>
+                            <div className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""}`}
+                                onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
+                            >
+                                {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                <span>{EXCLUDE_LABEL}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

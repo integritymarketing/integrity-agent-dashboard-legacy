@@ -1,27 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 import { useFinalExpensePlans } from "providers/FinalExpense";
-
 import { formatDate, getAgeFromBirthDate } from "utils/dates";
-
 import useFetch from "hooks/useFetch";
-
 import { UPDATE_LEAD_DETAILS } from "components/AddZipContainer/AddZipContainer.constants";
 import PlanCardLoader from "components/ui/PlanCard/loader";
-
 import useContactDetails from "pages/ContactDetails/useContactDetails";
-
 import FinalExpenseContactBar from "./FinalExpenseContactBar";
 import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
 import { FinalExpensePlanCard } from "./FinalExpensePlanCard";
-import FinalExpensePlansResultContainer from "./FinalExpensePlansResultContainer";
-import {
-    COVERAGE_AMOUNT,
-    COVERAGE_TYPE,
-    MONTHLY_PREMIUM,
-    STEPPER_FILTER,
-} from "./FinalExpensePlansResultContainer/FinalExpensePlansResultContainer.constants";
 
 const QUOTE_ID = "390e04ef-be95-463d-9b76-46050cbf438c";
 
@@ -36,10 +24,7 @@ export const FinalExpensePlansContainer = () => {
     const { birthdate, gender, weight, height, isTobaccoUser, addresses } = leadDetails;
 
     const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${contactId}`);
-
-    const [coverageAmount, setCoverageAmount] = useState(STEPPER_FILTER[COVERAGE_AMOUNT].min);
-    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = useState(STEPPER_FILTER[MONTHLY_PREMIUM].min);
-    const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[0].value);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getFinalExpensePlans(QUOTE_ID);
@@ -53,9 +38,9 @@ export const FinalExpensePlansContainer = () => {
             age: getAgeFromBirthDate(contactFormDataRef.current.birthdate),
             gender: contactFormDataRef.current.gender === "Male" ? "M" : "F",
             tobacco: Boolean(contactFormDataRef.current.isTobaccoUser),
-            desiredFaceValue: coverageAmount,
-            desiredMonthlyRate: monthlyPremiumAmount,
-            coverageTypes: [coverageType],
+            desiredFaceValue: coverageAmount || 15000,
+            desiredMonthlyRate: monthlyPremiumAmount || 40,
+            coverageTypes: [coverageType || "LEVEL"],
             effectiveDate: todayDate,
             underWriting: {
                 user: {
@@ -90,6 +75,7 @@ export const FinalExpensePlansContainer = () => {
         });
         await getLeadDetails();
         contactFormDataRef.current = { ...formData };
+        navigate(`/finalexpenses/plans/${contactId}`);
         setSubmittedContactDetails(true);
     };
 
@@ -97,7 +83,7 @@ export const FinalExpensePlansContainer = () => {
         if (submittedContactDetails && contactFormDataRef.current) {
             fetchPlansData();
         }
-    }, [submittedContactDetails, coverageAmount, monthlyPremiumAmount, coverageType]);
+    }, [submittedContactDetails]);
 
     const renderPlanCardLoaders = useMemo(() => {
         const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
@@ -153,17 +139,6 @@ export const FinalExpensePlansContainer = () => {
                         />
                     )}
                 </>
-            )}
-            {submittedContactDetails && (
-                <FinalExpensePlansResultContainer
-                    contactId={contactId}
-                    coverageAmount={coverageAmount}
-                    monthlyPremiumAmount={monthlyPremiumAmount}
-                    coverageType={coverageType}
-                    setCoverageAmount={setCoverageAmount}
-                    setMonthlyPremiumAmount={setMonthlyPremiumAmount}
-                    setCoverageType={setCoverageType}
-                />
             )}
         </>
     );
