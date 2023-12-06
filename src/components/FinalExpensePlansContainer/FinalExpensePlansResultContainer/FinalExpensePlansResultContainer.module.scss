@@ -2,7 +2,8 @@
 
 .contentWrapper {
     display: flex;
-    padding: 24px;
+    padding: 2rem 4.5rem;
+    background-color: #f1f1f1;
 }
 
 .planOptionsBox {
@@ -28,19 +29,24 @@
 }
 
 .filterContent {
-    width: 350px;
+    width: 288px;
 }
 
 .checkboxesWrapper {
-    padding: 10px 5px;
+    padding: 10px 0;
     padding-top: 20px;
-}
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 
-.checkbox1 {
-    margin-bottom: 20px;
-    color: #434a51;
-}
+    .checkbox {
+        padding: 10px 8px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
 
-.checkbox2 {
-    color: #434a51;
+    .selectedCheckbox {
+        background: #F1FAFF;
+    }
 }

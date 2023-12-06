@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import GlobalNav from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import WebChatComponent from "components/WebChat/WebChat";
-import { ContactDetailsContainer, ContactProfileTabBar } from "components/ContactDetailsContainer";
+import { ContactDetailsContainer, ContactProfileTabBar, DuplicateContactNotificationBanner } from "components/ContactDetailsContainer";
 
 const ContactProfile = () => {
     return (
@@ -12,6 +12,7 @@ const ContactProfile = () => {
                 <title>MedicareCENTER - Contact Profile </title>
             </Helmet>
             <GlobalNav />
+            <DuplicateContactNotificationBanner />
             <ContactProfileTabBar />
             <ContactDetailsContainer />
             <WebChatComponent />

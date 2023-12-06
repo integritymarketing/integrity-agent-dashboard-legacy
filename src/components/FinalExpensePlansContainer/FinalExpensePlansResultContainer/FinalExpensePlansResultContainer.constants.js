@@ -7,7 +7,7 @@ export const STEPPER_FILTER = {
 
 export const COVERAGE_TYPE = [
     { label: "Level", value: "LEVEL" },
-    { label: "Graded", value: "GRADED_MODIFIED" },
+    { label: "Graded/Modified", value: "GRADED_MODIFIED" },
     { label: "Guaranteed", value: "GUARANTEED" },
     { label: "Limited", value: "LIMITED" },
 ];

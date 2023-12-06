@@ -163,7 +163,7 @@
 .datepicker {
     width: 100%;
 
-    > div {
+    >div {
         height: 46px;
         width: 100%;
     }
@@ -175,4 +175,12 @@
     button {
         color: #4178ff;
     }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
