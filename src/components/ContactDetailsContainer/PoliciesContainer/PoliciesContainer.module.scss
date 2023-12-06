@@ -1,6 +1,13 @@
+@import "../../../scss/globalDefines.scss";
+
 .policiesContainer {
     display: flex;
     flex-direction: column;
     padding: 30px;
-    width: 50%;
+    width: 80%;
+
+    @include small {
+        padding: 0;
+        width: 100%;
+    }
 }

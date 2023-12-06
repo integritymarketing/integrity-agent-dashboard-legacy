@@ -128,7 +128,7 @@ const HealthDetailsSection = () => {
                 }}
             />
 
-            <div className="detailscard-container">
+            <div className={styles.detailscardContainer}>
                 <div>
                     <DetailsCard
                         dataGtm="section-provider"

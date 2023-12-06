@@ -1,4 +1,11 @@
+@import "../../../scss/globalDefines.scss";
+
 .healthContainer {
     display: flex;
-    gap: 24px;
+    gap: 1.5rem;
+
+    @include small {
+        flex-direction: column;
+        gap: 0;
+    }
 }

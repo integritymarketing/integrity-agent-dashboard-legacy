@@ -26,7 +26,7 @@ const HealthInfoContainer = () => {
                 ? <EditHealthInfo
                     birthdate={birthdate}
                     sexuality={gender}
-                    wt={weight? weight : 0}
+                    wt={weight? weight : ""}
                     hFeet={height ? Math.floor(height / 12) : ""}
                     hInch={height ? height % 12 : ""}
                     smoker={smoker}

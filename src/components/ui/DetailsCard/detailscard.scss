@@ -93,8 +93,7 @@
 }
 
 .enrollmentPlanContainer_detailsPage {
-    // margin-top: 3rem;
-    margin-top: 3.8rem;
+    margin-top: 1.2rem;
     border-radius: 8px;
 }
 
@@ -122,21 +121,22 @@
 
 
 .buttonWithIcon {
-  border-radius: 25px !important;
-  padding: 5px 20px !important;
+    border-radius: 25px !important;
+    padding: 5px 20px !important;
 
-  span {
-    font-size: 14px !important;
-    color: #4178ff !important;
-    font-weight: 500;
-  }
+    span {
+        font-size: 14px !important;
+        color: #4178ff !important;
+        font-weight: 500;
+    }
 
-  &:hover {
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-    color: #1357FF !important
-  }
-  &:disabled {
-      box-shadow: unset !important;
+    &:hover {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        color: #1357FF !important
+    }
+
+    &:disabled {
+        box-shadow: unset !important;
     }
 }

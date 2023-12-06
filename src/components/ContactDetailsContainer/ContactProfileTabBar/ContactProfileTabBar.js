@@ -108,7 +108,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                 />
             )}
             <PlansTypeModal
-                zipcode={leadDetails?.addresses[0]?.postalCode}
+                zipcode={leadDetails?.addresses?.[0]?.postalCode}
                 showPlanTypeModal={showPlanTypeModal}
                 handleModalClose={handleCloseShowPlanTypeModal}
                 leadId={leadId}
