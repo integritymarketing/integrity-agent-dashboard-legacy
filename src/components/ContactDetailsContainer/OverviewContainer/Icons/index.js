@@ -7,3 +7,8 @@ export * from "./info";
 export * from "./favorite"
 export * from "./editWithIcon"
 export * from "./ArrowForwardWithCirlce"
+export * from "./LeadCenter"
+export * from "./DataCenter"
+export * from "./LifeIcon"
+export * from "./PlanEnroll"
+export * from "./CrossIcon"

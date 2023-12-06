@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Label = function ({ value, size, color, }) {
-    const style = { fontSize: size || '24px', color: color || '#052A63' }
+const Label = function ({ value, size, color, fontWeight }) {
+    const style = { fontSize: size || '24px', color: color || '#052A63', fontWeight: fontWeight || '400' }
 
     return <div style={style}>{value}</div>
 }
