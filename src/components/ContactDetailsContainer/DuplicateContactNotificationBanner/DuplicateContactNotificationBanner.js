@@ -44,13 +44,13 @@ export const DuplicateContactNotificationBanner = () => {
     const renderDuplicateLink = () => {
         if (duplicateLeadIds.length === 1) {
             return (
-                <a href={`/contact/${duplicateLeadIds[0]}`} target="_blank" rel="noopener noreferrer">
+                <a href={`/contact/${duplicateLeadIds[0]}/overview`} target="_blank" rel="noopener noreferrer">
                     {duplicateLeadIdName || "this contact link."}
                 </a>
             );
         } else if (duplicateLeadIds.length > 1) {
             return (
-                <a onClick={handleMultileDuplicates} href="/contacts/list" target="_blank" rel="noopener noreferrer">
+                <a onClick={handleMultileDuplicates} href="/contacts-list" target="_blank" rel="noopener noreferrer">
                     these contacts
                 </a>
             );
