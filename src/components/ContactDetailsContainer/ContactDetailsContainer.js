@@ -11,11 +11,11 @@ import WithLoader from "components/ui/WithLoader";
 import { SOAConfirmationForm } from "./ScopeOfAppointmentContainer/SOAConfirmationForm/SOAConfirmationForm";
 import { SOAViewForm } from "./ScopeOfAppointmentContainer/SOAViewForm/SOAViewForm";
 import styles from "./ContactDetailsContainer.module.scss";
+import SupportLinksCard from "components/SupportLinksCard";
 
 export const ContactDetailsContainer = () => {
     const { leadId, section } = useParams();
     const { selectedTab, getLeadDetails, setSelectedTab, isLoadingLeadDetails } = useLeadDetails();
-
 
     useEffect(() => {
         getLeadDetails(leadId);
@@ -47,9 +47,8 @@ export const ContactDetailsContainer = () => {
     return (
         <>
             <WithLoader isLoading={isLoadingLeadDetails}>
-
                 <Box className={styles.ContactDetailsContainer}>{renderSection()}</Box>
-
+                <SupportLinksCard />
             </WithLoader>
         </>
     );
