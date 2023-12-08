@@ -4,6 +4,12 @@
     display: flex;
     padding: 2rem 4.5rem;
     background-color: #f1f1f1;
+    gap: 4.5rem;
+    justify-content: center;
+}
+
+.column {
+    flex-direction: column;
 }
 
 .planOptionsBox {
@@ -49,4 +55,8 @@
     .selectedCheckbox {
         background: #F1FAFF;
     }
+}
+
+thead {
+   border-bottom: 1px solid black;
 }

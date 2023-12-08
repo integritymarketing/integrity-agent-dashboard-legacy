@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Media from "react-media";
 import { useParams } from "react-router-dom";
 import { Text } from "@integritymarketing/ui-text-components";
 import PropTypes from "prop-types";
@@ -9,11 +10,9 @@ import { CurrencyAdjuster } from "components/CurrencyAdjuster";
 import { Select } from "components/ui/Select";
 
 import {
-    COVERAGE_AMOUNT,
     COVERAGE_TYPE,
     COVERAGE_TYPE_HEADING,
     EXCLUDE_LABEL,
-    MONTHLY_PREMIUM,
     MY_APPOINTED_LABEL,
     PLAN_OPTIONS_HEADING,
     STEPPER_FILTER
@@ -21,9 +20,12 @@ import {
 import styles from "./FinalExpensePlansResultContainer.module.scss";
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
+import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
+import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.constants";
 
 const FinalExpensePlansResultContainer = ({
 }) => {
+    const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const [coverageAmount, setCoverageAmount] = useState(STEPPER_FILTER[COVERAGE_AMOUNT].min);
@@ -67,8 +69,14 @@ const FinalExpensePlansResultContainer = ({
 
     return (
         <>
+            <Media
+                query={"(max-width: 600px)"}
+                onChange={(isMobile) => {
+                    setIsMobile(isMobile);
+                }}
+            />
             <ContactProfileTabBar />
-            <div className={styles.contentWrapper}>
+            <div className={`${styles.contentWrapper} ${isMobile ? styles.column : ""}`}>
                 <div className={styles.filterContent}>
                     <CurrencyAdjuster
                         stepperValue={selectedTab === COVERAGE_AMOUNT ? coverageAmount : monthlyPremiumAmount}
@@ -103,6 +111,7 @@ const FinalExpensePlansResultContainer = ({
                         </div>
                     </div>
                 </div>
+                <PlanDetailsContainer />
                 <div className={styles.resultContent}></div>
             </div>
         </>

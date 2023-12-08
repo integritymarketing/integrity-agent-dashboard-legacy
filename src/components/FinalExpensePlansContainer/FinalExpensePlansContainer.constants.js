@@ -1,5 +1,5 @@
 export const BACK = "Back";
-export const CONTACT_DETAILS = "Contact Details";
+export const CONTACT_DETAILS = "Final Expense";
 export const CONTACT_FORM_TITLE = "Let's confirm a few details";
 export const CONTACT_FORM_SUBTITLE = "Just a few quick and easy questions to get your quote";
 export const CONTACT_FORM_SUBTITLE_MOBILE = "Just a few questions on client's health details.";
@@ -23,3 +23,12 @@ export const SMOKER_OPTS = [
     { label: "Yes", value: true },
     { label: "No", value: false },
 ];
+export const COVERAGE_TYPE = "Coverage Type: ";
+export const COVERAGE_AMOUNT = "Coverage Amount";
+export const MONTHLY_PREMIUM = "Monthly Premium";
+export const POLICY_FEE = "Policy Fee";
+export const PLAN_INFO = "Plan Info";
+export const YEARS = "Years";
+export const FACE_VALUE = "% Face Value";
+export const PRESCREEN_AVAILABLE = "Prescreen Available";
+export const APPLY = "Apply";
