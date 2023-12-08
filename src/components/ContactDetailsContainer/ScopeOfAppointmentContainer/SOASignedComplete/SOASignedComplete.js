@@ -8,7 +8,7 @@ import Media from 'react-media';
 import { getLocalDateTime, getHoursDiffBetweenTwoDays, getSoaDatesFromSummary } from 'utils/dates';
 
 export const SOASignedComplete = ({ onComplete, soa }) => {
-    const { contactAfterDate, isTracking48HourRule, soaSummary } = soa;
+    const { contactAfterDate, isTracking48HourRule, soaSummary, signedDate } = soa;
     const [isMobile, setIsMobile] = useState(false);
     const productsToDiscuss = soa?.soa?.leadSection?.products ?? [];
 
@@ -16,7 +16,7 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
         getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 0;
 
 
-    const { sentDate, signedDate } = getSoaDatesFromSummary(soaSummary);
+    const { sentDate } = getSoaDatesFromSummary(soaSummary);
 
 
     return (

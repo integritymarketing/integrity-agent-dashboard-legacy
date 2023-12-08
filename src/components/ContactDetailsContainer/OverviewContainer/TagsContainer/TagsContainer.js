@@ -79,6 +79,27 @@ const TagsContainer = function () {
     }
 
 
+    const isDisabled = () => {
+        // Check if the arrays are the same length
+        if (selectedTags.length !== selectedTempTags.length) {
+            return false;
+        }
+
+        // Sort both arrays
+        const sortedArr1 = [...selectedTags].sort((a, b) => a - b);
+        const sortedArr2 = [...selectedTempTags].sort((a, b) => a - b);
+
+        // Compare the sorted arrays
+        for (let i = 0; i < sortedArr1.length; i++) {
+            if (sortedArr1[i] !== sortedArr2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     return (
         <Box>
             <Box className={styles.title}>Tags</Box>
@@ -109,7 +130,7 @@ const TagsContainer = function () {
                     <Button
                         label={"Apply"}
                         className={styles.saveButton}
-                        disabled={selectedTempTags.length === 0}
+                        disabled={isDisabled()}
                         onClick={handleSave}
                         type="tertiary"
                         icon={<ArrowForwardWithCircle />}

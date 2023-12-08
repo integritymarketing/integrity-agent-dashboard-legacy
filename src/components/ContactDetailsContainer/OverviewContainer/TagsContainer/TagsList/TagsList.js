@@ -3,7 +3,6 @@ import styles from './TagsList.module.scss'
 import { Chevron, Delete, Info, LeadCenter, PlanEnroll, DataCenter, LifeIcon, CrossIcon, Complete } from '../../Icons'
 import Label from '../../CommonComponents/Label'
 import EditIcon from "components/icons/icon-edit";
-import Check from "components/icons/check-blue";
 import RecommendationIcon from "images/recommendation.png";
 import TagIcon from "images/Tag.png";
 import TextField from "@mui/material/TextField";
@@ -44,7 +43,7 @@ const getIconName = (label, itemLabel) => {
 
 
 
-export const TagsList = function (
+export const TagsList = (
     {
         label,
         items,
@@ -59,7 +58,7 @@ export const TagsList = function (
         setAddNewTag,
         newTag,
         setNewTag
-    }) {
+    }) => {
 
     const { removeLeadTags, editTagByID, createNewTag } = useOverView();
 
@@ -132,13 +131,7 @@ export const TagsList = function (
     }
 
 
-    const handleTagValueChange = useCallback((event) => {
-        setTagValue(event.target.value);
-    }, [setTagValue]);
 
-    const handleNewTagChange = useCallback((event) => {
-        setNewTag(event.target.value);
-    }, [setNewTag]);
 
 
     const AddNewTag = () => {
@@ -147,17 +140,16 @@ export const TagsList = function (
                 {addNewTag ?
                     <div className={styles.editTagContainer}>
                         <Box width={"50%"} marginLeft={"10px"}>
-                            {/* <TextField
+                            <TextField
                                 id="outlined-basic"
                                 variant="outlined"
                                 value={newTag}
-                                onChange={handleNewTagChange}
+                                onChange={(e) => setNewTag(e.target.value)}
                                 size="small"
                                 placeholder='Tag Name'
-                            /> */}
+                            />
 
-                            <input type="text" placeholder="Tag Name" value={newTag}
-                                onChange={handleNewTagChange} />
+
                         </Box>
                         <div className={styles.createActionIcons}>
                             <div onClick={addTagCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
@@ -193,7 +185,7 @@ export const TagsList = function (
                                 id="outlined-basic"
                                 variant="outlined"
                                 value={tagValue}
-                                onChange={handleTagValueChange}
+                                onChange={(e) => setTagValue(e.target.value)}
                                 size="small"
                             />
                         </Box>
