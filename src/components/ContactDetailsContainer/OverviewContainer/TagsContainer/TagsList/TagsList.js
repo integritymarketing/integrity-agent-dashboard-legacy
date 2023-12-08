@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styles from './TagsList.module.scss'
 import { Chevron, Delete, Info, LeadCenter, PlanEnroll, DataCenter, LifeIcon, CrossIcon, Complete } from '../../Icons'
 import Label from '../../CommonComponents/Label'
@@ -44,17 +44,28 @@ const getIconName = (label, itemLabel) => {
 
 
 
-export const TagsList = function ({ label, items, setSelectedTags, selectedTags, leadId }) {
+export const TagsList = function (
+    {
+        label,
+        items,
+        setSelectedTags,
+        selectedTags,
+        leadId,
+        tagValue,
+        setTagValue,
+        tagId,
+        setTagId,
+        addNewTag,
+        setAddNewTag,
+        newTag,
+        setNewTag
+    }) {
 
     const { removeLeadTags, editTagByID, createNewTag } = useOverView();
 
 
-    const [open, setOpen] = useState(true);
-    const [isEdit, setIsEdit] = useState(false);
-    const [tagValue, setTagValue] = useState("");
-    const [tagId, setTagId] = useState(null);
-    const [addNewTag, setAddNewTag] = useState(false);
-    const [newTag, setNewTag] = useState("");
+    const [open, setOpen] = useState(false);
+
 
     useEffect(() => {
         setTagId(null)
@@ -111,7 +122,7 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
     const createTag = () => {
         const payload = {
             tagLabel: newTag,
-            tagCategoryId: 8,
+            tagCategoryId: 9,
             leadsId: leadId.toString(),
             tagId: 0
         }
@@ -121,26 +132,52 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
     }
 
 
+    const handleTagValueChange = useCallback((event) => {
+        setTagValue(event.target.value);
+    }, [setTagValue]);
+
+    const handleNewTagChange = useCallback((event) => {
+        setNewTag(event.target.value);
+    }, [setNewTag]);
+
 
     const AddNewTag = () => {
         return (
-            <div className={styles.editTagContainer} key={"addNewTag"}>
-                <div>
-                    <TextField
-                        id="outlined-basic"
-                        variant="outlined"
-                        value={newTag}
-                        onChange={(e) => setNewTag(e.target.value)}
-                        size="small"
-                    />
-                </div>
-                <div className={styles.actionIcons}>
-                    <div onClick={addTagCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
-                    <div onClick={createTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
-                </div>
-            </div>
+            <>
+                {addNewTag ?
+                    <div className={styles.editTagContainer}>
+                        <Box width={"50%"} marginLeft={"10px"}>
+                            <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                value={newTag}
+                                onChange={handleNewTagChange}
+                                size="small"
+                                placeholder='Tag Name'
+                            />
+                        </Box>
+                        <div className={styles.createActionIcons}>
+                            <div onClick={addTagCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
+                            <div onClick={createTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
+                        </div>
+                    </div> :
+                    <Box marginLeft={"10px"}>
+                        <Button
+                            label={"Create"}
+                            className={styles.addNewButton}
+                            type="tertiary"
+                            onClick={() => setAddNewTag(true)}
+                            icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
+                            iconPosition="right"
+                        />
+                    </Box>
+                }
+            </>
+
         )
     }
+
+
 
 
     const OtherTags = ({ item, }) => {
@@ -148,16 +185,16 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
             <>
                 {tagId === item?.id ?
                     <div className={styles.editTagContainer} key={item.label}   >
-                        <div>
+                        <Box width={"50%"} marginLeft={"10px"}>
                             <TextField
                                 id="outlined-basic"
                                 variant="outlined"
                                 value={tagValue}
-                                onChange={(e) => setTagValue(e.target.value)}
+                                onChange={handleTagValueChange}
                                 size="small"
                             />
-                        </div>
-                        <div className={styles.actionIcons}>
+                        </Box>
+                        <div className={styles.createActionIcons}>
                             <div onClick={editCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
                             <div onClick={updateTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
                         </div>
@@ -175,15 +212,17 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
                             <div onClick={() => deleteTags(item.id)}> <Delete /></div>
 
                             <div onClick={() => editTag(item.label, item.id)}><EditIcon /></div>
-
+                            {selectedTags.includes(item.id) &&
+                                <div>
+                                    <CheckCircleOutlineIcon color="primary" />
+                                </div>
+                            }
                         </div>
 
-                        <div>
-                            {selectedTags.includes(item.id) && <CheckCircleOutlineIcon color="primary" />}
-                        </div>
 
                     </div>
                 }
+
             </>
         )
     }
@@ -212,33 +251,15 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
                 </div>
                 <Label value={label} size="16px" color="#052A63" fontWeight="bold" />
                 {/* <Info /> */}
-                {label === "Other" && !addNewTag &&
-                    <Box>
-                        <Button
-                            label={"Add New"}
-                            className={styles.addNewButton}
-                            type="tertiary"
-                            onClick={() => setAddNewTag(true)}
-                            icon={<AddCircleOutlineIcon sx={{ color: "#ffffff" }} />}
-                            iconPosition="right"
-                        />
-                    </Box>
-                }
+
             </div>
-            {label === "Other" && addNewTag &&
-                <Box>
-                    <AddNewTag />
-                </Box>
-            }
+
             {open && <div className={styles.itemsContainer}>
                 {items.map(item => {
                     return (
                         <>
                             {label === "Other" ? (
-                                <>
-                                    <OtherTags item={item} />
-
-                                </>
+                                <OtherTags item={item} />
                             )
                                 :
                                 <Tag item={item} />
@@ -249,7 +270,12 @@ export const TagsList = function ({ label, items, setSelectedTags, selectedTags,
                 )}
             </div>
             }
-        </div>
+            {label === "Other" && open &&
+                <Box sx={{ padding: "9px 12px" }}>
+                    <AddNewTag />
+                </Box>
+            }
+        </div >
     )
 }
 

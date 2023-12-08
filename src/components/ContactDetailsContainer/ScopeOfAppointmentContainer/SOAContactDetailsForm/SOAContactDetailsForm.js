@@ -9,6 +9,7 @@ import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { FormInputs } from '../FormInputs/FormInputs';
 import DatePickerMUI from "components/DatePicker";
 import TextField from "@mui/material/TextField";
+import dateFnsFormat from "date-fns/format";
 
 const SubmitButton = styled(Button)(() => ({
     color: "#4178ff",
@@ -59,10 +60,11 @@ export const SOAContactDetailsForm = ({ onSubmit, agentSection }) => {
             ...formInputs,
             acceptedSOA,
             soaSignedAtApointment,
-            appointmentDate,
+            appointmentDate: dateFnsFormat(appointmentDate, "MM/dd/yy"),
+            submittedDateTime: new Date().toISOString(),
             explanationOfSOASignedDuringAppointment
         }
-        onSubmit(formInputs);
+        onSubmit(payload);
     }
 
 

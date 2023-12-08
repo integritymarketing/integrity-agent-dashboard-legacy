@@ -67,7 +67,6 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
 
                             <DatePickerMUI
                                 value={values.date}
-                                disableFuture={true}
                                 onChange={(date) => setValues({ ...values, date: date })}
 
                             />

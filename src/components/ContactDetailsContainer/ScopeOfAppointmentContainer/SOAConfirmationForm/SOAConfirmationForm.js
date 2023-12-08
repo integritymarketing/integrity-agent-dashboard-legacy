@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MedicareDocumentation } from '../MedicareDocumentation/MedicareDocumentation';
 import { ProductSelection } from '../ProductSelection/ProductSelection';
@@ -12,6 +13,8 @@ import { VIEW_SCOPE_OF_APPOINTMENT, } from "../../tabNames";
 import styles from './SOAConfirmationForm.module.scss';
 
 export const SOAConfirmationForm = () => {
+
+    const { leadId } = useParams();
     const { setSelectedTab } = useLeadDetails();
     const { getSoaByLinkCode, soaByLinkcode, updateSoaByLinkCode, linkCode } = useScopeOfAppointment();
 
@@ -24,10 +27,10 @@ export const SOAConfirmationForm = () => {
     }, [setSelectedTab]);
 
     useEffect(() => {
-        if (!linkCode) return;
-        getSoaByLinkCode(linkCode)
+        if (!linkCode || !leadId) return;
+        getSoaByLinkCode(leadId, linkCode)
     }
-        , [getSoaByLinkCode, linkCode])
+        , [getSoaByLinkCode, linkCode, leadId])
 
 
     useEffect(() => {

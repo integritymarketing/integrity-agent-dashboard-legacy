@@ -333,7 +333,7 @@ export const getSoaDatesFromSummary = (inputString) => {
     const [sentDateTime, signedDateTime] = dateTimes;
 
     // Convert to desired format
-    const formatString = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
+    const formatString = 'YYYY-MM-DDTHH:mm:ss';
     const sentDate = moment(sentDateTime, 'MM/DD/YYYY HH:mm:ss').format(formatString);
     const signedDate = moment(signedDateTime, 'MM/DD/YYYY HH:mm:ss').format(formatString);
 

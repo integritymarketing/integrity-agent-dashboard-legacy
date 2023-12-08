@@ -25,8 +25,8 @@ export const ScopeOfAppointmentProvider = ({ children }) => {
     );
 
     const getSoaByLinkCode = useCallback(
-        async (linkCode) => {
-            const path = `Soa/${linkCode}`;
+        async (leadId, linkCode) => {
+            const path = `lead/${leadId}/Soa/${linkCode}`;
             const data = await fetchSoaByLinkCode(null, false, path);
             setSoaByLinkcode(data || {});
         },

@@ -17,6 +17,12 @@ const TagsContainer = function () {
     const [tagsList, setTagsList] = useState([])
     const [tempTags, setTempTags] = useState([])
     const [selectedTags, setSelectedTags] = useState([])
+    const [selectedTempTags, setSelectedTempTags] = useState([])
+
+    const [tagValue, setTagValue] = useState("");
+    const [tagId, setTagId] = useState(null);
+    const [addNewTag, setAddNewTag] = useState(false);
+    const [newTag, setNewTag] = useState("");
 
     const transformData = (data) => {
         return data.map((category) => ({
@@ -53,8 +59,12 @@ const TagsContainer = function () {
 
 
     const onCancel = () => {
-        setSelectedTags([])
-        setTags(tempTags)
+        setSelectedTempTags([])
+        setTagsList(tempTags)
+        setTagId(null);
+        setTagValue("");
+        setAddNewTag(false);
+        setNewTag("");
     }
 
     const handleSave = () => {
@@ -65,14 +75,31 @@ const TagsContainer = function () {
         editLeadTags(payload)
     }
 
+    const selectedAll = [...selectedTags, ...selectedTempTags]
+
     return (
         <Box>
             <Box className={styles.title}>Tags</Box>
             <Box className={styles.box}>
-                {tagsList?.map(item => <TagsList leadId={leadDetails?.leadsId} label={item.label} items={item.items} setSelectedTags={setSelectedTags} selectedTags={selectedTags} />)}
-                <Box className={styles.buttonContainer} >
+                {tagsList?.map(item =>
+                    <TagsList
+                        leadId={leadDetails?.leadsId}
+                        label={item.label}
+                        items={item.items}
+                        setSelectedTags={setSelectedTempTags}
+                        selectedTags={selectedAll}
+                        tagValue={tagValue}
+                        setTagValue={setTagValue}
+                        tagId={tagId}
+                        setTagId={setTagId}
+                        addNewTag={addNewTag}
+                        setAddNewTag={setAddNewTag}
+                        newTag={newTag}
+                        setNewTag={setNewTag}
+                    />)}
+                <Box className={styles.buttonContainer}>
                     <Button
-                        label={"Cancel"}
+                        label={"Reset"}
                         className={styles.cancelButton}
                         type="tertiary"
                         onClick={onCancel}
@@ -80,6 +107,7 @@ const TagsContainer = function () {
                     <Button
                         label={"Apply"}
                         className={styles.saveButton}
+                        disabled={selectedTempTags.length === 0}
                         onClick={handleSave}
                         type="tertiary"
                         icon={<ArrowForwardWithCircle />}
@@ -92,30 +120,5 @@ const TagsContainer = function () {
     )
 }
 
-
-//     return <div>
-//         <Label value="Tags" />
-//         <SectionContainer>
-//             {tagsList?.map(item => <TagsList leadId={leadDetails?.leadsId} label={item.label} items={item.items} setSelectedTags={setSelectedTags} selectedTags={selectedTags} />)}
-//             <Box className={styles.buttonContainer} >
-//                 <Button
-//                     label={"Cancel"}
-//                     className={styles.cancelButton}
-//                     type="tertiary"
-//                     onClick={onCancel}
-//                 />
-//                 <Button
-//                     label={"Apply"}
-//                     className={styles.saveButton}
-//                     onClick={handleSave}
-//                     type="tertiary"
-//                     icon={<ArrowForwardWithCircle />}
-//                     iconPosition="right"
-//                 />
-//             </Box>
-//         </SectionContainer>
-
-//     </div>
-// }
 
 export default TagsContainer

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { ProductSelection } from '../ProductSelection/ProductSelection';
 import { SOAContactDetails } from '../SOAContactDetails/SOAContactDetails';
 import { SOAFormDetails } from '../SOAFormDetails/SOAFormDetails';
@@ -9,6 +10,7 @@ import { SOAContainer } from '../SOAContainer/SOAContainer';
 import styles from './SOAViewForm.module.scss';
 
 export const SOAViewForm = () => {
+    const { leadId } = useParams();
 
     const { getSoaByLinkCode, soaByLinkcode, linkCode } = useScopeOfAppointment();
 
@@ -20,10 +22,10 @@ export const SOAViewForm = () => {
 
 
     useEffect(() => {
-        if (!linkCode) return;
-        getSoaByLinkCode(linkCode)
+        if (!linkCode || !leadId) return;
+        getSoaByLinkCode(leadId, linkCode)
     }
-        , [getSoaByLinkCode, linkCode])
+        , [getSoaByLinkCode, linkCode, leadId])
 
 
     useEffect(() => {
