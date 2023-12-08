@@ -8,11 +8,10 @@ import styles from "./AddReminderModal.module.scss";
 import TextField from "@mui/material/TextField";
 import { getDateTime } from "utils/dates";
 
-
 export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) => {
     const [values, setValues] = useState({
         date: "",
-        time: "12:30",
+        time: null,
         notes: "",
     });
 
@@ -40,7 +39,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
 
         const payload = {
             reminderNote: values.notes,
-            reminderDate: fullDate,
+            reminderDate: fullDate.toISOString(),
         };
         onSave(payload);
 
