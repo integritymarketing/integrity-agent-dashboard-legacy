@@ -192,11 +192,12 @@ const HealthDetailsSection = () => {
                         onClose={() => onCloseEditPrescription(false)}
                         item={prescriptionToEdit}
                         isEdit={true}
+                        leadId={leadId}
                     />
                 )}
 
                 {isOpenPharmacy && (
-                    <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} leadDetails={leadDetails} />
+                    <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} personalInfo={leadDetails} leadId={leadId} />
                 )}
             </div>
         </>

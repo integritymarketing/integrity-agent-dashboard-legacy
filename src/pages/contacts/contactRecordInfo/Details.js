@@ -158,7 +158,7 @@ const DetailsComponent = forwardRef((props, ref) => {
                 )}
 
                 {isOpenPrescription && (
-                    <PrescriptionModal open={isOpenPrescription} onClose={() => onCloseNewPrescription(false)} />
+                    <PrescriptionModal open={isOpenPrescription} onClose={() => onCloseNewPrescription(false)} leadId={id} />
                 )}
 
                 {isOpenEditPrescription && (
@@ -167,11 +167,12 @@ const DetailsComponent = forwardRef((props, ref) => {
                         onClose={() => onCloseEditPrescription(false)}
                         item={prescriptionToEdit}
                         isEdit={true}
+                        leadId={id}
                     />
                 )}
 
                 {isOpenPharmacy && (
-                    <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} personalInfo={personalInfo} />
+                    <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} personalInfo={personalInfo} leadId={id} />
                 )}
                 <div ref={providersRef}>
                     <DetailsCard

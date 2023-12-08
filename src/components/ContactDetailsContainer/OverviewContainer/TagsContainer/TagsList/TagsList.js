@@ -106,7 +106,7 @@ export const TagsList = function (
         const payload = {
             tagId: tagId,
             tagLabel: tagValue,
-            tagCategoryId: 8,
+            tagCategoryId: 9,
             leadsId: leadId,
         }
         editTagByID(payload);
@@ -147,14 +147,17 @@ export const TagsList = function (
                 {addNewTag ?
                     <div className={styles.editTagContainer}>
                         <Box width={"50%"} marginLeft={"10px"}>
-                            <TextField
+                            {/* <TextField
                                 id="outlined-basic"
                                 variant="outlined"
                                 value={newTag}
                                 onChange={handleNewTagChange}
                                 size="small"
                                 placeholder='Tag Name'
-                            />
+                            /> */}
+
+                            <input type="text" placeholder="Tag Name" value={newTag}
+                                onChange={handleNewTagChange} />
                         </Box>
                         <div className={styles.createActionIcons}>
                             <div onClick={addTagCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>

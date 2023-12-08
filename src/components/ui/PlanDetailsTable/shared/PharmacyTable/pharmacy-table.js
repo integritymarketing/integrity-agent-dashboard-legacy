@@ -165,7 +165,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 </Modal>
             )}
             {!isEdit && (
-                <AddPharmacy isOpen={openAddModal} onClose={() => setOpenAddModal(false)} personalInfo={contact} />
+                <AddPharmacy isOpen={openAddModal} onClose={() => setOpenAddModal(false)} personalInfo={contact} leadId={leadId} />
             )}
         </>
     );

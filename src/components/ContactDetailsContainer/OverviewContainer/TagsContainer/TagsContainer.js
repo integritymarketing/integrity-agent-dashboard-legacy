@@ -24,6 +24,8 @@ const TagsContainer = function () {
     const [addNewTag, setAddNewTag] = useState(false);
     const [newTag, setNewTag] = useState("");
 
+
+
     const transformData = (data) => {
         return data.map((category) => ({
             label: category.tagCategoryName,
@@ -53,13 +55,14 @@ const TagsContainer = function () {
         if (leadDetails?.leadTags) {
             const selectedTagIds = leadDetails?.leadTags.map(item => item?.tag?.tagId);
             setSelectedTags(selectedTagIds)
+            setSelectedTempTags(selectedTagIds)
         }
     }, [leadDetails])
 
 
 
     const onCancel = () => {
-        setSelectedTempTags([])
+        setSelectedTempTags(selectedTags)
         setTagsList(tempTags)
         setTagId(null);
         setTagValue("");
@@ -70,12 +73,11 @@ const TagsContainer = function () {
     const handleSave = () => {
         const payload = {
             leadId: leadDetails?.leadsId,
-            tagIds: selectedTags
+            tagIds: selectedTempTags
         }
         editLeadTags(payload)
     }
 
-    const selectedAll = [...selectedTags, ...selectedTempTags]
 
     return (
         <Box>
@@ -87,7 +89,7 @@ const TagsContainer = function () {
                         label={item.label}
                         items={item.items}
                         setSelectedTags={setSelectedTempTags}
-                        selectedTags={selectedAll}
+                        selectedTags={selectedTempTags}
                         tagValue={tagValue}
                         setTagValue={setTagValue}
                         tagId={tagId}

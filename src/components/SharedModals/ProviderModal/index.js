@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
+import { useParams } from "react-router-dom";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
 import Typography from "@mui/material/Typography";
@@ -83,8 +84,9 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
+const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
+    const { leadId } = useParams();
 
     useEffect(() => {
         if (leadId) {
