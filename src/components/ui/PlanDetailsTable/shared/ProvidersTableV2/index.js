@@ -91,6 +91,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll }) 
                         selected={selectedProvider}
                         isEdit={isEditingProvider}
                         refresh={closeAllModalsAndRefresh}
+                        leadId={contactId}
                     />
                 )}
 

@@ -204,6 +204,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
           selected={selectedProvider}
           isEdit={isEditingProvider}
           refresh={closeProviderModalsAndRefresh}
+          leadId={contactId}
         />
       )}
 
@@ -228,6 +229,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
           onClose={() => onCloseNewPrescription(false)}
           prescriptions={prescriptions}
           refresh={closePrescriptionModalsAndRefresh}
+          leadId={contactId}
         />
       )}
 
@@ -238,6 +240,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
           item={prescriptionToEdit}
           isEdit={true}
           refresh={closePrescriptionModalsAndRefresh}
+          leadId={contactId}
         />
       )}
 
@@ -285,6 +288,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
           }}
           personalInfo={contact}
           refresh={refresh}
+          leadId={contactId}
         />
       )}
     </div>

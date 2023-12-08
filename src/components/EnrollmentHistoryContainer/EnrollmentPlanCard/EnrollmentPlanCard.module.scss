@@ -54,6 +54,7 @@
     .detailAndDateContainer {
         display: flex;
         gap: 2rem;
+        width: 80%;
         @include small {
             display: flex;
             flex-direction: column;
@@ -85,7 +86,7 @@
 
         .details {
             gap: 8px;
-
+            width: 50%;
             .planCompany {
                 color: $cyan-blue;
                 font-size: 16px;

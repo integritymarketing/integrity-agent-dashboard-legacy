@@ -112,6 +112,7 @@ const PrescriptionTable = ({ isMobile, planDrugCoverage, drugCosts, planData, re
                     onClose={() => onCloseNewPrescription(false)}
                     prescriptions={prescriptions}
                     refresh={closeAllModalsAndRefresh}
+                    leadId={leadId}
                 />
             )}
 
@@ -122,6 +123,7 @@ const PrescriptionTable = ({ isMobile, planDrugCoverage, drugCosts, planData, re
                     item={prescriptionToEdit}
                     isEdit={true}
                     refresh={closeAllModalsAndRefresh}
+                    leadId={leadId}
                 />
             )}
 
