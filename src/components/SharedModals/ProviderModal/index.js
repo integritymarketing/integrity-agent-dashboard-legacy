@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
-import { useParams } from "react-router-dom";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
 import Typography from "@mui/material/Typography";
@@ -84,19 +83,18 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }) => {
+const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
-    const { contactId } = useParams();
 
     useEffect(() => {
-        if (contactId) {
+        if (leadId) {
             fetchHealthDetails();
         }
-    }, [contactId]);
+    }, [leadId]);
 
     const fetchHealthDetails = useCallback(async () => {
-        await fetchProviders(contactId)
-    }, [contactId, fetchProviders]);
+        await fetchProviders(leadId)
+    }, [leadId, fetchProviders]);
 
     // Initializations
     const classes = useStyles();
@@ -204,7 +202,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
         await addProvider(requestPayload, selectedProvider?.presentationName, refresh, isEdit, leadId);
 
         fireEvent("AI - Provider added", {
-            leadid: contactId,
+            leadid: leadId,
             npi: "requestPayload[0].npi",
         });
     };

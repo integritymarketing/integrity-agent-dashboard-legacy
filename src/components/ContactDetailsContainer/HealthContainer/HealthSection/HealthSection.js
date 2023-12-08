@@ -86,8 +86,8 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-            : "";
+                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+                : "";
 
         return (
             <div className={className}>
@@ -183,7 +183,7 @@ const HealthDetailsSection = () => {
                 )}
 
                 {isOpenPrescription && (
-                    <PrescriptionModal open={isOpenPrescription} onClose={() => onCloseNewPrescription(false)} />
+                    <PrescriptionModal open={isOpenPrescription} onClose={() => onCloseNewPrescription(false)} leadId={leadId} />
                 )}
 
                 {isOpenEditPrescription && (
