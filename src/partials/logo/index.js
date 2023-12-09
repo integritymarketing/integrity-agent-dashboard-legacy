@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import useClientId from "hooks/auth/useClientId";
 import ILSLogo from "../../images/auth/lead-center-rgb.png";
 import headerLogo from "./logoWhite.svg";
-import footerLogo from "../../images/medicare-center.png";
 import Logo from "./MedicareCENTER-Main.svg";
+import Integrity from "./integrity.svg"
 import "./index.scss";
 
 const LogoComponent = ({ id, color = "#fff", ...props }) => {
@@ -15,7 +15,7 @@ const LogoComponent = ({ id, color = "#fff", ...props }) => {
     );
   }
   if (id === "footerLogo") {
-    return <img src={footerLogo} alt="Footer Logo" className="footerLogo" {...props} />;
+    return <img src={Integrity} alt="Footer Logo" className="footerLogo" {...props} />;
   }
   if (id === "headerLogo") {
     return <img src={headerLogo} alt="Header Logo" className="footerLogo" {...props} />;

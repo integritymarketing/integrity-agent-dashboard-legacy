@@ -48,6 +48,9 @@ const AddZipPage = lazy(() => import("pages/AddZipPage"));
 const ContactProfile = lazy(() => import("pages/ContactProfilePage"));
 const ContactsList = lazy(() => import("pages/ContactsList"));
 
+const TermsOfUsagePage = lazy(() => import("pages/TermsOfUsagePage"));
+const PrivacyPolicyPage = lazy(() => import("pages/PrivacyPolicyPage"));
+
 const appRoutes = [
     {
         path: "/",
@@ -55,6 +58,8 @@ const appRoutes = [
     },
     { path: "/terms", component: <TermsPage /> },
     { path: "/privacy", component: <PrivacyPage /> },
+    { path: "/terms-of-usage", component: <TermsOfUsagePage /> },
+    { path: "/privacy-policy", component: <PrivacyPolicyPage /> },
     {
         path: "/soa-confirmation-form/:linkCode/:token",
         component: <SOAConfirmationForm />,
@@ -191,12 +196,12 @@ const appProtectedRoutes = [
     },
     {
         path: "/newContact/:leadId/:section",
-        component:  (
+        component: (
             <>
                 <ContactProfile />
                 <WebChatComponent />
             </>
-    ),
+        ),
     },
     {
         path: "policy-snapshot-mobile-layout/:npn",

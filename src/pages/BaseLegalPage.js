@@ -2,8 +2,9 @@ import React from "react";
 import Container from "components/ui/container";
 import GlobalNavV2 from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
+import IntegrityFooter from "partials/integrity-footer";
 
-const BaseLegalPage = ({ children, title, ...props }) => {
+const BaseLegalPage = ({ children, title, showIntegrity = false, ...props }) => {
   return (
     <div className="content-frame" {...props}>
       <div className="bg-photo text-invert">
@@ -20,7 +21,8 @@ const BaseLegalPage = ({ children, title, ...props }) => {
           <Container className="pt-scale-3 pb-scale-4">{children}</Container>
         </div>
       </div>
-      <GlobalFooter />
+      {!showIntegrity && <GlobalFooter />}
+      {showIntegrity && <IntegrityFooter />}
     </div>
   );
 };
