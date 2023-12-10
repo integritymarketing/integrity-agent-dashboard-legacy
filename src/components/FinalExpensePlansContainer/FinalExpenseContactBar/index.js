@@ -1,18 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Box from "@mui/material/Box";
-
 import { Button } from "components/ui/Button";
-
 import styles from "./FinalExpenseContactBar.module.scss";
-
 import { BACK, CONTACT_DETAILS } from "../FinalExpensePlansContainer.constants";
 import NewBackBtn from "images/new-back-btn.svg";
 
-const FinalExpenseContactBar = () => {
+const FinalExpenseContactBar = ({ label }) => {
     const { contactId } = useParams();
-            const navigate = useNavigate();
+    const navigate = useNavigate();
     const handleBackToContacts = useCallback(() => {
         navigate(`/contact/${contactId}/overview`);
     }, [navigate]);
@@ -29,7 +25,7 @@ const FinalExpenseContactBar = () => {
                 />
             </div>
             <Box className={styles.profileMenu}>
-                <h1 className={styles.userName}>{CONTACT_DETAILS}</h1>
+                <h1 className={styles.userName}>{label || CONTACT_DETAILS}</h1>
             </Box>
         </nav>
     );

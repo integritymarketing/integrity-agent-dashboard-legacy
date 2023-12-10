@@ -1,0 +1,124 @@
+.subHeading {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+    .subHeadingTitle {
+        color: #002d72;
+        display: flex;
+        font-size: 20px;
+        margin-top: 20px;
+    }
+}
+
+.dialogContent {
+    overflow-y: visible !important;
+}
+
+.calendarIcon {
+    color: #4178ff !important;
+}
+
+.saveButton {
+    display: flex !important;
+    justify-content: space-between !important;
+    text-transform: capitalize !important;
+    width: 180px;
+}
+
+.searchInput {
+    width: 100%;
+}
+
+.searchResultInitialBox {
+    background-color: #dddddd;
+    border-radius: 5px;
+    margin-top: 20px;
+    padding: 40px 20px;
+    text-align: center;
+
+    .searchResultTitle {
+        color: #434a51;
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+.searchResultTitle {
+    color: #717171;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 2px;
+    margin-top: 8px;
+}
+
+.searchResultList {
+    background-color: #dddddd;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.searchResultItem {
+    box-shadow: inset 0px -1px 0px #cccccc;
+    cursor: pointer;
+    padding: 20px;
+
+    label {
+        cursor: pointer;
+    }
+
+    &.selected {
+        background-color: #f1faff;
+    }
+}
+
+.lastDateInput {
+    input {
+        color: #052a63 !important;
+    }
+}
+
+.lastDateInputBox {
+    margin-top: 8px;
+}
+
+.lastDateInputContainer {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.lastDateInputTitle {
+    color: #052a63;
+    font-size: 20px;
+}
+
+.conditionNameContentBox {
+    background-color: #ffffff;
+    border-radius: 4px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.conditionDialogDeleteBox {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.conditionDialogDeleteText {
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none !important;
+}
+
+.conditionDialogDeleteTextDisabled {
+    color: #cccccc !important;
+    cursor: not-allowed;
+}
+
+.conditionNameContentName {
+    color: #052a63;
+    font-size: 24px;
+}

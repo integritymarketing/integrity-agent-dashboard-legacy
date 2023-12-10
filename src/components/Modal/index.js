@@ -1,13 +1,13 @@
 import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
 import makeStyles from "@mui/styles/makeStyles";
-import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: "#FFFFFF !important",
             borderRadius: "20px",
             boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.2)",
-
         },
     },
     closeButton: {
@@ -109,9 +108,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Modal({
     actionButtonDisabled,
     actionButtonName,
+    actionButtonClassName,
     children,
     contentStyle,
     customFooter,
+    dialogContentClassName,
     endIcon,
     hideFooter = false,
     isDelete,
@@ -158,7 +159,10 @@ export default function Modal({
                         </IconButton>
                     </div>
                 </DialogTitle>
-                <DialogContent style={{ backgroundColor: "#F1F1F1", ...(contentStyle || {}) }}>
+                <DialogContent
+                    className={dialogContentClassName}
+                    style={{ backgroundColor: "#F1F1F1", ...(contentStyle || {}) }}
+                >
                     {children}
                 </DialogContent>
                 <DialogActions className={classes.footer}>
@@ -174,7 +178,7 @@ export default function Modal({
                             {actionButtonName && (
                                 <Button
                                     onClick={onSave}
-                                    className={classes.addButton}
+                                    className={`${classes.addButton} ${actionButtonClassName}`}
                                     endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
                                     disabled={actionButtonDisabled}
                                 >

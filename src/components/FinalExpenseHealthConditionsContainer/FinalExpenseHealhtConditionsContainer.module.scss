@@ -1,0 +1,139 @@
+@import "../../scss/globalDefines.scss";
+
+.activitiesContainer {
+    border-radius: 8px;
+
+    > div {
+        box-shadow: none !important;
+    }
+}
+
+.activitiesContainer_content {
+    border-radius: 8px;
+
+    thead {
+        display: none;
+    }
+
+    @include small {
+        background: none;
+        padding: 0.5rem;
+    }
+}
+
+.pageContainerWrapper {
+    background-color: #f1f1f1;
+    min-height: 90vh;
+    padding-bottom: 80px;
+}
+
+.conditionsLabel {
+    color: #052a63;
+    font-size: 20px;
+    margin-bottom: 5px;
+
+    @include small {
+        color: #434a51;
+        font-size: 16px;
+    }
+}
+
+.conditionNameCell {
+    color: #052a63;
+    font-size: 18px;
+    width: 100%;
+}
+
+.conditionStatusCell {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    margin-left: auto;
+    text-align: right;
+}
+
+.completedStatus {
+    color: #717171;
+    font-size: 14px;
+}
+
+.incompleteStatus {
+    color: #4178ff;
+    font-size: 14px;
+}
+
+.outdatedStatus {
+    color: #aaaaaa;
+    font-size: 14px;
+}
+
+.conditionActionCell {
+    text-align: right;
+}
+
+.buttonWithIcon {
+    border-radius: 25px !important;
+    margin-left: auto;
+    padding: 5px 20px !important;
+
+    span {
+        color: #4178ff !important;
+        font-size: 14px !important;
+        font-weight: 500;
+    }
+
+    &:hover {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        color: #1357ff !important;
+    }
+}
+
+.nextButton {
+    background-color: #4178ff;
+    border-radius: 100px !important;
+    justify-content: space-between !important;
+    width: 100%;
+
+    svg {
+        margin-left: 100px;
+    }
+}
+
+.pageContainer {
+    margin: auto;
+    max-width: 100%;
+    padding: 10px;
+    padding-top: 100px;
+    width: 700px;
+
+    @include small {
+        padding: 40px 20px;
+    }
+}
+
+.tickCircle,
+.statusIcon {
+    background-color: transparent;
+    height: 16px;
+    padding: 0;
+    width: 16px;
+}
+
+.statusIcon {
+    height: 18px;
+    width: 18px;
+}
+
+.wrapper {
+    align-items: center;
+    display: flex;
+}
+
+.disclaimerText {
+    color: #717171;
+    font-style: italic;
+    margin-bottom: 20px;
+    margin-top: 2px;
+}

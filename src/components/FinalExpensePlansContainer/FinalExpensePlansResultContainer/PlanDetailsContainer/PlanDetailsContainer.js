@@ -1,12 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useState } from "react";
 import Media from "react-media";
+import PropTypes from "prop-types";
+import {
+    APPLY,
+    COVERAGE_AMOUNT,
+    COVERAGE_TYPE,
+    FACE_VALUE,
+    MONTHLY_PREMIUM,
+    PLAN_INFO,
+    POLICY_FEE,
+    PRESCREEN_AVAILABLE,
+    YEARS,
+} from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+import ButtonCircleArrow from "components/icons/button-circle-arrow";
+import { Button } from "components/ui/Button";
 import styles from "./PlanDetailsContainer.module.scss";
-import { Button } from 'components/ui/Button';
-import ButtonCircleArrow from 'components/icons/button-circle-arrow';
-import { COVERAGE_TYPE, COVERAGE_AMOUNT, MONTHLY_PREMIUM, POLICY_FEE, PLAN_INFO, PRESCREEN_AVAILABLE, APPLY, YEARS, FACE_VALUE } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
-
-
+import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 export const PlanDetailsContainer = ({
     coverageType,
     coverageAmount,
@@ -14,7 +23,6 @@ export const PlanDetailsContainer = ({
     policyFee,
     faceValueRates,
     logoUrl,
-    onApply
 }) => {
     const [isMobile, setIsMobile] = useState(false);
     const PlanBox = ({ planName }) => (
@@ -53,7 +61,7 @@ export const PlanDetailsContainer = ({
                                 </tr>
                             </thead>
                             <tbody>
-                                {faceValueRates.map((rate, index) => (
+                                {faceValueRates?.map((rate, index) => (
                                     <tr key={index}>
                                         <td className={styles.spacing}>{rate.years}</td>
                                         <td>{rate.percentage}%</td>
@@ -63,7 +71,6 @@ export const PlanDetailsContainer = ({
                         </table>
                     </div>
                 </div>
-
             </div>
             <div className={styles.prescreen}>{PRESCREEN_AVAILABLE}</div>
             <div className={styles.applyCTA}>
@@ -75,8 +82,8 @@ export const PlanDetailsContainer = ({
                     className={styles.applyButton}
                 />
             </div>
-        </div >
-    )
+        </div>
+    );
 
     return (
         <>
@@ -87,11 +94,12 @@ export const PlanDetailsContainer = ({
                 }}
             />
             <div className={styles.planContainer}>
+                <PersonalisedQuoteBox />
                 {["Final Expense Plan", "Aflac Final Expense Immediate Benefit", "Final Expense Plan"].map((plan) => {
-                    return <PlanBox planName={plan} />
+                    return <PlanBox planName={plan} />;
                 })}
-            </div></>
-
+            </div>
+        </>
     );
 };
 
@@ -101,22 +109,11 @@ PlanDetailsContainer.propTypes = {
     coverageAmount: PropTypes.string.isRequired,
     monthlyPremium: PropTypes.string.isRequired,
     policyFee: PropTypes.string,
-    faceValueRates: PropTypes.arrayOf(PropTypes.shape({
-        years: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-        percentage: PropTypes.number.isRequired
-    })).isRequired,
-    onApply: PropTypes.func // Function to call when the apply button is clicked
-};
-
-// Define default props in case they are not provided
-PlanDetailsContainer.defaultProps = {
-    coverageType: "Level",
-    policyFee: "15",
-    coverageAmount: "15,000",
-    monthlyPremium: "40",
-    logoUrl: "https://staging.csgstatic.com/fex/logos/s_16394045-709b-4205-9813-050468e9b7ed.jpg",
-    faceValueRates: [{ years: "1-2", percentage: "10" },
-    { years: "3-5", percentage: "80" },
-    { years: "5+", percentage: "100" }],
-    onApply: () => { }
+    faceValueRates: PropTypes.arrayOf(
+        PropTypes.shape({
+            years: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+            percentage: PropTypes.number.isRequired,
+        })
+    ).isRequired,
+    onApply: PropTypes.func, // Function to call when the apply button is clicked
 };

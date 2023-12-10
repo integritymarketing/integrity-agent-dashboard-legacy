@@ -53,10 +53,11 @@
     }
 
     .selectedCheckbox {
-        background: #F1FAFF;
+        background: #f1faff;
     }
 }
-
-thead {
-   border-bottom: 1px solid black;
+.contentWrapper {
+    thead {
+        border-bottom: 1px solid black;
+    }
 }

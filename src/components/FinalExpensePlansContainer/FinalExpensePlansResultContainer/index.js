@@ -7,24 +7,22 @@ import { useLeadDetails } from "providers/ContactDetails";
 import Heading4 from "packages/Heading4";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { CurrencyAdjuster } from "components/CurrencyAdjuster";
+import CheckedIcon from "components/icons/CheckedIcon";
+import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
-
 import {
     COVERAGE_TYPE,
     COVERAGE_TYPE_HEADING,
     EXCLUDE_LABEL,
     MY_APPOINTED_LABEL,
     PLAN_OPTIONS_HEADING,
-    STEPPER_FILTER
+    STEPPER_FILTER,
 } from "./FinalExpensePlansResultContainer.constants";
 import styles from "./FinalExpensePlansResultContainer.module.scss";
-import CheckedIcon from "components/icons/CheckedIcon";
-import UnCheckedIcon from "components/icons/unChecked";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
 import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.constants";
 
-const FinalExpensePlansResultContainer = ({
-}) => {
+const FinalExpensePlansResultContainer = ({}) => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
@@ -96,13 +94,17 @@ const FinalExpensePlansResultContainer = ({
                             showValueAlways
                         />
                         <div className={styles.checkboxesWrapper}>
-                            <div className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""}`}
+                            <div
+                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""}`}
                                 onClick={() => setIsMyAppointedProducts(!isMyAppointedProducts)}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
-                            <div className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""}`}
+                            <div
+                                className={`${styles.checkbox} ${
+                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                }`}
                                 onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
