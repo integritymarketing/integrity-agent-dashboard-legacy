@@ -1,25 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { useFinalExpensePlans } from "providers/FinalExpense";
-import { formatDate, getAgeFromBirthDate } from "utils/dates";
 import useFetch from "hooks/useFetch";
 import { UPDATE_LEAD_DETAILS } from "components/AddZipContainer/AddZipContainer.constants";
 import PlanCardLoader from "components/ui/PlanCard/loader";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import FinalExpenseContactBar from "./FinalExpenseContactBar";
 import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
-import { FinalExpensePlanCard } from "./FinalExpensePlanCard";
 
 const QUOTE_ID = "390e04ef-be95-463d-9b76-46050cbf438c";
 
 export const FinalExpensePlansContainer = () => {
-    const { getFinalExpensePlans, finalExpensePlans, isLoadingFinalExpensePlans, getFinalExpenseQuotePlans } =
-        useFinalExpensePlans();
-
     const { contactId } = useParams();
     const contactFormDataRef = useRef(null);
-    const [submittedContactDetails, setSubmittedContactDetails] = useState(false);
     const { getLeadDetails, leadDetails, isLoading: isLoadingContactDetails } = useContactDetails(contactId);
     const { birthdate, gender, weight, height, isTobaccoUser, addresses } = leadDetails;
 
@@ -27,47 +20,14 @@ export const FinalExpensePlansContainer = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getFinalExpensePlans(QUOTE_ID);
         getLeadDetails();
-    }, [getFinalExpensePlans, getLeadDetails]);
-
-    const fetchPlansData = async () => {
-        const todayDate = formatDate(new Date(), "yyyy-MM-dd");
-        const quotePlansPostBody = {
-            usState: contactFormDataRef.current.stateCode,
-            age: getAgeFromBirthDate(contactFormDataRef.current.birthdate),
-            gender: contactFormDataRef.current.gender === "Male" ? "M" : "F",
-            tobacco: Boolean(contactFormDataRef.current.isTobaccoUser),
-            desiredFaceValue: coverageAmount || 15000,
-            desiredMonthlyRate: monthlyPremiumAmount || 40,
-            coverageTypes: [coverageType || "LEVEL"],
-            effectiveDate: todayDate,
-            underWriting: {
-                user: {
-                    height: contactFormDataRef.current.height,
-                    weight: contactFormDataRef.current.weight,
-                },
-                conditions: [
-                    {
-                        categoryId: 0,
-                        lastTreatmentDate: todayDate,
-                    },
-                ],
-            },
-        };
-        const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
-    };
+    }, [getLeadDetails]);
 
     const onSave = async (formData) => {
         const leadDetailsNew = { ...leadDetails };
         const address = { ...leadDetailsNew.addresses[0] };
-        if (address.stateCode !== formData.stateCode) {
-            address.stateCode = formData.stateCode;
-            address.postalCode = "";
-            address.city = "";
-            address.county = "";
-            address.countyFips = "";
-        }
+        sessionStorage.setItem(
+            "stateCode", formData.stateCode);
         await updateLeadData({
             ...leadDetailsNew,
             addresses: [address],
@@ -76,14 +36,7 @@ export const FinalExpensePlansContainer = () => {
         await getLeadDetails();
         contactFormDataRef.current = { ...formData };
         navigate(`/finalexpenses/plans/${contactId}`);
-        setSubmittedContactDetails(true);
     };
-
-    useEffect(() => {
-        if (submittedContactDetails && contactFormDataRef.current) {
-            fetchPlansData();
-        }
-    }, [submittedContactDetails]);
 
     const renderPlanCardLoaders = useMemo(() => {
         const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
@@ -92,54 +45,23 @@ export const FinalExpensePlansContainer = () => {
 
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
 
-    const renderPlanCards = useMemo(
-        () =>
-            finalExpensePlans?.map(
-                ({
-                    Company,
-                    Rates,
-                    CompensationWarning,
-                    PolicyFee,
-                    IsSocialSecurityBillingSupported,
-                    PlanInfo,
-                    UnderwritingWarning,
-                }) => (
-                    <FinalExpensePlanCard
-                        key={PlanInfo}
-                        company={Company}
-                        rates={Rates}
-                        compensationWarning={CompensationWarning}
-                        policyFee={PolicyFee}
-                        isSocialSecurityBillingSupported={IsSocialSecurityBillingSupported}
-                        planInfo={PlanInfo}
-                        underwritingWarning={UnderwritingWarning}
-                    />
-                )
-            ),
-        [finalExpensePlans]
-    );
-
     return (
         <>
-            {!submittedContactDetails && (
-                <>
-                    <FinalExpenseContactBar />
-                    {isLoadingContactDetails ? (
-                        renderContactDetailsLoader
-                    ) : (
-                        <FinalExpenseContactDetailsForm
-                            birthdate={birthdate}
-                            sexuality={gender}
-                            address={addresses[0]}
-                            wt={weight}
-                            hFeet={height ? Math.floor(height / 12) : ""}
-                            hInch={height ? height % 12 : ""}
-                            smoker={isTobaccoUser}
-                            onSave={onSave}
-                        />
-                    )}
-                </>
+            <FinalExpenseContactBar />
+            {isLoadingContactDetails ? (
+                renderContactDetailsLoader
+            ) : (
+                <FinalExpenseContactDetailsForm
+                    birthdate={birthdate}
+                    sexuality={gender}
+                    address={addresses[0]}
+                    wt={weight}
+                    hFeet={height ? Math.floor(height / 12) : ""}
+                    hInch={height ? height % 12 : ""}
+                    smoker={isTobaccoUser}
+                    onSave={onSave}
+                />
             )}
         </>
-    );
-};
+    )
+}

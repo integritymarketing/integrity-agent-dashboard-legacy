@@ -18,11 +18,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
   };
 
   const handleFinalExpensePlanClick = () => {
-    if (zipcode) {
-      navigate(`/finalexpenses/create/${leadId}`);
-    } else {
-      navigate(`/contact/${leadId}/addZip`);
-    }
+    navigate(`/finalexpenses/create/${leadId}`);
   };
 
   return (

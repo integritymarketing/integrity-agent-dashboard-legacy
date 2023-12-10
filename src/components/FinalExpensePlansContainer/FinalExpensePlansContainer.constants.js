@@ -28,7 +28,5 @@ export const COVERAGE_AMOUNT = "Coverage Amount";
 export const MONTHLY_PREMIUM = "Monthly Premium";
 export const POLICY_FEE = "Policy Fee";
 export const PLAN_INFO = "Plan Info";
-export const YEARS = "Years";
-export const FACE_VALUE = "% Face Value";
 export const PRESCREEN_AVAILABLE = "Prescreen Available";
 export const APPLY = "Apply";

@@ -22,7 +22,7 @@ import styles from "./FinalExpensePlansResultContainer.module.scss";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
 import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.constants";
 
-const FinalExpensePlansResultContainer = ({}) => {
+const FinalExpensePlansResultContainer = ({ }) => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
@@ -102,9 +102,8 @@ const FinalExpensePlansResultContainer = ({}) => {
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                }`}
+                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                    }`}
                                 onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
@@ -113,7 +112,9 @@ const FinalExpensePlansResultContainer = ({}) => {
                         </div>
                     </div>
                 </div>
-                <PlanDetailsContainer />
+                <PlanDetailsContainer coverageAmount={coverageAmount}
+                    monthlyPremium={monthlyPremiumAmount}
+                    coverageType={coverageType} />
                 <div className={styles.resultContent}></div>
             </div>
         </>

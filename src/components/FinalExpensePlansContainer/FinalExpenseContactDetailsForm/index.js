@@ -1,16 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-
 import { InputAdornment, OutlinedInput } from "@mui/material";
-
 import PropTypes from "prop-types";
-
 import { formatDate, formatServerDate, parseDate } from "utils/dates";
-
 import DatePickerMUI from "components/DatePicker";
 import { SelectStateField } from "components/SharedFormFields";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { Button } from "components/ui/Button";
-
 import styles from "./FinalExpenseContactDetailsForm.module.scss";
 
 import {
@@ -38,7 +33,7 @@ const FinalExpenseContactDetailsForm = ({ address, birthdate, sexuality, wt, hFe
     const [isSaving, setIsSaving] = useState(false);
     const [mobileStepNumber, setMobileStepNumber] = useState(0);
 
-    const [stateCode, setStateCode] = useState(address.stateCode);
+    const [stateCode, setStateCode] = useState(sessionStorage.getItem("stateCode") || address?.stateCode);
     const [gender, setGender] = useState(sexuality);
     const [bDate, setBDate] = useState(birthdate);
     const [feet, setFeet] = useState(hFeet);

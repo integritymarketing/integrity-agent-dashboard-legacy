@@ -1,7 +1,7 @@
 .planContainer {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 16px;
     color: #434a51
 }
 
@@ -10,8 +10,17 @@
     font-weight: bold;
 }
 
+.unit {
+    font-size: 14px;
+    color: #717171;
+}
+
 .flex {
     display: flex;
+
+    thead tr th {
+        border-bottom: 1px solid #CCCCCC;
+    }
 }
 
 .spacing {
@@ -27,6 +36,7 @@
     background: #ffffff;
     padding: 24px;
     border-radius: 8px;
+    margin-bottom: 24px;
 
     .header {
         font-size: 24px;
@@ -37,8 +47,8 @@
         gap: 2rem;
 
         .logo {
-            width: 40px;
-            height: 32px;
+            width: fit-content;
+            height: fit-content;
         }
     }
 

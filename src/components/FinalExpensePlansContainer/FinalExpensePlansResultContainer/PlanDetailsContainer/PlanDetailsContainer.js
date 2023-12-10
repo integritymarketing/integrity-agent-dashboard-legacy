@@ -1,89 +1,59 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Media from "react-media";
 import PropTypes from "prop-types";
-import {
-    APPLY,
-    COVERAGE_AMOUNT,
-    COVERAGE_TYPE,
-    FACE_VALUE,
-    MONTHLY_PREMIUM,
-    PLAN_INFO,
-    POLICY_FEE,
-    PRESCREEN_AVAILABLE,
-    YEARS,
-} from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
-import ButtonCircleArrow from "components/icons/button-circle-arrow";
-import { Button } from "components/ui/Button";
+import { useParams } from "react-router-dom";
 import styles from "./PlanDetailsContainer.module.scss";
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
+import { useFinalExpensePlans } from 'providers/FinalExpense';
+import useContactDetails from 'pages/ContactDetails/useContactDetails';
+import { formatDate, getAgeFromBirthDate } from 'utils/dates';
+import { PlanCard } from './PlanCard';
+import { COVERAGE_AMOUNT, COVERAGE_TYPE } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+import { STEPPER_FILTER } from "components/FinalExpensePlansContainer/FinalexpensePlanOptioncard/FinalexpensePlanOptioncard.constants";
+
 export const PlanDetailsContainer = ({
     coverageType,
     coverageAmount,
     monthlyPremium,
-    policyFee,
-    faceValueRates,
-    logoUrl,
 }) => {
     const [isMobile, setIsMobile] = useState(false);
-    const PlanBox = ({ planName }) => (
-        <div className={styles.planBox}>
-            <div className={styles.header}>
-                <div>{planName}</div>
-                <img src={logoUrl} alt="plan-logo" className={styles.logo} />
-            </div>
-            <div>
-                <span className={styles.label}>{COVERAGE_TYPE}</span>
-                <span>{coverageType}</span>
-            </div>
-            <div className={`${styles.additionalInfo} ${isMobile ? styles.column : ""}`}>
-                <div className={styles.amountInfo}>
-                    <div className={styles.coverageAmount}>
-                        <div>{COVERAGE_AMOUNT}</div>
-                        <div className={styles.amount}>${coverageAmount}</div>
-                    </div>
-                    <div>
-                        <div>{MONTHLY_PREMIUM}</div>
-                        <div className={styles.amount}>${monthlyPremium}</div>
-                    </div>
-                </div>
-                <div className={`${styles.feePlanInfo} ${isMobile ? styles.MfeePlanInfo : ""}`}>
-                    <div>
-                        <span className={styles.label}>{POLICY_FEE}</span>
-                        <span>${policyFee}</span>
-                    </div>
-                    <div className={styles.flex}>
-                        <span className={styles.label}>{PLAN_INFO}&nbsp;&nbsp;</span>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th className={styles.spacing}>{YEARS}</th>
-                                    <th>{FACE_VALUE}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {faceValueRates?.map((rate, index) => (
-                                    <tr key={index}>
-                                        <td className={styles.spacing}>{rate.years}</td>
-                                        <td>{rate.percentage}%</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div className={styles.prescreen}>{PRESCREEN_AVAILABLE}</div>
-            <div className={styles.applyCTA}>
-                <Button
-                    label={APPLY}
-                    type="primary"
-                    icon={<ButtonCircleArrow />}
-                    iconPosition="right"
-                    className={styles.applyButton}
-                />
-            </div>
-        </div>
-    );
+    const { contactId } = useParams();
+    const [finalExpensePlans, setFinalExpensePlans] = useState([]);
+    const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
+    const { leadDetails } = useContactDetails(contactId);
+
+    useEffect(() => {
+        const fetchPlans = async () => {
+            try {
+                const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
+                if (!addresses?.[0]?.stateCode || !birthdate) return;
+
+                const age = getAgeFromBirthDate(birthdate);
+                const todayDate = formatDate(new Date(), "yyyy-MM-dd");
+                const quotePlansPostBody = {
+                    usState: addresses[0].stateCode,
+                    age: Number(age),
+                    gender: gender === "Male" ? "M" : "F",
+                    tobacco: Boolean(isTobaccoUser),
+                    desiredFaceValue: Number(coverageAmount) || STEPPER_FILTER[COVERAGE_AMOUNT].min,
+                    desiredMonthlyRate: null,
+                    coverageTypes: [coverageType || COVERAGE_TYPE[0].value],
+                    effectiveDate: todayDate,
+                    underWriting: {
+                        user: { height, weight },
+                        conditions: [{ categoryId: 65, lastTreatmentDate: todayDate }],
+                    },
+                };
+
+                const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
+                setFinalExpensePlans(result?.eligibleSorted || []);
+            } catch (error) {
+                console.error('Error fetching plans:', error);
+            }
+        };
+
+        fetchPlans();
+    }, [leadDetails, coverageType, coverageAmount, monthlyPremium, getFinalExpenseQuotePlans]);
 
     return (
         <>
@@ -95,25 +65,29 @@ export const PlanDetailsContainer = ({
             />
             <div className={styles.planContainer}>
                 <PersonalisedQuoteBox />
-                {["Final Expense Plan", "Aflac Final Expense Immediate Benefit", "Final Expense Plan"].map((plan) => {
-                    return <PlanBox planName={plan} />;
+                {finalExpensePlans.map((plan, index) => {
+                    const { carrier: { name, logoUrl }, product: { type }, faceValue, modalRates, policyFee } = plan;
+                    const monthlyRate = modalRates.find(rate => rate.type === "month")?.rate || 0;
+                    return (
+                        <PlanCard
+                            key={`${name}-${index}`}
+                            isMobile={isMobile}
+                            planName={name}
+                            logoUrl={logoUrl}
+                            coverageType={type}
+                            coverageAmount={faceValue}
+                            monthlyPremium={monthlyRate}
+                            policyFee={policyFee}
+                        />
+                    );
                 })}
             </div>
         </>
     );
 };
 
-// Define PropTypes for type checking and document why each prop is used
 PlanDetailsContainer.propTypes = {
     coverageType: PropTypes.string.isRequired,
     coverageAmount: PropTypes.string.isRequired,
     monthlyPremium: PropTypes.string.isRequired,
-    policyFee: PropTypes.string,
-    faceValueRates: PropTypes.arrayOf(
-        PropTypes.shape({
-            years: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-            percentage: PropTypes.number.isRequired,
-        })
-    ).isRequired,
-    onApply: PropTypes.func, // Function to call when the apply button is clicked
 };
