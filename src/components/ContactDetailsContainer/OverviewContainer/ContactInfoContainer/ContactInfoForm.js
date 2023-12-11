@@ -73,11 +73,12 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
             county: leadDetails?.leadCounty,
             countyFips: leadDetails?.leadCountyFips,
             medicareBeneficiaryID: leadDetails?.leadMBID,
-            partA: leadDetails?.leadPartA,
-            partB: leadDetails?.leadPartB,
+            partA: leadDetails?.leadPartA  === "-" ? null : leadDetails?.leadPartA,
+            partB: leadDetails?.leadPartB === "-" ? null : leadDetails?.leadPartB,
             medicaid: leadDetails?.hasMedicAid ? "Yes" : "No",
         });
     }, [leadDetails]);
+
 
     useEffect(() => {
         if (allCounties?.length === 1) {

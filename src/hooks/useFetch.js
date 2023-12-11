@@ -60,6 +60,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                 Sentry.captureException(error);
                 setError(error);
                 setLoading(false);
+                throw error;
             }
         },
         [url, isPublic, noResponse]

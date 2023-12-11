@@ -81,7 +81,7 @@ const AddNewTag = ({ setNewTag, addNewTag, newTag, setAddNewTag, addTagCancel, c
 }
 
 
-const OtherTags = ({ item, tagId, setTagValue, editCancel, updateTag, onSelectTag, deleteTags, editTag }) => {
+const OtherTags = ({ item, label, tagId, setTagValue, editCancel, updateTag, onSelectTag, deleteTags, editTag }) => {
     return (
         <>
             {tagId === item?.id ?
@@ -261,6 +261,7 @@ export const TagsList = (
                                     onSelectTag={onSelectTag}
                                     deleteTags={deleteTags}
                                     editTag={editTag}
+                                    label={label}
                                 />
                             )
                                 :

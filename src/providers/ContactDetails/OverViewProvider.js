@@ -62,7 +62,7 @@ export const OverViewProvider = ({ children }) => {
     const createNewTag = async (payload) => {
         const path = `Tag/`
         await performAsyncOperation(
-            () => addNewTag(payload, false, path),
+            async () => await addNewTag(payload, false, path),
             () => { },
             async () => {
                 await getLeadTags();
