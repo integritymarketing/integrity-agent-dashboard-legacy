@@ -1,55 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
 
 /**
- * Component representing a label with two selectable buttons.
+ * Component representing a label with selectable buttons.
  * @param {Object} props - Component props.
  * @param {string} props.labelText - Text for the label.
  * @param {string} props.labelClassName - Custom class name for the label.
  * @param {string} props.selectedButtonText - The text of the selected button.
- * @param {string} props.firstButtonText - Text for the first button.
- * @param {string} props.secondButtonText - Text for the second button.
- * @param {string} props.firstButtonClassName - Custom class name for the first button.
- * @param {string} props.secondButtonClassName - Custom class name for the second button.
+ * @param {Array} props.buttonOptions - Array of button texts.
+ * @param {Array} props.buttonClassNames - Array of class names for buttons.
  * @param {Function} props.onSelect - Callback function when a button is selected.
  * @returns {JSX.Element} - Rendered component.
  */
-
 const SelectableButtonGroup = ({
   labelText,
   labelClassName,
   selectedButtonText,
-  firstButtonText,
-  secondButtonText,
-  firstButtonClassName,
-  secondButtonClassName,
+  buttonOptions,
+  buttonClassNames,
   onSelect
 }) => {
 
-    const getButtonStyle = (buttonText, customClassName) => {
-    const baseStyle = selectedButtonText === buttonText
-        ? `${styles.expandableButton} ${styles.selected}`
-        : styles.expandableButton;
+  const getButtonStyle = (buttonText, index) => {
+    const isSelected = selectedButtonText === buttonText;
+    const baseStyle = isSelected ? `${styles.expandableButton} ${styles.selected}` : styles.expandableButton;
+    const customClassName = buttonClassNames[index] || '';
     return `${baseStyle} ${customClassName}`;
   };
 
   return (
     <div>
-      <label className={styles.labelClassName}>{labelText}</label>
+      <label className={`${styles.label} ${labelClassName}`}>{labelText}</label>
       <div className={styles.buttonContainer}>
-        <button
-          className={getButtonStyle(firstButtonText, firstButtonClassName)}
-          onClick={() => onSelect(firstButtonText)}
-        >
-          {firstButtonText}
-        </button>
-        <button
-          className={getButtonStyle(secondButtonText, secondButtonClassName)}
-          onClick={() => onSelect(secondButtonText)}
-        >
-          {secondButtonText}
-        </button>
+        {buttonOptions.map((text, index) => (
+          <button
+            key={index}
+            className={getButtonStyle(text, index)}
+            onClick={() => onSelect(text)}
+          >
+            {text}
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -59,17 +51,14 @@ SelectableButtonGroup.propTypes = {
   labelText: PropTypes.string.isRequired,
   labelClassName: PropTypes.string,
   selectedButtonText: PropTypes.string,
-  firstButtonText: PropTypes.string.isRequired,
-  secondButtonText: PropTypes.string.isRequired,
-  firstButtonClassName: PropTypes.string,
-  secondButtonClassName: PropTypes.string,
+  buttonOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  buttonClassNames: PropTypes.arrayOf(PropTypes.string),
   onSelect: PropTypes.func.isRequired,
 };
 
 SelectableButtonGroup.defaultProps = {
   labelClassName: '',
-  firstButtonClassName: '',
-  secondButtonClassName: '',
+  buttonClassNames: [],
 };
 
 export default SelectableButtonGroup;
