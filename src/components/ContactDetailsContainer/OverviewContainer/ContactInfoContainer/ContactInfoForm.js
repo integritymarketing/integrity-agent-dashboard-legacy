@@ -135,7 +135,7 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
             medicareBeneficiaryID: formData.medicareBeneficiaryID,
             partA: formData.partA,
             partB: formData.partB,
-            medicaid: formData.medicaid === "Yes" ? true : false,
+            hasMedicAid: formData.medicaid === "Yes" ? 1 : 0,
             leadsId: leadDetails?.leadsId,
             leadAddressId: leadDetails?.leadAddressId,
             phoneId: leadDetails?.phoneId,
@@ -381,11 +381,9 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                             <StyledDatePicker>
                                 <DatePickerMUI
                                     value={formData.partA}
-                                    disableFuture={true}
                                     onChange={(value) => {
                                         onChangeFormData("partA", formatDate(value));
                                     }}
-                                    isMobile={true}
                                 />
                             </StyledDatePicker>
                         </StyledNumberInputContainer>
@@ -399,11 +397,9 @@ function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
                             <StyledDatePicker>
                                 <DatePickerMUI
                                     value={formData.partB}
-                                    disableFuture={true}
                                     onChange={(value) => {
                                         onChangeFormData("partB", formatDate(value));
                                     }}
-                                    isMobile={true}
                                 />
                             </StyledDatePicker>
                         </StyledNumberInputContainer>

@@ -32,7 +32,6 @@ export const LeadDetailsProvider = ({ children }) => {
   // selectedTab  state can be one of ["overview", "scopeOfAppointment", "policies", "health"]
   const [selectedTab, setSelectedTab] = useState("overview");
   const [leadDetails, setLeadDetails] = useState(null);
-  const [leadDetailsloading, setLeadDetailsloading] = useState(false);
 
   const getLeadDetails = useCallback(
     async (leadId) => {
@@ -68,6 +67,7 @@ export const LeadDetailsProvider = ({ children }) => {
       medicareBeneficiaryID,
       partA,
       partB,
+      hasMedicAid,
     } = newPayload;
     const reqData = {
       leadsId,
@@ -79,6 +79,7 @@ export const LeadDetailsProvider = ({ children }) => {
       primaryCommunication,
       contactRecordType,
       notes,
+      hasMedicAid,
     };
     if (medicareBeneficiaryID) {
       reqData.medicareBeneficiaryID = flattenMBI(medicareBeneficiaryID);
@@ -115,7 +116,7 @@ export const LeadDetailsProvider = ({ children }) => {
     ];
     await performAsyncOperation(
       () => editLeadDetails(reqData, false, newPayload.leadsId),
-      setLeadDetailsloading,
+      () => { },
       async () => {
         await getLeadDetails(newPayload?.leadsId);
         showToast({
@@ -134,7 +135,7 @@ export const LeadDetailsProvider = ({ children }) => {
     const formattedData = getFormattedData(newPayload, oldPayload);
     await performAsyncOperation(
       () => editLeadDetails(formattedData, false, newPayload.leadsId),
-      setLeadDetailsloading,
+      () => { },
       async () => {
         await getLeadDetails(newPayload?.leadsId);
         showToast({
@@ -152,7 +153,7 @@ export const LeadDetailsProvider = ({ children }) => {
   const removeContact = async (leadId, callBack) => {
     await performAsyncOperation(
       () => deleteContact(null, false, leadId),
-      setLeadDetailsloading,
+      () => { },
       () => {
         callBack();
       },

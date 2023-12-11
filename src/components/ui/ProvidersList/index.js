@@ -158,8 +158,8 @@ const Address = ({ addresses, isPlanPage }) => {
                                     <div>
                                         {address
                                             ? [address?.city, address?.state, address?.zipCode]
-                                                  .filter(Boolean)
-                                                  .join(",")
+                                                .filter(Boolean)
+                                                .join(",")
                                             : null}
                                     </div>
                                 </div>
@@ -212,9 +212,11 @@ const WebAddress = ({ addresses, isPlanPage, compareTable }) => {
                     <>
                         <Box className={classes.addressContainer} key={`Provider-address-${address?.id}`}>
                             {isPlanPage && <>{address?.inNetwork ? <InNetworkIcon /> : <OutNetworkIcon />}</>}
-                            <Box className={`${classes.addressText} ${compareTable ? classes.addressTextNew : ""}`}>
-                                {address?.streetLine1}, {address?.city}, {address?.state},{address?.zipCode}
-                            </Box>
+                            {address?.streetLine1 && address?.city && address?.state && address?.zipCode && (
+                                <Box className={`${classes.addressText} ${compareTable ? classes.addressTextNew : ""}`}>
+                                    {address?.streetLine1}, {address?.city}, {address?.state},{address?.zipCode}
+                                </Box>
+                            )}
                         </Box>
                     </>
                 );

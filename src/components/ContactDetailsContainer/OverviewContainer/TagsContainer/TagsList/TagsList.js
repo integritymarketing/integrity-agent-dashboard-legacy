@@ -13,6 +13,7 @@ import { useOverView } from "providers/ContactDetails";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
 
+
 const getIconName = (label, itemLabel) => {
     switch (label) {
         case "Products":
@@ -37,6 +38,94 @@ const getIconName = (label, itemLabel) => {
         default:
             return <img alt="TagIcon" src={TagIcon} />
     }
+}
+
+
+
+const AddNewTag = ({ setNewTag, addNewTag, newTag, setAddNewTag, addTagCancel, createTag }) => {
+    return (
+        <>
+            {addNewTag ?
+                <div className={styles.editTagContainer}>
+                    <Box width={"50%"} marginLeft={"10px"}>
+                        <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            value={newTag}
+                            onChange={(e) => setNewTag(e.target.value)}
+                            size="small"
+                            placeholder='Tag Name'
+                        />
+
+
+                    </Box>
+                    <div className={styles.createActionIcons}>
+                        <div onClick={addTagCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
+                        <div onClick={createTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
+                    </div>
+                </div> :
+                <Box marginLeft={"10px"}>
+                    <Button
+                        label={"Create"}
+                        className={styles.addNewButton}
+                        type="tertiary"
+                        onClick={() => setAddNewTag(true)}
+                        icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
+                        iconPosition="right"
+                    />
+                </Box>
+            }
+        </>
+
+    )
+}
+
+
+const OtherTags = ({ item, tagId, setTagValue, editCancel, updateTag, onSelectTag, deleteTags, editTag }) => {
+    return (
+        <>
+            {tagId === item?.id ?
+                <div className={styles.editTagContainer} key={item.label} >
+                    <Box width={"50%"} marginLeft={"10px"}>
+                        <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            value={tagValue}
+                            onChange={(e) => setTagValue(e.target.value)}
+                            size="small"
+                        />
+                    </Box>
+                    <div className={styles.createActionIcons}>
+                        <div onClick={editCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
+                        <div onClick={updateTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
+                    </div>
+                </div>
+                :
+                <div className={styles.itemContainer} key={item.label} >
+                    <div className={styles.tabLabel} onClick={() => onSelectTag(item.id)} >
+                        <div className={styles.tagIcon}>
+                            {getIconName(label, item.label)}
+                        </div>
+                        <Label value={item.label} size="16px" color="#434A51" />
+                    </div>
+
+                    <div className={styles.actionIcons}>
+                        <div onClick={() => deleteTags(item.id)}> <Delete /></div>
+
+                        <div onClick={() => editTag(item.label, item.id)}><EditIcon /></div>
+                        {selectedTags.includes(item.id) &&
+                            <div>
+                                <CheckCircleOutlineIcon color="primary" />
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+            }
+
+        </>
+    )
 }
 
 
@@ -132,96 +221,6 @@ export const TagsList = (
 
 
 
-
-
-    const AddNewTag = () => {
-        return (
-            <>
-                {addNewTag ?
-                    <div className={styles.editTagContainer}>
-                        <Box width={"50%"} marginLeft={"10px"}>
-                            <TextField
-                                id="outlined-basic"
-                                variant="outlined"
-                                value={newTag}
-                                onChange={(e) => setNewTag(e.target.value)}
-                                size="small"
-                                placeholder='Tag Name'
-                            />
-
-
-                        </Box>
-                        <div className={styles.createActionIcons}>
-                            <div onClick={addTagCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
-                            <div onClick={createTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
-                        </div>
-                    </div> :
-                    <Box marginLeft={"10px"}>
-                        <Button
-                            label={"Create"}
-                            className={styles.addNewButton}
-                            type="tertiary"
-                            onClick={() => setAddNewTag(true)}
-                            icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
-                            iconPosition="right"
-                        />
-                    </Box>
-                }
-            </>
-
-        )
-    }
-
-
-
-
-    const OtherTags = ({ item, }) => {
-        return (
-            <>
-                {tagId === item?.id ?
-                    <div className={styles.editTagContainer} key={item.label}   >
-                        <Box width={"50%"} marginLeft={"10px"}>
-                            <TextField
-                                id="outlined-basic"
-                                variant="outlined"
-                                value={tagValue}
-                                onChange={(e) => setTagValue(e.target.value)}
-                                size="small"
-                            />
-                        </Box>
-                        <div className={styles.createActionIcons}>
-                            <div onClick={editCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
-                            <div onClick={updateTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
-                        </div>
-                    </div>
-                    :
-                    <div className={styles.itemContainer} key={item.label} >
-                        <div className={styles.tabLabel} onClick={() => onSelectTag(item.id)} >
-                            <div className={styles.tagIcon}>
-                                {getIconName(label, item.label)}
-                            </div>
-                            <Label value={item.label} size="16px" color="#434A51" />
-                        </div>
-
-                        <div className={styles.actionIcons}>
-                            <div onClick={() => deleteTags(item.id)}> <Delete /></div>
-
-                            <div onClick={() => editTag(item.label, item.id)}><EditIcon /></div>
-                            {selectedTags.includes(item.id) &&
-                                <div>
-                                    <CheckCircleOutlineIcon color="primary" />
-                                </div>
-                            }
-                        </div>
-
-
-                    </div>
-                }
-
-            </>
-        )
-    }
-
     const Tag = ({ item, }) => {
         return (
             <div className={styles.itemContainer} key={item.label}    >
@@ -246,7 +245,6 @@ export const TagsList = (
                 </div>
                 <Label value={label} size="16px" color="#052A63" fontWeight="bold" />
                 {/* <Info /> */}
-
             </div>
 
             {open && <div className={styles.itemsContainer}>
@@ -254,7 +252,16 @@ export const TagsList = (
                     return (
                         <>
                             {label === "Other" ? (
-                                <OtherTags item={item} />
+                                <OtherTags
+                                    item={item}
+                                    tagId={tagId}
+                                    setTagValue={setTagValue}
+                                    editCancel={editCancel}
+                                    updateTag={updateTag}
+                                    onSelectTag={onSelectTag}
+                                    deleteTags={deleteTags}
+                                    editTag={editTag}
+                                />
                             )
                                 :
                                 <Tag item={item} />
@@ -267,7 +274,14 @@ export const TagsList = (
             }
             {label === "Other" && open &&
                 <Box sx={{ padding: "9px 12px" }}>
-                    <AddNewTag />
+                    <AddNewTag
+                        setAddNewTag={setAddNewTag}
+                        addNewTag={addNewTag}
+                        newTag={newTag}
+                        setNewTag={setNewTag}
+                        addTagCancel={addTagCancel}
+                        createTag={createTag}
+                    />
                 </Box>
             }
         </div >

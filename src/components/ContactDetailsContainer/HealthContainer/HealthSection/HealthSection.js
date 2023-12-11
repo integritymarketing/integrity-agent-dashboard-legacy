@@ -161,7 +161,7 @@ const HealthDetailsSection = () => {
                 <DetailsCard
                     dataGtm="section-pharmacies"
                     headerTitle="Pharmacies"
-                    onAddClick={onAddNewPharmacy}
+                    onAddClick={pharmacies > 0 ? null : onAddNewPharmacy}
                     items={pharmacies}
                     Row={PharamaciesRow}
                     onDelete={onDeletePharmacy}

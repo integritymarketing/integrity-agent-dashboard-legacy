@@ -143,7 +143,6 @@ export default function PolicySnapshotMobileLayout() {
         }
     };
 
-    console.log("policyList", policyList);
 
     return (
         <Box className={styles.policySnapshotMobileContainer}>

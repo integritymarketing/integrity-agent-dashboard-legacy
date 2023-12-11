@@ -15,7 +15,7 @@ import SupportLinksCard from "components/SupportLinksCard";
 
 export const ContactDetailsContainer = () => {
     const { leadId, section } = useParams();
-    const { selectedTab, getLeadDetails, setSelectedTab, isLoadingLeadDetails } = useLeadDetails();
+    const { selectedTab, getLeadDetails, setSelectedTab, isLoadingLeadDetails, leadDetails } = useLeadDetails();
 
     useEffect(() => {
         getLeadDetails(leadId);
@@ -47,7 +47,7 @@ export const ContactDetailsContainer = () => {
     return (
         <>
             <WithLoader isLoading={isLoadingLeadDetails}>
-                <Box className={styles.ContactDetailsContainer}>{renderSection()}</Box>
+                {leadDetails && <Box className={styles.ContactDetailsContainer}>{renderSection()}</Box>}
                 <SupportLinksCard />
             </WithLoader>
         </>

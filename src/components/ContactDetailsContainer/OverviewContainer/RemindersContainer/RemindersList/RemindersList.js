@@ -53,6 +53,8 @@ export const RemindersList = () => {
         removeReminder(id, leadId);
     };
 
+    const remindersList = reminders?.filter((reminder) => !reminder?.isComplete);
+
     return (
         <>
             <ContactSectionCard
@@ -77,7 +79,7 @@ export const RemindersList = () => {
                 }
             >
                 <>
-                    {reminders?.map((reminder) => {
+                    {remindersList?.map((reminder) => {
                         const { reminderNote = "", isComplete = false, reminderId, reminderDate } = reminder;
                         const isOverDue = getOverDue(reminderDate) ? true : false;
                         return (

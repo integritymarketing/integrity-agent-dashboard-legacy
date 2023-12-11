@@ -59,7 +59,6 @@ function DetailsCard({
           </div>
         )
       }
-
     >
       <div className="card-body">
         <WithLoader isLoading={isLoading}>
