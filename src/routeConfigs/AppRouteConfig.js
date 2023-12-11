@@ -1,7 +1,6 @@
 import { StrictMode, lazy } from "react";
 import { Navigate } from "react-router-dom";
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
-import FinalExpenseHealthConditionsContainer from "components/FinalExpenseHealthConditionsContainer";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -44,9 +43,9 @@ const PolicySnapshotMobileLayout = lazy(() =>
 );
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
-const FinalExpensePlansResultContainer = lazy(() =>
-    import("components/FinalExpensePlansContainer/FinalExpensePlansResultContainer")
-);
+const FinalExpenseCreateQuotePage = lazy(() => import("pages/FinalExpenseCreateQuotePage"));
+const FinalExpenseHealthConditionsPage = lazy(() => import("pages/FinalExpenseHealthConditionsPage"));
+
 const AddZipPage = lazy(() => import("pages/AddZipPage"));
 const ContactProfile = lazy(() => import("pages/ContactProfilePage"));
 const ContactsList = lazy(() => import("pages/ContactsList"));
@@ -169,7 +168,7 @@ const appProtectedRoutes = [
         component: (
             <StrictMode>
                 <FinalExpensePlansProvider>
-                    <FinalExpensePlansPage />
+                    <FinalExpenseCreateQuotePage />
                 </FinalExpensePlansProvider>
                 <WebChatComponent />
             </StrictMode>
@@ -178,21 +177,21 @@ const appProtectedRoutes = [
     {
         path: "/finalexpenses/healthconditions/:contactId",
         component: (
-            <>
-                <FinalExpenseHealthConditionsContainer />
+            <StrictMode>
+                <FinalExpenseHealthConditionsPage />
                 <WebChatComponent />
-            </>
+            </StrictMode>
         ),
     },
     {
         path: "/finalexpenses/plans/:contactId",
         component: (
-            <>
+            <StrictMode>
                 <FinalExpensePlansProvider>
-                    <FinalExpensePlansResultContainer />
+                    <FinalExpensePlansPage />
                 </FinalExpensePlansProvider>
                 <WebChatComponent />
-            </>
+            </StrictMode>
         ),
     },
     {
