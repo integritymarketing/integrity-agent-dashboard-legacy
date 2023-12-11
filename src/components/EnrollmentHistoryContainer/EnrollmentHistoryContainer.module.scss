@@ -1,11 +1,11 @@
 @import "../../scss/globalDefines.scss";
 
-.enrollmentPlanContainer_detailsPage {
+.layout {
     margin-bottom: 3rem;
     border-radius: 8px;
 }
 
-.no-items {
+.noPlansAvailable {
     border: 1.5px solid #e6ecf2;
     border-radius: 4px;
     display: flex;
@@ -23,7 +23,7 @@
     padding: 1.5rem;
 }
 
-.enrollmentPlanContainer_detailsPage_content {
+.content {
     border-radius: 8px;
     background-color: #ffffff;
     padding: 1.5rem;

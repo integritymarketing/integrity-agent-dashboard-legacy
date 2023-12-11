@@ -59,9 +59,6 @@ export default function EnrollmentPlanCard(props) {
                     setIsMobile(isMobile);
                 }}
             />
-            {/* <div className={styles.planHistory}>
-        {currentYear ? "Current Plan" : "Previous Years"}
-      </div> */}
             <div className={`${styles.planCard} ${!currentYear ? styles.isBordered : ""}`}>
                 {currentYear && (
                     <div className={styles.status} style={{ backgroundColor: policyStatusColor }}>

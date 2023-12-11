@@ -33,9 +33,9 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         <>
             <ContactSectionCard
                 title="Current Policies"
-                className={styles.enrollmentPlanContainer_detailsPage}
+                className={styles.layout}
                 isDashboard
-                contentClassName={styles.enrollmentPlanContainer_detailsPage_content}
+                contentClassName={styles.content}
             >
                 {currentYearPlansData?.length > 0 ? (
                     <>
@@ -70,14 +70,14 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                             })}
                     </>
                 ) : (
-                    <div className="no-items">No Plans Available</div>
+                    <div className="noPlansAvailable">No Plans Available</div>
                 )}
             </ContactSectionCard>
             <ContactSectionCard
                 title="Previous Policies"
-                className={styles.enrollmentPlanContainer_detailsPage}
+                className={styles.layout}
                 isDashboard
-                contentClassName={styles.enrollmentPlanContainer_detailsPage_content}
+                contentClassName={styles.content}
             >
                 {previousYearPlansData?.length > 0 ? (
                     <>

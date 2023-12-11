@@ -73,7 +73,7 @@ const EnrollmentHistoryPage = ({
     [LeadFirstName, LeadLastName]
   );
   const processedEnrollData = buildEnrollData(propEnrollData);
-  const enrollData = location?.state?.state || processedEnrollData || {};
+  const enrollData = location?.state || processedEnrollData || {};
 
   useEffect(() => {
     const fetchData = async () => {
