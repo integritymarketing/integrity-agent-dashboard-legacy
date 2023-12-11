@@ -3,7 +3,7 @@ import BaseLegalPage from "pages/BaseLegalPage";
 const TermsOfUsagePage = () => {
     return (
         <BaseLegalPage title="Terms of Use" showIntegrity={true}>
-            <p>Last Modified: 10-12-2023</p>
+            <p>Last Modified: 12-11-2023</p>
             <p className="text-body text-body--large mb-4">
                 <strong>Please read these terms of use policies carefully.</strong>
             </p>
