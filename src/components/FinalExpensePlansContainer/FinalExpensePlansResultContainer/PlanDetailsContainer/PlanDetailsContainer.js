@@ -27,7 +27,7 @@ export const PlanDetailsContainer = ({
             try {
                 const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
                 if (!addresses?.[0]?.stateCode || !birthdate) return;
-
+                const covType = Array.isArray(coverageType) ? coverageType.join() : coverageType;
                 const age = getAgeFromBirthDate(birthdate);
                 const todayDate = formatDate(new Date(), "yyyy-MM-dd");
                 const quotePlansPostBody = {
@@ -37,7 +37,7 @@ export const PlanDetailsContainer = ({
                     tobacco: Boolean(isTobaccoUser),
                     desiredFaceValue: Number(coverageAmount) || STEPPER_FILTER[COVERAGE_AMOUNT].min,
                     desiredMonthlyRate: null,
-                    coverageTypes: [coverageType || COVERAGE_TYPE[0].value],
+                    coverageTypes: [covType || COVERAGE_TYPE[0].value],
                     effectiveDate: todayDate,
                     underWriting: {
                         user: { height, weight },

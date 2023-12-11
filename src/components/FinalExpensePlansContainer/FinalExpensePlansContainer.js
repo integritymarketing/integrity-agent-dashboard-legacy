@@ -26,8 +26,9 @@ export const FinalExpensePlansContainer = () => {
     const onSave = async (formData) => {
         const leadDetailsNew = { ...leadDetails };
         const address = { ...leadDetailsNew.addresses[0] };
+        const code = JSON.stringify({ stateCode: formData.stateCode });
         sessionStorage.setItem(
-            "stateCode", formData.stateCode);
+            contactId, code);
         await updateLeadData({
             ...leadDetailsNew,
             addresses: [address],
@@ -52,6 +53,7 @@ export const FinalExpensePlansContainer = () => {
                 renderContactDetailsLoader
             ) : (
                 <FinalExpenseContactDetailsForm
+                    contactId={contactId}
                     birthdate={birthdate}
                     sexuality={gender}
                     address={addresses[0]}

@@ -28,12 +28,12 @@ import {
     WT_PLACEHOLDER,
 } from "../FinalExpensePlansContainer.constants";
 
-const FinalExpenseContactDetailsForm = ({ address, birthdate, sexuality, wt, hFeet, hInch, smoker, onSave }) => {
+const FinalExpenseContactDetailsForm = ({ contactId, address, birthdate, sexuality, wt, hFeet, hInch, smoker, onSave }) => {
     const [isDisabled, setIsDisabled] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [mobileStepNumber, setMobileStepNumber] = useState(0);
-
-    const [stateCode, setStateCode] = useState(sessionStorage.getItem("stateCode") || address?.stateCode);
+    const code = sessionStorage.getItem(contactId) ? JSON.parse(sessionStorage.getItem(contactId)).stateCode : address?.stateCode;
+    const [stateCode, setStateCode] = useState(code);
     const [gender, setGender] = useState(sexuality);
     const [bDate, setBDate] = useState(birthdate);
     const [feet, setFeet] = useState(hFeet);
