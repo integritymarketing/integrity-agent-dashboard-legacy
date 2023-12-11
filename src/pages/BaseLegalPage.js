@@ -3,12 +3,14 @@ import Container from "components/ui/container";
 import GlobalNavV2 from "partials/global-nav-v2";
 import GlobalFooter from "partials/global-footer";
 import IntegrityFooter from "partials/integrity-footer";
+import IntegrityHeader from "partials/integrity-header";
 
 const BaseLegalPage = ({ children, title, showIntegrity = false, ...props }) => {
   return (
     <div className="content-frame" {...props}>
       <div className="bg-photo text-invert">
-        <GlobalNavV2 />
+      {!showIntegrity && <GlobalNavV2 /> }
+      {showIntegrity && <IntegrityHeader />}
         <Container id="main-content" className="scaling-header">
           <h2 className="hdg hdg--2">{title}</h2>
         </Container>
