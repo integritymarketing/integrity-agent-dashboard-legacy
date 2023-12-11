@@ -408,7 +408,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                 ) : (
                     <h1 className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
                         <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
-                            <Logo aria-hidden="true" id="headerLogo" />
+                            <Logo aria-hidden="true" />
                             <span className="visually-hidden">Medicare Center</span>
                         </Link>
                     </h1>
