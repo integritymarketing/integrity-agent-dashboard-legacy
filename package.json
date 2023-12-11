@@ -55,7 +55,7 @@
     "universal-cookie": "^4.0.4"
   },
   "resolutions": {
-    "babel-loader": "8.2.2",
+    "babel-loader": "8.3.0",
     "webpack": "4.44.2"
   },
   "scripts": {
