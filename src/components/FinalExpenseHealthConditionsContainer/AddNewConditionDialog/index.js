@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { CalendarMonth } from "@mui/icons-material";
+
 import { Link } from "@mui/material";
 import Box from "@mui/material/Box";
+
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
+
+import { formatDate, formatServerDate, parseDate } from "utils/dates";
+
 import useFetch from "hooks/useFetch";
+
+import DatePickerMUI from "components/DatePicker";
 import Modal from "components/Modal";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import SearchBlue from "components/icons/version-2/SearchBlue";
 import Radio from "components/ui/Radio";
 import Textfield from "components/ui/textfield";
+
 import useContactDetails from "pages/ContactDetails/useContactDetails";
+
 import styles from "./AddNewCondition.module.scss";
 import {
     DATE_LAST_TREATMENT,
-    DATE_PLACEHOLDER,
     DELETE_CONDITION,
     DELETING,
     HEALTH_CONDITION_SEARCH_API,
@@ -35,6 +41,7 @@ import {
 import { HEALTH_CONDITION_API } from "../FinalExpenseHealthConditionsContainer.constants";
 
 const AddNewConditionDialog = ({
+    contactId,
     open,
     onClose,
     setHealthConditions,
@@ -42,7 +49,6 @@ const AddNewConditionDialog = ({
     refetchConditionsList,
 }) => {
     const [searchString, setSearchString] = useState("");
-    const { contactId } = useParams();
     const [searchResults, setSearchResults] = useState(null);
     const [selectedCondition, setSelectedCondition] = useState(selectedConditionForEdit);
     const [lastTreatmentDate, setLastTreatmentDate] = useState(
@@ -99,10 +105,19 @@ const AddNewConditionDialog = ({
     const saveToAPI = async () => {
         if (!selectedCondition) return null;
         setIsSavingToServer(true);
+
+        let lastTreatmentDateServer = null;
+        if (lastTreatmentDate) {
+            if (lastTreatmentDate.indexOf("/") > 0) {
+                lastTreatmentDateServer = formatServerDate(parseDate(lastTreatmentDate));
+            } else {
+                lastTreatmentDateServer = lastTreatmentDate;
+            }
+        }
         if (selectedConditionForEdit) {
             const response = await updateHeathCondition({
                 ...selectedConditionForEdit,
-                lastTreatmentDate,
+                lastTreatmentDate: lastTreatmentDateServer,
             });
             if (response && response.length > 0) {
                 setHealthConditions([...response]);
@@ -116,7 +131,7 @@ const AddNewConditionDialog = ({
                 conditionDescription: selectedCondition.conditionDescription,
                 stateCode: selectedCondition.StateCode,
                 hasLookBackPeriod: selectedCondition.hasLookBackPeriod,
-                lastTreatmentDate,
+                lastTreatmentDate: lastTreatmentDateServer,
                 consumerId: 0,
             });
             if (response && response.length > 0) {
@@ -238,16 +253,11 @@ const AddNewConditionDialog = ({
                 <div className={styles.lastDateInputContainer}>
                     <div className={styles.lastDateInputTitle}>{DATE_LAST_TREATMENT}</div>
                     <div className={styles.lastDateInputBox}>
-                        <Textfield
-                            type="date"
-                            name="lastTreatmentDate"
-                            icon={<CalendarMonth className={styles.calendarIcon} />}
-                            value={lastTreatmentDate ? new Date(lastTreatmentDate) : null}
-                            placeholder={DATE_PLACEHOLDER}
-                            onDateChange={(e) => {
-                                setLastTreatmentDate(e.toISOString());
-                            }}
-                            className={styles.lastDateInput}
+                        <DatePickerMUI
+                            value={lastTreatmentDate}
+                            disableFuture={true}
+                            onChange={(value) => setLastTreatmentDate(formatDate(value))}
+                            className={styles.datepicker}
                         />
                     </div>
                 </div>
@@ -331,6 +341,7 @@ const AddNewConditionDialog = ({
 AddNewConditionDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    contactId: PropTypes.string.isRequired,
     setHealthConditions: PropTypes.func.isRequired,
     selectedConditionForEdit: PropTypes.object,
     refetchConditionsList: PropTypes.func.isRequired,

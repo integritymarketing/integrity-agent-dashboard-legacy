@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
 
@@ -14,6 +14,7 @@ import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 // Utils
 import { formatPhoneNumber } from "utils/phones";
 
+import FinalExpenseHealthTableSection from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthTableSection";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import DetailsCard from "components/ui/DetailsCard";
@@ -86,8 +87,8 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-                : "";
+            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+            : "";
 
         return (
             <div className={className}>
@@ -167,6 +168,7 @@ const HealthDetailsSection = () => {
                     onDelete={onDeletePharmacy}
                     isLoading={pharmacyLoading}
                 />
+                <FinalExpenseHealthTableSection contactId={leadId} isHealthPage={true} />
                 {isOpen && (
                     <ProviderModal
                         open={isOpen}
@@ -183,7 +185,11 @@ const HealthDetailsSection = () => {
                 )}
 
                 {isOpenPrescription && (
-                    <PrescriptionModal open={isOpenPrescription} onClose={() => onCloseNewPrescription(false)} leadId={leadId} />
+                    <PrescriptionModal
+                        open={isOpenPrescription}
+                        onClose={() => onCloseNewPrescription(false)}
+                        leadId={leadId}
+                    />
                 )}
 
                 {isOpenEditPrescription && (
@@ -197,7 +203,12 @@ const HealthDetailsSection = () => {
                 )}
 
                 {isOpenPharmacy && (
-                    <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} personalInfo={leadDetails} leadId={leadId} />
+                    <AddPharmacy
+                        isOpen={isOpenPharmacy}
+                        onClose={onCloseNewPharmacy}
+                        personalInfo={leadDetails}
+                        leadId={leadId}
+                    />
                 )}
             </div>
         </>

@@ -8,6 +8,10 @@
     }
 }
 
+.healthPageActivitiesContainer {
+    margin-top: 25px;
+}
+
 .activitiesContainer_content {
     border-radius: 8px;
 
@@ -115,15 +119,15 @@
 
 .tickCircle,
 .statusIcon {
-    background-color: transparent;
-    height: 16px;
-    padding: 0;
-    width: 16px;
+    background-color: transparent !important;
+    height: 16px !important;
+    padding: 0 !important;
+    width: 16px !important;
 }
 
 .statusIcon {
-    height: 18px;
-    width: 18px;
+    height: 18px !important;
+    width: 18px !important;
 }
 
 .wrapper {
