@@ -14,3 +14,13 @@
     margin-left: 0;
   }
 }
+
+.mobileIntigrityLogo {
+  width: 168px;
+  height: 24px;
+  margin-left: 40px;
+
+  @include small {
+    margin-left: 0;
+  }
+}
