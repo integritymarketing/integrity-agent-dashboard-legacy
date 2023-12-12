@@ -54,9 +54,10 @@ const SellingPreferenceModal = ({ isOpen, onStartQuoteHandle, onClose }) => {
 
     useEffect(() => {
         if (!shouldShowModal && !isLoading && isOpen) {
-            onStartQuoteHandle();
+            const currentType = leadPreference?.hideLifeQuote ? HEALTH : LIFE;
+            onStartQuoteHandle(currentType);
         }
-    }, [isLoading, isOpen, onStartQuoteHandle, shouldShowModal]);
+    }, [isLoading, isOpen, onStartQuoteHandle, shouldShowModal, leadPreference]);
 
     if (!shouldShowModal || isLoading || !isOpen) {
         return <></>;
