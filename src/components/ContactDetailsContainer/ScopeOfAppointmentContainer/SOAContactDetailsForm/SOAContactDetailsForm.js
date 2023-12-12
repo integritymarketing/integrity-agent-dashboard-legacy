@@ -10,7 +10,8 @@ import { FormInputs } from '../FormInputs/FormInputs';
 import DatePickerMUI from "components/DatePicker";
 import TextField from "@mui/material/TextField";
 import dateFnsFormat from "date-fns/format";
-
+import { useMemo } from 'react';
+ 
 const SubmitButton = styled(Button)(() => ({
     color: "#4178ff",
     borderRadius: "20px",
@@ -67,6 +68,9 @@ export const SOAContactDetailsForm = ({ onSubmit, agentSection }) => {
         onSubmit(payload);
     }
 
+    const isDisabled = useMemo(() => {
+            return !acceptedSOA || !soaSignedAtApointment || !appointmentDate || !formInputs.firstName || !formInputs.lastName || !formInputs.methodOfContact;
+    }, [acceptedSOA, soaSignedAtApointment, appointmentDate, formInputs,]) 
 
     return (
         <>
@@ -74,12 +78,6 @@ export const SOAContactDetailsForm = ({ onSubmit, agentSection }) => {
                 <div className={styles.formText}>{SOA_FORM_TEXT}</div>
                 <div className={styles.formSubText}>{SOA_FORM_SUBTEXT}</div>
                 <FormInputs formInputs={formInputs} setFormInputs={setFormInputs} />
-                {/* <div className={styles.formAuthText}>{SOA_FORM_AUTH_TEXT}<InfoIcon className={styles.infoStyle} /></div>
-                <div className={`${styles.authCheck} ${isAuthAccepted ? styles.checked : ""}`} onClick={() => setIsAuthAccepted(!isAuthAccepted)}>
-                    <span>{isAuthAccepted ? <Checked /> : <Unchecked />}</span>
-                    <span>{isAuthAccepted ? "Ancillary Products" : "Yes"}</span>
-                </div> */}
-
                 <div className={styles.signedText}>{SOA_SIGNED_AT_APPOINTMENT}</div>
                 {SOA_SIGNED_OPTS.map((option, index) => {
                     const isChecked = soaSignedAtApointment === option;
@@ -126,7 +124,7 @@ export const SOAContactDetailsForm = ({ onSubmit, agentSection }) => {
                 <span>{acceptedSOA ? <Checked /> : <Unchecked strokeColor="#DDDDDD" />}</span>
                 <span>{SOA_FORM_CONSENT}</span>
             </div>
-            <SubmitButton variant="contained" onClick={handleSubmit} endIcon={<ButtonCircleArrow />}>
+            <SubmitButton disabled={isDisabled} variant="contained" onClick={handleSubmit} endIcon={<ButtonCircleArrow />}>
                 {SUBMIT}
             </SubmitButton>
         </>

@@ -16,6 +16,8 @@ import {
     SOA_SIGNED_AT_APPOINTMENT,
     SOA_SIGNED_OPTS
 } from '../ScopeOfAppointmentContainer.constants';
+import { getLocalDateTime } from 'utils/dates';
+
 import styles from './SOAFormDetails.module.scss';
 
 export const SOAFormDetails = ({ agentSection, linkCode }) => {
@@ -58,7 +60,7 @@ export const SOAFormDetails = ({ agentSection, linkCode }) => {
                 <span>{SOA_FORM_CONSENT}</span>
             </div>
 
-            <Field label={AGENT_SUBMITTED} value={submittedDateTime} bold />
+            <Field label={AGENT_SUBMITTED} value={`${getLocalDateTime(submittedDateTime)?.date} ${getLocalDateTime(submittedDateTime)?.time}`} bold />
             <Field label={CONFIRMATION_NO} value={linkCode} bold />
         </>
     );

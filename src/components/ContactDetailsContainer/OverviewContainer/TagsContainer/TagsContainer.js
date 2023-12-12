@@ -63,7 +63,7 @@ const TagsContainer = function () {
 
 
     const onCancel = () => {
-        setSelectedTempTags(selectedTags)
+        setSelectedTempTags([])
         setTagsList(tempTags)
         setTagId(null);
         setTagValue("");
