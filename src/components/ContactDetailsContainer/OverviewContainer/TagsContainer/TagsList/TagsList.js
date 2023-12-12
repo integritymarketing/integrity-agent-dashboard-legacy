@@ -81,7 +81,7 @@ const AddNewTag = ({ setNewTag, addNewTag, newTag, setAddNewTag, addTagCancel, c
 }
 
 
-const OtherTags = ({ item, label, tagId, setTagValue, editCancel, updateTag, onSelectTag, deleteTags, editTag }) => {
+const OtherTags = ({ item, label, tagId, setTagValue, editCancel, updateTag, onSelectTag, deleteTags, editTag, selectedTags }) => {
     return (
         <>
             {tagId === item?.id ?
@@ -113,7 +113,7 @@ const OtherTags = ({ item, label, tagId, setTagValue, editCancel, updateTag, onS
                         <div onClick={() => deleteTags(item.id)}> <Delete /></div>
 
                         <div onClick={() => editTag(item.label, item.id)}><EditIcon /></div>
-                        {selectedTags.includes(item.id) &&
+                        {selectedTags?.includes(item.id) &&
                             <div>
                                 <CheckCircleOutlineIcon color="primary" />
                             </div>
@@ -262,6 +262,7 @@ export const TagsList = (
                                     deleteTags={deleteTags}
                                     editTag={editTag}
                                     label={label}
+                                    selectedTags={selectedTags}
                                 />
                             )
                                 :

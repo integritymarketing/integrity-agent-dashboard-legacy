@@ -10,17 +10,24 @@ import { useLeadDetails } from 'providers/ContactDetails';
 export const ClientNotes = () => {
   const { leadDetails, updateClientNotes } = useLeadDetails();
   const [notes, setNotes] = useState('');
+  const [tempNotes, setTempNotes] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (leadDetails) {
       setNotes(leadDetails.notes || '');
+      setTempNotes(leadDetails.notes || '');
     }
   }, [leadDetails]);
 
   const handleSaveNotes = () => {
     const updatedDetails = { ...leadDetails, notes, primaryContact: 'phone' };
     updateClientNotes(leadDetails, updatedDetails);
+    setIsEditing(false);
+  };
+
+  const handleCancelNotes = () => {
+    setNotes(tempNotes);
     setIsEditing(false);
   };
 
@@ -53,7 +60,7 @@ export const ClientNotes = () => {
                 label="Cancel"
                 className={styles.deleteButton}
                 type="tertiary"
-                onClick={() => setIsEditing(false)}
+                onClick={handleCancelNotes}
               />
               <Button
                 label="Save"

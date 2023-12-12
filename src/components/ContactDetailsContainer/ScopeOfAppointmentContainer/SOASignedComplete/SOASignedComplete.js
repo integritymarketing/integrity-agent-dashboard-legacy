@@ -30,8 +30,8 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
             <div className={styles.soaSignedContainer}>
                 <div className={styles.titleWrapper}>{SOA_SIGNED}</div>
                 <div className={`${isMobile ? styles.columnView : ""} ${styles.contentWrapper}`}>
-                    <Column label='Sent' date={getLocalDateTime(sentDate)?.date} time={getLocalDateTime(sentDate)?.time} style={styles.width15} />
-                    <Column label='Signed' date={getLocalDateTime(signedDate)?.date} time={getLocalDateTime(signedDate)?.time} style={styles.width15} />
+                    <Column label='Sent:' date={getLocalDateTime(sentDate)?.date} time={getLocalDateTime(sentDate)?.time} style={styles.width15} />
+                    <Column label='Signed:' date={getLocalDateTime(signedDate)?.date} time={getLocalDateTime(signedDate)?.time} style={styles.width15} />
                     <Column label='Products to Discuss' products={productsToDiscuss} style={styles.width45} />
                     <div className={`${styles.boxColumn} ${styles.width25}`}>
                         {isTracking48HourRule &&

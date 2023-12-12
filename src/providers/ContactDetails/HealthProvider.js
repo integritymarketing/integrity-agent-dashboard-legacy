@@ -194,7 +194,7 @@ export const HealthProvider = ({ children }) => {
     const addPharmacy = async (pharmacy, refresh, leadId) => {
         const path = consumerId ? `${leadId}/Pharmacies/${consumerId}` : `${leadId}/Pharmacies`;
         await performAsyncOperation(
-            () => saveLeadPharmacies(pharmacy, false, path),
+            () => saveLeadPharmacies(pharmacy, true, path),
             setPharmacyLoading,
             async () => {
                 await fetchPharmacies(leadId);
@@ -211,7 +211,7 @@ export const HealthProvider = ({ children }) => {
         const pharmacyId = pharmacy?.pharmacyRecordID;
         const path = consumerId ? `${leadId}/Pharmacies/${pharmacyId}/${consumerId}` : `${leadId}/Pharmacies/${pharmacyId}`;
         await performAsyncOperation(
-            () => deleteLeadPharmacies(null, false, path),
+            () => deleteLeadPharmacies(null, true, path),
             setPharmacyLoading,
             async () => {
                 await fetchPharmacies(leadId);

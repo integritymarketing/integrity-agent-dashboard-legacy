@@ -31,8 +31,8 @@ export const SOASignedView = ({ onView, soa }) => {
             <div className={styles.soaSignedContainer}>
                 <div className={styles.titleWrapper}>{SOA_COMPLETED}</div>
                 <div className={`${isMobile ? styles.columnView : ""} ${styles.contentWrapper}`}>
-                    {<Column style={styles.width15} label='Sent' data={getLocalDateTime(sentDate)?.date} subdata={getLocalDateTime(sentDate)?.time} />}
-                    {<Column style={styles.width15} label='Signed' data={getLocalDateTime(signedDate)?.date} subdata={getLocalDateTime(signedDate)?.time} />}
+                    {<Column style={styles.width15} label='Sent:' data={getLocalDateTime(sentDate)?.date} subdata={getLocalDateTime(sentDate)?.time} />}
+                    {<Column style={styles.width15} label='Signed:' data={getLocalDateTime(signedDate)?.date} subdata={getLocalDateTime(signedDate)?.time} />}
                     {<Column style={styles.width50} label='Confirmation number' data={linkCode} dataStyle={styles.confirmNo} />}
                     <div className={`${styles.boxColumn} ${styles.width20}`}>
                         <div className={styles.ViewCTAWrapper}>

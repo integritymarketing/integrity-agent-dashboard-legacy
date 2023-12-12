@@ -87,8 +87,8 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-            : "";
+                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+                : "";
 
         return (
             <div className={className}>
@@ -162,7 +162,7 @@ const HealthDetailsSection = () => {
                 <DetailsCard
                     dataGtm="section-pharmacies"
                     headerTitle="Pharmacies"
-                    onAddClick={pharmacies > 0 ? null : onAddNewPharmacy}
+                    onAddClick={pharmacies?.length > 0 ? null : onAddNewPharmacy}
                     items={pharmacies}
                     Row={PharamaciesRow}
                     onDelete={onDeletePharmacy}
