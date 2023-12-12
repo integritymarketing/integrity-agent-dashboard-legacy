@@ -5,9 +5,6 @@ import FinalExpenseContactBar from "components/FinalExpensePlansContainer/FinalE
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { Button } from "components/ui/Button";
 
-import GlobalFooter from "partials/global-footer";
-import GlobalNav from "partials/global-nav-v2";
-
 import {
     CARD_TITLE,
     DISCLAIMER_TEXT,
@@ -27,7 +24,6 @@ const FinalExpenseHealthConditionsContainer = () => {
 
     return (
         <div>
-            <GlobalNav />
             <FinalExpenseContactBar backLink={`/finalexpenses/plans/${contactId}`} label={HEADER_TITLE} />
             <div className={styles.pageContainerWrapper}>
                 <div className={styles.pageContainer}>
@@ -46,8 +42,6 @@ const FinalExpenseHealthConditionsContainer = () => {
                     />
                 </div>
             </div>
-
-            <GlobalFooter />
         </div>
     );
 };

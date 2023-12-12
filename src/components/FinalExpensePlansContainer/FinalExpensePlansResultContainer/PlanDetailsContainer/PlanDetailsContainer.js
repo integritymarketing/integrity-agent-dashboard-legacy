@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Media from "react-media";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import styles from "./PlanDetailsContainer.module.scss";
-import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
-import { useFinalExpensePlans } from 'providers/FinalExpense';
-import useContactDetails from 'pages/ContactDetails/useContactDetails';
-import { formatDate, getAgeFromBirthDate } from 'utils/dates';
-import { PlanCard } from './PlanCard';
-import { COVERAGE_AMOUNT, COVERAGE_TYPE } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+
+import PropTypes from "prop-types";
+import { useFinalExpensePlans } from "providers/FinalExpense";
+
+import { formatDate, getAgeFromBirthDate } from "utils/dates";
+import { scrollTop } from "utils/shared-utils/sharedUtility";
+
+import {
+    COVERAGE_AMOUNT,
+    COVERAGE_TYPE,
+} from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import { STEPPER_FILTER } from "components/FinalExpensePlansContainer/FinalexpensePlanOptioncard/FinalexpensePlanOptioncard.constants";
 import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import WithLoader from "components/ui/WithLoader";
-import { scrollTop } from "utils/shared-utils/sharedUtility";
 
-export const PlanDetailsContainer = ({
-    coverageType,
-    coverageAmount,
-    monthlyPremium,
-}) => {
+import useContactDetails from "pages/ContactDetails/useContactDetails";
+
+import { PlanCard } from "./PlanCard";
+import styles from "./PlanDetailsContainer.module.scss";
+
+import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
+
+export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPremium }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -36,7 +41,7 @@ export const PlanDetailsContainer = ({
         const slicedResults = [...finalExpensePlans]?.slice(pagedStart, pageLimit);
         setPagedResults(slicedResults);
         scrollTop();
-    }, [finalExpensePlans, currentPage, pageSize,]);
+    }, [finalExpensePlans, currentPage, pageSize]);
 
     useEffect(() => {
         const fetchPlans = async () => {
@@ -58,7 +63,7 @@ export const PlanDetailsContainer = ({
                     effectiveDate: todayDate,
                     underWriting: {
                         user: { height: height || 0, weight: weight || 0 },
-                        conditions: [{ categoryId: 65, lastTreatmentDate: todayDate }],
+                        conditions: [{ categoryId: 0, lastTreatmentDate: todayDate }],
                     },
                 };
 
@@ -66,7 +71,7 @@ export const PlanDetailsContainer = ({
                 setIsLoadingFinalExpensePlans(false);
                 setFinalExpensePlans(result?.eligibleSorted || []);
             } catch (error) {
-                console.error('Error fetching plans:', error);
+                console.error("Error fetching plans:", error);
             }
         };
 
@@ -84,8 +89,14 @@ export const PlanDetailsContainer = ({
             <div className={styles.planContainer}>
                 <PersonalisedQuoteBox />
                 {pagedResults.map((plan, index) => {
-                    const { carrier: { name, logoUrl }, product: { type }, faceValue, modalRates, policyFee } = plan;
-                    const monthlyRate = modalRates.find(rate => rate.type === "month")?.rate || 0;
+                    const {
+                        carrier: { name, logoUrl },
+                        product: { type },
+                        faceValue,
+                        modalRates,
+                        policyFee,
+                    } = plan;
+                    const monthlyRate = modalRates.find((rate) => rate.type === "month")?.rate || 0;
                     return (
                         <PlanCard
                             key={`${name}-${index}`}
