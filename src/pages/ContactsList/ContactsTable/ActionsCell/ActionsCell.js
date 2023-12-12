@@ -6,15 +6,18 @@ import Popover from "@mui/material/Popover";
 
 import PropTypes from "prop-types";
 
+import useToast from "hooks/useToast";
+
 import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
+import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
 import { SellingPreferenceModal } from "components/SellingPreferenceModal";
 import MoreBlue from "components/icons/version-2/MoreBlue";
 
-import ReminderModal from "pages/contacts/contactRecordInfo/reminder/ReminderModal";
+import clientsService from "services/clientsService";
 
 import styles from "./styles.module.scss";
 
-export const MORE_ACTIONS = [
+export const ACTIONS = [
     {
         label: "View Contact",
         value: "contact",
@@ -33,18 +36,16 @@ export const MORE_ACTIONS = [
     },
 ];
 
-export const PLAN_ACTION = {
-    label: "Find a Plan",
-    value: "plans",
-};
+const HEALTH = "hideHealthQuote";
 
 // eslint-disable-next-line max-lines-per-function
 function ActionsCell({ row, isCard, item }) {
     const [leadConnectModal, setLeadConnectModal] = useState(false);
-    const [showAddNewModal, setShowAddNewModal] = useState(false);
+    const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
     const [showSellingPreferenceModal, setShowSellingPreferenceModal] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const navigate = useNavigate();
+    const showToast = useToast();
 
     const record = isCard ? item : row.original;
     const leadId = record.leadsId;
@@ -54,12 +55,17 @@ function ActionsCell({ row, isCard, item }) {
     const county = leadDetails?.addresses?.[0]?.county;
     const countyFips = leadDetails?.addresses?.[0]?.countyFips;
     const hasFIPsCode = postalCode && county && stateCode && countyFips;
+    const open = Boolean(anchorEl);
+    const id = open ? leadId : undefined;
 
-    const onStartQuoteHandle = () => {
-        if (hasFIPsCode) {
-            navigate(`/plans/${leadId}`);
+    const onStartQuoteHandle = (type) => {
+        const navigateToPath = (path) => navigate(path);
+        if (type === HEALTH) {
+            const path = hasFIPsCode ? `/plans/${leadId}` : `/contact/${leadId}/addZip`;
+            navigateToPath(path);
         } else {
-            navigate(`/contact/${leadId}/addZip`);
+            const path = `/finalexpenses/create/${leadId}`;
+            navigateToPath(path);
         }
         setShowSellingPreferenceModal(false);
     };
@@ -68,9 +74,8 @@ function ActionsCell({ row, isCard, item }) {
         setAnchorEl(null);
         switch (value) {
             case "addnewreminder":
-                setShowAddNewModal(true);
+                setIsAddNewModalOpen(true);
                 break;
-            case "plans":
             case "contact":
                 navigate(`/${value}/${leadId}`);
                 break;
@@ -86,16 +91,28 @@ function ActionsCell({ row, isCard, item }) {
         }
     };
 
-    const open = Boolean(anchorEl);
-    const id = open ? leadId : undefined;
-    const options = MORE_ACTIONS.slice(0);
-    if (
-        row?.original?.addresses?.[0]?.postalCode &&
-        row?.original?.addresses?.[0]?.county &&
-        row?.original?.addresses?.[0]?.stateCode
-    ) {
-        options.splice(1, 0, PLAN_ACTION);
-    }
+    const saveReminder = (payload) => {
+        const addPayload = {
+            ...payload,
+            leadsId: leadId,
+        };
+        clientsService
+            .createReminder(addPayload)
+            .then(() => {
+                showToast({
+                    type: "success",
+                    message: "Reminder successfully added.",
+                    time: 3000,
+                });
+            })
+            .catch(() => {
+                showToast({
+                    type: "error",
+                    message: `Failed to Add reminders`,
+                });
+            });
+        setIsAddNewModalOpen(false);
+    };
 
     return (
         <>
@@ -121,7 +138,7 @@ function ActionsCell({ row, isCard, item }) {
                 }}
             >
                 <Box className={styles.selections}>
-                    {options.map((option) => (
+                    {ACTIONS.map((option) => (
                         <Box
                             className={styles.selection}
                             key={option.value}
@@ -138,13 +155,15 @@ function ActionsCell({ row, isCard, item }) {
                 leadId={leadId}
                 leadDetails={leadDetails}
             />
-            <ReminderModal
-                reminder={null}
-                getContactRecordInfo={null}
-                reminderModalStatus={showAddNewModal}
-                setReminderModalStatus={() => setShowAddNewModal(false)}
-                leadId={leadId}
-            />
+            {isAddNewModalOpen && (
+                <AddReminderModal
+                    open={isAddNewModalOpen}
+                    onClose={() => setIsAddNewModalOpen(false)}
+                    onSave={saveReminder}
+                    leadId={leadId}
+                    selectedReminder={null}
+                />
+            )}
             {showSellingPreferenceModal && (
                 <SellingPreferenceModal
                     isOpen={showSellingPreferenceModal}

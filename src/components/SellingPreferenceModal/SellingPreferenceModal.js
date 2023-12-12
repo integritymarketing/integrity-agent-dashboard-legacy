@@ -30,16 +30,18 @@ const SellingPreferenceModal = ({ isOpen, onStartQuoteHandle, onClose }) => {
 
     const onSelectHandle = async (type) => {
         try {
-            const updatedType = type === LIFE ? HEALTH : LIFE;
-            const payload = {
-                agentID: agentId,
-                leadPreference: {
-                    ...leadPreference,
-                    [updatedType]: true,
-                },
-            };
-            await updateAgentPreferences(payload);
-            onStartQuoteHandle();
+            if (checked) {
+                const updatedType = type === LIFE ? HEALTH : LIFE;
+                const payload = {
+                    agentID: agentId,
+                    leadPreference: {
+                        ...leadPreference,
+                        [updatedType]: true,
+                    },
+                };
+                await updateAgentPreferences(payload);
+            }
+            onStartQuoteHandle(type);
         } catch (error) {
             showToast({
                 type: "error",
