@@ -6,28 +6,22 @@ import useToast from "hooks/useToast";
 
 export const OverViewContext = createContext();
 
-
-
 export const OverViewProvider = ({ children }) => {
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
-
 
     const { Get: fetchReminders, loading: isLoadingReminders, error: remindersError, Post: saveReminder, Put: updateReminder, Delete: deleteReminder } = useFetch(URL);
     const { Get: fetchLeadTags, loading: isLoadingTags, error: tagsError, Post: updateLeadTags, Delete: deleteLeadTags, } = useFetch(URL);
     const { Put: updateTag, Post: addNewTag } = useFetch(URL);
 
-
     const showToast = useToast();
     const [reminders, setReminders] = useState([]);
     const [tags, setTags] = useState([]);
-
-
 
     const getReminders = useCallback(
         async (leadId) => {
             const path = `Reminders/${leadId}`
             const data = await fetchReminders(null, false, path);
-            setReminders(data || []); // TODO
+            setReminders(data || []);
         },
         [fetchReminders]
     );
@@ -35,9 +29,8 @@ export const OverViewProvider = ({ children }) => {
     const getLeadTags = useCallback(async () => {
         const path = `Tag/TagsGroupByCategory`
         const data = await fetchLeadTags(null, false, path);
-        setTags(data || []); // TODO
+        setTags(data || []);
     }, [fetchLeadTags]);
-
 
     const editLeadTags = async (payload) => {
         const path = `LeadTags/Update`
@@ -58,7 +51,6 @@ export const OverViewProvider = ({ children }) => {
         );
     };
 
-
     const createNewTag = async (payload) => {
         const path = `Tag/`
         await performAsyncOperation(
@@ -77,7 +69,6 @@ export const OverViewProvider = ({ children }) => {
                 })
         );
     };
-
 
     const editTagByID = async (payload) => {
         const path = `Tag/${payload.tagId}`
@@ -98,8 +89,6 @@ export const OverViewProvider = ({ children }) => {
         );
     };
 
-
-
     const removeLeadTags = async (id) => {
         const path = `Tag/${id}`
         await performAsyncOperation(
@@ -119,9 +108,6 @@ export const OverViewProvider = ({ children }) => {
         );
     };
 
-
-
-
     const addReminder = async (payload) => {
         const path = `Reminders`
         await performAsyncOperation(
@@ -133,7 +119,7 @@ export const OverViewProvider = ({ children }) => {
                     message: `Reminder added successfully`,
                 });
             },
-            (err) =>
+            () =>
                 showToast({
                     type: "error",
                     message: `Failed to Add reminders`,
@@ -152,7 +138,7 @@ export const OverViewProvider = ({ children }) => {
                     message: `Reminder deleted successfully`,
                 });
             },
-            (err) =>
+            () =>
                 showToast({
                     type: "error",
                     message: `Failed to delete reminders`,
@@ -161,7 +147,7 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const editReminder = async (payload) => {
-        const path = `Reminders/${payload?.reminderId}`
+        const path = `Reminders/${payload?.leadsId}`
         await performAsyncOperation(
             () => updateReminder(payload, false, path),
             () => { },
@@ -178,7 +164,6 @@ export const OverViewProvider = ({ children }) => {
                 })
         );
     };
-
 
     return <OverViewContext.Provider value={getContextValue()}>{children}</OverViewContext.Provider>;
 

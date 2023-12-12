@@ -15,7 +15,6 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
         notes: "",
     });
 
-
     useEffect(() => {
         if (selectedReminder) {
             setValues({
@@ -26,12 +25,9 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
         }
     }, [selectedReminder]);
 
-
     const actionButtonDisabled = useMemo(() => {
         return !values.date || !values.time || !values.notes;
     }, [values.date, values.time, values.notes]);
-
-
 
     const handleSaveReminder = () => {
         const fullDate = new Date(values.date);
@@ -43,10 +39,10 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
             reminderDate: fullDate.toISOString(),
         };
         onSave(payload);
-
     }
 
-
+    const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
+    const reminderActionButton = selectedReminder ? "Edit Reminder" : "Add Reminder";
 
     return (
         <>
@@ -55,9 +51,9 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
                 open={open}
                 onClose={onClose}
                 onCancel={onClose}
-                title="Add a Reminder"
+                title={reminderTitle}
                 onSave={handleSaveReminder}
-                actionButtonName="Add Reminder"
+                actionButtonName={reminderActionButton}
                 actionButtonDisabled={actionButtonDisabled}
                 endIcon={<Add />}
             >
@@ -65,7 +61,6 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
                     <Box className={styles.dateTimePickers} >
                         <Box width={"45%"} >
                             <h4 className={styles.label}>On a Day</h4>
-
                             <DatePickerMUI
                                 value={values.date}
                                 onChange={(date) => setValues({ ...values, date: date })}
@@ -74,7 +69,6 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, }) =
                         </Box>
                         <Box width={"45%"}>
                             <h4 className={styles.label}>At a Time</h4>
-
                             <TimePickerMUI
                                 value={values.time}
                                 label="12:00 PM"

@@ -5,12 +5,12 @@ import { SOACTAOPTS, SOA_COMPLETED } from '../ScopeOfAppointmentContainer.consta
 import styles from './SOASignedView.module.scss';
 import { ArrowRightPoint } from '../Icons';
 import Media from 'react-media';
-import { getLocalDateTime } from 'utils/dates';
-
+import { getLocalDateTime, getSoaDatesFromSummary } from 'utils/dates';
 
 export const SOASignedView = ({ onView, soa }) => {
-    const { statusDate, signedDate, linkCode } = soa;
+    const { signedDate, linkCode, soaSummary } = soa;
     const [isMobile, setIsMobile] = useState(false);
+    const { sentDate } = getSoaDatesFromSummary(soaSummary);
 
     const Column = ({ style, label, data, subdata, dataStyle }) => (
         <div className={`${styles.boxColumn} ${style}`}>
@@ -31,7 +31,7 @@ export const SOASignedView = ({ onView, soa }) => {
             <div className={styles.soaSignedContainer}>
                 <div className={styles.titleWrapper}>{SOA_COMPLETED}</div>
                 <div className={`${isMobile ? styles.columnView : ""} ${styles.contentWrapper}`}>
-                    {<Column style={styles.width15} label='Sent' data={getLocalDateTime(statusDate)?.date} subdata={getLocalDateTime(statusDate)?.time} />}
+                    {<Column style={styles.width15} label='Sent' data={getLocalDateTime(sentDate)?.date} subdata={getLocalDateTime(sentDate)?.time} />}
                     {<Column style={styles.width15} label='Signed' data={getLocalDateTime(signedDate)?.date} subdata={getLocalDateTime(signedDate)?.time} />}
                     {<Column style={styles.width50} label='Confirmation number' data={linkCode} dataStyle={styles.confirmNo} />}
                     <div className={`${styles.boxColumn} ${styles.width20}`}>

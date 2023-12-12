@@ -11,6 +11,7 @@ import {
 } from '../ScopeOfAppointmentContainer.constants';
 import styles from './SOAContactDetails.module.scss';
 import { Checked } from '../Icons';
+import { getLocalDateTime } from 'utils/dates';
 
 export const SOAContactDetails = ({ leadSection }) => {
     const { firstName = "", middleName = "-", lastName = "", address1 = "", phone = "", } = leadSection?.beneficiary;
@@ -30,7 +31,7 @@ export const SOAContactDetails = ({ leadSection }) => {
             </div>
             <div>
                 <div>{BENEFICIARY_SUBMITTED}</div>
-                <div className={styles.fieldLabel}>{leadSection?.submittedDateTime}</div>
+                <div className={styles.fieldLabel}>{`${getLocalDateTime(leadSection?.submittedDateTime)?.date} ${getLocalDateTime(leadSection?.submittedDateTime)?.time}`}</div>
             </div>
         </div>
     );

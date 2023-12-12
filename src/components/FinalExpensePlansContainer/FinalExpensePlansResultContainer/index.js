@@ -73,7 +73,7 @@ const FinalExpensePlansResultContainer = ({ }) => {
                     setIsMobile(isMobile);
                 }}
             />
-            <ContactProfileTabBar />
+            <ContactProfileTabBar contactId={contactId} />
             <div className={`${styles.contentWrapper} ${isMobile ? styles.column : ""}`}>
                 <div className={styles.filterContent}>
                     <CurrencyAdjuster
