@@ -7,6 +7,7 @@ import PlanCardLoader from "components/ui/PlanCard/loader";
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 import FinalExpenseContactBar from "./FinalExpenseContactBar";
 import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
+import WithLoader from "components/ui/WithLoader";
 
 const QUOTE_ID = "390e04ef-be95-463d-9b76-46050cbf438c";
 
@@ -47,7 +48,7 @@ export const FinalExpensePlansContainer = () => {
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
 
     return (
-        <>
+        <WithLoader isLoading={isLoadingContactDetails}>
             <FinalExpenseContactBar />
             {isLoadingContactDetails ? (
                 renderContactDetailsLoader
@@ -64,6 +65,6 @@ export const FinalExpensePlansContainer = () => {
                     onSave={onSave}
                 />
             )}
-        </>
+        </WithLoader>
     )
 }

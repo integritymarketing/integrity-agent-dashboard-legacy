@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'components/ui/Button';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
@@ -25,8 +25,6 @@ export const PlanCard = ({
     policyFee,
     benefits = []
 }) => {
-    console.log('benefits', benefits)
-    // Using useMemo to optimize performance, especially if the benefits array is large
     const renderBenefits = () => (
         <table>
             <thead>
