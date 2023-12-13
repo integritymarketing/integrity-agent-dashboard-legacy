@@ -1,0 +1,16 @@
+@import "../../scss/globalDefines.scss";
+
+.mobileHeaderContainer {
+  height: 6rem;
+  background: $blue-5;
+}
+
+.mobileLogo {
+    width: 180px;
+    height: 55px;
+    margin-left: 40px;
+
+    @include small {
+        margin-left: 0;
+    }
+}

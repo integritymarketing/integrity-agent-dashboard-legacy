@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import useQueryParams from "hooks/useQueryParams";
@@ -11,6 +11,7 @@ import useClientId from "hooks/auth/useClientId";
 import analyticsService from "services/analyticsService";
 import Heading2 from "packages/Heading2";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { MobileHeaderUnAuthenticated } from "components/MobileHeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
@@ -29,19 +30,32 @@ const ForgotPasswordpage = () => {
         true
     );
 
+    console.log("clientId", clientId);
+
     useEffect(() => {
         analyticsService.fireEvent("event-content-load", {
             pagePath: "/reset-password",
         });
     }, []);
 
+
+    const appTitle = useMemo(() => {
+        switch (clientId) {
+            case "AgentMobile":
+                return "Agent Mobile - Forgot Password";
+            default:
+                return "MedicareCENTER - Forgot Password";
+        }
+    }, [clientId]);
+
     return (
         <React.Fragment>
             <Helmet>
-                <title>MedicareCENTER - Forgot Password</title>
+                <title>{appTitle}</title>
             </Helmet>
             <div className="content-frame v2">
                 <HeaderUnAuthenticated />
+                <MobileHeaderUnAuthenticated />
                 <ContainerUnAuthenticated>
                     <Heading2 className={Styles.resetTitle} text="Reset your password" />
                     <Paragraph className={Styles.enterYourNPN} text={"Enter your NPN to reset your password."} />

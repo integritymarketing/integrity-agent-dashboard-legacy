@@ -8,6 +8,7 @@ import ILSLogo from "../../images/auth/lead-center-rgb.png";
 
 export const HeaderUnAuthenticated = () => {
   const clientId = useClientId();
+  if (clientId === "AgentMobile") return null;
   return (
     <Grid
       className={styles.headerContainer}

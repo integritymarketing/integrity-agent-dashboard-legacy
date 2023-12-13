@@ -14,6 +14,7 @@ import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
 import Heading2 from "packages/Heading2";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { MobileHeaderUnAuthenticated } from "components/MobileHeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
@@ -30,6 +31,7 @@ const ServerLoginPage = () => {
     const device = useDeviceInfo();
     const isOutdatedVersion = useMobileVersionCheck();
     const [mobileAppLogin, setMobileAppLogin] = useState(false);
+    const [appTitle, setAppTitle] = useState("");
 
     useEffect(() => {
         const params1 = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
@@ -54,6 +56,9 @@ const ServerLoginPage = () => {
             let clientId = params1.get("client_id");
             if (clientId === "AgentMobile") {
                 setMobileAppLogin(true);
+                setAppTitle("Agent Mobile - Login");
+            } else {
+                setAppTitle("MedicareCENTER - Login");
             }
             if (
                 clientId === "ASBClient" ||
@@ -124,10 +129,11 @@ const ServerLoginPage = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>MedicareCENTER - Login</title>
+                <title>{appTitle}</title>
             </Helmet>
             <div className="content-frame v2">
                 <HeaderUnAuthenticated />
+                <MobileHeaderUnAuthenticated />
                 <ContainerUnAuthenticated>
                     <Heading2 className={Styles.loginText} text="Login to your account" />
                     <Box mt={"1rem"}>
