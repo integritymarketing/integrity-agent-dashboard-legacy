@@ -62,18 +62,17 @@
         .profileTabs {
             display: flex;
             width: 100%;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             margin-top: 10px;
 
-            @media (max-width: 450px) {
-                overflow-x: scroll;
+            @include small {
+                overflow-x: auto;
             }
 
             .profileTab {
                 display: flex;
                 flex-direction: column;
-                margin: 0 24px;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
@@ -110,10 +109,10 @@
             font-size: 14px;
             font-weight: 500;
             border: none;
+
             &:hover {
                 background-color: #0052ce;
             }
         }
     }
 }
-

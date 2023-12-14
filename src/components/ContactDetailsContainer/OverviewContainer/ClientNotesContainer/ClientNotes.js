@@ -39,7 +39,12 @@ export const ClientNotes = () => {
       contentClassName={styles.clientNotesContainer_content}
     >
       <Box className={styles.noteInputContainer}>
-        <Box width="80%">
+        <Box sx={{ 
+          width: {
+            sm: '100%',
+            md: '80%',
+          },
+        }} >
           <TextField
             id="outlined-basic"
             placeholder="Add a note"
