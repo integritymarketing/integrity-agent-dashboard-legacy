@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+
 import Box from "@mui/material/Box";
-import { Direction, Email, Navigate, Phone, Script, Soa } from "./Icons";
-import styles from "./ConnectModal.module.scss";
-import { CallScriptModal } from "packages/CallScriptModal";
-import { formatAddress, getMapUrl } from "utils/address";
-import Modal from "components/Modal";
-import { formatPhoneNumber } from "utils/phones";
+
+import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
+
+import { formatAddress, getMapUrl } from "utils/address";
+import { formatPhoneNumber } from "utils/phones";
+
+import { CallScriptModal } from "packages/CallScriptModal";
+
+import Modal from "components/Modal";
+
+import styles from "./ConnectModal.module.scss";
+import { Direction, Email, Navigate, Phone, Script, Soa } from "./Icons";
 
 const NOT_AVAILABLE = "N/A";
 
@@ -27,7 +33,7 @@ export const ConnectModal = ({ open, onClose, leadId, leadDetails }) => {
     const address = addresses?.length > 0 ? formatAddress(addresses[0]) : NOT_AVAILABLE;
 
     const handleSoaNavigation = () => {
-        navigate(`/newContact/${leadId}/scope-of-appointment`);
+        navigate(`/contact/${leadId}/scope-of-appointment`);
         onClose();
     };
 

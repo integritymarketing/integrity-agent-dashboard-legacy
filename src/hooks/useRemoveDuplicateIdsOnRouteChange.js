@@ -5,7 +5,7 @@ const useRemoveDuplicateIdsOnRouteChange = () => {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.pathname.includes("/contacts-list") || location.pathname.includes("/contacts")) {
+        if (location.pathname.includes("/contacts")) {
             return;
         }
         window.localStorage.removeItem("duplicateLeadIds");

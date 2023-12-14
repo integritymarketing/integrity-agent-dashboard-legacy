@@ -1,29 +1,43 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Box from "@mui/material/Box";
+
 import { useLeadDetails } from "providers/ContactDetails";
+
+import SupportLinksCard from "components/SupportLinksCard";
+import WithLoader from "components/ui/WithLoader";
+
+import styles from "./ContactDetailsContainer.module.scss";
+import { HealthContainer } from "./HealthContainer";
 import { OverviewContainer } from "./OverviewContainer";
 import { PoliciesContainer } from "./PoliciesContainer";
-import { HealthContainer } from "./HealthContainer";
 import { ScopeOfAppointmentContainer } from "./ScopeOfAppointmentContainer";
-import { OVERVIEW, POLICIES, HEALTH, SCOPE_OF_APPOINTMENT, VIEW_SCOPE_OF_APPOINTMENT, COMPLETE_SCOPE_OF_APPOINTMENT } from "./tabNames";
-import WithLoader from "components/ui/WithLoader";
 import { SOAConfirmationForm } from "./ScopeOfAppointmentContainer/SOAConfirmationForm/SOAConfirmationForm";
 import { SOAViewForm } from "./ScopeOfAppointmentContainer/SOAViewForm/SOAViewForm";
-import styles from "./ContactDetailsContainer.module.scss";
-import SupportLinksCard from "components/SupportLinksCard";
+import {
+    COMPLETE_SCOPE_OF_APPOINTMENT,
+    HEALTH,
+    OVERVIEW,
+    POLICIES,
+    SCOPE_OF_APPOINTMENT,
+    VIEW_SCOPE_OF_APPOINTMENT,
+} from "./tabNames";
 
 export const ContactDetailsContainer = () => {
-    const { leadId, section } = useParams();
+    const { leadId, sectionId } = useParams();
     const { selectedTab, getLeadDetails, setSelectedTab, isLoadingLeadDetails, leadDetails } = useLeadDetails();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getLeadDetails(leadId);
     }, [leadId]);
 
     useEffect(() => {
-        setSelectedTab(section);
-    }, [section]);
+        const targetTab = sectionId || "overview";
+        setSelectedTab(targetTab);
+        navigate(`/contact/${leadId}/${targetTab}`);
+    }, [sectionId, leadId, navigate, setSelectedTab]);
 
     const renderSection = () => {
         switch (selectedTab) {

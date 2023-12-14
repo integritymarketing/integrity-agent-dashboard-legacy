@@ -1,19 +1,20 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useContext, useCallback } from "react";
-import { useRowSelect, useSortBy, useTable } from "react-table";
+import { useCallback, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRowSelect, useSortBy, useTable } from "react-table";
+
 import useToast from "hooks/useToast";
 
-import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 import DeleteLeadContext from "contexts/deleteLead";
+
 import clientsService from "services/clientsService";
 
+import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 
 import styles from "./styles.module.scss";
 
 import { TableBody } from "../TableBody";
 import { TableHeader } from "../TableHeader";
-
 
 function Table({ columns }) {
     const { setSelectedContacts, tableData } = useContactsListContext();
@@ -35,8 +36,6 @@ function Table({ columns }) {
         setSelectedContacts(selectedFlatRows.map((contact) => contact.original.leadsId));
     }, [selectedFlatRows, setSelectedContacts]);
 
-
-
     const deleteContact = useCallback(() => {
         if (deleteLeadId !== null) {
             const clearTimer = () =>
@@ -52,7 +51,7 @@ function Table({ columns }) {
                 const response = await clientsService.reActivateClients([deleteLeadId]);
                 if (response.ok) {
                     clearContext();
-                    navigate(`/newContact/${deleteLeadId}/overview`);
+                    navigate(`/contact/${deleteLeadId}/overview`);
                 } else if (response.status === 400) {
                     showToast({
                         type: "error",

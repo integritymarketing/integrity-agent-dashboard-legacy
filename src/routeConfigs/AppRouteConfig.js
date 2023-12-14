@@ -1,6 +1,9 @@
 import { StrictMode, lazy } from "react";
 import { Navigate } from "react-router-dom";
+
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
+
+import FinalExpenseHealthConditionsContainer from "components/FinalExpenseHealthConditionsContainer";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -11,10 +14,7 @@ const AuthSignoutCallback = lazy(() => import("components/functional/auth-signou
 const AuthSilentCallback = lazy(() => import("components/functional/auth-silent-callback"));
 const ClientImportPage = lazy(() => import("pages/ClientImportPage"));
 const ComparePlansPage = lazy(() => import("pages/ComparePlansPage"));
-const ContactDetailsPage = lazy(() => import("pages/ContactDetails"));
-const ContactRecordInfo = lazy(() => import("pages/contacts/contactRecordInfo"));
 const ComparePlansCodePage = lazy(() => import("pages/ComparePlansCodePage"));
-const ContactsPage = lazy(() => import("pages/contacts/ContactsPage"));
 const ContactsSOAConfirmForm = lazy(() => import("pages/contacts/soa/ContactsSOAConfirmForm"));
 const Dashboard = lazy(() => import("pages/dashbaord"));
 const EnrollmentHistoryPage = lazy(() => import("pages/EnrollmentHistoryPage"));
@@ -128,24 +128,43 @@ const appProtectedRoutes = [
     { path: "/account", component: <AccountPage /> },
     { path: "/help", component: <HelpPage /> },
     { path: "/learning-center", component: <ResourcesPage /> },
-    { path: "/contacts/*", component: <ContactsPage /> },
+    {
+        path: "/contacts/*",
+        component: (
+            <>
+                <ContactsList />
+                <WebChatComponent />
+            </>
+        ),
+    },
     { path: "/contact/add-new/:callLogId", component: <AddNewContactPage /> },
     { path: "/contact/add-new", component: <AddNewContactPage /> },
     {
-        path: "/contact/:contactId/duplicate/:duplicateLeadId",
-        component: <ContactRecordInfo />,
+        path: "/contact/:leadId/duplicate/:duplicateLeadId",
+        component: (
+            <>
+                <ContactProfile />
+                <WebChatComponent />
+            </>
+        ),
     },
     {
-        path: "/contact/:contactId",
-        component: <ContactRecordInfo />,
+        path: "/contact/:leadId",
+        component: (
+            <>
+                <ContactProfile />
+                <WebChatComponent />
+            </>
+        ),
     },
     {
-        path: "/contact/:contactId/:sectionId",
-        component: <ContactRecordInfo />,
-    },
-    {
-        path: "/new/contact/:contactId",
-        component: <ContactDetailsPage />,
+        path: "/contact/:leadId/:sectionId",
+        component: (
+            <>
+                <ContactProfile />
+                <WebChatComponent />
+            </>
+        ),
     },
     { path: "/new-soa/:leadId", component: <NewScopeOfAppointment /> },
     {
@@ -208,28 +227,10 @@ const appProtectedRoutes = [
         ),
     },
     {
-        path: "/newContact/:leadId/:section",
-        component: (
-            <>
-                <ContactProfile />
-                <WebChatComponent />
-            </>
-        ),
-    },
-    {
         path: "policy-snapshot-mobile-layout/:npn",
         component: (
             <>
                 <PolicySnapshotMobileLayout />
-                <WebChatComponent />
-            </>
-        ),
-    },
-    {
-        path: "/contacts-list/*",
-        component: (
-            <>
-                <ContactsList />
                 <WebChatComponent />
             </>
         ),

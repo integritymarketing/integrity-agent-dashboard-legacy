@@ -46,7 +46,7 @@ function ContactsList() {
                                 <DuplicateBanner />
                                 <Divider className={styles.divider} />
                                 <Routes>
-                                    <Route path="/" element={<Navigate to="/contacts-list/list" replace={true} />} />
+                                    <Route path="/" element={<Navigate to="/contacts/list" replace={true} />} />
                                     <Route path="/list" element={<ContactsTable />} />
                                     <Route path="/card" element={<ContactsCard />} />
                                 </Routes>

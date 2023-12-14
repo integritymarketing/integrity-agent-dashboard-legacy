@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
-import Modal from "components/Modal";
-import { Box } from "@mui/system";
-import DeleteLeadContext from "contexts/deleteLead";
 import { useNavigate } from "react-router-dom";
+
+import { Box } from "@mui/system";
+
 import { useLeadDetails } from "providers/ContactDetails";
-import { Delete } from "../Icons";
+
+import Modal from "components/Modal";
+
+import DeleteLeadContext from "contexts/deleteLead";
 
 import styles from "./DeleteContactModal.module.scss";
 
-export const DeleteContactModal = ({
-    leadId,
-    leadName,
-    onClose,
-    open,
-}) => {
+import { Delete } from "../Icons";
+
+export const DeleteContactModal = ({ leadId, leadName, onClose, open }) => {
     const { removeContact } = useLeadDetails();
 
     const { setDeleteLeadId, setLeadName } = useContext(DeleteLeadContext);
@@ -22,9 +22,8 @@ export const DeleteContactModal = ({
     const callBack = () => {
         setDeleteLeadId(leadId);
         setLeadName(leadName);
-        navigate("/contacts-list");
-    }
-
+        navigate("/contacts");
+    };
 
     const deleteLead = () => {
         removeContact(leadId, callBack);
@@ -42,12 +41,8 @@ export const DeleteContactModal = ({
             endIcon={<Delete color="#ffffff" />}
         >
             <Box className={styles.connectModalBody}>
-
-                <div className={styles.deleteMessage} >Are you sure you want to delete this contact? </div>
-
+                <div className={styles.deleteMessage}>Are you sure you want to delete this contact? </div>
             </Box>
         </Modal>
-
     );
 };
-

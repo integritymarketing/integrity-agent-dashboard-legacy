@@ -19,8 +19,8 @@ import { useContactsListContext } from "pages/ContactsList/providers/ContactsLis
 
 import styles from "./styles.module.scss";
 
-const LIST_PATH = "/contacts-list/list";
-const CARD_PATH = "/contacts-list/card";
+const LIST_PATH = "/contacts/list";
+const CARD_PATH = "/contacts/card";
 
 function FilterAndSort() {
     const [sortToggle, setSortToggle] = useState(false);

@@ -9,7 +9,7 @@ import Spinner from "components/ui/Spinner/index";
 
 const DEFAULT_PAGE_ITEM = 12;
 const DEFAULT_SORT = ["Reminders%3Aasc&Sort=Reminders.ReminderDate%3Aasc", "createDate:desc"];
-const CARD_PATH = "/contacts-list/card";
+const CARD_PATH = "/contacts/card";
 
 const ContactsListContext = createContext(null);
 

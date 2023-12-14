@@ -52,7 +52,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const handleSectionChange = useCallback(
         (section) => {
             setSelectedTab(section);
-            navigate(`/newContact/${leadId}/${section}`);
+            navigate(`/contact/${leadId}/${section}`);
         },
         [leadId, navigate, setSelectedTab]
     );
