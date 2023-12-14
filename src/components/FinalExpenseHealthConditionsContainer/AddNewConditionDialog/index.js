@@ -36,6 +36,7 @@ import {
     SEARCH_CARD_LABEL,
     SEARCH_CARD_LOADING,
     SEARCH_TITLE,
+    SEARCH_CONDITION_ALREADY_ADDED,
 } from "./AddNewConditionDialog.constants";
 
 import { HEALTH_CONDITION_API } from "../FinalExpenseHealthConditionsContainer.constants";
@@ -47,6 +48,7 @@ const AddNewConditionDialog = ({
     setHealthConditions,
     selectedConditionForEdit,
     refetchConditionsList,
+    healthConditions,
 }) => {
     const [searchString, setSearchString] = useState("");
     const [searchResults, setSearchResults] = useState(null);
@@ -89,13 +91,16 @@ const AddNewConditionDialog = ({
         if (searchString.length > 2) {
             async function getData() {
                 setIsLoadingSearchResults(true);
-                const resp = await getSearchResults();
-                if (resp && resp.uwConditions) {
-                    setSearchResults([...resp.uwConditions]);
+                const response = await getSearchResults();
+                if (response && response?.uwConditions) {
+                    const existingConditionIds = new Set(healthConditions.map(hc => hc.conditionId.toString()));
+                const filteredResults = response.uwConditions.filter(condition =>
+                    !existingConditionIds.has(condition.conditionId.toString())
+                );
+                setSearchResults(filteredResults);
                 } else {
-                    setSearchResults([]);
+                    setSearchResults(null);
                 }
-
                 setIsLoadingSearchResults(false);
             }
             getData();
@@ -206,9 +211,14 @@ const AddNewConditionDialog = ({
                             <div className={styles.searchResultTitle}>{SEARCH_CARD_LOADING}</div>
                         </Box>
                     )}
-                    {!isLoadingSearchResults && searchResults && searchResults.length === 0 && (
+                    {!isLoadingSearchResults && searchResults && searchResults.length === 0 && !Array.isArray(searchResults) && (
                         <Box className={styles.searchResultInitialBox}>
                             <div className={styles.searchResultTitle}>{NO_RESULTS}</div>
+                        </Box>
+                    )}
+                     {!isLoadingSearchResults && searchResults && searchResults.length === 0 && Array.isArray(searchResults) && (
+                        <Box className={styles.searchResultInitialBox}>
+                            <div className={styles.searchResultTitle}>{SEARCH_CONDITION_ALREADY_ADDED}</div>
                         </Box>
                     )}
                     {searchResults && !isLoadingSearchResults && searchResults.length > 0 && (

@@ -1,17 +1,14 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React from "react";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
 import styles from "./FinalExpenseContactBar.module.scss";
 import { BACK, CONTACT_DETAILS } from "../FinalExpensePlansContainer.constants";
 import NewBackBtn from "images/new-back-btn.svg";
+import { useBackPage } from "hooks/useBackPage";
 
 const FinalExpenseContactBar = ({ label }) => {
     const { contactId } = useParams();
-    const navigate = useNavigate();
-    const handleBackToContacts = useCallback(() => {
-        navigate(`/contact/${contactId}/overview`);
-    }, [navigate]);
+    const handleBackToContacts = useBackPage(`/contact/${contactId}/overview`);
 
     return (
         <nav className={styles.finalExpenseContactBar}>

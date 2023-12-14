@@ -9,7 +9,6 @@ import FocusedNav from "partials/focused-nav";
 import Container from "components/ui/container";
 import clientsService from "services/clientsService";
 import plansService from "services/plansService";
-import ContactRecordHeader from "components/ui/ContactRecordHeader";
 import { Select } from "components/ui/Select";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./PlansPage.module.scss";
@@ -48,6 +47,7 @@ import WebChatComponent from "components/WebChat/WebChat";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
 import CMSCompliance from "components/CMSCompliance";
+import { ContactProfileTabBar } from "components/ContactDetailsContainer/ContactProfileTabBar";
 
 const premAsc = (res1, res2) => {
   return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -611,19 +611,7 @@ const PlansPage = () => {
           )}
           {((contact && !isEdit && !isMobile) ||
             (isMobile && !filtersOpen && !isEdit)) && (
-              <div className={`${styles["header"]}`}>
-                <Container>
-                  <ContactRecordHeader
-                    contact={contact}
-                    isMobile={isMobile}
-                    onEditClick={(section) => {
-                      setSessionData();
-                      setSection(section);
-                      setIsEdit(true);
-                    }}
-                  />
-                </Container>
-              </div>
+                <ContactProfileTabBar contactId={id} />
             )}
 
           {isMobile && !filtersOpen && !isEdit && (

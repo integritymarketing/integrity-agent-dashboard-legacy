@@ -151,6 +151,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     contactId={contactId}
                     selectedConditionForEdit={selectedConditionForEdit}
                     onClose={handleOnClose}
+                    healthConditions={healthConditions}
                     setHealthConditions={setHealthConditions}
                     refetchConditionsList={getHealthConditionsListData}
                 />

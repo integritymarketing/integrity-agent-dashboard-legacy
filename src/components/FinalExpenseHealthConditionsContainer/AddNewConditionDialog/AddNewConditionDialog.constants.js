@@ -6,6 +6,7 @@ export const HEALTH_INTAKE_TITLE = "Health Intake";
 export const SEARCH_TITLE = "Search for a condition";
 export const SEARCH_CARD_LABEL = "Search for a health condition";
 export const SEARCH_CARD_LOADING = "Loading...";
+export const SEARCH_CONDITION_ALREADY_ADDED = "Condition already added...";
 export const NO_RESULTS = "No results found";
 export const RESULT_FOUND = "results found";
 export const DATE_LAST_TREATMENT = "Date of last treatment?";

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -17,6 +17,7 @@ import { Connect, Health, Overview, Policies } from "./Icons";
 import { ConnectModal } from "../ConnectModal";
 
 import NewBackBtn from "images/new-back-btn.svg";
+import useBackPage from "hooks/useBackPage";
 
 const tabs = [
     { name: "Overview", section: "overview", icon: <Overview /> },
@@ -29,7 +30,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const { leadId: leadIdParam } = useParams();
     const leadId = contactId || leadIdParam;
     const navigate = useNavigate();
-    const { leadDetails, selectedTab, setSelectedTab } = useLeadDetails();
+    const { leadDetails, selectedTab, setSelectedTab, getLeadDetails } = useLeadDetails();
     const location = useLocation();
     const currentPath = location.pathname;
     const [connectModalVisible, setConnectModalVisible] = useState(false);
@@ -42,6 +43,12 @@ export const ContactProfileTabBar = ({ contactId }) => {
             : "Lead Name here ...";
     const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
 
+    useEffect(() => {
+        if (leadId && !leadDetails) {
+            getLeadDetails(leadId);
+        }
+    }, [getLeadDetails, leadId]);
+
     const handleSectionChange = useCallback(
         (section) => {
             setSelectedTab(section);
@@ -50,9 +57,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
         [leadId, navigate, setSelectedTab]
     );
 
-    const handleBackPage = useCallback(() => {
-        navigate(-1) || navigate("/contacts");
-    }, [navigate]);
+    const handleBackPage = useBackPage("/contacts");
 
     const handleCloseShowPlanTypeModal = useCallback(() => {
         setShowPlanTypeModal(false);
