@@ -52,8 +52,11 @@ export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPrem
                 const covType = Array.isArray(coverageType) ? coverageType : [coverageType];
                 const age = getAgeFromBirthDate(birthdate);
                 const todayDate = formatDate(new Date(), "yyyy-MM-dd");
+                const code = sessionStorage.getItem(contactId)
+                    ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
+                    : addresses[0]?.stateCode;
                 const quotePlansPostBody = {
-                    usState: addresses[0].stateCode,
+                    usState: code,
                     age: Number(age),
                     gender: gender === "Male" ? "M" : "F",
                     tobacco: Boolean(isTobaccoUser),
@@ -91,7 +94,7 @@ export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPrem
                 {pagedResults.map((plan, index) => {
                     const {
                         carrier: { name, logoUrl },
-                        product: { type },
+                        coverageType,
                         faceValue,
                         modalRates,
                         policyFee,
@@ -103,7 +106,7 @@ export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPrem
                             isMobile={isMobile}
                             planName={name}
                             logoUrl={logoUrl}
-                            coverageType={type}
+                            coverageType={coverageType}
                             coverageAmount={faceValue}
                             monthlyPremium={monthlyRate}
                             policyFee={policyFee}

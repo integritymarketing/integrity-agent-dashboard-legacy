@@ -1,10 +1,17 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+
 import Box from "@mui/material/Box";
-import { Button } from "components/ui/Button";
-import styles from "./FinalExpenseContactBar.module.scss";
-import { BACK, CONTACT_DETAILS } from "../FinalExpensePlansContainer.constants";
-import NewBackBtn from "images/new-back-btn.svg";
+
 import useBackPage from "hooks/useBackPage";
+
+import { Button } from "components/ui/Button";
+
+import styles from "./FinalExpenseContactBar.module.scss";
+
+import { BACK, CONTACT_DETAILS } from "../FinalExpensePlansContainer.constants";
+
+import NewBackBtn from "images/new-back-btn.svg";
 
 const FinalExpenseContactBar = ({ label }) => {
     const { contactId } = useParams();

@@ -2,11 +2,11 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    color: #434a51
+    color: #434a51;
 }
 
 .label {
-    color: #052A63;
+    color: #052a63;
     font-weight: bold;
 }
 
@@ -19,7 +19,7 @@
     display: flex;
 
     thead tr th {
-        border-bottom: 1px solid #CCCCCC;
+        border-bottom: 1px solid #cccccc;
     }
 }
 
@@ -28,7 +28,7 @@
 }
 
 .amount {
-    color: #052A63;
+    color: #052a63;
     font-size: 32px;
 }
 
@@ -40,7 +40,7 @@
 
     .header {
         font-size: 24px;
-        color: #052A63;
+        color: #052a63;
         display: flex;
         justify-content: space-between;
         padding-bottom: 22px;
@@ -71,9 +71,9 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            border-left: 1px solid #CCCCCC;
+            border-left: 1px solid #cccccc;
 
-            >div>span {
+            > div > span {
                 padding-right: 2rem;
             }
         }
@@ -85,9 +85,9 @@
     }
 
     .prescreen {
-        color: #052A63;
+        color: #052a63;
         font-weight: bold;
-        border-bottom: 1px solid #CCCCCC;
+        border-bottom: 1px solid #cccccc;
         padding-bottom: 16px;
     }
 
@@ -103,6 +103,10 @@
             display: flex;
             justify-content: space-between;
             border: none;
+        }
+
+        .disabled {
+            background-color: #cccccc;
         }
     }
 

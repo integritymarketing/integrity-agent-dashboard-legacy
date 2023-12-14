@@ -1,19 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'components/ui/Button';
-import ButtonCircleArrow from 'components/icons/button-circle-arrow';
-import styles from "./PlanDetailsContainer.module.scss";
+import React from "react";
+
+import PropTypes from "prop-types";
+
 import {
-    COVERAGE_TYPE,
+    APPLY,
     COVERAGE_AMOUNT,
+    COVERAGE_TYPE,
     MONTHLY_PREMIUM,
-    POLICY_FEE,
     PLAN_INFO,
+    POLICY_FEE,
     PRESCREEN_AVAILABLE,
-    APPLY
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+import ButtonCircleArrow from "components/icons/button-circle-arrow";
+import { Button } from "components/ui/Button";
 
-
+import styles from "./PlanDetailsContainer.module.scss";
 
 export const PlanCard = ({
     isMobile,
@@ -23,7 +24,7 @@ export const PlanCard = ({
     coverageAmount,
     monthlyPremium,
     policyFee,
-    benefits = []
+    benefits = [],
 }) => {
     const renderBenefits = () => (
         <table>
@@ -62,7 +63,10 @@ export const PlanCard = ({
                     </div>
                     <div>
                         <div>{MONTHLY_PREMIUM}</div>
-                        <div className={styles.amount}>${monthlyPremium}<span className={styles.unit}>/mo</span></div>
+                        <div className={styles.amount}>
+                            ${monthlyPremium}
+                            <span className={styles.unit}>/mo</span>
+                        </div>
                     </div>
                 </div>
                 <div className={`${styles.feePlanInfo} ${isMobile ? styles.MfeePlanInfo : ""}`}>
@@ -70,20 +74,22 @@ export const PlanCard = ({
                         <span className={styles.label}>{POLICY_FEE}</span>
                         <span>${policyFee}</span>
                     </div>
-                    <div className={styles.flex}>
-                        <span className={styles.label}>{PLAN_INFO}&nbsp;&nbsp;</span>
-                        {benefits.length > 0 && renderBenefits()}
-                    </div>
+                    {benefits.length > 0 && renderBenefits() && (
+                        <div className={styles.flex}>
+                            <span className={styles.label}>{PLAN_INFO}&nbsp;&nbsp;</span>
+                        </div>
+                    )}
                 </div>
             </div>
-            <div className={styles.prescreen}>{PRESCREEN_AVAILABLE}</div>
+            {/* <div className={styles.prescreen}>{PRESCREEN_AVAILABLE}</div> */}
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
+                    disabled={true}
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
-                    className={styles.applyButton}
+                    className={`${styles.applyButton} ${styles.disabled}`}
                 />
             </div>
         </div>
@@ -98,5 +104,5 @@ PlanCard.propTypes = {
     coverageAmount: PropTypes.number.isRequired,
     monthlyPremium: PropTypes.number.isRequired,
     policyFee: PropTypes.number.isRequired,
-    benefits: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+    benefits: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
 };
