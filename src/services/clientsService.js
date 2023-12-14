@@ -626,6 +626,12 @@ export class ClientsService {
         return response?.json();
     };
 
+    deleteHealthCondition = async (contactId, conditionId) => {
+        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/HealthCondition/Lead/${contactId}/id/${conditionId}`;
+        const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE");
+        return response;
+    };
+
     deletePharmacy = async (leadId, id, consumerId) => {
         let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`;
         if (consumerId) {

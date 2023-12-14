@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { formatDate, formatServerDate, parseDate } from "utils/dates";
 
 import useFetch from "hooks/useFetch";
+import useToast from "hooks/useToast";
 
 import DatePickerMUI from "components/DatePicker";
 import Modal from "components/Modal";
@@ -16,6 +17,8 @@ import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import SearchBlue from "components/icons/version-2/SearchBlue";
 import Radio from "components/ui/Radio";
 import Textfield from "components/ui/textfield";
+
+import clientsService from "services/clientsService";
 
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 
@@ -67,12 +70,9 @@ const AddNewConditionDialog = ({
             : 0
     );
     const { getLeadDetails, leadDetails } = useContactDetails(contactId);
-
+    const showToast = useToast();
     const { Get: getSearchResults } = useFetch(`${HEALTH_CONDITION_SEARCH_API}${searchString}`);
     const { Post: addNewHealthCondition, Put: updateHeathCondition } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
-    const { Delete: deleteHealthCondition } = useFetch(
-        `${HEALTH_CONDITION_API}${contactId}/id/${selectedConditionForEdit?.id}`
-    );
 
     const debouncedOnChangeHandle = debounce((value) => {
         setSearchString(value);
@@ -174,7 +174,14 @@ const AddNewConditionDialog = ({
             return;
         }
         setIsDeletingFromServer(true);
-        await deleteHealthCondition();
+        const response = await clientsService.deleteHealthCondition(contactId, selectedConditionForEdit?.id);
+        if (response && response.status === 200) {
+            showToast({
+                type: "success",
+                message: "Health condition deleted successfully",
+                time: 3000,
+            });
+        }
         refetchConditionsList();
         setIsDeletingFromServer(false);
         resetState();
