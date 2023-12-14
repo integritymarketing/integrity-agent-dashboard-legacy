@@ -108,7 +108,7 @@ export const RemindersList = () => {
                                                     icon={<Complete color="#4178FF" />}
                                                     label={"Complete"}
                                                     className={styles.buttonWithIcon}
-                                                    onClick={() => updateReminder(...reminder, true)}
+                                                    onClick={() => updateReminder(reminder, true)}
                                                     type="tertiary"
                                                     iconPosition="right"
                                                 />
