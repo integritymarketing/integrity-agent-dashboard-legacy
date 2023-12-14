@@ -1,16 +1,21 @@
+@import "../../../scss/globalDefines.scss";
+
 .soaTitleHeader {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.columnView {
+    flex-direction: column;
+
+    @include small() {
+        padding: 1rem 0;
+        flex-direction: row;
     }
+}
 
-    .columnView {
-        flex-direction: column;
-    }
-
-
-.noSOA{
+.noSOA {
     background-color: #ffffff;
     display: flex;
     align-items: center;
@@ -19,12 +24,11 @@
     margin-top: 10px;
 }
 
-.noSOAText{
+.noSOAText {
     font-size: 16px;
     color: #000000;
     margin-right: 10px;
 }
-
 
 .titleWrapper {
     display: flex;
@@ -33,9 +37,7 @@
 
     svg {
         position: relative;
-     }
-
-
+    }
 }
 
 .soaTitle {
