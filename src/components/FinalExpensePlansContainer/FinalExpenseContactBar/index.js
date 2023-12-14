@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import styles from "./FinalExpenseContactBar.module.scss";
 import { BACK, CONTACT_DETAILS } from "../FinalExpensePlansContainer.constants";
 import NewBackBtn from "images/new-back-btn.svg";
-import { useBackPage } from "hooks/useBackPage";
+import useBackPage from "hooks/useBackPage";
 
 const FinalExpenseContactBar = ({ label }) => {
     const { contactId } = useParams();
