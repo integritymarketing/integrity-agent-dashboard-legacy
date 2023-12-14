@@ -26,7 +26,10 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
     );
 
     const shouldShowOptionalHealthInfo = !carrierProductData && !postalCode && !carrierAndProductData;
-    const currentType = leadPreference?.hideLifeQuote ? HEALTH : LIFE;
+    let currentType = leadPreference?.hideHealthQuote ? LIFE : HEALTH;
+    if (!leadPreference?.hideHealthQuote && !leadPreference?.hideLifeQuote) {
+        currentType = localStorage.getItem("currentType") ?? HEALTH;
+    }
 
     const fetchCounts = useCallback(async () => {
         if (leadId && postalCode) {

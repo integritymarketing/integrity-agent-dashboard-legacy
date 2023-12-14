@@ -8,17 +8,21 @@ const LIFE = "LIFE";
 const HEALTH = "HEALTH";
 
 function Layout({ setLayout, layout }) {
+    const onSelectHandle = (type) => {
+        setLayout(type);
+        localStorage.setItem("currentType", type);
+    };
     return (
         <Box className={styles.layoutContainer}>
             <Box
                 className={`${styles.selection} ${layout === LIFE && styles.activeLayout}`}
-                onClick={() => setLayout(LIFE)}
+                onClick={() => onSelectHandle(LIFE)}
             >
                 Life Script
             </Box>
             <Box
                 className={`${styles.selection} ${layout === HEALTH && styles.activeLayout}`}
-                onClick={() => setLayout(HEALTH)}
+                onClick={() => onSelectHandle(HEALTH)}
             >
                 Health Script
             </Box>
