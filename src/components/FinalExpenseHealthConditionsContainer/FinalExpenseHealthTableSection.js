@@ -154,6 +154,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     healthConditions={healthConditions}
                     setHealthConditions={setHealthConditions}
                     refetchConditionsList={getHealthConditionsListData}
+                    disableLastTreatmentDate={isHealthPage}
                 />
             )}
         </>

@@ -52,6 +52,7 @@ const AddNewConditionDialog = ({
     selectedConditionForEdit,
     refetchConditionsList,
     healthConditions,
+    disableLastTreatmentDate = false,
 }) => {
     const [searchString, setSearchString] = useState("");
     const [searchResults, setSearchResults] = useState(null);
@@ -63,9 +64,10 @@ const AddNewConditionDialog = ({
     const [isSavingToServer, setIsSavingToServer] = useState(false);
     const [isDeletingFromServer, setIsDeletingFromServer] = useState(false);
     const [modalStep, setModalStep] = useState(
-        selectedConditionForEdit?.hasLookBackPeriod === true
+        selectedConditionForEdit?.hasLookBackPeriod === true && !disableLastTreatmentDate
             ? 1
-            : selectedConditionForEdit?.hasLookBackPeriod === false
+            : selectedConditionForEdit?.hasLookBackPeriod === false ||
+              (selectedConditionForEdit && disableLastTreatmentDate)
             ? 2
             : 0
     );
@@ -148,7 +150,9 @@ const AddNewConditionDialog = ({
 
     const handleOnSave = () => {
         if (selectedCondition && modalStep === 0) {
-            if (selectedCondition.hasLookBackPeriod) {
+            if (disableLastTreatmentDate) {
+                handleOnClose();
+            } else if (selectedCondition.hasLookBackPeriod) {
                 setModalStep(1);
             } else {
                 setModalStep(2);
