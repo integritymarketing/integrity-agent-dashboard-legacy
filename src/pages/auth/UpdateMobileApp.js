@@ -4,6 +4,7 @@ import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
 import Heading2 from "packages/Heading2";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import { MobileHeaderUnAuthenticated } from "components/MobileHeaderUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { Box } from "@mui/material";
@@ -25,14 +26,15 @@ const UpdateMobileApp = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Mobile App Update</title>
+        <title>Agent Mobile - Mobile App Update</title>
       </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
+        <MobileHeaderUnAuthenticated />
         <ContainerUnAuthenticated>
           <Heading2
             className={Styles.versionText}
-            text="A New Version of MedicareCENTER is Available"
+            text="A New Version of Agent Mobile is Available"
           />
           <Box mt={"1rem"} className={Styles.downloadText}>
             Please download the latest version of the app in order to continue.

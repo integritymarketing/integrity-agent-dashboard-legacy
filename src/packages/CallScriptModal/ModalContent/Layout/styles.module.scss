@@ -1,0 +1,25 @@
+.layoutContainer {
+    display: flex;
+    width: 50%;
+    margin: auto;
+    padding-top: 10px;
+}
+
+.selection {
+    color: #717171;
+    font-size: 16px;
+    border-bottom: 2px solid #CCCCCC;
+    width: 50%;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.activeLayout {
+    border-color: #4178FF;
+    border-width: 3px;
+    color: #052A63;
+    transition: linear 300ms border-color;
+}
