@@ -21,7 +21,6 @@ import Reminder from "../../Icons/reminder";
 
 export const RemindersList = () => {
     const { leadId } = useParams();
-
     const { getReminders, reminders, addReminder, removeReminder, editReminder } = useOverView();
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
     const [selectedReminder, setSelectedReminder] = useState(null);
@@ -44,6 +43,7 @@ export const RemindersList = () => {
             ...payload,
             leadsId: leadId,
             isComplete: isComplete,
+            
         };
         editReminder(addPayload);
         setIsAddNewModalOpen(false);
@@ -108,7 +108,7 @@ export const RemindersList = () => {
                                                     icon={<Complete color="#4178FF" />}
                                                     label={"Complete"}
                                                     className={styles.buttonWithIcon}
-                                                    onClick={() => updateReminder(reminder, true)}
+                                                    onClick={() => updateReminder(...reminder, true)}
                                                     type="tertiary"
                                                     iconPosition="right"
                                                 />
@@ -147,7 +147,10 @@ export const RemindersList = () => {
             {isAddNewModalOpen && (
                 <AddReminderModal
                     open={isAddNewModalOpen}
-                    onClose={() => setIsAddNewModalOpen(false)}
+                    onClose={() => {
+                        setIsAddNewModalOpen(false) 
+                        setSelectedReminder(null)}
+                    }
                     onSave={selectedReminder ? updateReminder : saveReminder}
                     leadId={leadId}
                     selectedReminder={selectedReminder}
