@@ -39,7 +39,7 @@ const items = [
         link: "https://apps.apple.com/us/app/medicarecenter/id1623328763",
       },
     ],
-    text: "Work when you want, from where you want. Get mobile-exclusive push notifications, plus all the features of MedicareCENTER. Download today!",
+    text: "Work when you want, from where you want. Get mobile-exclusive push notifications, plus all the features of Integrity Clients. Download today!",
     title: "Mobile App",
   },
 ];

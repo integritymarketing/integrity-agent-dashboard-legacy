@@ -16,16 +16,15 @@ const GetStartedSection = forwardRef(({ className = "" }, ref) => {
   return (
     <section className={`${className} ${styles.getStartedSection}`} ref={ref}>
       <SectionTitle
-        className={`${sectionTitleInView ? styles.animate : ""} ${
-          styles.sectionTitle
-        }`}
+        className={`${sectionTitleInView ? styles.animate : ""} ${styles.sectionTitle
+          }`}
         ref={sectionTitleRef}
         text="Easy to Get Started"
       />
 
       <Text
         className={styles.text}
-        text="Ready to reach your full potential as an agent? MedicareCENTER helps you make it happen. It’s simple to learn and free to use. Discover all the amazing ways it can empower you."
+        text="Ready to reach your full potential as an agent? Integrity Clients helps you make it happen. It’s simple to learn and free to use. Discover all the amazing ways it can empower you."
       />
 
       <ItemsContainer className={styles.itemsContainer}>

@@ -31,7 +31,7 @@ const TakeControlSection = () => (
   <SplitContentTrailingTabletSection className={styles.takeControlSection}>
     <SectionTitle text="Take Control of Your Business" />
 
-    <Text text="MedicareCENTER all-in-one platform puts you in command of your most important tasks, while providing key insights. How's that for intelligent?" />
+    <Text text="Integrity Clients all-in-one platform puts you in command of your most important tasks, while providing key insights. How's that for intelligent?" />
 
     <ListContainer className={styles.listContainer} items={items} />
   </SplitContentTrailingTabletSection>

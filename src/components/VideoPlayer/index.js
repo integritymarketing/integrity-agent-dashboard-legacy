@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 
-import image from "./image.jpg";
+import image from "./integrityThumbnail.png";
 
 import styles from "./styles.module.scss";
 
