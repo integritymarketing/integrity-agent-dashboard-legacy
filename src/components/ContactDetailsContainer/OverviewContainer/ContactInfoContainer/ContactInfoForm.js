@@ -10,6 +10,13 @@ import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 
 import CountyContext from "contexts/counties";
+import { Formik, Form } from "formik";
+import Textfield from "components/ui/textfield";
+import validationService from "services/validationService";
+import { formatPhoneNumber } from "utils/phones";
+import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
+import { useLeadDetails } from "providers/ContactDetails";
+import "pages/contacts/contactRecordInfo/contactRecordInfo.scss";
 
 import styles from "./ContactInfoContainer.module.scss";
 import {
@@ -26,439 +33,613 @@ import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { ArrowForwardWithCircle } from "../Icons";
 
-const initialFormData = {
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    dateOfBirth: "",
-    primaryContact: "",
-    email: "",
-    leadPhone: "",
-    cellPhone: "",
-    address1: "",
-    address2: "",
-    city: "",
-    zipCode: "",
-    state: "",
-    county: "",
-    countyFips: "",
-    medicareBeneficiaryID: "",
-    partA: "",
-    partB: "",
-    medicaid: "",
-};
-
-function ContactInfoForm({ leadDetails, editLeadDetails, setIsEditMode }) {
-    const [formData, setFormData] = useState(initialFormData);
-
-    let { allCounties = [], allStates = [], fetchCountyAndState } = useContext(CountyContext);
-
-    useEffect(() => {
-        setFormData({
-            firstName: leadDetails?.firstName,
-            middleName: leadDetails?.middleName,
-            lastName: leadDetails?.lastName,
-            dateOfBirth: leadDetails?.leadBirthdate,
-            primaryContact: leadDetails?.contactPreferences?.primary
-                ? leadDetails?.contactPreferences?.primary
-                : "email",
-            email: leadDetails?.leadEmail,
-            leadPhone: leadDetails?.leadPhone,
-            cellPhone: leadDetails?.leadPhone,
-            address1: leadDetails?.leadAddress1,
-            address2: leadDetails?.leadAddress2,
-            city: leadDetails?.leadCity,
-            zipCode: leadDetails?.leadZip,
-            state: leadDetails?.leadState,
-            county: leadDetails?.leadCounty,
-            countyFips: leadDetails?.leadCountyFips,
-            medicareBeneficiaryID: leadDetails?.leadMBID,
-            partA: leadDetails?.leadPartA  === "-" ? null : leadDetails?.leadPartA,
-            partB: leadDetails?.leadPartB === "-" ? null : leadDetails?.leadPartB,
-            medicaid: leadDetails?.hasMedicAid ? "Yes" : "No",
-        });
-    }, [leadDetails]);
 
 
-    useEffect(() => {
-        if (allCounties?.length === 1) {
-            let countyName = allCounties[0]?.value;
-            let countyFipsName = allCounties[0]?.key;
-            setFormData({
-                ...formData,
-                county: countyName,
-                countyFips: countyFipsName,
-            });
-        }
-        if (allStates?.length === 1) {
-            let stateCodeName = allStates[0]?.value;
-            setFormData({
-                ...formData,
-                state: stateCodeName,
-            });
-        }
-    }, [allCounties, allStates]);
+function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
+    const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
 
-    const onChangeFormData = (formElement, value) => {
-        setFormData({
-            ...formData,
-            [formElement]: value,
-        });
-    };
+
+    let {
+        firstName = "",
+        middleName = "",
+        lastName = "",
+        birthdate,
+        emails = [],
+        phones = [],
+        addresses = [],
+        contactPreferences,
+        contactRecordType = "prospect",
+        leadsId,
+        leadStatusId,
+        notes,
+        medicareBeneficiaryID,
+        partA,
+        partB,
+    } = leadDetails;
+
+
+    let {
+        allCounties = [],
+        allStates = [],
+        fetchCountyAndState,
+    } = useContext(CountyContext);
+
+
+    let email = emails.length > 0 ? emails[0].leadEmail : null;
+    let phoneData = phones.length > 0 ? phones[0] : null;
+    let addressData = addresses.length > 0 ? addresses?.[0] : null;
+    const emailID = emails.length > 0 ? emails[0].emailID : 0;
+    const leadAddressId =
+        addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
+    const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
+
+    const city = addressData && addressData.city ? addressData.city : "";
+    const stateCode =
+        addressData && addressData.stateCode ? addressData.stateCode : "";
+    const address1 =
+        addressData && addressData.address1 ? addressData.address1 : "";
+    const address2 =
+        addressData && addressData.address2 ? addressData.address2 : "";
+    const county = addressData && addressData.county ? addressData.county : "";
+    const countyFips =
+        addressData && addressData.countyFips ? addressData.countyFips : "";
+    const postalCode =
+        addressData && addressData.postalCode ? addressData.postalCode : "";
+    const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
+    const phoneLabel =
+        phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
+
+    const isPrimary = contactPreferences?.primary
+        ? contactPreferences?.primary
+        : "email";
+
+
 
     useEffect(() => {
-        if (formData.zipCode.length === 5) {
-            fetchCountyAndState(formData.zipCode);
+        fetchCountyAndState(postalCode);
+    }, [fetchCountyAndState, postalCode]);
+
+    const formatMbiNumber = (value) => {
+        if (!value) return;
+        let formattedValue = value.replace(/-/g, "");
+        if (formattedValue.length > 4) {
+            formattedValue =
+                formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
         }
-    }, [formData.zipCode, fetchCountyAndState]);
+        if (formattedValue.length > 8) {
+            formattedValue =
+                formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+        }
+        return formattedValue.toUpperCase();
+    };;
 
-    const handleSave = () => {
-        const payload = {
-            firstName: formData.firstName,
-            middleName: formData.middleName,
-            lastName: formData.lastName,
-            birthdate: formData.dateOfBirth ? formatDate(formData.dateOfBirth) : "",
-            primaryCommunication: formData.primaryContact,
-            email: formData.email,
-            phones: {
-                leadPhone: formData.leadPhone,
-                phoneLabel: "home",
-            },
-            address: {
-                address1: formData.address1,
-                address2: formData.address2,
-                city: formData.city,
-                stateCode: formData.state,
-                postalCode: formData.zipCode,
-                county: formData.county,
-                countyFips: formData.countyFips,
-            },
-            medicareBeneficiaryID: formData.medicareBeneficiaryID,
-            partA: formData.partA,
-            partB: formData.partB,
-            hasMedicAid: formData.medicaid === "Yes" ? 1 : 0,
-            leadsId: leadDetails?.leadsId,
-            leadAddressId: leadDetails?.leadAddressId,
-            phoneId: leadDetails?.phoneId,
-            leadStatusId: leadDetails?.leadStatusId,
-            notes: leadDetails?.notes,
-        };
 
-        editLeadDetails(payload);
-    };
 
     return (
-        <Box>
-            <div>
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>First Name</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="First Name"
-                                value={formData.firstName}
-                                onChange={({ target }) => {
-                                    onChangeFormData("firstName", target.value);
-                                }}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                    <StyledFormItem>
-                        <StyledElementName>Middle Initial</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="Middle Initial"
-                                value={formData.middleName}
-                                onChange={({ target }) => {
-                                    onChangeFormData("middleName", target.value);
-                                }}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                    <StyledFormItem>
-                        <StyledElementName>Last Name</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="Last Name"
-                                value={formData.lastName}
-                                onChange={({ target }) => {
-                                    onChangeFormData("lastName", target.value);
-                                }}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
 
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Birthdate</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledDatePicker>
-                                <DatePickerMUI
-                                    value={formData.dateOfBirth}
-                                    disableFuture={true}
-                                    onChange={(value) => {
-                                        onChangeFormData("dateOfBirth", formatDate(value));
-                                    }}
-                                    isMobile={true}
-                                />
-                            </StyledDatePicker>
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
+        <Formik
+            initialValues={{
+                firstName: firstName,
+                lastName: lastName,
+                middleName: middleName,
+                email: email,
+                birthdate: birthdate ? formatDate(birthdate) : "",
+                phones: {
+                    leadPhone: phone,
+                    phoneLabel: phoneLabel?.toLowerCase(),
+                },
+                address: {
+                    address1: address1,
+                    address2: address2,
+                    city: city,
+                    stateCode: stateCode,
+                    postalCode: postalCode,
+                    county: county || "",
+                    countyFips: countyFips,
+                },
+                primaryCommunication: isPrimary,
+                contactRecordType: contactRecordType?.toLowerCase(),
+                emailID,
+                leadAddressId,
+                phoneId,
+                leadStatusId,
+                leadsId,
+                notes,
+                medicareBeneficiaryID: medicareBeneficiaryID
+                    ? formatMbiNumber(medicareBeneficiaryID)
+                    : "",
+                partA: partA ?? "",
+                partB: partB ?? "",
+            }}
+            validate={async (values) => {
+                return validationService.validateMultiple(
+                    [
+                        {
+                            name: "firstName",
+                            validator: validationService.validateName,
+                            args: ["First Name"],
+                        },
+                        {
+                            name: "lastName",
+                            validator: validationService.validateName,
+                            args: ["Last Name"],
+                        },
+                        {
+                            name: "phones.leadPhone",
+                            validator: validationService.composeValidator([
+                                validationService.validateRequiredIf(
+                                    "phone" === values.primaryCommunication
+                                ),
+                                validationService.validatePhone,
+                            ]),
+                        },
+                        {
+                            name: "email",
+                            validator: validationService.composeValidator([
+                                validationService.validateRequiredIf(
+                                    "email" === values.primaryCommunication
+                                ),
+                                validationService.validateEmail,
+                            ]),
+                        },
+                        {
+                            name: "address.postalCode",
+                            validator: validationService.composeValidator([
+                                validationService.validatePostalCode,
+                            ]),
+                        },
+                        {
+                            name: "address.address1",
+                            validator: validationService.composeValidator([
+                                validationService.validateAddress,
+                            ]),
+                            args: ["Address"],
+                        },
+                        {
+                            name: "address.address2",
+                            validator: validationService.composeValidator([
+                                validationService.validateAddress,
+                            ]),
+                            args: ["Apt, Suite, Unit"],
+                        },
+                        {
+                            name: "address.city",
+                            validator: validationService.composeValidator([
+                                validationService.validateAddress,
+                            ]),
+                        },
+                        {
+                            name: "birthdate",
+                            validator: validationService.validateDateInput,
+                            args: ["Date of Birth", "MM/dd/yyyy"],
+                        },
+                        {
+                            name: "medicareBeneficiaryID",
+                            validator: validationService.validateMedicalBeneficiaryId,
+                            args: ["Medicare Beneficiary ID Number"],
+                        },
+                    ],
+                    values
+                );
 
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Primary Contact</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <Select
-                                // error={isInvalid("state")}
-                                options={primaryContactOptions}
-                                placeholder="Phone"
-                                initialValue={formData.primaryContact}
-                                onChange={(value) => {
-                                    onChangeFormData("primaryContact", value);
-                                }}
-                                showValueAlways={true}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
+            }}
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
+                setSubmitting(true);
+                editLeadDetails(values);
+                setIsEditMode(false);
+            }}
+        >
+            {({
+                values,
+                errors,
+                touched,
+                isValid,
+                dirty,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                setFieldValue,
+            }) => {
+                let countyName = allCounties[0]?.value;
+                let countyFipsName = allCounties[0]?.key;
+                let stateCodeName = allStates[0]?.value;
 
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Email</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="Email"
-                                value={formData.email}
-                                onChange={({ target }) => {
-                                    onChangeFormData("email", target.value);
-                                }}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
+                if (
+                    allCounties.length === 1 &&
+                    countyName !== values.address.county &&
+                    countyFipsName !== values.address.countyFips
+                ) {
+                    setFieldValue("address.county", allCounties[0].value);
+                    setFieldValue("address.countyFips", allCounties[0].key);
+                }
+                if (
+                    allStates.length === 1 &&
+                    stateCodeName !== values.address.stateCode
+                ) {
+                    setFieldValue("address.stateCode", allStates[0].value);
+                }
 
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Phone</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="number"
-                                placeholder="Phone number"
-                                value={formData.leadPhone}
-                                onChange={({ target }) => {
-                                    onChangeFormData("leadPhone", target.value);
-                                }}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                    {/* <StyledFormItem>
-                <StyledElementName>
-                    Cell Phone
-                </StyledElementName>
-                <StyledNumberInputContainer style={{ width: "100%" }}>
-                    <StyledInputField
-                        type="number"
-                        placeholder="Phone number"
-                        value={formData.cellPhone}
-                        onChange={({ target }) => {
-                            onChangeFormData("cellPhone", target.value);
-                        }}
-                    />
-                </StyledNumberInputContainer>
-            </StyledFormItem> */}
-                </SectionContainer>
+                return (
+                    <Box>
+                        <div>
+                            <Form>
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>First Name</StyledElementName>
 
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Address</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="Address Line 1"
-                                value={formData.address1}
-                                onChange={({ target }) => {
-                                    onChangeFormData("address1", target.value);
-                                }}
+                                        <Textfield
+                                            id="contact-fname"
+                                            placeholder={"Enter first name"}
+                                            name="firstName"
+                                            className="hide-field-error"
+                                            value={values.firstName}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={errors.firstName ? true : false}
+                                        />
+                                        {touched.firstName && errors.firstName && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">{errors.firstName}</li>
+                                            </ul>
+                                        )}
+                                    </StyledFormItem>
+                                    <StyledFormItem>
+                                        <StyledElementName>Middle Initial</StyledElementName>
+                                        <Textfield
+                                            id="contact-mname"
+                                            type="text"
+                                            placeholder=""
+                                            maxLength="1"
+                                            name="middleName"
+                                            onKeyDown={onlyAlphabets}
+                                            value={values.middleName?.toUpperCase()}
+                                            className="custom-mob-w custom-w-px"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+
+                                    </StyledFormItem>
+                                    <StyledFormItem>
+                                        <StyledElementName>Last Name</StyledElementName>
+
+                                        <Textfield
+                                            id="contact-lname"
+                                            placeholder="Enter last name"
+                                            className="hide-field-error"
+                                            name="lastName"
+                                            value={values.lastName}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={errors.lastName ? true : false}
+                                        />
+                                        {touched.lastName && errors.lastName && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">{errors.lastName}</li>
+                                            </ul>
+                                        )}
+
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Birthdate</StyledElementName>
+                                        <DatePickerMUI
+                                            value={values.birthdate}
+                                            disableFuture={true}
+                                            onChange={(value) => {
+                                                setFieldValue("birthdate", formatDate(value));
+                                            }}
+                                        />
+                                        {errors.birthdate && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">{errors.birthdate}</li>
+                                            </ul>
+                                        )}
+
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Primary Contact</StyledElementName>
+
+                                        <Select
+                                            // error={isInvalid("state")}
+                                            options={primaryContactOptions}
+                                            placeholder="Phone"
+                                            initialValue={values.primaryCommunication}
+                                            onChange={(value) => {
+                                                setFieldValue("primaryCommunication", value);
+                                            }}
+                                            showValueAlways={true}
+                                        />
+
+
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Email</StyledElementName>
+
+                                        <Textfield
+                                            id="contact-email"
+                                            type="email"
+                                            placeholder="Enter your email address"
+                                            name="email"
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={touched.email && errors.email}
+                                        />
+
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Phone Number</StyledElementName>
+
+                                        <Textfield
+                                            id="contact-phone"
+                                            type="tel"
+                                            placeholder="(   )_ _ _  - _ _ _ _ "
+                                            name="phones.leadPhone"
+                                            value={formatPhoneNumber(values.phones.leadPhone)}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={
+                                                touched.phones?.leadPhone && errors.phones?.leadPhone
+                                            }
+                                        />
+
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Address</StyledElementName>
+
+                                        <Textfield
+                                            id="contact-address"
+                                            className={`${styles["contact-address"]} hide-field-error`}
+                                            label="Address"
+                                            placeholder={"Enter address"}
+                                            name="address.address1"
+                                            value={values.address.address1}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={errors.address?.address1 ? true : false}
+                                        />
+                                        {touched.address?.address1 && errors.address?.address1 && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">
+                                                    {errors.address?.address1}
+                                                </li>
+                                            </ul>
+                                        )}
+
+                                    </StyledFormItem>
+                                    <StyledFormItem>
+                                        <Textfield
+                                            id="contact-address2"
+                                            className={`${styles["contact-address"]} hide-field-error`}
+                                            placeholder={"Enter Apt, Suite, Unit"}
+                                            name="address.address2"
+                                            value={values.address.address2}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={errors.address?.address2 ? true : false}
+                                        />
+                                        {touched.address?.address2 && errors.address?.address2 && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">
+                                                    {errors.address?.address2}
+                                                </li>
+                                            </ul>
+                                        )}
+
+                                    </StyledFormItem>
+                                    <StyledFormItem>
+                                        <Textfield
+                                            id="contact-address__city"
+                                            className={`${styles["contact-address--city"]}  hide-field-error`}
+                                            name="address.city"
+                                            value={values.address.city}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={errors.address?.city ? true : false}
+                                        />
+                                        {touched.address?.city && errors.address?.city && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">
+                                                    {errors.address?.city}
+                                                </li>
+                                            </ul>
+                                        )}
+
+                                    </StyledFormItem>
+                                    <Box className={styles.horizontalLayout} display="flex" justifyContent={"space-between"} gap="10px">
+                                        <StyledFormItem style={{ width: "60%" }}>
+                                            <Textfield
+                                                id="contact-address__zip"
+                                                className={`${styles["contact-address--zip"]} custom-address-zip hide-field-error`}
+                                                label=""
+                                                name="address.postalCode"
+                                                value={values.address.postalCode}
+                                                inputprops={{ maxLength: 5 }}
+                                                onChange={(e) => {
+                                                    setFieldValue("address.postalCode", e.target.value);
+                                                    setFieldValue("address.county", "");
+                                                    setFieldValue("address.stateCode", "");
+                                                    fetchCountyAndState(e.target.value);
+                                                }}
+                                                onBlur={handleBlur}
+                                                onInput={(e) => {
+                                                    e.target.value = e.target.value
+                                                        .replace(/[^0-9]/g, "")
+                                                        .toString()
+                                                        .slice(0, 5);
+                                                }}
+                                                error={errors.address?.postalCode ? true : false}
+                                            />
+                                            {errors.address?.postalCode && (
+                                                <ul className="details-edit-custom-error-msg">
+                                                    <li className="error-msg-red zip-code-error-msg">
+                                                        {errors.address?.postalCode}
+                                                    </li>
+                                                </ul>
+                                            )}
+                                        </StyledFormItem>
+                                        <StyledFormItem style={{ width: "30%" }}>
+                                            <Select
+                                                placeholder="select"
+                                                showValueAsLabel={true}
+                                                className={`${styles["contact-address--statecode"]} `}
+                                                disabled={true}
+                                                options={allStates}
+                                                isDefaultOpen={
+                                                    allStates.length > 1 &&
+                                                        values.address.stateCode === ""
+                                                        ? true
+                                                        : false
+                                                }
+                                                initialValue={values.address.stateCode}
+                                                onChange={(value) => {
+                                                    setFieldValue("address.stateCode", value);
+                                                }}
+                                                showValueAlways={true}
+                                            />
+                                        </StyledFormItem>
+                                    </Box>
+                                    <StyledFormItem style={{ width: "100%" }}>
+                                        <Select
+                                            placeholder="select"
+                                            className={`${styles["contact-address--statecode"]} `}
+                                            options={allCounties}
+                                            initialValue={values.address.county}
+                                            isDefaultOpen={
+                                                allCounties.length > 1 && values.address.county === ""
+                                                    ? true
+                                                    : false
+                                            }
+                                            onChange={(value) => {
+                                                setFieldValue("address.county", value);
+                                                const { key: fip, state } = allCounties.filter(
+                                                    (item) => item.value === value
+                                                )[0];
+                                                setFieldValue("address.countyFips", fip);
+                                                if (allCounties.length > 1) {
+                                                    setFieldValue("address.stateCode", state);
+                                                }
+                                            }}
+                                            showValueAlways={true}
+                                        />
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Medicare Beneficiary ID</StyledElementName>
+
+                                        <Textfield
+                                            id="mbi-number"
+                                            type="text"
+                                            placeholder="MBI Number"
+                                            name="medicareBeneficiaryID"
+                                            value={values.medicareBeneficiaryID}
+                                            onChange={handleChange}
+                                            onBlur={(e) => {
+                                                handleBlur(e);
+                                                setFieldValue(
+                                                    "medicareBeneficiaryID",
+                                                    formatMbiNumber(values.medicareBeneficiaryID)
+                                                );
+                                            }}
+                                        />
+                                        {errors?.medicareBeneficiaryID && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">
+                                                    {errors?.medicareBeneficiaryID}
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Medicare Part A Effective Date</StyledElementName>
+
+                                        <DatePickerMUI
+                                            value={values.partA === null ? "" : values.partA}
+                                            onChange={(value) => {
+                                                setFieldValue("partA", value);
+                                            }}
+                                            className={styles.disableDatePickerError}
+                                        />
+                                        {errors.partA && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">{errors.partA}</li>
+                                            </ul>
+                                        )}
+                                    </StyledFormItem>
+                                </SectionContainer>
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <StyledElementName>Medicare Part B Effective Date</StyledElementName>
+
+                                        <DatePickerMUI
+                                            value={values.partB === null ? "" : values.partB}
+                                            onChange={(value) => {
+                                                setFieldValue("partB", value);
+                                            }}
+                                            className={styles.disableDatePickerError}
+                                        />
+                                        {errors.partB && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">{errors.partB}</li>
+                                            </ul>
+                                        )}
+                                    </StyledFormItem>
+                                </SectionContainer>
+                            </Form>
+
+                        </div>
+
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginTop: "20px",
+                            }}
+                        >
+                            <Label value={`Created Date: ${leadDetails?.leadCreatedDate}`} color="#717171" size="14px" />
+                        </Box>
+                        <Box className={styles.buttonContainer}>
+                            <Button
+                                label={"Cancel"}
+                                className={styles.deleteButton}
+                                type="tertiary"
+                                onClick={() => setIsEditMode(false)}
                             />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                    <StyledFormItem>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="Enter Apt, Suite, Unit"
-                                value={formData.address2}
-                                onChange={({ target }) => {
-                                    onChangeFormData("address2", target.value);
-                                }}
+                            <Button
+                                label={"Save"}
+                                className={styles.editButton}
+                                disabled={!dirty || !isValid}
+                                onClick={handleSubmit}
+                                type="tertiary"
+                                icon={<ArrowForwardWithCircle />}
+                                iconPosition="right"
                             />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                    <StyledFormItem>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="Enter City"
-                                value={formData.city}
-                                onChange={({ target }) => {
-                                    onChangeFormData("city", target.value);
-                                }}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                    <Box className={styles.horizontalLayout} display="flex" gap="5px">
-                        <StyledFormItem>
-                            <StyledNumberInputContainer style={{ width: "100%" }}>
-                                <StyledInputField
-                                    type="number"
-                                    placeholder="Zip Code"
-                                    value={formData.zipCode}
-                                    onChange={({ target }) => {
-                                        fetchCountyAndState(target.value);
-                                        onChangeFormData("zipCode", target.value);
-                                    }}
-                                />
-                            </StyledNumberInputContainer>
-                        </StyledFormItem>
-                        <StyledFormItem>
-                            <StyledNumberInputContainer style={{ width: "100%" }}>
-                                <Select
-                                    placeholder="State"
-                                    // error={isInvalid("state")}
-                                    options={allStates}
-                                    initialValue={formData.state}
-                                    onChange={(value) => {
-                                        onChangeFormData("state", value);
-                                    }}
-                                    showValueAlways={true}
-                                    showValueAsLabel={true}
-                                />
-                            </StyledNumberInputContainer>
-                        </StyledFormItem>
+                        </Box>
                     </Box>
-                    <StyledFormItem>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <Select
-                                placeholder="Select County"
-                                // error={isInvalid("state")}
-                                options={allCounties}
-                                initialValue={formData.county}
-                                onChange={(value) => {
-                                    onChangeFormData("county", value);
-                                }}
-                                showValueAlways={true}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
 
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Medicare Beneficiary ID</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledInputField
-                                type="text"
-                                placeholder="XXXX-XXX-XXXX"
-                                value={formData.medicareBeneficiaryID}
-                                onChange={({ target }) => {
-                                    onChangeFormData("medicareBeneficiaryID", target.value);
-                                }}
-                            />
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
-
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Medicare Part A Effective Date</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledDatePicker>
-                                <DatePickerMUI
-                                    value={formData.partA}
-                                    onChange={(value) => {
-                                        onChangeFormData("partA", formatDate(value));
-                                    }}
-                                />
-                            </StyledDatePicker>
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
-
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Medicare Part B Effective Date</StyledElementName>
-                        <StyledNumberInputContainer style={{ width: "100%" }}>
-                            <StyledDatePicker>
-                                <DatePickerMUI
-                                    value={formData.partB}
-                                    onChange={(value) => {
-                                        onChangeFormData("partB", formatDate(value));
-                                    }}
-                                />
-                            </StyledDatePicker>
-                        </StyledNumberInputContainer>
-                    </StyledFormItem>
-                </SectionContainer>
-
-                <SectionContainer>
-                    <StyledFormItem>
-                        <StyledElementName>Medicaid</StyledElementName>
-                        <StyledGenderFormElements>
-                            <StyledButtonFormElement
-                                selected={formData.medicaid === "Yes"}
-                                onClick={() => {
-                                    onChangeFormData("medicaid", "Yes");
-                                }}
-                            >
-                                Yes
-                            </StyledButtonFormElement>
-                            <StyledButtonFormElement
-                                selected={formData.medicaid === "No"}
-                                onClick={() => {
-                                    onChangeFormData("medicaid", "No");
-                                }}
-                            >
-                                No
-                            </StyledButtonFormElement>
-                        </StyledGenderFormElements>
-                    </StyledFormItem>
-                </SectionContainer>
-            </div>
-
-            <Box
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: "20px",
-                }}
-            >
-                <Label value={`Created Date: ${leadDetails?.leadCreatedDate}`} color="#717171" size="14px" />
-            </Box>
-            <Box className={styles.buttonContainer}>
-                <Button
-                    label={"Cancel"}
-                    className={styles.deleteButton}
-                    type="tertiary"
-                    onClick={() => setIsEditMode(false)}
-                />
-                <Button
-                    label={"Save"}
-                    className={styles.editButton}
-                    onClick={handleSave}
-                    type="tertiary"
-                    icon={<ArrowForwardWithCircle />}
-                    iconPosition="right"
-                />
-            </Box>
-        </Box>
+                );
+            }}
+        </Formik >
     );
 }
 

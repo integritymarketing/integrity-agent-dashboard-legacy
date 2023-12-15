@@ -6,7 +6,7 @@
     background-color: #f1f1f1;
     overflow-x: auto;
     justify-content: center;
-    padding-top: 60px;
+    padding: 60px 0px;
 
     @include small() {
         padding: 0 1rem;

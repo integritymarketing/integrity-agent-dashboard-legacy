@@ -23,6 +23,7 @@ export const FormField = ({
     autoComplete,
     minLength,
     maxLength,
+    touched
 }) => {
     const [field, meta, helpers] = useField(name);
     const { setFieldValue } = useFormikContext();
@@ -45,7 +46,7 @@ export const FormField = ({
         }
     };
 
-    const hasError = meta.error && Object.keys(meta.error).length > 0;
+    const hasError = touched && meta.error && Object.keys(meta.error).length > 0;
 
     return (
         <div className={cx(styles.inputWrapper, className)}>

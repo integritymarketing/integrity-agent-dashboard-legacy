@@ -6,7 +6,7 @@ import DatePickerMUI from "components/DatePicker";
 import TimePickerMUI from "components/TimePicker/TimePicker";
 import styles from "./AddReminderModal.module.scss";
 import TextField from "@mui/material/TextField";
-import { getDateTime } from "utils/dates";
+import { getDateTime, getLocalDateTime } from "utils/dates";
 
 export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) => {
     const initialReminderValues = {
@@ -19,10 +19,12 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) =>
 
     useEffect(() => {
         if (selectedReminder) {
-            const reminderDateTime = new Date(selectedReminder.reminderDate);
+            const { date, fullDate } = getLocalDateTime(selectedReminder.reminderDate);
+            const timeValue = new Date(fullDate);
+
             setValues({
-                date: getDateTime(selectedReminder.reminderDate).date,
-                time: reminderDateTime,
+                date: date,
+                time: timeValue,
                 notes: selectedReminder.reminderNote,
             })
         }
@@ -33,15 +35,14 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) =>
     }, [values.date, values.time, values.notes]);
 
     const handleSaveReminder = useCallback(() => {
-        const fullDate = new Date(values.date);
-        fullDate.setHours(values.time.getHours());
-        fullDate.setMinutes(values.time.getMinutes());
-        fullDate.setSeconds(values.time.getSeconds());
+        const reminderDateTime = new Date(values.date);
+        reminderDateTime.setHours(values.time.getHours());
+        reminderDateTime.setMinutes(values.time.getMinutes());
 
         const payload = {
             ...selectedReminder,
             reminderNote: values.notes,
-            reminderDate: fullDate.toISOString(),
+            reminderDate: reminderDateTime
         };
 
         onSave(payload);
@@ -50,9 +51,10 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) =>
     const handleChange = useCallback((field, value) => {
         setValues(prevValues => ({ ...prevValues, [field]: value }));
     }, []);
-    
+
     const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
     const reminderActionButton = selectedReminder ? "Edit Reminder" : "Add Reminder";
+
 
     return (
         <>

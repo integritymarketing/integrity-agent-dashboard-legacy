@@ -13,7 +13,7 @@ import styles from "./TagsContainer.module.scss";
 const TagsContainer = function () {
 
     const { leadDetails } = useLeadDetails();
-    const { getLeadTags, tags, editLeadTags, removeLeadTags, editTagByID } = useOverView();
+    const { getLeadTags, tags, editLeadTags, } = useOverView();
 
     const [tagsList, setTagsList] = useState([])
     const [tempTags, setTempTags] = useState([])

@@ -54,18 +54,18 @@ export const OverViewProvider = ({ children }) => {
     const createNewTag = async (payload) => {
         const path = `Tag/`
         await performAsyncOperation(
-            async () => await addNewTag(payload, false, path),
+            async () => await addNewTag(payload, true, path),
             () => { },
             async () => {
                 await getLeadTags();
                 showToast({
-                    message: `Tags updated successfully`,
+                    message: `Tag updated successfully`,
                 });
             },
             (err) =>
                 showToast({
                     type: "error",
-                    message: `Failed to update Tags`,
+                    message: `Failed to update Tag`,
                 })
         );
     };
@@ -73,18 +73,18 @@ export const OverViewProvider = ({ children }) => {
     const editTagByID = async (payload) => {
         const path = `Tag/${payload.tagId}`
         await performAsyncOperation(
-            () => updateTag(payload, false, path),
+            () => updateTag(payload, true, path),
             () => { },
             async () => {
                 await getLeadTags();
                 showToast({
-                    message: `Tags updated successfully`,
+                    message: `Tag updated successfully`,
                 });
             },
             (err) =>
                 showToast({
                     type: "error",
-                    message: `Failed to update Tags`,
+                    message: `Failed to update Tag`,
                 })
         );
     };
@@ -92,18 +92,18 @@ export const OverViewProvider = ({ children }) => {
     const removeLeadTags = async (id) => {
         const path = `Tag/${id}`
         await performAsyncOperation(
-            () => deleteLeadTags(null, false, path),
+            () => deleteLeadTags(null, true, path),
             () => { },
             async () => {
                 await getLeadTags();
                 showToast({
-                    message: `Tags updated successfully`,
+                    message: `Tag deleted successfully`,
                 });
             },
             (err) =>
                 showToast({
                     type: "error",
-                    message: `Failed to update Tags`,
+                    message: `Failed to delete Tag`,
                 })
         );
     };

@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 
 import { useOverView } from "providers/ContactDetails";
 
-import { formatDate, getDateTime, getOverDue } from "utils/dates";
+import { formatDate, getDateTime, getOverDue, getLocalDateTime } from "utils/dates";
 
 import ContactSectionCard from "packages/ContactSectionCard";
 
@@ -34,6 +34,8 @@ export const RemindersList = () => {
             ...payload,
             leadsId: leadId,
         };
+        console.log("saveReminder", payload)
+
         addReminder(addPayload, leadId);
         setIsAddNewModalOpen(false);
     };
@@ -43,7 +45,7 @@ export const RemindersList = () => {
             ...payload,
             leadsId: leadId,
             isComplete: isComplete,
-            
+
         };
         editReminder(addPayload);
         setIsAddNewModalOpen(false);
@@ -95,7 +97,7 @@ export const RemindersList = () => {
                                         </Box>
                                         <Box className={styles.dueLabel}>
                                             At:
-                                            <span className={styles.dueValue}>{getDateTime(reminderDate)?.time}</span>
+                                            <span className={styles.dueValue}>{getLocalDateTime(reminderDate)?.time}</span>
                                         </Box>
                                     </Box>
                                 </Box>
@@ -148,8 +150,9 @@ export const RemindersList = () => {
                 <AddReminderModal
                     open={isAddNewModalOpen}
                     onClose={() => {
-                        setIsAddNewModalOpen(false) 
-                        setSelectedReminder(null)}
+                        setIsAddNewModalOpen(false)
+                        setSelectedReminder(null)
+                    }
                     }
                     onSave={selectedReminder ? updateReminder : saveReminder}
                     leadId={leadId}

@@ -1,5 +1,5 @@
 .label {
-    color: #052A63;
+    color: #052a63;
     font-weight: bold;
     font-size: 16px;
 }
@@ -10,7 +10,7 @@
 
 .inputStyle {
     width: 50%;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #dddddd;
 }
 
 .requiredText {
@@ -24,7 +24,44 @@
     width: 50%;
     margin-top: 16px;
 
-    >div {
+    > div {
         margin-bottom: 4px;
     }
+}
+
+.signedText {
+    color: #052a63;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.soaSignedTime {
+    display: flex;
+    padding: 5px 16px 5px 8px;
+    width: fit-content;
+    border-radius: 4px;
+    color: #052a63;
+    font-weight: bold;
+}
+
+.checked {
+    background: #f1faff;
+}
+
+.consentWrapper {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.submitCTA {
+    background-color: #4178ff;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 20px !important;
+    padding: 10px 16px !important;
+}
+
+.explanationInput {
+    width: 50%;
+    margin-bottom: 10px;
 }

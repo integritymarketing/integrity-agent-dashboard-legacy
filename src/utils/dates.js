@@ -307,7 +307,8 @@ export const getLocalDateTime = (dateString) => {
     const localDateTime = convertToLocalDateTime(dateString);
     const date = formatDate(localDateTime, "MM/dd/yyyy");
     const time = formatDate(localDateTime, "h:mm a").toLowerCase();
-    return { date, time };
+    const fullDate = formatDate(localDateTime, "MM/dd/yyyy h:mm a").toLowerCase();
+    return { date, time, fullDate };
 };
 
 export const getAgeFromBirthDate = (birthdate) => {
