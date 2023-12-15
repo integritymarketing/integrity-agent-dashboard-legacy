@@ -64,6 +64,8 @@
     box-shadow: inset 0px -1px 0px #cccccc;
     cursor: pointer;
     padding: 20px;
+    display: flex;
+    align-items: center;
 
     label {
         cursor: pointer;
@@ -71,6 +73,10 @@
 
     &.selected {
         background-color: #f1faff;
+    }
+
+    span {
+        padding-left: 5px;
     }
 }
 
@@ -110,6 +116,7 @@
 .conditionDialogDeleteText {
     cursor: pointer;
     text-align: center;
+    color: #4178ff !important;
     text-decoration: none !important;
 }
 
@@ -121,4 +128,12 @@
 .conditionNameContentName {
     color: #052a63;
     font-size: 24px;
+}
+
+.radioInput {
+    display: none;
+}
+
+.cancelButton {
+    color: #4178ff !important;
 }

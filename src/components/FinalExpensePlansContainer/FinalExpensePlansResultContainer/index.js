@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
+
 import { Text } from "@integritymarketing/ui-text-components";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
+
 import Heading4 from "packages/Heading4";
+
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { CurrencyAdjuster } from "components/CurrencyAdjuster";
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
+
 import {
     COVERAGE_TYPE,
     COVERAGE_TYPE_HEADING,
+    DEFAULT_COVERAGE_AMOUNT,
     EXCLUDE_LABEL,
     MY_APPOINTED_LABEL,
     PLAN_OPTIONS_HEADING,
@@ -20,13 +25,14 @@ import {
 } from "./FinalExpensePlansResultContainer.constants";
 import styles from "./FinalExpensePlansResultContainer.module.scss";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
+
 import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.constants";
 
-const FinalExpensePlansResultContainer = ({ }) => {
+const FinalExpensePlansResultContainer = ({}) => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
-    const [coverageAmount, setCoverageAmount] = useState(STEPPER_FILTER[COVERAGE_AMOUNT].min);
+    const [coverageAmount, setCoverageAmount] = useState(DEFAULT_COVERAGE_AMOUNT);
     const [monthlyPremiumAmount, setMonthlyPremiumAmount] = useState(STEPPER_FILTER[MONTHLY_PREMIUM].min);
     const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[0].value);
     const { getLeadDetails, leadDetails } = useLeadDetails();
@@ -102,8 +108,9 @@ const FinalExpensePlansResultContainer = ({ }) => {
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                    }`}
+                                className={`${styles.checkbox} ${
+                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                }`}
                                 onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
@@ -112,9 +119,12 @@ const FinalExpensePlansResultContainer = ({ }) => {
                         </div>
                     </div>
                 </div>
-                <PlanDetailsContainer coverageAmount={coverageAmount}
+                <PlanDetailsContainer
+                    coverageAmount={coverageAmount}
                     monthlyPremium={monthlyPremiumAmount}
-                    coverageType={coverageType} />
+                    coverageType={coverageType}
+                    selectedTab={selectedTab}
+                />
                 <div className={styles.resultContent}></div>
             </div>
         </>

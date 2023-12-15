@@ -14,6 +14,8 @@ import useToast from "hooks/useToast";
 import DatePickerMUI from "components/DatePicker";
 import Modal from "components/Modal";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
+import RadioChecked from "components/icons/radio-checked";
+import RadioUnchecked from "components/icons/radio-unchecked";
 import SearchBlue from "components/icons/version-2/SearchBlue";
 import Radio from "components/ui/Radio";
 import Textfield from "components/ui/textfield";
@@ -43,6 +45,7 @@ import {
 } from "./AddNewConditionDialog.constants";
 
 import { HEALTH_CONDITION_API } from "../FinalExpenseHealthConditionsContainer.constants";
+import { Close } from "../icons/Close";
 
 const AddNewConditionDialog = ({
     contactId,
@@ -245,6 +248,7 @@ const AddNewConditionDialog = ({
                             </div>
                             <div className={styles.searchResultList}>
                                 {searchResults.map((result) => {
+                                    const checked = selectedCondition?.conditionId === result.conditionId;
                                     return (
                                         <div
                                             className={`${styles.searchResultItem} ${
@@ -256,10 +260,15 @@ const AddNewConditionDialog = ({
                                                 setSelectedCondition(result);
                                             }}
                                         >
-                                            <Radio
-                                                checked={selectedCondition?.conditionId === result.conditionId}
-                                                label={result.conditionName}
+                                            <input
+                                                type="radio"
+                                                className={styles.radioInput}
+                                                name={"condition"}
+                                                value={result.conditionId}
+                                                checked={checked}
                                             />
+                                            {checked ? <RadioChecked /> : <RadioUnchecked />}
+                                            <span>{result.conditionName}</span>
                                         </div>
                                     );
                                 })}
@@ -334,8 +343,8 @@ const AddNewConditionDialog = ({
                 }
                 open={open}
                 dialogContentClassName={styles.dialogContent}
-                onClose={handleOnClose}
-                onCancel={handleOnClose}
+                onClose={() => resetState()}
+                onCancel={() => resetState()}
                 hideFooter={modalStep === 2}
                 title={
                     <div className={styles.subHeading}>
@@ -350,7 +359,9 @@ const AddNewConditionDialog = ({
                     handleOnSave();
                 }}
                 actionButtonName={isSavingToServer ? SAVING : modalStep === 0 ? NEXT : SAVE}
+                closeIcon={<Close />}
                 actionButtonClassName={styles.saveButton}
+                cancelClassName={styles.cancelButton}
                 endIcon={<ButtonCircleArrow />}
             >
                 <Box className={styles.connectModalBody}>
