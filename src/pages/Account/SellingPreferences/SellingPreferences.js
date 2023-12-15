@@ -1,12 +1,11 @@
 import Box from "@mui/material/Box";
 
 import SectionContainer from "mobile/Components/SectionContainer";
+import { useAgentAccountContext } from "providers/AgentAccountProvider";
 
 import useUserProfile from "hooks/useUserProfile";
 
 import { SellingPreferenceItem } from "./SellingPreferenceItem";
-
-import { useAgentAccountContext } from "../providers/AgentAccountProvider";
 
 const LIFE = "hideLifeQuote";
 const HEALTH = "hideHealthQuote";

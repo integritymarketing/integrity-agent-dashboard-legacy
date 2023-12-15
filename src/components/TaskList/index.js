@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import moment from "moment";
+import { useAgentAccountContext } from "providers/AgentAccountProvider";
 
 import { sortListByDate } from "utils/dates";
 
@@ -86,8 +87,10 @@ export default function TaskList({ isMobile, npn }) {
     const [totalPageSize, setTotalPageSize] = useState(1);
     const [showTaskListInfoModal, setShowTaskListInfoModal] = useState(false);
     const showToast = useToast();
+    const { leadPreference } = useAgentAccountContext();
 
     const selectedName = tabs[statusIndex]?.policyStatus || "PlanEnroll Leads";
+    const shouldHide48SOA = leadPreference?.hideHealthQuote;
 
     const showMore = page < totalPageSize;
 
@@ -126,7 +129,7 @@ export default function TaskList({ isMobile, npn }) {
         try {
             const tabsData = await clientsService.getTaskListCount(npn, dateRange);
             let filteredTabs = [...DEFAULT_TABS];
-            if (!hasSoa48HoursRule(tabsData)) {
+            if (shouldHide48SOA) {
                 filteredTabs = filteredTabs.filter((tab) => tab.name !== "Soa48HoursRule");
             }
             if (tabsData?.length > 0) {
@@ -261,11 +264,6 @@ export default function TaskList({ isMobile, npn }) {
             }
             default:
         }
-    };
-
-    const hasSoa48HoursRule = (tabsData) => {
-        const soa48HoursRuleData = tabsData.find((obj) => obj.name === "Soa48HoursRule");
-        return soa48HoursRuleData && soa48HoursRuleData.count > 0;
     };
 
     const selectedWidgetCount = tabs[statusIndex]?.policyCount;

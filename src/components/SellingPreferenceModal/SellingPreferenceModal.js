@@ -5,10 +5,10 @@ import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";
+import { useAgentAccountContext } from "providers/AgentAccountProvider";
 
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
-import useAgentPreferencesData from "pages/Account/hooks/useAgentPreferencesData";
 
 import Modal from "components/Modal";
 import HealthOption from "components/icons/version-2/HealthOption";
@@ -22,7 +22,7 @@ const HEALTH = "hideHealthQuote";
 
 const SellingPreferenceModal = ({ isOpen, onStartQuoteHandle, onClose }) => {
     const [checked, setChecked] = useState(false);
-    const { leadPreference, isLoading, updateAgentPreferences } = useAgentPreferencesData();
+    const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
     const { agentId } = useUserProfile();
     const showToast = useToast();
 
@@ -53,13 +53,13 @@ const SellingPreferenceModal = ({ isOpen, onStartQuoteHandle, onClose }) => {
     };
 
     useEffect(() => {
-        if (!shouldShowModal && !isLoading && isOpen) {
+        if (!shouldShowModal && isOpen) {
             const currentType = leadPreference?.hideLifeQuote ? HEALTH : LIFE;
             onStartQuoteHandle(currentType);
         }
-    }, [isLoading, isOpen, onStartQuoteHandle, shouldShowModal, leadPreference]);
+    }, [isOpen, onStartQuoteHandle, shouldShowModal, leadPreference]);
 
-    if (!shouldShowModal || isLoading || !isOpen) {
+    if (!shouldShowModal || !isOpen) {
         return <></>;
     }
 

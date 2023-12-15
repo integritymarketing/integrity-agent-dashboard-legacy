@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
+import { useAgentAccountContext } from "providers/AgentAccountProvider";
 
 import { DEFAULT_EFFECTIVE_YEAR } from "utils/dates";
 
 import useFetch from "hooks/useFetch";
-import useAgentPreferencesData from "pages/Account/hooks/useAgentPreferencesData";
 
 import Modal from "components/Modal";
 import WithLoader from "components/ui/WithLoader";
@@ -20,7 +20,7 @@ const HEALTH = "HEALTH";
 export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, postalCode, carrierAndProductData }) => {
     const [carrierProductData, setCarrierProductData] = useState(null);
     const [isLoadingData, setIsLoadingData] = useState(false);
-    const { leadPreference, isLoading } = useAgentPreferencesData();
+    const { leadPreference } = useAgentAccountContext();
     const { Get: fetchCarrierProductData } = useFetch(
         `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`
     );
@@ -57,7 +57,7 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
 
     return (
         <Modal open={modalOpen} onClose={handleClose} title="Recorded Call Script" hideFooter>
-            <WithLoader isLoading={isLoadingData || isLoading}>
+            <WithLoader isLoading={isLoadingData}>
                 <ModalContent
                     carrierCount={carrierCount}
                     productCount={productCount}

@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo } from "react";
 
 import PropTypes from "prop-types";
 
-import useAgentPreferencesData from "../hooks/useAgentPreferencesData";
+import useAgentPreferencesData from "hooks/useAgentPreferencesData";
 
 import Spinner from "components/ui/Spinner/index";
 
