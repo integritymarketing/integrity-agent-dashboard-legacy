@@ -9,24 +9,21 @@ import FinalExpenseContactBar from "./FinalExpenseContactBar";
 import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
 import WithLoader from "components/ui/WithLoader";
 
-const QUOTE_ID = "390e04ef-be95-463d-9b76-46050cbf438c";
-
 export const FinalExpensePlansContainer = () => {
     const { contactId } = useParams();
     const contactFormDataRef = useRef(null);
     const { getLeadDetails, leadDetails, isLoading: isLoadingContactDetails } = useContactDetails(contactId);
-    const { birthdate, gender, weight, height, isTobaccoUser, addresses } = leadDetails;
-
     const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${contactId}`);
     const navigate = useNavigate();
-
+    const { birthdate, gender, weight, height, isTobaccoUser, addresses } = leadDetails;
+    
     useEffect(() => {
         getLeadDetails();
     }, [getLeadDetails]);
 
     const onSave = async (formData) => {
         const leadDetailsNew = { ...leadDetails };
-        const address = { ...leadDetailsNew.addresses[0] };
+        const address = { ...leadDetailsNew.addresses?.[0] };
         const code = JSON.stringify({ stateCode: formData.stateCode });
         sessionStorage.setItem(
             contactId, code);
@@ -57,7 +54,7 @@ export const FinalExpensePlansContainer = () => {
                     contactId={contactId}
                     birthdate={birthdate}
                     sexuality={gender}
-                    address={addresses[0]}
+                    address={addresses?.[0]}
                     wt={weight}
                     hFeet={height ? Math.floor(height / 12) : ""}
                     hInch={height ? height % 12 : ""}
