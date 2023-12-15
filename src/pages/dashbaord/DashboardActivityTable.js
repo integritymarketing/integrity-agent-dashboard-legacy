@@ -547,7 +547,7 @@ export default function DashboardActivityTable({
             <SOAModal id={leadId} openSOAModal={openModal} setOpenSOAModal={setOpenModal} />
             {leadConnectModal && (
                 <ConnectModal
-                    open={leadConnectModal}
+                    isOpen={leadConnectModal}
                     onClose={() => setLeadConnectModal(false)}
                     leadId={leadId}
                     leadDetails={leadDetails}

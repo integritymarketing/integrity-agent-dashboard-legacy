@@ -150,7 +150,7 @@ function ActionsCell({ row, isCard, item }) {
                 </Box>
             </Popover>
             <ConnectModal
-                open={leadConnectModal}
+                isOpen={leadConnectModal}
                 onClose={() => setLeadConnectModal(false)}
                 leadId={leadId}
                 leadDetails={leadDetails}

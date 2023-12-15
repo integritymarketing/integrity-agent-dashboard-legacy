@@ -104,7 +104,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                 </Box>
                 {connectModalVisible && (
                     <ConnectModal
-                        open={connectModalVisible}
+                        isOpen={connectModalVisible}
                         onClose={() => setConnectModalVisible(false)}
                         leadId={leadId}
                         leadDetails={leadDetails}
