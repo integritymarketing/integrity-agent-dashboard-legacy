@@ -1,4 +1,5 @@
 import React from "react";
+
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -70,15 +71,15 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#F1F1F1",
         display: "flex",
         flexDirection: "column",
-        borderBottomLeftRadius: "4px",
-        borderBottomRightRadius: "4px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
     },
 
     footerButtons: {
         backgroundColor: "#F1F1F1",
         borderRadius: "0px 0px 8px 8px",
         borderBotom: "1px solid #CCCCCC",
-
+        alignItems: "center",
         justifyContent: "space-between",
         padding: "20px 24px",
         width: "100%",
@@ -125,6 +126,8 @@ export default function Modal({
     open,
     title,
     maxWidth = "sm",
+    cancelClassName,
+    closeIcon,
 }) {
     const classes = useStyles();
 
@@ -151,11 +154,12 @@ export default function Modal({
                             alignItems: "center",
                             display: "flex",
                             justifyContent: "space-between",
+                            height: "55px",
                         }}
                     >
                         <span>{title}</span>
                         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                            <CloseIcon />
+                            {closeIcon ? closeIcon : <CloseIcon />}
                         </IconButton>
                     </div>
                 </DialogTitle>
@@ -169,7 +173,10 @@ export default function Modal({
                     {!hideFooter && (
                         <Box className={classes.footerButtons}>
                             {onCancel ? (
-                                <Button onClick={onCancel ? onCancel : onClose} className={classes.cancelButton}>
+                                <Button
+                                    onClick={onCancel ? onCancel : onClose}
+                                    className={`${classes.cancelButton} ${cancelClassName}`}
+                                >
                                     {cancelButtonName ? cancelButtonName : "Cancel"}
                                 </Button>
                             ) : (

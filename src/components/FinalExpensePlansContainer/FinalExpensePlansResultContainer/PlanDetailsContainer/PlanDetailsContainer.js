@@ -24,7 +24,7 @@ import styles from "./PlanDetailsContainer.module.scss";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 
-export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPremium }) => {
+export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount, monthlyPremium }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -60,8 +60,8 @@ export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPrem
                     age: Number(age),
                     gender: gender === "Male" ? "M" : "F",
                     tobacco: Boolean(isTobaccoUser),
-                    desiredFaceValue: Number(coverageAmount) || STEPPER_FILTER[COVERAGE_AMOUNT].min,
-                    desiredMonthlyRate: null,
+                    desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
+                    desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
                     coverageTypes: covType || [COVERAGE_TYPE[0].value],
                     effectiveDate: todayDate,
                     underWriting: {
@@ -79,7 +79,7 @@ export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPrem
         };
 
         fetchPlans();
-    }, [leadDetails, coverageType, coverageAmount, monthlyPremium, getFinalExpenseQuotePlans]);
+    }, [leadDetails, selectedTab, coverageType, coverageAmount, monthlyPremium, getFinalExpenseQuotePlans]);
 
     return (
         <WithLoader isLoading={isLoadingFinalExpensePlans}>
@@ -128,6 +128,7 @@ export const PlanDetailsContainer = ({ coverageType, coverageAmount, monthlyPrem
 };
 
 PlanDetailsContainer.propTypes = {
+    selectedTab: PropTypes.string.isRequired,
     coverageType: PropTypes.string.isRequired,
     coverageAmount: PropTypes.string.isRequired,
     monthlyPremium: PropTypes.string.isRequired,
