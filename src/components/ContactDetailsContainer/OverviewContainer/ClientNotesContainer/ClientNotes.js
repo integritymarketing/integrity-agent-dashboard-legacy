@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
+import { styled } from "@mui/system";
 import TextField from '@mui/material/TextField';
 import ContactSectionCard from 'packages/ContactSectionCard';
 import { Button } from 'components/ui/Button';
@@ -12,6 +13,13 @@ export const ClientNotes = () => {
   const [notes, setNotes] = useState('');
   const [tempNotes, setTempNotes] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+
+  const CustomTextField = styled(TextField)({
+  '& .MuiOutlinedInput-input.Mui-disabled': {
+    opacity: 1,
+    WebkitTextFillColor: '#434a51',
+  },
+});
 
   useEffect(() => {
     if (leadDetails) {
@@ -45,7 +53,7 @@ export const ClientNotes = () => {
             md: '80%',
           },
         }} >
-          <TextField
+          <CustomTextField
             id="outlined-basic"
             placeholder="Add a note"
             variant="outlined"
