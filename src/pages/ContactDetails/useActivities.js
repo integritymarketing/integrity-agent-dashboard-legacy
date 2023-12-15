@@ -10,7 +10,7 @@ const useActivities = ({ getLeadDetails }) => {
   const showToast = useToast();
   const { leadId: leadsId } = useParams();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
-  const [activities, leadFullName] = useRecoilValue(
+  const [activities, leadFullName, activitiesLength] = useRecoilValue(
     state.selectors.contactLeadActivitiesSelector
   );
 
@@ -216,6 +216,7 @@ const useActivities = ({ getLeadDetails }) => {
     onActivityClick,
     handleAddActivtyNotes,
     onResetFilter,
+    activitiesLength,
   };
 };
 

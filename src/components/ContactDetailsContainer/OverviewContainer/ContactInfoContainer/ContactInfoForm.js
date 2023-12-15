@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 
-import { formatDate } from "utils/dates";
+import { formatDate, getLocalDateTime } from "utils/dates";
 import { primaryContactOptions } from "utils/primaryContact";
 
 import DatePickerMUI from "components/DatePicker";
@@ -36,7 +36,7 @@ import { ArrowForwardWithCircle } from "../Icons";
 
 
 function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
-    const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+    const { leadDetails, } = useLeadDetails();
 
 
     let {
@@ -461,7 +461,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
 
                                     </StyledFormItem>
                                     <Box className={styles.horizontalLayout} display="flex" justifyContent={"space-between"} gap="10px">
-                                        <StyledFormItem style={{ width: "60%" }}>
+                                        <StyledFormItem  >
                                             <Textfield
                                                 id="contact-address__zip"
                                                 className={`${styles["contact-address--zip"]} custom-address-zip hide-field-error`}
@@ -492,7 +492,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 </ul>
                                             )}
                                         </StyledFormItem>
-                                        <StyledFormItem style={{ width: "30%" }}>
+                                        <StyledFormItem  >
                                             <Select
                                                 placeholder="select"
                                                 showValueAsLabel={true}
@@ -616,7 +616,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                 marginTop: "20px",
                             }}
                         >
-                            <Label value={`Created Date: ${leadDetails?.leadCreatedDate}`} color="#717171" size="14px" />
+                            <Label value={`Created Date: ${getLocalDateTime(leadDetails?.createDate)?.fullDate}`} color="#717171" size="14px" />
                         </Box>
                         <Box className={styles.buttonContainer}>
                             <Button

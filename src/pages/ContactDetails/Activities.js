@@ -38,6 +38,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
     handleAddActivtyNotes,
     onActivityClick,
     onResetFilter,
+    activitiesLength
   } = useActivities({ getLeadDetails });
 
   const ACTIVE_FILTER = filterValues.filter((item) => item.selected);
@@ -95,7 +96,7 @@ const Activities = ({ getLeadDetails, leadId, personalInfo, setDisplay }) => {
 
         <ContactSectionCard
           title="Activities"
-          infoIcon={`(${activities?.length})`}
+          infoIcon={`(${activitiesLength})`}
           className={styles.activitiesContainer}
 
           contentClassName={styles.activitiesContainer_content}

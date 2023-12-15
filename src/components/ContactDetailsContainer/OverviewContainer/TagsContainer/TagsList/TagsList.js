@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, } from 'react'
 import styles from './TagsList.module.scss'
-import { Chevron, Delete, Info, LeadCenter, PlanEnroll, DataCenter, LifeIcon, CrossIcon, Complete } from '../../Icons'
+import { Chevron, Delete, LeadCenter, PlanEnroll, DataCenter, LifeIcon, CrossIcon, } from '../../Icons'
 import Label from '../../CommonComponents/Label'
 import EditIcon from "components/icons/icon-edit";
 import RecommendationIcon from "images/recommendation.png";
@@ -12,6 +12,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useOverView } from "providers/ContactDetails";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
+import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
 
 
 const getIconName = (label, itemLabel) => {
@@ -150,6 +151,8 @@ export const TagsList = (
     }) => {
 
     const { removeLeadTags, editTagByID, createNewTag } = useOverView();
+    const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
+    const [tagToDelete, setTagToDelete] = useState(null);
 
 
     const [open, setOpen] = useState(false);
@@ -185,9 +188,14 @@ export const TagsList = (
         }
     }
 
+    const openDeleteTagModal = (tagId) => {
+        setTagToDelete(tagId);
+        setIsDeleteTagModalOpen(true);
+    };
 
-    const deleteTags = (tagId) => {
-        removeLeadTags(tagId)
+    const deleteTags = () => {
+        removeLeadTags(tagToDelete);
+        setIsDeleteTagModalOpen(false);
     }
 
     const updateTag = () => {
@@ -260,7 +268,7 @@ export const TagsList = (
                                     editCancel={editCancel}
                                     updateTag={updateTag}
                                     onSelectTag={onSelectTag}
-                                    deleteTags={deleteTags}
+                                    deleteTags={openDeleteTagModal}
                                     editTag={editTag}
                                     label={label}
                                     selectedTags={selectedTags}
@@ -287,6 +295,13 @@ export const TagsList = (
                     />
                 </Box>
             }
+            {isDeleteTagModalOpen && (
+                <DeleteTagModal
+                    open={isDeleteTagModalOpen}
+                    onClose={() => setIsDeleteTagModalOpen(false)}
+                    onConfirm={deleteTags}
+                />
+            )}
         </div >
     )
 }

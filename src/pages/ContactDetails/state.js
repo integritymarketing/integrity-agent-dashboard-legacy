@@ -74,6 +74,7 @@ const contactLeadActivitiesSelector = selector({
     }));
 
     const leadFullName = `${contactDetails.firstName} ${contactDetails.lastName}`;
+    const activitiesLength = activities?.length;
 
     const filteredActivities = activities.filter((rec) => {
       if (applyFilter) {
@@ -100,7 +101,7 @@ const contactLeadActivitiesSelector = selector({
       });
     }
 
-    return [sortedActivities.splice(0, pageLimit), leadFullName];
+    return [sortedActivities.splice(0, pageLimit), leadFullName, activitiesLength];
   },
 });
 

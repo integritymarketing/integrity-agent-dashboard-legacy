@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import calculateAgeFromBirthdate from "utils/calculateAgeFromBirthdate";
-import { formatDate } from "utils/dates";
+import { formatDate, getLocalDateTime } from "utils/dates";
 import { formatPhoneNumber } from "utils/phones";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
 
@@ -112,7 +112,7 @@ export const ContactInfoContainer = () => {
     }, [contactPreferences]);
 
     const leadCreatedDate = useMemo(() => {
-        return createDate ? formatDate(createDate, "MM-dd-yyyy") : NOT_AVAILABLE;
+        return createDate ? getLocalDateTime(createDate)?.fullDate : NOT_AVAILABLE;
     }, [leadDetails]);
 
     const leadData = {
