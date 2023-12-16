@@ -1,36 +1,45 @@
-import React, { useContext, useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import { Link, useNavigate } from "react-router-dom";
-import AuthContext from "contexts/auth";
+import React, { useContext, useEffect, useState } from "react";
 import Media from "react-media";
-import LargeFormatMenu from "./large-format";
-import SmallFormatMenu from "./small-format";
-import Logo from "partials/logo";
-import MyButton from "./MyButton";
-import Modal from "components/ui/modal";
-import ContactInfo from "partials/contact-info";
-import Logout from "./Logout.svg";
-import Account from "./Account.svg";
-import NeedHelp from "./Needhelp.svg";
-import NewBackBtn from "images/new-back-btn.svg";
-import clientService from "services/clientsService";
-import "./index.scss";
-import analyticsService from "services/analyticsService";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useSetRecoilState } from "recoil";
+import { welcomeModalOpenAtom } from "recoil/agent/atoms";
+
+import { useAgentAvailability } from "hooks/useAgentAvailability";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import useLoading from "hooks/useLoading";
 import useToast from "hooks/useToast";
+import useUserProfile from "hooks/useUserProfile";
+
 import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
+
+import Modal from "components/ui/modal";
+
+import ContactInfo from "partials/contact-info";
+import Logo from "partials/logo";
+
+import AuthContext from "contexts/auth";
+
+import analyticsService from "services/analyticsService";
 import authService from "services/authService";
+import clientService from "services/clientsService";
 import validationService from "services/validationService";
-import useLoading from "hooks/useLoading";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
-import { useSetRecoilState } from "recoil";
-import { useAgentAvailability } from "hooks/useAgentAvailability";
-import MobileHome from "./assets/icons-Home.svg";
-import MobileContacts from "./assets/icons-Contacts.svg";
-import MobileLogout from "./assets/icons-Logout.svg";
+
+import Account from "./Account.svg";
+import Logout from "./Logout.svg";
+import MyButton from "./MyButton";
+import NeedHelp from "./Needhelp.svg";
 import MobileAccount from "./assets/icons-Account.svg";
-import useAgentInformationByID from "hooks/useAgentInformationByID";
-import useUserProfile from "hooks/useUserProfile";
+import MobileContacts from "./assets/icons-Contacts.svg";
+import MobileHome from "./assets/icons-Home.svg";
+import MobileLogout from "./assets/icons-Logout.svg";
+import "./index.scss";
+import LargeFormatMenu from "./large-format";
+import SmallFormatMenu from "./small-format";
+
+import NewBackBtn from "images/new-back-btn.svg";
 
 const handleCSGSSO = async (navigate, loading) => {
     loading.begin(0);
@@ -111,12 +120,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const user = useUserProfile();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
 
-    const medicareAppLabel = () => (
-        <div className="medicareAPP">
-            <div>MedicareAPP</div>
-            <div className="labelSubtext">(2023/2024)</div>
-        </div>
-    );
     const { agentInformation, getAgentAvailability } = useAgentInformationByID();
     const leadPreference = agentInformation?.leadPreference;
     useEffect(() => setIsAvailable(agentInformation?.isAvailable), [setIsAvailable, agentInformation?.isAvailable]);
@@ -128,92 +131,69 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         },
         auth.isAuthenticated() && !menuHidden
             ? {
-                primary: [
-                    {
-                        component: Link,
-                        props: {
-                            to: "/dashboard",
-                            className: analyticsService.clickClass("dashbaord-header"),
-                        },
-                        label: "Dashboard",
-                        img: MobileHome,
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/contacts",
-                            className: analyticsService.clickClass("contacts-header"),
-                        },
-                        label: "Contacts",
-                        img: MobileContacts,
-                    },
-                    {
-                        component: Link,
-                        props: { to: "/account" },
-                        label: "Account",
-                        img: MobileAccount,
-                    },
-                ],
-                secondary: [
-                    {
-                        component: Link,
-                        props: {
-                            to: "/help",
-                        },
-                        label: "Need Help?",
-                        img: NeedHelp,
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                handleCSGSSO(navigate, loadingHook);
-                            },
-                        },
-                        label: "CSG App",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
-                            },
-                        },
-                        label: "MedicareLink",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(
-                                    process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin/2023",
-                                    "_blank"
-                                );
-                            },
-                        },
-                        label: medicareAppLabel(),
-                    },
-                ],
-                tertiary: [
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => auth.logout(),
-                        },
-                        label: "Sign Out",
-                        img: MobileLogout,
-                    },
-                ],
-            }
+                  primary: [
+                      {
+                          component: Link,
+                          props: {
+                              to: "/dashboard",
+                              className: analyticsService.clickClass("dashbaord-header"),
+                          },
+                          label: "Dashboard",
+                          img: MobileHome,
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/contacts",
+                              className: analyticsService.clickClass("contacts-header"),
+                          },
+                          label: "Contacts",
+                          img: MobileContacts,
+                      },
+                      {
+                          component: Link,
+                          props: { to: "/account" },
+                          label: "Account",
+                          img: MobileAccount,
+                      },
+                  ],
+                  secondary: [
+                      {
+                          component: Link,
+                          props: {
+                              to: "/help",
+                          },
+                          label: "Need Help?",
+                          img: NeedHelp,
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => {
+                                  handleCSGSSO(navigate, loadingHook);
+                              },
+                          },
+                          label: "CSG App",
+                      },
+                  ],
+                  tertiary: [
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => auth.logout(),
+                          },
+                          label: "Sign Out",
+                          img: MobileLogout,
+                      },
+                  ],
+              }
             : {
-                primary: [],
-                secondary: [],
-                tertiary: [],
-            }
+                  primary: [],
+                  secondary: [],
+                  tertiary: [],
+              }
     );
 
     const menuProps = Object.assign(
@@ -223,104 +203,81 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         },
         auth.isAuthenticated() && !menuHidden
             ? {
-                primary: [
-                    {
-                        component: Link,
-                        props: {
-                            to: "/dashboard",
-                            className: analyticsService.clickClass("dashbaord-header"),
-                        },
-                        label: "Dashboard",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/contacts",
-                            className: analyticsService.clickClass("contacts-header"),
-                        },
-                        label: "Contacts",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/learning-center",
-                            className: analyticsService.clickClass("learningcenter-header"),
-                        },
-                        label: "Learning Center",
-                    },
-                ],
-                secondary: [
-                    {
-                        component: Link,
-                        props: { to: "/account" },
-                        label: "Account",
-                        img: Account,
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () =>
-                                window.open(`/leadcenter-redirect/${agentInformation?.agentNPN}`, "_blank"),
-                        },
-                        label: "LeadCENTER",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(
-                                    process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin/2023",
-                                    "_blank"
-                                );
-                            },
-                        },
-                        label: medicareAppLabel(),
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
-                            },
-                        },
-                        label: "MedicareLINK",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                handleCSGSSO(navigate, loadingHook);
-                            },
-                        },
-                        label: "CSG APP",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/help",
-                        },
-                        label: "Need Help?",
-                        img: NeedHelp,
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => auth.logout(),
-                        },
-                        label: "Sign Out",
-                        img: Logout,
-                    },
-                ],
-            }
+                  primary: [
+                      {
+                          component: Link,
+                          props: {
+                              to: "/dashboard",
+                              className: analyticsService.clickClass("dashbaord-header"),
+                          },
+                          label: "Dashboard",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/contacts",
+                              className: analyticsService.clickClass("contacts-header"),
+                          },
+                          label: "Contacts",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/learning-center",
+                              className: analyticsService.clickClass("learningcenter-header"),
+                          },
+                          label: "Learning Center",
+                      },
+                  ],
+                  secondary: [
+                      {
+                          component: Link,
+                          props: { to: "/account" },
+                          label: "Account",
+                          img: Account,
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () =>
+                                  window.open(`/leadcenter-redirect/${agentInformation?.agentNPN}`, "_blank"),
+                          },
+                          label: "LeadCENTER",
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => {
+                                  handleCSGSSO(navigate, loadingHook);
+                              },
+                          },
+                          label: "CSG APP",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/help",
+                          },
+                          label: "Need Help?",
+                          img: NeedHelp,
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => auth.logout(),
+                          },
+                          label: "Sign Out",
+                          img: Logout,
+                      },
+                  ],
+              }
             : {
-                primary: [],
-                secondary: [],
-            }
+                  primary: [],
+                  secondary: [],
+              }
     );
 
     useEffect(() => {
