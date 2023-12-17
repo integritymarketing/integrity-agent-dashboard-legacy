@@ -40,11 +40,6 @@ export const FinalExpensePlansContainer = () => {
         navigate(`/finalexpenses/healthconditions/${contactId}`);
     };
 
-    const renderPlanCardLoaders = useMemo(() => {
-        const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
-        return loaders;
-    }, []);
-
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
 
     return (

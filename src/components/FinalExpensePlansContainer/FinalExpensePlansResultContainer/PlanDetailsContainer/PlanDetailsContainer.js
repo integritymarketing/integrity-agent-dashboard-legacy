@@ -15,11 +15,9 @@ import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
-import { STEPPER_FILTER } from "components/FinalExpensePlansContainer/FinalexpensePlanOptioncard/FinalexpensePlanOptioncard.constants";
 import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import PlanCardLoader from "components/ui/PlanCard/loader";
-import WithLoader from "components/ui/WithLoader";
 
 import useContactDetails from "pages/ContactDetails/useContactDetails";
 

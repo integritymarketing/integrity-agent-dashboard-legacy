@@ -35,7 +35,7 @@ const FinalExpensePlansResultContainer = ({}) => {
     const [coverageAmount, setCoverageAmount] = useState(DEFAULT_COVERAGE_AMOUNT);
     const [monthlyPremiumAmount, setMonthlyPremiumAmount] = useState(STEPPER_FILTER[MONTHLY_PREMIUM].min);
     const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[4].value);
-    const { getLeadDetails, leadDetails } = useLeadDetails();
+    const { getLeadDetails } = useLeadDetails();
     const [isMyAppointedProducts, setIsMyAppointedProducts] = useState(false);
     const [isShowExcludedProducts, setIsShowExcludedProducts] = useState(false);
 

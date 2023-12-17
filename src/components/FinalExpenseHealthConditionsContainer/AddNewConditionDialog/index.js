@@ -17,7 +17,6 @@ import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import RadioChecked from "components/icons/radio-checked";
 import RadioUnchecked from "components/icons/radio-unchecked";
 import SearchBlue from "components/icons/version-2/SearchBlue";
-import Radio from "components/ui/Radio";
 import Textfield from "components/ui/textfield";
 
 import clientsService from "services/clientsService";
@@ -156,7 +155,7 @@ const AddNewConditionDialog = ({
             if (disableLastTreatmentDate) {
                 handleOnClose();
             } else if (selectedCondition.hasLookBackPeriod) {
-                setModalStep(1);
+                handleOnClose();
             } else {
                 setModalStep(2);
             }
