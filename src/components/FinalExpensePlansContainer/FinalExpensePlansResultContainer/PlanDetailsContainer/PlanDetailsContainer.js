@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { useFinalExpensePlans } from "providers/FinalExpense";
 
-import { formatDate, getAgeFromBirthDate } from "utils/dates";
+import { formatDate, formatServerDate, getAgeFromBirthDate } from "utils/dates";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
 
+import useFetch from "hooks/useFetch";
+
+import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
 import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE,
@@ -15,6 +18,7 @@ import {
 import { STEPPER_FILTER } from "components/FinalExpensePlansContainer/FinalexpensePlanOptioncard/FinalexpensePlanOptioncard.constants";
 import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
+import PlanCardLoader from "components/ui/PlanCard/loader";
 import WithLoader from "components/ui/WithLoader";
 
 import useContactDetails from "pages/ContactDetails/useContactDetails";
@@ -29,10 +33,28 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
     const [pagedResults, setPagedResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const { contactId } = useParams();
+    const healthConditionsDataRef = useRef(null);
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
+    const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
     const { leadDetails } = useContactDetails(contactId);
+
+    const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
+
+    useEffect(() => {
+        const fetchHealthConditionsListData = async () => {
+            const resp = await getHealthConditions();
+            if (resp) {
+                healthConditionsDataRef.current = [...resp];
+                setIsLoadingHealthConditions(false);
+            }
+        };
+        if (!healthConditionsDataRef.current) {
+            fetchHealthConditionsListData();
+        }
+    }, []);
+
     const pageSize = 10;
 
     useEffect(() => {
@@ -55,6 +77,20 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                 const code = sessionStorage.getItem(contactId)
                     ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
                     : addresses[0]?.stateCode;
+
+                const conditions = [];
+                if (!healthConditionsDataRef.current || healthConditionsDataRef.current.length === 0) {
+                    conditions.push({ categoryId: 0, lastTreatmentDate: todayDate });
+                } else {
+                    healthConditionsDataRef.current.forEach((condition) => {
+                        conditions.push({
+                            categoryId: condition.conditionId,
+                            lastTreatmentDate: condition.lastTreatmentDate
+                                ? formatServerDate(condition.lastTreatmentDate)
+                                : todayDate,
+                        });
+                    });
+                }
                 const quotePlansPostBody = {
                     usState: code,
                     age: Number(age),
@@ -66,7 +102,7 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                     effectiveDate: todayDate,
                     underWriting: {
                         user: { height: height || 0, weight: weight || 0 },
-                        conditions: [{ categoryId: 0, lastTreatmentDate: todayDate }],
+                        conditions,
                     },
                 };
 
@@ -77,12 +113,26 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                 console.error("Error fetching plans:", error);
             }
         };
+        if (!isLoadingHealthConditions) {
+            fetchPlans();
+        }
+    }, [
+        leadDetails,
+        isLoadingHealthConditions,
+        selectedTab,
+        coverageType,
+        coverageAmount,
+        monthlyPremium,
+        getFinalExpenseQuotePlans,
+    ]);
 
-        fetchPlans();
-    }, [leadDetails, selectedTab, coverageType, coverageAmount, monthlyPremium, getFinalExpenseQuotePlans]);
+    const loadersCards = useMemo(() => {
+        const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
+        return <div className={styles.loadersContainer}>{loaders}</div>;
+    }, []);
 
     return (
-        <WithLoader isLoading={isLoadingFinalExpensePlans}>
+        <>
             <Media
                 query={"(max-width: 1130px)"}
                 onChange={(isMobile) => {
@@ -91,28 +141,30 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
             />
             <div className={styles.planContainer}>
                 <PersonalisedQuoteBox />
-                {pagedResults.map((plan, index) => {
-                    const {
-                        carrier: { name, logoUrl },
-                        coverageType,
-                        faceValue,
-                        modalRates,
-                        policyFee,
-                    } = plan;
-                    const monthlyRate = modalRates.find((rate) => rate.type === "month")?.rate || 0;
-                    return (
-                        <PlanCard
-                            key={`${name}-${index}`}
-                            isMobile={isMobile}
-                            planName={name}
-                            logoUrl={logoUrl}
-                            coverageType={coverageType}
-                            coverageAmount={faceValue}
-                            monthlyPremium={monthlyRate}
-                            policyFee={policyFee}
-                        />
-                    );
-                })}
+                {!isLoadingFinalExpensePlans &&
+                    pagedResults.map((plan, index) => {
+                        const {
+                            carrier: { name, logoUrl },
+                            coverageType,
+                            faceValue,
+                            modalRates,
+                            policyFee,
+                        } = plan;
+                        const monthlyRate = modalRates.find((rate) => rate.type === "month")?.rate || 0;
+                        return (
+                            <PlanCard
+                                key={`${name}-${index}`}
+                                isMobile={isMobile}
+                                planName={name}
+                                logoUrl={logoUrl}
+                                coverageType={coverageType}
+                                coverageAmount={faceValue}
+                                monthlyPremium={monthlyRate}
+                                policyFee={policyFee}
+                            />
+                        );
+                    })}
+                {isLoadingFinalExpensePlans && loadersCards}
                 <BackToTop />
                 <Pagination
                     currentPage={currentPage}
@@ -123,7 +175,7 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                     onPageChange={(page) => setCurrentPage(page)}
                 />
             </div>
-        </WithLoader>
+        </>
     );
 };
 

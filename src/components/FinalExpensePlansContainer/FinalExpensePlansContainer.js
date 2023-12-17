@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 import useFetch from "hooks/useFetch";
+
 import { UPDATE_LEAD_DETAILS } from "components/AddZipContainer/AddZipContainer.constants";
 import PlanCardLoader from "components/ui/PlanCard/loader";
+import WithLoader from "components/ui/WithLoader";
+
 import useContactDetails from "pages/ContactDetails/useContactDetails";
+
 import FinalExpenseContactBar from "./FinalExpenseContactBar";
 import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
-import WithLoader from "components/ui/WithLoader";
 
 export const FinalExpensePlansContainer = () => {
     const { contactId } = useParams();
@@ -16,7 +20,7 @@ export const FinalExpensePlansContainer = () => {
     const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${contactId}`);
     const navigate = useNavigate();
     const { birthdate, gender, weight, height, isTobaccoUser, addresses } = leadDetails;
-    
+
     useEffect(() => {
         getLeadDetails();
     }, [getLeadDetails]);
@@ -25,8 +29,7 @@ export const FinalExpensePlansContainer = () => {
         const leadDetailsNew = { ...leadDetails };
         const address = { ...leadDetailsNew.addresses?.[0] };
         const code = JSON.stringify({ stateCode: formData.stateCode });
-        sessionStorage.setItem(
-            contactId, code);
+        sessionStorage.setItem(contactId, code);
         await updateLeadData({
             ...leadDetailsNew,
             addresses: [address],
@@ -34,7 +37,7 @@ export const FinalExpensePlansContainer = () => {
         });
         await getLeadDetails();
         contactFormDataRef.current = { ...formData };
-        navigate(`/finalexpenses/plans/${contactId}`);
+        navigate(`/finalexpenses/healthconditions/${contactId}`);
     };
 
     const renderPlanCardLoaders = useMemo(() => {
@@ -63,5 +66,5 @@ export const FinalExpensePlansContainer = () => {
                 />
             )}
         </WithLoader>
-    )
-}
+    );
+};

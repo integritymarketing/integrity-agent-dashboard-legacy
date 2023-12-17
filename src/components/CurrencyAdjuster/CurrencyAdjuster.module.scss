@@ -1,3 +1,5 @@
+@import "src/scss/globalDefines.scss";
+
 .amountStepperWrapper {
     font-size: 16px;
     color: #717171;
@@ -32,5 +34,11 @@
         text-align: center;
         font-size: 20px;
         color: #052a63;
+    }
+}
+
+@include small {
+    .amountStepperWrapper {
+        width: 100%;
     }
 }

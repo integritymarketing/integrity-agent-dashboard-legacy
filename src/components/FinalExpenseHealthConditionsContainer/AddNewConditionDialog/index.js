@@ -343,8 +343,8 @@ const AddNewConditionDialog = ({
                 }
                 open={open}
                 dialogContentClassName={styles.dialogContent}
-                onClose={() => resetState()}
-                onCancel={() => resetState()}
+                onClose={handleOnClose}
+                onCancel={handleOnClose}
                 hideFooter={modalStep === 2}
                 title={
                     <div className={styles.subHeading}>
