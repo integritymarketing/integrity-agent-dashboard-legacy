@@ -158,7 +158,7 @@ const AddNewConditionDialog = ({
             } else {
                 setModalStep(1);
             }
-        } else if (selectedCondition && modalStep === 1) {
+        } else if (selectedCondition) {
             await saveToAPI();
             handleOnClose();
         }
