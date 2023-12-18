@@ -298,16 +298,20 @@ const NewContactForm = ({
             }) => {
                 let primaryCommunicationStatus = false;
                 if (
-                    !errors.phones?.leadPhone &&
-                    touched.phones?.leadPhone &&
-                    touched.email &&
-                    !errors.email &&
-                    values.email !== "" &&
-                    values.phones?.leadPhone !== "" &&
-                    values.primaryCommunication === ""
+                    ((!errors.phones?.leadPhone &&
+                        touched.phones?.leadPhone &&
+                        values.phones?.leadPhone !== "")
+                        ||
+                        (touched.email &&
+                            !errors.email &&
+                            values.email !== "")) &&
+
+                    values.primaryCommunication !== ""
                 ) {
-                    primaryCommunicationStatus = true;
+                    // setFieldValue("primaryCommunication", values.primaryCommunication);
+                    primaryCommunicationStatus = false;
                 }
+
                 const countyName = allCounties[0]?.value;
                 const countyFipsName = allCounties[0]?.key;
                 const stateCodeName = allStates[0]?.value;

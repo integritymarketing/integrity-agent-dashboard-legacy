@@ -404,8 +404,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         <Textfield
                                             id="contact-address"
                                             className={`${styles["contact-address"]} hide-field-error`}
-                                            label="Address"
-                                            placeholder={"Enter address"}
+                                            placeholder={"Address Line 1"}
                                             name="address.address1"
                                             value={values.address.address1}
                                             onChange={handleChange}
@@ -445,6 +444,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         <Textfield
                                             id="contact-address__city"
                                             className={`${styles["contact-address--city"]}  hide-field-error`}
+                                            placeholder={"Enter City"}
                                             name="address.city"
                                             value={values.address.city}
                                             onChange={handleChange}
@@ -467,6 +467,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 className={`${styles["contact-address--zip"]} custom-address-zip hide-field-error`}
                                                 label=""
                                                 name="address.postalCode"
+                                                placeholder="Zip Code"
                                                 value={values.address.postalCode}
                                                 inputprops={{ maxLength: 5 }}
                                                 onChange={(e) => {
@@ -484,17 +485,11 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 }}
                                                 error={errors.address?.postalCode ? true : false}
                                             />
-                                            {errors.address?.postalCode && (
-                                                <ul className="details-edit-custom-error-msg">
-                                                    <li className="error-msg-red zip-code-error-msg">
-                                                        {errors.address?.postalCode}
-                                                    </li>
-                                                </ul>
-                                            )}
+
                                         </StyledFormItem>
                                         <StyledFormItem  >
                                             <Select
-                                                placeholder="select"
+                                                placeholder="State"
                                                 showValueAsLabel={true}
                                                 className={`${styles["contact-address--statecode"]} `}
                                                 disabled={true}
@@ -513,9 +508,16 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             />
                                         </StyledFormItem>
                                     </Box>
-                                    <StyledFormItem style={{ width: "100%" }}>
+                                    {errors.address?.postalCode && (
+                                        <ul className="details-edit-custom-error-msg">
+                                            <li className="error-msg-red zip-code-error-msg">
+                                                {errors.address?.postalCode}
+                                            </li>
+                                        </ul>
+                                    )}
+                                    <StyledFormItem style={{ width: "100%", marginTop: "10px" }}>
                                         <Select
-                                            placeholder="select"
+                                            placeholder="Select County"
                                             className={`${styles["contact-address--statecode"]} `}
                                             options={allCounties}
                                             initialValue={values.address.county}

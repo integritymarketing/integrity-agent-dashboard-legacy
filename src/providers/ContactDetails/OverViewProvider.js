@@ -130,7 +130,7 @@ export const OverViewProvider = ({ children }) => {
     const removeReminder = async (id, leadId) => {
         const path = `Reminders/${id}`
         await performAsyncOperation(
-            () => deleteReminder(null, false, path),
+            () => deleteReminder(null, true, path),
             () => { },
             async () => {
                 await getReminders(leadId);

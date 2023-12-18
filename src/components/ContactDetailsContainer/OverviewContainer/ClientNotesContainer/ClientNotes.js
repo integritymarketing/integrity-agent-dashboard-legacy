@@ -8,18 +8,38 @@ import EditIcon from 'components/icons/icon-edit';
 import styles from './ClientNotes.module.scss';
 import { useLeadDetails } from 'providers/ContactDetails';
 
+
+const CustomTextField = styled(TextField)({
+  '& .MuiOutlinedInput-input.Mui-disabled': {
+    opacity: 1,
+    WebkitTextFillColor: '#434a51',
+  },
+});
+
+const ClientNotesField = ({ notes, setNotes, isEditing }) => {
+
+  return (
+    <CustomTextField
+      id="outlined-basic"
+      placeholder="Add a note"
+      variant="outlined"
+      value={notes}
+      fullWidth
+      onChange={(e) => setNotes(e.target.value)}
+      multiline
+      rows={3}
+      disabled={!isEditing}
+    />
+  );
+};
+
 export const ClientNotes = () => {
   const { leadDetails, updateClientNotes } = useLeadDetails();
   const [notes, setNotes] = useState('');
   const [tempNotes, setTempNotes] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
-  const CustomTextField = styled(TextField)({
-  '& .MuiOutlinedInput-input.Mui-disabled': {
-    opacity: 1,
-    WebkitTextFillColor: '#434a51',
-  },
-});
+
 
   useEffect(() => {
     if (leadDetails) {
@@ -47,23 +67,16 @@ export const ClientNotes = () => {
       contentClassName={styles.clientNotesContainer_content}
     >
       <Box className={styles.noteInputContainer}>
-        <Box sx={{ 
+        <Box sx={{
           width: {
             sm: '100%',
             md: '80%',
           },
         }} >
-          <CustomTextField
-            id="outlined-basic"
-            placeholder="Add a note"
-            variant="outlined"
-            value={notes}
-            fullWidth
-            onChange={(e) => setNotes(e.target.value || '')}
-            multiline
-            rows={3}
-            className={styles.notes}
-            disabled={!isEditing}
+          <ClientNotesField
+            notes={notes}
+            setNotes={setNotes}
+            isEditing={isEditing}
           />
         </Box>
         <Box width="20%" className={styles.buttonContainer}>

@@ -152,7 +152,7 @@ export const LeadDetailsProvider = ({ children }) => {
 
   const removeContact = async (leadId, callBack) => {
     await performAsyncOperation(
-      () => deleteContact(null, false, leadId),
+      () => deleteContact(null, true, leadId),
       () => { },
       () => {
         callBack();

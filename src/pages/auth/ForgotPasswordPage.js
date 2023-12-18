@@ -30,7 +30,6 @@ const ForgotPasswordpage = () => {
         true
     );
 
-    console.log("clientId", clientId);
 
     useEffect(() => {
         analyticsService.fireEvent("event-content-load", {

@@ -34,10 +34,10 @@ export const RemindersList = () => {
             ...payload,
             leadsId: leadId,
         };
-        console.log("saveReminder", payload)
 
         addReminder(addPayload, leadId);
         setIsAddNewModalOpen(false);
+        setSelectedReminder(null);
     };
 
     const updateReminder = (payload, isComplete = false) => {
@@ -49,6 +49,7 @@ export const RemindersList = () => {
         };
         editReminder(addPayload);
         setIsAddNewModalOpen(false);
+        setSelectedReminder(null);
     };
 
     const deleteReminder = (id) => {

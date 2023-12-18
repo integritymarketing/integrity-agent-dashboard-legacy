@@ -16,7 +16,7 @@ export const DuplicateContactsProvider = ({ children }) => {
 
     const leadsApiUrl = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads`;
 
-    const { Get: fetchLeadDetails, loading: isLoadingLeadDetails, error: leadDetailsError, Put: editLeadDetails, Delete: deleteContact } = useFetch(leadsApiUrl);
+    const { Get: fetchLeadDetails, loading: isLoadingLeadDetails, error: leadDetailsError, } = useFetch(leadsApiUrl);
 
 
 
