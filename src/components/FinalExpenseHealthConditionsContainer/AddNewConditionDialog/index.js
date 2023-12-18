@@ -150,16 +150,16 @@ const AddNewConditionDialog = ({
         setIsSavingToServer(false);
     };
 
-    const handleOnSave = () => {
+    const handleOnSave = async () => {
         if (selectedCondition && modalStep === 0) {
-            if (disableLastTreatmentDate) {
-                handleOnClose();
-            } else if (selectedCondition.hasLookBackPeriod) {
+            if (disableLastTreatmentDate || !selectedCondition.hasLookBackPeriod) {
+                await saveToAPI();
                 handleOnClose();
             } else {
-                setModalStep(2);
+                setModalStep(1);
             }
-        } else if (modalStep === 1) {
+        } else if (selectedCondition && modalStep === 1) {
+            await saveToAPI();
             handleOnClose();
         }
     };
@@ -192,9 +192,10 @@ const AddNewConditionDialog = ({
         setIsDeletingFromServer(false);
         resetState();
     };
-
     const handleOnClose = async () => {
-        await saveToAPI();
+        if (modalStep === 1 && selectedCondition?.hasLookBackPeriod) {
+            await saveToAPI();
+        }
         resetState();
     };
 
