@@ -1,8 +1,8 @@
 {
   "featured": [
-    "MedicareCENTER Policy Management User Guide",
-    "MedicareCENTER Training Schedule",
-    "MedicareCENTER's Video Training Hub"
+    "Integrity Clients Policy Management User Guide",
+    "Integrity Clients Training Schedule",
+    "Integrity Client's Video Training Hub"
   ],
   "categories": [
     {
@@ -56,43 +56,43 @@
       "filename": "MedicareCENTER-GTL-Guide.pdf"
     },
     {
-      "name": "MedicareCENTER's Video Training Hub",
+      "name": "Integrity Client's Video Training Hub",
       "description": "Check out our latest video tutorials from our team of experts. ",
       "categories": ["tech-guides"],
       "filename": "https://vimeo.com/medicarecenter"
     },
     {
-      "name": "MedicareCENTER Call Recording User Guide",
-      "description": "Learn how to receive and make recorded calls using MedicareCENTER's Call Recording feature in Contact Management.",
+      "name": "Integrity Clients Call Recording User Guide",
+      "description": "Learn how to receive and make recorded calls using Integrity Client's Call Recording feature in Contact Management.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Call-Recording-User-Guide.pdf"
     },
     {
-      "name": "MedicareCENTER Call Recording FAQs",
+      "name": "Integrity Clients Call Recording FAQs",
       "description": "Get up to speed and ready to use Call Recording with answers to the most frequently asked questions about Call Recording in Contact Management.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Call-Recording-FAQs.pdf"
     },
     {
-      "name": "MedicareCENTER Mobile App FAQs",
-      "description": "Get the answers to Frequently Asked Questions about the new MedicareCENTER Mobile App.",
+      "name": "Integrity Clients Mobile App FAQs",
+      "description": "Get the answers to Frequently Asked Questions about the new Integrity Clients Mobile App.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-MobileApp-FAQs.pdf"
     },
     {
-      "name": "MedicareCENTER Mobile App User Guide",
-      "description": "Learn how to use the new MedicareCENTER Mobile App.",
+      "name": "Integrity Clients Mobile App User Guide",
+      "description": "Learn how to use the new Integrity Clients Mobile App.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-MobileApp-HelpGuide.pdf"
     },
     {
-      "name": "MedicareCENTER Personal Agent Websites User Guide",
+      "name": "Integrity Clients Personal Agent Websites User Guide",
       "description": "Learn how to use your Personal Agent Website to allow your clients to enroll on our consumer-facing website.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-pURLS-HelpGuide.pdf"
     },
     {
-      "name": "MedicareCENTER Send Quote User Guide",
+      "name": "Integrity Clients Send Quote User Guide",
       "description": "Learn how to send customized plan comparisons to your clients",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-SendQuote-HelpGuide.pdf"
@@ -152,7 +152,7 @@
       "filename": "MedicareCENTER-Best-Practices-How-To-Create-Facebook-Page.pdf"
     },
     {
-      "name": "MedicareCENTER Training Guide",
+      "name": "Integrity Clients Training Guide",
       "description": "Become an expert on our powerful new platform with all you need to increase production this AEP.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Professional-User-Guide.pdf"
@@ -165,7 +165,7 @@
     },
     {
       "name": "Medicare Enrollment Platform Carrier Comparison Chart",
-      "description": "View the carriers available in MedicareCENTER Quote & eApp, MedicareAPP, MedicareLINK, and CSG.",
+      "description": "View the carriers available in Integrity Clients Quote & eApp, MedicareAPP, MedicareLINK, and CSG.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Carrier-Comparison-Chart.pdf"
     },
@@ -176,19 +176,19 @@
       "filename": "MedicareCENTER-HRA-Comparison-Chart.pdf"
     },
     {
-      "name": "MedicareCENTER FAQs",
-      "description": "Get answers to frequently asked questions about MedicareCENTER.",
+      "name": "Integrity Clients FAQs",
+      "description": "Get answers to frequently asked questions about Integrity Clients.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-FAQs.pdf"
     },
     {
-      "name": "MedicareCENTER Enrollment Options Guide",
+      "name": "Integrity Clients Enrollment Options Guide",
       "description": "Multiple enrollment options at your fingertips. Choose the app (MedicareAPP, MedicareLINK, CSG APP or Integrated Contact Management) that works best for your client needs.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Enrollment-Options.pdf"
     },
     {
-      "name": "MedicareCENTER Policy Management User Guide",
+      "name": "Integrity Clients Policy Management User Guide",
       "description": "Find out how to track and manage your clients' MAPD applications and enrollments.",
       "categories": ["tech-guides"],
       "filename": "MedicareCENTER-Policy-Management-Guide.pdf"
@@ -284,8 +284,8 @@
       "filename": "MedicareCENTER-Adding-Final-Expense.pdf"
     },
     {
-      "name": "MedicareCENTER Training Schedule",
-      "description": "View our schedule of upcoming training webinars to learn how to use MedicareCENTER effectively, and get your questions answered by a live expert.",
+      "name": "Integrity Clients Training Schedule",
+      "description": "View our schedule of upcoming training webinars to learn how to use Integrity Clients effectively, and get your questions answered by a live expert.",
       "categories": ["training-schedule"],
       "filename": "MedicareCENTER-Webinar-Schedule.pdf"
     }

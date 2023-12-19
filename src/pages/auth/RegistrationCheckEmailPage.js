@@ -21,7 +21,7 @@ const ConfirmationPage = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Account Registration</title>
+        <title>Integrity Clients - Account Registration</title>
       </Helmet>
       <BaseConfirmationPage
         footer={
@@ -63,7 +63,7 @@ const ConfirmationPage = () => {
                     </p>
                   ) : (
                     <p className="mb-2">
-                      Find the confirmation email from MedicareCENTER
+                      Find the confirmation email from Integrity Clients
                       (accounts@medicarecenter.com)
                     </p>
                   )}
@@ -82,7 +82,7 @@ const ConfirmationPage = () => {
                 ) : (
                   <div>
                     Click the confirm button in the email to return to
-                    MedicareCENTER for login
+                    Integrity Clients for login
                   </div>
                 )}
               </li>

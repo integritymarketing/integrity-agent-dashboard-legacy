@@ -27,7 +27,7 @@ export const InfoModal = ({ open, onClose, isMobile }) => {
         },
         {
             title: "Unlinked Calls",
-            content: "Find call recordings made to your MedicareCENTER Agent Phone Number that haven’t been linked to a Contact yet. You can link calls to an existing Contact or create and link to a new Contact. For more information, please read our Call Recording Guide."
+            content: "Find call recordings made to your Integrity Clients Agent Phone Number that haven’t been linked to a Contact yet. You can link calls to an existing Contact or create and link to a new Contact. For more information, please read our Call Recording Guide."
         }
         // Add additional sections here as needed
     ], []);

@@ -48,15 +48,15 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
         <Paragraph
           id="transition-modal-subtitle"
           text={
-            "MedicareCENTER now provides free, compliant, and automatic call recording and storage - per CMS requirements - for all your calls using your unique"
+            "Integrity Clients now provides free, compliant, and automatic call recording and storage - per CMS requirements - for all your calls using your unique"
           }
         />
-        <b>MedicareCENTER Agent Phone Number!</b>
+        <b>Integrity Clients Agent Phone Number!</b>
       </div>
       <div className={styles.modalBody}>
         <Heading4
           id="transition-modal-description"
-          text={"Your unique MedicareCENTER Agent Phone Number is"}
+          text={"Your unique Integrity Clients Agent Phone Number is"}
           className={styles.marginY8}
         />
         <Heading2
@@ -67,7 +67,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
         <Paragraph
           id="transition-modal-description"
           text={
-            "All calls made TO and FROM your unique MedicareCENTER Agent Phone Number are:"
+            "All calls made TO and FROM your unique Integrity Clients Agent Phone Number are:"
           }
           className={styles.marginY8}
         >
@@ -75,7 +75,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
             <li>Recorded</li>
             <li>Accessible only to you</li>
             <li>Attached to your Contacts in Contact Management</li>
-            <li>Stored by MedicareCENTER for 10 years per CMS regulation</li>
+            <li>Stored by Integrity Clients for 10 years per CMS regulation</li>
             <li>Downloadable to your personal device</li>
           </ul>
         </Paragraph>
@@ -83,7 +83,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
 
         <Paragraph
           id="transition-modal-description"
-          text={"Learn how to use your MedicareCENTER Agent Phone Number."}
+          text={"Learn how to use your Integrity Clients Agent Phone Number."}
           className={styles.marginY8}
         />
         <Hyperlink text={"Learn more"} onClick={navigateToLearningPage} />
@@ -92,7 +92,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
         <Paragraph
           id="transition-modal-description"
           text={
-            "Find your MedicareCENTER Agent Phone Number at any time in your MedicareCENTER Account"
+            "Find your Integrity Clients Agent Phone Number at any time in your Integrity Clients Account"
           }
           className={styles.marginY8}
         />

@@ -58,7 +58,7 @@ export default () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Home</title>
+        <title>Integrity Clients - Home</title>
       </Helmet>
       <div className="bg-photo portal-page logged-in text-invert">
         <GlobalNav />
@@ -89,7 +89,7 @@ export default () => {
                       onClick={() => {
                         window.open(
                           process.env.REACT_APP_AUTH_AUTHORITY_URL +
-                            "/external/SamlLogin/2022",
+                          "/external/SamlLogin/2022",
                           "_blank"
                         );
                       }}

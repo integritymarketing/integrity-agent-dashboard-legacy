@@ -54,7 +54,7 @@ const RegistrationPage = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>MedicareCENTER - Register Account</title>
+                <title>Integrity Clients - Register Account</title>
             </Helmet>
             <div className="content-frame v2">
                 <HeaderUnAuthenticated />

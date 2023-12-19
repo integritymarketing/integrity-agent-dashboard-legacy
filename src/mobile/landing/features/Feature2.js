@@ -11,7 +11,7 @@ export default function Feature2() {
       />
       <p className={Styles.clientServeHeading}>Boost Your Productionr</p>
       <p className={Styles.clientServeBody}>
-        MedicareCENTER empowers you to work smarter and more efficiently. All to
+        Integrity Clients empowers you to work smarter and more efficiently. All to
         help you take your business to a whole new level.
       </p>
       <div className={Styles.featureBox}>

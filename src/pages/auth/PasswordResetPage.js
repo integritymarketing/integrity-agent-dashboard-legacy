@@ -81,7 +81,7 @@ const PasswordResetPage = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>MedicareCENTER - Reset Password</title>
+                <title>Integrity Clients - Reset Password</title>
             </Helmet>
             <div className="content-frame v2">
                 <HeaderUnAuthenticated />

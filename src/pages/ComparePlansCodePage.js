@@ -57,7 +57,7 @@ function ComparePlansCodePage() {
         token={token}
       />
       <Helmet>
-        <title>MedicareCENTER - Compare plans</title>
+        <title>Integrity Clients - Compare plans</title>
       </Helmet>
       <Header agentInfo={agentInfo} />
       {isValid === false ? (

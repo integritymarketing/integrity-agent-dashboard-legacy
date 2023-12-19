@@ -11,7 +11,7 @@ export default function Feature3() {
       />
       <p className={Styles.clientServeHeading}>Take Control of Your Business</p>
       <p className={Styles.clientServeBody}>
-        MedicareCENTER’s all-in-one platform puts you in command of your most
+        Integrity Client's all-in-one platform puts you in command of your most
         important tasks, while providing key insights. How’s that for
         intelligent?
       </p>

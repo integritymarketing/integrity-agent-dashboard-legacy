@@ -74,8 +74,7 @@ export default function LinkToContact() {
 
   const goToAddNewContactsPage = () => {
     navigate(
-      `/contact/add-new/${callLogId || ""}${
-        callFrom ? "?callFrom=" + callFrom : ""
+      `/contact/add-new/${callLogId || ""}${callFrom ? "?callFrom=" + callFrom : ""
       }`
     );
   };
@@ -89,7 +88,7 @@ export default function LinkToContact() {
   return (
     <>
       <Helmet>
-        <title>MedicareCENTER - Link to Contact</title>
+        <title>Integrity Clients - Link to Contact</title>
       </Helmet>
       <GlobalNav />
       <GoBackNavbar />

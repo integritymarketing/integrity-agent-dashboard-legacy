@@ -72,7 +72,7 @@ export default function Feature1() {
           <p className={Styles.featureHeading}>Mobile App</p>
           <p className={Styles.featureText}>
             Work when you want, from where you want. Get mobile-exclusive push
-            notifications, plus all the features of MedicareCENTER. Download
+            notifications, plus all the features of Integrity Clients. Download
             today!
           </p>
           <div className={Styles.getButtons}>

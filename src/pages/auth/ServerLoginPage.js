@@ -58,7 +58,7 @@ const ServerLoginPage = () => {
                 setMobileAppLogin(true);
                 setAppTitle("Agent Mobile - Login");
             } else {
-                setAppTitle("MedicareCENTER - Login");
+                setAppTitle("Integrity Clients - Login");
             }
             if (
                 clientId === "ASBClient" ||

@@ -7,11 +7,11 @@ const FinalExpensePlansPage = () => {
     return (
         <>
             <Helmet>
-                <title>MedicareCENTER - Final Expenses Plans</title>
+                <title>Integrity Clients - Final Expenses Plans</title>
             </Helmet>
-                <GlobalNav />
-                    <FinalExpensePlansResultContainer />
-                <GlobalFooter />
+            <GlobalNav />
+            <FinalExpensePlansResultContainer />
+            <GlobalFooter />
         </>
     );
 };

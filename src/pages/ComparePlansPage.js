@@ -201,7 +201,7 @@ const ComparePlansPage = (props) => {
         <Media query={"(max-width: 500px)"} onChange={(isMobile) => { }} />
         <WithLoader isLoading={isLoading}>
           <Helmet>
-            <title>MedicareCENTER - Plans</title>
+            <title>Integrity Clients - Plans</title>
           </Helmet>
           {!isComingFromEmail && <GlobalNav />}
           {!isComingFromEmail && (

@@ -33,7 +33,7 @@ function ContactsList() {
     return (
         <>
             <Helmet>
-                <title>MedicareCENTER - Contacts</title>
+                <title>Integrity Clients - Contacts</title>
             </Helmet>
             <GlobalNav />
             <ContactsListHeader />

@@ -592,7 +592,7 @@ const PlansPage = () => {
         <WithLoader isLoading={isLoading}>
           {!shouldShowAskIntegrity && <WebChatComponent />}
           <Helmet>
-            <title>MedicareCENTER - Plans</title>
+            <title>Integrity Clients - Plans</title>
           </Helmet>
           <GlobalNav />
           {!isEdit || (isEdit && isMobile)}
@@ -611,7 +611,7 @@ const PlansPage = () => {
           )}
           {((contact && !isEdit && !isMobile) ||
             (isMobile && !filtersOpen && !isEdit)) && (
-                <ContactProfileTabBar contactId={id} />
+              <ContactProfileTabBar contactId={id} />
             )}
 
           {isMobile && !filtersOpen && !isEdit && (

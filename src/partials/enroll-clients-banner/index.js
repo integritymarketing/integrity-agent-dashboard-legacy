@@ -13,7 +13,7 @@ const EnrollClientBanner = () => (
           <h3 className="heading3">A New Way to Enroll Clients</h3>
           <p>
             Quote and enroll directly from the CRM with the new, updated
-            MedicareCENTER.
+            Integrity Clients.
           </p>
           <div className="pt-2 button-wrapper">
             <Link

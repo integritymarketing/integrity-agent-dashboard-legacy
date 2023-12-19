@@ -9,7 +9,7 @@ const ContactProfile = () => {
     return (
         <>
             <Helmet>
-                <title>MedicareCENTER - Contact Profile </title>
+                <title>Integrity Clients - Contact Profile </title>
             </Helmet>
             <GlobalNav />
             <DuplicateContactNotificationBanner />

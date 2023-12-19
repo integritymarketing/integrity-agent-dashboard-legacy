@@ -61,7 +61,7 @@ const ErrorPage = () => {
             <LoginLink className="btn btn--invert">Login</LoginLink>
           ) : (
             <Link className="btn btn--invert" to="/">
-              Back to MedicareCENTER
+              Back to Integrity Clients
             </Link>
           )}
         </div>

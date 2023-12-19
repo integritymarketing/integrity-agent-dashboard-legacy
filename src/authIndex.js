@@ -25,7 +25,7 @@ root.render(
         <AuthContext.Provider value={authService}>
           <ToastContextProvider>
             <Helmet>
-              <title>MedicareCENTER</title>
+              <title>Integrity Clients</title>
             </Helmet>
             <Suspense fallback={<div>Loading...</div>}>
               <AppRouter>

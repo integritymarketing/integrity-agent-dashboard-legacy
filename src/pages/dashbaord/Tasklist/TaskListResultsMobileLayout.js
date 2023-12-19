@@ -212,7 +212,7 @@ export default function TaskListMobileLayout() {
                 }}
             />
             <Helmet>
-                <title>MedicareCENTER - Dashboard</title>
+                <title>Integrity Clients - Dashboard</title>
             </Helmet>
             <GlobalNav page="taskListMobileLayout" title="Task List" />
 

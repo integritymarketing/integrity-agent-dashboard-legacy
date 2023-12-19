@@ -16,14 +16,14 @@ function ModalContactText({ virtualNumber }) {
       </div>
 
       <div className="modalTextStyle">
-        <span>Your MedicareCENTER number</span>
+        <span>Your Integrity Clients number</span>
       </div>
       <div className="modalTextNum">
         <span>{formatPhoneNumber(virtualNumber, true)}</span>
       </div>
 
       <div className="modalTextStyle">
-        <span>Calls to your MedicareCENTER number</span>
+        <span>Calls to your Integrity Clients number</span>
         <span> will be forwarded to the number</span>
         <span> below and will be recorded. </span>
       </div>

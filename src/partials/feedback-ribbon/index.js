@@ -21,7 +21,7 @@ const FeedbackRibbon = () => {
     <div className="feedback-ribbon">
       <Container>
         <div className="feedback-ribbon__copy">
-          <span>MedicareCENTER has new & improved CRM features!</span>
+          <span>Integrity Clients has new & improved CRM features!</span>
           Watch step-by-step training videos here.
         </div>
         <div>

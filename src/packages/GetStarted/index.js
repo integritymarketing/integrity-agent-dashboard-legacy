@@ -94,7 +94,7 @@ export default function GetStarted(props) {
       <div className={styles.modalBody}>
         <Heading4
           id="transition-modal-description"
-          text={"MedicareCENTER Number"}
+          text={"Integrity Clients Number"}
         ></Heading4>
         <Heading2
           id="transition-modal-description"
@@ -123,11 +123,11 @@ export default function GetStarted(props) {
         <Paragraph
           id="transition-modal-description"
           text={
-            "Create lead campaigns and purchase real-time leads, all sent to you directly in MedicareCENTER."
+            "Create lead campaigns and purchase real-time leads, all sent to you directly in Integrity Clients."
           }
         ></Paragraph>
         <Button
-          onClick={() => {}}
+          onClick={() => { }}
           variant="contained"
           sx={{ my: "0.5rem" }}
           size={"small"}
@@ -143,7 +143,7 @@ export default function GetStarted(props) {
         <Paragraph
           id="transition-modal-description"
           text={
-            "Learn sales tips and tricks, how to use exiting new features available in MedicareCENTER, and more."
+            "Learn sales tips and tricks, how to use exiting new features available in Integrity Clients, and more."
           }
         ></Paragraph>
         <Button
@@ -158,7 +158,7 @@ export default function GetStarted(props) {
 
         <Heading4
           id="transition-modal-description"
-          text={"Download the MedicareCENTER App"}
+          text={"Download the Integrity Clients App"}
         ></Heading4>
         <Paragraph
           id="transition-modal-description"

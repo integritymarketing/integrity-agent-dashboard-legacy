@@ -32,7 +32,7 @@ const HelpPage = () => {
         defaultMatches={isMobile}
       />
       <Helmet>
-        <title>MedicareCENTER - Help</title>
+        <title>Integrity Clients - Help</title>
       </Helmet>
       <GlobalNav />
       <div className={styles.layout}>
