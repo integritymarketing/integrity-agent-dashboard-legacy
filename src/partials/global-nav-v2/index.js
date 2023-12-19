@@ -380,7 +380,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         */}
                         <Media
                             queries={{
-                                small: "(max-width: 767px)",
+                                small: "(max-width: 883px)",
                             }}
                         >
                             {(matches) => (
