@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import WebChatComponent from "components/WebChat/WebChat";
 
 import Box from "@mui/material/Box";
@@ -39,7 +39,7 @@ const AddZipPage = () => {
                 <AddZipContainer isMobile={isMobile} contactId={contactId} />
             </StyledBox>
             <WebChatComponent />
-            <GlobalFooter />
+            <Footer />
         </>
     );
 };

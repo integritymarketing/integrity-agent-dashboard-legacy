@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import Media from "react-media";
 import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import WithLoader from "components/ui/WithLoader";
 import DateRangeSort from "components/DateRangeSort";
 
@@ -263,7 +263,7 @@ export default function TaskListMobileLayout() {
                 )}
             </TaskListCardContainer>
 
-            <GlobalFooter />
+            <Footer />
         </Box>
     );
 }
