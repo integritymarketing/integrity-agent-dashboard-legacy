@@ -1,18 +1,34 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import React, { useCallback, useEffect, useState } from "react";
+
+import Button from "@mui/material/Button";
+import InputAdornment from "@mui/material/InputAdornment";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { styled } from "@mui/material/styles";
+
+import PropTypes from "prop-types";
+
 import DatePickerMUI from "components/DatePicker";
+import SelectableButtonGroup from "components/SelectableButtonGroup";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
-import {
-    BIRTHDATE, CANCEL, EDIT_HEALTH_INFO, FEET_PLACEHOLDER, GENDER, GENDER_OPTS, HEIGHT, INCH_PLACEHOLDER,
-    MMDDYY, SAVE, SMOKER_OPTS, TOBACCO_USE, UPDATED, WEIGHT, WT_PLACEHOLDER, WT_UNIT
-} from "../HealthContainer.constants";
+
 import styles from "./HealthInfoContainer.module.scss";
-import { formatDate, formatServerDate, parseDate } from 'utils/dates';
-import SelectableButtonGroup from 'components/SelectableButtonGroup';
+
+import {
+    BIRTHDATE,
+    CANCEL,
+    EDIT_HEALTH_INFO,
+    FEET_PLACEHOLDER,
+    GENDER,
+    GENDER_OPTS,
+    HEIGHT,
+    INCH_PLACEHOLDER,
+    SAVE,
+    SMOKER_OPTS,
+    TOBACCO_USE,
+    WEIGHT,
+    WT_PLACEHOLDER,
+    WT_UNIT,
+} from "../HealthContainer.constants";
 
 const StyledSaveButton = styled(Button)(() => ({
     borderRadius: "20px",
@@ -21,10 +37,10 @@ const StyledSaveButton = styled(Button)(() => ({
     textTransform: "none",
     fontWeight: "600",
     boxShadow: "none",
-    height: "40px"
+    height: "40px",
 }));
 
-export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker, modifyDate, onSave, onCancel }) => {
+export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker, onSave, onCancel }) => {
     const [gender, setGender] = useState(sexuality);
     const [bDate, setBDate] = useState(birthdate);
     const [feet, setFeet] = useState(hFeet);
@@ -35,23 +51,23 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
 
     useEffect(() => {
         setIsModified(
-            sexuality !== gender || 
-            birthdate !== bDate || 
-            hFeet !== feet || 
-            hInch !== inch || 
-            wt !== weight || 
-            smoker !== isTobaccoUser
+            sexuality !== gender ||
+                birthdate !== bDate ||
+                hFeet !== feet ||
+                hInch !== inch ||
+                wt !== weight ||
+                smoker !== isTobaccoUser
         );
     }, [gender, bDate, feet, inch, weight, isTobaccoUser, sexuality, birthdate, hFeet, hInch, wt, smoker]);
 
     const updateFeet = useCallback((value) => {
-        if (!value || (value > 0 && value <= 8 && !value.includes('.'))) {
+        if (!value || (value > 0 && value <= 8 && !value.includes("."))) {
             setFeet(value);
         }
     }, []);
 
     const updateInch = useCallback((value) => {
-        if (!value || (value > 0 && value <= 12 && !value.includes('.'))) {
+        if (!value || (value > 0 && value <= 12 && !value.includes("."))) {
             setInch(value);
         }
     }, []);
@@ -63,13 +79,12 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
     }, []);
 
     const onSaveHealthInfo = useCallback(() => {
-        const formattedBirthdate = formatServerDate(parseDate(formatDate(bDate)));
         const formData = {
             gender,
-            birthdate: formattedBirthdate,
+            birthdate: bDate,
             height: +(feet * 12) + +inch,
             weight,
-            isTobaccoUser: isTobaccoUser === "Yes"
+            isTobaccoUser: isTobaccoUser === "Yes",
         };
         onSave(formData);
     }, [bDate, feet, gender, inch, isTobaccoUser, onSave, weight]);
@@ -82,105 +97,94 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
         setIsTobaccoUser(value);
     }, []);
 
-  return (
-    <div className={styles.healthInfoContainer}>
-      <div className={styles.header}>{EDIT_HEALTH_INFO}</div>
-      {/* Gender Selection */}
-      <div className={styles.inputBox}>
-        <SelectableButtonGroup
-          labelText={GENDER}
-          selectedButtonText={gender === "Male" ? "Male" : "Female"}
-          buttonOptions={GENDER_OPTS}
-          onSelect={handleSelectGender}
-        />
-      </div>
+    return (
+        <div className={styles.healthInfoContainer}>
+            <div className={styles.header}>{EDIT_HEALTH_INFO}</div>
+            {/* Gender Selection */}
+            <div className={styles.inputBox}>
+                <SelectableButtonGroup
+                    labelText={GENDER}
+                    selectedButtonText={gender === "Male" ? "Male" : "Female"}
+                    buttonOptions={GENDER_OPTS}
+                    onSelect={handleSelectGender}
+                />
+            </div>
 
-      {/* Birthdate Picker */}
-      <div className={styles.inputBox}>
-        <div className={styles.labelEdit}>{BIRTHDATE}</div>
-        <DatePickerMUI
-          value={bDate}
-          disableFuture={true}
-          onChange={(value) => setBDate(formatDate(value))}
-          className={styles.datepicker}
-        />
-      </div>
+            {/* Birthdate Picker */}
+            <div className={styles.inputBox}>
+                <div className={styles.labelEdit}>{BIRTHDATE}</div>
+                <DatePickerMUI
+                    value={bDate}
+                    disableFuture={true}
+                    onChange={(value) => setBDate(value)}
+                    className={styles.datepicker}
+                />
+            </div>
 
-      {/* Height Inputs */}
-      <div className={styles.inputBox}>
-        <div className={styles.labelEdit}>{HEIGHT}</div>
-        <div className={styles.heightSpec}>
-          <OutlinedInput
-            value={feet}
-            onChange={(e) => updateFeet(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">{FEET_PLACEHOLDER}</InputAdornment>
-            }
-          />
-          <OutlinedInput
-            value={inch}
-            onChange={(e) => updateInch(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">{INCH_PLACEHOLDER}</InputAdornment>
-            }
-          />
+            {/* Height Inputs */}
+            <div className={styles.inputBox}>
+                <div className={styles.labelEdit}>{HEIGHT}</div>
+                <div className={styles.heightSpec}>
+                    <OutlinedInput
+                        value={feet}
+                        onChange={(e) => updateFeet(e.target.value)}
+                        endAdornment={<InputAdornment position="end">{FEET_PLACEHOLDER}</InputAdornment>}
+                    />
+                    <OutlinedInput
+                        value={inch}
+                        onChange={(e) => updateInch(e.target.value)}
+                        endAdornment={<InputAdornment position="end">{INCH_PLACEHOLDER}</InputAdornment>}
+                    />
+                </div>
+            </div>
+
+            {/* Weight Input */}
+            <div className={styles.inputBox}>
+                <div className={styles.labelEdit}>{`${WEIGHT} (${WT_UNIT})`}</div>
+                <input
+                    type="number"
+                    value={weight}
+                    className={styles.input}
+                    placeholder={WT_PLACEHOLDER}
+                    onChange={(e) => updateWeight(e.target.value)}
+                />
+            </div>
+
+            {/* Smoker Selection */}
+            <div className={styles.inputBox}>
+                <SelectableButtonGroup
+                    labelText={TOBACCO_USE}
+                    selectedButtonText={isTobaccoUser === "Yes" ? "Yes" : "No"}
+                    buttonOptions={SMOKER_OPTS}
+                    onSelect={handleSelectTobacco}
+                />
+            </div>
+
+            {/* Action Buttons */}
+            <div className={styles.editCtas}>
+                <div onClick={onCancel} className={styles.cancel}>
+                    {CANCEL}
+                </div>
+                <StyledSaveButton
+                    disabled={!isModified}
+                    variant="contained"
+                    onClick={() => onSaveHealthInfo()}
+                    endIcon={<ButtonCircleArrow />}
+                >
+                    {SAVE}
+                </StyledSaveButton>
+            </div>
         </div>
-      </div>
-
-      {/* Weight Input */}
-      <div className={styles.inputBox}>
-        <div className={styles.labelEdit}>{`${WEIGHT} (${WT_UNIT})`}</div>
-        <input
-          type="number"
-          value={weight}
-          className={styles.input}
-          placeholder={WT_PLACEHOLDER}
-          onChange={(e) => updateWeight(e.target.value)}
-        />
-      </div>
-
-      {/* Smoker Selection */}
-      <div className={styles.inputBox}>
-        <SelectableButtonGroup
-          labelText={TOBACCO_USE}
-          selectedButtonText={isTobaccoUser === "Yes" ? "Yes" : "No"}
-          buttonOptions={SMOKER_OPTS}
-          onSelect={handleSelectTobacco}
-        />
-      </div>
-
-      {/* Action Buttons */}
-      <div className={styles.editCtas}>
-        <div onClick={onCancel} className={styles.cancel}>
-          {CANCEL}
-        </div>
-        <StyledSaveButton
-          disabled={!isModified}
-          variant="contained"
-          onClick={() => onSaveHealthInfo()}
-          endIcon={<ButtonCircleArrow />}
-        >
-          {SAVE}
-        </StyledSaveButton>
-      </div>
-
-      {/* Updated Timestamp */}
-      <div className={styles.updatedTimestamp}>{`${UPDATED}${formatDate(
-        modifyDate,
-        MMDDYY
-      )}`}</div>
-    </div>
-  );
+    );
 };
 
 EditHealthInfo.propTypes = {
-  birthdate: PropTypes.string,
-  modifyDate: PropTypes.string,
-  sexuality: PropTypes.string,
-  wt: PropTypes.number,
-  hFeet: PropTypes.number,
-  hInch: PropTypes.number,
-  smoker: PropTypes.string,
-  onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+    birthdate: PropTypes.string.isRequired,
+    sexuality: PropTypes.string.isRequired,
+    wt: PropTypes.number.isRequired,
+    hFeet: PropTypes.number.isRequired,
+    hInch: PropTypes.number.isRequired,
+    smoker: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 };
