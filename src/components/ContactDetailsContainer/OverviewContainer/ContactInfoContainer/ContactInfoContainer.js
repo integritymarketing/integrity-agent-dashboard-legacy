@@ -60,23 +60,28 @@ export const ContactInfoContainer = () => {
     }, [emails]);
 
     const leadAddress1 = useMemo(() => {
-        return addresses?.length > 0 ? addresses?.[0]?.address1 : NOT_AVAILABLE;
+        const address1 = addresses?.[0]?.address1;
+        return address1 ? address1 : NOT_AVAILABLE;
     }, [addresses]);
 
     const leadAddress2 = useMemo(() => {
-        return addresses?.length > 0 ? addresses?.[0]?.address2 : NOT_AVAILABLE;
+        const address2 = addresses?.[0]?.address2;
+        return address2 ? address2 : NOT_AVAILABLE;
     }, [addresses]);
 
     const leadCity = useMemo(() => {
-        return addresses?.length > 0 ? addresses?.[0]?.city : NOT_AVAILABLE;
+        const city = addresses?.[0]?.city;
+        return city ? city: NOT_AVAILABLE;
     }, [addresses]);
 
     const leadState = useMemo(() => {
-        return addresses?.length > 0 ? addresses?.[0]?.stateCode : NOT_AVAILABLE;
+        const state = addresses?.[0]?.state;
+        return state ? state : NOT_AVAILABLE;
     }, [addresses]);
 
     const leadZip = useMemo(() => {
-        return addresses?.length > 0 ? addresses?.[0]?.postalCode : NOT_AVAILABLE;
+        const postalCode = addresses?.[0]?.postalCode;
+        return postalCode ? postalCode : NOT_AVAILABLE;
     }, [addresses]);
 
     const leadMBID = useMemo(() => {
