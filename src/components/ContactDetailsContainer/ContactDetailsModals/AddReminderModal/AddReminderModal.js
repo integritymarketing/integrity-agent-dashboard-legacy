@@ -10,8 +10,8 @@ import { getDateTime, getLocalDateTime } from "utils/dates";
 
 export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) => {
     const initialReminderValues = {
-        date: new Date().toISOString().split('T')[0],
-        time: new Date(),
+        date: null,
+        time: null,
         notes: "",
     };
 
