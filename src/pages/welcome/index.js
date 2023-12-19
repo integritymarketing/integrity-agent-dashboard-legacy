@@ -59,7 +59,7 @@ const Welcome = () => {
       <SmartSecureSection />
 
       <GetStartedSection />
-      <Footer />
+      <Footer isLoggedIn={false} />
     </div>
   );
 };

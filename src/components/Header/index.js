@@ -9,28 +9,27 @@ import AuthContext from "../../contexts/auth";
 import useFlashMessage from "../../hooks/useFlashMessage";
 
 const Header = () => {
-  const auth = useContext(AuthContext);
-  const { show: showMessage } = useFlashMessage();
+    const auth = useContext(AuthContext);
+    const { show: showMessage } = useFlashMessage();
 
-  async function login() {
-    try {
-      auth.signinRedirect();
-    } catch (e) {
-      Sentry.captureException(e);
-      console.error("sign in error: ", e);
-      showMessage("Unable to sign in at this time.", { type: "error" });
+    async function login() {
+        try {
+            auth.signinRedirect();
+        } catch (e) {
+            Sentry.captureException(e);
+            console.error("sign in error: ", e);
+            showMessage("Unable to sign in at this time.", { type: "error" });
+        }
     }
-  }
-  return (
-    <header className={styles.header}>
-      <HeaderWithLogin
-        image={image}
-        onLogin={async () => {
-          await login();
-        }}
-      />
-    </header>
-  );
+    return (
+        <header className={styles.header}>
+            <HeaderWithLogin
+                onLogin={async () => {
+                    await login();
+                }}
+            />
+        </header>
+    );
 };
 
 export default Header;

@@ -9,7 +9,7 @@ import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
 import DashboardActivityTable from "./DashboardActivityTable";
 import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import clientsService from "services/clientsService";
 import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
@@ -251,7 +251,7 @@ export default function Dashbaord() {
                 />
                
             </WithLoader>
-            <GlobalFooter />
+            <Footer />
         </>
     );
 }

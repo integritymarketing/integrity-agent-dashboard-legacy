@@ -20,7 +20,7 @@ import { Select } from "components/ui/Select";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
 
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import CountyContext from "contexts/counties";
@@ -777,7 +777,7 @@ export default function AddNewContactPage() {
                     />
                 </Container>
             </div>
-            <GlobalFooter />
+            <Footer />
         </>
     );
 }

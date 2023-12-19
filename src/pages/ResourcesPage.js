@@ -4,7 +4,7 @@ import Container from "components/ui/container";
 import LineItem from "components/ui/line-item";
 import VideoLineItem from "components/ui/video-line-item";
 import GlobalNavV2 from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import ExpandableContent from "components/ui/expandable-content";
 import ComputerIcon from "components/icons/computer";
 import DownloadIcon from "components/icons/v2-download";
@@ -203,7 +203,7 @@ const ResourcesPage = () => {
           </section>
         </Container>
       </div>
-      <GlobalFooter />
+      <Footer />
     </React.Fragment>
   );
 };

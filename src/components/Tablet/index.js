@@ -1,15 +1,12 @@
 import React from "react";
-import image from "./image.png";
-import website from "./images/website.png";
+import image from "./business.png";
 
 import styles from "./styles.module.scss";
 
 const Tablet = ({ className = "" }) => (
-  <div className={`${className} ${styles.tablet}`}>
-    <img alt="Tablet" className={styles.image} src={image} />
-
-    <img alt="Website" className={styles.website} src={website} />
-  </div>
+    <div className={`${className} ${styles.tablet}`}>
+        <img alt="Tablet" className={styles.image} src={image} />
+    </div>
 );
 
 export default Tablet;

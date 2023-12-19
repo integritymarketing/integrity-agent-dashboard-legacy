@@ -55,7 +55,7 @@
     "universal-cookie": "^4.0.4"
   },
   "resolutions": {
-    "babel-loader": "8.3.0",
+    "babel-loader": "8.2.2",
     "webpack": "4.44.2"
   },
   "scripts": {
@@ -78,11 +78,18 @@
       "plugin:storybook/recommended"
     ]
   },
-  "browserslist": [
+  "browserslist": {
+    "production": [
       ">0.2%",
       "not dead",
       "not op_mini all"
-  ],
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.22.9",
