@@ -154,13 +154,13 @@ const AddNewConditionDialog = ({
         if (selectedCondition && modalStep === 0) {
             if (disableLastTreatmentDate || !selectedCondition.hasLookBackPeriod) {
                 await saveToAPI();
-                handleOnClose();
+                resetState();
             } else {
                 setModalStep(1);
             }
         } else if (selectedCondition) {
             await saveToAPI();
-            handleOnClose();
+            resetState();
         }
     };
 
