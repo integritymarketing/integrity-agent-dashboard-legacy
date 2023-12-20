@@ -7,7 +7,7 @@ const FinalExpenseHealthConditionsPage = () => {
     return (
         <>
             <Helmet>
-                <title>MedicareCENTER - Final Expenses Health COnditions</title>
+                <title>Integrity Clients - Final Expenses Health COnditions</title>
             </Helmet>
             <GlobalNav />
             <FinalExpenseHealthConditionsContainer />

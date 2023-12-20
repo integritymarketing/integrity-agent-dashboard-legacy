@@ -21,7 +21,7 @@ const TestimonialSection = () => {
             <SplitContentLeadingImageSection image={imageOfJustinKendter}>
               <img alt="quotes" className={styles.quotes} src={quote} />
 
-              <Heading text="MedicareCENTER has turned my business into my dream job! Being able to assist my clients while I'm anywhere in the world has been a game changer. With just a laptop & internet connection, I'm able to run my business from lead to client!" />
+              <Heading text="Integrity Clients has turned my business into my dream job! Being able to assist my clients while I'm anywhere in the world has been a game changer. With just a laptop & internet connection, I'm able to run my business from lead to client!" />
 
               <span>
                 <Text text="Justin W. Kendter" />
@@ -36,7 +36,7 @@ const TestimonialSection = () => {
             <SplitContentLeadingImageSection image={imageOfRobinGrimm}>
               <img alt="quotes" className={styles.quotes} src={quote} />
 
-              <Heading text="MedicareCENTER has been life changing for our agency. It saves us time and money of no more faxing. We know when we finalize an application it will be error free and issued faster. We would not want be without it!" />
+              <Heading text="Integrity Clients has been life changing for our agency. It saves us time and money of no more faxing. We know when we finalize an application it will be error free and issued faster. We would not want be without it!" />
 
               <span>
                 <Text text="Robin Grimm" />

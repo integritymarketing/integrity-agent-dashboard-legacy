@@ -57,7 +57,7 @@ function PolicyCodePage() {
         token={token}
       />
       <Helmet>
-        <title>MedicareCENTER - Policy Snapshot Details</title>
+        <title>Integrity Clients - Policy Snapshot Details</title>
       </Helmet>
       <Header agentInfo={agentInfo} />
       {isValid === false ? (

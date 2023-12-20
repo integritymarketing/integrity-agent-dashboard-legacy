@@ -24,7 +24,7 @@ const ForgotPasswordSentPage = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Password Reset Sent</title>
+        <title>Integrity Clients - Password Reset Sent</title>
       </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />

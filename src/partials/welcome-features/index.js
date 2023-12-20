@@ -25,9 +25,8 @@ const SectionText = ({ title, description }) => {
     <>
       <Waypoint onEnter={handleEnter} />
       <div
-        className={`welcome-features__feature-content ${
-          isVisible ? "slidein" : ""
-        }`}
+        className={`welcome-features__feature-content ${isVisible ? "slidein" : ""
+          }`}
       >
         <h3 className="hdg--2 text-thin mb-2">{title}</h3>
 
@@ -50,9 +49,9 @@ const WelcomeFeatures = () => {
         leftCol={<SectionImage imgSrc={ImageFeatureCSG} />}
         rightCol={
           <SectionText
-            title="CSG + MedicareCENTER"
+            title="CSG + Integrity Clients"
             description="Access powerful quoting and research features with the full CSG 
-            suite of solutions available within MedicareCENTER."
+            suite of solutions available within Integrity Clients."
           />
         }
       />

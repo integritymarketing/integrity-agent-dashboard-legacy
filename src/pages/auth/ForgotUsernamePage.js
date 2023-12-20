@@ -26,7 +26,7 @@ export default () => {
     return (
       <React.Fragment>
         <Helmet>
-          <title>MedicareCENTER - Forgot Username</title>
+          <title>Integrity Clients - Forgot Username</title>
         </Helmet>
         <div className="content-frame v2">
           <SimpleHeader />
@@ -54,7 +54,7 @@ export default () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Forgot Username</title>
+        <title>Integrity Clients - Forgot Username</title>
       </Helmet>
       <div className="content-frame v2">
         <SimpleHeader />

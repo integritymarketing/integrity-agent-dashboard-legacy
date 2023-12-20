@@ -147,7 +147,7 @@ export default function PolicySnapshotMobileLayout() {
     return (
         <Box className={styles.policySnapshotMobileContainer}>
             <Helmet>
-                <title>MedicareCENTER - Dashboard</title>
+                <title>Integrity Clients - Dashboard</title>
             </Helmet>
             <GlobalNav page="taskListMobileLayout" title="Policy Snapshot" />
 

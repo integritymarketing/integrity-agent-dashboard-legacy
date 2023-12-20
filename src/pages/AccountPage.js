@@ -418,7 +418,7 @@ const AccountPage = () => {
                 }}
             />
             <Helmet>
-                <title>MedicareCENTER - Edit Account</title>
+                <title>Integrity Clients - Edit Account</title>
             </Helmet>
             <GlobalNav />
             <div className="v2" data-gtm="account-update-form">

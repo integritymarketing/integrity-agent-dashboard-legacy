@@ -94,7 +94,7 @@ const EnrollmentHistoryPage = ({
       }
     };
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showToast, confirmationNumber]);
 
   const getContactData = useCallback(async () => {
@@ -140,7 +140,7 @@ const EnrollmentHistoryPage = ({
         )}
         <WithLoader isLoading={loading}>
           <Helmet>
-            <title>MedicareCENTER - Enrollment History</title>
+            <title>Integrity Clients - Enrollment History</title>
           </Helmet>
           {!isComingFromEmail && <GlobalNav />}
           {!isComingFromEmail && <GoBackNavbar />}
@@ -154,7 +154,7 @@ const EnrollmentHistoryPage = ({
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
-                //pharmacies={plan_data?.pharmacyCosts}
+              //pharmacies={plan_data?.pharmacyCosts}
               />
             )}
             {plan_data && PLAN_TYPE_ENUMS[plan_data.planType] === "PDP" && (
@@ -166,7 +166,7 @@ const EnrollmentHistoryPage = ({
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
-                //pharmacies={plan_data?.pharmacyCosts}
+              //pharmacies={plan_data?.pharmacyCosts}
               />
             )}
             {plan_data && PLAN_TYPE_ENUMS[plan_data.planType] === "MA" && (

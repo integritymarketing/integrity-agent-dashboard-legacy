@@ -36,7 +36,7 @@ export const ContactDetailsContainer = () => {
     useEffect(() => {
         const targetTab = sectionId || "overview";
         setSelectedTab(targetTab);
-        navigate(`/contact/${leadId}/${targetTab}`);
+        navigate(`/contact/${leadId}/${targetTab}`, { replace: true });
     }, [sectionId, leadId, navigate, setSelectedTab]);
 
     const renderSection = () => {

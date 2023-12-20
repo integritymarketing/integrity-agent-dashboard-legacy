@@ -16,13 +16,13 @@ const FinalExpensePlansPage = () => {
     return (
         <>
             <Helmet>
-                <title>MedicareCENTER - Final Expenses Create Quote</title>
+                <title>Integrity Clients - Final Expenses Create Quote</title>
             </Helmet>
-                <GlobalNav />
-                <StyledBox>
-                    <FinalExpensePlansContainer />
-                </StyledBox>
-                <GlobalFooter />
+            <GlobalNav />
+            <StyledBox>
+                <FinalExpensePlansContainer />
+            </StyledBox>
+            <GlobalFooter />
         </>
     );
 };

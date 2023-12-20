@@ -43,7 +43,7 @@ const ForgotPasswordpage = () => {
             case "AgentMobile":
                 return "Agent Mobile - Forgot Password";
             default:
-                return "MedicareCENTER - Forgot Password";
+                return "Integrity Clients - Forgot Password";
         }
     }, [clientId]);
 

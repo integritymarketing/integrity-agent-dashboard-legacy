@@ -29,7 +29,7 @@ const Support = ({ onShare }) => {
         </div>
         <div className={styles.gap}>
           <div>
-            For issues with MedicareCENTER outside of Ask Integrity, please contact one of our support representatives.
+            For issues with Integrity Clients outside of Ask Integrity, please contact one of our support representatives.
           </div>
           <div className={styles.buttonContainer} onClick={handleContactSupportNavigation}>
             <div className={styles.actionButton}>

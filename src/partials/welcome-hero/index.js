@@ -31,7 +31,7 @@ const WelcomeHero = () => {
           className={`container--hero__content ${isVisible ? "slidein" : ""}`}
         >
           <h2 className="welcomeHero__title mt-2">
-            MedicareCENTER Agent Portal
+            Integrity Clients Agent Portal
           </h2>
           <p className="welcomeHero__content p-1 mb-2">
             <span className="crm-quote-enroll-border" />

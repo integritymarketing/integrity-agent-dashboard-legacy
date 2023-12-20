@@ -106,7 +106,7 @@ const PlanDetailsPage = () => {
         />
         <WithLoader isLoading={isLoading}>
           <Helmet>
-            <title>MedicareCENTER - Plans</title>
+            <title>Integrity Clients - Plans</title>
           </Helmet>
           <GlobalNav />
 

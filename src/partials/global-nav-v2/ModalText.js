@@ -21,7 +21,7 @@ function ModalText({ checkInPreference }) {
             continue.
           </span>
           <span className="text-info">
-            Be sure to answer any calls from the MedicareCENTER Virtual
+            Be sure to answer any calls from the Integrity Clients Virtual
             Operator* number below and store it as a contact in your phone.
           </span>
           <span className="text-info phne-num">254-271-0085</span>

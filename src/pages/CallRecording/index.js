@@ -29,7 +29,7 @@ export default function index() {
               <div className="h2-call-recording">Begining AEP 2023!</div>
 
               <p className="paragraph-content">
-                MedicareCENTER is helping you stay productive — and compliant.
+                Integrity Clients is helping you stay productive — and compliant.
               </p>
 
               <p className="paragraph-content">
@@ -37,12 +37,12 @@ export default function index() {
                 You'll easily be able to record, store and download phone calls,
                 helping you stay compliant. We're bringing you the latest in
                 straightforward technology solutions designed just for agents
-                like you. It's one more way that MedicareCENTER has your back!
+                like you. It's one more way that Integrity Clients has your back!
               </p>
 
               <p className="paragraph-content">
                 Keep an eye out for exciting feature updates — like Call
-                Recording — from MedicareCENTER as we all gear up for another
+                Recording — from Integrity Clients as we all gear up for another
                 great AEP season.
               </p>
               <div className="cta-button-container d-flex flex-row justify-content-center align-items-center">

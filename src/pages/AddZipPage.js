@@ -31,7 +31,7 @@ const AddZipPage = () => {
                 }}
             />
             <Helmet>
-                <title>MedicareCENTER - Add Zip </title>
+                <title>Integrity Clients - Add Zip </title>
             </Helmet>
             <GlobalNav />
             <PageHeader isMobile={isMobile} contactId={contactId} pageName={HEALTH_POLICIES} />
