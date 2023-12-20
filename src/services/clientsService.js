@@ -5,6 +5,7 @@ import { formatServerDate, parseDate } from "utils/dates";
 import authService from "services/authService";
 
 export const LEADS_API_VERSION = "v2.0";
+export const LEADS_STATUS_API_VERSION = "v3.0";
 export const QUOTES_API_VERSION = "v1.0";
 export const AGENTS_API_VERSION = "v1.0";
 const rangeDateFormat = "yyyyMMDD";
@@ -238,7 +239,7 @@ export class ClientsService {
 
     getStatuses = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/statuses`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/statuses`
         );
 
         return response?.json();
@@ -879,7 +880,7 @@ export class ClientsService {
 
     getDashbaordSummary = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/summary`,
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/summary`,
             "GET"
         );
 
