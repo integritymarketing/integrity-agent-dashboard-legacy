@@ -12,7 +12,7 @@ import { useLeadDetails } from 'providers/ContactDetails';
 const CustomTextField = styled(TextField)({
   '& .MuiOutlinedInput-input.Mui-disabled': {
     opacity: 1,
-    WebkitTextFillColor: 'rgb(0.26,0.29,0.32)',
+    WebkitTextFillColor: '#434a51',
   },
 });
 
