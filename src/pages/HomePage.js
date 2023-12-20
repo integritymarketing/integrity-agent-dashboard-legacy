@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import EnrollClientBanner from "partials/enroll-clients-banner";
 import ResourceLinkGrid from "partials/resource-link-grid";
 import analyticsService from "services/analyticsService";
@@ -185,7 +185,7 @@ export default () => {
           <ResourceLinkGrid />
         </section>
       </Container>
-      <GlobalFooter />
+      <Footer />
     </React.Fragment>
   );
 };

@@ -10,7 +10,7 @@ import FooterBanners from "packages/FooterBanners";
 
 import Container from "components/ui/container";
 
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import { StageStatusProvider } from "contexts/stageStatus";
@@ -57,7 +57,7 @@ function ContactsList() {
                 <Box className={styles.footerContainer}>
                     <FooterBanners className={styles.footerBanners} type={isMobile ? "column" : "row"} />
                 </Box>
-                <GlobalFooter />
+                <Footer />
             </StageStatusProvider>
         </>
     );

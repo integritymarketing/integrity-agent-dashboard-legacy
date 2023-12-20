@@ -70,7 +70,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                             })}
                     </>
                 ) : (
-                    <div className="noPlansAvailable">No Plans Available</div>
+                    <div className={styles.noPlansAvailable}>No Plans Available</div>
                 )}
             </ContactSectionCard>
             <ContactSectionCard
@@ -112,7 +112,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                         )}
                     </>
                 ) : (
-                    <div className="no-items">No Plans Available</div>
+                    <div className={styles.noPlansAvailable}>No Plans Available</div>
                 )}
             </ContactSectionCard>
         </>

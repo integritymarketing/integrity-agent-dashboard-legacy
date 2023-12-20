@@ -6,7 +6,7 @@ import Media from "react-media";
 import { Button } from "components/ui/Button";
 import NewBackBtn from "images/new-back-btn.svg";
 import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import Container from "components/ui/container";
 import comparePlansService from "services/comparePlansService";
 import plansService from "services/plansService";
@@ -61,19 +61,8 @@ const ComparePlansPage = (props) => {
         .filter(Boolean)
         .map((planId) =>
           !isComingFromEmail
-            ? plansService.getPlan(
-              contactId,
-              planId,
-              contactData,
-              effectiveDate
-            )
-            : comparePlansService.getPlan(
-              contactId,
-              planId,
-              agentInfo,
-              effectiveDate,
-              agentNPN
-            )
+            ? plansService.getPlan(contactId, planId, contactData, effectiveDate)
+            : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN)
         )
     );
   }
@@ -160,10 +149,7 @@ const ComparePlansPage = (props) => {
       const plansUpdated = prevPlans?.filter((plan) => plan.id !== planId);
       const jsonStr = sessionStorage.getItem("__plans__");
       const parseStr = jsonStr ? JSON.parse(jsonStr) : {};
-      sessionStorage.setItem(
-        "__plans__",
-        JSON.stringify({ ...parseStr, plans: plansUpdated })
-      );
+      sessionStorage.setItem("__plans__", JSON.stringify({ ...parseStr, plans: plansUpdated }));
 
       return plansUpdated;
     });
@@ -261,16 +247,10 @@ const ComparePlansPage = (props) => {
                 />
                 <div style={{ height: 20 }} />
 
-                <PlanBenefitsCompareTable
-                  plans={comparePlans}
-                  pharmacies={pharmacies}
-                />
+                <PlanBenefitsCompareTable plans={comparePlans} pharmacies={pharmacies} />
                 <div style={{ height: 20 }} />
 
-                <PharmacyCoverageCompareTable
-                  plans={comparePlans}
-                  pharmacies={pharmacies}
-                />
+                <PharmacyCoverageCompareTable plans={comparePlans} pharmacies={pharmacies} />
                 <div style={{ height: 20 }} />
 
                 <RetailPharmacyCoverage

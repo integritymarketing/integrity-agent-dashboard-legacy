@@ -15,10 +15,10 @@ import useUserProfile from "hooks/useUserProfile";
 import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
 
+import BrandLogo from "components/HeaderWithLogin/brand-logo";
 import Modal from "components/ui/modal";
 
 import ContactInfo from "partials/contact-info";
-import Logo from "partials/logo";
 
 import AuthContext from "contexts/auth";
 
@@ -365,7 +365,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                 ) : (
                     <h1 className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
                         <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
-                            <Logo aria-hidden="true" />
+                            <BrandLogo />
                             <span className="visually-hidden">Medicare Center</span>
                         </Link>
                     </h1>
@@ -380,7 +380,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         */}
                         <Media
                             queries={{
-                                small: "(max-width: 767px)",
+                                small: "(max-width: 883px)",
                             }}
                         >
                             {(matches) => (

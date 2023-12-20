@@ -13,7 +13,7 @@
     "files.defaultLanguage": "javascript",
     // Configures code formatting options for specific languages
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
+        "source.fixAll.eslint": true
     },
     // Enables or disables word wrapping
     "editor.wordWrap": "on",

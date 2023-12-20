@@ -1,1 +1,1 @@
-export const creditText = `Ⓒ 2022 Integrity. All rights reserved.`;
+export const FOOTER_TEXT = `Ⓒ ${new Date().getFullYear()} Integrity. All rights reserved.`;

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import CallIcon from "components/icons/callicon";
 import PropTypes from "prop-types";
-import GlobalFooter from "partials/global-footer";
+import Footer from "components/Footer";
 import GlobalNav from "partials/global-nav-v2";
 import Heading2 from "packages/Heading2";
 import Heading3 from "packages/Heading3";
@@ -90,7 +90,7 @@ const HelpPage = () => {
           <MissingActiveSellingPermissions />
         </div>
       </div>
-      <GlobalFooter className={styles.footer} />
+      <Footer />
     </React.Fragment>
   );
 };
