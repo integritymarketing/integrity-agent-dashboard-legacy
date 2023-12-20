@@ -16,7 +16,7 @@ export const NonRTSModal = ({ modalOpen, handleClose }) => {
             sx={{ p: "16px" }}
             color={"#434A51"}
           >
-            Access to MedicareCENTER is not available until we receive your
+            Access to Integrity Clients is not available until we receive your
             carrier appointment information. Please contact your marketer with
             any questions.
           </Typography>

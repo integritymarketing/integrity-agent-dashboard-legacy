@@ -48,7 +48,7 @@ export default function Dashbaord() {
     const [selectedFilterValues, setSelectedFilterValues] = useState([]);
     const [sort, setSort] = useState("Activities.CreateDate:desc");
     const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(false);
- 
+
     const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
@@ -145,7 +145,7 @@ export default function Dashbaord() {
                 }}
             />
             <Helmet>
-                <title>MedicareCENTER - Dashboard</title>
+                <title>Integrity Clients - Dashboard</title>
             </Helmet>
             <GlobalNav page="dashboard" />
             <WithLoader isLoading={isLoading}>
@@ -157,8 +157,8 @@ export default function Dashbaord() {
                                     greetings() === "Evening"
                                         ? Evening
                                         : greetings() === "Morning"
-                                        ? Morning
-                                        : Afternoon
+                                            ? Morning
+                                            : Afternoon
                                 }
                                 alt="Greeting"
                             />
@@ -187,7 +187,7 @@ export default function Dashbaord() {
                                             openOn="hover"
                                             icon={<Info />}
                                             title={"Client Snapshot"}
-                                            description="Client Snapshot shows the number of contacts that are in each stage for MedicareCENTER only."
+                                            description="Client Snapshot shows the number of contacts that are in each stage for Integrity Clients only."
                                             positions={["right", "bottom"]}
                                         >
                                             <Info />
@@ -249,7 +249,7 @@ export default function Dashbaord() {
                         setTimeout(() => (document.body.style.overflow = "auto"), 1000);
                     }}
                 />
-               
+
             </WithLoader>
             <Footer />
         </>

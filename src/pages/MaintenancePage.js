@@ -15,7 +15,7 @@ export default function MaintenancePage() {
       </div>
       <section className="maintenance--body">
         <h3 style={{ color: "#1B1B1B" }} className="hdg--3 pt-1 pl-5 pr-5">
-          MedicareCENTER is currently down for maintenance.
+          Integrity Clients is currently down for maintenance.
         </h3>
         <p style={{ color: "#6A6A6A" }} className="pt-2">
           We will be back online shortly.

@@ -6,7 +6,7 @@ const PasswordUpdatePage = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Reset Password</title>
+        <title>Integrity Clients - Reset Password</title>
       </Helmet>
       <BaseConfirmationPage
         title="You’re all set"

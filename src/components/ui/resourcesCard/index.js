@@ -20,7 +20,7 @@ export default function ResourceSection() {
     <div className="resource-card-wrapper">
       <Help
         icon={LearningCenter}
-        text="For the latest resources and news from MedicareCENTER visit the"
+        text="For the latest resources and news from Integrity Clients visit the"
         labelName="Knowledge Center"
         handleClick={handleLearningCenter}
       />

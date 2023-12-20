@@ -6,7 +6,7 @@ export default function Feature4() {
     <div className={Styles.container}>
       <p className={Styles.heading}>Smart and Secure</p>
       <p className={Styles.subHeading}>
-        Built to give you peace of mind, MedicareCENTER’s state-of-the art tech
+        Built to give you peace of mind, Integrity Client's state-of-the art tech
         helps keep you and your data safe and compliant — just the way you like
         it.
       </p>

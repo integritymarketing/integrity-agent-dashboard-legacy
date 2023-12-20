@@ -12,9 +12,8 @@ const MissingActiveSellingPermissions = ({ isModal }) => {
         </div>
       )}
       <Box
-        className={`${styles.container} ${
-          isModal ? styles.modalContainer : styles.helpContainer
-        }`}
+        className={`${styles.container} ${isModal ? styles.modalContainer : styles.helpContainer
+          }`}
       >
         {!isModal && (
           <div className={styles.heading}>
@@ -35,7 +34,7 @@ const MissingActiveSellingPermissions = ({ isModal }) => {
         <div className={styles.text}>
           If you are still concerned of a missing selling permission, please
           reach out to your Upline for assistance prior to submitting a ticket
-          with MedicareCENTER Support. To ensure efficient resolution of this
+          with Integrity Clients Support. To ensure efficient resolution of this
           concern, please include the following information in your request to
           support:
         </div>

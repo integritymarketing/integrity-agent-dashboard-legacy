@@ -29,7 +29,7 @@ const SupportLinksCard = ({ position }) => {
 
   return (
     <div className={`${styles.supportLinks} ${layoutClass}`}>
-      {renderCard(LearningCenterImage, "Learning Center", "For the latest resources and news from MedicareCENTER visit the", "Knowledge Center", "/learning-center")}
+      {renderCard(LearningCenterImage, "Learning Center", "For the latest resources and news from Integrity Clients visit the", "Knowledge Center", "/learning-center")}
       {renderCard(ContactSupportImage, "Contact Support", "Need Help? Visit the help center for 24/7 professional", "Zendesk Assistance", "/help")}
     </div>
   );

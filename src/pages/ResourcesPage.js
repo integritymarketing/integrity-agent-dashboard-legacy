@@ -40,11 +40,11 @@ export const getResourceUrl = (filename) => {
 };
 
 const isTrainingHub = (resource) => {
-  return resource.name === "MedicareCENTER's Video Training Hub" ? true : false;
+  return resource.name === "Integrity Client's Video Training Hub" ? true : false;
 };
 
 const isFeaturedDescriptionChange = (resourceName) => {
-  return resourceName === "MedicareCENTER Policy Management User Guide"
+  return resourceName === "Integrity Clients Policy Management User Guide"
     ? true
     : false;
 };
@@ -59,7 +59,7 @@ const ResourcesPage = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>MedicareCENTER - Learning Center</title>
+        <title>Integrity Clients - Learning Center</title>
       </Helmet>
       <GlobalNavV2 />
       <div className="v2">

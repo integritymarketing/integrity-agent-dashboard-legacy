@@ -16,7 +16,7 @@ export default function Testimonial() {
         height="37px"
       />
       <p className={Styles.text}>
-        MedicareCENTER has been life changing for our agency. It saves us time
+        Integrity Clients has been life changing for our agency. It saves us time
         and money of no more faxing. We know when we finalize an application it
         will be error free and issued faster. We would not want be without it!
       </p>

@@ -7,7 +7,7 @@ export default function GetStarted() {
     <div className={Styles.container}>
       <p className={Styles.heading}>Easy to Get Started</p>
       <p className={Styles.text}>
-        Ready to reach your full potential as an agent? MedicareCENTER helps you
+        Ready to reach your full potential as an agent? Integrity Clients helps you
         make it happen. It’s simple to learn and free to use. Discover all the
         amazing ways it can empower you.
       </p>

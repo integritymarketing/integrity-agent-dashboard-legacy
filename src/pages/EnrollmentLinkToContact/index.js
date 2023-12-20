@@ -74,7 +74,7 @@ export default function EnrollmentLinkToContact() {
     return (
         <>
             <Helmet>
-                <title>MedicareCENTER - Enrollment Link to Contact</title>
+                <title>Integrity Clients - Enrollment Link to Contact</title>
             </Helmet>
             <GlobalNav />
             <GoBackNavbar title={`Back to ${state?.page}`} handleBackToRoute={handleBackToRoute} />

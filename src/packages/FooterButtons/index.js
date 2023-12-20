@@ -29,7 +29,7 @@ function FooterButtons({ buttonOne, buttonTwo, dashBoardModal }) {
       </div>
       {dashBoardModal && (
         <p className={styles.helpTxt}>
-          *This is not your MedicareCENTER Agent Phone Number, which can be
+          *This is not your Integrity Clients Agent Phone Number, which can be
           found on your Account page.
         </p>
       )}
