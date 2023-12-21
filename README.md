@@ -2,26 +2,26 @@
 
 An agent portal implemented using React and [Create React App](https://create-react-app.dev/).
 
-[https://www.medicarecenter.com](https://www.medicarecenter.com)
+[https://www.clients.integrity.com](https://www.clients.integrity.com)
 
 ## Contents
 
-- [Development](#Development)
-  - [Local env setup](#local-env-setup)
-    - [Portal App](#portal-app)
-    - [Auth App](#auth-app)
-  - [Key Libraries & Frameworks](#key-libraries--frameworks)
-  - [Coding Standards](#coding-standards)
-  - [Contributions](#contributions)
-  - [Known Issues](#known-issues)
-- [Project Structure](#project-structure)
-- [Automated Testing](#automated-testing)
-- [Releases](#releases)
-- [Error Logging](#error-logging)
-- [Environments](#environments)
-  - [Build Target: Portal App](##build-target-portal-app)
-  - [Build Target: Auth App](#build-target-auth-app)
-  - [Certs](#certs)
+-   [Development](#Development)
+    -   [Local env setup](#local-env-setup)
+        -   [Portal App](#portal-app)
+        -   [Auth App](#auth-app)
+    -   [Key Libraries & Frameworks](#key-libraries--frameworks)
+    -   [Coding Standards](#coding-standards)
+    -   [Contributions](#contributions)
+    -   [Known Issues](#known-issues)
+-   [Project Structure](#project-structure)
+-   [Automated Testing](#automated-testing)
+-   [Releases](#releases)
+-   [Error Logging](#error-logging)
+-   [Environments](#environments)
+    -   [Build Target: Portal App](##build-target-portal-app)
+    -   [Build Target: Auth App](#build-target-auth-app)
+    -   [Certs](#certs)
 
 ## Development
 
@@ -57,30 +57,30 @@ In the future, the data team plans to build a separate 'localhost' environment t
 
 This project is built on a few fundamental libraries & frameworks and assumes a working knowledge of the following:
 
-- [React & JSX](https://reactjs.org/): Componentization & view layer framework.
+-   [React & JSX](https://reactjs.org/): Componentization & view layer framework.
 
 ### Coding Standards
 
-- The project has been built using the [Prettier](https://prettier.io/) code formatting engine. Please install and use when contributing.
+-   The project has been built using the [Prettier](https://prettier.io/) code formatting engine. Please install and use when contributing.
 
-- Implement React functional components only. Avoid the ES6 `Class` syntax.
+-   Implement React functional components only. Avoid the ES6 `Class` syntax.
 
-- Include proper test coverage with pull requests.
+-   Include proper test coverage with pull requests.
 
-- Please also review the [coding conventions](https://github.com/integritymarketing/ae-consumer-platform#conventions) defined on the consumer site.
+-   Please also review the [coding conventions](https://github.com/integritymarketing/ae-consumer-platform#conventions) defined on the consumer site.
 
 ### Contributions
 
-- To contribute a feature or bugfix, create a branch from the default branch (`develop`) using the format:
+-   To contribute a feature or bugfix, create a branch from the default branch (`develop`) using the format:
 
-  `feature/title-of-feature`<br />
-  `bugfix/title-of-fix`
+    `feature/title-of-feature`<br />
+    `bugfix/title-of-fix`
 
-  When all tests are passing and code is ready for review, submit a pull request with a URL reference to the item you are working on from the backlog + any supporting description / detail as necessary.
+    When all tests are passing and code is ready for review, submit a pull request with a URL reference to the item you are working on from the backlog + any supporting description / detail as necessary.
 
 ### Known Issues
 
-- `react-helmet` [#548](https://github.com/nfl/react-helmet/issues/548): There is a console error warning about UNSAFE_componentWillMount in strict mode.
+-   `react-helmet` [#548](https://github.com/nfl/react-helmet/issues/548): There is a console error warning about UNSAFE_componentWillMount in strict mode.
 
 #### Window dev environment issues
 
@@ -181,9 +181,9 @@ It is only used for building UI components and keeping react application(busines
 
 ## To run Storybook
 
-- Components can be easily visualized when you run the storybook through this
+-   Components can be easily visualized when you run the storybook through this
 
-- npm run storybook (windows) or yarn storybook(mac/ubuntu)
+-   npm run storybook (windows) or yarn storybook(mac/ubuntu)
 
-- this command will build all the stories that you've written and build useful ui for that so you can browse them easily and it
-  becomes extremely useful when you have a big code base.
+-   this command will build all the stories that you've written and build useful ui for that so you can browse them easily and it
+    becomes extremely useful when you have a big code base.

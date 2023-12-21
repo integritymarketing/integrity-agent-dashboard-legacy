@@ -30,10 +30,10 @@ const ContactSupportInvalidNPN = () => {
           <p className="mb-2 content-center ">
             <MailIcon />
             <a
-              href="mailto:support@medicarecenter.com"
+              href="mailto:support@clients.integrity.com"
               className="ml-2 link link--force-underline"
             >
-              support@medicarecenter.com
+              support@clients.integrity.com
             </a>
           </p>
           <p className="mb-3 content-center ">

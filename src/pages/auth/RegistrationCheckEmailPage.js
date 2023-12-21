@@ -64,7 +64,7 @@ const ConfirmationPage = () => {
                   ) : (
                     <p className="mb-2">
                       Find the confirmation email from Integrity Clients
-                      (accounts@medicarecenter.com)
+                      (accounts@clients.integrity.com)
                     </p>
                   )}
 

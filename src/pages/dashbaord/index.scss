@@ -66,6 +66,7 @@
 
                 .snapshot-wrapper {
                     width: 100%;
+                    min-height: 77px;
 
                     .title {
                         display: flex;
@@ -101,13 +102,18 @@
                         }
 
                         .snapshot-item {
-                            font-weight: 400;
-                            font-size: 20px;
-                            color: #2b323b;
+                            font-size: 18px;
+                            color: #434a51;
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
                             padding: 13px 16px;
+
+                            .dot {
+                                width: 16px;
+                                height: 16px;
+                                border-radius: 50%;
+                            }
 
                             &:hover {
                                 background: #f2f9ff;
