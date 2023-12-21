@@ -94,7 +94,7 @@ export const RemindersList = () => {
                                     <Box>
                                         <Box className={styles.dueLabel}>
                                             Due:
-                                            <span className={styles.dueValue}>{formatDate(reminderDate, "MM/dd")}</span>
+                                            <span className={styles.dueValue}>{getLocalDateTime(reminderDate)?.date}</span>
                                         </Box>
                                         <Box className={styles.dueLabel}>
                                             At:

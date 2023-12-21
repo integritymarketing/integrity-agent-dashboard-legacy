@@ -49,18 +49,29 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                     return response;
                 }
 
-                let json = null;
-                if (!noResponse) {
-                    json = await response.json();
+
+                try {
+                    const jsonData = await response.clone().json();
+                    setData(jsonData);
+                    return jsonData;
+                } catch {
+                    const textData = await response.text();
+                    setData(textData);
+                    return textData;
                 }
-                setData(json);
-                setLoading(false);
-                return json;
+
+
+                // let json = null;
+                // if (!noResponse) {
+                //     json = await response.json();
+                // }
             } catch (error) {
                 Sentry.captureException(error);
                 setError(error);
                 setLoading(false);
                 throw error;
+            } finally {
+                setLoading(false);
             }
         },
         [url, isPublic, noResponse]

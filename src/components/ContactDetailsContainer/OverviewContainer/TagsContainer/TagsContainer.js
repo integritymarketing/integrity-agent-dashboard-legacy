@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TagsList } from './TagsList/TagsList'
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
@@ -31,7 +31,7 @@ const TagsContainer = function () {
         return data.map((category) => ({
             label: category.tagCategoryName,
             items: category.tags.map(tag => ({
-                tag: tag,
+                tag,
                 label: tag.tagLabel,
                 id: tag.tagId
             }))
@@ -54,13 +54,29 @@ const TagsContainer = function () {
 
     useEffect(() => {
         if (leadDetails?.leadTags) {
-            const selectedTagIds = leadDetails?.leadTags.map(item => item?.tag?.tagId);
-            setSelectedTags(selectedTagIds)
-            setSelectedTempTags(selectedTagIds)
+            const selectedTagIds = leadDetails.leadTags.map(tag => tag.tag.tagId);
+            setSelectedTags(selectedTagIds);
+            setSelectedTempTags(selectedTagIds);
+
+            if (tempTags.length) {
+                const filteredTags = tempTags.map(tagCategory => filterCampaignTags(tagCategory, selectedTagIds));
+                setTagsList(filteredTags);
+            }
         }
-    }, [leadDetails])
+    }, [leadDetails, tempTags]);
 
 
+
+
+    const filterCampaignTags = (tagCategory, selectedIds) => {
+        if (tagCategory.label === "Campaigns" && tagCategory.items.length) {
+            return {
+                ...tagCategory,
+                items: tagCategory.items.filter(tag => selectedIds.includes(tag.id))
+            };
+        }
+        return tagCategory;
+    };
 
     const onCancel = () => {
         setSelectedTempTags([])
@@ -80,7 +96,7 @@ const TagsContainer = function () {
     }
 
 
-    const isDisabled = () => {
+    const isDisabled = useMemo(() => {
         // Check if the arrays are the same length
         if (selectedTags.length !== selectedTempTags.length) {
             return false;
@@ -98,7 +114,7 @@ const TagsContainer = function () {
         }
 
         return true;
-    }
+    }, [selectedTags, selectedTempTags]);
 
 
     return (
@@ -131,7 +147,7 @@ const TagsContainer = function () {
                     <Button
                         label={"Apply"}
                         className={styles.saveButton}
-                        disabled={isDisabled()}
+                        disabled={isDisabled}
                         onClick={handleSave}
                         type="tertiary"
                         icon={<ArrowForwardWithCircle />}

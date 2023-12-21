@@ -13,6 +13,21 @@ import { useOverView } from "providers/ContactDetails";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
+import useToast from "hooks/useToast";
+
+
+const isTagValid = (tag) => {
+    // Regular expression to match the tag against the criteria
+    const validTagRegex = /^(?=[\w\s-]{2,10}$)(?!.*[\s-]{2})[^-\s_][\w\s-]*[^-\s_]$/;
+
+    // \w matches any word character (equivalent to [a-zA-Z0-9_])
+    // \s matches any whitespace character (spaces)
+    // The lookahead (?=[\w\s-]{2,10}$) checks the length and allowed characters
+    // The negative lookahead (?!.*[\s-]{2}) ensures no consecutive spaces or hyphens
+    // [^-\s_] at the beginning and end asserts the string does not start or end with hyphen, space, or underscore
+
+    return validTagRegex.test(tag);
+};
 
 
 const getIconName = (label, itemLabel) => {
@@ -44,6 +59,20 @@ const getIconName = (label, itemLabel) => {
 
 
 const AddNewTag = ({ setNewTag, addNewTag, newTag, setAddNewTag, addTagCancel, createTag }) => {
+
+    const showToast = useToast();
+
+    const handleCreateTag = () => {
+        if (!isTagValid(newTag)) {
+            showToast({
+                type: "error",
+                message: `Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)`,
+            })
+        } else {
+            createTag()
+        }
+    }
+
     return (
         <>
             {addNewTag ?
@@ -62,7 +91,7 @@ const AddNewTag = ({ setNewTag, addNewTag, newTag, setAddNewTag, addTagCancel, c
                     </Box>
                     <div className={styles.createActionIcons}>
                         <div onClick={addTagCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
-                        <div onClick={createTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
+                        <div onClick={handleCreateTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
                     </div>
                 </div> :
                 <Box marginLeft={"10px"}>
@@ -83,6 +112,19 @@ const AddNewTag = ({ setNewTag, addNewTag, newTag, setAddNewTag, addTagCancel, c
 
 
 const OtherTags = ({ item, label, tagId, tagValue, setTagValue, editCancel, updateTag, onSelectTag, deleteTags, editTag, selectedTags }) => {
+
+    const showToast = useToast();
+
+    const handleUpdateTag = () => {
+        if (!isTagValid(tagValue)) {
+            showToast({
+                type: "error",
+                message: `Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)`,
+            })
+        } else {
+            updateTag()
+        }
+    }
     return (
         <>
             {tagId === item?.id ?
@@ -98,7 +140,7 @@ const OtherTags = ({ item, label, tagId, tagValue, setTagValue, editCancel, upda
                     </Box>
                     <div className={styles.createActionIcons}>
                         <div onClick={editCancel}><HighlightOffIcon sx={{ color: "#F44336", cursor: "pointer" }} /></div>
-                        <div onClick={updateTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
+                        <div onClick={handleUpdateTag}><AddCircleOutlineIcon color="primary" sx={{ cursor: "pointer", }} /></div>
                     </div>
                 </div>
                 :
@@ -283,7 +325,7 @@ export const TagsList = (
                 )}
             </div>
             }
-            {label === "Other" && open &&
+            {label === "Other" && items?.length < 11 && open &&
                 <Box sx={{ padding: "9px 12px" }}>
                     <AddNewTag
                         setAddNewTag={setAddNewTag}

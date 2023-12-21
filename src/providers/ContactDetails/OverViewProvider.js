@@ -51,13 +51,23 @@ export const OverViewProvider = ({ children }) => {
         );
     };
 
-    const createNewTag = async (payload) => {
+    const createNewTag = async (payload, selectedTags) => {
         const path = `Tag/`
         await performAsyncOperation(
-            async () => await addNewTag(payload, true, path),
+            async () => await addNewTag(payload, false, path),
             () => { },
-            async () => {
-                await getLeadTags();
+            async (data) => {
+                const newTag = data?.tagId;
+                if (newTag) {
+                    const editPayload = {
+                        leadId: payload?.leadsId,
+                        tagIds: [...selectedTags, newTag]
+                    }
+                    await editLeadTags(editPayload)
+                } else {
+                    getLeadTags();
+                }
+
                 showToast({
                     message: `Tag updated successfully`,
                 });
