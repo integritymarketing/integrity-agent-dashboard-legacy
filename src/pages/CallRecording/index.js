@@ -50,7 +50,7 @@ export default function index() {
                   className="cta-button1"
                   onClick={() =>
                     window.open(
-                      "https://www.medicarecenter.com/Welcome",
+                      "https://www.clients.integrity.com/Welcome",
                       "_blank"
                     )
                   }
@@ -68,7 +68,7 @@ export default function index() {
             <p>
               <a
                 rel="noopener noreferrer"
-                href="https://www.medicarecenter.com/terms"
+                href="https://www.clients.integrity.com/terms"
                 target="_blank"
               >
                 Terms of Use
@@ -76,7 +76,7 @@ export default function index() {
               &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
               <a
                 rel="noopener noreferrer"
-                href="https://www.medicarecenter.com/privacy"
+                href="https://www.clients.integrity.com/privacy"
                 target="_blank"
               >
                 Privacy Policy

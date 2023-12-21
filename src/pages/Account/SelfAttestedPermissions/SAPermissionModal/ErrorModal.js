@@ -5,7 +5,7 @@ import SAPermissionModal from "./SAPermissionModal";
 
 import styles from "./styles.module.scss";
 
-const EMAIL = "support@medicarecenter.com";
+const EMAIL = "support@clients.integrity.com";
 
 function ErrorModal() {
   const { isErrorModalOpen, setIsErrorModalOpen } = useSAPModalsContext();

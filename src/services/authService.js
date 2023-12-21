@@ -15,7 +15,7 @@ const getPortalUrl = () => {
       process.env.REACT_APP_PORTAL_URL ||
       cookies.get("portal_url") ||
       cookies.get("client_url") ||
-      "https://www.medicarecenter.com"
+      "https://www.clients.integrity.com"
     );
   }
 };

@@ -28,8 +28,8 @@ const ContactInfo = ({ className = '', testId, ...props }) => {
       </p>
       <div className="hdg hdg--4 mb-1">Email</div>
       <p className="text-body mb-4" data-testid={`${testId}-email`}>
-        <a href="mailto:support@medicarecenter.com" className="link">
-          support@medicarecenter.com
+        <a href="mailto:support@clients.integrity.com" className="link">
+          support@clients.integrity.com
         </a>
       </p>
     </>

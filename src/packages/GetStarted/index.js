@@ -169,14 +169,14 @@ export default function GetStarted(props) {
         <div className={styles.mobileApps}>
           <div
             onClick={() => {
-              /*  window.open("https://www.medicarecenter.com/", "_newtab"); */
+              /*  window.open("https://www.clients.integrity.com/", "_newtab"); */
             }}
           >
             <PlayStore />
           </div>
           <div
             onClick={() => {
-              /*  window.open("https://www.medicarecenter.com/", "_newtab"); */
+              /*  window.open("https://www.clients.integrity.com/", "_newtab"); */
             }}
           >
             <AppStore />

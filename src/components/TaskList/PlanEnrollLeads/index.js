@@ -118,7 +118,7 @@ const PlanEnrollLeads = ({ dateRange }) => {
         if (planEnrollData?.length === 0) {
             setIsLoading(true);
         }
-        const stage = [12];
+        const stage = [33];
 
         try {
             const response = await clientsService.getDashboardData(

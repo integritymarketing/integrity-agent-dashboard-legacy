@@ -78,11 +78,11 @@ const HelpPage = () => {
               </div>
               <a
                 className={styles.cta}
-                href="mailto: support@medicarecenter.com"
+                href="mailto: support@clients.integrity.com"
               >
                 <Paragraph
                   className={styles.helpText}
-                  text={"support@medicarecenter.com"}
+                  text={"support@clients.integrity.com"}
                 />
               </a>
             </Box>

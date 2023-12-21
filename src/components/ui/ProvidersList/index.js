@@ -18,11 +18,14 @@ const useWebStyles = makeStyles({
         display: "flex",
         alignItems: "center",
         marginBottom: 10,
+        width: "100%",
+        backgroundColor: "#F1FAFF",
     },
     addressText: {
         marginLeft: 10,
         color: "#717171",
         fontSize: "14px",
+        width: "100%",
     },
     addressColumn: {
         display: "flex",
