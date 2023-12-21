@@ -1,33 +1,44 @@
-import React, { useEffect, useState, useContext, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
-import Media from "react-media";
 import * as Sentry from "@sentry/react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import Media from "react-media";
+import { useNavigate } from "react-router-dom";
+
+import { Box } from "@mui/material";
+
 import { useRecoilState } from "recoil";
-import Morning from "./morning.svg";
-import Afternoon from "./afternoon.svg";
-import Evening from "./evening.svg";
-import DashboardActivityTable from "./DashboardActivityTable";
-import GlobalNav from "partials/global-nav-v2";
+import { welcomeModalOpenAtom } from "recoil/agent/atoms";
+import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
+
+import { greetings } from "utils/greetings";
+
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
+import useToast from "hooks/useToast";
+import useUserProfile from "hooks/useUserProfile";
+
+import FooterBanners from "packages/FooterBanners";
+
 import Footer from "components/Footer";
-import clientsService from "services/clientsService";
+import PlanSnapShot from "components/PolicySnapShot";
+import TaskList from "components/TaskList";
+import Arrow from "components/icons/down";
 import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
-import { greetings } from "utils/greetings";
-import useToast from "hooks/useToast";
-import stageSummaryContext from "contexts/stageSummary";
-import "./index.scss";
-import Arrow from "components/icons/down";
-import useAgentInformationByID from "hooks/useAgentInformationByID";
+
 import AgentWelcomeDialog from "partials/agent-welcome-dialog";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
-import FooterBanners from "packages/FooterBanners";
-import PlanSnapShot from "components/PolicySnapShot";
-import TaskList from "components/TaskList";
-import useUserProfile from "hooks/useUserProfile";
-import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
-import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
+import GlobalNav from "partials/global-nav-v2";
+
+import stageSummaryContext from "contexts/stageSummary";
+
+import clientsService from "services/clientsService";
+
+import DashboardActivityTable from "./DashboardActivityTable";
+import Afternoon from "./afternoon.svg";
+import Evening from "./evening.svg";
+import "./index.scss";
+import Morning from "./morning.svg";
 
 function numberWithCommas(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -47,7 +58,7 @@ export default function Dashbaord() {
     const [totalPageSize, setTotalPageSize] = useState(1);
     const [selectedFilterValues, setSelectedFilterValues] = useState([]);
     const [sort, setSort] = useState("Activities.CreateDate:desc");
-    const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(false);
+    const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
 
     const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
 
@@ -157,8 +168,8 @@ export default function Dashbaord() {
                                     greetings() === "Evening"
                                         ? Evening
                                         : greetings() === "Morning"
-                                            ? Morning
-                                            : Afternoon
+                                        ? Morning
+                                        : Afternoon
                                 }
                                 alt="Greeting"
                             />
@@ -171,16 +182,14 @@ export default function Dashbaord() {
                                 <div className="snapshot-wrapper">
                                     <div className="title">
                                         <div className="titleText">
-                                            {isMobile && (
-                                                <div
-                                                    className={`arrowIcon ${isClientSnapshotOpen ? "iconReverse" : ""}`}
-                                                    onClick={() => {
-                                                        setClientSnapshotOpen(!isClientSnapshotOpen);
-                                                    }}
-                                                >
-                                                    <Arrow color={"#0052CE"} />
-                                                </div>
-                                            )}
+                                            <div
+                                                className={`arrowIcon ${isClientSnapshotOpen ? "iconReverse" : ""}`}
+                                                onClick={() => {
+                                                    setClientSnapshotOpen(!isClientSnapshotOpen);
+                                                }}
+                                            >
+                                                <Arrow color={"#0052CE"} />
+                                            </div>
                                             Client Snapshot{" "}
                                         </div>
                                         <Popover
@@ -193,7 +202,7 @@ export default function Dashbaord() {
                                             <Info />
                                         </Popover>
                                     </div>
-                                    {((isClientSnapshotOpen && isMobile) || !isMobile) && (
+                                    {isClientSnapshotOpen && (
                                         <div className="snapshot-data">
                                             {stageSummary &&
                                                 stageSummary.map((d, index) => (
@@ -202,11 +211,13 @@ export default function Dashbaord() {
                                                         onClick={() => navigateToContactListPage(d.leadStatusId)}
                                                         key={index}
                                                     >
-                                                        <div className="snapshot-name">
-                                                            {d?.statusName?.includes("Soa")
-                                                                ? d.statusName.replace("Soa", "SOA ")
-                                                                : d.statusName}
-                                                        </div>
+                                                        <Box display="flex" alignItems="center" gap="10px">
+                                                            <span
+                                                                className="dot"
+                                                                style={{ backgroundColor: d.hexValue }}
+                                                            ></span>
+                                                            <Box>{d.statusName}</Box>
+                                                        </Box>
                                                         <div className="snapshot-count">
                                                             {numberWithCommas(d.totalCount)}
                                                         </div>
@@ -221,7 +232,7 @@ export default function Dashbaord() {
                         {!isMobile && <FooterBanners className="banners mt-400" type="column" />}
                     </section>
 
-                    <section className={`recent-activity-section ${isMobile && isClientSnapshotOpen ? "mt-400" : ""}`}>
+                    <section className={`recent-activity-section ${isClientSnapshotOpen ? "mt-400" : ""}`}>
                         <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />
                         <TaskList isMobile={isMobile} npn={userProfile?.npn} />
                         <DashboardActivityTable
@@ -249,7 +260,6 @@ export default function Dashbaord() {
                         setTimeout(() => (document.body.style.overflow = "auto"), 1000);
                     }}
                 />
-
             </WithLoader>
             <Footer />
         </>
