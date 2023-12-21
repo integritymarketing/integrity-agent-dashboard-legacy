@@ -51,6 +51,7 @@
     width: calc(100% - 150px - 100px);
     height: 120px;
     line-break: anywhere;
+    color: #434a51;
 
     @include small {
         width: auto;
