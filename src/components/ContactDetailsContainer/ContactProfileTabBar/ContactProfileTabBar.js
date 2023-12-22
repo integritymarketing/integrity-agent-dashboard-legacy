@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { toTitleCase } from "utils/toTitleCase";
+
+import useBackPage from "hooks/useBackPage";
 
 import PlansTypeModal from "components/PlansTypeModal";
 import { Button } from "components/ui/Button";
@@ -17,7 +19,6 @@ import { Connect, Health, Overview, Policies } from "./Icons";
 import { ConnectModal } from "../ConnectModal";
 
 import NewBackBtn from "images/new-back-btn.svg";
-import useBackPage from "hooks/useBackPage";
 
 const tabs = [
     { name: "Overview", section: "overview", icon: <Overview /> },
@@ -57,7 +58,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
         [leadId, navigate, setSelectedTab]
     );
 
-    const handleBackPage = useBackPage("/contacts");
+    const handleBackPage = useBackPage("/contacts", true);
 
     const handleCloseShowPlanTypeModal = useCallback(() => {
         setShowPlanTypeModal(false);
