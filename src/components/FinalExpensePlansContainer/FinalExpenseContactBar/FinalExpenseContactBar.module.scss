@@ -12,7 +12,7 @@
     box-shadow: inset 0px -1px 0px #dddddd;
 
     @include small {
-        flex-direction: column;
+        padding-left: 0;
     }
 
     .backToContacts {

@@ -139,6 +139,99 @@
     }
 }
 
+.modalTitle {
+    @include small {
+        padding: 3rem !important;
+    }
+}
+
+.modalContainer {
+    padding: 24px 0 8px 0;
+    max-width: 488px;
+    color: #052a63;
+    font-size: 20px;
+}
+
+.contentBox {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    color: #434a51;
+
+    .redirectLink {
+        color: #4178ff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .helpList {
+        list-style: disc;
+        padding: 16px;
+
+        li {
+            padding-top: 8px;
+        }
+    }
+
+    .footerButtons {
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+
+        .cancelCTA {
+            color: #4178ff;
+            font-size: 16px;
+            height: 40px;
+            padding: 10px 15px;
+            text-transform: none;
+
+            &:hover {
+                background: #ffffff;
+                border-radius: 20px;
+                box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .updatePermissionCTA {
+            background: #4178ff;
+            border-radius: 20px;
+            color: #ffffff;
+            padding: 20px 16px;
+            text-transform: none;
+
+            &:hover {
+                background: #4178ff;
+            }
+
+            &.Mui-disabled {
+                background: #b3c9ff;
+                color: #ffffff;
+                cursor: not-allowed;
+
+                & svg #Icon_Arrow_path {
+                    // targeting the svg path by id
+                    fill: transparent; // changing the fill color
+                }
+
+                & svg #Icon_circle_path {
+                    // targeting the svg path by id
+                    fill: #ffffff; // changing the fill color
+                }
+
+                & svg #Icon_Add_path {
+                    // targeting the svg path by id
+                    fill: transparent; // changing the fill color
+                }
+            }
+        }
+
+        @include small {
+            flex-direction: column;
+            gap: 16px;
+        }
+    }
+}
+
 .selectInputBox {
     height: 46px;
 }
@@ -163,7 +256,7 @@
 .datepicker {
     width: 100%;
 
-    >div {
+    > div {
         height: 46px;
         width: 100%;
     }
@@ -177,8 +270,8 @@
     }
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

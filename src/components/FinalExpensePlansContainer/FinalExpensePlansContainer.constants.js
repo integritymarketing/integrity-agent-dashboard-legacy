@@ -1,3 +1,6 @@
+import { AGENTS_API_VERSION } from "services/clientsService";
+
+export const AGENT_SERVICE_NON_RTS = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/isLifeNonRTS/`;
 export const BACK = "Back";
 export const CONTACT_DETAILS = "Final Expense";
 export const CONTACT_FORM_TITLE = "Let's confirm a few details";
@@ -30,3 +33,12 @@ export const POLICY_FEE = "Policy Fee";
 export const PLAN_INFO = "Plan Info";
 export const PRESCREEN_AVAILABLE = "Prescreen Available";
 export const APPLY = "Apply";
+export const UPDATE_SELLING_PERMISSIONS_TEXT = "Update Your Selling Permissions";
+export const UPDATE_SELLING_PERMISSIONS_SUBTEXT = "Update your Selling Permissions for an Improved Experience";
+export const BENEFITS_SELLING_PERMISSIONS = [
+    "Filter the Quote results by the Products and Carriers you are contracted with",
+    "Gain Single Sign On to select Carriers and Product Websites",
+    "Automatically link Policies to your Account",
+];
+export const CONTINUE_QUOTE = "Continue to Quote";
+export const UPDATE_PERMISSIONS = "Update my Permissions";

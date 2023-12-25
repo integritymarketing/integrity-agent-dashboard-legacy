@@ -1,14 +1,23 @@
 import React, { useEffect, useMemo, useState } from "react";
+
 import { InputAdornment, OutlinedInput } from "@mui/material";
+
 import PropTypes from "prop-types";
+
 import { formatDate, formatServerDate, parseDate } from "utils/dates";
+
+import useFetch from "hooks/useFetch";
+
 import DatePickerMUI from "components/DatePicker";
 import { SelectStateField } from "components/SharedFormFields";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { Button } from "components/ui/Button";
+
 import styles from "./FinalExpenseContactDetailsForm.module.scss";
+import { SellingPermissionsModal } from "./SellingPermissionsModal";
 
 import {
+    AGENT_SERVICE_NON_RTS,
     BIRTHDATE,
     CONTACT_FORM_SUBTITLE,
     CONTACT_FORM_SUBTITLE_MOBILE,
@@ -28,11 +37,24 @@ import {
     WT_PLACEHOLDER,
 } from "../FinalExpensePlansContainer.constants";
 
-const FinalExpenseContactDetailsForm = ({ contactId, address, birthdate, sexuality, wt, hFeet, hInch, smoker, onSave }) => {
+const FinalExpenseContactDetailsForm = ({
+    contactId,
+    agentNpn,
+    address,
+    birthdate,
+    sexuality,
+    wt,
+    hFeet,
+    hInch,
+    smoker,
+    onSave,
+}) => {
     const [isDisabled, setIsDisabled] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [mobileStepNumber, setMobileStepNumber] = useState(0);
-    const code = sessionStorage.getItem(contactId) ? JSON.parse(sessionStorage.getItem(contactId)).stateCode : address?.stateCode;
+    const code = sessionStorage.getItem(contactId)
+        ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
+        : address?.stateCode;
     const [stateCode, setStateCode] = useState(code);
     const [gender, setGender] = useState(sexuality);
     const [bDate, setBDate] = useState(birthdate);
@@ -40,6 +62,8 @@ const FinalExpenseContactDetailsForm = ({ contactId, address, birthdate, sexuali
     const [inch, setInch] = useState(hInch);
     const [weight, setWeight] = useState(wt);
     const [isTobaccoUser, setIsTobaccoUser] = useState(smoker);
+    const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
+    const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNpn}`);
 
     const updateFeet = (value) => {
         if (!value || (value > 0 && value <= 8 && !value.includes("."))) {
@@ -73,6 +97,21 @@ const FinalExpenseContactDetailsForm = ({ contactId, address, birthdate, sexuali
         setIsSaving(true);
         await onSave(formData);
         setIsSaving(false);
+    };
+    const closeModal = () => {
+        setShowSellingPermissionModal(false);
+    };
+    const handleContinue = () => {
+        setShowSellingPermissionModal(false);
+        onSaveHealthInfo();
+    };
+    const handleNext = async () => {
+        const isAgentNonRTS = await getAgentNonRTS();
+        if (isAgentNonRTS) {
+            setShowSellingPermissionModal(true);
+        } else {
+            onSaveHealthInfo();
+        }
     };
 
     const genderOptions = useMemo(
@@ -199,7 +238,7 @@ const FinalExpenseContactDetailsForm = ({ contactId, address, birthdate, sexuali
                     <Button
                         disabled={isDisabled || isSaving}
                         label={isSaving ? SAVING : NEXT}
-                        onClick={onSaveHealthInfo}
+                        onClick={handleNext}
                         type="primary"
                         icon={<ButtonCircleArrow />}
                         fullWidth={true}
@@ -241,7 +280,7 @@ const FinalExpenseContactDetailsForm = ({ contactId, address, birthdate, sexuali
                             <Button
                                 disabled={isDisabled || isSaving}
                                 label={isSaving ? SAVING : NEXT}
-                                onClick={onSaveHealthInfo}
+                                onClick={handleNext}
                                 type="primary"
                                 icon={<ButtonCircleArrow />}
                                 fullWidth={true}
@@ -254,6 +293,13 @@ const FinalExpenseContactDetailsForm = ({ contactId, address, birthdate, sexuali
                 </div>
             </div>
             <p className={styles.requiredFieldsText}>{REQUIRED_FIELDS}</p>
+            {showSellingPermissionModal && (
+                <SellingPermissionsModal
+                    showSellingPermissionModal={showSellingPermissionModal}
+                    handleModalClose={closeModal}
+                    handleContinue={handleContinue}
+                />
+            )}
         </div>
     );
 };

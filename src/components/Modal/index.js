@@ -128,6 +128,7 @@ export default function Modal({
     maxWidth = "sm",
     cancelClassName,
     closeIcon,
+    titleClassName,
 }) {
     const classes = useStyles();
 
@@ -148,7 +149,7 @@ export default function Modal({
                     },
                 }}
             >
-                <DialogTitle disableTypography className={classes.title}>
+                <DialogTitle disableTypography className={`${classes.title} ${titleClassName}`}>
                     <div
                         style={{
                             alignItems: "center",

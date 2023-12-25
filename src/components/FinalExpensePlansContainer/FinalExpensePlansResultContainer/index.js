@@ -18,6 +18,7 @@ import {
     COVERAGE_TYPE,
     COVERAGE_TYPE_HEADING,
     DEFAULT_COVERAGE_AMOUNT,
+    DEFAULT_MONTHLY_PREMIUM,
     EXCLUDE_LABEL,
     MY_APPOINTED_LABEL,
     PLAN_OPTIONS_HEADING,
@@ -32,8 +33,10 @@ const FinalExpensePlansResultContainer = ({}) => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
+    const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
+    const { min, max, step } = STEPPER_FILTER[MONTHLY_PREMIUM];
     const [coverageAmount, setCoverageAmount] = useState(DEFAULT_COVERAGE_AMOUNT);
-    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = useState(STEPPER_FILTER[MONTHLY_PREMIUM].min);
+    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = useState(DEFAULT_MONTHLY_PREMIUM);
     const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[4].value);
     const { getLeadDetails } = useLeadDetails();
     const [isMyAppointedProducts, setIsMyAppointedProducts] = useState(false);
@@ -45,25 +48,33 @@ const FinalExpensePlansResultContainer = ({}) => {
 
     const increment = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
-            if (coverageAmount < STEPPER_FILTER[COVERAGE_AMOUNT].max) {
-                setCoverageAmount(coverageAmount + STEPPER_FILTER[COVERAGE_AMOUNT].step);
-            }
+            if (coverageAmount !== covMin) {
+                if (coverageAmount + covStep < covMax) {
+                    setCoverageAmount(coverageAmount + covStep);
+                } else setCoverageAmount(covMax);
+            } else setCoverageAmount(5000);
         } else {
-            if (monthlyPremiumAmount < STEPPER_FILTER[MONTHLY_PREMIUM].max) {
-                setMonthlyPremiumAmount(monthlyPremiumAmount + STEPPER_FILTER[MONTHLY_PREMIUM].step);
-            }
+            if (monthlyPremiumAmount !== min) {
+                if (monthlyPremiumAmount + step < max) {
+                    setMonthlyPremiumAmount(monthlyPremiumAmount + step);
+                } else setMonthlyPremiumAmount(max);
+            } else setMonthlyPremiumAmount(20);
         }
     };
 
     const decrement = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
-            if (coverageAmount > STEPPER_FILTER[COVERAGE_AMOUNT].min) {
-                setCoverageAmount(coverageAmount - STEPPER_FILTER[COVERAGE_AMOUNT].step);
-            }
+            if (coverageAmount !== covMax) {
+                if (coverageAmount - covStep > covMin) {
+                    setCoverageAmount(coverageAmount - covStep);
+                } else setCoverageAmount(covMin);
+            } else setCoverageAmount(995000);
         } else {
-            if (monthlyPremiumAmount > STEPPER_FILTER[MONTHLY_PREMIUM].min) {
-                setMonthlyPremiumAmount(monthlyPremiumAmount - STEPPER_FILTER[MONTHLY_PREMIUM].step);
-            }
+            if (monthlyPremiumAmount !== max) {
+                if (monthlyPremiumAmount - step > min) {
+                    setMonthlyPremiumAmount(monthlyPremiumAmount - step);
+                } else setMonthlyPremiumAmount(min);
+            } else setMonthlyPremiumAmount(980);
         }
     };
 

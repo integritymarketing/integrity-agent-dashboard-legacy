@@ -19,7 +19,7 @@ export const FinalExpensePlansContainer = () => {
     const { getLeadDetails, leadDetails, isLoading: isLoadingContactDetails } = useContactDetails(contactId);
     const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${contactId}`);
     const navigate = useNavigate();
-    const { birthdate, gender, weight, height, isTobaccoUser, addresses } = leadDetails;
+    const { birthdate, gender, weight, height, isTobaccoUser, addresses, agentNpn } = leadDetails;
 
     useEffect(() => {
         getLeadDetails();
@@ -57,6 +57,7 @@ export const FinalExpensePlansContainer = () => {
                     hFeet={height ? Math.floor(height / 12) : ""}
                     hInch={height ? height % 12 : ""}
                     smoker={isTobaccoUser}
+                    agentNpn={agentNpn}
                     onSave={onSave}
                 />
             )}
