@@ -14,13 +14,13 @@ import useToast from "../../hooks/useToast";
 import useQueryParams from "hooks/useQueryParams";
 
 import DatePickerMUI from "components/DatePicker";
+import Footer from "components/Footer";
 import Warning from "components/icons/warning";
 import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
 
-import Footer from "components/Footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import CountyContext from "contexts/counties";
@@ -49,7 +49,12 @@ const NewContactForm = ({
     const isRelink = get("relink") === "true";
     const [showAddress2, setShowAddress2] = useState(false);
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-    const { allCounties = [], allStates = [], fetchCountyAndState } = useContext(CountyContext);
+    const {
+        allCounties = [],
+        allStates = [],
+        fetchCountyAndState,
+        loading: loadingCountyAndState,
+    } = useContext(CountyContext);
 
     const navigate = useNavigate();
     const showToast = useToast();
@@ -97,7 +102,7 @@ const NewContactForm = ({
         navigate(getContactLink(id));
     };
     const goToContactPage = () => {
-        navigate("/contacts");
+        navigate("/contacts/list");
     };
     const handleMultileDuplicates = () => {
         if (duplicateLeadIds.length) {
@@ -298,14 +303,8 @@ const NewContactForm = ({
             }) => {
                 let primaryCommunicationStatus = false;
                 if (
-                    ((!errors.phones?.leadPhone &&
-                        touched.phones?.leadPhone &&
-                        values.phones?.leadPhone !== "")
-                        ||
-                        (touched.email &&
-                            !errors.email &&
-                            values.email !== "")) &&
-
+                    ((!errors.phones?.leadPhone && touched.phones?.leadPhone && values.phones?.leadPhone !== "") ||
+                        (touched.email && !errors.email && values.email !== "")) &&
                     values.primaryCommunication !== ""
                 ) {
                     // setFieldValue("primaryCommunication", values.primaryCommunication);
@@ -482,7 +481,10 @@ const NewContactForm = ({
                                             .slice(0, 5);
                                     }}
                                     error={
-                                        (touched.address?.postalCode || submitCount > 0) && errors.address?.postalCode
+                                        errors.address?.postalCode ||
+                                        (values.address.postalCode.length === 5 &&
+                                            !loadingCountyAndState &&
+                                            allStates?.length === 0)
                                             ? true
                                             : false
                                     }
@@ -536,12 +538,19 @@ const NewContactForm = ({
                                     <li className="error-msg-red">{errors.address?.city}</li>
                                 </ul>
                             )}
-
-                            {errors.address?.postalCode && (touched.address?.postalCode || submitCount > 0) && (
+                            {errors.address?.postalCode && (
                                 <ul className="details-edit-custom-error-msg">
-                                    <li className="error-msg-red zip-code-error-msg ">{errors.address?.postalCode}</li>
+                                    <li className="error-msg-red zip-code-error-msg">{errors.address?.postalCode}</li>
                                 </ul>
                             )}
+                            {!errors.address?.postalCode &&
+                                values.address.postalCode.length > 0 &&
+                                !loadingCountyAndState &&
+                                allStates?.length === 0 && (
+                                    <ul className="details-edit-custom-error-msg">
+                                        <li className="error-msg-red zip-code-error-msg">Invalid ZIP Code</li>
+                                    </ul>
+                                )}
                         </fieldset>
                         <div className="mt-3 mb-3 border-bottom border-bottom--light" />
                         <fieldset className="form__fields form__fields--constrained ">

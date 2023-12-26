@@ -2,20 +2,23 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 
+import { Form, Formik } from "formik";
+import { useLeadDetails } from "providers/ContactDetails";
+
 import { formatDate, getLocalDateTime } from "utils/dates";
+import { formatPhoneNumber } from "utils/phones";
 import { primaryContactOptions } from "utils/primaryContact";
+import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 
 import DatePickerMUI from "components/DatePicker";
 import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
+import Textfield from "components/ui/textfield";
 
 import CountyContext from "contexts/counties";
-import { Formik, Form } from "formik";
-import Textfield from "components/ui/textfield";
+
 import validationService from "services/validationService";
-import { formatPhoneNumber } from "utils/phones";
-import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
-import { useLeadDetails } from "providers/ContactDetails";
+
 import "pages/contacts/contactRecordInfo/contactRecordInfo.scss";
 
 import styles from "./ContactInfoContainer.module.scss";
@@ -33,11 +36,8 @@ import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { ArrowForwardWithCircle } from "../Icons";
 
-
-
 function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
-    const { leadDetails, } = useLeadDetails();
-
+    const { leadDetails } = useLeadDetails();
 
     let {
         firstName = "",
@@ -57,43 +57,31 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         partB,
     } = leadDetails;
 
-
     let {
         allCounties = [],
         allStates = [],
         fetchCountyAndState,
+        loading: loadingCountyAndState,
     } = useContext(CountyContext);
-
 
     let email = emails.length > 0 ? emails[0].leadEmail : null;
     let phoneData = phones.length > 0 ? phones[0] : null;
     let addressData = addresses.length > 0 ? addresses?.[0] : null;
     const emailID = emails.length > 0 ? emails[0].emailID : 0;
-    const leadAddressId =
-        addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
+    const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
     const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
 
     const city = addressData && addressData.city ? addressData.city : "";
-    const stateCode =
-        addressData && addressData.stateCode ? addressData.stateCode : "";
-    const address1 =
-        addressData && addressData.address1 ? addressData.address1 : "";
-    const address2 =
-        addressData && addressData.address2 ? addressData.address2 : "";
+    const stateCode = addressData && addressData.stateCode ? addressData.stateCode : "";
+    const address1 = addressData && addressData.address1 ? addressData.address1 : "";
+    const address2 = addressData && addressData.address2 ? addressData.address2 : "";
     const county = addressData && addressData.county ? addressData.county : "";
-    const countyFips =
-        addressData && addressData.countyFips ? addressData.countyFips : "";
-    const postalCode =
-        addressData && addressData.postalCode ? addressData.postalCode : "";
+    const countyFips = addressData && addressData.countyFips ? addressData.countyFips : "";
+    const postalCode = addressData && addressData.postalCode ? addressData.postalCode : "";
     const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
-    const phoneLabel =
-        phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
+    const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
 
-    const isPrimary = contactPreferences?.primary
-        ? contactPreferences?.primary
-        : "email";
-
-
+    const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
 
     useEffect(() => {
         fetchCountyAndState(postalCode);
@@ -103,20 +91,15 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         if (!value) return;
         let formattedValue = value.replace(/-/g, "");
         if (formattedValue.length > 4) {
-            formattedValue =
-                formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+            formattedValue = formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
         }
         if (formattedValue.length > 8) {
-            formattedValue =
-                formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+            formattedValue = formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
         }
         return formattedValue.toUpperCase();
-    };;
-
-
+    };
 
     return (
-
         <Formik
             initialValues={{
                 firstName: firstName,
@@ -145,9 +128,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 leadStatusId,
                 leadsId,
                 notes,
-                medicareBeneficiaryID: medicareBeneficiaryID
-                    ? formatMbiNumber(medicareBeneficiaryID)
-                    : "",
+                medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
                 partA: partA ?? "",
                 partB: partB ?? "",
             }}
@@ -167,46 +148,34 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                         {
                             name: "phones.leadPhone",
                             validator: validationService.composeValidator([
-                                validationService.validateRequiredIf(
-                                    "phone" === values.primaryCommunication
-                                ),
+                                validationService.validateRequiredIf("phone" === values.primaryCommunication),
                                 validationService.validatePhone,
                             ]),
                         },
                         {
                             name: "email",
                             validator: validationService.composeValidator([
-                                validationService.validateRequiredIf(
-                                    "email" === values.primaryCommunication
-                                ),
+                                validationService.validateRequiredIf("email" === values.primaryCommunication),
                                 validationService.validateEmail,
                             ]),
                         },
                         {
                             name: "address.postalCode",
-                            validator: validationService.composeValidator([
-                                validationService.validatePostalCode,
-                            ]),
+                            validator: validationService.composeValidator([validationService.validatePostalCode]),
                         },
                         {
                             name: "address.address1",
-                            validator: validationService.composeValidator([
-                                validationService.validateAddress,
-                            ]),
+                            validator: validationService.composeValidator([validationService.validateAddress]),
                             args: ["Address"],
                         },
                         {
                             name: "address.address2",
-                            validator: validationService.composeValidator([
-                                validationService.validateAddress,
-                            ]),
+                            validator: validationService.composeValidator([validationService.validateAddress]),
                             args: ["Apt, Suite, Unit"],
                         },
                         {
                             name: "address.city",
-                            validator: validationService.composeValidator([
-                                validationService.validateAddress,
-                            ]),
+                            validator: validationService.composeValidator([validationService.validateAddress]),
                         },
                         {
                             name: "birthdate",
@@ -221,7 +190,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                     ],
                     values
                 );
-
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
                 setSubmitting(true);
@@ -229,17 +197,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 setIsEditMode(false);
             }}
         >
-            {({
-                values,
-                errors,
-                touched,
-                isValid,
-                dirty,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-            }) => {
+            {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
                 let countyName = allCounties[0]?.value;
                 let countyFipsName = allCounties[0]?.key;
                 let stateCodeName = allStates[0]?.value;
@@ -252,10 +210,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                     setFieldValue("address.county", allCounties[0].value);
                     setFieldValue("address.countyFips", allCounties[0].key);
                 }
-                if (
-                    allStates.length === 1 &&
-                    stateCodeName !== values.address.stateCode
-                ) {
+                if (allStates.length === 1 && stateCodeName !== values.address.stateCode) {
                     setFieldValue("address.stateCode", allStates[0].value);
                 }
 
@@ -297,7 +252,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                         />
-
                                     </StyledFormItem>
                                     <StyledFormItem>
                                         <StyledElementName>Last Name</StyledElementName>
@@ -317,7 +271,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 <li className="error-msg-red">{errors.lastName}</li>
                                             </ul>
                                         )}
-
                                     </StyledFormItem>
                                 </SectionContainer>
 
@@ -336,7 +289,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 <li className="error-msg-red">{errors.birthdate}</li>
                                             </ul>
                                         )}
-
                                     </StyledFormItem>
                                 </SectionContainer>
 
@@ -354,8 +306,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             }}
                                             showValueAlways={true}
                                         />
-
-
                                     </StyledFormItem>
                                 </SectionContainer>
 
@@ -373,7 +323,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             onBlur={handleBlur}
                                             error={touched.email && errors.email}
                                         />
-
                                     </StyledFormItem>
                                 </SectionContainer>
 
@@ -389,11 +338,8 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             value={formatPhoneNumber(values.phones.leadPhone)}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            error={
-                                                touched.phones?.leadPhone && errors.phones?.leadPhone
-                                            }
+                                            error={touched.phones?.leadPhone && errors.phones?.leadPhone}
                                         />
-
                                     </StyledFormItem>
                                 </SectionContainer>
 
@@ -413,12 +359,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         />
                                         {touched.address?.address1 && errors.address?.address1 && (
                                             <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">
-                                                    {errors.address?.address1}
-                                                </li>
+                                                <li className="error-msg-red">{errors.address?.address1}</li>
                                             </ul>
                                         )}
-
                                     </StyledFormItem>
                                     <StyledFormItem>
                                         <Textfield
@@ -433,12 +376,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         />
                                         {touched.address?.address2 && errors.address?.address2 && (
                                             <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">
-                                                    {errors.address?.address2}
-                                                </li>
+                                                <li className="error-msg-red">{errors.address?.address2}</li>
                                             </ul>
                                         )}
-
                                     </StyledFormItem>
                                     <StyledFormItem>
                                         <Textfield
@@ -453,15 +393,17 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         />
                                         {touched.address?.city && errors.address?.city && (
                                             <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">
-                                                    {errors.address?.city}
-                                                </li>
+                                                <li className="error-msg-red">{errors.address?.city}</li>
                                             </ul>
                                         )}
-
                                     </StyledFormItem>
-                                    <Box className={styles.horizontalLayout} display="flex" justifyContent={"space-between"} gap="10px">
-                                        <StyledFormItem  >
+                                    <Box
+                                        className={styles.horizontalLayout}
+                                        display="flex"
+                                        justifyContent={"space-between"}
+                                        gap="10px"
+                                    >
+                                        <StyledFormItem>
                                             <Textfield
                                                 id="contact-address__zip"
                                                 className={`${styles["contact-address--zip"]} custom-address-zip hide-field-error`}
@@ -483,11 +425,17 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                         .toString()
                                                         .slice(0, 5);
                                                 }}
-                                                error={errors.address?.postalCode ? true : false}
+                                                error={
+                                                    errors.address?.postalCode ||
+                                                    (values.address.postalCode.length === 5 &&
+                                                        !loadingCountyAndState &&
+                                                        allStates?.length === 0)
+                                                        ? true
+                                                        : false
+                                                }
                                             />
-
                                         </StyledFormItem>
-                                        <StyledFormItem  >
+                                        <StyledFormItem>
                                             <Select
                                                 placeholder="State"
                                                 showValueAsLabel={true}
@@ -495,8 +443,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 disabled={true}
                                                 options={allStates}
                                                 isDefaultOpen={
-                                                    allStates.length > 1 &&
-                                                        values.address.stateCode === ""
+                                                    allStates.length > 1 && values.address.stateCode === ""
                                                         ? true
                                                         : false
                                                 }
@@ -515,6 +462,14 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             </li>
                                         </ul>
                                     )}
+                                    {!errors.address?.postalCode &&
+                                        values.address.postalCode.length > 0 &&
+                                        !loadingCountyAndState &&
+                                        allStates?.length === 0 && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red zip-code-error-msg">Invalid ZIP Code</li>
+                                            </ul>
+                                        )}
                                     <StyledFormItem style={{ width: "100%", marginTop: "10px" }}>
                                         <Select
                                             placeholder="Select County"
@@ -522,9 +477,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             options={allCounties}
                                             initialValue={values.address.county}
                                             isDefaultOpen={
-                                                allCounties.length > 1 && values.address.county === ""
-                                                    ? true
-                                                    : false
+                                                allCounties.length > 1 && values.address.county === "" ? true : false
                                             }
                                             onChange={(value) => {
                                                 setFieldValue("address.county", value);
@@ -562,9 +515,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         />
                                         {errors?.medicareBeneficiaryID && (
                                             <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">
-                                                    {errors?.medicareBeneficiaryID}
-                                                </li>
+                                                <li className="error-msg-red">{errors?.medicareBeneficiaryID}</li>
                                             </ul>
                                         )}
                                     </StyledFormItem>
@@ -607,7 +558,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                     </StyledFormItem>
                                 </SectionContainer>
                             </Form>
-
                         </div>
 
                         <Box
@@ -618,7 +568,11 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                 marginTop: "20px",
                             }}
                         >
-                            <Label value={`Created Date: ${getLocalDateTime(leadDetails?.createDate)?.fullDate}`} color="#717171" size="14px" />
+                            <Label
+                                value={`Created Date: ${getLocalDateTime(leadDetails?.createDate)?.fullDate}`}
+                                color="#717171"
+                                size="14px"
+                            />
                         </Box>
                         <Box className={styles.buttonContainer}>
                             <Button
@@ -638,10 +592,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             />
                         </Box>
                     </Box>
-
                 );
             }}
-        </Formik >
+        </Formik>
     );
 }
 

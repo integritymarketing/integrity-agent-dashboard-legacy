@@ -1,7 +1,10 @@
-import React, { createContext, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { STATES } from 'utils/address';
-import clientsService from 'services/clientsService';
+import React, { createContext, useCallback, useState } from "react";
+
+import PropTypes from "prop-types";
+
+import { STATES } from "utils/address";
+
+import clientsService from "services/clientsService";
 
 const CountyContext = createContext();
 
@@ -12,51 +15,59 @@ const CountyContext = createContext();
  */
 
 export const CountyProvider = ({ children }) => {
-  const [allCounties, setAllCounties] = useState([]);
-  const [allStates, setAllStates] = useState([]);
+    const [allCounties, setAllCounties] = useState([]);
+    const [allStates, setAllStates] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  const fetchCountyAndState = useCallback(async (zipcode) => {
-    if (zipcode.length === 5) {
-      const fetchedCounties = await clientsService.getCounties(zipcode);
-      const countyOptions = fetchedCounties?.map((county) => ({
-        value: county.countyName,
-        label: county.countyName,
-        key: county.countyFIPS,
-        state: county.state,
-      })) || [];
+    const fetchCountyAndState = useCallback(async (zipcode) => {
+        if (zipcode.length === 5) {
+            setLoading(true);
+            try {
+                const fetchedCounties = await clientsService.getCounties(zipcode);
+                const countyOptions =
+                    fetchedCounties?.map((county) => ({
+                        value: county.countyName,
+                        label: county.countyName,
+                        key: county.countyFIPS,
+                        state: county.state,
+                    })) || [];
 
-      const uniqueStates = [...new Set(fetchedCounties.map((county) => county.state))];
-      const stateOptions = uniqueStates?.map((state) => {
-        const stateDetail = STATES.find((stateInfo) => stateInfo.value === state);
-        return {
-          label: stateDetail?.label,
-          value: state,
-        };
-      });
+                const uniqueStates = [...new Set(fetchedCounties.map((county) => county.state))];
+                const stateOptions = uniqueStates?.map((state) => {
+                    const stateDetail = STATES.find((stateInfo) => stateInfo.value === state);
+                    return {
+                        label: stateDetail?.label,
+                        value: state,
+                    };
+                });
 
-      setAllCounties(countyOptions);
-      setAllStates(stateOptions);
-    } else {
-      setAllCounties([]);
-      setAllStates([]);
-    }
-  }, []);
+                setAllCounties(countyOptions);
+                setAllStates(stateOptions);
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            setAllCounties([]);
+            setAllStates([]);
+        }
+    }, []);
 
-  return (
-    <CountyContext.Provider
-      value={{
-        allCounties,
-        allStates,
-        fetchCountyAndState,
-      }}
-    >
-      {children}
-    </CountyContext.Provider>
-  );
+    return (
+        <CountyContext.Provider
+            value={{
+                loading,
+                allCounties,
+                allStates,
+                fetchCountyAndState,
+            }}
+        >
+            {children}
+        </CountyContext.Provider>
+    );
 };
 
 CountyProvider.propTypes = {
-  children: PropTypes.node.isRequired, // Children are expected to be passed to the Provider
+    children: PropTypes.node.isRequired, // Children are expected to be passed to the Provider
 };
 
 export default CountyContext;
