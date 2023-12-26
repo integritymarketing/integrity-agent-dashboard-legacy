@@ -2,16 +2,16 @@ import { useState } from "react";
 
 import Box from "@mui/material/Box";
 
-import MissingActiveSellingPermissions from "components/MissingActiveSellingPermissions";
-import Modal from "components/Modal";
 import InfoBlue from "components/icons/version-2/InfoBlue";
 
 import { HEALTH, LIFE, useAccountProductsContext } from "pages/Account/providers/AccountProductsProvider";
 
 import styles from "./styles.module.scss";
 
+import HealthInfoModal from "../SAPermissionModal/HealthInfoModal";
+
 function SAPermissionsLayout() {
-    const [modalOpen, setModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { layout, setLayout } = useAccountProductsContext();
 
     return (
@@ -27,13 +27,11 @@ function SAPermissionsLayout() {
                 onClick={() => setLayout(HEALTH)}
             >
                 <Box>Health</Box>
-                <Box className={styles.icon} onClick={() => setModalOpen(true)}>
+                <Box className={styles.icon} onClick={() => setIsModalOpen(true)}>
                     <InfoBlue />
                 </Box>
             </Box>
-            <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Active Selling Permissions" hideFooter>
-                <MissingActiveSellingPermissions isModal={true} />
-            </Modal>
+            <HealthInfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         </Box>
     );
 }

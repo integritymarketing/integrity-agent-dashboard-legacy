@@ -47,7 +47,7 @@ export const useAPHealthContext = () => {
     const context = useContext(APHealthContext);
 
     if (context === undefined) {
-        throw new Error("useSAPermissionsContext must be used within APHealthProvider");
+        throw new Error("useSAHealthProductContext must be used within APHealthProvider");
     }
 
     return context;

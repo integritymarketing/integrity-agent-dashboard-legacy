@@ -1,55 +1,35 @@
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import { useState } from "react";
 
-import Arrow from "components/icons/down";
+import { Divider } from "@mui/material";
+import Box from "@mui/material/Box";
+
 import AddIcon from "components/icons/add";
-import Heading2 from "packages/Heading2";
-import Info from "components/icons/info-blue";
-import { useWindowSize } from "hooks/useWindowSize";
-import { SAPermissionsFilter } from "../SAPermissionsFilter";
-import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
-import { useSAPModalsContext } from "../providers/SAPModalProvider";
 
 import styles from "./styles.module.scss";
 
-function SAPermissionsHeader() {
-  const { setIsCollapsed, handleAddNew, isCollapsed, isAdding, filteredData } =
-    useSAPermissionsContext();
-  const { setIsModalOpen } = useSAPModalsContext();
-  const { width: windowWidth } = useWindowSize();
-  const isMobile = windowWidth <= 784;
-  const numOfPermissions = filteredData.length;
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
 
-  return (
-    <Grid className={styles.container}>
-      <Grid className={styles.leftContainer}>
-        <Box
-          className={`${styles.icon} ${isCollapsed && styles.iconReverse}`}
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          <Arrow color="#4178FF" />
-        </Box>
-        <Heading2 className={styles.heading} text="Self-Attested Permissions" />
-        <Box className={styles.count}>({numOfPermissions})</Box>
-        <Box className={styles.icon} onClick={setIsModalOpen}>
-          <Info color="#4178FF" />
-        </Box>
-      </Grid>
-      <Box className={styles.rightContainer}>
-        <Grid
-          display="flex"
-          alignItems="center"
-          onClick={handleAddNew}
-          className={isAdding ? styles.inactiveLink : styles.link}
-          gap={1}
-        >
-          <Box>Add New</Box>
-          <AddIcon color="#4178FF" />
-        </Grid>
-        {isMobile && <SAPermissionsFilter />}
-      </Box>
-    </Grid>
-  );
+function SAPermissionsHeader() {
+    const { isAddingHealth, handleAddHealth } = useSAPermissionsContext();
+
+    return (
+        <>
+            <Box className={styles.container}>
+                <Box className={styles.heading}>Self-Attested Permissions</Box>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={handleAddHealth}
+                    className={isAddingHealth ? styles.inactiveLink : styles.link}
+                    gap={1}
+                >
+                    <Box>Add New</Box>
+                    <AddIcon color="#4178FF" />
+                </Box>
+            </Box>
+            <Divider />
+        </>
+    );
 }
 
 export default SAPermissionsHeader;
