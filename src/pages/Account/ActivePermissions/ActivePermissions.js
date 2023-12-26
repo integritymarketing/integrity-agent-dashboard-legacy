@@ -1,7 +1,6 @@
-import useRoles from "hooks/useRoles";
-
-import NonRTSBanner from "components/Non-RTS-Banner";
 import Container from "components/ui/container";
+
+import { HEALTH, LIFE, useAccountProductsContext } from "pages/Account/providers/AccountProductsProvider";
 
 import { ActivePermissionsHeader } from "./ActivePermissionsHeader";
 import { ActivePermissionsHealth } from "./ActivePermissionsHealth";
@@ -10,19 +9,15 @@ import { ActivePermissionsProvider } from "./providers/ActivePermissionsProvider
 import styles from "./styles.module.scss";
 
 function ActivePermissions() {
-    const { isNonRTS_User } = useRoles();
+    const { layout } = useAccountProductsContext();
 
     return (
         <ActivePermissionsProvider>
             <Container className={styles.container}>
                 <ActivePermissionsHeader />
-                {isNonRTS_User && <NonRTSBanner />}
-                {!isNonRTS_User && (
-                    <>
-                        <ActivePermissionsLayout />
-                        <ActivePermissionsHealth />
-                    </>
-                )}
+                <ActivePermissionsLayout />
+                {layout === HEALTH && <ActivePermissionsHealth />}
+                {layout === LIFE && <></>}
             </Container>
         </ActivePermissionsProvider>
     );

@@ -3,6 +3,7 @@ import { useWindowSize } from "hooks/useWindowSize";
 import { SAAddPermissionRow } from "./SAAddPermissionRow";
 import ErrorModal from "./SAPermissionModal/ErrorModal";
 import SAExpiredModal from "./SAPermissionModal/ExpiredModal";
+import { SAPermissionsFilter } from "./SAPermissionsFilter";
 import { SAPermissionsList } from "./SAPermissionsList";
 import { SAPermissionsTable } from "./SAPermissionsTable";
 import { SAHealthProductProvider } from "./providers/SAHealthProductProvider";
@@ -17,7 +18,12 @@ function SAHealthProduct() {
         <SAPModalProvider>
             <SAHealthProductProvider>
                 {!isMobile && <SAPermissionsTable />}
-                {isMobile && <SAPermissionsList />}
+                {isMobile && (
+                    <>
+                        <SAPermissionsFilter />
+                        <SAPermissionsList />
+                    </>
+                )}
                 <SAAddPermissionRow />
             </SAHealthProductProvider>
             <SAExpiredModal />

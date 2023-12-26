@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import Box from "@mui/material/Box";
 
+import useRoles from "hooks/useRoles";
+
 import MissingActiveSellingPermissions from "components/MissingActiveSellingPermissions";
 import Modal from "components/Modal";
 import InfoBlue from "components/icons/version-2/InfoBlue";
@@ -10,30 +12,47 @@ import { HEALTH, LIFE, useAccountProductsContext } from "pages/Account/providers
 
 import styles from "./styles.module.scss";
 
+import LifeInfoModal from "../ActivePermissionModal/LifeInfoModal";
+
 function SAPermissionsLayout() {
+    const [isLifeModalOpen, setIsLifeModalOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const { layout, setLayout } = useAccountProductsContext();
+    const { isNonRTS_User } = useRoles();
+
+    const onLayoutChangeHandle = (newLayout) => {
+        if (isNonRTS_User) return;
+        setLayout(newLayout);
+    };
 
     return (
         <Box className={styles.layoutContainer}>
             <Box
                 className={`${styles.selection} ${layout === LIFE && styles.activeLayout}`}
-                onClick={() => setLayout(HEALTH)}
+                onClick={() => onLayoutChangeHandle(LIFE)}
             >
-                <Box>Final Expense</Box>
+                <Box>Life</Box>
+                {layout === LIFE && (
+                    <Box className={styles.icon} onClick={() => setIsLifeModalOpen(true)}>
+                        <InfoBlue />
+                    </Box>
+                )}
             </Box>
             <Box
                 className={`${styles.selection} ${layout === HEALTH && styles.activeLayout}`}
-                onClick={() => setLayout(HEALTH)}
+                onClick={() => onLayoutChangeHandle(HEALTH)}
             >
                 <Box>Health</Box>
-                <Box className={styles.icon} onClick={() => setModalOpen(true)}>
-                    <InfoBlue />
-                </Box>
+                {layout === HEALTH && (
+                    <Box className={styles.icon} onClick={() => setModalOpen(true)}>
+                        <InfoBlue />
+                    </Box>
+                )}
             </Box>
             <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Active Selling Permissions" hideFooter>
                 <MissingActiveSellingPermissions isModal={true} />
             </Modal>
+            <LifeInfoModal isModalOpen={isLifeModalOpen} setIsModalOpen={setIsLifeModalOpen} />
         </Box>
     );
 }

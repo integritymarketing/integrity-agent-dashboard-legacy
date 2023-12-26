@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 
 import SAPermissionModal from "./SAPermissionModal";
-import styles from "./styles.module.scss";
 
 function HealthInfoModal({ isModalOpen, setIsModalOpen }) {
     return (
