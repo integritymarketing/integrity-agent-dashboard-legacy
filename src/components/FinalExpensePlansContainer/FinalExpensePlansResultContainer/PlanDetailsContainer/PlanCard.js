@@ -49,7 +49,7 @@ export const PlanCard = ({
         <div className={styles.planBox}>
             <div className={styles.header}>
                 <div>{planName}</div>
-                <img src={logoUrl} alt="plan logo" className={styles.logo} />
+                {logoUrl && <img src={logoUrl} alt="plan logo" className={styles.logo} />}
             </div>
             <div>
                 <span className={styles.label}>{COVERAGE_TYPE}</span>

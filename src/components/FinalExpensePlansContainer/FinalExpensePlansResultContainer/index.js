@@ -29,7 +29,7 @@ import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContaine
 
 import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.constants";
 
-const FinalExpensePlansResultContainer = ({}) => {
+const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
@@ -82,6 +82,32 @@ const FinalExpensePlansResultContainer = ({}) => {
         setCoverageType(value);
     };
 
+    const handleInputChange = (e) => {
+        const value = +e.target.value.replace(/[^0-9]/g, "") || 0;
+        if (selectedTab === COVERAGE_AMOUNT) {
+            setCoverageAmount(value);
+        } else {
+            setMonthlyPremiumAmount(value);
+        }
+    };
+
+    const handleInputBlur = (e) => {
+        const value = +e.target.value.replace(/[^0-9]/g, "") || 0;
+        if (selectedTab === COVERAGE_AMOUNT) {
+            if (value < covMin) {
+                setCoverageAmount(covMin);
+            } else if (value > covMax) {
+                setCoverageAmount(covMax);
+            }
+        } else {
+            if (value < min) {
+                setMonthlyPremiumAmount(min);
+            } else if (value > max) {
+                setMonthlyPremiumAmount(max);
+            }
+        }
+    };
+
     return (
         <>
             <Media
@@ -99,6 +125,8 @@ const FinalExpensePlansResultContainer = ({}) => {
                         setSelectedTab={setSelectedTab}
                         increment={increment}
                         decrement={decrement}
+                        onChange={handleInputChange}
+                        onBlur={handleInputBlur}
                     />
                     <div className={styles.planOptionsBox}>
                         <Heading4 className={styles.planOptionsHeader} text={PLAN_OPTIONS_HEADING} />
