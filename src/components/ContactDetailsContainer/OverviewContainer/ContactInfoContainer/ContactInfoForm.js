@@ -198,6 +198,8 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
             }}
         >
             {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
+                const isValidZip =
+                    values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0;
                 let countyName = allCounties[0]?.value;
                 let countyFipsName = allCounties[0]?.key;
                 let stateCodeName = allStates[0]?.value;
@@ -425,14 +427,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                         .toString()
                                                         .slice(0, 5);
                                                 }}
-                                                error={
-                                                    errors.address?.postalCode ||
-                                                    (values.address.postalCode.length === 5 &&
-                                                        !loadingCountyAndState &&
-                                                        allStates?.length === 0)
-                                                        ? true
-                                                        : false
-                                                }
+                                                error={errors.address?.postalCode || isValidZip ? true : false}
                                             />
                                         </StyledFormItem>
                                         <StyledFormItem>
@@ -584,7 +579,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             <Button
                                 label={"Save"}
                                 className={styles.editButton}
-                                disabled={!dirty || !isValid}
+                                disabled={!dirty || !isValid || isValidZip}
                                 onClick={handleSubmit}
                                 type="tertiary"
                                 icon={<ArrowForwardWithCircle />}

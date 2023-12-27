@@ -84,9 +84,9 @@ const FinalExpensePlansResultContainer = () => {
 
     const handleInputChange = (e) => {
         const value = +e.target.value.replace(/[^0-9]/g, "") || 0;
-        if (selectedTab === COVERAGE_AMOUNT) {
+        if (selectedTab === COVERAGE_AMOUNT && value <= covMax && value >= covMin) {
             setCoverageAmount(value);
-        } else {
+        } else if (selectedTab === MONTHLY_PREMIUM && value <= max && value >= min) {
             setMonthlyPremiumAmount(value);
         }
     };

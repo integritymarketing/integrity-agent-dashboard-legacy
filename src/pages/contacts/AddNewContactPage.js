@@ -301,6 +301,8 @@ const NewContactForm = ({
                 handleSubmit,
                 setFieldValue,
             }) => {
+                const isValidZip =
+                    values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0;
                 let primaryCommunicationStatus = true;
                 if (
                     ((!errors.phones?.leadPhone && touched.phones?.leadPhone && values.phones?.leadPhone !== "") ||
@@ -482,14 +484,7 @@ const NewContactForm = ({
                                             .toString()
                                             .slice(0, 5);
                                     }}
-                                    error={
-                                        errors.address?.postalCode ||
-                                        (values.address.postalCode.length === 5 &&
-                                            !loadingCountyAndState &&
-                                            allStates?.length === 0)
-                                            ? true
-                                            : false
-                                    }
+                                    error={errors.address?.postalCode || isValidZip ? true : false}
                                 />
                                 <div className="ml-10">
                                     <label className="label" htmlFor="phone-label">
@@ -735,7 +730,7 @@ const NewContactForm = ({
                                     data-gtm="new-contact-create-button"
                                     label="Create Contact"
                                     type="primary"
-                                    disabled={!dirty || !isValid || primaryCommunicationStatus}
+                                    disabled={!dirty || !isValid || isValidZip || primaryCommunicationStatus}
                                     onClick={handleSubmit}
                                 />
                             </div>
