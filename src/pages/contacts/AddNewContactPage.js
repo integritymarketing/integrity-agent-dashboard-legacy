@@ -301,7 +301,7 @@ const NewContactForm = ({
                 handleSubmit,
                 setFieldValue,
             }) => {
-                let primaryCommunicationStatus = false;
+                let primaryCommunicationStatus = true;
                 if (
                     ((!errors.phones?.leadPhone && touched.phones?.leadPhone && values.phones?.leadPhone !== "") ||
                         (touched.email && !errors.email && values.email !== "")) &&
@@ -309,6 +309,8 @@ const NewContactForm = ({
                 ) {
                     // setFieldValue("primaryCommunication", values.primaryCommunication);
                     primaryCommunicationStatus = false;
+                } else {
+                    primaryCommunicationStatus = true;
                 }
 
                 const countyName = allCounties[0]?.value;
