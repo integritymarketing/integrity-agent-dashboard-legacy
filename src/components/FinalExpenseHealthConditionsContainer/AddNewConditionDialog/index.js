@@ -193,9 +193,6 @@ const AddNewConditionDialog = ({
         resetState();
     };
     const handleOnClose = async () => {
-        if (modalStep === 1 && selectedCondition?.hasLookBackPeriod) {
-            await saveToAPI();
-        }
         resetState();
     };
 
@@ -335,12 +332,7 @@ const AddNewConditionDialog = ({
         <Box>
             <Modal
                 maxWidth="sm"
-                actionButtonDisabled={
-                    selectedCondition === null ||
-                    isSavingToServer ||
-                    isDeletingFromServer ||
-                    (modalStep === 1 && !lastTreatmentDate)
-                }
+                actionButtonDisabled={selectedCondition === null || isSavingToServer || isDeletingFromServer}
                 open={open}
                 dialogContentClassName={styles.dialogContent}
                 onClose={handleOnClose}

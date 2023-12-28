@@ -58,7 +58,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
         [leadId, navigate, setSelectedTab]
     );
 
-    const handleBackPage = useBackPage("/contacts", true);
+    const handleBackPage = useBackPage("/contacts", false);
 
     const handleCloseShowPlanTypeModal = useCallback(() => {
         setShowPlanTypeModal(false);

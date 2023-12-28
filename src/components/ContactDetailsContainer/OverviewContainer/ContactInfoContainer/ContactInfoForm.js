@@ -199,7 +199,8 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         >
             {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
                 const isInvalidZip =
-                    values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0;
+                    (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
+                    (values.address.postalCode > 0 && values.address.postalCode.length < 5);
                 let countyName = allCounties[0]?.value;
                 let countyFipsName = allCounties[0]?.key;
                 let stateCodeName = allStates[0]?.value;
@@ -582,7 +583,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             <Button
                                 label={"Save"}
                                 className={styles.editButton}
-                                disabled={!dirty || !isValid || isInvalidZip || !zipLengthValid}
+                                disabled={!dirty || !isValid || isInvalidZip}
                                 onClick={handleSubmit}
                                 type="tertiary"
                                 icon={<ArrowForwardWithCircle />}

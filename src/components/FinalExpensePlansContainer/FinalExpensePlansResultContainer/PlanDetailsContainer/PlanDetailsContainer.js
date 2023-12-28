@@ -83,12 +83,14 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                     conditions.push({ categoryId: 0, lastTreatmentDate: todayDate });
                 } else {
                     healthConditionsDataRef.current.forEach((condition) => {
-                        conditions.push({
-                            categoryId: condition.conditionId,
-                            lastTreatmentDate: condition.lastTreatmentDate
-                                ? formatServerDate(condition.lastTreatmentDate)
-                                : todayDate,
-                        });
+                        if (condition.isComplete) {
+                            conditions.push({
+                                categoryId: condition.conditionId,
+                                lastTreatmentDate: condition.lastTreatmentDate
+                                    ? formatServerDate(condition.lastTreatmentDate)
+                                    : todayDate,
+                            });
+                        }
                     });
                 }
                 const quotePlansPostBody = {

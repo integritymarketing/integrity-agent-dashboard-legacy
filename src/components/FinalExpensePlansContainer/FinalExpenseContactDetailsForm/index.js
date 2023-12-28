@@ -6,18 +6,14 @@ import PropTypes from "prop-types";
 
 import { formatDate, formatServerDate, parseDate } from "utils/dates";
 
-import useFetch from "hooks/useFetch";
-
 import DatePickerMUI from "components/DatePicker";
 import { SelectStateField } from "components/SharedFormFields";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { Button } from "components/ui/Button";
 
 import styles from "./FinalExpenseContactDetailsForm.module.scss";
-import { SellingPermissionsModal } from "./SellingPermissionsModal";
 
 import {
-    AGENT_SERVICE_NON_RTS,
     BIRTHDATE,
     CONTACT_FORM_SUBTITLE,
     CONTACT_FORM_SUBTITLE_MOBILE,
@@ -39,7 +35,6 @@ import {
 
 const FinalExpenseContactDetailsForm = ({
     contactId,
-    agentNpn,
     address,
     birthdate,
     sexuality,
@@ -62,8 +57,6 @@ const FinalExpenseContactDetailsForm = ({
     const [inch, setInch] = useState(hInch);
     const [weight, setWeight] = useState(wt);
     const [isTobaccoUser, setIsTobaccoUser] = useState(smoker);
-    const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
-    const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNpn}`);
 
     const updateFeet = (value) => {
         if (!value || (value > 0 && value <= 8 && !value.includes("."))) {
@@ -98,20 +91,9 @@ const FinalExpenseContactDetailsForm = ({
         await onSave(formData);
         setIsSaving(false);
     };
-    const closeModal = () => {
-        setShowSellingPermissionModal(false);
-    };
-    const handleContinue = () => {
-        setShowSellingPermissionModal(false);
-        onSaveHealthInfo();
-    };
+
     const handleNext = async () => {
-        const isAgentNonRTS = await getAgentNonRTS();
-        if (isAgentNonRTS) {
-            setShowSellingPermissionModal(true);
-        } else {
-            onSaveHealthInfo();
-        }
+        onSaveHealthInfo();
     };
 
     const genderOptions = useMemo(
@@ -293,13 +275,6 @@ const FinalExpenseContactDetailsForm = ({
                 </div>
             </div>
             <p className={styles.requiredFieldsText}>{REQUIRED_FIELDS}</p>
-            {showSellingPermissionModal && (
-                <SellingPermissionsModal
-                    showSellingPermissionModal={showSellingPermissionModal}
-                    handleModalClose={closeModal}
-                    handleContinue={handleContinue}
-                />
-            )}
         </div>
     );
 };

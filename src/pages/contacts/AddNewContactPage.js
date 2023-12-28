@@ -303,7 +303,8 @@ const NewContactForm = ({
                 setFieldValue,
             }) => {
                 const isInvalidZip =
-                    values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0;
+                    (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
+                    (values.address.postalCode > 0 && values.address.postalCode.length < 5);
                 let primaryCommunicationStatus = true;
                 if (
                     ((!errors.phones?.leadPhone && touched.phones?.leadPhone && values.phones?.leadPhone !== "") ||
@@ -734,13 +735,7 @@ const NewContactForm = ({
                                     data-gtm="new-contact-create-button"
                                     label="Create Contact"
                                     type="primary"
-                                    disabled={
-                                        !dirty ||
-                                        !isValid ||
-                                        isInvalidZip ||
-                                        !zipLengthValid ||
-                                        primaryCommunicationStatus
-                                    }
+                                    disabled={!dirty || !isValid || isInvalidZip || primaryCommunicationStatus}
                                     onClick={handleSubmit}
                                 />
                             </div>
