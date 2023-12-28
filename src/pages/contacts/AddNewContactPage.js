@@ -49,6 +49,7 @@ const NewContactForm = ({
     const isRelink = get("relink") === "true";
     const [showAddress2, setShowAddress2] = useState(false);
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+    const [zipLengthValid, setZipLengthValid] = useState(false);
     const {
         allCounties = [],
         allStates = [],
@@ -301,7 +302,7 @@ const NewContactForm = ({
                 handleSubmit,
                 setFieldValue,
             }) => {
-                const isValidZip =
+                const isInvalidZip =
                     values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0;
                 let primaryCommunicationStatus = true;
                 if (
@@ -476,6 +477,9 @@ const NewContactForm = ({
                                         setFieldValue("address.county", "");
                                         setFieldValue("address.stateCode", "");
                                         fetchCountyAndState(e.target.value);
+                                        if (e.target.value.length < 5) {
+                                            setZipLengthValid(false);
+                                        } else setZipLengthValid(true);
                                     }}
                                     onBlur={handleBlur}
                                     onInput={(e) => {
@@ -484,7 +488,7 @@ const NewContactForm = ({
                                             .toString()
                                             .slice(0, 5);
                                     }}
-                                    error={errors.address?.postalCode || isValidZip ? true : false}
+                                    error={errors.address?.postalCode || isInvalidZip ? true : false}
                                 />
                                 <div className="ml-10">
                                     <label className="label" htmlFor="phone-label">
@@ -730,7 +734,13 @@ const NewContactForm = ({
                                     data-gtm="new-contact-create-button"
                                     label="Create Contact"
                                     type="primary"
-                                    disabled={!dirty || !isValid || isValidZip || primaryCommunicationStatus}
+                                    disabled={
+                                        !dirty ||
+                                        !isValid ||
+                                        isInvalidZip ||
+                                        !zipLengthValid ||
+                                        primaryCommunicationStatus
+                                    }
                                     onClick={handleSubmit}
                                 />
                             </div>

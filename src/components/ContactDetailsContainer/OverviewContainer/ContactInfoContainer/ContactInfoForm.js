@@ -82,7 +82,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
 
     const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
-
+    const [zipLengthValid, setZipLengthValid] = useState(false);
     useEffect(() => {
         fetchCountyAndState(postalCode);
     }, [fetchCountyAndState, postalCode]);
@@ -198,7 +198,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
             }}
         >
             {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
-                const isValidZip =
+                const isInvalidZip =
                     values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0;
                 let countyName = allCounties[0]?.value;
                 let countyFipsName = allCounties[0]?.key;
@@ -419,6 +419,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                     setFieldValue("address.county", "");
                                                     setFieldValue("address.stateCode", "");
                                                     fetchCountyAndState(e.target.value);
+                                                    if (e.target.value.length < 5) {
+                                                        setZipLengthValid(false);
+                                                    } else setZipLengthValid(true);
                                                 }}
                                                 onBlur={handleBlur}
                                                 onInput={(e) => {
@@ -427,7 +430,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                         .toString()
                                                         .slice(0, 5);
                                                 }}
-                                                error={errors.address?.postalCode || isValidZip ? true : false}
+                                                error={errors.address?.postalCode || isInvalidZip ? true : false}
                                             />
                                         </StyledFormItem>
                                         <StyledFormItem>
@@ -579,7 +582,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             <Button
                                 label={"Save"}
                                 className={styles.editButton}
-                                disabled={!dirty || !isValid || isValidZip}
+                                disabled={!dirty || !isValid || isInvalidZip || !zipLengthValid}
                                 onClick={handleSubmit}
                                 type="tertiary"
                                 icon={<ArrowForwardWithCircle />}
