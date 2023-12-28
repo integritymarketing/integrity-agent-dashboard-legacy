@@ -19,3 +19,8 @@ export const PLAN_OPTIONS_HEADING = "Plan Options";
 export const COVERAGE_TYPE_HEADING = "Coverage Type";
 export const MY_APPOINTED_LABEL = "My Appointed Products";
 export const EXCLUDE_LABEL = "Show Excluded Products";
+
+export const PRESCREEN_AVAILABLE = "Prescreen Available";
+export const ELIGIBILTY_NOTES = "Eligibility Notes";
+export const PRESCREEN_AVAILABLE_NOTES = "The applicant may be eligible for coverage based on identified conditions.";
+export const PRESCREEN_NOT_AVAILABLE_NOTES = "We are unable to prescreen eligibility for this product.";

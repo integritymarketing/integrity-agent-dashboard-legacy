@@ -14,7 +14,9 @@ import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsCon
 import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE,
+    NO_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+import { AlertIcon } from "components/icons/alertIcon";
 import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import PlanCardLoader from "components/ui/PlanCard/loader";
@@ -138,40 +140,50 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                 }}
             />
             <div className={styles.planContainer}>
-                <PersonalisedQuoteBox />
-                {!isLoadingFinalExpensePlans &&
-                    pagedResults.map((plan, index) => {
-                        const {
-                            carrier: { name, logoUrl },
-                            coverageType,
-                            faceValue,
-                            modalRates,
-                            policyFee,
-                        } = plan;
-                        const monthlyRate = modalRates.find((rate) => rate.type === "month")?.rate || 0;
-                        return (
-                            <PlanCard
-                                key={`${name}-${index}`}
-                                isMobile={isMobile}
-                                planName={name}
-                                logoUrl={logoUrl}
-                                coverageType={coverageType}
-                                coverageAmount={faceValue}
-                                monthlyPremium={monthlyRate}
-                                policyFee={policyFee}
-                            />
-                        );
-                    })}
                 {isLoadingFinalExpensePlans && loadersCards}
-                <BackToTop />
-                <Pagination
-                    currentPage={currentPage}
-                    resultName="plans"
-                    totalPages={Math.ceil(finalExpensePlans.length / 10)}
-                    totalResults={finalExpensePlans.length}
-                    pageSize={pageSize}
-                    onPageChange={(page) => setCurrentPage(page)}
-                />
+                {pagedResults.length > 0 && !isLoadingFinalExpensePlans ? (
+                    <>
+                        <PersonalisedQuoteBox />
+                        {pagedResults.map((plan, index) => {
+                            const {
+                                carrier: { name, logoUrl },
+                                coverageType,
+                                faceValue,
+                                modalRates,
+                                policyFee,
+                                eligibility,
+                            } = plan;
+                            const monthlyRate = modalRates.find((rate) => rate.type === "month")?.rate || 0;
+                            return (
+                                <PlanCard
+                                    key={`${name}-${index}`}
+                                    isMobile={isMobile}
+                                    planName={name}
+                                    logoUrl={logoUrl}
+                                    coverageType={coverageType}
+                                    coverageAmount={faceValue}
+                                    monthlyPremium={monthlyRate}
+                                    policyFee={policyFee}
+                                    eligibility={eligibility}
+                                />
+                            );
+                        })}
+                        <BackToTop />
+                        <Pagination
+                            currentPage={currentPage}
+                            resultName="plans"
+                            totalPages={Math.ceil(finalExpensePlans.length / 10)}
+                            totalResults={finalExpensePlans.length}
+                            pageSize={pageSize}
+                            onPageChange={(page) => setCurrentPage(page)}
+                        />
+                    </>
+                ) : (
+                    <div className={styles.noPlans}>
+                        <AlertIcon />
+                        {NO_PLANS_ERROR}
+                    </div>
+                )}
             </div>
         </>
     );

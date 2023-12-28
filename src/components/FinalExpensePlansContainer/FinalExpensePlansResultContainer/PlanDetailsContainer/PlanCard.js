@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import PropTypes from "prop-types";
 
@@ -9,12 +9,13 @@ import {
     MONTHLY_PREMIUM,
     PLAN_INFO,
     POLICY_FEE,
-    PRESCREEN_AVAILABLE,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
+import InfoBlue from "components/icons/version-2/InfoBlue";
 import { Button } from "components/ui/Button";
 
 import styles from "./PlanDetailsContainer.module.scss";
+import { PrescreenModal } from "./PrescreenModal";
 
 export const PlanCard = ({
     isMobile,
@@ -24,8 +25,10 @@ export const PlanCard = ({
     coverageAmount,
     monthlyPremium,
     policyFee,
+    eligibility,
     benefits = [],
 }) => {
+    const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const renderBenefits = () => (
         <table>
             <thead>
@@ -81,7 +84,19 @@ export const PlanCard = ({
                     )}
                 </div>
             </div>
-            {/* <div className={styles.prescreen}>{PRESCREEN_AVAILABLE}</div> */}
+            {eligibility && (
+                <div className={styles.prescreen} onClick={() => setIsPrescreenModalOpen(true)}>
+                    <InfoBlue />
+                    {eligibility}
+                </div>
+            )}
+
+            <PrescreenModal
+                isOpen={isPrescreenModalOpen}
+                onClose={() => setIsPrescreenModalOpen(false)}
+                eligibility={eligibility}
+            />
+
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
@@ -104,5 +119,6 @@ PlanCard.propTypes = {
     coverageAmount: PropTypes.number.isRequired,
     monthlyPremium: PropTypes.number.isRequired,
     policyFee: PropTypes.number.isRequired,
+    eligibility: PropTypes.string.isRequired,
     benefits: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
 };

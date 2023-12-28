@@ -3,6 +3,15 @@
     flex-direction: column;
     gap: 16px;
     color: #434a51;
+
+    .noPlans {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: #ffffff;
+        padding: 16px;
+        border-radius: 8px;
+    }
 }
 
 .label {
@@ -27,6 +36,7 @@
     div {
         margin-bottom: 20px;
     }
+
     svg {
         max-width: 100%;
     }
@@ -98,6 +108,10 @@
         font-weight: bold;
         border-bottom: 1px solid #cccccc;
         padding-bottom: 16px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        cursor: pointer;
     }
 
     .applyCTA {
@@ -122,4 +136,12 @@
     .column {
         flex-direction: column;
     }
+}
+
+.contentBox {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 24px;
+    color: #434a51;
 }
