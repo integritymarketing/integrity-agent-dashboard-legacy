@@ -36,6 +36,14 @@
 
 .filterContent {
     width: 288px;
+
+    .inputError {
+        border-color: #cf3c28;
+    }
+
+    .error {
+        color: #cf3c28;
+    }
 }
 
 .checkboxesWrapper {
@@ -56,6 +64,7 @@
         background: #f1faff;
     }
 }
+
 .contentWrapper {
     thead {
         border-bottom: 1px solid black;
@@ -70,6 +79,7 @@
         gap: 2.5rem;
         justify-content: center;
     }
+
     .filterContent {
         width: 100%;
     }

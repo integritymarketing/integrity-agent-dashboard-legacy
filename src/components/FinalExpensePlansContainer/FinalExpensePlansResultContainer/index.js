@@ -15,11 +15,13 @@ import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
 
 import {
+    COVERAGE_AMT_VALIDATION,
     COVERAGE_TYPE,
     COVERAGE_TYPE_HEADING,
     DEFAULT_COVERAGE_AMOUNT,
     DEFAULT_MONTHLY_PREMIUM,
     EXCLUDE_LABEL,
+    MONTHLY_PREMIUM_VALIDATION,
     MY_APPOINTED_LABEL,
     PLAN_OPTIONS_HEADING,
     STEPPER_FILTER,
@@ -41,22 +43,35 @@ const FinalExpensePlansResultContainer = () => {
     const { getLeadDetails } = useLeadDetails();
     const [isMyAppointedProducts, setIsMyAppointedProducts] = useState(false);
     const [isShowExcludedProducts, setIsShowExcludedProducts] = useState(false);
+    const [covAmtError, setCovAmtError] = useState(false);
+    const [monthlyPremError, setMonthlyPremError] = useState(false);
 
     useEffect(() => {
         getLeadDetails(contactId);
     }, []);
 
+    const updateCoverageAmount = (value) => {
+        setCoverageAmount(value);
+        if (value < covMin || value > covMax) setCovAmtError(true);
+        else setCovAmtError(false);
+    };
+
+    const updateMonthlyPremiumAmount = (value) => {
+        setMonthlyPremiumAmount(value);
+        if (value < min || value > max) setMonthlyPremError(true);
+        else setMonthlyPremError(false);
+    };
     const increment = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
             if (coverageAmount !== covMin) {
                 if (coverageAmount + covStep < covMax) {
-                    setCoverageAmount(coverageAmount + covStep);
+                    updateCoverageAmount(coverageAmount + covStep);
                 } else setCoverageAmount(covMax);
             } else setCoverageAmount(5000);
         } else {
             if (monthlyPremiumAmount !== min) {
                 if (monthlyPremiumAmount + step < max) {
-                    setMonthlyPremiumAmount(monthlyPremiumAmount + step);
+                    updateMonthlyPremiumAmount(monthlyPremiumAmount + step);
                 } else setMonthlyPremiumAmount(max);
             } else setMonthlyPremiumAmount(20);
         }
@@ -66,13 +81,13 @@ const FinalExpensePlansResultContainer = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
             if (coverageAmount !== covMax) {
                 if (coverageAmount - covStep > covMin) {
-                    setCoverageAmount(coverageAmount - covStep);
+                    updateCoverageAmount(coverageAmount - covStep);
                 } else setCoverageAmount(covMin);
             } else setCoverageAmount(995000);
         } else {
             if (monthlyPremiumAmount !== max) {
                 if (monthlyPremiumAmount - step > min) {
-                    setMonthlyPremiumAmount(monthlyPremiumAmount - step);
+                    updateMonthlyPremiumAmount(monthlyPremiumAmount - step);
                 } else setMonthlyPremiumAmount(min);
             } else setMonthlyPremiumAmount(980);
         }
@@ -84,30 +99,18 @@ const FinalExpensePlansResultContainer = () => {
 
     const handleInputChange = (e) => {
         const value = +e.target.value.replace(/[^0-9]/g, "") || 0;
-        if (selectedTab === COVERAGE_AMOUNT && value <= covMax && value >= covMin) {
-            setCoverageAmount(value);
-        } else if (selectedTab === MONTHLY_PREMIUM && value <= max && value >= min) {
-            setMonthlyPremiumAmount(value);
-        }
-    };
-
-    const handleInputBlur = (e) => {
-        const value = +e.target.value.replace(/[^0-9]/g, "") || 0;
         if (selectedTab === COVERAGE_AMOUNT) {
-            if (value < covMin) {
-                setCoverageAmount(covMin);
-            } else if (value > covMax) {
-                setCoverageAmount(covMax);
-            }
+            updateCoverageAmount(value);
         } else {
-            if (value < min) {
-                setMonthlyPremiumAmount(min);
-            } else if (value > max) {
-                setMonthlyPremiumAmount(max);
-            }
+            updateMonthlyPremiumAmount(value);
         }
     };
 
+    const handleTabSelect = (tab) => {
+        setSelectedTab(tab);
+        setCovAmtError(false);
+        setMonthlyPremError(false);
+    };
     return (
         <>
             <Media
@@ -122,12 +125,14 @@ const FinalExpensePlansResultContainer = () => {
                     <CurrencyAdjuster
                         stepperValue={selectedTab === COVERAGE_AMOUNT ? coverageAmount : monthlyPremiumAmount}
                         selectedTab={selectedTab}
-                        setSelectedTab={setSelectedTab}
+                        setSelectedTab={handleTabSelect}
                         increment={increment}
                         decrement={decrement}
                         onChange={handleInputChange}
-                        onBlur={handleInputBlur}
+                        inputErrorStyle={covAmtError || monthlyPremError ? styles.inputError : ""}
                     />
+                    {covAmtError && <div className={styles.error}>{COVERAGE_AMT_VALIDATION}</div>}
+                    {monthlyPremError && <div className={styles.error}>{MONTHLY_PREMIUM_VALIDATION}</div>}
                     <div className={styles.planOptionsBox}>
                         <Heading4 className={styles.planOptionsHeader} text={PLAN_OPTIONS_HEADING} />
                         <Text className={styles.planOptionsText} text={COVERAGE_TYPE_HEADING} />

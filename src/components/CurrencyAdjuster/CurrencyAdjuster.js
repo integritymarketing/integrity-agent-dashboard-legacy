@@ -9,7 +9,16 @@ import {
     MONTHLY_PREMIUM,
 } from "../FinalExpensePlansContainer/FinalexpensePlanOptioncard/FinalexpensePlanOptioncard.constants";
 
-const CurrencyAdjuster = ({ selectedTab, setSelectedTab, stepperValue, increment, decrement, onChange, onBlur }) => {
+const CurrencyAdjuster = ({
+    selectedTab,
+    setSelectedTab,
+    stepperValue,
+    increment,
+    decrement,
+    onChange,
+    onBlur,
+    inputErrorStyle,
+}) => {
     return (
         <>
             <div className={styles.amountStepperWrapper}>
@@ -34,7 +43,7 @@ const CurrencyAdjuster = ({ selectedTab, setSelectedTab, stepperValue, increment
                     type="text"
                     onChange={onChange}
                     onBlur={onBlur}
-                    className={styles.input}
+                    className={`${styles.input} ${inputErrorStyle}`}
                     value={`$${stepperValue.toLocaleString()}`}
                 />
                 <StyledCTA onClick={increment}>
