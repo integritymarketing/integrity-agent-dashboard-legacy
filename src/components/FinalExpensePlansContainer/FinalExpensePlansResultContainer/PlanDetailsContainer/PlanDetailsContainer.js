@@ -182,8 +182,10 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                     </>
                 ) : (
                     <div className={styles.noPlans}>
-                        <AlertIcon />
-                        {NO_PLANS_ERROR}
+                        <div className={styles.alertIcon}>
+                            <AlertIcon />
+                        </div>
+                        <div>{NO_PLANS_ERROR}</div>
                     </div>
                 )}
             </div>

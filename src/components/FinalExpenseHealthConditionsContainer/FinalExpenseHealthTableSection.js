@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import tickCircle from "images/tick-circle.png";
-
 import useFetch from "hooks/useFetch";
 
 import ContactSectionCard from "packages/ContactSectionCard";
@@ -23,6 +21,7 @@ import {
     OUTDATED,
 } from "./FinalExpenseHealthConditionsContainer.constants";
 import styles from "./FinalExpenseHealthConditionsContainer.module.scss";
+import { Complete } from "./icons/Complete";
 import IncompleteSvg from "./icons/incomplete.svg";
 import OutdatedSvg from "./icons/outdated.svg";
 
@@ -86,7 +85,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                               <div className={styles.conditionStatusCell}>
                                   {row.original.isComplete && (
                                       <>
-                                          <Icon image={tickCircle} className={styles.tickCircle} />
+                                          <Complete />
                                           <span className={styles.completedStatus}>{COMPLETED}</span>
                                       </>
                                   )}
