@@ -1,0 +1,41 @@
+.customBody {
+    background-color: white;
+}
+
+.customBodyRow {
+    padding: 24px;
+    padding-right: 0;
+}
+
+.customTextField {
+    width: 144px;
+    padding: 24px;
+    padding-right: 0;
+}
+
+.title {
+    color: #052a63;
+    font-weight: bold;
+}
+
+.buttonWithIcon {
+    border-radius: 25px !important;
+    padding: 4px 8px !important;
+
+    svg {
+        width: 24px;
+    }
+
+    span {
+        font-size: 14px !important;
+        color: #4178ff !important;
+        font-weight: 500;
+    }
+
+    &:hover {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        color: #1357ff !important;
+    }
+}

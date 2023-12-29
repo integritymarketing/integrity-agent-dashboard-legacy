@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 import useFetchAgentsData from "../hooks/useFetchAgentsData";
 import useFetchTableData from "../hooks/useFetchTableData";
@@ -53,9 +53,13 @@ export const SAHealthProductProvider = ({ children }) => {
         ]
     );
 
-    if (!shouldShowSection) return <></>;
+    if (isFetchingAgentsData || isfetchingTableData || isLoading) {
+        return <Spinner />;
+    }
 
-    if (isFetchingAgentsData || isfetchingTableData || isLoading) return <Spinner />;
+    if (!shouldShowSection) {
+        return <></>;
+    }
 
     return <SAHealthProductContext.Provider value={contextValue}>{children}</SAHealthProductContext.Provider>;
 };

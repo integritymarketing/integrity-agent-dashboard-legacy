@@ -12,15 +12,21 @@ import styles from "./styles.module.scss";
 
 import HealthInfoModal from "../SAPermissionModal/HealthInfoModal";
 import LifeInfoModal from "../SAPermissionModal/LifeInfoModal";
+import { useSAPermissionsContext } from "../providers/SAPermissionProvider";
 
 function SAPermissionsLayout() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLifeModalOpen, setIsLifeModalOpen] = useState(false);
     const { layout, setLayout } = useAccountProductsContext();
+    const { resetAdding } = useSAPermissionsContext();
+
     const { isNonRTS_User } = useRoles();
 
     const onLayoutChangeHandle = (newLayout) => {
-        if (isNonRTS_User) return;
+        if (isNonRTS_User) {
+            return;
+        }
+        resetAdding();
         setLayout(newLayout);
     };
 
@@ -30,7 +36,7 @@ function SAPermissionsLayout() {
                 className={`${styles.selection} ${layout === LIFE && styles.activeLayout}`}
                 onClick={() => onLayoutChangeHandle(LIFE)}
             >
-                <Box>Life</Box>
+                <Box>Final Expense</Box>
                 {layout === LIFE && (
                     <Box className={styles.icon} onClick={() => setIsLifeModalOpen(true)}>
                         <InfoBlue />

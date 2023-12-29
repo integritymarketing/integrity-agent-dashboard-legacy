@@ -21,7 +21,9 @@ function SAPermissionsLayout() {
     const { isNonRTS_User } = useRoles();
 
     const onLayoutChangeHandle = (newLayout) => {
-        if (isNonRTS_User) return;
+        if (isNonRTS_User) {
+            return;
+        }
         setLayout(newLayout);
     };
 
@@ -31,7 +33,7 @@ function SAPermissionsLayout() {
                 className={`${styles.selection} ${layout === LIFE && styles.activeLayout}`}
                 onClick={() => onLayoutChangeHandle(LIFE)}
             >
-                <Box>Life</Box>
+                <Box>Final Expense</Box>
                 {layout === LIFE && (
                     <Box className={styles.icon} onClick={() => setIsLifeModalOpen(true)}>
                         <InfoBlue />

@@ -3,6 +3,7 @@ import Container from "components/ui/container";
 import { HEALTH, LIFE, useAccountProductsContext } from "pages/Account/providers/AccountProductsProvider";
 
 import { SAHealthProduct } from "./SAHealthProduct";
+import { SALifeProduct } from "./SALifeProduct";
 import { SAPermissionsHeader } from "./SAPermissionsHeader";
 import { SAPermissionsLayout } from "./SAPermissionsLayout";
 import { SAPermissionsProvider } from "./providers/SAPermissionProvider";
@@ -17,7 +18,7 @@ function SelfAttestedPermissions() {
                 <SAPermissionsHeader />
                 <SAPermissionsLayout />
                 {layout === HEALTH && <SAHealthProduct />}
-                {layout === LIFE && <></>}
+                {layout === LIFE && <SALifeProduct />}
             </Container>
         </SAPermissionsProvider>
     );
