@@ -122,7 +122,6 @@ export const PlanDetailsContainer = ({
 
                 const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
                 setIsLoadingFinalExpensePlans(false);
-
                 if (!isNonRTS_User && isMyAppointedProducts && isShowExcludedProducts) {
                     setFinalExpensePlans(result?.rtsPlans);
                 }

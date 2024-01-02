@@ -6,6 +6,8 @@ import { Text } from "@integritymarketing/ui-text-components";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 
+import useRoles from "hooks/useRoles";
+
 import Heading4 from "packages/Heading4";
 
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
@@ -13,7 +15,6 @@ import { CurrencyAdjuster } from "components/CurrencyAdjuster";
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
-import useRoles from "hooks/useRoles";
 
 import {
     COVERAGE_AMT_VALIDATION,
@@ -42,9 +43,6 @@ const FinalExpensePlansResultContainer = () => {
 
     // const [coverage, setCoverage] = usePreferences(15000, "coverage");
     // const [monthlyPremium, setMonthlyPremium] = usePreferences(40, "monthlyPremium");
-
-
-
 
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
@@ -75,7 +73,7 @@ const FinalExpensePlansResultContainer = () => {
     };
     useEffect(() => {
         if (!isNonRTS_User) {
-            setIsMyAppointedProducts(true)
+            setIsMyAppointedProducts(true);
         }
     }, [isNonRTS_User]);
 
@@ -170,15 +168,18 @@ const FinalExpensePlansResultContainer = () => {
                         />
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""} ${isNonRTS_User ? styles.inActive : ""}`}
+                                className={`${styles.checkbox} ${
+                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                } ${isNonRTS_User ? styles.inActive : ""}`}
                                 onClick={() => setIsMyAppointedProducts(!isMyAppointedProducts)}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                    }`}
+                                className={`${styles.checkbox} ${
+                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                }`}
                                 onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
@@ -194,6 +195,7 @@ const FinalExpensePlansResultContainer = () => {
                     selectedTab={selectedTab}
                     isMyAppointedProducts={isMyAppointedProducts}
                     isShowExcludedProducts={isShowExcludedProducts}
+                    isNonRTS_User={isNonRTS_User}
                 />
                 <div className={styles.resultContent}></div>
             </div>

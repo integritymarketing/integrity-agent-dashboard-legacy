@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import PropTypes from "prop-types";
 
+import { toTitleCase } from "utils/toTitleCase";
+
 import {
     APPLY,
     COVERAGE_AMOUNT,
@@ -28,7 +30,7 @@ export const PlanCard = ({
     eligibility,
     benefits = [],
     isNonRTS_User,
-    isHavecarriers
+    isHavecarriers,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const renderBenefits = () => (
@@ -58,7 +60,7 @@ export const PlanCard = ({
             </div>
             <div>
                 <span className={styles.label}>{COVERAGE_TYPE}</span>
-                <span>{coverageType}</span>
+                <span>{toTitleCase(coverageType)}</span>
             </div>
             <div className={`${styles.additionalInfo} ${isMobile ? styles.column : ""}`}>
                 <div className={styles.amountInfo}>
@@ -106,7 +108,7 @@ export const PlanCard = ({
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
-                    className={`${styles.applyButton} ${(isNonRTS_User || !isHavecarriers) ? styles.disabled : ""}`}
+                    className={`${styles.applyButton} ${isNonRTS_User || !isHavecarriers ? styles.disabled : ""}`}
                 />
             </div>
         </div>

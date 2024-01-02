@@ -64,6 +64,7 @@ const AddZipContainer = ({ isMobile, contactId }) => {
                 setAllCounties([]);
                 setZipError(false);
             } else if (counties?.length > 1) {
+                setIsSubmitDisabled(true);
                 const countiesList = getTransformedCounties(counties);
                 setAllCounties(countiesList || []);
                 setZipError(false);
