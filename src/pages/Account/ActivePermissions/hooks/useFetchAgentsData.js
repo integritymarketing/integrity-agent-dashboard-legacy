@@ -5,8 +5,6 @@ import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 
-import { mockdata } from "../mockdata";
-
 const AGENTS_API_VERSION = "v1.0";
 
 function useFetchAgentsData() {
@@ -26,7 +24,7 @@ function useFetchAgentsData() {
         try {
             setIsLoading(true);
             const response = await getAgents();
-            setAgents(mockdata);
+            setAgents(response);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
