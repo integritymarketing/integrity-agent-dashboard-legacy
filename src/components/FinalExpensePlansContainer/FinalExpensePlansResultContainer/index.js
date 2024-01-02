@@ -13,6 +13,7 @@ import { CurrencyAdjuster } from "components/CurrencyAdjuster";
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
+import useRoles from "hooks/useRoles";
 
 import {
     COVERAGE_AMT_VALIDATION,
@@ -34,6 +35,17 @@ import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.
 const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
+    const { isNonRTS_User } = useRoles();
+
+    // const [myAppointedProducts, setMyAppointedProducts] = usePreferences(false, "myAppointedProducts");
+    // const [showExcludedProducts, setShowExcludedProducts] = usePreferences(false, "showExcludedProducts");
+
+    // const [coverage, setCoverage] = usePreferences(15000, "coverage");
+    // const [monthlyPremium, setMonthlyPremium] = usePreferences(40, "monthlyPremium");
+
+
+
+
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
     const { min, max, step } = STEPPER_FILTER[MONTHLY_PREMIUM];
@@ -61,6 +73,19 @@ const FinalExpensePlansResultContainer = () => {
         if (value < min || value > max) setMonthlyPremError(true);
         else setMonthlyPremError(false);
     };
+    useEffect(() => {
+        if (!isNonRTS_User) {
+            setIsMyAppointedProducts(true)
+        }
+    }, [isNonRTS_User]);
+
+    // useEffect(() => {
+    //     setMyAppointedProducts(isMyAppointedProducts)
+    //     setShowExcludedProducts(isShowExcludedProducts)
+    //     setCoverage(coverageAmount)
+    //     setMonthlyPremium(monthlyPremiumAmount)
+    // }, [isMyAppointedProducts, isShowExcludedProducts, coverageAmount, monthlyPremiumAmount]);
+
     const increment = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
             if (coverageAmount !== covMin) {
@@ -145,16 +170,15 @@ const FinalExpensePlansResultContainer = () => {
                         />
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""}`}
+                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""} ${isNonRTS_User ? styles.inActive : ""}`}
                                 onClick={() => setIsMyAppointedProducts(!isMyAppointedProducts)}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                }`}
+                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                    }`}
                                 onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
@@ -168,6 +192,8 @@ const FinalExpensePlansResultContainer = () => {
                     monthlyPremium={monthlyPremiumAmount}
                     coverageType={coverageType}
                     selectedTab={selectedTab}
+                    isMyAppointedProducts={isMyAppointedProducts}
+                    isShowExcludedProducts={isShowExcludedProducts}
                 />
                 <div className={styles.resultContent}></div>
             </div>

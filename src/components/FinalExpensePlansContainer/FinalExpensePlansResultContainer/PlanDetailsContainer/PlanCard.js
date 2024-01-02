@@ -27,6 +27,8 @@ export const PlanCard = ({
     policyFee,
     eligibility,
     benefits = [],
+    isNonRTS_User,
+    isHavecarriers
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const renderBenefits = () => (
@@ -100,11 +102,11 @@ export const PlanCard = ({
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
-                    disabled={true}
+                    disabled={isNonRTS_User || !isHavecarriers}
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
-                    className={`${styles.applyButton} ${styles.disabled}`}
+                    className={`${styles.applyButton} ${(isNonRTS_User || !isHavecarriers) ? styles.disabled : ""}`}
                 />
             </div>
         </div>

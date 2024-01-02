@@ -28,23 +28,26 @@ import styles from "./PlanDetailsContainer.module.scss";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 
-export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount, monthlyPremium }) => {
+export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount, monthlyPremium, isShowExcludedProducts, isMyAppointedProducts, isNonRTS_User }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const { contactId } = useParams();
     const healthConditionsDataRef = useRef(null);
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
-    const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
+    const { getFinalExpenseQuotePlans, getCarriersInfo,
+        carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
     const { leadDetails } = useContactDetails(contactId);
+
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
             const resp = await getHealthConditions();
+            console.log("JJJJ", resp)
             if (resp) {
                 healthConditionsDataRef.current = [...resp];
                 setIsLoadingHealthConditions(false);
@@ -53,7 +56,14 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
         if (!healthConditionsDataRef.current) {
             fetchHealthConditionsListData();
         }
-    }, []);
+    }, [contactId]);
+
+
+    useEffect(() => {
+        getCarriersInfo();
+    }, [])
+
+    console.log("HHH", coverageAmount, monthlyPremium)
 
     const pageSize = 10;
 
@@ -64,6 +74,7 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
         setPagedResults(slicedResults);
         scrollTop();
     }, [finalExpensePlans, currentPage, pageSize]);
+
 
     useEffect(() => {
         const fetchPlans = async () => {
@@ -109,13 +120,32 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                 };
 
                 const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
+                console.log("jjjj", result)
                 setIsLoadingFinalExpensePlans(false);
-                setFinalExpensePlans(result?.eligibleSorted || []);
+
+                if (!isNonRTS_User && isMyAppointedProducts && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlans)
+                }
+                if (!isNonRTS_User && isMyAppointedProducts && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlansWithExclusions)
+                }
+
+                if (isNonRTS_User && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlans)
+                }
+                if (!isNonRTS_User && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions)
+                }
             } catch (error) {
                 console.error("Error fetching plans:", error);
+                setIsLoadingFinalExpensePlans(false)
             }
         };
-        if (!isLoadingHealthConditions) {
+
+        const coverageAmountValue = coverageAmount >= 1000 && coverageAmount <= 999999;
+        const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999
+
+        if (!isLoadingHealthConditions && coverageAmountValue && monthlyPremiumValue) {
             fetchPlans();
         }
     }, [
@@ -126,12 +156,15 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
         coverageAmount,
         monthlyPremium,
         getFinalExpenseQuotePlans,
+        isMyAppointedProducts,
+        isShowExcludedProducts
     ]);
 
     const loadersCards = useMemo(() => {
         const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
         return <div className={styles.loadersContainer}>{loaders}</div>;
     }, []);
+
 
     return (
         <>
@@ -167,10 +200,13 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                                     monthlyPremium={monthlyRate}
                                     policyFee={policyFee}
                                     eligibility={eligibility}
+                                    isNonRTS_User={isNonRTS_User}
+                                    isHavecarriers={carrierInfo?.length > 1}
                                 />
                             );
                         })}
                         <BackToTop />
+
                         <Pagination
                             currentPage={currentPage}
                             resultName="plans"
