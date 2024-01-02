@@ -136,6 +136,9 @@ export const PlanDetailsContainer = ({
                 if (isNonRTS_User && !isShowExcludedProducts) {
                     setFinalExpensePlans(result?.nonRTSPlansWithExclusions);
                 }
+                if (!isNonRTS_User && !isShowExcludedProducts && !isMyAppointedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions);
+                }
             } catch (error) {
                 setIsLoadingFinalExpensePlans(false);
             }
