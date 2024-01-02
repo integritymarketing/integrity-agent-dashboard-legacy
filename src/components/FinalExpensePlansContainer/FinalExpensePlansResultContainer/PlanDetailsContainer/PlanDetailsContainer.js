@@ -28,14 +28,22 @@ import styles from "./PlanDetailsContainer.module.scss";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 
-export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount, monthlyPremium }) => {
+export const PlanDetailsContainer = ({
+    selectedTab,
+    coverageType,
+    coverageAmount,
+    monthlyPremium,
+    isShowExcludedProducts,
+    isMyAppointedProducts,
+    isNonRTS_User,
+}) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const { contactId } = useParams();
     const healthConditionsDataRef = useRef(null);
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
-    const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
+    const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
     const { leadDetails } = useContactDetails(contactId);
@@ -53,6 +61,10 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
         if (!healthConditionsDataRef.current) {
             fetchHealthConditionsListData();
         }
+    }, [contactId]);
+
+    useEffect(() => {
+        getCarriersInfo();
     }, []);
 
     const pageSize = 10;
@@ -110,12 +122,29 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
 
                 const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
                 setIsLoadingFinalExpensePlans(false);
-                setFinalExpensePlans(result?.eligibleSorted || []);
+
+                if (!isNonRTS_User && isMyAppointedProducts && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlans);
+                }
+                if (!isNonRTS_User && isMyAppointedProducts && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlansWithExclusions);
+                }
+
+                if (isNonRTS_User && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlans);
+                }
+                if (!isNonRTS_User && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions);
+                }
             } catch (error) {
-                console.error("Error fetching plans:", error);
+                setIsLoadingFinalExpensePlans(false);
             }
         };
-        if (!isLoadingHealthConditions) {
+
+        const coverageAmountValue = coverageAmount >= 1000 && coverageAmount <= 999999;
+        const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999;
+
+        if (!isLoadingHealthConditions && coverageAmountValue && monthlyPremiumValue) {
             fetchPlans();
         }
     }, [
@@ -126,6 +155,8 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
         coverageAmount,
         monthlyPremium,
         getFinalExpenseQuotePlans,
+        isMyAppointedProducts,
+        isShowExcludedProducts,
     ]);
 
     const loadersCards = useMemo(() => {
@@ -167,10 +198,13 @@ export const PlanDetailsContainer = ({ selectedTab, coverageType, coverageAmount
                                     monthlyPremium={monthlyRate}
                                     policyFee={policyFee}
                                     eligibility={eligibility}
+                                    isNonRTS_User={isNonRTS_User}
+                                    isHavecarriers={carrierInfo?.length > 1}
                                 />
                             );
                         })}
                         <BackToTop />
+
                         <Pagination
                             currentPage={currentPage}
                             resultName="plans"

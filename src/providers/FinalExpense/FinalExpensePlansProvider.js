@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import useFetch from "hooks/useFetch";
 import { QUOTES_API_VERSION } from "services/clientsService";
+import performAsyncOperation from "utilities/performAsyncOperation";
+import useToast from "hooks/useToast";
 
 /**
  * FinalExpensePlanListProvider component to provide final expenses plan context.
@@ -18,6 +20,7 @@ export const FinalExpensePlansProvider = ({ children }) => {
     const { contactId } = useParams();
     const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/plans`;
     const QUOTE_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/quotes/Lead/${contactId}`;
+    const CARRIERS_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/selfattest/carriers`;
 
     const {
         Get: fetchFinalExpensePlans,
@@ -25,9 +28,16 @@ export const FinalExpensePlansProvider = ({ children }) => {
         error: finalExpensePlansError,
     } = useFetch(URL);
 
+    const {
+        Get: fetchCarriersInfo,
+        loading: isLoadingFetchCarriersInfo,
+        error: fetchCarriersInfoError,
+    } = useFetch(CARRIERS_URL);
+
     const { Post: fetchFinalExpenseQuotePlans } = useFetch(QUOTE_URL);
 
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
+    const [carrierInfo, setCarrierInfo] = useState(null)
 
     const getFinalExpensePlans = useCallback(
         async (quoteId) => {
@@ -54,6 +64,24 @@ export const FinalExpensePlansProvider = ({ children }) => {
         [fetchFinalExpensePlans]
     );
 
+
+
+
+    const getCarriersInfo = async () => {
+        await performAsyncOperation(
+            () => fetchCarriersInfo(null, false),
+            () => { },
+            async (data) => {
+                setCarrierInfo(data);
+            },
+            (err) =>
+                showToast({
+                    type: "error",
+                    message: `Failed to get Carriers info`,
+                })
+        );
+    };
+
     return <FinalExpensePlansContext.Provider value={getContextValue()}>{children}</FinalExpensePlansContext.Provider>;
 
     function getContextValue() {
@@ -64,6 +92,8 @@ export const FinalExpensePlansProvider = ({ children }) => {
             finalExpensePlansError,
             isLoadingFinalExpensePlans,
             fetchAndSetFilteredExpensePlans,
+            getCarriersInfo,
+            carrierInfo
         };
     }
 };

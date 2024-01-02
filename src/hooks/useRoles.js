@@ -38,8 +38,7 @@ const useRoles = () => {
     [roles]
   );
 
-  const isNonRTS_User =
-    hasRole(Roles.nonRts);
+  const isNonRTS_User = hasRole(Roles.nonRts);
 
   return {
     isAdmin,
