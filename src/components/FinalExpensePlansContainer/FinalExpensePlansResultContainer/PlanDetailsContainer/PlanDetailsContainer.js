@@ -122,21 +122,26 @@ export const PlanDetailsContainer = ({
 
                 const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
                 setIsLoadingFinalExpensePlans(false);
-                if (!isNonRTS_User && isMyAppointedProducts && isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.rtsPlans);
-                }
-                if (!isNonRTS_User && isMyAppointedProducts && !isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.rtsPlansWithExclusions);
+
+                if (isNonRTS_User) {
+                    if (isShowExcludedProducts) {
+                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts true
+                    } else {
+                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts false
+                    }
                 }
 
-                if (isNonRTS_User && isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.nonRTSPlans);
-                }
-                if (isNonRTS_User && !isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions);
-                }
-                if (!isNonRTS_User && !isShowExcludedProducts && !isMyAppointedProducts) {
-                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions);
+                // Life RTS Experience (My Appointed Products checked by default)
+                if (!isNonRTS_User) {
+                    if (isMyAppointedProducts && isShowExcludedProducts) {
+                        setFinalExpensePlans(result?.rtsPlans); // Condition 1
+                    } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
+                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 2
+                    } else if (isMyAppointedProducts && !isShowExcludedProducts) {
+                        setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 3
+                    } else if (!isMyAppointedProducts && isShowExcludedProducts) {
+                        setFinalExpensePlans(result?.nonRTSPlans); // Condition 4
+                    }
                 }
             } catch (error) {
                 setIsLoadingFinalExpensePlans(false);
