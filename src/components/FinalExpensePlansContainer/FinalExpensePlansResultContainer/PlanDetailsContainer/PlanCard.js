@@ -89,8 +89,10 @@ export const PlanCard = ({
                 </div>
             </div>
             {eligibility && (
-                <div className={styles.prescreen} onClick={() => setIsPrescreenModalOpen(true)}>
-                    <InfoBlue />
+                <div className={styles.prescreen}>
+                    <span onClick={() => setIsPrescreenModalOpen(true)}>
+                        <InfoBlue />
+                    </span>
                     {eligibility}
                 </div>
             )}

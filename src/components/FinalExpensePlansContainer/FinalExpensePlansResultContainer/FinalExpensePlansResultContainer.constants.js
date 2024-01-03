@@ -18,7 +18,7 @@ export const COVERAGE_TYPE = [
 export const PLAN_OPTIONS_HEADING = "Plan Options";
 export const COVERAGE_TYPE_HEADING = "Coverage Type";
 export const MY_APPOINTED_LABEL = "My Appointed Products";
-export const EXCLUDE_LABEL = "Show Excluded Products";
+export const EXCLUDE_LABEL = "Show Only Excluded Products";
 
 export const COVERAGE_AMT_VALIDATION = "Coverage amount must be between $1,000 and $999,999.";
 export const MONTHLY_PREMIUM_VALIDATION = "Monthly premium must be between $10 and $999.";

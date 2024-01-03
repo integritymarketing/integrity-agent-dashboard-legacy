@@ -35,7 +35,7 @@
 }
 
 .filterContent {
-    width: 288px;
+    width: 20%;
 
     .inputError {
         border-color: #cf3c28;
@@ -56,7 +56,7 @@
     .checkbox {
         padding: 10px 8px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 4px;
     }
 
