@@ -310,6 +310,24 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             showValueAlways={true}
                                         />
                                     </StyledFormItem>
+
+                                    {errors.phones?.leadPhone &&
+                                        values.phones?.leadPhone === "" &&
+                                        values.primaryCommunication === "phone" && (
+                                            <ul className="details-edit-custom-error-msg">
+                                                <li className="error-msg-red">
+                                                    Phone number is required to select as primary communication
+                                                </li>
+                                            </ul>
+                                        )}
+
+                                    {errors.email && values.email === "" && values.primaryCommunication === "email" && (
+                                        <ul className="details-edit-custom-error-msg">
+                                            <li className="error-msg-red">
+                                                Email is required to select as primary communication
+                                            </li>
+                                        </ul>
+                                    )}
                                 </SectionContainer>
 
                                 <SectionContainer>

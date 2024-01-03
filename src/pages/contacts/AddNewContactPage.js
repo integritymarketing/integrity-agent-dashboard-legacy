@@ -305,17 +305,6 @@ const NewContactForm = ({
                 const isInvalidZip =
                     (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
                     (values.address.postalCode > 0 && values.address.postalCode.length < 5);
-                let primaryCommunicationStatus = true;
-                if (
-                    ((!errors.phones?.leadPhone && touched.phones?.leadPhone && values.phones?.leadPhone !== "") ||
-                        (touched.email && !errors.email && values.email !== "")) &&
-                    values.primaryCommunication !== ""
-                ) {
-                    // setFieldValue("primaryCommunication", values.primaryCommunication);
-                    primaryCommunicationStatus = false;
-                } else {
-                    primaryCommunicationStatus = true;
-                }
 
                 const countyName = allCounties[0]?.value;
                 const countyFipsName = allCounties[0]?.key;
@@ -669,13 +658,7 @@ const NewContactForm = ({
                                 </div>
                             </div>
                         </fieldset>
-                        {primaryCommunicationStatus && (
-                            <ul className="details-edit-custom-error-msg ">
-                                <li className="error-msg-red primary-error-msg ">
-                                    Please choose the primary communication type
-                                </li>
-                            </ul>
-                        )}
+
                         <div className="mt-3 mb-3 border-bottom border-bottom--light" />
                         <div>
                             <label className="label" htmlFor="contact--record--type">
@@ -735,7 +718,7 @@ const NewContactForm = ({
                                     data-gtm="new-contact-create-button"
                                     label="Create Contact"
                                     type="primary"
-                                    disabled={!dirty || !isValid || isInvalidZip || primaryCommunicationStatus}
+                                    disabled={!dirty || !isValid || isInvalidZip}
                                     onClick={handleSubmit}
                                 />
                             </div>
