@@ -91,20 +91,19 @@ export const PlanDetailsContainer = ({
                     : addresses[0]?.stateCode;
 
                 const conditions = [];
-                if (!healthConditionsDataRef.current || healthConditionsDataRef.current.length === 0) {
-                    conditions.push({ categoryId: 0, lastTreatmentDate: todayDate });
+                const healthConditions = healthConditionsDataRef.current;
+
+                if (!healthConditions || healthConditions.length === 0) {
+                    conditions.push({ categoryId: 0, lastTreatmentDate: null });
                 } else {
-                    healthConditionsDataRef.current.forEach((condition) => {
-                        if (condition.isComplete) {
-                            conditions.push({
-                                categoryId: condition.conditionId,
-                                lastTreatmentDate: condition.lastTreatmentDate
-                                    ? formatServerDate(condition.lastTreatmentDate)
-                                    : todayDate,
-                            });
-                        }
+                    healthConditions.forEach(({ conditionId, lastTreatmentDate }) => {
+                        conditions.push({
+                            categoryId: conditionId,
+                            lastTreatmentDate: lastTreatmentDate ? formatServerDate(lastTreatmentDate) : null,
+                        });
                     });
                 }
+
                 const quotePlansPostBody = {
                     usState: code,
                     age: Number(age),
