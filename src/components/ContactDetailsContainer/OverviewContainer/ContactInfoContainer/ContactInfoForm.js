@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
@@ -8,7 +9,9 @@ import { useLeadDetails } from "providers/ContactDetails";
 import { formatDate, getLocalDateTime } from "utils/dates";
 import { formatPhoneNumber } from "utils/phones";
 import { primaryContactOptions } from "utils/primaryContact";
-import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
+import { onlyAlphabets, scrollTop } from "utils/shared-utils/sharedUtility";
+
+import useToast from "hooks/useToast";
 
 import DatePickerMUI from "components/DatePicker";
 import { Button } from "components/ui/Button";
@@ -17,6 +20,7 @@ import Textfield from "components/ui/textfield";
 
 import CountyContext from "contexts/counties";
 
+import clientsService from "services/clientsService";
 import validationService from "services/validationService";
 
 import "pages/contacts/contactRecordInfo/contactRecordInfo.scss";
@@ -64,6 +68,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         loading: loadingCountyAndState,
     } = useContext(CountyContext);
 
+    const navigate = useNavigate();
+    const showToast = useToast();
+
     let email = emails.length > 0 ? emails[0].leadEmail : null;
     let phoneData = phones.length > 0 ? phones[0] : null;
     let addressData = addresses.length > 0 ? addresses?.[0] : null;
@@ -83,6 +90,8 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
 
     const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
     const [zipLengthValid, setZipLengthValid] = useState(false);
+    const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+
     useEffect(() => {
         fetchCountyAndState(postalCode);
     }, [fetchCountyAndState, postalCode]);
@@ -98,6 +107,43 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         }
         return formattedValue.toUpperCase();
     };
+
+    const isDuplicateContact = useCallback(
+        async (values, setDuplicateLeadIds) => {
+            // if no phone or email, return false else check for duplicate contact
+            const response = await clientsService.getDuplicateContact(values);
+            if (response?.ok) {
+                const resMessage = await response.json();
+                // if duplicate contact, show error and return
+                if (resMessage?.isExactDuplicate) {
+                    return {
+                        firstName: "Duplicate Contact",
+                        lastName: "Duplicate Contact",
+                        isExactDuplicate: true,
+                    };
+                } else {
+                    // if not duplicate contact, set duplicate lead ids to show in error message because it is potential duplicate contact
+                    setDuplicateLeadIds(resMessage?.duplicateLeadIds || []);
+
+                    // return false to indicate not duplicate contact
+                    return {
+                        isExactDuplicate: false,
+                    };
+                }
+            } else {
+                showToast({
+                    message: "Issue while checking for duplicate contact",
+                    type: "error",
+                });
+
+                // if error, return false to indicate not duplicate contact
+                return {
+                    isExactDuplicate: false,
+                };
+            }
+        },
+        [showToast]
+    );
 
     return (
         <Formik
@@ -192,6 +238,19 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
+                const duplicateCheckResult = await isDuplicateContact(values, setDuplicateLeadIds);
+                // if duplicate contact, show error and return and don't submit form
+                if (duplicateCheckResult?.isExactDuplicate) {
+                    setErrors({
+                        firstName: "Duplicate Contact",
+                        lastName: "Duplicate Contact",
+                    });
+                    const middleOfPage = document.documentElement.scrollHeight / 3;
+                    window.scrollTo(0, middleOfPage);
+                    setSubmitting(false);
+                    return;
+                }
+
                 setSubmitting(true);
                 editLeadDetails(values);
                 setIsEditMode(false);
@@ -574,6 +633,35 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         )}
                                     </StyledFormItem>
                                 </SectionContainer>
+                                {duplicateLeadIds?.length > 0 && (
+                                    <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
+                                        <div>
+                                            <Warning />
+                                        </div>
+                                        <div className={`${styles["duplicate-lead--text"]} pl-1`}>
+                                            You can create this contact, but the entry is a potential duplicate to{" "}
+                                            {duplicateLeadIds.length === 1 ? (
+                                                <a
+                                                    href={getContactLink(duplicateLeadIds[0])}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {`this contact link`}
+                                                </a>
+                                            ) : (
+                                                <Link
+                                                    to="/contacts"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    onClick={handleMultileDuplicates}
+                                                >
+                                                    {" "}
+                                                    view duplicates
+                                                </Link>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </Form>
                         </div>
 
