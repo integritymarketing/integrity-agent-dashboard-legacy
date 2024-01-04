@@ -12,6 +12,7 @@ import Spinner from "components/ui/Spinner/index";
 const SAHealthProductContext = createContext(null);
 
 export const SAHealthProductProvider = ({ children }) => {
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     // -- For Table related features
@@ -38,6 +39,8 @@ export const SAHealthProductProvider = ({ children }) => {
             setOpenFilter,
             fetchTableData,
             setIsLoading,
+            error,
+            setError,
         }),
         [
             agents,
@@ -50,6 +53,8 @@ export const SAHealthProductProvider = ({ children }) => {
             setOpenFilter,
             fetchTableData,
             setIsLoading,
+            error,
+            setError,
         ]
     );
 

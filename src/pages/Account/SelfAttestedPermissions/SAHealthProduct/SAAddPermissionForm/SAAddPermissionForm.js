@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as Sentry from "@sentry/react";
 import { useState } from "react";
 
@@ -34,7 +35,7 @@ function SAAddPermissionForm() {
     const { npn } = useUserProfile();
     const { width: windowWidth } = useWindowSize();
     const { setIsErrorModalOpen } = useSAPModalsContext();
-    const { agents, fetchTableData, setIsLoading } = useSAHealthProductContext();
+    const { agents, fetchTableData, setIsLoading, setError: setGlobalError } = useSAHealthProductContext();
     const { isAddingHealth, handleCancelHealth } = useSAPermissionsContext();
     const { carriersOptions, getProductsOptions, getPlanYearOptions, getProducerID, carriersGroup } =
         useSelectOptions(agents);
@@ -62,20 +63,26 @@ function SAAddPermissionForm() {
         setProduct("");
         setState("");
         setYear("");
-        if (error) setError(null);
+        if (error) {
+            setError(null);
+        }
     };
 
     const onProductChange = (value) => {
         setProduct(value);
         setState("");
         setYear("");
-        if (error) setError(null);
+        if (error) {
+            setError(null);
+        }
     };
 
     const onStateChange = (value) => {
         setState(value);
         setYear("");
-        if (error) setError(null);
+        if (error) {
+            setError(null);
+        }
     };
 
     const OnCancelClickHandle = () => {
@@ -137,10 +144,13 @@ function SAAddPermissionForm() {
             setIsLoading(false);
             Sentry.captureException(res.statusText);
             setIsErrorModalOpen(true);
+            setGlobalError(true);
         }
     };
 
-    if (!isAddingHealth) return <></>;
+    if (!isAddingHealth) {
+        return <></>;
+    }
 
     return (
         <>

@@ -16,7 +16,7 @@ import { useSAPModalsContext } from "../providers/SAPModalProvider";
 
 const AGENTS_API_VERSION = "v1.0";
 function DeleteButton({ attestationId }) {
-    const { fetchTableData, setIsLoading } = useSAHealthProductContext();
+    const { fetchTableData, setIsLoading, setError } = useSAHealthProductContext();
     const { setIsErrorModalOpen } = useSAPModalsContext();
     const { agentId } = useUserProfile();
 
@@ -34,6 +34,7 @@ function DeleteButton({ attestationId }) {
             setIsLoading(false);
             Sentry.captureException(res.statusText);
             setIsErrorModalOpen(true);
+            setError(true);
         }
     };
 

@@ -2,13 +2,17 @@ import { useSortBy, useTable } from "react-table";
 
 import PropTypes from "prop-types";
 
+import { ErrorBanner } from "pages/Account/SelfAttestedPermissions/ErrorBanner";
+
 import styles from "./styles.module.scss";
 
 import { SAAddPermissionForm } from "../../SAAddPermissionForm";
+import { useSAHealthProductContext } from "../../providers/SAHealthProductProvider";
 import { TableBody } from "../TableBody";
 import { TableHeader } from "../TableHeader";
 
 function Table({ columns, data }) {
+    const { error, setError } = useSAHealthProductContext();
     const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
         {
             columns,
@@ -20,8 +24,13 @@ function Table({ columns, data }) {
     return (
         <table className={styles.customTable} {...getTableProps()}>
             <TableHeader headerGroups={headerGroups} />
-            <SAAddPermissionForm />
-            <TableBody getTableBodyProps={getTableBodyProps} rows={rows} prepareRow={prepareRow} />
+            {error && <ErrorBanner retry={() => setError(null)} />}
+            {!error && (
+                <>
+                    <SAAddPermissionForm />
+                    <TableBody getTableBodyProps={getTableBodyProps} rows={rows} prepareRow={prepareRow} />
+                </>
+            )}
         </table>
     );
 }

@@ -21,7 +21,7 @@ const ITEM_PER_PAGE = 5;
 
 function SAPermissionsTable() {
     const { setIsExpriedModalOpen } = useSAPModalsContext();
-    const { filteredData, isCollapsed } = useSAHealthProductContext();
+    const { filteredData } = useSAHealthProductContext();
     const { visibleItems, loadMore, hasMore } = useLoadMore(filteredData, ITEM_PER_PAGE);
 
     const columns = useMemo(
@@ -124,8 +124,6 @@ function SAPermissionsTable() {
         ],
         [setIsExpriedModalOpen]
     );
-
-    if (isCollapsed) return <></>;
 
     return (
         <Box className={styles.tableWrapper}>
