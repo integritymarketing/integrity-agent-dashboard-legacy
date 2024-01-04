@@ -1,11 +1,8 @@
-import React from "react";
-
 import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";
 
 import SAPermissionModal from "./ActivePermissionModal";
-import styles from "./styles.module.scss";
 
 function LifeInfoModal({ isModalOpen, setIsModalOpen }) {
     return (
@@ -17,14 +14,10 @@ function LifeInfoModal({ isModalOpen, setIsModalOpen }) {
             content={
                 <>
                     <Box>
-                        Etiam porta sem malesuada magna mollis euismod. Vestibulum id ligula porta felis euismod semper.
-                        Nullam quis risus eget urna mollis ornare vel eu leo. Morbi leo risus, porta ac consectetur ac,
-                        vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
-                        erat a ante venenatis dapibus posuere velit aliquet.
+                        Integrity partners with carriers and uplines to automatically update Final Expense Selling
+                        Permissions linked to your account. You may Add new permissions or update your Producer ID for
+                        Final Expense carriers using the Life Self-Attestation section on the Account screen
                     </Box>
-                    <ul className={styles.listStyle}>
-                        <li>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</li>
-                    </ul>
                 </>
             }
         />

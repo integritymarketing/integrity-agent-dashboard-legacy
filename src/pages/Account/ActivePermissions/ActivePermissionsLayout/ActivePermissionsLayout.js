@@ -2,8 +2,6 @@ import { useState } from "react";
 
 import Box from "@mui/material/Box";
 
-import useRoles from "hooks/useRoles";
-
 import MissingActiveSellingPermissions from "components/MissingActiveSellingPermissions";
 import Modal from "components/Modal";
 import InfoBlue from "components/icons/version-2/InfoBlue";
@@ -18,12 +16,8 @@ function SAPermissionsLayout() {
     const [isLifeModalOpen, setIsLifeModalOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const { layout, setLayout } = useAccountProductsContext();
-    const { isNonRTS_User } = useRoles();
 
     const onLayoutChangeHandle = (newLayout) => {
-        if (isNonRTS_User) {
-            return;
-        }
         setLayout(newLayout);
     };
 
@@ -33,7 +27,7 @@ function SAPermissionsLayout() {
                 className={`${styles.selection} ${layout === LIFE && styles.activeLayout}`}
                 onClick={() => onLayoutChangeHandle(LIFE)}
             >
-                <Box>Final Expense</Box>
+                <Box>Life</Box>
                 {layout === LIFE && (
                     <Box className={styles.icon} onClick={() => setIsLifeModalOpen(true)}>
                         <InfoBlue />

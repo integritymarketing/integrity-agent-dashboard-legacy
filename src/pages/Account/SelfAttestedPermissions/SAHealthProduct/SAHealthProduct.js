@@ -1,4 +1,9 @@
+import useRoles from "hooks/useRoles";
 import { useWindowSize } from "hooks/useWindowSize";
+
+import { NonRTSModal } from "packages/NonRTS-Modal";
+
+import { InforBanner } from "pages/Account/InforBanner";
 
 import { SAAddPermissionRow } from "./SAAddPermissionRow";
 import ErrorModal from "./SAPermissionModal/ErrorModal";
@@ -11,8 +16,13 @@ import { SAPModalProvider } from "./providers/SAPModalProvider";
 
 function SAHealthProduct() {
     const { width: windowWidth } = useWindowSize();
+    const { isNonRTS_User } = useRoles();
 
     const isMobile = windowWidth <= 784;
+
+    if (isNonRTS_User) {
+        return <InforBanner PopupModal={NonRTSModal} showModal={true} />;
+    }
 
     return (
         <SAPModalProvider>

@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 
 /* eslint-disable react/prop-types */
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSortBy, useTable } from "react-table";
 
 import Box from "@mui/material/Box";
@@ -62,6 +62,10 @@ function Table({ data }) {
         },
         [updateRecord, updatedData]
     );
+
+    useEffect(() => {
+        setUpdatedData(data);
+    }, [data]);
 
     const columns = useMemo(
         () => [

@@ -2,8 +2,6 @@ import { useState } from "react";
 
 import Box from "@mui/material/Box";
 
-import useRoles from "hooks/useRoles";
-
 import InfoBlue from "components/icons/version-2/InfoBlue";
 
 import { HEALTH, LIFE, useAccountProductsContext } from "pages/Account/providers/AccountProductsProvider";
@@ -20,12 +18,7 @@ function SAPermissionsLayout() {
     const { layout, setLayout } = useAccountProductsContext();
     const { resetAdding } = useSAPermissionsContext();
 
-    const { isNonRTS_User } = useRoles();
-
     const onLayoutChangeHandle = (newLayout) => {
-        if (isNonRTS_User) {
-            return;
-        }
         resetAdding();
         setLayout(newLayout);
     };
@@ -36,7 +29,7 @@ function SAPermissionsLayout() {
                 className={`${styles.selection} ${layout === LIFE && styles.activeLayout}`}
                 onClick={() => onLayoutChangeHandle(LIFE)}
             >
-                <Box>Final Expense</Box>
+                <Box>Life</Box>
                 {layout === LIFE && (
                     <Box className={styles.icon} onClick={() => setIsLifeModalOpen(true)}>
                         <InfoBlue />

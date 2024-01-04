@@ -5,6 +5,7 @@ import { HEALTH, LIFE, useAccountProductsContext } from "pages/Account/providers
 import { ActivePermissionsHeader } from "./ActivePermissionsHeader";
 import { ActivePermissionsHealth } from "./ActivePermissionsHealth";
 import { ActivePermissionsLayout } from "./ActivePermissionsLayout";
+import { ActivePermissionLife } from "./ActivePermissionsLife";
 import { ActivePermissionsProvider } from "./providers/ActivePermissionsProvider";
 import styles from "./styles.module.scss";
 
@@ -17,7 +18,7 @@ function ActivePermissions() {
                 <ActivePermissionsHeader />
                 <ActivePermissionsLayout />
                 {layout === HEALTH && <ActivePermissionsHealth />}
-                {layout === LIFE && <></>}
+                {layout === LIFE && <ActivePermissionLife />}
             </Container>
         </ActivePermissionsProvider>
     );
