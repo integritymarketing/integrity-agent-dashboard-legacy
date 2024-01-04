@@ -124,22 +124,22 @@ export const PlanDetailsContainer = ({
 
                 if (isNonRTS_User) {
                     if (isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts true
+                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
                     } else {
-                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts false
+                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
                     }
                 }
 
                 // Life RTS Experience (My Appointed Products checked by default)
                 if (!isNonRTS_User) {
                     if (isMyAppointedProducts && isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.rtsPlans); // Condition 1
+                        setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
                     } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 2
+                        setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
                     } else if (isMyAppointedProducts && !isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 3
+                        setFinalExpensePlans(result?.rtsPlans); // Condition 3
                     } else if (!isMyAppointedProducts && isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlans); // Condition 4
+                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 4
                     }
                 }
             } catch (error) {
