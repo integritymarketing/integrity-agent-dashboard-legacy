@@ -16,7 +16,9 @@ import styles from "./styles.module.scss";
 
 import { useSALifeProductContext } from "../../../providers/SALifeProductProvider";
 
+// eslint-disable-next-line max-lines-per-function
 function SAAddNewRow() {
+    const [error, setError] = useState(null);
     const [producerIdValue, setProducerIdValue] = useState("");
     const [selectedCarrier, setSelectedCarrier] = useState(null);
     const { options, originals } = useSALifeProductContext();
@@ -24,10 +26,26 @@ function SAAddNewRow() {
     const { isAddingLife, handleCancelLife } = useSAPermissionsContext();
     const { npn } = useUserProfile();
 
-    const shouldDisable = !producerIdValue || !selectedCarrier;
+    const shouldDisable = !producerIdValue || !selectedCarrier || error;
 
     const onChange = (e) => {
         setProducerIdValue(e.target.value);
+    };
+
+    const validateInput = (input) => {
+        if (input.length < 8 || input.length > 13) {
+            return "Input must be between 8 and 13 characters long.";
+        }
+        return null;
+    };
+
+    const onBlur = () => {
+        const validatedError = validateInput(producerIdValue);
+        if (validatedError) {
+            setError(validatedError);
+        } else {
+            setError(null);
+        }
     };
 
     const onSaveHandle = () => {
@@ -80,7 +98,16 @@ function SAAddNewRow() {
                 <td>
                     <Box className={styles.customTextField}>
                         <Box className={styles.title}>Producer ID</Box>
-                        <Textfield value={producerIdValue} onChange={onChange} />
+                        <>
+                            <Textfield
+                                value={producerIdValue}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                error={error ? true : false}
+                                hideFieldError={true}
+                            />
+                            {error && <Box className={styles.errorMessage}>{error}</Box>}
+                        </>
                     </Box>
                 </td>
                 <td>

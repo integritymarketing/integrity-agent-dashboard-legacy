@@ -27,6 +27,7 @@ import { TableBody } from "../TableBody";
 import { TableHeader } from "../TableHeader";
 
 function Table({ data }) {
+    const [invalidProducerId, setInvalidProducerId] = useState(false);
     const [updatedData, setUpdatedData] = useState(data);
     const [editableRow, setEditableRow] = useState(null);
     const { updateRecord } = useDataHandler();
@@ -121,7 +122,12 @@ function Table({ data }) {
                     return (
                         <Box className={styles.customTextField}>
                             <Box className={styles.title}>Producer ID</Box>
-                            <EditableCell {...cell} updateMyData={updateMyData} />
+                            <EditableCell
+                                {...cell}
+                                updateMyData={updateMyData}
+                                validate={true}
+                                setInvalidProducerId={setInvalidProducerId}
+                            />
                         </Box>
                     );
                 },
@@ -160,13 +166,14 @@ function Table({ data }) {
                                 onClick={() => onSaveHandle(row?.original)}
                                 type="tertiary"
                                 iconPosition="right"
+                                disabled={invalidProducerId}
                             />
                         </Box>
                     );
                 },
             },
         ],
-        [onDeleteHandle, onSaveHandle, toggleEditMode, updateMyData]
+        [onDeleteHandle, onSaveHandle, toggleEditMode, updateMyData, invalidProducerId]
     );
 
     const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(

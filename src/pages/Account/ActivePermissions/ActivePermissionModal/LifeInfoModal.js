@@ -9,7 +9,7 @@ function LifeInfoModal({ isModalOpen, setIsModalOpen }) {
         <SAPermissionModal
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
-            title="Life Self-Attestation"
+            title="Life Active Selling Permissions"
             subTitle="Final Expense"
             content={
                 <>
