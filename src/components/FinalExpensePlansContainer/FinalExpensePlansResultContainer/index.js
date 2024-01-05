@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
 
@@ -6,6 +6,7 @@ import { Text } from "@integritymarketing/ui-text-components";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 
+import usePreferences from "hooks/usePreferences";
 import useRoles from "hooks/useRoles";
 
 import Heading4 from "packages/Heading4";
@@ -38,23 +39,46 @@ const FinalExpensePlansResultContainer = () => {
     const { contactId } = useParams();
     const { isNonRTS_User } = useRoles();
 
-    // const [myAppointedProducts, setMyAppointedProducts] = usePreferences(false, "myAppointedProducts");
-    // const [showExcludedProducts, setShowExcludedProducts] = usePreferences(false, "showExcludedProducts");
-
-    // const [coverage, setCoverage] = usePreferences(15000, "coverage");
-    // const [monthlyPremium, setMonthlyPremium] = usePreferences(40, "monthlyPremium");
-
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
     const { min, max, step } = STEPPER_FILTER[MONTHLY_PREMIUM];
-    const [coverageAmount, setCoverageAmount] = useState(DEFAULT_COVERAGE_AMOUNT);
-    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = useState(DEFAULT_MONTHLY_PREMIUM);
-    const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[4].value);
     const { getLeadDetails } = useLeadDetails();
-    const [isMyAppointedProducts, setIsMyAppointedProducts] = useState(false);
-    const [isShowExcludedProducts, setIsShowExcludedProducts] = useState(false);
-    const [covAmtError, setCovAmtError] = useState(false);
-    const [monthlyPremError, setMonthlyPremError] = useState(false);
+
+    const [coverageAmount, setCoverageAmount] = usePreferences(DEFAULT_COVERAGE_AMOUNT, "coverage");
+    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = usePreferences(DEFAULT_MONTHLY_PREMIUM, "monthlyPremium");
+    const [coverageType, setCoverageType] = usePreferences(COVERAGE_TYPE[4].value, "sessionCoverageType");
+    const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(false, "sessionIsMyAppointedProducts");
+    const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
+    const [sessionLead, setSessionLead] = usePreferences(null, "sessionLead");
+
+    // Effects
+    useEffect(() => {
+        getLeadDetails(contactId);
+    }, [contactId]);
+
+    useEffect(() => {
+        if (contactId !== sessionLead) {
+            setSessionLead(contactId);
+            resetToDefaultPreferences();
+        }
+    }, [contactId, sessionLead]);
+
+    useEffect(() => {
+        if (!isNonRTS_User) {
+            setIsMyAppointedProducts(true);
+        } else {
+            setIsMyAppointedProducts(false);
+        }
+    }, [isNonRTS_User]);
+
+    // Functions
+    const resetToDefaultPreferences = () => {
+        setCoverageAmount(DEFAULT_COVERAGE_AMOUNT);
+        setMonthlyPremiumAmount(DEFAULT_MONTHLY_PREMIUM);
+        setCoverageType(COVERAGE_TYPE[4].value);
+        setIsMyAppointedProducts(false);
+        setIsShowExcludedProducts(false);
+    };
 
     useEffect(() => {
         getLeadDetails(contactId);
@@ -62,27 +86,17 @@ const FinalExpensePlansResultContainer = () => {
 
     const updateCoverageAmount = (value) => {
         setCoverageAmount(value);
-        if (value < covMin || value > covMax) setCovAmtError(true);
-        else setCovAmtError(false);
     };
 
     const updateMonthlyPremiumAmount = (value) => {
         setMonthlyPremiumAmount(value);
-        if (value < min || value > max) setMonthlyPremError(true);
-        else setMonthlyPremError(false);
     };
+
     useEffect(() => {
         if (!isNonRTS_User) {
             setIsMyAppointedProducts(true);
         }
     }, [isNonRTS_User]);
-
-    // useEffect(() => {
-    //     setMyAppointedProducts(isMyAppointedProducts)
-    //     setShowExcludedProducts(isShowExcludedProducts)
-    //     setCoverage(coverageAmount)
-    //     setMonthlyPremium(monthlyPremiumAmount)
-    // }, [isMyAppointedProducts, isShowExcludedProducts, coverageAmount, monthlyPremiumAmount]);
 
     const increment = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
@@ -131,9 +145,16 @@ const FinalExpensePlansResultContainer = () => {
 
     const handleTabSelect = (tab) => {
         setSelectedTab(tab);
-        setCovAmtError(false);
-        setMonthlyPremError(false);
     };
+
+    const covAmtError = useMemo(() => {
+        return coverageAmount < covMin || coverageAmount > covMax;
+    }, [coverageAmount, covMin, covMax]);
+
+    const monthlyPremError = useMemo(() => {
+        return monthlyPremiumAmount < min || monthlyPremiumAmount > max;
+    }, [monthlyPremiumAmount, min, max]);
+
     return (
         <>
             <Media
@@ -152,10 +173,19 @@ const FinalExpensePlansResultContainer = () => {
                         increment={increment}
                         decrement={decrement}
                         onChange={handleInputChange}
-                        inputErrorStyle={covAmtError || monthlyPremError ? styles.inputError : ""}
+                        inputErrorStyle={
+                            (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
+                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                                ? styles.inputError
+                                : ""
+                        }
                     />
-                    {covAmtError && <div className={styles.error}>{COVERAGE_AMT_VALIDATION}</div>}
-                    {monthlyPremError && <div className={styles.error}>{MONTHLY_PREMIUM_VALIDATION}</div>}
+                    {selectedTab === COVERAGE_AMOUNT && covAmtError && (
+                        <div className={styles.error}>{COVERAGE_AMT_VALIDATION}</div>
+                    )}
+                    {selectedTab === MONTHLY_PREMIUM && monthlyPremError && (
+                        <div className={styles.error}>{MONTHLY_PREMIUM_VALIDATION}</div>
+                    )}
                     <div className={styles.planOptionsBox}>
                         <Heading4 className={styles.planOptionsHeader} text={PLAN_OPTIONS_HEADING} />
                         <Text className={styles.planOptionsText} text={COVERAGE_TYPE_HEADING} />
@@ -171,7 +201,10 @@ const FinalExpensePlansResultContainer = () => {
                                 className={`${styles.checkbox} ${
                                     isMyAppointedProducts ? styles.selectedCheckbox : ""
                                 } ${isNonRTS_User ? styles.inActive : ""}`}
-                                onClick={() => setIsMyAppointedProducts(!isMyAppointedProducts)}
+                                onClick={() => {
+                                    if (isNonRTS_User) return;
+                                    setIsMyAppointedProducts(!isMyAppointedProducts);
+                                }}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
@@ -201,17 +234,6 @@ const FinalExpensePlansResultContainer = () => {
             </div>
         </>
     );
-};
-
-// Define PropTypes
-FinalExpensePlansResultContainer.propTypes = {
-    contactId: PropTypes.string.isRequired,
-    coverageAmount: PropTypes.number.isRequired,
-    setCoverageAmount: PropTypes.func.isRequired,
-    monthlyPremiumAmount: PropTypes.number.isRequired,
-    setMonthlyPremiumAmount: PropTypes.func.isRequired,
-    coverageType: PropTypes.string.isRequired,
-    setCoverageType: PropTypes.func.isRequired,
 };
 
 export default FinalExpensePlansResultContainer;
