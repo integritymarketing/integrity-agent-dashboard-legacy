@@ -1,34 +1,43 @@
-import React, { useMemo, useState, useEffect, useCallback, useContext } from "react";
+import * as Sentry from "@sentry/react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
-import "./activitytable.scss";
-import Table from "../../packages/TableWrapper";
 import { useNavigate } from "react-router-dom";
-import { dateFormatter } from "utils/dateFormatter";
-import { TextButton } from "packages/Button";
-import Typography from "@mui/material/Typography";
-import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
-import styles from "./DashboardActivityTable.module.scss";
+
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
+import Typography from "@mui/material/Typography";
+
+import { dateFormatter } from "utils/dateFormatter";
+import { convertUTCDateToLocalDate } from "utils/dates";
+import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
+
+import useToast from "hooks/useToast";
+import useUserProfile from "hooks/useUserProfile";
+
+import Table from "../../packages/TableWrapper";
+import { TextButton } from "packages/Button";
+import ContactSectionCard from "packages/ContactSectionCard";
 import Filter from "packages/Filter/Filter";
 import FilterOptions from "packages/Filter/FilterOptions";
-import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
-import ActionsDropdown from "components/ui/ActionsDropdown";
-import ContactContext from "contexts/contacts";
-import { ShortReminder } from "pages/contacts/contactRecordInfo/reminder/Reminder";
-import FilterIcon from "components/icons/activities/Filter";
+
+import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
+import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
-import ActivityDetails from "pages/ContactDetails/ActivityDetails";
+import FilterIcon from "components/icons/activities/Filter";
+import ActionsDropdown from "components/ui/ActionsDropdown";
+
+import ContactContext from "contexts/contacts";
+
 import clientsService from "services/clientsService";
 import comparePlansService from "services/comparePlansService";
-import { convertUTCDateToLocalDate } from "utils/dates";
-import useToast from "hooks/useToast";
-import * as Sentry from "@sentry/react";
-import CallDetails from "./CallDetails";
-import useUserProfile from "hooks/useUserProfile";
-import ContactSectionCard from "packages/ContactSectionCard";
+
+import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
+import ActivityDetails from "pages/ContactDetails/ActivityDetails";
+import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
-import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
+
+import CallDetails from "./CallDetails";
+import styles from "./DashboardActivityTable.module.scss";
+import "./activitytable.scss";
 
 const getActivitySubject = (activitySubject) => {
     switch (activitySubject) {
@@ -201,6 +210,29 @@ export default function DashboardActivityTable({
         [navigate, npn]
     );
 
+    const saveReminder = (payload) => {
+        const addPayload = {
+            ...payload,
+            leadsId: showAddModal,
+        };
+        clientsService
+            .createReminder(addPayload)
+            .then(() => {
+                showToast({
+                    type: "success",
+                    message: "Reminder successfully added.",
+                    time: 3000,
+                });
+            })
+            .catch(() => {
+                showToast({
+                    type: "error",
+                    message: `Failed to Add reminders`,
+                });
+            });
+        setShowAddNewModal(false);
+    };
+
     const handleTableRowClick = useCallback(
         (row) => {
             setSelectedLead({
@@ -316,18 +348,11 @@ export default function DashboardActivityTable({
                                 <MoreHorizOutlinedIcon />
                             </ActionsDropdown>
                             {showAddNewModal && (
-                                <ShortReminder
-                                    reminders={value || []}
-                                    leadId={row.original.leadsId}
-                                    showAddModal={showAddModal === row.original.leadsId}
-                                    setShowAddModal={(value) => {
-                                        setShowAddModal(value ? row.original.leadsId : null);
-                                        if (!value) {
-                                            setShowAddNewModal(false);
-                                        }
-                                    }}
-                                    showAddNewModal={showAddNewModal}
-                                    hideIcon={true}
+                                <AddReminderModal
+                                    open={showAddNewModal}
+                                    onClose={() => setShowAddNewModal(false)}
+                                    onSave={saveReminder}
+                                    selectedReminder={null}
                                 />
                             )}
                         </>
@@ -336,7 +361,7 @@ export default function DashboardActivityTable({
             },
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigate, showAddModal]
+        [navigate, showAddModal, showAddNewModal, setShowAddNewModal]
     );
 
     const mobileColumns = useMemo(
@@ -442,19 +467,13 @@ export default function DashboardActivityTable({
                             >
                                 <MoreHorizOutlinedIcon />
                             </ActionsDropdown>
+
                             {showAddNewModal && (
-                                <ShortReminder
-                                    reminders={value || []}
-                                    leadId={row.original.leadsId}
-                                    showAddModal={showAddModal === row.original.leadsId}
-                                    setShowAddModal={(value) => {
-                                        setShowAddModal(value ? row.original.leadsId : null);
-                                        if (!value) {
-                                            setShowAddNewModal(false);
-                                        }
-                                    }}
-                                    showAddNewModal={showAddNewModal}
-                                    hideIcon={true}
+                                <AddReminderModal
+                                    open={showAddNewModal}
+                                    onClose={() => setShowAddNewModal(false)}
+                                    onSave={saveReminder}
+                                    selectedReminder={null}
                                 />
                             )}
                         </>
@@ -463,7 +482,7 @@ export default function DashboardActivityTable({
             },
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigate, showAddModal]
+        [navigate, showAddModal, showAddNewModal, setShowAddNewModal]
     );
 
     const onFilterApply = (selectedValues) => {
