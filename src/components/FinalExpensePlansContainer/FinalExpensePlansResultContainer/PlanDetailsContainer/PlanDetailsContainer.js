@@ -14,6 +14,7 @@ import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsCon
 import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE,
+    MONTHLY_PREMIUM,
     NO_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import { AlertIcon } from "components/icons/alertIcon";
@@ -147,10 +148,11 @@ export const PlanDetailsContainer = ({
             }
         };
 
-        const coverageAmountValue = coverageAmount >= 1000 && coverageAmount <= 999999;
-        const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999;
+        const coverageAmountValue =
+            coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
+        const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
 
-        if (!isLoadingHealthConditions && coverageAmountValue && monthlyPremiumValue) {
+        if (!isLoadingHealthConditions && (coverageAmountValue || monthlyPremiumValue)) {
             fetchPlans();
         }
     }, [
@@ -205,7 +207,7 @@ export const PlanDetailsContainer = ({
                                     policyFee={policyFee}
                                     eligibility={eligibility}
                                     isNonRTS_User={isNonRTS_User}
-                                    isHavecarriers={carrierInfo?.length > 1}
+                                    isHaveCarriers={carrierInfo?.length > 1}
                                 />
                             );
                         })}
