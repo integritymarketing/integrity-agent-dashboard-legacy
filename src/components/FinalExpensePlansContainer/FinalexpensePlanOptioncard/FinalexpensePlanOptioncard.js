@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 
 import { CurrencyAdjuster } from "components/CurrencyAdjuster";
 import CheckedIcon from "components/icons/CheckedIcon";
-import MinusIcon from "components/icons/minus-icon";
-import PlusIcon from "components/icons/plus-icon";
 import UnCheckedIcon from "components/icons/unChecked";
 import Radio from "components/ui/Radio";
 import { Select } from "components/ui/Select";
@@ -12,7 +10,6 @@ import { useLife } from "contexts/Life";
 
 import {
     COVERAGE_AMOUNT,
-    COVERAGE_TYPE,
     MONTHLY_PREMIUM,
     PAYMENT_METHODS,
     STEPPER_FILTER,
@@ -26,11 +23,13 @@ import {
 } from "./StyledComponents";
 import styles from "./styles.module.scss";
 
+import { COVERAGE_TYPE } from "../FinalExpensePlansContainer.constants";
+
 const FinalexpensePlanOptioncard = ({ contactId }) => {
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const { value, step, min, max } = STEPPER_FILTER[selectedTab];
     const [stepperValue, setStepperValue] = useState(min);
-    const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[0]);
+    const [coverageType, setCoverageType] = useState(COVERAGE_TYPE[4]);
     const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0]);
     const [isExcludedPlans, showExcludedPlans] = useState(false);
     const [isSocialSecurityBilling, showSocialSecurityBilling] = useState(false);
@@ -109,7 +108,7 @@ const FinalexpensePlanOptioncard = ({ contactId }) => {
                 <H2Header>Plan Options</H2Header>
                 <H4HeaderBold>Coverage Type</H4HeaderBold>
                 <Select
-                    initialValue={COVERAGE_TYPE[0].value}
+                    initialValue={COVERAGE_TYPE[4].value}
                     onChange={handleCoverageTypeChange}
                     options={COVERAGE_TYPE}
                     style={{ color: "#717171", fontSize: "16px" }}
@@ -147,3 +146,4 @@ const FinalexpensePlanOptioncard = ({ contactId }) => {
 };
 
 export default FinalexpensePlanOptioncard;
+2;

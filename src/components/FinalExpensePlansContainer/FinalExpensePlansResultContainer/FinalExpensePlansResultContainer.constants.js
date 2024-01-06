@@ -10,8 +10,8 @@ export const COVERAGE_TYPE = [
     { label: "Guaranteed", value: "GUARANTEED" },
     { label: "Limited", value: "LIMITED" },
     {
-        label: "All Coverage Types",
-        value: ["LEVEL", "GRADED_MODIFIED", "LIMITED", "GUARANTEED"],
+        label: "Standard Final Expense",
+        value: ["LEVEL", "GRADED_MODIFIED", "GUARANTEED"],
     },
 ];
 

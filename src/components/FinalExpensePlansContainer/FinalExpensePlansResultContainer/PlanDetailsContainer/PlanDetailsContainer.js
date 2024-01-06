@@ -112,7 +112,7 @@ export const PlanDetailsContainer = ({
                     tobacco: Boolean(isTobaccoUser),
                     desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
                     desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
-                    coverageTypes: covType || [COVERAGE_TYPE[0].value],
+                    coverageTypes: covType || [COVERAGE_TYPE[4].value],
                     effectiveDate: todayDate,
                     underWriting: {
                         user: { height: height || 0, weight: weight || 0 },

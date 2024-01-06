@@ -50,7 +50,6 @@ const FinalExpensePlansResultContainer = () => {
     const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(false, "sessionIsMyAppointedProducts");
     const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
     const [sessionLead, setSessionLead] = usePreferences(null, "sessionLead");
-
     // Effects
     useEffect(() => {
         getLeadDetails(contactId);
