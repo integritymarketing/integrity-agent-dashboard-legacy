@@ -193,7 +193,19 @@ export const PlanDetailsContainer = ({
                                 modalRates,
                                 policyFee,
                                 eligibility,
+                                reason,
                             } = plan;
+                            let conditionList = [];
+                            if (reason?.categoryReasons?.length > 0) {
+                                conditionList = reason?.categoryReasons?.map(({ categoryId, lookbackperiod }) => {
+                                    const condition = healthConditionsDataRef.current.find(
+                                        (item) => item.conditionId == categoryId
+                                    );
+                                    if (condition) {
+                                        return { name: condition?.conditionName, lookbackperiod };
+                                    }
+                                });
+                            }
                             const monthlyRate = modalRates.find((rate) => rate.type === "month")?.rate || 0;
                             return (
                                 <PlanCard
@@ -206,6 +218,7 @@ export const PlanDetailsContainer = ({
                                     monthlyPremium={monthlyRate}
                                     policyFee={policyFee}
                                     eligibility={eligibility}
+                                    conditionList={conditionList}
                                     isNonRTS_User={isNonRTS_User}
                                     isHaveCarriers={carrierInfo?.length > 1}
                                 />

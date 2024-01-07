@@ -28,6 +28,7 @@ export const PlanCard = ({
     monthlyPremium,
     policyFee,
     eligibility,
+    conditionList,
     benefits = [],
     isNonRTS_User,
     isHaveCarriers,
@@ -101,6 +102,7 @@ export const PlanCard = ({
                 isOpen={isPrescreenModalOpen}
                 onClose={() => setIsPrescreenModalOpen(false)}
                 eligibility={eligibility}
+                conditionList={conditionList}
             />
 
             <div className={styles.applyCTA}>

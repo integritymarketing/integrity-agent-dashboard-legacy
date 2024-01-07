@@ -154,4 +154,13 @@
     padding: 24px;
     margin: 24px;
     color: #434a51;
+
+    ul {
+        padding: 12px;
+
+        li {
+            list-style: disc;
+            padding-bottom: 20px;
+        }
+    }
 }
