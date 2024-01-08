@@ -42,3 +42,4 @@ export const BENEFITS_SELLING_PERMISSIONS = [
 export const CONTINUE_QUOTE = "Continue to Quote";
 export const UPDATE_PERMISSIONS = "Update my Permissions";
 export const NO_PLANS_ERROR = "Final Expense data is temporarily unavailable. Please try again later.";
+export const COVERAGE_TYPE_FINALOPTION = ["LEVEL", "GRADED_MODIFIED", "GUARANTEED"];
