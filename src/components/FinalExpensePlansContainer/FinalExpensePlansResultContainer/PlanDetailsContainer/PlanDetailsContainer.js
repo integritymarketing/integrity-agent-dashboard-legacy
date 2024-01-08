@@ -87,7 +87,7 @@ export const PlanDetailsContainer = ({
                 const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
                 if (!addresses?.[0]?.stateCode || !birthdate) return;
                 setIsLoadingFinalExpensePlans(true);
-                const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : coverageType;
+                const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
                 const age = getAgeFromBirthDate(birthdate);
                 const todayDate = formatDate(new Date(), "yyyy-MM-dd");
                 const code = sessionStorage.getItem(contactId)
