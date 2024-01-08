@@ -23,10 +23,10 @@ function Table({ data }) {
             },
             {
                 Header: "Product",
-                accessor: "productCategoryName",
+                accessor: "static",
                 disableSortBy: true,
-                Cell: ({ value }) => {
-                    return <Box className={styles.pill}>{value ? value : "Final Expense"}</Box>;
+                Cell: () => {
+                    return <Box className={styles.pill}>Final Expense</Box>;
                 },
             },
             {
