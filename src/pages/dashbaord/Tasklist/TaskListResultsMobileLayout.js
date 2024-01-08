@@ -1,33 +1,37 @@
-import React, { useEffect, useState, } from "react";
-import Box from "@mui/material/Box";
-
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useParams } from "react-router-dom";
 import Media from "react-media";
-import GlobalNav from "partials/global-nav-v2";
-import Footer from "components/Footer";
-import WithLoader from "components/ui/WithLoader";
-import DateRangeSort from "components/DateRangeSort";
+import { useParams } from "react-router-dom";
 
-import ErrorState from "components/ErrorState";
-import NoReminder from "images/no-reminder.svg";
-import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
-import NoSOA48Hours from "images/no-soa-48-hours.svg";
-import PlanEnroll from "components/icons/planEnroll";
-import PlanEnrollBig from "images/enroll.svg";
-
-import UnLinkedCalls from "./UnlinkedCalls";
-import RemindersList from "./Reminders";
-import PlanEnrollLeads from "./PlanEnrollLeads";
-import Soa48HoursRule from "./Soa48HoursRule";
-import clientsService from "services/clientsService";
-import { StageStatusProvider } from "contexts/stageStatus";
-import { TaskListCardContainer } from "./TaskListCardContainer";
-import usePreferences from "hooks/usePreferences";
+import Box from "@mui/material/Box";
 
 import moment from "moment";
 
+import usePreferences from "hooks/usePreferences";
+
+import DateRangeSort from "components/DateRangeSort";
+import ErrorState from "components/ErrorState";
+import PlanEnroll from "components/icons/planEnroll";
+import WithLoader from "components/ui/WithLoader";
+
+import GlobalFooter from "partials/global-footer";
+import GlobalNav from "partials/global-nav-v2";
+
+import { StageStatusProvider } from "contexts/stageStatus";
+
+import clientsService from "services/clientsService";
+
+import PlanEnrollLeads from "./PlanEnrollLeads";
+import RemindersList from "./Reminders";
+import Soa48HoursRule from "./Soa48HoursRule";
+import { TaskListCardContainer } from "./TaskListCardContainer";
 import styles from "./TaskListMobileLayout.module.scss";
+import UnLinkedCalls from "./UnlinkedCalls";
+
+import PlanEnrollBig from "images/enroll.svg";
+import NoReminder from "images/no-reminder.svg";
+import NoSOA48Hours from "images/no-soa-48-hours.svg";
+import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
 
 const DEFAULT_TABS = [
     {
@@ -166,7 +170,7 @@ export default function TaskListMobileLayout() {
                 return "There are no incomplete SOAs being tracked for you at this time.";
             }
             case "PlanEnroll Leads":
-                return "There are no PlanEnroll Leads available for the selected date range."
+                return "There are no PlanEnroll Leads available for the selected date range.";
             default:
                 return `There are no ${selectedName?.toLowerCase()} at this time.`;
         }
@@ -263,7 +267,7 @@ export default function TaskListMobileLayout() {
                 )}
             </TaskListCardContainer>
 
-            <Footer />
+            <GlobalFooter />
         </Box>
     );
 }

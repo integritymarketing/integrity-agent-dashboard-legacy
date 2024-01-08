@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import GlobalNav from "partials/global-nav-v2";
-import Footer from "components/Footer";
-import WebChatComponent from "components/WebChat/WebChat";
+import Media from "react-media";
+import { useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
-import { useParams } from "react-router-dom";
-import Media from "react-media";
+
 import { AddZipContainer } from "components/AddZipContainer";
 import { HEALTH_POLICIES } from "components/AddZipContainer/AddZipContainer.constants";
 import { PageHeader } from "components/PageHeader";
+import WebChatComponent from "components/WebChat/WebChat";
+
+import GlobalFooter from "partials/global-footer";
+import GlobalNav from "partials/global-nav-v2";
 
 const StyledBox = styled(Box)(() => ({
     display: "flex",
@@ -39,7 +41,7 @@ const AddZipPage = () => {
                 <AddZipContainer isMobile={isMobile} contactId={contactId} />
             </StyledBox>
             <WebChatComponent />
-            <Footer />
+            <GlobalFooter />
         </>
     );
 };

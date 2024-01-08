@@ -14,13 +14,13 @@ import useToast from "../../hooks/useToast";
 import useQueryParams from "hooks/useQueryParams";
 
 import DatePickerMUI from "components/DatePicker";
-import Footer from "components/Footer";
 import Warning from "components/icons/warning";
 import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
 
+import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import CountyContext from "contexts/counties";
@@ -771,7 +771,7 @@ export default function AddNewContactPage() {
                     />
                 </Container>
             </div>
-            <Footer />
+            <GlobalFooter />
         </>
     );
 }

@@ -1,43 +1,51 @@
 /* eslint-disable max-lines-per-function */
-import React, { useCallback, useEffect, useState, useContext, useRef } from "react";
-import { Helmet } from "react-helmet-async";
-import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
-
-import Media from "react-media";
 import * as Sentry from "@sentry/react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import Media from "react-media";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+
 import { debounce } from "debounce";
-import DeleteContactsModal from "./DeleteContactsModal";
-import ExportContactsModal from "./ExportContactsModal";
-import ContactsCard from "./ContactsCard";
-import styles from "./ContactsPage.module.scss";
-import ContactsTable from "./ContactsTable";
-import Import from "components/icons/import";
+
+import { useActiveFilters } from "hooks/useActiveFilters";
+import useToast from "hooks/useToast";
+
+import ContactListFilterOptions from "packages/ContactListFilterOptions";
+import ContactListSort from "packages/ContactListSort";
+import Filter from "packages/Filter/Filter";
+import FooterBanners from "packages/FooterBanners";
+
+import GoBackNavbar from "components/BackButtonNavbar";
+import ActiveFilter from "components/icons/activities/ActiveFilter";
+import FilterIcon from "components/icons/activities/Filter";
 import Add from "components/icons/add";
 import CardView from "components/icons/card-view";
-import SearchIcon from "components/icons/search";
+import ContactSort from "components/icons/contact-sort";
+import Export from "components/icons/export";
+import Import from "components/icons/import";
 import RoundCloseIcon from "components/icons/round-close";
+import SearchIcon from "components/icons/search";
 import TableView from "components/icons/table-view";
 import Delete from "components/icons/trashbin";
-import Export from "components/icons/export";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 import Textfield from "components/ui/textfield";
-import BackNavContext from "contexts/backNavProvider";
+
+import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
-import Footer from "components/Footer";
-import clientsService from "services/clientsService";
-import analyticsService from "services/analyticsService";
-import useToast from "hooks/useToast";
+
+import BackNavContext from "contexts/backNavProvider";
 import { StageStatusProvider } from "contexts/stageStatus";
-import FooterBanners from "packages/FooterBanners";
-import Filter from "packages/Filter/Filter";
-import ContactListFilterOptions from "packages/ContactListFilterOptions";
-import ContactListSort from "packages/ContactListSort";
-import FilterIcon from "components/icons/activities/Filter";
-import ActiveFilter from "components/icons/activities/ActiveFilter";
-import ContactSort from "components/icons/contact-sort";
-import { useActiveFilters } from "hooks/useActiveFilters";
-import GoBackNavbar from "components/BackButtonNavbar";
+
+import analyticsService from "services/analyticsService";
+import clientsService from "services/clientsService";
+
+import ContactsCard from "./ContactsCard";
+import styles from "./ContactsPage.module.scss";
+import ContactsTable from "./ContactsTable";
+import DeleteContactsModal from "./DeleteContactsModal";
+import ExportContactsModal from "./ExportContactsModal";
+
 const listViewLayoutPath = "/contacts/list";
 const cardViewLayoutPath = "/contacts/card";
 
@@ -429,7 +437,7 @@ const ContactsPage = () => {
                         </div>
                     </Container>
                 </div>
-                <Footer />
+                <GlobalFooter />
             </StageStatusProvider>
         </React.Fragment>
     );

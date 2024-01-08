@@ -19,7 +19,6 @@ import useUserProfile from "hooks/useUserProfile";
 
 import FooterBanners from "packages/FooterBanners";
 
-import Footer from "components/Footer";
 import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
 import Arrow from "components/icons/down";
@@ -28,6 +27,7 @@ import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
 
 import AgentWelcomeDialog from "partials/agent-welcome-dialog";
+import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import stageSummaryContext from "contexts/stageSummary";
@@ -261,7 +261,7 @@ export default function Dashbaord() {
                     }}
                 />
             </WithLoader>
-            <Footer />
+            <GlobalFooter />
         </>
     );
 }
