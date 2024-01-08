@@ -62,12 +62,17 @@ const FinalExpensePlansResultContainer = () => {
 
     useEffect(() => {
         const handleFinalExpensePlanClick = async () => {
+            const sessionExists = window.sessionStorage.getItem("sessionIsMyAppointedProducts");
             const isAgentNonRTS = await getAgentNonRTS();
-            if (isAgentNonRTS) {
-                setIsMyAppointedProducts(false);
-            } else {
+            if (!isAgentNonRTS) {
                 setIsRTS(true);
-                setIsMyAppointedProducts(true);
+            }
+            if (!sessionExists) {
+                if (isAgentNonRTS) {
+                    setIsMyAppointedProducts(false);
+                } else {
+                    setIsMyAppointedProducts(true);
+                }
             }
         };
         if (agentNPN) {
