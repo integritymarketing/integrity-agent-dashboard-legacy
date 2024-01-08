@@ -15,9 +15,9 @@ export const PrescreenModal = ({ isOpen, onClose, eligibility, conditionList }) 
             <div className={styles.contentBox}>
                 {eligibility === PRESCREEN_AVAILABLE ? PRESCREEN_AVAILABLE_NOTES : PRESCREEN_NOT_AVAILABLE_NOTES}
                 <ul>
-                    {conditionList.map(({ name, lookbackperiod }) => {
+                    {conditionList.map(({ name, lookBackPeriod }) => {
                         return (
-                            <li key={name}> {`${name} ${lookbackperiod ? `within ${lookbackperiod} months` : ""}`}</li>
+                            <li key={name}>{`${name} ${lookBackPeriod ? `within ${lookBackPeriod} months` : ""}`}</li>
                         );
                     })}
                 </ul>

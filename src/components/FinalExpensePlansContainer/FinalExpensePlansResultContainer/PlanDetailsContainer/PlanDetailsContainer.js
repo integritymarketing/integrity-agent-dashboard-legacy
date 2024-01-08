@@ -197,12 +197,12 @@ export const PlanDetailsContainer = ({
                             } = plan;
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {
-                                conditionList = reason?.categoryReasons?.map(({ categoryId, lookbackperiod }) => {
+                                conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
                                     const condition = healthConditionsDataRef.current.find(
                                         (item) => item.conditionId == categoryId
                                     );
                                     if (condition) {
-                                        return { name: condition?.conditionName, lookbackperiod };
+                                        return { name: condition?.conditionName, lookBackPeriod };
                                     }
                                 });
                             }
