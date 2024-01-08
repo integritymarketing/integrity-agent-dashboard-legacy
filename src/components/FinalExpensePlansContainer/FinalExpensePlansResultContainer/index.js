@@ -6,6 +6,8 @@ import { Text } from "@integritymarketing/ui-text-components";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import useFetch from "hooks/useFetch";
 import usePreferences from "hooks/usePreferences";
 import useRoles from "hooks/useRoles";
 
@@ -13,6 +15,7 @@ import Heading4 from "packages/Heading4";
 
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { CurrencyAdjuster } from "components/CurrencyAdjuster";
+import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
@@ -37,7 +40,13 @@ import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.
 const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
-    const { isNonRTS_User } = useRoles();
+
+    const [isRTS, setIsRTS] = useState(false);
+
+    const { agentInformation } = useAgentInformationByID();
+    const { agentNPN } = agentInformation;
+
+    const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNPN}`);
 
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
@@ -50,6 +59,22 @@ const FinalExpensePlansResultContainer = () => {
     const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(false, "sessionIsMyAppointedProducts");
     const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
     const [sessionLead, setSessionLead] = usePreferences(null, "sessionLead");
+
+    useEffect(() => {
+        const handleFinalExpensePlanClick = async () => {
+            const isAgentNonRTS = await getAgentNonRTS();
+            if (isAgentNonRTS) {
+                setIsMyAppointedProducts(false);
+            } else {
+                setIsRTS(true);
+                setIsMyAppointedProducts(true);
+            }
+        };
+        if (agentNPN) {
+            handleFinalExpensePlanClick();
+        }
+    }, [agentNPN]);
+
     // Effects
     useEffect(() => {
         getLeadDetails(contactId);
@@ -61,14 +86,6 @@ const FinalExpensePlansResultContainer = () => {
             resetToDefaultPreferences();
         }
     }, [contactId, sessionLead]);
-
-    useEffect(() => {
-        if (!isNonRTS_User) {
-            setIsMyAppointedProducts(true);
-        } else {
-            setIsMyAppointedProducts(false);
-        }
-    }, [isNonRTS_User]);
 
     // Functions
     const resetToDefaultPreferences = () => {
@@ -90,12 +107,6 @@ const FinalExpensePlansResultContainer = () => {
     const updateMonthlyPremiumAmount = (value) => {
         setMonthlyPremiumAmount(value);
     };
-
-    useEffect(() => {
-        if (!isNonRTS_User) {
-            setIsMyAppointedProducts(true);
-        }
-    }, [isNonRTS_User]);
 
     const increment = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
@@ -154,6 +165,7 @@ const FinalExpensePlansResultContainer = () => {
         return monthlyPremiumAmount < min || monthlyPremiumAmount > max;
     }, [monthlyPremiumAmount, min, max]);
 
+    console.log("HHH", coverageType);
     return (
         <>
             <Media
@@ -199,9 +211,9 @@ const FinalExpensePlansResultContainer = () => {
                             <div
                                 className={`${styles.checkbox} ${
                                     isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                } ${isNonRTS_User ? styles.inActive : ""}`}
+                                } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={() => {
-                                    if (isNonRTS_User) return;
+                                    if (!isRTS) return;
                                     setIsMyAppointedProducts(!isMyAppointedProducts);
                                 }}
                             >
@@ -227,7 +239,7 @@ const FinalExpensePlansResultContainer = () => {
                     selectedTab={selectedTab}
                     isMyAppointedProducts={isMyAppointedProducts}
                     isShowExcludedProducts={isShowExcludedProducts}
-                    isNonRTS_User={isNonRTS_User}
+                    isRTS={isRTS}
                 />
                 <div className={styles.resultContent}></div>
             </div>

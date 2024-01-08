@@ -14,6 +14,7 @@ import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsCon
 import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE,
+    COVERAGE_TYPE_FINALOPTION,
     MONTHLY_PREMIUM,
     NO_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
@@ -36,7 +37,7 @@ export const PlanDetailsContainer = ({
     monthlyPremium,
     isShowExcludedProducts,
     isMyAppointedProducts,
-    isNonRTS_User,
+    isRTS,
 }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
@@ -71,11 +72,13 @@ export const PlanDetailsContainer = ({
     const pageSize = 10;
 
     useEffect(() => {
-        const pagedStart = (currentPage - 1) * pageSize;
-        const pageLimit = pageSize * currentPage;
-        const slicedResults = [...finalExpensePlans]?.slice(pagedStart, pageLimit);
-        setPagedResults(slicedResults);
-        scrollTop();
+        if (finalExpensePlans?.length > 0) {
+            const pagedStart = (currentPage - 1) * pageSize;
+            const pageLimit = pageSize * currentPage;
+            const slicedResults = [...finalExpensePlans]?.slice(pagedStart, pageLimit);
+            setPagedResults(slicedResults);
+            scrollTop();
+        }
     }, [finalExpensePlans, currentPage, pageSize]);
 
     useEffect(() => {
@@ -84,7 +87,7 @@ export const PlanDetailsContainer = ({
                 const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
                 if (!addresses?.[0]?.stateCode || !birthdate) return;
                 setIsLoadingFinalExpensePlans(true);
-                const covType = Array.isArray(coverageType) ? coverageType : [coverageType];
+                const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : coverageType;
                 const age = getAgeFromBirthDate(birthdate);
                 const todayDate = formatDate(new Date(), "yyyy-MM-dd");
                 const code = sessionStorage.getItem(contactId)
@@ -123,7 +126,7 @@ export const PlanDetailsContainer = ({
                 const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
                 setIsLoadingFinalExpensePlans(false);
 
-                if (isNonRTS_User) {
+                if (!isRTS) {
                     if (isShowExcludedProducts) {
                         setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
                     } else {
@@ -132,7 +135,7 @@ export const PlanDetailsContainer = ({
                 }
 
                 // Life RTS Experience (My Appointed Products checked by default)
-                if (!isNonRTS_User) {
+                if (isRTS) {
                     if (isMyAppointedProducts && isShowExcludedProducts) {
                         setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
                     } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
@@ -219,7 +222,7 @@ export const PlanDetailsContainer = ({
                                     policyFee={policyFee}
                                     eligibility={eligibility}
                                     conditionList={conditionList}
-                                    isNonRTS_User={isNonRTS_User}
+                                    isRTS={isRTS}
                                     isHaveCarriers={carrierInfo?.length > 1}
                                 />
                             );
@@ -229,8 +232,8 @@ export const PlanDetailsContainer = ({
                         <Pagination
                             currentPage={currentPage}
                             resultName="plans"
-                            totalPages={Math.ceil(finalExpensePlans.length / 10)}
-                            totalResults={finalExpensePlans.length}
+                            totalPages={Math.ceil(finalExpensePlans?.length / 10)}
+                            totalResults={finalExpensePlans?.length}
                             pageSize={pageSize}
                             onPageChange={(page) => setCurrentPage(page)}
                         />
