@@ -47,9 +47,10 @@ const FinalExpenseContactDetailsForm = ({
     const [isDisabled, setIsDisabled] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [mobileStepNumber, setMobileStepNumber] = useState(0);
-    const code = sessionStorage.getItem(contactId)
-        ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
-        : address?.stateCode;
+    const code = useMemo(() => {
+        const sessionItem = sessionStorage.getItem(contactId);
+        return sessionItem ? JSON.parse(sessionItem).stateCode : address?.stateCode;
+    }, [contactId, address]);
     const [stateCode, setStateCode] = useState(code);
     const [gender, setGender] = useState(sexuality);
     const [bDate, setBDate] = useState(birthdate);

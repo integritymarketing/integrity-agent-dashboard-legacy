@@ -52,11 +52,21 @@ const FinalExpensePlansResultContainer = () => {
     const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
     const { min, max, step } = STEPPER_FILTER[MONTHLY_PREMIUM];
     const { getLeadDetails } = useLeadDetails();
+    const defaultIsMyAppointedProducts = useMemo(
+        () => ({
+            contactId: contactId || null, // Fallback to null if contactId is undefined
+            preferenceFlag: false,
+        }),
+        [contactId]
+    );
 
     const [coverageAmount, setCoverageAmount] = usePreferences(DEFAULT_COVERAGE_AMOUNT, "coverage");
     const [monthlyPremiumAmount, setMonthlyPremiumAmount] = usePreferences(DEFAULT_MONTHLY_PREMIUM, "monthlyPremium");
     const [coverageType, setCoverageType] = usePreferences(COVERAGE_TYPE[4].value, "sessionCoverageType");
-    const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(false, "sessionIsMyAppointedProducts");
+    const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(
+        defaultIsMyAppointedProducts,
+        "sessionIsMyAppointedProducts"
+    );
     const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
     const [sessionLead, setSessionLead] = usePreferences(null, "sessionLead");
 
@@ -69,16 +79,16 @@ const FinalExpensePlansResultContainer = () => {
             }
             if (!sessionExists) {
                 if (isAgentNonRTS) {
-                    setIsMyAppointedProducts(false);
+                    setIsMyAppointedProducts({ contactId, preferenceFlag: false });
                 } else {
-                    setIsMyAppointedProducts(true);
+                    setIsMyAppointedProducts({ contactId, preferenceFlag: true });
                 }
             }
         };
         if (agentNPN) {
             handleFinalExpensePlanClick();
         }
-    }, [agentNPN]);
+    }, [agentNPN, contactId]);
 
     // Effects
     useEffect(() => {
@@ -97,7 +107,7 @@ const FinalExpensePlansResultContainer = () => {
         setCoverageAmount(DEFAULT_COVERAGE_AMOUNT);
         setMonthlyPremiumAmount(DEFAULT_MONTHLY_PREMIUM);
         setCoverageType(COVERAGE_TYPE[4].value);
-        setIsMyAppointedProducts(false);
+        setIsMyAppointedProducts(defaultIsMyAppointedProducts);
         setIsShowExcludedProducts(false);
     };
 
@@ -215,14 +225,17 @@ const FinalExpensePlansResultContainer = () => {
                         <div className={styles.checkboxesWrapper}>
                             <div
                                 className={`${styles.checkbox} ${
-                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                    isMyAppointedProducts.preferenceFlag ? styles.selectedCheckbox : ""
                                 } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={() => {
                                     if (!isRTS) return;
-                                    setIsMyAppointedProducts(!isMyAppointedProducts);
+                                    setIsMyAppointedProducts((prevState) => ({
+                                        ...prevState,
+                                        preferenceFlag: !prevState.preferenceFlag,
+                                    }));
                                 }}
                             >
-                                {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                {isMyAppointedProducts.preferenceFlag ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
@@ -242,7 +255,7 @@ const FinalExpensePlansResultContainer = () => {
                     monthlyPremium={monthlyPremiumAmount}
                     coverageType={coverageType}
                     selectedTab={selectedTab}
-                    isMyAppointedProducts={isMyAppointedProducts}
+                    isMyAppointedProducts={isMyAppointedProducts?.preferenceFlag}
                     isShowExcludedProducts={isShowExcludedProducts}
                     isRTS={isRTS}
                 />
